@@ -12,7 +12,7 @@
             </div>
             <div class="am-popup-bd">
                 <dl class="dl-content">
-                    <dt>{{:MyLang('goodscomments.form_item_goods_info_title')}}</dt>
+                    <dt>{{:MyLang('common_service.goodscomments.form_item_goods_info_title')}}</dt>
                     <dd class="goods-info">
                         <div class="base am-nbfc">
                             <a href="javascript:;" target="_blank">
@@ -23,7 +23,7 @@
                         <p class="price">...</p>
                     </dd>
 
-                    <dt>{{:MyLang('goodscomments.form_item_user_info_title')}}</dt>
+                    <dt>{{:MyLang('common_service.goodscomments.form_item_user_info_title')}}</dt>
                     <dd class="user-info">
                         <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                         <ul class="user-base">
@@ -33,14 +33,14 @@
                             <li class="email">{{:MyLang('user_email_title')}}：<span>...</span></li>
                         </ul>
                     </dd>
-                    <dt>{{:MyLang('goodscomments.form_item_content')}}</dt>
+                    <dt>{{:MyLang('common_service.goodscomments.form_item_content')}}</dt>
                     <dd class="content">...</dd>
                 </dl>
 
                 <form class="am-form form-validation-reply am-form-popup-fixed" action="{{:MyUrl('admin/goodscomments/reply')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group am-form-group-refreshing">
-                        <label>{{:MyLang('goodscomments.form_item_reply')}}</label>
-                        <textarea name="reply" rows="5" class="am-radius" placeholder="{{:MyLang('goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_message')}}" minlength="1" maxlength="230" required></textarea>
+                        <label>{{:MyLang('common_service.goodscomments.form_item_reply')}}</label>
+                        <textarea name="reply" rows="5" class="am-radius" placeholder="{{:MyLang('common_service.goodscomments.form_item_reply_content_message')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_reply_content_message')}}" minlength="1" maxlength="230" required></textarea>
                     </div>
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="" />

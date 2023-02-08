@@ -14,7 +14,7 @@ use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\WarehouseGoodsService;
 use app\service\WarehouseService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 仓库商品管理
@@ -39,7 +39,7 @@ class WarehouseGoods extends Base
         // 模板数据
         $assign = [
             // 商品分类
-            'goods_category_list'   => GoodsService::GoodsCategoryAll(),
+            'goods_category_list'   => GoodsCategoryService::GoodsCategoryAll(),
         ];
 
         // 有效仓库列表

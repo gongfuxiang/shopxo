@@ -47,9 +47,9 @@ class OrderCurrencyService
         ];
         if(Db::name('OrderCurrency')->insertGetId($data) > 0)
         {
-            return DataReturn('订单货币新增成功', 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn('订单货币新增失败', -1);
+        return DataReturn(MyLang('common_service.ordercurrency.order_currency_insert_fail_tips'), -1);
     }
 
     /**

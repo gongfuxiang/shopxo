@@ -1,31 +1,31 @@
 <form class="am-form form-validation" action="{{:MyUrl('index/orderaftersale/create')}}" method="POST" request-type="ajax-reload">
     <div class="am-form-group">
-        <label>{{:MyLang('orderaftersale.form_item_reason')}}<span class="am-form-group-label-tips-must">*</span></label>
-        <select name="reason" class="chosen-select" data-placeholder="{{:MyLang('orderaftersale.form_item_reason_placeholder')}}" data-validation-message="{{:MyLang('orderaftersale.form_item_reason_message')}}" data-only-json='{{:json_encode($return_only_money_reason_list)}}' data-goods-json='{{:json_encode($return_money_goods_reason_list)}}' required>
+        <label>{{:MyLang('common_service.orderaftersale.form_item_reason')}}<span class="am-form-group-label-tips-must">*</span></label>
+        <select name="reason" class="chosen-select" data-placeholder="{{:MyLang('common_service.orderaftersale.form_item_reason_placeholder')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_reason_message')}}" data-only-json='{{:json_encode($return_only_money_reason_list)}}' data-goods-json='{{:json_encode($return_money_goods_reason_list)}}' required>
         </select>
     </div>
 
     <div class="am-form-group form-number">
-        <label>{{:MyLang('orderaftersale.form_item_number')}}<span class="am-form-group-label-tips-must">*</span></label>
+        <label>{{:MyLang('common_service.orderaftersale.form_item_number')}}<span class="am-form-group-label-tips-must">*</span></label>
         <div class="am-input-group am-input-group-sm number-container">
             <span class="am-input-group-label" data-type="0">-</span>
-            <input type="number" name="number" class="am-form-field" value="{{$returned_data.returned_quantity}}" min="1" max="{{$returned_data.returned_quantity}}" data-validation-message="{{:MyLang('orderaftersale.form_item_number_message', ['max'=>$returned_data['returned_quantity']])}}" required />
+            <input type="number" name="number" class="am-form-field" value="{{$returned_data.returned_quantity}}" min="1" max="{{$returned_data.returned_quantity}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_number_message', ['max'=>$returned_data['returned_quantity']])}}" required />
             <span class="am-input-group-label" data-type="1">+</span>
         </div>
     </div>
 
     <div class="am-form-group">
-        <label>{{:MyLang('orderaftersale.form_item_price')}}<span class="am-form-group-label-tips-must">*</span></label>
-        <input type="number" name="price" value="{{$returned_data.refund_price}}" step="0.01" min="0.00" max="{{$returned_data.refund_price}}" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_price')}}" data-validation-message="{{:MyLang('orderaftersale.form_item_price_message', ['price'=>$returned_data['refund_price']])}}" required />
+        <label>{{:MyLang('common_service.orderaftersale.form_item_price')}}<span class="am-form-group-label-tips-must">*</span></label>
+        <input type="number" name="price" value="{{$returned_data.refund_price}}" step="0.01" min="0.00" max="{{$returned_data.refund_price}}" class="am-radius" placeholder="{{:MyLang('common_service.orderaftersale.form_item_price')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_price_message', ['price'=>$returned_data['refund_price']])}}" required />
     </div>
 
     <div class="am-form-group">
-        <label>{{:MyLang('orderaftersale.form_item_msg')}}</label>
-        <textarea class="am-radius" name="msg" rows="5" maxlength="200" placeholder="{{:MyLang('orderaftersale.form_item_msg_message')}}" data-validation-message="{{:MyLang('orderaftersale.form_item_msg_message')}}"></textarea>
+        <label>{{:MyLang('common_service.orderaftersale.form_item_msg')}}</label>
+        <textarea class="am-radius" name="msg" rows="5" maxlength="200" placeholder="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}"></textarea>
     </div>
 
     <div class="am-form-group">
-        <label>{{:MyLang('orderaftersale.form_item_images')}}<span class="am-form-group-label-tips">{{:MyLang('orderaftersale.form_item_images_tips')}}</span></label>
+        <label>{{:MyLang('common_service.orderaftersale.form_item_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.orderaftersale.form_item_images_tips')}}</span></label>
         <ul class="plug-file-upload-view goods-images-view" data-form-name="images[]" data-max-number="3" data-dialog-type="images">
         </ul>
         <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view">+ {{:MyLang('form_upload_images_title')}}</div>

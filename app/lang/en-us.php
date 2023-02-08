@@ -151,6 +151,8 @@ return [
     'bind_success'                                          => 'Bind Succeeded',
     'submit_fail'                                           => 'Submit Failed',
     'submit_success'                                        => 'Submit Succeeded',
+    'booking_fail'                                          => 'Booking Failed',
+    'booking_success'                                       => 'Booking Succeeded',
     'config_fail'                                           => 'Config Failed',
     'config_success'                                        => 'Config Succeeded',
     'check_fail'                                            => 'Check Failed',
@@ -163,12 +165,21 @@ return [
     'confirm_success'                                       => 'Confirm Succeeded',
     'register_fail'                                         => 'Register Failed',
     'register_success'                                      => 'Register Succeeded',
-    'login_fails'                                           => 'Login Failed',
+    'login_fail'                                            => 'Login Failed',
     'login_success'                                         => 'Login Succeeded',
+    'comments_fail'                                         => 'Comments Failed',
+    'comments_success'                                      => 'Comments Succeeded',
+    'favor_fail'                                            => 'Favor Failed',
+    'favor_success'                                         => 'Favor Succeeded',
+    'refund_fail'                                           => 'Refund Failed',
+    'refund_success'                                        => 'Refund Succeeded',
+    'refuse_fail'                                           => 'Refuse Failed',
+    'refuse_success'                                        => 'Refuse Succeeded',
     'quit_success'                                          => 'Quit Succeeded',
     'no_data'                                               => 'No Relevant Data',
     'no_goods'                                              => 'No related Goods',
     'params_error_tips'                                     => 'Params Error',
+    'params_empty_tips'                                     => 'The parameter is empty',
     'content_params_empty_tips'                             => 'Content parameter is empty',
     'illegal_access_tips'                                   => 'illegal access',
     'illegal_operate_tips'                                  => 'illegal operate',
@@ -208,12 +219,20 @@ return [
     'gods_info_abnormal_tips'                               => 'Abnormal goods information',
     'order_id_error_tips'                                   => 'Wrong order ID',
     'order_info_incorrect_tips'                             => 'The order information is incorrect',
+    'order_detail_id_error_tips'                            => 'The order detail id is incorrect',
+    'order_detail_info_incorrect_tips'                      => 'The order details are incorrect',
     'data_id_error_tips'                                    => 'Wrong data ID',
     'back_prev_page_name'                                   => 'Return to the previous page',
     'back_prev_time_auto_text'                              => 'Second automatic return',
     'view_config_course_name'                               => 'View the configuration tutorial',
     'payment_method_error_tips'                             => 'Incorrect payment method',
     'operate_field_error_tips'                              => 'Operation field error',
+    'project_copy_fail_tips'                                => 'Package copy failed',
+    'operate_type_error_tips'                               => 'Wrong operate type',
+    'data_type_error_tips'                                  => 'Wrong data type',
+    'status_not_can_operate_tips'                           => 'Status is inoperable',
+    'order_status_not_can_operate_tips'                     => 'Order status is inoperable',
+    'data_status_not_can_operate_tips'                      => 'Data status is inoperable',
     // 商店
     'store_bind_account_name'                               => 'Bind ShopXO store account',
     'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
@@ -255,6 +274,7 @@ return [
     'generate_title'                                        => 'Generate',
     'add_title'                                             => 'Add',
     'submit_title'                                          => 'Submit',
+    'booking_title'                                         => 'Booking',
     'detail_title'                                          => 'Detail',
     'base_title'                                            => 'Base',
     'view_title'                                            => 'View',
@@ -280,6 +300,7 @@ return [
     'comment_title'                                         => 'Comment',
     'default_title'                                         => 'Default',
     'setup_default_title'                                   => 'Setup Default',
+    'only_title'                                            => 'Only',
     'strip_title'                                           => 'Strip',
     'level_title'                                           => 'Level',
     'day_title'                                             => 'Day',
@@ -385,9 +406,12 @@ return [
     'goods_booking_title'                                   => 'Booking',
     'goods_show_title'                                      => 'Consult',
     'goods_cart_title'                                      => 'Add Cart',
-    'goods_no_inventory_title'                              => 'Out of stock',
-    'goods_already_shelves_title'                           => 'Off shelf',
+    'goods_no_inventory_title'                              => 'No Stock',
+    'goods_already_nullify_title'                           => 'Nullify',
+    'goods_already_invalid_title'                           => 'Invalid',
+    'goods_already_shelves_title'                           => 'Off Shelf',
     'goods_only_show_title'                                 => 'Show only',
+    'goods_only_buy_title'                                  => 'Buy only',
     'goods_sales_price_title'                               => 'Sales Price',
     'goods_original_price_title'                            => 'Original Price',
     'goods_main_title'                                      => 'Goods',
@@ -535,7 +559,7 @@ return [
     'form_table_nav_operate_data_list_delete_tips'          => 'Select the data to be deleted from the list (multiple choices are allowed)',
     // 提示信息
     'reminder_title'                                        => 'Warm prompt',
-    'delivery_operate_aftersale_tips'                       => 'Please check if the order has after-sales service',
+    'delivery_operate_aftersale_tips'                       => 'Please check if the order has aftersales service',
     'confirm_confirm_tips'                                  => 'It cannot be recovered after confirmation. Are you sure to continue?',
     'cancel_confirm_tips'                                   => 'Cannot recover after cancellation. Are you sure to continue?',
     'delete_confirm_tips'                                   => 'Cannot recover after deletion. Are you sure?',
@@ -544,16 +568,6 @@ return [
     'uninstall_confirm_tips'                                => 'It cannot be recovered after uninstallation. Are you sure to continue?',
     'collect_confirm_tips'                                  => 'Please carefully confirm that the goods have been received and confirm to continue?',
     'save_close_page_confirm_tips'                          => 'Are you sure you want to save the data and continue to close this page?',
-    // 前端顶部小导航-右侧
-    'header_top_nav_right'                                  => [
-        'user_center'           => 'Personal Center',
-        'user_shop'             => 'My Mall',
-        'user_order'            => 'My Order',
-        'favor'                 => 'My Favor',
-        'goods_favor'           => 'Goods Favor',
-        'cart'                  => 'Cart',
-        'message'               => 'Message',
-    ],
     // 订单状态进度
     'order_status_setp_data'                                => [
         'add'                   => 'Take Merchandise',
@@ -564,53 +578,12 @@ return [
         'collect'               => 'Confirm Receipt',
         'comments'              => 'Comments',
     ],
-    // 订单售后进度
-    'orderaftersale_step_data'                              => [
-        // 仅退款
-        0 => [
-            'add'               => 'Apply for refund only',
-            'audit'             => 'Admin Audit',
-            'success'           => 'Refund Succeeded',
-        ],
-        // 退款退货
-        1 => [
-            'add'               => 'Apply for return refund',
-            'confirm'           => 'Admin Confirm',
-            'delivery'          => 'User Delivery',
-            'audit'             => 'Admin Audit',
-            'success'           => 'Refund Succeeded',
-        ],
-    ],
     // 订单售后
     'orderaftersale_create_title_data'                      => [
         'default'               => 'Refund/Return',
         'collect'               => 'Apply Aftersale',
         'step'                  => 'View Progress',
         'success'               => 'View Refund',
-    ],
-    // 安全设置页面
-    'safety_panel_list'                                     => [
-        'loginpwd'              => [
-            'title'         => 'Login Password',
-            'msg'           => 'There is a risk of theft on the Internet. It is recommended that you change your password regularly to protect your security.',
-        ],
-        'mobile'                => [
-            'title'         => 'Phone Number',
-            'no_msg'        => 'You haven t bound your mobile phone number',
-            'ok_msg'        => 'Mobile phone bound #accounts#',
-            'tips'          => 'It can be used for login, password retrieval, account security management verification, and account reminder notification.',
-        ],
-        'email'                 => [
-            'title'         => 'E-Mail',
-            'no_msg'        => 'You have not bound an email',
-            'ok_msg'        => 'Mailbox bound #accounts#',
-            'tips'          => 'It can be used for login, password retrieval, account security management verification, and account reminder email acceptance.',
-        ],
-        'logout'            => [
-            'title'         => 'Account Logout',
-            'msg'           => 'There is a risk of theft on the Internet. It is recommended that you change your password regularly to protect your security.',
-            'submit_text'   =>  'Logout',
-        ],
     ],
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
@@ -648,38 +621,6 @@ return [
                 '2. For example: ShopXO | No. XXX, Zhangjiang High-tech Park, Pudong New Area, Shanghai | 121.626444 | 31.20843',
             ]
         ]
-    ],
-    // 手机模式下底部导航
-    'bottom_navigation_data'            => [
-        'home'              => 'Home',
-        'category'          => 'Category',
-        'cart'              => 'Cart',
-        'user'              => 'User',
-    ],
-    // 用户中心左侧菜单
-    'user_center_left_list'             => [
-        'center'            => 'Personal Center',
-        'business'          => 'Business Admin',
-        'order'             => 'Order Admin',
-        'orderaftersale'    => 'Order Aftersales',
-        'goodsfavor'        => 'Goods Favor',
-        'property'          => 'Property Center',
-        'integral'          => 'My Points',
-        'base'              => 'Data Admin',
-        'personal'          => 'Personal Data',
-        'address'           => 'My Address',
-        'safety'            => 'Safety',
-        'message'           => 'My Message',
-        'goodsbrowse'       => 'My Browse',
-        'answer'            => 'Q&A/Message',
-        'logout'            => 'Sign Out',
-    ],
-    // 用户中心基础信息中mini导航
-    'user_center_mini_navigation_data'  => [
-        'order'         => 'Order Total',
-        'goodsfavor'    => 'Goods Favor',
-        'goodsbrowse'   => 'My Browse',
-        'integral'      => 'My Points',
     ],
     // 订单状态总数导航
     'order_status_step_total_list'      =>  [
@@ -1211,6 +1152,580 @@ return [
             // 表单
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'The name is 2~16 characters long',
+        ],
+        // 订单确认
+        'buy'               => [
+            'buy_goods_data_error_tips'             => 'Wrong purchase',
+            'cart_id_error_tips'                    => 'Wrong shopping cart id',
+            'goods_no_exist_tips'                   => 'Item does not exist',
+            'goods_already_shelves_tips'            => 'Goods are off the shelf',
+            'goods_inventory_not_enough_tips'       => 'Insufficient inventory of goods',
+            'goods_spec_inventory_not_enough_tips'  => 'Insufficient inventory of commodity specifications',
+            'goods_buy_min_error_tips'              => 'Less than the minimum purchase quantity of goods',
+            'goods_buy_max_error_tips'              => 'Exceeding the purchase limit of goods',
+            'goods_buy_exceed_inventory_tips'       => 'The purchase quantity exceeds the inventory quantity of goods',
+            'goods_inventory_dec_fail_tips'         => 'Commodity inventory deduction failed',
+            'goods_spec_inventory_dec_fail_tips'    => 'Specification inventory deduction failed',
+            'exhibition_not_allow_submit_tips'      => 'Order submission is not allowed for display type',
+            'choice_not_address_tips'               => 'Please select an address',
+            'address_empty_tips'                    => 'Wrong address',
+            'order_insert_fail_tips'                => 'Failed to add order',
+            'order_detail_insert_fail_tips'         => 'Failed to add order details',
+            'order_take_insert_fail_tips'           => 'Failed to add order pickup code',
+            'order_fictitious_insert_fail_tips'     => 'Failed to add order virtual information',
+            'order_address_insert_fail_tips'        => 'Failed to add order address',
+            'order_data_error_tips'                 => 'The order data is incorrect',
+            'order_detail_data_error_tips'          => 'Incorrect order details',
+            'order_inventory_dec_type_error_tips'   => 'Wrong order operation type',
+            'inventory_dec_not_enable_tips'         => 'Deduction inventory not opened',
+            'inventory_dec_not_confirm_tips'        => 'The current order status has not been confirmed - do not deduct inventory',
+            'inventory_dec_not_pay_tips'            => 'The current order status has not been operated for payment - do not deduct inventory',
+            'inventory_dec_not_delivery_tips'       => 'Shipment is not operated in the current order status - do not deduct inventory',
+            'inventory_dec_log_insert_fail_tips'    => 'Failed to add inventory deduction log',
+            'inventory_dec_no_data_tips'            => 'No data to deduct inventory',
+            'inventory_revert_not_allow_tips'       => 'No data to deduct inventory',
+            'inventory_revert_goods_fail_tips'      => 'Product inventory rollback failed',
+            'inventory_revert_goods_spec_fail_tips' => 'Product inventory rollback failed',
+            'inventory_revert_log_fail_tips'        => 'Inventory rollback log update failed',
+            'inventory_revert_no_data_tips'         => 'Inventory rollback log update failed',
+        ],
+        // 配置信息
+        'config'            => [
+            'route_dir_no_power_tips'               => 'Routing directory does not have operation permission',
+            'route_file_no_power_tips'              => 'Routing profile does not have operation permissions',
+            'route_file_config_no_exist_tips'       => 'Routing rule file does not exist',
+            'route_file_create_fail_tips'           => 'Routing rule file generation failed',
+            'route_file_handle_fail_tips'           => 'Routing rule processing failed',
+        ],
+        // 定时任务
+        'crontab'                   => [
+            // 订单关闭用户消息通知
+            'order_close_message'                   => [
+                'title'  => 'Order Close',
+                'desc'   => 'Order Timeout Close',
+                'type'   => 'Order',
+            ],
+            // 订单关闭状态历史记录
+            'order_close_status_history'            => [
+                'desc'   => 'Timeout Close',
+                'type'   => 'System',
+            ],
+            // 订单收货用户消息通知
+            'order_collect_message'                 => [
+                'title'  => 'Order Collect',
+                'desc'   => 'Order automatic receipt succeeded',
+                'type'   => 'Order',
+            ],
+            // 订单收货状态历史记录
+            'order_collect_status_history'          => [
+                'desc'   => 'Automatic Collect',
+                'type'   => 'System',
+            ],
+            // 商品积分赠送
+            'goods_give_integral'   => [
+                'user_lock_integral_dec_fail'       => 'User failed to lock point deduction',
+                'user_valid_integral_inc_fail'      => 'Failed to increase user effective points',
+                'integral_log_desc'                 => 'Order item gift',
+            ],
+        ],
+        // 自定义页面
+        'customview'        => [
+            // 表单
+            'form_item_title'                       => 'Title',
+            'form_item_title_message'               => 'The title is 2~60 characters long',
+            'form_item_content_title'               => 'Content',
+            'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
+            'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+        ],
+        // 页面设计
+        'design'            => [
+            'base_nav_title'                        => 'Article',
+            'detail_content_title'                  => 'Detail Content',
+            'detail_images_title'                   => 'Detail Picture',
+            // 基础
+            'create_name_default'                   => 'Default Page',
+            'download_config_file_create_fail_tips' => 'Profile generation failed',
+            'upload_dis_no_power_tips'              => 'The application upload directory does not have operation permissions',
+            'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
+            'upload_config_file_error_tips'         => 'The configuration information is empty or incorrect',
+            'upload_config_file_handle_fail_tips'   => 'Profile processing failed',
+            'upload_invalid_packet_tips'            => 'Invalid packet',
+        ],
+        // 域名服务
+        'domain'            => [
+            // 表单
+            'form_item_inc_domain_message'          => 'The added domain name data must be an array',
+            'form_item_dec_domain_message'          => 'Remove domain name data must be an array',
+            'save_inc_and_dec_empty_message'        => 'Adding or removing a domain name must pass an item',
+            'save_config_file_no_power_tips'        => 'The configuration file does not have write permission',
+            'save_config_dir_no_power_tips'         => 'The configuration directory does not have write permission',
+            'save_deploy_fail_tips'                 => 'Domain name configuration deployment failed',
+        ],
+        // 快递
+        'express'           => [
+            // 表单
+            'form_item_icon'                        => 'Icon',
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_website_url'                 => 'Website Address',
+            'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
+            'form_item_website_url_message'         => 'Incorrect format of official website address',
+        ],
+        // 动态表单自定义列
+        'formtable'         => [
+            'save_data_key_empty_tips'              => 'The data key is incorrect',
+            'save_fields_empty_tips'                => 'Please select a field',
+        ],
+        // 商品购物车
+        'goodscart'         => [
+            'save_stock_empty_tips'                 => 'Wrong purchase quantity',
+            'save_stock_update_data_empty_tips'     => 'Please join the shopping cart first',
+        ],
+        // 商品评论
+        'goodscomments'     => [
+            // 表单
+            'form_item_goods_info_title'            => 'Goods Info',
+            'form_item_user_info_title'             => 'User Info',
+            'form_item_business_type'               => 'Business Type',
+            'form_item_business_type_placeholder'   => 'Business type...',
+            'form_item_business_type_message'       => 'Wrong business type',
+            'form_item_rating'                      => 'Score',
+            'form_item_rating_placeholder'          => 'No score',
+            'form_item_rating_message'              => 'Incorrect score',
+            'form_item_content'                     => 'Comment Content',
+            'form_item_content_placeholder'         => 'Does baby meet your expectations? Talk about its advantages and disadvantages',
+            'form_item_content_message'             => 'Comment content is between 6 and 230 characters',
+            'form_item_reply'                       => 'Reply Content',
+            'form_item_reply_message'               => 'Reply content can be up to 230 characters',
+            'form_item_reply_content_message'       => 'The reply content is between 1 and 230 characters',
+            'form_item_reply_time'                  => 'Reply Time',
+            'form_item_reply_time_message'          => 'Incorrect format of reply time',
+            'form_item_is_reply'                    => 'Reply or not',
+            'form_item_is_anonymous'                => 'Anonymous or not',
+            'form_item_images_message'              => 'Upload up to 3 pictures',
+            'form_item_anonymous_tips'              => 'After opening, your comments will be displayed anonymously',
+            // 保存
+            'save_rating_empty_tips'                => 'Rating cannot be empty',
+            'save_content_empty_tips'               => 'Comment content cannot be empty',
+            'save_order_already_comments_tips'      => 'You have commented on this order',
+            'save_comments_add_fail_tips'           => 'Failed to add comment content',
+            'save_order_comments_update_tail_tips'  => 'Order update failed',
+            // 基础
+            'comments_username_default'             => 'Anonymous',
+        ],
+        // 商品参数模板
+        'goodsparamstemplate'   => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~30 characters',
+            'form_item_category_id'                 => 'Goods Category',
+            'form_item_category_id_tips'            => 'Include children',
+            'form_item_category_id_message'         => 'Please select product classification',
+            'form_item_config_title'                => 'Params Config',
+            'form_item_config_value_placeholder'    => 'Paste commodity parameter configuration information',
+            'form_item_config_template_title'       => 'Goods Params template',
+            'form_item_config_copy_title'           => 'Copy Config',
+            'form_item_config_empty_title'          => 'Clear Params',
+            'form_item_config_list_content_tips'    => 'You can directly click the parameter line to drag and sort or click up and down to move',
+            // 保存
+            'save_params_data_empty_tips'           => 'Please fill in the parameter configuration',
+            'save_params_data_insert_fail_tips'     => 'Failed to add parameter data',
+            // 删除
+            'delete_params_template_fail_tips'      => 'Template deletion failed',
+            'delete_params_data_fail_tips'          => 'Parameter data deletion failed',
+        ],
+        // 商品规格模板
+        'goodsspectemplate'     => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 1~30 characters',
+            'form_item_category_id'                 => 'Goods Category',
+            'form_item_category_id_tips'            => 'Include children',
+            'form_item_category_id_message'         => 'Please select product classification',
+            'form_item_content'                     => 'Spec Value',
+            'form_item_content_placeholder'         => 'Specification value (multiple values can be achieved by entering Enter)',
+            'form_item_content_message'             => 'Specification value format: 1~1000 characters',
+            // 保存
+            'save_content_empty_tips'               => 'Please fill in the specification value',
+        ],
+        // 商品
+        'goods'                 => [
+            // 表单
+            'form_item_title'                       => 'Goods Title',
+            'form_item_title_message'               => 'Goods name format 2~160 characters',
+            'form_item_category_id'                 => 'Goods Category',
+            'form_item_category_id_message'         => 'Please select at least one goods category',
+            'form_item_simple_desc'                 => 'Goods description',
+            'form_item_simple_desc_message'         => 'Goods description format can be up to 230 characters',
+            'form_item_model'                       => 'Goods model',
+            'form_item_model_message'               => 'Goods model format can be up to 30 characters',
+            'form_item_brand'                       => 'Brand',
+            'form_item_brand_message'               => 'Please select a brand',
+            'form_item_place_origin'                => 'Place of production',
+            'form_item_place_origin_message'        => 'Please select the place of production',
+            'form_item_inventory_unit'              => 'Inventory unit',
+            'form_item_inventory_unit_message'      => 'Inventory unit format 1~6 characters',
+            'form_item_give_integral'               => 'Percentage of free points for purchase',
+            'form_item_give_integral_tips'          => [
+                '1. Distribute according to the proportion of goods amount multiplied by quantity',
+                '2. When the order is completed, it will be automatically distributed to the user to lock the points',
+                '3. Site settings ->script processing in extension',
+            ],
+            'form_item_give_integral_placeholder'   => 'Purchase free points',
+            'form_item_give_integral_message'       => 'Purchase a number with a percentage of 0 to 100 points',
+            'form_item_buy_min_number'              => 'Minimum purchase quantity',
+            'form_item_buy_min_number_message'      => 'The minimum purchase quantity ranges from 1 to 100000000',
+            'form_item_buy_max_number'              => 'Maximum quantity of single purchase',
+            'form_item_buy_max_number_tips'         => [
+                '1. Single maximum value 100000000',
+                '2. No limit if less than or equal to 0 or empty',
+            ],
+            'form_item_buy_max_number_message'      => 'The maximum number of single purchase ranges from 1 to 100000000',
+            'form_item_site_type'                   => 'Goods Type',
+            'form_item_site_type_tips'              => [
+                '1. The currently configured site type is ( 站点类型 )',
+                '2. If the goods type is not configured, follow the site type configured by the system',
+                '3. When the set goods type is not included in the site type set by the system, the function of adding products to the shopping cart will be invalid',
+            ],
+            'form_item_site_type_message'           => 'Please select goods type',
+            'form_item_images'                      => 'cover photo',
+            'form_item_images_tips'                 => 'If left blank, take the first picture of the album and suggest 800*800px',
+            'form_item_is_deduction_inventory'      => 'Inventory deduction',
+            'form_item_is_deduction_inventory_tips' => 'The deduction rules are determined according to the background configuration ->deduction inventory rules',
+            'form_item_is_shelves'                  => 'Upper and lower shelves',
+            'form_item_is_shelves_tips'             => 'Not visible to users after being removed from the shelf',
+            'form_item_extends_popup_title'         => 'Spec Extended Data',
+            // 规格
+            'form_spec_top_list_tips'               => [
+                '1. Adding specifications in batches can quickly create commodity SKUs, greatly saving SKU editing time. Shortcut operation data does not affect SKU data, and only overwrites SKU when it is generated.',
+                '2. You can configure the specification template in the background commodity management ->commodity specification, select the commodity specification module to quickly generate the corresponding specification data, and effectively provide efficiency',
+                '3. After goods are added successfully, add and configure inventory in warehouse management ->warehouse goods',
+            ],
+            'form_spec_template_tips'               => 'Incorrect specification template data',
+            'form_spec_template_name_exist_tips'    => 'The same specification name already exists',
+            'form_spec_template_placeholder'        => 'Goods specification template...',
+            'form_spec_template_message'            => 'Please select a product specification template',
+            'form_spec_quick_add_title'             => 'Batch add specifications',
+            'form_spec_quick_generate_title'        => 'Generate specifications',
+            'form_spec_type_title'                  => 'Spec Name',
+            'form_spec_type_message'                => 'Please fill in the specification name',
+            'form_spec_value_title'                 => 'Spec Value',
+            'form_spec_value_message'               => 'Please fill in the specification value',
+            'form_spec_value_add_title'             => 'Add Spec Value',
+            'form_spec_empty_data_tips'             => 'Please add specifications first',
+            'form_spec_advanced_batch_setup_title'  => 'Advanced batch settings',
+            'form_spec_list_content_tips'           => 'You can directly click the specification line to drag and sort or click up and down to move',
+            'form_spec_max_error'                   => 'Add at most '.MyC('common_spec_add_max_number', 3, true).'Column specifications can be configured in background management [System Settings - Background Configuration]',
+            'form_spec_empty_fill_tips'             => 'Please fill in the specification first',
+            'form_spec_images_message'              => 'Please upload the specification image',
+            'form_spec_min_tips_message'            => 'At least one line of specification value needs to be reserved',
+            'form_spec_quick_error'                 => 'The shortcut specification is empty',
+            'form_spec_quick_tips_msg'              => 'Generating specifications will empty existing specification data. Do you want to continue?',
+            'form_spec_move_type_tips'              => 'Incorrect operation type configuration',
+            'form_spec_move_top_tips'               => 'Reached the top',
+            'form_spec_move_bottom_tips'            => 'Reached the bottom',
+            'form_spec_thead_price_title'           => 'Sales price (yuan)',
+            'form_spec_thead_price_message'         => 'Please fill in valid sales amount',
+            'form_spec_thead_original_price_title'  => 'Original price (yuan)',
+            'form_spec_thead_original_price_message'=> 'Please fill in valid original price',
+            'form_spec_thead_inventory_title'       => 'Inventory',
+            'form_spec_thead_weight_title'          => 'Weight (kg)',
+            'form_spec_thead_weight_message'        => 'Specification and weight 0~100000000',
+            'form_spec_thead_volume_title'          => 'Volume (m ³)',
+            'form_spec_thead_volume_message'        => 'Specification volume 0~100000000',
+            'form_spec_thead_coding_title'          => 'Coding',
+            'form_spec_thead_coding_message'        => 'Specification code can be up to 60 characters',
+            'form_spec_thead_barcode_title'         => 'Barcode',
+            'form_spec_thead_barcode_message'       => 'Barcode can be up to 60 characters',
+            'form_spec_row_add_title'               => 'Add a row',
+            'form_spec_images_tips'                 => 'The specification name is consistent with the specification value. The same specification name can be added once, and repeated addition will cover the front. The order will not affect the front display effect.',
+            'form_spec_images_title'                => 'Goods specification picture',
+            'form_spec_images_add_title'            => 'Add specification picture',
+            'form_spec_images_add_auto_first'       => 'No',
+            'form_spec_images_add_auto_last'        => 'Automatic generation of column specifications',
+            'form_spec_images_type_title'           => 'Spec Name',
+            'form_spec_images_type_message'         => 'Please fill in the specification name',
+            'form_spec_images_images_message'       => 'Please upload the specification image',
+            'form_spec_all_operate_title'           => 'Batch operation',
+            'form_spec_all_operate_placeholder'     => 'Batch set value',
+            // 参数
+            'form_params_select_title'              => 'Goods Params Template',
+            'form_params_select_placeholder'        => 'Goods Params Template...',
+            'form_params_select_message'            => 'Please select a product parameter template',
+            'form_params_value_placeholder'         => 'Paste commodity parameter configuration information',
+            'form_params_config_copy_title'         => 'Copy Config',
+            'form_params_config_empty_title'        => 'Clear Params',
+            'form_params_list_content_tips'         => 'You can directly click the parameter line to drag and sort or click up and down to move',
+            // 相册
+            'form_photo_top_tips'                   => 'You can drag and drop pictures to sort. It is recommended that the size of pictures be consistent with 800 * 800px, with a maximum of 30 pictures',
+            'form_photo_button_add_name'            => 'Upload Photo',
+            // 视频
+            'form_video_top_tips'                   => 'Video has more sense of introduction than pictures and text, and only supports mp4 format',
+            'form_video_button_add_name'            => 'Upload Video',
+            // 手机详情
+            'form_app_top_tips'                     => 'After setting the phone details, the phone details will be displayed in the phone mode, such as [App, APP]',
+            'form_app_value_title'                  => 'Text Content',
+            'form_app_value_message'                => 'Text content can be up to 105000 characters',
+            'form_app_button_add_name'              => 'Add Phone Detail',
+            // 电脑详情
+            'form_web_content_message'              => 'The details of the computer terminal can be up to 105000 characters',
+            // 保存
+            'save_site_type_error_tips'             => 'Wrong range of goods type data value',
+            'save_params_add_fail_tips'             => 'Failed to add goods parameters',
+            'save_spec_type_add_fail_tips'          => 'Failed to add specification type',
+            'save_spec_base_add_fail_tips'          => 'Failed to add specification base',
+            'save_spec_value_add_fail_tips'         => 'Failed to add specification value',
+            'save_category_add_fail_tips'           => 'Failed to add goods classification',
+            'save_photo_add_fail_tips'              => 'Failed to add album',
+            'save_app_content_add_fail_tips'        => 'Failed to add mobile phone details',
+            'save_goods_base_empty_tips'            => 'Basic goods information not found',
+            'save_goods_base_update_fail_tips'      => 'goods base update failed',
+            'save_spec_column_repeat_tips'          => 'Specification value columns cannot be repeated',
+            'save_spec_value_repeat_tips'           => 'The specification value cannot be repeated',
+            'save_spec_name_column_repeat_tips'     => 'Specification name columns cannot be repeated',
+            'save_spec_base_price_error_tips'       => 'Please fill in the valid specification sales price',
+            'save_spec_empty_tips'                  => 'Please fill in the specification',
+            'save_photo_empty_tips'                 => 'Please upload an album',
+            // 删除
+            'delete_goods_fail_tips'                => 'Item deletion failed',
+            'delete_spec_type_fail_tips'            => 'Specification type deletion failed',
+            'delete_spec_value_fail_tips'           => 'Specification value deletion failed',
+            'delete_spec_base_fail_tips'            => 'Failed to delete the specification base',
+            'delete_goods_photo_fail_tips'          => 'Photo album deletion failed',
+            'delete_app_content_fail_tips'          => 'Mobile content deletion failed',
+            'delete_params_fail_tips'               => 'Parameter deletion failed',
+            'delete_warehouse_goods_fail_tips'      => 'Failed to delete warehouse goods',
+            'delete_warehouse_goods_spec_fail_tips' => 'Failed to delete warehouse goods inventory',
+            // 基础
+            'base_spec_not_choice_tips'             => 'Please select a specification',
+            'base_spec_empty_tips'                  => 'No relevant specifications',
+            'base_spec_type_empty_tips'             => 'No relevant specification type',
+            'base_buy_stock_error_tips'             => 'Wrong purchase quantity',
+        ],
+        // 商品分类
+        'goodscategory'         => [
+            // 表单
+            'form_item_icon'                        => 'Icon',
+            'form_item_icon_tips'                   => '100 * 100px recommend',
+            'form_item_big_images'                  => 'Large Picture',
+            'form_item_big_images_tips'             => '360 * 360px recommend',
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_vice_name'                   => 'Sub Name',
+            'form_item_vice_name_message'           => 'The secondary name can be up to 60 characters',
+            'form_item_describe'                    => 'Describe',
+            'form_item_describe_message'            => 'Description can be up to 200 characters',
+            'form_item_is_home_recommended'         => 'HomePage Recommend',
+            // 保存
+            'save_current_parent_identical_tips'    => 'Parent cannot be the same as current',
+        ],
+        // 积分
+        'integral'              => [
+            'add_message_data'                      => [
+                'title'  => 'Integral',
+                'desc'   => 'Change of points',
+            ],
+            'order_empty_exit_tips'                 => 'The order does not exist or has been deleted. Terminate the operation',
+            'order_status_not_allow_exit_tips'      => 'Operation is not allowed in the current order status, incomplete',
+            'user_empty_exit_tips'                  => 'The user does not exist or has been deleted. Terminate the operation',
+            'integral_give_fail_tips'               => 'Failed to give user points',
+            'integral_give_log_add_fail_tips'       => 'Failed to add the user bonus log',
+            'integral_no_operate_data_tips'         => 'No data to operate',
+            'order_not_success_exit_tips'           => 'The order status is incorrect or there is no completion status, and the operation is terminated',
+            'order_detail_empty_exit_tips'          => 'The order details do not exist or have been deleted. Terminate the operation',
+            'integral_data_empty_exit_tips'         => 'There is no log to be issued, and the operation is terminated',
+            'lock_integral_dec_fail_tips'           => 'User failed to lock point deduction',
+            'integral_log_dec_fail_tips'            => 'Log point deduction failed',
+            'integral_log_close_fail_tips'          => 'Failed to close log points',
+        ],
+        // 布局
+        'layout'                => [
+            'key_error_tips'                        => 'Incorrect layout key value',
+        ],
+        // 友情链接
+        'link'                  => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_url'                         => 'Link Address',
+            'form_item_url_placeholder'             => 'Link address, starting with http://or https://',
+            'form_item_url_message'                 => 'Incorrect format of link address',
+            'form_item_desc'                        => 'Describe',
+            'form_item_desc_message'                => 'Description can be up to 60 characters',
+        ],
+        // 消息
+        'message'               => [
+            'save_business_type_default'            => 'Default',
+        ],
+        // 导航
+        'navigation'            => [
+            // 表单
+            'form_item_pid'                         => 'Navigation level',
+            'form_item_pid_placeholder'             => 'Primary column...',
+            'form_item_pid_message'                 => 'Please select the navigation level',
+            'form_item_name'                        => 'Navigation name',
+            'form_item_name_tips'                   => 'Default {:type} name',
+            'form_item_name_message'                => 'Navigation name format 2~16 characters',
+            'form_item_url'                         => 'Url address',
+            'form_item_url_placeholder'             => 'Url address, starting with http://or https://',
+            'form_item_url_message'                 => 'Incorrect format of url address',
+            'form_item_value_article_message'       => 'Wrong article selection',
+            'form_item_value_customview_message'    => 'Incorrect selection of custom page',
+            'form_item_value_goods_category_message'=> 'Wrong selection of commodity classification',
+            'form_item_value_design_message'        => 'Incorrect selection of page design',
+            // 前端顶部小导航-右侧
+            'header_top_nav_right'                  => [
+                'user_center'           => 'Personal Center',
+                'user_shop'             => 'My Mall',
+                'user_order'            => 'My Order',
+                'favor'                 => 'My Favor',
+                'goods_favor'           => 'Goods Favor',
+                'cart'                  => 'Cart',
+                'message'               => 'Message',
+            ],
+            // 手机模式下底部导航
+            'bottom_navigation_data'            => [
+                'home'              => 'Home',
+                'category'          => 'Category',
+                'cart'              => 'Cart',
+                'user'              => 'User',
+            ],
+            // 安全设置页面
+            'safety_panel_list'                     => [
+                'loginpwd'              => [
+                    'title'         => 'Login Password',
+                    'msg'           => 'There is a risk of theft on the Internet. It is recommended that you change your password regularly to protect your security.',
+                ],
+                'mobile'                => [
+                    'title'         => 'Phone Number',
+                    'no_msg'        => 'You haven t bound your mobile phone number',
+                    'ok_msg'        => 'Mobile phone bound #accounts#',
+                    'tips'          => 'It can be used for login, password retrieval, account security management verification, and account reminder notification.',
+                ],
+                'email'                 => [
+                    'title'         => 'E-Mail',
+                    'no_msg'        => 'You have not bound an email',
+                    'ok_msg'        => 'Mailbox bound #accounts#',
+                    'tips'          => 'It can be used for login, password retrieval, account security management verification, and account reminder email acceptance.',
+                ],
+                'logout'            => [
+                    'title'         => 'Account Logout',
+                    'msg'           => 'There is a risk of theft on the Internet. It is recommended that you change your password regularly to protect your security.',
+                    'submit_text'   =>  'Logout',
+                ],
+            ],
+            // 用户中心左侧菜单
+            'user_center_left_list'                 => [
+                'center'            => 'Personal Center',
+                'business'          => 'Business Admin',
+                'order'             => 'Order Admin',
+                'orderaftersale'    => 'Order Aftersales',
+                'goodsfavor'        => 'Goods Favor',
+                'property'          => 'Property Center',
+                'integral'          => 'My Points',
+                'base'              => 'Data Admin',
+                'personal'          => 'Personal Data',
+                'address'           => 'My Address',
+                'safety'            => 'Safety',
+                'message'           => 'My Message',
+                'goodsbrowse'       => 'My Browse',
+                'answer'            => 'Q&A/Message',
+                'logout'            => 'Sign Out',
+            ],
+            // 用户中心基础信息中mini导航
+            'user_center_mini_navigation_data'      => [
+                'order'         => 'Order Total',
+                'goodsfavor'    => 'Goods Favor',
+                'goodsbrowse'   => 'My Browse',
+                'integral'      => 'My Points',
+            ],
+        ],
+        // 订单售后
+        'orderaftersale'        => [
+            // 表单
+            'form_item_reason'                      => 'Refund Reason',
+            'form_item_reason_placeholder'          => 'Refund Reason...',
+            'form_item_reason_message'              => 'Please select the refund reason',
+            'form_item_number'                      => 'Number of goods',
+            'form_item_number_message'              => 'Please fill in the valid number of goods, minimum 1, maximum {:max}',
+            'form_item_price'                       => 'Refund Amount',
+            'form_item_price_message'               => 'Please enter a valid refund amount, up to {:price} yuan',
+            'form_item_msg'                         => 'Refund instructions',
+            'form_item_msg_message'                 => 'Refund instructions can be up to 200 characters',
+            'form_item_images'                      => 'Upload Voucher',
+            'form_item_images_tips'                 => 'Upload up to 3 pictures',
+            'form_item_express_name'                => 'Express Name',
+            'form_item_express_name_message'        => 'Express name format is between 1 and 60 characters',
+            'form_item_express_number'              => 'Express Number',
+            'form_item_express_number_message'      => 'The format of express bill number is between 1 and 60 characters',
+            // 审核表单
+            'form_item_refundment'                  => 'Refund Method',
+            'form_item_refundment_message'          => 'Please select a refund method',
+            'form_item_refuse_reason'               => 'Reason for rejection',
+            'form_item_refuse_reason_message'       => 'Rejection reason format: 2~230 characters',
+            // 保存
+            'save_price_format_tips'                => 'Incorrect format of refund amount',
+            'save_reason_error_tips'                => 'Refund reason can be up to 180 characters',
+            // 基础
+            'order_aftersale_overdue_tips'          => 'The order has been sold later, please contact customer service for processing',
+            'order_aftersale_have_in_hand_tips'     => 'Order aftersales is in progress, please do not repeat the application',
+            'refund_amount_max_order_price_tips'    => 'The refund amount is greater than the order payment amount [historical refund {:history_price} yuan, order amount {:order_price} yuan]',
+            'return_quantity_max_order_number_tips' => 'The return quantity is greater than the purchase quantity [historical return quantity {:history_number}, order commodity quantity {:buy_number}]',
+            'refund_only_not_can_return_goods_tips' => 'This aftersales order is for refund only, and return operation is not allowed',
+            'status_not_can_operate_tips'           => 'The aftersales order status is inoperable',
+            'pay_log_empty_tips'                    => 'Payment log does not exist, please use manual processing method',
+            'under_line_not_tetrace_tips'           => 'The offline payment method cannot be returned in the original way',
+            'payment_plugins_not_refund_tips'       => 'The payment plug-in has no refund function',
+            'payment_plugins_no_exist_tips'         => 'Payment plug-in does not exist',
+            'no_wallet_payment_plugins_tips'        => 'Please install the wallet plug-in first',
+            'order_update_fail_tips'                => 'Master order update failed',
+            'order_detail_update_fail_tips'         => 'Failed to update order details',
+            'goods_sales_count_release_fail_tips'   => 'Product sales release failed',
+            'refund_message_business_type_name'     => 'Order aftersales',
+            'refund_user_message_title'             => 'Order refund',
+            'order_aftersale_update_fail_tips'      => 'After-sales order update failed',
+            'pay_log_trade_empty_tips'              => 'The platform document number is empty, please confirm whether the payment log exists',
+            'pay_log_refund_reason'                 => '{:order_no} Order refund {:price} yuan',
+            'payment_plugins_tetrace_fail_tips'     => 'Payment plug-in refund processing error',
+            'wallet_update_fail_tips'               => 'Wallet update failed',
+            'wallet_log_insert_fail_tips'           => 'Failed to add wallet log',
+            'wallet_log_refund_user_message_title'  => 'Change in account balance',
+            // 商品退货地址
+            'return_goods_address_data'             => [
+                'name'     => 'Name',
+                'tel'      => 'Tel',
+                'address'  => 'Address',
+            ],
+            // 订单售后进度
+            'orderaftersale_step_data'              => [
+                // 仅退款
+                0 => [
+                    'add'               => 'Apply for refund only',
+                    'audit'             => 'Admin Audit',
+                    'success'           => 'Refund Succeeded',
+                ],
+                // 退款退货
+                1 => [
+                    'add'               => 'Apply for return refund',
+                    'confirm'           => 'Admin Confirm',
+                    'delivery'          => 'User Delivery',
+                    'audit'             => 'Admin Audit',
+                    'success'           => 'Refund Succeeded',
+                ],
+            ],
+            // 售后环节提示信息
+            'orderaftersale_step_tips_msg'          => [
+                0 => 'The order aftersales service has submitted the application, waiting for the confirmation of the administrator!',
+                1 => 'After the order, the administrator has confirmed, please complete the return as soon as possible!',
+                2 => 'The order has been returned after sales, waiting for the administrator to review!',
+                3 => 'The order aftersales processing has ended!',
+                4 => 'The order aftersales application has been rejected!',
+                5 => 'The order aftersales application has been closed!',
+            ], 
+        ],
+        // 订单货币
+        'ordercurrency'         => [
+            'order_currency_insert_fail_tips'       => 'Failed to add order currency',
         ],
     ],
 
@@ -1814,8 +2329,8 @@ return [
         ],
         'home_order_aftersale_return_launch_day'  => [
             'name' => 'After sales time limit can be initiated after order completion',
-            'desc' => 'Unit day, 0 means the after-sales service is closed, and 30 days are recommended',
-            'tips' => 'Please fill in the time limit for launching after-sales service after the order is completed',
+            'desc' => 'Unit day, 0 means the aftersales service is closed, and 30 days are recommended',
+            'tips' => 'Please fill in the time limit for launching aftersales service after the order is completed',
         ],
         'common_goods_give_integral_limit_time'  => [
             'name' => 'Credit duration of goods',

@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 商品参数服务层
@@ -39,7 +39,7 @@ class GoodsParamsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_ids',
-                'error_msg'         => '请选择商品分类',
+                'error_msg'         => MyLang('common_service.goodsparamstemplate.form_item_category_id_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -50,7 +50,7 @@ class GoodsParamsService
 
         // 获取分类下所有分类id
         $data = [];
-        $ids = GoodsService::GoodsCategoryParentIds($params['category_ids']);
+        $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
         if(!empty($ids))
         {
             $where = [
@@ -122,13 +122,13 @@ class GoodsParamsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_id',
-                'error_msg'         => '请选择商品分类',
+                'error_msg'         => MyLang('common_service.goodsparamstemplate.form_item_category_id_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,30',
-                'error_msg'         => '名称格式 2~30 个字符',
+                'error_msg'         => MyLang('common_service.goodsparamstemplate.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -178,13 +178,13 @@ class GoodsParamsService
                 $template_id = Db::name('GoodsParamsTemplate')->insertGetId($data);
                 if($template_id <= 0)
                 {
-                    throw new \Exception('添加失败');
+                    throw new \Exception(MyLang('insert_fail'));
                 }
             } else {
                 $data['upd_time'] = time();
                 if(Db::name('GoodsParamsTemplate')->where(['id'=>intval($params['id'])])->update($data) === false)
                 {
-                    throw new \Exception('更新失败');
+                    throw new \Exception(MyLang('update_fail'));
                 } else {
                     $template_id = $params['id'];
                 }
@@ -203,7 +203,7 @@ class GoodsParamsService
                 }
                 if(Db::name('GoodsParamsTemplateConfig')->insertAll($config['data']) < count($config['data']))
                 {
-                    throw new \Exception('规格参数添加失败');
+                    throw new \Exception(MyLang('common_service.goodsparamstemplate.save_params_data_insert_fail_tips'));
                 }
             }
 
@@ -246,13 +246,13 @@ class GoodsParamsService
             // 模板删除
             if(!Db::name('GoodsParamsTemplate')->where(['id'=>$params['ids']])->delete())
             {
-                throw new \Exception('模板删除失败');
+                throw new \Exception(MyLang('common_service.goodsparamstemplate.delete_params_template_fail_tips'));
             }
 
             // 参数配置删除
             if(Db::name('GoodsParamsTemplateConfig')->where(['template_id'=>$params['ids']])->delete() === false)
             {
-                throw new \Exception('规格参数删除失败');
+                throw new \Exception(MyLang('common_service.goodsparamstemplate.delete_params_data_fail_tips'));
             }
 
             // 完成
@@ -339,7 +339,7 @@ class GoodsParamsService
                 return DataReturn(MyLang('handle_success'), 0, $data);
             }
         }
-        return DataReturn('请填写参数配置', -1);
+        return DataReturn(MyLang('common_service.goodsparamstemplate.save_params_data_empty_tips'), -1);
     }
 }
 ?>

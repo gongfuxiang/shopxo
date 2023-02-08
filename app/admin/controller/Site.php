@@ -14,7 +14,7 @@ use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\SystemService;
 use app\service\ConfigService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\SiteService;
 use app\service\PaymentService;
 use app\service\ResourcesService;
@@ -95,7 +95,7 @@ class Site extends Base
 					['is_home_recommended', '=', 1],
 					['is_enable', '=', 1],
 				];
-            	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
+            	$category = GoodsCategoryService::GoodsCategoryList(['where'=>$where]);
             	if(!empty($category))
             	{
             		// 关键字
@@ -109,7 +109,7 @@ class Site extends Base
 							['pid', '=', $c['id']],
 							['is_enable', '=', 1],
 						];
-            			$c['items'] = GoodsService::GoodsCategoryList(['where'=>$where]);
+            			$c['items'] = GoodsCategoryService::GoodsCategoryList(['where'=>$where]);
 
             			// 配置的关键字
             			$c['config_keywords'] = array_key_exists($c['id'], $floor_keywords) ? $floor_keywords[$c['id']] : '';

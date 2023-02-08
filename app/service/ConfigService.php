@@ -197,7 +197,7 @@ class ConfigService
         // 参数校验
         if(empty($params))
         {
-            return DataReturn('参数不能为空', -1);
+            return DataReturn(MyLang('params_empty_tips'), -1);
         }
 
         // 当前参数中不存在则移除
@@ -346,19 +346,17 @@ class ConfigService
             // 后端+前端都生成对应的路由定义规则、为了后台进入前端url保持一致
             foreach($route_arr as $module)
             {
-                // 生成路由文件
-                $route_file_php = APP_PATH.$module.DS.'route'.DS.'route.php';
-
                 // 文件目录
                 if(!is_writable(APP_PATH.$module.DS.'route'))
                 {
-                    return DataReturn('路由目录没有操作权限'.'[./app/'.$module.'/route]', -11);
+                    return DataReturn(MyLang('common_service.config.route_dir_no_power_tips').'[./app/'.$module.'/route]', -11);
                 }
 
                 // 路配置文件权限
+                $route_file_php = APP_PATH.$module.DS.'route'.DS.'route.php';
                 if(file_exists($route_file_php) && !is_writable($route_file_php))
                 {
-                    return DataReturn('路由配置文件没有操作权限'.'[./app/'.$module.'/route/route.php]', -11);
+                    return DataReturn(MyLang('common_service.config.route_file_no_power_tips').'[./app/'.$module.'/route/route.php]', -11);
                 }
 
                 // pathinfo+短地址模式
@@ -367,20 +365,20 @@ class ConfigService
                     
                     if(!file_exists($route_file))
                     {
-                        return DataReturn('路由规则文件不存在'.'[./app/route/route.config]', -14);
+                        return DataReturn(MyLang('common_service.config.route_file_config_no_exist_tips').'[./app/route/route.config]', -14);
                     }
 
                     // 开始生成规则文件
                     if(file_put_contents($route_file_php, file_get_contents($route_file)) === false)
                     {
-                        return DataReturn('路由规则文件生成失败', -10);
+                        return DataReturn(MyLang('common_service.config.route_file_create_fail_tips'), -10);
                     }
 
                 // 兼容模式+pathinfo模式
                 } else {
                     if(file_exists($route_file_php) && @unlink($route_file_php) === false)
                     {
-                        return DataReturn('路由规则处理失败', -10);
+                        return DataReturn(MyLang('common_service.config.route_file_handle_fail_tips'), -10);
                     }
                 }
             }
@@ -418,7 +416,6 @@ class ConfigService
             }
             MyCache($cache_key, $data);
         }
-        
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
@@ -489,7 +486,6 @@ class ConfigService
                 $data = ArrayQuickSort($data, 'distance_value');
             }
         }
-
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 

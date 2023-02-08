@@ -96,32 +96,32 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_detail_id',
-                'error_msg'         => '订单详情id有误',
+                'error_msg'         => MyLang('order_detail_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_order_aftersale_type_list'), 'value'),
-                'error_msg'         => '操作类型有误',
+                'error_msg'         => MyLang('operate_type_error_tips'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'price',
                 'checked_data'      => 'CheckPrice',
-                'error_msg'         => '退款金额格式有误',
+                'error_msg'         => MyLang('common_service.orderaftersale.save_price_format_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'reason',
                 'checked_data'      => '180',
-                'error_msg'         => '退款原因最多 180 个字符',
+                'error_msg'         => MyLang('common_service.orderaftersale.save_reason_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'msg',
                 'checked_data'      => '200',
                 'is_checked'        => 1,
-                'error_msg'         => '退款说明最多 200 个字符',
+                'error_msg'         => MyLang('common_service.orderaftersale.form_item_msg_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -145,7 +145,7 @@ class OrderAftersaleService
         // 订单是否可发起售后
         if($order['data']['is_can_launch_aftersale'] != 1)
         {
-            return DataReturn('订单已过售后期，请联系客服处理', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.order_aftersale_overdue_tips'), -1);
         }
 
         // 当前是否存在进行中
@@ -158,7 +158,7 @@ class OrderAftersaleService
         $count = (int) Db::name('OrderAftersale')->where($where)->count();
         if($count > 0)
         {
-            return DataReturn('订单售后正在进行中，请勿重复申请', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.order_aftersale_have_in_hand_tips'), -1);
         }
 
         // 获取历史申请售后条件
@@ -175,7 +175,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if(PriceNumberFormat($price+$history_price) > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.refund_amount_max_order_price_tips', ['history_price'=>$history_price, 'order_price'=>$order['data']['pay_price']]), -1);
         }
 
         // 退货数量
@@ -188,7 +188,7 @@ class OrderAftersaleService
         {
             if(intval($number+$history_number) > $order['data']['items']['buy_number'])
             {
-                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.return_quantity_max_order_number_tips', ['history_number'=>$history_number, 'buy_number'=>$order['data']['items']['buy_number']]), -1);
             }
         }
 
@@ -206,7 +206,7 @@ class OrderAftersaleService
             }
             if(count($images) > 3)
             {
-                return DataReturn('凭证图片不能超过3张', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.form_item_images_tips'), -1);
             }
         }
 
@@ -288,13 +288,13 @@ class OrderAftersaleService
                 'checked_type'      => 'length',
                 'key_name'          => 'express_name',
                 'checked_data'      => '1,60',
-                'error_msg'         => '快递名称格式 1~60 个字符之间',
+                'error_msg'         => MyLang('common_service.orderaftersale.form_item_express_name_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'express_number',
                 'checked_data'      => '1,60',
-                'error_msg'         => '快递单号格式 1~60 个字符之间',
+                'error_msg'         => MyLang('common_service.orderaftersale.form_item_express_number_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -322,12 +322,12 @@ class OrderAftersaleService
         // 状态
         if($aftersale['type'] == 0)
         {
-            return DataReturn('该售后订单为仅退款，不能操作退货操作', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.refund_only_not_can_return_goods_tips'), -1);
         }
         if($aftersale['status'] != 1)
         {
             $common_order_aftersale_status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('该售后订单状态不可操作['.$common_order_aftersale_status_list[$aftersale['status']]['name'].']', -10);
+            return DataReturn(MyLang('common_service.orderaftersale.status_not_can_operate_tips').'['.$common_order_aftersale_status_list[$aftersale['status']]['name'].']', -10);
         }
 
         // 数据
@@ -628,7 +628,7 @@ class OrderAftersaleService
         if(in_array($aftersale['status'], [3,5]))
         {
             $status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 数据
@@ -717,7 +717,7 @@ class OrderAftersaleService
         if($aftersale['status'] != 0)
         {
             $status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 类型
@@ -794,7 +794,7 @@ class OrderAftersaleService
                 'checked_type'      => 'in',
                 'key_name'          => 'refundment',
                 'checked_data'      => array_column(MyLang('common_order_aftersale_refundment_list'), 'value'),
-                'error_msg'         => '退款方式有误',
+                'error_msg'         => MyLang('common_service.orderaftersale.form_item_refundment_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -814,7 +814,7 @@ class OrderAftersaleService
         if($aftersale['status'] != 2)
         {
             $status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 获取订单数据
@@ -835,7 +835,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if(PriceNumberFormat($aftersale['price']+$history_price) > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.refund_amount_max_order_price_tips', ['history_price'=>$history_price, 'order_price'=>$order['data']['pay_price']]), -1);
         }
 
         // 历史退货数量
@@ -845,7 +845,7 @@ class OrderAftersaleService
         {
             if(intval($aftersale['number']+$history_number) > $order['data']['items']['buy_number'])
             {
-                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.return_quantity_max_order_number_tips',['history_number'=>$history_number, 'buy_number'=>$order['data']['items']['buy_number']]), -1);
             }
         }
 
@@ -857,7 +857,7 @@ class OrderAftersaleService
         {
             if(empty($pay_log))
             {
-                return DataReturn('支付日志不存在，请使用手动处理方式', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.pay_log_empty_tips'), -1);
             }
         }
 
@@ -866,17 +866,17 @@ class OrderAftersaleService
         {
             if(in_array($pay_log['payment'], MyConfig('shopxo.under_line_list')))
             {
-                return DataReturn('线下支付方式不能原路退回[ '.$pay_log['payment_name'].' ]', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.under_line_not_tetrace_tips').'[ '.$pay_log['payment_name'].' ]', -1);
             } else {
                 $payment = 'payment\\'.$pay_log['payment'];
                 if(class_exists($payment))
                 {
                     if(!method_exists((new $payment()), 'Refund'))
                     {
-                        return DataReturn('支付插件没退款功能[ '.$pay_log['payment'].' ]', -1);
+                        return DataReturn(MyLang('common_service.orderaftersale.payment_plugins_not_refund_tips').'[ '.$pay_log['payment'].' ]', -1);
                     }
                 } else {
-                    return DataReturn('支付插件不存在[ '.$pay_log['payment'].' ]', -1);
+                    return DataReturn(MyLang('common_service.orderaftersale.payment_plugins_no_exist_tips').'[ '.$pay_log['payment'].' ]', -1);
                 }
             }
         }
@@ -897,7 +897,7 @@ class OrderAftersaleService
             $is_walet = true;
         } else {
             // 手动处理不涉及金额
-            $refund = DataReturn('退款成功', 0);
+            $refund = DataReturn(MyLang('refund_success'), 0);
         }
 
         // 退款成功
@@ -912,167 +912,166 @@ class OrderAftersaleService
             $wallet = Db::name('Plugins')->where(['plugins'=>'wallet'])->find();
             if(empty($wallet))
             {
-                return DataReturn('请先安装钱包插件[ Wallet ]', -1);
+                return DataReturn(MyLang('common_service.orderaftersale.no_wallet_payment_plugins_tips').'[ Wallet ]', -1);
             }
         }
 
-        // 开启事务
+        // 启动事务
         Db::startTrans();
 
-        // 钱包退款
-        if($is_walet === true)
-        {
-            $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
-            if($ret['code'] != 0)
+        // 捕获异常
+        try {
+
+            // 钱包退款
+            if($is_walet === true)
             {
-                Db::rollback();
-                return $ret;
+                $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
             }
-        }
 
-        // 是否仅退款操作需要退数量操作
-        // 如果是仅退、订单状态为待发货或虚拟订单则退回数量
-        $is_refund_only_number = false;
-        $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
-        if($refund_price >= $order['data']['pay_price'] && $aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
-        {
-            $is_refund_only_number = true;
-            $aftersale['number'] = $order['data']['items']['buy_number'];
-        }
-
-        // 更新主订单
-        $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
-        $order_upd_data = [
-            'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
-            'refund_price'      => $refund_price,
-            'returned_quantity' => $returned_quantity,
-            'close_time'        => time(),
-            'upd_time'          => time(),
-        ];
-
-        // 如果退款金额和退款数量到达订单实际是否金额和购买数量则关闭订单
-        if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
-        {
-            $order_upd_data['status'] = 6;
-        }
-        
-        // 更新主订单
-        if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($order_upd_data))
-        {
-            Db::rollback();
-            return DataReturn('主订单更新失败', -1);
-        }
-
-        // 订单详情
-        $detail_upd_data = [
-            'refund_price'      => PriceNumberFormat($order['data']['items']['refund_price']+$aftersale['price']),
-            'returned_quantity' => intval($order['data']['items']['returned_quantity']+$aftersale['number']),
-            'upd_time'          => time(),
-        ];
-        if(!Db::name('OrderDetail')->where(['id'=>$aftersale['order_detail_id']])->update($detail_upd_data))
-        {
-            Db::rollback();
-            return DataReturn('订单详情更新失败', -1);
-        }
-
-        // 库存回滚
-        if($aftersale['type'] == 1 || $is_refund_only_number == true)
-        {
-            $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$order_upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
-            if($ret['code'] != 0)
+            // 是否仅退款操作需要退数量操作
+            // 如果是仅退、订单状态为待发货或虚拟订单则退回数量
+            $is_refund_only_number = false;
+            $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
+            if($refund_price >= $order['data']['pay_price'] && $aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
             {
-                Db::rollback();
-                return $ret;
+                $is_refund_only_number = true;
+                $aftersale['number'] = $order['data']['items']['buy_number'];
             }
-        }
 
-        // 积分释放
-        $ret = IntegralService::OrderGoodsIntegralRollback(['order_id'=>$order['data']['id'], 'order_detail_id'=>$aftersale['order_detail_id']]);
-        if($ret['code'] != 0)
-        {
-            Db::rollback();
-            return $ret;
-        }
+            // 更新主订单
+            $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
+            $order_upd_data = [
+                'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
+                'refund_price'      => $refund_price,
+                'returned_quantity' => $returned_quantity,
+                'close_time'        => time(),
+                'upd_time'          => time(),
+            ];
 
-        // 已完成订单、商品销量释放
-        // 规则 0 订单支付、1 订单收货（默认）
-        $status = (MyC('common_goods_sales_count_inc_rules', 1) == 1) ? ($order['data']['status'] == 4) : ($order['data']['pay_status'] != 0);
-        if($status && $aftersale['number'] > 0)
-        {
-            if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number'])->update())
+            // 如果退款金额和退款数量到达订单实际是否金额和购买数量则关闭订单
+            if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
             {
-                Db::rollback();
-                return DataReturn('商品销量释放失败', -1);
+                $order_upd_data['status'] = 6;
             }
-        }
-
-        // 消息通知
-        $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
-        MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, '订单售后', $order['data']['id']);
-
-        // 订单状态日志
-        if(isset($order_upd_data['status']))
-        {
-            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
-            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            OrderService::OrderHistoryAdd($order['data']['id'], $order_upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
-        }
-
-        // 更新退款状态
-        $data = [
-            'status'        => 3,
-            'refundment'    => $params['refundment'],
-            'audit_time'    => time(),
-            'upd_time'      => time(),
-        ];
-
-        // 仅退款是否退了数量
-        if($is_refund_only_number == true)
-        {
-            $data['number'] = $aftersale['number'];
-        }
-
-        // 订单售后单审核前钩子
-        $hook_name = 'plugins_service_order_aftersale_audit_handle_begin';
-        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'data_id'       => $aftersale['id'],
-            'data'          => &$data,
-            'order_id'      => $order['data']['id'],
-            'params'        => $params,
             
-        ]));
-        if(isset($ret['code']) && $ret['code'] != 0)
-        {
-            return $ret;
-        }
+            // 更新主订单
+            if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($order_upd_data))
+            {
+                throw new \Exception(MyLang('common_service.orderaftersale.order_update_fail_tips'));
+            }
 
-        // 数据更新
-        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($data))
-        {
+            // 订单详情
+            $detail_upd_data = [
+                'refund_price'      => PriceNumberFormat($order['data']['items']['refund_price']+$aftersale['price']),
+                'returned_quantity' => intval($order['data']['items']['returned_quantity']+$aftersale['number']),
+                'upd_time'          => time(),
+            ];
+            if(!Db::name('OrderDetail')->where(['id'=>$aftersale['order_detail_id']])->update($detail_upd_data))
+            {
+                throw new \Exception(MyLang('common_service.orderaftersale.order_detail_update_fail_tips'));
+            }
+
+            // 库存回滚
+            if($aftersale['type'] == 1 || $is_refund_only_number == true)
+            {
+                $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$order_upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+            }
+
+            // 积分释放
+            $ret = IntegralService::OrderGoodsIntegralRollback(['order_id'=>$order['data']['id'], 'order_detail_id'=>$aftersale['order_detail_id']]);
+            if($ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 已完成订单、商品销量释放
+            // 规则 0 订单支付、1 订单收货（默认）
+            $status = (MyC('common_goods_sales_count_inc_rules', 1) == 1) ? ($order['data']['status'] == 4) : ($order['data']['pay_status'] != 0);
+            if($status && $aftersale['number'] > 0)
+            {
+                if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number'])->update())
+                {
+                    throw new \Exception(MyLang('common_service.orderaftersale.goods_sales_count_release_fail_tips'));
+                }
+            }
+
+            // 消息通知
+            $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['data']['order_no'], 'price'=>$aftersale['price']]);
+            MessageService::MessageAdd($order['data']['user_id'],  MyLang('common_service.orderaftersale.refund_user_message_title'), $msg, MyLang('common_service.orderaftersale.refund_message_business_type_name'), $order['data']['id']);
+
+            // 订单状态日志
+            if(isset($order_upd_data['status']))
+            {
+                $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+                $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+                OrderService::OrderHistoryAdd($order['data']['id'], $order_upd_data['status'], $order['data']['status'], MyLang('close_title'), $creator, $creator_name);
+            }
+
+            // 更新退款状态
+            $data = [
+                'status'        => 3,
+                'refundment'    => $params['refundment'],
+                'audit_time'    => time(),
+                'upd_time'      => time(),
+            ];
+
+            // 仅退款是否退了数量
+            if($is_refund_only_number == true)
+            {
+                $data['number'] = $aftersale['number'];
+            }
+
+            // 订单售后单审核前钩子
+            $hook_name = 'plugins_service_order_aftersale_audit_handle_begin';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $aftersale['id'],
+                'data'          => &$data,
+                'order_id'      => $order['data']['id'],
+                'params'        => $params,
+                
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 数据更新
+            if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($data))
+            {
+                throw new \Exception(MyLang('common_service.orderaftersale.order_aftersale_update_fail_tips'));
+            }
+
+            // 订单售后审核处理完毕钩子
+            $hook_name = 'plugins_service_order_aftersale_audit_handle_end';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'data_id'       => $aftersale['id'],
+                'order_id'      => $order['data']['id'],
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 提交事务
+            Db::commit();
+            return DataReturn(MyLang('refund_success'), 0);
+        } catch(\Exception $e) {
             Db::rollback();
-            return DataReturn('售后订单更新失败', -60);
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 订单售后审核处理完毕钩子
-        $hook_name = 'plugins_service_order_aftersale_audit_handle_end';
-        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => $params,
-            'data_id'       => $aftersale['id'],
-            'order_id'      => $order['data']['id'],
-        ]));
-        if(isset($ret['code']) && $ret['code'] != 0)
-        {
-            Db::rollback();
-            return $ret;
-        }
-
-        // 提交事务
-        Db::commit();
-        return DataReturn('退款成功', 0);
     }
 
     /**
@@ -1107,11 +1106,12 @@ class OrderAftersaleService
         // 交易平台单号
         if(empty($pay_log['trade_no']))
         {
-            return DataReturn('平台单号为空，请确认支付日志是否存在', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.pay_log_trade_empty_tips'), -1);
         }
 
         // 操作退款
         $pay_name = 'payment\\'.$pay_log['payment'];
+        $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['order_no'], 'price'=>$aftersale['price']]);
         $pay_params = [
             'order_id'          => $order['id'],
             'order_no'          => $pay_log['log_no'],
@@ -1119,7 +1119,7 @@ class OrderAftersaleService
             'pay_price'         => $pay_log['pay_price'],
             'refund_price'      => $aftersale['price'],
             'client_type'       => $order['client_type'],
-            'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
+            'refund_reason'     => $msg,
             'pay_time'          => $pay_log['pay_time'],
         ];
 
@@ -1144,7 +1144,7 @@ class OrderAftersaleService
         $ret = (new $pay_name($payment['config']))->Refund($pay_params);
         if(!isset($ret['code']))
         {
-            return DataReturn('支付插件退款处理有误', -1);
+            return DataReturn(MyLang('common_service.orderaftersale.payment_plugins_tetrace_fail_tips'), -1);
         }
         if($ret['code'] != 0)
         {
@@ -1199,11 +1199,11 @@ class OrderAftersaleService
         ];
         if(Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data) === false)
         {
-            return DataReturn('钱包更新失败', -10);
+            return DataReturn(MyLang('common_service.orderaftersale.wallet_update_fail_tips'), -10);
         }
 
         // 钱包变更日志
-        $msg = $order['order_no'].'订单退款'.$aftersale['price'].'元';
+        $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['order_no'], 'price'=>$aftersale['price']]);
         $log_data = [
             'user_id'           => $user_wallet['data']['user_id'],
             'wallet_id'         => $user_wallet['data']['id'],
@@ -1217,7 +1217,7 @@ class OrderAftersaleService
         ];
         if(!WalletService::WalletLogInsert($log_data))
         {
-            return DataReturn('钱包日志添加失败', -101);
+            return DataReturn(MyLang('common_service.orderaftersale.wallet_log_insert_fail_tips'), -101);
         }
 
         // 写入退款日志
@@ -1239,9 +1239,9 @@ class OrderAftersaleService
         RefundLogService::RefundLogInsert($refund_log);
 
         // 消息通知
-        MessageService::MessageAdd($order['user_id'], '账户余额变动', $msg, '订单售后', $order['id']);
+        MessageService::MessageAdd($order['user_id'], MyLang('common_service.orderaftersale.wallet_log_refund_user_message_title'), $msg, MyLang('common_service.orderaftersale.refund_message_business_type_name'), $order['id']);
 
-        return DataReturn('退款成功', 0);   
+        return DataReturn(MyLang('refund_success'), 0);   
     }
 
     /**
@@ -1266,7 +1266,7 @@ class OrderAftersaleService
                 'checked_type'      => 'length',
                 'key_name'          => 'refuse_reason',
                 'checked_data'      => '2,230',
-                'error_msg'         => '拒绝原因格式 2~230 个字符',
+                'error_msg'         => MyLang('common_service.orderaftersale.form_item_refuse_reason_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1286,7 +1286,7 @@ class OrderAftersaleService
         if(!in_array($aftersale['status'], [0,2]))
         {
             $status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 数据
@@ -1329,10 +1329,9 @@ class OrderAftersaleService
                 return $ret;
             }
 
-            // 返回成功
-            return DataReturn('拒绝成功', 0);
+            return DataReturn(MyLang('refuse_success'), 0);
         }
-        return DataReturn('拒绝失败', -100);
+        return DataReturn(MyLang('refuse_fail'), -100);
     }
 
     /**
@@ -1371,7 +1370,7 @@ class OrderAftersaleService
         if(!in_array($aftersale['status'], [4,5]))
         {
             $status_list = MyLang('common_order_aftersale_status_list');
-            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 删除操作
@@ -1512,15 +1511,8 @@ class OrderAftersaleService
      */
     public static function OrderAftersaleTipsMsg($orderaftersale = [])
     {
-        $msg_all = [
-            0 => '订单售后已提交申请，等待管理员确认中！',
-            1 => '订单售后，管理员已确认，请尽快完成退货！',
-            2 => '订单售后已退货，等待管理员审核中！',
-            3 => '订单售后已处理结束！',
-            4 => '订单售后申请已被拒绝！',
-            5 => '订单售后申请已关闭！',
-        ];
-        if(isset($orderaftersale['status']) && array_key_exists($orderaftersale['status'], $msg_all))
+        $msg_all = MyLang('common_service.orderaftersale.orderaftersale_step_tips_msg');
+        if(!empty($msg_all) && is_array($msg_all) && isset($orderaftersale['status']) && array_key_exists($orderaftersale['status'], $msg_all))
         {
             // [status 待退货], [type 0仅退款 1退货退款
             if($orderaftersale['status'] == 1 && $orderaftersale['type'] == 0)
@@ -1543,7 +1535,7 @@ class OrderAftersaleService
      */
     public static function OrderAftersaleStepData($orderaftersale)
     {
-        $lang = MyLang('orderaftersale_step_data');
+        $lang = MyLang('common_service.orderaftersale.orderaftersale_step_data');
         // 仅退款
         $step0 = [
             [
@@ -1675,7 +1667,7 @@ class OrderAftersaleService
     public static function OrderAftersaleReturnGoodsAddress($order_id)
     {
         // 退货地址信息
-        $data = MyC('home_order_aftersale_return_goods_address', '管理员未填写', true);
+        $data = MyC('home_order_aftersale_return_goods_address', MyLang('no_filled_tips'), true);
 
         // 是否是否仓库地址
         if(MyC('home_order_aftersale_is_use_warehouse_address', 0, true) == 1)
@@ -1685,20 +1677,20 @@ class OrderAftersaleService
             if(!empty($warehouse_id))
             {
                 // 获取仓库信息
-                $where = [
-                    ['id', '=', $warehouse_id],
-                ];
                 $data_params = [
                     'm'             => 0,
                     'n'             => 1,
-                    'where'         => $where,
+                    'where'         => [
+                        ['id', '=', $warehouse_id],
+                    ],
                 ];
                 $ret = WarehouseService::WarehouseList($data_params);
                 $warehouse = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
                 if(!empty($warehouse) && !empty($warehouse['contacts_name']) && !empty($warehouse['contacts_tel']) && !empty($warehouse['province_name']) && !empty($warehouse['city_name']) && !empty($warehouse['county_name']) && !empty($warehouse['address']))
                 {
+                    $lang = MyLang('common_service.orderaftersale.return_goods_address_data');
                     $address = $warehouse['province_name'].$warehouse['city_name'].$warehouse['county_name'].$warehouse['address'];
-                    $data = '收件人：'.$warehouse['contacts_name'].'，电话：'.$warehouse['contacts_tel'].'，地址：'.$address;
+                    $data = $lang['name'].'：'.$warehouse['contacts_name'].'，'.$lang['tel'].'：'.$warehouse['contacts_tel'].'，'.$lang['address'].'：'.$address;
                 }
             }
         }

@@ -61,7 +61,7 @@ class Buy extends Common
             // 站点类型，是否开启了展示型
             if(SystemBaseService::SiteTypeValue() == 1)
             {
-                MyViewAssign('msg', MyLang('buy.show_mode_not_allow_submit_order_tips'));
+                MyViewAssign('msg', MyLang('buy.exhibition_not_allow_submit_tips'));
                 return MyView('public/tips_error');
             }
 

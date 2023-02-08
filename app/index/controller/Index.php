@@ -15,6 +15,7 @@ use app\service\SeoService;
 use app\service\AdminService;
 use app\service\BannerService;
 use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\ArticleService;
 use app\service\OrderService;
 use app\service\AppHomeNavService;
@@ -85,7 +86,7 @@ class Index extends Common
         if($is_design == 1)
         {
             // 商品分类
-            $goods_category = GoodsService::GoodsCategory(['is_all'=>1]);
+            $goods_category = GoodsCategoryService::GoodsCategoryAll();
 
             // 保存数据地址
             $assign['layout_save_url'] = base64_decode(urldecode($this->data_request['save_url']));

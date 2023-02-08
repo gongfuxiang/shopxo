@@ -12,7 +12,7 @@
             <div class="am-cf">
                 <div class="am-u-md-6 am-padding-horizontal-0">
                     <div class="am-alert am-alert-secondary goods-info" data-am-alert>
-                        <p class="am-text-sm">{{:MyLang('goodscomments.form_item_goods_info_title')}}</p>
+                        <p class="am-text-sm">{{:MyLang('common_service.goodscomments.form_item_goods_info_title')}}</p>
                         {{if !empty($data['goods'])}}
                             <div class="base am-nbfc">
                                 <a href="{{$data.goods.goods_url}}" target="_blank">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="am-u-md-6 am-padding-horizontal-0">
                     <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                        <p class="am-text-sm">{{:MyLang('goodscomments.form_item_user_info_title')}}</p>
+                        <p class="am-text-sm">{{:MyLang('common_service.goodscomments.form_item_user_info_title')}}</p>
                         {{if !empty($data['user'])}}
                             <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                             <ul class="user-base">
@@ -47,8 +47,8 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('goodscomments.form_item_business_type')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <select name="business_type" class="chosen-select" data-placeholder="{{:MyLang('goodscomments.form_item_business_type_placeholder')}}" data-validation-message="{{:MyLang('goodscomments.form_item_business_type_message')}}" required>
+                        <label>{{:MyLang('common_service.goodscomments.form_item_business_type')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select name="business_type" class="chosen-select" data-placeholder="{{:MyLang('common_service.goodscomments.form_item_business_type_placeholder')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_business_type_message')}}" required>
                             {{if !empty($common_goods_comments_business_type_list)}}
                                 {{foreach $common_goods_comments_business_type_list as $v}}
                                     <option value="{{$v.value}}" {{if isset($data['business_type']) and $data['business_type'] eq $v.value}}selected{{/if}}>{{$v.name}}</option>
@@ -59,8 +59,8 @@
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('goodscomments.form_item_rating')}}</label>
-                        <select name="rating" class="chosen-select" data-placeholder="{{:MyLang('goodscomments.form_item_rating_placeholder')}}" data-validation-message="{{:MyLang('goodscomments.form_item_rating_message')}}" required>
+                        <label>{{:MyLang('common_service.goodscomments.form_item_rating')}}</label>
+                        <select name="rating" class="chosen-select" data-placeholder="{{:MyLang('common_service.goodscomments.form_item_rating_placeholder')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_rating_message')}}" required>
                             {{if !empty($common_goods_comments_rating_list)}}
                                 {{foreach $common_goods_comments_rating_list as $k=>$v}}
                                     <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
@@ -74,14 +74,14 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('goodscomments.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" placeholder="{{:MyLang('goodscomments.form_item_content_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                        <label>{{:MyLang('common_service.goodscomments.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" placeholder="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('goodscomments.form_item_reply')}}</label>
-                        <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="{{:MyLang('goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_message')}}">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+                        <label>{{:MyLang('common_service.goodscomments.form_item_reply')}}</label>
+                        <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="{{:MyLang('common_service.goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_reply_message')}}">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
                     </div>
                 </div>
             </div>
@@ -89,13 +89,13 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('goodscomments.form_item_reply_time')}}</label>
-                        <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('goodscomments.form_item_reply_time')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_time_message')}}" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                        <label>{{:MyLang('common_service.goodscomments.form_item_reply_time')}}</label>
+                        <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('common_service.goodscomments.form_item_reply_time')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_reply_time_message')}}" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('goodscomments.form_item_is_reply')}}</label>
+                        <label class="am-block">{{:MyLang('common_service.goodscomments.form_item_is_reply')}}</label>
                         <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('goodscomments.form_item_is_anonymous')}}</label>
+                        <label class="am-block">{{:MyLang('common_service.goodscomments.form_item_is_anonymous')}}</label>
                         <input name="is_anonymous" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>

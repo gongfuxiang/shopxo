@@ -119,13 +119,13 @@ class LinkService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
+                'error_msg'         => MyLang('common_service.link.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'url',
                 'checked_data'      => 'CheckUrl',
-                'error_msg'         => '链接地址格式有误',
+                'error_msg'         => MyLang('common_service.link.form_item_url_message'),
             ],
             [
                 'checked_type'      => 'length',
@@ -137,19 +137,19 @@ class LinkService
                 'checked_type'      => 'in',
                 'key_name'          => 'is_new_window_open',
                 'checked_data'      => [0,1],
-                'error_msg'         => '是否新窗口打开范围值有误',
+                'error_msg'         => MyLang('form_is_new_window_open_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'is_enable',
                 'checked_data'      => [0,1],
-                'error_msg'         => '是否显示范围值有误',
+                'error_msg'         => MyLang('form_is_enable_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'describe',
                 'checked_data'      => '60',
-                'error_msg'         => '描述不能大于60个字符',
+                'error_msg'         => MyLang('common_service.link.form_item_desc_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -213,7 +213,6 @@ class LinkService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 

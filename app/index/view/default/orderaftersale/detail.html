@@ -260,7 +260,7 @@
                                     <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['isautodelivery'])}}{{$params.isautodelivery}}{{else /}}0{{/if}}">{{:MyLang('orderaftersale.operate_delivery_name')}}</button>
                                 </div>
                                 <div class="am-alert am-alert-warning">
-                                    <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}</span>
+                                    <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}：</span>
                                     <span class="am-text-primary">{{$return_goods_address}}</span>
                                 </div>
                                 {{include file="orderaftersale/delivery" /}}

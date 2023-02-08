@@ -50,12 +50,12 @@ class FormTableService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'md5_key',
-                'error_msg'         => '数据key有误',
+                'error_msg'         => MyLang('common_service.formtable.save_data_key_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'fields',
-                'error_msg'         => '请选择字段',
+                'error_msg'         => MyLang('common_service.formtable.save_fields_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -107,7 +107,7 @@ class FormTableService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'md5_key',
-                'error_msg'         => '数据key有误',
+                'error_msg'         => MyLang('common_service.formtable.save_data_key_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

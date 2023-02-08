@@ -69,13 +69,13 @@ class DesignService
                 }
 
                 // 时间
+                if(array_key_exists('upd_time', $v))
+                {
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                }
                 if(array_key_exists('add_time', $v))
                 {
                     $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                }
-                if(array_key_exists('upd_time', $v))
-                {
-                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
                 }
             }
         }
@@ -102,7 +102,7 @@ class DesignService
 
         // 数据
         $data = [
-            'name'          => empty($params['name']) ? '默认页面'.date('mdHi') : $params['name'],
+            'name'          => empty($params['name']) ? MyLang('common_service.design.create_name_default').''.date('mdHi') : $params['name'],
             'logo'          => $attachment['data']['logo'],
             'config'        => $config,
             'seo_title'     => empty($params['seo_title']) ? '' : $params['seo_title'],
@@ -216,7 +216,6 @@ class DesignService
             }
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
     
@@ -340,7 +339,7 @@ class DesignService
         ];
         if(@file_put_contents($dir.DS.'config.json', JsonFormat($base)) === false)
         {
-            return DataReturn('配置文件生成失败', -1);
+            return DataReturn(MyLang('common_service.design.download_config_file_create_fail_tips'), -1);
         }
 
         // 生成压缩包
@@ -362,7 +361,7 @@ class DesignService
         } else {
             return DataReturn(MyLang('download_fail'), -100);
         }
-        return DataReturn('下载成功', 0);
+        return DataReturn(MyLang('common_service.design.download_success'), 0);
     }
 
     /**
@@ -494,7 +493,6 @@ class DesignService
         {
             $config['style_background_images'] = self::FileSave($data_id, $config['style_background_images'], 'images', $dir);
         }
-
         return $config;
     }
 
@@ -540,7 +538,6 @@ class DesignService
             {
                 \base\FileUtil::CopyFile(ROOT.'public'.$file, $dir.DS.$filename);
             }
-
             return DS.$filename;
         }
         return '';
@@ -591,7 +588,7 @@ class DesignService
         $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
         if(!is_writable($app_upload_dir))
         {
-            return DataReturn('应用upload目录没有操作权限'.'['.$app_upload_dir.']', -3);
+            return DataReturn(MyLang('common_service.design.upload_dis_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
         // 开始解压文件
@@ -614,7 +611,7 @@ class DesignService
                 if($stream === false)
                 {
                     $zip->close();
-                    return DataReturn('配置信息读取失败', -1);
+                    return DataReturn(MyLang('common_service.design.upload_config_file_get_fail_tips'), -1);
                 }
 
                 // 获取配置信息并解析
@@ -623,7 +620,7 @@ class DesignService
                 if(empty($config) || empty($config['data_id']) || empty($config['name']))
                 {
                     $zip->close();
-                    return DataReturn('配置信息为空或有误', -1);
+                    return DataReturn(MyLang('common_service.design.upload_config_file_error_tips'), -1);
                 }
 
                 // 数据添加
@@ -658,7 +655,7 @@ class DesignService
         }
         if(empty($config) || empty($data_id))
         {
-            return DataReturn('配置文件处理失败', -1);
+            return DataReturn(MyLang('common_service.design.upload_config_file_handle_fail_tips'), -1);
         }
 
         // 文件处理
@@ -715,7 +712,7 @@ class DesignService
         {
             return DataReturn(MyLang('import_success'), 0);
         }
-        return DataReturn('无效数据包', -1);
+        return DataReturn(MyLang('common_service.design.upload_invalid_packet_tips'), -1);
     }
 }
 ?>

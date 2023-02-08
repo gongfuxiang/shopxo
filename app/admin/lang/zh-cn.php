@@ -384,12 +384,6 @@ return [
         'base_nav_title'                        => '自定义页面',
         'detail_content_title'                  => '详情内容',
         'detail_images_title'                   => '详情图片',
-        // 表单
-        'form_item_title'                       => '名称',
-        'form_item_title_message'               => '名称长度2~60个字符',
-        'form_item_content_title'               => '内容',
-        'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
-        'form_item_content_message'             => '内容格式10~105000个字符之间',
         // 动态表格
         'form_table'                            => [
             'info'            => '标题',
@@ -412,10 +406,6 @@ return [
             '2. 导入将自动新增一条数据',
         ],
         'operate_sync_tips'                     => '数据同步到首页拖拽可视化中、之后再修改数据不受影响、但是不要删除相关附件',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称长度2~16个字符',
-        'form_logo_tips'                        => '建议大小300*300px',
         // 动态表格
         'form_table'                            => [
             'id'                => '数据ID',
@@ -640,145 +630,18 @@ return [
     // 商品
     'goods'                 => [
         'base_nav_title'                        => '商品',
-        'nav_right_list'                        => [
-            ['name' => '基础信息', 'type'=>'base'],
-            ['name' => '商品规格', 'type'=>'operations'],
-            ['name' => '商品参数', 'type'=>'parameters'],
-            ['name' => '商品相册', 'type'=>'photo'],
-            ['name' => '商品视频', 'type'=>'video'],
-            ['name' => '手机详情', 'type'=>'app'],
-            ['name' => '电脑详情', 'type'=>'web'],
-            ['name' => '虚拟信息', 'type'=>'fictitious'],
-            ['name' => '扩展数据', 'type'=>'extends'],
-            ['name' => 'SEO信息', 'type'=>'seo'],
+        'goods_nav_list'                        => [
+            'base'            => ['name' => '基础信息', 'type'=>'base'],
+            'specifications'  => ['name' => '商品规格', 'type'=>'specifications'],
+            'parameters'      => ['name' => '商品参数', 'type'=>'parameters'],
+            'photo'           => ['name' => '商品相册', 'type'=>'photo'],
+            'video'           => ['name' => '商品视频', 'type'=>'video'],
+            'app'             => ['name' => '手机详情', 'type'=>'app'],
+            'web'             => ['name' => '电脑详情', 'type'=>'web'],
+            'fictitious'      => ['name' => '虚拟信息', 'type'=>'fictitious'],
+            'extends'         => ['name' => '扩展数据', 'type'=>'extends'],
+            'seo'             => ['name' => 'SEO信息', 'type'=>'seo'],
         ],
-        // 表单
-        'form_item_title'                       => '商品名称',
-        'form_item_title_message'               => '商品名称格式2~160个字符',
-        'form_item_category_id'                 => '商品分类',
-        'form_item_category_id_message'         => '请至少选择一个商品分类',
-        'form_item_simple_desc'                 => '商品简述',
-        'form_item_simple_desc_message'         => '商品简述格式最多230个字符',
-        'form_item_model'                       => '商品型号',
-        'form_item_model_message'               => '商品型号格式最多30个字符',
-        'form_item_brand'                       => '品牌',
-        'form_item_brand_message'               => '请选择品牌',
-        'form_item_place_origin'                => '生产地',
-        'form_item_place_origin_message'        => '请选择生产地',
-        'form_item_inventory_unit'              => '库存单位',
-        'form_item_inventory_unit_message'      => '库存单位格式1~6个字符',
-        'form_item_give_integral'               => '购买赠送积分比例',
-        'form_item_give_integral_tips'          => [
-            '1. 按照商品金额比例乘以数量的比例进行发放',
-            '2. 订单完成自动将发放到用户锁定积分',
-            '3. 站点设置->扩展中脚本处理发放积分',
-        ],
-        'form_item_give_integral_placeholder'   => '购买赠送积分',
-        'form_item_give_integral_message'       => '购买赠送积分比例0~100的数字',
-        'form_item_buy_min_number'              => '最低起购数量',
-        'form_item_buy_min_number_message'      => '最低起购数量1~100000000范围',
-        'form_item_buy_max_number'              => '单次最大购买数量',
-        'form_item_buy_max_number_tips'         => [
-            '1. 单次最大数值100000000',
-            '2. 小于等于0或空则不限',
-        ],
-        'form_item_buy_max_number_message'      => '单次最大购买数量 1~100000000范围',
-        'form_item_site_type'                   => '商品类型',
-        'form_item_site_type_tips'              => [
-            '1. 当前系统配置的站点类型为( 站点类型 )',
-            '2. 如果商品类型未配置则跟随系统配置的站点类型',
-            '3. 当设置的商品类型不在系统设置的站点类型包含的时候，商品加入购物车功能将失效',
-        ],
-        'form_item_site_type_message'           => '请选择商品类型',
-        'form_item_images'                      => '封面图片',
-        'form_item_images_tips'                 => '留空则取相册第一张图、建议800*800px',
-        'form_item_is_deduction_inventory'      => '扣减库存',
-        'form_item_is_deduction_inventory_tips' => '扣除规则根据后台配置->扣除库存规则而定',
-        'form_item_is_shelves'                  => '上下架',
-        'form_item_is_shelves_tips'             => '下架后用户不可见',
-        'form_item_spec_title'                  => '商品规格',
-        'form_item_params_title'                => '商品参数',
-        'form_item_photo_title'                 => '商品相册',
-        'form_item_video_title'                 => '商品视频',
-        'form_item_app_title'                   => '手机详情',
-        'form_item_web_title'                   => '电脑详情',
-        'form_item_fictitious_title'            => '虚拟信息',
-        'form_item_extends_title'               => '扩展数据',
-        'form_item_extends_popup_title'         => '规格扩展数据',
-        // 规格
-        'form_spec_top_list_tips'               => [
-            '1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。',
-            '2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率',
-            '3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存',
-        ],
-        'form_spec_template_tips'               => '规格模板数据有误',
-        'form_spec_template_name_exist_tips'    => '相同规格名称已经存在',
-        'form_spec_template_placeholder'        => '商品规格模板...',
-        'form_spec_template_message'            => '请选择商品规格模板',
-        'form_spec_quick_add_title'             => '批量添加规格',
-        'form_spec_quick_generate_title'        => '生成规格',
-        'form_spec_type_title'                  => '规格名',
-        'form_spec_type_message'                => '请填写规格名',
-        'form_spec_value_title'                 => '规格值',
-        'form_spec_value_message'               => '请填写规格值',
-        'form_spec_value_add_title'             => '添加规格值',
-        'form_spec_empty_data_tips'             => '请先添加规格',
-        'form_spec_advanced_batch_setup_title'  => '高级批量设置',
-        'form_spec_list_content_tips'           => '可直接点中规格行拖拽排序或点击上下移动',
-        'form_spec_max_error'                   => '最多添加'.MyC('common_spec_add_max_number', 3, true).'列规格，可在后台管理[系统设置-后台配置]中配置',
-        'form_spec_empty_fill_tips'             => '请先填写规格',
-        'form_spec_images_message'              => '请上传规格图片',
-        'form_spec_min_tips_message'            => '至少需要保留一行规格值',
-        'form_spec_quick_error'                 => '快捷操作规格为空',
-        'form_spec_quick_tips_msg'              => '生成规格将清空现有规格数据、是否继续？',
-        'form_spec_move_type_tips'              => '操作类型配置有误',
-        'form_spec_move_top_tips'               => '已到最顶部',
-        'form_spec_move_bottom_tips'            => '已到最底部',
-        'form_spec_thead_price_title'           => '售价(元)',
-        'form_spec_thead_price_message'         => '请填写有效的销售金额',
-        'form_spec_thead_original_price_title'  => '原价(元)',
-        'form_spec_thead_original_price_message'=> '请填写有效的原价',
-        'form_spec_thead_inventory_title'       => '库存',
-        'form_spec_thead_weight_title'          => '重量(kg)',
-        'form_spec_thead_weight_message'        => '规格重量0~100000000',
-        'form_spec_thead_volume_title'          => '体积(m³)',
-        'form_spec_thead_volume_message'        => '规格体积0~100000000',
-        'form_spec_thead_coding_title'          => '编码',
-        'form_spec_thead_coding_message'        => '规格编码最多60个字符',
-        'form_spec_thead_barcode_title'         => '条形码',
-        'form_spec_thead_barcode_message'       => '条形码最多60个字符',
-        'form_spec_row_add_title'               => '添加一行',
-        'form_spec_images_tips'                 => '规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。',
-        'form_spec_images_title'                => '商品规格图片',
-        'form_spec_images_add_title'            => '添加规格图片',
-        'form_spec_images_add_auto_first'       => '第',
-        'form_spec_images_add_auto_last'        => '列规格自动生成',
-        'form_spec_images_type_title'           => '规格名称',
-        'form_spec_images_type_message'         => '请填写规格名称',
-        'form_spec_images_images_message'       => '请上传规格图片',
-        'form_spec_all_operate_title'           => '批量操作',
-        'form_spec_all_operate_placeholder'     => '批量设置的值',
-        // 参数
-        'form_params_select_title'              => '商品参数模板',
-        'form_params_select_placeholder'        => '商品参数模板...',
-        'form_params_select_message'            => '请选择商品参数模板',
-        'form_params_value_placeholder'         => '粘贴商品参数配置信息',
-        'form_params_config_copy_title'         => '复制配置',
-        'form_params_config_empty_title'        => '清空参数',
-        'form_params_list_content_tips'         => '可直接点中参数行拖拽排序或点击上下移动',
-        // 相册
-        'form_photo_top_tips'                   => '可拖拽图片进行排序，建议图片尺寸一致800*800px、最多30张',
-        'form_photo_button_add_name'            => '上传相册',
-        // 视频
-        'form_video_top_tips'                   => '视频比图文更有具带入感，仅支持 mp4 格式',
-        'form_video_button_add_name'            => '上传视频',
-        // 手机详情
-        'form_app_top_tips'                     => '设置手机详情后、在手机模式下将展示手机详情、比如[小程序、APP]',
-        'form_app_value_title'                  => '文本内容',
-        'form_app_value_message'                => '文本内容最多105000个字符',
-        'form_app_button_add_name'              => '添加手机详情',
-        // 电脑详情
-        'form_web_content_message'              => '电脑端详情内容最多105000个字符',
         // 动态表格
         'form_table'                            => [
             'id'                      => '商品ID',
@@ -806,40 +669,11 @@ return [
     // 商品分类
     'goodscategory'         => [
         'base_nav_title'                        => '商品分类',
-        // 表单
-        'form_item_icon'                        => 'icon图标',
-        'form_item_icon_tips'                   => '建议100*100px',
-        'form_item_big_images'                  => '大图片',
-        'form_item_big_images_tips'             => '建议360*360px',
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~16个字符',
-        'form_item_vice_name'                   => '副名称',
-        'form_item_vice_name_message'           => '副名称最多60个字符',
-        'form_item_describe'                    => '描述',
-        'form_item_describe_message'            => '描述最多200个字符',
-        'form_item_is_home_recommended'         => '首页推荐',
     ],
 
     // 商品评论
     'goodscomments'         => [
         'base_nav_title'                        => '商品评论',
-        // 表单
-        'form_item_goods_info_title'            => '商品信息',
-        'form_item_user_info_title'             => '用户信息',
-        'form_item_business_type'               => '业务类型',
-        'form_item_business_type_placeholder'   => '业务类型...',
-        'form_item_business_type_message'       => '请选择业务类型',
-        'form_item_rating'                      => '评分',
-        'form_item_rating_placeholder'          => '未评分',
-        'form_item_rating_message'              => '请选择评分',
-        'form_item_content'                     => '评论内容',
-        'form_item_content_message'             => '评论内容6~230个字符之间',
-        'form_item_reply'                       => '回复内容',
-        'form_item_reply_message'               => '回复内容最多230个字符',
-        'form_item_reply_time'                  => '回复时间',
-        'form_item_reply_time_message'          => '回复时间格式有误',
-        'form_item_is_reply'                    => '是否已回复',
-        'form_item_is_anonymous'                => '是否匿名',
         // 动态表格
         'form_table'                            => [
             'user'               => '用户信息',
@@ -863,18 +697,6 @@ return [
     // 商品参数模板
     'goodsparamstemplate'   => [
         'detail_params_title'                   => '商品参数',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~30个字符',
-        'form_item_category_id'                 => '商品分类',
-        'form_item_category_id_tips'            => '包含子级',
-        'form_item_category_id_message'         => '请选择商品分类',
-        'form_item_config_title'                => '参数配置',
-        'form_item_config_value_placeholder'    => '粘贴商品参数配置信息',
-        'form_item_config_template_title'       => '商品参数模板',
-        'form_item_config_copy_title'           => '复制配置',
-        'form_item_config_empty_title'          => '复制配置',
-        'form_item_config_list_content_tips'    => '可直接点中参数行拖拽排序或点击上下移动',
         // 动态表格
         'form_table'                            => [
             'category_id'   => '商品分类',
@@ -888,15 +710,6 @@ return [
 
     // 商品规格模板
     'goodsspectemplate'     => [
-        // 表单
-        'form_item_name'                        => '规格名称',
-        'form_item_name_message'                => '规格名称格式1~30个字符',
-        'form_item_category_id'                 => '商品分类',
-        'form_item_category_id_tips'            => '包含子级',
-        'form_item_category_id_message'         => '请选择商品分类',
-        'form_item_content'                     => '规格值',
-        'form_item_content_placeholder'         => '规格值（输入回车可实现多个）',
-        'form_item_content_message'             => '规格值格式1~1000个字符',
         // 动态表格
         'form_table'                            => [
             'category_id'  => '商品分类',
@@ -953,14 +766,6 @@ return [
     // 友情链接
     'link'                  => [
         'base_nav_title'                        => '友情链接',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~16个字符',
-        'form_item_url'                         => '链接地址',
-        'form_item_url_placeholder'             => '链接地址、以http://或https://开头',
-        'form_item_url_message'                 => '链接地址格式有误',
-        'form_item_desc'                        => '描述',
-        'form_item_desc_message'                => '描述最多60个字符',
         // 动态表格
         'form_table'                            => [
             'info'                => '名称',
@@ -989,20 +794,6 @@ return [
             'goods_category'    => '商品分类',
             'design'            => '页面设计',
         ],
-        // 表单
-        'form_item_pid'                         => '导航级别',
-        'form_item_pid_placeholder'             => '一级栏目...',
-        'form_item_pid_message'                 => '请选择导航级别',
-        'form_item_name'                        => '导航名称',
-        'form_item_name_tips'                   => '默认{:type}名称',
-        'form_item_name_message'                => '导航名称格式2~16个字符',
-        'form_item_url'                         => 'url地址',
-        'form_item_url_placeholder'             => 'url地址、以http://或https://开头',
-        'form_item_url_message'                 => 'url地址格式有误',
-        'form_item_value_article_message'       => '文章选择有误',
-        'form_item_value_customview_message'    => '自定义页面选择有误',
-        'form_item_value_goods_category_message'=> '商品分类选择有误',
-        'form_item_value_design_message'        => '页面设计选择有误',
         // 动态表格
         'form_table'                            => [
             'info'                => '导航名称',
@@ -1103,10 +894,6 @@ return [
         'forn_apply_info_number'                => '数量',
         'forn_apply_info_reason'                => '原因',
         'forn_apply_info_msg'                   => '说明',
-        'form_item_refundment'                  => '退款方式',
-        'form_item_refundment_message'          => '请选择退款方式',
-        'form_item_refuse_reason'               => '拒绝原因',
-        'form_item_refuse_reason_message'       => '拒绝原因格式2~230个字符',
         // 动态表格
         'form_table'                            => [
             'goods'              => '基础信息',
@@ -1184,13 +971,6 @@ return [
     // 快递
     'express'               => [
         'base_nav_title'                        => '快递',
-        // 表单
-        'form_item_icon'                        => 'icon图标',
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~16个字符',
-        'form_item_website_url'                 => '官网地址',
-        'form_item_website_url_placeholder'     => '官网地址、以http://或https://开头',
-        'form_item_website_url_message'         => '官网地址格式有误',
     ],
 
     // 主题管理

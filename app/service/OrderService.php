@@ -90,7 +90,7 @@ class OrderService
             if($operate['is_pay'] != 1)
             {
                 $status_text = MyLang('common_order_status')[$order['status']]['name'];
-                return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
+                return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
             // 订单详情
@@ -439,7 +439,7 @@ class OrderService
         if($operate['is_pay'] != 1)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.'-'.$order['order_no'].']', -1);
         }
 
         // 订单支付前校验
@@ -1856,7 +1856,7 @@ class OrderService
         if($operate['is_cancel'] != 1)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
         // 开启事务
@@ -1964,7 +1964,7 @@ class OrderService
             if($operate['is_delivery'] != 1)
             {
                 $status_text = MyLang('common_order_status')[$order['status']]['name'];
-                throw new \Exception('状态不可操作['.$status_text.']');
+                throw new \Exception(MyLang('status_not_can_operate_tips').'['.$status_text.']');
             }
 
             // 订单模式
@@ -2097,7 +2097,7 @@ class OrderService
         if($operate['is_collect'] != 1)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
         // 开启事务
@@ -2205,7 +2205,7 @@ class OrderService
         if($operate['is_confirm'] != 1)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
         // 开启事务
@@ -2310,7 +2310,7 @@ class OrderService
         if($operate['is_delete'] != 1)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
         // 启动事务

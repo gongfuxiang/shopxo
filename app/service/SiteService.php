@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 站点设置服务层
@@ -102,7 +103,7 @@ class SiteService
         // 分类id
         if(!empty($params['category_id']))
         {
-            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
+            $category_ids = GoodsCategoryService::GoodsCategoryItemsIds([$params['category_id']], 1);
             $category_ids[] = $params['category_id'];
             $where[] = ['gci.category_id', 'in', $category_ids];
         }

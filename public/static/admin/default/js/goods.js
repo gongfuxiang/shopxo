@@ -771,7 +771,7 @@ $(function()
                         var html = '';
                         for(var i in result.data.params)
                         {
-                            html += '<option value="'+encodeURIComponent(JSON.stringify(result.data.params[i]['config_data']))+'" data-origin-name="'+result.data.spec[i]['name']+'">'+result.data.params[i]['name']+'</option>';
+                            html += '<option value="'+encodeURIComponent(JSON.stringify(result.data.params[i]['config_data']))+'" data-origin-name="'+result.data.params[i]['name']+'">'+result.data.params[i]['name']+'</option>';
                         }
                         $params_quick.find('select').append(html);
                     }

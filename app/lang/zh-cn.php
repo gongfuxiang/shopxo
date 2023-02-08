@@ -151,6 +151,8 @@ return [
     'bind_success'                                          => '绑定成功',
     'submit_fail'                                           => '提交失败',
     'submit_success'                                        => '提交成功',
+    'booking_fail'                                          => '预约失败',
+    'booking_success'                                       => '预约成功',
     'config_fail'                                           => '配置失败',
     'config_success'                                        => '配置成功',
     'check_fail'                                            => '校验失败',
@@ -163,12 +165,21 @@ return [
     'confirm_success'                                       => '确认成功',
     'register_fail'                                         => '注册失败',
     'register_success'                                      => '注册成功',
-    'login_fails'                                           => '登录失败',
+    'login_fail'                                            => '登录失败',
     'login_success'                                         => '登录成功',
+    'comments_fail'                                         => '评论失败',
+    'comments_success'                                      => '评论成功',
+    'favor_fail'                                            => '收藏失败',
+    'favor_success'                                         => '收藏成功',
+    'refund_fail'                                           => '退款失败',
+    'refund_success'                                        => '退款成功',
+    'refuse_fail'                                           => '拒绝失败',
+    'refuse_success'                                        => '拒绝成功',
     'quit_success'                                          => '退出成功',
     'no_data'                                               => '没有相关数据',
     'no_goods'                                              => '没有相关商品',
     'params_error_tips'                                     => '参数错误',
+    'params_empty_tips'                                     => '参数为空',
     'content_params_empty_tips'                             => '内容参数为空',
     'illegal_access_tips'                                   => '非法访问',
     'illegal_operate_tips'                                  => '非法操作',
@@ -208,6 +219,8 @@ return [
     'gods_info_abnormal_tips'                               => '商品信息异常',
     'order_id_error_tips'                                   => '订单id有误',
     'order_info_incorrect_tips'                             => '订单信息有误',
+    'order_detail_id_error_tips'                            => '订单id有误',
+    'order_detail_info_incorrect_tips'                      => '订单信息有误',
     'data_id_error_tips'                                    => '数据id有误',
     'back_prev_page_name'                                   => '返回上一页',
     'back_prev_time_auto_text'                              => '秒自动返回',
@@ -215,6 +228,11 @@ return [
     'payment_method_error_tips'                             => '支付方式有误',
     'operate_field_error_tips'                              => '操作字段有误',
     'project_copy_fail_tips'                                => '项目包复制失败',
+    'operate_type_error_tips'                               => '操作类型有误',
+    'data_type_error_tips'                                  => '数据类型有误',
+    'status_not_can_operate_tips'                           => '状态不可操作',
+    'order_status_not_can_operate_tips'                     => '订单状态不可操作',
+    'data_status_not_can_operate_tips'                      => '数据状态不可操作',
     // 商店
     'store_bind_account_name'                               => '绑定ShopXO商店账户',
     'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
@@ -257,6 +275,7 @@ return [
     'generate_title'                                        => '生成',
     'add_title'                                             => '新增',
     'submit_title'                                          => '提交',
+    'booking_title'                                         => '预约',
     'detail_title'                                          => '详情',
     'base_title'                                            => '基础',
     'view_title'                                            => '查看',
@@ -282,6 +301,7 @@ return [
     'comment_title'                                         => '评价',
     'default_title'                                         => '默认',
     'setup_default_title'                                   => '设为默认',
+    'only_title'                                            => '仅',
     'strip_title'                                           => '条',
     'level_title'                                           => '级',
     'day_title'                                             => '天',
@@ -388,8 +408,11 @@ return [
     'goods_show_title'                                      => '立即咨询',
     'goods_cart_title'                                      => '加入购物车',
     'goods_no_inventory_title'                              => '没货了',
+    'goods_already_nullify_title'                           => '已作废',
+    'goods_already_invalid_title'                           => '已失效',
     'goods_already_shelves_title'                           => '已下架',
     'goods_only_show_title'                                 => '仅展示',
+    'goods_only_buy_title'                                  => '仅单买',
     'goods_sales_price_title'                               => '售价',
     'goods_original_price_title'                            => '原价',
     'goods_main_title'                                      => '商品',
@@ -545,16 +568,7 @@ return [
     'uninstall_confirm_tips'                                => '卸载后不可恢复、确认继续吗？',
     'collect_confirm_tips'                                  => '确认已收到货物、操作后不可恢复！',
     'save_close_page_confirm_tips'                          => '请确认数据是否保存、继续关闭本页吗？',
-    // 右侧导航
-    'header_top_nav_right'                                  => [
-        'user_center'           => '个人中心',
-        'user_shop'             => '我的商城',
-        'user_order'            => '我的订单',
-        'favor'                 => '我的收藏',
-        'goods_favor'           => '商品收藏',
-        'cart'                  => '购物车',
-        'message'               => '消息',
-    ],
+    
     // 订单状态进度
     'order_status_setp_data'                                => [
         'add'                   => '拍下商品',
@@ -565,53 +579,12 @@ return [
         'collect'               => '确认收货',
         'comments'              => '评价',
     ],
-    // 订单售后进度
-    'orderaftersale_step_data'                              => [
-        // 仅退款
-        0 => [
-            'add'               => '申请仅退款',
-            'audit'             => '管理员审核',
-            'success'           => '退款完毕',
-        ],
-        // 退款退货
-        1 => [
-            'add'               => '申请退货退款',
-            'confirm'           => '管理员确认',
-            'delivery'          => '用户退货',
-            'audit'             => '管理员审核',
-            'success'           => '退款完毕',
-        ],
-    ],
     // 订单售后
     'orderaftersale_create_title_data'                      => [
         'default'               => '退款/退货',
         'collect'               => '申请售后',
         'step'                  => '查看进度',
         'success'               => '查看退款',
-    ],
-    // 安全设置页面
-    'safety_panel_list'                                     => [
-        'loginpwd'              => [
-            'title'         => '登录密码',
-            'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
-        ],
-        'mobile'                => [
-            'title'         => '手机号码',
-            'no_msg'        => '您还没有绑定手机号码',
-            'ok_msg'        => '已绑定手机 #accounts#',
-            'tips'          => '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
-        ],
-        'email'                 => [
-            'title'         => '电子邮箱',
-            'no_msg'        => '您还没有绑定电子邮箱',
-            'ok_msg'        => '已绑定邮箱 #accounts#',
-            'tips'          => '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
-        ],
-        'logout'            => [
-            'title'         => '账号注销',
-            'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
-            'submit_text'   =>  '注销',
-        ],
     ],
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
@@ -649,38 +622,6 @@ return [
                 '2. 例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843',
             ]
         ]
-    ],
-    // 手机模式下底部导航
-    'bottom_navigation_data'            => [
-        'home'              => '首页',
-        'category'          => '分类',
-        'cart'              => '购物车',
-        'user'              => '我的',
-    ],
-    // 用户中心左侧菜单
-    'user_center_left_list'             => [
-        'center'            => '个人中心',
-        'business'          => '业务管理',
-        'order'             => '订单管理',
-        'orderaftersale'    => '订单售后',
-        'goodsfavor'        => '商品收藏',
-        'property'          => '财产中心',
-        'integral'          => '我的积分',
-        'base'              => '资料管理',
-        'personal'          => '个人资料',
-        'address'           => '我的地址',
-        'safety'            => '安全设置',
-        'message'           => '我的消息',
-        'goodsbrowse'       => '我的足迹',
-        'answer'            => '问答/留言',
-        'logout'            => '安全退出',
-    ],
-    // 用户中心基础信息中mini导航
-    'user_center_mini_navigation_data'  => [
-        'order'         => '订单总数',
-        'goodsfavor'    => '商品收藏',
-        'goodsbrowse'   => '我的足迹',
-        'integral'      => '我的积分',
     ],
     // 订单状态总数导航
     'order_status_step_total_list'      =>  [
@@ -1216,6 +1157,581 @@ return [
             // 表单
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称长度2~16个字符',
+        ],
+        // 订单确认
+        'buy'               => [
+            'buy_goods_data_error_tips'             => '购买商品有误',
+            'cart_id_error_tips'                    => '购物车id有误',
+            'goods_no_exist_tips'                   => '商品不存在',
+            'goods_already_shelves_tips'            => '商品已下架',
+            'goods_inventory_not_enough_tips'       => '商品库存不足',
+            'goods_spec_inventory_not_enough_tips'  => '商品规格库存不足',
+            'goods_buy_min_error_tips'              => '低于商品起购数量',
+            'goods_buy_max_error_tips'              => '超过商品限购数量',
+            'goods_buy_exceed_inventory_tips'       => '购买数量超过商品库存数量',
+            'goods_inventory_dec_fail_tips'         => '商品库存扣减失败',
+            'goods_spec_inventory_dec_fail_tips'    => '规格库存扣减失败',
+            'exhibition_not_allow_submit_tips'      => '展示型不允许提交订单',
+            'choice_not_address_tips'               => '请选择地址',
+            'address_empty_tips'                    => '地址有误',
+            'order_insert_fail_tips'                => '订单添加失败',
+            'order_detail_insert_fail_tips'         => '订单详情添加失败',
+            'order_take_insert_fail_tips'           => '订单取货码添加失败',
+            'order_fictitious_insert_fail_tips'     => '订单虚拟信息添加失败',
+            'order_address_insert_fail_tips'        => '订单地址添加失败',
+            'order_data_error_tips'                 => '订单数据有误',
+            'order_detail_data_error_tips'          => '订单详情数据有误',
+            'order_inventory_dec_type_error_tips'   => '订单操作类型有误',
+            'inventory_dec_not_enable_tips'         => '未开启扣除库存',
+            'inventory_dec_not_confirm_tips'        => '当前订单状态未操作确认-不扣除库存',
+            'inventory_dec_not_pay_tips'            => '当前订单状态未操作支付-不扣除库存',
+            'inventory_dec_not_delivery_tips'       => '当前订单状态未操作发货-不扣除库存',
+            'inventory_dec_log_insert_fail_tips'    => '库存扣减日志添加失败',
+            'inventory_dec_no_data_tips'            => '没有需要扣除库存的数据',
+            'inventory_revert_not_allow_tips'       => '当前订单状态不允许回滚库存',
+            'inventory_revert_goods_fail_tips'      => '商品库存回滚失败',
+            'inventory_revert_goods_spec_fail_tips' => '规格库存回滚失败',
+            'inventory_revert_log_fail_tips'        => '库存回滚日志更新失败',
+            'inventory_revert_no_data_tips'         => '没有需要回滚的数据',
+        ],
+        // 配置信息
+        'config'            => [
+            'route_dir_no_power_tips'               => '路由目录没有操作权限',
+            'route_file_no_power_tips'              => '路由配置文件没有操作权限',
+            'route_file_config_no_exist_tips'       => '路由规则文件不存在',
+            'route_file_create_fail_tips'           => '路由规则文件生成失败',
+            'route_file_handle_fail_tips'           => '路由规则处理失败',
+        ],
+        // 定时任务
+        'crontab'           => [
+            // 订单关闭用户消息通知
+            'order_close_message'                   => [
+                'title'  => '订单关闭',
+                'desc'   => '订单超时关闭',
+                'type'   => '订单',
+            ],
+            // 订单关闭状态历史记录
+            'order_close_status_history'            => [
+                'desc'   => '超时关闭',
+                'type'   => '系统',
+            ],
+            // 订单收货用户消息通知
+            'order_collect_message'                 => [
+                'title'  => '订单收货',
+                'desc'   => '订单自动收货成功',
+                'type'   => '订单',
+            ],
+            // 订单收货状态历史记录
+            'order_collect_status_history'          => [
+                'desc'   => '自动收货',
+                'type'   => '系统',
+            ],
+            // 商品积分赠送
+            'goods_give_integral'   => [
+                'user_lock_integral_dec_fail'       => '用户锁定积分扣减失败',
+                'user_valid_integral_inc_fail'      => '用户有效积分增加失败',
+                'integral_log_desc'                 => '订单商品赠送',
+            ],
+        ],
+        // 自定义页面
+        'customview'        => [
+            // 表单
+            'form_item_title'                       => '名称',
+            'form_item_title_message'               => '名称长度2~60个字符',
+            'form_item_content_title'               => '内容',
+            'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
+            'form_item_content_message'             => '内容格式10~105000个字符之间',
+        ],
+        // 页面设计
+        'design'            => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_logo_tips'                        => '建议大小300*300px',
+            // 基础
+            'create_name_default'                   => '默认页面',
+            'download_config_file_create_fail_tips' => '配置文件生成失败',
+            'upload_dis_no_power_tips'              => '应用upload目录没有操作权限',
+            'upload_config_file_get_fail_tips'      => '配置信息读取失败',
+            'upload_config_file_error_tips'         => '配置信息为空或有误',
+            'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
+            'upload_invalid_packet_tips'            => '无效数据包',
+        ],
+        // 域名服务
+        'domain'            => [
+            // 表单
+            'form_item_inc_domain_message'          => '增加域名数据必须为数组',
+            'form_item_dec_domain_message'          => '移除域名数据必须为数组',
+            'save_inc_and_dec_empty_message'        => '增加或移除域名必须传递一项',
+            'save_config_file_no_power_tips'        => '配置文件没写权限',
+            'save_config_dir_no_power_tips'         => '配置目录没写权限',
+            'save_deploy_fail_tips'                 => '域名配置部署失败',
+        ],
+        // 快递
+        'express'           => [
+            // 表单
+            'form_item_icon'                        => 'icon图标',
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_website_url'                 => '官网地址',
+            'form_item_website_url_placeholder'     => '官网地址、以http://或https://开头',
+            'form_item_website_url_message'         => '官网地址格式有误',
+        ],
+        // 动态表单自定义列
+        'formtable'         => [
+            'save_data_key_empty_tips'              => '数据key有误',
+            'save_fields_empty_tips'                => '请选择字段',
+        ],
+        // 商品购物车
+        'goodscart'         => [
+            'save_stock_empty_tips'                 => '购买数量有误',
+            'save_stock_update_data_empty_tips'     => '请先加入购物车',
+        ],
+        // 商品评论
+        'goodscomments'     => [
+            // 表单
+            'form_item_goods_info_title'            => '商品信息',
+            'form_item_user_info_title'             => '用户信息',
+            'form_item_business_type'               => '业务类型',
+            'form_item_business_type_placeholder'   => '业务类型...',
+            'form_item_business_type_message'       => '业务类型有误',
+            'form_item_rating'                      => '评分',
+            'form_item_rating_placeholder'          => '未评分',
+            'form_item_rating_message'              => '评分有误',
+            'form_item_content'                     => '评论内容',
+            'form_item_content_placeholder'         => '宝贝满足你的期待吗？说说它的优点和美中不足的地方吧',
+            'form_item_content_message'             => '评论内容6~230个字符之间',
+            'form_item_reply'                       => '回复内容',
+            'form_item_reply_message'               => '回复内容最多230个字符',
+            'form_item_reply_content_message'       => '回复内容1~230个字符之间',
+            'form_item_reply_time'                  => '回复时间',
+            'form_item_reply_time_message'          => '回复时间格式有误',
+            'form_item_is_reply'                    => '是否已回复',
+            'form_item_is_anonymous'                => '是否匿名',
+            'form_item_images_message'              => '最多上传3张图片',
+            'form_item_anonymous_tips'              => '开启后你写的评论会以匿名的形式展现',
+            // 保存
+            'save_rating_empty_tips'                => '评级不能为空',
+            'save_content_empty_tips'               => '评论内容不能为空',
+            'save_order_already_comments_tips'      => '该订单你已进行过评论',
+            'save_comments_add_fail_tips'           => '评论内容添加失败',
+            'save_order_comments_update_tail_tips'  => '订单更新失败',
+            // 基础
+            'comments_username_default'             => '匿名',
+        ],
+        // 商品参数模板
+        'goodsparamstemplate'   => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~30个字符',
+            'form_item_category_id'                 => '商品分类',
+            'form_item_category_id_tips'            => '包含子级',
+            'form_item_category_id_message'         => '请选择商品分类',
+            'form_item_config_title'                => '参数配置',
+            'form_item_config_value_placeholder'    => '粘贴商品参数配置信息',
+            'form_item_config_template_title'       => '商品参数模板',
+            'form_item_config_copy_title'           => '复制配置',
+            'form_item_config_empty_title'          => '复制配置',
+            'form_item_config_list_content_tips'    => '可直接点中参数行拖拽排序或点击上下移动',
+            // 保存
+            'save_params_data_empty_tips'           => '请填写参数配置',
+            'save_params_data_insert_fail_tips'     => '参数数据添加失败',
+            // 删除
+            'delete_params_template_fail_tips'      => '模板删除失败',
+            'delete_params_data_fail_tips'          => '参数数据删除失败',
+        ],
+        // 商品规格模板
+        'goodsspectemplate'     => [
+            // 表单
+            'form_item_name'                        => '规格名称',
+            'form_item_name_message'                => '规格名称格式1~30个字符',
+            'form_item_category_id'                 => '商品分类',
+            'form_item_category_id_tips'            => '包含子级',
+            'form_item_category_id_message'         => '请选择商品分类',
+            'form_item_content'                     => '规格值',
+            'form_item_content_placeholder'         => '规格值（输入回车可实现多个）',
+            'form_item_content_message'             => '规格值格式1~1000个字符',
+            // 保存
+            'save_content_empty_tips'               => '请填写规格值',
+        ],
+        // 商品
+        'goods'                 => [
+            // 表单
+            'form_item_title'                       => '商品名称',
+            'form_item_title_message'               => '商品名称格式2~160个字符',
+            'form_item_category_id'                 => '商品分类',
+            'form_item_category_id_message'         => '请至少选择一个商品分类',
+            'form_item_simple_desc'                 => '商品简述',
+            'form_item_simple_desc_message'         => '商品简述格式最多230个字符',
+            'form_item_model'                       => '商品型号',
+            'form_item_model_message'               => '商品型号格式最多30个字符',
+            'form_item_brand'                       => '品牌',
+            'form_item_brand_message'               => '请选择品牌',
+            'form_item_place_origin'                => '生产地',
+            'form_item_place_origin_message'        => '请选择生产地',
+            'form_item_inventory_unit'              => '库存单位',
+            'form_item_inventory_unit_message'      => '库存单位格式1~6个字符',
+            'form_item_give_integral'               => '购买赠送积分比例',
+            'form_item_give_integral_tips'          => [
+                '1. 按照商品金额比例乘以数量的比例进行发放',
+                '2. 订单完成自动将发放到用户锁定积分',
+                '3. 站点设置->扩展中脚本处理发放积分',
+            ],
+            'form_item_give_integral_placeholder'   => '购买赠送积分',
+            'form_item_give_integral_message'       => '购买赠送积分比例0~100的数字',
+            'form_item_buy_min_number'              => '最低起购数量',
+            'form_item_buy_min_number_message'      => '最低起购数量1~100000000范围',
+            'form_item_buy_max_number'              => '单次最大购买数量',
+            'form_item_buy_max_number_tips'         => [
+                '1. 单次最大数值100000000',
+                '2. 小于等于0或空则不限',
+            ],
+            'form_item_buy_max_number_message'      => '单次最大购买数量 1~100000000范围',
+            'form_item_site_type'                   => '商品类型',
+            'form_item_site_type_tips'              => [
+                '1. 当前系统配置的站点类型为( 站点类型 )',
+                '2. 如果商品类型未配置则跟随系统配置的站点类型',
+                '3. 当设置的商品类型不在系统设置的站点类型包含的时候，商品加入购物车功能将失效',
+            ],
+            'form_item_site_type_message'           => '请选择商品类型',
+            'form_item_images'                      => '封面图片',
+            'form_item_images_tips'                 => '留空则取相册第一张图、建议800*800px',
+            'form_item_is_deduction_inventory'      => '扣减库存',
+            'form_item_is_deduction_inventory_tips' => '扣除规则根据后台配置->扣除库存规则而定',
+            'form_item_is_shelves'                  => '上下架',
+            'form_item_is_shelves_tips'             => '下架后用户不可见',
+            'form_item_extends_popup_title'         => '规格扩展数据',
+            // 规格
+            'form_spec_top_list_tips'               => [
+                '1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。',
+                '2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率',
+                '3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存',
+            ],
+            'form_spec_template_tips'               => '规格模板数据有误',
+            'form_spec_template_name_exist_tips'    => '相同规格名称已经存在',
+            'form_spec_template_placeholder'        => '商品规格模板...',
+            'form_spec_template_message'            => '请选择商品规格模板',
+            'form_spec_quick_add_title'             => '批量添加规格',
+            'form_spec_quick_generate_title'        => '生成规格',
+            'form_spec_type_title'                  => '规格名',
+            'form_spec_type_message'                => '请填写规格名',
+            'form_spec_value_title'                 => '规格值',
+            'form_spec_value_message'               => '请填写规格值',
+            'form_spec_value_add_title'             => '添加规格值',
+            'form_spec_empty_data_tips'             => '请先添加规格',
+            'form_spec_advanced_batch_setup_title'  => '高级批量设置',
+            'form_spec_list_content_tips'           => '可直接点中规格行拖拽排序或点击上下移动',
+            'form_spec_max_error'                   => '最多添加'.MyC('common_spec_add_max_number', 3, true).'列规格，可在后台管理[系统设置-后台配置]中配置',
+            'form_spec_empty_fill_tips'             => '请先填写规格',
+            'form_spec_images_message'              => '请上传规格图片',
+            'form_spec_min_tips_message'            => '至少需要保留一行规格值',
+            'form_spec_quick_error'                 => '快捷操作规格为空',
+            'form_spec_quick_tips_msg'              => '生成规格将清空现有规格数据、是否继续？',
+            'form_spec_move_type_tips'              => '操作类型配置有误',
+            'form_spec_move_top_tips'               => '已到最顶部',
+            'form_spec_move_bottom_tips'            => '已到最底部',
+            'form_spec_thead_price_title'           => '售价(元)',
+            'form_spec_thead_price_message'         => '请填写有效的销售金额',
+            'form_spec_thead_original_price_title'  => '原价(元)',
+            'form_spec_thead_original_price_message'=> '请填写有效的原价',
+            'form_spec_thead_inventory_title'       => '库存',
+            'form_spec_thead_weight_title'          => '重量(kg)',
+            'form_spec_thead_weight_message'        => '规格重量0~100000000',
+            'form_spec_thead_volume_title'          => '体积(m³)',
+            'form_spec_thead_volume_message'        => '规格体积0~100000000',
+            'form_spec_thead_coding_title'          => '编码',
+            'form_spec_thead_coding_message'        => '规格编码最多60个字符',
+            'form_spec_thead_barcode_title'         => '条形码',
+            'form_spec_thead_barcode_message'       => '条形码最多60个字符',
+            'form_spec_row_add_title'               => '添加一行',
+            'form_spec_images_tips'                 => '规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。',
+            'form_spec_images_title'                => '商品规格图片',
+            'form_spec_images_add_title'            => '添加规格图片',
+            'form_spec_images_add_auto_first'       => '第',
+            'form_spec_images_add_auto_last'        => '列规格自动生成',
+            'form_spec_images_type_title'           => '规格名称',
+            'form_spec_images_type_message'         => '请填写规格名称',
+            'form_spec_images_images_message'       => '请上传规格图片',
+            'form_spec_all_operate_title'           => '批量操作',
+            'form_spec_all_operate_placeholder'     => '批量设置的值',
+            // 参数
+            'form_params_select_title'              => '商品参数模板',
+            'form_params_select_placeholder'        => '商品参数模板...',
+            'form_params_select_message'            => '请选择商品参数模板',
+            'form_params_value_placeholder'         => '粘贴商品参数配置信息',
+            'form_params_config_copy_title'         => '复制配置',
+            'form_params_config_empty_title'        => '清空参数',
+            'form_params_list_content_tips'         => '可直接点中参数行拖拽排序或点击上下移动',
+            // 相册
+            'form_photo_top_tips'                   => '可拖拽图片进行排序，建议图片尺寸一致800*800px、最多30张',
+            'form_photo_button_add_name'            => '上传相册',
+            // 视频
+            'form_video_top_tips'                   => '视频比图文更有具带入感，仅支持 mp4 格式',
+            'form_video_button_add_name'            => '上传视频',
+            // 手机详情
+            'form_app_top_tips'                     => '设置手机详情后、在手机模式下将展示手机详情、比如[小程序、APP]',
+            'form_app_value_title'                  => '文本内容',
+            'form_app_value_message'                => '文本内容最多105000个字符',
+            'form_app_button_add_name'              => '添加手机详情',
+            // 电脑详情
+            'form_web_content_message'              => '电脑端详情内容最多105000个字符',
+            // 保存
+            'save_site_type_error_tips'             => '商品类型数据值范围有误',
+            'save_params_add_fail_tips'             => '商品参数添加失败',
+            'save_spec_type_add_fail_tips'          => '规格类型添加失败',
+            'save_spec_base_add_fail_tips'          => '规格基础添加失败',
+            'save_spec_value_add_fail_tips'         => '规格值添加失败',
+            'save_category_add_fail_tips'           => '商品分类添加失败',
+            'save_photo_add_fail_tips'              => '相册添加失败',
+            'save_app_content_add_fail_tips'        => '手机详情添加失败',
+            'save_goods_base_empty_tips'            => '没找到商品基础信息',
+            'save_goods_base_update_fail_tips'      => '商品基础更新失败',
+            'save_spec_column_repeat_tips'          => '规格值列之间不能重复',
+            'save_spec_value_repeat_tips'           => '规格值不能重复',
+            'save_spec_name_column_repeat_tips'     => '规格名称列之间不能重复',
+            'save_spec_base_price_error_tips'       => '请填写有效的规格销售价格',
+            'save_spec_empty_tips'                  => '请填写规格',
+            'save_photo_empty_tips'                 => '请上传相册',
+            // 删除
+            'delete_goods_fail_tips'                => '商品删除失败',
+            'delete_spec_type_fail_tips'            => '规格类型删除失败',
+            'delete_spec_value_fail_tips'           => '规格值删除失败',
+            'delete_spec_base_fail_tips'            => '规格基础删除失败',
+            'delete_goods_photo_fail_tips'          => '相册删除失败',
+            'delete_app_content_fail_tips'          => '手机端内容删除失败',
+            'delete_params_fail_tips'               => '参数删除失败',
+            'delete_warehouse_goods_fail_tips'      => '仓库商品删除失败',
+            'delete_warehouse_goods_spec_fail_tips' => '仓库商品库存删除失败',
+            // 基础
+            'base_spec_not_choice_tips'             => '请选择规格',
+            'base_spec_empty_tips'                  => '没有相关规格',
+            'base_spec_type_empty_tips'             => '没有相关规格类型',
+            'base_buy_stock_error_tips'             => '购买数量有误',
+        ],
+        // 商品分类
+        'goodscategory'         => [
+            // 表单
+            'form_item_icon'                        => 'icon图标',
+            'form_item_icon_tips'                   => '建议100*100px',
+            'form_item_big_images'                  => '大图片',
+            'form_item_big_images_tips'             => '建议360*360px',
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_vice_name'                   => '副名称',
+            'form_item_vice_name_message'           => '副名称最多60个字符',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述最多200个字符',
+            'form_item_is_home_recommended'         => '首页推荐',
+            // 保存
+            'save_current_parent_identical_tips'    => '父级不能与当前相同',
+        ],
+        // 积分
+        'integral'              => [
+            'add_message_data'                      => [
+                'title'  => '积分',
+                'desc'   => '积分变动',
+            ],
+            'order_empty_exit_tips'                 => '订单不存在或已删除，终止操作',
+            'order_status_not_allow_exit_tips'      => '当前订单状态不允许操作，未完成',
+            'user_empty_exit_tips'                  => '用户不存在或已删除，终止操作',
+            'integral_give_fail_tips'               => '用户积分赠送失败',
+            'integral_give_log_add_fail_tips'       => '用户积分赠送日志添加失败',
+            'integral_no_operate_data_tips'         => '没有需要操作的数据',
+            'order_not_success_exit_tips'           => '订单状态有误或未存在完成状态，终止操作',
+            'order_detail_empty_exit_tips'          => '订单详情不存在或已删除，终止操作',
+            'integral_data_empty_exit_tips'         => '无待发放日志，终止操作',
+            'lock_integral_dec_fail_tips'           => '用户锁定积分扣减失败',
+            'integral_log_dec_fail_tips'            => '日志积分扣减失败',
+            'integral_log_close_fail_tips'          => '日志积分关闭失败',
+        ],
+        // 布局
+        'layout'                => [
+            'key_error_tips'                        => '布局key值有误',
+        ],
+        // 友情链接
+        'link'                  => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_url'                         => '链接地址',
+            'form_item_url_placeholder'             => '链接地址、以http://或https://开头',
+            'form_item_url_message'                 => '链接地址格式有误',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述最多60个字符',
+        ],
+        // 消息
+        'message'               => [
+            'save_business_type_default'            => '默认',
+        ],
+        // 导航
+        'navigation'            => [
+            // 表单
+            'form_item_pid'                         => '导航级别',
+            'form_item_pid_placeholder'             => '一级栏目...',
+            'form_item_pid_message'                 => '请选择导航级别',
+            'form_item_name'                        => '导航名称',
+            'form_item_name_tips'                   => '默认{:type}名称',
+            'form_item_name_message'                => '导航名称格式2~16个字符',
+            'form_item_url'                         => 'url地址',
+            'form_item_url_placeholder'             => 'url地址、以http://或https://开头',
+            'form_item_url_message'                 => 'url地址格式有误',
+            'form_item_value_article_message'       => '文章选择有误',
+            'form_item_value_customview_message'    => '自定义页面选择有误',
+            'form_item_value_goods_category_message'=> '商品分类选择有误',
+            'form_item_value_design_message'        => '页面设计选择有误',
+            // 右侧导航
+            'header_top_nav_right'                  => [
+                'user_center'           => '个人中心',
+                'user_shop'             => '我的商城',
+                'user_order'            => '我的订单',
+                'favor'                 => '我的收藏',
+                'goods_favor'           => '商品收藏',
+                'cart'                  => '购物车',
+                'message'               => '消息',
+            ],
+            // 手机模式下底部导航
+            'bottom_navigation_data'                => [
+                'home'              => '首页',
+                'category'          => '分类',
+                'cart'              => '购物车',
+                'user'              => '我的',
+            ],
+            // 安全设置页面
+            'safety_panel_list'                     => [
+                'loginpwd'              => [
+                    'title'         => '登录密码',
+                    'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
+                ],
+                'mobile'                => [
+                    'title'         => '手机号码',
+                    'no_msg'        => '您还没有绑定手机号码',
+                    'ok_msg'        => '已绑定手机 #accounts#',
+                    'tips'          => '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
+                ],
+                'email'                 => [
+                    'title'         => '电子邮箱',
+                    'no_msg'        => '您还没有绑定电子邮箱',
+                    'ok_msg'        => '已绑定邮箱 #accounts#',
+                    'tips'          => '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
+                ],
+                'logout'            => [
+                    'title'         => '账号注销',
+                    'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
+                    'submit_text'   =>  '注销',
+                ],
+            ],
+            // 用户中心左侧菜单
+            'user_center_left_list'                 => [
+                'center'            => '个人中心',
+                'business'          => '业务管理',
+                'order'             => '订单管理',
+                'orderaftersale'    => '订单售后',
+                'goodsfavor'        => '商品收藏',
+                'property'          => '财产中心',
+                'integral'          => '我的积分',
+                'base'              => '资料管理',
+                'personal'          => '个人资料',
+                'address'           => '我的地址',
+                'safety'            => '安全设置',
+                'message'           => '我的消息',
+                'goodsbrowse'       => '我的足迹',
+                'answer'            => '问答/留言',
+                'logout'            => '安全退出',
+            ],
+            // 用户中心基础信息中mini导航
+            'user_center_mini_navigation_data'      => [
+                'order'         => '订单总数',
+                'goodsfavor'    => '商品收藏',
+                'goodsbrowse'   => '我的足迹',
+                'integral'      => '我的积分',
+            ],
+        ],
+        // 订单售后
+        'orderaftersale'        => [
+            // 表单
+            'form_item_reason'                      => '退款原因',
+            'form_item_reason_placeholder'          => '退款原因...',
+            'form_item_reason_message'              => '请选择退款原因',
+            'form_item_number'                      => '商品件数',
+            'form_item_number_message'              => '请填写有效的商品件数，最小1、最大{:max}',
+            'form_item_price'                       => '退款金额',
+            'form_item_price_message'               => '请输入有效的退款金额，最高{:price}元',
+            'form_item_msg'                         => '退款说明',
+            'form_item_msg_message'                 => '退款说明最多200个字符',
+            'form_item_images'                      => '上传凭证',
+            'form_item_images_tips'                 => '凭证最多上传3张图片',
+            'form_item_express_name'                => '快递名称',
+            'form_item_express_name_message'        => '快递名称格式1~60个字符之间',
+            'form_item_express_number'              => '快递名称',
+            'form_item_express_number_message'      => '快递单号格式1~60个字符之间',
+            // 审核表单
+            'form_item_refundment'                  => '退款方式',
+            'form_item_refundment_message'          => '退款方式选择有误',
+            'form_item_refuse_reason'               => '拒绝原因',
+            'form_item_refuse_reason_message'       => '拒绝原因格式2~230个字符',
+            // 保存
+            'save_price_format_tips'                => '退款金额格式有误',
+            'save_reason_error_tips'                => '退款原因最多180个字符',
+            // 基础
+            'order_aftersale_overdue_tips'          => '订单已过售后期，请联系客服处理',
+            'order_aftersale_have_in_hand_tips'     => '订单售后正在进行中，请勿重复申请',
+            'refund_amount_max_order_price_tips'    => '退款金额大于订单支付金额[ 历史退款{:history_price}元, 订单金额{:order_price}元 ]',
+            'return_quantity_max_order_number_tips' => '退货数量大于购买数量[ 历史退货数量{:history_number}, 订单商品数量{:buy_number} ]',
+            'refund_only_not_can_return_goods_tips' => '该售后订单为仅退款，不能操作退货操作',
+            'status_not_can_operate_tips'           => '该售后订单状态不可操作',
+            'pay_log_empty_tips'                    => '支付日志不存在，请使用手动处理方式',
+            'under_line_not_tetrace_tips'           => '线下支付方式不能原路退回',
+            'payment_plugins_not_refund_tips'       => '支付插件没退款功能',
+            'payment_plugins_no_exist_tips'         => '支付插件不存在',
+            'no_wallet_payment_plugins_tips'        => '请先安装钱包插件',
+            'order_update_fail_tips'                => '主订单更新失败',
+            'order_detail_update_fail_tips'         => '订单详情更新失败',
+            'goods_sales_count_release_fail_tips'   => '商品销量释放失败',
+            'refund_message_business_type_name'     => '订单售后',
+            'refund_user_message_title'             => '订单退款',
+            'order_aftersale_update_fail_tips'      => '售后订单更新失败',
+            'pay_log_trade_empty_tips'              => '平台单号为空，请确认支付日志是否存在',
+            'pay_log_refund_reason'                 => '{:order_no}订单退款{:price}元',
+            'payment_plugins_tetrace_fail_tips'     => '支付插件退款处理有误',
+            'wallet_update_fail_tips'               => '钱包更新失败',
+            'wallet_log_insert_fail_tips'           => '钱包日志添加失败',
+            'wallet_log_refund_user_message_title'  => '账户余额变动',
+            // 商品退货地址
+            'return_goods_address_data'             => [
+                'name'     => '收件人',
+                'tel'      => '电话',
+                'address'  => '地址',
+            ],
+            // 订单售后进度
+            'orderaftersale_step_data'              => [
+                // 仅退款
+                0 => [
+                    'add'               => '申请仅退款',
+                    'audit'             => '管理员审核',
+                    'success'           => '退款完毕',
+                ],
+                // 退款退货
+                1 => [
+                    'add'               => '申请退货退款',
+                    'confirm'           => '管理员确认',
+                    'delivery'          => '用户退货',
+                    'audit'             => '管理员审核',
+                    'success'           => '退款完毕',
+                ],
+            ],
+            // 售后环节提示信息
+            'orderaftersale_step_tips_msg'          => [
+                0 => '订单售后已提交申请，等待管理员确认中！',
+                1 => '订单售后，管理员已确认，请尽快完成退货！',
+                2 => '订单售后已退货，等待管理员审核中！',
+                3 => '订单售后已处理结束！',
+                4 => '订单售后申请已被拒绝！',
+                5 => '订单售后申请已关闭！',
+            ], 
+        ],
+        // 订单货币
+        'ordercurrency'         => [
+            'order_currency_insert_fail_tips'       => '订单货币新增失败',
         ],
     ],
 

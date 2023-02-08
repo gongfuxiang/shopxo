@@ -16,7 +16,7 @@ use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\StoreService;
 use app\service\ResourcesService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\NavigationService;
 use app\service\BuyService;
 use app\service\MessageService;
@@ -369,7 +369,7 @@ class Common extends BaseController
         $assign['user_left_menu'] = NavigationService::UserCenterLeftList();
 
         // 商品大分类
-        $assign['goods_category_list'] = GoodsService::GoodsCategoryAll();
+        $assign['goods_category_list'] = GoodsCategoryService::GoodsCategoryAll();
 
         // 搜索框下热门关键字
         $assign['home_search_keywords'] = SearchService::SearchKeywordsList();

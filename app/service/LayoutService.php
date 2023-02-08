@@ -24,12 +24,25 @@ use app\layout\service\BaseLayout;
 class LayoutService
 {
     // 布局key
-    public static $layout_key = [
-        'home'  => [
-            'type'  => 'layout_index_home_data',
-            'name'  => '首页',
-        ],
-    ];
+    public static $layout_key;
+
+    /**
+     * 初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-02-08
+     * @desc    description
+     */
+    public static function Init()
+    {
+        self::$layout_key = [
+            'home'  => [
+                'type'  => 'layout_index_home_data',
+                'name'  => MyLang('home_title'),
+            ],
+        ];
+    }
 
     /**
      * 布局配置保存
@@ -43,10 +56,13 @@ class LayoutService
      */
     public static function LayoutConfigSave($key, $params)
     {
+        // 初始化
+        self::Init();
+
         // key 值是否存在
         if(!array_key_exists($key, self::$layout_key))
         {
-            return DataReturn('布局key值有', -1);
+            return DataReturn(MyLang('common_service.layout.key_error_tips'), -1);
         }
 
         // 获取配置信息
@@ -91,6 +107,10 @@ class LayoutService
      */
     public static function LayoutConfigAdminData($key)
     {
+        // 初始化
+        self::Init();
+
+        // 是否存在key
         if(array_key_exists($key, self::$layout_key))
         {
             $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');
@@ -110,6 +130,10 @@ class LayoutService
      */
     public static function LayoutConfigData($key)
     {
+        // 初始化
+        self::Init();
+
+        // 是否存在key
         if(array_key_exists($key, self::$layout_key))
         {
             $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');

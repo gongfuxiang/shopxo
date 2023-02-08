@@ -49,6 +49,11 @@ class CrontabService
         $fail = 0;
         if(!empty($order))
         {
+            // 语言
+            $lang = MyLang('common_service.crontab');
+            $message = $lang['order_close_message'];
+            $status_history = $lang['order_close_status_history'];
+
             // 订单更新数据
             $upd_data = [
                 'status'        => 6,
@@ -66,10 +71,10 @@ class CrontabService
                     if($ret['code'] == 0)
                     {
                         // 用户消息
-                        MessageService::MessageAdd($v['user_id'], '订单关闭', '订单超时关闭', '订单', $v['id']);
+                        MessageService::MessageAdd($v['user_id'], $message['title'], $message['desc'], $message['type'], $v['id']);
 
                         // 订单状态日志
-                        OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '超时关闭', 0, '系统');
+                        OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], $status_history['desc'], 0, $status_history['type']);
 
                         // 提交事务
                         Db::commit();
@@ -109,6 +114,11 @@ class CrontabService
         $fail = 0;
         if(!empty($order))
         {
+            // 语言
+            $lang = MyLang('common_service.crontab');
+            $message = $lang['order_collect_message'];
+            $status_history = $lang['order_collect_status_history'];
+
             // 更新订单状态
             $upd_data = [
                 'status'        => 4,
@@ -130,10 +140,10 @@ class CrontabService
                         if($ret['code'] == 0)
                         {
                             // 用户消息
-                            MessageService::MessageAdd($v['user_id'], '订单收货', '订单自动收货成功', '订单', $v['id']);
+                            MessageService::MessageAdd($v['user_id'], $message['title'], $message['desc'], $message['type'], $v['id']);
 
                             // 订单状态日志
-                            OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '自动收货', 0, '系统');
+                            OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], $status_history['desc'], 0, $status_history['type']);
 
                             // 提交事务
                             Db::commit();
@@ -201,6 +211,9 @@ class CrontabService
         $fail = 0;
         if(!empty($data))
         {
+            // 语言
+            $lang = MyLang('common_service.crontab.goods_give_integral');
+
             // 更新状态
             $upd_data = [
                 'status'    => 1,
@@ -219,18 +232,18 @@ class CrontabService
                         // 扣减用户锁定积分
                         if(!Db::name('User')->where(['id'=>$v['user_id']])->dec('locking_integral', $v['integral'])->update())
                         {
-                            return DataReturn('用户锁定积分扣减失败['.$v['id'].'-'.$v['user_id'].']', -2);
+                            return DataReturn($lang['user_lock_integral_dec_fail'].'['.$v['id'].'-'.$v['user_id'].']', -2);
                         }
 
                         // 增加用户有效积分
                         $user_integral = Db::name('User')->where(['id'=>$v['user_id']])->value('integral');
                         if(!Db::name('User')->where(['id'=>$v['user_id']])->inc('integral', $v['integral'])->update())
                         {
-                            return DataReturn('用户有效积分增加失败['.$v['id'].'-'.$v['user_id'].']', -3);
+                            return DataReturn($lang['user_valid_integral_inc_fail'].'['.$v['id'].'-'.$v['user_id'].']', -3);
                         }
 
                         // 积分日志
-                        IntegralService::UserIntegralLogAdd($v['user_id'], $user_integral, $v['integral'], '订单商品赠送', 1);
+                        IntegralService::UserIntegralLogAdd($v['user_id'], $user_integral, $v['integral'], $lang['integral_log_desc'], 1);
                     }
 
                     // 提交事务

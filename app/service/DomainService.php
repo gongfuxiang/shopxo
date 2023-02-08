@@ -39,13 +39,13 @@ class DomainService
                 'checked_type'      => 'is_array',
                 'key_name'          => 'inc_domain',
                 'is_backend'        => 1,
-                'error_msg'         => '增加域名数据必须为数组',
+                'error_msg'         => MyLang('common_service.domain.form_item_inc_domain_message'),
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'dec_domain',
                 'is_backend'        => 1,
-                'error_msg'         => '移除域名数据必须为数组',
+                'error_msg'         => MyLang('common_service.domain.form_item_dec_domain_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -57,7 +57,7 @@ class DomainService
         // 存在一个增加或移除数据
         if(empty($params['inc_domain']) && empty($params['dec_domain']))
         {
-            return DataReturn('增加或移除域名必须传递一项', -1);
+            return DataReturn(MyLang('common_service.domain.save_inc_and_dec_empty_message'), -1);
         }
 
         // 域名配置文件及数据
@@ -74,12 +74,12 @@ class DomainService
                     $config = $res;
                 }
             } else {
-                return DataReturn('配置文件没写权限['.$domain_file.']', -1);
+                return DataReturn(MyLang('common_service.domain.save_config_file_no_power_tips').'['.$domain_file.']', -1);
             }
         } else {
             if(!is_writable($dir))
             {
-                return DataReturn('配置目录没写权限['.$dir.']', -1);
+                return DataReturn(MyLang('common_service.domain.save_config_dir_no_power_tips').'['.$dir.']', -1);
             }
         }
 
@@ -122,7 +122,7 @@ class DomainService
 // 域名配置文件\nreturn ".var_export($config, true).";\n?>");
         if($ret === false)
         {
-            return DataReturn('域名配置部署失败', -10);
+            return DataReturn(MyLang('common_service.domain.save_deploy_fail_tips'), -10);
         }
         return DataReturn(MyLang('operate_success'), 0);
     }

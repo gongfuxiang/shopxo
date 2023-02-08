@@ -14,7 +14,7 @@ use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\ArticleCategoryService;
 use app\service\NavigationService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\CustomViewService;
 use app\service\DesignService;
 
@@ -61,7 +61,7 @@ class Navigation extends Base
 			// 一级分类
 			'nav_header_pid_list'	=> NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]),
 			// 商品分类
-			'goods_category_list'	=> GoodsService::GoodsCategoryAll(),
+			'goods_category_list'	=> GoodsCategoryService::GoodsCategoryAll(),
 			// 管理导航
             'nav_data'          	=> MyLang('navigation.base_nav_list'),
             // 添加类型列表

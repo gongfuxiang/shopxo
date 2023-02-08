@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 商品规格动态表格
@@ -39,7 +39,7 @@ class GoodsSpecTemplate
     public function __construct($params = [])
     {
         // 商品分类
-        $res = GoodsService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]);
+        $res = GoodsCategoryService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]);
         $this->goods_category_list = empty($res) ? [] : array_column($res, 'name', 'id');
     }
 

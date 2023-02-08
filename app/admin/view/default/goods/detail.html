@@ -8,7 +8,7 @@
 
     <!-- 商品视频 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_video_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.video.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['video'])}}
                 <video src="{{$data.video}}" class="am-img-responsive" controls="controls" preload="auto">
@@ -22,7 +22,7 @@
 
     <!-- 商品相册 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_photo_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.photo.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['photo']) and is_array($data['photo'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial">
@@ -46,7 +46,7 @@
 
     <!-- 商品规格 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_spec_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.specifications.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($specifications) and is_array($specifications)}}
                 <div class="am-scrollable-vertical am-scrollable-horizontal">
@@ -56,13 +56,13 @@
                                 {{foreach $specifications.type as $line_k=>$line_v}}
                                     <th>{{$line_v.name}}</th>
                                 {{/foreach}}
-                                <th>{{:MyLang('goods.form_spec_thead_price_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_original_price_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_inventory_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_weight_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_volume_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_coding_title')}}</th>
-                                <th>{{:MyLang('goods.form_spec_thead_barcode_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_price_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_inventory_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,7 +102,7 @@
 
     <!-- 商品规格图片 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_spec_images_title')}}</div>
+        <div class="am-panel-hd">{{:MyLang('common_service.goods.form_spec_images_title')}}</div>
         <div class="am-panel-bd am-padding-xs">
             {{if !empty($specifications) and is_array($specifications)}}
                 <div class="am-scrollable-vertical">
@@ -131,7 +131,7 @@
 
     <!-- 商品参数 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_params_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.parameters.name}}</div>
         <div class="am-panel-bd">
             {{include file="public/goodsparamstemplate/detail" /}}
         </div>
@@ -139,7 +139,7 @@
 
     <!-- 电脑端详情 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_web_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.web.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['content_web'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">
@@ -153,7 +153,7 @@
 
     <!-- 手机端详情 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_app_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.app.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['content_app']) and is_array($data['content_app'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">
@@ -182,7 +182,7 @@
 
     <!-- 虚拟商品展示数据 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">{{:MyLang('goods.form_item_fictitious_title')}}</div>
+        <div class="am-panel-hd">{{$goods_nav_list.fictitious.name}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['fictitious_goods_value'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">

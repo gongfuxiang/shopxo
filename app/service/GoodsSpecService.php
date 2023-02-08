@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 商品规格服务层
@@ -39,7 +39,7 @@ class GoodsSpecService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_ids',
-                'error_msg'         => '请选择商品分类',
+                'error_msg'         => MyLang('common_service.goodsspectemplate.form_item_category_id_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -50,7 +50,7 @@ class GoodsSpecService
 
         // 获取分类下所有分类id
         $data = [];
-        $ids = GoodsService::GoodsCategoryParentIds($params['category_ids']);
+        $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
         if(!empty($ids))
         {
             $where = [
@@ -108,18 +108,18 @@ class GoodsSpecService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_id',
-                'error_msg'         => '请选择商品分类',
+                'error_msg'         => MyLang('common_service.goodsspectemplate.form_item_category_id_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '1,30',
-                'error_msg'         => '规格名称格式2~30个字符',
+                'error_msg'         => MyLang('common_service.goodsspectemplate.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'content',
-                'error_msg'         => '请填写规格值',
+                'error_msg'         => MyLang('common_service.goodsspectemplate.save_content_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -159,13 +159,13 @@ class GoodsSpecService
                 $template_id = Db::name('GoodsSpecTemplate')->insertGetId($data);
                 if($template_id <= 0)
                 {
-                    throw new \Exception('添加失败');
+                    throw new \Exception(MyLang('insert_fail'));
                 }
             } else {
                 $data['upd_time'] = time();
                 if(Db::name('GoodsSpecTemplate')->where(['id'=>intval($params['id'])])->update($data) === false)
                 {
-                    throw new \Exception('更新失败');
+                    throw new \Exception(MyLang('update_fail'));
                 } else {
                     $template_id = $params['id'];
                 }
@@ -205,7 +205,7 @@ class GoodsSpecService
             // 模板删除
             if(!Db::name('GoodsSpecTemplate')->where(['id'=>$params['ids']])->delete())
             {
-                throw new \Exception('模板删除失败');
+                throw new \Exception(MyLang('delete_fail'));
             }
 
             // 完成

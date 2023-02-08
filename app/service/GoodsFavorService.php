@@ -71,20 +71,20 @@ class GoodsFavorService
             $data['add_time'] = time();
             if(Db::name('GoodsFavor')->insertGetId($data) > 0)
             {
-                return DataReturn('收藏成功', 0, [
-                    'text'      => '已收藏',
+                return DataReturn(MyLang('favor_success'), 0, [
+                    'text'      => MyLang('already_favor_title'),
                     'status'    => 1,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
-                return DataReturn('收藏失败');
+                return DataReturn(MyLang('favor_fail'), -1);
             }
         } else {
             // 是否强制收藏
             if(isset($params['is_mandatory_favor']) && $params['is_mandatory_favor'] == 1)
             {
-                return DataReturn('收藏成功', 0, [
-                    'text'      => '已收藏',
+                return DataReturn(MyLang('favor_success'), 0, [
+                    'text'      => MyLang('already_favor_title'),
                     'status'    => 1,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
@@ -94,12 +94,12 @@ class GoodsFavorService
             if(Db::name('GoodsFavor')->where($data)->delete() > 0)
             {
                 return DataReturn(MyLang('cancel_success'), 0, [
-                    'text'      => '收藏',
+                    'text'      => MyLang('favor_title'),
                     'status'    => 0,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
-                return DataReturn('取消失败');
+                return DataReturn(MyLang('cancel_fail'), -1);
             }
         }
     }

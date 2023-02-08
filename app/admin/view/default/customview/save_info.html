@@ -10,8 +10,8 @@
 				<a href="{{:MyUrl('admin/customview/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:MyLang('customview.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-				<input type="text" name="title" placeholder="{{:MyLang('customview.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('customview.form_item_title_message')}}" class="am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} required />
+				<label>{{:MyLang('common_service.customview.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<input type="text" name="title" placeholder="{{:MyLang('common_service.customview.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.customview.form_item_title_message')}}" class="am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} required />
 			</div>
 			<div class="am-cf">
 				<div class="am-u-md-6 am-padding-horizontal-0">
@@ -37,8 +37,8 @@
 		    </div>
 
 			<div class="am-form-group">
-				<label>{{:MyLang('customview.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="{{:MyLang('customview.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('customview.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('customview.form_item_content_message')}}" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<label>{{:MyLang('common_service.customview.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="{{:MyLang('common_service.customview.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.customview.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.customview.form_item_content_message')}}" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 
 			<div class="am-form-popup-submit">

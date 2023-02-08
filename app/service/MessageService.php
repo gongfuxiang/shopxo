@@ -37,18 +37,18 @@ class MessageService
      * @param    [int]              $type           [类型（默认0  普通消息）]
      * @return   [boolean]                          [成功true, 失败false]
      */
-    public static function MessageAdd($user_id, $title, $detail, $business_type = '默认', $business_id = 0, $type = 0)
+    public static function MessageAdd($user_id, $title, $detail, $business_type = '', $business_id = 0, $type = 0)
     {
-        $data = array(
+        $data = [
             'title'             => $title,
             'detail'            => $detail,
             'user_id'           => intval($user_id),
-            'business_type'     => trim($business_type),
+            'business_type'     => empty($business_type) ? MyLang('common_service.message.save_business_type_default') : trim($business_type),
             'business_id'       => intval($business_id),
             'type'              => intval($type),
             'is_read'           => 0,
             'add_time'          => time(),
-        );
+        ];
         $message_id = Db::name('Message')->insertGetId($data);
         if($message_id > 0)
         {

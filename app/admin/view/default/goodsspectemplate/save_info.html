@@ -8,14 +8,14 @@
 			<div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                 	<div class="am-form-group">
-						<label>{{:MyLang('goodsspectemplate.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" name="name" placeholder="{{:MyLang('goodsspectemplate.form_item_name_message')}}" minlength="1" maxlength="30" data-validation-message="{{:MyLang('goodsspectemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+						<label>{{:MyLang('common_service.goodsspectemplate.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" name="name" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" minlength="1" maxlength="30" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 					</div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                 	<div class="am-form-group">
-						<label class="am-block">{{:MyLang('goodsspectemplate.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span><span class="am-form-group-label-tips">{{:MyLang('goodsspectemplate.form_item_category_id_tips')}}</span></label>
-						<select name="category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('goodsspectemplate.form_item_category_id_message')}}" required>
+						<label class="am-block">{{:MyLang('common_service.goodsspectemplate.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span><span class="am-form-group-label-tips">{{:MyLang('common_service.goodsspectemplate.form_item_category_id_tips')}}</span></label>
+						<select name="category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_category_id_message')}}" required>
 							{{if !empty($goods_category_list)}}
 								<option value="">{{:MyLang('please_select_tips')}}</option>
 								{{foreach $goods_category_list as $v}}
@@ -28,8 +28,8 @@
             </div>
 
 			<div class="am-form-group">
-				<label>{{:MyLang('goodsspectemplate.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
-				<input type="text" name="content" placeholder="{{:MyLang('goodsspectemplate.form_item_content_placeholder')}}" minlength="1" maxlength="1000" data-validation-message="{{:MyLang('goodsspectemplate.form_item_content_message')}}" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
+				<label>{{:MyLang('common_service.goodsspectemplate.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<input type="text" name="content" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_content_placeholder')}}" minlength="1" maxlength="1000" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_content_message')}}" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
 			</div>
 			{{include file="lib/is_enable" /}}
 

@@ -179,7 +179,7 @@ class ExpressService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
+                'error_msg'         => MyLang('common_service.express.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

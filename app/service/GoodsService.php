@@ -17,6 +17,7 @@ use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
+use app\service\GoodsCategoryService;
 use app\service\GoodsSpecService;
 use app\service\GoodsParamsService;
 use app\service\GoodsCommentsService;
@@ -32,205 +33,6 @@ class GoodsService
 {
     // 规格转成字符串分割符号
     public static $goods_spec_to_string_separator = '{|}';
-
-    /**
-     * 根据id获取一条商品分类
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsCategoryRow($params = [])
-    {
-        if(empty($params['id']))
-        {
-            return null;
-        }
-        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
-        $data = self::GoodsCategoryDataHandle([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
-        return empty($data[0]) ? null : $data[0];
-    }
-
-    /**
-     * 获取所有分类
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsCategoryAll($params = [])
-    {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_goods_category_key');
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
-        {
-            // 获取分类
-            $params['where'] = [
-                ['pid', '=', 0],
-                ['is_enable', '=', 1],
-            ];
-            $data = self::GoodsCategory($params);
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
-        return $data;
-    }
-
-    /**
-     * 获取分类
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsCategory($params = [])
-    {
-        // 获取分类
-        if(empty($params['where']))
-        {
-            $params['where'] = [
-                ['pid', '=', 0],
-                ['is_enable', '=', 1],
-            ];
-        }
-        $data = self::GoodsCategoryList($params);
-        if(!empty($data))
-        {
-            // 基础条件、去除pid
-            $where_base = $params['where'];
-            $temp_column = array_column($where_base, 0);
-            if(in_array('pid', $temp_column))
-            {
-                unset($where_base[array_search('pid', $temp_column)]);
-                sort($where_base);
-            }
-
-            // 获取所有二级
-            $two_group = [];
-            $params['where'] = array_merge($where_base, [['pid', 'in', array_column($data, 'id')]]);
-            $two = self::GoodsCategoryList($params);
-            if(!empty($two))
-            {
-                // 二级分组
-                foreach($two as $tv)
-                {
-                    if(!array_key_exists($tv['pid'], $two_group))
-                    {
-                        $two_group[$tv['pid']] = [];
-                    }
-                    $two_group[$tv['pid']][] = $tv;
-                }
-
-                // 获取所有三级
-                $three_group = [];
-                $params['where'] = array_merge($where_base, [['pid', 'in', array_column($two, 'id')]]);
-                $three = self::GoodsCategoryList($params);
-                if(!empty($three))
-                {
-                    // 三级分组
-                    foreach($three as $tv)
-                    {
-                        if(!array_key_exists($tv['pid'], $three_group))
-                        {
-                            $three_group[$tv['pid']] = [];
-                        }
-                        $three_group[$tv['pid']][] = $tv;
-                    }
-                }
-
-                // 数据组合
-                foreach($data as &$v)
-                {
-                    $v['items'] = (empty($two_group) || !array_key_exists($v['id'], $two_group)) ? [] : $two_group[$v['id']];
-                    if(!empty($v['items']))
-                    {
-                        foreach($v['items'] as &$vs)
-                        {
-                            $vs['items'] = (empty($three_group) || !array_key_exists($vs['id'], $three_group)) ? [] : $three_group[$vs['id']];
-                        }
-                    }
-                }
-            }
-        } else {
-            $data = [];
-        }
-        return $data;
-    }
-
-    /**
-     * 根据pid获取商品分类列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsCategoryList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $where[] = ['is_enable', '=', 1];
-        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
-        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 0;
-
-        // 商品分类列表读取前钩子
-        $hook_name = 'plugins_service_goods_category_list_begin';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'where'         => &$where,
-            'field'         => &$field,
-            'order_by'      => &$order_by,
-            'm'             => &$m,
-            'n'             => &$n,
-        ]);
-
-        // 获取商品分类数据
-        $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return self::GoodsCategoryDataHandle($data);
-    }
-
-    /**
-     * 商品分类数据处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-06
-     * @desc    description
-     * @param   [array]          $data [商品分类数据 二维数组]
-     */
-    public static function GoodsCategoryDataHandle($data)
-    {
-        if(!empty($data) && is_array($data))
-        {
-            foreach($data as &$v)
-            {
-                if(is_array($v))
-                {
-                    if(array_key_exists('icon', $v))
-                    {
-                        $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
-                    }
-                    if(array_key_exists('big_images', $v))
-                    {
-                        $v['big_images'] = ResourcesService::AttachmentPathViewHandle($v['big_images']);
-                    }
-                }
-            }
-        }
-        return $data;
-    }
 
     /**
      * 获取首页楼层数据
@@ -249,7 +51,7 @@ class GoodsService
         if($data === null || MyEnv('app_debug'))
         {
             // 商品大分类
-            $data = self::GoodsCategoryList(['where'=>[
+            $data = GoodsCategoryService::GoodsCategoryList(['where'=>[
                 ['pid', '=', 0],
                 ['is_home_recommended', '=', 1],
                 ['is_enable', '=', 1],
@@ -326,7 +128,7 @@ class GoodsService
                             if(isset($goods_count) && isset($order_by))
                             {
                                 // 获取分类ids
-                                $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
+                                $category_ids = GoodsCategoryService::GoodsCategoryItemsIds([$v['id']], 1);
 
                                 // 获取商品id
                                 $goods_params = [
@@ -360,7 +162,7 @@ class GoodsService
                     // 楼层左侧分类
                     if(!empty($floor_left_top_category) && !empty($floor_left_top_category[$v['id']]))
                     {
-                        $v['items'] = self::GoodsCategoryList(['where'=>[['id', 'in', explode(',', $floor_left_top_category[$v['id']])]], 'm'=>0, 'n'=>0]);
+                        $v['items'] = GoodsCategoryService::GoodsCategoryList(['where'=>[['id', 'in', explode(',', $floor_left_top_category[$v['id']])]], 'm'=>0, 'n'=>0]);
                     } else {
                         $v['items'] = [];
                     }
@@ -425,117 +227,6 @@ class GoodsService
             }
         }
         return $data;
-    }
-
-    /**
-     * 获取商品分类下的所有分类id
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]         $ids       [分类id数组]
-     * @param   [int]           $is_enable [是否启用 null, 0否, 1是]
-     * @param   [int]           $level     [指定级别 null, 整数、默认则全部下级]
-     */
-    public static function GoodsCategoryItemsIds($ids = [], $is_enable = null, $level = null)
-    {
-        if(!is_array($ids))
-        {
-            $ids = explode(',', $ids);
-        }
-        $where = [
-            ['pid', 'in', $ids],
-        ];
-        if($is_enable !== null)
-        {
-            $where[] = ['is_enable', '=', $is_enable];
-        }
-
-        // 级别记录处理
-        if($level !== null)
-        {
-            if(is_array($level))
-            {
-                $level['temp'] += 1;
-            } else {
-                $level = [
-                    'value' => $level,
-                    'temp'  => 1,
-                ];
-            }
-        }
-
-        // 是否超过级别限制
-        if($level === null || $level['temp'] < $level['value'])
-        {
-            $data = Db::name('GoodsCategory')->where($where)->column('id');
-            if(!empty($data))
-            {
-                $temp = self::GoodsCategoryItemsIds($data, $is_enable, $level);
-                if(!empty($temp))
-                {
-                    $data = array_merge($data, $temp);
-                }
-            }
-        }
-        return empty($data) ? $ids : array_unique(array_merge($ids, $data));
-    }
-
-    /**
-     * 获取商品分类的所有上级分类id
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]         $ids       [分类id数组]
-     * @param   [int]           $is_enable [是否启用 null, 0否, 1是]
-     * @param   [int]           $level     [指定级别 null, 整数（1~3）、默认则全部上级]
-     */
-    public static function GoodsCategoryParentIds($ids = [], $is_enable = null, $level = null)
-    {
-        if(!is_array($ids))
-        {
-            $ids = explode(',', $ids);
-        }
-        $where = [
-            ['id', 'in', $ids],
-            ['pid', '>', 0],
-        ];
-        if($is_enable !== null)
-        {
-            $where[] = ['is_enable', '=', $is_enable];
-        }
-
-        // 级别记录处理
-        if($level !== null)
-        {
-            if(is_array($level))
-            {
-                $level['temp'] += 1;
-            } else {
-                $level = [
-                    'value' => $level,
-                    'temp'  => 1,
-                ];
-            }
-        }
-
-        // 是否超过级别限制
-        if($level === null || $level['temp'] < $level['value'])
-        {
-            $data = Db::name('GoodsCategory')->where($where)->column('pid');
-            if(!empty($data))
-            {
-                $temp = self::GoodsCategoryParentIds($data, $is_enable, $level);
-                if(!empty($temp))
-                {
-                    $data = array_merge($data, $temp);
-                }
-            }
-        }
-        return empty($data) ? $ids : array_unique(array_merge($ids, $data));
     }
 
     /**
@@ -647,6 +338,9 @@ class GoodsService
 
             // 参数
             $params_group = $is_params ? self::GoodsParametersData($goods_ids) : [];
+
+            // app数据
+            $app_group = $is_content_app ? self::GoodsAppData($goods_ids) : [];
 
             // 开始处理数据
             foreach($data as &$v)
@@ -793,7 +487,7 @@ class GoodsService
                 // 获取app内容
                 if($is_content_app && !empty($data_id))
                 {
-                    $v['content_app'] = self::GoodsContentAppData(['goods_id'=>$data_id]);
+                    $v['content_app'] = (!empty($app_group) && array_key_exists($data_id, $app_group)) ? $app_group[$data_id] : [];
                 }
 
                 // 价格字段
@@ -939,23 +633,31 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-07-10
      * @desc    description
-     * @param   [array]          $params [输入参数]
-     * @return  [array]                  [app内容]
+     * @param   [array]           $goods_ids [商品id]
+     * @return  [array]                      [app内容]
      */
-    public static function GoodsContentAppData($params = [])
+    public static function GoodsAppData($goods_ids)
     {
-        $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select()->toArray();
+        $group = [];
+        $data = Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->field('id,goods_id,images,content')->order('sort asc')->select()->toArray();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
+                // 数据处理
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['content_old'] = $v['content'];
                 $v['content'] = empty($v['content']) ? null : explode("\n", $v['content']);
+                // 数据组合
+                if(!array_key_exists($v['goods_id'], $group))
+                {
+                    $group[$v['goods_id']] = [];
+                }
+                $group[$v['goods_id']][] = $v;
             }
         }
-        return $data;
+        return $group;
     }
 
     /**
@@ -1133,7 +835,6 @@ class GoodsService
             }
             sort($group);
         }
-        
         return [
             'title' => $title,
             'value' => $group,
@@ -1225,44 +926,44 @@ class GoodsService
                 'checked_type'      => 'length',
                 'key_name'          => 'title',
                 'checked_data'      => '2,160',
-                'error_msg'         => '标题名称格式 2~160 个字符',
+                'error_msg'         => MyLang('common_service.goods.form_item_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'simple_desc',
                 'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => '商品简述格式 最多230个字符',
+                'error_msg'         => MyLang('common_service.goods.form_item_simple_desc_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'model',
                 'checked_data'      => '30',
                 'is_checked'        => 1,
-                'error_msg'         => '商品型号格式 最多30个字符',
+                'error_msg'         => MyLang('common_service.goods.form_item_model_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_id',
-                'error_msg'         => '请至少选择一个商品分类',
+                'error_msg'         => MyLang('common_service.goods.form_item_category_id_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'inventory_unit',
                 'checked_data'      => '1,6',
-                'error_msg'         => '库存单位格式 1~6 个字符',
+                'error_msg'         => MyLang('common_service.goods.form_item_inventory_unit_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'buy_min_number',
-                'error_msg'         => '请填写有效的最低起购数量',
+                'error_msg'         => MyLang('common_service.goods.form_item_buy_min_number_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
                 'checked_data'      => array_merge(array_column(MyLang('common_site_type_list'), 'value')),
                 'is_checked'        => 1,
-                'error_msg'         => '商品类型数据值范围有误',
+                'error_msg'         => MyLang('common_service.goods.save_site_type_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
@@ -1394,7 +1095,7 @@ class GoodsService
                 $goods_id = Db::name('Goods')->insertGetId($data);
                 if($goods_id <= 0)
                 {
-                    throw new \Exception('添加失败');
+                    throw new \Exception(MyLang('insert_fail'));
                 }
             } else {
                 $data['upd_time'] = time();
@@ -1402,7 +1103,7 @@ class GoodsService
                 {
                     $goods_id = $params['id'];
                 } else {
-                    throw new \Exception('更新失败');
+                    throw new \Exception(MyLang('update_fail'));
                 }
             }
 
@@ -1502,7 +1203,7 @@ class GoodsService
             }
             if(Db::name('GoodsParams')->insertAll($config['data']) < count($config['data']))
             {
-                return DataReturn('规格参数添加失败', -1);
+                return DataReturn(MyLang('common_service.goods.save_params_add_fail_tips'), -1);
             }
         }
         return DataReturn(MyLang('operate_success'), 0);
@@ -1522,7 +1223,7 @@ class GoodsService
         $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))
         {
-            return DataReturn('没找到商品基础信息', -1);
+            return DataReturn(MyLang('common_service.goods.save_goods_base_empty_tips'), -1);
         }
 
         // 销售价格 - 展示价格
@@ -1535,7 +1236,7 @@ class GoodsService
         $data['upd_time'] = time();
         if(Db::name('Goods')->where(['id'=>$goods_id])->update($data) === false)
         {
-            return DataReturn('商品基础更新失败', -1);
+            return DataReturn(MyLang('common_service.goods.save_goods_base_update_fail_tips'), -1);
         }
 
         // 商品基础数据更新钩子
@@ -1631,7 +1332,7 @@ class GoodsService
                     }
                     if(!empty($temp_column))
                     {
-                        return DataReturn('规格值列之间不能重复['.implode(',', array_unique($temp_column)).']', -1);
+                        return DataReturn(MyLang('common_service.goods.save_spec_column_repeat_tips').'['.implode(',', array_unique($temp_column)).']', -1);
                     }
                 }
 
@@ -1661,7 +1362,7 @@ class GoodsService
                         $repeat_rows_all = array_diff_assoc($temp_row_data, $unique_all); 
                         if(!empty($repeat_rows_all))
                         {
-                            return DataReturn('规格值不能重复['.implode(',', array_unique($repeat_rows_all)).']', -1);
+                            return DataReturn(MyLang('common_service.goods.save_spec_value_repeat_tips').'['.implode(',', array_unique($repeat_rows_all)).']', -1);
                         }
                     }
                 }
@@ -1697,16 +1398,16 @@ class GoodsService
                 $repeat_names_all = array_diff_assoc($names_value, $unique_all); 
                 if(!empty($repeat_names_all))
                 {
-                    return DataReturn('规格名称列之间不能重复['.implode(',', array_unique($repeat_names_all)).']', -1);
+                    return DataReturn(MyLang('common_service.goods.save_spec_name_column_repeat_tips').'['.implode(',', array_unique($repeat_names_all)).']', -1);
                 }
             } else {
                 if(!isset($data[0][0]) || $data[0][0] < 0)
                 {
-                    return DataReturn('请填写有效的规格销售价格', -1);
+                    return DataReturn(MyLang('common_service.goods.save_spec_base_price_error_tips'), -1);
                 }
             }
         } else {
-            return DataReturn('请填写规格', -1);
+            return DataReturn(MyLang('common_service.goods.save_spec_empty_tips'), -1);
         }
 
         // 规格图片
@@ -1764,7 +1465,7 @@ class GoodsService
     {
         if(empty($params['photo']))
         {
-            return DataReturn('请上传相册', -1);
+            return DataReturn(MyLang('common_service.goods.save_photo_empty_tips'), -1);
         }
 
         $result = [];
@@ -1835,7 +1536,7 @@ class GoodsService
                 ];
                 if(Db::name('GoodsCategoryJoin')->insertGetId($temp_category) <= 0)
                 {
-                    return DataReturn('商品分类添加失败', -1);
+                    return DataReturn(MyLang('common_service.goods.save_category_add_fail_tips'), -1);
                 }
             }
         }
@@ -1869,7 +1570,7 @@ class GoodsService
                 ];
                 if(Db::name('GoodsContentApp')->insertGetId($temp_content) <= 0)
                 {
-                    return DataReturn('手机详情添加失败', -1);
+                    return DataReturn(MyLang('common_service.goods.save_app_content_add_fail_tips'), -1);
                 }
             }
         }
@@ -1903,7 +1604,7 @@ class GoodsService
                 ];
                 if(Db::name('GoodsPhoto')->insertGetId($temp_photo) <= 0)
                 {
-                    return DataReturn('相册添加失败', -1);
+                    return DataReturn(MyLang('common_service.goods.save_photo_add_fail_tips'), -1);
                 }
             }
         }
@@ -1947,7 +1648,7 @@ class GoodsService
             }
             if(Db::name('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
             {
-                return DataReturn('规格类型添加失败', -1);
+                return DataReturn(MyLang('common_service.goods.save_spec_type_add_fail_tips'), -1);
             }
         }
 
@@ -1977,7 +1678,7 @@ class GoodsService
                 // 规格基础添加
                 if(Db::name('GoodsSpecBase')->insertGetId($temp_data) <= 0)
                 {
-                    return DataReturn('规格基础添加失败', -1);
+                    return DataReturn(MyLang('common_service.goods.save_spec_base_add_fail_tips'), -1);
                 }
 
             // 多规格操作
@@ -2013,7 +1714,7 @@ class GoodsService
                     $base_id = Db::name('GoodsSpecBase')->insertGetId($temp_data);
                     if(empty($base_id))
                     {
-                        return DataReturn('规格基础添加失败', -1);
+                        return DataReturn(MyLang('common_service.goods.save_spec_base_add_fail_tips'), -1);
                     }
 
                     // 规格值添加
@@ -2023,12 +1724,11 @@ class GoodsService
                     }
                     if(Db::name('GoodsSpecValue')->insertAll($temp_value) < count($temp_value))
                     {
-                        return DataReturn('规格值添加失败', -1);
+                        return DataReturn(MyLang('common_service.goods.save_spec_value_add_fail_tips'), -1);
                     }
                 }
             }
         }
-
         return DataReturn(MyLang('insert_success'), 0);
     }
 
@@ -2093,48 +1793,48 @@ class GoodsService
         // 删除商品
         if(Db::name('Goods')->where(['id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('商品删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_goods_fail_tips'));
         }
         // 商品规格
         if(Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('规格类型删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_spec_type_fail_tips'));
         }
         if(Db::name('GoodsSpecValue')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('规格值删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_spec_value_fail_tips'));
         }
         if(Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('规格基础删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_spec_base_fail_tips'));
         }
 
         // 相册
         if(Db::name('GoodsPhoto')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('相册删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_goods_photo_fail_tips'));
         }
 
         // app内容
         if(Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('手机端内容删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_app_content_fail_tips'));
         }
 
         // 商品参数
         if(Db::name('GoodsParams')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('规格参数删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_params_fail_tips'));
         }
 
         // 商品关联仓库信息+库存
         if(Db::name('WarehouseGoods')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('仓库商品删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_warehouse_goods_fail_tips'));
         }
         if(Db::name('WarehouseGoodsSpec')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
-            throw new \Exception('仓库商品库存删除失败');
+            throw new \Exception(MyLang('common_service.goods.delete_warehouse_goods_spec_fail_tips'));
         }
     }
 
@@ -2186,7 +1886,7 @@ class GoodsService
             // 数据更新
             if(!Db::name('Goods')->where(['id'=>$goods_id])->update([$field=>$status, 'upd_time'=>time()]))
             {
-                throw new \Exception('操作失败');
+                throw new \Exception(MyLang('operate_fail'));
             }
 
             // 商品状态更新钩子
@@ -2336,7 +2036,7 @@ class GoodsService
                 'checked_type'      => 'empty',
                 'key_name'          => 'spec',
                 'is_checked'        => 1,
-                'error_msg'         => '请选择规格',
+                'error_msg'         => MyLang('common_service.goods.base_spec_not_choice_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2454,11 +2154,9 @@ class GoodsService
                 $data['spec_base']['original_price'] = PriceNumberFormat($data['spec_base']['original_price']);
             }
 
-            // 返回成功
             return DataReturn(MyLang('operate_success'), 0, $data);
         }
-
-        return DataReturn('没有相关规格', -100);
+        return DataReturn(MyLang('common_service.goods.base_spec_empty_tips'), -100);
     }
 
     /**
@@ -2482,7 +2180,7 @@ class GoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'spec',
-                'error_msg'         => '请选择规格',
+                'error_msg'         => MyLang('common_service.goods.base_spec_not_choice_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2562,7 +2260,7 @@ class GoodsService
                 return DataReturn(MyLang('operate_success'), 0, $data);
             }
         }
-        return DataReturn('没有相关规格类型', -100);
+        return DataReturn(MyLang('common_service.goods.base_spec_type_empty_tips'), -100);
     }
 
     /**
@@ -2584,15 +2282,10 @@ class GoodsService
                 'error_msg'         => MyLang('goods_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
                 'checked_type'      => 'min',
                 'key_name'          => 'stock',
                 'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
+                'error_msg'         => MyLang('common_service.goods.base_buy_stock_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2603,210 +2296,6 @@ class GoodsService
 
         // 获取商品基础信息
         return self::GoodsSpecDetail($params);
-    }
-
-    /**
-     * 获取商品分类节点数据
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-12-16T23:54:46+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function GoodsCategoryNodeSon($params = [])
-    {
-        // id
-        $id = isset($params['id']) ? intval($params['id']) : 0;
-
-        // 获取数据
-        $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended,seo_title,seo_keywords,seo_desc';
-        $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select()->toArray();
-        if(!empty($data))
-        {
-            $data = self::GoodsCategoryDataHandle($data);
-            foreach($data as &$v)
-            {
-                $v['is_son']    = (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['json']      = json_encode($v);
-            }
-            return DataReturn(MyLang('operate_success'), 0, $data);
-        }
-        return DataReturn(MyLang('no_data'), -100);
-    }
-
-    /**
-     * 商品分类保存
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-12-17T01:04:03+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function GoodsCategorySave($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'name',
-                'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'vice_name',
-                'checked_data'      => '60',
-                'is_checked'        => 1,
-                'error_msg'         => '副名称格式 最多30个字符',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'describe',
-                'checked_data'      => '200',
-                'is_checked'        => 1,
-                'error_msg'         => '描述格式 最多200个字符',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'seo_title',
-                'checked_data'      => '100',
-                'is_checked'        => 1,
-                'error_msg'         => MyLang('form_seo_title_message'),
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'seo_keywords',
-                'checked_data'      => '130',
-                'is_checked'        => 1,
-                'error_msg'         => MyLang('form_seo_keywords_message'),
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'seo_desc',
-                'checked_data'      => '230',
-                'is_checked'        => 1,
-                'error_msg'         => MyLang('form_seo_desc_message'),
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 其它附件
-        $data_fields = ['icon', 'big_images'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
-        if($attachment['code'] != 0)
-        {
-            return $attachment;
-        }
-
-        // 数据
-        $data = [
-            'name'                  => $params['name'],
-            'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
-            'vice_name'             => isset($params['vice_name']) ? $params['vice_name'] : '',
-            'describe'              => isset($params['describe']) ? $params['describe'] : '',
-            'bg_color'              => isset($params['bg_color']) ? $params['bg_color'] : '',
-            'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
-            'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
-            'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
-            'icon'                  => $attachment['data']['icon'],
-            'big_images'            => $attachment['data']['big_images'],
-            'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],
-            'seo_keywords'          => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
-            'seo_desc'              => empty($params['seo_desc']) ? '' : $params['seo_desc'],
-        ];
-
-        // 父级id宇当前id不能相同
-        if(!empty($params['id']) && $params['id'] == $data['pid'])
-        {
-            return DataReturn('父级不能与当前相同', -10);
-        }
-
-        // 添加/编辑
-        if(empty($params['id']))
-        {
-            $data['add_time'] = time();
-            $data['id'] = Db::name('GoodsCategory')->insertGetId($data);
-            if($data['id'] <= 0)
-            {
-                return DataReturn(MyLang('insert_fail'), -100);
-            }
-        } else {
-            $data['upd_time'] = time();
-            if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
-            {
-                return DataReturn(MyLang('edit_fail'), -100);
-            } else {
-                $data['id'] = $params['id'];
-            }
-        }
-
-        // 删除大分类缓存
-        MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
-
-        $res = self::GoodsCategoryDataHandle([$data]);
-        return DataReturn(MyLang('operate_success'), 0, $res[0]);
-    }
-
-    /**
-     * 商品分类删除
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-12-17T02:40:29+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function GoodsCategoryDelete($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => MyLang('data_id_error_tips'),
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'admin',
-                'error_msg'         => MyLang('user_info_incorrect_tips'),
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 获取分类下所有分类id
-        $ids = self::GoodsCategoryItemsIds([$params['id']]);
-
-        // 开始删除
-        if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
-        {
-            // 删除大分类缓存
-            MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
-
-            return DataReturn(MyLang('delete_success'), 0);
-        }
-        return DataReturn(MyLang('delete_fail'), -100);
-    }
-
-    /**
-     * 根据商品id获取分类名称
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [int]          $goods_id [商品id]
-     */
-    public static function GoodsCategoryNames($goods_id)
-    {
-        $data = Db::name('GoodsCategory')->alias('gc')->join('goods_category_join gci', 'gc.id=gci.category_id')->where(['gci.goods_id'=>$goods_id])->column('gc.name');
-        return DataReturn(MyLang('get_success'), 0, $data);
     }
 
     /**
@@ -2861,12 +2350,12 @@ class GoodsService
         // 是否展示型商品
         if($site_type == 1)
         {
-            return DataReturn('仅展示', -1, $site_type);
+            return DataReturn(MyLang('goods_only_show_title'), -1, $site_type);
         }
 
         // 仅可单独购买
         $site_type_arr = MyLang('common_site_type_list');
-        $msg = array_key_exists($site_type, $site_type_arr) ? '仅'.$site_type_arr[$site_type]['name'] : '仅单买';
+        $msg = array_key_exists($site_type, $site_type_arr) ? MyLang('only_title').$site_type_arr[$site_type]['name'] : MyLang('goods_only_buy_title');
         return DataReturn($msg, -1, $site_type);
     }
 
@@ -3327,7 +2816,7 @@ class GoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'category_ids',
-                'error_msg'         => '请选择商品分类',
+                'error_msg'         => MyLang('form_goods_category_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

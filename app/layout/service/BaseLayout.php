@@ -13,6 +13,7 @@ namespace app\layout\service;
 use think\facade\Db;
 use app\service\ResourcesService;
 use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 
 /**
  * 布局自动化服务层
@@ -860,7 +861,7 @@ class BaseLayout
             $category_field = empty($params['category_field']) ? 'gci.category_id' : $params['category_field'];
             if($category_field == 'gci.category_id')
             {
-                $category_id = GoodsService::GoodsCategoryItemsIds([intval($params['category_id'])]);
+                $category_id = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['category_id'])]);
             } else {
                 $category_id = [intval($params['category_id'])];
             }
@@ -972,7 +973,7 @@ class BaseLayout
                 $order_by = $order_by_type.' '.$order_by_rule;
                 $field = 'g.id,g.title,g.images,g.price,g.original_price,g.min_price,g.max_price,g.min_original_price,g.max_original_price,g.inventory,g.inventory_unit';
                 $where = [
-                    ['gci.category_id', 'in', GoodsService::GoodsCategoryItemsIds([intval($params['category_id'])])],
+                    ['gci.category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds([intval($params['category_id'])])],
                     ['g.is_delete_time', '=', 0],
                     ['g.is_shelves', '=', 1],
                 ];

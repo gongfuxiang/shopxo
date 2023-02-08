@@ -243,7 +243,7 @@ class WarehouseService
                 $data['upd_time'] = time();
                 if(!Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update($data))
                 {
-                    throw new \Exception('更新失败');
+                    throw new \Exception(MyLang('update_fail'));
                 }
 
                 // 同步处理

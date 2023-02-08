@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\ResourcesService;
 
 /**
@@ -38,7 +38,7 @@ class GoodsCategory extends Base
 			// 静态数据
 			'common_is_text_list' 	=> MyLang('common_is_text_list'),
 	        // 商品分类
-	        'goods_category_list' 	=> GoodsService::GoodsCategoryAll(),
+	        'goods_category_list' 	=> GoodsCategoryService::GoodsCategoryAll(),
 	        // 编辑器文件存放地址
 			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('goods_category'),
 		];
@@ -55,7 +55,7 @@ class GoodsCategory extends Base
 	 */
 	public function GetNodeSon()
 	{
-		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryNodeSon($this->data_request));
+		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategoryNodeSon($this->data_request));
 	}
 
 
@@ -68,7 +68,7 @@ class GoodsCategory extends Base
 	 */
 	public function Save()
 	{
-		return ApiService::ApiDataReturn(GoodsService::GoodsCategorySave($this->data_request));
+		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategorySave($this->data_request));
 	}
 
 	/**
@@ -82,7 +82,7 @@ class GoodsCategory extends Base
 	{
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryDelete($params));
+		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategoryDelete($params));
 	}
 }
 ?>

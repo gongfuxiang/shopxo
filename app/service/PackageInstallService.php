@@ -318,7 +318,7 @@ class PackageInstallService
                 'checked_type'      => 'in',
                 'key_name'          => 'opt',
                 'checked_data'      => ['url', 'download', 'install'],
-                'error_msg'         => '操作类型有误',
+                'error_msg'         => MyLang('operate_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

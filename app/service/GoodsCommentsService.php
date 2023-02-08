@@ -43,9 +43,10 @@ class GoodsCommentsService
                 'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'error_msg'         => '业务类型标记不能为空',
+                'checked_data'      => array_keys(MyLang('common_goods_comments_business_type_list')),
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -55,12 +56,12 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'rating',
-                'error_msg'         => '评级有误',
+                'error_msg'         => MyLang('common_service.goodscomments.save_rating_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'content',
-                'error_msg'         => '评论内容有误',
+                'error_msg'         => MyLang('common_service.goodscomments.save_content_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -91,11 +92,11 @@ class GoodsCommentsService
         // 评分
         if(min($params['rating']) <= 0)
         {
-            return DataReturn('评级有误', -1);
+            return DataReturn(MyLang('common_service.goodscomments.form_item_rating_message'), -1);
         }
         if(min($params['rating']) <= 0 || max($params['rating']) > 5)
         {
-            return DataReturn('评级有误', -1);
+            return DataReturn(MyLang('common_service.goodscomments.form_item_rating_message'), -1);
         }
 
         // 评论内容
@@ -104,7 +105,7 @@ class GoodsCommentsService
             $len = mb_strlen($v, 'utf-8');
             if($len < 6 || $len > 230)
             {
-                return DataReturn('评论内容 6~230 个字符之间', -1);
+                return DataReturn(MyLang('common_service.goodscomments.form_item_content_message'), -1);
             }
         }
 
@@ -125,7 +126,7 @@ class GoodsCommentsService
                     }
                     if(count($v) > 3)
                     {
-                        return DataReturn('每项评论图片不能超过3张', -1);
+                        return DataReturn(MyLang('common_service.goodscomments.form_item_images_message'), -1);
                     }
                 }
             }
@@ -142,11 +143,11 @@ class GoodsCommentsService
         if($order['status'] != 4)
         {
             $status_text = MyLang('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
         if($order['user_is_comments'] != 0)
         {
-            return DataReturn('该订单你已进行过评论', -10);
+            return DataReturn(MyLang('common_service.goodscomments.save_order_already_comments_tips'), -10);
         }
 
         // 处理数据
@@ -168,7 +169,7 @@ class GoodsCommentsService
             if(Db::name('GoodsComments')->insertGetId($data) <= 0)
             {
                 Db::rollback();
-                return DataReturn('评论内容添加失败', -100);
+                return DataReturn(MyLang('common_service.goodscomments.save_comments_add_fail_tips'), -100);
             }
         }
 
@@ -176,11 +177,11 @@ class GoodsCommentsService
         if(!Db::name('Order')->where($where)->update(['user_is_comments'=>time(), 'upd_time'=>time()]))
         {
             Db::rollback();
-            return DataReturn('订单更新失败', -101);
+            return DataReturn(MyLang('common_service.goodscomments.save_order_comments_update_tail_tips'), -101);
         }
 
         Db::commit();
-        return DataReturn('评论成功', 0);
+        return DataReturn(MyLang('comments_success'), 0);
     }
 
     /**
@@ -250,6 +251,7 @@ class GoodsCommentsService
             $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
 
             // 数据处理
+            $username_default = MyLang('common_service.goodscomments.comments_username_default');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -260,7 +262,7 @@ class GoodsCommentsService
                     {
                         $v['user'] = [
                             'avatar'            => empty($user['avatar']) ? $default_avatar : $user['avatar'],
-                            'user_name_view'    => (!isset($v['is_anonymous']) || $v['is_anonymous'] == 1 || empty($user['user_name_view'])) ? '匿名' : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
+                            'user_name_view'    => (!isset($v['is_anonymous']) || $v['is_anonymous'] == 1 || empty($user['user_name_view'])) ? $username_default : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
                         ];
                     } else {
                         $v['user'] = $user;
@@ -422,26 +424,26 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'checked_data'      => array_keys(MyLang('common_order_aftersale_refundment_list')),
-                'error_msg'         => '请选择业务类型',
+                'checked_data'      => array_keys(MyLang('common_goods_comments_business_type_list')),
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '6,230',
-                'error_msg'         => '评论内容 6~230 个字符之间',
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_content_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'reply',
                 'checked_data'      => '230',
-                'error_msg'         => '回复内容最多 230 个字符',
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_reply_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'rating',
                 'checked_data'      => array_keys(MyLang('common_goods_comments_rating_list')),
-                'error_msg'         => '请选择评分',
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_rating_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -468,7 +470,7 @@ class GoodsCommentsService
         {
             return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn('编辑失败或数据不存在', -100); 
+        return DataReturn(MyLang('edit_fail'), -100); 
     }
 
     /**
@@ -520,15 +522,10 @@ class GoodsCommentsService
                 'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'reply',
-                'error_msg'         => '回复内容不能为空',
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'reply',
                 'checked_data'      => '1,230',
-                'error_msg'         => '回复内容格式 1~230 个字符',
+                'error_msg'         => MyLang('common_service.goodscomments.form_item_reply_content_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

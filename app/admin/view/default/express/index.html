@@ -20,7 +20,7 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/express/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group am-form-file">
-							<label class="am-block">{{:MyLang('express.form_item_icon')}}</label>
+							<label class="am-block">{{:MyLang('common_service.express.form_item_icon')}}</label>
 							<ul class="plug-file-upload-view express-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
 								<li>
 									<input type="hidden" name="icon" value="" />
@@ -31,12 +31,12 @@
 							<div class="plug-file-upload-submit" data-view-tag="ul.express-icon-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 						</div>
 						<div class="am-form-group">
-							<label>{{:MyLang('express.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="{{:MyLang('express.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('express.form_item_name_message')}}" class="am-radius" required />
+							<label>{{:MyLang('common_service.express.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="text" placeholder="{{:MyLang('common_service.express.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.express.form_item_name_message')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:MyLang('express.form_item_website_url')}}</label>
-							<input type="url" placeholder="{{:MyLang('express.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('express.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
+							<label>{{:MyLang('common_service.express.form_item_website_url')}}</label>
+							<input type="url" placeholder="{{:MyLang('common_service.express.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('common_service.express.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
 						</div>
 						{{include file="lib/sort" /}}
 						{{include file="lib/is_enable" /}}

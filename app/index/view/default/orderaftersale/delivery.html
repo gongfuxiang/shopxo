@@ -6,17 +6,17 @@
         </div>
         <div class="am-popup-bd">
             <div class="am-alert">
-                <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}</span>
+                <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}：</span>
                 <span class="am-text-warning">{{$return_goods_address}}</span>
             </div>
             <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('index/orderaftersale/delivery')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group">
-                    <label>{{:MyLang('orderaftersale.form_item_express_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="express_name" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_express_name')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('orderaftersale.form_item_express_name_message')}}" required />
+                    <label>{{:MyLang('common_service.orderaftersale.form_item_express_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="express_name" class="am-radius" placeholder="{{:MyLang('common_service.orderaftersale.form_item_express_name')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_express_name_message')}}" required />
                 </div>
                 <div class="am-form-group">
-                    <label>{{:MyLang('orderaftersale.form_item_express_number')}}<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="express_number" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_express_number')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('orderaftersale.form_item_express_number_message')}}" required />
+                    <label>{{:MyLang('common_service.orderaftersale.form_item_express_number')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="express_number" class="am-radius" placeholder="{{:MyLang('common_service.orderaftersale.form_item_express_number')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_express_number_message')}}" required />
                 </div>
                 <div class="am-form-popup-submit">
                     <input type="hidden" name="id" value="{{$new_aftersale_data.id}}" />

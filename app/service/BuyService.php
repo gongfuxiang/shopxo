@@ -48,7 +48,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods_data',
-                'error_msg'         => '购买商品有误',
+                'error_msg'         => MyLang('common_service.buy.buy_goods_data_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -175,7 +175,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'ids',
-                'error_msg'         => '购物车id有误',
+                'error_msg'         => MyLang('common_service.buy.cart_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -447,8 +447,8 @@ class BuyService
 
         // 返回数据
         $result = [
-            'goods'             => $order_split['data'],
-            'base'              => $base,
+            'goods'                 => $order_split['data'],
+            'base'                  => $base,
         ];
 
         // 生成订单数据处理钩子
@@ -489,7 +489,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods',
-                'error_msg'         => '商品信息为空',
+                'error_msg'         => MyLang('gooods_data_no_data_tips'),
             ],
             [
                 'checked_type'      => 'is_array',
@@ -522,23 +522,23 @@ class BuyService
             $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number,site_type')->find($v['goods_id']);
             if(empty($goods))
             {
-                return DataReturn('商品不存在['.$v['title'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_no_exist_tips').'['.$v['title'].']', -1);
             }
 
             // 基础判断
             if($goods['is_shelves'] != 1)
             {
-                return DataReturn('商品已下架['.$goods['title'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_already_shelves_tips').'['.$goods['title'].']', -1);
             }
 
             // 限购
             if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
             {
-                return DataReturn('低于商品起购数量['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
             }
             if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
             {
-                return DataReturn('超过商品限购数量['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
 
             // 是否支持购物车操作
@@ -568,10 +568,9 @@ class BuyService
             // 库存
             if($v['stock'] > $goods['inventory'])
             {
-                return DataReturn('购买数量超过商品库存数量['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_buy_exceed_inventory_tips').'['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
             }
         }
-
         return DataReturn(MyLang('check_success'), 0);
     }
 
@@ -590,7 +589,7 @@ class BuyService
         $common_site_type = SystemBaseService::SiteTypeValue();
         if($common_site_type == 1)
         {
-            return DataReturn('展示型不允许提交订单', -1);
+            return DataReturn(MyLang('common_service.buy.exhibition_not_allow_submit_tips'), -1);
         }
 
         // 销售+自提, 用户自选站点类型
@@ -612,7 +611,7 @@ class BuyService
             $p[] = [
                 'checked_type'      => 'isset',
                 'key_name'          => 'address_id',
-                'error_msg'         => '请选择地址',
+                'error_msg'         => MyLang('common_service.buy.choice_not_address_tips'),
             ];
         }
         $ret = ParamsChecked($params, $p);
@@ -701,7 +700,7 @@ class BuyService
             {
                 if(empty($v['order_base']['address']))
                 {
-                    return DataReturn('地址有误', -1);
+                    return DataReturn(MyLang('common_service.buy.address_empty_tips'), -1);
                 } else {
                     $address = $v['order_base']['address'];
                 }
@@ -781,18 +780,18 @@ class BuyService
         {
             // 预约成功
             case 0 :
-                $msg = '预约成功';
+                $msg = MyLang('prebook_success');
                 break;
 
             // 提交成功,进入合并支付
             case 1 :
-                $msg = '提交成功';
+                $msg = MyLang('submit_success');
                 $result['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
                 break;
 
             // 默认操作成功
             default :
-                $msg = '操作成功';
+                $msg = MyLang('operate_success');
         }
 
         return DataReturn($msg, 0, $result);
@@ -855,7 +854,7 @@ class BuyService
                 $order_id = Db::name('Order')->insertGetId($order);
                 if($order_id <= 0)
                 {
-                    throw new \Exception('订单添加失败');
+                    throw new \Exception(MyLang('common_service.buy.order_insert_fail_tips'));
                 }
                 $order['id'] = $order_id;
 
@@ -1032,7 +1031,7 @@ class BuyService
         {
             return DataReturn(MyLang('insert_success'), 0, $order_detail_id);
         }
-        return DataReturn('订单详情添加失败', -1);
+        return DataReturn(MyLang('common_service.buy.order_detail_insert_fail_tips'), -1);
     }
 
     /**
@@ -1073,7 +1072,7 @@ class BuyService
         {
             return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn('订单取货码添加失败', -1);
+        return DataReturn(MyLang('common_service.buy.order_take_insert_fail_tips'), -1);
     }
 
     /**
@@ -1119,7 +1118,7 @@ class BuyService
         {
             return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn('订单虚拟信息添加失败', -1);
+        return DataReturn(MyLang('common_service.buy.order_fictitious_insert_fail_tips'), -1);
     }
 
     /**
@@ -1178,7 +1177,7 @@ class BuyService
         {
             return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn('订单地址添加失败', -1);
+        return DataReturn(MyLang('common_service.buy.order_address_insert_fail_tips'), -1);
     }
 
     /**
@@ -1210,7 +1209,7 @@ class BuyService
         $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
         if($common_is_deduction_inventory != 1)
         {
-            return DataReturn('未开启扣除库存', 0);
+            return DataReturn(MyLang('common_service.buy.inventory_dec_not_enable_tips'), 0);
         }
 
         // 扣除库存规则
@@ -1223,7 +1222,7 @@ class BuyService
             $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select()->toArray();
             if(empty($order_detail))
             {
-                return DataReturn('订单详情有误', -1);
+                return DataReturn(MyLang('common_service.buy.order_detail_data_error_tips'), -1);
             }
 
             // 数据校验
@@ -1253,14 +1252,9 @@ class BuyService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'order_data',
-                'error_msg'         => '订单数据不能为空',
-            ],
-            [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'order_data',
-                'error_msg'         => '订单数据有误',
+                'error_msg'         => MyLang('common_service.buy.order_data_error_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -1273,7 +1267,7 @@ class BuyService
         $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
         if($common_is_deduction_inventory != 1)
         {
-            return DataReturn('未开启扣除库存', 0);
+            return DataReturn(MyLang('common_service.buy.inventory_dec_not_enable_tips'), 0);
         }
 
         // 扣除库存规则
@@ -1286,7 +1280,7 @@ class BuyService
             $detail = Db::name('OrderDetail')->field('id,order_id,goods_id,buy_number,spec')->where(['order_id'=>array_column($params['order_data'], 'id')])->select()->toArray();
             if(empty($detail))
             {
-                return DataReturn('订单详情有误', -1);
+                return DataReturn(MyLang('common_service.buy.order_detail_data_error_tips'), -1);
             }
 
             // 订单集合
@@ -1325,7 +1319,6 @@ class BuyService
                 }
             }
         }
-
         return DataReturn(MyLang('check_success'), 0);
     }
 
@@ -1345,13 +1338,13 @@ class BuyService
         $goods = Db::name('Goods')->field('is_shelves,is_deduction_inventory,inventory,title')->find($detail['goods_id']);
         if(empty($goods))
         {
-            return DataReturn('商品不存在', -10);
+            return DataReturn(MyLang('common_service.buy.goods_no_exist_tips'), -10);
         }
 
         // 商品状态
         if($goods['is_shelves'] != 1)
         {
-            return DataReturn('商品已下架['.$goods['title'].']', -10);
+            return DataReturn(MyLang('common_service.buy.goods_already_shelves_tips').'['.$goods['title'].']', -10);
         }
 
         // 库存
@@ -1360,7 +1353,7 @@ class BuyService
             // 先判断商品库存是否不足
             if($goods['inventory'] < $detail['buy_number'])
             {
-                return DataReturn('库存不足['.$goods['title'].'('.$goods['inventory'].'<'.$detail['buy_number'].')]', -10);
+                return DataReturn(MyLang('common_service.buy.goods_inventory_not_enough_tips').'['.$goods['title'].'('.$goods['inventory'].'<'.$detail['buy_number'].')]', -10);
             }
 
             // 规格库存
@@ -1375,7 +1368,7 @@ class BuyService
                 // 先判断商品规格库存是否不足
                 if($base['data']['spec_base']['inventory'] < $detail['buy_number'])
                 {
-                    return DataReturn('库存不足['.$goods['title'].'('.$base['data']['spec_base']['inventory'].'<'.$detail['buy_number'].')]', -10);
+                    return DataReturn(MyLang('common_service.buy.goods_inventory_not_enough_tips').'['.$goods['title'].'('.$base['data']['spec_base']['inventory'].'<'.$detail['buy_number'].')]', -10);
                 }
             } else {
                 return $base;
@@ -1406,7 +1399,7 @@ class BuyService
                 'checked_type'      => 'in',
                 'key_name'          => 'opt_type',
                 'checked_data'      => ['confirm', 'pay', 'delivery'],
-                'error_msg'         => '订单操作类型有误',
+                'error_msg'         => MyLang('common_service.buy.order_inventory_dec_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1419,7 +1412,7 @@ class BuyService
         $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
         if($common_is_deduction_inventory != 1)
         {
-            return DataReturn('未开启扣除库存', 0);
+            return DataReturn(MyLang('common_service.buy.inventory_dec_not_enable_tips'), 0);
         }
 
         // 扣除库存规则
@@ -1430,7 +1423,7 @@ class BuyService
             case 0 :
                 if($params['opt_type'] != 'confirm')
                 {
-                    return DataReturn('当前订单状态未操作确认-不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn(MyLang('common_service.buy.inventory_dec_not_confirm_tips').'['.$params['order_id'].']', 0);
                 }
                 break;
 
@@ -1438,7 +1431,7 @@ class BuyService
             case 1 :
                 if($params['opt_type'] != 'pay')
                 {
-                    return DataReturn('当前订单状态未操作支付-不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn(MyLang('common_service.buy.inventory_dec_not_pay_tips').'['.$params['order_id'].']', 0);
                 }
                 break;
 
@@ -1446,7 +1439,7 @@ class BuyService
             case 2 :
                 if($params['opt_type'] != 'delivery')
                 {
-                    return DataReturn('当前订单状态未操作发货-不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn(MyLang('common_service.buy.inventory_dec_not_delivery_tips').'['.$params['order_id'].']', 0);
                 }
                 break;
         }
@@ -1467,13 +1460,13 @@ class BuyService
                         // 先判断商品库存是否不足
                         if($goods['inventory'] < $v['buy_number'])
                         {
-                            return DataReturn('商品库存不足['.$goods['title'].'('.$goods['inventory'].'<'.$v['buy_number'].')]', -10);
+                            return DataReturn(MyLang('common_service.buy.goods_inventory_not_enough_tips').'['.$goods['title'].'('.$goods['inventory'].'<'.$v['buy_number'].')]', -10);
                         }
 
                         // 扣除操作
                         if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->dec('inventory', $v['buy_number'])->update())
                         {
-                            return DataReturn('商品库存扣减失败['.$params['order_id'].'-'.$v['id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
+                            return DataReturn(MyLang('common_service.buy.goods_inventory_dec_fail_tips').'['.$params['order_id'].'-'.$v['id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                         }
 
                         // 扣除规格库存
@@ -1488,13 +1481,13 @@ class BuyService
                             // 先判断商品规格库存是否不足
                             if($base['data']['spec_base']['inventory'] < $v['buy_number'])
                             {
-                                return DataReturn('商品规格库存不足['.$goods['title'].'('.$base['data']['spec_base']['inventory'].'<'.$v['buy_number'].']', -10);
+                                return DataReturn(MyLang('common_service.buy.goods_spec_inventory_not_enough_tips').'['.$goods['title'].'('.$base['data']['spec_base']['inventory'].'<'.$v['buy_number'].']', -10);
                             }
 
                             // 扣除规格操作
                             if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->dec('inventory', $v['buy_number'])->update())
                             {
-                                return DataReturn('规格库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
+                                return DataReturn(MyLang('common_service.buy.goods_spec_inventory_dec_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                             }
                         } else {
                             return $base;
@@ -1519,14 +1512,14 @@ class BuyService
                         ];
                         if(Db::name('OrderGoodsInventoryLog')->insertGetId($log_data) <= 0)
                         {
-                            return DataReturn('库存扣减日志添加失败['.$params['order_id'].'-'.$v['goods_id'].']', -100);
+                            return DataReturn(MyLang('common_service.buy.inventory_dec_log_insert_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -100);
                         }
                     }
                 }
             }
             return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn('没有需要扣除库存的数据', 0);
+        return DataReturn(MyLang('common_service.buy.inventory_dec_no_data_tips'), 0);
     }
 
     /**
@@ -1548,14 +1541,9 @@ class BuyService
                 'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'order_data',
-                'error_msg'         => '订单更新数据不能为空',
-            ],
-            [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'order_data',
-                'error_msg'         => '订单更新数据有误',
+                'error_msg'         => MyLang('common_service.buy.order_data_error_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -1570,7 +1558,7 @@ class BuyService
             // 仅订单取消、关闭操作库存回滚
             if(!in_array($params['order_data']['status'], [5,6]))
             {
-                return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
+                return DataReturn(MyLang('common_service.buy.inventory_revert_not_allow_tips').'['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
             }
         }
 
@@ -1601,7 +1589,7 @@ class BuyService
                     {
                             if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
                         {
-                            return DataReturn('商品库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            return DataReturn(MyLang('common_service.buy.inventory_revert_goods_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }
                     }
 
@@ -1617,7 +1605,7 @@ class BuyService
                         // 回滚规格操作
                         if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
                         {
-                            return DataReturn('规格库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            return DataReturn(MyLang('common_service.buy.inventory_revert_goods_spec_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }
                     }
 
@@ -1635,13 +1623,13 @@ class BuyService
                     ];
                     if(!Db::name('OrderGoodsInventoryLog')->where(['id'=>$temp['id']])->update($log_data))
                     {
-                        return DataReturn('库存回滚日志更新失败['.$temp['id'].'-'.$params['order_id'].']', -100);
+                        return DataReturn(MyLang('common_service.buy.inventory_revert_log_fail_tips').'['.$temp['id'].'-'.$params['order_id'].']', -100);
                     }
                 }
             }
             return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn('没有需要回滚的数据', 0);
+        return DataReturn(MyLang('common_service.buy.inventory_revert_no_data_tips'), 0);
     }
 
     /**

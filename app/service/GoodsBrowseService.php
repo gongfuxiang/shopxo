@@ -102,7 +102,6 @@ class GoodsBrowseService
         {
             $where[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
         }
-
         return $where;
     }
 

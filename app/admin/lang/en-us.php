@@ -357,9 +357,6 @@ return [
 
     // 文章
     'article'               => [
-        'base_nav_title'                        => 'Article',
-        'detail_content_title'                  => 'Detail Content',
-        'detail_images_title'                   => 'Detail Picture',
         // 动态表格
         'form_table'                            => [
             'info'                   => 'Title',
@@ -384,12 +381,6 @@ return [
         'base_nav_title'                        => 'Custom Page',
         'detail_content_title'                  => 'Detail Content',
         'detail_images_title'                   => 'Detail Picture',
-        // 表单
-        'form_item_title'                       => 'Title',
-        'form_item_title_message'               => 'The title is 2~60 characters long',
-        'form_item_content_title'               => 'Content',
-        'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
-        'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
         // 动态表格
         'form_table'                            => [
             'info'            => 'Title',
@@ -640,145 +631,18 @@ return [
     // 商品
     'goods'                 => [
         'base_nav_title'                        => 'Goods',
-        'nav_right_list'                        => [
-            ['name' => 'Basic Info', 'type'=>'base'],
-            ['name' => 'Goods Spec', 'type'=>'operations'],
-            ['name' => 'Goods Params', 'type'=>'parameters'],
-            ['name' => 'Goods Photo', 'type'=>'photo'],
-            ['name' => 'Goods Video', 'type'=>'video'],
-            ['name' => 'Mobile Detail', 'type'=>'app'],
-            ['name' => 'Web Detail', 'type'=>'web'],
-            ['name' => 'Fictitious', 'type'=>'fictitious'],
-            ['name' => 'Extends', 'type'=>'extends'],
-            ['name' => 'SEO Info', 'type'=>'seo'],
+        'goods_nav_list'                        => [
+            'base'            => ['name' => 'Basic Info', 'type'=>'base'],
+            'specifications'  => ['name' => 'Goods Spec', 'type'=>'specifications'],
+            'parameters'      => ['name' => 'Goods Params', 'type'=>'parameters'],
+            'photo'           => ['name' => 'Goods Photo', 'type'=>'photo'],
+            'video'           => ['name' => 'Goods Video', 'type'=>'video'],
+            'app'             => ['name' => 'Mobile Detail', 'type'=>'app'],
+            'web'             => ['name' => 'Web Detail', 'type'=>'web'],
+            'fictitious'      => ['name' => 'Fictitious', 'type'=>'fictitious'],
+            'extends'         => ['name' => 'Extends', 'type'=>'extends'],
+            'seo'             => ['name' => 'SEO Info', 'type'=>'seo'],
         ],
-        // 表单
-        'form_item_title'                       => 'Goods Title',
-        'form_item_title_message'               => 'Goods name format 2~160 characters',
-        'form_item_category_id'                 => 'Goods Category',
-        'form_item_category_id_message'         => 'Please select at least one goods category',
-        'form_item_simple_desc'                 => 'Goods description',
-        'form_item_simple_desc_message'         => 'Goods description format can be up to 230 characters',
-        'form_item_model'                       => 'Goods model',
-        'form_item_model_message'               => 'Goods model format can be up to 30 characters',
-        'form_item_brand'                       => 'Brand',
-        'form_item_brand_message'               => 'Please select a brand',
-        'form_item_place_origin'                => 'Place of production',
-        'form_item_place_origin_message'        => 'Please select the place of production',
-        'form_item_inventory_unit'              => 'Inventory unit',
-        'form_item_inventory_unit_message'      => 'Inventory unit format 1~6 characters',
-        'form_item_give_integral'               => 'Percentage of free points for purchase',
-        'form_item_give_integral_tips'          => [
-            '1. Distribute according to the proportion of goods amount multiplied by quantity',
-            '2. When the order is completed, it will be automatically distributed to the user to lock the points',
-            '3. Site settings ->script processing in extension',
-        ],
-        'form_item_give_integral_placeholder'   => 'Purchase free points',
-        'form_item_give_integral_message'       => 'Purchase a number with a percentage of 0 to 100 points',
-        'form_item_buy_min_number'              => 'Minimum purchase quantity',
-        'form_item_buy_min_number_message'      => 'The minimum purchase quantity ranges from 1 to 100000000',
-        'form_item_buy_max_number'              => 'Maximum quantity of single purchase',
-        'form_item_buy_max_number_tips'         => [
-            '1. Single maximum value 100000000',
-            '2. No limit if less than or equal to 0 or empty',
-        ],
-        'form_item_buy_max_number_message'      => 'The maximum number of single purchase ranges from 1 to 100000000',
-        'form_item_site_type'                   => 'Goods Type',
-        'form_item_site_type_tips'              => [
-            '1. The currently configured site type is ( 站点类型 )',
-            '2. If the goods type is not configured, follow the site type configured by the system',
-            '3. When the set goods type is not included in the site type set by the system, the function of adding products to the shopping cart will be invalid',
-        ],
-        'form_item_site_type_message'           => 'Please select goods type',
-        'form_item_images'                      => 'cover photo',
-        'form_item_images_tips'                 => 'If left blank, take the first picture of the album and suggest 800*800px',
-        'form_item_is_deduction_inventory'      => 'Inventory deduction',
-        'form_item_is_deduction_inventory_tips' => 'The deduction rules are determined according to the background configuration ->deduction inventory rules',
-        'form_item_is_shelves'                  => 'Upper and lower shelves',
-        'form_item_is_shelves_tips'             => 'Not visible to users after being removed from the shelf',
-        'form_item_spec_title'                  => 'Goods Spec',
-        'form_item_params_title'                => 'Goods Params',
-        'form_item_photo_title'                 => 'Goods Photo',
-        'form_item_video_title'                 => 'Goods Video',
-        'form_item_app_title'                   => 'Mobile Detail',
-        'form_item_web_title'                   => 'Web Detail',
-        'form_item_fictitious_title'            => 'Fictitious',
-        'form_item_extends_title'               => 'Extends',
-        'form_item_extends_popup_title'         => 'Spec Extended Data',
-        // 规格
-        'form_spec_top_list_tips'               => [
-            '1. Adding specifications in batches can quickly create commodity SKUs, greatly saving SKU editing time. Shortcut operation data does not affect SKU data, and only overwrites SKU when it is generated.',
-            '2. You can configure the specification template in the background commodity management ->commodity specification, select the commodity specification module to quickly generate the corresponding specification data, and effectively provide efficiency',
-            '3. After goods are added successfully, add and configure inventory in warehouse management ->warehouse goods',
-        ],
-        'form_spec_template_tips'               => 'Incorrect specification template data',
-        'form_spec_template_name_exist_tips'    => 'The same specification name already exists',
-        'form_spec_template_placeholder'        => 'Goods specification template...',
-        'form_spec_template_message'            => 'Please select a product specification template',
-        'form_spec_quick_add_title'             => 'Batch add specifications',
-        'form_spec_quick_generate_title'        => 'Generate specifications',
-        'form_spec_type_title'                  => 'Spec Name',
-        'form_spec_type_message'                => 'Please fill in the specification name',
-        'form_spec_value_title'                 => 'Spec Value',
-        'form_spec_value_message'               => 'Please fill in the specification value',
-        'form_spec_value_add_title'             => 'Add Spec Value',
-        'form_spec_empty_data_tips'             => 'Please add specifications first',
-        'form_spec_advanced_batch_setup_title'  => 'Advanced batch settings',
-        'form_spec_list_content_tips'           => 'You can directly click the specification line to drag and sort or click up and down to move',
-        'form_spec_max_error'                   => 'Add at most '.MyC('common_spec_add_max_number', 3, true).'Column specifications can be configured in background management [System Settings - Background Configuration]',
-        'form_spec_empty_fill_tips'             => 'Please fill in the specification first',
-        'form_spec_images_message'              => 'Please upload the specification image',
-        'form_spec_min_tips_message'            => 'At least one line of specification value needs to be reserved',
-        'form_spec_quick_error'                 => 'The shortcut specification is empty',
-        'form_spec_quick_tips_msg'              => 'Generating specifications will empty existing specification data. Do you want to continue?',
-        'form_spec_move_type_tips'              => 'Incorrect operation type configuration',
-        'form_spec_move_top_tips'               => 'Reached the top',
-        'form_spec_move_bottom_tips'            => 'Reached the bottom',
-        'form_spec_thead_price_title'           => 'Sales price (yuan)',
-        'form_spec_thead_price_message'         => 'Please fill in valid sales amount',
-        'form_spec_thead_original_price_title'  => 'Original price (yuan)',
-        'form_spec_thead_original_price_message'=> 'Please fill in valid original price',
-        'form_spec_thead_inventory_title'       => 'Inventory',
-        'form_spec_thead_weight_title'          => 'Weight (kg)',
-        'form_spec_thead_weight_message'        => 'Specification and weight 0~100000000',
-        'form_spec_thead_volume_title'          => 'Volume (m ³)',
-        'form_spec_thead_volume_message'        => 'Specification volume 0~100000000',
-        'form_spec_thead_coding_title'          => 'Coding',
-        'form_spec_thead_coding_message'        => 'Specification code can be up to 60 characters',
-        'form_spec_thead_barcode_title'         => 'Barcode',
-        'form_spec_thead_barcode_message'       => 'Barcode can be up to 60 characters',
-        'form_spec_row_add_title'               => 'Add a row',
-        'form_spec_images_tips'                 => 'The specification name is consistent with the specification value. The same specification name can be added once, and repeated addition will cover the front. The order will not affect the front display effect.',
-        'form_spec_images_title'                => 'Goods specification picture',
-        'form_spec_images_add_title'            => 'Add specification picture',
-        'form_spec_images_add_auto_first'       => 'No',
-        'form_spec_images_add_auto_last'        => 'Automatic generation of column specifications',
-        'form_spec_images_type_title'           => 'Spec Name',
-        'form_spec_images_type_message'         => 'Please fill in the specification name',
-        'form_spec_images_images_message'       => 'Please upload the specification image',
-        'form_spec_all_operate_title'           => 'Batch operation',
-        'form_spec_all_operate_placeholder'     => 'Batch set value',
-        // 参数
-        'form_params_select_title'              => 'Goods Params Template',
-        'form_params_select_placeholder'        => 'Goods Params Template...',
-        'form_params_select_message'            => 'Please select a product parameter template',
-        'form_params_value_placeholder'         => 'Paste commodity parameter configuration information',
-        'form_params_config_copy_title'         => 'Copy Config',
-        'form_params_config_empty_title'        => 'Clear Params',
-        'form_params_list_content_tips'         => 'You can directly click the parameter line to drag and sort or click up and down to move',
-        // 相册
-        'form_photo_top_tips'                   => 'You can drag and drop pictures to sort. It is recommended that the size of pictures be consistent with 800 * 800px, with a maximum of 30 pictures',
-        'form_photo_button_add_name'            => 'Upload Photo',
-        // 视频
-        'form_video_top_tips'                   => 'Video has more sense of introduction than pictures and text, and only supports mp4 format',
-        'form_video_button_add_name'            => 'Upload Video',
-        // 手机详情
-        'form_app_top_tips'                     => 'After setting the phone details, the phone details will be displayed in the phone mode, such as [App, APP]',
-        'form_app_value_title'                  => 'Text Content',
-        'form_app_value_message'                => 'Text content can be up to 105000 characters',
-        'form_app_button_add_name'              => 'Add Phone Detail',
-        // 电脑详情
-        'form_web_content_message'              => 'The details of the computer terminal can be up to 105000 characters',
         // 动态表格
         'form_table'                            => [
             'id'                      => 'Goods ID',
@@ -806,40 +670,11 @@ return [
     // 商品分类
     'goodscategory'         => [
         'base_nav_title'                        => 'GoodsCategory',
-        // 表单
-        'form_item_icon'                        => 'Icon',
-        'form_item_icon_tips'                   => '100 * 100px recommend',
-        'form_item_big_images'                  => 'Large Picture',
-        'form_item_big_images_tips'             => '360 * 360px recommend',
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~16 characters',
-        'form_item_vice_name'                   => 'Sub Name',
-        'form_item_vice_name_message'           => 'The secondary name can be up to 60 characters',
-        'form_item_describe'                    => 'Describe',
-        'form_item_describe_message'            => 'Description can be up to 200 characters',
-        'form_item_is_home_recommended'         => 'HomePage Recommend',
     ],
 
     // 商品评论
     'goodscomments'         => [
         'base_nav_title'                        => 'GoodsComments',
-        // 表单
-        'form_item_goods_info_title'            => 'Goods Info',
-        'form_item_user_info_title'             => 'User Info',
-        'form_item_business_type'               => 'Business Type',
-        'form_item_business_type_placeholder'   => 'Business type...',
-        'form_item_business_type_message'       => 'Please select a business type',
-        'form_item_rating'                      => 'Score',
-        'form_item_rating_placeholder'          => 'No score',
-        'form_item_rating_message'              => 'Please select a score',
-        'form_item_content'                     => 'Comment Content',
-        'form_item_content_message'             => 'Comment content is between 6 and 230 characters',
-        'form_item_reply'                       => 'Reply Content',
-        'form_item_reply_message'               => 'Reply content can be up to 230 characters',
-        'form_item_reply_time'                  => 'Reply Time',
-        'form_item_reply_time_message'          => 'Incorrect format of reply time',
-        'form_item_is_reply'                    => 'Reply or not',
-        'form_item_is_anonymous'                => 'Anonymous or not',
         // 动态表格
         'form_table'                            => [
             'user'                       => 'User Info',
@@ -863,18 +698,6 @@ return [
     // 商品参数模板
     'goodsparamstemplate'   => [
         'detail_params_title'                   => 'GoodsParams',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~30 characters',
-        'form_item_category_id'                 => 'Goods Category',
-        'form_item_category_id_tips'            => 'Include children',
-        'form_item_category_id_message'         => 'Please select product classification',
-        'form_item_config_title'                => 'Params Config',
-        'form_item_config_value_placeholder'    => 'Paste commodity parameter configuration information',
-        'form_item_config_template_title'       => 'Goods Params template',
-        'form_item_config_copy_title'           => 'Copy Config',
-        'form_item_config_empty_title'          => 'Clear Params',
-        'form_item_config_list_content_tips'    => 'You can directly click the parameter line to drag and sort or click up and down to move',
         // 动态表格
         'form_table'                            => [
             'category_id'   => 'Goods Category',
@@ -888,15 +711,6 @@ return [
 
     // 商品规格模板
     'goodsspectemplate'     => [
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 1~30 characters',
-        'form_item_category_id'                 => 'Goods Category',
-        'form_item_category_id_tips'            => 'Include children',
-        'form_item_category_id_message'         => 'Please select product classification',
-        'form_item_content'                     => 'Spec Value',
-        'form_item_content_placeholder'         => 'Specification value (multiple values can be achieved by entering Enter)',
-        'form_item_content_message'             => 'Specification value format: 1~1000 characters',
         // 动态表格
         'form_table'                            => [
             'category_id'  => 'Goods Category',
@@ -953,14 +767,6 @@ return [
     // 友情链接
     'link'                  => [
         'base_nav_title'                        => 'Friendly link',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~16 characters',
-        'form_item_url'                         => 'Link Address',
-        'form_item_url_placeholder'             => 'Link address, starting with http://or https://',
-        'form_item_url_message'                 => 'Incorrect format of link address',
-        'form_item_desc'                        => 'Describe',
-        'form_item_desc_message'                => 'Description can be up to 60 characters',
         // 动态表格
         'form_table'                            => [
             'info'                => 'Name',
@@ -1103,10 +909,6 @@ return [
         'forn_apply_info_number'                => 'Number',
         'forn_apply_info_reason'                => 'Reason',
         'forn_apply_info_msg'                   => 'Describe',
-        'form_item_refundment'                  => 'Refund Method',
-        'form_item_refundment_message'          => 'Please select a refund method',
-        'form_item_refuse_reason'               => 'Reason for rejection',
-        'form_item_refuse_reason_message'       => 'Rejection reason format: 2~230 characters',
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Base Info',
@@ -1184,13 +986,6 @@ return [
     // 快递
     'express'               => [
         'base_nav_title'                        => 'Express',
-        // 表单
-        'form_item_icon'                        => 'Icon',
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~16 characters',
-        'form_item_website_url'                 => 'Website Address',
-        'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
-        'form_item_website_url_message'         => 'Incorrect format of official website address',
     ],
 
     // 主题管理

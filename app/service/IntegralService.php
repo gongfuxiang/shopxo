@@ -39,7 +39,7 @@ class IntegralService
      */
     public static function UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
     {
-        $data = array(
+        $data = [
             'user_id'               => intval($user_id),
             'original_integral'     => intval($original_integral),
             'operation_integral'    => intval($operation_integral),
@@ -47,14 +47,15 @@ class IntegralService
             'type'                  => intval($type),
             'operation_id'          => intval($operation_id),
             'add_time'              => time(),
-        );
+        ];
         $data['new_integral'] = ($data['type'] == 1) ? $data['original_integral']+$data['operation_integral'] : $data['original_integral']-$data['operation_integral'];
         $log_id = Db::name('UserIntegralLog')->insertGetId($data);
         if($log_id > 0)
         {
+            $lang = MyLang('common_config.integral.add_message_data');
             $type_msg = MyLang('common_integral_log_type_list')[$type]['name'];
-            $detail = $msg.'积分'.$type_msg.$operation_integral;
-            MessageService::MessageAdd($user_id, '积分变动', $detail, '积分', $log_id);
+            $detail = $msg.$lang['title'].$type_msg.$operation_integral;
+            MessageService::MessageAdd($user_id, $lang['desc'], $detail, $lang['title'], $log_id);
             return true;
         }
         return false;
@@ -209,18 +210,18 @@ class IntegralService
         $order = Db::name('Order')->field('id,user_id,status')->find(intval($params['order_id']));
         if(empty($order))
         {
-            return DataReturn('订单不存在或已删除，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.order_empty_exit_tips'), 0);
         }
         if(!in_array($order['status'], [4]))
         {
-            return DataReturn('当前订单状态不允许操作，未完成', 0);
+            return DataReturn(MyLang('common_service.integral.order_status_not_allow_exit_tips'), 0);
         }
 
         // 获取用户信息
         $user = Db::name('User')->field('id')->find($order['user_id']);
         if(empty($user))
         {
-            return DataReturn('用户不存在或已删除，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.user_empty_exit_tips'), 0);
         }
 
         // 获取订单商品
@@ -259,7 +260,7 @@ class IntegralService
                                     // 增加用户锁定积分
                                     if(!Db::name('User')->where(['id'=>$user['id']])->inc('locking_integral', $give_integral)->update())
                                     {
-                                        return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$dv['goods_id'].']', -10);
+                                        return DataReturn(MyLang('common_service.integral.integral_give_fail_tips').'['.$params['order_id'].'-'.$dv['goods_id'].']', -10);
                                     }
 
                                     // 积分赠送日志添加
@@ -275,7 +276,7 @@ class IntegralService
                                     ];
                                     if(Db::name('GoodsGiveIntegralLog')->insertGetId($log_data) <= 0)
                                     {
-                                        return DataReturn('用户积分赠送日志添加失败['.$params['order_id'].'-'.$dv['goods_id'].']', -11);
+                                        return DataReturn(MyLang('common_service.integral.integral_give_log_add_fail_tips').'['.$params['order_id'].'-'.$dv['goods_id'].']', -11);
                                     }
                                 }
                             }
@@ -285,7 +286,7 @@ class IntegralService
                 return DataReturn(MyLang('operate_success'), 0);
             }
         }
-        return DataReturn('没有需要操作的数据', 0);
+        return DataReturn(MyLang('common_service.integral.integral_no_operate_data_tips'), 0);
     }
 
     /**
@@ -309,7 +310,7 @@ class IntegralService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_detail_id',
-                'error_msg'         => '订单详情id有误',
+                'error_msg'         => MyLang('order_detail_id_error_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -322,21 +323,21 @@ class IntegralService
         $order_status_history = Db::name('OrderStatusHistory')->where(['order_id'=>intval($params['order_id'])])->column('new_status');
         if(empty($order_status_history) || !in_array(4, $order_status_history))
         {
-            return DataReturn('订单状态有误或未存在完成状态，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.order_not_success_exit_tips'), 0);
         }
 
         // 订单详情
         $order_detail = Db::name('OrderDetail')->field('id,user_id,order_id,goods_id,price,total_price,refund_price,returned_quantity')->find(intval($params['order_detail_id']));
         if(empty($order_detail))
         {
-            return DataReturn('订单详情不存在或已删除，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.order_detail_empty_exit_tips'), 0);
         }
 
         // 获取用户信息
         $user = Db::name('User')->where(['id'=>$order_detail['user_id']])->field('id')->find();
         if(empty($user))
         {
-            return DataReturn('用户不存在或已删除，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.user_empty_exit_tips'), 0);
         }
 
         // 获取日志
@@ -350,7 +351,7 @@ class IntegralService
         $info = Db::name('GoodsGiveIntegralLog')->where($where)->find();
         if(empty($info))
         {
-            return DataReturn('无待发放日志，终止操作', 0);
+            return DataReturn(MyLang('common_service.integral.integral_data_empty_exit_tips'), 0);
         }
 
         // 存在退款金额则使用退款金额
@@ -371,13 +372,13 @@ class IntegralService
             // 扣减用户锁定积分
             if(!Db::name('User')->where(['id'=>$user['id']])->dec('locking_integral', $refund_integral)->update())
             {
-                return DataReturn('用户锁定积分扣减失败['.$user['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
+                return DataReturn(MyLang('common_service.integral.lock_integral_dec_fail_tips').'['.$user['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
             }
 
             // 扣减日志积分
             if(!Db::name('GoodsGiveIntegralLog')->where(['id'=>$info['id']])->dec('integral', $refund_integral)->update())
             {
-                return DataReturn('日志积分扣减失败['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -11);
+                return DataReturn(MyLang('common_service.integral.integral_log_dec_fail_tips').'['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -11);
             }
 
             // 剩余0积分则关闭
@@ -385,11 +386,10 @@ class IntegralService
             {
                 if(!Db::name('GoodsGiveIntegralLog')->where(['id'=>$info['id']])->update(['status'=>2, 'upd_time'=>time()]))
                 {
-                    return DataReturn('日志积分关闭失败['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -12);
+                    return DataReturn(MyLang('common_service.integral.integral_log_close_fail_tips').'['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -12);
                 }
             }
         }
-
         return DataReturn(MyLang('operate_success'), 0);
     }
 

@@ -98,7 +98,6 @@ class NavigationService
                 }
             }
         }
-
         return [
             'header' => $header,
             'footer' => $footer,
@@ -322,11 +321,17 @@ class NavigationService
     {
         if(empty($params['data_type']))
         {
-            return DataReturn('操作类型有误', -1);
+            return DataReturn(MyLang('operate_type_error_tips'), -1);
         }
 
         // 请求类型
         $p = [
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'name',
+                'checked_data'      => '2,16',
+                'error_msg'         => MyLang('common_service.navigation.form_item_name_message'),
+            ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'sort',
@@ -337,116 +342,72 @@ class NavigationService
                 'checked_type'      => 'in',
                 'key_name'          => 'is_show',
                 'checked_data'      => [0,1],
-                'error_msg'         => '是否显示范围值有误',
+                'error_msg'         => MyLang('form_is_show_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'is_new_window_open',
                 'checked_data'      => [0,1],
-                'error_msg'         => '是否新窗口打开范围值有误',
+                'error_msg'         => MyLang('form_is_new_window_open_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'nav_type',
                 'checked_data'      => ['header', 'footer'],
-                'error_msg'         => '数据类型有误',
+                'error_msg'         => MyLang('data_type_error_tips'),
             ],
         ];
         switch($params['data_type'])
         {
             // 自定义导航
             case 'custom':
-                $p = [
-                    [
-                        'checked_type'      => 'length',
-                        'key_name'          => 'name',
-                        'checked_data'      => '2,16',
-                        'error_msg'         => '导航名称格式 2~16 个字符',
-                    ],
-                    [
+                $p[] = [
                         'checked_type'      => 'fun',
                         'key_name'          => 'url',
                         'checked_data'      => 'CheckUrl',
-                        'error_msg'         => 'url格式有误',
-                    ],
-                ];
+                        'error_msg'         => MyLang('common_service.navigation.form_item_url_message'),
+                    ];
                 break;
 
             // 文章分类导航
             case 'article':
-                $p = [
-                    [
-                        'checked_type'      => 'length',
-                        'key_name'          => 'name',
-                        'checked_data'      => '2,16',
-                        'is_checked'        => 1,
-                        'error_msg'         => '导航名称格式 2~16 个字符',
-                    ],
-                    [
+                $p[] = [
                         'checked_type'      => 'empty',
                         'key_name'          => 'value',
-                        'error_msg'         => '文章选择有误',
-                    ],
-                ];
+                        'error_msg'         => MyLang('common_service.navigation.form_item_value_article_message'),
+                    ];
                 break;
 
             // 自定义页面导航
             case 'customview':
-                $p = [
-                    [
-                        'checked_type'      => 'length',
-                        'key_name'          => 'name',
-                        'checked_data'      => '2,16',
-                        'is_checked'        => 1,
-                        'error_msg'         => '导航名称格式 2~16 个字符',
-                    ],
-                    [
+                $p[] = [
                         'checked_type'      => 'empty',
                         'key_name'          => 'value',
-                        'error_msg'         => '自定义页面选择有误',
-                    ],
-                ];
+                        'error_msg'         => MyLang('common_service.navigation.form_item_value_customview_message'),
+                    ];
                 break;
 
             // 商品分类导航
             case 'goods_category':
-                $p = [
-                    [
-                        'checked_type'      => 'length',
-                        'key_name'          => 'name',
-                        'checked_data'      => '2,16',
-                        'is_checked'        => 1,
-                        'error_msg'         => '导航名称格式 2~16 个字符',
-                    ],
-                    [
+                $p[] = [
                         'checked_type'      => 'empty',
                         'key_name'          => 'value',
-                        'error_msg'         => '商品分类选择有误',
-                    ],
-                ];
+                        'error_msg'         => MyLang('common_service.navigation.form_item_value_goods_category_message'),
+                    ];
                 break;
 
             // 页面设计导航
             case 'design':
-                $p = [
-                    [
-                        'checked_type'      => 'length',
-                        'key_name'          => 'name',
-                        'checked_data'      => '2,16',
-                        'is_checked'        => 1,
-                        'error_msg'         => '导航名称格式 2~16 个字符',
-                    ],
-                    [
+                $p[] = [
                         'checked_type'      => 'empty',
                         'key_name'          => 'value',
-                        'error_msg'         => '页面设计选择有误',
-                    ],
-                ];
+                        'error_msg'         => MyLang('common_service.navigation.form_item_value_design_message'),
+                    ];
                 break;
 
             // 没找到
             default :
-                return DataReturn('操作类型有误', -1);
+                return DataReturn(MyLang('operate_type_error_tips'), -1);
         }
 
         // 参数
@@ -649,7 +610,7 @@ class NavigationService
         if($data === null || MyEnv('app_debug'))
         {            
             // 列表
-            $lang = MyLang('header_top_nav_right');
+            $lang = MyLang('common_service.navigation.header_top_nav_right');
             $data = [
                 [
                     'name'      => $lang['user_center'],
@@ -820,7 +781,7 @@ class NavigationService
      */
     public static function UserSafetyPanelList($params = [])
     {
-        $lang = MyLang('safety_panel_list');
+        $lang = MyLang('common_service.navigation.safety_panel_list');
         $data = [
             [
                 'title'         => $lang['loginpwd']['title'],
@@ -890,7 +851,7 @@ class NavigationService
         if($data === null || MyEnv('app_debug'))
         {
             // 菜单列表
-            $lang = MyLang('user_center_left_list');
+            $lang = MyLang('common_service.navigation.user_center_left_list');
             $data = [
                 'center' => [
                     'name'      => $lang['center'],
@@ -1049,7 +1010,7 @@ class NavigationService
         }
         
         // 列表
-        $lang = MyLang('bottom_navigation_data');
+        $lang = MyLang('common_service.navigation.bottom_navigation_data');
         $data = [
             [
                 'name'      => $lang['home'],
@@ -1129,7 +1090,7 @@ class NavigationService
         }
         
         // 列表
-        $lang = MyLang('user_center_mini_navigation_data');
+        $lang = MyLang('common_service.navigation.user_center_mini_navigation_data');
         $data = [
             [
                 'name'      => $lang['order'],

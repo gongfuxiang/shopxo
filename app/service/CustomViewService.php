@@ -132,13 +132,13 @@ class CustomViewService
                 'checked_type'      => 'length',
                 'key_name'          => 'title',
                 'checked_data'      => '2,60',
-                'error_msg'         => '标题长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.customview.form_item_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '10,105000',
-                'error_msg'         => '内容长度最少 10~105000 个字符',
+                'error_msg'         => MyLang('common_service.customview.form_item_content_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -208,7 +208,6 @@ class CustomViewService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 

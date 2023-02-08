@@ -15,6 +15,7 @@ use app\service\SystemService;
 use app\service\GoodsService;
 use app\service\BrandService;
 use app\service\ResourcesService;
+use app\service\GoodsCategoryService;
 
 /**
  * 搜索服务层
@@ -297,20 +298,20 @@ class SearchService
             }
             if(!empty($params['category_ids']))
             {
-                $ids = GoodsService::GoodsCategoryItemsIds($params['category_ids'], 1);
+                $ids = GoodsCategoryService::GoodsCategoryItemsIds($params['category_ids'], 1);
                 $where_base[] = ['gci.category_id', 'in', $ids];
             }
         } else {
             if(!empty($params['category_id']))
             {
-                $ids = GoodsService::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
+                $ids = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
                 $where_base[] = ['gci.category_id', 'in', $ids];
             }
         }
         // web端
         if(!empty($params['cid']))
         {
-            $ids = GoodsService::GoodsCategoryItemsIds([intval($params['cid'])], 1);
+            $ids = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['cid'])], 1);
             $where_base[] = ['gci.category_id', 'in', $ids];
         }
 
@@ -670,7 +671,7 @@ class SearchService
             $where = [
                 ['pid', '=', intval($pid)],
             ];
-            $data = GoodsService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
+            $data = GoodsCategoryService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
         }
         return $data;
     }
@@ -773,7 +774,7 @@ class SearchService
         $cid = empty($params['category_id']) ? (empty($params['cid']) ? 0 : intval($params['cid'])) : intval($params['category_id']);
         if(!empty($cid))
         {
-            $category = GoodsService::GoodsCategoryRow(['id'=>$cid, 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
+            $category = GoodsCategoryService::GoodsCategoryRow(['id'=>$cid, 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
         }
 
         // 品牌

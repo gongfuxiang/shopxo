@@ -33,28 +33,28 @@ class CacheService
         $lang = MyLang('admin_cache_type_list');
         return [
             [
-                'is_enable' => 1,
-                'name' => $lang['site']['name'],
-                'desc' => $lang['site']['desc'],
-                'url' => MyUrl('admin/cache/statusupdate'),
+                'is_enable'  => 1,
+                'name'       => $lang['site']['name'],
+                'desc'       => $lang['site']['desc'],
+                'url'        => MyUrl('admin/cache/statusupdate'),
             ],
             [
-                'is_enable' => 1,
-                'name' => $lang['template']['name'],
-                'desc' => $lang['template']['desc'],
-                'url' => MyUrl('admin/cache/templateupdate'),
+                'is_enable'  => 1,
+                'name'       => $lang['template']['name'],
+                'desc'       => $lang['template']['desc'],
+                'url'        => MyUrl('admin/cache/templateupdate'),
             ],
             [
-                'is_enable' => 0,
-                'name' => $lang['module']['name'],
-                'desc' => $lang['module']['desc'],
-                'url' => MyUrl('admin/cache/moduleupdate'),
+                'is_enable'  => 0,
+                'name'       => $lang['module']['name'],
+                'desc'       => $lang['module']['desc'],
+                'url'        => MyUrl('admin/cache/moduleupdate'),
             ],
             [
-                'is_enable' => 1,
-                'name' => $lang['log']['name'],
-                'desc' => $lang['log']['desc'],
-                'url' => MyUrl('admin/cache/logdelete'),
+                'is_enable'  => 1,
+                'name'       => $lang['log']['name'],
+                'desc'       => $lang['log']['desc'],
+                'url'        => MyUrl('admin/cache/logdelete'),
             ],
         ];
     }

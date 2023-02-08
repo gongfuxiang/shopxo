@@ -15,6 +15,7 @@ use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\ResourcesService;
 use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\RegionService;
 use app\service\BrandService;
 
@@ -55,6 +56,8 @@ class Goods extends Base
     	$assign = [
     		// 商品参数类型
             'common_goods_parameters_type_list' => MyLang('common_goods_parameters_type_list'),
+            // 商品导航
+			'goods_nav_list'					=> MyLang('goods.goods_nav_list'),
     	];
         if(!empty($this->data_detail))
         {
@@ -99,11 +102,11 @@ class Goods extends Base
 			// 地区信息
 			'region_province_list'				=> RegionService::RegionItems(['pid'=>0]),
 			// 商品分类
-			'goods_category_list' 				=> GoodsService::GoodsCategoryAll(),
+			'goods_category_list' 				=> GoodsCategoryService::GoodsCategoryAll(),
 			// 品牌
 			'brand_list' 						=> BrandService::CategoryBrand(),
-			// 右侧导航
-			'nav_right_list'					=> MyLang('goods.nav_right_list'),
+			// 商品导航
+			'goods_nav_list'					=> MyLang('goods.goods_nav_list'),
 			// 编辑器文件存放地址
 			'editor_path_type'					=> ResourcesService::EditorPathTypeValue('goods'),
 		];

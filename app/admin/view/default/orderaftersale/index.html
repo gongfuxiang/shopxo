@@ -4,7 +4,7 @@
 <!-- 扩展 -->
 {{block name="form_extend"}}
     <!-- 审核弹窗 -->
-    <div class="am-popup" id="order-audit-popup">
+    <div class="am-popup am-radius" id="order-audit-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">{{:MyLang('orderaftersale.form_audit_title')}}</h4>
@@ -36,11 +36,11 @@
 
                 <form class="am-form form-validation-audit am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
-                        <label class="am-block">{{:MyLang('orderaftersale.form_item_refundment')}}</label>
+                        <label class="am-block">{{:MyLang('common_service.orderaftersale.form_item_refundment')}}</label>
                         {{if !empty($common_order_aftersale_refundment_list)}}
                             {{foreach $common_order_aftersale_refundment_list as $v}}
                                 <label class="am-radio-inline am-success">
-                                    <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="{{:MyLang('orderaftersale.form_item_refundment_message')}}" required /> {{$v.name}}
+                                    <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_refundment_message')}}" required /> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         {{/if}}
@@ -56,7 +56,7 @@
     </div>
 
     <!-- 拒绝弹窗 -->
-    <div class="am-popup" id="order-refuse-popup">
+    <div class="am-popup am-radius" id="order-refuse-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">{{:MyLang('orderaftersale.form_refuse_title')}}</h4>
@@ -88,8 +88,8 @@
 
                 <form class="am-form form-validation-refuse am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
-                        <label>{{:MyLang('orderaftersale.form_item_refuse_reason')}}</label>
-                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_refuse_reason_message')}}" data-validation-message="{{:MyLang('orderaftersale.form_item_refuse_reason_message')}}" minlength="2" maxlength="230" required></textarea>
+                        <label>{{:MyLang('common_service.orderaftersale.form_item_refuse_reason')}}</label>
+                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="{{:MyLang('common_service.orderaftersale.form_item_refuse_reason_message')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_refuse_reason_message')}}" minlength="2" maxlength="230" required></textarea>
                     </div>
 
                     <div class="am-form-popup-submit">

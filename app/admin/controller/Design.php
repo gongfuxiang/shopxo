@@ -13,9 +13,10 @@ namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\DesignService;
-use app\service\GoodsService;
 use app\service\BrandService;
 use app\service\StoreService;
+use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\layout\service\BaseLayout;
 
 /**
@@ -72,7 +73,7 @@ class Design extends Base
         unset($data['config']);
 
         // 商品分类
-        $goods_category = GoodsService::GoodsCategoryAll();
+        $goods_category = GoodsCategoryService::GoodsCategoryAll();
 
         // 模板数据
         $assign = [

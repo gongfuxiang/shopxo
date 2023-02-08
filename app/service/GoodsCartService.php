@@ -116,22 +116,22 @@ class GoodsCartService
                 if($v['is_delete_time'] != 0)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '已作废';
+                    $v['error_msg'] = MyLang('goods_already_nullify_title');
                 }
                 if(empty($v['error_msg']) && $v['is_invalid'] == 1)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '已失效';
+                    $v['error_msg'] = MyLang('goods_already_invalid_title');
                 }
                 if(empty($v['error_msg']) && $v['is_shelves'] != 1)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '已下架';
+                    $v['error_msg'] = MyLang('goods_already_shelves_title');
                 }
                 if(empty($v['error_msg']) && $v['inventory'] <= 0)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '没货了';
+                    $v['error_msg'] = MyLang('goods_no_inventory_title');
                 }
                 if(empty($v['error_msg']))
                 {
@@ -219,15 +219,10 @@ class GoodsCartService
                 'error_msg'         => MyLang('goods_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
                 'checked_type'      => 'min',
                 'key_name'          => 'stock',
                 'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
+                'error_msg'         => MyLang('common_service.goodscart.save_stock_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -372,15 +367,10 @@ class GoodsCartService
                 'error_msg'         => MyLang('goods_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
                 'checked_type'      => 'min',
                 'key_name'          => 'stock',
                 'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
+                'error_msg'         => MyLang('common_service.goodscart.save_stock_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -415,7 +405,7 @@ class GoodsCartService
         $data = Db::name('Cart')->where($where)->field('goods_id,title,price,stock,spec')->find();
         if(empty($data))
         {
-            return DataReturn('请先加入购物车', -1);
+            return DataReturn(MyLang('common_service.goodscart.save_stock_update_data_empty_tips'), -1);
         }
         $data['stock'] = $stock;
         $data['spec'] = empty($data['spec']) ? null : json_decode($data['spec'], true);

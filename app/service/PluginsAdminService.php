@@ -1559,7 +1559,7 @@ php;
                     ];
                     if(Db::name('Plugins')->where(['id'=>intval($v)])->update($upd_data) === false)
                     {
-                        throw new \Exception('操作失败');
+                        throw new \Exception(MyLang('operate_fail'));
                     }
                 }
 

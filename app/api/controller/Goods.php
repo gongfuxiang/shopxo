@@ -14,6 +14,7 @@ use app\service\ApiService;
 use app\service\AppService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\BuyService;
 use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
@@ -108,7 +109,7 @@ class Goods extends Common
                 GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
                 // 商品所属分类名称
-                $category = GoodsService::GoodsCategoryNames($goods_id);
+                $category = GoodsCategoryService::GoodsCategoryNames($goods_id);
                 $goods['category_names'] = $category['data'];
 
                 // 中间tabs导航
@@ -212,7 +213,7 @@ class Goods extends Common
     public function Category()
     {
         $result = [
-            'category'  => GoodsService::GoodsCategoryAll($this->data_post),
+            'category'  => GoodsCategoryService::GoodsCategoryAll($this->data_post),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }

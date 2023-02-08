@@ -77,15 +77,15 @@
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li class="tips-text"></li>
                                                     </ul>
-                                                    <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="{{:MyLang('order.form_item_rating_message')}}" required />
+                                                    <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_rating_message')}}" required />
                                                 </div>
-                                                <textarea name="content[]" class="am-radius" placeholder="{{:MyLang('order.form_item_content_placeholder')}}" rows="4" minlength="6" maxlength="230" data-validation-message="{{:MyLang('order.form_item_content_message')}}" required></textarea>
+                                                <textarea name="content[]" class="am-radius" placeholder="{{:MyLang('common_service.goodscomments.form_item_content_placeholder')}}" rows="4" minlength="6" maxlength="230" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
 
                                                 <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images">
                                                 </ul>
                                                 <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}">+ {{:MyLang('form_upload_images_title')}}</div>
-                                                <span class="am-form-group-label-tips">{{:MyLang('order.form_item_images_message')}}</span>
+                                                <span class="am-form-group-label-tips">{{:MyLang('common_service.goodscomments.form_item_images_message')}}</span>
                                             </td>
                                         </tr>
                                     {{/foreach}}
@@ -95,7 +95,7 @@
                     {{/if}}
 
                     <div class="am-form-group business-form-block">
-                        <label class="am-block">{{:MyLang('form_is_anonymous_title')}}<span class="am-form-group-label-tips">{{:MyLang('order.form_item_anonymous_tips')}}</span></label>
+                        <label class="am-block">{{:MyLang('form_is_anonymous_title')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.goodscomments.form_item_anonymous_tips')}}</span></label>
                         <input name="is_anonymous" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
                     </div>
 

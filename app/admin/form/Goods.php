@@ -11,7 +11,7 @@
 namespace app\admin\form;
 
 use think\facade\Db;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\RegionService;
 use app\service\BrandService;
 
@@ -97,7 +97,7 @@ class Goods
                         'form_name'             => 'id',
                         'where_type'            => 'in',
                         'where_value_custom'    => 'WhereValueGoodsCategory',
-                        'data'                  => GoodsService::GoodsCategoryAll(),
+                        'data'                  => GoodsCategoryService::GoodsCategoryAll(),
                     ],
                 ],
                 [
@@ -332,7 +332,7 @@ class Goods
             }
 
             // 获取分类下的所有分类 id
-            $cids = GoodsService::GoodsCategoryItemsIds($value, 1);
+            $cids = GoodsCategoryService::GoodsCategoryItemsIds($value, 1);
 
             // 获取商品 id
             $ids = Db::name('GoodsCategoryJoin')->where(['category_id'=>$cids])->column('goods_id');

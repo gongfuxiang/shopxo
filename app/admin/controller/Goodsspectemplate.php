@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\GoodsService;
+use app\service\GoodsCategoryService;
 use app\service\GoodsSpecService;
 
 /**
@@ -70,7 +70,7 @@ class GoodsSpecTemplate extends Base
         // 模板数据
         $assign = [
             // 商品分类
-            'goods_category_list'   => GoodsService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
+            'goods_category_list'   => GoodsCategoryService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
         ];
 
         // 编辑页面钩子
