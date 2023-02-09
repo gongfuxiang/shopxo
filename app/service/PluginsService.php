@@ -175,12 +175,12 @@ class PluginsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'plugins',
-                'error_msg'         => '应用标记不能为空',
+                'error_msg'         => MyLang('common_service.plugins.plugins_identification_empty_tips'),
             ],
             [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'empty',
                 'key_name'          => 'data',
-                'error_msg'         => '数据参数不能为空',
+                'error_msg'         => MyLang('common_service.plugins.data_params_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -311,15 +311,15 @@ class PluginsService
             {
                 if(IS_AJAX)
                 {
-                    return DataReturn('无效插件['.$plugins.']', -10);
+                    return DataReturn(MyLang('common_service.plugins.plugins_invalid_tips').'['.$plugins.']', -10);
                 }
                 MyRedirect(SystemService::HomeUrl(), true);
             }
-            return DataReturn('应用未安装['.$plugins.']', -10);
+            return DataReturn(MyLang('common_service.plugins.plugins_not_install_tips').'['.$plugins.']', -10);
         }
         if($ret != 1)
         {
-            return DataReturn('应用未启用['.$plugins.']', -11);
+            return DataReturn(MyLang('common_service.plugins.plugins_not_enable_tips').'['.$plugins.']', -11);
         }
         return DataReturn(MyLang('check_success'), 0);
     }
@@ -350,7 +350,7 @@ class PluginsService
         $plugins_class = '\app\plugins\\'.$plugins.'\\'.$group.'\\'.$control;
         if(!class_exists($plugins_class))
         {
-            return DataReturn('应用控制器未定义['.$control.']', -1);
+            return DataReturn(MyLang('common_service.plugins.plugins_call_control_undefined_tips').'['.$control.']', -1);
         }
 
         // 调用方法
@@ -358,7 +358,7 @@ class PluginsService
         $obj = new $plugins_class($params);
         if(!method_exists($obj, $action))
         {
-            return DataReturn('应用方法未定义['.$action.']', -1);
+            return DataReturn(MyLang('common_service.plugins.plugins_call_action_undefined_tips').'['.$action.']', -1);
         }
 
         // 调用方法仅传递请求参数
@@ -377,7 +377,7 @@ class PluginsService
                 $config = PluginsAdminService::GetPluginsConfig($plugins);
                 if(empty($config) || empty($config['base']))
                 {
-                    return DataReturn('应用插件配置信息有误', -1);
+                    return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
                 }
  
                 $check_params = [
@@ -397,7 +397,7 @@ class PluginsService
         }
 
         // 调用对应插件
-        return DataReturn('调用成功', 0, $obj->$action($params));
+        return DataReturn('success', 0, $obj->$action($params));
     }
 
     /**
@@ -424,7 +424,7 @@ class PluginsService
         $plugins = '\app\plugins\\'.$plugins.'\\Event';
         if(!class_exists($plugins))
         {
-            return DataReturn('应用事件未定义['.$plugins.']', 0);
+            return DataReturn(MyLang('common_service.plugins.plugins_event_undefined_tips').'['.$plugins.']', 0);
         }
 
         // 调用方法
@@ -432,7 +432,7 @@ class PluginsService
         $obj = new $plugins($params);
         if(!method_exists($obj, $action))
         {
-            return DataReturn('应用事件方法未定义['.$action.']', 0);
+            return DataReturn(MyLang('common_service.plugins.plugins_event_action_undefined_tips').'['.$action.']', 0);
         }
 
         // 调用方法仅传递请求参数
@@ -445,7 +445,7 @@ class PluginsService
         {
             return $ret;
         }
-        return DataReturn('调用成功', 0, $ret);
+        return DataReturn('success', 0, $ret);
     }
 
     /**
@@ -525,7 +525,7 @@ class PluginsService
     public static function PluginsUpgradeInfo($params = [])
     {
         // 默认返回数据
-        $result = DataReturn('无插件数据', 0);
+        $result = DataReturn(MyLang('common_service.plugins.plugins_no_data_tips'), 0);
 
         // 缓存记录
         $time = 3600;
@@ -578,7 +578,6 @@ class PluginsService
         } else {
             $result = $res;
         }
-
         return $result;
     }
 
@@ -630,13 +629,13 @@ class PluginsService
                     {
                         if(isset($data[$v['plugins']]))
                         {
-                            return DataReturn('('.$data[$v['plugins']]['name'].' v'.$v['version_new'].')插件有新版本待更新', -1);
+                            return DataReturn(MyLang('common_service.plugins.plugins_new_version_update_tips', ['plugins'=>$data[$v['plugins']]['name'], 'version'=>$v['version_new']]), -1);
                         }
                     }
                 }
             }
         }
-        return DataReturn('无需要更新的插件', 0);
+        return DataReturn(MyLang('common_service.plugins.plugins_no_update_tips'), 0);
     }
 }
 ?>

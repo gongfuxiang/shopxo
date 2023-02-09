@@ -11,14 +11,14 @@
             </legend>
 
             <div class="am-form-group">
-                <label class="am-block">{{:MyLang('pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_plugins_tips')}}</span></label>
-                <input type="text" name="plugins" placeholder="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($plugins)}} value="{{$plugins}}"{{/if}} readonly="true" required />
+                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_plugins_tips')}}</span></label>
+                <input type="text" name="plugins" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($plugins)}} value="{{$plugins}}"{{/if}} readonly="true" required />
             </div>
 
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group am-form-file">
-                        <label class="am-block">{{:MyLang('pluginsadmin.form_item_logo')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_logo_tips')}}</span></label>
+                        <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_logo')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_logo_tips')}}</span></label>
                         <ul class="plug-file-upload-view plugins-logo-view" data-form-name="logo" data-max-number="1" data-delete="0" data-dialog-type="images">
                             <li>
                                 <input type="text" name="logo" value="{{if !empty($data['logo_old'])}}{{$data.logo_old}}{{/if}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" required />
@@ -32,14 +32,14 @@
                     <div class="am-cf">
                         <div class="am-u-sm-12 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label class="am-block">{{:MyLang('pluginsadmin.form_item_name')}}</label>
-                                <input type="text" name="name" placeholder="{{:MyLang('pluginsadmin.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('pluginsadmin.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_name')}}</label>
+                                <input type="text" name="name" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                             </div>
                         </div>
                         <div class="am-u-sm-12 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label class="am-block">{{:MyLang('pluginsadmin.form_item_version')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_version_tips')}}</span></label>
-                                <input type="text" name="version" placeholder="{{:MyLang('pluginsadmin.form_item_version')}}" minlength="5" maxlength="18" data-validation-message="{{:MyLang('pluginsadmin.form_item_version_message')}}" pattern="{{:MyConst('common_regex_version')}}" class="am-radius" {{if !empty($data['version'])}} value="{{$data.version}}"{{/if}} required />
+                                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_version')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_version_tips')}}</span></label>
+                                <input type="text" name="version" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_version')}}" minlength="5" maxlength="18" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_version_message')}}" pattern="{{:MyConst('common_regex_version')}}" class="am-radius" {{if !empty($data['version'])}} value="{{$data.version}}"{{/if}} required />
                             </div>
                         </div>
                     </div>
@@ -49,43 +49,43 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('pluginsadmin.form_item_author')}}</label>
-                        <input type="text" name="author" placeholder="{{:MyLang('pluginsadmin.form_item_author_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('pluginsadmin.form_item_author_message')}}" class="am-radius" {{if !empty($data['author'])}} value="{{$data.author}}"{{/if}} required />
+                        <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_author')}}</label>
+                        <input type="text" name="author" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" class="am-radius" {{if !empty($data['author'])}} value="{{$data.author}}"{{/if}} required />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('pluginsadmin.form_item_author_url')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_author_url_tips')}}</span></label>
-                        <input type="url" placeholder="{{:MyLang('pluginsadmin.form_item_author_url_tips')}}" name="author_url"  data-validation-message="{{:MyLang('pluginsadmin.form_item_author_url_message')}}" class="am-radius" {{if !empty($data['author_url'])}} value="{{$data.author_url}}"{{/if}} required />
+                        <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_author_url')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_author_url_tips')}}</span></label>
+                        <input type="url" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_author_url_tips')}}" name="author_url"  data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_author_url_message')}}" class="am-radius" {{if !empty($data['author_url'])}} value="{{$data.author_url}}"{{/if}} required />
                     </div>
                 </div>
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="am-block">{{:MyLang('pluginsadmin.form_item_desc')}}</label>
-                <textarea rows="2" name="desc" class="am-radius am-field-valid" placeholder="{{:MyLang('pluginsadmin.form_item_desc_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('pluginsadmin.form_item_desc_message')}}">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
+                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_desc')}}</label>
+                <textarea rows="2" name="desc" class="am-radius am-field-valid" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
-                <label class="am-block">{{:MyLang('pluginsadmin.form_item_apply_terminal')}}</label>
+                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_apply_terminal')}}</label>
                 {{foreach :MyLang('common_platform_type') as $v}}
                     <label class="am-checkbox-inline">
-                        <input type="checkbox" name="apply_terminal" value="{{$v.value}}" data-validation-message="{{:MyLang('pluginsadmin.form_item_apply_terminal_message')}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
+                        <input type="checkbox" name="apply_terminal" value="{{$v.value}}" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_apply_terminal_message')}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
                     </label>
                 {{/foreach}}
             </div>
 
             <div class="am-form-group">
-                <label class="am-block">{{:MyLang('pluginsadmin.form_item_apply_version')}}</label>
+                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_apply_version')}}</label>
                 {{foreach :MyConst('common_system_version_list') as $v}}
                     <label class="am-checkbox-inline">
-                        <input type="checkbox" name="apply_version" value="{{$v.value}}" data-validation-message="{{:MyLang('pluginsadmin.form_item_apply_version_message')}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
+                        <input type="checkbox" name="apply_version" value="{{$v.value}}" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_apply_version_message')}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
                     </label>
                 {{/foreach}}
             </div>
 
             <div class="am-form-group">
-                <label class="am-block">{{:MyLang('pluginsadmin.form_item_is_home')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_is_home_tips')}}</span></label>
+                <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_is_home')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_is_home_tips')}}</span></label>
                 <input name="is_home" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home']) and $data['is_home'] eq 1}}checked="true"{{/if}} />
             </div>
 

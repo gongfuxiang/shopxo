@@ -521,7 +521,7 @@ class WarehouseGoodsService
             // 没有规格则处理默认规格 default
             $str = 'default';
             $inventory_spec[] = [
-                'name'      => '默认规格',
+                'name'      => GoodsService::GoodsSpecDefaultName(),
                 'spec'      => $str,
                 'md5_key'   => md5($str),
                 'inventory' => 0,

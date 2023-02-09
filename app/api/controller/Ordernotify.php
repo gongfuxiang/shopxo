@@ -46,7 +46,7 @@ class OrderNotify extends Common
     public function Notify()
     {
         // 支付请求日志添加
-        $log_ret = PayRequestLogService::PayRequestLogInsert(OrderService::$business_type_name);
+        $log_ret = PayRequestLogService::PayRequestLogInsert(OrderService::BusinessTypeName());
 
         // 业务处理
         $ret = OrderService::Notify($this->data_request);

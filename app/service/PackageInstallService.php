@@ -147,7 +147,7 @@ class PackageInstallService
         $res = self::DirFileData($params['key']);
         if(!file_exists($res['url']))
         {
-            return DataReturn('软件包不存在、请重新安装', -1);
+            return DataReturn(MyLang('common_service.packageinstall.package_no_exist_tips'), -1);
         }
 
         // 根据插件类型调用安装程序
@@ -172,7 +172,7 @@ class PackageInstallService
             case 'minitheme' :
                 if(empty($params['terminal']))
                 {
-                    return DataReturn('未指定小程序终端类型', -1);
+                    return DataReturn(MyLang('common_service.packageinstall.mini_theme_terminal_not_choice_tips'), -1);
                 }
                 $params['application_name'] = $params['terminal'];
                 $ret = AppMiniService::ThemeUploadHandle($res['url'], $params);
@@ -185,7 +185,7 @@ class PackageInstallService
 
             // 默认
             default :
-                $ret = DataReturn('插件操作类型未定义['.$params['type'].']', -1);
+                $ret = DataReturn(MyLang('operate_type_error_tips').'['.$params['type'].']', -1);
         }
 
         // 移除缓存
@@ -212,7 +212,7 @@ class PackageInstallService
         $url = MyCache($key);
         if(empty($url))
         {
-            return DataReturn('下载地址为空', -1);
+            return DataReturn(MyLang('common_service.packageinstall.download_url_empty_tips'), -1);
         }
 
         // 获取目录文件
@@ -224,9 +224,9 @@ class PackageInstallService
         // 下载保存
         if(@file_put_contents($res['url'], RequestGet($url, 300000)) !== false)
         {
-            return DataReturn('success', 0, $key);
+            return DataReturn(MyLang('download_success'), 0, $key);
         }
-        return DataReturn('插件下载失败', -1);
+        return DataReturn(MyLang('download_fail'), -1);
     }
 
     /**
@@ -312,7 +312,7 @@ class PackageInstallService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'type',
-                'error_msg'         => '插件类型有误',
+                'error_msg'         => MyLang('common_service.packageinstall.plugins_type_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -330,7 +330,7 @@ class PackageInstallService
         // 下载和安装需要校验key
         if(in_array($params['opt'], ['download', 'install']) && empty($params['key']))
         {
-            return DataReturn('操作key有误', -1);
+            return DataReturn(MyLang('common_service.packageinstall.operate_key_error_tips'), -1);
         }
 
         return DataReturn('success', 0);
@@ -354,14 +354,14 @@ class PackageInstallService
         {
             return $ret;
         }
-        $result = json_decode($ret['data'], true);
-        if(empty($result))
+        $data = json_decode($ret['data'], true);
+        if(empty($data))
         {
-            return DataReturn('商店返回数据有误'.(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
+            return DataReturn(MyLang('common_service.packageinstall.store_respond_error_tips').(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
         }
 
         // 请求成功
-        return $result;
+        return $data;
     }
 }
 ?>

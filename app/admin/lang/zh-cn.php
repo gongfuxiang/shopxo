@@ -947,13 +947,6 @@ return [
             ]
         ],
         'upload_top_tips_ps'                        => 'PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中上传、支持一个压缩中包含多个支付插件',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~30个字符',
-        'form_item_apply_terminal'              => '适用终端',
-        'form_item_apply_terminal_message'      => '至少选择一个适用终端',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_is_open_user'                => '用户开放',
         // 动态表格
         'form_table'                            => [
             'name'            => '名称',
@@ -1127,33 +1120,6 @@ return [
         'more_plugins_store_to_text'            => '去应用商店挑选更多插件丰富站点 >>',
         'no_data_store_to_text'                 => '到应用商店挑选插件丰富站点 >>',
         'plugins_no_data_tips'                  => '还没有相关应用',
-        // 表单
-        'form_item_upload_tips'                 => '上传一个zip压缩格式的应用安装包',
-        'form_create_error_tips'                => '请重新填写！',
-        'form_create_first_step_button_name'    => '下一步',
-        'form_item_plugins'                     => '应用唯一标记',
-        'form_item_plugins_tips'                => '以数字、字母小写、下划线',
-        'form_item_plugins_message'             => '应用唯一标记格式2~60个字符',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_logo_tips'                   => '建议600*600px',
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~30个字符',
-        'form_item_author'                      => '作者',
-        'form_item_author_message'              => '作者格式2~30个字符',
-        'form_item_author_url'                  => '作者主页',
-        'form_item_author_url_tips'             => '以http://或https://开头',
-        'form_item_author_url_message'          => '请填写作者主页',
-        'form_item_version'                     => '版本',
-        'form_item_version_tips'                => '主版本.次版本号.修订号，每个段不超过6位，如 1.0.0',
-        'form_item_version_message'             => '版本格式有误',
-        'form_item_desc'                        => '描述',
-        'form_item_desc_message'                => '描述内容格式2~60个字符',
-        'form_item_apply_terminal'              => '适用终端',
-        'form_item_apply_terminal_message'      => '至少选择一个适用终端',
-        'form_item_apply_version'               => '适用系统版本',
-        'form_item_apply_version_message'       => '至少选择一个适用系统版本',
-        'form_item_is_home'                     => '是否有前端入口',
-        'form_item_is_home_tips'                => '前端独立页面入口',
     ],
 
     // 安装页面

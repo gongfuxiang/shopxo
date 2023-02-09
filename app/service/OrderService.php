@@ -34,8 +34,18 @@ use app\service\SystemService;
  */
 class OrderService
 {
-    // 业务类型名称
-    public static $business_type_name = '订单';
+    /**
+     * 业务类型名称
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-02-08
+     * @desc    description
+     */
+    public static function BusinessTypeName()
+    {
+        return MyLang('common_service.order.business_type_name');
+    }
 
     /**
      * 订单支付
@@ -61,12 +71,11 @@ class OrderService
         {
             return DataReturn($ret, -1);
         }
-
         // 支付订单id
         $ids = is_array($params['ids']) ? $params['ids'] : explode(',', urldecode($params['ids']));
         if(empty($ids))
         {
-            return DataReturn('订单支付id有误', -1);
+            return DataReturn(MyLang('order_id_error_tips'), -1);
         }
 
         // 支付基础信息
@@ -84,7 +93,7 @@ class OrderService
             $order = Db::name('Order')->where($where)->find();
             if(empty($order))
             {
-                return DataReturn('订单不存在或已被删除', -1);
+                return DataReturn(MyLang('order_no_exist_or_delete_error_tips'), -1);
             }
             $operate = self::OrderOperateData($order, 'user');
             if($operate['is_pay'] != 1)
@@ -101,7 +110,7 @@ class OrderService
             $order['user'] = UserService::UserHandle(UserService::UserInfo('id', $order['user_id']));
             if(empty($order['user']))
             {
-                return DataReturn('订单用户无效['.$order_id.']', -1);
+                return DataReturn(MyLang('common_service.order.order_user_invalid_tips').'['.$order_id.']', -1);
             }
 
             // 订单数据集合
@@ -272,7 +281,7 @@ class OrderService
             'business_data' => $order_data,
             'order_id'      => $pay_log['data']['id'],
             'order_no'      => $pay_log['data']['log_no'],
-            'name'          => '订单支付',
+            'name'          => MyLang('common_service.order.pay_subject_name'),
             'total_price'   => $total_price,
             'client_type'   => $client_type,
             'notify_url'    => $notify_url,
@@ -373,7 +382,7 @@ class OrderService
             return $ret;
         }
         return DataReturn(
-            empty($ret['msg']) ? '支付接口异常' : $ret['msg'],
+            empty($ret['msg']) ? MyLang('common_service.order.pay_api_abnormal_tips') : $ret['msg'],
             isset($ret['code']) ? $ret['code'] : -1,
             isset($ret['data']) ? $ret['data'] : '');
     }
@@ -396,10 +405,10 @@ class OrderService
             'business_ids'  => is_array($business_ids) ? $business_ids : [$business_ids],
             'business_nos'  => is_array($business_nos) ? $business_nos : [$business_nos],
             'total_price'   => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
-            'subject'       => '订单支付',
+            'subject'       => MyLang('common_service.order.pay_subject_name'),
             'payment'       => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'  => isset($params['payment_name']) ? $params['payment_name'] : '',
-            'business_type' => self::$business_type_name,
+            'business_type' => self::BusinessTypeName(),
         ]);
     }
 
@@ -461,7 +470,7 @@ class OrderService
         $user = UserService::GetUserViewInfo($order['user_id']);
         if(empty($user))
         {
-            return DataReturn('订单用户无效', -1);
+            return DataReturn(MyLang('common_service.order.order_user_invalid_tips'), -1);
         }
 
         // 线下支付处理
@@ -495,16 +504,16 @@ class OrderService
                     'pay_log_data'  => [],
                     'pay'           => [
                         'trade_no'      => '',
-                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
+                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : MyLang('common_service.order.pay_subject_name'),
                         'buyer_user'    => $params['user']['user_name_view'],
                         'pay_price'     => $params['order']['total_price'],
                     ],
                 ];
                 return self::OrderPayHandle($pay_params);
             }
-            return DataReturn('订单金额有误、请正常发起支付', -1);
+            return DataReturn(MyLang('common_service.order.pay_price_error_tips'), -1);
         }
-        return DataReturn('支付传参有误', -1);
+        return DataReturn(MyLang('common_service.order.pay_params_error_tips'), -1);
     }
 
     /**
@@ -543,16 +552,16 @@ class OrderService
                     'pay_log_data'  => $pay_log['data'],
                     'pay'           => [
                         'trade_no'      => '',
-                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
+                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : MyLang('common_service.order.pay_subject_name'),
                         'buyer_user'    => $params['user']['user_name_view'],
                         'pay_price'     => $params['order']['total_price'],
                     ],
                 ];
                 return self::OrderPayHandle($pay_params);
             }
-            return DataReturn('仅线下支付方式处理', -1);
+            return DataReturn(MyLang('common_service.order.only_under_line_error_tips'), -1);
         }
-        return DataReturn('支付传参有误', -1);
+        return DataReturn(MyLang('common_service.order.pay_params_error_tips'), -1);
     }
 
     /**
@@ -570,7 +579,7 @@ class OrderService
         $payment_name = defined('PAYMENT_TYPE') ? PAYMENT_TYPE : (isset($params['paymentname']) ? $params['paymentname'] : '');
         if(empty($payment_name))
         {
-            return DataReturn('支付方式标记异常', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
         $payment = PaymentService::PaymentData(['where'=>['payment'=>$payment_name]]);
         if(empty($payment))
@@ -585,7 +594,7 @@ class OrderService
         {
             if(empty($pay_ret['data']['out_trade_no']))
             {
-                return DataReturn('单号有误', -1);
+                return DataReturn(MyLang('order_no_error_tips'), -1);
             }
             // 获取订单信息
             $where = ['order_no'=>$pay_ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
@@ -646,22 +655,22 @@ class OrderService
                 ];
                 if(!Db::name('Order')->where(['id'=>$order_ids])->update($upd_data))
                 {
-                    throw new \Exception('订单更新失败');
+                    throw new \Exception(MyLang('common_service.order.order_update_fail_tips'));
                 }
 
                 // 循环处理订单
                 foreach($pay_data['data']['order_list'] as $order)
                 {
-                    if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '用户线下支付', 0, '系统'))
+                    if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('common_service.order.user_under_line_pay_history_desc'), 0, MyLang('system_title')))
                     {
-                        throw new \Exception('订单日志添加失败['.$order['id'].']');
+                        throw new \Exception(MyLang('common_service.order.order_status_history_insert_fail_tips').'['.$order['id'].']');
                     }
                 }
 
                 // 更改日志订单状态
                 if(!Db::name('PayLog')->where(['log_no'=>$pay_log_no])->update(['status'=>1]))
                 {
-                    throw new \Exception('日志订单更新失败');
+                    throw new \Exception(MyLang('common_service.order.order_status_history_update_fail_tips'));
                 }
 
                 // 完成
@@ -672,7 +681,7 @@ class OrderService
                 return DataReturn($e->getMessage(), -1);
             }
         }
-        return DataReturn('提交成功、请尽快联系管理员确认支付信息', -8888);
+        return DataReturn(MyLang('common_service.order.order_submit_await_confirm_tips'), -8888);
     }
 
     /**
@@ -697,7 +706,7 @@ class OrderService
         $pay_name = 'payment\\'.PAYMENT_TYPE;
         if(!class_exists($pay_name))
         {
-            return DataReturn('支付方式不存在['.PAYMENT_TYPE.']', -1);
+            return DataReturn(MyLang('payment_method_no_exist_tips').'['.PAYMENT_TYPE.']', -1);
         }
         $payment_obj = new $pay_name($payment['config']);
 
@@ -728,7 +737,7 @@ class OrderService
         // 支付订单数据
         if(empty($data['out_trade_no']))
         {
-            return DataReturn('订单号为空[out_trade_no]', -1);
+            return DataReturn(MyLang('order_no_error_tips').'[out_trade_no]', -1);
         }
         $pay_data = self::OrderPayLogValueList($data['out_trade_no']);
         if($pay_data['code'] == 0)
@@ -736,7 +745,7 @@ class OrderService
             // 订单支付日志已支付则直接返回
             if($pay_data['data']['pay_log_data']['status'] == 1)
             {
-                return DataReturn('日志订单已支付、无需重复处理', 0);
+                return DataReturn(MyLang('common_service.order.pay_log_already_pay_tips'), 0);
             }
         } else {
             return $pay_data;
@@ -747,7 +756,7 @@ class OrderService
         {
             if($data['pay_price'] < $pay_data['data']['pay_log_data']['total_price'])
             {
-                return DataReturn('支付金额小于日志订单金额['.$data['pay_price'].'<'.$pay_data['data']['pay_log_data']['total_price'].']', -1);
+                return DataReturn(MyLang('common_service.order.pay_price_less_than_order_price_tips').'['.$data['pay_price'].'<'.$pay_data['data']['pay_log_data']['total_price'].']', -1);
             }
         }
 
@@ -797,14 +806,14 @@ class OrderService
         $pay_log_data = Db::name('PayLog')->where(['log_no'=>$pay_log_no])->find();
         if(empty($pay_log_data))
         {
-            return DataReturn('日志订单有误', -1);
+            return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -1);
         }
 
         // 获取关联信息
         $pay_log_value = Db::name('PayLogValue')->where(['pay_log_id'=>$pay_log_data['id']])->column('business_id');
         if(empty($pay_log_value))
         {
-            return DataReturn('日志订单关联信息有误', -1);
+            return DataReturn(MyLang('common_service.order.pay_log_value_error_tips'), -1);
         }
 
         // 获取订单
@@ -835,7 +844,7 @@ class OrderService
         // 订单信息
         if(empty($params['order']) || !is_array($params['order']))
         {
-            return DataReturn('订单数据不存在或类型有误', -1);
+            return DataReturn(MyLang('common_service.order.order_data_empty_or_format_error_tips'), -1);
         }
 
         // 订单金额大于0必须存在支付方式和订单支付日志
@@ -851,7 +860,7 @@ class OrderService
             // 日志订单
             if(empty($params['pay_log_data']))
             {
-                return DataReturn('日志订单有误', -1);
+                return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -1);
             }
         }
 
@@ -865,151 +874,144 @@ class OrderService
             }
         }
 
-        // 开启事务
+        // 启动事务
         Db::startTrans();
 
-        // 循环处理
-        foreach($params['order'] as $order)
-        {
-            // 订单非待支付则不处理
-            if($order['pay_status'] != 0)
+        // 捕获异常
+        try {
+
+            // 循环处理
+            foreach($params['order'] as $order)
             {
-                continue;
-            }
-
-            // 订单支付成功处理前钩子
-            $hook_name = 'plugins_service_order_pay_handle_begin';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'order_id'      => $order['id']
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
-            {
-                // 事务回滚
-                Db::rollback();
-                return $ret;
-            }
-
-            // 消息通知
-            $detail = '订单支付成功，金额'.PriceBeautify($order['total_price']).'元';
-            MessageService::MessageAdd($order['user_id'], '订单支付', $detail, self::$business_type_name, $order['id']);
-
-            // 订单更新数据
-            $upd_data = [
-                'pay_status'    => 1,
-                'pay_price'     => $order['total_price'],
-                'pay_time'      => time(),
-                'upd_time'      => time(),
-            ];
-
-            // 避免先走订单、后走支付的逻辑
-            if($order['status'] <= 1)
-            {
-                $upd_data['status'] = 2;
-            }
-
-            // 订单金额大于0
-            if($order['total_price'] > 0 && !empty($params['payment']))
-            {
-                // 更新支付方式
-                $upd_data['payment_id'] = $params['payment']['id'];
-
-                // 是否线下支付
-                $upd_data['is_under_line'] = in_array($params['payment']['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
-            }
-
-            // 更新订单
-            if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
-            {
-                // 事务回滚
-                Db::rollback();
-                return DataReturn('订单更新失败['.$order['id'].']', -10);
-            }
-
-            // 添加状态日志
-            if(array_key_exists('status', $upd_data))
-            {
-                if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '支付', 0, '系统'))
+                // 订单非待支付则不处理
+                if($order['pay_status'] != 0)
                 {
-                    // 事务回滚
-                    Db::rollback();
-                    return DataReturn('订单日志添加失败['.$order['id'].']', -10);
+                    continue;
+                }
+
+                // 订单支付成功处理前钩子
+                $hook_name = 'plugins_service_order_pay_handle_begin';
+                $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'order_id'      => $order['id']
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+
+                // 消息通知
+                $detail = MyLang('common_service.order.order_pay_user_message_msg', ['price'=>$order['total_price']]);
+                MessageService::MessageAdd($order['user_id'], MyLang('common_service.order.pay_subject_name'), $detail, self::BusinessTypeName(), $order['id']);
+
+                // 订单更新数据
+                $upd_data = [
+                    'pay_status'    => 1,
+                    'pay_price'     => $order['total_price'],
+                    'pay_time'      => time(),
+                    'upd_time'      => time(),
+                ];
+
+                // 避免先走订单、后走支付的逻辑
+                if($order['status'] <= 1)
+                {
+                    $upd_data['status'] = 2;
+                }
+
+                // 订单金额大于0
+                if($order['total_price'] > 0 && !empty($params['payment']))
+                {
+                    // 更新支付方式
+                    $upd_data['payment_id'] = $params['payment']['id'];
+
+                    // 是否线下支付
+                    $upd_data['is_under_line'] = in_array($params['payment']['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
+                }
+
+                // 更新订单
+                if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
+                {
+                    throw new \Exception(MyLang('common_service.order.order_update_fail_tips').'['.$order['id'].']');
+                }
+
+                // 添加状态日志
+                if(array_key_exists('status', $upd_data))
+                {
+                    if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('payment_title'), 0, MyLang('system_title')))
+                    {
+                        throw new \Exception(MyLang('common_service.order.order_status_history_insert_fail_tips').'['.$order['id'].']');
+                    }
+                }
+
+                // 库存扣除
+                $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'pay']);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+
+                // 订单商品销量增加
+                $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'opt_type'=>'pay']);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+
+                // 订单支付成功处理完毕钩子
+                $hook_name = 'plugins_service_order_pay_success_handle_end';
+                $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'order'         => $order,
+                    'order_id'      => $order['id']
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+
+                // 虚拟商品自动触发发货操作
+                if($order['order_model'] == 3)
+                {
+                    self::OrderDeliveryHandle([
+                        'id'                => $order['id'],
+                        'creator'           => 0,
+                        'creator_name'      => MyLang('system_title'),
+                        'user_id'           => $order['user_id'],
+                        'user_type'         => 'admin',
+                    ]);
                 }
             }
 
-            // 库存扣除
-            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'pay']);
-            if($ret['code'] != 0)
+            // 更新支付日志
+            if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
             {
-                // 事务回滚
-                Db::rollback();
-                return $ret;
+                $pay_log_data = [
+                    'log_id'        => $params['pay_log_data']['id'],
+                    'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
+                    'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
+                    'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
+                    'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : MyLang('common_service.order.pay_subject_name'),
+                    'payment'       => $params['payment']['payment'],
+                    'payment_name'  => $params['payment']['name'],
+                ];
+                $ret = PayLogService::PayLogSuccess($pay_log_data);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
             }
 
-            // 订单商品销量增加
-            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'opt_type'=>'pay']);
-            if($ret['code'] != 0)
-            {
-                // 事务回滚
-                Db::rollback();
-                return $ret;
-            }
-
-            // 订单支付成功处理完毕钩子
-            $hook_name = 'plugins_service_order_pay_success_handle_end';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => $params,
-                'order'         => $order,
-                'order_id'      => $order['id']
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
-            {
-                // 事务回滚
-                Db::rollback();
-                return $ret;
-            }
-
-            // 虚拟商品自动触发发货操作
-            if($order['order_model'] == 3)
-            {
-                self::OrderDeliveryHandle([
-                    'id'                => $order['id'],
-                    'creator'           => 0,
-                    'creator_name'      => '系统',
-                    'user_id'           => $order['user_id'],
-                    'user_type'         => 'admin',
-                ]);
-            }
+            // 提交事务
+            Db::commit();
+            return DataReturn(MyLang('pay_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 更新支付日志
-        if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
-        {
-            $pay_log_data = [
-                'log_id'        => $params['pay_log_data']['id'],
-                'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
-                'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
-                'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
-                'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
-                'payment'       => $params['payment']['payment'],
-                'payment_name'  => $params['payment']['name'],
-            ];
-            $ret = PayLogService::PayLogSuccess($pay_log_data);
-            if($ret['code'] != 0)
-            {
-                // 事务回滚
-                Db::rollback();
-                return $ret;
-            }
-        }
-
-        // 提交事务
-        Db::commit();
-        return DataReturn(MyLang('pay_success'), 0);
     }
 
     /**
@@ -1237,6 +1239,9 @@ class OrderService
             $order_pay_status = MyLang('common_order_pay_status');
             $common_platform_type = MyLang('common_platform_type');
             $common_order_type_list = MyLang('common_order_type_list');
+            $order_take_status_name = MyLang('common_service.order.order_take_status_name');
+            $order_under_line_pay_status_name = MyLang('common_service.order.order_under_line_pay_status_name');
+            $order_under_line_name = MyLang('common_service.order.order_under_line_name');
 
             // 仓库信息
             if(in_array('warehouse_id', $keys))
@@ -1338,16 +1343,16 @@ class OrderService
                 }
 
                 // 订单模式
-                $v['order_model_name'] = isset($common_order_type_list[$v['order_model']]) ? $common_order_type_list[$v['order_model']]['name'] : '未知';
+                $v['order_model_name'] = isset($common_order_type_list[$v['order_model']]) ? $common_order_type_list[$v['order_model']]['name'] : '';
 
                 // 客户端
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 
                 // 状态
-                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : (array_key_exists($v['status'], $order_status_list) ? $order_status_list[$v['status']]['name'] : '未知');
+                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? $order_take_status_name : (array_key_exists($v['status'], $order_status_list) ? $order_status_list[$v['status']]['name'] : '');
 
                 // 支付状态
-                $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? '待确认' : $order_pay_status[$v['pay_status']]['name'];
+                $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? $order_under_line_pay_status_name : $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
                 $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
@@ -1366,7 +1371,7 @@ class OrderService
                 $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : null;
 
                 // 线下支付 icon 名称
-                $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? '线下支付' : null;
+                $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? $order_under_line_name : null;
 
                 // 是否可发起售后
                 $v['is_can_launch_aftersale'] = OrderAftersaleService::OrderIsCanLaunchAftersale($v['collect_time']);
@@ -1418,7 +1423,7 @@ class OrderService
                 {
                     $v['items'] = $detail[$v['id']];
                     $v['items_count'] = count($v['items']);
-                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].$v['total_price'].'元';
+                    $v['describe'] = MyLang('common_service.order.order_item_summary_desc', ['buy_number_count'=>$v['buy_number_count'], 'currency_symbol'=>$v['currency_data']['currency_symbol'], 'total_price'=>$v['total_price']]);
                 }
 
                 // 管理员读取
@@ -1458,7 +1463,6 @@ class OrderService
                 'data'          => &$data,
             ]);
         }
-
         return DataReturn('success', 0, $data);
     }
 
@@ -1745,7 +1749,7 @@ class OrderService
         $text = null;
         if(!in_array($order_status, [0,1,5,6]))
         {
-            $lang = MyLang('orderaftersale_create_title_data');
+            $lang = MyLang('common_service.order.orderaftersale_create_title_data');
             if(empty($orderaftersale))
             {
                 $text = $lang['default'];
@@ -1878,12 +1882,13 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', self::$business_type_name, $order['id']);
+            $lang = MyLang('common_service.order.order_cancel_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '取消', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('cancel_title'), $creator, $creator_name);
 
             // 提交事务
             Db::commit();
@@ -1958,7 +1963,7 @@ class OrderService
             $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
             if(empty($order))
             {
-                throw new \Exception('资源不存在或已被删除');
+                throw new \Exception(MyLang('order_no_exist_or_delete_error_tips'));
             }
             $operate = self::OrderOperateData($order, $user_type);
             if($operate['is_delivery'] != 1)
@@ -1976,12 +1981,12 @@ class OrderService
                         [
                             'checked_type'      => 'empty',
                             'key_name'          => 'express_id',
-                            'error_msg'         => '快递id有误',
+                            'error_msg'         => MyLang('common_service.order.delivery_express_id_message'),
                         ],
                         [
                             'checked_type'      => 'empty',
                             'key_name'          => 'express_number',
-                            'error_msg'         => '快递单号有误',
+                            'error_msg'         => MyLang('common_service.order.delivery_express_number_message'),
                         ],
                     ];
                     $ret = ParamsChecked($params, $p);
@@ -1997,7 +2002,7 @@ class OrderService
                         [
                             'checked_type'      => 'empty',
                             'key_name'          => 'extraction_code',
-                            'error_msg'         => '取货码有误',
+                            'error_msg'         => MyLang('common_service.order.take_extraction_code_message'),
                         ],
                     ];
                     $ret = ParamsChecked($params, $p);
@@ -2010,11 +2015,11 @@ class OrderService
                     $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$order['id']])->value('code');
                     if(empty($extraction_code))
                     {
-                        throw new \Exception('订单取货码不存在、请联系管理员');
+                        throw new \Exception(MyLang('common_service.order.take_extraction_code_empty_tips'));
                     }
                     if($extraction_code != $params['extraction_code'])
                     {
-                        throw new \Exception('取货码不正确');
+                        throw new \Exception(MyLang('common_service.order.take_extraction_code_error_tips'));
                     }
                     break;
             }
@@ -2028,7 +2033,7 @@ class OrderService
             ];
             if(!Db::name('Order')->where($where)->update($upd_data))
             {
-                throw new \Exception('发货失败');
+                throw new \Exception(MyLang('delivery_fail'));
             }
 
             // 库存扣除
@@ -2039,15 +2044,16 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单发货', '订单已发货', self::$business_type_name, $order['id']);
+            $lang = MyLang('common_service.order.order_delivery_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
 
             // 完成
-            return DataReturn('发货成功', 0);
+            return DataReturn(MyLang('delivery_success'), 0);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }
@@ -2149,16 +2155,17 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', self::$business_type_name, $order['id']);
+            $lang = MyLang('common_service.order.order_collect_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('collect_title'), $creator, $creator_name);
 
-            return DataReturn('收货成功', 0);
+            return DataReturn(MyLang('collect_success'), 0);
         }
-        return DataReturn('收货失败', -1);
+        return DataReturn(MyLang('collect_fail'), -1);
     }
 
     /**
@@ -2208,42 +2215,45 @@ class OrderService
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
-        // 开启事务
+        // 启动事务
         Db::startTrans();
 
-        // 更新订单状态
-        $upd_data = [
-            'status'        => 1,
-            'confirm_time'  => time(),
-            'upd_time'      => time(),
-        ];
-        if(Db::name('Order')->where($where)->update($upd_data))
-        {
+        // 捕获异常
+        try {
+            // 更新订单状态
+            $upd_data = [
+                'status'        => 1,
+                'confirm_time'  => time(),
+                'upd_time'      => time(),
+            ];
+            if(!Db::name('Order')->where($where)->update($upd_data))
+            {
+                throw new \Exception(MyLang('confirm_fail'));
+            }
+
             // 库存扣除
             $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['id'], 'opt_type'=>'confirm']);
             if($ret['code'] != 0)
             {
-                // 事务回滚
-                Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                throw new \Exception($ret['msg']);
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单确认', '订单确认成功', self::$business_type_name, $order['id']);
+            $lang = MyLang('common_service.order.order_confirm_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '确认', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('confirm_title'), $creator, $creator_name);
 
-            // 事务提交
+            // 完成
             Db::commit();
             return DataReturn(MyLang('confirm_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 事务回滚
-        Db::rollback();
-        return DataReturn(MyLang('confirm_fail'), -1);
     }
 
     /**
@@ -2329,7 +2339,8 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', self::$business_type_name, $order['id']);
+            $lang = MyLang('common_service.order.order_delete_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
 
             // 订单删除成功钩子
             $hook_name = 'plugins_service_order_delete_success';
@@ -2519,12 +2530,12 @@ class OrderService
                 {
                     if(Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('sales_count', $v['buy_number'])->update() === false)
                     {
-                        return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
+                        return DataReturn(MyLang('common_service.order.order_goods_sales_count_inc_fail_tips').'['.$v['title'].']', -10);
                     }
                 }
                 return DataReturn(MyLang('operate_success'), 0);
             } else {
-                return DataReturn('订单有误，没有找到相关商品', -100);
+                return DataReturn(MyLang('common_service.order.order_detail_goods_empty_tips'), -100);
             }
         }
         return DataReturn(MyLang('handle_noneed'), 0);
@@ -2546,7 +2557,7 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_no',
-                'error_msg'         => '订单号有误',
+                'error_msg'         => MyLang('order_no_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -2565,7 +2576,7 @@ class OrderService
         $pay_log = Db::name('PayLog')->where($where)->field('id,status')->find();
         if(empty($pay_log))
         {
-            return DataReturn('支付订单不存在', -400, ['url'=>SystemService::HomeUrl()]);
+            return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -400, ['url'=>SystemService::HomeUrl()]);
         }
         if($pay_log['status'] == 1)
         {
@@ -2578,7 +2589,7 @@ class OrderService
             }
             return DataReturn(MyLang('pay_success'), 0, ['url'=>$url]);
         }
-        return DataReturn('支付中', -300);
+        return DataReturn(MyLang('common_service.order.pay_have_in_hand_tips'), -300);
     }
 
     /**
@@ -2609,7 +2620,6 @@ class OrderService
                 $order_ids = implode(',', $ids);
             }
         }
-
         return [
             'payment_id'    => $payment_id,
             'order_ids'     => $order_ids,
@@ -2630,7 +2640,7 @@ class OrderService
         $result = [];
         if(!empty($order))
         {
-            $lang = MyLang('order_status_setp_data');
+            $lang = MyLang('common_service.order.order_status_setp_data');
             $result[] = [
                 'title'     => $lang['add'],
                 'time'      => $order['add_time'],

@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\WarehouseService;
+use app\service\GoodsService;
 
 /**
  * 订单拆分服务层
@@ -37,14 +38,9 @@ class OrderSplitService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'goods',
-                'error_msg'         => '商品为空',
-            ],
-            [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'goods',
-                'error_msg'         => '商品有误',
+                'error_msg'         => MyLang('goods_empty_or_format_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -254,7 +250,7 @@ class OrderSplitService
         foreach($params['goods'] as $v)
         {
             // 不存在规格则使用默认
-            $spec = empty($v['spec']) ? [['type' => '默认规格','value' => 'default']] : $v['spec'];
+            $spec = empty($v['spec']) ? [['type' => GoodsService::GoodsSpecDefaultName(),'value' => 'default']] : $v['spec'];
 
             // 获取商品库存
             $where = [

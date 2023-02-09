@@ -11,8 +11,8 @@
             </legend>
 
             <div class="am-form-group">
-                <label>{{:MyLang('pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_plugins_tips')}}</span></label>
-                <input type="text" name="plugins" placeholder="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($data['plugins'])}} value="{{$data.plugins}}"{{/if}} required />
+                <label>{{:MyLang('common_service.pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_plugins_tips')}}</span></label>
+                <input type="text" name="plugins" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($data['plugins'])}} value="{{$data.plugins}}"{{/if}} required />
                 <!-- 校验信息 -->
                 {{if !empty($verification_msg)}}
                     <div class="am-alert am-alert-danger" data-am-alert>

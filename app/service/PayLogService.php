@@ -41,40 +41,29 @@ class PayLogService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'business_ids',
-                'error_msg'         => '业务id为空',
-            ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'business_ids',
-                'error_msg'         => '业务id数据类型有误',
-            ],
-            [
-                'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id为空',
+                'error_msg'         => MyLang('common_service.paylog.save_user_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'business_type',
-                'error_msg'         => '业务类型为空',
+                'error_msg'         => MyLang('common_service.paylog.save_business_type_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'business_ids',
+                'error_msg'         => MyLang('common_service.paylog.save_business_ids_format_tips'),
             ],
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'total_price',
-                'error_msg'         => '业务金额为空',
+                'error_msg'         => MyLang('common_service.paylog.save_total_price_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
-        }
-
-        // 业务id
-        if(empty($params['business_ids']))
-        {
-            return DataReturn('业务id为空', -1);
         }
 
         // 日志主数据
@@ -125,7 +114,7 @@ class PayLogService
                 return DataReturn(MyLang('insert_success'), 0, $data);
             }
         }
-        return DataReturn('支付订单添加失败', -100);
+        return DataReturn(MyLang('common_service.paylog.pay_log_insert_fail_tips'), -100);
     }
 
     /**
@@ -147,7 +136,7 @@ class PayLogService
         // 参数
         if(empty($params['log_id']))
         {
-            return DataReturn('日志id有误', -100);
+            return DataReturn(MyLang('common_service.paylog.pay_log_id_empty_tips'), -1);
         }
 
         // 更新数据
@@ -163,9 +152,9 @@ class PayLogService
         ];
         if(Db::name('PayLog')->where(['id'=>intval($params['log_id']), 'status'=>0])->update($data))
         {
-            return DataReturn('日志订单更新成功', 0);
+            return DataReturn(MyLang('update_success'), 0);
         }
-        return DataReturn('日志订单更新失败', -100);
+        return DataReturn(MyLang('common_service.paylog.pay_log_update_fail_tips'), -100);
     }
 
     /**
@@ -267,7 +256,6 @@ class PayLogService
         {
             return DataReturn(MyLang('close_success'), 0);
         }
-
         return DataReturn(MyLang('close_fail'), -100);
     }
 }

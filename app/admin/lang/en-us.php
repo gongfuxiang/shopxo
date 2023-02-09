@@ -962,13 +962,6 @@ return [
             ]
         ],
         'upload_top_tips_ps'                        => 'PS: If the above conditions are not met, the plug-in cannot be viewed. Put the plug-in into the. zip compression package to upload, and support multiple payment plugins in one compression',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~30 characters',
-        'form_item_apply_terminal'              => 'Applicable Terminal',
-        'form_item_apply_terminal_message'      => 'Select at least one applicable terminal',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_is_open_user'                => 'Open to Users',
         // 动态表格
         'form_table'                            => [
             'name'            => 'Name',
@@ -1142,33 +1135,6 @@ return [
         'more_plugins_store_to_text'            => 'Go to the app store to select more plugins to enrich the site >>',
         'no_data_store_to_text'                 => 'Go to the app store to select plug-in rich sites >>',
         'plugins_no_data_tips'                  => 'There is no relevant application yet',
-        // 表单
-        'form_item_upload_tips'                 => 'Upload an application installation package in zip compression format',
-        'form_create_error_tips'                => 'Please fill in again!',
-        'form_create_first_step_button_name'    => 'Next Step',
-        'form_item_plugins'                     => 'Apply unique tags',
-        'form_item_plugins_tips'                => 'Use numbers, lowercase letters and underscores',
-        'form_item_plugins_message'             => 'Apply unique tag format of 2~60 characters',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_logo_tips'                   => '600 * 600px proposal',
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format: 2~30 characters',
-        'form_item_author'                      => 'Author',
-        'form_item_author_message'              => 'Author format 2~30 characters',
-        'form_item_author_url'                  => 'Author URI',
-        'form_item_author_url_tips'             => 'Start with http://or https://',
-        'form_item_author_url_message'          => 'Please fill in the authors homepage',
-        'form_item_version'                     => 'Version',
-        'form_item_version_tips'                => 'Major version, minor version number and revision number, each segment shall not exceed 6 digits, such as 1.0.0',
-        'form_item_version_message'             => 'Incorrect version format',
-        'form_item_desc'                        => 'Describe',
-        'form_item_desc_message'                => 'Description content format: 2~60 characters',
-        'form_item_apply_terminal'              => 'Applicable Terminal',
-        'form_item_apply_terminal_message'      => 'Select at least one applicable terminal',
-        'form_item_apply_version'               => 'Applicable system version',
-        'form_item_apply_version_message'       => 'Select at least one applicable system version',
-        'form_item_is_home'                     => 'Whether there is front-end entrance',
-        'form_item_is_home_tips'                => 'Front independent page entry',
     ],
 
     // 安装页面

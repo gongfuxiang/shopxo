@@ -35,6 +35,19 @@ class GoodsService
     public static $goods_spec_to_string_separator = '{|}';
 
     /**
+     * 商品规格默认名称
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-02-09
+     * @desc    description
+     */
+    public static function GoodsSpecDefaultName()
+    {
+        return MyLang('common_service.goods.base_goods_spec_default_name');
+    }
+
+    /**
      * 获取首页楼层数据
      * @author   Devil
      * @blog    http://gong.gg/

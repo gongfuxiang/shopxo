@@ -35,7 +35,7 @@ class PayRequestLogService
         // 请求参数
         if(empty($business_type))
         {
-            return DataReturn('业务类型为空', -1);
+            return DataReturn(MyLang('common_service.payrequestlog.save_business_type_empty_tips'), -1);
         }
 
         // 行为驱动
@@ -69,9 +69,9 @@ class PayRequestLogService
         $log_id = Db::name('PayRequestLog')->insertGetId($data);
         if($log_id > 0)
         {
-            return DataReturn('支付请求日志添加成功', 0, $log_id);
+            return DataReturn(MyLang('insert_success'), 0, $log_id);
         }
-        return DataReturn('支付请求日志添加失败', -100);
+        return DataReturn(MyLang('common_service.payrequestlog.pay_request_log_insert_fail_tips'), -100);
     }
 
     /**
@@ -95,9 +95,9 @@ class PayRequestLogService
         ];
         if(Db::name('PayRequestLog')->where(['id'=>$log_id])->update($data))
         {
-            return DataReturn('支付请求日志更新成功', 0, $log_id);
+            return DataReturn(MyLang('update_success'), 0, $log_id);
         }
-        return DataReturn('支付请求日志更新失败', -100);
+        return DataReturn(MyLang('common_service.payrequestlog.pay_request_log_update_fail_tips'), -100);
     }
 
     /**

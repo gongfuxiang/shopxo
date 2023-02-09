@@ -389,12 +389,12 @@ class PaymentService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => '名称长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.payment.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'apply_terminal',
-                'error_msg'         => '至少选择一个适用终端',
+                'error_msg'         => MyLang('common_service.payment.form_item_apply_terminal_message'),
             ],
             [
                 'checked_type'      => 'length',
@@ -508,13 +508,13 @@ class PaymentService
         // 入口文件目录
         if(!is_writable(self::$dir_root_path))
         {
-            return DataReturn('目录没有操作权限'.'['.self::$dir_root_path.']', -3);
+            return DataReturn(MyLang('common_service.payment.dir_no_power_tips').'['.self::$dir_root_path.']', -3);
         }
 
         // 插件权限
         if(!is_writable(self::$payment_dir))
         {
-            return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -4);
+            return DataReturn(MyLang('common_service.payment.dir_no_power_tips').'['.self::$payment_dir.']', -4);
         }
 
         return DataReturn(MyLang('check_success'), 0);
@@ -640,9 +640,9 @@ class PaymentService
 
         if($success > 0)
         {
-            return DataReturn('上传成功[成功'.$success.'个支付插件, 失败'.$error.'个无效文件]', 0);
+            return DataReturn(MyLang('common_service.payment.upload_success_tips', ['success'=>$success, 'error'=>$error]), 0);
         }
-        return DataReturn('上传失败，'.$error.'个无效文件、如功能插件请到[ 应用中心->应用管理 ]模块里面去上传安装', -10);
+        return DataReturn(MyLang('common_service.payment.upload_fail_tips', ['error'=>$error]), -10);
     }
 
     /**
@@ -696,7 +696,7 @@ class PaymentService
                 return DataReturn(MyLang('install_fail'), -100);
             }
         } else {
-            return DataReturn('插件配置有误', -10);
+            return DataReturn(MyLang('plugins_config_error_tips'), -10);
         }
     }
 
@@ -731,7 +731,7 @@ class PaymentService
         $payment = $params['id'];
         if(in_array($payment, self::$cannot_deleted_list))
         {
-            return DataReturn('该支付方式禁止删除', -10);
+            return DataReturn(MyLang('common_service.payment.payment_not_allow_delete_tips'), -10);
         }
 
         // 是否存在
@@ -744,7 +744,7 @@ class PaymentService
         // 权限
         if(!is_writable($file))
         {
-            return DataReturn('没操作权限['.$file.']', -3);
+            return DataReturn(MyLang('common_service.payment.file_no_power_tips').'['.$file.']', -3);
         }
 
         // 删除
@@ -814,17 +814,17 @@ class PaymentService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'payment',
-                'error_msg'         => '支付唯一标记不能为空',
+                'error_msg'         => MyLang('common_service.payment.create_payment_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'respond',
-                'error_msg'         => '支付同步地址参数不能为空',
+                'error_msg'         => MyLang('common_service.payment.create_respond_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'notify',
-                'error_msg'         => '支付异步地址参数不能为空',
+                'error_msg'         => MyLang('common_service.payment.create_notify_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -838,11 +838,6 @@ class PaymentService
         if($ret['code'] != 0)
         {
             return $ret;
-        }
-
-        if(empty($params['payment']))
-        {
-            return '支付唯一标记不能为空';
         }
 
         // 获取地址所属模块名称、地址标记去除模块名称
@@ -1052,9 +1047,10 @@ php;
         {
             return $ret;
         }
+        // 标识是否为空
         if(empty($params['payment']))
         {
-            return '支付唯一标记不能为空';
+            return DataReturn(MyLang('common_service.payment.create_payment_empty_tips'), -1);
         }
 
         // 处理业务
@@ -1122,7 +1118,7 @@ php;
         // 同步返回文件
         if(!file_exists(self::$dir_root_path.$file['respond']))
         {
-            return DataReturn('支付返回入口文件不存在，请联系管理员处理', -10, $result);
+            return DataReturn(MyLang('common_service.payment.pay_respond_file_no_exist_tips'), -10, $result);
         }
 
         // 线下支付不生成异步入口文件
@@ -1130,7 +1126,7 @@ php;
         {
             if(!file_exists(self::$dir_root_path.$file['notify']))
             {
-                return DataReturn('支付通知入口文件不存在，请联系管理员处理', -11, $result);
+                return DataReturn(MyLang('common_service.payment.pay_notify_file_no_exist_tips'), -11, $result);
             }
         }
         return DataReturn(MyLang('check_success'), 0, $result);
@@ -1178,8 +1174,7 @@ php;
                 return $res;
             }
         }
-
-        return DataReturn('无插件数据', 0);
+        return DataReturn(MyLang('common_service.payment.no_plugins_data_tips'), 0);
     }
 
     /**

@@ -197,7 +197,7 @@ class PluginsAdminService
                 return DataReturn(MyLang('install_fail'), -100);
             }
         } else {
-            return DataReturn('插件配置有误', -10);
+            return DataReturn(MyLang('plugins_config_error_tips'), -10);
         }
     }
 
@@ -335,13 +335,13 @@ class PluginsAdminService
         {
             if(!is_writable($event_file))
             {
-                return DataReturn('文件没有权限'.'['.$event_file.']', -3);
+                return DataReturn(MyLang('common_service.pluginsadmin.file_no_power_tips').'['.$event_file.']', -3);
             }
         } else {
             // 文件不存在则确认目录是否可写
             if(!is_writable(APP_PATH))
             {
-                return DataReturn('目录操作权限'.'['.$event_file.']', -3);
+                return DataReturn(MyLang('common_service.pluginsadmin.dir_no_power_tips').'['.$event_file.']', -3);
             }
         }
 
@@ -411,7 +411,7 @@ class PluginsAdminService
 // 应用行为扩展定义文件\nreturn ".var_export(['listen'=>$result], true).";\n?>");
         if($ret === false)
         {
-            return DataReturn('应用钩子部署失败', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_deployment_fail_tips'), -10);
         }
 
         return DataReturn(MyLang('handle_success'), 0);
@@ -446,14 +446,14 @@ class PluginsAdminService
         $plugins = $params['id'];
         if(!file_exists(APP_PATH.'plugins'.DS.$plugins))
         {
-           return DataReturn('应用不存在', -10); 
+           return DataReturn(MyLang('common_service.pluginsadmin.app_no_exist_tips'), -10); 
         }
         
         // 获取应用标记
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->find();
         if(!empty($data['is_enable']))
         {
-           return DataReturn('请先卸载应用', -10);
+           return DataReturn(MyLang('common_service.pluginsadmin.please_uninstall_tips'), -10);
         }
 
         // 钩子部署
@@ -538,47 +538,47 @@ class PluginsAdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'plugins',
-                'error_msg'         => '应用唯一标记不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_plugins_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'logo',
-                'error_msg'         => '请上传LOGO',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_logo_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'name',
-                'error_msg'         => '应用名称不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'author',
-                'error_msg'         => '作者不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_author_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'author_url',
-                'error_msg'         => '作者主页不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_author_url_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'version',
-                'error_msg'         => '版本号不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_version_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'desc',
-                'error_msg'         => '描述不能为空',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_desc_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'apply_terminal',
-                'error_msg'         => '请至少选择一个适用终端',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_apply_terminal_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'apply_version',
-                'error_msg'         => '请至少选择一个适用系统版本',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_apply_version_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -608,7 +608,7 @@ class PluginsAdminService
         $app_dir = APP_PATH.'plugins'.DS.$plugins;
         if(!is_dir($app_dir) && \base\FileUtil::CreateDir($app_dir) !== true)
         {
-            return DataReturn('应用主目录创建失败', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_dir_create_fial_tips'), -10);
         }
 
         // 生成配置文件
@@ -783,46 +783,46 @@ php;
         $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.trim($params['plugins']);
         if(!is_dir($app_static_css_dir) && \base\FileUtil::CreateDir($app_static_css_dir) !== true)
         {
-            return DataReturn('应用静态目录创建失败[css]', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_create_fail_tips').'[css]', -10);
         } else {
             // 后端css目录创建
             if(!is_dir($app_static_css_dir.DS.'admin') && \base\FileUtil::CreateDir($app_static_css_dir.DS.'admin') !== true)
             {
-                return DataReturn('应用静态目录创建失败[css/admin]', -10);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_create_fail_tips').'[css/admin]', -10);
             }
         }
 
         // 后端admin目录创建
         if(!is_dir($app_dir.DS.'admin') && \base\FileUtil::CreateDir($app_dir.DS.'admin') !== true)
         {
-            return DataReturn('应用后端目录创建失败[admin]', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_admin_dir_create_fail_tips').'[admin]', -10);
         }
 
         // 创建文件
         if(!file_exists($app_dir.DS.'admin'.DS.'Admin.php') && @file_put_contents($app_dir.DS.'admin'.DS.'Admin.php', $admin) === false)
         {
-            return DataReturn('应用文件创建失败[Admin.php]', -11);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_file_create_fail_tips').'[Admin.php]', -11);
         }
         if(!file_exists($app_dir.DS.'Hook.php') && @file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
         {
-            return DataReturn('应用文件创建失败[Hook.php]', -11);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_file_create_fail_tips').'[Hook.php]', -11);
         }
 
         // 应用后台视图目录不存在则创建
         $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin'.DS.'admin';
         if(!is_dir($app_view_admin_dir) && \base\FileUtil::CreateDir($app_view_admin_dir) !== true)
         {
-            return DataReturn('应用视图目录创建失败[admin]', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_create_fail_tips').'[admin]', -10);
         }
         if(!file_exists($app_view_admin_dir.DS.'index.html') && @file_put_contents($app_view_admin_dir.DS.'index.html', $admin_view) === false)
         {
-            return DataReturn('应用视图文件创建失败[admin-view]', -11);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_view_file_create_fail_tips').'[admin-view]', -11);
         }
 
         // css创建
         if(!file_exists($app_static_css_dir.DS.'admin'.DS.'admin.css') && @file_put_contents($app_static_css_dir.DS.'admin'.DS.'admin.css', $admin_css) === false)
         {
-            return DataReturn('应用静态文件创建失败[admin-css]', -11);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_static_file_create_fail_tips').'[admin-css]', -11);
         }
 
         // 是否有前端页面
@@ -831,36 +831,36 @@ php;
             // 前端index目录创建
             if(!is_dir($app_dir.DS.'index') && \base\FileUtil::CreateDir($app_dir.DS.'index') !== true)
             {
-                return DataReturn('应用前端目录创建失败[index]', -10);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_home_dir_create_fail_tips').'[index]', -10);
             }
 
             // 创建文件
             if(!file_exists($app_dir.DS.'index'.DS.'Index.php') && @file_put_contents($app_dir.DS.'index'.DS.'Index.php', $index) === false)
             {
-                return DataReturn('应用文件创建失败[index]', -11);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_file_create_fail_tips').'[index]', -11);
             }
 
             // 应用前端视图目录不存在则创建
             $app_view_index_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index'.DS.'index';
             if(!is_dir($app_view_index_dir) && \base\FileUtil::CreateDir($app_view_index_dir) !== true)
             {
-                return DataReturn('应用视图目录创建失败[index]', -10);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_create_fail_tips').'[index]', -10);
             }
             if(!file_exists($app_view_index_dir.DS.'index.html') && @file_put_contents($app_view_index_dir.DS.'index.html', $index_view) === false)
             {
-                return DataReturn('应用视图文件创建失败[index-view]', -11);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_view_file_create_fail_tips').'[index-view]', -11);
             }
 
             // 前端css目录创建
             if(!is_dir($app_static_css_dir.DS.'index') && \base\FileUtil::CreateDir($app_static_css_dir.DS.'index') !== true)
             {
-                return DataReturn('应用静态目录创建失败[css/index]', -10);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_create_fail_tips').'[css/index]', -10);
             }
 
             // css创建
             if(!file_exists($app_static_css_dir.DS.'index'.DS.'index.css') && @file_put_contents($app_static_css_dir.DS.'index'.DS.'index.css', $index_css) === false)
             {
-                return DataReturn('应用静态文件创建失败[index-css]', -11);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_static_file_create_fail_tips').'[index-css]', -11);
             }
         }
 
@@ -913,21 +913,21 @@ php;
             // 文件存在是否有权限
             if(!is_writable($config_file))
             {
-                return DataReturn('应用配置文件没有操作权限'.'['.$config_file.']', -3);
+                return DataReturn(MyLang('common_service.pluginsadmin.app_config_no_power_tips').'['.$config_file.']', -3);
             }
         }
 
         // 创建配置文件
         if(@file_put_contents($config_file, JsonFormat($data)) === false)
         {
-            return DataReturn('应用配置文件创建失败', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_config_create_tail_tips'), -10);
         }
 
         return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
-     * 名称校验
+     * 名称排除校验
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -936,12 +936,10 @@ php;
      */
     public static function PluginsVerification($plugins)
     {
-        // 排除校验
         if(in_array($plugins, self::$plugins_exclude_verification))
         {
-            return DataReturn('不能使用限制的名称['.$plugins.']', -1);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_name_exclude_tips').'['.$plugins.']', -1);
         }
-
         return DataReturn(MyLang('check_success'), 0);
     }
 
@@ -972,45 +970,45 @@ php;
         $app_dir = APP_PATH.'plugins';
         if(!is_writable($app_dir))
         {
-            return DataReturn('应用目录没有操作权限'.'['.$app_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_dir_no_power_tips').'['.$app_dir.']', -3);
         }
 
         // 应用视图目录
         $app_view_dir = APP_PATH.'plugins'.DS.'view';
         if(!is_writable($app_view_dir))
         {
-            return DataReturn('应用视图目录没有操作权限'.'['.$app_view_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_no_power_tips').'['.$app_view_dir.']', -3);
         }
 
         // 应用css目录
         $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css';
         if(!is_writable($app_static_css_dir))
         {
-            return DataReturn('应用css目录没有操作权限'.'['.$app_static_css_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_css_dir_no_power_tips').'['.$app_static_css_dir.']', -3);
         }
 
         // 应用js目录
         $app_static_js_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js';
         if(!is_writable($app_static_js_dir))
         {
-            return DataReturn('应用js目录没有操作权限'.'['.$app_static_js_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_js_dir_no_power_tips').'['.$app_static_js_dir.']', -3);
         }
 
         // 应用images目录
         $app_static_images_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images';
         if(!is_writable($app_static_images_dir))
         {
-            return DataReturn('应用images目录没有操作权限'.'['.$app_static_images_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_images_dir_no_power_tips').'['.$app_static_images_dir.']', -3);
         }
 
         // 应用upload目录
         $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
         if(!is_writable($app_upload_dir))
         {
-            return DataReturn('应用upload目录没有操作权限'.'['.$app_upload_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
-        return DataReturn('权限正常', 0);
+        return DataReturn('success', 0);
     }
 
     /**
@@ -1137,7 +1135,7 @@ php;
                     // 应用是否存在
                     if(self::PluginsExist($plugins))
                     {
-                        return DataReturn('应用名称已存在['.$plugins.']', -1);
+                        return DataReturn(MyLang('common_service.pluginsadmin.app_name_exist_tips').'['.$plugins.']', -1);
                     }
                     break;
 
@@ -1146,7 +1144,7 @@ php;
                     // 应用是否存在
                     if($plugins != $plugins_old)
                     {
-                        return DataReturn('应用标识与指定不一致['.$plugins.'<>'.$plugins_old.']', -1);
+                        return DataReturn(MyLang('common_service.pluginsadmin.app_name_appoint_error_tips').'['.$plugins.'<>'.$plugins_old.']', -1);
                     }
                     break;
             }
@@ -1160,14 +1158,14 @@ php;
                 {
                     if(stripos($file_content, 'namespace payment') !== false)
                     {
-                        return DataReturn('支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装', -1);
+                        return DataReturn(MyLang('common_service.pluginsadmin.plugins_package_error_tips'), -1);
                     }
                 }
                 fclose($stream);
             }
 
             // 不是支付插件则提示插件包错误
-            return DataReturn('插件包有误', -30);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_package_empty_tips'), -30);
         }
 
         // 应用文件处理
@@ -1246,7 +1244,7 @@ php;
         // 未匹配成功一个文件则认为插件包无效
         if($success <= 0)
         {
-            return DataReturn('无效的插件包', -1);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_package_invalid_tips'), -1);
         }
         return DataReturn('success', 0, $plugins);
     }
@@ -1309,14 +1307,14 @@ php;
         $plugins = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($plugins))
         {
-            return DataReturn('插件标识有误', -1);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_identification_error_tips'), -1);
         }
 
         // 配置信息
         $config = self::GetPluginsConfig($plugins);
         if(empty($config))
         {
-            return DataReturn('插件配置有误', -10);
+            return DataReturn(MyLang('plugins_config_error_tips'), -10);
         }
 
         // 目录不存在则创建
@@ -1329,7 +1327,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_controller_'.DS.$plugins) != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'[控制器]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.pluginsadmin.plugins_copy_control_fail_tips').']', -2);
             }
         }
 
@@ -1339,7 +1337,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_view_'.DS.$plugins) != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'[视图]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.pluginsadmin.plugins_copy_view_fail_tips').']', -2);
             }
         }
 
@@ -1407,7 +1405,7 @@ php;
         $new_config_file = $new_dir.DS.'_controller_'.DS.$plugins.DS.'config.json';
         if(!file_exists($new_config_file))
         {
-            return DataReturn('新配置文件有误', -10);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_new_config_error_tips'), -10);
         }
         if(empty($config['history']))
         {
@@ -1421,7 +1419,7 @@ php;
         ];
         if(@file_put_contents($new_config_file, JsonFormat($config)) === false)
         {
-            return DataReturn('新应用配置文件更新失败', -11);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_new_config_update_fail_tips'), -11);
         }
 
         // 生成压缩包
@@ -1469,13 +1467,13 @@ php;
         // 基础业务参数
         if(empty($params['plugins_value']))
         {
-            return DataReturn('插件标识为空', -1);
+            return DataReturn(MyLang('common_service.pluginsadmin.plugins_identification_empty_tips'), -1);
         }
 
         // 应用是否存在
         if(!self::PluginsExist($params['plugins_value']))
         {
-            return DataReturn('应用不存在['.$params['plugins_value'].']、请先安装', -1);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_update_no_exist_tips', ['plugins'=>$params['plugins_value']]), -1);
         }
 
         // 插件前置事件
@@ -1533,7 +1531,7 @@ php;
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'data',
-                'error_msg'         => '没有可保存的插件数据',
+                'error_msg'         => MyLang('common_service.pluginsadmin.sort_save_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -1578,7 +1576,7 @@ php;
                 return DataReturn($e->getMessage(), -1);
             }
         }
-        return DataReturn('插件排序数据有误', -1);
+        return DataReturn(MyLang('common_service.pluginsadmin.sort_save_data_error_tips'), -1);
     }
 }
 ?>
