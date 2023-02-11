@@ -22,8 +22,8 @@
                 <form class="am-form am-padding-sm goods-add-container">
                     <!-- 搜索 -->
                     <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/warehousegoods/goodssearch')}}">
-                        <select class="am-radius chosen-select forth-selection-form-warehouse" data-placeholder="{{:MyLang('warehousegoods.form_item_warehouseg_placeholder')}}" data-validation-message="{{:MyLang('warehousegoods.form_item_warehouseg_message')}}">
-                            <option value="">{{:MyLang('warehousegoods.form_item_warehouseg_placeholder')}}</option>
+                        <select class="am-radius chosen-select forth-selection-form-warehouse" data-placeholder="{{:MyLang('common_service.warehousegoods.form_item_warehouseg_placeholder')}}" data-validation-message="{{:MyLang('common_service.warehousegoods.form_item_warehouseg_message')}}">
+                            <option value="">{{:MyLang('common_service.warehousegoods.form_item_warehouseg_placeholder')}}</option>
                             {{if !empty($warehouse_list)}}
                                 {{foreach $warehouse_list as $v}}
                                     <option value="{{$v.id}}">{{$v.name}}</option>

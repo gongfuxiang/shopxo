@@ -182,52 +182,52 @@ class StatisticalService
         // 统计时间配置列表
         return [
             '3-day' => [
-                'name'  => '近3天',
+                'name'  => MyLang('common_service.statistical.time_section_day_3_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$three_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$three_time_end),
             ],
             '7-day' => [
-                'name'  => '近7天',
+                'name'  => MyLang('common_service.statistical.time_section_day_7_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$seven_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$seven_time_end),
             ],
             '15-day'    => [
-                'name'  => '近15天',
+                'name'  => MyLang('common_service.statistical.time_section_day_15_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_end),
             ],
             '30-day'    => [
-                'name'  => '近30天',
+                'name'  => MyLang('common_service.statistical.time_section_day_30_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$thirty_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$thirty_time_end),
             ],
             '180-day'    => [
-                'name'  => '近半年',
+                'name'  => MyLang('common_service.statistical.time_section_day_180_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$half_year_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$half_year_time_end),
             ],
             '365-day'    => [
-                'name'  => '近1年',
+                'name'  => MyLang('common_service.statistical.time_section_day_365_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$year_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$year_time_end),
             ],
             'this-month'    => [
-                'name'  => '当月',
+                'name'  => MyLang('common_service.statistical.time_section_this_month_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$this_month_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$this_month_time_end),
             ],
             'last-month'    => [
-                'name'  => '上月',
+                'name'  => MyLang('common_service.statistical.time_section_last_month_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$last_month_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$last_month_time_end),
             ],
             'this-year' => [
-                'name'  => '今年',
+                'name'  => MyLang('common_service.statistical.time_section_this_year_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$this_year_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$this_year_time_end),
             ],
             'last-year' => [
-                'name'  => '去年',
+                'name'  => MyLang('common_service.statistical.time_section_last_year_name'),
                 'start' => date('Y-m-d H:i:s', StatisticalService::$last_year_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$last_year_time_end),
             ],
@@ -600,7 +600,7 @@ class StatisticalService
             $data[] = [
                 'name'      => $order_status_list[$status]['name'],
                 'type'      => ($status == 4) ? 'bar' : 'line',
-                'tiled'     => '总量',
+                'tiled'     => MyLang('common_service.statistical.stats_total_name'),
                 'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
             ];
         }
@@ -661,7 +661,7 @@ class StatisticalService
                 $data[] = [
                     'name'      => $order_status_list[$status]['name'],
                     'type'      => ($status == 4) ? 'line' : 'bar',
-                    'tiled'     => '总量',
+                    'tiled'     => MyLang('common_service.statistical.stats_total_name'),
                     'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
                 ];
             }
@@ -780,7 +780,7 @@ class StatisticalService
             $data[] = [
                 'name'      => $payment,
                 'type'      => 'line',
-                'stack'     => '总量',
+                'stack'     => MyLang('common_service.statistical.stats_total_name'),
                 'areaStyle' => (object) [],
                 'data'      => empty($value_arr[$payment]) ? [] : $value_arr[$payment],
             ];
@@ -856,7 +856,7 @@ class StatisticalService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'type',
-                'error_msg'         => '类型为空',
+                'error_msg'         => MyLang('common_service.statistical.stats_type_empty_tips'),
             ],
         ];
         if(isset($params['type']) && in_array($params['type'], ['order-profit', 'order-trading', 'pay-type']))
@@ -864,12 +864,12 @@ class StatisticalService
             $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'start',
-                'error_msg'         => '开始时间不能为空',
+                'error_msg'         => MyLang('common_service.statistical.stats_time_start_tips'),
             ];
             $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'end',
-                'error_msg'         => '结束时间不能为空',
+                'error_msg'         => MyLang('common_service.statistical.stats_time_end_tips'),
             ];
         }
         $ret = ParamsChecked($params, $p);
@@ -883,7 +883,7 @@ class StatisticalService
         $params['end'] = strtotime($params['end']);
         if($params['end'] < $params['start'])
         {
-            return DataReturn('开始时间不能小于结束时间', -1);
+            return DataReturn(MyLang('common_service.statistical.stats_time_error_tips'), -1);
         }
 
         // 根据类型处理数据
@@ -920,7 +920,7 @@ class StatisticalService
                 break;
 
             default :
-                $ret = DataReturn('类型有误', -1);
+                $ret = DataReturn(MyLang('common_service.statistical.stats_type_error_tips'), -1);
         }
         return $ret;
     }

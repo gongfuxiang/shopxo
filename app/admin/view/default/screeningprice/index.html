@@ -25,16 +25,16 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/screeningprice/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>{{:MyLang('screeningprice.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="{{:MyLang('screeningprice.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('screeningprice.form_item_name_message')}}" class="am-radius" required />
+							<label>{{:MyLang('common_service.screeningprice.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="text" placeholder="{{:MyLang('common_service.screeningprice.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_name_message')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:MyLang('screeningprice.form_item_min_price')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="number" placeholder="{{:MyLang('screeningprice.form_item_min_price')}}" name="min_price" maxlength="10" data-validation-message="{{:MyLang('screeningprice.form_item_min_price_message')}}" class="am-radius" value="0" required />
+							<label>{{:MyLang('common_service.screeningprice.form_item_min_price')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="number" placeholder="{{:MyLang('common_service.screeningprice.form_item_min_price')}}" name="min_price" maxlength="10" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_min_price_message')}}" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:MyLang('screeningprice.form_item_max_price')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="number" placeholder="{{:MyLang('screeningprice.form_item_max_price')}}" name="max_price" maxlength="10" data-validation-message="{{:MyLang('screeningprice.form_item_max_price_message')}}" class="am-radius" value="0" required />
+							<label>{{:MyLang('common_service.screeningprice.form_item_max_price')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="number" placeholder="{{:MyLang('common_service.screeningprice.form_item_max_price')}}" name="max_price" maxlength="10" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_max_price_message')}}" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/sort" /}}
 						{{include file="lib/is_enable" /}}

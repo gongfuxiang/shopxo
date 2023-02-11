@@ -72,7 +72,6 @@ class UserAddressService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 
@@ -226,7 +225,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '地址id不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.address_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -400,8 +399,6 @@ class UserAddressService
                 $status = true;
             }
         }
-
-        // 事务处理
         if($status)
         {
             Db::commit();
@@ -420,7 +417,7 @@ class UserAddressService
             'data_id'       => $data_id,
         ]);
 
-        return DataReturn('操作'.($status ? '成功' : '失败'), $status ? 0 : -100);
+        return DataReturn($status ? MyLang('operate_title') : MyLang('operate_fail'), $status ? 0 : -100);
     }
 
     /**
@@ -439,34 +436,34 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'name',
-                'error_msg'         => '姓名不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'alias',
                 'checked_data'      => '16',
                 'is_checked'        => 1,
-                'error_msg'         => '别名最多16个字符',
+                'error_msg'         => MyLang('common_service.useraddress.form_item_alias_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'tel',
-                'error_msg'         => '联系电话不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.form_item_tel_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'province',
-                'error_msg'         => '省不能为空',
+                'error_msg'         => MyLang('form_region_province_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'city',
-                'error_msg'         => '城市不能为空',
+                'error_msg'         => MyLang('form_region_city_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'address',
-                'error_msg'         => '详细地址不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.form_item_address_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -498,7 +495,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '地址id不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.address_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -528,9 +525,8 @@ class UserAddressService
             ]);
 
             return DataReturn(MyLang('delete_success'), 0);
-        } else {
-            return DataReturn(MyLang('delete_fail'), -100);
         }
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -549,7 +545,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '地址id不能为空',
+                'error_msg'         => MyLang('common_service.useraddress.address_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -584,11 +580,10 @@ class UserAddressService
             // 提交事务
             Db::commit();
             return DataReturn(MyLang('setup_success'), 0);
-        } else {
-            // 回滚事务
-            Db::rollback();
-            return DataReturn(MyLang('setup_fail'), -100);
         }
+        // 回滚事务
+        Db::rollback();
+        return DataReturn(MyLang('setup_fail'), -100);
     }
 
     /**
@@ -628,7 +623,7 @@ class UserAddressService
         $province = Db::name('Region')->where($where)->field($field)->find();
         if(empty($province))
         {
-            return DataReturn('省匹配失败', -1);
+            return DataReturn(MyLang('common_service.useraddress.province_matching_fail_tips'), -1);
         }
 
         // 市匹配
@@ -648,7 +643,7 @@ class UserAddressService
             $city = Db::name('Region')->where($where2)->field($field)->find();
             if(empty($city))
             {
-                return DataReturn('市匹配失败', -1);
+                return DataReturn(MyLang('common_service.useraddress.city_matching_fail_tips'), -1);
             }
         }
 
@@ -694,9 +689,8 @@ class UserAddressService
         $address = Db::name('UserAddress')->where($where)->find();
         if(!empty($address))
         {
-            return DataReturn('地址已存在', -1);
+            return DataReturn(MyLang('common_service.useraddress.address_exist_tips'), -1);
         }
-
         // 地址保存
         return self::UserAddressSave($params);
     }

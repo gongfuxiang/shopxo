@@ -90,7 +90,7 @@ class PluginsUpgradeService
         $res = self::DirFileData($params['key']);
         if(!file_exists($res['url']))
         {
-            return DataReturn('软件包不存在、请重新更新', -1);
+            return DataReturn(MyLang('common_service.pluginsupgrade.package_no_exist_tips'), -1);
         }
 
         // 根据插件类型调用安装程序
@@ -115,7 +115,7 @@ class PluginsUpgradeService
             case 'minitheme' :
                 if(empty($params['plugins_terminal']))
                 {
-                    return DataReturn('未指定终端类型', -1);
+                    return DataReturn(MyLang('common_service.pluginsupgrade.terminal_not_appoint_error_tips'), -1);
                 }
                 $params['application_name'] = $params['plugins_terminal'];
                 $ret = AppMiniService::ThemeUploadHandle($res['url'], $params);
@@ -123,7 +123,7 @@ class PluginsUpgradeService
 
             // 默认
             default :
-                $ret = DataReturn('插件操作类型未定义['.$params['plugins_type'].']', -1);
+                $ret = DataReturn(MyLang('common_service.pluginsupgrade.plugins_type_undefined_tips').'['.$params['plugins_type'].']', -1);
         }
 
         // 移除session
@@ -135,7 +135,7 @@ class PluginsUpgradeService
         // 返回提示
         if($ret['code'] == 0)
         {
-            $ret['msg'] = '更新成功';
+            $ret['msg'] = MyLang('update_success');
         }
         return $ret;
     }
@@ -155,7 +155,7 @@ class PluginsUpgradeService
         $url = MySession($key);
         if(empty($url))
         {
-            return DataReturn('下载地址为空', -1);
+            return DataReturn(MyLang('common_service.pluginsupgrade.download_url_empty_tips'), -1);
         }
 
         // 获取目录文件
@@ -169,7 +169,7 @@ class PluginsUpgradeService
         {
             return DataReturn('success', 0, $key);
         }
-        return DataReturn('插件下载失败', -1);
+        return DataReturn(MyLang('common_service.pluginsupgrade.plugins_download_fail_tips'), -1);
     }
 
     /**
@@ -188,7 +188,7 @@ class PluginsUpgradeService
         $password = MyC('common_store_password');
         if(empty($accounts) || empty($password))
         {
-            return DataReturn('请先绑定应用商店帐号', -300);
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
         }
 
         // 获取信息
@@ -247,7 +247,7 @@ class PluginsUpgradeService
                 $config = PluginsAdminService::GetPluginsConfig(self::$params['plugins_value']);
                 if(empty($config) || empty($config['base']))
                 {
-                    return DataReturn('应用插件配置信息有误', -1);
+                    return DataReturn(MyLang('common_service.pluginsupgrade.plugins_config_error_tips'), -1);
                 }
                 self::$params['plugins_config'] = $config;
                 self::$params['plugins_ver'] = $config['base']['version'];
@@ -259,7 +259,7 @@ class PluginsUpgradeService
                 $config = PaymentService::GetPaymentConfig(self::$params['plugins_value']);
                 if(empty($config))
                 {
-                    return DataReturn('支付插件配置信息有误', -1);
+                    return DataReturn(MyLang('common_service.pluginsupgrade.payment_config_error_tips'), -1);
                 }
                 self::$params['plugins_config'] = $config['base'];
                 self::$params['plugins_ver'] = $config['base']['version'];
@@ -282,7 +282,7 @@ class PluginsUpgradeService
             case 'minitheme' :
                 if(empty(self::$params['plugins_terminal']))
                 {
-                    return DataReturn('未指定终端类型', -1);
+                    return DataReturn(MyLang('common_service.pluginsupgrade.terminal_not_appoint_error_tips'), -1);
                 }
                 self::$params['application_name'] = self::$params['plugins_terminal'];
                 $config = AppMiniService::MiniThemeConfig(self::$params['plugins_value'], self::$params);
@@ -297,7 +297,7 @@ class PluginsUpgradeService
 
             // 默认
             default :
-                return DataReturn('插件操作类型未定义['.self::$params['plugins_type'].']', -1);
+                return DataReturn(MyLang('common_service.pluginsupgrade.plugins_type_undefined_tips').'['.self::$params['plugins_type'].']', -1);
         }
         return DataReturn('success', 0);
     }
@@ -318,12 +318,12 @@ class PluginsUpgradeService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'plugins_type',
-                'error_msg'         => '更新类型有误',
+                'error_msg'         => MyLang('common_service.pluginsupgrade.update_type_error_tps'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'plugins_value',
-                'error_msg'         => '插件标识有误',
+                'error_msg'         => MyLang('common_service.pluginsupgrade.plugins_identification_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -341,7 +341,7 @@ class PluginsUpgradeService
         // 下载和安装需要校验key
         if(in_array($params['opt'], ['download', 'upgrade']) && empty($params['key']))
         {
-            return DataReturn('操作key有误', -1);
+            return DataReturn(MyLang('common_service.pluginsupgrade.operate_key_error_tips'), -1);
         }
 
         self::$params = $params;

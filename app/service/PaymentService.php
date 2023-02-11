@@ -1174,7 +1174,7 @@ php;
                 return $res;
             }
         }
-        return DataReturn(MyLang('common_service.payment.no_plugins_data_tips'), 0);
+        return DataReturn(MyLang('plugins_no_data_tips'), 0);
     }
 
     /**

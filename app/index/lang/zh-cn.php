@@ -414,25 +414,6 @@ return [
     // 用户地址
     'useraddress'       => [
         'browser_seo_title'                     => '我的地址',
-        // 表单
-        'form_item_name'                        => '姓名',
-        'form_item_name_message'                => '姓名格式2~16个字符之间',
-        'form_item_alias'                       => '别名',
-        'form_item_alias_message'               => '别名格式最多16个字符',
-        'form_item_tel'                         => '电话',
-        'form_item_tel_message'                 => '电话格式有误',
-        'form_item_address'                     => '详细地址',
-        'form_item_address_message'             => '详细地址格式1~80个字符之间',
-        'form_item_idcard_name'                 => '身份证姓名',
-        'form_item_idcard_name_tips'            => '选填，请务必与上传的身份证件姓名保持一致',
-        'form_item_idcard_name_message'         => '身份证姓名格式最多16个字符',
-        'form_item_idcard_number'               => '身份证号码',
-        'form_item_idcard_number_tips'          => '选填，请务必与上传的身份证件号码保持一致',
-        'form_item_idcard_number_message'       => '身份证号码格式最多18个字符',
-        'form_item_idcard_images'               => '身份证照片',
-        'form_item_idcard_images_tips'          => '选传，请使用身份证原件拍摄，图片要清晰',
-        'form_item_idcard_front_button_name'    => '上传人像面图片',
-        'form_item_idcard_back_button_name'     => '上传国微面图片',
     ],
 
     // 用户足迹
@@ -556,20 +537,10 @@ return [
         'logout_confirm_title'                  => '确认注销',
         'logout_confirm_tips'                   => '账号注销后不可恢复、确定继续吗？',
         'email_title'                           => '原电子邮箱校验',
-        'form_item_email'                       => '电子邮箱',
-        'form_item_email_message'               => '电子邮箱格式错误',
         'email_new_title'                       => '新电子邮箱校验',
         'mobile_title'                          => '原手机号码校验',
-        'form_item_mobile'                      => '手机号码',
-        'form_item_mobile_message'              => '手机号码格式错误',
         'mobile_new_title'                      => '新手机号码校验',
         'login_password_title'                  => '登录密码修改',
-        'form_item_current_password'            => '当前密码',
-        'form_item_current_password_message'    => '当前密码格式6~18个字符之间',
-        'form_item_new_password'                => '新密码',
-        'form_item_new_password_message'        => '新密码格式格式6~18个字符之间',
-        'form_item_confirm_password'            => '确认密码',
-        'form_item_confirm_password_message'    => '确认密码格式6~18个字符之间，与新密码一致',
     ],
 ];
 ?>

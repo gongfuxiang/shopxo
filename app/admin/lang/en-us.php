@@ -82,57 +82,6 @@ return [
     // 用户
     'user'                  => [
         'base_nav_title'                        => 'User',
-        // 表单
-        'form_item_system_type'                 => 'System Type',
-        'form_item_system_type_tips'            => 'default',
-        'form_item_system_type_message'         => 'System type 2~60 characters',
-        'form_item_username'                    => 'Username',
-        'form_item_username_message'            => 'User name 2~30 characters',
-        'form_item_nickname'                    => 'Nickname',
-        'form_item_nickname_message'            => 'Nickname can be up to 30 characters',
-        'form_item_mobile'                      => 'Phone Number',
-        'form_item_mobile_message'              => 'Mobile number format error',
-        'form_item_email'                       => 'E-mail',
-        'form_item_email_message'               => 'Email format error',
-        'form_item_alipay_openid'               => 'Alipay openid',
-        'form_item_alipay_openid_message'       => 'Please fill in Alipay openid',
-        'form_item_baidu_openid'                => 'Baidu openid',
-        'form_item_baidu_openid_message'        => 'Please fill in Baidu openid',
-        'form_item_toutiao_openid'              => 'Toutiao openid',
-        'form_item_toutiao_openid_message'      => 'Please fill in the header openid',
-        'form_item_toutiao_unionid'             => 'Toutiao unionid',
-        'form_item_toutiao_unionid_message'     => 'Please fill in the headline unionid',
-        'form_item_qq_openid'                   => 'QQopenid',
-        'form_item_qq_openid_message'           => 'Please fill in QQ openid',
-        'form_item_qq_unionid'                  => 'QQunionid',
-        'form_item_qq_unionid_message'          => 'Please fill in QQuinonid',
-        'form_item_weixin_openid'               => 'WeChat openid',
-        'form_item_weixin_openid_message'       => 'Please fill in WeChat openid',
-        'form_item_weixin_unionid'              => 'WeChat unionid',
-        'form_item_weixin_unionid_message'      => 'Please fill in WeChat unionid',
-        'form_item_web_weixin_openid'           => 'WeChat webopenid',
-        'form_item_web_weixin_openid_message'   => 'Please fill in WeChat webopenid',
-        'form_item_kuaishou_openid'             => 'Kwai openid',
-        'form_item_kuaishou_openid_message'     => 'Please fill in the Kwai openid',
-        'form_item_province'                    => 'Province',
-        'form_item_province_message'            => 'Maximum 60 characters in the province',
-        'form_item_city'                        => 'City',
-        'form_item_city_message'                => 'Maximum 60 characters in the city',
-        'form_item_county'                      => 'District/County',
-        'form_item_county_message'              => '60 characters at most in the district/county',
-        'form_item_address'                     => 'Detail Address',
-        'form_item_address_message'             => 'Detail Address format is up to 80 characters',
-        'form_item_integral'                    => 'Valid Integral',
-        'form_item_integral_message'            => 'Please enter valid points',
-        'form_item_locking_integral'            => 'Lock Integral',
-        'form_item_locking_integral_message'    => 'Please enter locked points',
-        'form_item_birthday'                    => 'Birthday',
-        'form_item_birthday_message'            => 'Incorrect birthday format',
-        'form_item_referrer'                    => 'Invite User ID',
-        'form_item_referrer_message'            => 'Please enter the invitation user ID',
-        'form_item_pwd'                         => 'Login Password',
-        'form_item_pwd_tips'                    => 'Enter to change the password',
-        'form_item_pwd_message'                 => 'Login password format is between 6 and 18 characters',
         // 动态表格
         'form_table'                            => [
             'id'                    => 'User ID',
@@ -162,28 +111,6 @@ return [
     // 用户地址
     'useraddress'      => [
         'base_nav_title'                        => 'User Address',
-        // 表单
-        'form_item_user_id'                     => 'User ID',
-        'form_item_user_id_message'             => 'Please fill in user id',
-        'form_item_name'                        => 'Full Name',
-        'form_item_name_message'                => 'Name format is between 2 and 16 characters',
-        'form_item_alias'                       => 'Alias',
-        'form_item_alias_message'               => 'Alias format can be up to 16 characters',
-        'form_item_tel'                         => 'Telephone',
-        'form_item_tel_message'                 => 'Incorrect phone format',
-        'form_item_address'                     => 'Detailed Address',
-        'form_item_address_message'             => 'Detailed address format is between 1 and 80 characters',
-        'form_item_idcard_name'                 => 'ID Card Name',
-        'form_item_idcard_name_tips'            => 'Optional, please be consistent with the uploaded ID name',
-        'form_item_idcard_name_message'         => 'The name format of ID card can be up to 16 characters',
-        'form_item_idcard_number'               => 'ID No',
-        'form_item_idcard_number_tips'          => 'Optional, please be consistent with the uploaded ID number',
-        'form_item_idcard_number_message'       => 'ID card number format can be up to 18 characters',
-        'form_item_idcard_images'               => 'ID Card Photo',
-        'form_item_idcard_images_tips'          => 'For selective transmission, please use the original ID card to shoot, and the picture should be clear',
-        'form_item_idcard_front_button_name'    => 'Upload IDCard Front Pictures',
-        'form_item_idcard_back_button_name'     => 'Upload IDCard Back Pictures',
-        'form_item_idcard_no_user_tips'         => 'Associate users before uploading ID card images',
         // 详情
         'detail_user_address_idcard_name'       => 'Full Name',
         'detail_user_address_idcard_number'     => 'Number',
@@ -273,7 +200,7 @@ return [
         ],
         'goods_tips_list'                       => [
             '1. By default, the WEB side displays 3 levels, the lowest level is 1 and the highest level is 3 (if set to 0, the default is 3)',
-            '2. Mobile terminal default display level 0 (commodity list mode), minimum level 0, and maximum level 3 (1~3 are classified display mode)',
+            '2. Mobile terminal default display level 0 (goods list mode), minimum level 0, and maximum level 3 (1~3 are classified display mode)',
             '3. The style of the front category page will be different if the level is different',
         ],
         'goods_auto_mode_max_count_tips_list'   => [
@@ -450,23 +377,9 @@ return [
         'base_nav_title'                        => 'Warehouse',
         'top_tips_list'                         => [
             '1. The higher the weight value is, the higher the weight is. The inventory is deducted according to the weight.)',
-            '2. The warehouse can only be soft-deleted, will not be available after deletion, and only the data in the database can be retained), and the associated commodity data can be deleted by itself',
-            '3. The warehouse will be deactivated and deleted, and the associated commodity inventory will be released immediately',
+            '2. The warehouse can only be soft-deleted, will not be available after deletion, and only the data in the database can be retained), and the associated goods data can be deleted by itself',
+            '3. The warehouse will be deactivated and deleted, and the associated goods inventory will be released immediately',
         ],
-        // 表单
-        'form_item_name'                        => 'Full Name',
-        'form_item_name_message'                => 'Name format is between 2 and 30 characters',
-        'form_item_alias'                       => 'Alias',
-        'form_item_alias_message'               => 'Alias format can be up to 16 characters',
-        'form_item_level'                       => 'Weight',
-        'form_item_level_tips'                  => 'The higher the weight value, the higher the weight',
-        'form_item_level_message'               => 'Please enter a valid weight value',
-        'form_item_contacts_name'               => 'Contacts Name',
-        'form_item_contacts_name_message'       => 'Contact format is between 2 and 16 characters',
-        'form_item_contacts_tel'                => 'Contact Tel',
-        'form_item_contacts_tel_message'        => 'Please fill in the contact number',
-        'form_item_address'                     => 'Detail Address',
-        'form_item_address_message'             => 'Address format is between 1 and 80 characters',
         // 动态表格
         'form_table'                            => [
             'info'           => 'Name/Alias',
@@ -494,11 +407,6 @@ return [
         'no_spec_data_tips'                     => 'No specification data',
         'batch_setup_inventory_placeholder'     => 'Batch set value',
         'base_spec_inventory_title'             => 'Specification Inventory',
-        // 表单
-        'add_goods_title'                       => 'Goods Add',
-        'form_item_warehouseg_placeholder'      => 'Warehouse...',
-        'form_item_warehouseg_message'          => 'Please select a warehouse',
-        'form_item_inventory_message'           => 'Inventory quantity 0~100000000',
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Base Info',
@@ -807,7 +715,7 @@ return [
         'form_item_url_message'                 => 'Incorrect format of url address',
         'form_item_value_article_message'       => 'Wrong article selection',
         'form_item_value_customview_message'    => 'Incorrect selection of custom page',
-        'form_item_value_goods_category_message'=> 'Wrong selection of commodity classification',
+        'form_item_value_goods_category_message'=> 'Wrong selection of goods classification',
         'form_item_value_design_message'        => 'Incorrect selection of page design',
         // 动态表格
         'form_table'                            => [
@@ -1134,7 +1042,6 @@ return [
         'cancel_delete_plugins_button_name'     => 'Think again',
         'more_plugins_store_to_text'            => 'Go to the app store to select more plugins to enrich the site >>',
         'no_data_store_to_text'                 => 'Go to the app store to select plug-in rich sites >>',
-        'plugins_no_data_tips'                  => 'There is no relevant application yet',
     ],
 
     // 安装页面
@@ -1175,10 +1082,6 @@ return [
     // 快捷导航
     'quicknav'              => [
         'base_nav_title'                        => 'QuickNavigation',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format: 2~60 characters',
-        'form_item_images_url'                  => 'Navigation Icon',
         // 动态表格
         'form_table'                            => [
             'name'         => 'Name',
@@ -1196,21 +1099,6 @@ return [
     // 地区管理
     'region'                => [
         'base_nav_title'                        => 'Region',
-        // 表单
-        'form_item_id'                          => 'Unique Number',
-        'form_item_id_tips'                     => [
-            '1. If left blank, the system will automatically generate',
-            '2. Do not modify at will to avoid data confusion',
-        ],
-        'form_item_id_message'                  => 'Please enter a unique number',
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~16 characters',
-        'form_item_lng'                         => 'Longitude',
-        'form_item_lng_message'                 => 'Please fill in the longitude',
-        'form_item_lat'                         => 'Latitude',
-        'form_item_lat_message'                 => 'Please fill in the latitude',
-        'form_item_letters'                     => 'Initial',
-        'form_item_letters_message'             => 'Please fill in the initials',
     ],
 
     // 筛选价格
@@ -1221,26 +1109,11 @@ return [
             'Minimum price 1000 - maximum price 0 is greater than 1000',
             'The minimum price of 100 - the maximum price of 500 is greater than or equal to 100 and less than 500',
         ],
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format 2~16 characters',
-        'form_item_min_price'                   => 'Minimum Price',
-        'form_item_min_price_message'           => 'Incorrect minimum price',
-        'form_item_max_price'                   => 'Maximum Price',
-        'form_item_max_price_message'           => 'Incorrect maximum price',
     ],
 
     // 首页轮播
     'slide'                 => [
         'base_nav_title'                        => 'Slide',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format: 2~60 characters',
-        'form_item_images_url'                  => 'Slide Pictures',
-        'form_item_images_url_tips'             => [
-            '1. Recommended size of PC end: 1920 * 480px',
-            '2. Recommended size of mobile terminal: 1200 * 360px',
-        ],
         // 动态表格
         'form_table'                            => [
             'name'         => 'Name',
@@ -1290,9 +1163,6 @@ return [
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'PS: Non-developers should not execute any SQL statements at will, which may cause the entire system database to be deleted.',
-        'form_sql_placeholder'                  => 'SQL Statement',
-        'form_sql_message'                      => 'Please fill in the SQL statement to be executed',
-        'form_dev_tips'                         => 'If you need to execute SQL statements, change the [is_develop] value in the [config/shopxo. php] file to [true] to enable developer mode.',
     ],
 
     // 应用商店
@@ -1308,19 +1178,6 @@ return [
         'remove_cache_title'                    => 'Clear Cache',
         'user_status_title'                     => 'User Status',
         'user_status_message'                   => 'Please select user status',
-        // 商店绑定
-        'store_check_update_name'               => 'Check for update',
-        'store_bind_accounts_name'              => 'Bind ShopXO store account',
-        'store_bind_accounts_tips'              => 'Bind ShopXO App Store account, get the latest version information of plug-in, install and update online',
-        'store_bind_authorized_subject_name'    => 'Authorized Subject',
-        'store_bind_form_accounts'              => 'Accounts',
-        'store_bind_form_accounts_placeholder'  => 'User name/mobile phone/email',
-        'store_bind_form_accounts_message'      => 'Account format 1~30 characters',
-        'store_bind_form_password'              => 'Password',
-        'store_bind_form_password_placeholder'  => 'Login Password',
-        'store_bind_form_password_message'      => 'Login password format 6~30 characters',
-        'store_bind_form_regster_name'          => 'No account, go to register',
-        'store_bind_form_tips'                  => 'One account supports binding to multiple ShopXO stores',
         // 商品参数
         'form_goods_params_config_error_tips'   => 'Goods parameter configuration information',
         'form_goods_params_copy_no_tips'        => 'Please paste the configuration information first',
@@ -1338,9 +1195,9 @@ return [
         'form_goods_params_thead_value_title'   => 'Parameter value',
         'form_goods_params_row_add_title'       => 'Add a row',
         'form_goods_params_list_tips'           => [
-            '1. All (displayed under commodity basic information and detail parameters)',
-            '2. Details (only displayed under the commodity details parameter)',
-            '3. Basic (only displayed under commodity basic information)',
+            '1. All (displayed under goods basic information and detail parameters)',
+            '2. Details (only displayed under the goods details parameter)',
+            '3. Basic (only displayed under goods basic information)',
             '4. The shortcut operation will clear the original data and reload the page to restore the original data (only effective after saving the product)',
         ],
     ],
@@ -1420,13 +1277,13 @@ return [
                 'goods_save'                        => 'Item add/edit',
                 'goods_delete'                      => 'Goods delete',
                 'goods_statusupdate'                => 'Goods status update',
-                'goods_basetemplate'                => 'Get commodity base template',
+                'goods_basetemplate'                => 'Get goods base template',
                 'goods_detail'                      => 'Goods details',
                 'goodscategory_index'               => 'Goods category',
                 'goodscategory_save'                => 'Goods category add/edit',
                 'goodscategory_delete'              => 'Goods category delete',
                 'goodsparamstemplate_index'         => 'Goods params',
-                'goodsparamstemplate_delete'        => 'Delete commodity params',
+                'goodsparamstemplate_delete'        => 'Delete goods params',
                 'goodsparamstemplate_statusupdate'  => 'Goods params status update',
                 'goodsparamstemplate_saveinfo'      => 'Goods params add/edit page',
                 'goodsparamstemplate_save'          => 'Goods params add/edit ',
@@ -1562,14 +1419,14 @@ return [
                 'warehouse_delete'              => 'Warehouse delete',
                 'warehouse_statusupdate'        => 'Warehouse status update',
                 'warehouse_detail'              => 'Warehouse details',
-                'warehousegoods_index'          => 'Warehouse commodity admin',
+                'warehousegoods_index'          => 'Warehouse goods admin',
                 'warehousegoods_detail'         => 'Warehouse item details',
                 'warehousegoods_delete'         => 'Warehouse Item Deletion',
-                'warehousegoods_statusupdate'   => 'Warehouse commodity status update',
+                'warehousegoods_statusupdate'   => 'Warehouse goods status update',
                 'warehousegoods_goodssearch'    => 'Warehouse item search',
                 'warehousegoods_goodsadd'       => 'Warehouse item search add',
                 'warehousegoods_goodsdel'       => 'Warehouse item search delete',
-                'warehousegoods_inventoryinfo'  => 'Warehouse commodity inventory editing page',
+                'warehousegoods_inventoryinfo'  => 'Warehouse goods inventory editing page',
                 'warehousegoods_inventorysave'  => 'Edit warehouse inventory',
             ]
         ],

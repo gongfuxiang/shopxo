@@ -839,7 +839,7 @@ class AppMiniService
                 return $res;
             }
         }
-        return DataReturn(MyLang('common_service.appmini.plugins_no_data_tips'), 0);
+        return DataReturn(MyLang('plugins_no_data_tips'), 0);
     }
 }
 ?>

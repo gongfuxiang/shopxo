@@ -35,8 +35,8 @@
                     </p>
                     {{if empty($site_store_info) or empty($site_store_info['user'])}}
                         <p>
-                            <span>{{:MyLang('common.store_bind_accounts_tips')}}</span>
-                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> {{:MyLang('common.store_bind_accounts_name')}}</button>
+                            <span>{{:MyLang('store_bind_accounts_tips')}}</span>
+                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> {{:MyLang('store_bind_accounts_name')}}</button>
                         </p>
                     {{/if}}
                 </div>
@@ -157,7 +157,7 @@
             {{else /}}
                 <div class="table-no">
                     <i class="am-icon-skyatlas am-icon-lg"></i>
-                    <p class="am-margin-top-sm">{{:MyLang('pluginsadmin.plugins_no_data_tips')}}</p>
+                    <p class="am-margin-top-sm">{{:MyLang('plugins_no_data_tips')}}</p>
                     <div class="am-margin-top-xl">
                         <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
                     </div>

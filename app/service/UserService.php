@@ -131,7 +131,7 @@ class UserService
         $user = self::UserInfo($field, $value);
         if(empty($user))
         {
-            return DataReturn('用户不存在或已删除', -110);
+            return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -110);
         }
         if(!in_array($user['status'], [0,1]))
         {
@@ -140,10 +140,10 @@ class UserService
             {
                 return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
             } else {
-                return DataReturn('用户状态有误', -110);
+                return DataReturn(MyLang('common_service.user.user_status_error_tips'), -110);
             }
         }
-        return DataReturn('正常', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -234,13 +234,13 @@ class UserService
                 }
                 if(array_key_exists('upd_time', $v))
                 {
-                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
 
                 // 性别
                 if(array_key_exists('gender', $v))
                 {
-                    $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '未知';
+                    $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '';
                 }
 
                 // 状态
@@ -290,14 +290,14 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'admin',
-                'error_msg'         => '管理员信息有误',
+                'error_msg'         => MyLang('common_service.user.save_admin_info_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'username',
                 'checked_data'      => '30',
                 'is_checked'        => 1,
-                'error_msg'         => '用户名格式最多 30 个字符之间',
+                'error_msg'         => MyLang('common_service.user.form_item_username_message'),
             ],
             [
                 'checked_type'      => 'unique',
@@ -305,54 +305,54 @@ class UserService
                 'checked_data'      => 'User',
                 'checked_key'       => 'id',
                 'is_checked'        => 1,
-                'error_msg'         => '用户已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.user.save_user_already_exist_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'nickname',
                 'checked_data'      => '30',
                 'is_checked'        => 1,
-                'error_msg'         => '用户昵称格式最多 30 个字符之间',
+                'error_msg'         => MyLang('common_service.user.form_item_nickname_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'mobile',
                 'checked_data'      => 'CheckMobile',
                 'is_checked'        => 1,
-                'error_msg'         => '手机号码格式错误',
+                'error_msg'         => MyLang('common_service.user.form_item_mobile_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'email',
                 'checked_data'      => 'CheckEmail',
                 'is_checked'        => 1,
-                'error_msg'         => '邮箱格式错误',
+                'error_msg'         => MyLang('common_service.user.form_item_email_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
                 'checked_data'      => array_column(MyLang('common_gender_list'), 'id'),
-                'error_msg'         => '性别值范围不正确',
+                'error_msg'         => MyLang('common_service.user.save_gender_range_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
                 'checked_data'      => array_column(MyLang('common_user_status_list'), 'id'),
-                'error_msg'         => '状态值范围不正确',
+                'error_msg'         => MyLang('common_service.user.save_status_range_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'address',
                 'checked_data'      => '80',
                 'is_checked'        => 1,
-                'error_msg'         => '地址格式最多80个字符',
+                'error_msg'         => MyLang('common_service.user.form_item_address_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'pwd',
                 'checked_data'      => 'CheckLoginPwd',
                 'is_checked'        => 1,
-                'error_msg'         => '密码格式 6~18 个字符之间',
+                'error_msg'         => MyLang('common_service.user.form_item_pwd_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -418,7 +418,7 @@ class UserService
             $user = Db::name('User')->where(['id'=>intval($params['id'])])->field('id,integral')->find();
             if(empty($user))
             {
-                return DataReturn('用户信息不存在', -10);
+                return DataReturn(MyLang('common_service.user.save_user_info_no_exist_tips'), -10);
             }
             $ret = self::UserUpdateHandle($data, $params['id']);
             if($ret['code'] == 0)
@@ -463,7 +463,7 @@ class UserService
                     $integral_type = ($user['integral'] > $data['integral']) ? 0 : 1;
                     $opt_integral = ($integral_type == 1) ? $data['integral']-$user['integral'] : $user['integral']-$data['integral'];
                 }
-                IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, '管理员操作', $integral_type, $params['admin']['id']);
+                IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, MyLang('common_service.user.admin_operate_name'), $integral_type, $params['admin']['id']);
             }
             return DataReturn(MyLang('operate_success'), 0);
         }
@@ -647,7 +647,6 @@ class UserService
             // 移除特殊数据
             unset($user['pwd'], $user['salt']);
         }
-
         return $user;
     }
 
@@ -681,7 +680,7 @@ class UserService
         $cache_value = MyCache($cache_key);
         if(!empty($cache_value) && $cache_value['time']+3600 > time() && $cache_value['count'] >= 5)
         {
-            return DataReturn('操作频繁，请稍后再试！', -1);
+            return DataReturn(MyLang('operate_frequent_tips'), -1);
         }
 
         // 开始处理图片存储
@@ -732,7 +731,7 @@ class UserService
         }
         if(empty($compr) || empty($small))
         {
-            return DataReturn('图片有误，请换一张！', -3);
+            return DataReturn(MyLang('images_format_error_tips'), -3);
         }
         $avatar = DS.$img_path.'compr'.$date.$compr;
 
@@ -865,15 +864,10 @@ class UserService
             // 请求参数
             $p = [
                 [
-                    'checked_type'      => 'empty',
-                    'key_name'          => 'pwd',
-                    'error_msg'         => '密码格式 6~18 个字符之间',
-                ],
-                [
                     'checked_type'      => 'fun',
                     'key_name'          => 'pwd',
                     'checked_data'      => 'CheckLoginPwd',
-                    'error_msg'         => '密码格式 6~18 个字符',
+                    'error_msg'         => MyLang('common_service.user.form_item_pwd_message'),
                 ],
             ];
             $ret = ParamsChecked($params, $p);
@@ -1209,7 +1203,7 @@ class UserService
             // 是否需要审核
             if($common_register_is_enable_audit == 1)
             {
-                return DataReturn('用户等待审核中', -110);
+                return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
             }
 
             // 用户登录session纪录
@@ -1224,7 +1218,7 @@ class UserService
                 }
                 return DataReturn(MyLang('register_success'), 0, $result);
             }
-            return DataReturn('注册成功，请到登录页面登录帐号');
+            return DataReturn(MyLang('common_service.user.user_register_success_no_login_tips'));
         } else {
             return $user_ret;
         }
@@ -1248,13 +1242,12 @@ class UserService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
+                    return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
-
                 // 手机号码是否已存在
                 if(self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
-                     return DataReturn('手机号码已存在', -3);
+                    return DataReturn(MyLang('common_service.user.mobile_already_exist_tips'), -3);
                 }
                 break;
 
@@ -1263,13 +1256,12 @@ class UserService
                 // 电子邮箱格式
                 if(!CheckEmail($params['accounts']))
                 {
-                     return DataReturn(MyLang('email_format_error_tips'), -2);
+                    return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
-
                 // 电子邮箱是否已存在
                 if(self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn('电子邮箱已存在', -3);
+                    return DataReturn(MyLang('common_service.user.email_already_exist_tips'), -3);
                 }
                 break;
 
@@ -1278,7 +1270,7 @@ class UserService
                 // 用户名格式
                 if(!CheckUserName($params['accounts']))
                 {
-                     return DataReturn('用户名格式由 字母数字下划线 2~18 个字符', -2);
+                    return DataReturn(MyLang('common_service.user.username_format_error_tips'), -2);
                 }
                 break;
         }
@@ -1354,7 +1346,6 @@ class UserService
                 {
                      return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
-
                 // 手机号码是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
@@ -1370,7 +1361,6 @@ class UserService
                 {
                      return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
-
                 // 电子邮箱是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
@@ -1381,13 +1371,12 @@ class UserService
 
             // 用户名
             case 'username' :
-                $field = 'username|mobile|email';
-
                 // 帐号是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
                 {
                      return DataReturn(MyLang('accounts_error_tips'), -3);
                 }
+                $field = 'username|mobile|email';
                 break;
         }
         return DataReturn(MyLang('operate_success'), 0, $field);
@@ -1466,12 +1455,12 @@ class UserService
             // 邮箱
             case 'email' :
                 $obj = new \base\Email($verify_params);
-                $email_params = array(
-                        'email'     =>  $params['accounts'],
-                        'content'   =>  MyC('home_email_login_template'),
-                        'title'     =>  MyC('home_site_name').' - 用户登录',
-                        'code'      =>  $code,
-                    );
+                $email_params = [
+                    'email'     =>  $params['accounts'],
+                    'content'   =>  MyC('home_email_login_template'),
+                    'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.user.login_email_send_title'),
+                    'code'      =>  $code,
+                ];
                 $status = $obj->SendHtml($email_params);
                 break;
 
@@ -1479,8 +1468,6 @@ class UserService
             default :
                 return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
         }
-        
-        // 状态
         if($status)
         {
             // 清除验证码
@@ -1488,11 +1475,9 @@ class UserService
             {
                 $verify['data']->Remove();
             }
-
             return DataReturn(MyLang('send_success'), 0);
-        } else {
-            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -1568,12 +1553,12 @@ class UserService
             // 邮箱
             case 'email' :
                 $obj = new \base\Email($verify_params);
-                $email_params = array(
-                        'email'     =>  $params['accounts'],
-                        'content'   =>  MyC('home_email_user_reg'),
-                        'title'     =>  MyC('home_site_name').' - 用户注册',
-                        'code'      =>  $code,
-                    );
+                $email_params = [
+                    'email'     =>  $params['accounts'],
+                    'content'   =>  MyC('home_email_user_reg'),
+                    'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.user.register_email_send_title'),
+                    'code'      =>  $code,
+                ];
                 $status = $obj->SendHtml($email_params);
                 break;
 
@@ -1581,8 +1566,6 @@ class UserService
             default :
                 return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
         }
-        
-        // 状态
         if($status)
         {
             // 清除验证码
@@ -1590,11 +1573,9 @@ class UserService
             {
                 $verify['data']->Remove();
             }
-
             return DataReturn(MyLang('send_success'), 0);
-        } else {
-            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -1655,7 +1636,7 @@ class UserService
                 $email_params = [
                     'email'     =>  $params['accounts'],
                     'content'   =>  MyC('home_email_user_forget_pwd'),
-                    'title'     =>  MyC('home_site_name').' - '.'密码找回',
+                    'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.user.forget_pwd_email_send_title'),
                     'code'      =>  $code,
                 ];
                 $status = $obj->SendHtml($email_params);
@@ -1663,10 +1644,8 @@ class UserService
 
             // 默认
             default :
-                return DataReturn('手机/邮箱格式有误', -1);
+                return DataReturn(MyLang('common_service.user.mobile_or_email_format_error_tips'), -1);
         }
-
-        // 状态
         if($status)
         {
             // 清除图片验证码
@@ -1674,15 +1653,13 @@ class UserService
             {
                 $verify['data']->Remove();
             }
-
             return DataReturn(MyLang('send_success'), 0);
-        } else {
-            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
-     * [UserForgetAccountsCheck 帐号校验]
+     * 帐号校验
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -1696,18 +1673,18 @@ class UserService
         {
             if(!self::IsExistAccounts($accounts, 'mobile'))
             {
-                return DataReturn('手机号码不存在', -3);
+                return DataReturn(MyLang('mobile_no_exist_error_tips'), -3);
             }
             return DataReturn(MyLang('operate_success'), 0, 'mobile');
         } else if(CheckEmail($accounts))
         {
             if(!self::IsExistAccounts($accounts, 'email'))
             {
-                return DataReturn('电子邮箱不存在', -3);
+                return DataReturn(MyLang('email_no_exist_error_tips'), -3);
             }
             return DataReturn(MyLang('operate_success'), 0, 'email');
         }
-        return DataReturn('手机/邮箱格式有误', -4);
+        return DataReturn(MyLang('common_service.user.mobile_or_email_format_error_tips'), -4);
     }
 
     /**
@@ -1771,9 +1748,9 @@ class UserService
 
             // 默认
             default :
-                return DataReturn('手机/邮箱格式有误', -1);
+                return DataReturn(MyLang('common_service.user.mobile_or_email_format_error_tips'), -1);
         }
-        
+
         // 是否已过期
         if(!$obj->CheckExpire())
         {
@@ -1789,7 +1766,7 @@ class UserService
         $user = self::UserInfo($ret['data'], $params['accounts']);
         if(empty($user))
         {
-            return DataReturn('用户信息不存在', -12);
+            return DataReturn(MyLang('common_service.user.save_user_info_no_exist_tips'), -12);
         }
 
         // 密码修改
@@ -1823,23 +1800,25 @@ class UserService
                 'checked_type'      => 'length',
                 'checked_data'      => '2,16',
                 'key_name'          => 'nickname',
-                'error_msg'         => '昵称2~16个字符之间',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'birthday',
-                'error_msg'         => '请填写生日',
+                'error_msg'         => MyLang('common_service.user.save_nickname_format_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'checked_data'      => [0,1,2],
                 'key_name'          => 'gender',
-                'error_msg'         => '性别选择有误',
+                'error_msg'         => MyLang('common_service.user.save_gender_range_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
                 'error_msg'         => MyLang('user_info_incorrect_tips'),
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'address',
+                'checked_data'      => '80',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.user.form_item_address_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1877,7 +1856,6 @@ class UserService
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
-
             return DataReturn(MyLang('change_success'), 0, $user);
         }
         return DataReturn(MyLang('change_fail'), -100);
@@ -1918,7 +1896,7 @@ class UserService
             // 用户状态
             if($user['status'] != 0)
             {
-                return DataReturn('用户待审核', -301);
+                return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
             }
 
             // 如果是一键登录、如当前用户不存在手机号码则绑定
@@ -1939,11 +1917,10 @@ class UserService
                 } else {
                     if($user['id'] != $temp['id'])
                     {
-                        return DataReturn('手机已绑定其他帐号', -1);
+                        return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
                     }
                 }
             }
-
             return DataReturn(MyLang('auth_success'), 0, $user);
         } else {
             // 是否需要添加用户
@@ -1960,7 +1937,7 @@ class UserService
                     // 用户状态
                     if($user_unionid['status'] != 0)
                     {
-                        return DataReturn('用户待审核', -301);
+                        return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
                     }
 
                     // openid绑定
@@ -1980,7 +1957,7 @@ class UserService
                         } else {
                             if($user_unionid['id'] != $temp['id'])
                             {
-                                return DataReturn('手机已绑定其他帐号', -1);
+                                return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
                             }
                         }
                     }
@@ -2039,7 +2016,7 @@ class UserService
                     // 是否需要审核
                     if($common_register_is_enable_audit == 1)
                     {
-                        return DataReturn('用户等待审核中', -110);
+                        return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
                     }
                     return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
                 }
@@ -2184,7 +2161,6 @@ class UserService
                 'user'          => &$user,
             ]);
         }
-
         return $user;
     }
 
@@ -2217,8 +2193,6 @@ class UserService
             // web端用户登录纪录处理
             self::UserLoginRecord($user_id);
         }
-
-        // 返回用户信息
         return $user;
     }
 
@@ -2288,7 +2262,7 @@ class UserService
         }
         if(!empty($temp))
         {
-            return DataReturn('账号已存在', -10);
+            return DataReturn(MyLang('common_service.user.account_already_exist_tips'), -10);
         }
 
         // 用户基础信息处理
@@ -2351,7 +2325,6 @@ class UserService
                 'body_html'     => is_array($body_html) ? implode(' ', $body_html) : $body_html,
                 'user_id'       => $user_id,
             ];
-
             return DataReturn(MyLang('insert_success'), 0, $result);
         }
         return DataReturn(MyLang('insert_fail'), -100);
@@ -2472,7 +2445,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'mobile',
-                'error_msg'         => '手机号码不能为空',
+                'error_msg'         => MyLang('common_service.user.mobile_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -2569,7 +2542,7 @@ class UserService
             $accounts_field = APPLICATION_CLIENT_TYPE.'_openid';
             if(empty($params[$accounts_field]))
             {
-                return DataReturn('用户openid不能为空', -20);
+                return DataReturn(MyLang('common_service.user.user_openid_empty_tips'), -20);
             }
 
             // openid数据
@@ -2591,13 +2564,13 @@ class UserService
                 // id不一致则提示错误
                 if($current_user['id'] != $mobile_user['id'])
                 {
-                    return DataReturn('手机已绑定其他账号、请换手机号重试', -50);
+                    return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -50);
                 }
 
                 // 是否与当前帐号的手机号码一致
                 if(!empty($current_user['mobile']) && $current_user['mobile'] == $mobile_user['mobile'])
                 {
-                    return DataReturn('请使用新的手机号', -51);
+                    return DataReturn(MyLang('common_service.user.mobile_current_mobile_identical_tips'), -51);
                 }
             }
 
@@ -2644,7 +2617,6 @@ class UserService
                 $user_id = $mobile_user['id'];
             }
         }
-        
         if(isset($user_id) && $user_id > 0)
         {
             // 清除验证码
@@ -2670,13 +2642,13 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'mobile',
-                'error_msg'         => '手机号码不能为空',
+                'error_msg'         => MyLang('common_service.user.mobile_empty_tips'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'mobile',
                 'checked_data'      => 'CheckMobile',
-                'error_msg'         => '手机号码格式错误',
+                'error_msg'         => MyLang('mobile_format_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2696,8 +2668,6 @@ class UserService
         $obj = new \base\Sms($verify_params);
         $code = GetNumberCode(4);
         $status = $obj->SendCode($params['mobile'], $code, MyC('home_sms_user_mobile_binding'));
-        
-        // 状态
         if($status)
         {
             return DataReturn(MyLang('send_success'), 0);
@@ -2721,7 +2691,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'token',
-                'error_msg'         => 'token不能为空',
+                'error_msg'         => MyLang('common_service.user.token_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2734,7 +2704,7 @@ class UserService
         $user = self::UserHandle(self::UserInfo('token', $params['token']));
         if(empty($user))
         {
-            return DataReturn('用户信息不存在', -1);
+            return DataReturn(MyLang('common_service.user.save_user_info_no_exist_tips'), -1);
         }
         return DataReturn('success', 0, $user);
     }
@@ -2773,7 +2743,6 @@ class UserService
         $result = [
             'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
         ];
-
         return DataReturn(MyLang('quit_success'), 0, $result);
     }
 
@@ -2823,7 +2792,6 @@ class UserService
                 $user = self::UserHandle($user);
             }
         }
-
         return $user;
     }
 

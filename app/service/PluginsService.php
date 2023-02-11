@@ -525,7 +525,7 @@ class PluginsService
     public static function PluginsUpgradeInfo($params = [])
     {
         // 默认返回数据
-        $result = DataReturn(MyLang('common_service.plugins.plugins_no_data_tips'), 0);
+        $result = DataReturn(MyLang('plugins_no_data_tips'), 0);
 
         // 缓存记录
         $time = 3600;

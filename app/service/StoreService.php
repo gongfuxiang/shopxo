@@ -129,13 +129,13 @@ class StoreService
                 'checked_type'      => 'length',
                 'key_name'          => 'common_store_accounts',
                 'checked_data'      => '1,30',
-                'error_msg'         => '账号格式1~30个字符',
+                'error_msg'         => MyLang('store_bind_form_accounts_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'common_store_password',
                 'checked_data'      => '6,30',
-                'error_msg'         => '登录密码格式6~30个字符',
+                'error_msg'         => MyLang('store_bind_form_password_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -232,7 +232,7 @@ class StoreService
         $password = MyC('common_store_password');
         if(empty($accounts) || empty($password))
         {
-            return DataReturn('请先绑定应用商店帐号', -300);
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
         }
 
         // 获取信息
@@ -264,14 +264,13 @@ class StoreService
             $password = MyC('common_store_password');
             if(empty($accounts) || empty($password))
             {
-                return DataReturn('请先绑定应用商店帐号', -300);
+                return DataReturn(MyLang('store_account_not_bind_tips'), -300);
             }
 
             // 获取更新信息
             return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_upgrade_info_url'), $params);
         }
-
-        return DataReturn('无插件数据', 0);
+        return DataReturn(MyLang('plugins_no_data_tips'), 0);
     }
 
     /**
@@ -287,7 +286,7 @@ class StoreService
      * @param   [array]           $params   [额外参数]
      */
     public static function RemoteStoreData($accounts, $password, $url, $params = [])
-    {        
+    {
         // http状态验证
         $key = 'cache_store_url_http_code';
         $time = 600;
@@ -299,7 +298,7 @@ class StoreService
         }
         if(!in_array($ret['data'], [200, 301, 302, 307, 308]))
         {
-            $ret['msg'] = '商店连接失败[ '.$ret['msg'].' ]';
+            $ret['msg'] = MyLang('store_content_error_tips').'[ '.$ret['msg'].' ]';
             return $ret;
         }
 
@@ -331,21 +330,21 @@ class StoreService
         {
             // 网络不通
             MyCache($key, 0, $ret['data']);
-            $ret['msg'] = '商店连接失败[ '.$ret['msg'].' ]';
+            $ret['msg'] = MyLang('store_content_error_tips').'[ '.$ret['msg'].' ]';
             return $ret;
         }
-        
+
         // 数据解析
         $result = json_decode($ret['data'], true);
         if(empty($result))
         {
-            return DataReturn('商店返回数据有误'.(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
+            return DataReturn(MyLang('store_respond_data_error_tips').(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
         }
 
         // 是否非数组
         if(is_string($result))
         {
-            return DataReturn('商店返回数据无效[ '.$result.' ]', -1);
+            return DataReturn(MyLang('store_respond_data_invalid_tips').'[ '.$result.' ]', -1);
         }
 
         // 请求成功
@@ -353,12 +352,11 @@ class StoreService
         {
             if(empty($result['data']))
             {
-                return DataReturn('商店返回无对应数据、请稍后再试！', -1);
+                return DataReturn(MyLang('store_respond_empty_tips'), -1);
             }
             return $result;
         }
-
-        return DataReturn(empty($result['msg']) ? '商店返回异常错误、请稍后再试！' : '商店返回[ '.$result['msg'].' ]', -1);
+        return DataReturn(empty($result['msg']) ? MyLang('store_respond_data_empty_tips') : MyLang('store_respond_result_tips').'[ '.$result['msg'].' ]', -1);
     }
 }
 ?>

@@ -40,7 +40,7 @@ class QuickNavService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => '名称长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.quicknav.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'in',

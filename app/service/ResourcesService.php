@@ -235,37 +235,37 @@ class ResourcesService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'title',
-                'error_msg'         => '名称有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_title_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'original',
-                'error_msg'         => '原名有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_original_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'path_type',
-                'error_msg'         => '路径标记有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_path_type_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'url',
-                'error_msg'         => '地址有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_url_tips'),
             ],
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'size',
-                'error_msg'         => '文件大小有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_size_tips'),
             ],
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'ext',
-                'error_msg'         => '扩展名有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_ext_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'hash',
-                'error_msg'         => 'hash值有误',
+                'error_msg'         => MyLang('common_service.resources.save_attachment_hash_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -433,7 +433,7 @@ class ResourcesService
                     $ret = DataReturn(MyLang('delete_fail'), -100);
                 }
             } else {
-                $ret = DataReturn('没有删除权限', -1);
+                $ret = DataReturn(MyLang('common_service.resources.delete_no_power_tips'), -1);
             }
         } else {
             if(DB::name('Attachment')->where(['id'=>$data['id']])->delete())
@@ -556,7 +556,7 @@ class ResourcesService
                 }
             }
         }
-        return DataReturn('总数['.$count.'], 成功['.$success.'], 失败['.$error.']', 0);
+        return DataReturn(MyLang('common_service.resources.sync_file_to_db_tips', ['count'=>$count, 'success'=>$success, 'error'=>$errstr]), 0);
     }
 
     /**

@@ -38,19 +38,19 @@ class SafetyService
                 'checked_type'      => 'length',
                 'checked_data'      => '6,18',
                 'key_name'          => 'my_pwd',
-                'error_msg'         => '当前密码格式 6~18 个字符之间',
+                'error_msg'         => MyLang('common_service.safety.form_item_current_password_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '6,18',
                 'key_name'          => 'new_pwd',
-                'error_msg'         => '新密码格式 6~18 个字符之间',
+                'error_msg'         => MyLang('common_service.safety.form_item_new_password_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '6,18',
                 'key_name'          => 'confirm_new_pwd',
-                'error_msg'         => '确认密码格式 6~18 个字符之间，与新密码一致',
+                'error_msg'         => MyLang('common_service.safety.form_item_confirm_password_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -70,13 +70,13 @@ class SafetyService
         // 原密码校验
         if(LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
         {
-            return DataReturn('当前密码错误', -4);
+            return DataReturn(MyLang('common_service.safety.current_password_error_tips'), -4);
         }
 
         // 确认密码是否相等
         if($params['new_pwd'] != $params['confirm_new_pwd'])
         {
-            return DataReturn('确认密码与新密码不一致', -5);
+            return DataReturn(MyLang('common_service.safety.confirm_new_password_atypism_tips'), -5);
         }
 
         // 密码修改
@@ -144,10 +144,10 @@ class SafetyService
         $user = UserService::UserInfo($field, $accounts, 'id');
         if(!empty($user))
         {
-            $msg = ($type == 'sms') ? '手机号码已存在' : '电子邮箱已存在';
+            $msg = ($type == 'sms') ? MyLang('common_service.safety.mobile_already_exist_tips') : MyLang('common_service.safety.email_already_exist_tips');
             return DataReturn($msg, -10);
         }
-        return DataReturn('账户不存在', 0);
+        return DataReturn(MyLang('common_service.safety.accounts_no_exist_tips'), 0);
     }
 
     /**
@@ -197,7 +197,7 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'type',
-                'error_msg'         => '账户类型有误',
+                'error_msg'         => MyLang('common_service.safety.accounts_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -227,11 +227,11 @@ class SafetyService
         }
 
         // 验证码基础参数
-        $img_verify_params = array(
-                'key_prefix' => 'safety',
-                'expire_time' => MyC('common_verify_expire_time'),
-                'interval_time' =>  MyC('common_verify_interval_time'),
-            );
+        $img_verify_params = [
+            'key_prefix'     => 'safety',
+            'expire_time'    => MyC('common_verify_expire_time'),
+            'interval_time'  =>  MyC('common_verify_interval_time'),
+        ];
 
         // 是否开启图片验证码
         $verify = self::IsImaVerify($params, $img_verify_params);
@@ -241,11 +241,11 @@ class SafetyService
         }
 
         // 发送验证码
-        $verify_params = array(
-                'key_prefix'    => md5('safety_'.$accounts),
-                'expire_time'   => MyC('common_verify_expire_time'),
-                'interval_time' => MyC('common_verify_interval_time'),
-            );
+        $verify_params = [
+            'key_prefix'    => md5('safety_'.$accounts),
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
+        ];
         $code = GetNumberCode(4);
         if($params['type'] == 'sms')
         {
@@ -253,16 +253,14 @@ class SafetyService
             $status = $obj->SendCode($accounts, $code, MyC('home_sms_user_mobile_binding'));
         } else {
             $obj = new \base\Email($verify_params);
-            $email_params = array(
-                    'email'     =>  $accounts,
-                    'content'   =>  MyC('home_email_user_email_binding'),
-                    'title'     =>  MyC('home_site_name').' - 电子邮箱绑定',
-                    'code'      =>  $code,
-                );
+            $email_params = [
+                'email'     =>  $accounts,
+                'content'   =>  MyC('home_email_user_email_binding'),
+                'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.safety.send_verify_email_title'),
+                'code'      =>  $code,
+            ];
             $status = $obj->SendHtml($email_params);
         }
-        
-        // 状态
         if($status)
         {
             // 清除验证码
@@ -270,7 +268,6 @@ class SafetyService
             {
                 $verify['data']->Remove();
             }
-
             return DataReturn(MyLang('send_success'), 0);
         }
         return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
@@ -291,7 +288,7 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'type',
-                'error_msg'         => '账户类型有误',
+                'error_msg'         => MyLang('common_service.safety.accounts_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -319,10 +316,10 @@ class SafetyService
         }
 
         // 验证码校验
-        $verify_params = array(
-                'key_prefix' => md5('safety_'.$accounts),
-                'expire_time' => MyC('common_verify_expire_time')
-            );
+        $verify_params = [
+            'key_prefix'   => md5('safety_'.$accounts),
+            'expire_time'  => MyC('common_verify_expire_time')
+        ];
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);
@@ -343,7 +340,7 @@ class SafetyService
             // 清除验证码
             $obj->Remove();
 
-            return DataReturn('正确', 0);
+            return DataReturn(MyLang('check_success'), 0);
         }
         return DataReturn(MyLang('verify_code_error_tips'), -11);
     }
@@ -363,12 +360,12 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'type',
-                'error_msg'         => '账户类型有误',
+                'error_msg'         => MyLang('common_service.safety.accounts_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账户不能为空',
+                'error_msg'         => MyLang('common_service.safety.accounts_emptyr_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -397,10 +394,10 @@ class SafetyService
         }
 
         // 验证码校验
-        $verify_params = array(
-                'key_prefix' => md5('safety_'.$params['accounts']),
-                'expire_time' => MyC('common_verify_expire_time')
-            );
+        $verify_params = [
+            'key_prefix' => md5('safety_'.$params['accounts']),
+            'expire_time' => MyC('common_verify_expire_time')
+        ];
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);
@@ -421,10 +418,10 @@ class SafetyService
 
         // 更新帐号
         $field = ($params['type'] == 'sms') ? 'mobile' : 'email';
-        $data = array(
-                $field      =>  $params['accounts'],
-                'upd_time'  =>  time(),
-            );
+        $data = [
+            $field      =>  $params['accounts'],
+            'upd_time'  =>  time(),
+        ];
         // 更新数据库
         if(Db::name('User')->where(['id'=>intval($params['user']['id'])])->update($data) !== false)
         {
@@ -489,7 +486,7 @@ class SafetyService
         $count = Db::name('Order')->where($where)->count();
         if($count > 0)
         {
-            return DataReturn('存在'.$count.'个订单未完成', -1);
+            return DataReturn(MyLang('common_service.safety.accounts_logout_refuse_msg', ['count'=>$count]), -1);
         }
 
         // 账号注销

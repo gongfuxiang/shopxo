@@ -37,7 +37,7 @@ class SqlConsoleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'sql',
-                'error_msg'         => '执行SQL不能为空',
+                'error_msg'         => MyLang('common_service.sqlconsole.form_sql_message'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -68,13 +68,11 @@ class SqlConsoleService
                 }               
             }
         }
-
-        if($failure > 0)
+        if($success == 0 && $failure > 0)
         {
-            return DataReturn('sql运行失败['.$failure.']条', -1);
+            return DataReturn(MyLang('common_service.sqlconsole.implement_fail_tips', ['failure'=>$failure]), -1);
         }
-
-        return DataReturn('sql运行成功', 0, 'sql运行成功[success: '.$success.', failure: '.$failure.']');
+        return DataReturn(MyLang('operate_success'), 0, MyLang('common_service.sqlconsole.implement_success_tips', ['success'=>$success, 'failure'=>$failure]));
     }
 }
 ?>

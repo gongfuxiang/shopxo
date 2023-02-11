@@ -142,11 +142,11 @@ class ThemeService
         // 目录是否有权限
         if(!is_writable(ROOT.self::$html_path))
         {
-            return DataReturn('视图目录没权限['.ROOT.self::$html_path.']', -10);
+            return DataReturn(MyLang('common_service.theme.view_dir_no_power_tips').'['.ROOT.self::$html_path.']', -10);
         }
         if(!is_writable(ROOT.self::$static_path))
         {
-            return DataReturn('资源目录没权限['.self::$static_path.']', -10);
+            return DataReturn(MyLang('common_service.theme.static_dir_no_power_tips').'['.self::$static_path.']', -10);
         }
 
         // 资源目录
@@ -236,7 +236,7 @@ class ThemeService
         // 未匹配成功一个文件则认为插件包无效
         if($success <= 0)
         {
-            return DataReturn('无效的主题包', -1);
+            return DataReturn(MyLang('common_service.theme.package_invalid_tips'), -1);
         }
         return DataReturn(MyLang('install_success'), 0);
     }
@@ -256,7 +256,7 @@ class ThemeService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '模板id有误',
+                'error_msg'         => MyLang('common_service.theme.template_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -269,19 +269,19 @@ class ThemeService
         $id = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($id))
         {
-            return DataReturn('主题名称有误', -1);
+            return DataReturn(MyLang('common_service.theme.theme_name_error_tips'), -1);
         }
 
         // default不能删除
         if($id == 'default')
         {
-            return DataReturn('系统模板不能删除', -2);
+            return DataReturn(MyLang('common_service.theme.system_theme_not_delete_tips'), -2);
         }
 
         // 不能删除正在使用的主题
         if(self::DefaultTheme() == $id)
         {
-            return DataReturn('不能删除正在使用的主题', -2);
+            return DataReturn(MyLang('common_service.theme.current_use_theme_error_tips'), -2);
         }
 
         // 开始删除主题
@@ -308,7 +308,7 @@ class ThemeService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '模板id有误',
+                'error_msg'         => MyLang('common_service.theme.template_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -327,7 +327,7 @@ class ThemeService
         $theme = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($theme))
         {
-            return DataReturn('主题名称有误', -1);
+            return DataReturn(MyLang('common_service.theme.theme_name_error_tips'), -1);
         }
 
         // 获取配置信息
@@ -348,7 +348,7 @@ class ThemeService
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_html_') != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'[视图]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.theme.theme_copy_view_fail_tips').']', -2);
             }
         }
 
@@ -358,7 +358,7 @@ class ThemeService
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_static_') != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'[静态文件]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.theme.theme_copy_static_fail_tips').']', -2);
             }
         }
 
@@ -366,7 +366,7 @@ class ThemeService
         $new_config_file = $new_dir.DS.'_html_'.DS.'config.json';
         if(!file_exists($new_config_file))
         {
-            return DataReturn('新配置文件有误', -10);
+            return DataReturn(MyLang('common_service.theme.theme_new_config_error_tips'), -10);
         }
         if(empty($config['history']))
         {
@@ -380,7 +380,7 @@ class ThemeService
         ];
         if(@file_put_contents($new_config_file, JsonFormat($config)) === false)
         {
-            return DataReturn('新应用配置文件更新失败', -11);
+            return DataReturn(MyLang('common_service.theme.theme_new_config_update_fail_tips'), -11);
         }
 
         // 生成压缩包
@@ -417,12 +417,12 @@ class ThemeService
         $config_file = ROOT.self::$html_path.$theme.DS.'config.json';
         if(!file_exists($config_file))
         {
-            return DataReturn('主题配置文件不存在', -1);
+            return DataReturn(MyLang('common_service.theme.config_file_no_exist_tips'), -1);
         }
         $config = json_decode(file_get_contents($config_file), true);
         if(empty($config))
         {
-            return DataReturn('主题配置信息有误', -1);
+            return DataReturn(MyLang('common_service.theme.config_error_tips'), -1);
         }
         return DataReturn('success', 0, $config);
     }
@@ -469,8 +469,7 @@ class ThemeService
                 return $res;
             }
         }
-
-        return DataReturn('无插件数据', 0);
+        return DataReturn(MyLang('plugins_no_data_tips'), 0);
     }
 }
 ?>

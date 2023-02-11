@@ -93,14 +93,14 @@ class SystemUpgradeService
         $system_url = MySession(self::$package_system_dir_key);
         if(empty($system_url) || !file_exists($system_url))
         {
-            return DataReturn('系统包不存在、请重新下载', -1);
+            return DataReturn(MyLang('common_service.systemupgrade.system_package_no_exist_tips'), -1);
         }
 
         // 升级包
         $upgrade_url = MySession(self::$package_upgrade_dir_key);
         if(empty($upgrade_url) || !file_exists($upgrade_url))
         {
-            return DataReturn('升级包不存在、请重新下载', -1);
+            return DataReturn(MyLang('common_service.systemupgrade.update_package_no_exist_tips'), -1);
         }
 
         // 系统包处理
@@ -276,7 +276,7 @@ class SystemUpgradeService
             MySession(self::SaveDirPathUrl($params['opt']), $res['url']);
             return DataReturn('success', 0);
         }
-        return DataReturn('包下载失败', -1);
+        return DataReturn(MyLang('common_service.systemupgrade.package_download_fail_tips'), -1);
     }
 
     /**
@@ -313,7 +313,7 @@ class SystemUpgradeService
         $password = MyC('common_store_password');
         if(empty($accounts) || empty($password))
         {
-            return DataReturn('请先绑定应用商店帐号', -300);
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
         }
 
         // 获取信息

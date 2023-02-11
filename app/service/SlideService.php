@@ -39,7 +39,7 @@ class SlideService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => '名称长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.slide.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -140,7 +140,6 @@ class SlideService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 

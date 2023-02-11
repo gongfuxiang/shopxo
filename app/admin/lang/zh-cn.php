@@ -82,57 +82,6 @@ return [
     // 用户
     'user'                  => [
         'base_nav_title'                        => '用户',
-        // 表单
-        'form_item_system_type'                 => '系统类型',
-        'form_item_system_type_tips'            => '默认 default',
-        'form_item_system_type_message'         => '系统类型2~60字符',
-        'form_item_username'                    => '用户名',
-        'form_item_username_message'            => '用户名2~30个字符',
-        'form_item_nickname'                    => '昵称',
-        'form_item_nickname_message'            => '昵称最多30个字符',
-        'form_item_mobile'                      => '手机号码',
-        'form_item_mobile_message'              => '手机号码格式错误',
-        'form_item_email'                       => '电子邮箱',
-        'form_item_email_message'               => '电子邮箱格式错误',
-        'form_item_alipay_openid'               => '支付宝openid',
-        'form_item_alipay_openid_message'       => '请填写支付宝openid',
-        'form_item_baidu_openid'                => '百度openid',
-        'form_item_baidu_openid_message'        => '请填写百度openid',
-        'form_item_toutiao_openid'              => '头条openid',
-        'form_item_toutiao_openid_message'      => '请填写头条openid',
-        'form_item_toutiao_unionid'             => '头条unionid',
-        'form_item_toutiao_unionid_message'     => '请填写头条unionid',
-        'form_item_qq_openid'                   => 'QQopenid',
-        'form_item_qq_openid_message'           => '请填写QQopenid',
-        'form_item_qq_unionid'                  => 'QQunionid',
-        'form_item_qq_unionid_message'          => '请填写QQunionid',
-        'form_item_weixin_openid'               => '微信openid',
-        'form_item_weixin_openid_message'       => '请填写微信openid',
-        'form_item_weixin_unionid'              => '微信unionid',
-        'form_item_weixin_unionid_message'      => '请填写微信unionid',
-        'form_item_web_weixin_openid'           => '微信webopenid',
-        'form_item_web_weixin_openid_message'   => '请填写微信webopenid',
-        'form_item_kuaishou_openid'             => '快手openid',
-        'form_item_kuaishou_openid_message'     => '请填写快手openid',
-        'form_item_province'                    => '所在省',
-        'form_item_province_message'            => '所在省最多60个字符',
-        'form_item_city'                        => '所在市',
-        'form_item_city_message'                => '所在市最多60个字符',
-        'form_item_county'                      => '所在区/县',
-        'form_item_county_message'              => '所在区/县最多60个字符',
-        'form_item_address'                     => '详细地址',
-        'form_item_address_message'             => '地址格式最多80个字符',
-        'form_item_integral'                    => '有效积分',
-        'form_item_integral_message'            => '请输入有效积分',
-        'form_item_locking_integral'            => '锁定积分',
-        'form_item_locking_integral_message'    => '请输入锁定积分',
-        'form_item_birthday'                    => '生日',
-        'form_item_birthday_message'            => '生日格式有误',
-        'form_item_referrer'                    => '邀请用户ID',
-        'form_item_referrer_message'            => '请输入邀请用户ID',
-        'form_item_pwd'                         => '登录密码',
-        'form_item_pwd_tips'                    => '输入则修改密码',
-        'form_item_pwd_message'                 => '登录密码格式6~18个字符之间',
         // 动态表格
         'form_table'                            => [
             'id'                    => '用户ID',
@@ -162,28 +111,6 @@ return [
     // 用户地址
     'useraddress'      => [
         'base_nav_title'                        => '用户地址',
-        // 表单
-        'form_item_user_id'                     => '用户id',
-        'form_item_user_id_message'             => '请填写用户id',
-        'form_item_name'                        => '姓名',
-        'form_item_name_message'                => '姓名格式2~16个字符之间',
-        'form_item_alias'                       => '别名',
-        'form_item_alias_message'               => '别名格式最多16个字符',
-        'form_item_tel'                         => '电话',
-        'form_item_tel_message'                 => '电话格式有误',
-        'form_item_address'                     => '详细地址',
-        'form_item_address_message'             => '详细地址格式1~80个字符之间',
-        'form_item_idcard_name'                 => '身份证姓名',
-        'form_item_idcard_name_tips'            => '选填，请务必与上传的身份证件姓名保持一致',
-        'form_item_idcard_name_message'         => '身份证姓名格式最多16个字符',
-        'form_item_idcard_number'               => '身份证号码',
-        'form_item_idcard_number_tips'          => '选填，请务必与上传的身份证件号码保持一致',
-        'form_item_idcard_number_message'       => '身份证号码格式最多18个字符',
-        'form_item_idcard_images'               => '身份证照片',
-        'form_item_idcard_images_tips'          => '选传，请使用身份证原件拍摄，图片要清晰',
-        'form_item_idcard_front_button_name'    => '上传人像面图片',
-        'form_item_idcard_back_button_name'     => '上传国微面图片',
-        'form_item_idcard_no_user_tips'         => '先关联用户后再上传身份证图片',
         // 详情
         'detail_user_address_idcard_name'       => '姓名',
         'detail_user_address_idcard_number'     => '号码',
@@ -452,20 +379,6 @@ return [
             '2. 仓库仅软删除、删除后将不可用、仅数据库中保留数据）可以自行删除关联的商品数据',
             '3. 仓库停用和删除、关联的商品库存会立即释放',
         ],
-        // 表单
-        'form_item_name'                        => '姓名',
-        'form_item_name_message'                => '姓名格式2~30个字符之间',
-        'form_item_alias'                       => '别名',
-        'form_item_alias_message'               => '别名格式最多16个字符',
-        'form_item_level'                       => '权重',
-        'form_item_level_tips'                  => '权重数值越大代表权重越高',
-        'form_item_level_message'               => '请输入有效权重数值',
-        'form_item_contacts_name'               => '联系人',
-        'form_item_contacts_name_message'       => '联系人格式2~16个字符之间',
-        'form_item_contacts_tel'                => '联系电话',
-        'form_item_contacts_tel_message'        => '请填写联系电话',
-        'form_item_address'                     => '详细地址',
-        'form_item_address_message'             => '地址格式1~80个字符之间',
         // 动态表格
         'form_table'                            => [
             'info'           => '名称/别名',
@@ -493,11 +406,6 @@ return [
         'no_spec_data_tips'                     => '无规格数据',
         'batch_setup_inventory_placeholder'     => '批量设置的值',
         'base_spec_inventory_title'             => '规格库存',
-        // 表单
-        'add_goods_title'                       => '商品添加',
-        'form_item_warehouseg_placeholder'      => '仓库...',
-        'form_item_warehouseg_message'          => '请选择仓库',
-        'form_item_inventory_message'           => '库存数量0~100000000',
         // 动态表格
         'form_table'                            => [
             'goods'              => '基础信息',
@@ -1119,7 +1027,6 @@ return [
         'cancel_delete_plugins_button_name'     => '再考虑一下',
         'more_plugins_store_to_text'            => '去应用商店挑选更多插件丰富站点 >>',
         'no_data_store_to_text'                 => '到应用商店挑选插件丰富站点 >>',
-        'plugins_no_data_tips'                  => '还没有相关应用',
     ],
 
     // 安装页面
@@ -1160,10 +1067,6 @@ return [
     // 快捷导航
     'quicknav'              => [
         'base_nav_title'                        => '快捷导航',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~60个字符',
-        'form_item_images_url'                  => '导航图标',
         // 动态表格
         'form_table'                            => [
             'name'         => '名称',
@@ -1181,21 +1084,6 @@ return [
     // 地区管理
     'region'                => [
         'base_nav_title'                        => '地区',
-        // 表单
-        'form_item_id'                          => '唯一编号',
-        'form_item_id_tips'                     => [
-            '1. 留空则系统自动生成',
-            '2. 不要随意修改、避免数据错乱',
-        ],
-        'form_item_id_message'                  => '请输入唯一编号',
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~16个字符',
-        'form_item_lng'                         => '经度',
-        'form_item_lng_message'                 => '请填写经度',
-        'form_item_lat'                         => '纬度',
-        'form_item_lat_message'                 => '请填写纬度',
-        'form_item_letters'                     => '首字母',
-        'form_item_letters_message'             => '请填写首字母',
     ],
 
     // 筛选价格
@@ -1206,26 +1094,11 @@ return [
             '最小价格1000 - 最大价格0 则是大于1000',
             '最小价格100 - 最大价格500 则是大于等于100并且小于500',
         ],
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~16个字符',
-        'form_item_min_price'                   => '最小价格',
-        'form_item_min_price_message'           => '最小价格有误',
-        'form_item_max_price'                   => '最大价格',
-        'form_item_max_price_message'           => '最大价格有误',
     ],
 
     // 首页轮播
     'slide'                 => [
         'base_nav_title'                        => '轮播',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~60个字符',
-        'form_item_images_url'                  => '轮播图片',
-        'form_item_images_url_tips'             => [
-            '1. PC端建议尺寸：1920*480px',
-            '2. 手机端建议尺寸：1200*360px',
-        ],
         // 动态表格
         'form_table'                            => [
             'name'         => '名称',
@@ -1275,9 +1148,6 @@ return [
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。',
-        'form_sql_placeholder'                  => 'SQL语句',
-        'form_sql_message'                      => '请填写需要执行的SQL语句',
-        'form_dev_tips'                         => '如需要执行SQL 语句，请在[ config/shopxo.php ]文件中[ is_develop ]值改为[ true ]开启开发者模式。',
     ],
 
     // 应用商店
@@ -1293,19 +1163,6 @@ return [
         'remove_cache_title'                    => '清除缓存',
         'user_status_title'                     => '用户状态',
         'user_status_message'                   => '请选择用户状态',
-        // 商店绑定
-        'store_check_update_name'               => '检查更新',
-        'store_bind_accounts_name'              => '绑定ShopXO商店账户',
-        'store_bind_accounts_tips'              => '绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新',
-        'store_bind_authorized_subject_name'    => '授权主体',
-        'store_bind_form_accounts'              => '账号',
-        'store_bind_form_accounts_placeholder'  => '用户名/手机/邮箱',
-        'store_bind_form_accounts_message'      => '账号格式1~30个字符',
-        'store_bind_form_password'              => '密码',
-        'store_bind_form_password_placeholder'  => '登录密码',
-        'store_bind_form_password_message'      => '登录密码格式6~30个字符',
-        'store_bind_form_regster_name'          => '未有账号，去注册',
-        'store_bind_form_tips'                  => '一个账号支持绑定多台ShopXO商城',
         // 商品参数
         'form_goods_params_config_error_tips'   => '商品参数配置信息',
         'form_goods_params_copy_no_tips'        => '请先粘贴配置信息',

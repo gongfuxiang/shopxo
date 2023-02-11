@@ -12,7 +12,7 @@
             <!-- form start -->
             <form class="am-form form-validation" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
                 <div class="am-form-group">
-                    <textarea rows="16" name="sql" class="am-radius" placeholder="{{:MyLang('sqlconsole.form_sql_placeholder')}}" data-validation-message="{{:MyLang('sqlconsole.form_sql_message')}}" required></textarea>
+                    <textarea rows="16" name="sql" class="am-radius" placeholder="{{:MyLang('common_service.sqlconsole.form_sql_placeholder')}}" data-validation-message="{{:MyLang('common_service.sqlconsole.form_sql_message')}}" required></textarea>
                 </div>
                 <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                     <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('execute_title')}}</button>
@@ -21,7 +21,7 @@
             <!-- form end -->
         {{else /}}
             <div class="am-alert">
-                <p>{{:MyLang('sqlconsole.form_dev_tips')}}</p>
+                <p>{{:MyLang('common_service.sqlconsole.form_dev_tips')}}</p>
             </div>
         {{/if}}
 

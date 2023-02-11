@@ -414,25 +414,6 @@ return [
     // 用户地址
     'useraddress'       => [
         'browser_seo_title'                     => 'My Address',
-        // 表单
-        'form_item_name'                        => 'Full Name',
-        'form_item_name_message'                => 'Name format is between 2 and 16 characters',
-        'form_item_alias'                       => 'Alias',
-        'form_item_alias_message'               => 'Alias format can be up to 16 characters',
-        'form_item_tel'                         => 'Telephone',
-        'form_item_tel_message'                 => 'Incorrect phone format',
-        'form_item_address'                     => 'Detailed Address',
-        'form_item_address_message'             => 'Detailed address format is between 1 and 80 characters',
-        'form_item_idcard_name'                 => 'ID Card Name',
-        'form_item_idcard_name_tips'            => 'Optional, please be consistent with the uploaded ID name',
-        'form_item_idcard_name_message'         => 'The name format of ID card can be up to 16 characters',
-        'form_item_idcard_number'               => 'ID No',
-        'form_item_idcard_number_tips'          => 'Optional, please be consistent with the uploaded ID number',
-        'form_item_idcard_number_message'       => 'ID card number format can be up to 18 characters',
-        'form_item_idcard_images'               => 'ID Card Photo',
-        'form_item_idcard_images_tips'          => 'For selective transmission, please use the original ID card to shoot, and the picture should be clear',
-        'form_item_idcard_front_button_name'    => 'Upload IDCard Front Pictures',
-        'form_item_idcard_back_button_name'     => 'Upload IDCard Back Pictures',
     ],
 
     // 用户足迹
@@ -556,20 +537,10 @@ return [
         'logout_confirm_title'                  => 'Confirm Logout',
         'logout_confirm_tips'                   => 'The account cannot be recovered after cancellation. Are you sure to continue?',
         'email_title'                           => 'Original Email Verification',
-        'form_item_email'                       => 'E-mail',
-        'form_item_email_message'               => 'Email format error',
         'email_new_title'                       => 'New email verification',
         'mobile_title'                          => 'Verification of original mobile phone number',
-        'form_item_mobile'                      => 'Phone Number',
-        'form_item_mobile_message'              => 'Mobile number format error',
         'mobile_new_title'                      => 'New mobile phone number verification',
         'login_password_title'                  => 'Login password modification',
-        'form_item_current_password'            => 'Current Password',
-        'form_item_current_password_message'    => 'The current password format is between 6 and 18 characters',
-        'form_item_new_password'                => 'New Password',
-        'form_item_new_password_message'        => 'The new password format is between 6 and 18 characters',
-        'form_item_confirm_password'            => 'Confirm Password',
-        'form_item_confirm_password_message'    => 'Confirm that the password format is between 6 and 18 characters, consistent with the new password',
     ],
 ];
 ?>

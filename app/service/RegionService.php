@@ -137,7 +137,7 @@ class RegionService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
+                'error_msg'         => MyLang('common_service.region.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -348,7 +348,7 @@ class RegionService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'code',
-                'error_msg'         => '请输入地区编号',
+                'error_msg'         => MyLang('common_service.region.region_code_search_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -395,7 +395,7 @@ class RegionService
         }
         if(empty($result) || count(array_filter(array_values($result))) == 0)
         {
-            return DataReturn('无相关地区', -1);
+            return DataReturn(MyLang('common_service.region.region_no_data_tips'), -1);
         }
         return DataReturn(MyLang('get_success'), 0, $result);
     }

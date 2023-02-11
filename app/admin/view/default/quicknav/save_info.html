@@ -13,8 +13,8 @@
 			<div class="am-cf">
     			<div class="am-u-sm-6 am-padding-horizontal-0">
     				<div class="am-form-group">
-						<label>{{:MyLang('quicknav.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" name="name" placeholder="{{:MyLang('quicknav.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('quicknav.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+						<label>{{:MyLang('common_service.quicknav.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" name="name" placeholder="{{:MyLang('common_service.quicknav.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.quicknav.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 					</div>
     			</div>
     			<div class="am-u-sm-6 am-padding-horizontal-0">
@@ -63,7 +63,7 @@
 			<div class="am-cf">
     			<div class="am-u-sm-6 am-padding-horizontal-0">
     				<div class="am-form-group am-form-file">
-						<label class="am-block">{{:MyLang('quicknav.form_item_images_url')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<label class="am-block">{{:MyLang('common_service.quicknav.form_item_images_url')}}<span class="am-form-group-label-tips-must">*</span></label>
 						<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
 							<li>
 								<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" required />

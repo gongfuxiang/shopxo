@@ -35,7 +35,7 @@
 						<span>{{$site_store_info.user.user_name_view}}</span>
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('modify_title')}}</a>
 					{{else /}}
-						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('common.store_bind_accounts_name')}}</a>
+						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('store_bind_accounts_name')}}</a>
 						<!-- 连接商店错误信息 --->
 						{{if !empty($site_store_error)}}
 							<span class="am-text-danger am-margin-left-sm">{{$site_store_error}}</span>
@@ -50,13 +50,13 @@
 				<div class="am-fr am-nbfc right-content">
 					<!-- VIP授权信息 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('common.store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
+						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
 					{{/if}}
 
 					<!-- 右侧版本信息及更新检查 -->
 					<span class="right-base">
 						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
-						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">{{:MyLang('common.store_check_update_name')}}{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
+						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">{{:MyLang('store_check_update_name')}}{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
 					</span>
 				</div>
 			</div>

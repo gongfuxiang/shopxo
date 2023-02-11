@@ -14,7 +14,6 @@ use think\facade\Db;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\GoodsCategoryService;
-use app\service\UserService;
 use app\service\WarehouseService;
 
 /**
@@ -100,12 +99,6 @@ class WarehouseGoodsService
             // 数据处理
             foreach($data as &$v)
             {
-                // 用户
-                if(array_key_exists('user_id', $v))
-                {
-                    $v['user'] = UserService::GetUserViewInfo($v['user_id']);
-                }
-
                 // 商品信息
                 if(array_key_exists('goods_id', $v))
                 {
@@ -156,46 +149,51 @@ class WarehouseGoodsService
         {
             $params['ids'] = explode(',', $params['ids']);
         }
+        // 获取数据
+        $warehouse_goods = Db::name('WarehouseGoods')->where(['id'=>$params['ids']])->column('*', 'id');
+        if(empty($warehouse_goods))
+        {
+            return DataReturn(MyLang('data_no_exist_error_tips'), -1);
+        }
 
         // 启动事务
         Db::startTrans();
-
-        // 循环处理删除
-        foreach($params['ids'] as $k=>$id)
-        {
-            // 位置
-            $index = $k+1;
-
-            // 获取数据
-            $warehouse_goods = Db::name('WarehouseGoods')->where(['id'=>intval($id)])->find();
-            if(empty($warehouse_goods))
+        // 捕获异常
+        try {
+            // 循环处理删除
+            foreach($params['ids'] as $k=>$id)
             {
-                return DataReturn('第'.$index.'条数据不存在', -1);
-            }
-
-            // 删除仓库商品和仓库商品规格数据
-            $where = [
-                'goods_id'      => $warehouse_goods['goods_id'],
-                'warehouse_id'  => $warehouse_goods['warehouse_id'],
-            ];
-            if(Db::name('WarehouseGoods')->where($where)->delete() && Db::name('WarehouseGoodsSpec')->where($where)->delete() !== false)
-            {
-                // 同步商品库存
-                $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
-                if($ret['code'] != 0)
+                if(array_key_exists($id, $warehouse_goods))
                 {
-                    Db::rollback();
-                    return $ret;
-                }
-            } else {
-                Db::rollback();
-                return DataReturn('第'.$index.'删除失败', -100);
-            }
-        }
+                    // 位置
+                    $index = $k+1;
 
-        // 提交事务
-        Db::commit();
-        return DataReturn(MyLang('delete_success'), 0);
+                    // 删除仓库商品和仓库商品规格数据
+                    $temp = $warehouse_goods[$id];
+                    $where = [
+                        'goods_id'      => $temp['goods_id'],
+                        'warehouse_id'  => $temp['warehouse_id'],
+                    ];
+                    if(!Db::name('WarehouseGoods')->where($where)->delete() && Db::name('WarehouseGoodsSpec')->where($where)->delete())
+                    {
+                        throw new \Exception(MyLang('common_service.warehousegoods.row_delete_fail_tips', ['index'=>$index]));
+                    }
+
+                    // 同步商品库存
+                    $ret = self::GoodsSpecInventorySync($temp['goods_id']);
+                    if($ret['code'] != 0)
+                    {
+                        throw new \Exception($ret['msg']);
+                    }
+                }
+            }
+            // 提交事务
+            Db::commit();
+            return DataReturn(MyLang('delete_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
+        }
     }
 
     /**
@@ -244,10 +242,13 @@ class WarehouseGoodsService
 
         // 启动事务
         Db::startTrans();
-
-        // 数据更新
-        if(Db::name('WarehouseGoods')->where($where)->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
-        {
+        // 捕获异常
+        try {
+            // 数据更新
+            if(!Db::name('WarehouseGoods')->where($where)->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+            {
+                throw new \Exception(MyLang('edit_fail'));
+            }
             // 状态更新
             if($params['field'] == 'is_enable')
             {
@@ -255,18 +256,17 @@ class WarehouseGoodsService
                 $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
                 if($ret['code'] != 0)
                 {
-                    Db::rollback();
-                    return $ret;
+                    throw new \Exception($ret['msg']);
                 }
             }
 
             // 提交事务
             Db::commit();
             return DataReturn(MyLang('edit_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        Db::rollback();
-        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -285,7 +285,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'warehouse_id',
-                'error_msg'         => '仓库id有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.warehouse_id_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -372,7 +372,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'warehouse_id',
-                'error_msg'         => '仓库id有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.warehouse_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -424,7 +424,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'warehouse_id',
-                'error_msg'         => '仓库id有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.warehouse_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -440,29 +440,31 @@ class WarehouseGoodsService
 
         // 启动事务
         Db::startTrans();
-
-        // 删除仓库商品和仓库商品规格数据
-        $where = [
-            'goods_id'      => intval($params['goods_id']),
-            'warehouse_id'  => intval($params['warehouse_id']),
-        ];
-        if(Db::name('WarehouseGoods')->where($where)->delete() !== false && Db::name('WarehouseGoodsSpec')->where($where)->delete() !== false)
-        {
+        // 捕获异常
+        try {
+            // 删除仓库商品和仓库商品规格数据
+            $where = [
+                'goods_id'      => intval($params['goods_id']),
+                'warehouse_id'  => intval($params['warehouse_id']),
+            ];
+            if(!Db::name('WarehouseGoods')->where($where)->delete() !== false && Db::name('WarehouseGoodsSpec')->where($where)->delete())
+            {
+                throw new \Exception(MyLang('delete_fail'));
+            }
             // 同步商品库存
             $ret = self::GoodsSpecInventorySync($params['goods_id']);
             if($ret['code'] != 0)
             {
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
             // 提交事务
             Db::commit();
             return DataReturn(MyLang('delete_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        Db::rollback();
-        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -497,7 +499,7 @@ class WarehouseGoodsService
         $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
         if(empty($warehouse_goods))
         {
-            return DataReturn('无相关商品数据', -1);
+            return DataReturn(MyLang('data_no_exist_error_tips'), -1);
         }
 
         // 获取商品规格
@@ -602,34 +604,19 @@ class WarehouseGoodsService
                 'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'specifications_inventory',
-                'error_msg'         => '库存数据有误',
-            ],
-            [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'specifications_inventory',
-                'error_msg'         => '库存数据有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'specifications_md5_key',
-                'error_msg'         => '库存唯一值有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.save_inventory_data_error_tips'),
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'specifications_md5_key',
-                'error_msg'         => '库存唯一值有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'specifications_spec',
-                'error_msg'         => '库存规格有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.save_md5_key_data_error_tips'),
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'specifications_spec',
-                'error_msg'         => '库存规格有误',
+                'error_msg'         => MyLang('common_service.warehousegoods.save_spec_data_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -639,13 +626,10 @@ class WarehouseGoodsService
         }
 
         // 获取仓库商品
-        $where = [
-            'id'    => intval($params['id']),
-        ];
-        $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
+        $warehouse_goods = Db::name('WarehouseGoods')->where(['id'=>intval($params['id'])])->find();
         if(empty($warehouse_goods))
         {
-            return DataReturn('无相关商品数据', -1);
+            return DataReturn(MyLang('data_no_exist_error_tips'), -1);
         }
 
         // 数据组装
@@ -676,7 +660,6 @@ class WarehouseGoodsService
 
         // 启动事务
         Db::startTrans();
-
         // 捕获异常
         try {
         
@@ -692,7 +675,7 @@ class WarehouseGoodsService
             {
                 if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
                 {
-                    throw new \Exception('规格库存添加失败');
+                    throw new \Exception(MyLang('common_service.warehousegoods.save_inventory_spec_insert_fail_tips'));
                 }
             }
 
@@ -702,7 +685,7 @@ class WarehouseGoodsService
                 'upd_time'  => time(),
             ]))
             {
-                throw new \Exception('库存商品更新失败');
+                throw new \Exception(MyLang('common_service.warehousegoods.save_warehouse_goods_update_fail_tips'));
             }
 
             // 同步商品库存
@@ -780,7 +763,7 @@ class WarehouseGoodsService
                 // 添加数据
                 if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
                 {
-                    return DataReturn('规格库存添加失败', -1);
+                    return DataReturn(MyLang('common_service.warehousegoods.save_inventory_spec_insert_fail_tips'), -1);
                 }
 
                 // 仓库商品更新
@@ -789,7 +772,7 @@ class WarehouseGoodsService
                     'upd_time'  => time(),
                 ]))
                 {
-                    return DataReturn('库存商品更新失败', -1);
+                    return DataReturn(MyLang('common_service.warehousegoods.save_warehouse_goods_update_fail_tips'), -1);
                 }
             }
         }
@@ -819,15 +802,15 @@ class WarehouseGoodsService
                 'value'     => 'default',
             ];
         }
-        $inventory_total = 0;
 
         // 商品规格库存
+        $inventory_total = 0;
         foreach($res['value'] as $v)
         {
             $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
             if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
             {
-                return DataReturn('商品规格库存同步失败', -20);
+                return DataReturn(MyLang('common_service.warehousegoods.goods_spec_sync_inventory_fail_tips'), -20);
             }
             $inventory_total += $inventory;
         }
@@ -839,7 +822,7 @@ class WarehouseGoodsService
         ];
         if(Db::name('Goods')->where(['id'=>$goods_id])->update($data) === false)
         {
-            return DataReturn('商品库存同步失败', -21);
+            return DataReturn(MyLang('common_service.warehousegoods.goods_sync_inventory_fail_tips'), -21);
         }
 
         // 商品仓库库存修改钩子
@@ -911,7 +894,7 @@ class WarehouseGoodsService
         $warehouse_id = Db::name('Order')->where(['id'=>$order_id])->value('warehouse_id');
         if(empty($warehouse_id))
         {
-            return DataReturn('订单仓库id有误', -1);
+            return DataReturn(MyLang('common_service.warehousegoods.order_warehouse_id_empty_tips'), -1);
         }
 
         // 规格key，空则默认default
@@ -931,11 +914,11 @@ class WarehouseGoodsService
         $inventory = (int) Db::name('WarehouseGoodsSpec')->where($where)->value('inventory');
         if($inventory < $buy_number)
         {
-            return DataReturn('仓库商品规格库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
+            return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
         }
         if(!Db::name('WarehouseGoodsSpec')->where($where)->dec('inventory', $buy_number)->update())
         {
-            return DataReturn('仓库商品规格库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+            return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
         }
 
         // 扣除仓库商品库存
@@ -943,11 +926,11 @@ class WarehouseGoodsService
         $inventory = Db::name('WarehouseGoods')->where($where)->value('inventory');
         if($inventory < $buy_number)
         {
-            return DataReturn('仓库商品库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
+            return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
         }
         if(!Db::name('WarehouseGoods')->where($where)->dec('inventory', $buy_number)->update())
         {
-            return DataReturn('仓库商品库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+            return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
         }
 
         // 商品库存扣除钩子
@@ -965,7 +948,7 @@ class WarehouseGoodsService
             return $ret;
         }
 
-        return DataReturn('扣除成功', 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -986,7 +969,7 @@ class WarehouseGoodsService
         $warehouse_id = Db::name('Order')->where(['id'=>$order_id])->value('warehouse_id');
         if(empty($warehouse_id))
         {
-            return DataReturn('订单仓库id有误', -1);
+            return DataReturn(MyLang('common_service.warehousegoods.order_warehouse_id_empty_tips'), -1);
         }
 
         // 规格key，空则默认default
@@ -1008,7 +991,7 @@ class WarehouseGoodsService
         {
             if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update())
             {
-                return DataReturn('仓库商品规格库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+                return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_inc_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
             }
         }
 
@@ -1019,7 +1002,7 @@ class WarehouseGoodsService
         {
             if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update())
             {
-                return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+                return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_inc_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
             }
         }
 
@@ -1038,7 +1021,7 @@ class WarehouseGoodsService
             return $ret;
         }
 
-        return DataReturn('回滚成功', 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 }
 ?>

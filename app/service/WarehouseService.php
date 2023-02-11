@@ -158,39 +158,44 @@ class WarehouseService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'length',
+                'checked_data'      => '2,30',
                 'key_name'          => 'name',
-                'error_msg'         => '名称不能为空',
+                'error_msg'         => MyLang('common_service.warehouse.form_item_name_message'),
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'length',
+                'checked_data'      => '16',
+                'key_name'          => 'alias',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.warehouse.form_item_alias_message'),
+            ],
+            [
+                'checked_type'      => 'length',
+                'checked_data'      => '2,16',
                 'key_name'          => 'contacts_name',
-                'error_msg'         => '联系人不能为空',
+                'error_msg'         => MyLang('common_service.warehouse.form_item_contacts_name_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'contacts_tel',
-                'error_msg'         => '联系电话不能为空',
+                'error_msg'         => MyLang('common_service.warehouse.form_item_contacts_tel_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'province',
-                'error_msg'         => '省不能为空',
+                'error_msg'         => MyLang('form_region_province_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'city',
-                'error_msg'         => '城市不能为空',
+                'error_msg'         => MyLang('form_region_city_message'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'county',
-                'error_msg'         => '区/县不能为空',
-            ],
-            [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'length',
+                'checked_data'      => '1,80',
                 'key_name'          => 'address',
-                'error_msg'         => '详细地址不能为空',
+                'error_msg'         => MyLang('common_service.warehouse.form_item_address_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -209,7 +214,7 @@ class WarehouseService
             'contacts_tel'      => $params['contacts_tel'],
             'province'          => $params['province'],
             'city'              => $params['city'],
-            'county'            => $params['county'],
+            'county'            => empty($params['county']) ? 0 : intval($params['county']),
             'address'           => $params['address'],
             'lng'               => isset($params['lng']) ? floatval($params['lng']) : 0,
             'lat'               => isset($params['lat']) ? floatval($params['lat']) : 0,
@@ -219,7 +224,6 @@ class WarehouseService
 
         // 启动事务
         Db::startTrans();
-
         // 捕获异常
         try {
             // 默认地址处理
@@ -237,7 +241,7 @@ class WarehouseService
                 $data['add_time'] = time();
                 if(Db::name('Warehouse')->insertGetId($data) <= 0)
                 {
-                    throw new \Exception('新增失败');
+                    throw new \Exception(MyLang('insert_fail'));
                 }
             } else {
                 $data['upd_time'] = time();
@@ -290,27 +294,31 @@ class WarehouseService
 
         // 启动事务
         Db::startTrans();
+        // 捕获异常
+        try {
+            // 删除操作
+            if(!Db::name('Warehouse')->where(['id'=>$params['ids']])->update(['is_delete_time'=>time(), 'upd_time'=>time()]))
+            {
+                throw new \Exception(MyLang('delete_fail'));
+            }
 
-        // 删除操作
-        if(Db::name('Warehouse')->where(['id'=>$params['ids']])->update(['is_delete_time'=>time(), 'upd_time'=>time()]))
-        {
+            // 同步库存
             foreach($params['ids'] as $warehouse_id)
             {
                 $ret = self::WarehouseGoodsInventorySync($warehouse_id);
                 if($ret['code'] != 0)
                 {
-                    Db::rollback();
-                    return $ret;
+                    throw new \Exception($ret['msg']);
                 }
             }
 
-            // 提交事务
+            // 完成
             Db::commit();
             return DataReturn(MyLang('delete_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        Db::rollback();
-        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -351,28 +359,32 @@ class WarehouseService
 
         // 启动事务
         Db::startTrans();
+        // 捕获异常
+        try {
+            // 数据更新
+            if(!Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+            {
+                throw new \Exception(MyLang('edit_fail'));
+            }
 
-        // 数据更新
-        if(Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
-        {
             // 状态更新
             if($params['field'] == 'is_enable')
             {
+                // 同步库存
                 $ret = self::WarehouseGoodsInventorySync(intval($params['id']));
                 if($ret['code'] != 0)
                 {
-                    Db::rollback();
-                    return $ret;
+                    throw new \Exception($ret['msg']);
                 }
             }
 
-            // 提交事务
+            // 完成
             Db::commit();
             return DataReturn(MyLang('edit_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        Db::rollback();
-        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -418,16 +430,18 @@ class WarehouseService
         $data = Db::name('Warehouse')->field('id,name,is_enable,is_delete_time')->where(['id'=>array_unique($ids)])->select()->toArray();
         if(!empty($data))
         {
+            $warehouse_not_enable_name = MyLang('common_service.warehouse.warehouse_not_enable_name');
+            $warehouse_already_delete_name = MyLang('common_service.warehouse.warehouse_already_delete_name');
             foreach($data as $v)
             {
                 $err = [];
                 if($v['is_enable'] != 1)
                 {
-                    $err[] = '未启用';
+                    $err[] = $warehouse_not_enable_name;
                 }
                 if($v['is_delete_time'] > 0)
                 {
-                    $err[] = '已删除';
+                    $err[] = $warehouse_already_delete_name;
                 }
                 if(!empty($err))
                 {

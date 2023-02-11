@@ -45,7 +45,7 @@ class UeditorService
         self::$path_type = isset($params['path_type']) ? $params['path_type'] : PathToParams('path_type', 'other');
 
         // action
-        $ret = DataReturn('请求action有误', -1);
+        $ret = DataReturn(MyLang('common_service.ueditor.action_error_tips'), -1);
         switch(self::$current_action)
         {
             // 配置信息
@@ -100,7 +100,7 @@ class UeditorService
     }
 
     /**
-     * [ActionUpload 上传配置]
+     * 上传配置
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -112,43 +112,43 @@ class UeditorService
         switch(htmlspecialchars(self::$current_action))
         {
             case 'uploadimage':
-                $temp_config = array(
-                        "pathFormat" => self::$current_config['imagePathFormat'],
-                        "maxSize" => self::$current_config['imageMaxSize'],
-                        "allowFiles" => self::$current_config['imageAllowFiles']
-                    );
+                $temp_config = [
+                    "pathFormat" => self::$current_config['imagePathFormat'],
+                    "maxSize" => self::$current_config['imageMaxSize'],
+                    "allowFiles" => self::$current_config['imageAllowFiles']
+                ];
                 $field_name = self::$current_config['imageFieldName'];
                 $attachment_type = "image";
                 break;
 
             case 'uploadscrawl':
-                $temp_config = array(
-                        "pathFormat" => self::$current_config['scrawlPathFormat'],
-                        "maxSize" => self::$current_config['scrawlMaxSize'],
-                        "allowFiles" => self::$current_config['scrawlAllowFiles'],
-                        "oriName" => "scrawl.png"
-                    );
+                $temp_config = [
+                    "pathFormat" => self::$current_config['scrawlPathFormat'],
+                    "maxSize" => self::$current_config['scrawlMaxSize'],
+                    "allowFiles" => self::$current_config['scrawlAllowFiles'],
+                    "oriName" => "scrawl.png"
+                ];
                 $field_name = self::$current_config['scrawlFieldName'];
                 $attachment_type = "scrawl";
                 break;
 
             case 'uploadvideo':
-                $temp_config = array(
-                        "pathFormat" => self::$current_config['videoPathFormat'],
-                        "maxSize" => self::$current_config['videoMaxSize'],
-                        "allowFiles" => self::$current_config['videoAllowFiles']
-                    );
+                $temp_config = [
+                    "pathFormat" => self::$current_config['videoPathFormat'],
+                    "maxSize" => self::$current_config['videoMaxSize'],
+                    "allowFiles" => self::$current_config['videoAllowFiles']
+                ];
                 $field_name = self::$current_config['videoFieldName'];
                 $attachment_type = "video";
                 break;
 
             case 'uploadfile':
             default:
-                $temp_config = array(
-                        "pathFormat" => self::$current_config['filePathFormat'],
-                        "maxSize" => self::$current_config['fileMaxSize'],
-                        "allowFiles" => self::$current_config['fileAllowFiles']
-                    );
+                $temp_config = [
+                    "pathFormat" => self::$current_config['filePathFormat'],
+                    "maxSize" => self::$current_config['fileMaxSize'],
+                    "allowFiles" => self::$current_config['fileAllowFiles']
+                ];
                 $field_name = self::$current_config['fileFieldName'];
                 $attachment_type = "file";
         }
@@ -180,11 +180,11 @@ class UeditorService
             $data['path_type'] = self::$path_type;
             return ResourcesService::AttachmentAdd($data);
         }
-        return DataReturn(isset($data['state']) ? $data['state'] : '上传失败', -1);
+        return DataReturn(isset($data['state']) ? $data['state'] : MyLang('upload_fail'), -1);
     }
 
     /**
-     * [ActionList 文件列表]
+     * 文件列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -259,7 +259,7 @@ class UeditorService
     }
 
     /**
-     * [ActionCrawler 抓取远程文件]
+     * 抓取远程文件
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -279,7 +279,7 @@ class UeditorService
         $attachment_host = GetUrlHost(SystemBaseService::AttachmentHost());
 
         // 抓取远程图片
-        $list = array();
+        $list = [];
         $source = isset(self::$params[$field_name]) ? self::$params[$field_name] : self::$params[$field_name];
         foreach($source as $imgUrl)
         {

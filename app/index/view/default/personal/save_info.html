@@ -67,7 +67,7 @@
                     <div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
                         <div class="am-form-group">
                             <label>{{:MyLang('personal.form_item_address')}}</label>
-                            <input type="text" placeholder="{{:MyLang('personal.form_item_address')}}" name="address" data-validation-message="{{:MyLang('personal.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
+                            <input type="text" placeholder="{{:MyLang('personal.form_item_address')}}" name="address" maxlength="80" data-validation-message="{{:MyLang('personal.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
                         </div>
                     </div>
                 </div>

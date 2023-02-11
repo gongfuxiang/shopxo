@@ -818,7 +818,7 @@ class SearchService
         $result = [
             [
                 'type'  => 0,
-                'name'  => '首页',
+                'name'  => MyLang('home_title'),
                 'url'   => SystemService::HomeUrl(),
                 'icon'  => 'am-icon-home',
             ],
@@ -958,7 +958,7 @@ class SearchService
         {
             $temp_data[] = [
                 'type'  => 0,
-                'name'  => implode(' / ', $temp_name).'搜索结果',
+                'name'  => implode(' / ', $temp_name).MyLang('common_service.search.search_breadcrumb_result_last_text'),
             ];
         }
 

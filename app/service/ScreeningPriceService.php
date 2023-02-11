@@ -42,8 +42,8 @@ class ScreeningPriceService
         {
             foreach($data as &$v)
             {
-                $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['json']              =   json_encode($v);
+                $v['is_son']  =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['json']    =   json_encode($v);
             }
             return DataReturn(MyLang('operate_success'), 0, $data);
         }
@@ -66,7 +66,7 @@ class ScreeningPriceService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
+                'error_msg'         => MyLang('common_service.screeningprice.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

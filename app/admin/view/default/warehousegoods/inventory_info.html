@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{$v.name}}</td>
                                 <td>
-                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="{{:MyLang('inventory_title')}}" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="{{:MyLang('warehousegoods.form_item_inventory_message')}}" />
+                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="{{:MyLang('inventory_title')}}" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="{{:MyLang('common_service.warehousegoods.form_item_inventory_message')}}" />
                                     <input type="hidden" name="specifications_md5_key[]" value="{{$v.md5_key}}" />
                                     <input type="hidden" name="specifications_spec[]" value="{{$v.spec}}" />
                                 </td>

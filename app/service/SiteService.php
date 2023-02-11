@@ -44,7 +44,7 @@ class SiteService
         // 是否已安装redis扩展
         if(!extension_loaded('redis'))
         {
-            return DataReturn('请先安装redis扩展', -1);
+            return DataReturn(MyLang('common_service.site.redis_extend_no_install_tips'), -1);
         }
 
         // 捕获异常
@@ -57,15 +57,15 @@ class SiteService
                 $redis->auth($password);
             }
         } catch(\Exception $e) {
-            return DataReturn('redis连接失败['.$e->getMessage().']', -1);
+            return DataReturn(MyLang('common_service.site.redis_connect_fail_tips').'['.$e->getMessage().']', -1);
         }
 
         // 检测是否连接成功
         if($redis->ping())
         {
-            return DataReturn('redis连接成功', 0);
+            return DataReturn(MyLang('common_service.site.redis_connect_success_tips'), 0);
         }
-        return DataReturn('redis连接失败', -1);
+        return DataReturn(MyLang('common_service.site.redis_connect_fail_tips'), -1);
     }
 
     /**
