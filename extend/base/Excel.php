@@ -317,7 +317,7 @@ class Excel
 		// 文件为空则取全局文变量excel的临时文件
 		if(empty($file) && (empty($_FILES['file']) || empty($_FILES['file']['tmp_name'])))
 		{
-			return DataReturn('文件为空', -1);
+			return DataReturn(MyLang('common_extend.base.excel.file_empty_tips'), -1);
 		}
 		$file = empty($file) ? $_FILES['file']['tmp_name'] : $file;
 
@@ -325,7 +325,7 @@ class Excel
 		$extension = empty($_FILES['file']['name']) ? 'xlsx' : substr($_FILES['file']['name'], strripos($_FILES['file']['name'], '.')+1);
 		if(!in_array($extension, ['csv', 'xls', 'xlsx']))
 		{
-			return DataReturn('无效的excel类型文件', -1);
+			return DataReturn(MyLang('common_extend.base.excel.excel_format_error_tips'), -1);
 		}
 		if('csv' == $extension)
 		{     
@@ -365,7 +365,7 @@ class Excel
 			'title'	=> $title,
 			'data'	=> $data,
 		];
-		return DataReturn('处理成功', 0, $result);
+		return DataReturn(MyLang('handle_success'), 0, $result);
 	}
 
 	/**
@@ -385,11 +385,11 @@ class Excel
                     <html>
                     <head>
                         <meta charset="utf-8" />
-                        <title>错误提示</title>
+                        <title>'.MyLang('common_extend.base.excel.error_title').'</title>
                     </head>
                     <body style="text-align:center;">
                         <p style="color:#666;font-size:14px;margin-top:10%;margin-bottom:30px;">'.$this->msg.'</p>
-                        <a href="javascript:;" onClick="WindowClose()" style="text-decoration:none;color:#fff;background:#f00;padding:5px 15px;border-radius:2px;font-size:12px;">关闭页面</a>
+                        <a href="javascript:;" onClick="WindowClose()" style="text-decoration:none;color:#fff;background:#f00;padding:5px 15px;border-radius:2px;font-size:12px;">'.MyLang('common_extend.base.excel.close_page_title').'</a>
                     </body>
                         <script type="text/javascript">
                             function WindowClose()

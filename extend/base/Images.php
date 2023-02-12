@@ -26,47 +26,68 @@ class Images
 	private $i_data;
 
 	/**
-	 * [__construct 构造方法]
-	 * @param [array] $parameters [参数列表]
+	 * 构造方法
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]           $params [输入参数]
 	 */
-	private function __construct($parameters = [])
+	private function __construct($params = [])
 	{
-		/* 检测是否支持gd */
+		// 检测是否支持gd
 		$this->IsGD();
 
-		/* 图片类型 */
-		$this->i_type = empty($parameters['type']) ? $this->GetImageType() : $parameters['type'];
+		// 图片类型
+		$this->i_type = empty($params['type']) ? $this->GetImageType() : $params['type'];
 
-		/* 图片名称是否使用新名称, 则使用原图片名称 */
-		$this->i_is_new_name = (isset($parameters['is_new_name']) && is_bool($parameters['is_new_name'])) ? $parameters['is_new_name'] : true;
+		// 图片名称是否使用新名称、则使用原图片名称
+		$this->i_is_new_name = (isset($params['is_new_name']) && is_bool($params['is_new_name'])) ? $params['is_new_name'] : true;
 
-		/* jpg图片的质量值, 值越大质量越好 */
-		$this->i_quality = max(75, isset($parameters['quality']) ? intval($parameters['quality']) : 75);
+		// jpg图片的质量值、值越大质量越好
+		$this->i_quality = max(75, isset($params['quality']) ? intval($params['quality']) : 75);
 	}
-
+	
 	/**
-	 * [Instance 静态方法实例化本类]
-	 * @return [object] [实例对象]
+	 * 静态方法实例化本类
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]           $params [输入参数]
+	 * @return  [object] 				  [实例对象]
 	 */
-	public static function Instance($parameters = array())
+	public static function Instance($params = [])
 	{
 		static $object = null;
-		if(!is_object($object)) $object = new self($parameters);
+		if(!is_object($object)) $object = new self($params);
 		return $object;
 	}
 
 	/**
-	 * [SetParameters 参数设置]
-	 * @param [array] $parameters [参数列表]
+	 * 参数设置
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]           $params [输入参数]
 	 */
-	public function SetParameters($parameters = array())
+	public function SetParameters($params = [])
 	{
-		if(empty($parameters)) return;
-		$this->__construct($parameters);
+		if(empty($params)) return;
+		$this->__construct($params);
 	}
 
 	/**
-	 * [Is_GD 检查是否支持gd库]
+	 * 检查是否支持gd库
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
 	 */
 	private function IsGD()
 	{
@@ -77,8 +98,12 @@ class Images
 	}
 
 	/**
-	 * [GetImageType 获取图片后缀类型]
-	 * @return [array] [图片后缀类型]
+	 * 获取图片后缀类型
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
 	 */
 	private function GetImageType()
 	{
@@ -89,58 +114,72 @@ class Images
 			'bmp'	=> 'image/bmp'
 		);
 	}
-
+	
 	/**
-	 * [Initialization 基本信息初始化]
-	 * @param  [array]   $data [临时图片数据]
-	 * @param  [string]  $path [图片保存路径]
-	 * @return [boolean]	   [true或false]
+	 * 基本信息初始化
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]          $data [临时图片数据]
+	 * @param   [string]         $path [图片保存路径]
 	 */
 	private function Initialization($data, $path)
 	{
 		if(empty($data)) return false;
 
-		/* 图片保存地址 */
+		// 图片保存地址
 		$this->PathMkdir($path);
 
-		/* 初始化返回数据 */
-		$this->i_data = array();
+		// 初始化返回数据
+		$this->i_data = [];
 
 		return true;
 	}
-
+	
 	/**
-	 * [PathMkdir 路径校验，不存在则创建]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2017-10-28T23:19:56+0800
-	 * @param    [type]                   $path [description]
+	 * 路径校验，不存在则创建
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [string]          $path [路径地址]
 	 */
 	public function PathMkdir($path)
 	{
 		$path .= (substr($path, -1) == '/') ? '' : '/';
 		$this->i_path = empty($path) ? '/tmp/image' : $path;
 
-		/* 设置存储路径是否存在 */
+		// 设置存储路径是否存在
 		if(!is_dir($this->i_path)) @mkdir($this->i_path, 0777, true);
 		if(!@opendir($this->i_path)) exit('dir not access ['.$this->i_path.']');
 	}
 
 	/**
-	 * [GetNewFileName 获取随机名称]
-	 * @return [string] [新的名称]
+	 * 获取随机名称
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
 	 */
 	public function GetNewFileName()
 	{
 		return date('YmdHis').str_shuffle(rand());
 	}
-
+	
 	/**
-	 * [SaveBaseImages base64图片存储]
-	 * @param  [array] $data  [需要存储的base数据, 一维数组]
-	 * @param  [string] $path [存储路径]
-	 * @return [array] 		  [返回图片地址, 一维数组]
+	 * base64图片存储
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]           $data [需要存储的base数据、一维数组]
+	 * @param   [string]          $path [存储路径]
+	 * @return  [array] 		  		[返回图片地址、一维数组]
 	 */
 	public function SaveBaseImages($data, $path)
 	{
@@ -162,12 +201,17 @@ class Images
 		}
 		return $this->i_data;
 	}
-
+	
 	/**
-	 * [SaveBinaryImages 二进制图片保存]
-	 * @param  [array]  $data [二进制图片数据, 一维数组]
-	 * @param  [string] $path [存储路径]
-	 * @return [array] 		  [返回图片地址, 一维数组]
+	 * 二进制图片保存
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]          $data [二进制图片数据、一维数组]
+	 * @param   [string]         $path [存储路径]
+	 * @return  [string] 	           [返回图片地址、一维数组]
 	 */
 	public function SaveBinaryImages($data, $path)
 	{
@@ -190,10 +234,15 @@ class Images
 	}
 
 	/**
-	 * [GetOriginal 获取临时图片文件的原图]
-	 * @param  [array]  $data [临时图片数据]
-	 * @param  [string] $path [存储路径]
-	 * @return [string] 	  [返回图片地址]
+	 * 获取临时图片文件的原图
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [array]           $data [临时图片数据]
+	 * @param   [string]          $path [存储路径]
+	 * @return  [string] 	            [返回图片地址]
 	 */
 	public function GetOriginal($data, $path)
 	{
@@ -205,13 +254,11 @@ class Images
 		if($type == 'no') return '';
 
 		$file_name = $this->GetNewFileName().'.'.$type;
-
-		if(move_uploaded_file($data['tmp_name'], $this->i_path.$file_name)) return $file_name;
-		return '';
+		return move_uploaded_file($data['tmp_name'], $this->i_path.$file_name) ? $file_name : '';
 	}
 
 	/**
-	 * [GetBinaryCompress 获取指定图片路径的压缩图]
+	 * 获取指定图片路径的压缩图
 	 * @param  [string] $file  [图片地址]
 	 * @param  [string] $path  [存储路径]
 	 * @param  [int] 	$width [设定图片宽度]
@@ -236,7 +283,7 @@ class Images
 	}
 
 	/**
-	 * [GetCompress 获取临时图片文件的压缩图]
+	 * 获取临时图片文件的压缩图
 	 * @param  [array]  $data  [临时图片数据]
 	 * @param  [string] $path  [存储路径]
 	 * @param  [int] 	$width [设定图片宽度]
@@ -259,7 +306,7 @@ class Images
 	}
 
 	/**
-	 * [GetCompressCut 临时图像裁剪]
+	 * 临时图像裁剪
 	 * @param [array]  	$data       [图像临时数据]
 	 * @param [string] 	$path       [图像存储地址]
 	 * @param [int] 	$width      [指定存储宽度]
@@ -286,7 +333,7 @@ class Images
 	}
 
 	/**
-	 * [ImageCompress 图片压缩]
+	 * 图片压缩
 	 * @param  [int] 	$width [指定图片宽度]
 	 * @param  [int] 	$height[指定图片高度]
 	 * @param  [string] $file  [原图片地址]
@@ -296,16 +343,16 @@ class Images
 	 */
 	private function ImageCompress($width, $height, $file, $type, $path, $src_x = 0, $src_y = 0, $src_width = 0, $src_height = 0)
 	{
-		/* 获取图片原本尺寸 */
+		// 获取图片原本尺寸
 		list($w, $h) = getimagesize($file);
 		
-		/* 尺寸计算 */
+		// 尺寸计算
 		$new_width = ($width > 0 && $w > $width) ? $width : $w;
 		$new_height = ($width > 0 && $w > $width) ? (round($h/($w/$width))) : $h;
 		if($width > 0 && $height > 0) $new_width = $width;
 		if($height > 0) $new_height = $height;
 
-		/* url创建一个新图象 */
+		// url创建一个新图象
 		switch($type)
 	    {
 	        case 'gif':
@@ -319,60 +366,59 @@ class Images
 	    }
 	    if(!$src_im) return;
 
-	    /* 新建一个真彩色图像 */
+	    // 新建一个真彩色图像
 	    $dst_im = imagecreatetruecolor($new_width, $new_height);
 
-	    /* 保留透明背景 */
+	    // 保留透明背景
         switch($type)
         {
             case 'png':
-                /* 保存完整alpha通道信息 */
+                // 保存完整alpha通道信息
                 imagesavealpha($dst_im, true);
-                /* 上色 */
+                // 上色
                 $color = imagecolorallocatealpha($dst_im, 0, 0, 0, 127);
-                /* 设置透明色 */
+                // 设置透明色
                 imagecolortransparent($dst_im, $color);
-                /* 填充透明色 */
+                // 填充透明色
                 imagefill($dst_im, 0, 0, $color);
                 break;
             default:;
         }
 
-        /* 是否裁剪图片 */
+        // 是否裁剪图片
 	    if($src_width > 0 && $src_height > 0)
 	    {
-	    	/* 新建拷贝大小的真彩图像 */
+	    	// 新建拷贝大小的真彩图像
 	    	$cpd_im = imagecreatetruecolor($src_width, $src_height);
 
-            /* 保留透明背景 */
+            // 保留透明背景
             switch($type)
             {
                 case 'png':
-                    /* 保存完整alpha通道信息 */
+                    // 保存完整alpha通道信息
                     imagesavealpha($cpd_im, true);
-                    /* 上色 */
+                    // 上色
                     $color = imagecolorallocatealpha($cpd_im, 0, 0, 0, 127);
-                    /* 设置透明色 */
+                    // 设置透明色
                     imagecolortransparent($cpd_im, $color);
-                    /* 填充透明色 */
+                    // 填充透明色
                     imagefill($cpd_im, 0, 0, $color);
                     break;
                 default:;
             }
 
-	    	/* 拷贝图片 */
+	    	// 拷贝图片
 		    imagecopy($cpd_im, $src_im, 0, 0, $src_x, $src_y, $src_width, $src_height);
 
-		    /* 图片缩放 */
+		    // 图片缩放
 		    $s = imagecopyresampled($dst_im, $cpd_im, 0, 0, 0, 0, $new_width, $new_height, $src_width, $src_height);
 
-		    /* 销毁画布 */
+		    // 销毁画布
 		    imagedestroy($cpd_im);
 		} else {
-			/* 图片缩放 */
+			// 图片缩放
 	    	$s = imagecopyresampled($dst_im, $src_im, 0, 0, 0, 0, $new_width, $new_height, $w, $h);
 		}
-	    
 	    if($s)
 	    {
 		    switch($type)
@@ -389,14 +435,18 @@ class Images
 		}
 		imagedestroy($dst_im);
 		imagedestroy($src_im);
-
 		return $s;
 	}
-
+	
 	/**
-	 * [Is_ImageType 验证后缀名是否合法]
-	 * @param  [string] $image_type [图片后缀类型]
-	 * @return [string] 			[后缀名或no]
+	 * 验证后缀名是否合法
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-02-12
+	 * @desc    description
+	 * @param   [string]          $image_type [图片后缀类型]
+	 * @return  [string] 			          [后缀名或no]
 	 */
 	private function Is_ImageType($image_type)
 	{
@@ -411,7 +461,7 @@ class Images
 	}
 
 	/**
-	 * [DownloadImageSave 远程图片保存]
+	 * 远程图片保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  1.0.0

@@ -213,7 +213,6 @@ class GeoTransUtil
         return $ret;
     }
 }
-
 /*// 测试demo
 require './GeoTransUtil.class.php';
 
@@ -224,5 +223,4 @@ require './GeoTransUtil.class.php';
 $ret = GeoTransUtil::BdToGcj(106.518492,29.540528);
 echo '</br>';
 echo $ret['lng'].','.$ret['lat'];*/
-
 ?>

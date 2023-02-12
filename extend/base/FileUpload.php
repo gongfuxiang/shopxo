@@ -91,7 +91,7 @@ class FileUpload
             $content = @file_get_contents($temp_file);
             if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
             {
-                return DataReturn('非法文件', -1);
+                return DataReturn(MyLang('common_extend.base.fileupload.file_illegal_tips'), -1);
             }
         }
 
@@ -120,9 +120,9 @@ class FileUpload
                 'hash'  => hash_file('sha256', $dir.$filename, false),
                 'md5'   => md5_file($dir.$filename),
             ];
-            return DataReturn('上传成功', 0, $data);
+            return DataReturn(MyLang('upload_success'), 0, $data);
         }
-        return DataReturn('文件存储失败', -1);
+        return DataReturn(MyLang('upload_fail'), -1);
     }
 
     /**

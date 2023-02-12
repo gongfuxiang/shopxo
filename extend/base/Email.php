@@ -29,7 +29,7 @@ class Email
 	private $obj;
 
 	/**
-	 * [__construct 构造方法]
+	 * 构造方法
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -48,7 +48,7 @@ class Email
 	}
 
 	/**
-	 * [EmailInit 邮件初始化]
+	 * 邮件初始化
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -97,7 +97,7 @@ class Email
 	}
 
 	/**
-	 * [SendHtml html邮件发送]
+	 * html邮件发送
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -112,17 +112,17 @@ class Email
 	{
 		if(empty($params['email']))
 		{
-			$this->error = '收件邮箱不能为空';
+			$this->error = MyLang('common_extend.base.email.email_empty_tips');
 			return false;
 		}
 		if(empty($params['content']))
 		{
-			$this->error = '发送内容不能为空';
+			$this->error = MyLang('common_extend.base.email.content_empty_tips');
 			return false;
 		}
 		if(empty($params['title']))
 		{
-			$this->error = '邮件标题不能为空';
+			$this->error = MyLang('common_extend.base.email.title_empty_tips');
 			return false;
 		}
 
@@ -131,7 +131,7 @@ class Email
 		{
 			if(!$this->IntervalTimeCheck())
 			{
-				$this->error = '防止造成骚扰，请勿频繁发送';
+				$this->error = MyLang('operate_frequent_tips');
 				return false;
 			}
 		}
@@ -181,7 +181,7 @@ class Email
 	}
 
 	/**
-	 * [KindofSession 种验证码session]
+	 * 种验证码session
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -198,7 +198,7 @@ class Email
 	}
 
 	/**
-	 * [CheckExpire 验证码是否过期]
+	 * 验证码是否过期
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -216,7 +216,7 @@ class Email
 	}
 
 	/**
-	 * [CheckCorrect 验证码是否正确]
+	 * 验证码是否正确
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -244,7 +244,7 @@ class Email
 	}
 
 	/**
-	 * [Remove 验证码清除]
+	 * 验证码清除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -258,7 +258,7 @@ class Email
 	}
 
 	/**
-	 * [IntervalTimeCheck 是否已经超过控制的间隔时间]
+	 * 是否已经超过控制的间隔时间
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

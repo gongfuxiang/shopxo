@@ -48,11 +48,11 @@ class Kuaishou
     {
         if(empty($params['authcode']))
         {
-            return DataReturn('授权码有误', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_code_empty_tips'), -1);
         }
         if(empty($this->config['appid']) || empty($this->config['secret']))
         {
-            return DataReturn('配置有误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 请求获取session_key
@@ -75,9 +75,9 @@ class Kuaishou
 
             // 缓存存储
             MyCache($key, $result);
-            return DataReturn('授权成功', 0, ['openid'=>$result['open_id']]);
+            return DataReturn(MyLang('auth_success'), 0, ['openid'=>$result['open_id']]);
         }
-        $msg = empty($result['error_msg']) ? '授权接口异常错误' : $result['error_msg'];
+        $msg = empty($result['error_msg']) ? MyLang('common_extend.base.common.auth_api_request_error_tips') : $result['error_msg'];
         return DataReturn($msg, -1);
     }
 
@@ -119,9 +119,9 @@ class Kuaishou
             // 缓存存储
             $result['expires_in'] += time();
             MyCache($key, $result);
-            return DataReturn('授权成功', 0, $result['access_token']);
+            return DataReturn(MyLang('auth_success'), 0, $result['access_token']);
         }
-        $msg = empty($result['error_msg']) ? '授权接口异常错误' : $result['error_msg'];
+        $msg = empty($result['error_msg']) ? MyLang('common_extend.base.common.auth_api_request_error_tips') : $result['error_msg'];
         return DataReturn($msg, -1);
     }
 
@@ -163,7 +163,6 @@ class Kuaishou
                 )
             );
         }
-
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;

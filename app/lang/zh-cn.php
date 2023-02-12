@@ -564,11 +564,6 @@ return [
     'form_goods_category_title'                             => '商品分类',
     'form_goods_category_placeholder'                       => '商品分类...',
     'form_goods_category_message'                           => '请选择商品分类',
-    // 分页
-    'page_each_page_name'                                   => '每页',
-    'page_page_unit'                                        => '条',
-    'page_data_total'                                       => '共 {:total} 条数据',
-    'page_page_total'                                       => '共 {:total} 页',
     // 动态表格
     'form_table_search_first'                               => [
         'input'         => '请输入',
@@ -2282,8 +2277,125 @@ return [
         ],
     ],
 
-    // -------------------- 公共 --------------------
-    // 配置信息
+    // -------------------- 扩展模块 --------------------
+    'common_extend'             => [
+        // 基础
+        'base'      => [
+            // 公共
+            'common'        => [
+                'page_empty_tips'                   => 'page地址不能为空',
+                'scene_empty_tips'                  => 'scene参数1~32个字符之间',
+                'access_token_request_fail_tips'    => 'access_token获取失败',
+                'get_qrcode_fail_tips'              => '获取二维码失败',
+                'api_request_fail_tips'             => '接口请求失败',
+                'auth_api_request_fail_tips'        => '授权接口调用失败',
+                'auth_api_request_error_tips'       => '授权接口异常错误',
+                'session_key_empty_tips'            => 'session key不存在',
+                'iv_error_tips'                     => 'iv长度错误',
+                'auth_code_empty_tips'              => '授权码有误',
+                'please_try_again_tips'             => '请重试！',
+                'appid_mismatch_tips'               => 'appid不匹配',
+                'openssl_no_support_tips'           => 'openssl不支持',
+            ],
+            // 分页
+            'page'          => [
+                'each_page_name'                    => '每页',
+                'page_unit'                         => '条',
+                'data_total'                        => '共 {:total} 条数据',
+                'page_total'                        => '共 {:total} 页',
+            ],
+            // 支付宝
+            'alipay'        => [
+                'appid_empty_tips'                  => '小程序appid不能为空',
+                'sign_error_tips'                   => '签名验证失败',
+            ],
+            // 百度
+            'baidu'         => [
+                'mcrypt_no_support_tips'            => 'mcrypt_module_open方法不支持',
+                'decrypt_error_tips'                => '解密失败',
+                'appkey_error_tips'                 => 'appkey不匹配',
+            ],
+            // 微信
+            'wechat'        => [
+                'touser_openid_empty_tips'          => 'openid不能为空',
+                'template_id_empty_tips'            => 'template_id不能为空',
+                'data_empty_tips'                   => 'data不能为空',
+            ],
+            // 邮件
+            'email'         => [
+                'email_empty_tips'                  => '收件邮箱不能为空',
+                'content_empty_tips'                => '发送内容不能为空',
+                'title_empty_tips'                  => '邮件标题不能为空',
+            ],
+            // excel
+            'excel'         => [
+                'file_empty_tips'                   => '文件为空',
+                'excel_format_error_tips'           => '无效的excel类型文件',
+                'error_title'                       => '错误提示',
+                'close_page_title'                  => '关闭页面',
+            ],
+            // 二维码
+            'qrcode'        => [
+                'content_empty_tips'                => '内容不能为空',
+                'qrcode_create_fail_tips'           => '二维码创建失败',
+                'url_empty_tips'                    => 'url地址有误',
+                'url_illegal_tips'                  => 'url地址非法',
+                'url_invalid_tips'                  => 'url地址无效',
+                'images_url_invalid_tips'           => '无效图片地址',
+                'dir_create_fail_tips'              => '目录创建失败',
+            ],
+            // zip解压缩
+            'zipfolder'     => [
+                'env_no_support_tips'               => '当前PHP环境无Zip扩展',
+            ],
+            // 文件上传
+            'fileupload'    => [
+                'file_illegal_tips'                 => '非法文件',
+            ],
+            // 富文本附件上传
+            'uploader'      => [
+                'error_tmp_file'                    => '临时文件错误',
+                'error_tmp_file_not_found'          => '找不到临时文件',
+                'error_size_exceed'                 => '文件大小超出网站限制',
+                'error_type_not_allowed'            => '文件类型不允许',
+                'error_create_dir'                  => '目录创建失败',
+                'error_dir_not_writeable'           => '目录没有写权限',
+                'error_file_move'                   => '保存出错、文件有误',
+                'error_file_not_found'              => '找不到上传文件',
+                'error_write_conent'                => '写入文件内容错误',
+                'error_dead_link'                   => '链接不可用',
+                'error_http_link'                   => '链接不是http链接',
+                'invalid_url'                       => '非法URL',
+                'invalid_ip'                        => '非法IP',
+                'invalid_file'                      => '非法文件',
+                'error_image_save'                  => '保存出错、图片有误',
+                'error_upload_type'                 => '操作类型有误',
+            ],
+        ],
+    ],
+
+    // -------------------- 公共方法 --------------------
+    'common_function'           => [
+        'module_view_control_undefined_tips'        => '模块视图控制器未定义',
+        'module_view_action_undefined_tips'         => '模块视图方法未定义',
+        'hook_empty_tips'                           => '无钩子信息',
+        'plugins_status_error_tips'                 => '插件状态异常',
+        'plugins_class_no_exist_tips'               => '类未定义',
+        'plugins_class_action_no_exist_tips'        => '类方法未定义',
+        'check_config_error_tips'                   => '内部调用参数配置有误',
+        'check_checked_data_in_empty_tips'          => '指定校验数据为空',
+        'check_checked_data_in_error_tips'          => '指定校验数据格式有误',
+        'check_checked_data_length_empty_tips'      => '长度规则值未定义',
+        'check_checked_data_fun_error_tips'         => '验证函数为空或函数未定义',
+        'check_checked_data_min_error_tips'         => '验证最小值未定义',
+        'check_checked_data_max_error_tips'         => '验证最大值未定义',
+        'check_checked_data_eq_error_tips'          => '验证相等未定义',
+        'check_checked_data_neq_error_tips'         => '验证不相等未定义',
+        'check_checked_data_unique_empty_tips'      => '验证唯一表参数未定义',
+        'check_checked_data_unique_error_name'      => 'unique验证',
+    ],
+
+    // -------------------- 配置信息 --------------------
     'common_config'             => [
         'common_page_size'  => [
             'name' => '分页数量',

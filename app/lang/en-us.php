@@ -563,12 +563,6 @@ return [
     'form_goods_category_title'                             => 'Goods Category',
     'form_goods_category_placeholder'                       => 'Goods Category...',
     'form_goods_category_message'                           => 'Please select goods category',
-    // 分页
-    'page_each_page_name'                                   => 'Each Page',
-    'page_page_unit'                                        => 'Strip',
-    'page_jump_to_text'                                     => 'Jump to',
-    'page_data_total'                                       => 'Total {:total} Data',
-    'page_page_total'                                       => 'Total {:total} Page',
     // 动态表格
     'form_table_search_first'                               => [
         'input'         => 'Please enter',
@@ -2276,8 +2270,126 @@ return [
         ],
     ],
 
-    // -------------------- 公共 --------------------
-    // 配置信息
+    // -------------------- 扩展模块 --------------------
+    'common_extend'             => [
+        // 基础
+        'base'      => [
+            // 公共
+            'common'        => [
+                'page_empty_tips'                   => 'The page address cannot be empty',
+                'scene_empty_tips'                  => 'The scene parameter is between 1 and 32 characters',
+                'access_token_request_fail_tips'    => 'access_token获取失败',
+                'get_qrcode_fail_tips'              => 'Failed to obtain QR code',
+                'api_request_fail_tips'             => 'Interface request failed',
+                'auth_api_request_fail_tips'        => 'Authorization interface call failed',
+                'auth_api_request_error_tips'       => 'Authorization interface exception error',
+                'session_key_empty_tips'            => 'SessionKey does not exist',
+                'iv_error_tips'                     => 'Iv Length error',
+                'auth_code_empty_tips'              => 'Incorrect authorization code',
+                'please_try_again_tips'             => 'Please try again!',
+                'appid_mismatch_tips'               => 'Appid mismatch',
+                'openssl_no_support_tips'           => 'Openssl does not support',
+            ],
+            // 分页
+            'page'          => [
+                'each_page_name'                    => 'Each Page',
+                'page_unit'                         => 'Strip',
+                'jump_to_text'                      => 'Jump to',
+                'data_total'                        => 'Total {:total} Data',
+                'page_total'                        => 'Total {:total} Page',
+            ],
+            // 支付宝
+            'alipay'        => [
+                'appid_empty_tips'                  => 'Applet appid cannot be empty',
+                'sign_error_tips'                   => 'Signature verification failed',
+            ],
+            // 百度
+            'baidu'         => [
+                'mcrypt_no_support_tips'            => 'mcrypt_module_open方法不支持',
+                'decrypt_error_tips'                => 'Decryption failed',
+                'appkey_error_tips'                 => 'Appkey does not match',
+            ],
+            // 微信
+            'wechat'        => [
+                'touser_openid_empty_tips'          => 'Openid cannot be empty',
+                'template_id_empty_tips'            => 'template_ ID cannot be empty',
+                'data_empty_tips'                   => 'Data cannot be empty',
+            ],
+            // 邮件
+            'email'         => [
+                'email_empty_tips'                  => 'The recipient mailbox cannot be empty',
+                'content_empty_tips'                => 'The sent content cannot be empty',
+                'title_empty_tips'                  => 'The message header cannot be empty',
+            ],
+            // excel
+            'excel'         => [
+                'file_empty_tips'                   => 'File is empty',
+                'excel_format_error_tips'           => 'Invalid excel type file',
+                'error_title'                       => 'Error prompt',
+                'close_page_title'                  => 'Close Page',
+            ],
+            // 二维码
+            'qrcode'        => [
+                'content_empty_tips'                => 'Content cannot be empty',
+                'qrcode_create_fail_tips'           => 'QR code creation failed',
+                'url_empty_tips'                    => 'The url address is incorrect',
+                'url_illegal_tips'                  => 'The url address is illegal',
+                'url_invalid_tips'                  => 'Invalid url address',
+                'images_url_invalid_tips'           => 'Invalid picture address',
+                'dir_create_fail_tips'              => 'Directory creation failed',
+            ],
+            // zip解压缩
+            'zipfolder'     => [
+                'env_no_support_tips'               => 'There is no Zip extension in the current PHP environment',
+            ],
+            // 文件上传
+            'fileupload'    => [
+                'file_illegal_tips'                 => 'Illegal file',
+            ],
+            // 富文本附件上传
+            'uploader'      => [
+                'error_tmp_file'                    => 'Temporary file error',
+                'error_tmp_file_not_found'          => 'Temporary file not found',
+                'error_size_exceed'                 => 'The file size exceeds the site limit',
+                'error_type_not_allowed'            => 'File type is not allowed',
+                'error_create_dir'                  => 'Directory creation failed',
+                'error_dir_not_writeable'           => 'Directory does not have write permission',
+                'error_file_move'                   => 'Save error, file error',
+                'error_file_not_found'              => 'Uploaded file not found',
+                'error_write_conent'                => 'Error writing file contents',
+                'error_dead_link'                   => 'link unavailable',
+                'error_http_link'                   => 'Link is not an http link',
+                'invalid_url'                       => 'Illegal URL',
+                'invalid_ip'                        => 'Illegal IP',
+                'invalid_file'                      => 'Illegal File',
+                'error_image_save'                  => 'Save error, picture error',
+                'error_upload_type'                 => 'Wrong operation type',
+            ],
+        ],
+    ],
+
+    // -------------------- 公共方法 --------------------
+    'common_function'           => [
+        'module_view_control_undefined_tips'        => 'Module view controller not defined',
+        'module_view_action_undefined_tips'         => 'Module view method not defined',
+        'hook_empty_tips'                           => 'No hook information',
+        'plugins_status_error_tips'                 => 'Plug-in status is abnormal',
+        'plugins_class_no_exist_tips'               => 'Class not defined',
+        'plugins_class_action_no_exist_tips'        => 'Class method not defined',
+        'check_config_error_tips'                   => 'Incorrect configuration of internal call parameters',
+        'check_checked_data_in_empty_tips'          => 'The specified verification data is empty',
+        'check_checked_data_in_error_tips'          => 'The specified verification data format is incorrect',
+        'check_checked_data_length_empty_tips'      => 'Length rule value is not defined',
+        'check_checked_data_fun_error_tips'         => 'Validation function is null or undefined',
+        'check_checked_data_min_error_tips'         => 'Verify that the minimum value is not defined',
+        'check_checked_data_max_error_tips'         => 'Verify that the maximum value is not defined',
+        'check_checked_data_eq_error_tips'          => 'Verify equality undefined',
+        'check_checked_data_neq_error_tips'         => 'Verify inequality undefined',
+        'check_checked_data_unique_empty_tips'      => 'Verify that the unique table parameter is not defined',
+        'check_checked_data_unique_error_name'      => 'Unique auth',
+    ],
+
+    // -------------------- 配置信息 --------------------
     'common_config'             => [
         'common_page_size'  => [
             'name' => 'Number of pages',

@@ -16,14 +16,9 @@ namespace base;
  * @version V_1.0.0
  */
 class Alipay
-{
+{    
     /**
-     * [__construct 构造方法]
-     */
-    public function __construct(){}
-    
-    /**
-     * [GetAuthSessionKey 获取用户授权信息]
+     * 获取用户授权信息
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -36,7 +31,7 @@ class Alipay
     {
         if(empty($app_id) || empty($authcode))
         {
-            return DataReturn('参数有误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 请求参数
@@ -66,16 +61,16 @@ class Alipay
             // 验证签名正确则存储缓存返回数据
             if(!$this->SyncRsaVerify($result, 'alipay_system_oauth_token_response'))
             {
-                return DataReturn('签名验证失败', -1);
+                return DataReturn(MyLang('common_extend.base.alipay.sign_error_tips'), -1);
             }
-            return DataReturn('授权成功', 0, $result['alipay_system_oauth_token_response']);
+            return DataReturn(MyLang('auth_success'), 0, $result['alipay_system_oauth_token_response']);
         }
-        $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
+        $msg = empty($result['error_response']['sub_msg']) ? MyLang('auth_fail') : $result['error_response']['sub_msg'];
         return DataReturn($msg, -1);
     }
 
     /**
-     * [GetParamSign 生成参数和签名]
+     * 生成参数和签名
      * @param  [array] $data   [待生成的参数]
      * @param  [array] $config [配置信息]
      * @return [array]         [生成好的参数和签名]
@@ -104,7 +99,7 @@ class Alipay
     }
 
     /**
-     * [MyRsaSign 签名字符串]
+     * 签名字符串
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -121,7 +116,7 @@ class Alipay
     }
 
     /**
-     * [MyRsaDecrypt RSA解密]
+     * RSA解密
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -148,7 +143,7 @@ class Alipay
     }
 
     /**
-     * [OutRsaVerify 支付宝验证签名]
+     * 支付宝验证签名
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -173,7 +168,7 @@ class Alipay
     }
 
     /**
-     * [SyncRsaVerify 同步返回签名验证]
+     * 同步返回签名验证
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -188,7 +183,7 @@ class Alipay
     }
 
     /**
-     * [HttpRequest 网络请求]
+     * 网络请求
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -233,7 +228,7 @@ class Alipay
     }
 
     /**
-     * [MiniQrCodeCreate 小程序二维码创建]
+     * 小程序二维码创建
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -248,18 +243,18 @@ class Alipay
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'appid',
-                'error_msg'         => '小程序appid不能为空',
+                'error_msg'         => MyLang('common_extend.base.alipay.appid_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'page',
-                'error_msg'         => 'page地址不能为空',
+                'error_msg'         => MyLang('common_extend.base.common.page_empty_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '1,32',
                 'key_name'          => 'scene',
-                'error_msg'         => 'scene参数 1~32 个字符之间',
+                'error_msg'         => MyLang('common_extend.base.common.scene_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -299,14 +294,12 @@ class Alipay
             // 验证签名正确则存储缓存返回数据
             if(!$this->SyncRsaVerify($result, $key))
             {
-                return DataReturn('签名错误', -1);
+                return DataReturn(MyLang('common_extend.base.alipay.sign_error_tips'), -1);
             }
-            return DataReturn('获取成功', 0, $result[$key]['qr_code_url']);
+            return DataReturn(MyLang('get_success'), 0, $result[$key]['qr_code_url']);
         }
-
-        $msg = isset($res['sub_msg']) ? $res['sub_msg'] : '获取二维码失败';
+        $msg = isset($res['sub_msg']) ? $res['sub_msg'] : MyLang('common_extend.base.common.get_qrcode_fail_tips');
         return DataReturn($msg, -1);
     }
-
 }
 ?>

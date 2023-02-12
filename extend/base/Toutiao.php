@@ -53,30 +53,30 @@ class Toutiao
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return DataReturn('session key不存在', -1);
+            return DataReturn(MyLang('common_extend.base.common.session_key_empty_tips'), -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return DataReturn('iv长度错误', -1);
+            return DataReturn(MyLang('common_extend.base.common.iv_error_tips'), -1);
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return DataReturn('openssl不支持', -1);
+            return DataReturn(MyLang('openssl_no_support_tips'), -1);
         }
 
         $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return DataReturn('请重试！', -1);
+            return DataReturn(MyLang('common_extend.base.common.please_try_again_tips'), -1);
         }
         if($data['watermark']['appid'] != $this->config['appid'])
         {
-            return DataReturn('appid不匹配', -1);
+            return DataReturn(MyLang('appid_mismatch_tips'), -1);
         }
         return DataReturn('success', 0, $data);
     }
@@ -94,11 +94,11 @@ class Toutiao
     {
         if(empty($params['authcode']))
         {
-            return DataReturn('授权码有误', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_code_empty_tips'), -1);
         }
         if(empty($this->config['appid']) || empty($this->config['secret']))
         {
-            return DataReturn('配置有误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 获取授权
@@ -106,7 +106,7 @@ class Toutiao
         $result = json_decode(RequestGet($url), true);
         if(empty($result))
         {
-            return DataReturn('授权接口调用失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_api_request_fail_tips'), -1);
         }
         if(!empty($result['openid']))
         {
@@ -115,14 +115,14 @@ class Toutiao
 
             // 缓存存储
             MyCache($key, $result);
-            return DataReturn('授权成功', 0, $result);
+            return DataReturn(MyLang('auth_success'), 0, $result);
         }
-        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        $msg = empty($result['errmsg']) ? MyLang('common_extend.base.common.auth_api_request_error_tips') : $result['errmsg'];
         return DataReturn($msg, -1);
     }
 
     /**
-     * [MiniQrCodeCreate 二维码创建]
+     * 二维码创建
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -138,13 +138,13 @@ class Toutiao
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'page',
-                'error_msg'         => 'page地址不能为空',
+                'error_msg'         => MyLang('common_extend.base.common.page_empty_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '1,32',
                 'key_name'          => 'scene',
-                'error_msg'         => 'scene参数 1~32 个字符之间',
+                'error_msg'         => MyLang('common_extend.base.common.scene_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -157,7 +157,7 @@ class Toutiao
         $access_token = $this->GetMiniAccessToken();
         if($access_token === false)
         {
-            return DataReturn('access_token获取失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
         }
 
         // 获取二维码
@@ -174,18 +174,18 @@ class Toutiao
         {
             if(stripos($res, 'errcode') === false)
             {
-                return DataReturn('获取成功', 0, $res);
+                return DataReturn(MyLang('get_success'), 0, $res);
             }
             $res = json_decode($res, true);
-            $msg = isset($res['errmsg']) ? $res['errmsg'] : '获取二维码失败';
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('common_extend.base.common.get_qrcode_fail_tips');
         } else {
-            $msg = '获取二维码失败';
+            $msg = MyLang('common_extend.base.common.get_qrcode_fail_tips');
         }
         return DataReturn($msg, -1);
     }
 
     /**
-     * [GetMiniAccessToken 获取access_token]
+     * 获取access_token
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -278,7 +278,6 @@ class Toutiao
                 )
             );
         }
-
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;

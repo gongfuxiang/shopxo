@@ -36,7 +36,7 @@ class ZipFolder
         {
             $this->zip = new \ZipArchive();
         } else {
-            throw new \Exception("当前PHP环境无Zip扩展");
+            throw new \Exception(MyLang('common_extend.base.zipfolder.env_no_support_tips'));
         }
     }
 
@@ -56,9 +56,10 @@ class ZipFolder
         if($this->zip->open($zipfile) === true)
         {
             $file_tmp = @fopen($zipfile, "rb");
-            $bin = fread($file_tmp, 15); //只读15字节 各个不同文件类型，头信息不一样。
+            // 只读15字节 各个不同文件类型，头信息不一样。
+            $bin = fread($file_tmp, 15);
             fclose($file_tmp);
-            /* 只针对zip的压缩包进行处理 */
+            // 只针对zip的压缩包进行处理
             if(true === $this->GetTypeList($bin))
             {
                 $result = $this->zip->extractTo($path);
@@ -170,7 +171,7 @@ class ZipFolder
      * @date    2018-06-29
      * @desc    description
      * @param   [string]     $bin       [文件的二进制前一段字符]
-     * @return  [boolean]                   [true | false]
+     * @return  [boolean]               [true | false]
      */
     private function GetTypeList($bin)
     {

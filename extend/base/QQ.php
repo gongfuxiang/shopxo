@@ -26,7 +26,7 @@ class QQ
     private $_appsecret;
 
     /**
-     * [__construct 构造方法]
+     * 构造方法
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -41,7 +41,7 @@ class QQ
     }
 
     /**
-     * [DecryptData 检验数据的真实性，并且获取解密后的明文]
+     * 检验数据的真实性，并且获取解密后的明文
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -58,19 +58,19 @@ class QQ
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return DataReturn('session key不存在', -1);
+            return DataReturn(MyLang('common_extend.base.common.session_key_empty_tips'), -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return DataReturn('iv长度错误', -1);
+            return DataReturn(MyLang('common_extend.base.common.iv_error_tips'), -1);
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return DataReturn('openssl不支持', -1);
+            return DataReturn(MyLang('openssl_no_support_tips'), -1);
         }
 
         $aes_cipher = base64_decode($encrypted_data);
@@ -78,17 +78,17 @@ class QQ
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return DataReturn('请重试！', -1);
+            return DataReturn(MyLang('common_extend.base.common.please_try_again_tips'), -1);
         }
         if($data['watermark']['appid'] != $this->_appid)
         {
-            return DataReturn('appid不匹配', -1);
+            return DataReturn(MyLang('appid_mismatch_tips'), -1);
         }
         return DataReturn('success', 0, $data);
     }
 
     /**
-     * [GetAuthSessionKey 根据授权code获取 session_key 和 openid]
+     * 根据授权code获取 session_key 和 openid
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -103,7 +103,7 @@ class QQ
         $result = $this->HttpRequestGet($url);
         if(empty($result))
         {
-            return DataReturn('授权接口调用失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_api_request_fail_tips'), -1);
         }
         if(!empty($result['openid']))
         {
@@ -112,9 +112,9 @@ class QQ
 
             // 缓存存储
             MyCache($key, $result);
-            return DataReturn('授权成功', 0, $result);
+            return DataReturn(MyLang('auth_success'), 0, $result);
         }
-        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        $msg = empty($result['errmsg']) ? MyLang('common_extend.base.common.auth_api_request_error_tips') : $result['errmsg'];
         return DataReturn($msg, -1);
     }
 
@@ -153,7 +153,7 @@ class QQ
     }
 
     /**
-     * [HttpRequestGet get请求]
+     * get请求
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -169,7 +169,6 @@ class QQ
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_URL, $url);
-
         $res = curl_exec($curl);
         curl_close($curl);
         return json_decode($res, true);

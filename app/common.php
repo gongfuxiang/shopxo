@@ -11,6 +11,13 @@
 
 // 应用公共文件
 
+use app\service\SystemBaseService;
+use app\service\ResourcesService;
+use app\service\PluginsService;
+use app\service\ConstService;
+use app\service\AdminService;
+use app\service\AdminPowerService;
+
 /**
  * 两个数组字段对比处理、arr1不存在arr2中的字段则移除
  * @author  Devil
@@ -113,7 +120,7 @@ function UUId()
  */
 function MyConst($key = '', $default = null)
 {
-    return \app\service\ConstService::Run($key, $default);
+    return ConstService::Run($key, $default);
 }
 
 /**
@@ -950,7 +957,7 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
     $action = strtolower(empty($action) ? request()->action() : $action);
 
     // 管理员
-    $admin = \app\service\AdminService::LoginInfo();
+    $admin = AdminService::LoginInfo();
     if(!empty($admin))
     {
         // 不需要校验权限的方法
@@ -961,13 +968,12 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
 
         // 权限
         // 角色组权限列表校验
-        $res = \app\service\AdminPowerService::PowerMenuInit();
+        $res = AdminPowerService::PowerMenuInit();
         if(!empty($res) && !empty($res['admin_power']) && is_array($res['admin_power']) && in_array($controller.'_'.$action, $res['admin_power']))
         {
             return true;
         }
     }
-
     return false;
 }
 
@@ -1008,7 +1014,7 @@ function ArrayKeys($data)
  */
 function GoodsSalesModelType($site_type)
 {
-    return ($site_type == -1) ? \app\service\SystemBaseService::SiteTypeValue() : $site_type;
+    return ($site_type == -1) ? SystemBaseService::SiteTypeValue() : $site_type;
 }
 
 /**
@@ -1030,7 +1036,7 @@ function IsGoodsSiteTypeConsistent($site_type)
     }
 
     // 系统站点类型
-    $common_site_type = \app\service\SystemBaseService::SiteTypeValue();
+    $common_site_type = SystemBaseService::SiteTypeValue();
 
     // 是否一致
     if($common_site_type == $site_type)
@@ -1157,7 +1163,7 @@ function ModuleInclude($template, $data = [], $params = [])
     $module = '\app\module\ViewIncludeModule';
     if(!class_exists($module))
     {
-        return '模块视图控制器未定义['.$module.']';
+        return MyLang('common_function.module_view_control_undefined_tips').'['.$module.']';
     }
 
     // 调用方法
@@ -1165,7 +1171,7 @@ function ModuleInclude($template, $data = [], $params = [])
     $obj = new $module();
     if(!method_exists($obj, $action))
     {
-        return '模块视图方法未定义['.$module.'->'.$action.'()]';
+        return MyLang('common_function.module_view_action_undefined_tips').'['.$module.'->'.$action.'()]';
     }
 
     return $obj->Run($template, $data, $params);
@@ -1192,7 +1198,7 @@ function EventReturnHandle($data)
             }
         }
     }
-    return DataReturn('无钩子信息', 0);
+    return DataReturn(MyLang('common_function.hook_empty_tips'), 0);
 }
 
 /**
@@ -1206,7 +1212,7 @@ function EventReturnHandle($data)
  */
 function AttachmentPathViewHandle($value)
 {
-    return app\service\ResourcesService::AttachmentPathViewHandle($value);
+    return ResourcesService::AttachmentPathViewHandle($value);
 }
 
 /**
@@ -1279,7 +1285,7 @@ function PathToParams($key = null, $default = null, $path = '')
  */
 function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [], $is_ret_data = 0)
 {
-    $ret =  app\service\PluginsService::PluginsControlCall($plugins, $control, $action, $group, $params);
+    $ret = PluginsService::PluginsControlCall($plugins, $control, $action, $group, $params);
     return ($is_ret_data == 1) ? $ret['data'] : $ret;
 }
 
@@ -1297,9 +1303,9 @@ function PluginsControlCall($plugins, $control, $action, $group = 'index', $para
 function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $attachment_property = 'base_config_attachment_field')
 {
     // 插件是否启用
-    if(app\service\PluginsService::PluginsStatus($plugins) != 1)
+    if(PluginsService::PluginsStatus($plugins) != 1)
     {
-        return DataReturn('插件状态异常['.$plugins.']', -1);
+        return DataReturn(MyLang('common_function.plugins_status_error_tips').'['.$plugins.']', -1);
     }
 
     // 查看是否存在基础服务层并且定义获取基础配置方法
@@ -1329,9 +1335,8 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
             }
         }
     }
-
     // 获取配置信息
-    return app\service\PluginsService::PluginsData($plugins, $attachment);
+    return PluginsService::PluginsData($plugins, $attachment);
 }
 
 /**
@@ -1353,18 +1358,18 @@ function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
         if(method_exists($plugins_class, $method))
         {
             // 插件是否启用
-            if(app\service\PluginsService::PluginsStatus($plugins) != 1)
+            if(PluginsService::PluginsStatus($plugins) != 1)
             {
-                return DataReturn('插件状态异常['.$plugins.']', -1);
+                return DataReturn(MyLang('common_function.plugins_status_error_tips').'['.$plugins.']', -1);
             }
 
             // 调用方法返回数据
             return $plugins_class::$method($params);
         } else {
-            return DataReturn('类方法未定义['.$plugins.'-'.$service.'-'.$method.']', -1);
+            return DataReturn(MyLang('common_function.plugins_class_action_no_exist_tips').'['.$plugins.'-'.$service.'-'.$method.']', -1);
         }
     }
-    return DataReturn('类未定义['.$plugins.'-'.$service.']', -1);
+    return DataReturn(MyLang('common_function.plugins_class_no_exist_tips').'['.$plugins.'-'.$service.']', -1);
 }
 
 /**
@@ -1406,6 +1411,12 @@ function MiniAppEnv()
         if(stripos($_SERVER['HTTP_USER_AGENT'], 'ToutiaoMicroApp') !== false)
         {
             return 'toutiao';
+        }
+
+        // 快手小程序 AllowKsCallApp
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AllowKsCallApp') !== false)
+        {
+            return 'kuaishou';
         }
     }
     return null;
@@ -1662,7 +1673,7 @@ function JsonFormat($data, $indent = null)
 {
     // json encode  
     $data = json_encode($data, JSON_UNESCAPED_UNICODE);
-  
+
     // 缩进处理  
     $ret = '';
     $pos = 0;
@@ -1671,7 +1682,6 @@ function JsonFormat($data, $indent = null)
     $newline = "\n";
     $prevchar = '';
     $outofquotes = true;
-  
     for($i=0; $i<=$length; $i++)
     {
         $char = substr($data, $i, 1);
@@ -1698,7 +1708,6 @@ function JsonFormat($data, $indent = null)
             {
                 $pos++;
             }
-  
             for($j=0; $j<$pos; $j++)
             {
                 $ret .= $indent;
@@ -1707,12 +1716,11 @@ function JsonFormat($data, $indent = null)
   
         $prevchar = $char;
     }
-  
     return $ret;  
 }
 
 /**
- * [FileSizeByteToUnit 文件大小转常用单位]
+ * 文件大小转常用单位
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1790,7 +1798,7 @@ function DataReturn($msg = '', $code = 0, $data = '')
     // 错误情况下，防止提示信息为空
     if($result['code'] != 0 && empty($result['msg']))
     {
-        $result['msg'] = '操作失败';
+        $result['msg'] = MyLang('operate_fail');
     }
 
     return $result;
@@ -1821,7 +1829,6 @@ function CurrentScriptName()
     } else {
         $name = $_SERVER['SCRIPT_NAME'];
     }
-
     if(!empty($name))
     {
         $loc = strripos($name, '/');
@@ -1830,7 +1837,6 @@ function CurrentScriptName()
             $name = substr($name, $loc+1);
         } 
     }
-
     return $name;
 }
 
@@ -1968,7 +1974,7 @@ function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $para
 }
 
 /**
- * [PriceBeautify 金额美化]
+ * 金额美化
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1999,7 +2005,7 @@ function PriceBeautify($price = 0, $default = null)
 }
 
 /**
- * [FileUploadError 文件上传错误校验]
+ * 文件上传错误校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2015,12 +2021,12 @@ function FileUploadError($name, $index = false)
     {
         if(empty($_FILES[$name]))
         {
-            return '请选择需要上传的文件';
+            return MyLang('form_upload_file_message');
         }
     } else {
         if(empty($_FILES[$name]['name'][$index]))
         {
-            return '请选择需要上传的文件';
+            return MyLang('form_upload_file_message');
         }
     }
 
@@ -2047,11 +2053,11 @@ function FileUploadError($name, $index = false)
     {
         return $file_error_list[$error];
     }
-    return '未知错误'.'[file error '.$error.']';
+    return MyLang('error').'[file error '.$error.']';
 }
 
 /**
- * [LangValueKeyFlip 公共数据翻转]
+ * 公共数据翻转
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2084,7 +2090,7 @@ function LangValueKeyFlip($data, $default = false, $value_field = 'id', $name_fi
 }
 
 /**
- * [ScienceNumToString 科学数字转换成原始的数字]
+ * 科学数字转换成原始的数字
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2153,7 +2159,7 @@ function GetClientIP($long = false, $is_single = true)
 }
 
 /**
- * [UrlParamJoin url参数拼接]
+ * url参数拼接
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2205,7 +2211,7 @@ function MyC($key, $default = null, $mandatory = false)
 }
 
 /**
- * [EmptyDir 清空目录下所有文件]
+ * 清空目录下所有文件
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2238,7 +2244,7 @@ function EmptyDir($dir_path)
 }
 
 /**
- * [Utf8Strlen 计算符串长度（中英文一致）]
+ * 计算符串长度（中英文一致）
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2253,15 +2259,6 @@ function Utf8Strlen($string = null)
 }
 
 /**
- * [IsMobile 是否是手机访问]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-05T10:52:20+0800
- * @return  [boolean] [手机访问true, 则false]
- */
-
-/**
  * 是否是手机访问
  * @author  Devil
  * @blog    http://gong.gg/
@@ -2269,6 +2266,7 @@ function Utf8Strlen($string = null)
  * @date    2022-03-20
  * @desc    description
  * @param   [string]          $agent [是否指定agent信息]
+ * @return  [boolean]                [手机访问true, 则false]
  */
 function IsMobile($agent = '')
 {
@@ -2514,7 +2512,7 @@ function XmlParser($string)
 }
 
 /**
- * [CheckMobile 手机号码格式校验]
+ * 手机号码格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2528,7 +2526,7 @@ function CheckMobile($mobile)
 }
 
 /**
- * [CheckTel 电话号码格式校验]
+ * 电话号码格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2542,7 +2540,7 @@ function CheckTel($tel)
 }
 
 /**
- * [CheckEmail 电子邮箱格式校验]
+ * 电子邮箱格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2556,7 +2554,7 @@ function CheckEmail($email)
 }
 
 /**
- * [CheckIdCard 身份证号码格式校验]
+ * 身份证号码格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2570,7 +2568,7 @@ function CheckIdCard($number)
 }
 
 /**
- * [CheckPrice 价格格式校验]
+ * 价格格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2585,7 +2583,7 @@ function CheckPrice($price)
 
 
 /**
- * [CheckIp ip校验]
+ * ip校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2598,7 +2596,7 @@ function CheckIp($ip)
 }
 
 /**
- * [CheckUrl url校验]
+ * url校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2611,7 +2609,7 @@ function CheckUrl($url)
 }
 
 /**
- * [CheckVersion 版本号校验]
+ * 版本号校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2624,7 +2622,7 @@ function CheckVersion($ver)
 }
 
 /**
- * [CheckUserName 用户名校验]
+ * 用户名校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2638,7 +2636,7 @@ function CheckUserName($string)
 }
 
 /**
- * [CheckSort 排序值校验]
+ * 排序值校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2653,7 +2651,7 @@ function CheckSort($value)
 }
 
 /**
- * [CheckColor 颜色值校验]
+ * 颜色值校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2666,7 +2664,7 @@ function CheckColor($value)
 }
 
 /**
- * [CheckLoginPwd 密码格式校验]
+ * 密码格式校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2680,7 +2678,7 @@ function CheckLoginPwd($string)
 }
 
 /**
- * [CheckAlphaNumber 包含字母和数字]
+ * 包含字母和数字
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2694,7 +2692,7 @@ function CheckAlphaNumber($string)
 }
 
 /**
- * [IsExistRemoteImage 检测一张网络图片是否存在]
+ * 检测一张网络图片是否存在
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2716,7 +2714,7 @@ function IsExistRemoteImage($url)
 }
 
 /**
- * [GetNumberCode 随机数生成生成]
+ * 随机数生成生成
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2732,7 +2730,7 @@ function GetNumberCode($length = 6)
 }
 
 /**
- * [LoginPwdEncryption 登录密码加密]
+ * 登录密码加密
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2747,7 +2745,7 @@ function LoginPwdEncryption($pwd, $salt)
 }
 
 /**
- * [PwdPayEncryption 支付密码加密]
+ * 支付密码加密
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2762,11 +2760,11 @@ function PwdPayEncryption($pwd, $salt)
 }
 
 /**
+ * 密码强度校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-03T21:58:54+0800
- * [PwdStrength 密码强度校验]
  * @param    [string] $pwd [需要校验的密码]
  * @return   [int]         [密码强度值0~10]
  */
@@ -2786,6 +2784,7 @@ function PwdStrength($pwd)
 }
  
 /**
+ * 坐标距离计算
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2918,14 +2917,14 @@ function ParamsChecked($data, $params)
 {
     if(empty($params) || !is_array($data) || !is_array($params))
     {
-        return '内部调用参数配置有误';
+        return MyLang('common_function.check_config_error_tips');
     }
 
     foreach ($params as $v)
     {
         if(empty($v['key_name']) || empty($v['error_msg']))
         {
-            return '内部调用参数配置有误';
+            return MyLang('common_function.check_config_error_tips');
         }
 
         // 是否需要验证
@@ -2984,11 +2983,11 @@ function ParamsChecked($data, $params)
             case 'in' :
                 if(empty($v['checked_data']))
                 {
-                    return '指定校验数据为空['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_in_empty_tips').'['.$v['key_name'].']';
                 }
                 if(!is_array($v['checked_data']))
                 {
-                    return '内部调用参数配置有误['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_in_error_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data']))
                 {
@@ -3008,7 +3007,7 @@ function ParamsChecked($data, $params)
             case 'length' :
                 if(!isset($v['checked_data']))
                 {
-                    return '长度规则值未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_length_empty_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]))
                 {
@@ -3039,7 +3038,7 @@ function ParamsChecked($data, $params)
             case 'fun' :
                 if(empty($v['checked_data']) || !function_exists($v['checked_data']))
                 {
-                    return '验证函数为空或函数未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_fun_error_tips').'['.$v['key_name'].']';
                 }
                 $fun = $v['checked_data'];
                 if(!isset($data[$v['key_name']]) || !$fun($data[$v['key_name']]))
@@ -3052,7 +3051,7 @@ function ParamsChecked($data, $params)
             case 'min' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证最小值未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_min_error_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] < $v['checked_data'])
                 {
@@ -3064,7 +3063,7 @@ function ParamsChecked($data, $params)
             case 'max' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证最大值未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_max_error_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] > $v['checked_data'])
                 {
@@ -3076,7 +3075,7 @@ function ParamsChecked($data, $params)
             case 'eq' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证相等未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_eq_error_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] == $v['checked_data'])
                 {
@@ -3088,7 +3087,7 @@ function ParamsChecked($data, $params)
             case 'neq' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证相等未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_neq_error_tips').'['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] != $v['checked_data'])
                 {
@@ -3100,11 +3099,11 @@ function ParamsChecked($data, $params)
             case 'unique' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证唯一表参数未定义['.$v['key_name'].']';
+                    return MyLang('common_function.check_checked_data_unique_empty_tips').'['.$v['key_name'].']';
                 }
                 if(empty($data[$v['key_name']]))
                 {
-                    return str_replace('{$var}', 'unique验证', $v['error_msg']);
+                    return str_replace('{$var}', MyLang('common_function.check_checked_data_unique_error_name'), $v['error_msg']);
                 }
                 $temp = \think\facade\Db::name($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
                 if(!empty($temp))

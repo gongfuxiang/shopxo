@@ -34,7 +34,7 @@ class Sms
     private $is_frq;
 
     /**
-	 * [__construct 构造方法]
+	 * 构造方法
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -76,7 +76,7 @@ class Sms
             // 是否频繁操作
             if(!$this->IntervalTimeCheck())
             {
-                $this->error = '防止造成骚扰，请勿频繁发送';
+                $this->error = MyLang('operate_frequent_tips');
                 return false;
             }
             $codes = ['code'=>$code];
@@ -116,7 +116,7 @@ class Sms
         {
             if(!$this->IntervalTimeCheck())
             {
-                $this->error = '防止造成骚扰，请勿频繁发送';
+                $this->error = MyLang('operate_frequent_tips');
                 return false;
             }
         }
@@ -249,35 +249,35 @@ class Sms
     {
         // 阿里云的短信 乱八七糟的(其实是用的阿里大于)
         // https://api.alidayu.com/doc2/apiDetail?spm=a3142.7629140.1.19.SmdYoA&apiId=25450
-        $message = array (
-                'InvalidDayuStatus.Malformed' => '账户短信开通状态不正确',
-                'InvalidSignName.Malformed' => '短信签名不正确或签名状态不正确',
-                'InvalidTemplateCode.MalFormed' => '短信模板Code不正确或者模板状态不正确',
-                'InvalidRecNum.Malformed' => '目标手机号不正确，单次发送数量不能超过100',
-                'InvalidParamString.MalFormed' => '短信模板中变量不是json格式',
-                'InvalidParamStringTemplate.Malformed' => '短信模板中变量与模板内容不匹配',
-                'InvalidSendSms' => '触发业务流控',
-                'InvalidDayu.Malformed' => '变量不能是url，可以将变量固化在模板中',
-                'isv.RAM_PERMISSION_DENY' => 'RAM权限DENY',
-                'isv.OUT_OF_SERVICE' => '业务停机',
-                'isv.PRODUCT_UN_SUBSCRIPT' => '未开通云通信产品的阿里云客户',
-                'isv.PRODUCT_UNSUBSCRIBE' => '产品未开通',
-                'isv.ACCOUNT_NOT_EXISTS' => '账户不存在',
-                'isv.ACCOUNT_ABNORMAL' => '账户异常',
-                'isv.SMS_TEMPLATE_ILLEGAL' => '短信模板不合法',
-                'isv.SMS_SIGNATURE_ILLEGAL' => '短信签名不合法',
-                'isv.INVALID_PARAMETERS' => '参数异常',
-                'isv.SYSTEM_ERROR' => '系统错误',
-                'isv.MOBILE_NUMBER_ILLEGAL' => '非法手机号',
-                'isv.MOBILE_COUNT_OVER_LIMIT' => '手机号码数量超过限制',
-                'isv.TEMPLATE_MISSING_PARAMETERS' => '模板缺少变量',
-                'isv.BUSINESS_LIMIT_CONTROL' => '业务限流',
-                'isv.INVALID_JSON_PARAM' => 'JSON参数不合法，只接受字符串值',
-                'isv.BLACK_KEY_CONTROL_LIMIT' => '黑名单管控',
-                'isv.PARAM_LENGTH_LIMIT' => '参数超出长度限制',
-                'isv.PARAM_NOT_SUPPORT_URL' => '不支持URL',
-                'isv.AMOUNT_NOT_ENOUGH' => '账户余额不足',
-        );
+        $message = [
+            'InvalidDayuStatus.Malformed'           => '账户短信开通状态不正确',
+            'InvalidSignName.Malformed'             => '短信签名不正确或签名状态不正确',
+            'InvalidTemplateCode.MalFormed'         => '短信模板Code不正确或者模板状态不正确',
+            'InvalidRecNum.Malformed'               => '目标手机号不正确，单次发送数量不能超过100',
+            'InvalidParamString.MalFormed'          => '短信模板中变量不是json格式',
+            'InvalidParamStringTemplate.Malformed'  => '短信模板中变量与模板内容不匹配',
+            'InvalidSendSms'                        => '触发业务流控',
+            'InvalidDayu.Malformed'                 => '变量不能是url，可以将变量固化在模板中',
+            'isv.RAM_PERMISSION_DENY'               => 'RAM权限DENY',
+            'isv.OUT_OF_SERVICE'                    => '业务停机',
+            'isv.PRODUCT_UN_SUBSCRIPT'              => '未开通云通信产品的阿里云客户',
+            'isv.PRODUCT_UNSUBSCRIBE'               => '产品未开通',
+            'isv.ACCOUNT_NOT_EXISTS'                => '账户不存在',
+            'isv.ACCOUNT_ABNORMAL'                  => '账户异常',
+            'isv.SMS_TEMPLATE_ILLEGAL'              => '短信模板不合法',
+            'isv.SMS_SIGNATURE_ILLEGAL'             => '短信签名不合法',
+            'isv.INVALID_PARAMETERS'                => '参数异常',
+            'isv.SYSTEM_ERROR'                      => '系统错误',
+            'isv.MOBILE_NUMBER_ILLEGAL'             => '非法手机号',
+            'isv.MOBILE_COUNT_OVER_LIMIT'           => '手机号码数量超过限制',
+            'isv.TEMPLATE_MISSING_PARAMETERS'       => '模板缺少变量',
+            'isv.BUSINESS_LIMIT_CONTROL'            => '业务限流',
+            'isv.INVALID_JSON_PARAM'                => 'JSON参数不合法，只接受字符串值',
+            'isv.BLACK_KEY_CONTROL_LIMIT'           => '黑名单管控',
+            'isv.PARAM_LENGTH_LIMIT'                => '参数超出长度限制',
+            'isv.PARAM_NOT_SUPPORT_URL'             => '不支持URL',
+            'isv.AMOUNT_NOT_ENOUGH'                 => '账户余额不足',
+        ];
         if(isset($message[$status]))
         {
             return $message[$status];
@@ -286,7 +286,7 @@ class Sms
     }
 
     /**
-     * [KindofSession 种验证码session]
+     * 种验证码session
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -303,7 +303,7 @@ class Sms
     }
 
     /**
-     * [CheckExpire 验证码是否过期]
+     * 验证码是否过期
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -321,7 +321,7 @@ class Sms
     }
 
 	/**
-	 * [CheckCorrect 验证码是否正确]
+	 * 验证码是否正确
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -349,7 +349,7 @@ class Sms
 	}
 
 	/**
-	 * [Remove 验证码清除]
+	 * 验证码清除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -363,7 +363,7 @@ class Sms
 	}
 
 	/**
-	 * [IntervalTimeCheck 是否已经超过控制的间隔时间]
+	 * 是否已经超过控制的间隔时间
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

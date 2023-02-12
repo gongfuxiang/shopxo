@@ -142,17 +142,17 @@ class Page
 		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_each_page_name').'</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.each_page_name').'</span>';
 		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
-		$this->html .= '<span>'.MyLang('page_page_unit').'</span>';
+		$this->html .= '<span>'.MyLang('common_extend.base.page.page_unit').'</span>';
 
-		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_jump_to_text').'</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.jump_to_text').'</span>';
 		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
-		$this->html .= '<span>'.MyLang('page_page_unit').'</span>';
+		$this->html .= '<span>'.MyLang('common_extend.base.page.page_unit').'</span>';
 
 		$this->html .= '<div>';
-		$this->html .= '<span>'.MyLang('page_data_total', ['total'=>$this->total]).'</span>';
-		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_page_total', ['total'=>$this->page_total]).'</span>';
+		$this->html .= '<span>'.MyLang('common_extend.base.page.data_total', ['total'=>$this->total]).'</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.page_total', ['total'=>$this->page_total]).'</span>';
 		if(!empty($this->tips_msg))
 		{
 			$this->html .= '<span class="am-margin-left-sm">'.$this->tips_msg.'</span>';

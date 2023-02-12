@@ -35,7 +35,7 @@ class Verify
 	private $uid;
 
 	/**
-	 * [__construct 构造方法]
+	 * 构造方法
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -71,7 +71,7 @@ class Verify
 	}
 
 	/**
-	 * [Entry 验证码生成]
+	 * 验证码生成
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -143,7 +143,7 @@ class Verify
 	}
 
 	/**
-	 * [CheckExpire 验证码是否过期]
+	 * 验证码是否过期
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -168,7 +168,7 @@ class Verify
 	}
 
 	/**
-	 * [CheckCorrect 验证码是否正确]
+	 * 验证码是否正确
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -197,7 +197,7 @@ class Verify
 	}
 
 	/**
-	 * [Remove 验证码清除]
+	 * 验证码清除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -216,7 +216,7 @@ class Verify
 	}
 
 	/**
-	 * [KindofSession 种验证码session]
+	 * 种验证码session
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -239,7 +239,7 @@ class Verify
 	}
 
 	/**
-	 * [InterferencePoint 加入干扰，画点]
+	 * 加入干扰，画点
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -256,7 +256,7 @@ class Verify
 	}
 
 	/**
-	 * [InterferenceLine 加入干扰，画出多条线]
+	 * 加入干扰，画出多条线
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -273,7 +273,7 @@ class Verify
 	}
 
 	/**
-	 * [GetRandString 生成随机数值]
+	 * 生成随机数值
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

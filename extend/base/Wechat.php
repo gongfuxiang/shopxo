@@ -27,7 +27,7 @@ class Wechat
     private $_appsecret;
 
     /**
-     * [__construct 构造方法]
+     * 构造方法
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -59,17 +59,17 @@ class Wechat
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'touser',
-                'error_msg'         => 'openid不能为空',
+                'error_msg'         => MyLang('common_extend.base.wechat.touser_openid_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'template_id',
-                'error_msg'         => 'template_id不能为空',
+                'error_msg'         => MyLang('common_extend.base.wechat.template_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'data',
-                'error_msg'         => 'data不能为空',
+                'error_msg'         => MyLang('common_extend.base.wechat.data_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -82,7 +82,7 @@ class Wechat
         $access_token = $this->GetMiniAccessToken();
         if($access_token === false)
         {
-            return DataReturn('access_token获取失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
         }
 
         // 发送订阅消息
@@ -113,17 +113,17 @@ class Wechat
         {
             if(stripos($res, 'errcode') === false)
             {
-                return DataReturn('发送成功', 0, $res);
+                return DataReturn(MyLang('send_success'), 0, $res);
             }
             $res = json_decode($res, true);
-            $msg = isset($res['errmsg']) ? $res['errmsg'] : '消息发送失败';
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('send_fail');
             if($msg == 'ok'){
-                return DataReturn('发送成功', 0, $res);
+                return DataReturn(MyLang('send_success'), 0, $res);
             }else{
                 $msg = isset($res['errcode']) ? $res['errcode'].':'.$msg : $msg;
             }
         } else {
-            $msg = '消息发送失败2';
+            $msg = MyLang('send_fail').'2';
         }
         return DataReturn($msg, -1);
     }
@@ -146,30 +146,30 @@ class Wechat
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return DataReturn('session key不存在', -1);
+            return DataReturn(MyLang('common_extend.base.common.session_key_empty_tips'), -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return DataReturn('iv长度错误', -1);
+            return DataReturn(MyLang('common_extend.base.common.iv_error_tips'), -1);
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return DataReturn('openssl不支持', -1);
+            return DataReturn(MyLang('openssl_no_support_tips'), -1);
         }
 
         $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return DataReturn('请重试！', -1);
+            return DataReturn(MyLang('common_extend.base.common.please_try_again_tips'), -1);
         }
         if($data['watermark']['appid'] != $this->_appid)
         {
-            return DataReturn('appid不匹配', -1);
+            return DataReturn(MyLang('appid_mismatch_tips'), -1);
         }
         return DataReturn('success', 0, $data);
     }
@@ -187,7 +187,7 @@ class Wechat
     {
         if(empty($params['authcode']))
         {
-            return DataReturn('授权码有误', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_code_empty_tips'), -1);
         }
 
         // 请求获取session_key
@@ -195,7 +195,7 @@ class Wechat
         $result = $this->HttpRequestGet($url);
         if(empty($result))
         {
-            return DataReturn('授权接口调用失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.auth_api_request_fail_tips'), -1);
         }
         if(!empty($result['openid']))
         {
@@ -204,14 +204,14 @@ class Wechat
 
             // 缓存存储
             MyCache($key, $result);
-            return DataReturn('授权成功', 0, $result);
+            return DataReturn(MyLang('auth_success'), 0, $result);
         }
-        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        $msg = empty($result['errmsg']) ? MyLang('common_extend.base.common.auth_api_request_error_tips') : $result['errmsg'];
         return DataReturn($msg, -1);
     }
 
     /**
-     * [MiniQrCodeCreate 二维码创建]
+     * 二维码创建
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -227,13 +227,13 @@ class Wechat
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'page',
-                'error_msg'         => 'page地址不能为空',
+                'error_msg'         => MyLang('common_extend.base.common.page_empty_tips'),
             ],
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '1,32',
                 'key_name'          => 'scene',
-                'error_msg'         => 'scene参数 1~32 个字符之间',
+                'error_msg'         => MyLang('common_extend.base.common.scene_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -246,7 +246,7 @@ class Wechat
         $access_token = $this->GetMiniAccessToken();
         if($access_token === false)
         {
-            return DataReturn('access_token获取失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
         }
 
         // 获取二维码
@@ -261,12 +261,12 @@ class Wechat
         {
             if(stripos($res, 'errcode') === false)
             {
-                return DataReturn('获取成功', 0, $res);
+                return DataReturn(MyLang('get_success'), 0, $res);
             }
             $res = json_decode($res, true);
-            $msg = isset($res['errmsg']) ? $res['errmsg'] : '获取二维码失败';
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('common_extend.base.common.get_qrcode_fail_tips');
         } else {
-            $msg = '获取二维码失败';
+            $msg = MyLang('common_extend.base.common.get_qrcode_fail_tips');
         }
         return DataReturn($msg, -1);
     }
@@ -286,7 +286,7 @@ class Wechat
         $access_token = $this->GetMiniAccessToken();
         if($access_token === false)
         {
-            return DataReturn('access_token获取失败', -1);
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
         }
 
         // 获取手机
@@ -303,7 +303,7 @@ class Wechat
             }
             return DataReturn($res['errmsg'].'('.$res['errcode'].')', -1);
         }
-        return DataReturn('接口请求失败', -1);
+        return DataReturn(MyLang('api_request_fail_tips'), -1);
     }
 
     /**
@@ -447,7 +447,7 @@ class Wechat
     }
 
     /**
-     * [HttpRequestGet get请求]
+     * get请求
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -463,14 +463,13 @@ class Wechat
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_URL, $url);
-
         $res = curl_exec($curl);
         curl_close($curl);
         return json_decode($res, true);
     }
 
     /**
-     * [HttpRequestPost curl模拟post]
+     * curl模拟post
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -498,6 +497,5 @@ class Wechat
         }
         return $res;
     }
-
 }
 ?>

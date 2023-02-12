@@ -87,7 +87,7 @@ class Qrcode
         // 数据参数
         if(empty($params['content']))
         {
-            return DataReturn('内容不能为空', -1);
+            return DataReturn(MyLang('common_extend.base.qrcode.content_empty_tips'), -1);
         }
 
         // 自定义路径
@@ -127,26 +127,32 @@ class Qrcode
             \QRcode::png($params['content'], $dir.$filename, $level, $point_size, $mr);
             if(!file_exists($dir.$filename))
             {
-                return DataReturn('二维码创建失败', -100);
+                return DataReturn(MyLang('common_extend.base.qrcode.qrcode_create_fail_tips'), -100);
             }
-            
+
             //判断是否生成带logo的二维码
             if(!empty($params['logo']))
             {
                 $logo = @file_get_contents($params['logo']);
                 if($logo !== false)
-                {            
-                    $qr = imagecreatefromstring(file_get_contents($dir.$filename));     //目标图象连接资源
-                    $logo = imagecreatefromstring($logo);                               //源图象连接资源
-                    
+                {
+                    //目标图象连接资源
+                    $qr = imagecreatefromstring(file_get_contents($dir.$filename));
+                    //源图象连接资源
+                    $logo = imagecreatefromstring($logo);
+
                     $qr_width = imagesx($qr);
                     $qr_height = imagesy($qr);
                     $logo_width = imagesx($logo);
                     $logo_height = imagesy($logo);
-                    $logo_qr_width = $qr_width / 5;                     //组合之后logo的宽度(占二维码的1/5)
-                    $scale = $logo_width/$logo_qr_width;                //logo的宽度缩放比(本身宽度/组合后的宽度)
-                    $logo_qr_height = $logo_height/$scale;              //组合之后logo的高度
-                    $from_width = ($qr_width - $logo_qr_width) / 2;     //组合之后logo左上角所在坐标点
+                    //组合之后logo的宽度(占二维码的1/5)
+                    $logo_qr_width = $qr_width / 5;
+                    //logo的宽度缩放比(本身宽度/组合后的宽度)
+                    $scale = $logo_width/$logo_qr_width;
+                    //组合之后logo的高度
+                    $logo_qr_height = $logo_height/$scale;
+                    //组合之后logo左上角所在坐标点
+                    $from_width = ($qr_width - $logo_qr_width) / 2;
                     
                     //重新组合图片并调整大小
                     imagecopyresampled($qr, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,$logo_qr_height, $logo_width, $logo_height);
@@ -166,8 +172,7 @@ class Qrcode
             'filename'  => $filename,
             'url'       => ResourcesService::AttachmentPathViewHandle($this->config['path'].$filename),
         ];
-        return DataReturn('创建成功', 0, $result);
-    
+        return DataReturn(MyLang('operate_success'), 0, $result);
     }
 
     /**
@@ -184,7 +189,7 @@ class Qrcode
         $url = empty($params['url']) ? '' : base64_decode(urldecode($params['url']));
         if(empty($url))
         {
-            return DataReturn('url地址有误', -1);
+            return DataReturn(MyLang('common_extend.base.qrcode.url_empty_tips'), -1);
         }
 
         // 验证下载地址域名
@@ -194,7 +199,7 @@ class Qrcode
         ];
         if(!in_array(GetUrlHost($url), $domain_arr))
         {
-            return DataReturn('url地址非法', -1);
+            return DataReturn(MyLang('common_extend.base.qrcode.url_illegal_tips'), -1);
         }
 
         // 是否存在问号、存在问号则将数据转为整数，希望下载静态文件
@@ -208,7 +213,7 @@ class Qrcode
         $len = strripos($arr[0], '.');
         if($len === false)
         {
-            return DataReturn('url地址无效', -1);
+            return DataReturn(MyLang('common_extend.base.qrcode.url_invalid_tips'), -1);
         }
 
         // 防止存在锚点
@@ -217,7 +222,7 @@ class Qrcode
         $temp_ext = explode('#', $ext);
         if(!in_array($temp_ext[0], $ext_arr))
         {
-            return DataReturn('无效图片地址', -1);
+            return DataReturn(MyLang('common_extend.base.qrcode.images_url_invalid_tips'), -1);
         }
 
         // 随机文件名
@@ -267,10 +272,10 @@ class Qrcode
             // 创建目录
             if(mkdir($dir, 0777, true) === false)
             {
-                return DataReturn('目录创建失败', -1);
+                return DataReturn(MyLang('common_extend.base.qrcode.dir_create_fail_tips'), -1);
             }
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 }
 ?>
