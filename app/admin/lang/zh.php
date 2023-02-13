@@ -485,9 +485,10 @@ return [
         'nav_theme_download_tips'               => '手机端主题采用uniapp开发（支持多端小程序+H5），APP也在紧急适配中。',
         'form_alipay_extend_title'              => '客服配置',
         'form_alipay_extend_tips'               => 'PS：如【APP/小程序】中开启（开启在线客服），则以下配置必填 [企业编码] 和 [聊天窗编码]',
+        'form_theme_upload_tips'                => '上传一个zip压缩格式的安装包',
         'list_no_data_tips'                     => '没有相关主题包',
-        'list_author_title'                     => '作者：',
-        'list_version_title'                    => '适用版本：',
+        'list_author_title'                     => '作者',
+        'list_version_title'                    => '适用版本',
         'package_generate_tips'                 => '生成时间比较长，请不要关闭浏览器窗口！',
         // 动态表格
         'form_table'                            => [
@@ -881,9 +882,9 @@ return [
             ['name' => '主题安装', 'type' => 'upload'],
         ],
         'nav_store_theme_name'                  => '更多主题下载',
-        'list_author_title'                     => '作者：',
-        'list_version_title'                    => '适用版本：',
-        'form_item_upload_tips'                 => '上传一个zip压缩格式的应用安装包',
+        'list_author_title'                     => '作者',
+        'list_version_title'                    => '适用版本',
+        'form_theme_upload_tips'                => '上传一个zip压缩格式的主题安装包',
     ],
 
     // 用户中心导航
@@ -1012,9 +1013,9 @@ return [
         'base_top_tips_one'                     => '列表排序方式[ 自定义排序 -> 最早安装 ]',
         'base_top_tips_two'                     => '可点击拖动图标按钮调整插件调用和展示顺序',
         'base_open_sort_title'                  => '开启排序',
-        'data_list_author_title'                => '作者：',
-        'data_list_author_url_title'            => '主页：',
-        'data_list_version_title'               => '版本：',
+        'data_list_author_title'                => '作者',
+        'data_list_author_url_title'            => '主页',
+        'data_list_version_title'               => '版本',
         'uninstall_confirm_tips'                => '卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？',
         'not_install_divide_title'              => '以下插件未安装',
         'delete_plugins_text'                   => '1. 仅删除应用',

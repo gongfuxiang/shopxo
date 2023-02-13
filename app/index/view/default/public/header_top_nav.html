@@ -29,13 +29,14 @@
                                 [<a href="{{:MyUrl('index/user/reginfo')}}">{{:MyLang('common.register_title')}}</a>]
                             {{/if}}
                         {{else /}}
-                            <em>{{:MyLang('common.header_top_nav_left_login_first')}}</em>
+                            <em class="first">{{:MyLang('common.header_top_nav_left_login_first')}}</em>
                             {{if !empty($user['icon'])}}
                                 <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
-                            <em>{{$user.user_name_view}}{{:MyLang('common.header_top_nav_left_login_last')}}</em>
-                            <em>{{:MyC('home_site_name')}}</em>
-                            [<a href="{{:MyUrl('index/user/logout')}}">{{:MyLang('common.logout_title')}}</a>]
+                            <em class="user">{{$user.user_name_view}}</em>
+                            <em class="last">{{:MyLang('common.header_top_nav_left_login_last')}}</em>
+                            <em class="site-name">{{:MyC('home_site_name')}}</em>
+                            <em class="logout"><a href="{{:MyUrl('index/user/logout')}}">[{{:MyLang('common.logout_title')}}]</a></em>
                         {{/if}}
 
                         <!-- 公共顶部小导航钩子-左侧后面 -->
@@ -109,7 +110,7 @@
                                         <span>{{$nav.name}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </a>
-                                    <ul class="am-dropdown-content">
+                                    <ul class="am-dropdown-content am-radius">
                                         {{foreach $nav.items as $navs}}
                                             <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
                                                 <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>

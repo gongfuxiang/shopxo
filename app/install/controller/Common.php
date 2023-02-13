@@ -12,6 +12,7 @@ namespace app\install\controller;
 
 use app\BaseController;
 use app\service\SystemService;
+use app\service\MultilingualService;
 
 /**
  * 安装程序-公共
@@ -23,6 +24,9 @@ use app\service\SystemService;
  */
 class Common extends BaseController
 {
+    // 输入参数
+    protected $data_request;
+
     /**
      * 构造方法
      * @author   Devil
@@ -33,27 +37,43 @@ class Common extends BaseController
      */
     public function __construct()
     {
+        // 输入参数
+        $this->data_request = input();
+
+        // 系统运行开始
+        SystemService::SystemBegin($this->data_request);
+
         // 模板数据
         $assign = [
             // 当前方法
             'action'                    => RequestAction(),
-
             // 系统类型
             'system_type'               => SystemService::SystemTypeValue(),
-
             // 系统环境参数最大数
             'env_max_input_vars_count'  => SystemService::EnvMaxInputVarsCount(),
-
             // 默认不加载地图api、类型默认百度地图
             'is_load_map_api'           => 0,
             'load_map_type'             => MyC('common_map_type', 'baidu', true),
-
             // 页面语言
             'lang_data'                 => SystemService::PageViewLangData(),
+            // 多语言
+            'multilingual_default_code' => MultilingualService::GetUserMultilingualValue(),
         ];
-
-        // 模板赋值
         MyViewAssign($assign);
+    }
+
+    /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd($this->data_request);
     }
 
     /**

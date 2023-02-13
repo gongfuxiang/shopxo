@@ -25,6 +25,7 @@ use app\service\ConfigService;
 use app\service\UserService;
 use app\service\AdminService;
 use app\service\QuickNavService;
+use app\service\MultilingualService;
 
 /**
  * 前端公共控制器
@@ -456,6 +457,9 @@ class Common extends BaseController
 
         // 省市联动是否必选选择
         $assign['is_force_region_choice'] = 1;
+
+        // 多语言
+        $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
         // 模板赋值
         MyViewAssign($assign);

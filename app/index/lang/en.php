@@ -20,7 +20,7 @@ return [
     // 页面公共
     'common'            => [
         // 公共
-        'shop_home_title'                       => 'Mall homepage',
+        'shop_home_title'                       => 'Mall Home',
         'back_to_the_home_title'                => 'Back to the home',
         'all_category_text'                     => 'All Category',
         'login_title'                           => 'Login',
@@ -90,7 +90,7 @@ return [
         'browser_seo_title'                     => 'Goods Category',
         'no_category_data_tips'                 => 'No classification data',
         'no_sub_category_data_tips'             => 'No subcategory data',
-        'view_category_sub_goods_name'          => 'View products under category',
+        'view_category_sub_goods_name'          => 'View goods under category',
     ],
 
     // 购物车
@@ -193,7 +193,7 @@ return [
         'detail_browser_seo_title'              => 'Order Detail',
         'comments_browser_seo_title'            => 'Order Comments',
         'batch_payment_name'                    => 'Batch Payment',
-        'comments_goods_list_thead_base'        => 'Product information',
+        'comments_goods_list_thead_base'        => 'Goods Info',
         'comments_goods_list_thead_price'       => 'Price',
         'comments_goods_list_thead_content'     => 'Comment Content',
         'form_you_have_commented_tips'          => 'You have commented',
@@ -238,7 +238,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'                 => 'Base Info',
-            'goods_placeholder'     => 'Please enter the order number/product name/model',
+            'goods_placeholder'     => 'Please enter the order number/goods name/model',
             'status'                => 'Order Status',
             'pay_status'            => 'Payment Status',
             'total_price'           => 'Total Price(yuan)',
@@ -325,7 +325,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'                 => 'Base Info',
-            'goods_placeholder'     => 'Please enter the order number/product name/model',
+            'goods_placeholder'     => 'Please enter the order number/goods name/model',
             'status'                => 'Status',
             'type'                  => 'Apply Type',
             'reason'                => 'Reason',
@@ -358,16 +358,16 @@ return [
         // 登录
         'login_top_register_tips'               => 'Dont have an account yet?',
         'login_close_tips'                      => 'Temporarily closed login',
-        'login_type_username_title'             => 'Account Password',
-        'login_type_mobile_title'               => 'Mobile Verify Code',
-        'login_type_email_title'                => 'Email Verify Code',
+        'login_type_username_title'             => 'Account',
+        'login_type_mobile_title'               => 'Mobile',
+        'login_type_email_title'                => 'Email',
         'login_retrieve_password_title'         => 'Retrieve Password',
         // 注册
         'register_top_login_tips'               => 'I have registered, now',
         'register_close_tips'                   => 'Registration is temporarily closed',
-        'register_type_username_title'          => 'Account Register',
-        'register_type_mobile_title'            => 'Mobile Register',
-        'register_type_email_title'             => 'Email Register',
+        'register_type_username_title'          => 'Account',
+        'register_type_mobile_title'            => 'Mobile',
+        'register_type_email_title'             => 'Email',
         // 忘记密码
         'forget_password_top_login_tips'        => 'Already have an account?',
         // 表单
@@ -405,9 +405,9 @@ return [
         'various_cart_tips'                     => 'Put the goods you want to buy into the shopping cart and make it easier to settle together',
         'various_favor_title'                   => 'Goods Favor',
         'various_favor_empty_title'             => 'You havent collected any goods yet',
-        'various_favor_tips'                    => 'Favorite products will display the latest promotions and price reductions',
+        'various_favor_tips'                    => 'Favorite goods will display the latest promotions and price reductions',
         'various_browse_title'                  => 'My Browse',
-        'various_browse_empty_title'            => 'Your product browse record is empty',
+        'various_browse_empty_title'            => 'Your goods browse record is empty',
         'various_browse_tips'                   => 'Go to the mall to see the promotional activities',
     ],
 
@@ -421,8 +421,8 @@ return [
         'browser_seo_title'                     => 'My Browse',
         // 动态表格统计数据
         'form_table'                            => [
-            'goods'                 => 'Product information',
-            'goods_placeholder'     => 'Please enter the product name/brief description/SEO information',
+            'goods'                 => 'Goods Info',
+            'goods_placeholder'     => 'Please enter the goods name/brief description/SEO information',
             'price'                 => 'Sales price (yuan)',
 
             'original_price'        => 'Original price (yuan)',
@@ -435,8 +435,8 @@ return [
         'browser_seo_title'                     => 'Goods Favor',
         // 动态表格统计数据
         'form_table'                            => [
-            'goods'                 => 'Product information',
-            'goods_placeholder'     => 'Please enter the product name/brief description/SEO information',
+            'goods'                 => 'Goods Info',
+            'goods_placeholder'     => 'Please enter the goods name/brief description/SEO information',
             'price'                 => 'Sales price (yuan)',
 
             'original_price'        => 'Original price (yuan)',

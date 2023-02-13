@@ -204,7 +204,7 @@ return [
             '3. The style of the front category page will be different if the level is different',
         ],
         'goods_auto_mode_max_count_tips_list'   => [
-            '1. Configure the maximum number of products displayed on each floor',
+            '1. Configure the maximum number of goods displayed on each floor',
             '2. It is not recommended to modify the quantity too large, which will lead to too large blank area on the left side of the PC',
         ],
         'goods_auto_mode_order_by_tips_list'    => [
@@ -212,7 +212,7 @@ return [
         ],
         'goods_manual_mode_max_tips_list'       => [
             '1. Click the title of the item to drag and sort it and display it in order',
-            '2. It is not recommended to add many products, which will lead to too large blank area on the left side of the PC',
+            '2. It is not recommended to add many goods, which will lead to too large blank area on the left side of the PC',
         ],
         'extends_crontab_tips'                  => 'It is recommended that you add the script address to the timing request of the Linux scheduled task (the result is SUCS: 0, FAIL: 0, followed by the colon is the number of data processed, SUCS succeeded, FALI failed)',
         'left_images_random_tips'               => 'The left picture can upload up to 3 pictures, and one of them can be displayed randomly each time',
@@ -225,7 +225,7 @@ return [
         'site_setup_choice_payment_message'     => 'Please select {:name} default payment method',
         'sitetype_top_tips_list'                => [
             '1. Express delivery, conventional e-commerce process, user selects the receiving address to place an order for payment ->merchant shipment ->confirmation of receipt ->order completion',
-            '2. Display type, only display products, can initiate consultation (cant place an order)',
+            '2. Display type, only display goods, can initiate consultation (cant place an order)',
             '3. Select the self-pickup address when placing the order, and the user places the order for payment ->confirm the delivery ->order completion',
             '4. Virtual sales, conventional e-commerce process, user order payment ->automatic delivery ->confirmation of delivery ->order completion',
         ],
@@ -410,7 +410,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Base Info',
-            'goods_placeholder'  => 'Please enter the product name/model',
+            'goods_placeholder'  => 'Please enter the goods name/model',
             'warehouse_name'     => 'Warehouse',
             'is_enable'          => 'Enable or not',
             'inventory'          => 'Total Inventory',
@@ -430,9 +430,9 @@ return [
         ],
         'base_nav_title'                        => 'Admin',
         // 登录
-        'login_type_username_title'             => 'Account Password',
-        'login_type_mobile_title'               => 'Mobile Verify Code',
-        'login_type_email_title'                => 'Email Verify Code',
+        'login_type_username_title'             => 'Account',
+        'login_type_mobile_title'               => 'Mobile',
+        'login_type_email_title'                => 'Email',
         'login_close_tips'                      => 'Temporarily closed login',
         // 忘记密码
         'form_forget_password_name'             => 'Forgot Password?',
@@ -486,9 +486,10 @@ return [
         'nav_theme_download_tips'               => 'The theme of mobile phone is developed by uniapp (supporting multi-terminal applet+H5), and APP is also in emergency adaptation。',
         'form_alipay_extend_title'              => 'Customer service configuration',
         'form_alipay_extend_tips'               => 'PS: If [APP/applet] is enabled (online customer service is enabled), the following configuration must be filled in [Enterprise Code] and [Chat Window Code]',
+        'form_theme_upload_tips'                => 'Upload a zip compressed installation package',
         'list_no_data_tips'                     => 'No related theme packs',
-        'list_author_title'                     => 'Author：',
-        'list_version_title'                    => 'Applicable version：',
+        'list_author_title'                     => 'Author',
+        'list_version_title'                    => 'Applicable version',
         'package_generate_tips'                 => 'The generation time is relatively long, please do not close the browser window!',
         // 动态表格
         'form_table'                            => [
@@ -588,7 +589,7 @@ return [
             'user'                       => 'User Info',
             'user_placeholder'           => 'Please enter user name/nickname/mobile phone/email',
             'goods'                      => 'Base Info',
-            'goods_placeholder'          => 'Please enter the product name/model',
+            'goods_placeholder'          => 'Please enter the goods name/model',
             'business_type'      => 'Business Type',
             'content'            => 'Content',
             'images'             => 'Images',
@@ -770,7 +771,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'               => 'Base Info',
-            'goods_placeholder'   => 'Please enter order ID/order number/product name/model',
+            'goods_placeholder'   => 'Please enter order ID/order number/goods name/model',
             'user'                => 'User Info',
             'user_placeholder'    => 'Please enter user name/nickname/mobile phone/email',
             'status'              => 'Order Status',
@@ -820,7 +821,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Base Info',
-            'goods_placeholder'  => 'Please enter the order number/product name/model',
+            'goods_placeholder'  => 'Please enter the order number/goods name/model',
             'user'               => 'User Info',
             'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
             'status'             => 'Status',
@@ -896,9 +897,9 @@ return [
             ['name' => 'Theme Install', 'type' => 'upload'],
         ],
         'nav_store_theme_name'                  => 'More topic downloads',
-        'list_author_title'                     => 'Author：',
+        'list_author_title'                     => 'Author',
         'list_version_title'                    => 'Applicable Version',
-        'form_item_upload_tips'                 => 'Upload an application installation package in zip compression format',
+        'form_theme_upload_tips'                => 'Upload a zip compressed theme installation package',
     ],
 
     // 用户中心导航
@@ -1027,9 +1028,9 @@ return [
         'base_top_tips_one'                     => 'List sorting method [custom sorting ->earliest installation]',
         'base_top_tips_two'                     => 'Click and drag icon button to adjust plug-in call and display order',
         'base_open_sort_title'                  => 'Enable sorting',
-        'data_list_author_title'                => 'Author：',
-        'data_list_author_url_title'            => 'HomePage：',
-        'data_list_version_title'               => 'Version：',
+        'data_list_author_title'                => 'Author',
+        'data_list_author_url_title'            => 'HomePage',
+        'data_list_version_title'               => 'Version',
         'uninstall_confirm_tips'                => 'Uninstallation may lose the basic configuration data of the plug-in. Is it unrecoverable and confirm the operation?',
         'not_install_divide_title'              => 'The following plugins are not installed',
         'delete_plugins_text'                   => '1. Delete apps only',
@@ -1198,7 +1199,7 @@ return [
             '1. All (displayed under goods basic information and detail parameters)',
             '2. Details (only displayed under the goods details parameter)',
             '3. Basic (only displayed under goods basic information)',
-            '4. The shortcut operation will clear the original data and reload the page to restore the original data (only effective after saving the product)',
+            '4. The shortcut operation will clear the original data and reload the page to restore the original data (only effective after saving the goods)',
         ],
     ],
 
@@ -1222,7 +1223,7 @@ return [
             'item' => [
                 'site_index'                  => 'Site setup',
                 'site_save'                   => 'Site setup editing',
-                'site_goodssearch'            => 'Site setup and product search',
+                'site_goodssearch'            => 'Site setup and goods search',
                 'layout_layoutindexhomesave'  => 'Homepage layout admin',
                 'sms_index'                   => 'SMS setup',
                 'sms_save'                    => 'SMS setup editing',

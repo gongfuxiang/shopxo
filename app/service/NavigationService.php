@@ -608,7 +608,7 @@ class NavigationService
         $key = SystemService::CacheKey('shopxo.cache_header_navigation_top_right_key');
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
-        {            
+        {
             // 列表
             $lang = MyLang('common_service.navigation.header_top_nav_right');
             $data = [
@@ -668,6 +668,20 @@ class NavigationService
                     'items'     => [],
                 ],
             ];
+
+            // 追加多语言
+            $multilingual_data = MultilingualService::MultilingualData();
+            if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
+            {
+                $data[] = [
+                    'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
+                    'is_login'  => 0,
+                    'badge'     => null,
+                    'icon'      => 'am-icon-language',
+                    'url'       => '',
+                    'items'     => $multilingual_data['data'],
+                ];
+            }
 
             // 顶部小导航右侧钩子
             $hook_name = 'plugins_service_header_navigation_top_right_handle';

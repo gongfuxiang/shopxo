@@ -433,6 +433,7 @@ return [
     'loading_title'                                         => 'Loading',
     'lan_title'                                             => 'Longitude',
     'lat_title'                                             => 'Latitude',
+    'lang_title'                                            => 'Language',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_stop_sale_title'                                 => 'Stop Sale',
@@ -936,30 +937,30 @@ return [
     ],
     // 时区
     'site_timezone_list' => [
-        'Pacific/Pago_Pago' => '(Standard Time 11:00) Midway Island, Samoa',
-        'Pacific/Rarotonga' => '(Standard Time 10:00) Hawaii',
-        'Pacific/Gambier' => '(Standard Time 9:00) Alaska',
-        'America/Dawson' => '(Standard Time -8:00) Pacific Time (US and Canada)',
-        'America/Creston' => '(Standard Time -7:00) Mountain Time (US and Canada)',
-        'America/Belize' => '(Standard Time -6:00) Central Time (US and Canada), Mexico City',
-        'America/Eirunepe' => '(Standard Time -5:00) Eastern Time (United States and Canada), Bogota',
-        'America/Antigua' => '(Standard Time -4:00) Atlantic Time (Canada), Caracas',
-        'America/Argentina/Buenos_Aires' => '(Standard Time 3:00) Brazil, Buenos Aires, Georgetown',
-        'America/Noronha' => '(Standard Time 2:00) Mid-Atlantic',
-        'Atlantic/Cape_Verde' => '(Standard Time -1:00) Azores, Cape Verde',
-        'Africa/Ouagadougou' => '(Greenwich Mean Time) Western European Time, London, Casablanca',
-        'Europe/Andorra' => '(Standard Time +1:00) Central European Time, Angola, Libya',
-        'Europe/Mariehamn' => '(Standard Time +2:00) Eastern European Time, Cairo, Athens',
-        'Asia/Bahrain' => '(Standard Time +3:00) Baghdad, Kuwait, Moscow',
-        'Asia/Dubai' => '(Standard time +4:00) Abu Dhabi, Muscat, Baku',
-        'Asia/Kolkata' => '(Standard Time +5:00) Yekaterinburg, Islamabad, Karachi',
-        'Asia/Dhaka' => '(Standard Time +6:00) Almaty, Dhaka, New Siberia',
-        'Indian/Christmas' => '(Standard time +7:00) Bangkok, Hanoi, Jakarta',
-        'Asia/Shanghai' => '(Standard time +8:00) Beijing, Chongqing, Hong Kong, Singapore',
-        'Australia/Darwin' => '(Standard time +9:00) Tokyo, Seoul, Osaka, Yakutsk',
-        'Australia/Adelaide' => '(Standard Time +10:00) Sydney, Guam',
-        'Australia/Currie' => '(Standard time +11:00) Magadan, Solomon Islands',
-        'Pacific/Fiji' => '(Standard Time +12:00) Auckland, Wellington, Kamchatka Peninsula'
+        'Pacific/Pago_Pago'               => '(Standard Time 11:00) Midway Island, Samoa',
+        'Pacific/Rarotonga'               => '(Standard Time 10:00) Hawaii',
+        'Pacific/Gambier'                 => '(Standard Time 9:00) Alaska',
+        'America/Dawson'                  => '(Standard Time -8:00) Pacific Time (US and Canada)',
+        'America/Creston'                 => '(Standard Time -7:00) Mountain Time (US and Canada)',
+        'America/Belize'                  => '(Standard Time -6:00) Central Time (US and Canada), Mexico City',
+        'America/Eirunepe'                => '(Standard Time -5:00) Eastern Time (United States and Canada), Bogota',
+        'America/Antigua'                 => '(Standard Time -4:00) Atlantic Time (Canada), Caracas',
+        'America/Argentina/Buenos_Aires'  => '(Standard Time 3:00) Brazil, Buenos Aires, Georgetown',
+        'America/Noronha'                 => '(Standard Time 2:00) Mid-Atlantic',
+        'Atlantic/Cape_Verde'             => '(Standard Time -1:00) Azores, Cape Verde',
+        'Africa/Ouagadougou'              => '(Greenwich Mean Time) Western European Time, London, Casablanca',
+        'Europe/Andorra'                  => '(Standard Time +1:00) Central European Time, Angola, Libya',
+        'Europe/Mariehamn'                => '(Standard Time +2:00) Eastern European Time, Cairo, Athens',
+        'Asia/Bahrain'                    => '(Standard Time +3:00) Baghdad, Kuwait, Moscow',
+        'Asia/Dubai'                      => '(Standard time +4:00) Abu Dhabi, Muscat, Baku',
+        'Asia/Kolkata'                    => '(Standard Time +5:00) Yekaterinburg, Islamabad, Karachi',
+        'Asia/Dhaka'                      => '(Standard Time +6:00) Almaty, Dhaka, New Siberia',
+        'Indian/Christmas'                => '(Standard time +7:00) Bangkok, Hanoi, Jakarta',
+        'Asia/Shanghai'                   => '(Standard time +8:00) Beijing, Chongqing, Hong Kong, Singapore',
+        'Australia/Darwin'                => '(Standard time +9:00) Tokyo, Seoul, Osaka, Yakutsk',
+        'Australia/Adelaide'              => '(Standard Time +10:00) Sydney, Guam',
+        'Australia/Currie'                => '(Standard time +11:00) Magadan, Solomon Islands',
+        'Pacific/Fiji'                    => '(Standard Time +12:00) Auckland, Wellington, Kamchatka Peninsula'
     ],
     // seo
     // url模式列表
@@ -967,6 +968,24 @@ return [
         0 => ['value' => 0, 'name' => 'Compatibility Mode', 'checked' => true],
         1 => ['value' => 1, 'name' => 'PATHINFO Mode'],
         2 => ['value' => 2, 'name' => 'PATHINFO Mode+ShortAddress'],
+    ],
+
+    // 多语言（preg 正则匹配、code 语言编码、name 语言名称）
+    'common_multilingual_list'  => [
+        'zh'   => 'Simplified Chinese',
+        'cht'  => 'Traditional Chinese',
+        'en'   => 'English',
+        'ru'   => 'Russian',
+        'kor'  => 'Korean',
+        'th'   => 'Thai',
+        'jp'   => 'Japanese',
+        'de'   => 'German',
+        'nl'   => 'Dutch',
+        'vie'  => 'Vietnamese',
+        'it'   => 'Italian',
+        'spa'  => 'Spanish',
+        'fra'  => 'French',
+        'swe'  => 'Swedish',
     ],
 
     // -------------------- 公共服务层 --------------------
@@ -1329,7 +1348,7 @@ return [
             'form_item_name_message'                => 'Name format 2~30 characters',
             'form_item_category_id'                 => 'Goods Category',
             'form_item_category_id_tips'            => 'Include children',
-            'form_item_category_id_message'         => 'Please select product classification',
+            'form_item_category_id_message'         => 'Please select goods classification',
             'form_item_config_title'                => 'Params Config',
             'form_item_config_value_placeholder'    => 'Paste goods parameter configuration information',
             'form_item_config_template_title'       => 'Goods Params template',
@@ -1350,7 +1369,7 @@ return [
             'form_item_name_message'                => 'Name format 1~30 characters',
             'form_item_category_id'                 => 'Goods Category',
             'form_item_category_id_tips'            => 'Include children',
-            'form_item_category_id_message'         => 'Please select product classification',
+            'form_item_category_id_message'         => 'Please select goods classification',
             'form_item_content'                     => 'Spec Value',
             'form_item_content_placeholder'         => 'Specification value (multiple values can be achieved by entering Enter)',
             'form_item_content_message'             => 'Specification value format: 1~1000 characters',
@@ -1394,7 +1413,7 @@ return [
             'form_item_site_type_tips'              => [
                 '1. The currently configured site type is ( 站点类型 )',
                 '2. If the goods type is not configured, follow the site type configured by the system',
-                '3. When the set goods type is not included in the site type set by the system, the function of adding products to the shopping cart will be invalid',
+                '3. When the set goods type is not included in the site type set by the system, the function of adding goods to the shopping cart will be invalid',
             ],
             'form_item_site_type_message'           => 'Please select goods type',
             'form_item_images'                      => 'cover photo',
@@ -1413,7 +1432,7 @@ return [
             'form_spec_template_tips'               => 'Incorrect specification template data',
             'form_spec_template_name_exist_tips'    => 'The same specification name already exists',
             'form_spec_template_placeholder'        => 'Goods specification template...',
-            'form_spec_template_message'            => 'Please select a product specification template',
+            'form_spec_template_message'            => 'Please select a goods specification template',
             'form_spec_quick_add_title'             => 'Batch add specifications',
             'form_spec_quick_generate_title'        => 'Generate specifications',
             'form_spec_type_title'                  => 'Spec Name',
@@ -1460,7 +1479,7 @@ return [
             // 参数
             'form_params_select_title'              => 'Goods Params Template',
             'form_params_select_placeholder'        => 'Goods Params Template...',
-            'form_params_select_message'            => 'Please select a product parameter template',
+            'form_params_select_message'            => 'Please select a goods parameter template',
             'form_params_value_placeholder'         => 'Paste goods parameter configuration information',
             'form_params_config_copy_title'         => 'Copy Config',
             'form_params_config_empty_title'        => 'Clear Params',
@@ -1764,7 +1783,7 @@ return [
             'order_under_line_name'                 => 'Offline payment',
             'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}元',
             'order_goods_sales_count_inc_fail_tips' => 'Failed to increase sales volume of order goods',
-            'order_detail_goods_empty_tips'         => 'There is an error in the order. No related products were found',
+            'order_detail_goods_empty_tips'         => 'There is an error in the order. No related goods were found',
             'pay_have_in_hand_tips'                 => 'In payment',
             // 取消
             'order_cancel_message_data'             => [
@@ -2762,7 +2781,7 @@ return [
             'tips' => '',
         ],
         'common_spec_add_max_number'  => [
-            'name' => 'Maximum quantity of product specifications that can be added',
+            'name' => 'Maximum quantity of goods specifications that can be added',
             'desc' => 'No more than 3 specifications are recommended',
             'tips' => 'Please fill in the maximum number of Google',
         ],
@@ -2994,7 +3013,7 @@ return [
         'common_goods_give_integral_limit_time'  => [
             'name' => 'Credit duration of goods',
             'desc' => 'Unit minute, 21600 minutes/15 days by default',
-            'tips' => 'Please fill in the time length of product gift points',
+            'tips' => 'Please fill in the time length of goods gift points',
         ],
         'common_app_mini_baidu_appid'  => [
             'name' => 'AppID',
@@ -3129,7 +3148,7 @@ return [
         'common_is_goods_detail_show_photo'  => [
             'name' => 'Product detail page display album',
             'desc' => 'Default no',
-            'tips' => 'Please select whether to display the album on the product details page',
+            'tips' => 'Please select whether to display the album on the goods details page',
         ],
         'common_is_mobile_concise_model'  => [
             'name' => 'Mobile phone simple mode',
@@ -3342,9 +3361,9 @@ return [
             'tips' => 'Please select https for the connection store',
         ],
         'is_close_goods_discount_overlap'  => [
-            'name' => 'Close the product discount overlap',
+            'name' => 'Close the goods discount overlap',
             'desc' => 'Default no',
-            'tips' => 'Please select to close the product discount overlap',
+            'tips' => 'Please select to close the goods discount overlap',
         ],
         'home_theme_footer_bottom_powered'  => [
             'name' => 'Copyright information at the bottom of the web',
@@ -3397,9 +3416,9 @@ return [
             'tips' => 'Please select the order item sales increase rule',
         ],
         'common_is_show_goods_comments'  => [
-            'name' => 'Show product evaluation',
+            'name' => 'Show goods evaluation',
             'desc' => 'Default is',
-            'tips' => 'Please select whether to display product evaluation',
+            'tips' => 'Please select whether to display goods evaluation',
         ],
         'common_app_h5_url'  => [
             'name' => 'Mobile terminal h5 address',

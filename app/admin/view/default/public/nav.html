@@ -20,14 +20,30 @@
 	<!-- 右侧内容 -->
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-			<li class="am-dropdown">
+			{{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
+				<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
+					<a class="am-dropdown-toggle" href="javascript:;">
+						<i class="am-icon-language"></i>
+						<span>{{:MyLang('lang_title')}}[{{$multilingual_data.default.name}}]</span>
+					</a>
+					<ul class="am-dropdown-content am-radius">
+						{{foreach $multilingual_data.data as $v}}
+		                    <li>
+		                        <a href="{{$v.url}}">{{$v.name}}</a>
+		                    </li>
+	                    {{/foreach}}
+	                </ul>
+				</li>
+			{{/if}}
+
+			<li>
 				<a href="{{$theme_color_url}}">
 					<i class="am-icon-adjust"></i>
 					<span>{{$theme_color_name}}</span>
 				</a>
 			</li>
 			{{if AdminIsPower('cache', 'statusupdate')}}
-				<li class="am-dropdown">
+				<li>
 					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">
 						<i class="am-icon-paint-brush"></i>
 						<span>{{:MyLang('common.remove_cache_title')}}</span>
@@ -42,7 +58,7 @@
 				</a>
 			</li>
 
-			<li class="am-dropdown">
+			<li>
 				<a href="{{$home_url}}" target="_blank">
 					<i class="am-icon-home"></i>
 					<span>{{:MyLang('shop_home_title')}}</span>
@@ -56,7 +72,7 @@
 					<span class="tpl-header-list-user-ico">
 					</span>
 				</a>
-				<ul class="am-dropdown-content">
+				<ul class="am-dropdown-content am-radius">
 					<li>
 						<a href="javascript:;" data-type="nav" data-url="{{:MyUrl('admin/admin/saveInfo', array('id'=>$admin['id']))}}" data-node-name="{{:MyLang('setup_title')}}">
 							<i class="am-icon-cog"></i>

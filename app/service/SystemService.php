@@ -11,6 +11,7 @@
 namespace app\service;
 
 use app\service\UserService;
+use app\service\MultilingualService;
 
 /**
  * 配置服务层
@@ -97,6 +98,9 @@ class SystemService
             MySession('share_referrer_id', $params['referrer']);
             MyCookie('share_referrer_id', $params['referrer'], false);
         }
+
+        // 多语言初始化设置
+        MultilingualService::SetUserMultilingualValue();
     }
 
     /**
@@ -213,6 +217,9 @@ class SystemService
             $lang_page = [];
         }
         $data = array_merge($lang_common, $lang_page);
+
+        // 追加多语言code
+        $data['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
         // 页面语言读取钩子
         $hook_name = 'plugins_page_view_lang_data';

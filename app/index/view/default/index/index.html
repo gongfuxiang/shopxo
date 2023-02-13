@@ -61,9 +61,9 @@
                         {{if !empty($user_order_status)}}
                             {{foreach $user_order_status as $v}}
                                 {{if in_array($v['status'], [1,2,3])}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" class="am-text-truncate" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{elseif in_array($v['status'], [100]) /}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" class="am-text-truncate" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{/if}}
                             {{/foreach}}
                         {{/if}}

@@ -31,14 +31,14 @@
                                         {{/if}}
                                     </div>
                                 </h3>
-                                <div class="am-gallery-desc">{{:MyLang('theme.list_author_title')}}
+                                <div class="am-gallery-desc">{{:MyLang('theme.list_author_title')}}：
                                     {{if empty($v['home'])}}
                                         {{$v.author}}
                                     {{else /}}
                                         <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
                                     {{/if}}
                                 </div>
-                                <div class="am-gallery-desc">{{:MyLang('theme.list_version_title')}}{{$v.ver}}</div>
+                                <div class="am-gallery-desc">{{:MyLang('theme.list_version_title')}}：{{$v.ver}}</div>
                             </div>
                         </div>
                     </li>

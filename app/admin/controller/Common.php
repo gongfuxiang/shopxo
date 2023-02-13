@@ -19,6 +19,7 @@ use app\service\AdminPowerService;
 use app\service\ConfigService;
 use app\service\ResourcesService;
 use app\service\StoreService;
+use app\service\MultilingualService;
 
 /**
  * 管理员公共控制器
@@ -105,6 +106,9 @@ class Common extends BaseController
 		// 系统初始化
         $this->SystemInit();
 
+        // 系统运行开始
+        SystemService::SystemBegin($this->data_request);
+
 		// 管理员信息
 		$this->admin = AdminService::LoginInfo();
 
@@ -121,6 +125,20 @@ class Common extends BaseController
         // 公共钩子初始化
         $this->CommonPluginsInit();
 	}
+
+    /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd($this->data_request);
+    }
 
 	/**
      * 系统初始化
@@ -371,6 +389,10 @@ class Common extends BaseController
 
         // 省市联动是否必选选择
         $assign['is_force_region_choice'] = 1;
+
+        // 多语言
+        $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
+        $assign['multilingual_data'] = MultilingualService::MultilingualData();
 
         // 模板赋值
         MyViewAssign($assign);
