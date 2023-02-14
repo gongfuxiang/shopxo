@@ -116,14 +116,14 @@ $(function()
         });
     });
 
-    // 弹窗全屏
-    $('#warehouse-goods-popup').on('click', '.am-popup-hd .am-full', function()
+    //弹窗全屏处理
+    function WarehouseGoodsPopupWinHandle(e)
     {
         var width = $(window).width();
         var height = $(window).height();
         if(width >= 630 && height >= 630)
         {
-            var $parent = $(this).parents('.am-popup');
+            var $parent = e.parents('.am-popup');
             if($parent.hasClass('popup-full'))
             {
                 $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
@@ -131,5 +131,14 @@ $(function()
                 $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
             }
         }
+    }
+    // 弹窗全屏
+    $('#warehouse-goods-popup').on('click', '.am-popup-hd .am-full', function()
+    {
+        WarehouseGoodsPopupWinHandle($(this));
+    });
+    $('#warehouse-goods-popup').on('dblclick', '.am-popup-hd', function()
+    {
+        WarehouseGoodsPopupWinHandle($(this));
     });
 });

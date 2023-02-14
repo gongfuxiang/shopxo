@@ -2320,6 +2320,7 @@ return [
             'page'          => [
                 'each_page_name'                    => '每页',
                 'page_unit'                         => '条',
+                'jump_to_text'                      => '跳转到',
                 'data_total'                        => '共 {:total} 条数据',
                 'page_total'                        => '共 {:total} 页',
             ],

@@ -403,6 +403,7 @@ return [
             'warehouse_choice_tips'             => '请选择仓库',
         ],
         // 基础
+        'add_goods_title'                       => '商品添加',
         'no_spec_data_tips'                     => '无规格数据',
         'batch_setup_inventory_placeholder'     => '批量设置的值',
         'base_spec_inventory_title'             => '规格库存',

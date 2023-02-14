@@ -404,6 +404,7 @@ return [
             'warehouse_choice_tips'             => 'Please select a warehouse',
         ],
         // 基础
+        'add_goods_title'                       => 'Goods Add',
         'no_spec_data_tips'                     => 'No specification data',
         'batch_setup_inventory_placeholder'     => 'Batch set value',
         'base_spec_inventory_title'             => 'Specification Inventory',

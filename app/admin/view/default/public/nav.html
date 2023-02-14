@@ -21,7 +21,7 @@
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 			{{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
-				<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
+				<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
 					<a class="am-dropdown-toggle" href="javascript:;">
 						<i class="am-icon-language"></i>
 						<span>{{:MyLang('lang_title')}}[{{$multilingual_data.default.name}}]</span>
@@ -36,14 +36,14 @@
 				</li>
 			{{/if}}
 
-			<li>
+			<li class="am-dropdown">
 				<a href="{{$theme_color_url}}">
 					<i class="am-icon-adjust"></i>
 					<span>{{$theme_color_name}}</span>
 				</a>
 			</li>
 			{{if AdminIsPower('cache', 'statusupdate')}}
-				<li>
+				<li class="am-dropdown">
 					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">
 						<i class="am-icon-paint-brush"></i>
 						<span>{{:MyLang('common.remove_cache_title')}}</span>
@@ -51,21 +51,21 @@
 				</li>
 			{{/if}}
 
-			<li class="am-dropdown am-hide-sm-only">
+			<li class="am-dropdown">
 				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="{{:MyLang('fullscreen_open_title')}}" data-fulltext-exit="{{:MyLang('fullscreen_exit_title')}}">
 					<i class="am-icon-arrows-alt"></i>
 					<span class="fullscreen-text">{{:MyLang('fullscreen_open_title')}}</span>
 				</a>
 			</li>
 
-			<li>
+			<li class="am-dropdown">
 				<a href="{{$home_url}}" target="_blank">
 					<i class="am-icon-home"></i>
 					<span>{{:MyLang('shop_home_title')}}</span>
 				</a>
 			</li>
 			
-			<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
+			<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
 				<a class="am-dropdown-toggle" href="javascript:;">
 					<i class="am-icon-user"></i>
 					<span class="tpl-header-list-user-nick">{{$admin.username}}</span>

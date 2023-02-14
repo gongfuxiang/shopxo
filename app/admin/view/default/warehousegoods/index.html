@@ -11,7 +11,7 @@
 <!-- 公共代码 -->
 {{block name="form_page_bottom"}}
     <!-- 商品添加弹窗 -->
-    <div class="am-popup" id="warehouse-goods-popup">
+    <div class="am-popup am-radius" id="warehouse-goods-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">{{:MyLang('warehousegoods.add_goods_title')}}</h4>
@@ -25,8 +25,8 @@
                         <select class="am-radius chosen-select forth-selection-form-warehouse" data-placeholder="{{:MyLang('common_service.warehousegoods.form_item_warehouseg_placeholder')}}" data-validation-message="{{:MyLang('common_service.warehousegoods.form_item_warehouseg_message')}}">
                             <option value="">{{:MyLang('common_service.warehousegoods.form_item_warehouseg_placeholder')}}</option>
                             {{if !empty($warehouse_list)}}
-                                {{foreach $warehouse_list as $v}}
-                                    <option value="{{$v.id}}">{{$v.name}}</option>
+                                {{foreach $warehouse_list as $k=>$v}}
+                                    <option value="{{$v.id}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
                                 {{/foreach}}
                             {{/if}}
                         </select>

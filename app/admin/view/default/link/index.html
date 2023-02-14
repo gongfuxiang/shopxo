@@ -21,19 +21,19 @@
 				<!-- form start -->
 				<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 					<div class="am-form-group">
-						<label>{{:MyLang('link.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" placeholder="{{:MyLang('link.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('link.form_item_name_message')}}" class="am-radius" required />
+						<label>{{:MyLang('common_service.link.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" placeholder="{{:MyLang('common_service.link.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.link.form_item_name_message')}}" class="am-radius" required />
 					</div>
 					<div class="am-form-group">
-						<label>{{:MyLang('link.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="url" placeholder="{{:MyLang('link.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('link.form_item_url_message')}}" class="am-radius" required />
+						<label>{{:MyLang('common_service.link.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="url" placeholder="{{:MyLang('common_service.link.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.link.form_item_url_message')}}" class="am-radius" required />
 					</div>
 					{{include file="lib/sort" /}}
 					{{include file="lib/is_new_window_open" /}}
 					{{include file="lib/is_enable" /}}
 					<div class="am-form-group am-form-success">
-						<label>{{:MyLang('link.form_item_desc')}}</label>
-						<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="{{:MyLang('link.form_item_desc_message')}}" data-validation-message="{{:MyLang('link.form_item_desc_message')}}"></textarea>
+						<label>{{:MyLang('common_service.link.form_item_desc')}}</label>
+						<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="{{:MyLang('common_service.link.form_item_desc_message')}}" data-validation-message="{{:MyLang('common_service.link.form_item_desc_message')}}"></textarea>
 					</div>
 					<div class="am-form-popup-submit">
 						<input type="hidden" name="id" />

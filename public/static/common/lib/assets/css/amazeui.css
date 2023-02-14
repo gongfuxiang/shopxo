@@ -8308,6 +8308,7 @@ TODO:
   height: 43px;
   border-bottom: 1px solid rgba(0,0,0,.03);
   background-color: #fff;
+  cursor: move;
 }
 .am-popup-hd .am-popup-title {
   font-size: 1.8rem;

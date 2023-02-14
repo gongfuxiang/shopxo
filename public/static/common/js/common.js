@@ -2180,13 +2180,17 @@ function FormTableContainerOperateGridMoreListInit(e)
 		$parent.removeClass('am-active');
 		$parent.find('.am-dropdown-content').remove();
 	} else {
-		if(length > 1)
+		if(length > 0)
 		{
-			var width = ((length-1)*10)+30;
+			// 隐藏的元素无法获取宽度，使用一个浮动元素临时存放按钮获取宽度
+			var key = 'temp-operate-more-item-width-container';
+			$('body').append('<div class="'+key+'" style="position:fixed;left:-9999999999px;bottom:-9999999999px;"></div>');
+			var width = (length*10)+20;
 			$parent.find('.am-dropdown-content .am-badge').each(function(k, v)
 			{
-				width += e.outerWidth();
+				width += $('.'+key).html($(this).prop('outerHTML')).outerWidth(true);
 			});
+			$('.'+key).remove();
 			$parent.find('.am-dropdown-content').css('width', width+'px');
 		}
 		$parent.addClass('am-dropdown-flip');
@@ -2955,6 +2959,28 @@ function ViewQrCodeInit()
 		    });
 		}
 	});
+}
+
+/**
+ * 弹窗放大缩小处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-02-14
+ * @desc    description
+ * @param   {[object]}        e [弹窗头对象]
+ */
+function PopupWindowSizeHandle(e)
+{
+	var $parent = e.parents('.am-popup');
+	if($parent.hasClass('popup-full'))
+	{
+		$parent.removeClass('popup-full').css({left: $parent.attr('data-original-left') || 0, top: $parent.attr('data-original-top') || 0});
+	} else {
+		$parent.attr('data-original-left', $parent.css('left'));
+		$parent.attr('data-original-top', $parent.css('top'));
+		$parent.addClass('popup-full').css({left: 0, top: 0});
+	}
 }
 
 
@@ -4148,14 +4174,54 @@ $(function()
     // 弹窗全屏
     $(document).on('click', '.am-popup-hd .am-full', function()
     {
-    	var $parent = $(this).parents('.am-popup');
-    	if($parent.hasClass('popup-full'))
-    	{
-    		$parent.removeClass('popup-full');
-    	} else {
-    		$parent.addClass('popup-full');
-    	}
+    	PopupWindowSizeHandle($(this));
     });
+    // 弹窗双击全屏及缩小
+    $(document).on('dblclick', '.am-popup-hd', function()
+    {
+    	PopupWindowSizeHandle($(this));
+    });
+
+    // 弹窗拖拽
+    $(document).on('mousedown', '.am-popup .am-popup-hd', function(event)
+    {
+	    var is_move = true;
+	    var $popup = $(this).parents('.am-popup');
+	    var width = $popup.width();
+	    var win_width = $(window).width();
+	    var win_height = $(window).height();
+	    var abs_x = event.pageX - $popup.offset().left;
+        var abs_y = event.pageY - $popup.offset().top;
+	    $(document).mousemove(function(event)
+	    {
+	        if(is_move)
+	        {
+	        	var left = event.pageX - abs_x;
+	        	var left_max = (0-width);
+	        	if(left < left_max)
+	        	{
+	        		left = left_max+20;
+	        	}
+	        	if(left > win_width)
+	        	{
+	        		left = win_width-20;
+	        	}
+	        	var top = event.pageY - abs_y;
+	        	if(top < 0)
+	        	{
+	        		top = 0;
+	        	}
+	        	if(top > win_height)
+	        	{
+	        		top = win_height-20;
+	        	}
+	            $popup.css({'left':left, 'top':top, 'margin': 0});
+	        };
+	    }).mouseup(function(event)
+	    {
+	    	is_move = false;
+	    });
+	});
 
     // 关闭窗口
     $(document).on('click', '.window-close-event', function()
