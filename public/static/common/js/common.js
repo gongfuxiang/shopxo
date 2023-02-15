@@ -4220,7 +4220,10 @@ $(function()
 	    }).mouseup(function(event)
 	    {
 	    	is_move = false;
-	    });
+	    }).mouseleave(function()
+        {
+            is_move = false;
+        });
 	});
 
     // 关闭窗口

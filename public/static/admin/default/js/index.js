@@ -15,6 +15,33 @@ function HeaderMenuPagesListHandle()
     }
 }
 
+/**
+ * 独立弹窗层级处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-02-15
+ * @desc    description
+ * @param   {[string]}        key [窗口可以]
+ */
+function LayerPagesLevelHandle(key)
+{
+    var index = 0;
+    var $content = $('#ifcontent');
+    $content.find('.window-layer-alone-layer').each(function()
+    {
+        var temp_index = parseInt($(this).css('z-index') || 0);
+        if(temp_index > index)
+        {
+            index = temp_index
+        }
+    });
+    $content.find('.window-layer .window-layer-seat').show();
+    var $layer = $content.find('.window-layer.iframe-item-key-'+key);
+    $layer.css({'z-index': index+1, 'position': 'fixed'});
+    $layer.find('.window-layer-seat').hide();
+}
+
 $(function()
 {
     // 处理顶部导航页面列表宽度
@@ -37,21 +64,45 @@ $(function()
         var key = $(this).data('key');
         if(url != null)
         {
+            // 名称
+            var name = $(this).data('node-name') || $(this).find('.nav-name').text();
+
             // 先隐藏所有的iframe
             // 页面未打开则添加iframe并打开
-            if($('#ifcontent iframe.iframe-item-key-'+key).length == 0)
+            if($('#ifcontent .iframe-item-key-'+key).length == 0)
             {
-                $('#ifcontent').append('<iframe src="'+url+'" width="100%" height="100%" class="iframe-item-key-'+key+'"></iframe>');
+                var html = `<div class="window-layer am-radius am-nbfc iframe-item-key-`+key+`" data-key="`+key+`">
+                                <div class="window-layer-tab-bar">
+                                    <span>`+name+`</span>
+                                    <div class="am-fr">
+                                        <span class="refresh am-icon-refresh"></span>
+                                        <span class="recovery am-icon-eject"></span>
+                                        <span class="close am-icon-close"></span>
+                                    </div>
+                                </div>
+                                <iframe src="`+url+`" width="100%" height="100%"></iframe>
+                                <div class="window-layer-seat"></div>
+                                <div class="window-layer-resize-bar">
+                                    <div data-type="left" class="window-layer-resize-item-left"></div>
+                                    <div data-type="right" class="window-layer-resize-item-right"></div>
+                                    <div data-type="top" class="window-layer-resize-item-top"></div>
+                                    <div data-type="bottom" class="window-layer-resize-item-bottom"></div>
+                                    <div data-type="left-top" class="window-layer-resize-item-left-top"></div>
+                                    <div data-type="right-top" class="window-layer-resize-item-right-top"></div>
+                                    <div data-type="left-bottom" class="window-layer-resize-item-left-bottom"></div>
+                                    <div data-type="right-bottom" class="window-layer-resize-item-right-bottom"></div>
+                                </div>
+                            </div>`;
+                $('#ifcontent').append(html);
             }
 
             // 添加快捷导航
             if($('.header-menu-open-pages-list ul li.nav-item-key-'+key).length == 0)
             {
-                var name = $(this).data('node-name') || $(this).find('.nav-name').text();
-                var html = '<li data-url="'+url+'" data-key="'+key+'" class="nav-item-key-'+key+'">';
-                    html += '<span>'+name+'</span>';
-                    html += '<a href="javascript:;" class="am-icon-close"></a>';
-                    html += '</li>';
+                var html = `<li data-url="`+url+`" data-key="`+key+`" class="nav-item-key-`+key+`">
+                                <span>`+name+`</span>
+                                <a href="javascript:;" class="am-icon-close"></a>
+                            </li>`;
                 $('.header-menu-open-pages-list ul').append(html);
             }
             // 模拟点击当前元素
@@ -210,16 +261,42 @@ $(function()
     });
 
     // 页面切换
+    var window_layer_alone_layer_warning_timer = null;
     $(document).on('click', '.header-menu-open-pages-list ul li', function()
     {
         // 选中当前页面
         $('.header-menu-open-pages-list ul li').removeClass('am-active');
         $(this).addClass('am-active');
         var key = $(this).data('key');
+        var $content = $('#ifcontent');
         // 显示当前页面
-        $('#ifcontent iframe').hide();
-        $('#ifcontent iframe.iframe-item-key-'+key).show();
+        $content.find('.window-layer').not('.window-layer-alone-layer').hide();
+        var $current_iframe = $('#ifcontent .iframe-item-key-'+key);
+        $current_iframe.show();
+        // 窗口存在独立
+        if($current_iframe.hasClass('window-layer-alone-layer'))
+        {
+            // 窗口存在独立则警告窗口提示
+            var count = 0;
+            clearInterval(window_layer_alone_layer_warning_timer);
+            window_layer_alone_layer_warning_timer = setInterval(function()
+            {
+                if(count > 10)
+                {
+                    clearInterval(window_layer_alone_layer_warning_timer);
+                } else {
+                    $current_iframe.css('box-shadow', 'rgb(0 0 0 / 30%) 1px 1px '+(count%2 == 0 ? '12px' : '24px'));
+                    count++;
+                }
+            }, 50);
+            // 设置层级
+            LayerPagesLevelHandle(key);
+        } else {
+            // 非独立窗口则隐藏所有页面占位
+            $content.find('.window-layer .window-layer-seat').hide();
+        }
     });
+
     // 页面移除
     $(document).on('click', '.header-menu-open-pages-list ul li a', function()
     {
@@ -227,7 +304,7 @@ $(function()
         var $parent = $(this).parent();
         var key = $parent.data('key');
         $parent.remove();
-        $('#ifcontent iframe.iframe-item-key-'+key).remove();
+        $('#ifcontent .iframe-item-key-'+key).remove();
         // 当前没有选中的导航则模拟点击最后一个选中
         if($('.header-menu-open-pages-list ul li.am-active').length == 0)
         {
@@ -236,8 +313,330 @@ $(function()
         // 无页面则添加默认初始化页面
         if($('.header-menu-open-pages-list ul li').length == 0)
         {
-            $('#ifcontent iframe').show();
+            $('#ifcontent .window-layer').show();
         }
         return false;
+    });
+
+    // 拖动为独立窗口
+    $(document).on('mousedown', '.header-menu-open-pages-list ul li', function(event)
+    {
+        var is_move = true;
+        var key = $(this).data('key') || null;
+        var $iframe = $('.iframe-item-key-'+key);
+        if(key != null && $iframe.length > 0)
+        {
+            var top = $(this).innerHeight()+$(this).offset().top;
+            $(document).mousemove(function(event)
+            {
+                if(is_move && event.pageY > top)
+                {
+                    // 增加独立窗口类
+                    $iframe.addClass('window-layer-alone-layer').show();
+                    // 设置层级
+                    LayerPagesLevelHandle(key);
+                }
+            }).mouseup(function(event)
+            {
+                is_move = false;
+            });
+        }
+    });
+    // 双击为独立窗口
+    $(document).on('dblclick', '.header-menu-open-pages-list ul li', function()
+    {
+        var key = $(this).data('key') || null;
+        // 增加独立窗口类
+        $('.iframe-item-key-'+key).addClass('window-layer-alone-layer').show();
+        // 设置层级
+        LayerPagesLevelHandle(key);
+    });
+
+    // 窗口切换
+    $(document).on('click', '#ifcontent .window-layer', function()
+    {
+        if($(this).hasClass('window-layer-alone-layer'))
+        {
+            LayerPagesLevelHandle($(this).data('key'));
+        } else {
+            // 非独立窗口则隐藏所有页面占位
+            $('#ifcontent .window-layer .window-layer-seat').hide();
+        }
+    });
+
+    // 独立窗口刷新
+    $(document).on('click', '.window-layer-alone-layer .window-layer-tab-bar .refresh', function()
+    {
+        var $parent = $(this).parents('.window-layer');
+        if($parent.find('iframe').attr('src', $parent.find('iframe').attr('src')));
+    });
+
+    // 收回独立窗口
+    $(document).on('click', '.window-layer-alone-layer .window-layer-tab-bar .recovery', function()
+    {
+        // 移除class和样式
+        $(this).parents('.window-layer').removeClass('window-layer-alone-layer').css({'position':'', 'left':'', 'top':'', 'box-shadow':'', 'width':'', 'height':'', 'z-index':''});
+        // 显示已选中页面
+        var key = $('.header-menu-open-pages-list ul li.am-active').data('key') || null;
+        if(key != null)
+        {
+            $('#ifcontent .window-layer').not('.window-layer-alone-layer').hide();
+            $('#ifcontent .iframe-item-key-'+key).show();
+        }
+        // 阻止事件
+        return false;
+    });
+
+    // 移除独立窗口
+    $(document).on('click', '.window-layer-alone-layer .window-layer-tab-bar .close', function()
+    {
+        // 移除当前页面
+        var $parent = $(this).parents('.window-layer');
+        var key = $parent.data('key');
+        $parent.remove();
+        $('.header-menu-open-pages-list ul li.nav-item-key-'+key).remove();
+        // 当前没有选中的导航则模拟点击最后一个选中
+        if($('.header-menu-open-pages-list ul li.am-active').length == 0)
+        {
+            $('.header-menu-open-pages-list ul li:last').trigger('click');
+        }
+        // 无页面则添加默认初始化页面
+        if($('.header-menu-open-pages-list ul li').length == 0)
+        {
+            $('#ifcontent .window-layer').show();
+        }
+        return false;
+    });
+
+    // 弹窗拖拽
+    $(document).on('mousedown', '.window-layer-tab-bar', function(pe)
+    {
+        var is_move = true;
+        var $content = $('#ifcontent');
+        var $layer = $(this).parents('.window-layer');
+        var $layer_seat = $layer.find('.window-layer-seat');
+        var header_height = $('header.admin-header').height();
+        var menu_width = parseInt($content.css('padding-left') || 0);
+        var width = $layer.outerWidth();
+        var height = $layer.outerHeight();
+        var win_width = $content.width()+menu_width;
+        var win_height = $content.height()+header_height;
+        var abs_x = pe.pageX - $layer.offset().left;
+        var abs_y = pe.pageY - $layer.offset().top;
+        // 设置层级
+        LayerPagesLevelHandle($layer.data('key'));
+        $layer_seat.show();
+        $(document).mousemove(function(event)
+        {
+            if(is_move)
+            {
+                // 左
+                var left = event.pageX - abs_x
+                if(left < menu_width)
+                {
+                    left = menu_width
+                } else if (left > win_width - width)
+                {
+                    left = win_width - width;
+                }
+
+                // 上
+                var top = event.pageY - abs_y;
+                if(top < header_height)
+                {
+                    top = header_height;
+                }
+                if (top > win_height - height)
+                {
+                    top = win_height - height
+                }
+
+                // 设置层级
+                var index = 0;
+                $layer.parent().find('.window-layer-alone-layer').each(function()
+                {
+                    var temp_index = parseInt($(this).css('z-index') || 0);
+                    if(temp_index > index)
+                    {
+                        index = temp_index
+                    }
+                });
+                $layer.css({'left':left, 'top':top, 'margin': 0, 'position': 'fixed', 'z-index': index+1});
+            };
+        }).mouseup(function()
+        {
+            if(is_move)
+            {
+                $layer_seat.hide();
+            }
+            is_move = false;
+        }).mouseleave(function()
+        {
+            if(is_move)
+            {
+                $layer_seat.hide();
+            }
+            is_move = false;
+        });
+    });
+
+    // 独立窗口拉动大小
+    $(document).on('mousedown', '.window-layer-resize-bar div[class^="window-layer-resize-item-"]', function(pe)
+    {
+        var is_move = true;
+        var $content = $('#ifcontent');
+        var $layer = $(this).parents('.window-layer');
+        var $layer_seat = $layer.find('.window-layer-seat');
+        var py = pe.pageY;
+        var px = pe.pageX;
+        var resize_bar_type = $(this).data('type');
+        var p_init_y = $layer.css('top').replace('px', '');
+        var p_init_x = $layer.css('left').replace('px', '');
+        var p_init_height = $layer.height();
+        var p_init_width = $layer.width();
+        var header_height = $('header.admin-header').height();
+        var menu_width = parseInt($content.css('padding-left') || 0);
+        var win_width = $content.width()+menu_width;
+        var win_height = $content.height();
+        var limit_min_width = 500;
+        var limit_min_height = 300;
+        // 设置层级
+        LayerPagesLevelHandle($layer.data('key'));
+        $layer_seat.show();
+        $(document).mousemove(function(event)
+        {
+            if(is_move)
+            {
+                var hh = parseInt(event.pageY) - parseInt(py);
+                var ww = parseInt(event.pageX) - parseInt(px);
+                var temp_y = hh + parseInt(p_init_y);
+                var temp_x = ww + parseInt(p_init_x);
+                if(temp_y < header_height)
+                {
+                    temp_y = header_height;
+                }
+
+                // 高度
+                var height = 0;
+                if(['left-top', 'top', 'right-top'].indexOf(resize_bar_type) != -1)
+                {
+                    height = parseInt(p_init_height) - hh;
+                }
+                if(['left-bottom', 'bottom', 'right-bottom'].indexOf(resize_bar_type) != -1)
+                {
+                    height = parseInt(p_init_height) + hh;
+                }
+                if(height > win_height)
+                {
+                    height = win_height;
+                }
+                if(height < limit_min_height)
+                {
+                    height = limit_min_height;
+                }
+
+                // 宽度
+                var width = 0;
+                if(['left-top', 'left', 'left-bottom'].indexOf(resize_bar_type) != -1)
+                {
+                    width = parseInt(p_init_width) - ww;
+                }
+                if(['right-top', 'right', 'right-bottom'].indexOf(resize_bar_type) != -1)
+                {
+                    width = parseInt(p_init_width) + ww;
+                }
+                if(width > win_width)
+                {
+                    width = win_width;
+                }
+                if(width < limit_min_width)
+                {
+                    width = limit_min_width;
+                }
+
+                // 不允许超出外边距范围
+                if(event.pageY-header_height <= 0 || event.pageY >= win_height+header_height)
+                {
+                    return false;
+                }
+                if(event.pageX >= win_width)
+                {
+                    return false;
+                }
+                if(event.pageX <= menu_width)
+                {
+                    return false;
+                }
+
+                // 根据类型设置样式
+                switch(resize_bar_type)
+                {
+                    case 'left-top':
+                        $layer.css({
+                            top: temp_y + 'px',
+                            height: height + 'px',
+                            left: temp_x + 'px',
+                            width: width + 'px'
+                        });
+                    break;
+                    case 'top':
+                        $layer.css({
+                            top: temp_y + 'px',
+                            height: height + 'px'
+                        });
+                    break;
+                    case 'right-top':
+                        $layer.css({
+                            top: temp_y + 'px',
+                            height: height + 'px',
+                            width: width + 'px'
+                        });
+                    break;
+                    case 'left':
+                        $layer.css({
+                        left: temp_x + 'px',
+                            width: width + 'px'
+                        });
+                    break;
+                    case 'right':
+                        $layer.css({
+                            width: width + 'px'
+                        });
+                    break;
+                    case 'left-bottom':
+                        $layer.css({
+                            height: height + 'px',
+                            left: temp_x + 'px',
+                            width: width + 'px'
+                        });
+                    break;
+                    case 'bottom':
+                        $layer.css({
+                            height: height + 'px'
+                        });
+                    break;
+                    case 'right-bottom':
+                        $layer.css({
+                            height: height + 'px',
+                            width: width + 'px'
+                        });
+                    break;
+                }
+            }
+        }).mouseup(function()
+        {
+            if(is_move)
+            {
+                $layer_seat.hide();
+            }
+            is_move = false;
+        }).mouseleave(function()
+        {
+            if(is_move)
+            {
+                $layer_seat.hide();
+            }
+            is_move = false;
+        });
     });
 });

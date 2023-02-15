@@ -107,3 +107,116 @@
         display: none;
     }
 }
+
+/**
+ * 多屏窗口
+ */
+.window-layer {
+    width: 100%;
+    height: 100%;
+}
+.window-layer-tab-bar {
+    background: #f5f5f5;
+    height: 35px;
+    line-height: 35px;
+    cursor: move;
+    text-align: left;
+    font-weight: bold;
+    padding: 0 5px 0 10px;
+    display: none;
+}
+.window-layer-alone-layer {
+    width: 800px;
+    height: 500px;
+    box-shadow: rgb(0 0 0 / 30%) 1px 1px 24px;
+    border: 1px solid #4386fb;
+}
+.window-layer-alone-layer .window-layer-tab-bar {
+    display: block;
+}
+.window-layer-alone-layer iframe {
+    height: calc(100% - 35px);
+}
+.window-layer-alone-layer .window-layer-tab-bar .am-fr span {
+    color: #a6a6a6;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 8px;
+    line-height: 0;
+}
+.window-layer-seat {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 35px);
+    background: transparent;
+    display: none;
+}
+.window-layer-resize-bar>[class^=window-layer-resize-item-] {
+    position: absolute;
+    z-index: 3;
+    overflow: hidden;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.window-layer-resize-item-left {
+    left: 0;
+    cursor: w-resize;
+}
+.window-layer-resize-item-right {
+    right: 0;
+    cursor: e-resize;
+}
+.window-layer-resize-item-left,
+.window-layer-resize-item-right {
+    width: 6px;
+    top: 6px;
+    bottom: 6px;
+}
+.window-layer-resize-item-top {
+    top: 0;
+    cursor: n-resize;
+}
+.window-layer-resize-item-bottom {
+    bottom: 0;
+    cursor: s-resize;
+}
+.window-layer-resize-item-bottom,
+.window-layer-resize-item-top {
+    height: 6px;
+    left: 6px;
+    right: 6px;
+}
+.window-layer-resize-item-left-top {
+    left: 0;
+    top: 0;
+    cursor: nw-resize;
+}
+.window-layer-resize-item-right-top {
+    right: 0;
+    top: 0;
+    cursor: ne-resize;
+}
+.window-layer-resize-item-left-bottom {
+    left: 0;
+    bottom: 0;
+    cursor: sw-resize;
+}
+.window-layer-resize-item-right-bottom {
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
+.window-layer-resize-item-left-bottom,
+.window-layer-resize-item-left-top,
+.window-layer-resize-item-right-bottom,
+.window-layer-resize-item-right-top {
+    width: 6px;
+    height: 6px;
+}
+@media only screen and (min-width: 641px) {
+    .window-layer-alone-layer .window-layer-tab-bar .am-fr span:hover {
+        color: #666;
+    }
+}

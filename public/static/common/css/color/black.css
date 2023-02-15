@@ -3,7 +3,7 @@
  */
 html,body {
     background: #141414;
-    color: #cfd3dc;
+    color: #8e8e8e;
 }
 .am-table-striped > tbody > tr:nth-child(odd) > td,
 .am-table-striped > tbody > tr:nth-child(odd) > th {
@@ -478,6 +478,9 @@ ul.am-dropdown-content {
 .am-dropdown-content:before {
     border-bottom-color: #292929;
 }
+.am-dropdown-up .am-dropdown-content:after {
+    border-top-color: #1d1d1d;
+}
 .am-btn-default:hover,
 .am-btn-default:focus,
 .am-btn-default:active,
@@ -760,8 +763,8 @@ ul.plug-file-upload-view li {
     color: #888;
 }
 .admin-header {
-    -webkit-box-shadow: 0 1px 2px #25303c;
-    box-shadow: 0 1px 2px #25303c;
+    -webkit-box-shadow: 0 1px 2px rgb(37 48 60 / 60%);
+    box-shadow: 0 1px 2px rgb(37 48 60 / 60%);
 }
 .form-bottom-nav-fixed {
     background: #242424;
@@ -778,7 +781,8 @@ ul.plug-file-upload-view li {
 .header-menu-open-pages-list ul li {
     border-color: #3d3d3d;
 }
-.header-menu-open-pages-list ul li.am-active {
+.header-menu-open-pages-list ul li.am-active,
+.header-menu-open-pages-list ul li:hover {
     color: #506cb1;
     border-color: #5873b4;
 }
@@ -829,6 +833,24 @@ ul.plug-file-upload-view li {
 @media only screen and (max-width: 640px) {
     .admin-offcanvas-bar:after {
         background: #2c2c2c;
+    }
+}
+
+/**
+ * 独立多屏窗口
+ */
+.window-layer-tab-bar {
+    background: #393939;
+}
+.window-layer-alone-layer {
+    border: 1px solid #363636;
+}
+.window-layer-alone-layer .window-layer-tab-bar .am-fr span {
+    color: #626262;
+}
+@media only screen and (min-width: 641px) {
+    .window-layer-alone-layer .window-layer-tab-bar .am-fr span:hover {
+        color: #aaaaaa;
     }
 }
 
