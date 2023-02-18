@@ -39,6 +39,8 @@ return [
         'goods_id_empty_tips'               => 'Item ID data',
         'input_empty_tips'                  => 'Please enter data',
         'store_enabled_tips'                => 'Your browser does not support local storage. Please disable Private Mode or upgrade to a modern browser.',
+        'copy_fail'                         => 'Copy Failed',
+        'copy_success'                      => 'Copy Succeeded',
         // 上传下载
         'get_loading_tips'                  => 'Getting...',
         'download_loading_tips'             => 'Downloading...',
@@ -2312,7 +2314,8 @@ return [
             // 分页
             'page'          => [
                 'each_page_name'                    => 'Each Page',
-                'page_unit'                         => 'Strip',
+                'page_strip'                        => 'Strip',
+                'page_unit'                         => 'Page',
                 'jump_to_text'                      => 'Jump to',
                 'data_total'                        => 'Total {:total} Data',
                 'page_total'                        => 'Total {:total} Page',

@@ -39,6 +39,8 @@ return [
         'goods_id_empty_tips'               => '商品ID数据',
         'input_empty_tips'                  => '请输入数据',
         'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
+        'copy_fail'                         => '复制失败',
+        'copy_success'                      => '复制成功',
         // 上传下载
         'get_loading_tips'                  => '正在获取中...',
         'download_loading_tips'             => '正在下载中...',
@@ -2319,7 +2321,8 @@ return [
             // 分页
             'page'          => [
                 'each_page_name'                    => '每页',
-                'page_unit'                         => '条',
+                'page_strip'                        => '条',
+                'page_unit'                         => '页',
                 'jump_to_text'                      => '跳转到',
                 'data_total'                        => '共 {:total} 条数据',
                 'page_total'                        => '共 {:total} 页',

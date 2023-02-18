@@ -409,7 +409,7 @@ $(function()
     });
 
     // 弹窗拖拽
-    $(document).on('mousedown', '.window-layer-tab-bar', function(pe)
+    $(document).on('mousedown', '.window-layer-alone-layer .window-layer-tab-bar', function(pe)
     {
         var is_move = true;
         var $content = $('#ifcontent');
@@ -481,7 +481,7 @@ $(function()
     });
 
     // 独立窗口拉动大小
-    $(document).on('mousedown', '.window-layer-resize-bar div[class^="window-layer-resize-item-"]', function(pe)
+    $(document).on('mousedown', '.window-layer-alone-layer .window-layer-resize-bar div[class^="window-layer-resize-item-"]', function(pe)
     {
         var is_move = true;
         var $content = $('#ifcontent');

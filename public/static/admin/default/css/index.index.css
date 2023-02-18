@@ -153,6 +153,12 @@
     background: transparent;
     display: none;
 }
+.window-layer-resize-bar {
+    display: none;
+}
+.window-layer-alone-layer .window-layer-resize-bar {
+    display: block;
+}
 .window-layer-resize-bar>[class^=window-layer-resize-item-] {
     position: absolute;
     z-index: 3;

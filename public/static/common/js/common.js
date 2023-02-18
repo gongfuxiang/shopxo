@@ -4667,4 +4667,21 @@ $(function()
 	    // 关闭弹窗
 	    $(this).parents('.am-modal-dialog').find('.am-modal-hd .am-close').trigger('click');
     });
+
+    // 文本信息复制
+    var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
+    {
+        text: function(e)
+        {
+            return $(e).data('value');
+        }
+    });
+    text_copy_clipboard.on('success', function(e)
+    {
+        Prompt(window['lang_copy_success'] || '复制成功', 'success');
+    });
+    text_copy_clipboard.on('error', function(e)
+    {
+        Prompt(window['lang_copy_fail'] || '复制失败');
+    });
 });
