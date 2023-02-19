@@ -19,13 +19,13 @@
                 <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
                     <div class="am-form-group am-form-group-refreshing">
                         <label>{{:MyLang('user.form_item_account')}}</label>
-                        <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_account_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_account_message')}}" autocomplete="off" required />
+                        <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_account_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_account_message')}}" autocomplete="off" data-is-clearout="0" required />
                     </div>
 
                     <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                         <label>{{:MyLang('user.form_item_password')}}</label>
                         <div class="am-input-group am-input-group-sm">
-                            <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_placeholder')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" required />
+                            <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_placeholder')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" data-is-clearout="0" required />
                             <span class="am-input-group-btn">
                                 <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
                             </span>
@@ -36,7 +36,7 @@
                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                             <label>{{:MyLang('form_verify_title')}}</label>
                             <div class="am-input-group am-input-group-sm">
-                                <input type="text" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_images_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" required />
+                                <input type="text" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_images_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                                 <span class="am-input-group-btn">
                                     <span class="am-btn am-btn-default am-radius am-padding-0 form-verify">
                                         <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'user_login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
@@ -60,13 +60,13 @@
                 <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
                     <div class="am-form-group am-form-group-refreshing">
                         <label>{{:MyLang('user.form_item_mobile')}}</label>
-                        <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_mobile_placeholder')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('user.form_item_mobile_message')}}" autocomplete="off" required />
+                        <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_mobile_placeholder')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('user.form_item_mobile_message')}}" autocomplete="off" data-is-clearout="0" required />
                     </div>
 
                     <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                         <label>{{:MyLang('form_verify_title')}}</label>
                         <div class="am-input-group am-input-group-sm">
-                            <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" required />
+                            <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                             <span class="am-input-group-btn">
                                 <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">{{:MyLang('form_verify_button_text')}}</button>
                             </span>
@@ -86,13 +86,13 @@
                 <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
                     <div class="am-form-group am-form-group-refreshing">
                         <label>{{:MyLang('user.form_item_email')}}</label>
-                        <input type="email" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_email_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_email_message')}}" autocomplete="off" required />
+                        <input type="email" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_email_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_email_message')}}" autocomplete="off" data-is-clearout="0" required />
                     </div>
 
                     <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                         <label>{{:MyLang('form_verify_title')}}</label>
                         <div class="am-input-group am-input-group-sm">
-                            <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" required />
+                            <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                             <span class="am-input-group-btn">
                                 <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">{{:MyLang('form_verify_button_text')}}</button>
                             </span>
