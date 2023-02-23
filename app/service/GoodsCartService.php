@@ -54,7 +54,7 @@ class GoodsCartService
         // 基础参数
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where[] = ['c.user_id', '=', $params['user']['id']];
-        $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model, g.site_type';
+        $field = 'c.*,g.inventory_unit,g.is_shelves,g.is_delete_time,g.buy_min_number,g.buy_max_number,g.model,g.site_type';
 
         // 购物车列表读取前钩子
         $hook_name = 'plugins_service_cart_goods_list_begin';
@@ -91,6 +91,9 @@ class GoodsCartService
                     $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
                     $v['price'] = $goods_base['data']['spec_base']['price'];
                     $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
+                    $v['spec_base_id'] = $goods_base['data']['spec_base']['id'];
+                    $v['spec_buy_min_number'] = $goods_base['data']['spec_base']['buy_min_number'];
+                    $v['spec_buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
                     $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
                     $v['spec_volume'] = $goods_base['data']['spec_base']['volume'];
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
@@ -99,6 +102,9 @@ class GoodsCartService
                 } else {
                     $v['is_invalid'] = 1;
                     $v['inventory'] = 0;
+                    $v['spec_base_id'] = 0;
+                    $v['spec_buy_min_number'] = 0;
+                    $v['spec_buy_max_number'] = 0;
                     $v['spec_weight'] = 0;
                     $v['spec_volume'] = 0;
                     $v['spec_coding'] = '';
@@ -391,26 +397,29 @@ class GoodsCartService
             return $ret;
         }
 
-        // 条件
-        $where = [
-            'id'        => intval($params['id']),
-            'goods_id'  => intval($params['goods_id']),
-            'user_id'   => intval($params['user']['id']),
+        // 获取购物车商品
+        $params['where'] = [
+            ['c.id', '=', intval($params['id'])],
+            ['c.goods_id', '=', intval($params['goods_id'])],
         ];
-
-        // 数量
-        $stock = intval($params['stock']);
-
-        // 获取购物车数据
-        $data = Db::name('Cart')->where($where)->field('goods_id,title,price,stock,spec')->find();
-        if(empty($data))
+        $cart = self::GoodsCartList($params);
+        if($cart['code'] != 0)
+        {
+            return $cart;
+        }
+        if(empty($cart['data']) || empty($cart['data'][0]))
         {
             return DataReturn(MyLang('common_service.goodscart.save_stock_update_data_empty_tips'), -1);
         }
-        $data['stock'] = $stock;
-        $data['spec'] = empty($data['spec']) ? null : json_decode($data['spec'], true);
+        $data = $cart['data'][0];
+        // 是否存在错误
+        if($data['is_error'] == 1)
+        {
+            return DataReturn($data['error_msg'], -1);
+        }
 
         // 商品校验
+        $data['stock'] = intval($params['stock']);
         $ret = BuyService::BuyGoodsCheck(['goods'=>[$data]]);
         if($ret['code'] != 0)
         {
@@ -419,25 +428,12 @@ class GoodsCartService
 
         // 更新数据
         $upd_data = [
-            'stock'     => $stock,
+            'stock'     => $data['stock'],
             'upd_time'  => time(),
         ];
-        if(Db::name('Cart')->where($where)->update($upd_data))
+        if(Db::name('Cart')->where(['id'=>$data['id']])->update($upd_data))
         {
-            // 获取商品基础信息、更新商品价格信息
-            $spec_params = array_merge($params, [
-                'id'    => $data['goods_id'],
-                'spec'  => $data['spec'],
-                'stock' => $data['stock'],
-            ]);
-            $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-            if($goods_base['code'] == 0)
-            {
-                $data['price'] = $goods_base['data']['spec_base']['price'];
-                $data['original_price'] = $goods_base['data']['spec_base']['original_price'];
-            }
-
-            // 增加价格总计
+            // 重新计算总价
             $data['total_price'] = PriceNumberFormat($data['stock']*$data['price']);
 
             // 购物车更新成功钩子

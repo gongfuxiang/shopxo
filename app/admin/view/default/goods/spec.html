@@ -110,6 +110,14 @@
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
+                        <span>{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}</span>
+                        <i class="am-icon-edit"></i>
+                    </th>
+                    <th>
+                        <span>{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}</span>
+                        <i class="am-icon-edit"></i>
+                    </th>
+                    <th>
                         <span>{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
@@ -133,25 +141,31 @@
                 {{if empty($specifications['value'])}}
                     <tr class="line-0" data-line-tag=".line-0">
                         <td class="am-text-middle value-start">
-                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" required />
+                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" data-is-clearout="0" required />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_original_price_message')}}" />
+                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_original_price_message')}}" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" />
+                            <input type="number" name="specifications_buy_min_number[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}" class="am-radius" min="0" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_message')}}" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" />
+                            <input type="number" name="specifications_buy_max_number[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}" class="am-radius" min="0" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_message')}}" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_coding_message')}}" />
+                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_barcode_message')}}" />
+                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
+                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_coding_message')}}" data-is-clearout="0" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_barcode_message')}}" data-is-clearout="0" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="hidden" name="specifications_extends[]" class="line-extend-input" />
                             <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">{{:MyLang('edit_title')}}</a>
                         </td>
                         <td class="am-text-middle">
@@ -171,28 +185,34 @@
                                 {{switch v.data_type}}
                                     {{case spec}}
                                         <td class="am-text-middle table-value table-value-{{$v.data.key}}">
-                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" required />
+                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" data-is-clearout="0" required />
                                         </td>
                                     {{/case}}
 
                                     {{case base}}
                                         <td class="am-text-middle value-start">
-                                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" value="{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}" required />
+                                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" value="{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}" data-is-clearout="0" required />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_original_price_message')}}" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+                                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_original_price_message')}}" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" data-is-clearout="0" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" value="{{if isset($v['data']['weight']) and $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
+                                            <input type="number" name="specifications_buy_min_number[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}" class="am-radius" min="0" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_message')}}" value="{{if !empty($v['data']['buy_min_number'])}}{{$v.data.buy_min_number}}{{/if}}" data-is-clearout="0" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius" max="100000000" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" value="{{if isset($v['data']['volume']) and $v['data']['volume'] gt 0}}{{$v.data.volume}}{{/if}}" />
+                                            <input type="number" name="specifications_buy_max_number[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}" class="am-radius" min="0" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_message')}}" value="{{if !empty($v['data']['buy_max_number'])}}{{$v.data.buy_max_number}}{{/if}}" data-is-clearout="0" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_coding_message')}}" value="{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}" />
+                                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" value="{{if isset($v['data']['weight']) and $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" data-is-clearout="0" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_barcode_message')}}" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" />
+                                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius" max="100000000" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" value="{{if isset($v['data']['volume']) and $v['data']['volume'] gt 0}}{{$v.data.volume}}{{/if}}" data-is-clearout="0" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_coding_message')}}" value="{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}" data-is-clearout="0" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_barcode_message')}}" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" data-is-clearout="0" />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />

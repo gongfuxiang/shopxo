@@ -967,11 +967,6 @@ class GoodsService
                 'error_msg'         => MyLang('common_service.goods.form_item_inventory_unit_message'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'buy_min_number',
-                'error_msg'         => MyLang('common_service.goods.form_item_buy_min_number_message'),
-            ],
-            [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
                 'checked_data'      => array_merge(array_column(MyLang('common_site_type_list'), 'value')),
@@ -1019,7 +1014,7 @@ class GoodsService
         {
             return $specifications;
         }
-        
+
         // 相册
         $photo = self::GetFormGoodsPhotoParams($params);
         if($photo['code'] != 0)
@@ -1057,8 +1052,6 @@ class GoodsService
             'model'                     => empty($params['model']) ? '' : $params['model'],
             'place_origin'              => isset($params['place_origin']) ? intval($params['place_origin']) : 0,
             'inventory_unit'            => $params['inventory_unit'],
-            'buy_min_number'            => max(1, isset($params['buy_min_number']) ? intval($params['buy_min_number']) : 1),
-            'buy_max_number'            => isset($params['buy_max_number']) ? intval($params['buy_max_number']) : 0,
             'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,
             'is_shelves'                => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
             'content_web'               => $content_web,
@@ -1233,11 +1226,28 @@ class GoodsService
      */
     public static function GoodsSaveBaseUpdate($goods_id, $params = [])
     {
-        $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
-        if(empty($data))
+        // 商品基础数据
+        $base = Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->select()->toArray();
+        if(empty($base))
         {
             return DataReturn(MyLang('common_service.goods.save_goods_base_empty_tips'), -1);
         }
+        // 汇总处理
+        $data = [
+            'min_price'           => min(array_column($base, 'price')),
+            'max_price'           => max(array_column($base, 'price')),
+            'min_original_price'  => min(array_column($base, 'original_price')),
+            'max_original_price'  => max(array_column($base, 'original_price')),
+            'inventory'           => array_sum(array_column($base, 'inventory')),
+        ];
+        // 起购数、限购数处理
+        $data['buy_min_number'] = min(array_column($base, 'buy_min_number'));
+        if($data['buy_min_number'] <= 0)
+        {
+            $data['buy_min_number'] = 1;
+        }
+        $buy_max_number = max(array_column($base, 'buy_max_number'));
+        $data['buy_max_number'] = ($buy_max_number > 0 && min(array_column($base, 'buy_max_number')) > 0) ? $buy_max_number : 0;
 
         // 销售价格 - 展示价格
         $data['price'] = (!empty($data['max_price']) && $data['min_price'] != $data['max_price']) ? $data['min_price'].'-'.$data['max_price'] : $data['min_price'];
@@ -1284,8 +1294,8 @@ class GoodsService
         $images = [];
 
         // 基础字段数据字段长度
-        // 销售价、原价、重量、体积、编码、条形码、扩展
-        $base_count = 7;
+        // 销售价、原价、起购数、限购数、重量、体积、编码、条形码、扩展
+        $base_count = 9;
 
         // 规格值
         foreach($params as $k=>$v)
@@ -1670,7 +1680,7 @@ class GoodsService
         {
             // 基础字段
             $count = count($data['data'][0]);
-            $temp_key = ['price', 'original_price', 'weight', 'volume', 'coding', 'barcode', 'extends'];
+            $temp_key = ['price', 'original_price', 'buy_min_number', 'buy_max_number', 'weight', 'volume', 'coding', 'barcode', 'extends'];
             $key_count = count($temp_key);
 
             // 等于key总数则只有一列基础规格
@@ -1820,6 +1830,12 @@ class GoodsService
         if(Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
             throw new \Exception(MyLang('common_service.goods.delete_spec_base_fail_tips'));
+        }
+
+        // 关联分类
+        if(Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception(MyLang('common_service.goods.delete_goods_category_fail_tips'));
         }
 
         // 相册
@@ -2071,7 +2087,7 @@ class GoodsService
         {
             if(!is_array($params['spec']))
             {
-                $spec = json_decode(htmlspecialchars_decode($params['spec']), true);
+                $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
             }
             $spec = array_column($params['spec'], 'value');
         }

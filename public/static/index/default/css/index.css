@@ -24,8 +24,7 @@ ul, li, ol {list-style: none;}
 
 /*标题*/
 .items-nav-title{text-align: center;width: 100%;overflow: hidden;background:#eee;}
-.items-nav-title .floor-title {font-size: 14px;margin:20px 0px;line-height: 1px;border-left: 60px solid #d2364c;border-right: 60px solid #d2364c;
-text-align: center;float:none}
+.items-nav-title .floor-title {font-size: 14px;margin:20px 0px;line-height: 1px;border-left: 60px solid #d2364c;border-right: 60px solid #d2364c;text-align: center;float:none;font-weight: 600;}
 .items-nav-title .floor-desc,.items-nav-title .today-brands,.items-nav-title .more{display: none;}
 
 /*楼层*/
@@ -71,7 +70,7 @@ text-align: center;float:none}
     .banner-news li{ font-size:12px; padding:0px 0px;height: 30px;float: right;width:30% ;}	
 
     /*标题*/
-    .items-nav-title .floor-title {border: none;font-size:18px;line-height: 24px;margin:5px 0px ;font-weight: 600;}
+    .items-nav-title .floor-title {border: none;font-size:18px;line-height: 24px;margin:5px 0px;}
     .items-nav-title .floor-desc {display:block;font-size: 14px;color: #999;line-height:18px;margin-bottom: 5px;}
 
     /*楼层*/

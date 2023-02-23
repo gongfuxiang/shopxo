@@ -106,8 +106,8 @@ function BuyCartCheck(e)
     // 参数
     var stock = parseInt($('#text_box').val()) || 1;
     var inventory = parseInt($('.stock-tips .stock').text());
-    var min = $('.stock-tips .stock').data('min-limit') || 1;
-    var max = $('.stock-tips .stock').data('max-limit') || 0;
+    var min = $('.stock-tips .stock').attr('data-min-limit') || 1;
+    var max = $('.stock-tips .stock').attr('data-max-limit') || 0;
     var unit = $('.stock-tips .stock').data('unit') || '';
     if(stock < min)
     {
@@ -216,24 +216,58 @@ function BuyCartHandle(e)
  */
 function GoodsSpecDetailBackHandle(data)
 {
+    // 售价
     $('.text-info .price-now').text(__currency_symbol__+data.spec_base.price);
     $('.goods-price').text(data.spec_base.price);
-    $('.number-tag input[type="number"]').attr('max', data.spec_base.inventory);
-    $('.stock-tips .stock').text(data.spec_base.inventory);
+    // 数量处理
+    var inventory = parseInt(data.spec_base.inventory);
+    var $input = $('#text_box');
+    var $stock = $('.stock-tips .stock');
+    var $origina_price = $('.goods-original-price');
+
+    // 起购数
+    var min = parseInt($input.data('original-buy-min-number'));
+    var buy_min_number = parseInt(data.spec_base.buy_min_number);
+    if(buy_min_number > 0)
+    {
+        min = buy_min_number;
+    }
+    $input.attr('min', min);
+
+    // 限购数
+    var max = inventory;
+    var buy_max_number = parseInt(data.spec_base.buy_max_number);
+    if(buy_max_number > 0 && buy_max_number < max)
+    {
+        max = buy_max_number;
+    }
+    $input.attr('max', max);
+    $stock.text(inventory);
+
+    // 原价
     if(data.spec_base.original_price > 0)
     {
-        $('.goods-original-price').text(__currency_symbol__+data.spec_base.original_price);
-        $('.goods-original-price').parents('.items').show();
+        $origina_price.text(__currency_symbol__+data.spec_base.original_price);
+        $origina_price.parents('.items').show();
     } else {
-        $('.goods-original-price').parents('.items').hide();
+        $origina_price.parents('.items').hide();
     }
 
     // 已选数量校验、超出规格数量则以规格数量为准
-    var stock = parseInt($('#text_box').val());
-    if(stock > data.spec_base.inventory)
+    var stock = parseInt($input.val());
+    if(min > 0 && stock < min)
     {
-        $('#text_box').val(data.spec_base.inventory);
+        stock = min;
     }
+    if(max > 0 && stock > max)
+    {
+        stock = max;
+    }
+    if(stock > inventory)
+    {
+        stock = inventory;
+    }
+    $input.val(stock);
 
     // 扩展数据处理
     var extends_element = data.extends_element || [];
@@ -246,6 +280,16 @@ function GoodsSpecDetailBackHandle(data)
                 $(extends_element[i]['element']).prop('outerHTML', extends_element[i]['content']);
             }
         }
+    }
+
+    // 起购/限购
+    if(min > 0)
+    {
+        $stock.attr('data-min-limit', min);
+    }
+    if(max > 0)
+    {
+        $stock.attr('data-max-limit', max);
     }
 }
 
@@ -396,15 +440,23 @@ function GoodsSpecType()
  */
 function GoodsBaseRestore()
 {
-    $('.text-info .price-now').text(__currency_symbol__+$('.text-info .price-now').data('original-price'));
-    $('.goods-price').text($('.goods-price').data('original-price'));
-    $('.number-tag input[type="number"]').attr('max', $('.number-tag input[type="number"]').data('original-max'));
-    $('.stock-tips .stock').text($('.stock-tips .stock').data('original-stock'));
+    var $input = $('#text_box');
+    var $stock = $('.stock-tips .stock');
+    var $price = $('.goods-price');
+    var $price_now = $('.text-info .price-now');
+    var $original_price_value = $('.tb-detail-price .original-price-value');
+    $input.attr('min', $input.data('original-buy-min-number'));
+    $input.attr('max', $stock.data('original-max'));
+    $stock.text($stock.data('original-inventory'));
+    $stock.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
+    $stock.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
 
     // 价格处理
-    if($('.tb-detail-price .original-price-value').length > 0)
+    $price_now.text(__currency_symbol__+$price_now.data('original-price'));
+    $price.text($price.data('original-price'));
+    if($original_price_value.length > 0)
     {
-        $('.tb-detail-price .original-price-value').each(function(k, v)
+        $original_price_value.each(function(k, v)
         {
             var price = $(this).data('original-price');
             if(price !== undefined)
@@ -446,7 +498,7 @@ function GoodsNumberChange()
 
     // ajax请求
     $.ajax({
-        url: RequestUrlHandle($('#text_box').data('ajax-url')),
+        url: RequestUrlHandle(__goods_stock_url__),
         type: 'post',
         dataType: "json",
         timeout: 10000,
@@ -699,13 +751,13 @@ $(function() {
     //获得文本框对象
     var $input = $('#text_box');
     var $stock_tips = $('.stock-tips .stock');
-    var min = parseInt($stock_tips.data('min-limit')) || 1;
-    var max = parseInt($stock_tips.data('max-limit')) || 0;
     var unit = $stock_tips.data('unit') || '';
 
     // 手动输入
     $input.on('blur', function()
     {
+        var min = parseInt($stock_tips.attr('data-min-limit')) || 1;
+        var max = parseInt($stock_tips.attr('data-max-limit')) || 0;
         var stock = parseInt($(this).val());
         var inventory = parseInt($stock_tips.text());
         if(isNaN(stock))
@@ -733,6 +785,7 @@ $(function() {
     //数量增加操作
     $('#add').on('click', function()
     {
+        var max = parseInt($stock_tips.attr('data-max-limit')) || 0;
         var inventory = parseInt($stock_tips.text());
         var stock = parseInt($input.val())+1;
         if(max > 0 && stock > max)
@@ -743,7 +796,7 @@ $(function() {
         }
         if(stock > inventory)
         {
-            $input.val(min);
+            $input.val(inventory);
             Prompt((window['lang_goods_inventory_number_tips'] || '库存数量')+inventory+unit);
             return false;
         }
@@ -755,6 +808,7 @@ $(function() {
     //数量减少操作
     $('#min').on('click', function()
     {
+        var min = parseInt($stock_tips.attr('data-min-limit')) || 1;
         var value = parseInt($input.val())-1;
         if(value < min)
         {

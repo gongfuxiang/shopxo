@@ -125,7 +125,6 @@ return [
         // 基础
         'browser_seo_title'                     => '订单确认',
         'exhibition_not_allow_submit_tips'      => '展示型不允许提交订单',
-        'gooods_data_no_data_tips'              => '商品信息为空',
         'buy_item_order_title'                  => '订单信息',
         'buy_item_payment_title'                => '选择支付',
         'confirm_delivery_address_name'         => '确认收货地址',

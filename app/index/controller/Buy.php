@@ -69,7 +69,7 @@ class Buy extends Common
             $buy_data = MySession('buy_post_data');
             if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
-                MyViewAssign('msg', MyLang('buy.gooods_data_no_data_tips'));
+                MyViewAssign('msg', MyLang('goods_data_empty_tips'));
                 return MyView('public/tips_error');
             }
 

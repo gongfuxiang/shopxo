@@ -125,7 +125,6 @@ return [
         // 基础
         'browser_seo_title'                     => 'Order Confirm',
         'exhibition_not_allow_submit_tips'      => 'Order submission is not allowed for display type',
-        'gooods_data_no_data_tips'              => 'Goods Info is empty',
         'buy_item_order_title'                  => 'Order Info',
         'buy_item_payment_title'                => 'Choice Payment',
         'confirm_delivery_address_name'         => 'Confirm delivery address',

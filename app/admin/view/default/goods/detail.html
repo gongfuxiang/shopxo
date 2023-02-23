@@ -59,6 +59,8 @@
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_price_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_inventory_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}</th>
@@ -79,6 +81,10 @@
                                                     <td class="am-text-middle">{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['original_price']) and $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['inventory'])}}{{$v.data.inventory}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['buy_min_number']) and $v['data']['buy_min_number'] 
+                                                    gt 0}}{{$v.data.buy_min_number}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['buy_max_number']) and $v['data']['buy_max_number'] 
+                                                    gt 0}}{{$v.data.buy_max_number}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['weight']) and $v['data']['weight'] 
                                                     gt 0}}{{$v.data.weight}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['volume']) and $v['data']['volume'] 

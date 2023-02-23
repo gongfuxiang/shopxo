@@ -69,7 +69,7 @@ class BuyService
                 ['is_delete_time', '=', 0],
                 ['is_shelves', '=', 1],
             ],
-            'field' => 'id,id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
+            'field' => 'id,id AS goods_id,title,images,inventory_unit,is_shelves,buy_min_number,buy_max_number,model,site_type',
         ]);
         $ret = GoodsService::GoodsList($goods_params);
         if(empty($ret['data'][0]))
@@ -105,6 +105,9 @@ class BuyService
                     $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
                     $goods['price'] = (float) $goods_base['data']['spec_base']['price'];
                     $goods['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+                    $goods['spec_base_id'] = $goods_base['data']['spec_base']['id'];
+                    $goods['spec_buy_min_number'] = $goods_base['data']['spec_base']['buy_min_number'];
+                    $goods['spec_buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
                     $goods['spec_weight'] = $goods_base['data']['spec_base']['weight'];
                     $goods['spec_volume'] = $goods_base['data']['spec_base']['volume'];
                     $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
@@ -489,7 +492,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods',
-                'error_msg'         => MyLang('gooods_data_no_data_tips'),
+                'error_msg'         => MyLang('goods_data_empty_tips'),
             ],
             [
                 'checked_type'      => 'is_array',
@@ -503,72 +506,97 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
-        // 商品总数
-        $count = count($params['goods']);
-
         // 是否需要校验商品类型、is_buy、1校验、默认0不校验
         // 商品小于等于1不校验
         $is_check_goods_site_type = (isset($params['is_buy']) && $params['is_buy'] == 1) ? 1 : 0;
         if($is_check_goods_site_type == 1 && 
-            $count <= 1)
+            count($params['goods']) <= 1)
         {
             $is_check_goods_site_type = 0;
+        }
+
+        // 是否存在字段缺失
+        $goods_data = [];
+        if(!array_key_exists('is_shelves', $params['goods'][0]))
+        {
+            $goods_data = Db::name('Goods')->where(['id'=>array_column($params['goods'], 'goods_id')])->column('is_shelves,buy_min_number,buy_max_number,site_type', 'id');
         }
 
         // 数据校验
         foreach($params['goods'] as $v)
         {
-            // 获取商品信息
-            $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number,site_type')->find($v['goods_id']);
-            if(empty($goods))
+            // 数据合并
+            if(!empty($goods_data) && array_key_exists($v['goods_id'], $goods_data))
             {
-                return DataReturn(MyLang('common_service.buy.goods_no_exist_tips').'['.$v['title'].']', -1);
+                $v = array_merge($v, $goods_data[$v['goods_id']]);
+            }
+
+            // 是否存在规格所属数据
+            if(!array_key_exists('spec_buy_min_number', $v) || !array_key_exists('spec_buy_max_number', $v))
+            {
+                $goods_base = GoodsService::GoodsSpecDetail(array_merge($params, [
+                    'id'    => $v['goods_id'],
+                    'spec'  => isset($v['spec']) ? $v['spec'] : [],
+                ]));
+                if($goods_base['code'] == 0)
+                {
+                    $v['price'] = $goods_base['data']['spec_base']['price'];
+                    $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
+                    $v['spec_buy_min_number'] = $goods_base['data']['spec_base']['buy_min_number'];
+                    $v['spec_buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
+                } else {
+                    return $goods_base;
+                }
             }
 
             // 基础判断
-            if($goods['is_shelves'] != 1)
+            if($v['is_shelves'] != 1)
             {
-                return DataReturn(MyLang('common_service.buy.goods_already_shelves_tips').'['.$goods['title'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_already_shelves_tips').'['.$v['title'].']', -1);
             }
 
-            // 限购
-            if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
+            // 先判断规格的起购数、则再判断商品的起购数
+            if(isset($v['spec_buy_min_number']) && $v['spec_buy_min_number'] > 0)
             {
-                return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
+                if($v['stock'] < $v['spec_buy_min_number'])
+                {
+                    return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$v['title'].']['.$v['stock'].'<'.$v['spec_buy_min_number'].']', -1);
+                }
+            } else {
+                if(isset($v['buy_min_number']) && $v['buy_min_number'] > 1 && $v['stock'] < $v['buy_min_number'])
+                {
+                    return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$v['title'].']['.$v['stock'].'<'.$v['buy_min_number'].']', -1);
+                }
             }
-            if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
+
+            // 先判断规格的限购数、则再判断商品的限购数
+            if(isset($v['spec_buy_max_number']) && $v['spec_buy_max_number'] > 0)
             {
-                return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
+                if($v['stock'] > $v['spec_buy_max_number'])
+                {
+                    return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$v['title'].']['.$v['stock'].'>'.$v['spec_buy_max_number'].']', -1);
+                }
+            } else {
+                if(isset($v['buy_max_number']) && $v['buy_max_number'] > 0 && $v['stock'] > $v['buy_max_number'])
+                {
+                    return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$v['title'].']['.$v['stock'].'>'.$v['buy_max_number'].']', -1);
+                }
             }
 
             // 是否支持购物车操作
             if($is_check_goods_site_type)
             {
-                $ret = GoodsService::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
+                $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
                 if($ret['code'] != 0)
                 {
                     return DataReturn($ret['msg'].'['.$v['title'].']', $ret['code']);
                 }
             }
 
-            // 规格
-            $spec_params = array_merge($params, [
-                'id'    => $v['goods_id'],
-                'spec'  => isset($v['spec']) ? $v['spec'] : [],
-            ]);
-            $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-            if($goods_base['code'] == 0)
-            {
-                $goods['price'] = $goods_base['data']['spec_base']['price'];
-                $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
-            } else {
-                return $goods_base;
-            }
-
             // 库存
-            if($v['stock'] > $goods['inventory'])
+            if($v['stock'] > $v['inventory'])
             {
-                return DataReturn(MyLang('common_service.buy.goods_buy_exceed_inventory_tips').'['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
+                return DataReturn(MyLang('common_service.buy.goods_buy_exceed_inventory_tips').'['.$v['title'].']['.$v['stock'].'>'.$v['inventory'].']', -1);
             }
         }
         return DataReturn(MyLang('check_success'), 0);

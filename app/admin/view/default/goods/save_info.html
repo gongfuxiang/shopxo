@@ -136,21 +136,6 @@
                 	</div>
 
                 	<div class="am-cf">
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_buy_min_number')}}<span class="am-form-group-label-tips-must">*</span></label>
-								<input type="number" name="buy_min_number" placeholder="{{:MyLang('common_service.goods.form_item_buy_min_number_message')}}" min="1" max="100000000" data-validation-message="{{:MyLang('common_service.goods.form_item_buy_min_number_message')}}" class="am-radius" value="{{if empty($data) or empty($data['buy_min_number'])}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
-							</div>
-                		</div>
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_buy_max_number')}}{{if is_array(MyLang('common_service.goods.form_item_buy_max_number_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_buy_max_number_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
-								<input type="number" name="buy_max_number" placeholder="{{:MyLang('common_service.goods.form_item_buy_max_number_message')}}" min="0" max="100000000" data-validation-message="{{:MyLang('common_service.goods.form_item_buy_max_number_message')}}" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
-							</div>
-                		</div>
-                	</div>
-
-                	<div class="am-cf">
                 		<div class="am-u-md-6 am-padding-horizontal-0">
                 			<div class="am-form-group">
 								<label>{{:MyLang('common_service.goods.form_item_site_type')}}</label>

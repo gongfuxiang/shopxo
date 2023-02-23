@@ -45,10 +45,10 @@
                         <div class="spec-options am-margin-top-sm">
                             <div class="am-input-group am-input-group-sm number-operate">
                                 <span class="am-input-group-label am-radius stock-submit" data-type="min">-</span>
-                                <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-is-clearout="0" />
+                                <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
                                 <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
                             </div>
-                            <span class="am-margin-left-sm stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                            <span class="am-margin-left-sm stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                         </div>
                     </div>
                 {{else /}}
