@@ -349,14 +349,34 @@ class UserAddressService
             'city'              => intval($params['city']),
             'county'            => isset($params['county']) ? intval($params['county']) : 0,
             'address'           => $params['address'],
-            'lng'               => isset($params['lng']) ? floatval($params['lng']) : 0,
-            'lat'               => isset($params['lat']) ? floatval($params['lat']) : 0,
-            'idcard_name'       => empty($params['idcard_name']) ? '' : $params['idcard_name'],
-            'idcard_number'     => empty($params['idcard_number']) ? '' : $params['idcard_number'],
-            'idcard_front'      => $attachment['data']['idcard_front'],
-            'idcard_back'       => $attachment['data']['idcard_back'],
             'is_default'        => $is_default,
         ];
+        // 坐标
+        if(array_key_exists('lng', $params))
+        {
+            $data['lng'] = isset($params['lng']) ? floatval($params['lng']) : 0;
+        }
+        if(array_key_exists('lat', $params))
+        {
+            $data['lat'] = isset($params['lat']) ? floatval($params['lat']) : 0;
+        }
+        // 身份证信息
+        if(array_key_exists('idcard_name', $params))
+        {
+            $data['idcard_name'] = empty($params['idcard_name']) ? '' : $params['idcard_name'];
+        }
+        if(array_key_exists('idcard_number', $params))
+        {
+            $data['idcard_number'] = empty($params['idcard_number']) ? '' : $params['idcard_number'];
+        }
+        if(array_key_exists('idcard_front', $params))
+        {
+            $data['idcard_front'] = $attachment['data']['idcard_front'];
+        }
+        if(array_key_exists('idcard_back', $params))
+        {
+            $data['idcard_back'] = $attachment['data']['idcard_back'];
+        }
 
         // 用户地址保存前钩子
         $hook_name = 'plugins_service_user_address_save_begin';
