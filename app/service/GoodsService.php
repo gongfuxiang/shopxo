@@ -2097,7 +2097,7 @@ class GoodsService
         $key = $goods_id.(empty($spec) ? '' : md5(json_encode($spec, JSON_UNESCAPED_UNICODE)));
         if(array_key_exists($key, $goods_service_goods_spec_base_static_data))
         {
-            $base = Db::name('GoodsSpecBase')->find($goods_service_goods_spec_base_static_data[$key]]);
+            $base = Db::name('GoodsSpecBase')->find($goods_service_goods_spec_base_static_data[$key]);
         } else {
             // 有规格值
             $base = [];
