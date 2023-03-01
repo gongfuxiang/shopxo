@@ -41,10 +41,11 @@ class UserAddress
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'is_search'     => 1,
-                'is_delete'     => 1,
-                'is_middle'     => 0,
+                'key_field'             => 'id',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_middle'             => 0,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [

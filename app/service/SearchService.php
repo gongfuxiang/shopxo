@@ -783,7 +783,7 @@ class SearchService
         if(!empty($bid))
         {
             $data_params = [
-                'field'     => 'id,name,describe,logo,website_url',
+                'field'     => 'id,name,describe,logo,website_url,seo_title,seo_keywords,seo_desc',
                 'where'     => [
                     ['id', '=', $bid]
                 ],

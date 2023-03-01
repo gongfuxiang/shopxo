@@ -556,31 +556,17 @@ class BuyService
             }
 
             // 先判断规格的起购数、则再判断商品的起购数
-            if(isset($v['spec_buy_min_number']) && $v['spec_buy_min_number'] > 0)
+            $min = (isset($v['spec_buy_min_number']) && $v['spec_buy_min_number'] > 0) ? $v['spec_buy_min_number'] : (isset($v['buy_min_number']) ? $v['buy_min_number'] : 0);
+            if($min > 0 && $v['stock'] < $min)
             {
-                if($v['stock'] < $v['spec_buy_min_number'])
-                {
-                    return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$v['title'].']['.$v['stock'].'<'.$v['spec_buy_min_number'].']', -1);
-                }
-            } else {
-                if(isset($v['buy_min_number']) && $v['buy_min_number'] > 1 && $v['stock'] < $v['buy_min_number'])
-                {
-                    return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$v['title'].']['.$v['stock'].'<'.$v['buy_min_number'].']', -1);
-                }
+                return DataReturn(MyLang('common_service.buy.goods_buy_min_error_tips').'['.$v['title'].']['.$v['stock'].'<'.$min.']', -1);
             }
 
             // 先判断规格的限购数、则再判断商品的限购数
-            if(isset($v['spec_buy_max_number']) && $v['spec_buy_max_number'] > 0)
+            $max = (isset($v['spec_buy_max_number']) && $v['spec_buy_max_number'] > 0) ? $v['spec_buy_max_number'] : (isset($v['buy_max_number']) ? $v['buy_max_number'] : 0);
+            if($max > 0 && $v['stock'] > $max)
             {
-                if($v['stock'] > $v['spec_buy_max_number'])
-                {
-                    return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$v['title'].']['.$v['stock'].'>'.$v['spec_buy_max_number'].']', -1);
-                }
-            } else {
-                if(isset($v['buy_max_number']) && $v['buy_max_number'] > 0 && $v['stock'] > $v['buy_max_number'])
-                {
-                    return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$v['title'].']['.$v['stock'].'>'.$v['buy_max_number'].']', -1);
-                }
+                return DataReturn(MyLang('common_service.buy.goods_buy_max_error_tips').'['.$v['title'].']['.$v['stock'].'>'.$max.']', -1);
             }
 
             // 是否支持购物车操作

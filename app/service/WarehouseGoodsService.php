@@ -788,31 +788,34 @@ class WarehouseGoodsService
      * @version 1.0.0
      * @date    2020-07-16
      * @desc    description
-     * @param   [int]          $goods_id [商品id]
+     * @param   [int]        $goods_id [商品id]
+     * @param   [array]      $params   [输入参数]
      */
-    public static function GoodsSpecInventorySync($goods_id)
+    public static function GoodsSpecInventorySync($goods_id, $params = [])
     {
         // 获取商品实际规格
-        $res = GoodsService::GoodsSpecificationsActual($goods_id);
-        if(empty($res['value']))
+        $spec = GoodsService::GoodsSpecificationsActual($goods_id);
+        if(empty($spec['value']))
         {
             // 没有规格则读取默认规格数据
-            $res['value'][] = [
-                'base_id'   => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('id'),
-                'value'     => 'default',
+            $spec['value'] = [
+                [
+                    'base_id'   => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('id'),
+                    'value'     => 'default',
+                ]
             ];
         }
 
         // 商品规格库存
         $inventory_total = 0;
-        foreach($res['value'] as $v)
+        foreach($spec['value'] as &$v)
         {
-            $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
-            if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
+            $v['inventory'] = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
+            if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$v['inventory']]) === false)
             {
                 return DataReturn(MyLang('common_service.warehousegoods.goods_spec_sync_inventory_fail_tips'), -20);
             }
-            $inventory_total += $inventory;
+            $inventory_total += $v['inventory'];
         }
 
         // 商品库存
@@ -828,9 +831,12 @@ class WarehouseGoodsService
         // 商品仓库库存修改钩子
         $hook_name = 'plugins_service_warehouse_goods_inventory_sync';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'goods_id'      => $goods_id
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'goods_id'          => $goods_id,
+            'inventory_total'   => $inventory_total,
+            'spec'              => $spec,
+            'params'            => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -938,9 +944,11 @@ class WarehouseGoodsService
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
+            'warehouse_id'  => $warehouse_id,
             'order_id'      => $order_id,
             'goods_id'      => $goods_id,
             'spec'          => $spec,
+            'md5_key'       => $md5_key,
             'buy_number'    => $buy_number,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
@@ -1011,9 +1019,11 @@ class WarehouseGoodsService
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
+            'warehouse_id'  => $warehouse_id,
             'order_id'      => $order_id,
             'goods_id'      => $goods_id,
             'spec'          => $spec,
+            'md5_key'       => $md5_key,
             'buy_number'    => $buy_number,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
