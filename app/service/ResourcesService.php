@@ -556,7 +556,7 @@ class ResourcesService
                 }
             }
         }
-        return DataReturn(MyLang('common_service.resources.sync_file_to_db_tips', ['count'=>$count, 'success'=>$success, 'error'=>$errstr]), 0);
+        return DataReturn(MyLang('common_service.resources.sync_file_to_db_tips', ['count'=>$count, 'success'=>$success, 'error'=>$error]), 0);
     }
 
     /**
