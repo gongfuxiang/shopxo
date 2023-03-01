@@ -137,7 +137,7 @@ class Uploader
         if (!(move_uploaded_file($file['tmp_name'], $this->filePath) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateErrorInfo('error_file_move');
         } else { //移动成功
-            $this->stateInfo = MyLang('upload_success');
+            $this->stateInfo = 'SUCCESS';
         }
     }
 
@@ -222,7 +222,7 @@ class Uploader
         {
             $this->stateInfo = $this->getStateErrorInfo('error_image_save');
         } else {
-            $this->stateInfo = MyLang('upload_success');
+            $this->stateInfo = 'SUCCESS';
         }
     }
 
@@ -266,7 +266,7 @@ class Uploader
         if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) {
             $this->stateInfo = $this->getStateErrorInfo('error_write_content');
         } else {
-            $this->stateInfo = MyLang('upload_success');
+            $this->stateInfo = 'SUCCESS';
         }
     }
 
@@ -358,7 +358,7 @@ class Uploader
         if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) {
             $this->stateInfo = $this->getStateErrorInfo('error_write_conent');
         } else {
-            $this->stateInfo = MyLang('upload_success');
+            $this->stateInfo = 'SUCCESS';
         }
     }
 
