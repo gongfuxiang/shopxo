@@ -38,7 +38,9 @@ class Order extends Base
         // 模板数据
         $assign = [
             // 快递公司
-            'express_list'  => ExpressService::ExpressList(),
+            'express_list'          => ExpressService::ExpressList(),
+            // 默认不加载视频扫码组件
+            'is_load_video_scan'    => 1,
         ];
 
         // 发起支付 - 支付方式

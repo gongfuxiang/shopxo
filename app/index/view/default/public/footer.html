@@ -1,5 +1,24 @@
-<!-- commom html -->
+<!-- 公共上传组件初始化 -->
 <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
+
+<!-- 公共视频扫码组件初始化 -->     
+<div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
+    <div class="am-popup-inner am-radius">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="scanner">
+            <div class="scan-area">
+                <div class="mark top-left"></div>
+                <div class="mark top-right"></div>
+                <div class="mark bottom-left"></div>
+                <div class="mark bottom-right"></div>
+            </div>
+            <video id="video"></video>
+            <i class="am-icon-refresh am-icon-md video-scan-switch-camera-submit"></i>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs video-scan-continue-submit am-hide">{{:MyLang('continue_scan_title')}}</button>
+            <div class="video-scan-audio-container"></div>
+        </div>
+    </div>
+</div>
 
 <!-- footer start -->
 {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
@@ -140,6 +159,11 @@
     <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/html2canvas.min.js"></script>
     <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/jspdf.min.js"></script>
     <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/hiprint.config.js"></script>
+{{/if}}
+
+<!-- 调用摄像头扫码js -->
+{{if isset($is_load_video_scan) and $is_load_video_scan eq 1}}
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ZXing/ZXing.min.js"></script>
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->

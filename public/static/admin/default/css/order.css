@@ -1,28 +1,37 @@
 /**
- * 虚拟销售-密钥信息
- */
+* 虚拟销售-密钥信息
+*/
 .fictitious-container {
-  margin-top: 0 !important;
+    margin-top: 0 !important;
 }
 .fictitious-container li .am-u-sm-2 {
-  width: 60px;
-  padding: 0;
+    width: 60px;
+    padding: 0;
 }
 .fictitious-container li .am-u-sm-10 {
-  width: calc(100% - 60px);
-  padding: 0;
+    width: calc(100% - 60px);
+    padding: 0;
 }
 .fictitious-container li img {
-  max-width: 40px;
+    max-width: 40px;
 }
 .fictitious-container li {
-  border-color: #eee;
+    border-color: #eee;
 }
 .fictitious-container li:first-child {
-  border-top: 0;
-  padding-top: 0;
+    border-top: 0;
+    padding-top: 0;
 }
 .fictitious-container li:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+/**
+* 取货
+*/
+.form-validation-take .common-scan-submit {
+    padding: 16px 5px;
+    left: 0 !important;
+    top: 0 !important;
 }

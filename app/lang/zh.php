@@ -83,7 +83,7 @@ return [
         'address_data_empty_tips'           => '地址为空',
         'assembly_not_init_tips'            => '组件未初始化',
         'not_specified_container_tips'      => '未指定容器',
-        'not_specified_assembly_tips'       => '未指定加载组建',
+        'not_specified_assembly_tips'       => '未指定加载组件',
         'not_specified_form_name_tips'      => '未指定表单name名称',
         'not_load_lib_hiprint_error'        => '请先引入hiprint组件库',
     ],
@@ -437,6 +437,7 @@ return [
     'lan_title'                                             => '经度',
     'lat_title'                                             => '纬度',
     'lang_title'                                            => '语言',
+    'continue_scan_title'                                   => '继续扫码',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_stop_sale_title'                                 => '暂停销售',

@@ -4684,4 +4684,118 @@ $(function()
     {
         Prompt(window['lang_copy_fail'] || '复制失败');
     });
+
+    // 调起视频扫码、持续扫码
+    var $video_scan_popup = $('#common-video-scan-popup');
+    var $continue_submit = $video_scan_popup.find('.video-scan-continue-submit');
+    var $switch_submit = $video_scan_popup.find('.video-scan-switch-camera-submit');
+    var video_scan_code_reader = null;
+    var video_scan_selected_deviceid = null;
+    var video_scan_source_select = [];
+    var video_scan_back_function = null;
+    $(document).on('click', '.common-scan-submit,.video-scan-continue-submit', function()
+    {
+    	// 关闭摄像头
+    	if(video_scan_code_reader != null)
+    	{
+    		video_scan_code_reader.reset();
+    	}
+
+    	// 关闭继续按钮
+		$continue_submit.addClass('am-hide');
+
+    	// 回调方法、组建去的持续操作则不读取回调方法
+    	var is_close_popup = 1;
+    	if(!$(this).hasClass('video-scan-continue-submit'))
+    	{
+    		video_scan_back_function = $(this).data('back-fun');
+    		is_close_popup = ($(this).data('auto-close-popup') == undefined) ? 1 : parseInt($(this).data('auto-close-popup') || 0);
+    	} else {
+    		is_close_popup = 0;
+    	}
+
+    	// 开启弹窗
+    	$video_scan_popup.modal('open');
+
+    	// 初始化组建
+		video_scan_code_reader = new ZXing.BrowserMultiFormatReader()
+
+		// 摄像头列表
+		video_scan_code_reader.listVideoInputDevices().then((videoInputDevices) => {
+			// 是否可以切换摄像头
+			video_scan_source_select = [];
+			video_scan_selected_deviceid = videoInputDevices[0].deviceId
+			if(videoInputDevices.length > 1)
+			{
+				// 摄像头加到容器
+				videoInputDevices.forEach((element) => {
+					video_scan_source_select.push(element.deviceId);
+				});
+
+				// 切换摄像头
+				$switch_submit.on('click', function()
+				{
+					var index = parseInt($(this).attr('data-index') || 0);
+					var length = video_scan_source_select.length;
+					var index_new = (index > length) ? 0 : index+1;
+					if(video_scan_source_select.indexOf(index_new) == -1)
+					{
+						index_new = 0;
+					}
+					video_scan_selected_deviceid = video_scan_source_select[index_new];
+					$switch_submit.attr('data-index', index_new);
+				});
+				// 展示切换摄像头按钮
+				$switch_submit.removeClass('am-hide');
+			} else {
+				$switch_submit.addClass('am-hide');
+			}
+
+			// 调起摄像头
+			video_scan_code_reader.decodeFromVideoDevice(video_scan_selected_deviceid, 'video', (res, err) => {
+				// 识别成功
+				if(res)
+				{
+					// 语音提示
+					$('.video-scan-audio-container').html('<audio src="'+__my_public_url__+'/static/common/media/scan-success.mp3" controls autoplay style="height:0;"></audio>');
+					// 调用回调方法
+					if(IsExitsFunction(video_scan_back_function))
+					{
+						window[video_scan_back_function](res.text);
+					} else {
+						Prompt((window['lang_config_fun_not_exist_tips'] || '配置方法未定义')+'['+video_scan_back_function+']');
+					}
+					// 关闭摄像头
+					video_scan_code_reader.reset();
+					// 打开继续按钮
+					$continue_submit.removeClass('am-hide');
+					// 是否需要关闭弹窗
+					if(is_close_popup == 1)
+					{
+						$video_scan_popup.modal('close');
+					}
+				}
+				// 调起失败
+				if(err && !(err instanceof ZXing.NotFoundException))
+				{
+					Prompt(err);
+					// 打开继续按钮
+					$continue_submit.removeClass('am-hide');
+				}
+			});
+		}).catch((err) => {
+			Prompt(err);
+		});
+    });
+    // 弹窗关闭则关闭摄像头
+	$video_scan_popup.on('close.modal.amui', function()
+	{
+		// 关闭摄像头组建
+		video_scan_code_reader.reset();
+		// 打开继续按钮
+		$continue_submit.removeClass('am-hide');
+	});
+
+
+
 });

@@ -436,6 +436,7 @@ return [
     'lan_title'                                             => 'Longitude',
     'lat_title'                                             => 'Latitude',
     'lang_title'                                            => 'Language',
+    'continue_scan_title'                                   => 'ContinueScan',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_stop_sale_title'                                 => 'Stop Sale',
