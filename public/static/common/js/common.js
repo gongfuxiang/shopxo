@@ -4728,8 +4728,11 @@ $(function()
 			{
 				// 默认取最后一个摄像头
 				video_scan_selected_deviceid = videoInputDevices[videoInputDevices.length-1].deviceId;
-				// 画像翻转
-				$video_scan.addClass('picture-reverse');
+				// PC模式下默认画像翻转
+				if(parseInt(__is_mobile__) != 1)
+				{
+					$video_scan.addClass('picture-reverse');
+				}
 			}
 			// 大于一个则增加列表切换
 			if(videoInputDevices.length > 1)
