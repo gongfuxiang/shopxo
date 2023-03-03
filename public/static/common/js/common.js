@@ -4011,7 +4011,7 @@ $(function()
         // 容器
         var $view_tag = $($(this).attr('data-view-tag'));
 
-        // 加载组建类型
+        // 加载组件类型
         var dialog_type = null;
         switch($view_tag.attr('data-dialog-type'))
         {
@@ -4032,7 +4032,7 @@ $(function()
         }
         if(dialog_type == null)
         {
-            Prompt(window['lang_not_specified_assembly_tips'] || '未指定加载组建');
+            Prompt(window['lang_not_specified_assembly_tips'] || '未指定加载组件');
             return false;
         }
 
@@ -4043,7 +4043,7 @@ $(function()
             return false;
         }
 
-        // 打开组建
+        // 打开组件
         var dialog = upload_editor.getDialog(dialog_type);
         dialog.render();
         dialog.open();
@@ -4693,6 +4693,7 @@ $(function()
     var video_scan_selected_deviceid = null;
     var video_scan_source_select = [];
     var video_scan_back_function = null;
+    var video_scan_is_close_popup = 1;
     $(document).on('click', '.common-scan-submit,.video-scan-continue-submit', function()
     {
     	// 关闭摄像头
@@ -4704,46 +4705,37 @@ $(function()
     	// 关闭继续按钮
 		$continue_submit.addClass('am-hide');
 
-    	// 回调方法、组建去的持续操作则不读取回调方法
-    	var is_close_popup = 1;
+    	// 主开启事件配置信息
     	if(!$(this).hasClass('video-scan-continue-submit'))
     	{
+    		// 回调方法
     		video_scan_back_function = $(this).data('back-fun');
-    		is_close_popup = ($(this).data('auto-close-popup') == undefined) ? 1 : parseInt($(this).data('auto-close-popup') || 0);
-    	} else {
-    		is_close_popup = 0;
+    		// 是否关闭弹窗
+    		video_scan_is_close_popup = ($(this).data('auto-close-popup') == undefined) ? 1 : parseInt($(this).data('auto-close-popup') || 0);
     	}
 
     	// 开启弹窗
     	$video_scan_popup.modal('open');
 
-    	// 初始化组建
+    	// 初始化组件
 		video_scan_code_reader = new ZXing.BrowserMultiFormatReader()
 
 		// 摄像头列表
 		video_scan_code_reader.listVideoInputDevices().then((videoInputDevices) => {
-			// 是否可以切换摄像头
-			video_scan_source_select = [];
-			video_scan_selected_deviceid = videoInputDevices[0].deviceId
+			// 初始最后一个摄像头
+			if(video_scan_selected_deviceid == null)
+			{
+				video_scan_selected_deviceid = videoInputDevices[videoInputDevices.length-1].deviceId;
+			}
+			// 大于一个则增加列表切换
 			if(videoInputDevices.length > 1)
 			{
 				// 摄像头加到容器
 				videoInputDevices.forEach((element) => {
-					video_scan_source_select.push(element.deviceId);
-				});
-
-				// 切换摄像头
-				$switch_submit.on('click', function()
-				{
-					var index = parseInt($(this).attr('data-index') || 0);
-					var length = video_scan_source_select.length;
-					var index_new = (index > length) ? 0 : index+1;
-					if(video_scan_source_select.indexOf(index_new) == -1)
+					if(video_scan_source_select.indexOf(element.deviceId) == -1)
 					{
-						index_new = 0;
+						video_scan_source_select.push(element.deviceId);
 					}
-					video_scan_selected_deviceid = video_scan_source_select[index_new];
-					$switch_submit.attr('data-index', index_new);
 				});
 				// 展示切换摄像头按钮
 				$switch_submit.removeClass('am-hide');
@@ -4770,7 +4762,7 @@ $(function()
 					// 打开继续按钮
 					$continue_submit.removeClass('am-hide');
 					// 是否需要关闭弹窗
-					if(is_close_popup == 1)
+					if(video_scan_is_close_popup == 1)
 					{
 						$video_scan_popup.modal('close');
 					}
@@ -4787,15 +4779,29 @@ $(function()
 			Prompt(err);
 		});
     });
+    // 切换摄像头
+	$switch_submit.on('click', function()
+	{
+		var index = $(this).attr('data-index');
+	    if(index == undefined)
+	    {
+	        video_scan_source_select.length-1;
+	    }
+		index = parseInt(index)+1;
+		if(video_scan_source_select[index] == undefined)
+		{
+			index = 0;
+		}
+		video_scan_selected_deviceid = video_scan_source_select[index];
+		$switch_submit.attr('data-index', index);
+		$continue_submit.trigger('click');
+	});
     // 弹窗关闭则关闭摄像头
 	$video_scan_popup.on('close.modal.amui', function()
 	{
-		// 关闭摄像头组建
+		// 关闭摄像头组件
 		video_scan_code_reader.reset();
 		// 打开继续按钮
 		$continue_submit.removeClass('am-hide');
 	});
-
-
-
 });
