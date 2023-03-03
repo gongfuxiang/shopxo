@@ -4689,6 +4689,7 @@ $(function()
     var $video_scan_popup = $('#common-video-scan-popup');
     var $continue_submit = $video_scan_popup.find('.video-scan-continue-submit');
     var $switch_submit = $video_scan_popup.find('.video-scan-switch-camera-submit');
+    var $video_scan = $video_scan_popup.find('.scanner video');
     var video_scan_code_reader = null;
     var video_scan_selected_deviceid = null;
     var video_scan_source_select = [];
@@ -4795,6 +4796,13 @@ $(function()
 		video_scan_selected_deviceid = video_scan_source_select[index];
 		$switch_submit.attr('data-index', index);
 		$continue_submit.trigger('click');
+		// 画像翻转
+		if(index == 0 || video_scan_source_select.length == 1)
+		{
+			$video_scan.addClass('picture-reverse');
+		} else {
+			$video_scan.removeClass('picture-reverse');
+		}
 	});
     // 弹窗关闭则关闭摄像头
 	$video_scan_popup.on('close.modal.amui', function()

@@ -1879,9 +1879,11 @@ a.input-clearout-submit:focus > i {
     }
 }
 #common-video-scan-popup .scanner video {
-    transform: rotateY(180deg);
     width: 100%;
     height: 100%;
+}
+#common-video-scan-popup .scanner video.picture-reverse {
+    transform: rotateY(180deg);
 }
 #common-video-scan-popup .video-scan-switch-camera-submit {
     position: absolute;
