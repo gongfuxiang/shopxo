@@ -150,7 +150,7 @@
                         <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_customview_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $customview_list as $v}}
-                                <option value="{{$v.id}}">{{$v.title}}</option>
+                                <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>

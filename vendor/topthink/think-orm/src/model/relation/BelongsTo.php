@@ -14,7 +14,6 @@ namespace think\model\relation;
 
 use Closure;
 use think\db\BaseQuery as Query;
-use think\helper\Str;
 use think\Model;
 
 /**

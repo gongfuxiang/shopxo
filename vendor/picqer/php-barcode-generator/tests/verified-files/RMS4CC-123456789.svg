@@ -1,0 +1,49 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="166" height="30" viewBox="0 0 166 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<desc>123456789</desc>
+	<g id="bars" fill="black" stroke="none">
+		<rect x="0" y="0" width="2" height="20" />
+		<rect x="4" y="10" width="2" height="10" />
+		<rect x="8" y="10" width="2" height="20" />
+		<rect x="12" y="0" width="2" height="20" />
+		<rect x="16" y="0" width="2" height="30" />
+		<rect x="20" y="10" width="2" height="10" />
+		<rect x="24" y="10" width="2" height="20" />
+		<rect x="28" y="0" width="2" height="30" />
+		<rect x="32" y="0" width="2" height="20" />
+		<rect x="36" y="10" width="2" height="20" />
+		<rect x="40" y="10" width="2" height="10" />
+		<rect x="44" y="0" width="2" height="20" />
+		<rect x="48" y="0" width="2" height="30" />
+		<rect x="52" y="10" width="2" height="20" />
+		<rect x="56" y="10" width="2" height="10" />
+		<rect x="60" y="0" width="2" height="30" />
+		<rect x="64" y="0" width="2" height="20" />
+		<rect x="68" y="10" width="2" height="20" />
+		<rect x="72" y="10" width="2" height="20" />
+		<rect x="76" y="0" width="2" height="20" />
+		<rect x="80" y="0" width="2" height="20" />
+		<rect x="84" y="10" width="2" height="10" />
+		<rect x="88" y="0" width="2" height="20" />
+		<rect x="92" y="10" width="2" height="20" />
+		<rect x="96" y="0" width="2" height="30" />
+		<rect x="100" y="10" width="2" height="10" />
+		<rect x="104" y="0" width="2" height="30" />
+		<rect x="108" y="10" width="2" height="10" />
+		<rect x="112" y="0" width="2" height="30" />
+		<rect x="116" y="10" width="2" height="10" />
+		<rect x="120" y="0" width="2" height="30" />
+		<rect x="124" y="10" width="2" height="20" />
+		<rect x="128" y="0" width="2" height="20" />
+		<rect x="132" y="10" width="2" height="20" />
+		<rect x="136" y="0" width="2" height="20" />
+		<rect x="140" y="10" width="2" height="10" />
+		<rect x="144" y="0" width="2" height="30" />
+		<rect x="148" y="10" width="2" height="20" />
+		<rect x="152" y="10" width="2" height="20" />
+		<rect x="156" y="0" width="2" height="20" />
+		<rect x="160" y="0" width="2" height="20" />
+		<rect x="164" y="0" width="2" height="30" />
+	</g>
+</svg>

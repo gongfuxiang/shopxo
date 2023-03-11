@@ -36,7 +36,7 @@ class CustomView extends Common
     }
 
 	/**
-     * [Index 文章详情]
+     * 详情
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -44,30 +44,46 @@ class CustomView extends Common
      */
 	public function Index()
 	{
-		// 获取页面
 		if(!empty($this->data_request['id']))
 		{
 			$id = intval($this->data_request['id']);
 			$params = [
-				'where' => ['is_enable'=>1, 'id'=>$id],
-				'field' => 'id,title,content,is_header,is_footer,is_full_screen,access_count',
+				'where' => [
+                    ['is_enable', '=', 1],
+                    ['id', '=', $id],
+                ],
 				'm' => 0,
 				'n' => 1,
 			];
 			$ret = CustomViewService::CustomViewList($params);
 			if(!empty($ret['data']) && !empty($ret['data'][0]))
 			{
+                $data = $ret['data'][0];
+
 				// 访问统计
-				CustomViewService::CustomViewAccessCountInc(['id'=>$id]);
+				CustomViewService::CustomViewAccessCountInc(['id'=>$data['id']]);
 
 				// 模板数据
 				$assign = [
-					'data' 					=> $ret['data'][0],
-		            'is_header' 			=> $ret['data'][0]['is_header'],
-		            'is_footer' 			=> $ret['data'][0]['is_footer'],
-					'home_seo_site_title'	=> SeoService::BrowserSeoTitle($ret['data'][0]['title']),
+                    'data'      => $data,
+                    'is_header' => $data['is_header'],
+                    'is_footer' => $data['is_footer'],
 				];
-				MyViewAssign($assign);
+
+                // seo
+                $seo_title = empty($data['seo_title']) ? $data['name'] : $data['seo_title'];
+                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($seo_title, 2);
+                if(!empty($data['seo_keywords']))
+                {
+                    $assign['home_seo_site_keywords'] = $data['seo_keywords'];
+                }
+                if(!empty($data['seo_desc']))
+                {
+                    $assign['home_seo_site_description'] = $data['seo_desc'];
+                }
+
+                // 数据赋值
+                MyViewAssign($assign);
 				return MyView();
 			}
 		}

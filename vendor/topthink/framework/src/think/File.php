@@ -30,6 +30,12 @@ class File extends SplFileInfo
 
     protected $hashName;
 
+    /**
+     * 保存的文件后缀
+     * @var string
+     */
+    protected $extension;
+
     public function __construct(string $path, bool $checkPath = true)
     {
         if ($checkPath && !is_file($path)) {
@@ -156,6 +162,16 @@ class File extends SplFileInfo
     }
 
     /**
+     * 指定保存文件的扩展名
+     * @param string $extension
+     * @return void
+     */
+    public function setExtension(string $extension): void
+    {
+        $this->extension = $extension;
+    }
+
+    /**
      * 自动生成文件名
      * @access public
      * @param string|\Closure $rule
@@ -182,6 +198,7 @@ class File extends SplFileInfo
             }
         }
 
-        return $this->hashName . '.' . $this->extension();
+        $extension = $this->extension ?? $this->extension();
+        return $this->hashName . ($extension ? '.' . $extension : '');
     }
 }

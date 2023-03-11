@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    .scrollmargin {
+        text-align: center;
+    }
+    .large-button {
+        color: lightblue;
+        cursor: pointer;
+        font: 30px arial;
+        padding: 20px;
+        text-align: center;
+        border: medium solid transparent;
+        display: inline-block;
+    }
+    .large-button:hover {
+        border: medium solid lightgray;
+        border-radius: 10px 10px 10px 10px;
+        box-shadow: 0 0 12px 0 lightblue;
+    }
+    body {
+        transform: translateZ(0);
+    }
+  </style>
+</head>
+<body>
+
+<ace-playground></ace-playground>
+
+<!-- load ace -->
+<script src="../src/ace.js"></script>
+<script>
+
+var dom = require("ace/lib/dom");
+class AcePlayground extends HTMLElement {
+    constructor() {
+        super();
+        
+        var shadow = this.attachShadow({mode: "open"});
+        
+        var dom = require("ace/lib/dom");
+        dom.buildDom(["div", {id: "host"},
+            ["div", {id: "html"}],
+            ["iframe", {id: "preview"}],
+            ["style", `
+                #host {
+                    border: solid 1px #eee;
+                    display: grid;
+                    grid-template-areas: "html preview" "css preview";
+                }
+                #html {
+                    grid-area: html;
+                    height: 600px;
+                }
+                #preview {
+                    grid-area: preview;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+            `]
+        ], shadow);
+        
+        var htmlEditor = ace.edit(shadow.querySelector("#html"), {
+            // 默认设置的主题
+            theme: "ace/theme/monokai",
+            // 默认设置的语言模式
+            mode: "ace/mode/html",
+            value: "hello",
+            autoScrollEditorIntoView: true,
+
+            fontSize: 14, // 编辑器内字体大小
+            tabSize: 4, // 制表符设置为 4 个空格大小
+            readOnly: false, //只读
+            highlightActiveLine: true
+
+        });
+        var preview = shadow.querySelector("#preview");
+        
+        this.htmlEditor = htmlEditor;        
+        this.preview = preview;
+        
+        htmlEditor.renderer.attachToShadowRoot();
+        
+        this.updatePreview = this.updatePreview.bind(this)
+        htmlEditor.on("input", this.updatePreview);
+
+    
+        this.updatePreview();
+    }
+    updatePreview() {
+        var code = this.htmlEditor.getValue();
+        this.preview.src = 'data:text/html,<head><meta charset="utf-8" /></head>' + encodeURIComponent(code);
+        console.log(code)
+    }
+}
+customElements.define('ace-playground', AcePlayground);
+</script>
+</body>
+</html>

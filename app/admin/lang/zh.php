@@ -311,6 +311,7 @@ return [
         'base_nav_title'                        => '自定义页面',
         'detail_content_title'                  => '详情内容',
         'detail_images_title'                   => '详情图片',
+        'save_view_tips'                        => '请先保存再预览效果',
         // 动态表格
         'form_table'                            => [
             'info'            => '标题',

@@ -30,7 +30,7 @@
                 <div class="am-u-sm-8 am-padding-horizontal-0">
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.useraddress.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" name="name" placeholder="{{:MyLang('common_service.useraddress.form_item_name_message')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.useraddress.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                        <input type="text" name="name" placeholder="{{:MyLang('common_service.useraddress.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                     </div>
                 </div>
                 <div class="am-u-sm-4 am-padding-horizontal-0">
@@ -70,7 +70,7 @@
             <div class="am-alert am-alert-secondary">
                 <div class="am-form-group">
                     <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}</span></label>
-                    <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
+                    <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}</span></label>

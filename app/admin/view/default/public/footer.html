@@ -6,7 +6,7 @@
         {{/if}}
         <div class="am-popup-bd">
             <!-- form start -->
-            <form class="am-form form-validation-store-accounts view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
+            <form class="am-form form-validation-store-accounts" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                     <label>{{:MyLang('store_bind_form_accounts')}}<span class="am-form-group-label-tips-must">*</span></label>
                     <input type="text" name="common_store_accounts" placeholder="{{:MyLang('store_bind_form_accounts_placeholder')}}" data-validation-message="{{:MyLang('store_bind_form_accounts_message')}}" class="am-radius" value="" autocomplete="off" required />
@@ -182,6 +182,11 @@
 <!-- 调用摄像头扫码js -->
 {{if isset($is_load_video_scan) and $is_load_video_scan eq 1}}
     <script type="text/javascript" src="{{$public_host}}static/common/lib/ZXing/ZXing.min.js"></script>
+{{/if}}
+
+<!-- 代码编辑器js -->
+{{if isset($is_load_ace_builds) and $is_load_ace_builds eq 1}}
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ace-builds/src-min/ace.js"></script>
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->

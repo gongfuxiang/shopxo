@@ -1,0 +1,22 @@
+::-webkit-scrollbar {
+    display: none;
+}
+body {
+    background: #333;
+}
+.page-nav {
+    border-color: #333;
+    color: #ccc;
+    padding-bottom: 2px;
+}
+.page-top-nav-logo {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+.page-operate-container .am-btn {
+    padding: 4px 10px;
+}
+form .am-form-popup-submit button {
+    width: 120px;
+}

@@ -358,7 +358,7 @@
 
         //默认过滤规则相关配置项目
         //,disabledTableInTable:true  //禁止表格嵌套
-        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
+        ,allowDivTransToP:false      //允许进入编辑器的div标签自动变成p标签
         //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
 
 		// xss 过滤是否开启,inserthtml等操作
@@ -422,18 +422,19 @@
 			sub:    ['class', 'style'],
 			sup:    ['class', 'style'],
 			strong: ['class', 'style'],
-			table:  ['width', 'border', 'align', 'valign', 'class', 'style'],
+			table:  ['width', 'height', 'border', 'align', 'valign', 'class', 'style'],
 			tbody:  ['align', 'valign', 'class', 'style'],
-			td:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+			td:     ['width', 'height', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
 			tfoot:  ['align', 'valign', 'class', 'style'],
-			th:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+			th:     ['width', 'height', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
 			thead:  ['align', 'valign', 'class', 'style'],
 			tr:     ['rowspan', 'align', 'valign', 'class', 'style'],
 			tt:     [],
 			u:      [],
 			ul:     ['class', 'style'],
 			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style'],
-            embed:  ['type', 'src', 'alt', 'title', 'width', 'height', 'id', 'loadingclass', 'class', 'data-latex', 'pluginspage', 'wmode', 'play', 'loop', 'menu', 'allowscriptaccess', 'allowfullscreen']
+            embed:  ['type', 'src', 'alt', 'title', 'width', 'height', 'id', 'loadingclass', 'class', 'data-latex', 'pluginspage', 'wmode', 'play', 'loop', 'menu', 'allowscriptaccess', 'allowfullscreen'],
+            div: ['class', 'id', 'style']
 		}
     };
 

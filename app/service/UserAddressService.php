@@ -454,8 +454,9 @@ class UserAddressService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'length',
                 'key_name'          => 'name',
+                'checked_data'      => '30',
                 'error_msg'         => MyLang('common_service.useraddress.form_item_name_message'),
             ],
             [

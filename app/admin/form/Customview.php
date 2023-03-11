@@ -133,15 +133,6 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => $lang['images_count'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'images_count',
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'section',
-                    ],
-                ],
-                [
                     'label'         => $lang['access_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',

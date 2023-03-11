@@ -4,7 +4,7 @@
     <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
         <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
         <span class="page-top-nav-title">
-            <span class="am-text-xs">{{$data.name}}</span>
+            <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
             <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
         </span>
         <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">{{:MyLang('view_title')}} >></a>
@@ -40,7 +40,7 @@ function FormBackSaveinfoEdit(e)
     $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/default-images-mini.png');
 
     // 名称
-    $('.page-top-nav-title span').text(e.name || '默认页面');
+    $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.design.create_name_default")}}');
 
     // 关闭弹窗
     $('#popup-saveinfo').modal('close');

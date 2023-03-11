@@ -216,6 +216,8 @@ return [
     'goods_empty_or_format_error_tips'                      => '商品为空或格式错误',
     'no_filled_tips'                                        => '未填写',
     'no_power_tips'                                         => '无权限',
+    'no_setup_tips'                                         => '未设置',
+    'already_setup_tips'                                    => '已设置',
     'not_open_developer_mode_tips'                          => '请先开启开发者模式',
     'plugins_view_region_config_tips'                       => '该区域为插件扩展数据，请按照插件文档填写相应的值',
     'user_id_error_tips'                                    => '用户id有误',
@@ -315,6 +317,7 @@ return [
     'detail_title'                                          => '详情',
     'base_title'                                            => '基础',
     'view_title'                                            => '查看',
+    'preview_title'                                         => '预览',
     'choice_title'                                          => '选择',
     'already_choice_title'                                  => '已选',
     'enter_title'                                           => '进入',
@@ -827,7 +830,7 @@ return [
     'common_app_event_type' =>  [
         0 => ['value' => 0, 'name' => 'WEB页面'],
         1 => ['value' => 1, 'name' => '内部页面(小程序/APP内部地址)'],
-        2 => ['value' => 2, 'name' => '外部小程序(同一个主体下的小程序appid)'],
+        2 => ['value' => 2, 'name' => '外部小程序appid'],
         3 => ['value' => 3, 'name' => '跳转原生地图查看指定位置'],
         4 => ['value' => 4, 'name' => '拨打电话'],
     ],
@@ -1268,17 +1271,19 @@ return [
         // 自定义页面
         'customview'        => [
             // 表单
-            'form_item_title'                       => '名称',
-            'form_item_title_message'               => '名称长度2~60个字符',
-            'form_item_content_title'               => '内容',
-            'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
-            'form_item_content_message'             => '内容格式10~105000个字符之间',
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => '建议大小300*300px',
+            // 基础
+            'create_name_default'                   => '默认页面',
         ],
         // 页面设计
         'design'            => [
             // 表单
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称长度2~16个字符',
+            'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建议大小300*300px',
             // 基础
             'create_name_default'                   => '默认页面',
@@ -2145,7 +2150,7 @@ return [
             'form_item_user_id'                     => '用户id',
             'form_item_user_id_message'             => '请填写用户id',
             'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式2~16个字符之间',
+            'form_item_name_message'                => '姓名格式2~30个字符之间',
             'form_item_alias'                       => '别名',
             'form_item_alias_message'               => '别名格式最多16个字符',
             'form_item_tel'                         => '电话',
@@ -2154,7 +2159,7 @@ return [
             'form_item_address_message'             => '详细地址格式1~80个字符之间',
             'form_item_idcard_name'                 => '身份证姓名',
             'form_item_idcard_name_tips'            => '请务必与上传的身份证件姓名保持一致',
-            'form_item_idcard_name_message'         => '身份证姓名格式最多16个字符',
+            'form_item_idcard_name_message'         => '身份证姓名格式最多30个字符',
             'form_item_idcard_number'               => '身份证号码',
             'form_item_idcard_number_tips'          => '请务必与上传的身份证件号码保持一致',
             'form_item_idcard_number_message'       => '身份证号码格式最多18个字符',
@@ -2364,6 +2369,21 @@ return [
                 'url_illegal_tips'                  => 'url地址非法',
                 'url_invalid_tips'                  => 'url地址无效',
                 'images_url_invalid_tips'           => '无效图片地址',
+                'dir_create_fail_tips'              => '目录创建失败',
+            ],
+            // 条形码
+            'barcode'       => [
+                'content_empty_tips'                => '内容不能为空',
+                'barcode_create_fail_tips'          => '条形码创建失败',
+                'url_empty_tips'                    => 'url地址有误',
+                'url_illegal_tips'                  => 'url地址非法',
+                'url_invalid_tips'                  => 'url地址无效',
+                'images_url_invalid_tips'           => '无效图片地址',
+                'dir_create_fail_tips'              => '目录创建失败',
+            ],
+            // PDF
+            'pdf'           => [
+                'content_empty_tips'                => '内容不能为空',
                 'dir_create_fail_tips'              => '目录创建失败',
             ],
             // zip解压缩

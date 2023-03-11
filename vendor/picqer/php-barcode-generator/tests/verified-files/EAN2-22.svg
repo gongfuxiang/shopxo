@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="40" height="30" viewBox="0 0 40 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<desc>22</desc>
+	<g id="bars" fill="black" stroke="none">
+		<rect x="0" y="0" width="2" height="30" />
+		<rect x="4" y="0" width="4" height="30" />
+		<rect x="12" y="0" width="4" height="30" />
+		<rect x="18" y="0" width="4" height="30" />
+		<rect x="24" y="0" width="2" height="30" />
+		<rect x="30" y="0" width="2" height="30" />
+		<rect x="36" y="0" width="4" height="30" />
+	</g>
+</svg>

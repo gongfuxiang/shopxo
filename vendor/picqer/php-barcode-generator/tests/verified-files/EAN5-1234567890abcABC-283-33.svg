@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="94" height="30" viewBox="0 0 94 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<desc>1234567890abcABC-283*33</desc>
+	<g id="bars" fill="black" stroke="none">
+		<rect x="0" y="0" width="2" height="30" />
+		<rect x="4" y="0" width="4" height="30" />
+		<rect x="10" y="0" width="4" height="30" />
+		<rect x="18" y="0" width="4" height="30" />
+		<rect x="24" y="0" width="2" height="30" />
+		<rect x="30" y="0" width="2" height="30" />
+		<rect x="36" y="0" width="4" height="30" />
+		<rect x="42" y="0" width="2" height="30" />
+		<rect x="46" y="0" width="2" height="30" />
+		<rect x="56" y="0" width="2" height="30" />
+		<rect x="60" y="0" width="2" height="30" />
+		<rect x="64" y="0" width="2" height="30" />
+		<rect x="72" y="0" width="4" height="30" />
+		<rect x="78" y="0" width="2" height="30" />
+		<rect x="82" y="0" width="4" height="30" />
+		<rect x="92" y="0" width="2" height="30" />
+	</g>
+</svg>

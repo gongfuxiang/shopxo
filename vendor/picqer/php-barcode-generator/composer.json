@@ -1,0 +1,40 @@
+{
+    "name": "picqer/php-barcode-generator",
+    "type": "library",
+    "description": "An easy to use, non-bloated, barcode generator in PHP. Creates SVG, PNG, JPG and HTML images from the most used 1D barcode standards.",
+    "keywords": [ "php", "barcode", "barcode generator", "EAN", "EAN13", "UPC", "Code39", "Code128", "Code93", "Standard 2 of 5", "MSI", "POSTNET", "KIX", "KIXCODE", "CODABAR", "PHARMA", "Code11", "SVG", "PNG", "HTML", "JPG", "JPEG" ],
+    "homepage": "https://github.com/picqer/php-barcode-generator",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Nicola Asuni",
+            "email": "info@tecnick.com",
+            "homepage": "http://nicolaasuni.tecnick.com"
+        },
+        {
+            "name": "Casper Bakker",
+            "email": "info@picqer.com",
+            "homepage": "https://picqer.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "suggest": {
+        "ext-bcmath": "Barcode IMB (Intelligent Mail Barcode) needs bcmath extension",
+        "ext-gd": "For JPG and PNG generators, GD or Imagick is required",
+        "ext-imagick": "For JPG and PNG generators, GD or Imagick is required"
+    },
+    "autoload": {
+        "psr-4": {
+            "Picqer\\Barcode\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}

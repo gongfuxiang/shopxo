@@ -4,34 +4,46 @@
         <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
         <div class="am-popup-bd am-padding-0">
             <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" request-type="sync" request-value="FormBackSaveinfoEdit">
-                <div class="am-padding-too-sm am-padding-horizontal-sm">
+                <div class="am-padding-horizontal-sm">
                     <!-- 基础信息 -->
-                    <div class="am-panel am-panel-default">
+                    <div class="am-panel am-panel-default am-margin-top-sm">
                         <div class="am-panel-hd">
                             <h3 class="am-panel-title">{{:MyLang('form_base_data_title')}}</h3>
                         </div>
                         <div class="am-panel-bd am-padding-vertical-xs">
-                            <div class="am-form-group am-form-file">
-                                <label class="am-block">LOGO<span class="am-form-group-label-tips">{{:MyLang('design.form_logo_tips')}}</span></label>
-                                <ul class="plug-file-upload-view shop-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
-                                    {{if !empty($data['logo'])}}
-                                        <li>
-                                            <input type="text" name="logo" value="{{$data.logo}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" />
-                                            <img src="{{$data.logo}}" />
-                                            <i>×</i>
-                                        </li>
-                                    {{/if}}
-                                </ul>
-                                <div class="plug-file-upload-submit" data-view-tag="ul.shop-logo-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                            <div class="am-cf">
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    <div class="am-form-group">
+                                        <label>{{:MyLang('common_service.design.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                        <input type="text" name="name" placeholder="{{:MyLang('common_service.design.form_item_name_message')}}" maxlength="60" data-validation-message="{{:MyLang('common_service.design.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                                    </div>
+                                </div>
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    {{include file="lib/is_enable" /}}
+                                </div>
                             </div>
 
-                            <div class="am-form-group">
-                                <label>{{:MyLang('common_service.design.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="name" placeholder="{{:MyLang('common_service.design.form_item_name_message')}}" maxlength="16" data-validation-message="{{:MyLang('common_service.design.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                            <div class="am-cf">
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    <div class="am-form-group am-form-file">
+                                        <label class="am-block">{{:MyLang('common_service.design.form_logo_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.design.form_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                                        <ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+                                            {{if !empty($data['logo'])}}
+                                                <li>
+                                                    <input type="text" name="logo" value="{{$data.logo}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" />
+                                                    <img src="{{$data.logo}}" />
+                                                    <i>×</i>
+                                                </li>
+                                            {{/if}}
+                                        </ul>
+                                        <div class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                                    </div>
+                                </div>
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    {{include file="lib/is_header" /}}
+                                    {{include file="lib/is_footer" /}}
+                                </div>
                             </div>
-                            {{include file="lib/is_enable" /}}
-                            {{include file="lib/is_header" /}}
-                            {{include file="lib/is_footer" /}}
                         </div>
                     </div>
                     
@@ -54,7 +66,7 @@
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>
                     <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-lg" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">
-                        <i class="am-icon-save"></i>
+                        <i class="am-icon-check"></i>
                         <span>{{:MyLang('confirm_title')}}</span>
                     </button> 
                 </div>

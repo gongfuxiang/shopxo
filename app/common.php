@@ -20,6 +20,20 @@ use app\service\AdminPowerService;
 use app\service\MultilingualService;
 
 /**
+ * 图片转base64
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-03-08
+ * @desc    description
+ * @param   [string]          $image [图片地址]
+ */
+function ImageToBase64($image)
+{
+    return 'data:image/jpg/png/gif;base64,'.chunk_split(base64_encode(RequestGet($image)));
+}
+
+/**
  * 两个数组字段对比处理、arr1不存在arr2中的字段则移除
  * @author  Devil
  * @blog    http://gong.gg/
@@ -175,14 +189,18 @@ function MyLang($key, $vars = [], $lang = '')
         static $lang_data = [];
 
         // 系统语言
+        $request_module = RequestModule();
         $arr_file = [
-            APP_PATH.RequestModule().DS.'lang'.DS.$current_lang.'.php',
+            APP_PATH.$request_module.DS.'lang'.DS.$current_lang.'.php',
             APP_PATH.'lang'.DS.$current_lang.'.php',
         ];
         // 是否插件语言
         if(RequestController() == 'plugins')
         {
-            array_unshift($arr_file, APP_PATH.'plugins'.DS.MyInput('pluginsname').DS.'lang'.DS.$current_lang.'.php');
+            $pluginsname = MyInput('pluginsname');
+            $plugins_dir = APP_PATH.'plugins'.DS.$pluginsname.DS.'lang'.DS;
+            array_unshift($arr_file, $plugins_dir.$current_lang.'.php');
+            array_unshift($arr_file, $plugins_dir.$request_module.DS.$current_lang.'.php');
         }
         foreach($arr_file as $file)
         {
@@ -191,7 +209,7 @@ function MyLang($key, $vars = [], $lang = '')
             {
                 $lang_data[$md5_key] = require $file;
             }
-            if(!empty($lang_data[$md5_key]))
+            if(!empty($lang_data[$md5_key]) && is_array($lang_data[$md5_key]))
             {
                 $temp_lang_data = $lang_data[$md5_key];
                 // 仅一级则直接读取

@@ -13,7 +13,6 @@ declare (strict_types = 1);
 namespace think\db;
 
 use PDOStatement;
-use think\helper\Str;
 
 /**
  * PDO数据查询类

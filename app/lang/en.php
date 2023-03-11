@@ -216,6 +216,8 @@ return [
     'goods_empty_or_format_error_tips'                      => 'Item is empty or formatted incorrectly',
     'no_filled_tips'                                        => 'Not filled in',
     'no_power_tips'                                         => 'No permission',
+    'no_setup_tips'                                         => 'Not setup',
+    'already_setup_tips'                                    => 'Already setup',
     'not_open_developer_mode_tips'                          => 'Please start developer mode first',
     'plugins_view_region_config_tips'                       => 'This area is plug-in extension data. Please fill in the corresponding value according to the plug-in document',
     'user_id_error_tips'                                    => 'Wrong user ID',
@@ -314,6 +316,7 @@ return [
     'detail_title'                                          => 'Detail',
     'base_title'                                            => 'Base',
     'view_title'                                            => 'View',
+    'preview_title'                                         => 'PreaView',
     'choice_title'                                          => 'Choice',
     'already_choice_title'                                  => 'Already Choice',
     'enter_title'                                           => 'Enter',
@@ -826,7 +829,7 @@ return [
     'common_app_event_type' =>  [
         0 => ['value' => 0, 'name' => 'WEB Page'],
         1 => ['value' => 1, 'name' => 'Internal page (applet/APP internal address)'],
-        2 => ['value' => 2, 'name' => 'External applet (applet appid under the same principal)'],
+        2 => ['value' => 2, 'name' => 'External applet appid'],
         3 => ['value' => 3, 'name' => 'Jump to the native map to view the specified location'],
         4 => ['value' => 4, 'name' => 'Make a call'],
     ],
@@ -1263,17 +1266,20 @@ return [
         // 自定义页面
         'customview'        => [
             // 表单
-            'form_item_title'                       => 'Title',
-            'form_item_title_message'               => 'The title is 2~60 characters long',
-            'form_item_content_title'               => 'Content',
-            'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
-            'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => 'Propose size 300 * 300px',
+            // 基础
+            'create_name_default'                   => 'Default Page',
         ],
         // 页面设计
         'design'            => [
-            'base_nav_title'                        => 'Article',
-            'detail_content_title'                  => 'Detail Content',
-            'detail_images_title'                   => 'Detail Picture',
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => 'Propose size 300 * 300px',
             // 基础
             'create_name_default'                   => 'Default Page',
             'download_config_file_create_fail_tips' => 'Profile generation failed',
@@ -2139,7 +2145,7 @@ return [
             'form_item_user_id'                     => 'User ID',
             'form_item_user_id_message'             => 'Please fill in user id',
             'form_item_name'                        => 'Full Name',
-            'form_item_name_message'                => 'Name format is between 2 and 16 characters',
+            'form_item_name_message'                => 'Name format is between 2 and 30 characters',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Alias format can be up to 16 characters',
             'form_item_tel'                         => 'Telephone',
@@ -2148,7 +2154,7 @@ return [
             'form_item_address_message'             => 'Detailed address format is between 1 and 80 characters',
             'form_item_idcard_name'                 => 'ID Card Name',
             'form_item_idcard_name_tips'            => 'please be consistent with the uploaded ID name',
-            'form_item_idcard_name_message'         => 'The name format of ID card can be up to 16 characters',
+            'form_item_idcard_name_message'         => 'The name format of ID card can be up to 30 characters',
             'form_item_idcard_number'               => 'ID No',
             'form_item_idcard_number_tips'          => 'please be consistent with the uploaded ID number',
             'form_item_idcard_number_message'       => 'ID card number format can be up to 18 characters',
@@ -2358,6 +2364,21 @@ return [
                 'url_illegal_tips'                  => 'The url address is illegal',
                 'url_invalid_tips'                  => 'Invalid url address',
                 'images_url_invalid_tips'           => 'Invalid picture address',
+                'dir_create_fail_tips'              => 'Directory creation failed',
+            ],
+            // 条形码
+            'barcode'        => [
+                'content_empty_tips'                => 'Content cannot be empty',
+                'barcode_create_fail_tips'          => 'Bar code creation failed',
+                'url_empty_tips'                    => 'The url address is incorrect',
+                'url_illegal_tips'                  => 'The url address is illegal',
+                'url_invalid_tips'                  => 'Invalid url address',
+                'images_url_invalid_tips'           => 'Invalid picture address',
+                'dir_create_fail_tips'              => 'Directory creation failed',
+            ],
+            // PDF
+            'pdf'           => [
+                'content_empty_tips'                => 'Content cannot be empty',
                 'dir_create_fail_tips'              => 'Directory creation failed',
             ],
             // zip解压缩

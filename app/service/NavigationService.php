@@ -446,7 +446,7 @@ class NavigationService
 
                 // 自定义页面导航
                 case 'customview':
-                    $temp_name = Db::name('CustomView')->where(['id'=>$params['value']])->value('title');
+                    $temp_name = Db::name('CustomView')->where(['id'=>$params['value']])->value('name');
                     break;
 
                 // 商品分类导航

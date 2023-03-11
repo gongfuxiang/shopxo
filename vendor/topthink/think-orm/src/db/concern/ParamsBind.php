@@ -65,6 +65,33 @@ trait ParamsBind
     }
 
     /**
+     * 设置自动参数绑定
+     * @access public
+     * @param bool $bind 是否自动参数绑定
+     * @return $this
+     */
+    public function autoBind(bool $bind)
+    {
+        $this->options['auto_bind'] = $bind;
+        return $this;
+    }
+
+    /**
+     * 检测是否开启自动参数绑定
+     * @access public
+     * @return bool
+     */
+    public function isAutoBind(): bool
+    {
+        $autoBind = $this->getConfig('auto_param_bind');
+        if (null !== $this->getOptions('auto_bind')) {
+            $autoBind = $this->getOptions('auto_bind');
+        }
+
+        return (bool) $autoBind;
+    }
+
+    /**
      * 参数绑定
      * @access public
      * @param string $sql  绑定的sql表达式

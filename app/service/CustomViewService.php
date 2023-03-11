@@ -60,27 +60,10 @@ class CustomViewService
             $common_is_text_list = MyLang('common_is_text_list');
             foreach($data as &$v)
             {
-                // 是否启用
-                if(isset($v['is_enable']))
-                {
-                    $v['is_enable_text'] = $common_is_text_list[$v['is_enable']]['name'];
-                }
-
                 // 内容
-                if(isset($v['content']))
+                if(isset($v['html_content']))
                 {
-                    $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
-                }
-
-                // 图片
-                if(!empty($v['images']))
-                {
-                    $images = json_decode($v['images'], true);
-                    foreach($images as &$img)
-                    {
-                        $img = ResourcesService::AttachmentPathViewHandle($img);
-                    }
-                    $v['images'] = $images;
+                    $v['html_content'] = ResourcesService::ContentStaticReplace($v['html_content'], 'get');
                 }
 
                 // 时间
@@ -126,59 +109,42 @@ class CustomViewService
      */
     public static function CustomViewSave($params = [])
     {
-        // 请求类型
-        $p = [
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'title',
-                'checked_data'      => '2,60',
-                'error_msg'         => MyLang('common_service.customview.form_item_title_message'),
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'content',
-                'checked_data'      => '10,105000',
-                'error_msg'         => MyLang('common_service.customview.form_item_content_message'),
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 编辑器内容
-        $content = empty($params['content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add');
+        // 附件
+        $data_fields = ['logo'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
 
         // 数据
-        $images = ResourcesService::RichTextMatchContentAttachment($content, 'customview');
         $data = [
-            'title'         => $params['title'],
-            'content'       => $content,
-            'images'        => empty($images) ? '' : json_encode($images),
-            'images_count'  => count($images),
-            'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
-            'is_header'     => isset($params['is_header']) ? intval($params['is_header']) : 0,
-            'is_footer'     => isset($params['is_footer']) ? intval($params['is_footer']) : 0,
-            'is_full_screen'=> isset($params['is_full_screen']) ? intval($params['is_full_screen']) : 0,
+            'name'            => empty($params['name']) ? MyLang('common_service.customview.create_name_default').''.date('mdHi') : $params['name'],
+            'logo'            => $attachment['data']['logo'],
+            'html_content'    => empty($params['html_content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['html_content']), 'add'),
+            'css_content'     => empty($params['css_content']) ? '' : htmlspecialchars_decode($params['css_content']),
+            'js_content'      => empty($params['js_content']) ? '' : htmlspecialchars_decode($params['js_content']),
+            'is_enable'       => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'is_header'       => isset($params['is_header']) ? intval($params['is_header']) : 0,
+            'is_footer'       => isset($params['is_footer']) ? intval($params['is_footer']) : 0,
+            'is_full_screen'  => isset($params['is_full_screen']) ? intval($params['is_full_screen']) : 0,
+            'seo_title'       => empty($params['seo_title']) ? '' : $params['seo_title'],
+            'seo_keywords'    => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
+            'seo_desc'        => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
-
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('CustomView')->insertGetId($data) > 0)
+            $data_id = Db::name('CustomView')->insertGetId($data);
+            if($data_id <= 0)
             {
-                return DataReturn(MyLang('insert_success'), 0);
+                return DataReturn(MyLang('insert_fail'), -1);
             }
-            return DataReturn(MyLang('insert_fail'), -100);
         } else {
+            $data_id = intval($params['id']);
             $data['upd_time'] = time();
-            if(Db::name('CustomView')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('CustomView')->where(['id'=>$data_id])->update($data) === false)
             {
-                return DataReturn(MyLang('edit_success'), 0);
+                return DataReturn(MyLang('update_fail'), -1);
             }
-            return DataReturn(MyLang('edit_fail'), -100); 
         }
+        return DataReturn(MyLang('operate_success'), 0, $data_id);
     }
 
     /**

@@ -402,6 +402,10 @@ class Common extends BaseController
         $assign['home_site_telecom_license'] = MyC('home_site_telecom_license');
         $assign['home_site_company_license'] = MyC('home_site_company_license');
 
+        // 是否加载附件组件
+        $admin = AdminService::LoginInfo();
+        $assign['is_load_upload_editor'] = (!empty($this->user) || !empty($admin)) ? 1 : 0;
+
         // 布局样式+管理
         $assign['is_load_layout'] = 0;
         $assign['is_load_layout_admin'] = 0;
@@ -431,9 +435,8 @@ class Common extends BaseController
         // 默认不加载动画数数
         $assign['is_load_animation_count'] = 0;
 
-        // 是否加载附件组件
-        $admin = AdminService::LoginInfo();
-        $assign['is_load_upload_editor'] = (!empty($this->user) || !empty($admin)) ? 1 : 0;
+        // 默认不加载代码编辑器
+        $assign['is_load_ace_builds'] = 0;
 
         // 登录/注册方式
         $assign['home_user_login_type'] = MyC('home_user_login_type', [], true);

@@ -68,12 +68,6 @@ abstract class Relation
     protected $selfRelation = false;
 
     /**
-     * 关联数据数量限制
-     * @var int
-     */
-    protected $withLimit;
-
-    /**
      * 关联数据字段限制
      * @var array
      */
@@ -201,18 +195,6 @@ abstract class Relation
     }
 
     /**
-     * 限制关联数据的数量
-     * @access public
-     * @param  int $limit 关联数量限制
-     * @return $this
-     */
-    public function withLimit(int $limit)
-    {
-        $this->withLimit = $limit;
-        return $this;
-    }
-
-    /**
      * 限制关联数据的字段
      * @access public
      * @param  array|string $field 关联字段限制
@@ -241,6 +223,18 @@ abstract class Relation
         }
 
         $this->withoutField = $field;
+        return $this;
+    }
+
+    /**
+     * 限制关联数据的数量
+     * @access public
+     * @param  int $limit 关联数量限制
+     * @return $this
+     */
+    public function withLimit(int $limit)
+    {
+        $this->query->limit($limit);
         return $this;
     }
 
@@ -281,14 +275,15 @@ abstract class Relation
      * @access protected
      * @return mixed
      */
-    protected function getClosureType(Closure $closure)
+    protected function getClosureType(Closure $closure, $query = null)
     {
         $reflect = new ReflectionFunction($closure);
         $params  = $reflect->getParameters();
 
         if (!empty($params)) {
-            $type = $params[0]->getType();
-            return is_null($type) || Relation::class == $type->getName() ? $this : $this->query;
+            $type  = $params[0]->getType();
+            $query = $query ?: $this->query;
+            return is_null($type) || Relation::class == $type->getName() ? $this : $query;
         }
 
         return $this;

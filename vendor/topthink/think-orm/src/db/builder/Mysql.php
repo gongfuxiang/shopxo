@@ -101,7 +101,8 @@ class Mysql extends Builder
                 $this->parseComment($query, $options['comment']),
                 $this->parseForce($query, $options['force']),
             ],
-            $this->selectSql);
+            $this->selectSql
+        );
     }
 
     /**
@@ -136,7 +137,8 @@ class Mysql extends Builder
                 $this->parseDuplicate($query, $options['duplicate']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertSql);
+            $this->insertSql
+        );
     }
 
     /**
@@ -190,7 +192,8 @@ class Mysql extends Builder
                 $this->parseDuplicate($query, $options['duplicate']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertAllSql);
+            $this->insertAllSql
+        );
     }
 
     /**
@@ -208,9 +211,10 @@ class Mysql extends Builder
         if (empty($data)) {
             return '';
         }
+
         $set = [];
         foreach ($data as $key => $val) {
-            $set[] = $key . ' = ' . $val;
+            $set[] = (strpos($key, '->') ? strstr($key, '->', true) : $key) . ' = ' . $val;
         }
 
         return str_replace(
@@ -227,7 +231,8 @@ class Mysql extends Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->updateSql);
+            $this->updateSql
+        );
     }
 
     /**
@@ -254,7 +259,8 @@ class Mysql extends Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->deleteSql);
+            $this->deleteSql
+        );
     }
 
     /**

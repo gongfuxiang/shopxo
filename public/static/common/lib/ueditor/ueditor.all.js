@@ -19999,7 +19999,7 @@ UE.plugins['table'] = function () {
             '.selectTdClass{background-color:#edf5fa !important}' +
                 'table.noBorderTable td,table.noBorderTable th,table.noBorderTable caption{border:1px dashed #ddd !important}' +
                 //插入的表格的默认样式
-                'table{margin-bottom:10px;border-collapse:collapse;display:table;}' +
+                'table{margin-bottom:10px;border-collapse:collapse;display:table;width:100%;}' +
                 'td,th{padding: 5px 10px;border: 1px solid #DDD;}' +
                 'caption{border:1px dashed #DDD;border-bottom:0;padding:3px;text-align:center;}' +
                 'th{border-top:1px solid #BBB;background-color:#F7F7F7;}' +

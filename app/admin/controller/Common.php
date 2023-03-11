@@ -312,6 +312,13 @@ class Common extends BaseController
         $assign['is_page_loading_images'] = 0;
         $assign['page_loading_images_url'] = $attachment_host.'/static/common/images/loading.gif';
 
+        // 是否加载附件组件
+        $assign['is_load_upload_editor'] = !empty($this->admin) ? 1 : 0;
+
+        // 布局样式+管理
+        $assign['is_load_layout'] = 0;
+        $assign['is_load_layout_admin'] = 0;
+
         // 是否加载视频播放器组件
         $assign['is_load_ckplayer'] = 0;
 
@@ -334,12 +341,8 @@ class Common extends BaseController
         // 默认不加载动画数数
         $assign['is_load_animation_count'] = 0;
 
-        // 布局样式+管理
-        $assign['is_load_layout'] = 0;
-        $assign['is_load_layout_admin'] = 0;
-
-        // 是否加载附件组件
-        $assign['is_load_upload_editor'] = !empty($this->admin) ? 1 : 0;
+        // 默认不加载代码编辑器
+        $assign['is_load_ace_builds'] = 0;
 
         // 站点名称
         $assign['admin_theme_site_name'] = MyC('admin_theme_site_name', 'ShopXO', true);

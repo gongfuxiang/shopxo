@@ -82,7 +82,7 @@ class Navigation extends Base
 		$assign['article_list'] = $article_category_content['data'];
 
 		// 自定义页面
-        $custom_view = CustomViewService::CustomViewList(['where'=>['is_enable'=>1], 'field'=>'id,title', 'n'=>0]);
+        $custom_view = CustomViewService::CustomViewList(['where'=>['is_enable'=>1], 'field'=>'id,name', 'n'=>0]);
 		$assign['customview_list'] = $custom_view['data'];
 
 		// 页面设计

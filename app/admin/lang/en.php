@@ -308,6 +308,7 @@ return [
         'base_nav_title'                        => 'Custom Page',
         'detail_content_title'                  => 'Detail Content',
         'detail_images_title'                   => 'Detail Picture',
+        'save_view_tips'                        => 'Please save before previewing the effect',
         // 动态表格
         'form_table'                            => [
             'info'            => 'Title',

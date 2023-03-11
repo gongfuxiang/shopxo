@@ -346,7 +346,7 @@ trait RelationShip
      */
     public function bindAttr(string $relation, array $attrs = [])
     {
-        $relation = $this->getRelation($relation);
+        $relation = $this->getRelation($relation, true);
 
         foreach ($attrs as $key => $attr) {
             $key   = is_numeric($key) ? $attr : $key;

@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="134" height="30" viewBox="0 0 134 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<desc>12345687</desc>
+	<g id="bars" fill="black" stroke="none">
+		<rect x="0" y="0" width="2" height="30" />
+		<rect x="4" y="0" width="2" height="30" />
+		<rect x="10" y="0" width="4" height="30" />
+		<rect x="18" y="0" width="2" height="30" />
+		<rect x="24" y="0" width="2" height="30" />
+		<rect x="30" y="0" width="4" height="30" />
+		<rect x="36" y="0" width="8" height="30" />
+		<rect x="46" y="0" width="2" height="30" />
+		<rect x="50" y="0" width="2" height="30" />
+		<rect x="58" y="0" width="4" height="30" />
+		<rect x="64" y="0" width="2" height="30" />
+		<rect x="68" y="0" width="2" height="30" />
+		<rect x="72" y="0" width="2" height="30" />
+		<rect x="78" y="0" width="6" height="30" />
+		<rect x="86" y="0" width="2" height="30" />
+		<rect x="90" y="0" width="2" height="30" />
+		<rect x="100" y="0" width="2" height="30" />
+		<rect x="106" y="0" width="2" height="30" />
+		<rect x="114" y="0" width="2" height="30" />
+		<rect x="122" y="0" width="2" height="30" />
+		<rect x="128" y="0" width="2" height="30" />
+		<rect x="132" y="0" width="2" height="30" />
+	</g>
+</svg>

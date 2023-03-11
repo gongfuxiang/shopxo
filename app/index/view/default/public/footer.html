@@ -88,6 +88,9 @@
 <!-- 图像裁剪插件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/cropper/cropper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
+<!-- 元素拖动 -->
+<script type='text/javascript' src="{{$public_host}}static/common/lib/tdrag/tdrag.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+
 <!-- 复制插件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/clipboard/clipboard.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
@@ -164,6 +167,11 @@
 <!-- 调用摄像头扫码js -->
 {{if isset($is_load_video_scan) and $is_load_video_scan eq 1}}
     <script type="text/javascript" src="{{$public_host}}static/common/lib/ZXing/ZXing.min.js"></script>
+{{/if}}
+
+<!-- 代码编辑器js -->
+{{if isset($is_load_ace_builds) and $is_load_ace_builds eq 1}}
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ace-builds/src-min/ace.js"></script>
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->

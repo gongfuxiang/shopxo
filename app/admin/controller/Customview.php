@@ -56,12 +56,30 @@ class CustomView extends Base
 	 */
 	public function SaveInfo()
 	{
+        // 数据
+        $data = $this->data_detail;
+        if(empty($data))
+        {
+            $ret = CustomViewService::CustomViewSave();
+            if($ret['code'] == 0)
+            {
+                return MyRedirect(MyUrl('admin/customview/saveinfo', ['id'=>$ret['data']]));
+            } else {
+                MyViewAssign('msg', $ret['msg']);
+                return MyView('public/tips_error');
+            }
+        }
+
 		// 参数
 		$params = $this->data_request;
         unset($params['id']);
         MyViewAssign([
-            'data'  	=> $this->data_detail,
-            'params'	=> $params,
+            'data'                => $data,
+            'params'              => $params,
+            // 编辑器文件存放地址定义
+            'editor_path_type'    => 'customview',
+            // 加载代码编辑器
+            'is_load_ace_builds'  => 1,
         ]);
 		return MyView();
 	}
