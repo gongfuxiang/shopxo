@@ -5,7 +5,7 @@
         <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
         <span class="page-top-nav-title">
             <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
-            <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
+            <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs base-edit-submit"></a>
         </span>
         <div class="page-operate-container am-fr">
             <a href="javascript:;" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-close window-close-event" data-msg="{{:MyLang('save_close_page_confirm_tips')}}"> {{:MyLang('close_title')}}</a>
@@ -31,12 +31,24 @@
 // 基础数据保存回调处理
 function FormBackSaveinfoEdit(e)
 {
-    // logo
-    $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/default-images-mini.png');
-    // 名称
-    $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.customview.create_name_default")}}');
-    // 关闭弹窗
-    $('#popup-saveinfo').modal('close');
+    var $form = $('form.form-validation');
+    if(parseInt($form.attr('data-opt-type') || 0) == 1)
+    {
+        if(e.code == 0)
+        {
+            Prompt(e.msg, 'success');
+        } else {
+            Prompt(e.msg);
+        }
+        $form.find('button[type="submit"]').button('reset');
+    } else {
+        // logo
+        $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/default-images-mini.png');
+        // 名称
+        $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.customview.create_name_default")}}');
+        // 关闭弹窗
+        $('#popup-saveinfo').modal('close');
+    }
 }
 
 // 代码编辑器初始化

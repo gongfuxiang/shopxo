@@ -151,6 +151,8 @@ return [
     'switch_success'                                        => 'Switch Succeeded',
     'bind_fail'                                             => 'Bind Failed',
     'bind_success'                                          => 'Bind Succeeded',
+    'save_fail'                                             => 'Save Failed',
+    'save_success'                                          => 'Save Succeeded',
     'submit_fail'                                           => 'Submit Failed',
     'submit_success'                                        => 'Submit Succeeded',
     'booking_fail'                                          => 'Booking Failed',

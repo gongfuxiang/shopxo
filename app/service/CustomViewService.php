@@ -141,10 +141,10 @@ class CustomViewService
             $data['upd_time'] = time();
             if(Db::name('CustomView')->where(['id'=>$data_id])->update($data) === false)
             {
-                return DataReturn(MyLang('update_fail'), -1);
+                return DataReturn(MyLang('save_fail'), -1);
             }
         }
-        return DataReturn(MyLang('operate_success'), 0, $data_id);
+        return DataReturn(MyLang('save_success'), 0, $data_id);
     }
 
     /**

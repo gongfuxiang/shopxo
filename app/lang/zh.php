@@ -151,6 +151,8 @@ return [
     'switch_success'                                        => '切换成功',
     'bind_fail'                                             => '绑定失败',
     'bind_success'                                          => '绑定成功',
+    'save_fail'                                             => '保存失败',
+    'save_success'                                          => '保存成功',
     'submit_fail'                                           => '提交失败',
     'submit_success'                                        => '提交成功',
     'booking_fail'                                          => '预约失败',
