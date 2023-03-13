@@ -17,4 +17,18 @@ $(function()
         $form.attr('request-type', 'ajax-fun');
         $form.find('button[type="submit"]').trigger('click');
     });
+
+    // control+s保存
+    $(window).on('keydown', function(event)
+    {
+        if(event.ctrlKey || event.metaKey)
+        {
+            var key = String.fromCharCode(event.which).toLowerCase();
+            if(key == 's')
+            {
+                $('.page-save-submit').trigger('click');
+                event.preventDefault();
+            }
+        }
+    }); 
 });
