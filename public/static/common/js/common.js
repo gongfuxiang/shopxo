@@ -4196,6 +4196,7 @@ $(function()
 	    {
 	        if(is_move)
 	        {
+	        	var scroll_top = $(document).scrollTop();
 	        	var left = event.pageX - abs_x;
 	        	var left_max = (0-width);
 	        	if(left < left_max)
@@ -4207,15 +4208,15 @@ $(function()
 	        		left = win_width-20;
 	        	}
 	        	var top = event.pageY - abs_y;
+	        	if(top > win_height+scroll_top)
+	        	{
+	        		top = (win_height+scroll_top)-20;
+	        	}
+	        	top -= scroll_top;
 	        	if(top < 0)
 	        	{
 	        		top = 0;
 	        	}
-	        	if(top > win_height)
-	        	{
-	        		top = win_height-20;
-	        	}
-	        	top -= $(document).scrollTop();
 	            $popup.css({'left':left, 'top':top, 'margin': 0});
 	        };
 	    }).mouseup(function(event)
