@@ -4215,6 +4215,7 @@ $(function()
 	        	{
 	        		top = win_height-20;
 	        	}
+	        	top -= $(document).scrollTop();
 	            $popup.css({'left':left, 'top':top, 'margin': 0});
 	        };
 	    }).mouseup(function(event)
