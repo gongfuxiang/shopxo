@@ -437,7 +437,7 @@ class UserAddressService
             'data_id'       => $data_id,
         ]);
 
-        return DataReturn($status ? MyLang('operate_title') : MyLang('operate_fail'), $status ? 0 : -100);
+        return DataReturn($status ? MyLang('operate_success') : MyLang('operate_fail'), $status ? 0 : -100);
     }
 
     /**

@@ -1995,14 +1995,10 @@ return [
         // 地区
         'region'                    => [
             // 表单
-            'form_item_id'                          => 'Unique Number',
-            'form_item_id_tips'                     => [
-                '1. If left blank, the system will automatically generate',
-                '2. Do not modify at will to avoid data confusion',
-            ],
-            'form_item_id_message'                  => 'Please enter a unique number',
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_code'                        => 'Unique code',
+            'form_item_code_message'                => 'Unique code format can be up to 30 characters',
             'form_item_lng'                         => 'Longitude',
             'form_item_lng_message'                 => 'Please fill in the longitude',
             'form_item_lat'                         => 'Latitude',

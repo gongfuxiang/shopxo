@@ -2000,14 +2000,10 @@ return [
         // 地区
         'region'                    => [
             // 表单
-            'form_item_id'                          => '唯一编号',
-            'form_item_id_tips'                     => [
-                '1. 留空则系统自动生成',
-                '2. 不要随意修改、避免数据错乱',
-            ],
-            'form_item_id_message'                  => '请输入唯一编号',
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_code'                        => '唯一编码',
+            'form_item_code_message'                => '唯一编码格式最多30个字符',
             'form_item_lng'                         => '经度',
             'form_item_lng_message'                 => '请填写经度',
             'form_item_lat'                         => '纬度',

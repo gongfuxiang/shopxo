@@ -84,7 +84,7 @@ class RegionService
     public static function RegionNode($params = [])
     {
         // 数据参数
-        $field = empty($params['field']) ? 'id,pid,name,level,letters,lng,lat,sort,is_enable' : $params['field'];
+        $field = empty($params['field']) ? 'id,pid,name,level,letters,code,lng,lat,sort,is_enable' : $params['field'];
         $where = empty($params['where']) ? [] : $params['where'];
         $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
@@ -107,7 +107,7 @@ class RegionService
         $id = isset($params['id']) ? intval($params['id']) : 0;
 
         // 获取数据
-        $field = 'id,pid,name,level,letters,lng,lat,sort,is_enable';
+        $field = 'id,pid,name,level,letters,code,lng,lat,sort,is_enable';
         $data = Db::name('Region')->field($field)->where(['pid'=>$id])->order('sort asc,id asc')->select()->toArray();
         if(!empty($data))
         {
@@ -150,9 +150,10 @@ class RegionService
         $data = [
             'name'      => $params['name'],
             'pid'       => isset($params['pid']) ? intval($params['pid']) : 0,
+            'letters'   => empty($params['letters']) ? '' : $params['letters'],
+            'code'      => empty($params['code']) ? '' : $params['code'],
             'lng'       => isset($params['lng']) ? floatval($params['lng']) : 0,
             'lat'       => isset($params['lat']) ? floatval($params['lat']) : 0,
-            'letters'   => empty($params['letters']) ? '' : $params['letters'],
             'sort'      => isset($params['sort']) ? intval($params['sort']) : 0,
             'is_enable' => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
@@ -274,7 +275,7 @@ class RegionService
         if(empty($data))
         {
             // 所有一级
-            $field = 'id,pid,name';
+            $field = 'id,pid,name,level,letters,code,lng,lat';
             $data = self::RegionNode(['field'=>$field,'where'=>[['pid', '=', 0]]]);
             if(!empty($data))
             {
@@ -359,8 +360,8 @@ class RegionService
 
         // 获取地区
         $result = ['province'=>'', 'city'=>'', 'county'=>''];
-        $field = 'id,pid,level';
-        $region = self::RegionNode(['field'=>$field, 'where'=>[['id', '=', $params['code']]]]);
+        $field = 'id,pid,level,name,code';
+        $region = self::RegionNode(['field'=>$field, 'where'=>[['code', '=', $params['code']]]]);
         if(!empty($region) && !empty($region[0]))
         {
             $arr = [1=>'province', 2=>'city', 3=>'county'];
