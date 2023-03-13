@@ -111,7 +111,7 @@ class AcePlayground extends HTMLElement
         this.htmlEditor = ace.edit(shadow.querySelector('#html'), {...ace_editor_config, ...{
             theme: 'ace/theme/monokai',
             mode: 'ace/mode/html',
-            value: `{{if empty($data["html_content"])}}<p>Hello World</p>{{else /}}{{$data.html_content|raw}}{{/if}}`,
+            value: `{{if empty($data["html_content"])}}<!-- html -->{{else /}}{{$data.html_content|raw}}{{/if}}`,
         }});
         this.cssEditor = ace.edit(shadow.querySelector('#css'), {...ace_editor_config, ...{
             theme: 'ace/theme/tomorrow_night_eighties',
