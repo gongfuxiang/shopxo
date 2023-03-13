@@ -116,12 +116,12 @@ class AcePlayground extends HTMLElement
         this.cssEditor = ace.edit(shadow.querySelector('#css'), {...ace_editor_config, ...{
             theme: 'ace/theme/tomorrow_night_eighties',
             mode: 'ace/mode/css',
-            value: `{{if empty($data["css_content"])}}p { color:#f00; }{{else /}}{{$data.css_content|raw}}{{/if}}`,
+            value: `{{if empty($data["css_content"])}}/* css */{{else /}}{{$data.css_content|raw}}{{/if}}`,
         }});
         this.jsEditor = ace.edit(shadow.querySelector('#js'), {...ace_editor_config, ...{
             theme: 'ace/theme/twilight',
             mode: 'ace/mode/javascript',
-            value: `{{if empty($data["js_content"])}}console.log('javascript'){{else /}}{{$data.js_content|raw}}{{/if}}`,
+            value: `{{if empty($data["js_content"])}}/* javascript */{{else /}}{{$data.js_content|raw}}{{/if}}`,
         }});
         this.preview = shadow.querySelector('#preview');
         this.htmlEditor.renderer.attachToShadowRoot();
