@@ -46,7 +46,6 @@ class Order
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/order/index'),
                 'detail_title'  => MyLang('form_table_base_detail_title'),
                 'is_middle'     => 0,
             ],

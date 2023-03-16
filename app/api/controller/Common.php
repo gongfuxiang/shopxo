@@ -89,6 +89,9 @@ class Common extends BaseController
 
 		// 公共数据初始化
 		$this->CommonInit();
+
+        // token验证
+        $this->TokenCheck();
     }
 
     /**
@@ -213,6 +216,21 @@ class Common extends BaseController
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
         $this->page_size = 10;
 	}
+
+    /**
+     * token验证
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-04-18T16:20:58+0800
+     */
+    private function TokenCheck()
+    {
+        if(!empty($this->user) && !empty($this->data_request['token']) && $this->data_request['token'] != ApiService::CreatedUserToken($this->user['id']))
+        {
+            exit(json_encode(DataReturn('token非法', -1000)));
+        }
+    }
 
 	/**
      * 空方法响应

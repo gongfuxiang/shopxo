@@ -115,6 +115,9 @@ return [
     // 用户中心左侧菜单
     'cache_user_center_left_nav_key'        => 'cache_user_center_left_nav_key_data',
 
+    // 表结构缓存
+    'cache_table_structure_key'             => 'cache_table_structure_key_data',
+
     // 站点域名地址
     'domain_url'                            => $domain_url,
 

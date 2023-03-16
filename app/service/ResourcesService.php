@@ -792,9 +792,23 @@ class ResourcesService
      */
     public static function TableStructureData($table)
     {
+        // 表名处理及sql
         $table_name = MyConfig('database.connections.mysql.prefix').strtolower(preg_replace('/\B([A-Z])/', '_$1', $table));
-        $res = Db::query('SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`="'.$table_name.'"');
-        return empty($res) ? [] : array_column($res, 'name', 'field');
+        $sql = 'SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`="'.$table_name.'"';
+
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_table_structure_key').'_'.md5($sql);
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            // 查询表结构
+            $res = Db::query($sql);
+            $data = empty($res) ? [] : array_column($res, 'name', 'field');
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
     }
 }
 ?>

@@ -10,13 +10,7 @@
 				<a href="{{:MyUrl('admin/user/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_system_type')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.user.form_item_system_type_tips')}}</span></label>
-						<input type="text" name="system_type_name" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_system_type_message')}}" data-validation-message="{{:MyLang('common_service.user.form_item_system_type_message')}}" value="{{if empty($data['system_type'])}}default{{else /}}{{$data.system_type}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
+                <div class="am-u-md-6 am-padding-horizontal-0">
                 	<div class="am-cf">
                 		<div class="am-u-sm-6 am-padding-horizontal-0">
 		                	<div class="am-form-group">
@@ -31,6 +25,9 @@
 							</div>
 						</div>
 					</div>
+                </div>
+                <div class="am-u-md-6 am-padding-horizontal-0">
+                    {{include file="lib/gender" /}}
                 </div>
             </div>
             <div class="am-cf">
@@ -47,97 +44,27 @@
 					</div>
                 </div>
             </div>
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_alipay_openid')}}</label>
-						<input type="text" name="alipay_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_alipay_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_alipay_openid_message')}}" value="{{if !empty($data['alipay_openid'])}}{{$data.alipay_openid}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_baidu_openid')}}</label>
-						<input type="text" name="baidu_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_baidu_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_baidu_openid_message')}}" value="{{if !empty($data['baidu_openid'])}}{{$data.baidu_openid}}{{/if}}" />
-					</div>
-                </div>
-            </div>
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_toutiao_openid')}}</label>
-						<input type="text" name="toutiao_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_toutiao_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_toutiao_openid_message')}}" value="{{if !empty($data['toutiao_openid'])}}{{$data.toutiao_openid}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_toutiao_unionid')}}</label>
-						<input type="text" name="toutiao_unionid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_toutiao_unionid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_toutiao_unionid_message')}}" value="{{if !empty($data['toutiao_unionid'])}}{{$data.toutiao_unionid}}{{/if}}" />
-					</div>
-                </div>
-            </div>
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_qq_openid')}}</label>
-						<input type="text" name="qq_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_qq_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_qq_openid_message')}}" value="{{if !empty($data['qq_openid'])}}{{$data.qq_openid}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_qq_unionid')}}</label>
-						<input type="text" name="qq_unionid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_qq_unionid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_qq_unionid_message')}}" value="{{if !empty($data['qq_unionid'])}}{{$data.qq_unionid}}{{/if}}" />
-					</div>
-                </div>
-            </div>
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_weixin_openid')}}</label>
-						<input type="text" name="weixin_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_weixin_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_weixin_openid_message')}}" value="{{if !empty($data['weixin_openid'])}}{{$data.weixin_openid}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_weixin_unionid')}}</label>
-						<input type="text" name="weixin_unionid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_weixin_unionid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_weixin_unionid_message')}}" value="{{if !empty($data['weixin_unionid'])}}{{$data.weixin_unionid}}{{/if}}" />
-					</div>
-                </div>
-            </div>
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_web_weixin_openid')}}</label>
-						<input type="text" name="weixin_web_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_web_weixin_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_web_weixin_openid_message')}}" value="{{if !empty($data['weixin_web_openid'])}}{{$data.weixin_web_openid}}{{/if}}" />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.user.form_item_kuaishou_openid')}}</label>
-						<input type="text" name="kuaishou_openid" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_kuaishou_openid')}}" data-validation-message="{{:MyLang('common_service.user.form_item_kuaishou_openid_message')}}" value="{{if !empty($data['kuaishou_openid'])}}{{$data.kuaishou_openid}}{{/if}}" />
-					</div>
-                </div>
-            </div>
 
 			<div class="am-cf">
-                <div class="am-u-sm-3 am-padding-horizontal-0">
+                <div class="am-u-sm-4 am-u-md-3 am-padding-horizontal-0">
 					<div class="am-form-group">
 						<label>{{:MyLang('common_service.user.form_item_province')}}</label>
 						<input type="text" placeholder="{{:MyLang('common_service.user.form_item_province')}}" name="province" data-validation-message="{{:MyLang('common_service.user.form_item_province_message')}}" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
 					</div>
 				</div>
-				<div class="am-u-sm-3 am-padding-horizontal-0">
+				<div class="am-u-sm-4 am-u-md-3 am-padding-horizontal-0">
 					<div class="am-form-group">
 						<label>{{:MyLang('common_service.user.form_item_city')}}</label>
 						<input type="text" placeholder="{{:MyLang('common_service.user.form_item_city')}}" name="city" data-validation-message="{{:MyLang('common_service.user.form_item_city_message')}}" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
 					</div>
 				</div>
-				<div class="am-u-sm-3 am-padding-horizontal-0">
+				<div class="am-u-sm-4 am-u-md-3 am-padding-horizontal-0">
 					<div class="am-form-group">
 						<label>{{:MyLang('common_service.user.form_item_county')}}</label>
 						<input type="text" placeholder="{{:MyLang('common_service.user.form_item_county')}}" name="county" data-validation-message="{{:MyLang('common_service.user.form_item_county_message')}}" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
 					</div>
 				</div>
-				<div class="am-u-sm-3 am-padding-horizontal-0">
+				<div class="am-u-sm-12 am-u-md-3 am-padding-horizontal-0">
 					<div class="am-form-group">
 						<label>{{:MyLang('common_service.user.form_item_address')}}</label>
 						<input type="text" placeholder="{{:MyLang('common_service.user.form_item_address')}}" name="address" data-validation-message="{{:MyLang('common_service.user.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
@@ -186,8 +113,6 @@
 					</div>
                 </div>
             </div>
-
-            {{include file="lib/gender" /}}
 
 			<!-- 插件扩展数据 start -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

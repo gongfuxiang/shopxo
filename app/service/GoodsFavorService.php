@@ -56,7 +56,7 @@ class GoodsFavorService
         }
 
         // 查询用户状态是否正常
-        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        $ret = UserService::UserStatusCheck($params['user']['id']);
         if($ret['code'] != 0)
         {
             return $ret;

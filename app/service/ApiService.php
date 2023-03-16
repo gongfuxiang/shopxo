@@ -42,5 +42,29 @@ class ApiService
 
         return json($data);
     }
+
+    /**
+     * 用户token生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-26
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function CreatedUserToken($user_id)
+    {
+        $arr = ['USER', 'HTTP_USER_AGENT', 'HTTP_HOST', 'SERVER_SOFTWARE', 'GATEWAY_INTERFACE', 'REQUEST_SCHEME', 'SERVER_PROTOCOL'];
+        $data = [GetClientIP(), APPLICATION_CLIENT_TYPE];
+        foreach($arr as $v)
+        {
+            if(isset($_SERVER[$v]))
+            {
+                $data[] = $_SERVER[$v];
+            }
+        }
+        sort($data);
+        return md5(md5(implode('', $data)).md5($user_id));
+    }
 }
 ?>

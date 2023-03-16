@@ -1,8 +1,8 @@
 <!-- 图标 -->
 {{if !empty($module_data) and !empty($module_data['images_url'])}}
-    <div class="am-circle nav-icon-circle" style="background-color:{{if empty($module_data['bg_color'])}}#d0d0d0{{else /}}{{$module_data.bg_color}}{{/if}};">
-        <a href="{{$module_data['images_url']}}" target="_blank">
-            <img src="{{$module_data['images_url']}}" class="am-radius am-vertical-align-middle" width="30" height="30" />
+    <div class="am-circle nav-icon-circle" {{if !empty($module_data['bg_color'])}}style="background-color:{{$module_data.bg_color}};"{{/if}}>
+        <a href="{{$module_data['images_url']}}" target="_blank" class="am-block">
+            <img src="{{$module_data['images_url']}}" class="am-radius am-vertical-align-middle" {{if empty($module_data['bg_color'])}}width="50" height="50"{{else /}}width="30" height="30"{{/if}} />
         </a>
     </div>
 {{/if}}

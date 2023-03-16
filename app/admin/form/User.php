@@ -45,6 +45,7 @@ class User
                 'is_delete'             => 1,
                 'is_middle'             => 0,
                 'is_data_export_excel'  => 1,
+                'detail_title'          => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
             'form' => [
@@ -81,13 +82,33 @@ class User
                 [
                     'label'         => $lang['system_type'],
                     'view_type'     => 'field',
-                    'view_key'      => 'system_type',
-                    'is_sort'       => 1,
+                    'view_key'      => 'system_type_text',
+                    'text_truncate' => 2,
+                    'is_popover'    => 1,
                     'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => $this->SystemTypeList(),
-                        'is_multiple'       => 1,
+                        'form_type'           => 'select',
+                        'form_name'           => 'id',
+                        'where_type_custom'   => 'in',
+                        'where_value_custom'  => 'WhereValueSystemType',
+                        'data'                => $this->SystemTypeList(),
+                        'is_multiple'         => 1,
+                    ],
+                ],
+                [
+                    'label'         => $lang['platform'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'platform_text',
+                    'text_truncate' => 2,
+                    'is_popover'    => 1,
+                    'search_config' => [
+                        'form_type'           => 'select',
+                        'form_name'           => 'id',
+                        'where_type_custom'   => 'in',
+                        'where_value_custom'  => 'WhereValuePlatform',
+                        'data'                => MyLang('common_platform_type'),
+                        'data_key'            => 'value',
+                        'data_name'           => 'name',
+                        'is_multiple'         => 1,
                     ],
                 ],
                 [
@@ -289,6 +310,52 @@ class User
     }
 
     /**
+     * 系统类型条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-08
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueSystemType($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 获取用户 id
+            $ids = Db::name('UserPlatform')->where('system_type', 'in', $value)->column('user_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
+    }
+
+    /**
+     * 用户平台条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-08
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValuePlatform($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 获取用户 id
+            $ids = Db::name('UserPlatform')->where('platform', 'in', $value)->column('user_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
+    }
+
+    /**
      * 用户信息条件处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -321,7 +388,7 @@ class User
      */
     public function SystemTypeList()
     {
-        return Db::name('User')->group('system_type')->column('system_type', 'system_type');
+        return Db::name('UserPlatform')->group('system_type')->column('system_type', 'system_type');
     }
 }
 ?>

@@ -16,6 +16,7 @@ use app\service\RegionService;
 use app\service\SafetyService;
 use app\service\ResourcesService;
 use app\service\SystemBaseService;
+use app\service\ApiService;
 
 /**
  * 用户服务层
@@ -29,6 +30,175 @@ class UserService
     // user登录session key
     public static $user_login_key = 'user_login_info';
     public static $user_token_key = 'user_token_data';
+
+    /**
+     * 用户列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function UserList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 获取用户列表
+        $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
+        return DataReturn(MyLang('handle_success'), 0, self::UserListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserListHandle($data, $params = [])
+    {
+        if(!empty($data))
+        {
+            // 用户列表钩子-前面
+            $hook_name = 'plugins_service_user_list_handle_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 邀请用户列表
+            $referrer_data = [];
+            if(in_array('referrer', $keys))
+            {
+                $referrer_data = self::GetUserViewInfo(array_column($data, 'referrer'));
+            }
+
+            // 用户平台信息
+            $platform_data = [];
+            if(in_array('id', $keys))
+            {
+                $platform = Db::name('UserPlatform')->where(['user_id'=>array_column($data, 'id')])->select()->toArray();
+                if(!empty($platform))
+                {
+                    $common_platform_type = MyLang('common_platform_type');
+                    foreach($platform as $v)
+                    {
+                        if(!array_key_exists($v['user_id'], $platform_data))
+                        {
+                            $platform_data[$v['user_id']] = ['data'=>[], 'system'=>[], 'platform'=>[]];
+                        }
+                        $v['platform_name'] = isset($common_platform_type[$v['platform']]) ? $common_platform_type[$v['platform']]['name'] : $v['platform'];
+                        $platform_data[$v['user_id']]['data'][] = $v;
+                        if(!in_array($v['system_type'], $platform_data[$v['user_id']]['system']))
+                        {
+                            $platform_data[$v['user_id']]['system'][] = $v['system_type'];
+                        }
+                        if(!in_array($v['platform_name'], $platform_data[$v['user_id']]['platform']))
+                        {
+                            $platform_data[$v['user_id']]['platform'][] = $v['platform_name'];
+                        }
+                    }
+                }
+            }
+
+            // 开始处理数据
+            $common_gender_list = MyLang('common_gender_list');
+            $common_user_status_list = MyLang('common_user_status_list');
+            foreach($data as &$v)
+            {
+                // 生日
+                if(array_key_exists('birthday', $v))
+                {
+                    $v['birthday'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
+                }
+
+                // 头像
+                if(array_key_exists('avatar', $v))
+                {
+                    if(!empty($v['avatar']))
+                    {
+                        $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
+                    } else {
+                        $v['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                    }
+                }
+
+                // 邀请用户信息
+                if(array_key_exists('referrer', $v))
+                {
+                    $v['referrer_info'] = (!empty($referrer_data) && is_array($referrer_data) && array_key_exists($v['referrer'], $referrer_data)) ? $referrer_data[$v['referrer']] : [];
+                }
+
+                // 用户平台信息
+                if(array_key_exists('id', $v))
+                {
+                    $temp = (empty($platform_data) || empty($platform_data[$v['id']])) ? [] : $platform_data[$v['id']];
+                    $v['user_platform_data'] = empty($temp['data']) ? [] : $temp['data'];
+                    $v['system_type_list'] = empty($temp['system']) ? [] : $temp['system'];
+                    $v['platform_list'] = empty($temp['platform']) ? [] : $temp['platform'];
+                    $v['system_type_text'] = empty($v['system_type_list']) ? '' : implode('，', $v['system_type_list']);
+                    $v['platform_text'] = empty($v['platform_list']) ? '' : implode('，', $v['platform_list']);
+                }
+
+                // 时间
+                if(array_key_exists('add_time', $v))
+                {
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                }
+                if(array_key_exists('upd_time', $v))
+                {
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                }
+
+                // 性别
+                if(array_key_exists('gender', $v))
+                {
+                    $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '';
+                }
+
+                // 状态
+                if(array_key_exists('status', $v))
+                {
+                    $v['status_text'] = $common_user_status_list[$v['status']]['name'];
+                }
+            }
+
+            // 用户列表钩子-后面
+            $hook_name = 'plugins_service_user_list_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+        }
+        return $data;
+    }
+
+    /**
+     * 用户总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-10T22:16:29+0800
+     * @param    [array]          $where [条件]
+     */
+    public static function UserTotal($where)
+    {
+        return (int) Db::name('User')->where($where)->count();
+    }
 
     /**
      * 获取用户登录信息
@@ -122,13 +292,12 @@ class UserService
      * @version 1.0.0
      * @date    2019-02-27
      * @desc    description
-     * @param   [string]          $field [条件字段]
-     * @param   [string]          $value [条件值]
+     * @param   [int]          $user_id [用户id]
      */
-    public static function UserStatusCheck($field, $value)
+    public static function UserStatusCheck($user_id)
     {
         // 查询用户状态是否正常
-        $user = self::UserInfo($field, $value);
+        $user = self::UserBaseInfo('id', $user_id);
         if(empty($user))
         {
             return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -110);
@@ -147,132 +316,147 @@ class UserService
     }
 
     /**
-     * 用户列表
+     * 根据字段获取用户基础信息
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     * @param    [array]          $params [输入参数]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [string]          $field            [指定字段]
      */
-    public static function UserList($params = [])
+    public static function UserBaseInfo($where_field, $where_value, $field = '*')
     {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        // 获取用户列表
-        $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('handle_success'), 0, self::UserListHandle($data, $params));
+        $where = [
+            [$where_field, '=', $where_value],
+            ['is_delete_time', '=', 0],
+            ['is_logout_time', '=', 0],
+        ];
+        return Db::name('User')->where($where)->field($field)->find();
     }
 
     /**
-     * 列表数据处理
+     * 根据字段获取用户平台信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [string]          $field            [指定字段]
+     */
+    public static function UserPlatformInfo($where_field, $where_value, $field = '*')
+    {
+        $where = [
+            ['system_type', '=', SystemService::SystemTypeValue()],
+            ['platform', '=', APPLICATION_CLIENT_TYPE],
+            [$where_field, '=', $where_value],
+        ];
+        return Db::name('UserPlatform')->where($where)->field($field)->find();
+    }
+
+    /**
+     * 根据字段获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [string]          $field            [指定字段]
+     */
+    public static function UserInfo($where_field, $where_value, $field = '*')
+    {
+        // 用户平台表结构
+        $structure = ResourcesService::TableStructureData('UserPlatform');
+        unset($structure['id'], $structure['user_id'], $structure['add_time'], $structure['upd_time']);
+        $structure = array_keys($structure);
+
+        // 用户基础和平台条件
+        $where_field_arr = explode('|', $where_field);
+        foreach($where_field_arr as $k=>$v)
+        {
+            $where_field_arr[$k] = (in_array($v, $structure) ? 'up.' : 'u.').$v;
+        }
+        $where_field = implode('|', $where_field_arr);
+
+        // 查询字段处理
+        if($field == '*')
+        {
+            $field = 'u.*, up.'.implode(', up.', $structure);
+        } else {
+            $field_arr = explode(',', $field);
+            $u_arr = array_diff($field_arr, $structure);
+            $up_arr = array_intersect($field_arr, $structure);
+            $field = 'u.'.implode(', u.', $u_arr).(empty($up_arr) ? '' : ', up.'.implode(', up.', $up_arr));
+        }
+
+        // 查询用户信息
+        $where = [
+            ['up.system_type', '=', SystemService::SystemTypeValue()],
+            ['up.platform', '=', APPLICATION_CLIENT_TYPE],
+            [$where_field, '=', $where_value],
+            ['u.is_delete_time', '=', 0],
+            ['u.is_logout_time', '=', 0],
+        ];
+        return Db::name('User')->alias('u')->join('user_platform up', 'u.id=up.user_id')->where($where)->field($field)->find();
+    }
+
+    /**
+     * 用户平台信息添加
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2022-08-01
+     * @date    2023-03-15
      * @desc    description
-     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $data   [用户平台信息]
      * @param   [array]          $params [输入参数]
      */
-    public static function UserListHandle($data, $params = [])
+    public static function UserPlatformInsert($data, $params = [])
     {
-        if(!empty($data))
+        // 系统标识
+        if(empty($data['system_type']))
         {
-            // 用户列表钩子-前面
-            $hook_name = 'plugins_service_user_list_handle_begin';
-            MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'data'          => &$data,
-            ]);
-
-            // 字段列表
-            $keys = ArrayKeys($data);
-
-            // 邀请用户列表
-            if(in_array('referrer', $keys))
-            {
-                $referrer_list = self::GetUserViewInfo(array_column($data, 'referrer'));
-            }
-
-            // 开始处理数据
-            $common_gender_list = MyLang('common_gender_list');
-            $common_user_status_list = MyLang('common_user_status_list');
-            foreach($data as &$v)
-            {
-                // 生日
-                if(array_key_exists('birthday', $v))
-                {
-                    $v['birthday'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
-                }
-
-                // 头像
-                if(array_key_exists('avatar', $v))
-                {
-                    if(!empty($v['avatar']))
-                    {
-                        $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
-                    } else {
-                        $v['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
-                    }
-                }
-
-                // 邀请用户信息
-                if(array_key_exists('referrer', $v))
-                {
-                    $v['referrer_info'] = (!empty($referrer_list) && is_array($referrer_list) && array_key_exists($v['referrer'], $referrer_list)) ? $referrer_list[$v['referrer']] : [];
-                }
-
-                // 时间
-                if(array_key_exists('add_time', $v))
-                {
-                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                }
-                if(array_key_exists('upd_time', $v))
-                {
-                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
-                }
-
-                // 性别
-                if(array_key_exists('gender', $v))
-                {
-                    $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '';
-                }
-
-                // 状态
-                if(array_key_exists('status', $v))
-                {
-                    $v['status_text'] = $common_user_status_list[$v['status']]['name'];
-                }
-            }
-
-            // 用户列表钩子-后面
-            $hook_name = 'plugins_service_user_list_handle_end';
-            MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'data'          => &$data,
-            ]);
+            $data['system_type'] = empty($params['system_type_name']) ? SystemService::SystemTypeValue() : $params['system_type_name'];
         }
-        return $data;
+        // 平台
+        if(empty($data['platform']))
+        {
+            $data['platform'] = APPLICATION_CLIENT_TYPE;
+        }
+        $data['add_time'] = time();
+        return Db::name('UserPlatform')->insertGetId($data) > 0;
     }
 
     /**
-     * 用户总数
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $where [条件]
+     * 用户平台信息更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-15
+     * @desc    description
+     * @param   [string]          $where_field [条件字段]
+     * @param   [string]          $where_value [条件值]
+     * @param   [array]           $data        [更新数据]
+     * @param   [array]           $params      [输入参数]
      */
-    public static function UserTotal($where)
+    public static function UserPlatformUpdate($where_field, $where_value, $data, $params = [])
     {
-        return (int) Db::name('User')->where($where)->count();
+        $where = [
+            [$where_field, '=', $where_value],
+        ];
+        // 非自增id则增加更多条件
+        if($where_field != 'id')
+        {
+            $system_type = empty($params['system_type_name']) ? SystemService::SystemTypeValue() : $params['system_type_name'];
+            $where[] = ['system_type', '=', $system_type];
+            $where[] = ['platform', '=', APPLICATION_CLIENT_TYPE];
+        }
+        $data['upd_time'] = time();
+        return Db::name('UserPlatform')->where($where)->update($data);
     }
 
     /**
@@ -363,7 +547,6 @@ class UserService
 
         // 更新数据
         $data = [
-            'system_type'           => empty($params['system_type_name']) ? 'default' : $params['system_type_name'],
             'username'              => isset($params['username']) ? $params['username'] :  '',
             'nickname'              => isset($params['nickname']) ? $params['nickname'] :  '',
             'mobile'                => isset($params['mobile']) ? $params['mobile'] :  '',
@@ -376,16 +559,6 @@ class UserService
             'integral'              => intval($params['integral']),
             'locking_integral'      => intval($params['locking_integral']),
             'status'                => intval($params['status']),
-            'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
-            'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',
-            'toutiao_openid'        => isset($params['toutiao_openid']) ? $params['toutiao_openid'] :  '',
-            'toutiao_unionid'       => isset($params['toutiao_unionid']) ? $params['toutiao_unionid'] :  '',
-            'qq_openid'             => isset($params['qq_openid']) ? $params['qq_openid'] :  '',
-            'qq_unionid'            => isset($params['qq_unionid']) ? $params['qq_unionid'] :  '',
-            'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
-            'weixin_unionid'        => isset($params['weixin_unionid']) ? $params['weixin_unionid'] :  '',
-            'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
-            'kuaishou_openid'       => isset($params['kuaishou_openid']) ? $params['kuaishou_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
         ];
@@ -420,7 +593,7 @@ class UserService
             {
                 return DataReturn(MyLang('common_service.user.save_user_info_no_exist_tips'), -10);
             }
-            $ret = self::UserUpdateHandle($data, $params['id']);
+            $ret = self::UserUpdateHandle($data, $params['id'], $params);
             if($ret['code'] == 0)
             {
                 $user_id = $params['id'];
@@ -479,27 +652,53 @@ class UserService
      * @desc    description
      * @param   [array]        $data     [用户更新信息]
      * @param   [int]          $user_id  [用户id]
+     * @param   [array]        $params   [输入参数]
      */
-    public static function UserUpdateHandle($data, $user_id)
+    public static function UserUpdateHandle($data, $user_id, $params = [])
     {
-        $data['upd_time'] = time();
-        if(Db::name('User')->where(['id'=>intval($user_id)])->update($data))
+        // 注册数据分离处理
+        // 用户平台表结构
+        $structure = ResourcesService::TableStructureData('UserPlatform');
+        unset($structure['id'], $structure['user_id'], $structure['add_time'], $structure['upd_time']);
+        $user_base = [];
+        $user_platform = [];
+        foreach($data as $k=>$v)
         {
-            // 更新成功后钩子
-            $hook_name = 'plugins_service_user_update_success';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'user_id'       => $user_id,
-                'data'          => $data,
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
+            if(array_key_exists($k, $structure))
             {
-                return $ret;
+                $user_platform[$k] = $v;
+            } else {
+                $user_base[$k] = $v;
             }
-            return DataReturn(MyLang('update_success'), 0);
         }
-        return DataReturn(MyLang('update_fail'), -100);
+
+        // 用户信息添加
+        $user_base['upd_time'] = time();
+        if(!Db::name('User')->where(['id'=>$user_id])->update($user_base))
+        {
+            return DataReturn(MyLang('update_fail'), -100);
+        }
+
+        // 用户平台信息添加
+        $user_platform['user_id'] = $user_id;
+        if(self::UserPlatformUpdate('user_id', $user_id, $user_platform, $params) === false)
+        {
+            return DataReturn(MyLang('update_fail'), -100);
+        }
+
+        // 更新成功后钩子
+        $hook_name = 'plugins_service_user_update_success';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user_id'       => $user_id,
+            'data'          => $data,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+        return DataReturn(MyLang('update_success'), 0);
     }
 
     /**
@@ -921,7 +1120,7 @@ class UserService
         }
 
         // 获取用户账户信息
-        $user = self::UserInfo($ac['data'], $params['accounts']);
+        $user = self::UserBaseInfo($ac['data'], $params['accounts']);
         if(empty($user))
         {
             return DataReturn(MyLang('accounts_error_tips'), -3);
@@ -935,6 +1134,16 @@ class UserService
             if($pwd != $user['pwd'])
             {
                 return DataReturn(MyLang('password_error_tips'), -4);
+            }
+        }
+
+        // 用户平台信息、不存在则添加
+        $user_platform = self::UserPlatformInfo('user_id', $user['id']);
+        if(empty($user_platform))
+        {
+            if(!self::UserPlatformInsert(['user_id' => $user['id']], $params))
+            {
+                return DataReturn(MyLang('insert_fail'), -1);
             }
         }
 
@@ -958,50 +1167,53 @@ class UserService
         }
 
         // 返回数据,更新数据库
-        $data = [
-            'upd_time'  =>  time(),
-        ];
+        $upd_data = [];
         if($params['type'] == 'username')
         {
             $salt = GetNumberCode(6);
-            $data['salt'] = $salt;
-            $data['pwd'] = LoginPwdEncryption($params['pwd'], $salt);
+            $upd_data['salt'] = $salt;
+            $upd_data['pwd'] = LoginPwdEncryption($params['pwd'], $salt);
         }
 
         // 用户openid
-        if(empty($user[APPLICATION_CLIENT_TYPE.'_openid']))
+        if(empty($user_platform[APPLICATION_CLIENT_TYPE.'_openid']))
         {
             $openid = self::UserOpenidHandle($params);
             if(!empty($openid['field']) && !empty($openid['value']))
             {
                 // openid放入用户data中
-                $data[$openid['field']] = $openid['value'];
+                $upd_data[$openid['field']] = $openid['value'];
             }
         }
 
         // 用户unionid
-        if(empty($user[APPLICATION_CLIENT_TYPE.'_unionid']))
+        if(empty($user_platform[APPLICATION_CLIENT_TYPE.'_unionid']))
         {
             $unionid = self::UserUnionidHandle($params);
             if(!empty($unionid['field']) && !empty($unionid['value']))
             {
                 // unionid放入用户data中
-                $data[$unionid['field']] = $unionid['value'];
+                $upd_data[$unionid['field']] = $unionid['value'];
             }
         }
 
         // 更新用户信息
-        if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
+        if(!empty($upd_data))
         {
-            // 清除图片验证码
-            if(isset($verify) && isset($verify['data']) && is_object($verify['data']))
+            $ret = self::UserUpdateHandle($upd_data, $user['id'], $params);
+            if($ret['code'] != 0)
             {
-                $verify['data']->Remove();
+                return DataReturn(MyLang('login_failure_tips'), -100);
             }
-
-            return self::UserLoginHandle($user['id'], $params);
         }
-        return DataReturn(MyLang('login_failure_tips'), -100);
+
+        // 清除图片验证码
+        if(isset($verify) && isset($verify['data']) && is_object($verify['data']))
+        {
+            $verify['data']->Remove();
+        }
+
+        return self::UserLoginHandle($user['id'], $params);
     }
 
     /**
@@ -1016,48 +1228,48 @@ class UserService
      */
     public static function UserLoginHandle($user_id, $params = [])
     {
-        // 登录记录
-        if(self::UserLoginRecord($user_id))
+        // 返回前端html代码
+        $body_html = [];
+
+        // 用户登录后钩子
+        $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
+
+        // 会员码生成处理
+        if(empty($user['number_code']))
         {
-            // 返回前端html代码
-            $body_html = [];
-
-            // 用户登录后钩子
-            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
-
-            // 会员码生成处理
-            if(empty($user['number_code']))
-            {
-                $user['number_code'] = self::UserNumberCodeCreatedHandle($user_id);
-            }
-
-            // 登录钩子
-            $hook_name = 'plugins_service_user_login_end';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'user_id'       => $user_id,
-                'user'          => $user,
-                'body_html'     => &$body_html,
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 成功返回
-            if(APPLICATION == 'app')
-            {
-                $result = self::AppUserInfoHandle($user_id);
-            } else {
-                $result = [
-                    'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
-                ];
-            }
-            return DataReturn(MyLang('login_success'), 0, $result);
+            $user['number_code'] = self::UserNumberCodeCreatedHandle($user_id);
         }
-        return DataReturn(MyLang('login_failure_tips'), -100);
+
+        // 登录钩子
+        $hook_name = 'plugins_service_user_login_end';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'user_id'       => $user_id,
+            'user'          => $user,
+            'body_html'     => &$body_html,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 成功返回
+        if(APPLICATION == 'app')
+        {
+            $result = self::AppUserInfoHandle($user_id);
+        } else {
+            // 登录记录
+            if(!self::UserLoginRecord($user_id))
+            {
+                return DataReturn(MyLang('login_failure_tips'), -100);
+            }
+            $result = [
+                'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+            ];
+        }
+        return DataReturn(MyLang('login_success'), 0, $result);
     }
 
     /**
@@ -1272,6 +1484,11 @@ class UserService
                 {
                     return DataReturn(MyLang('common_service.user.username_format_error_tips'), -2);
                 }
+                // 用户名是否已存在
+                if(self::IsExistAccounts($params['accounts'], 'username'))
+                {
+                    return DataReturn(str_replace('{$var}', $params['accounts'], MyLang('common_service.user.save_user_already_exist_tips')), -3);
+                }
                 break;
         }
         return DataReturn(MyLang('operate_success'), 0);
@@ -1289,7 +1506,7 @@ class UserService
      */
     private static function IsExistAccounts($accounts, $field = 'mobile')
     {
-        $temp = self::UserInfo($field, $accounts, 'id');
+        $temp = self::UserBaseInfo($field, $accounts, 'id');
         return !empty($temp);
     }
 
@@ -1344,12 +1561,12 @@ class UserService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
+                    return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
                 // 手机号码是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
-                     return DataReturn(MyLang('mobile_no_exist_error_tips'), -3);
+                    return DataReturn(MyLang('mobile_no_exist_error_tips'), -3);
                 }
                 $field = 'mobile';
                 break;
@@ -1364,7 +1581,7 @@ class UserService
                 // 电子邮箱是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn(MyLang('email_no_exist_error_tips'), -3);
+                    return DataReturn(MyLang('email_no_exist_error_tips'), -3);
                 }
                 $field = 'email';
                 break;
@@ -1374,7 +1591,7 @@ class UserService
                 // 帐号是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
                 {
-                     return DataReturn(MyLang('accounts_error_tips'), -3);
+                    return DataReturn(MyLang('accounts_error_tips'), -3);
                 }
                 $field = 'username|mobile|email';
                 break;
@@ -1890,9 +2107,15 @@ class UserService
         $is_onekey_mobile_bind = isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 ? 1 : 0;
 
         // 用户信息处理
-        $user = self::AppUserInfoHandle(null, $field, $params['openid']);
-        if(!empty($user))
+        $user_platform = self::UserPlatformInfo($field, $params['openid']);
+        if(!empty($user_platform))
         {
+            // 用户信息
+            $user = self::UserBaseInfo('id', $user_platform['user_id']);
+            if(empty($user))
+            {
+                return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -1);
+            }
             // 用户状态
             if($user['status'] != 0)
             {
@@ -1903,7 +2126,7 @@ class UserService
             if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
             {
                 // 手机号码不存在则绑定到当前账号下
-                $temp = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                $temp = self::UserBaseInfo('mobile', $data['mobile']);
                 if(empty($temp))
                 {
                     $upd_data = [
@@ -1931,40 +2154,50 @@ class UserService
             if(!empty($unionid['field']) && !empty($unionid['value']))
             {
                 // unionid字段是否存在用户
-                $user_unionid = self::AppUserInfoHandle(null, $unionid['field'], $unionid['value']);
-                if(!empty($user_unionid))
+                $unionid_user_platform = self::UserPlatformInfo($unionid['field'], $unionid['value']);
+                if(!empty($unionid_user_platform))
                 {
+                    // 用户信息
+                    $unionid_user_base = self::UserBaseInfo('id', $user_platform['user_id']);
+                    if(empty($user))
+                    {
+                        return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -1);
+                    }
                     // 用户状态
-                    if($user_unionid['status'] != 0)
+                    if($unionid_user_base['status'] != 0)
                     {
                         return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
                     }
 
                     // openid绑定
-                    $upd_data = [
-                        $field      => $params['openid'],
-                        'upd_time'  => time(),
-                    ];
+                    if(!self::UserPlatformUpdate('id', $unionid_user_platform['id'], [$field => $params['openid']], $params))
+                    {
+                        return DataReturn(MyLang('bind_fail'), -1);
+                    }
 
                     // 如果是一键登录、如当前用户不存在手机号码则绑定
-                    if(empty($user_unionid['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                    if(empty($unionid_user_base['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
                     {
                         // 手机号码不存在则绑定到当前账号下
-                        $temp = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                        $temp = self::UserBaseInfo('mobile', $data['mobile']);
                         if(empty($temp))
                         {
-                            $upd_data['mobile'] = $data['mobile'];
+                            $upd_data = [
+                                'mobile'    => $data['mobile'],
+                                'upd_time'  => time(),
+                            ];
+                            if(!Db::name('User')->where(['id'=>$unionid_user_base['id']])->update($upd_data))
+                            {
+                                return DataReturn(MyLang('bind_fail'), -1);
+                            }
                         } else {
-                            if($user_unionid['id'] != $temp['id'])
+                            if($unionid_user_base['id'] != $temp['id'])
                             {
                                 return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
                             }
                         }
                     }
-                    if(Db::name('User')->where(['id'=>$user_unionid['id']])->update($upd_data))
-                    {
-                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user_unionid['id']));
-                    }
+                    return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($unionid_user_base['id']));
                 }
 
                 // 如果用户不存在数据库中，则unionid放入用户data中
@@ -1981,18 +2214,19 @@ class UserService
                 {
                     // 如果手机号码存在则直接绑定openid
                     // 不存在添加，存在更新openid
-                    $user = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                    $user = self::UserBaseInfo('mobile', $data['mobile']);
                     if(!empty($user))
                     {
-                        $upd_data = [
-                            $field      => $params['openid'],
-                            'upd_time'  => time(),
+                        // 上面openid和unionid都没存在信息，但是存在手机号码信息则增加用户平台数据
+                        $user_platform_insert = [
+                            'user_id'      => $user['id'],
+                            $field         => $params['openid'],
                         ];
                         if(!empty($unionid['field']) && !empty($unionid['value']))
                         {
-                            $upd_data[$unionid['field']] = $unionid['value'];
+                            $user_platform_insert[$unionid['field']] = $unionid['value'];
                         }
-                        if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
+                        if(self::UserPlatformInsert($user_platform_insert, $params))
                         {
                             return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user['id']));
                         }
@@ -2039,11 +2273,7 @@ class UserService
      */
     public static function UserOpenidBind($user_id, $openid, $field)
     {
-        $data = [
-            $field      => $openid,
-            'upd_time'  => time(),
-        ];
-        return Db::name('User')->where(['id'=>$user_id])->update($data);
+        return self::UserPlatformUpdate('user_id', $user_id, [$field => $openid]);
     }
 
     /**
@@ -2184,8 +2414,8 @@ class UserService
         if(!empty($user))
         {
             // token生成并存储缓存
-            $user['token'] = self::CreatedUserToken($user_id);
-            if(Db::name('User')->where(['id'=>$user_id])->update(['token'=>$user['token'], 'upd_time'=>time()]))
+            $user['token'] = ApiService::CreatedUserToken($user_id);
+            if(self::UserPlatformUpdate('user_id', $user_id, ['token'=>$user['token']]))
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
@@ -2194,47 +2424,6 @@ class UserService
             self::UserLoginRecord($user_id);
         }
         return $user;
-    }
-
-    /**
-     * 用户token生成
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-02-26
-     * @desc    description
-     * @param   [int]          $user_id [用户id]
-     */
-    public static function CreatedUserToken($user_id)
-    {
-        return md5(md5($user_id.time()).rand(100, 1000000));
-    }
-
-    /**
-     * 根据字段获取用户信息
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-01-25
-     * @desc    description
-     * @param   [string]          $where_field      [字段名称]
-     * @param   [string]          $where_value      [字段值]
-     * @param   [string]          $field            [指定字段]
-     */
-    public static function UserInfo($where_field, $where_value, $field = '*')
-    {
-        if(empty($where_field) || empty($where_value))
-        {
-            return '';
-        }
-
-        $where = [
-            ['system_type', '=', SystemService::SystemTypeValue()],
-            [$where_field, '=', $where_value],
-            ['is_delete_time', '=', 0],
-            ['is_logout_time', '=', 0],
-        ];
-        return Db::name('User')->where($where)->field($field)->find();
     }
 
     /**
@@ -2249,20 +2438,24 @@ class UserService
      */
     public static function UserInsert($data, $params = [])
     {
-        // 账号是否存在，以用户名 手机 邮箱 作为唯一
+        // 账号是否存在，以用户名作为唯一（用户名不允许重复注册）
         if(!empty($data['username']))
         {
-            $temp = self::UserInfo('username', $data['username']);
-        } else if(!empty($data['mobile']))
+            $temp = self::UserBaseInfo('username', $data['username']);
+            if(!empty($temp))
+            {
+                return DataReturn(str_replace('{$var}', $data['username'], MyLang('common_service.user.save_user_already_exist_tips')), -10);
+            }
+        }
+
+        // 手机 邮箱（通过验证码注册可以直接绑定现有的账户）
+        $user = [];
+        if(!empty($data['mobile']))
         {
-            $temp = self::UserInfo('mobile', $data['mobile']);
+            $user = self::UserBaseInfo('mobile', $data['mobile']);
         } else if(!empty($data['email']))
         {
-            $temp = self::UserInfo('email', $data['email']);
-        }
-        if(!empty($temp))
-        {
-            return DataReturn(MyLang('common_service.user.account_already_exist_tips'), -10);
+            $user = self::UserBaseInfo('email', $data['email']);
         }
 
         // 用户基础信息处理
@@ -2287,47 +2480,82 @@ class UserService
         // 推荐人id
         $data['referrer'] = self::UserReferrerDecrypt($params);
 
-        // 添加用户
-        $data['add_time'] = time();
-        $user_id = Db::name('User')->insertGetId($data);
-        if($user_id > 0)
+        // 注册数据分离处理
+        // 用户平台表结构
+        $structure = ResourcesService::TableStructureData('UserPlatform');
+        unset($structure['id'], $structure['user_id'], $structure['add_time'], $structure['upd_time']);
+        $user_base = [];
+        $user_platform = [];
+        foreach($data as $k=>$v)
         {
-            // 会员码生成处理
-            self::UserNumberCodeCreatedHandle($user_id);
-
-            // 清除推荐id
-            if(isset($data['referrer']))
+            if(array_key_exists($k, $structure))
             {
-                MySession('share_referrer_id', null);
+                $user_platform[$k] = $v;
+            } else {
+                $user_base[$k] = $v;
             }
-
-            // 返回前端html代码
-            $body_html = [];
-
-            // 注册成功后钩子
-            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
-            $hook_name = 'plugins_service_user_register_end';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'user_id'       => $user_id,
-                'user'          => $user,
-                'body_html'     => &$body_html,
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 登录返回
-            $result = [
-                'body_html'     => is_array($body_html) ? implode(' ', $body_html) : $body_html,
-                'user_id'       => $user_id,
-            ];
-            return DataReturn(MyLang('insert_success'), 0, $result);
         }
-        return DataReturn(MyLang('insert_fail'), -100);
+
+        // 用户信息以手机或邮箱、不存在则添加
+        if(empty($user))
+        {
+            $user_base['add_time'] = time();
+            $user_id = Db::name('User')->insertGetId($user_base);
+            if($user_id <= 0)
+            {
+                return DataReturn(MyLang('insert_fail'), -100);
+            }
+        } else {
+            // 存在密码则仅更新密码
+            if(!empty($data['salt']) && !empty($data['pwd']))
+            {
+                $ret = self::UserUpdateHandle(['salt'=>$data['salt'], 'pwd'=>$data['pwd']], $user['id']);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
+            }
+            $user_id = $user['id'];
+        }
+
+        // 用户平台信息添加
+        $user_platform['user_id'] = $user_id;
+        if(!self::UserPlatformInsert($user_platform, $params))
+        {
+            return DataReturn(MyLang('insert_fail'), -100);
+        }
+
+        // 会员码生成处理
+        self::UserNumberCodeCreatedHandle($user_id);
+
+        // 清除推荐id
+        MySession('share_referrer_id', null);
+
+        // 返回前端html代码
+        $body_html = [];
+
+        // 注册成功后钩子
+        $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
+        $hook_name = 'plugins_service_user_register_end';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'user_id'       => $user_id,
+            'user'          => $user,
+            'body_html'     => &$body_html,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 登录返回
+        $result = [
+            'body_html'     => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+            'user_id'       => $user_id,
+        ];
+        return DataReturn(MyLang('insert_success'), 0, $result);
     }
 
     /**
@@ -2504,7 +2732,7 @@ class UserService
         $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyLang('common_appmini_type'));
 
         // 手机号码获取用户信息
-        $mobile_user = self::UserInfo('mobile', $data['mobile']);
+        $mobile_user = self::UserBaseInfo('mobile', $data['mobile']);
 
         // 额外信息
         if(empty($mobile_user))
@@ -2549,7 +2777,8 @@ class UserService
             $data[$accounts_field] = $params[$accounts_field];
 
             // 小程序请求获取用户信息
-            $current_user = self::UserInfo($accounts_field, $params[$accounts_field]);
+            $user_platform = self::UserPlatformInfo($accounts_field, $params[$accounts_field]);
+            $current_user = empty($user_platform) ? [] : self::UserBaseInfo('id', $user_platform['user_id']);
         } else {
             // 当前登录用户
             $current_user = self::LoginUserInfo();
@@ -2588,12 +2817,11 @@ class UserService
 
             // 新增用户
             $user_ret = self::UserInsert($data, $params);
-            if($user_ret['code'] == 0)
+            if($user_ret['code'] != 0)
             {
-                $user_id = $user_ret['data']['user_id'];
-            } else {
                 return $user_ret;
             }
+            $user_id = $user_ret['data']['user_id'];
         } else {
             // 小程序请求处理
             if($is_appmini)
@@ -2611,11 +2839,12 @@ class UserService
             }
 
             // 帐号信息更新
-            $data['upd_time'] = time();
-            if(Db::name('User')->where(['id'=>$mobile_user['id']])->update($data))
+            $ret = self::UserUpdateHandle($data, $mobile_user['id'], $params);
+            if($ret['code'] != 0)
             {
-                $user_id = $mobile_user['id'];
+                return $ret;
             }
+            $user_id = $mobile_user['id'];
         }
         if(isset($user_id) && $user_id > 0)
         {
@@ -2767,7 +2996,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,system_type,username,nickname,mobile,email,avatar,province,city,county,gender', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,province,city,county,gender', 'id');
             }
 
             // 数据处理

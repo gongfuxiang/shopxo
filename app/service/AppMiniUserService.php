@@ -73,7 +73,7 @@ class AppMiniUserService
                     $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
                 } else {
                     // 用户状态
-                    $ret = UserService::UserStatusCheck('id', $user['id']);
+                    $ret = UserService::UserStatusCheck($user['id']);
                     if($ret['code'] == 0)
                     {
                         // 标记用户存在
@@ -131,7 +131,7 @@ class AppMiniUserService
                 $ret = UserService::AuthUserProgram($auth_data, 'alipay_openid');
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);
@@ -207,7 +207,7 @@ class AppMiniUserService
             // 用户状态
             if(!empty($user))
             {
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     // 标记用户存在
@@ -263,7 +263,7 @@ class AppMiniUserService
                 $ret = UserService::AuthUserProgram($auth_data, 'weixin_openid');
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);
@@ -299,7 +299,7 @@ class AppMiniUserService
             if(!empty($user))
             {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     // 标记用户存在
@@ -384,7 +384,7 @@ class AppMiniUserService
                 }
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);
@@ -454,7 +454,7 @@ class AppMiniUserService
             // 用户状态
             if(!empty($user))
             {
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     // 标记用户存在
@@ -507,7 +507,7 @@ class AppMiniUserService
                 $ret = UserService::AuthUserProgram($auth_data, 'toutiao_openid');
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);
@@ -544,7 +544,7 @@ class AppMiniUserService
                 $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     // 标记用户存在
@@ -596,7 +596,7 @@ class AppMiniUserService
                 $ret = UserService::AuthUserProgram($auth_data, 'kuaishou_openid');
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);
@@ -666,7 +666,7 @@ class AppMiniUserService
                 // 用户状态
                 if(!empty($user))
                 {
-                    $ret = UserService::UserStatusCheck('id', $user['id']);
+                    $ret = UserService::UserStatusCheck($user['id']);
                     if($ret['code'] == 0)
                     {
                         // 标记用户存在
@@ -747,7 +747,7 @@ class AppMiniUserService
                 }
             } else {
                 // 用户状态
-                $ret = UserService::UserStatusCheck('id', $user['id']);
+                $ret = UserService::UserStatusCheck($user['id']);
                 if($ret['code'] == 0)
                 {
                     $ret = DataReturn(MyLang('auth_success'), 0, $user);

@@ -1,2 +1,57 @@
 <!-- 继承公共的 form -->
 {{extend name="public/module/detail" /}}
+
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    <!-- 父级内容 -->
+    {__block__}
+
+    <!-- 用户平台信息 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">{{:MyLang('common_service.user.detail_platform_title')}}</div>
+        <div class="am-panel-bd">
+            {{if !empty($data['user_platform_data'])}}
+                <div class="am-scrollable-horizontal">
+                    <table class="am-table am-table-bordered am-table-striped am-text-nowrap am-margin-bottom-0">
+                        <head>
+                            <tr>
+                                <th>{{:MyLang('common_service.user.detail_system_type')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_platform')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_alipay_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_baidu_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_toutiao_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_toutiao_unionid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_qq_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_qq_unionid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_weixin_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_weixin_unionid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_weixin_web_openid')}}</th>
+                                <th>{{:MyLang('common_service.user.detail_kuaishou_openid')}}</th>
+                            </tr>
+                        </head>
+                        <tbody>
+                            {{foreach $data.user_platform_data as $v}}
+                                <tr>
+                                    <td>{{$v.system_type}}</td>
+                                    <td>{{$v.platform_name}}</td>
+                                    <td>{{$v.alipay_openid}}</td>
+                                    <td>{{$v.baidu_openid}}</td>
+                                    <td>{{$v.toutiao_openid}}</td>
+                                    <td>{{$v.toutiao_unionid}}</td>
+                                    <td>{{$v.qq_openid}}</td>
+                                    <td>{{$v.qq_unionid}}</td>
+                                    <td>{{$v.weixin_openid}}</td>
+                                    <td>{{$v.weixin_unionid}}</td>
+                                    <td>{{$v.weixin_web_openid}}</td>
+                                    <td>{{$v.kuaishou_openid}}</td>
+                                </tr>
+                            {{/foreach}}
+                        </tbody>
+                    </table>
+                </div>
+            {{else /}}
+                {{include file="public/not_data" /}}
+            {{/if}}
+        </div>
+    </div>
+{{/block}}

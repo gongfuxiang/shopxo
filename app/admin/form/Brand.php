@@ -46,7 +46,6 @@ class Brand
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/brand/delete'),
                 'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
                 'is_middle'     => 0,

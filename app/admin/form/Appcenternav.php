@@ -118,6 +118,16 @@ class AppCenterNav
                     ],
                 ],
                 [
+                    'label'         => $lang['desc'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'desc',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
