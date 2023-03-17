@@ -599,7 +599,6 @@ class UserService
                 $user_id = $params['id'];
             }
         } else {
-            $data['add_time'] = time();
             $ret = self::UserInsert($data);
             if($ret['code'] != 0)
             {
@@ -672,14 +671,14 @@ class UserService
             }
         }
 
-        // 用户信息添加
+        // 用户信息更新
         $user_base['upd_time'] = time();
         if(!Db::name('User')->where(['id'=>$user_id])->update($user_base))
         {
             return DataReturn(MyLang('update_fail'), -100);
         }
 
-        // 用户平台信息添加
+        // 用户平台信息更新
         $user_platform['user_id'] = $user_id;
         if(self::UserPlatformUpdate('user_id', $user_id, $user_platform, $params) === false)
         {
@@ -721,13 +720,17 @@ class UserService
         {
             $params['ids'] = explode(',', $params['ids']);
         }
-           
-        // 删除操作
-        if(Db::name('User')->where(['id'=>$params['ids']])->delete())
+        // 用户表
+        if(!Db::name('User')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('delete_success'), 0);
+            return DataReturn(MyLang('delete_fail'), -100);
         }
-        return DataReturn(MyLang('delete_fail'), -100);
+        // 用户平台信息表
+        if(Db::name('UserPlatform')->where(['user_id'=>$params['ids']])->delete() === false)
+        {
+            return DataReturn(MyLang('delete_fail'), -100);
+        }
+        return DataReturn(MyLang('delete_success'), 0);
     }
 
     /**

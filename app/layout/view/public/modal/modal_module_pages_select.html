@@ -4,7 +4,7 @@
         <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
         {{if !empty($pages_list)}}
             <form class="am-form" action="false">
-                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0">
+                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" data-am-tabs="{noSwipe: 1}">
                     <ul class="am-tabs-nav am-cf">
                         <li class="am-active"><a href="[data-tab-panel-0]">系统页面</a></li>
                         <li><a href="[data-tab-panel-1]">扩展模块</a></li>
@@ -54,21 +54,42 @@
                                     <div>
                                         <p><strong>WEB端</strong></p>
                                         <div class="am-padding-left-lg">
-                                            <p>1. 以http开头</p>
+                                            <p>1. 以http:开头</p>
                                         </div>
                                     </div>
                                     <div class="am-margin-top-xs">
-                                        <p><strong>小程序/APP</strong></p>
+                                        <p><strong>小程序或APP内部地址</strong></p>
                                         <div class="am-padding-left-lg">
-                                            <p>1. 小程序或APP内部地址</p>
-                                            <p>2. 小程序以/pages开始</p>
-                                            <p>3. 例如：/pages/user/user</p>
-                                            <p>4. 支持带参数 ?x=xx</p>
+                                            <p>1. 小程序以/pages开始</p>
+                                            <p>2. 例如：/pages/user/user</p>
+                                            <p>3. 支持带参数 ?x=xx</p>
                                             {{if !empty($site_store_links) and !empty($site_store_links['app_mini_pages'])}}
                                                 <p>
                                                     <a href="{{$site_store_links.app_mini_pages}}" target="_blank">小程序页面地址配置说明 <i class="am-icon-external-link"></i></a>
                                                 </p>
                                             {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="am-margin-top-xs">
+                                        <p><strong>打开外部小程序</strong></p>
+                                        <div class="am-padding-left-lg">
+                                            <p>1. 以appid://开头</p>
+                                            <p>2. 例如：appid://wx88888888</p>
+                                        </div>
+                                    </div>
+                                    <div class="am-margin-top-xs">
+                                        <p><strong>拨打电话</strong></p>
+                                        <div class="am-padding-left-lg">
+                                            <p>1. 以tel://开头</p>
+                                            <p>2. 例如：tel://wx13222222222</p>
+                                        </div>
+                                    </div>
+                                    <div class="am-margin-top-xs">
+                                        <p><strong>跳转原生地图查看指定位置</strong></p>
+                                        <div class="am-padding-left-lg">
+                                            <p>1. 以map://开头</p>
+                                            <p>2. 例如：map://名称|地址|经度|纬度</p>
+                                            <p>3. 示例：map://ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843</p>
                                         </div>
                                     </div>
                                 </div>

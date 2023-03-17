@@ -2983,6 +2983,41 @@ function PopupWindowSizeHandle(e)
 	}
 }
 
+/**
+ * 自定义url打开处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-03-17
+ * @desc    description
+ * @param   {[string]}        value [自定义url信息]
+ */
+function CustomUrlOpenHandle(value)
+{
+	if((value || null) != null)
+	{
+		// 地图协议
+		if(value.substr(0, 6) == 'map://')
+		{
+			var values = value.substr(6).split('|');
+			if (values.length == 4)
+			{
+				// 拼接地图地址、并调用弹窗方法
+		        ModalLoad(UrlFieldReplace('lat', values[3], UrlFieldReplace('lng', values[2], __map_view_url__)));
+	        }
+
+		// 电话协议
+		} else if(value.substr(0, 6) == 'tel://')
+		{
+			window.location.href = value;
+
+		// 默认新标签跳转页面
+        } else {
+        	window.open(value, '_blank');
+        }
+    }
+}
+
 
 // 公共数据操作
 $(function()
