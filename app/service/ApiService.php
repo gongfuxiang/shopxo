@@ -55,7 +55,7 @@ class ApiService
     public static function CreatedUserToken($user_id)
     {
         $arr = ['USER', 'HTTP_USER_AGENT', 'HTTP_HOST', 'SERVER_SOFTWARE', 'GATEWAY_INTERFACE', 'REQUEST_SCHEME', 'SERVER_PROTOCOL'];
-        $data = [GetClientIP(), APPLICATION_CLIENT_TYPE];
+        $data = [GetClientIP(), APPLICATION_CLIENT_TYPE, SYSTEM_TYPE];
         foreach($arr as $v)
         {
             if(isset($_SERVER[$v]))

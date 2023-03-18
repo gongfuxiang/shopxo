@@ -237,15 +237,23 @@ class User extends Common
         $this->IsLogin();
 
         // 订单总数
-        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $where = [
+            ['user_id', '=', $this->user['id']],
+            ['is_delete_time', '=', 0],
+            ['user_is_delete_time', '=', 0],
+        ];
         $user_order_count = OrderService::OrderTotal($where);
 
         // 商品收藏总数
-        $where = ['user_id'=>$this->user['id']];
+        $where = [
+            ['user_id', '=', $this->user['id']],
+        ];
         $user_goods_favor_count = GoodsFavorService::GoodsFavorTotal($where);
 
         // 商品浏览总数
-        $where = ['user_id'=>$this->user['id']];
+        $where = [
+            ['user_id', '=', $this->user['id']],
+        ];
         $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 
         // 未读消息总数

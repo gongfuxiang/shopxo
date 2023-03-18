@@ -1090,7 +1090,11 @@ class NavigationService
         if(!empty($params['user']))
         {
             // 订单总数
-            $where = ['user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+            $where = [
+                ['user_id', '=', $params['user']['id']],
+                ['is_delete_time', '=', 0],
+                ['user_is_delete_time', '=', 0],
+            ];
             $user_order_count = OrderService::OrderTotal($where);
 
             // 商品收藏/我的足迹总数

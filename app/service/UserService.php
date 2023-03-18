@@ -47,6 +47,19 @@ class UserService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
+        // 用户列表读取前钩子
+        $hook_name = 'plugins_service_user_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         // 获取用户列表
         $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
         return DataReturn(MyLang('handle_success'), 0, self::UserListHandle($data, $params));
@@ -197,6 +210,15 @@ class UserService
      */
     public static function UserTotal($where)
     {
+        // 用户总数读取前钩子
+        $hook_name = 'plugins_service_user_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('User')->where($where)->count();
     }
 
@@ -350,7 +372,7 @@ class UserService
     public static function UserPlatformInfo($where_field, $where_value, $field = '*')
     {
         $where = [
-            ['system_type', '=', SystemService::SystemTypeValue()],
+            ['system_type', '=', SYSTEM_TYPE],
             ['platform', '=', APPLICATION_CLIENT_TYPE],
             [$where_field, '=', $where_value],
         ];
@@ -396,7 +418,7 @@ class UserService
 
         // 查询用户信息
         $where = [
-            ['up.system_type', '=', SystemService::SystemTypeValue()],
+            ['up.system_type', '=', SYSTEM_TYPE],
             ['up.platform', '=', APPLICATION_CLIENT_TYPE],
             [$where_field, '=', $where_value],
             ['u.is_delete_time', '=', 0],
@@ -420,7 +442,7 @@ class UserService
         // 系统标识
         if(empty($data['system_type']))
         {
-            $data['system_type'] = empty($params['system_type_name']) ? SystemService::SystemTypeValue() : $params['system_type_name'];
+            $data['system_type'] = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
         }
         // 平台
         if(empty($data['platform']))
@@ -451,7 +473,7 @@ class UserService
         // 非自增id则增加更多条件
         if($where_field != 'id')
         {
-            $system_type = empty($params['system_type_name']) ? SystemService::SystemTypeValue() : $params['system_type_name'];
+            $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
             $where[] = ['system_type', '=', $system_type];
             $where[] = ['platform', '=', APPLICATION_CLIENT_TYPE];
         }
@@ -2441,7 +2463,7 @@ class UserService
      */
     public static function UserInsert($data, $params = [])
     {
-        // 账号是否存在，以用户名作为唯一（用户名不允许重复注册）
+        // 用户名、手机、邮箱不允许重复注册
         if(!empty($data['username']))
         {
             $temp = self::UserBaseInfo('username', $data['username']);
@@ -2449,16 +2471,20 @@ class UserService
             {
                 return DataReturn(str_replace('{$var}', $data['username'], MyLang('common_service.user.save_user_already_exist_tips')), -10);
             }
-        }
-
-        // 手机 邮箱（通过验证码注册可以直接绑定现有的账户）
-        $user = [];
-        if(!empty($data['mobile']))
+        } else if(!empty($data['mobile']))
         {
-            $user = self::UserBaseInfo('mobile', $data['mobile']);
+            $temp = self::UserBaseInfo('mobile', $data['mobile']);
+            if(!empty($temp))
+            {
+                return DataReturn(MyLang('common_service.user.mobile_already_exist_tips'), -10);
+            }
         } else if(!empty($data['email']))
         {
-            $user = self::UserBaseInfo('email', $data['email']);
+            $temp = self::UserBaseInfo('email', $data['email']);
+            if(!empty($temp))
+            {
+                return DataReturn(MyLang('common_service.user.email_already_exist_tips'), -10);
+            }
         }
 
         // 用户基础信息处理
@@ -2500,25 +2526,11 @@ class UserService
         }
 
         // 用户信息以手机或邮箱、不存在则添加
-        if(empty($user))
+        $user_base['add_time'] = time();
+        $user_id = Db::name('User')->insertGetId($user_base);
+        if($user_id <= 0)
         {
-            $user_base['add_time'] = time();
-            $user_id = Db::name('User')->insertGetId($user_base);
-            if($user_id <= 0)
-            {
-                return DataReturn(MyLang('insert_fail'), -100);
-            }
-        } else {
-            // 存在密码则仅更新密码
-            if(!empty($data['salt']) && !empty($data['pwd']))
-            {
-                $ret = self::UserUpdateHandle(['salt'=>$data['salt'], 'pwd'=>$data['pwd']], $user['id']);
-                if($ret['code'] != 0)
-                {
-                    return $ret;
-                }
-            }
-            $user_id = $user['id'];
+            return DataReturn(MyLang('insert_fail'), -100);
         }
 
         // 用户平台信息添加
@@ -2597,7 +2609,7 @@ class UserService
         // 系统类型
         if(empty($data['system_type']))
         {
-            $data['system_type'] = SystemService::SystemTypeValue();
+            $data['system_type'] = SYSTEM_TYPE;
         }
 
         // 基础参数处理

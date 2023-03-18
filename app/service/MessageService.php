@@ -40,6 +40,7 @@ class MessageService
     public static function MessageAdd($user_id, $title, $detail, $business_type = '', $business_id = 0, $type = 0)
     {
         $data = [
+            'system_type'       => SYSTEM_TYPE,
             'title'             => $title,
             'detail'            => $detail,
             'user_id'           => intval($user_id),
@@ -140,6 +141,15 @@ class MessageService
      */
     public static function MessageTotal($where = [])
     {
+        // 消息总数读取前钩子
+        $hook_name = 'plugins_service_message_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('Message')->where($where)->count();
     }
 
@@ -188,6 +198,19 @@ class MessageService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 消息列表读取前钩子
+        $hook_name = 'plugins_service_message_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
 
         // 获取数据列表
         $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();

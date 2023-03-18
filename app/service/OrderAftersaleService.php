@@ -212,6 +212,7 @@ class OrderAftersaleService
 
         // 数据
         $data = [
+            'system_type'       => SYSTEM_TYPE,
             'order_no'          => $order['data']['order_no'],
             'type'              => intval($params['type']),
             'order_detail_id'   => intval($params['order_detail_id']),
@@ -394,6 +395,19 @@ class OrderAftersaleService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
+        // 订单售后列表读取前钩子
+        $hook_name = 'plugins_service_order_aftersale_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         // 获取数据列表
         $data = Db::name('OrderAftersale')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
         return DataReturn(MyLang('get_success'), 0, self::OrderAftersaleListHandle($data, $params));
@@ -575,6 +589,15 @@ class OrderAftersaleService
      */
     public static function OrderAftersaleTotal($where = [])
     {
+        // 订单售后总数读取前钩子
+        $hook_name = 'plugins_service_order_aftersale_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('OrderAftersale')->where($where)->count();
     }
 

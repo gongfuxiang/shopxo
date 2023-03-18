@@ -1173,7 +1173,39 @@ class OrderService
      */
     public static function OrderTotal($where = [])
     {
+        // 订单总数读取前钩子
+        $hook_name = 'plugins_service_order_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('Order')->where($where)->count();
+    }
+
+    /**
+     * 订单状态各项总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function OrderStatusGroupTotal($where = [])
+    {
+        // 订单状态各项总数读取前钩子
+        $hook_name = 'plugins_service_order_status_group_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取状态各项总数
+        return Db::name('Order')->where($where)->field('COUNT(DISTINCT id) AS count, status')->group('status')->select()->toArray();
     }
 
     /**
@@ -1192,6 +1224,19 @@ class OrderService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 订单列表读取前钩子
+        $hook_name = 'plugins_service_order_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
 
         // 获取订单
         $data = Db::name('Order')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
@@ -2396,8 +2441,9 @@ class OrderService
         }
 
         // 条件
-        $where = [];
-        $where['is_delete_time'] = 0;
+        $where = [
+            ['is_delete_time', '=', 0]
+        ];
 
         // 用户类型
         $user_type = isset($params['user_type']) ? $params['user_type'] : '';
@@ -2409,13 +2455,12 @@ class OrderService
             }
 
             // 增加用户条件
-            $where['user_is_delete_time'] = 0;
-            $where['user_id'] = $params['user']['id'];
+            $where[] = ['user_is_delete_time', '=', 0];
+            $where[] = ['user_id', '=', $params['user']['id']];
         }
 
         // 订单状态各项总数
-        $field = 'COUNT(DISTINCT id) AS count, status';
-        $data = Db::name('Order')->where($where)->field($field)->group('status')->select()->toArray();
+        $data = self::OrderStatusGroupTotal($where);
 
         // 待评价 状态站位100
         if($is_comments)
@@ -2423,19 +2468,19 @@ class OrderService
             switch($user_type)
             {
                 case 'user' :
-                    $where['user_is_comments'] = 0;
+                    $where[] = ['user_is_comments', '=', 0];
                     break;
                 case 'admin' :
-                    $where['is_comments'] = 0;
+                    $where[] = ['is_comments', '=', 0];
                     break;
                 default :
-                    $where['user_is_comments'] = 0;
-                    $where['is_comments'] = 0;
+                    $where[] = ['user_is_comments', '=', 0];
+                    $where[] = ['is_comments', '=', 0];
             }
-            $where['status'] = 4;
+            $where[] = ['status', '=', 4];
             $data[] = [
                 'status'    => 100,
-                'count'     => (int) Db::name('Order')->where($where)->count(),
+                'count'     => self::OrderTotal($where),
             ];
         }
 
@@ -2451,7 +2496,7 @@ class OrderService
             }
             $data[] = [
                 'status'    => 101,
-                'count'     => (int) Db::name('OrderAftersale')->where($where)->count(),
+                'count'     => OrderAftersaleService::OrderAftersaleTotal($where),
             ];
         }
 

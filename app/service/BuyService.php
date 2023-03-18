@@ -864,6 +864,11 @@ class BuyService
                     throw new \Exception($ret['msg']);
                 }
 
+                // 未指定系统类型则增加默认
+                if(empty($order['system_type']))
+                {
+                    $order['system_type'] = SYSTEM_TYPE;
+                }
                 // 订单添加
                 $order_id = Db::name('Order')->insertGetId($order);
                 if($order_id <= 0)

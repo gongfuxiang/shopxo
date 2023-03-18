@@ -85,8 +85,8 @@ class PluginsService
     public static function PluginsBaseFieldData($plugins)
     {
         $result = [
-            'private_field' => [],
-            'attachment_field' => [],
+            'private_field'     => [],
+            'attachment_field'  => [],
         ];
         $ser = '\app\plugins\\'.$plugins.'\service\BaseService';
         if(class_exists($ser))

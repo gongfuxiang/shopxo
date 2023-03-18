@@ -253,6 +253,15 @@ class GoodsService
      */
     public static function CategoryGoodsTotal($where = [])
     {
+        // 商品与分类联表总数读取前钩子
+        $hook_name = 'plugins_service_category_goods_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where($where)->count('DISTINCT g.id');
     }
 
@@ -883,6 +892,15 @@ class GoodsService
      */
     public static function GoodsTotal($where = [])
     {
+        // 商品总数读取前钩子
+        $hook_name = 'plugins_service_goods_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'where'         => &$where,
+        ]);
+
+        // 获取总数
         return (int) Db::name('Goods')->where($where)->count();
     }
 
