@@ -7,7 +7,7 @@
     <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus" target="_blank"> {{:MyLang('add_title')}}</a>
     <!-- 父级内容 -->
     {__block__}
-    {{if !empty($store_design_url)}}
+    {{if $is_system_show_base eq 1 and !empty($store_design_url)}}
         <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">{{:MyLang('design.nav_store_design_name')}} <i class="am-icon-external-link"></i></a>
     {{/if}}
 {{/block}}

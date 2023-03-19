@@ -151,16 +151,20 @@
                     </div>
                 {{/if}}
 
-                <div class="am-padding-vertical-xl am-text-center">
-                    <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.more_plugins_store_to_text')}}</a>
-                </div>
+                {{if $is_system_show_base eq 1}}
+                    <div class="am-padding-vertical-xl am-text-center">
+                        <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.more_plugins_store_to_text')}}</a>
+                    </div>
+                {{/if}}
             {{else /}}
                 <div class="table-no">
                     <i class="am-icon-skyatlas am-icon-lg"></i>
                     <p class="am-margin-top-sm">{{:MyLang('plugins_no_data_tips')}}</p>
-                    <div class="am-margin-top-xl">
-                        <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
-                    </div>
+                    {{if $is_system_show_base eq 1}}
+                        <div class="am-margin-top-xl">
+                            <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
+                        </div>
+                    {{/if}}
                 </div>
             {{/if}}
         </div>

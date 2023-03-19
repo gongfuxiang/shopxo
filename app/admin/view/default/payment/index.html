@@ -4,7 +4,7 @@
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
     <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> {{:MyLang('upload_title')}}</button>
-    {{if !empty($store_payment_url)}}
+    {{if $is_system_show_base eq 1 and !empty($store_payment_url)}}
         <a class="am-margin-left-sm" href="{{$store_payment_url}}" target="_blank">{{:MyLang('payment.nav_store_payment_name')}} <i class="am-icon-external-link"></i></a>
     {{/if}}
     <!-- 父级内容 -->
