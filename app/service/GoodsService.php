@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\ResourcesService;
+use app\service\UserService;
 use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
@@ -208,13 +209,15 @@ class GoodsService
             if(!empty($goods_ids))
             {
                 $res = self::GoodsList([
-                    'where' => [
+                    'where'    => [
                         ['id', 'in', array_unique($goods_ids)],
                         ['is_shelves', '=', 1],
                     ],
-                    'm'     => 0,
-                    'n'     => 0,
-                    'field' => '*'
+                    'm'        => 0,
+                    'n'        => 0,
+                    'field'    => '*',
+                    'is_spec'  => true,
+                    'is_cart'  => true,
                 ]);
                 $goods_list = empty($res['data']) ? [] : array_column($res['data'], null, 'id');
             }
@@ -334,6 +337,7 @@ class GoodsService
             $is_content_app = (isset($params['is_content_app']) && $params['is_content_app'] == true) ? true : false;
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
             $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
+            $is_cart = (isset($params['is_cart']) && $params['is_cart'] == true) ? true : false;
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
             $goods_ids = array_filter(array_column($data, $data_key_field));
 
@@ -363,6 +367,9 @@ class GoodsService
 
             // app数据
             $app_group = $is_content_app ? self::GoodsAppData($goods_ids) : [];
+
+            // 获取商品购物车数量
+            $user_cart = $is_cart ? self::UserCartGoodsCountData($goods_ids) : [];
 
             // 开始处理数据
             foreach($data as &$v)
@@ -512,6 +519,46 @@ class GoodsService
                     $v['content_app'] = (!empty($app_group) && array_key_exists($data_id, $app_group)) ? $app_group[$data_id] : [];
                 }
 
+                // 用户购物车总数
+                if($is_cart && !empty($data_id))
+                {
+                    $v['user_cart_count'] = (!empty($user_cart) && array_key_exists($data_id, $user_cart)) ? $user_cart[$data_id] : 0;
+                }
+
+                // 错误处理
+                if(!isset($v['is_error']) || $v['is_error'] == 0)
+                {
+                    $v['is_error'] = 0;
+                    $v['error_msg'] = '';
+                }
+                if($v['is_error'] == 0 && array_key_exists('is_delete_time', $v) && $v['is_delete_time'] != 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = MyLang('goods_already_nullify_title');
+                }
+                // 是否上架
+                if($v['is_error'] == 0 && array_key_exists('is_shelves', $v) && $v['is_shelves'] != 1)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = MyLang('goods_already_shelves_title');
+                }
+                // 是否有库存
+                if($v['is_error'] == 0 && array_key_exists('inventory', $v) && $v['inventory'] <= 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = MyLang('goods_no_inventory_title');
+                }
+                // 没错误则判断类型是否一致
+                if($v['is_error'] == 0 && array_key_exists('site_type', $v) && !empty($data_id))
+                {
+                    $ret = self::IsGoodsSiteTypeConsistent($data_id, $v['site_type']);
+                    if($ret['code'] != 0)
+                    {
+                        $v['is_error'] = 1;
+                        $v['error_msg'] = $ret['msg'];
+                    }
+                }
+
                 // 价格字段
                 // 原价
                 // 价格
@@ -646,6 +693,34 @@ class GoodsService
     public static function GoodsPhotoData($goods_id)
     {
         return Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id, 'is_show'=>1])->order('sort asc')->select()->toArray();
+    }
+
+    /**
+     * 获取用户购物车商品总数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-20
+     * @desc    description
+     * @param   [array]           $goods_ids [商品id]
+     */
+    public static function UserCartGoodsCountData($goods_ids)
+    {
+        $result = [];
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
+        {
+            $where = [
+                ['goods_id', 'in', $goods_ids],
+                ['user_id', '=', $user['id']],
+            ];
+            $result = Db::name('Cart')->where($where)->field('SUM(stock) AS count, goods_id')->group('goods_id')->select()->toArray();
+            if(!empty($result))
+            {
+                $result = array_column($result, 'count', 'goods_id');
+            }
+        }
+        return $result;
     }
 
     /**

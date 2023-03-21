@@ -1320,6 +1320,8 @@ return [
         'goodscart'         => [
             'save_stock_empty_tips'                 => 'Wrong purchase quantity',
             'save_stock_update_data_empty_tips'     => 'Please join the shopping cart first',
+            'save_buy_max_error_tips'               => 'Exceeding the product purchase limit',
+            'save_inventory_not_enough_tips'        => 'Insufficient inventory of goods',
         ],
         // 商品评论
         'goodscomments'     => [

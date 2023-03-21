@@ -117,36 +117,10 @@ class GoodsCartService
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
 
                 // 错误处理
-                $v['is_error'] = 0;
-                $v['error_msg'] = '';
-                if($v['is_delete_time'] != 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_already_nullify_title');
-                }
                 if(empty($v['error_msg']) && $v['is_invalid'] == 1)
                 {
                     $v['is_error'] = 1;
                     $v['error_msg'] = MyLang('goods_already_invalid_title');
-                }
-                if(empty($v['error_msg']) && $v['is_shelves'] != 1)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_already_shelves_title');
-                }
-                if(empty($v['error_msg']) && $v['inventory'] <= 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_no_inventory_title');
-                }
-                if(empty($v['error_msg']))
-                {
-                    $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
-                    if($ret['code'] != 0)
-                    {
-                        $v['is_error'] = 1;
-                        $v['error_msg'] = $ret['msg'];
-                    }
                 }
             }
         }
@@ -297,6 +271,8 @@ class GoodsCartService
 
             // 规格库存赋值
             $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
+            // 规格最大限购
+            $goods['buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
         }
 
         // 数量
@@ -305,7 +281,7 @@ class GoodsCartService
         // 库存
         if($stock > $goods['inventory'])
         {
-            return DataReturn('库存不足', -1);
+            return DataReturn(MyLang('common_service.goodscart.save_inventory_not_enough_tips'), -1);
         }
 
         // 添加购物车
@@ -331,7 +307,12 @@ class GoodsCartService
                 return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));
             }
         } else {
-            $data['upd_time'] = time();
+            // 购物车数量是否已经到达最大库存数量、是否达到最大限购数量
+            if($temp['stock'] >= $goods['inventory'] || ($goods['buy_max_number'] > 0 && $temp['stock'] >= $goods['buy_max_number']))
+            {
+                return DataReturn(MyLang('common_service.goodscart.save_buy_max_error_tips'), -1);
+            }
+            // 加入数量、避免超过最大库存
             $data['stock'] += $temp['stock'];
             if($data['stock'] > $goods['inventory'])
             {
@@ -341,6 +322,7 @@ class GoodsCartService
             {
                 $data['stock'] = $goods['buy_max_number'];
             }
+            $data['upd_time'] = time();
             if(Db::name('Cart')->where($where)->update($data))
             {
                 return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));

@@ -1325,6 +1325,8 @@ return [
         'goodscart'         => [
             'save_stock_empty_tips'                 => '购买数量有误',
             'save_stock_update_data_empty_tips'     => '请先加入购物车',
+            'save_buy_max_error_tips'               => '超过商品限购数量',
+            'save_inventory_not_enough_tips'        => '商品库存不足',
         ],
         // 商品评论
         'goodscomments'     => [

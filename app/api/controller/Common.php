@@ -89,9 +89,6 @@ class Common extends BaseController
 
 		// 公共数据初始化
 		$this->CommonInit();
-
-        // token验证
-        $this->TokenCheck();
     }
 
     /**
@@ -149,7 +146,10 @@ class Common extends BaseController
 		if(empty($this->user))
 		{
 			exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
-		}
+		} else {
+            // token验证
+            $this->TokenCheck();
+        }
     }
 
     /**

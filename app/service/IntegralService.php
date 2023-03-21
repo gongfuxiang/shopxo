@@ -52,7 +52,7 @@ class IntegralService
         $log_id = Db::name('UserIntegralLog')->insertGetId($data);
         if($log_id > 0)
         {
-            $lang = MyLang('common_config.integral.add_message_data');
+            $lang = MyLang('common_service.integral.add_message_data');
             $type_msg = MyLang('common_integral_log_type_list')[$type]['name'];
             $detail = $msg.$lang['title'].$type_msg.$operation_integral;
             MessageService::MessageAdd($user_id, $lang['desc'], $detail, $lang['title'], $log_id);
