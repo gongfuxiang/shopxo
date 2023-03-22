@@ -177,6 +177,7 @@ return [
         'base_item_redis_cache_title'           => 'redis缓存配置',
         'base_item_crontab_config_title'        => '定时脚本配置',
         'base_item_quick_nav_title'             => '快捷导航',
+        'base_item_user_base_title'             => '用户基础',
         'base_item_user_address_title'          => '用户地址',
         'base_item_multilingual_title'          => '多语言',
         'base_item_site_auto_mode_title'        => '自动模式',
@@ -215,6 +216,10 @@ return [
         'goods_manual_mode_max_tips_list'       => [
             '1. 可点击商品标题拖拽排序、按照顺序展示',
             '2. 不建议添加很多商品、会导致PC端左侧空白区域太大',
+        ],
+        'user_unique_system_type_model_tips_list'=> [
+            '1. 默认以【用户名、手机、邮箱】作为用户唯一',
+            '2. 开启则加入【系统标识】并行作为用户唯一',
         ],
         'extends_crontab_tips'                  => '建议将脚本地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）',
         'left_images_random_tips'               => '左侧图片最多可上传3张图片、每次随机展示其中一张',

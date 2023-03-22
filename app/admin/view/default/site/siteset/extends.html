@@ -101,6 +101,29 @@
                 </div>
             </div>
 
+            <!-- 用户基础 -->
+            <div class="am-panel am-panel-default am-margin-top-sm">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_user_base_title')}}</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_user_unique_system_type_model.name}}<span class="am-form-group-label-tips">{{$data.common_user_unique_system_type_model.describe}}</span></label>
+                        <select name="{{$data.common_user_unique_system_type_model.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_unique_system_type_model.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['common_user_unique_system_type_model']['value']) and $data['common_user_unique_system_type_model']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                        {{if is_array(MyLang('site.user_unique_system_type_model_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('site.user_unique_system_type_model_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
             <!-- 用户地址 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
@@ -123,7 +146,6 @@
                             {{/foreach}}
                         </select>
                     </div>
-
                     <div class="am-form-group">
                         <label>{{$data.home_extraction_address_position.name}}<span class="am-form-group-label-tips">{{$data.home_extraction_address_position.describe}}</span></label>
                         <select name="{{$data.home_extraction_address_position.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_extraction_address_position.error_tips}}" required>

@@ -177,6 +177,7 @@ return [
         'base_item_redis_cache_title'           => 'Redis Cache Config',
         'base_item_crontab_config_title'        => 'Timing Script Config',
         'base_item_quick_nav_title'             => 'Quick Navigation',
+        'base_item_user_base_title'             => 'User Base',
         'base_item_user_address_title'          => 'User Address',
         'base_item_multilingual_title'          => 'Multilingual',
         'base_item_site_auto_mode_title'        => 'Automatic Mode',
@@ -215,6 +216,10 @@ return [
         'goods_manual_mode_max_tips_list'       => [
             '1. Click the title of the item to drag and sort it and display it in order',
             '2. It is not recommended to add many goods, which will lead to too large blank area on the left side of the PC',
+        ],
+        'user_unique_system_type_model_tips_list'=> [
+            '1. By default, [User Name, Mobile Phone, Email] is used as the unique user',
+            '2. If enabled, add the [System ID] and act as the unique user',
         ],
         'extends_crontab_tips'                  => 'It is recommended that you add the script address to the timing request of the Linux scheduled task (the result is SUCS: 0, FAIL: 0, followed by the colon is the number of data processed, SUCS succeeded, FALI failed)',
         'left_images_random_tips'               => 'The left picture can upload up to 3 pictures, and one of them can be displayed randomly each time',

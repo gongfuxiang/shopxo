@@ -1145,7 +1145,8 @@ class UserService
         }
 
         // 获取用户账户信息
-        $user = self::UserBaseInfo($ac['data'], $params['accounts']);
+        $method = self::UserUniqueMethod();
+        $user = self::$method($ac['data'], $params['accounts']);
         if(empty($user))
         {
             return DataReturn(MyLang('accounts_error_tips'), -3);
@@ -1531,8 +1532,22 @@ class UserService
      */
     private static function IsExistAccounts($accounts, $field = 'mobile')
     {
-        $temp = self::UserBaseInfo($field, $accounts, 'id');
+        $method = self::UserUniqueMethod();
+        $temp = self::$method($field, $accounts, 'id');
         return !empty($temp);
+    }
+
+    /**
+     * 用户校验唯一方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-22
+     * @desc    description
+     */
+    public static function UserUniqueMethod()
+    {
+        return (MyC('common_user_unique_system_type_model') == 1) ? 'UserInfo' : 'UserBaseInfo';
     }
 
     /**
@@ -2463,24 +2478,26 @@ class UserService
      */
     public static function UserInsert($data, $params = [])
     {
+        // 用户唯一方法
+        $method = self::UserUniqueMethod();
         // 用户名、手机、邮箱不允许重复注册
         if(!empty($data['username']))
         {
-            $temp = self::UserBaseInfo('username', $data['username']);
+            $temp = self::$method('username', $data['username']);
             if(!empty($temp))
             {
                 return DataReturn(str_replace('{$var}', $data['username'], MyLang('common_service.user.save_user_already_exist_tips')), -10);
             }
         } else if(!empty($data['mobile']))
         {
-            $temp = self::UserBaseInfo('mobile', $data['mobile']);
+            $temp = self::$method('mobile', $data['mobile']);
             if(!empty($temp))
             {
                 return DataReturn(MyLang('common_service.user.mobile_already_exist_tips'), -10);
             }
         } else if(!empty($data['email']))
         {
-            $temp = self::UserBaseInfo('email', $data['email']);
+            $temp = self::$method('email', $data['email']);
             if(!empty($temp))
             {
                 return DataReturn(MyLang('common_service.user.email_already_exist_tips'), -10);
