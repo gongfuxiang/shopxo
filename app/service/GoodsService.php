@@ -525,40 +525,6 @@ class GoodsService
                     $v['user_cart_count'] = (!empty($user_cart) && array_key_exists($data_id, $user_cart)) ? $user_cart[$data_id] : 0;
                 }
 
-                // 错误处理
-                if(!isset($v['is_error']) || $v['is_error'] == 0)
-                {
-                    $v['is_error'] = 0;
-                    $v['error_msg'] = '';
-                }
-                if($v['is_error'] == 0 && array_key_exists('is_delete_time', $v) && $v['is_delete_time'] != 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_already_nullify_title');
-                }
-                // 是否上架
-                if($v['is_error'] == 0 && array_key_exists('is_shelves', $v) && $v['is_shelves'] != 1)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_already_shelves_title');
-                }
-                // 是否有库存
-                if($v['is_error'] == 0 && array_key_exists('inventory', $v) && $v['inventory'] <= 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = MyLang('goods_no_inventory_title');
-                }
-                // 没错误则判断类型是否一致
-                if($v['is_error'] == 0 && array_key_exists('site_type', $v) && !empty($data_id))
-                {
-                    $ret = self::IsGoodsSiteTypeConsistent($data_id, $v['site_type']);
-                    if($ret['code'] != 0)
-                    {
-                        $v['is_error'] = 1;
-                        $v['error_msg'] = $ret['msg'];
-                    }
-                }
-
                 // 价格字段
                 // 原价
                 // 价格
@@ -608,6 +574,50 @@ class GoodsService
                 'params'        => &$params,
                 'data'          => &$data,
             ]);
+
+            // 错误处理
+            if(!empty($data) & is_array($data))
+            {
+                foreach($data as &$gv)
+                {
+                    // 数据主键id
+                    $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
+
+                    // 错误处理
+                    if(!isset($gv['is_error']) || $gv['is_error'] == 0)
+                    {
+                        $gv['is_error'] = 0;
+                        $gv['error_msg'] = '';
+                    }
+                    if($gv['is_error'] == 0 && array_key_exists('is_delete_time', $gv) && $gv['is_delete_time'] != 0)
+                    {
+                        $gv['is_error'] = 1;
+                        $gv['error_msg'] = MyLang('goods_already_nullify_title');
+                    }
+                    // 是否上架
+                    if($gv['is_error'] == 0 && array_key_exists('is_shelves', $gv) && $gv['is_shelves'] != 1)
+                    {
+                        $gv['is_error'] = 1;
+                        $gv['error_msg'] = MyLang('goods_already_shelves_title');
+                    }
+                    // 是否有库存
+                    if($gv['is_error'] == 0 && array_key_exists('inventory', $gv) && $gv['inventory'] <= 0)
+                    {
+                        $gv['is_error'] = 1;
+                        $gv['error_msg'] = MyLang('goods_no_inventory_title');
+                    }
+                    // 没错误则判断类型是否一致
+                    if($gv['is_error'] == 0 && array_key_exists('site_type', $gv) && !empty($data_id))
+                    {
+                        $ret = self::IsGoodsSiteTypeConsistent($data_id, $gv['site_type']);
+                        if($ret['code'] != 0)
+                        {
+                            $gv['is_error'] = 1;
+                            $gv['error_msg'] = $ret['msg'];
+                        }
+                    }
+                }
+            }
         }
         return DataReturn('success', 0, $data);
     }

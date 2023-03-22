@@ -117,10 +117,20 @@ class GoodsCartService
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
 
                 // 错误处理
-                if(empty($v['error_msg']) && $v['is_invalid'] == 1)
+                if(!isset($v['is_error']) || $v['is_error'] == 0)
+                {
+                    $v['is_error'] = 0;
+                    $v['error_msg'] = '';
+                }
+                if($v['is_error'] == 0 && $v['is_invalid'] == 1)
                 {
                     $v['is_error'] = 1;
                     $v['error_msg'] = MyLang('goods_already_invalid_title');
+                }
+                if($v['is_error'] == 0 && $v['inventory'] <= 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = MyLang('goods_no_inventory_title');
                 }
             }
         }
