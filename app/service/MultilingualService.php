@@ -41,7 +41,7 @@ class MultilingualService
             $default = [];
             $select = [];
             $allow_lang_list = MyConfig('lang.allow_lang_list');
-            $multilingual_list = MyLang('common_multilingual_list');
+            $multilingual_list = self::MultilingualCanChooseList();
             if(!empty($multilingual_list) && is_array($multilingual_list) && !empty($allow_lang_list) && is_array($allow_lang_list))
             {
                 $allow_lang_list = array_column($allow_lang_list, null, 'code');
@@ -85,6 +85,32 @@ class MultilingualService
             ];
         }
         return $user_multilingual_result;
+    }
+
+    /**
+     * 语言列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-22
+     * @desc    description
+     */
+    public static function MultilingualCanChooseList()
+    {
+        $result = [];
+        $data = MyLang('common_multilingual_list');
+        if(!empty($data) && is_array($data))
+        {
+            $choose_list = MyC('common_multilingual_choose_list');
+            foreach($data as $k=>$v)
+            {
+                if(!empty($choose_list) && is_array($choose_list) && in_array($k, $choose_list))
+                {
+                    $result[$k] = $v;
+                }
+            }
+        }
+        return $result;
     }
 
     /**

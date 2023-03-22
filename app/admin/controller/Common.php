@@ -398,7 +398,7 @@ class Common extends BaseController
 
         // 多语言
         $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
-        $assign['multilingual_data'] = MultilingualService::MultilingualData();
+        $assign['multilingual_data'] = (MyC('admin_use_multilingual_status') == 1) ? MultilingualService::MultilingualData() : [];
 
         // 模板赋值
         MyViewAssign($assign);

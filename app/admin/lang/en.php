@@ -178,6 +178,7 @@ return [
         'base_item_crontab_config_title'        => 'Timing Script Config',
         'base_item_quick_nav_title'             => 'Quick Navigation',
         'base_item_user_address_title'          => 'User Address',
+        'base_item_multilingual_title'          => 'Multilingual',
         'base_item_site_auto_mode_title'        => 'Automatic Mode',
         'base_item_site_manual_mode_title'      => 'Manual Mode',
         'base_item_default_payment_title'       => 'Default Payment Method',

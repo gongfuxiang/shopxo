@@ -76,6 +76,7 @@ class ConfigService
         'home_search_params_type',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
+        'common_multilingual_choose_list',
     ];
 
     // json数组字段
@@ -124,6 +125,9 @@ class ConfigService
 
         // cookie有效域名
         'common_cookie_domain',
+
+        // 多语言可选列表
+        'common_multilingual_choose_list',
     ];
 
     /**

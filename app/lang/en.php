@@ -3580,6 +3580,21 @@ return [
             'desc' => 'Default on',
             'tips' => 'Please select the bottom footer content status',
         ],
+        'admin_use_multilingual_status'  => [
+            'name' => 'Backend uses multiple languages',
+            'desc' => 'Default on',
+            'tips' => 'Please select a backend that uses multiple languages',
+        ],
+        'home_use_multilingual_status'  => [
+            'name' => 'Multilingual front-end',
+            'desc' => 'Default on',
+            'tips' => 'Please select multiple languages for the front end',
+        ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Available in multiple languages',
+            'desc' => 'Check to use',
+            'tips' => 'Please tick the language you want to use',
+        ],
     ],
 ];
 ?>

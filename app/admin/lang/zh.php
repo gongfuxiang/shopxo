@@ -178,6 +178,7 @@ return [
         'base_item_crontab_config_title'        => '定时脚本配置',
         'base_item_quick_nav_title'             => '快捷导航',
         'base_item_user_address_title'          => '用户地址',
+        'base_item_multilingual_title'          => '多语言',
         'base_item_site_auto_mode_title'        => '自动模式',
         'base_item_site_manual_mode_title'      => '手动模式',
         'base_item_default_payment_title'       => '默认支付方式',

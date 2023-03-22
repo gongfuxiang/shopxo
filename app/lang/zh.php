@@ -3541,6 +3541,21 @@ return [
             'desc' => '默认开启',
             'tips' => '请选择底部页脚内容状态',
         ],
+        'admin_use_multilingual_status'  => [
+            'name' => '后端使用多语言',
+            'desc' => '默认关闭',
+            'tips' => '请选择后端使用多语言',
+        ],
+        'home_use_multilingual_status'  => [
+            'name' => '前端用多语言',
+            'desc' => '默认关闭',
+            'tips' => '请选择前端用多语言',
+        ],
+        'common_multilingual_choose_list'  => [
+            'name' => '可用多语言',
+            'desc' => '勾选则使用',
+            'tips' => '请勾选需要使用的语言',
+        ],
     ],
 ];
 ?>

@@ -670,17 +670,20 @@ class NavigationService
             ];
 
             // 追加多语言
-            $multilingual_data = MultilingualService::MultilingualData();
-            if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
+            if(MyC('home_use_multilingual_status') == 1)
             {
-                $data[] = [
-                    'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
-                    'is_login'  => 0,
-                    'badge'     => null,
-                    'icon'      => 'am-icon-language',
-                    'url'       => '',
-                    'items'     => $multilingual_data['data'],
-                ];
+                $multilingual_data = MultilingualService::MultilingualData();
+                if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
+                {
+                    $data[] = [
+                        'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
+                        'is_login'  => 0,
+                        'badge'     => null,
+                        'icon'      => 'am-icon-language',
+                        'url'       => '',
+                        'items'     => $multilingual_data['data'],
+                    ];
+                }
             }
 
             // 顶部小导航右侧钩子
@@ -1098,7 +1101,9 @@ class NavigationService
             $user_order_count = OrderService::OrderTotal($where);
 
             // 商品收藏/我的足迹总数
-            $where = ['user_id'=>$params['user']['id']];
+            $where = [
+                ['user_id', '=', $params['user']['id']],
+            ];
             $user_goods_favor_count = GoodsFavorService::GoodsFavorTotal($where);
             $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 

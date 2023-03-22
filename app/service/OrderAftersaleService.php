@@ -43,14 +43,14 @@ class OrderAftersaleService
     public static function OrdferGoodsRow($order_id, $order_detail_id, $user_id)
     {
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'         => 0,
             'n'         => 1,
             'where'     => [
-                'id'                => intval($order_id),
-                'user_id'           => intval($user_id),
+                ['id', '=', intval($order_id)],
+                ['user_id', '=', intval($user_id)],
             ],
-        );
+        ];
         $ret = OrderService::OrderList($data_params);
         if($ret['code'] == 0 && !empty($ret['data'][0]))
         {

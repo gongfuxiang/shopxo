@@ -191,6 +191,8 @@ class Site extends Base
 			'second_nav_list'						=> MyLang('site.second_nav_list'),
 			// 网站设置导航
 			'siteset_nav_list'						=> MyLang('site.siteset_nav_list'),
+			// 多语言
+			'common_multilingual_list'				=> MyLang('common_multilingual_list'),
 		];
 		return $assign;
 	}
@@ -282,6 +284,11 @@ class Site extends Base
 					// 订单
 					case 'order' :
 						$params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
+						break;
+
+					// 扩展
+					case 'extends' :
+						$field_list[] = 'common_multilingual_choose_list';
 						break;
 				}
 				break;

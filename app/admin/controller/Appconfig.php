@@ -55,12 +55,17 @@ class AppConfig extends Base
 	 */
 	public function Save()
 	{
-		// 空字段处理
-		$field_list = [
-			'common_user_onekey_bind_mobile_list',
-			'common_user_address_platform_import_list',
-		];
-		return ApiService::ApiDataReturn(ConfigService::ConfigSave(ConfigService::FieldsEmptyDataHandle($_POST, $field_list)));
+        $params = $_POST;
+        if(isset($this->ress['nav_type']) && $ssss['nav_type'] == 'app')
+        {
+            // 空字段处理
+            $field_list = [
+                'common_user_onekey_bind_mobile_list',
+                'common_user_address_platform_import_list',
+            ];
+            $params = ConfigService::FieldsEmptyDataHandle($params, $field_list);
+        }
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
 	}
 }
 ?>

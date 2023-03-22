@@ -8,7 +8,7 @@
 
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index')}}">
+		<form class="am-form form-validation" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-reload">
 			<div class="am-form-group">
                 <label>{{$data.common_app_h5_url.name}}<span class="am-form-group-label-tips">{{$data.common_app_h5_url.describe}}</span></label>
                 <input type="text" name="{{$data.common_app_h5_url.only_tag}}" placeholder="{{$data.common_app_h5_url.name}}" data-validation-message="{{$data.common_app_h5_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_h5_url.value}}"{{/if}} />
