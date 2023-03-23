@@ -439,6 +439,12 @@ function MediaFixedHandle(data)
         }
     }
 
+    // 鼠标悬停在图片上方放大
+    if(parseInt(data.style_mouse_hover_images_amplify_value || 0) == 1)
+    {
+        media_ent += 'module-mouse-hover-images-amplify ';
+    }
+
     return {
         "media_container_ent": media_container_ent,
         "media_container_style": media_container_style,
@@ -560,8 +566,8 @@ function FormBackLayoutConfigHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "ent": ent
+        style: style,
+        ent: ent
     }
     $layout_content_obj.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_layout_config.offCanvas('close');
@@ -596,7 +602,7 @@ function FormBackModuleConfigImagesHandle(data)
     // 样式处理
     var style = StyleBaseHandle(data, 'style_');
 
-    // 图片固定
+    // 图片样式
     var media_fixed = MediaFixedHandle(data);
 
     // html拼接
@@ -610,8 +616,8 @@ function FormBackModuleConfigImagesHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "media_fixed": media_fixed
+        style: style,
+        media_fixed: media_fixed
     }
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_images.offCanvas('close');
@@ -666,7 +672,7 @@ function FormBackModuleConfigManyImagesHandle(data)
     // 展示模式
     var show_style = data.view_list_show_style || 'routine';
 
-    // 图片固定
+    // 图片样式
     var media_fixed = MediaFixedHandle(data);
 
     // 数据项html
@@ -772,11 +778,11 @@ function FormBackModuleConfigManyImagesHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "item_style": item_style,
-        "nav_dot_ent": nav_dot_ent,
-        "list_ent": list_ent,
-        "media_fixed": media_fixed
+        style: style,
+        item_style: item_style,
+        nav_dot_ent: nav_dot_ent,
+        list_ent: list_ent,
+        media_fixed: media_fixed
     }
     data['data_list'] = data_list;
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
@@ -858,7 +864,7 @@ function FormBackModuleConfigImagesTextHandle(data)
     // 样式处理
     var style = StyleBaseHandle(data, 'style_');
 
-    // 图片固定
+    // 图片样式
     var media_fixed = MediaFixedHandle(data);
 
     // html拼接
@@ -990,13 +996,13 @@ function FormBackModuleConfigImagesTextHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "item_style": item_style,
-        "item_right_style": item_right_style,
-        "item_field_style": item_field_style,
-        "nav_dot_ent": nav_dot_ent,
-        "list_ent": list_ent,
-        "media_fixed": media_fixed
+        style: style,
+        item_style: item_style,
+        item_right_style: item_right_style,
+        item_field_style: item_field_style,
+        nav_dot_ent: nav_dot_ent,
+        list_ent: list_ent,
+        media_fixed: media_fixed
     }
     data['data_list'] = data_list;
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
@@ -1065,6 +1071,9 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
     // 设置了外边距，则计算平均移动值
     var list_ent = (margin > 0) ? 'module-list-content-avg-'+margin : '';
 
+    // 图片样式
+    var media_fixed = MediaFixedHandle(data);
+
     // 数据处理
     var html = '';
     var item_style = [];
@@ -1076,7 +1085,7 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1089,12 +1098,12 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1108,17 +1117,17 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1133,22 +1142,22 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1161,12 +1170,12 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1180,17 +1189,17 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1205,22 +1214,22 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[3]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1239,15 +1248,15 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1266,18 +1275,18 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1296,15 +1305,15 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1323,18 +1332,18 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1348,18 +1357,18 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                    <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                    <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
@@ -1375,23 +1384,23 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                    <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                    <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[3]['images']+`" class="am-block" />
+                                    <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
@@ -1407,18 +1416,18 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                    <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                    <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1434,23 +1443,23 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                    <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                    <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                    <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
                         <div class="item-module-magic-cube" style="`+item_style[3]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1471,20 +1480,20 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1505,20 +1514,20 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
             html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
                         <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                                <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                             <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                                <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                                <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                         <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
                             <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                                <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                             </a>
                         </div>
                     </div>`;
@@ -1534,24 +1543,24 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                    <img src="`+data_list[0]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                    <img src="`+data_list[1]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
                         <div class="am-nbfc">
                             <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                    <img src="`+data_list[2]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                             <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
                                 <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
-                                    <img src="`+data_list[3]['images']+`" class="am-block" />
+                                    <img src="`+data_list[3]['images']+`" class="am-block `+media_fixed.media_ent+`" />
                                 </a>
                             </div>
                         </div>
@@ -1567,7 +1576,8 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
     data['frontend_config'] = {
         list_ent: list_ent,
         item_style: item_style,
-        images_style: images_style
+        images_style: images_style,
+        media_fixed: media_fixed
     }
     data['data_list'] = data_list;
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
@@ -1617,8 +1627,8 @@ function FormBackModuleConfigVideoHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "media_fixed": media_fixed
+        style: style,
+        media_fixed: media_fixed
     }
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_video.offCanvas('close');
@@ -1720,7 +1730,7 @@ function FormBackModuleConfigGoodsHandle(data)
                     };
                     var item_style = StyleBaseHandle(data, 'style_', rules);
 
-                    // 图片固定
+                    // 图片样式
                     var media_fixed = MediaFixedHandle(data);
 
                     // 模块容器设置
@@ -1836,12 +1846,12 @@ function FormBackModuleConfigGoodsHandle(data)
 
                     // 数据加入配置
                     data['frontend_config'] = {
-                        "style": style,
-                        "item_style": item_style,
-                        "item_right_style": item_right_style,
-                        "nav_dot_ent": nav_dot_ent,
-                        "list_ent": list_ent,
-                        "media_fixed": media_fixed
+                        style: style,
+                        item_style: item_style,
+                        item_right_style: item_right_style,
+                        nav_dot_ent: nav_dot_ent,
+                        list_ent: list_ent,
+                        media_fixed: media_fixed
                     }
                     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
 
@@ -1963,10 +1973,10 @@ function FormBackModuleConfigTitleHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style,
-        "style_title_main": style_title_main,
-        "style_title_vice": style_title_vice,
-        "style_title_more": style_title_more
+        style: style,
+        style_title_main: style_title_main,
+        style_title_vice: style_title_vice,
+        style_title_more: style_title_more
     }
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_title.offCanvas('close');
@@ -2043,7 +2053,7 @@ function FormBackModuleConfigBorderHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style
+        style: style
     }
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_border.offCanvas('close');
@@ -2087,7 +2097,7 @@ function FormBackModuleConfigHeightHandle(data)
 
     // 数据加入配置
     data['frontend_config'] = {
-        "style": style
+        style: style
     }
     $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_height.offCanvas('close');

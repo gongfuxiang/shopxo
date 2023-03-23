@@ -3,8 +3,8 @@
  */
 .layout-container [class*="am-u-"] {padding-left:0;padding-right:0;}
 .layout-container a {text-decoration: none;}
-.layout-container img {-webkit-transition: transform .3s ease-in;-moz-transition: transform .3s ease-in;-ms-transition: transform .3s ease-in;-o-transition: transform .3s ease-in;transition: transform .3s ease-in;}
-.layout-container img:hover {transform: scale(1.03);-moz-transform: scale(1.03);-webkit-transform: scale(1.03);-o-transform: scale(1.03);-ms-transform: scale(1.03);}
+.layout-container img.module-mouse-hover-images-amplify {-webkit-transition: transform .3s ease-in;-moz-transition: transform .3s ease-in;-ms-transition: transform .3s ease-in;-o-transition: transform .3s ease-in;transition: transform .3s ease-in;}
+.layout-container img.module-mouse-hover-images-amplify:hover {transform: scale(1.03);-moz-transform: scale(1.03);-webkit-transform: scale(1.03);-o-transform: scale(1.03);-ms-transform: scale(1.03);}
 
 /**
  * 布局基础

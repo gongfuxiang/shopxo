@@ -22,7 +22,8 @@ $(function()
         $popup.find('.apply-info .type span').html(data.type_text || '');
         $popup.find('.apply-info .reason span').html(data.reason || '');
         $popup.find('.apply-info .number span').html(data.number || '');
-        $popup.find('.apply-info .price span').html(data.order_data.currency_data.currency_symbol+data.price || '');
+        var currency_symbol = (data.order_data.currency_data || null) != null ? (data.order_data.currency_data.currency_symbol || '') : '';
+        $popup.find('.apply-info .price span').html(currency_symbol+(data.price || ''));
         $popup.find('.apply-info .msg span').html(data.msg || '');
 
         $popup.modal(); 
