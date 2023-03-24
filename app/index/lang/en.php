@@ -423,7 +423,6 @@ return [
             'goods'                 => 'Goods Info',
             'goods_placeholder'     => 'Please enter the goods name/brief description/SEO information',
             'price'                 => 'Sales price (yuan)',
-
             'original_price'        => 'Original price (yuan)',
             'add_time'              => 'Creation time',
         ],
@@ -437,7 +436,6 @@ return [
             'goods'                 => 'Goods Info',
             'goods_placeholder'     => 'Please enter the goods name/brief description/SEO information',
             'price'                 => 'Sales price (yuan)',
-
             'original_price'        => 'Original price (yuan)',
             'add_time'              => 'Creation time',
         ],
@@ -457,7 +455,6 @@ return [
             'type'                  => 'Operation Type',
             'operation_integral'    => 'Operation Integral',
             'original_integral'     => 'Original Integral',
-
             'new_integral'          => 'New Integral',
             'msg'                   => 'Describe',
             'add_time_time'         => 'Time',

@@ -529,7 +529,7 @@ return [
     'form_seo_title_tips'                                   => '一般不超过80个字符',
     'form_seo_keywords_title'                               => 'SEO关键字',
     'form_seo_keywords_message'                             => 'SEO关键字格式最多130个字符',
-    'form_seo_keywords_tips'                                => '一般不超过100个字符<br />多个关键字以半圆角逗号 [ , ] 隔开',
+    'form_seo_keywords_tips'                                => '一般不超过100个字符多个关键字以半圆角逗号 [ , ] 隔开',
     'form_seo_desc_title'                                   => 'SEO描述',
     'form_seo_desc_message'                                 => 'SEO描述格式最多230个字符',
     'form_seo_desc_tips'                                    => '一般不超过200个字符',
@@ -674,9 +674,9 @@ return [
     // 搜索排序方式
     'common_search_order_by_list'       =>  [
         ['name' => '综合', 'type' => 'default', 'value' => 'desc'],
-        ['name' => '销量', 'type' => 'sales', 'value' => 'desc'], 
-        ['name' => '热度', 'type' => 'access', 'value' => 'desc'], 
-        ['name' => '价格', 'type' => 'price', 'value' => 'desc'], 
+        ['name' => '销量', 'type' => 'sales', 'value' => 'desc'],
+        ['name' => '热度', 'type' => 'access', 'value' => 'desc'],
+        ['name' => '价格', 'type' => 'price', 'value' => 'desc'],
         ['name' => '最新', 'type' => 'new', 'value' => 'desc'],
     ],
     // 用户注册类型列表
@@ -1076,7 +1076,7 @@ return [
             'save_email_already_exist_tips'         => '电子邮箱已存在[{$var}]',
             'save_admin_already_exist_tips'         => '管理员已存在[{$var}]',
             // 删除操作
-            'delete_super_admin_not_tips'       => '超级管理员不可删除',
+            'delete_super_admin_not_tips'           => '超级管理员不可删除',
             // 登录
             'login_verify_send_last_title'          => ' - 管理员登录',
         ],

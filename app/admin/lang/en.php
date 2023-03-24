@@ -285,7 +285,7 @@ return [
     ],
 
     // 品牌分类
-    'brandcategory'       => [
+    'brandcategory'         => [
         'base_nav_title'                        => 'BrandCategory',
     ],
 

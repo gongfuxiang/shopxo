@@ -528,7 +528,7 @@ return [
     'form_seo_title_tips'                                   => 'Generally no more than 80 characters',
     'form_seo_keywords_title'                               => 'SEO Keywords',
     'form_seo_keywords_message'                             => 'SEO keyword format can be up to 130 characters',
-    'form_seo_keywords_tips'                                => 'Generally no more than 100 characters<br/>Multiple keywords are separated by semi-rounded commas [,]',
+    'form_seo_keywords_tips'                                => 'Generally no more than 100 characters Multiple keywords are separated by semi-rounded commas [,]',
     'form_seo_desc_title'                                   => 'SEO Description',
     'form_seo_desc_message'                                 => 'SEO description format can be up to 230 characters',
     'form_seo_desc_tips'                                    => 'Generally no more than 200 characters',

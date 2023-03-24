@@ -423,16 +423,6 @@ return [
             'goods'                 => '商品信息',
             'goods_placeholder'     => '请输入商品名称/简述/SEO信息',
             'price'                 => '销售价格(元)',
-
-            'original_price'        => '原价(元)',
-            'add_time'              => '创建时间',
-        ],
-        // 动态表格统计数据
-        'form_table'                            => [
-            'goods'                 => '商品信息',
-            'goods_placeholder'     => '请输入商品名称/简述/SEO信息',
-            'price'                 => '销售价格(元)',
-
             'original_price'        => '原价(元)',
             'add_time'              => '创建时间',
         ],
@@ -441,6 +431,14 @@ return [
     // 用户商品收藏
     'usergoodsfavor'    => [
         'browser_seo_title'                     => '商品收藏',
+        // 动态表格统计数据
+        'form_table'                            => [
+            'goods'                 => '商品信息',
+            'goods_placeholder'     => '请输入商品名称/简述/SEO信息',
+            'price'                 => '销售价格(元)',
+            'original_price'        => '原价(元)',
+            'add_time'              => '创建时间',
+        ],
     ],
 
     // 用户积分
@@ -457,7 +455,6 @@ return [
             'type'                  => '操作类型',
             'operation_integral'    => '操作积分',
             'original_integral'     => '原始积分',
-
             'new_integral'          => '最新积分',
             'msg'                   => '描述',
             'add_time_time'         => '时间',
@@ -470,7 +467,7 @@ return [
         'edit_browser_seo_title'                => '个人资料编辑',
         'form_item_nickname'                    => '昵称',
         'form_item_nickname_message'            => '昵称2~16个字符之间',
-        'form_item_birthday'                    => '昵称',
+        'form_item_birthday'                    => '生日',
         'form_item_birthday_message'            => '生日格式有误',
         'form_item_province'                    => '所在省',
         'form_item_province_message'            => '所在省最多30个字符',
