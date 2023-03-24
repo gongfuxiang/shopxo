@@ -17,9 +17,9 @@
         <ul class="goods-category-select-3 am-scrollable-vertical am-list am-list-border am-fl am-margin-left-lg am-hide" data-level="3"></ul>
     </div>
     <p class="already-select-tips am-margin-top-lg am-hide">
-        <span>您当前选择的商品类别是：</span>
+        <span>{{:MyLang('layout.view_goods_category_choice_title')}}</span>
         <strong></strong>
     </p>
 {{else /}}
-    <div class="table-no"><i class="am-icon-warning"></i> 无商品分类</div>
+    <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('layout.view_goods_category_empty_tips')}}</div>
 {{/if}}

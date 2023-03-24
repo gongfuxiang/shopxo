@@ -1,15 +1,15 @@
 <div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($vs['config'])}}{{:urlencode(base64_encode(json_encode($vs['config'])))}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}{{if !empty($vs['config']['style_background_images'])}}background-image:url({{$vs.config.style_background_images}});{{/if}}">
     <div class="layout-content-submit-container">
-        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-gear layout-submit layout-content-submit-set"></button>
+        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-gear layout-submit layout-content-submit-set" data-am-popover="{content: '{{:MyLang('layout.view_base_layout_content_set_tips')}}', trigger: 'hover focus', theme: 'sm'}"></button>
     </div>
     <div class="layout-content">
         {{if !empty($vs['children']) and is_array($vs['children'])}}
             {{foreach $vs.children as $kss=>$vss}}
                 <div class="module-view">
                     <div class="module-view-submit-container" data-value="{{$vss.value}}" data-index="{{$k}}{{$ks}}{{$kss}}" data-doc=".module-content-index-{{$vss.value}}-{{$k}}{{$ks}}{{$kss}}">
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-reorder layout-submit module-view-submit-drag"></button>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-folder-open-o layout-submit module-view-submit-set"></button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit module-view-submit-del"></button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-reorder layout-submit module-view-submit-drag" data-am-popover="{content: '{{:MyLang('layout.view_base_module_drag_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-folder-open-o layout-submit module-view-submit-set" data-am-popover="{content: '{{:MyLang('layout.view_base_module_set_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit module-view-submit-del" data-am-popover="{content: '{{:MyLang('layout.view_base_module_del_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
                     </div>
                     <div class="module-content module-content-type-{{$vss.value}} module-content-index-{{$vss.value}}-{{$k}}{{$ks}}{{$kss}}" data-json="{{if !empty($vss['config'])}}{{:urlencode(base64_encode(json_encode($vss['config'])))}}{{/if}}">
                         {{if !empty($vss['config'])}}
@@ -577,7 +577,7 @@
                 </div>
             {{/foreach}}
         {{else /}}
-            <div class="layout-content-tips">模块内容区域</div>
+            <div class="layout-content-tips">{{:MyLang('layout.view_module_container_tips')}}</div>
         {{/if}}
     </div>
 </div>

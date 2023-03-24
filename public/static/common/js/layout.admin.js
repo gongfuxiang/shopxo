@@ -272,66 +272,18 @@ function StyleBaseHandle(data, key, replace_rules, exclude)
 
     // 单个处理
     var arr2 = [
-        {
-            "type": "border_style",
-            "css": "border-style",
-            "unit": ""
-        },
-        {
-            "type": "border_width",
-            "css": "border-width",
-            "unit": "px"
-        },
-        {
-            "type": "border_color",
-            "css": "border-color",
-            "unit": ""
-        },
-        {
-            "type": "border_radius",
-            "css": "border-radius",
-            "unit": "px"
-        },
-        {
-            "type": "background_color",
-            "css": "background-color",
-            "unit": ""
-        },
-        {
-            "type": "color",
-            "css": "color",
-            "unit": ""
-        },
-        {
-            "type": "align",
-            "css": "text-align",
-            "unit": ""
-        },
-        {
-            "type": "font_size",
-            "css": "font-size",
-            "unit": "px"
-        },
-        {
-            "type": "margin",
-            "css": "margin",
-            "unit": "px"
-        },
-        {
-            "type": "padding",
-            "css": "padding",
-            "unit": "px"
-        },
-        {
-            "type": "height",
-            "css": "height",
-            "unit": "px"
-        },
-        {
-            "type": "width",
-            "css": "width",
-            "unit": "px"
-        }
+        { type: "border_style", css: "border-style", unit: "" },
+        { type: "border_width", css: "border-width", unit: "px" },
+        { type: "border_color", css: "border-color", unit: "" },
+        { type: "border_radius", css: "border-radius", unit: "px" },
+        { type: "background_color", css: "background-color", unit: "" },
+        { type: "color", css: "color", unit: "" },
+        { type: "align", css: "text-align", unit: "" },
+        { type: "font_size", css: "font-size", unit: "px" },
+        { type: "margin", css: "margin", unit: "px" },
+        { type: "padding", css: "padding", unit: "px" },
+        { type: "height", css: "height", unit: "px" },
+        { type: "width", css: "width", unit: "px" }
     ];
     for(var i in arr2)
     {
@@ -644,10 +596,10 @@ function FormBackModuleConfigManyImagesHandle(data)
 
     // 数据字段
     var fields = {
-        "content_images_": "images",
-        "content_to_name_": "name",
-        "content_to_type_": "type",
-        "content_to_value_": "value"
+        content_images_: "images",
+        content_to_name_: "name",
+        content_to_type_: "type",
+        content_to_value_: "value"
     };
     var res = FormBackDataListHandle(data, fields);
     data = res.data;
@@ -816,26 +768,26 @@ function FormBackModuleConfigImagesTextHandle(data)
 
     // 数据字段
     var fields = {
-        "content_images_": "images",
-        "content_title_": "title",
-        "content_title_style_color_": "title_style_color",
-        "content_title_style_font_size_": "title_style_font_size",
-        "content_title_style_align_": "title_style_align",
-        "content_title_style_margin_top_": "title_style_margin_top",
-        "content_title_style_margin_right_": "title_style_margin_right",
-        "content_title_style_margin_bottom_": "title_style_margin_bottom",
-        "content_title_style_margin_left_": "title_style_margin_left",
-        "content_desc_": "desc",
-        "content_desc_style_color_": "desc_style_color",
-        "content_desc_style_font_size_": "desc_style_font_size",
-        "content_desc_style_align_": "desc_style_align",
-        "content_desc_style_margin_top_": "desc_style_margin_top",
-        "content_desc_style_margin_right_": "desc_style_margin_right",
-        "content_desc_style_margin_bottom_": "desc_style_margin_bottom",
-        "content_desc_style_margin_left_": "desc_style_margin_left",
-        "content_to_name_": "name",
-        "content_to_type_": "type",
-        "content_to_value_": "value"
+        content_images_: "images",
+        content_title_: "title",
+        content_title_style_color_: "title_style_color",
+        content_title_style_font_size_: "title_style_font_size",
+        content_title_style_align_: "title_style_align",
+        content_title_style_margin_top_: "title_style_margin_top",
+        content_title_style_margin_right_: "title_style_margin_right",
+        content_title_style_margin_bottom_: "title_style_margin_bottom",
+        content_title_style_margin_left_: "title_style_margin_left",
+        content_desc_: "desc",
+        content_desc_style_color_: "desc_style_color",
+        content_desc_style_font_size_: "desc_style_font_size",
+        content_desc_style_align_: "desc_style_align",
+        content_desc_style_margin_top_: "desc_style_margin_top",
+        content_desc_style_margin_right_: "desc_style_margin_right",
+        content_desc_style_margin_bottom_: "desc_style_margin_bottom",
+        content_desc_style_margin_left_: "desc_style_margin_left",
+        content_to_name_: "name",
+        content_to_type_: "type",
+        content_to_value_: "value"
     };
     var res = FormBackDataListHandle(data, fields);
     data = res.data;
@@ -1036,10 +988,10 @@ function FormBackModuleConfigImagesMagicCubeHandle(data)
 
     // 数据字段
     var fields = {
-        "content_images_": "images",
-        "content_to_name_": "name",
-        "content_to_type_": "type",
-        "content_to_value_": "value"
+        content_images_: "images",
+        content_to_name_: "name",
+        content_to_type_: "type",
+        content_to_value_: "value"
     };
     var res = FormBackDataListHandle(data, fields);
     data = res.data;
@@ -1723,9 +1675,9 @@ function FormBackModuleConfigGoodsHandle(data)
 
                     // 商品样式处理
                     var rules = {
-                        "margin": {
-                            "value": "{var}px 0 0 {var}px",
-                            "var": "{var}"
+                        margin: {
+                            value: "{var}px 0 0 {var}px",
+                            var: "{var}"
                         }
                     };
                     var item_style = StyleBaseHandle(data, 'style_', rules);
@@ -2382,7 +2334,7 @@ function ModuleConfigManyImagesItemContentHtml(images, type, name, value)
                         <img src="`+(images || $offcanvas_config_many_images.data('default-images'))+`" />
                     </li>
                 </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+                <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+ `+($layout.data('upload-images-name') || '上传图片')+`</div>
             </div>
             <div class="am-form-group am-form-group-refreshing">
                 <div class="form-view-choice-container am-margin-top-xs" data-key="`+index+`">
@@ -2422,6 +2374,16 @@ function ModuleConfigImagesTextItemContentHtml(data)
         data.desc_style_align = 'left';
     }
     var index = parseInt(Math.random()*1000001);
+    var font_size = $layout.data('images-text-font-size') || '大小';
+    var title_message = $layout.data('images-text-margin-title-message') || '标题外边距最大1000';
+    var desc_message = $layout.data('images-text-margin-desc-message') || '描述外边距最大1000';
+    var margin_top = $layout.data('images-text-margin-top') || '外上';
+    var margin_right = $layout.data('images-text-margin-top') || '外右';
+    var margin_bottom = $layout.data('images-text-margin-top') || '外下';
+    var margin_left = $layout.data('images-text-margin-top') || '外左';
+    var position_left = $layout.data('images-text-position-left') || '外左';
+    var position_center = $layout.data('images-text-position-center') || '外中';
+    var position_right = $layout.data('images-text-position-right') || '外右';
     var html = `<div class="am-panel am-panel-default am-padding-sm">
                     <a href="javascript:;" class="am-close am-close-alt am-icon-times"></a>
                     <div class="am-form-group am-form-file am-form-group-refreshing">
@@ -2431,7 +2393,7 @@ function ModuleConfigImagesTextItemContentHtml(data)
                                 <img src="`+(data.images || $offcanvas_config_many_images.data('default-images'))+`" />
                             </li>
                         </ul>
-                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+ `+($layout.data('upload-images-name') || '上传图片')+`</div>
                     </div>
                     <div class="am-form-group am-form-group-refreshing">
                     <div class="form-view-choice-container am-margin-top-xs" data-key="`+index+`">
@@ -2445,10 +2407,11 @@ function ModuleConfigImagesTextItemContentHtml(data)
                 </div>`;
         // 标题
         var title_style_color = (data.title_style_color || null) == null ? '' : 'background-color:'+data.title_style_color+';border-color:'+data.title_style_color+';';
+        var title = $layout.data('images-text-title') || '标题';
         html += `<div class="am-form-group am-form-group-refreshing">
-                    <label>标题</label>
+                    <label>`+title+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" placeholder="标题" name="content_title_`+index+`" value="`+(data.title || '')+`" class="am-form-field" />
+                        <input type="text" placeholder="`+title+`" name="content_title_`+index+`" value="`+(data.title || '')+`" class="am-form-field" />
                         <input type="hidden" name="content_title_style_color_`+index+`" value="`+(data.title_style_color || '')+`" />
                         <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-title-style-color-`+index+`" data-position="fixed" data-input-tag=".module-style-color-images-text-content-title-style-color-`+index+`" data-color-tag="input[name='content_title_style_color_`+index+`']" data-color-style="background-color|border-color" style="`+title_style_color+`">
                             <img src="`+__attachment_host__+`/static/common/images/colorpicker.png" />
@@ -2457,29 +2420,30 @@ function ModuleConfigImagesTextItemContentHtml(data)
 
         // 外边距
         html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
-                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_title_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="标题外边距上最大1000" value="`+(data.title_style_margin_top || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_title_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="标题外边距右最大1000" value="`+(data.title_style_margin_right || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_title_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="标题外边距下最大1000" value="`+(data.title_style_margin_bottom || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_title_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="标题外边距左最大1000" value="`+(data.title_style_margin_left || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_top+`" name="content_title_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="`+title_message+`" value="`+(data.title_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_right+`" name="content_title_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="`+title_message+`" value="`+(data.title_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_bottom+`" name="content_title_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="`+title_message+`" value="`+(data.title_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_left+`" name="content_title_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="`+title_message+`" value="`+(data.title_style_margin_left || '')+`" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>`;
 
         // 字体大小和左右居中
         html += `<div class="am-margin-top-xs am-nbfc">
                     <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
-                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_title_style_font_size_`+index+`" min="0" max="1000" data-validation-message="标题字体最大1000" value="`+(data.title_style_font_size || '')+`" class="am-form-field" />
+                        <input type="number" data-is-clearout="0" placeholder="`+font_size+`" name="content_title_style_font_size_`+index+`" min="0" max="1000" data-validation-message="`+($layout.data('images-text-font-size-title-message') || '标题字体最大1000')+`" value="`+(data.title_style_font_size || '')+`" class="am-form-field" />
                         <span class="am-input-group-label">px</span>
                     </div>
-                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="left" data-am-ucheck `+(data.title_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="center" data-am-ucheck `+(data.title_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="right" data-am-ucheck `+(data.title_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
+                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="left" data-am-ucheck `+(data.title_style_align == 'left' ? 'checked' : '')+` /> `+position_left+`</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="center" data-am-ucheck `+(data.title_style_align == 'center' ? 'checked' : '')+` /> `+position_center+`</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="right" data-am-ucheck `+(data.title_style_align == 'right' ? 'checked' : '')+` /> `+position_right+`</label></div>
                     </div>`;
         html += `</div>`;
 
         // 描述
+        var desc = $layout.data('images-text-desc') || '描述';
         var desc_style_color = (data.desc_style_color || null) == null ? '' : 'background-color:'+data.desc_style_color+';border-color:'+data.desc_style_color+';';
         html += `<div class="am-form-group am-form-group-refreshing">
-                    <label>描述</label>
+                    <label>`+desc+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" placeholder="描述" name="content_desc_`+index+`" value="`+(data.desc || '')+`" class="am-form-field" />
+                        <input type="text" placeholder="`+desc+`" name="content_desc_`+index+`" value="`+(data.desc || '')+`" class="am-form-field" />
                         <input type="hidden" name="content_desc_style_color_`+index+`" value="`+(data.desc_style_color || '')+`" />
                         <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-desc-style-color-`+index+`" data-position="fixed" data-input-tag=".module-style-color-images-text-content-desc-style-color-`+index+`" data-color-tag="input[name='content_desc_style_color_`+index+`']" data-color-style="background-color|border-color" style="`+desc_style_color+`">
                             <img src="`+__attachment_host__+`/static/common/images/colorpicker.png" />
@@ -2488,20 +2452,20 @@ function ModuleConfigImagesTextItemContentHtml(data)
 
         // 外边距
         html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
-                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_desc_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="描述外边距上最大1000" value="`+(data.desc_style_margin_top || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_desc_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="描述外边距右最大1000" value="`+(data.desc_style_margin_right || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_desc_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="描述外边距下最大1000" value="`+(data.desc_style_margin_bottom || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_desc_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="描述外边距左最大1000" value="`+(data.desc_style_margin_left || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_top+`" name="content_desc_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="`+desc_message+`" value="`+(data.desc_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_right+`" name="content_desc_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="`+desc_message+`" value="`+(data.desc_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_bottom+`" name="content_desc_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="`+desc_message+`" value="`+(data.desc_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="`+margin_left+`" name="content_desc_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="`+desc_message+`" value="`+(data.desc_style_margin_left || '')+`" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>`;
 
         // 字体大小和左右居中
         html += `<div class="am-margin-top-xs am-nbfc">
                     <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
-                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_desc_style_font_size_`+index+`" min="0" max="1000" data-validation-message="描述字体最大1000" value="`+(data.desc_style_font_size || '')+`" class="am-form-field" />
+                        <input type="number" data-is-clearout="0" placeholder="`+font_size+`" name="content_desc_style_font_size_`+index+`" min="0" max="1000" data-validation-message="`+($layout.data('images-text-font-size-desc-message') || '描述字体最大1000')+`" value="`+(data.desc_style_font_size || '')+`" class="am-form-field" />
                         <span class="am-input-group-label">px</span>
                     </div>
-                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="left" data-am-ucheck `+(data.desc_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="center" data-am-ucheck `+(data.desc_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="right" data-am-ucheck `+(data.desc_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
+                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="left" data-am-ucheck `+(data.desc_style_align == 'left' ? 'checked' : '')+` /> `+position_left+`</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="center" data-am-ucheck `+(data.desc_style_align == 'center' ? 'checked' : '')+` /> `+position_center+`</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="right" data-am-ucheck `+(data.desc_style_align == 'right' ? 'checked' : '')+` /> `+position_right+`</label></div>
                     </div>
                 </div>`;
         html += `</div>`;
@@ -2573,7 +2537,7 @@ function ModuleConfigImagesMagicCubeItemContentHtml(data)
                             <img src="`+(item.images || $offcanvas_config_many_images.data('default-images'))+`" />
                         </li>
                     </ul>
-                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+i+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+i+`">+ `+($layout.data('upload-images-name') || '上传图片')+`</div>
                 </div>
                 <div class="am-form-group am-form-group-refreshing">
                     <div class="form-view-choice-container am-margin-top-xs" data-key="`+i+`">
@@ -2835,8 +2799,8 @@ function OffcanvasConfigPagesChoice(obj, event)
 
     // 开启页面选择弹窗
     $modal_pages_select.modal({
-        width: 300,
-        height: 332,
+        width: 380,
+        height: 400,
         closeViaDimmer: false
     });
 }
@@ -2907,10 +2871,10 @@ function LayoutViewConfig()
         // 布局数据
         var json = $(this).find('.layout-content-children').attr('data-json') || null;
         var layout_temp = {
-            "value": $(this).data('value').toString(),
-            "status": ($(this).find('.layout-content-submit input[type="checkbox"]:checked').val() == 'on') ? 1 : 0,
-            "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
-            "children": []
+            value: $(this).data('value').toString(),
+            status: ($(this).find('.layout-content-submit input[type="checkbox"]:checked').val() == 'on') ? 1 : 0,
+            config: (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
+            children: []
         };
 
         // 模块容器
@@ -2919,8 +2883,8 @@ function LayoutViewConfig()
             // 容器数据
             var json = $(this).attr('data-json') || null;
             var content_temp = {
-                "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
-                "children": []
+                config: (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
+                children: []
             };
 
             // 模块
@@ -2930,9 +2894,9 @@ function LayoutViewConfig()
                 var json = $(this).find('.module-content').attr('data-json') || null;
                 var value = $(this).find('.module-view-submit-container').data('value');
                 var module_config = {
-                    "value": value,
-                    "name": layout_module_type_arr[value],
-                    "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8))
+                    value: value,
+                    name: layout_module_type_arr[value],
+                    config: (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8))
                 };
                 // 商品模块移除商品列表
                 if(value == 'goods')
@@ -3313,13 +3277,13 @@ $(function()
         if((json || null) == null)
         {
             var fields_dv = {
-                "goods_order_by_type": 0,
-                "goods_order_by_rule": 0,
-                "view_list_show_style": 'routine',
-                "view_list_number_sm": 2,
-                "view_list_number_md": 5,
-                "view_list_number_lg": 5,
-                "goods_data_type": "goods"
+                goods_order_by_type: 0,
+                goods_order_by_rule: 0,
+                view_list_show_style: 'routine',
+                view_list_number_sm: 2,
+                view_list_number_md: 5,
+                view_list_number_lg: 5,
+                goods_data_type: "goods"
             };
             json = GetFormVal(config_doc, true);
             for(var i in json)
@@ -3486,7 +3450,7 @@ $(function()
             default :
                 if($config.length == 0)
                 {
-                    Prompt('模块未配置('+value+')');
+                    Prompt(($layout.data('base-module-not-config-tips') || '模块未配置')+'('+value+')');
                     return false;
                 }
         }

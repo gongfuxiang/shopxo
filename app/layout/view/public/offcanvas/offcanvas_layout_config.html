@@ -5,22 +5,22 @@
             <form class="am-form form-validation-layout-config" request-type="sync" request-value="FormBackLayoutConfig">
                 <!-- 基础样式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">基础样式</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_layout_base_title')}}</div>
                     <div class="am-panel-bd">
                         <!-- 背景图 -->
                         <div class="am-form-group am-form-file am-form-group-refreshing">
-                            <label class="am-block">背景图</label>
+                            <label class="am-block">{{:MyLang('layout.view_offcanvas_layout_background_images')}}</label>
                             <ul class="plug-file-upload-view layout-style-background-images-view" data-form-name="style_background_images" data-max-number="1" data-delete="1" data-dialog-type="images"></ul>
                             <div>
                                 <span class="plug-file-upload-submit" data-view-tag="ul.layout-style-background-images-view">+ {{:MyLang('form_upload_images_title')}}</span>
                                 <label class="am-checkbox-inline am-margin-left-sm">
-                                    <input type="checkbox" name="style_background_images_position_center" value="1" data-am-ucheck /> 居中
+                                    <input type="checkbox" name="style_background_images_position_center" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_center')}}
                                 </label>
                                 <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="style_background_images_size_cover" value="1" data-am-ucheck /> 铺满
+                                    <input type="checkbox" name="style_background_images_size_cover" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_cover')}}
                                 </label>
                                 <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="style_background_images_no_repeat" value="1" data-am-ucheck /> 不重复
+                                    <input type="checkbox" name="style_background_images_no_repeat" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_no_repeat')}}
                                 </label>
                             </div>
                         </div>
@@ -29,21 +29,21 @@
                         {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
 
                         <!-- 边线颜色 -->
-                        {{include file="../../../layout/view/public/style/color" key="_border" required="" name="边线颜色"  /}}
+                        {{include file="../../../layout/view/public/style/border_color" key="_border" required="" /}}
 
                         <!-- 系统标准限宽 -->
                         <label class="am-checkbox-inline">
-                            <input type="checkbox" name="style_width_max_limit_value" value="1" data-am-ucheck /> 系统标准限宽(1000px、1200px)
+                            <input type="checkbox" name="style_width_max_limit_value" value="1" data-am-ucheck /> {{:MyLang('layout.view_style_width_max_limit_value')}}
                         </label>
                     </div>
                 </div>
 
                 <!-- 中屏样式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">中屏样式</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_md')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="30" key="_md" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="_md" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="_md" /}}
@@ -61,10 +61,10 @@
 
                 <!-- 小屏样式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">小屏样式</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_sm')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="30" key="_sm" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="_sm" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="_sm" /}}
@@ -82,10 +82,10 @@
 
                 <!-- 大屏样式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">大屏样式</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_lg')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="30" key="_lg" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="_lg" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="_lg" /}}

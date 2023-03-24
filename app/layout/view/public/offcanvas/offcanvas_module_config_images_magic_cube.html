@@ -5,7 +5,7 @@
             <form class="am-form form-validation-module-offcanvas-images-magic-cube" request-type="sync" request-value="FormBackModuleConfigImagesMagicCube">
                 <!-- 展示模式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">展示模式<span class="am-form-group-label-tips-must">*</span></div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_show_model_title')}}<span class="am-form-group-label-tips-must">*</span></div>
                     <div class="am-panel-bd">
                         {{include file="../../../layout/view/public/content/images_magic_cube_show_style" /}}
                     </div>
@@ -13,19 +13,19 @@
 
                 <!-- 内容 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">内容设置<span class="am-form-group-label-tips-must">*</span></div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}<span class="am-form-group-label-tips-must">*</span></div>
                     <div class="am-panel-bd">
                         <div class="config-images-magic-cube-container"></div>
-                        <p class="am-text-center am-padding-vertical-sm am-text-grey tips-msg">请先选择展示模式</p>
+                        <p class="am-text-center am-padding-vertical-sm am-text-grey tips-msg">{{:MyLang('layout.view_show_model_not_choice_tips')}}</p>
                     </div>
                 </div>
 
                 <!-- 样式设置 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角、元素样式 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="_item" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="_item" required="" /}}
 
                         <!-- 外边距、js取值使用 -->
                         {{include file="../../../layout/view/public/style/margin" key="" /}}

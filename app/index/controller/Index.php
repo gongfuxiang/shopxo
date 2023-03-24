@@ -108,11 +108,11 @@ class Index extends Common
             $assign['brand_list'] = BrandService::CategoryBrand();
 
             // 静态数据
-            $assign['border_style_type_list'] = BaseLayout::$border_style_type_list;
-            $assign['goods_view_list_show_style'] = BaseLayout::$goods_view_list_show_style;
-            $assign['many_images_view_list_show_style'] = BaseLayout::$many_images_view_list_show_style;
-            $assign['images_text_view_list_show_style'] = BaseLayout::$images_text_view_list_show_style;
-            $assign['images_magic_cube_view_list_show_style'] = BaseLayout::$images_magic_cube_view_list_show_style;
+            $assign['border_style_type_list'] = BaseLayout::ConstConfigData('border_style_type_list');
+            $assign['goods_view_list_show_style'] = BaseLayout::ConstConfigData('goods_view_list_show_style');
+            $assign['many_images_view_list_show_style'] = BaseLayout::ConstConfigData('many_images_view_list_show_style');
+            $assign['images_text_view_list_show_style'] = BaseLayout::ConstConfigData('images_text_view_list_show_style');
+            $assign['images_magic_cube_view_list_show_style'] = BaseLayout::ConstConfigData('images_magic_cube_view_list_show_style');
 
             // 首页商品排序规则
             $assign['goods_order_by_type_list'] = MyLang('goods_order_by_type_list');

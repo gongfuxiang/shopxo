@@ -4,10 +4,10 @@
         <div class="am-offcanvas-content am-padding-0">
             <form class="am-form form-validation-module-offcanvas-images" request-type="sync" request-value="FormBackModuleConfigImages">
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">内容设置</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}</div>
                     <div class="am-panel-bd">
                         <div class="am-form-group am-form-file am-form-group-refreshing">
-                            <label class="am-block">图片<span class="am-form-group-label-tips-must">*</span></label>
+                            <label class="am-block">{{:MyLang('layout.view_offcanvas_module_images')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <ul class="plug-file-upload-view module-images-type-images-view" data-form-name="content_images" data-max-number="1" data-delete="0" data-dialog-type="images">
                                 <li>
                                     <input type="text" name="content_images" data-validation-message="{{:MyLang('form_upload_images_message')}}" value="" required />
@@ -17,13 +17,13 @@
                             <div class="plug-file-upload-submit" data-view-tag="ul.module-images-type-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
                         </div>
                         <div class="am-form-group am-form-group-refreshing">
-                            <label>链接地址</label>
+                            <label>{{:MyLang('layout.view_module_title_url')}}</label>
                             <div class="form-view-choice-container am-margin-top-xs">
                                 <input type="hidden" name="content_to_type" value="" />
                                 <input type="hidden" name="content_to_name" value="" />
                                 <input type="hidden" name="content_to_value" value="" />
                                 <div class="form-view-choice-container-content">
-                                    <a href="javascript:;" class="form-view-choice-container-submit">请选择跳转链接</a>
+                                    <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_module_title_url_message')}}</a>
                                 </div>
                             </div>
                         </div>
@@ -32,13 +32,13 @@
 
                 <!-- 样式设置 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 背景色 -->
                         {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
 
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
@@ -56,7 +56,7 @@
 
                 <!-- 图片样式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">图片样式</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_images')}}</div>
                     <div class="am-panel-bd">
                         <!-- 媒体样式 -->
                         {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" /}}

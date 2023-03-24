@@ -7,9 +7,9 @@
                 <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" data-am-tabs="{noSwipe: 1}">
                     <ul class="am-tabs-nav am-cf">
                         <li class="am-active"><a href="[data-tab-panel-0]" data-value="category">{{:MyLang('form_goods_category_title')}}</a></li>
-                        <li><a href="[data-tab-panel-1]" data-value="brand">品牌</a></li>
-                        <li><a href="[data-tab-panel-2]" data-value="keywords">关键字</a></li>
-                        <li><a href="[data-tab-panel-3]" data-value="other">无需条件</a></li>
+                        <li><a href="[data-tab-panel-1]" data-value="brand">{{:MyLang('layout.view_popup_goods_search_tabs_brand')}}</a></li>
+                        <li><a href="[data-tab-panel-2]" data-value="keywords">{{:MyLang('layout.view_popup_goods_search_tabs_keywords')}}</a></li>
+                        <li><a href="[data-tab-panel-3]" data-value="other">{{:MyLang('layout.view_popup_goods_search_tabs_other')}}</a></li>
                     </ul>
                     <div class="am-tabs-bd">
                         <div data-tab-panel-0 class="am-tab-panel am-padding-0 am-active">
@@ -39,15 +39,15 @@
                         <div data-tab-panel-2 class="am-tab-panel am-padding-0">
                             <div class="am-form-group am-form-group-refreshing">
                                 <div class="am-padding-sm form-container-keywords">
-                                    <p class="am-margin-top-sm am-text-warning am-text-center">搜索关键字格式1~30个字符</p>
+                                    <p class="am-margin-top-sm am-text-warning am-text-center">{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}</p>
                                     <div class="am-margin-top-sm">
-                                        <input type="text" name="goods_search_keywords" placeholder="关键字" maxlength="30" data-validation-message="关键字格式1~30个字符" class="am-radius" />
+                                        <input type="text" name="goods_search_keywords" placeholder="{{:MyLang('layout.view_popup_goods_search_tabs_keywords')}}" maxlength="30" data-validation-message="{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}" class="am-radius" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div data-tab-panel-3 class="am-tab-panel am-padding-0">
-                            <p class="am-margin-top-lg am-padding-top-lg am-text-warning am-text-center">无需搜索条件、直接进入搜索页面</p>
+                            <p class="am-margin-top-lg am-padding-top-lg am-text-warning am-text-center">{{:MyLang('layout.view_popup_goods_search_other_tips')}}</p>
                         </div>
                     </div>
                 </div>

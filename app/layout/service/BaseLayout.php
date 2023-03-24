@@ -25,56 +25,72 @@ use app\service\GoodsCategoryService;
  */
 class BaseLayout
 {
-    // 边线样式类型
-    public static $border_style_type_list = [
-        'solid'     => '实线',
-        'dashed'    => '虚线',
-        'dotted'    => '点状',
-        'double'    => '双线',
-    ];
-
-    // 商品样式类型
-    public static $goods_view_list_show_style = [
-        'routine'   => '常规模式',
-        'leftright' => '左图右文',
-        'rolling'   => '滚动模式',
-    ];
-
-    // 多图样式类型
-    public static $many_images_view_list_show_style = [
-        'routine'   => '轮播模式',
-        'rolling'   => '滚动模式',
-        'list'      => '列表模式',
-    ];
-
-    // 图文样式类型
-    public static $images_text_view_list_show_style = [
-        'updown'    => '上图下文',
-        'leftright' => '左图右文',
-        'rolling'   => '滚动模式',
-    ];
-
-    // 图片魔方样式类型
-    public static $images_magic_cube_view_list_show_style = [
-        'g1'    => '1图',
-        'v2'    => '2竖图',
-        'v3'    => '3竖图',
-        'v4'    => '4竖图',
-        'h2'    => '2横图',
-        'h3'    => '3横图',
-        'h4'    => '4横图',
-        'lr12'  => '1左右2',
-        'lr13'  => '1左右3',
-        'lr21'  => '2左右1',
-        'lr31'  => '3左右1',
-        'tb12'  => '1上下2',
-        'tb13'  => '1上下3',
-        'tb21'  => '2上下1',
-        'tb31'  => '3上下1',
-        'lrv2h2'=> '2竖左右横2',
-        'lrh2v2'=> '2横左右竖2',
-        'g4'    => '4图',
-    ];
+    /**
+     * 静态配置数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-23
+     * @desc    description
+     * @param   [string]          $key [配置key]
+     */
+    public static function ConstConfigData($key)
+    {
+        $lang_border = MyLang('layout.border_style_type_list');
+        $lang_goods_view = MyLang('layout.goods_view_list_show_style');
+        $lang_many_images_view = MyLang('layout.many_images_view_list_show_style');
+        $lang_images_text_view = MyLang('layout.images_text_view_list_show_style');
+        $lang_images_magic_cube_view = MyLang('layout.images_magic_cube_view_list_show_style');
+        $data = [
+            // 边线样式类型
+            'border_style_type_list' => [
+                'solid'     => $lang_border['solid'],
+                'dashed'    => $lang_border['dashed'],
+                'dotted'    => $lang_border['dotted'],
+                'double'    => $lang_border['double'],
+            ],
+            // 商品样式类型
+            'goods_view_list_show_style' => [
+                'routine'   => $lang_goods_view['routine'],
+                'leftright' => $lang_goods_view['leftright'],
+                'rolling'   => $lang_goods_view['rolling'],
+            ],
+            // 多图样式类型
+            'many_images_view_list_show_style' => [
+                'routine'   => $lang_many_images_view['routine'],
+                'rolling'   => $lang_many_images_view['rolling'],
+                'list'      => $lang_many_images_view['list'],
+            ],
+            // 图文样式类型
+            'images_text_view_list_show_style' => [
+                'updown'    => $lang_images_text_view['updown'],
+                'leftright' => $lang_images_text_view['leftright'],
+                'rolling'   => $lang_images_text_view['rolling'],
+            ],
+            // 图片魔方样式类型
+            'images_magic_cube_view_list_show_style' => [
+                'g1'    => $lang_images_magic_cube_view['g1'],
+                'v2'    => $lang_images_magic_cube_view['v2'],
+                'v3'    => $lang_images_magic_cube_view['v3'],
+                'v4'    => $lang_images_magic_cube_view['v4'],
+                'h2'    => $lang_images_magic_cube_view['h2'],
+                'h3'    => $lang_images_magic_cube_view['h4'],
+                'h4'    => $lang_images_magic_cube_view['lr12'],
+                'lr12'  => $lang_images_magic_cube_view['lr13'],
+                'lr13'  => $lang_images_magic_cube_view['lr13'],
+                'lr21'  => $lang_images_magic_cube_view['lr21'],
+                'lr31'  => $lang_images_magic_cube_view['lr31'],
+                'tb12'  => $lang_images_magic_cube_view['tb12'],
+                'tb13'  => $lang_images_magic_cube_view['tb13'],
+                'tb21'  => $lang_images_magic_cube_view['tb21'],
+                'tb31'  => $lang_images_magic_cube_view['tb31'],
+                'lrv2h2'=> $lang_images_magic_cube_view['lrv2h2'],
+                'lrh2v2'=> $lang_images_magic_cube_view['lrh2v2'],
+                'g4'    => $lang_images_magic_cube_view['g4'],
+            ],
+        ];
+        return isset($data[$key]) ? $data[$key] : [];
+    }
 
     /**
      * 配置处理-保存
@@ -650,43 +666,6 @@ class BaseLayout
             'user_integral_list'                        => MyUrl('index/userintegral/index'),
             'user_answer_list'                          => MyUrl('index/answer/index'),
             'user_message_list'                         => MyUrl('index/message/index'),
-
-            // 多商户
-            'plugins-blog-home'                         => PluginsHomeUrl('blog', 'index', 'index'),
-            'plugins-blog-favor'                        => PluginsHomeUrl('blog', 'shopfavor', 'index'),
-
-            // 博客
-            'plugins-blog-home'                         => PluginsHomeUrl('blog', 'index', 'index'),
-            'plugins-blog-search'                        => PluginsHomeUrl('blog', 'index', 'search'),
-
-            // 品牌
-            'plugins-brand-home'                        => PluginsHomeUrl('brand', 'index', 'index'),
-
-            // 优惠券
-            'plugins-coupon-home'                       => PluginsHomeUrl('coupon', 'index', 'index'),
-            'plugins-coupon-user'                       => PluginsHomeUrl('coupon', 'coupon', 'index'),
-
-            // 会员等级
-            'plugins-membershiplevelvip-home'           => PluginsHomeUrl('membershiplevelvip', 'index', 'index'),
-            'plugins-membershiplevelvip-user-center'    => PluginsHomeUrl('membershiplevelvip', 'vip', 'index'),
-            'plugins-membershiplevelvip-user-poster'    => PluginsHomeUrl('membershiplevelvip', 'poster', 'index'),
-
-            // 分销
-            'plugins-distribution-user-center'          => PluginsHomeUrl('distribution', 'index', 'index'),
-            'plugins-distribution-user-poster'          => PluginsHomeUrl('distribution', 'poster', 'index'),
-
-            // 发票
-            'plugins-invoice-user'                      => PluginsHomeUrl('invoice', 'user', 'index'),
-            'plugins-invoice-order'                     => PluginsHomeUrl('invoice', 'order', 'index'),
-
-            // 积分商城
-            'plugins-points-home'                       => PluginsHomeUrl('points', 'index', 'index'),
-
-            // 钱包
-            'plugins-wallet-user'                       => PluginsHomeUrl('wallet', 'wallet', 'index'),
-
-            // 签到
-            'plugins-signin-user'                       => PluginsHomeUrl('signin', 'userqrcode', 'index'),
         ];
 
         // 静态地址定义-手机端
@@ -703,48 +682,19 @@ class BaseLayout
             'user_integral_list'                        => '/pages/user-integral/user-integral',
             'user_answer_list'                          => '/pages/user-answer-list/user-answer-list',
             'user_message_list'                         => '/pages/message/message',
-
-            // 多商户
-            'plugins-shop-home'                         => '/pages/plugins/shop/index/index',
-            'plugins-shop-favor'                        => '/pages/plugins/shop/favor/favor',
-
-            // 门店
-            'plugins-realstore-home'                    => '/pages/plugins/realstore/index/index',
-            'plugins-realstore-favor'                   => '/pages/plugins/realstore/favor/favor',
-
-            // 博客
-            'plugins-blog-home'                         => '/pages/plugins/blog/index/index',
-            'plugins-blog-search'                        => '/pages/plugins/blog/search/search',
-
-            // 品牌
-            'plugins-brand-home'                        => '/pages/plugins/brand/index/index',
-
-            // 优惠券
-            'plugins-coupon-home'                       => '/pages/plugins/coupon/index/index',
-            'plugins-coupon-user'                       => '/pages/plugins/coupon/user/user',
-
-            // 会员等级
-            'plugins-membershiplevelvip-home'           => '/pages/plugins/membershiplevelvip/index/index',
-            'plugins-membershiplevelvip-user-center'    => '/pages/plugins/membershiplevelvip/user/user',
-            'plugins-membershiplevelvip-user-poster'    => '/pages/plugins/membershiplevelvip/poster/poster',
-
-            // 分销
-            'plugins-distribution-user-center'          => '/pages/plugins/distribution/user/user',
-            'plugins-distribution-user-poster'          => '/pages/plugins/distribution/poster/poster',
-
-            // 发票
-            'plugins-invoice-user'                      => '/pages/plugins/invoice/user/user',
-            'plugins-invoice-order'                     => '/pages/plugins/invoice/order/order',
-
-            // 积分商城
-            'plugins-points-home'                       => '/pages/plugins/points/index/index',
-
-            // 钱包
-            'plugins-wallet-user'                       => '/pages/plugins/wallet/user/user',
-
-            // 签到
-            'plugins-signin-user'                       => '/pages/plugins/signin/user/user',
         ];
+
+        // url值处理前钩子
+        $hook_name = 'plugins_layout_service_url_value_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'           => $hook_name,
+            'is_backend'          => true,
+            'type'                => $type,
+            'value'               => $value,
+            'client_type'         => $client_type,
+            'static_url_web_arr'  => &$static_url_web_arr,
+            'static_url_app_arr'  => &$static_url_app_arr,
+        ]);
 
         // 静态地址
         $url = '';
@@ -926,7 +876,7 @@ class BaseLayout
                 // 参数处理
                 if(empty($params['goods_ids']))
                 {
-                    return DataReturn('商品id为空', -1);
+                    return DataReturn(MyLang('layout.base_goods_id_empty_tips'), -1);
                 }
                 if(!is_array($params['goods_ids']))
                 {
@@ -952,7 +902,7 @@ class BaseLayout
                 // 参数处理
                 if(empty($params['category_id']))
                 {
-                    return DataReturn('商品分类id为空', -1);
+                    return DataReturn(MyLang('layout.base_goods_category_empty_tips'), -1);
                 }
 
                 // 排序处理
@@ -980,7 +930,7 @@ class BaseLayout
                 break;
 
             default :
-                return DataReturn('数据类型未处理['.$params['data_type'].']', -1);
+                return DataReturn(MyLang('layout.base_data_type_not_handle_tips').'['.$params['data_type'].']', -1);
         }
 
         // 商品数据列表读取钩子
@@ -1042,7 +992,7 @@ class BaseLayout
         {
             return $ret;
         }
-        return DataReturn('无商品信息', -1);
+        return DataReturn(MyLang('layout.base_goods_empty_tips'), -1);
     }
 
     /**
@@ -1060,215 +1010,29 @@ class BaseLayout
         $data = [
             // 公共
             'common' => [
-                'name'  => '系统页面',
+                'name'  => MyLang('layout.page_system_title'),
                 'data'  => [
-                    [
-                        'value' => 'home',
-                        'name'  => '商城首页',
-                    ],
-                    [
-                        'value' => 'goods_category',
-                        'name'  => '全部商品分类',
-                    ],
-                    [
-                        'value' => 'goods_search',
-                        'name'  => '商品搜索',
-                        'tips'  => '可带参数（关键字、商品分类id、品牌id）',
-                    ],
-                    [
-                        'value' => 'goods',
-                        'name'  => '单一商品',
-                    ],
-                    [
-                        'value' => 'cart',
-                        'name'  => '购物车',
-                    ],
-                    [
-                        'value' => 'user_center',
-                        'name'  => '用户中心',
-                    ],
-                    [
-                        'value' => 'user_order_list',
-                        'name'  => '我的订单',
-                    ],
-                    [
-                        'value' => 'user_order_aftersale_list',
-                        'name'  => '订单售后',
-                    ],
-                    [
-                        'value' => 'user_goods_favor_list',
-                        'name'  => '商品收藏',
-                    ],
-                    [
-                        'value' => 'user_address_list',
-                        'name'  => '我的地址',
-                    ],
-                    [
-                        'value' => 'user_goods_browse_list',
-                        'name'  => '我的足迹',
-                    ],
-                    [
-                        'value' => 'user_integral_list',
-                        'name'  => '我的积分',
-                    ],
-                    [
-                        'value' => 'user_message_list',
-                        'name'  => '我的消息',
-                    ],
-                    [
-                        'value' => 'user_answer_list',
-                        'name'  => '问答/留言',
-                    ],
+                    [ 'value' => 'home', 'name' => MyLang('shop_home_title')],
+                    [ 'value' => 'goods_category', 'name' => MyLang('layout.page_goods_category')],
+                    [ 'value' => 'goods_search', 'name' => MyLang('layout.page_goods_search'), 'tips' => MyLang('layout.page_goods_search_tips')],
+                    [ 'value' => 'goods', 'name' => MyLang('layout.page_goods')],
+                    [ 'value' => 'cart', 'name' => MyLang('layout.page_cart')],
+                    [ 'value' => 'user_center', 'name' => MyLang('layout.page_user_center')],
+                    [ 'value' => 'user_order_list', 'name' => MyLang('layout.page_user_order_list')],
+                    [ 'value' => 'user_order_aftersale_list', 'name' => MyLang('layout.page_user_order_aftersale_list')],
+                    [ 'value' => 'user_goods_favor_list', 'name' => MyLang('layout.page_user_goods_favor_list')],
+                    [ 'value' => 'user_address_list', 'name' => MyLang('layout.page_user_address_list')],
+                    [ 'value' => 'user_goods_browse_list', 'name' => MyLang('layout.page_user_goods_browse_list')],
+                    [ 'value' => 'user_integral_list', 'name' => MyLang('layout.page_user_integral_list')],
+                    [ 'value' => 'user_message_list', 'name' => MyLang('layout.page_user_message_list')],
+                    [ 'value' => 'user_answer_list', 'name' => MyLang('layout.page_user_answer_list')],
                 ],
             ],
 
             // 插件
             'plugins' => [
-                'name'  => '扩展模块',
-                'data'  => [
-                    [
-                        'name'  => '多商户',
-                        'value' => 'shop',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '所有店铺',
-                            ],
-                            [
-                                'value' => 'favor',
-                                'name'  => '店铺收藏',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '多门店',
-                        'value' => 'realstore',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '所有店铺',
-                            ],
-                            [
-                                'value' => 'favor',
-                                'name'  => '店铺收藏',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '博客',
-                        'value' => 'blog',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '博客首页',
-                            ],
-                            [
-                                'value' => 'search',
-                                'name'  => '博客搜索',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '品牌',
-                        'value' => 'brand',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '所有品牌',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '优惠券',
-                        'value' => 'coupon',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '领券中心',
-                            ],
-                            [
-                                'value' => 'user',
-                                'name'  => '我的优惠券',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '会员等级增强版',
-                        'value' => 'membershiplevelvip',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '会员首页',
-                            ],
-                            [
-                                'value' => 'user-center',
-                                'name'  => '会员中心',
-                            ],
-                            [
-                                'value' => 'user-poster',
-                                'name'  => '推广返利',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '分销',
-                        'value' => 'distribution',
-                        'data'  => [
-                            [
-                                'value' => 'user-center',
-                                'name'  => '分销中心',
-                            ],
-                            [
-                                'value' => 'user-poster',
-                                'name'  => '推广返利',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '发票',
-                        'value' => 'invoice',
-                        'data'  => [
-                            [
-                                'value' => 'user',
-                                'name'  => '我的发票',
-                            ],
-                            [
-                                'value' => 'order',
-                                'name'  => '订单开票',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '积分商城',
-                        'value' => 'points',
-                        'data'  => [
-                            [
-                                'value' => 'home',
-                                'name'  => '首页',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '钱包',
-                        'value' => 'wallet',
-                        'data'  => [
-                            [
-                                'value' => 'user',
-                                'name'  => '我的钱包',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name'  => '签到',
-                        'value' => 'signin',
-                        'data'  => [
-                            [
-                                'value' => 'user',
-                                'name'  => '我的签到',
-                            ],
-                        ],
-                    ],
-                ],
+                'name'  => MyLang('layout.page_plugins_title'),
+                'data'  => [],
             ],
         ];
 

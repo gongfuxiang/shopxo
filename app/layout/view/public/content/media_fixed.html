@@ -1,32 +1,32 @@
 <!-- 宽度 -->
-{{include file="../../../layout/view/public/style/width" key="[key]" required="[required]" width="1200" name="图片容器宽度" /}}
+{{include file="../../../layout/view/public/style/width" key="[key]" required="[required]" /}}
 
 <!-- 高度 -->
-{{include file="../../../layout/view/public/style/height" key="[key]" required="[required]" height="800" name="图片容器高度" /}}
+{{include file="../../../layout/view/public/style/height" key="[key]" required="[required]" /}}
 
 <!-- 圆角 -->
-{{include file="../../../layout/view/public/style/border_radius" max="1000" key="[key]" required="" /}}
+{{include file="../../../layout/view/public/style/border_radius" key="[key]" required="" /}}
 
 <!-- 是否高度100% -->
 <div class="am-form-group am-form-group-refreshing">
-    <label class="am-block">是否宽度100%</label>
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_width_100_title')}}</label>
     <input name="style[key]_is_width" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
 </div>
 
 <!-- 是否高度100% -->
 <div class="am-form-group am-form-group-refreshing">
-    <label class="am-block">是否高度100%</label>
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_height_100_title')}}</label>
     <input name="style[key]_is_height" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
 </div>
 
 <!-- 是否居中 -->
 <div class="am-form-group am-form-group-refreshing">
-    <label class="am-block">是否居中</label>
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_center_title')}}</label>
     <input name="style[key]_is_auto" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
 </div>
 
 <!-- 是否铺满容器 -->
 <div class="am-form-group am-form-group-refreshing">
-    <label class="am-block">是否铺满容器</label>
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_cover_title')}}</label>
     <input name="style[key]_is_cover" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
 </div>

@@ -5,32 +5,59 @@
             <form class="am-form form-validation-module-offcanvas-title" request-type="sync" request-value="FormBackModuleConfigTitle">
                 <!-- 主内容 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">主内容</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 主标题 -->
-                        {{include file="../../../layout/view/public/style/input_color" key="_title" title="主标题" placeholder="主标题" minlength="1" maxlength="8" message="主标题最多1~8个字符" value="" required="required" color_value="" tips-must="-must" tips-msg="必填" /}}
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_main_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_main_title')}}" name="content_title" minlength="1" maxlength="8" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_main_title_message')}}" value="" class="am-form-field" required />
+                                <input type="hidden" name="style_title_color" value="" />
+                                <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color_title" data-position="fixed" data-input-tag=".module-style-color_title" data-color-tag="input[name='style_title_color']" data-color-style="background-color|border-color">
+                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                                </a>
+                            </div>
+                        </div>
 
                         <!-- 副标题 -->
-                        {{include file="../../../layout/view/public/style/input_color" key="_title_vice" title="副标题" placeholder="副标题" minlength="0" maxlength="16" message="副标题最多16个字符" value="" required="" color_value="" tips-must="" tips-msg="空则不显示" /}}
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}</label>
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}" name="content_title_vice" minlength="0" maxlength="16" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_vice_title_message')}}" value="" class="am-form-field" />
+                                <input type="hidden" name="style_title_vice_color" value="" />
+                                <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color_title_vice" data-position="fixed" data-input-tag=".module-style-color_title_vice" data-color-tag="input[name='style_title_vice_color']" data-color-style="background-color|border-color">
+                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 右侧按钮 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">右侧按钮<span class="am-form-group-label-tips">空则不显示</span></div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_module_title_right')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_title_right_tips')}}</span></div>
                     <div class="am-panel-bd">
                         <!-- 右侧按钮名称 -->
-                        {{include file="../../../layout/view/public/style/input_color" key="_title_more" title="右侧按钮名称" placeholder="右侧按钮名称" minlength="0" maxlength="4" message="右侧按钮名称最多4个字符" value="" required="" color_value="" tips-must="" tips-msg="" /}}
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_right_name')}}</label>
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_right_name')}}" name="content_title_more" minlength="0" maxlength="16" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_right_name_message')}}" value="" class="am-form-field" />
+                                <input type="hidden" name="style_title_more_color" value="" />
+                                <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color_title_more" data-position="fixed" data-input-tag=".module-style-color_title_more" data-color-tag="input[name='style_title_more_color']" data-color-style="background-color|border-color">
+                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                                </a>
+                            </div>
+                        </div>
 
                         <!-- 右侧按钮链接 -->
                         <div class="am-form-group am-form-group-refreshing">
-                            <label>右侧按钮链接地址</label>
+                            <label>{{:MyLang('layout.view_module_title_url')}}</label>
                             <div class="form-view-choice-container am-margin-top-xs">
                                 <input type="hidden" name="content_to_type" value="" />
                                 <input type="hidden" name="content_to_name" value="" />
                                 <input type="hidden" name="content_to_value" value="" />
                                 <div class="form-view-choice-container-content">
-                                    <a href="javascript:;" class="form-view-choice-container-submit">请选择跳转链接</a>
+                                    <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_module_title_url_message')}}</a>
                                 </div>
                             </div>
                         </div>
@@ -39,22 +66,22 @@
 
                 <!-- 关键字 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">关键字<span class="am-form-group-label-tips">小屏下不显示</span></div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_module_title_keywords')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_module_title_keywords_tips')}}</span></div>
                     <div class="am-panel-bd">
                         <ul class="am-list am-list-static am-list-border config-title-container"></ul>
-                        <div class="business-operations-submit am-text-center am-block config-title-item-add">+添加关键字</div>
+                        <div class="business-operations-submit am-text-center am-block config-title-item-add">+ {{:MyLang('layout.view_module_title_keywords_add')}}</div>
                     </div>
                 </div>
 
                 <!-- 样式设置 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 背景色 -->
                         {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
 
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="" /}}

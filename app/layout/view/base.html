@@ -1,45 +1,34 @@
 <!-- 布局/模块导航-->
 <div class="am-tabs renovation-tabs" data-am-tabs="{noSwipe: 1}" data-am-sticky>
     <ul class="am-tabs-nav am-nav am-nav-tabs">
-        <li class="am-active" data-value="structure">
-            <a href="#renovation-tabs-structure">布局</a>
-        </li>
-        <li data-value="module">
-            <a href="#renovation-tabs-module">模块</a>
-        </li>
+        {{if is_array(MyLang('layout.view_base_tabs_list'))}}
+            {{foreach :MyLang('layout.view_base_tabs_list') as $k=>$v}}
+                <li {{if $k eq 'structure'}}class="am-active"{{/if}} data-value="{{$k}}">
+                    <a href="#renovation-tabs-{{$k}}">{{$v}}</a>
+                </li>
+            {{/foreach}}
+        {{/if}}
     </ul>
     <div class="am-tabs-bd am-padding-sm">
         <!-- 布局 -->
         <div class="renovation-panel am-active" id="renovation-tabs-structure">
             <div class="structure-drag scrollspy-nav">
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="100">100%</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="6:6">6 : 6</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="8:4">8 : 4</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="4:8">4 : 8</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="9:3">9 : 3</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:9">3 : 9</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="6:3:3">6 : 3 : 3</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:6:3">3 : 6 : 3</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:3:6">3 : 3 : 6</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="4:4:4">x 3</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:3:3:3">x 4</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="2:2:2:2:2:2">x 6</button>
+                {{if is_array(MyLang('layout.view_base_structure_list'))}}
+                    {{foreach :MyLang('layout.view_base_structure_list') as $k=>$v}}
+                        <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="{{$k}}">{{$v}}</button>
+                    {{/foreach}}
+                {{/if}}
             </div>
         </div>
 
         <!-- 模块 -->
         <div class="renovation-panel am-hide" id="renovation-tabs-module">
             <div class="renovation-drag scrollspy-nav">
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images">单图</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="many-images">多图</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-text">图文</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-magic-cube">图片魔方</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="video">视频</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="goods">商品</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="title">标题</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="custom">自定义html</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="border">辅助线</button>
-                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="height">辅助空白</button>
+                {{if is_array(MyLang('layout.view_base_module_list'))}}
+                    {{foreach :MyLang('layout.view_base_module_list') as $k=>$v}}
+                        <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="{{$k}}">{{$v}}</button>
+                    {{/foreach}}
+                {{/if}}
             </div>
         </div>
     </div>
@@ -47,58 +36,73 @@
 
 <!-- 拖拽容器-->
 <div class="layout-container am-padding-sm am-margin-top-sm" 
-    data-switch-on-text="开启" 
-    data-switch-off-text="关闭" 
-    data-edit-name="修改" 
-    data-layout-set-title="布局设置" 
-    data-layout-del-title="布局移除" 
-    data-layout-content-set-tips="容器设置" 
-    data-layout-content-tips="模块内容区域" 
-    data-module-drag-title="拖拽排序" 
-    data-module-set-title="模块设置" 
-    data-module-del-title="模块移除" 
-    data-module-not-exist-tips="模块未定义" 
-    data-module-assembly-not-exist-tips="模块组件未定义" 
-    data-type-event-not-exist-tips="类型事件未定义" 
-    data-params-tips="参数值有误" 
-    data-module-tab-tips="模块标记有误" 
-    data-module-attr-tips="模块属性有误" 
-    data-config-first-tips="请配置" 
-    data-url-not-set-tips="未设置链接地址" 
-    data-goods-category-name="商品分类" 
-    data-brand-name="品牌" 
-    data-keywords-name="关键字" 
-    data-config-images-text-tips="请先添加图文并配置" 
-    data-upload-images-or-title-tips="图片和标题必填一项" 
-    data-upload-images-name="上传图片" 
-    data-upload-images-tips="请上传图片" 
-    data-config-images-tips="请先添加图片并配置" 
-    data-upload-video-tips="请上传视频" 
-    data-choice-goods-tips="请选择商品" 
+    data-switch-on-text="{{:MyLang('open_title')}}" 
+    data-switch-off-text="{{:MyLang('close_title')}}" 
+    data-edit-name="{{:MyLang('modify_title')}}" 
+    data-layout-set-title="{{:MyLang('layout.view_base_layout_set_title')}}" 
+    data-layout-del-title="{{:MyLang('layout.view_base_layout_del_title')}}" 
+    data-layout-content-set-tips="{{:MyLang('layout.view_base_layout_content_set_tips')}}" 
+    data-layout-content-tips="{{:MyLang('layout.view_module_container_tips')}}" 
+    data-module-drag-title="{{:MyLang('layout.view_base_module_drag_title')}}" 
+    data-module-set-title="{{:MyLang('layout.view_base_module_set_title')}}" 
+    data-module-del-title="{{:MyLang('layout.view_base_module_del_title')}}" 
+    data-module-not-exist-tips="{{:MyLang('layout.view_base_module_not_exist_tips')}}" 
+    data-module-assembly-not-exist-tips="{{:MyLang('layout.view_base_module_assembly_not_exist_tips')}}" 
+    data-type-event-not-exist-tips="{{:MyLang('layout.view_base_type_event_not_exist_tips')}}" 
+    data-params-tips="{{:MyLang('params_error_tips')}}" 
+    data-module-tab-tips="{{:MyLang('layout.view_base_module_tab_tips')}}" 
+    data-module-attr-tips="{{:MyLang('layout.view_base_module_attr_tips')}}" 
+    data-config-first-tips="{{:MyLang('layout.view_base_config_first_tips')}}" 
+    data-url-not-set-tips="{{:MyLang('layout.view_base_url_not_set_tips')}}" 
+    data-goods-category-name="{{:MyLang('goods_category_title')}}" 
+    data-brand-name="{{:MyLang('layout.view_popup_goods_search_tabs_brand')}}" 
+    data-keywords-name="{{:MyLang('layout.view_module_title_keywords')}}" 
+    data-config-images-text-tips="{{:MyLang('layout.view_base_config_images_text_tips')}}" 
+    data-upload-images-or-title-tips="{{:MyLang('layout.view_base_upload_images_or_title_tips')}}" 
+    data-upload-images-name="{{:MyLang('form_upload_images_title')}}" 
+    data-upload-images-tips="{{:MyLang('form_upload_images_message')}}" 
+    data-config-images-tips="{{:MyLang('layout.view_base_config_images_tips')}}" 
+    data-upload-video-tips="{{:MyLang('form_upload_video_title')}}" 
+    data-choice-goods-tips="{{:MyLang('layout.view_offcanvas_module_goods_not_choice')}}" 
     data-goods-data-empty-tips="{{:MyLang('goods_data_empty_tips')}}" 
     data-choice-goods-category-tips="{{:MyLang('form_goods_category_message')}}" 
-    data-data-type-tips="数据类型有误" 
-    data-main-title-tips="请填写主标题" 
-    data-border-style-tips="请选择边线类型" 
-    data-border-style-max-tips="请输入边线、最大10的数字" 
-    data-height-max-tips="请输入高度、最大100的数字" 
-    data-keywords-tips="请填写关键字" 
-    data-before-choice-goods-tips="请先选择商品" 
-    data-before-choice-goods-category-tips="请先选择商品分类" 
-    data-before-choice-brand-tips="请先选择品牌" 
-    data-before-input-keywords-tips="请先输入关键字1~30个字符" 
-    data-before-choice-page-tips="请先选择页面" 
-    data-before-choice-url-position-tips="请先选择链接位置" 
-    data-before-config-goods-search-tips="请先配置商品搜索" 
-    data-choice-url-tips="请选择跳转链接" 
+    data-data-type-tips="{{:MyLang('data_type_error_tips')}}" 
+    data-main-title-tips="{{:MyLang('layout.view_offcanvas_module_title_main_title_message')}}" 
+    data-border-style-tips="{{:MyLang('layout.view_media_fixed_border_style_message')}}" 
+    data-border-style-max-tips="{{:MyLang('layout.view_media_fixed_border_width_message')}}" 
+    data-height-max-tips="{{:MyLang('layout.view_media_fixed_height_message')}}" 
+    data-keywords-tips="{{:MyLang('layout.view_module_title_keywords_message')}}" 
+    data-before-choice-goods-tips="{{:MyLang('layout.view_offcanvas_module_goods_not_choice')}}" 
+    data-before-choice-goods-category-tips="{{:MyLang('layout.view_offcanvas_module_goods_category_not_choice')}}" 
+    data-before-choice-brand-tips="{{:MyLang('layout.view_popup_goods_search_tabs_brand_message')}}" 
+    data-before-input-keywords-tips="{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}" 
+    data-before-choice-page-tips="{{:MyLang('layout.view_base_before_choice_page_tips')}}" 
+    data-before-choice-url-position-tips="{{:MyLang('layout.view_base_before_choice_url_position_tips')}}" 
+    data-before-config-goods-search-tips="{{:MyLang('layout.view_base_before_config_goods_search_tips')}}" 
+    data-choice-url-tips="{{:MyLang('layout.view_module_title_url_message')}}" 
     data-layout-reminder-title="{{:MyLang('reminder_title')}}" 
-    data-layout-reminder-msg="移除后不可恢复、确定继续吗？" 
-    data-layout-container-tips="布局拖放到该区域松开鼠标即可" 
-    data-search-goods-tips="请搜索商品" 
-    data-custom-url-name="自定义链接" 
-    data-custom-url-tips="请至少填写一个地址" 
-    data-data-show-modal-tips="请选择数据展示模式" 
-    data-data-show-modal-error-tips="展示模式有误" 
+    data-layout-reminder-msg="{{:MyLang('remove_confirm_tips')}}" 
+    data-layout-container-tips="{{:MyLang('layout.view_base_layout_container_tips')}}" 
+    data-search-goods-tips="{{:MyLang('layout.view_popup_goods_search_choice_init_tips')}}" 
+    data-custom-url-name="{{:MyLang('layout.view_pages_tabs_custom_title')}}" 
+    data-custom-url-tips="{{:MyLang('layout.view_base_custom_url_tips')}}" 
+    data-data-show-modal-tips="{{:MyLang('layout.view_base_show_modal_not_choice_tips')}}" 
+    data-data-show-modal-error-tips="{{:MyLang('layout.view_base_show_modal_error_tips')}}" 
+    data-images-text-font-size="{{:MyLang('layout.view_offcanvas_module_images_text_font_size')}}" 
+    data-images-text-title="{{:MyLang('layout.view_offcanvas_module_images_text_title')}}" 
+    data-images-text-margin-top="{{:MyLang('layout.view_offcanvas_module_images_text_margin_top')}}" 
+    data-images-text-margin-right="{{:MyLang('layout.view_offcanvas_module_images_text_margin_right')}}" 
+    data-images-text-margin-bottom="{{:MyLang('layout.view_offcanvas_module_images_text_margin_bottom')}}" 
+    data-images-text-margin-left="{{:MyLang('layout.view_offcanvas_module_images_text_margin_left')}}" 
+    data-images-text-margin-title-message="{{:MyLang('layout.view_offcanvas_module_images_text_margin_title_message')}}" 
+    data-images-text-position-left="{{:MyLang('layout.view_offcanvas_module_images_text_position_left')}}" 
+    data-images-text-position-center="{{:MyLang('layout.view_offcanvas_module_images_text_position_center')}}" 
+    data-images-text-position-right="{{:MyLang('layout.view_offcanvas_module_images_text_position_right')}}" 
+    data-images-text-desc="{{:MyLang('layout.view_offcanvas_module_images_text_desc')}}" 
+    data-images-text-margin-desc-message="{{:MyLang('layout.view_offcanvas_module_images_text_margin_desc_message')}}" 
+    data-images-text-font-size-title-message="{{:MyLang('layout.view_offcanvas_module_images_text_title_font_size_message')}}" 
+    data-images-text-font-size-desc-message="{{:MyLang('layout.view_offcanvas_module_images_text_desc_font_size_message')}}" 
+    data-base-module-not-config-tips="{{:MyLang('base_module_not_config_tips')}}" 
 >
     {{if !empty($layout_data) and is_array($layout_data)}}
         {{foreach $layout_data as $k=>$v}}
@@ -106,9 +110,9 @@
                 <div class="layout-view {{if $v['status'] eq 0}}layout-view-hidden{{/if}}" data-value="{{$v.value}}">
                     <i class="layout-view-dragenter-icon am-icon-sort-asc am-icon-lg am-hide"></i>
                     <div class="layout-content-submit drag-submit">
-                        <input type="checkbox" class="switch-checkbox" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="关闭" data-on-text="开启" {{if isset($v['status']) and $v['status'] eq 1}}checked="true"{{/if}} />
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> 布局设置</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> 布局移除</button>
+                        <input type="checkbox" class="switch-checkbox" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="{{:MyLang('close_title')}}" data-on-text="{{:MyLang('open_title')}}" {{if isset($v['status']) and $v['status'] eq 1}}checked="true"{{/if}} />
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> {{:MyLang('layout.view_base_layout_set_title')}}</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> {{:MyLang('layout.view_base_layout_del_title')}}</button>
                     </div>
                     <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
@@ -125,7 +129,7 @@
             {{/if}}
         {{/foreach}}
     {{else /}}
-        <div class="layout-container-tips">布局拖放到该区域松开鼠标即可</div>
+        <div class="layout-container-tips">{{:MyLang('layout.view_base_layout_container_tips')}}</div>
     {{/if}}
 </div>
 <!-- 侧边栏 - 布局 - 容器设置 -->

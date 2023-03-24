@@ -4,25 +4,25 @@
         <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
         <form class="am-form am-padding-sm am-text-left form-validation-module-modal-rolling-config" request-type="sync" request-value="FormBackModuleModalRollingConfig">
             <div class="am-form-group am-form-group-refreshing">
-                <label>数据项宽度<span class="am-form-group-label-tips">默认200</span></label>
+                <label>{{:MyLang('layout.view_module_rolling_config_item_width')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_module_rolling_config_item_width_tips')}}</span></label>
                 <div class="am-input-group am-input-group-sm">
-                    <input type="number" data-is-clearout="0" placeholder="数据项宽度" name="item_width" min="0" max="600" data-validation-message="数据项宽度最大600" value="200" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_module_rolling_config_item_width')}}" name="item_width" min="0" max="600" data-validation-message="{{:MyLang('layout.view_module_rolling_config_item_width_message')}}" value="200" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>
             </div>
             <div class="am-form-group am-form-group-refreshing">
-                <label>数据项间距</label>
+                <label>{{:MyLang('layout.view_module_rolling_config_item_margin')}}</label>
                 <div class="am-input-group am-input-group-sm">
-                    <input type="number" data-is-clearout="0" placeholder="数据项间距" name="item_margin" min="0" max="100" data-validation-message="数据项间距最大100" value="" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_module_rolling_config_item_margin')}}" name="item_margin" min="0" max="100" data-validation-message="{{:MyLang('layout.view_module_rolling_config_item_margin_message')}}" value="" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>
             </div>
             <div class="am-form-group am-form-group-refreshing">
-                <label class="am-block">是否自动播放</label>
+                <label class="am-block">{{:MyLang('layout.view_module_rolling_config_is_auto_play')}}</label>
                 <input name="is_auto_play" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
             </div>
             <div class="am-form-group am-form-group-refreshing">
-                <label class="am-block">展示导航点</label>
+                <label class="am-block">{{:MyLang('layout.view_module_rolling_config_is_nav_dot')}}</label>
                 <input name="is_nav_dot" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
             </div>
             <div class="am-margin-top-sm">
