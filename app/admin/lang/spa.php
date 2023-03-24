@@ -190,9 +190,9 @@ return [
         'add_goods_title'                       => 'Adición de productos básicos',
         'add_self_extractio_address_title'      => 'Añadir dirección',
         'site_domain_tips_list'                 => [
-            '1. Si el nombre de dominio del sitio no está establecido, use la dirección actual del nombre de dominio del sitio.[ '.__MY_DOMAIN__.' ]',
-            '2. Si no se establecen accesorios y direcciones estáticas, se utiliza la dirección de nombre de dominio estático del sitio actual.[ '.__MY_PUBLIC_URL__.' ]',
-            '3. Si el lado del servidor no está establecido en público como directorio raíz, entonces la configuración aquí [nombre de dominio CDN de anexo, nombre de dominio CDN de archivo estático CSS / js] necesita agregar público más tarde, como:'.__MY_PUBLIC_URL__.'public/',
+            '1. 站点域名未设置则使用当前站点域名域名地址[ '.__MY_DOMAIN__.' ]',
+            '2. 附件和静态地址未设置则使用当前站点静态域名地址[ '.__MY_PUBLIC_URL__.' ]',
+            '3. 如服务器端不是以public设为根目录的、则这里配置【附件cdn域名、css/js静态文件cdn域名】需要后面再加public、如：'.__MY_PUBLIC_URL__.'public/',
             '4. para ejecutar el proyecto en modo línea de órdenes, la dirección de la zona debe configurarse, de lo contrario algunas direcciones en el proyecto carecerán de información de nombre de dominio.',
             '5. no configure indiscriminadamente, la Dirección incorrecta puede hacer que el sitio web no sea accesible (la configuración de la dirección comienza con https), si la configuración de su propia estación es https comienza con https',
         ],
@@ -237,7 +237,7 @@ return [
             '4. ventas virtuales, procesos convencionales de comercio electrónico, el usuario hace un pedido para pagar - > Envío automático - > confirmación de la recogida - > pedido completado',
         ],
         // 添加自提地址表单
-        'form_take_address_logo'                => 'Logo',
+        'form_take_address_logo'                => 'LOGO',
         'form_take_address_logo_tips'           => 'Recomendación 300 * 300px',
         'form_take_address_alias'               => 'Alias',
         'form_take_address_alias_message'       => 'Formato alias hasta 16 caracteres',
@@ -274,7 +274,7 @@ return [
         'form_table'                            => [
             'name'                 => 'Nombre',
             'describe'             => 'Descripción',
-            'logo'                 => 'Logo',
+            'logo'                 => 'LOGO',
             'url'                  => 'Dirección del sitio web oficial',
             'brand_category_text'  => 'Clasificación de la marca',
             'is_enable'            => 'Si habilitar',
@@ -844,7 +844,7 @@ return [
         'nav_store_payment_name'                => 'Descarga de más temas',
         'upload_top_list_tips'                  => [
             [
-                'name'  => '1. el nombre de la clase debe ser consistente con el nombre del archivo (eliminar. php), como alipay.php, Alipay'
+                'name'  => '1. el nombre de la clase debe ser consistente con el nombre del archivo (eliminar. php), como alipay.php, Alipay',
             ],
             [
                 'name'  => '2. los métodos que deben definirse en las categorías',
@@ -868,7 +868,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'name'            => 'Nombre',
-            'logo'            => 'Logo',
+            'logo'            => 'LOGO',
             'version'         => 'Versión',
             'apply_version'   => 'Versión aplicable',
             'apply_terminal'  => 'Terminales aplicables',
@@ -887,8 +887,8 @@ return [
     // 主题管理
     'theme'                 => [
         'base_nav_list'                         => [
-            ['name' => 'Temas actuales', 'type' => 'Índice'],
-            ['name' => 'Instalación temática', 'type' => 'Subida'],
+            ['name' => 'Temas actuales', 'type' => 'index'],
+            ['name' => 'Instalación temática', 'type' => 'upload'],
         ],
         'nav_store_theme_name'                  => 'Descarga de más temas',
         'list_author_title'                     => 'Autor',
@@ -1001,7 +1001,7 @@ return [
 
     // 插件调用
     'plugins'               => [
-        'back_to_plugins_admin'                 => 'Volver a la gestión de la aplicación > *'
+        'back_to_plugins_admin'                 => 'Volver a la gestión de la aplicación > *',
     ],
 
     // 插件管理
@@ -1014,8 +1014,8 @@ return [
         // 基础导航
         'base_nav_title'                        => 'Aplicación',
         'base_nav_list'                         => [
-            ['name' => 'Gestión de aplicaciones', 'type' => 'Índice'],
-            ['name' => 'Cargar aplicación', 'type' => 'Subida'],
+            ['name' => 'Gestión de aplicaciones', 'type' => 'index'],
+            ['name' => 'Cargar aplicación', 'type' => 'upload'],
         ],
         'base_nav_more_plugins_download_name'   => 'Descarga de más plug - ins',
         // 基础页面

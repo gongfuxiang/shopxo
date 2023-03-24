@@ -974,7 +974,7 @@ return [
         'Australia/Darwin'                => '(标准时+9:00) 东京、汉城、大阪、雅库茨克',
         'Australia/Adelaide'              => '(标准时+10:00) 悉尼、关岛',
         'Australia/Currie'                => '(标准时+11:00) 马加丹、索罗门群岛',
-        'Pacific/Fiji'                    => '(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛'
+        'Pacific/Fiji'                    => '(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛',
     ],
     // seo
     // url模式列表

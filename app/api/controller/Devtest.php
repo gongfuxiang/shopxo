@@ -512,6 +512,10 @@ class Devtest extends Common
             die('非法访问');
         }
 
+        // 需要翻译的语言、参考 config/lang.php文件
+        $to = 'spa';
+        $to_name = '西班牙语';
+
         // 待翻译的目录
         $arr = [
             APP_PATH.'lang'.DS,
@@ -519,9 +523,6 @@ class Devtest extends Common
             APP_PATH.'index'.DS.'lang'.DS,
             APP_PATH.'api'.DS.'lang'.DS,
         ];
-        // 需要翻译的语言、参考 config/lang.php文件
-        $to = 'spa';
-        $to_name = '西班牙语';
 
         // 获取数据
         $zh_data = [];
@@ -554,6 +555,10 @@ class Devtest extends Common
         $params['data_request']['q'] = implode("\n", $zh_data);
         //$params['data_request']['q'] = "你好\n我是龚";
         $fanyi = PluginsControlCall('multilingual', 'index', 'fanyi', 'index', $params, 1);
+        if(isset($fanyi_data['code']) && $fanyi_data['code'] != 0)
+        {
+            die('翻译失败（'.$fanyi_data['msg'].'）');
+        }
         $fanyi_data = (!empty($fanyi['data']) && !empty($fanyi['data']['trans_result'])) ? $fanyi['data']['trans_result'] : [];
         if(empty($fanyi_data))
         {
@@ -574,7 +579,7 @@ class Devtest extends Common
         $search[] = '模块语言包-中文';
         $replace[] = '公共语言包-'.$to_name;
         $replace[] = '模块语言包-'.$to_name;
-        
+
         // 开始生成文件并替换数据
         $success = 0;
         $fail = 0;
@@ -616,7 +621,10 @@ class Devtest extends Common
                     {
                         $result = array_merge($result, $this->FanyiData($v));
                     } else {
-                        $result[md5($v)] = $v;
+                        if(!ctype_alnum(str_replace(['%', 'x ', ' ', '-', '_', ',', '.', ':',], '', $v)) && !is_numeric($v))
+                        {
+                            $result[md5($v)] = $v;
+                        }
                     }
                 }
             }

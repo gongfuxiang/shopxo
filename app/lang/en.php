@@ -973,7 +973,7 @@ return [
         'Australia/Darwin'                => '(Standard time +9:00) Tokyo, Seoul, Osaka, Yakutsk',
         'Australia/Adelaide'              => '(Standard Time +10:00) Sydney, Guam',
         'Australia/Currie'                => '(Standard time +11:00) Magadan, Solomon Islands',
-        'Pacific/Fiji'                    => '(Standard Time +12:00) Auckland, Wellington, Kamchatka Peninsula'
+        'Pacific/Fiji'                    => '(Standard Time +12:00) Auckland, Wellington, Kamchatka Peninsula',
     ],
     // seo
     // url模式列表

@@ -47,7 +47,7 @@ return [
         // 用户
         'avatar_upload_tips'                    => [
             'Ampliar y reducir el área de trabajo y mover el cuadro de selección, seleccionar el rango a cortar y fijar la proporción de ancho a alto;',
-            'El efecto después del Corte se muestra en la vista previa derecha, que es efectiva después de confirmar la presentación;'
+            'El efecto después del Corte se muestra en la vista previa derecha, que es efectiva después de confirmar la presentación;',
         ],
         'close_user_register_tips'              => 'Cierre temporal del registro de usuarios',
         'close_user_login_tips'                 => 'Cierre temporalmente el inicio de sesión del usuario',
@@ -155,7 +155,7 @@ return [
     ],
 
     // 文章
-    'article'           => [
+    'article'            => [
         'category_browser_seo_title'            => 'Todos los artículos',
         'article_no_data_tips'                  => 'El artículo no existe o ha sido eliminado',
         'article_id_params_tips'                => 'El ID del artículo es incorrecto',

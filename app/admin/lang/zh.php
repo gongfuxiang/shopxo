@@ -844,7 +844,7 @@ return [
         'nav_store_payment_name'                => '更多主题下载',
         'upload_top_list_tips'                  => [
             [
-                'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay'
+                'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay',
             ],
             [
                 'name'  => '2. 类必须定义的方法',
@@ -1001,7 +1001,7 @@ return [
 
     // 插件调用
     'plugins'               => [
-        'back_to_plugins_admin'                 => '返回到应用管理 >>'
+        'back_to_plugins_admin'                 => '返回到应用管理 >>',
     ],
 
     // 插件管理
