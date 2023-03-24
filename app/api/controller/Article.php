@@ -145,10 +145,10 @@ class Article extends Common
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             } else {
-                $ret = DataReturn('文章不存在或已删除', -1);
+                $ret = DataReturn(MyLang('article.article_no_data_tips'), -1);
             }
         } else {
-            $ret = DataReturn('文章ID有误', -1);
+            $ret = DataReturn(MyLang('article.article_id_params_tips'), -1);
         }
         return ApiService::ApiDataReturn($ret);
     }

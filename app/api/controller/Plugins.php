@@ -53,17 +53,17 @@ class Plugins extends Common
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginsname',
-                'error_msg'         => '应用名称有误',
+                'error_msg'         => MyLang('plugins_name_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginscontrol',
-                'error_msg'         => '应用控制器有误',
+                'error_msg'         => MyLang('plugins_control_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginsaction',
-                'error_msg'         => '应用操作方法有误',
+                'error_msg'         => MyLang('plugins_action_tips'),
             ],
         ];
         $ret = ParamsChecked($params['data_request'], $p);

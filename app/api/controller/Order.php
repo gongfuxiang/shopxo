@@ -44,7 +44,7 @@ class Order extends Common
     }
     
     /**
-     * [Index 获取订单列表]
+     * 获取订单列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -174,14 +174,14 @@ class Order extends Common
                 // 是否已评论
                 if($data['data'][0]['user_is_comments'] > 0)
                 {
-                    $ret = DataReturn('你已进行过评论', -100);
+                    $ret = DataReturn(MyLang('order.form_you_have_commented_tips'), -100);
                 } else {
                     // 返回数据
                     $result = [
                         'data'                  => $data['data'][0],
                         'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']),
                     ];
-                    $ret = DataReturn('你已进行过评论', 0, $result);
+                    $ret = DataReturn(MyLang('order.form_you_have_commented_tips'), 0, $result);
                 }
             } else {
                 $ret = DataReturn(MyLang('no_data'), -100);

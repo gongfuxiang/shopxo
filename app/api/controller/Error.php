@@ -34,7 +34,7 @@ class Error extends Common
      */
     public function __call($method, $args)
     {
-        return ApiService::ApiDataReturn(DataReturn(RequestController().' 控制器不存在', -1000));
+        return ApiService::ApiDataReturn(DataReturn(MyLang('controller_not_exist_tips').'('.RequestController().')', -1000));
     }
 }
 ?>

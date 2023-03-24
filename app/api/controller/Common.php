@@ -130,7 +130,7 @@ class Common extends BaseController
     {
         if(MyC('home_site_state') != 1)
         {
-            exit(json_encode(DataReturn(MyC('home_site_close_reason', '升级中...'), -10000)));
+            exit(json_encode(DataReturn(MyC('home_site_close_reason', MyLang('upgrading_tips')), -10000)));
         }
     }
 
@@ -228,7 +228,7 @@ class Common extends BaseController
     {
         if(!empty($this->user) && !empty($this->data_request['token']) && $this->data_request['token'] != ApiService::CreatedUserToken($this->user['id']))
         {
-            exit(json_encode(DataReturn('token非法', -1000)));
+            exit(json_encode(DataReturn(MyLang('token_error_tips'), -1000)));
         }
     }
 
@@ -244,7 +244,7 @@ class Common extends BaseController
      */
     public function __call($method, $args)
     {
-        return ApiService::ApiDataReturn(DataReturn($method.' 非法访问', -1000));
+        return ApiService::ApiDataReturn(DataReturn(MyLang('illegal_access_tips').'('.$method.')', -1000));
     }
 }
 ?>
