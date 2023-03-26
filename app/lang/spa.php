@@ -537,7 +537,7 @@ return [
     'form_verify_placeholder'                               => 'Por favor, introduzca el Código de verificación',
     'form_verify_message'                                   => 'Formato de código de verificación 4 dígitos',
     'form_verify_button_text'                               => 'Obtener el Código de verificación',
-    'form_verify_send_text'                                 => 'Y los segundos.',
+    'form_verify_send_text'                                 => '{time} segundos más',
     'form_images_verify_title'                              => 'Código de verificación gráfica',
     'form_images_verify_placeholder'                        => 'Introduzca el Código de verificación gráfica',
     'form_images_verify_message'                            => 'Introduzca un código de verificación gráfico válido',
@@ -1078,7 +1078,7 @@ return [
             // 删除操作
             'delete_super_admin_not_tips'           => 'El súper Administrador no se puede borrar',
             // 登录
-            'login_verify_send_last_title'          => ' - 管理员登录',
+            'login_verify_send_last_title'          => ' - Inicio de sesión del Administrador',
         ],
         // 协议
         'agreement'         => [
@@ -1648,13 +1648,13 @@ return [
                 'mobile'                => [
                     'title'         => 'Número de teléfono móvil',
                     'no_msg'        => 'Todavía no tiene un número de teléfono vinculado',
-                    'ok_msg'        => 'Teléfono vinculado ¿ cuentas',
+                    'ok_msg'        => 'Teléfono vinculado #accounts#',
                     'tips'          => 'Se puede utilizar para iniciar sesión, recuperar la contraseña, verificar la gestión de la seguridad de la cuenta y aceptar la notificación de recordatorio de la cuenta.',
                 ],
                 'email'                 => [
                     'title'         => 'Correo electrónico',
                     'no_msg'        => 'Todavía no tiene un correo electrónico vinculado',
-                    'ok_msg'        => '¿Buzón vinculado ¿ cuentas?',
+                    'ok_msg'        => '¿Buzón vinculado #accounts#',
                     'tips'          => 'Se puede utilizar para iniciar sesión, recuperar la contraseña, verificar la gestión de la seguridad de la cuenta y aceptar el correo de recordatorio de la cuenta.',
                 ],
                 'logout'            => [

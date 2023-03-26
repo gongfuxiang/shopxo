@@ -57,7 +57,7 @@ return [
     'index'             => [
         'banner_right_already_login_first'      => 'Hi,',
         'banner_right_not_login_first'          => '您好，歡迎來到',
-        'banner_right_article_title'            => '新聞頭條',
+        'banner_right_article_title'            => '資訊頭條',
         'design_browser_seo_title'              => '首頁設計',
     ],
 

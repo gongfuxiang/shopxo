@@ -57,7 +57,7 @@ $(function()
     });
 
     // url加载
-    $(document).on('click', '.common-left-menu li a, .common-nav-top li a, .menu-mini-container-popup ul li a', function()
+    $(document).on('click', '.common-left-menu li a, .admin-header-list li a, .menu-mini-container-popup ul li a', function()
     {
         var url = $(this).data('url') || null;
         var type = $(this).data('type');
@@ -115,7 +115,7 @@ $(function()
                 {
                     $('.header-nav-submit').trigger('click');
                 } else {
-                    $(this).parents('.common-nav-top').trigger('click');
+                    $(this).parents('.admin-header-list').trigger('click');
                 }
             }
 

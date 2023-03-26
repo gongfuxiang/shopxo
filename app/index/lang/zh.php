@@ -57,7 +57,7 @@ return [
     'index'             => [
         'banner_right_already_login_first'      => 'Hi,',
         'banner_right_not_login_first'          => '您好，欢迎来到',
-        'banner_right_article_title'            => '新闻头条',
+        'banner_right_article_title'            => '资讯头条',
         'design_browser_seo_title'              => '首页设计',
     ],
 

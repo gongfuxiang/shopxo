@@ -20,7 +20,7 @@
 		{{if $is_system_show_base eq 1}}
 			<!-- 顶部提示信息 -->
 			{{if !empty($site_store_info) and !empty($site_store_info['base']) and !empty($site_store_info['base']['site_top_notice'])}}
-				<div class="am-alert am-alert-danger" data-am-alert>
+				<div class="am-alert am-alert-danger am-radius" data-am-alert>
 					<button type="button" class="am-close">&times;</button>
 					<p>{{$site_store_info.base.site_top_notice|raw}}</p>
 				</div>
@@ -30,15 +30,15 @@
 			<div class="block-container base-content-top am-nbfc">
 				<div class="am-fl am-nbfc left-content">
 					<!-- 帐号信息 -->
-					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
+					{{if empty($site_store_info) and !empty($site_store_info['user'])}}
 						<i class="am-icon-user"></i>
 						<span>{{$site_store_info.user.user_name_view}}</span>
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('modify_title')}}</a>
 					{{else /}}
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('store_bind_accounts_name')}}</a>
-						<!-- 连接商店错误信息 --->
+						<!-- 连接商店错误信息 -->
 						{{if !empty($site_store_error)}}
-							<span class="am-text-danger am-margin-left-sm">{{$site_store_error}}</span>
+							<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						{{/if}}
 					{{/if}}
 

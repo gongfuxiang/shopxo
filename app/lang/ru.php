@@ -1078,7 +1078,7 @@ return [
             // 删除操作
             'delete_super_admin_not_tips'           => 'Суперадминистратор не может быть удален',
             // 登录
-            'login_verify_send_last_title'          => ' - 管理员登录',
+            'login_verify_send_last_title'          => ' - Администратор регистрируется',
         ],
         // 协议
         'agreement'         => [
@@ -1648,13 +1648,13 @@ return [
                 'mobile'                => [
                     'title'         => 'Номер мобильного телефона',
                     'no_msg'        => 'Вы не привязали номер телефона.',
-                    'ok_msg'        => 'Мобильный телефон # accounts #',
+                    'ok_msg'        => 'Мобильный телефон #accounts#',
                     'tips'          => 'Может использоваться для входа в систему, восстановления пароля, проверки управления безопасностью учетной записи, получения уведомлений о напоминании учетной записи.',
                 ],
                 'email'                 => [
                     'title'         => 'Электронная почта',
                     'no_msg'        => 'Вы не привязали свой электронный ящик',
-                    'ok_msg'        => 'Подключен почтовый ящик # accounts #',
+                    'ok_msg'        => 'Подключен почтовый ящик #accounts#',
                     'tips'          => 'Может использоваться для входа в систему, восстановления пароля, проверки управления безопасностью учетной записи, получения почты напоминания учетной записи.',
                 ],
                 'logout'            => [
@@ -3177,15 +3177,15 @@ return [
         ],
         'home_site_user_login_ad1_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 1 [с http://или https:// /]',
+            'desc' => 'Адрес 1 [с http://или https:// ]',
         ],
         'home_site_user_login_ad2_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 2 [с http://или https:// /]',
+            'desc' => 'Адрес 2 [с http://или https:// ]',
         ],
         'home_site_user_login_ad3_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 3 [с http://или https:// /]',
+            'desc' => 'Адрес 3 [с http://или https:// ]',
         ],
         'home_site_user_login_ad1_bg_color'  => [
             'name' => 'Цвет фона',
@@ -3218,15 +3218,15 @@ return [
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 1 [с http://или https:// /]',
+            'desc' => 'Адрес 1 [с http://или https:// ]',
         ],
         'home_site_user_forgetpwd_ad2_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 2 [с http://или https:// /]',
+            'desc' => 'Адрес 2 [с http://или https:// ]',
         ],
         'home_site_user_forgetpwd_ad3_url'  => [
             'name' => 'Адрес URL',
-            'desc' => 'Адрес 3 [с http://или https:// /]',
+            'desc' => 'Адрес 3 [с http://или https:// ]',
         ],
         'home_site_user_forgetpwd_ad1_bg_color'  => [
             'name' => 'Цвет фона',

@@ -513,8 +513,8 @@ class Devtest extends Common
         }
 
         // 需要翻译的语言、参考 config/lang.php文件
-        $to = 'spa';
-        $to_name = '西班牙语';
+        $to = 'swe';
+        $to_name = '瑞典语';
 
         // 待翻译的目录
         $arr = [
@@ -555,9 +555,9 @@ class Devtest extends Common
         $params['data_request']['q'] = implode("\n", $zh_data);
         //$params['data_request']['q'] = "你好\n我是龚";
         $fanyi = PluginsControlCall('multilingual', 'index', 'fanyi', 'index', $params, 1);
-        if(isset($fanyi_data['code']) && $fanyi_data['code'] != 0)
+        if(isset($fanyi['code']) && $fanyi['code'] != 0)
         {
-            die('翻译失败（'.$fanyi_data['msg'].'）');
+            die($fanyi['msg']);
         }
         $fanyi_data = (!empty($fanyi['data']) && !empty($fanyi['data']['trans_result'])) ? $fanyi['data']['trans_result'] : [];
         if(empty($fanyi_data))

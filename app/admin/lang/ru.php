@@ -433,8 +433,8 @@ return [
         'admin_no_data_tips'                    => 'Информация администратора отсутствует',
         // 列表
         'top_tips_list'                         => [
-            'Учетная запись admin по умолчанию имеет все права, которые не могут быть изменены.',
-            '2. admin 账户不可更改，但是可以在数据表中修改( '.MyConfig('database.connections.mysql.prefix').'admin ) 字段 username',
+            '1. admin Счет по умолчанию имеет все права и не может быть изменен. ',
+            '2. admin Счет не может быть изменен, но может быть изменен в таблице данных ( '.MyConfig('database.connections.mysql.prefix').'admin ) Поле username',
         ],
         'base_nav_title'                        => 'Администратор',
         // 登录

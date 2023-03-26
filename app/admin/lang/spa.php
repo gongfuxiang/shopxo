@@ -229,7 +229,7 @@ return [
         'site_setup_goods_category_tips'        => 'Para más exhibición de pisos, por favor vaya primero / gestión de productos básicos - > clasificación de productos básicos, configuración de clasificación de primer nivel, recomendación de la página de inicio',
         'site_setup_goods_category_no_data_tips'=> 'No hay datos por el momento, por favor vaya primero / gestión de productos básicos - > clasificación de productos básicos, configuración de clasificación de primer nivel recomendación de la página de inicio',
         'site_setup_order_default_payment_tips' => 'Se puede configurar el método de pago predeterminado correspondiente a diferentes plataformas, primero instale el plug - in de pago en [gestión del sitio web - > método de pago] para habilitarlo y abrirlo a los usuarios.',
-        'site_setup_choice_payment_message'     => 'Por favor, elija el método de pago predeterminado (: nombre).',
+        'site_setup_choice_payment_message'     => 'Por favor, elija el método de pago predeterminado ({:name}).',
         'sitetype_top_tips_list'                => [
             '1. proceso de mensajería y comercio electrónico convencional, el usuario elige la dirección de recepción para hacer un pedido de pago - > envío del comerciante - > confirmación de la recepción - > finalización del pedido',
             '2. tipo de exhibición, solo productos de exhibición, se puede iniciar una consulta (no se puede hacer un pedido)',
@@ -434,7 +434,7 @@ return [
         // 列表
         'top_tips_list'                         => [
             '1. la cuenta de Administrador tiene todos los permisos por defecto y no se puede cambiar.',
-            '2. admin 账户不可更改，但是可以在数据表中修改( '.MyConfig('database.connections.mysql.prefix').'admin ) 字段 username',
+            '2.  Учетная запись admin не может быть изменена, но может быть изменена в таблице данных ('.MyConfig(' database.connections.mysql.prefix').'admin) Поле username',
         ],
         'base_nav_title'                        => 'Administrador',
         // 登录

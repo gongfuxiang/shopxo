@@ -1078,7 +1078,7 @@ return [
             // 删除操作
             'delete_super_admin_not_tips'           => '超級管理員不可删除',
             // 登录
-            'login_verify_send_last_title'          => ' - 管理员登录',
+            'login_verify_send_last_title'          => ' - 管理員登錄',
         ],
         // 协议
         'agreement'         => [
