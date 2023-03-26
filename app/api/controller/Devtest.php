@@ -51,6 +51,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         $path_all = [
             'video' => __MY_ROOT_PUBLIC__.'static/upload/video/',
@@ -89,6 +90,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
         
         // 状态
         $success = 0;
@@ -147,6 +149,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         $warehouse_id = 1;
         $warehouse = Db::name('Warehouse')->where(['id'=>$warehouse_id])->find();
@@ -289,6 +292,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         // 状态
         $success = 0;
@@ -362,6 +366,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         // 状态
         $success = 0;
@@ -411,6 +416,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         // 状态
         $success = 0;
@@ -460,6 +466,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         // 状态
         $success = 0;
@@ -511,6 +518,7 @@ class Devtest extends Common
         {
             die('非法访问');
         }
+        die('禁止访问');
 
         // 需要翻译的语言、参考 config/lang.php文件
         $to = 'swe';
