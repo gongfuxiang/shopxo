@@ -30,7 +30,7 @@
 			<div class="block-container base-content-top am-nbfc">
 				<div class="am-fl am-nbfc left-content">
 					<!-- 帐号信息 -->
-					{{if empty($site_store_info) and !empty($site_store_info['user'])}}
+					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
 						<i class="am-icon-user"></i>
 						<span>{{$site_store_info.user.user_name_view}}</span>
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('modify_title')}}</a>
