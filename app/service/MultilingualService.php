@@ -199,7 +199,7 @@ class MultilingualService
             // 根据用户读取
             if(empty($value))
             {
-                $user = (RequestModule() == 'admin') ? AdminService::LoginInfo() : UserService::LoginUserInfo();
+                $user = (RequestModule() == 'admin') ? AdminService::LoginInfo() : UserService::CacheLoginUserInfo();
                 if(!empty($user['id']))
                 {
                     // 缓存读取

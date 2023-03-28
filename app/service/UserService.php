@@ -237,52 +237,29 @@ class UserService
         static $user_login_info = null;
         if($user_login_info === null)
         {
-            // 参数
-            $params = input();
-
-            // 用户数据处理
-            if(APPLICATION == 'web')
-            {
-                // web用户session
-                $user_login_info = MyCookie(self::$user_login_key);
-
-                // 用户信息为空，指定了token则设置登录信息
-                if(empty($user_login_info))
-                {
-                    $token = empty($params['token']) ? MyCookie(self::$user_token_key) : $params['token'];
-                    if(!empty($token))
-                    {
-                        $user_login_info = self::UserTokenData($token);
-                        if(!empty($user_login_info) && isset($user_login_info['id']))
-                        {
-                            self::UserLoginRecord($user_login_info['id']);
-                        }
-                    }
-                }
-            } else {
-                if(!empty($params['token']))
-                {
-                    $user_login_info = self::UserTokenData($params['token']);
-                }
-            }
+            $user_login_info = self::CacheLoginUserInfo();
         }
-
-        // 是否缓存读取
-        if(!empty($user_login_info) && !$is_cache)
+        if(!empty($user_login_info))
         {
-            // 根据用户id从数据库获取信息并处理
-            $user_login_info = self::UserHandle(self::UserInfo('id', $user_login_info['id']));
-            if(!empty($user_login_info))
+            // 是否缓存读取
+            if($is_cache)
             {
-                // 重新更新用户缓存
+                // 重新更新用户session或cookie缓存
                 self::UserLoginRecord($user_login_info['id']);
+                // 重新存储用户缓存
                 if(!empty($user_login_info['token']))
                 {
                     MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user_login_info['token'], $user_login_info);
                 }
+            } else {
+                if(APPLICATION == 'web')
+                {
+                    self::UserLoginRecord($user_login_info['id']);
+                } else {
+                    $user_login_info = self::UserTokenData($user_login_info['token']);
+                }
             }
         }
-
         return $user_login_info;
     }
 
@@ -297,7 +274,8 @@ class UserService
      */
     public static function UserTokenData($token)
     {
-        $user = MyCache(SystemService::CacheKey('shopxo.cache_user_info').$token);
+        // token缓存数据
+        $user = self::CacheUserTokenData($token);
         if(!empty($user) && isset($user['id']))
         {
             return $user;
@@ -305,6 +283,62 @@ class UserService
 
         // 数据库校验
         return self::AppUserInfoHandle(null, 'token', $token);
+    }
+
+    /**
+     * 用户登录缓存数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-28
+     * @desc    description
+     */
+    public static function CacheLoginUserInfo()
+    {
+        // 静态数据避免重复读取
+        static $user_cache_login_info = null;
+        if($user_cache_login_info === null)
+        {
+            // 参数
+            $params = input();
+
+            // 用户数据处理
+            if(APPLICATION == 'web')
+            {
+                // web用户session
+                $user_cache_login_info = MyCookie(self::$user_login_key);
+
+                // 用户信息为空，指定了token则设置登录信息
+                if(empty($user_cache_login_info))
+                {
+                    $token = empty($params['token']) ? MyCookie(self::$user_token_key) : $params['token'];
+                    if(!empty($token))
+                    {
+                        $user_cache_login_info = self::CacheUserTokenData($token);
+                    }
+                }
+            } else {
+                if(!empty($params['token']))
+                {
+                    $user_cache_login_info = self::CacheUserTokenData($params['token']);
+                }
+            }
+        }
+        return $user_cache_login_info;
+    }
+
+    /**
+     * 获取用户token缓存用户数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-18T19:01:59+0800
+     * @desc     description
+     * @param    [string]                   $token [用户token]
+     */
+    public static function CacheUserTokenData($token)
+    {
+        return MyCache(SystemService::CacheKey('shopxo.cache_user_info').$token);
     }
 
     /**
