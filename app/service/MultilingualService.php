@@ -208,7 +208,7 @@ class MultilingualService
             }
 
             // 自动检测
-            if(empty($value))
+            if(empty($value) && MyC('common_multilingual_auto_status') == 1)
             {
                 $value = self::BrowserHttpAcceptLanguage();
             }

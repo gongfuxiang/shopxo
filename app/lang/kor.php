@@ -3853,6 +3853,11 @@ return [
             'desc' => '기본 설정',
             'tips' => '아래쪽 바닥글 내용 상태를 선택하십시오.',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => '다국어 사용 가능',
+            'desc' => '체크는 사용',
+            'tips' => '사용할 언어를 선택하십시오.',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => '백엔드에서 다국어 사용',
             'desc' => '기본 끄기',
@@ -3863,10 +3868,15 @@ return [
             'desc' => '기본 끄기',
             'tips' => '여러 언어로 프런트엔드를 선택하십시오.',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => '다국어 사용 가능',
-            'desc' => '체크는 사용',
-            'tips' => '사용할 언어를 선택하십시오.',
+        'common_multilingual_auto_status'  => [
+            'name' => '사용자 언어 자동 식별',
+            'desc' => '기본 끄기',
+            'tips' => '사용자 언어 자동 식별 선택',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => '사용자가 시스템 클래스로 차원 식별',
+            'desc' => '기본 끄기',
+            'tips' => '시스템 클래스로 차원을 식별할 사용자를 선택하십시오.',
         ],
     ],
 ];

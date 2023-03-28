@@ -426,7 +426,7 @@ class StatisticalService
                 ['add_time', '>=', self::$last_month_time_start],
                 ['add_time', '<=', self::$last_month_time_end],
             ];
-            $last_month_count = Db::name('Order')->where($where)->sum('total_price');
+            $last_month_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
 
             // 当月
             $where = [
@@ -434,7 +434,7 @@ class StatisticalService
                 ['add_time', '>=', self::$this_month_time_start],
                 ['add_time', '<=', self::$this_month_time_end],
             ];
-            $same_month_count = Db::name('Order')->where($where)->sum('total_price');
+            $same_month_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
 
             // 昨天
             $where = [
@@ -442,7 +442,7 @@ class StatisticalService
                 ['add_time', '>=', self::$yesterday_time_start],
                 ['add_time', '<=', self::$yesterday_time_end],
             ];
-            $yesterday_count = Db::name('Order')->where($where)->sum('total_price');
+            $yesterday_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
 
             // 今天
             $where = [
@@ -450,7 +450,7 @@ class StatisticalService
                 ['add_time', '>=', self::$today_time_start],
                 ['add_time', '<=', self::$today_time_end],
             ];
-            $today_count = Db::name('Order')->where($where)->sum('total_price');
+            $today_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
         } else {
             $last_month_count = 0.00;
             $same_month_count = 0.00;
@@ -502,7 +502,7 @@ class StatisticalService
         // 订单收入总计、是否有收入统计权限
         if(AdminIsPower('index', 'income'))
         {
-            $order_complete_total = Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('total_price');
+            $order_complete_total = Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('pay_price')-Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('refund_price');
         } else {
             $order_complete_total = 0.00;
         }

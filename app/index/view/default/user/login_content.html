@@ -123,7 +123,9 @@
             {{/if}}
             <!-- 右侧快捷入口 -->
             <div class="am-fr">
-                <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-text-danger am-margin-right-sm">{{:MyLang('register_title')}}</a>
+                {{if !empty($home_user_reg_type)}}
+                    <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-text-danger am-margin-right-sm">{{:MyLang('register_title')}}</a>
+                {{/if}}
                 <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank">{{:MyLang('user.login_retrieve_password_title')}}</a>
             </div>
         </div>

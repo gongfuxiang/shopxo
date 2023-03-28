@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Ouvert par défaut',
             'tips' => 'Veuillez sélectionner létat du contenu du pied de page inférieur',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Multilingue disponible',
+            'desc' => 'Cocher pour utiliser',
+            'tips' => 'Veuillez cocher la langue que vous devez utiliser',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Back - end multilingue',
             'desc' => 'Désactivé par défaut',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Désactivé par défaut',
             'tips' => 'Veuillez sélectionner front end en multilingue',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Multilingue disponible',
-            'desc' => 'Cocher pour utiliser',
-            'tips' => 'Veuillez cocher la langue que vous devez utiliser',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Reconnaissance automatique de la langue de lutilisateur',
+            'desc' => 'Désactivé par défaut',
+            'tips' => 'Veuillez sélectionner reconnaître automatiquement la langue de lutilisateur',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'Lutilisateur identifie la dimension par classe système',
+            'desc' => 'Désactivé par défaut',
+            'tips' => 'Veuillez sélectionner un utilisateur pour identifier la dimension par classe système',
         ],
     ],
 ];

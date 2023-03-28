@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Standard på',
             'tips' => 'Välj innehållsstatus längst ner i sidfoten',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Finns på flera språk',
+            'desc' => 'Kontrollera att använda',
+            'tips' => 'Markera det språk du vill använda',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend använder flera språk',
             'desc' => 'Standardavstängning',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Standardavstängning',
             'tips' => 'Välj flera språk för fronten',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Finns på flera språk',
-            'desc' => 'Kontrollera att använda',
-            'tips' => 'Markera det språk du vill använda',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Identifiera automatiskt användarspråk',
+            'desc' => 'Standardavstängning',
+            'tips' => 'Välj ett automatiskt igenkännt användarspråk',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'Användaren identifierar dimensionen med en systemklass',
+            'desc' => 'Standardavstängning',
+            'tips' => 'Välj en användare för att identifiera dimensionen med en systemklass',
         ],
     ],
 ];

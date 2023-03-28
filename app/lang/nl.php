@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Standaard op',
             'tips' => 'Selecteer de inhoudsstatus onderaan de voettekst',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Beschikbaar in meerdere talen',
+            'desc' => 'Controleren om te gebruiken',
+            'tips' => 'Vink de taal aan die u wilt gebruiken',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend gebruikt meerdere talen',
             'desc' => 'Standaard uitgeschakeld',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Standaard uitgeschakeld',
             'tips' => 'Selecteer meerdere talen voor de frontend',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Beschikbaar in meerdere talen',
-            'desc' => 'Controleren om te gebruiken',
-            'tips' => 'Vink de taal aan die u wilt gebruiken',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Gebruikerstaal automatisch herkennen',
+            'desc' => 'Standaard uitgeschakeld',
+            'tips' => 'Selecteer een automatisch herkende gebruikerstaal',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'De gebruiker identificeert de dimensie met een systeemklasse',
+            'desc' => 'Standaard uitgeschakeld',
+            'tips' => 'Selecteer een gebruiker om de dimensie te identificeren met een systeemklasse',
         ],
     ],
 ];

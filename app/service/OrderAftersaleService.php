@@ -941,10 +941,8 @@ class OrderAftersaleService
 
         // 启动事务
         Db::startTrans();
-
         // 捕获异常
         try {
-
             // 钱包退款
             if($is_walet === true)
             {

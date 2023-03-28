@@ -3853,6 +3853,11 @@ return [
             'desc' => '默认开启',
             'tips' => '请选择底部页脚内容状态',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => '可用多语言',
+            'desc' => '勾选则使用',
+            'tips' => '请勾选需要使用的语言',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => '后端使用多语言',
             'desc' => '默认关闭',
@@ -3863,10 +3868,15 @@ return [
             'desc' => '默认关闭',
             'tips' => '请选择前端用多语言',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => '可用多语言',
-            'desc' => '勾选则使用',
-            'tips' => '请勾选需要使用的语言',
+        'common_multilingual_auto_status'  => [
+            'name' => '自动识别用户语言',
+            'desc' => '默认关闭',
+            'tips' => '请选择自动识别用户语言',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => '用户以系统类标识维度',
+            'desc' => '默认关闭',
+            'tips' => '请选择用户以系统类标识维度',
         ],
     ],
 ];

@@ -188,6 +188,12 @@
         toolbars: [["insertimage", "insertvideo", "attachment"]]
     });
 
+    // 关闭弹窗
+    function CommonPopupClose()
+    {
+        $('.am-popup').modal('close');
+    }
+
     // 子级调用购物车数量更新
     function IframePopupHomeCartNumberTotalUpdate(value, popup = null)
     {

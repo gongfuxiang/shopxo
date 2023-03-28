@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Predefinito il',
             'tips' => 'Seleziona lo stato del contenuto del piè di pagina inferiore',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Disponibile in più lingue',
+            'desc' => 'Controlla da usare',
+            'tips' => 'Seleziona la lingua che vuoi usare',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Il backend usa più lingue',
             'desc' => 'Predefinito disattivato',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Predefinito disattivato',
             'tips' => 'Seleziona più lingue per il front-end',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Disponibile in più lingue',
-            'desc' => 'Controlla da usare',
-            'tips' => 'Seleziona la lingua che vuoi usare',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Riconosci automaticamente la lingua dellutente',
+            'desc' => 'Predefinito disattivato',
+            'tips' => 'Seleziona una lingua utente riconosciuta automaticamente',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'Lutente identifica la dimensione con una classe di sistema',
+            'desc' => 'Predefinito disattivato',
+            'tips' => 'Selezionare un utente per identificare la dimensione con una classe di sistema',
         ],
     ],
 ];

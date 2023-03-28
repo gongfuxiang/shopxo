@@ -9736,6 +9736,7 @@ tbody.am-collapse.am-in {
 .am-dimmer.am-active {
   opacity: 1;
 }
+.am-cursor-pointer,
 [data-am-collapse] {
   cursor: pointer;
 }

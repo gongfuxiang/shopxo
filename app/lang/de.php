@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Standard auf',
             'tips' => 'Bitte wählen Sie den Inhaltsstatus der unteren Fußzeile aus',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'In mehreren Sprachen verfügbar',
+            'desc' => 'Überprüfen Sie die Verwendung',
+            'tips' => 'Bitte markieren Sie die Sprache, die Sie verwenden möchten',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend verwendet mehrere Sprachen',
             'desc' => 'Standard Aus',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Standard Aus',
             'tips' => 'Bitte wählen Sie mehrere Sprachen für das Frontend',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'In mehreren Sprachen verfügbar',
-            'desc' => 'Überprüfen Sie die Verwendung',
-            'tips' => 'Bitte markieren Sie die Sprache, die Sie verwenden möchten',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Benutzersprache automatisch erkennen',
+            'desc' => 'Standard Aus',
+            'tips' => 'Bitte wählen Sie eine automatisch erkannte Benutzersprache',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'Der Benutzer identifiziert die Dimension mit einer Systemklasse',
+            'desc' => 'Standard Aus',
+            'tips' => 'Bitte wählen Sie einen Benutzer aus, um die Dimension mit einer Systemklasse zu identifizieren',
         ],
     ],
 ];

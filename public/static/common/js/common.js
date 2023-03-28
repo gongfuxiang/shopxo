@@ -581,8 +581,18 @@ function FromInit(form_name)
 
 		            				// 默认仅提示
 		            				default :
-		            					$button.button('reset');
 		            					Prompt(result.msg, 'success');
+		            					// 等于parent则关闭父窗口
+										if(request_value == 'parent')
+										{
+											setTimeout(function()
+									        {
+									        	$button.button('reset');
+									            parent.CommonPopupClose();
+									        }, 1500);
+										} else {
+											$button.button('reset');
+										}
 		            			}
 							} else {
 								Prompt(result.msg);

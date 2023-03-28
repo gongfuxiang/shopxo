@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Abierto por defecto',
             'tips' => 'Por favor, seleccione el Estado del contenido del pie de página inferior.',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Multilingüismo disponible',
+            'desc' => 'Si se marca, se utiliza',
+            'tips' => 'Por favor, marque el idioma que necesita usar',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'El back - end utiliza Multilingüismo',
             'desc' => 'Cierre predeterminado',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Cierre predeterminado',
             'tips' => 'Por favor, elija la parte delantera para usar varios idiomas',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Multilingüismo disponible',
-            'desc' => 'Si se marca, se utiliza',
-            'tips' => 'Por favor, marque el idioma que necesita usar',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Reconocimiento automático del lenguaje del usuario',
+            'desc' => 'Cierre predeterminado',
+            'tips' => 'Por favor, elija el idioma de usuario de reconocimiento automático',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'El usuario identifica la dimensión con la clase del sistema',
+            'desc' => 'Cierre predeterminado',
+            'tips' => 'Por favor, seleccione el usuario para identificar la dimensión con la clase del sistema',
         ],
     ],
 ];

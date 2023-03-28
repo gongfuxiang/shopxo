@@ -3853,6 +3853,11 @@ return [
             'desc' => 'Mở mặc định',
             'tips' => 'Vui lòng chọn trạng thái nội dung chân trang dưới cùng',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Đa ngôn ngữ có sẵn',
+            'desc' => 'Đánh dấu thì dùng',
+            'tips' => 'Vui lòng chọn ngôn ngữ cần sử dụng',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Hỗ trợ đa ngôn ngữ',
             'desc' => 'Đóng mặc định',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'Đóng mặc định',
             'tips' => 'Vui lòng chọn front-end đa ngôn ngữ',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Đa ngôn ngữ có sẵn',
-            'desc' => 'Đánh dấu thì dùng',
-            'tips' => 'Vui lòng chọn ngôn ngữ cần sử dụng',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Tự động nhận dạng ngôn ngữ người dùng',
+            'desc' => 'Đóng mặc định',
+            'tips' => 'Vui lòng chọn ngôn ngữ nhận dạng người dùng tự động',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'Người dùng xác định kích thước bằng lớp hệ thống',
+            'desc' => 'Đóng mặc định',
+            'tips' => 'Vui lòng chọn người dùng để xác định kích thước theo lớp hệ thống',
         ],
     ],
 ];

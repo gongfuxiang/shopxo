@@ -3853,6 +3853,11 @@ return [
             'desc' => 'デフォルトのオープン',
             'tips' => '下部フッターのコンテンツステータスを選択してください',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => '使用可能な多言語',
+            'desc' => 'チェックすると使用する',
+            'tips' => '使用する言語をチェックしてください',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'バックエンドでの多言語の使用',
             'desc' => 'デフォルトのオフ',
@@ -3863,10 +3868,15 @@ return [
             'desc' => 'デフォルトのオフ',
             'tips' => 'フロントエンド用の多言語を選択してください',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => '使用可能な多言語',
-            'desc' => 'チェックすると使用する',
-            'tips' => '使用する言語をチェックしてください',
+        'common_multilingual_auto_status'  => [
+            'name' => 'ユーザー言語の自動認識',
+            'desc' => 'デフォルトのオフ',
+            'tips' => '自動認識ユーザー言語を選択してください',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'ユーザーがシステムクラスで次元を識別する',
+            'desc' => 'デフォルトのオフ',
+            'tips' => 'ユーザーを選択して次元をシステムクラスで識別してください',
         ],
     ],
 ];

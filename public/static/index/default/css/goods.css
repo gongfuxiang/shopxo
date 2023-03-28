@@ -250,8 +250,8 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     display: block;
     float: left;
     text-align: center;
-    width: 120px;
-    color: #FFF;
+    width: 140px;
+    color: #fff;
     border: 1px solid #d2364c;
     background-color: #d2364c;
     font-size: 14px;
@@ -272,7 +272,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     }
     .buy-nav .buy-nav-opt {
         position: absolute;
-        margin-left: 285px;
+        margin-left: 310px;
         display: block;
     }
     .buy-nav .buy-nav-opt .nav-icon-home {
@@ -295,12 +295,6 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .goods-not-buy-tips {
         width: 85px;
         text-align: left;
-    }
-}
-@media only screen and (min-width:1025px) {
-    .buy-nav {
-        padding-left: 65px;
-        margin-top: 10px !important;
     }
 }
 @media only screen and (max-width:640px) {
@@ -376,7 +370,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 }
 @media only screen and (min-width: 1025px) {
     .buy-nav .buy-nav-opt {
-        margin-left: 280px;
+        margin-left: 320px;
     }
     .buy-nav .buy-nav-opt .nav-icon:not(:last-child) {
         margin-right: 15px;
@@ -405,6 +399,9 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
 /*左侧商品-看了又看*/
 .browse { display: none; }
+
+/* 基础主体 */
+.item-inform { margin-bottom: 20px; }
 
 @media only screen and (min-width:641px) {
     /*导航固定*/
@@ -451,7 +448,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .scoll .goods-video-submit-close { top: 10px; }
 
     /* 基础主体 */
-    .item-inform { margin-top: 10px; margin-bottom: 10px; }
+    .item-inform { margin-top: 10px; }
 }
 
 @media only screen and (min-width:1025px) {

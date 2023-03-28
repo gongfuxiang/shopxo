@@ -3892,6 +3892,11 @@ return [
             'desc' => 'Default on',
             'tips' => 'Please select the bottom footer content status',
         ],
+        'common_multilingual_choose_list'  => [
+            'name' => 'Available in multiple languages',
+            'desc' => 'Check to use',
+            'tips' => 'Please tick the language you want to use',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend uses multiple languages',
             'desc' => 'Default on',
@@ -3902,10 +3907,15 @@ return [
             'desc' => 'Default on',
             'tips' => 'Please select multiple languages for the front end',
         ],
-        'common_multilingual_choose_list'  => [
-            'name' => 'Available in multiple languages',
-            'desc' => 'Check to use',
-            'tips' => 'Please tick the language you want to use',
+        'common_multilingual_auto_status'  => [
+            'name' => 'Automatically recognize user language',
+            'desc' => 'Default on',
+            'tips' => 'Please select an automatically recognized user language',
+        ],
+        'common_user_unique_system_type_model'  => [
+            'name' => 'The user identifies the dimension with a system class',
+            'desc' => 'Default on',
+            'tips' => 'Please select a user to identify the dimension with a system class',
         ],
     ],
 ];

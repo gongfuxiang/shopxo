@@ -34,7 +34,7 @@ class BaseLayout
      * @desc    description
      * @param   [string]          $key [配置key]
      */
-    public static function ConstConfigData($key)
+    public static function ConstData($key)
     {
         $lang_border = MyLang('layout.border_style_type_list');
         $lang_goods_view = MyLang('layout.goods_view_list_show_style');
