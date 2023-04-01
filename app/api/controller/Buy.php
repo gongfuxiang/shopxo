@@ -77,10 +77,11 @@ class Buy extends Common
 
             // 数据返回组装
             $result = [
-                'goods_list'        => $buy_goods,
-                'payment_list'      => $payment_list,
-                'base'              => $buy_base,
-                'common_site_type'  => (int) $buy_base['common_site_type'],
+                'goods_list'          => $buy_goods,
+                'payment_list'        => $payment_list,
+                'base'                => $buy_base,
+                'common_site_type'    => (int) $buy_base['common_site_type'],
+                'default_payment_id'  => $params['payment_id'],
             ];
             $ret = SystemBaseService::DataReturn($result);
         }

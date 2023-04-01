@@ -2409,28 +2409,69 @@ class GoodsService
      */
     public static function GoodsStock($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => MyLang('goods_id_error_tips'),
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'stock',
-                'checked_data'      => 1,
-                'error_msg'         => MyLang('common_service.goods.base_buy_stock_error_tips'),
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 是否批量
+        if(!empty($params['goods_data']))
         {
-            return DataReturn($ret, -1);
-        }
+            // 是否数组
+            if(!is_array($params['goods_data']))
+            {
+                $params['goods_data'] = json_decode(htmlspecialchars_decode($params['goods_data']), true);
+            }
+            if(empty($params['goods_data']))
+            {
+                return DataReturn(MyLang('params_error_tips'), -1);
+            }
 
-        // 获取商品基础信息
-        return self::GoodsSpecDetail($params);
+            // 循环处理
+            $result = [];
+            foreach($params['goods_data'] as $v)
+            {
+                // 请求参数
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'id',
+                        'error_msg'         => MyLang('goods_id_error_tips'),
+                    ],
+                    [
+                        'checked_type'      => 'isset',
+                        'key_name'          => 'stock',
+                        'error_msg'         => MyLang('common_service.goods.base_buy_stock_error_tips'),
+                    ],
+                ];
+                $ret = ParamsChecked($v, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 获取商品基础信息
+                $result[] = self::GoodsSpecDetail($v);
+            }
+            return DataReturn(MyLang('operate_success'), 0, $result);
+        } else {
+            // 请求参数
+            $p = [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'id',
+                    'error_msg'         => MyLang('goods_id_error_tips'),
+                ],
+                [
+                    'checked_type'      => 'isset',
+                    'key_name'          => 'stock',
+                    'error_msg'         => MyLang('common_service.goods.base_buy_stock_error_tips'),
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+
+            // 获取商品基础信息
+            return self::GoodsSpecDetail($params);
+        }
     }
 
     /**

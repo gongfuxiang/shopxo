@@ -454,7 +454,6 @@ ul.am-dropdown-content > .am-active > a:focus,
 .am-nav > li.am-active > a:hover,
 .am-nav > li.am-active > a:focus {
     color: #d2354c !important;
-    background-color: transparent;
 }
 
 .am-article-title.blog-title{

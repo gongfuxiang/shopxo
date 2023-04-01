@@ -175,15 +175,15 @@ function BuyCartHandle(e)
     }
 
     // 操作类型
+    var goods_data = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify([{
+            goods_id: params.id,
+            stock: params.stock,
+            spec: params.spec
+        }]))));
     switch(params.type)
     {
         // 立即购买
         case 'buy' :
-            var goods_data = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify([{
-                    goods_id: params.id,
-                    stock: params.stock,
-                    spec: params.spec
-                }]))));
             var $form = $('form.buy-form');
             $form.find('input[name="goods_data"]').val(goods_data);
             $form.find('button[type="submit"]').trigger('click');
@@ -192,8 +192,7 @@ function BuyCartHandle(e)
         // 加入购物车
         case 'cart' :
             var $form = $('form.cart-form');
-            $form.find('input[name="spec"]').val(JSON.stringify(params.spec));
-            $form.find('input[name="stock"]').val(params.stock);
+            $form.find('input[name="goods_data"]').val(goods_data);
             $form.find('button[type="submit"]').trigger('click');
             PoptitClose();
             break;

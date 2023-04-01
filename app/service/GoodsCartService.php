@@ -205,6 +205,60 @@ class GoodsCartService
         $p = [
             [
                 'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否批量
+        $ret = DataReturn(MyLang('operate_fail'), -1);
+        if(!empty($params['goods_data']))
+        {
+            // 是否数组
+            if(!is_array($params['goods_data']))
+            {
+                $params['goods_data'] = json_decode(base64_decode(urldecode($params['goods_data'])), true);
+            }
+            if(empty($params['goods_data']))
+            {
+                return DataReturn(MyLang('params_error_tips'), -1);
+            }
+            // 循环处理
+            foreach($params['goods_data'] as $k=>$v)
+            {
+                $ret = self::GoodsCartSaveHandle(array_merge($v, ['user'=>$params['user']]));
+                if($ret['code'] != 0)
+                {
+                    $ret['msg'] = ($k+1).'、'.$ret['msg'];
+                    return $ret;
+                }
+            }
+        } else {
+            $ret = self::GoodsCartSaveHandle($params);
+        }
+        return $ret;
+    }
+
+    /**
+     * 购物车添加/更新处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCartSaveHandle($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
                 'error_msg'         => MyLang('goods_id_error_tips'),
             ],
@@ -342,7 +396,7 @@ class GoodsCartService
     }
 
     /**
-     * 购物车数量保存
+     * 购物车数量更新
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

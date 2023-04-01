@@ -796,35 +796,39 @@ class UserService
      * @version  0.0.1
      * @datetime 2017-03-09T11:37:43+0800
      * @param    [int]     $user_id [用户id]
+     * @param    [array]   $user    [用户信息]
      * @return   [boolean]          [记录成功true, 失败false]
      */
-    public static function UserLoginRecord($user_id = 0)
+    public static function UserLoginRecord($user_id = 0, $user = [])
     {
-        if(!empty($user_id))
+        if(!empty($user_id) && empty($user))
         {
-            $user = self::UserInfo('id', $user_id);
-            if(!empty($user))
+            $user = self::UserHandle(self::UserInfo('id', $user_id));
+        }
+        if(!empty($user))
+        {
+            // 用户id处理
+            if(empty($user_id))
             {
-                // 用户数据处理
-                $user = self::UserHandle($user);
-
-                // 用户登录成功信息纪录钩子
-                $hook_name = 'plugins_service_user_login_success_record';
-                MyEventTrigger($hook_name, [
-                    'hook_name'     => $hook_name,
-                    'is_backend'    => true,
-                    'user'          => &$user,
-                    'user_id'       => $user_id
-                ]);
-
-                // web端设置session
-                if(APPLICATION == 'web')
-                {
-                    // 存储session
-                    MyCookie(self::$user_login_key, $user);
-                }
-                return true;
+                $user_id = $user['id'];
             }
+
+            // 用户登录成功信息纪录钩子
+            $hook_name = 'plugins_service_user_login_success_record';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'user'          => &$user,
+                'user_id'       => $user_id
+            ]);
+
+            // web端设置session
+            if(APPLICATION == 'web')
+            {
+                // 存储session
+                MyCookie(self::$user_login_key, $user);
+            }
+            return true;
         }
         return false;
     }
@@ -1292,7 +1296,7 @@ class UserService
         $body_html = [];
 
         // 用户登录后钩子
-        $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
+        $user = self::UserHandle(self::UserInfo('id', $user_id));
 
         // 会员码生成处理
         if(empty($user['number_code']))
@@ -1318,10 +1322,10 @@ class UserService
         // 成功返回
         if(APPLICATION == 'app')
         {
-            $result = self::AppUserInfoHandle($user_id);
+            $result = self::AppUserInfoHandle(0, null, null, $user);
         } else {
             // 登录记录
-            if(!self::UserLoginRecord($user_id))
+            if(!self::UserLoginRecord(0, $user))
             {
                 return DataReturn(MyLang('login_failure_tips'), -100);
             }
@@ -2142,7 +2146,7 @@ class UserService
             $user = self::UserHandle(self::UserInfo('id', $params['user']['id']));
 
             // 重新更新用户缓存
-            self::UserLoginRecord($user['id']);
+            self::UserLoginRecord(0, $user);
             if(!empty($user['token']))
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
@@ -2424,17 +2428,14 @@ class UserService
         // 获取用户信息
         if(!empty($user_id))
         {
-            $user = self::UserInfo('id', $user_id);
+            $user = self::UserHandle(self::UserInfo('id', $user_id));
         } elseif(!empty($where_field) && !empty($where_value) && empty($user))
         {
-            $user = self::UserInfo($where_field, $where_value);
+            $user = self::UserHandle(self::UserInfo($where_field, $where_value));
         }
 
         if(!empty($user))
         {
-            // 用户信息处理
-            $user = self::UserHandle($user);
-
             // 是否强制绑定手机号码
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
 
@@ -2447,11 +2448,8 @@ class UserService
                     $user['number_code'] = self::UserNumberCodeCreatedHandle($user['id']);
                 }
 
-                // 非token数据库校验，则重新生成token更新到数据库
-                if($where_field != 'token')
-                {
-                    $user = self::UserTokenUpdate($user['id'], $user);
-                }
+                // 重新生成token更新到数据库并缓存
+                $user = self::UserTokenUpdate($user['id'], $user);
             }
 
             // 用户信息钩子
@@ -2481,21 +2479,21 @@ class UserService
     public static function UserTokenUpdate($user_id, $user = [])
     {
         // 未指定用户则读取用户信息、并处理数据
-        if(empty($user))
+        if(empty($user) && !empty($user_id))
         {
             $user = self::UserHandle(self::UserInfo('id', $user_id));
         }
         if(!empty($user))
         {
             // token生成并存储缓存
-            $user['token'] = ApiService::CreatedUserToken($user_id);
-            if(self::UserPlatformUpdate('user_id', $user_id, ['token'=>$user['token']]))
+            $user['token'] = ApiService::CreatedUserToken($user['id']);
+            if(self::UserPlatformUpdate('user_id', $user['id'], ['token'=>$user['token'], 'upd_time'=>time()]) !== false)
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
 
             // web端用户登录纪录处理
-            self::UserLoginRecord($user_id);
+            self::UserLoginRecord($user_id, $user);
         }
         return $user;
     }
