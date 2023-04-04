@@ -170,11 +170,12 @@ function MySession($name = '', $value = '')
  * @version 1.0.0
  * @date    2022-08-19
  * @desc    框架默认仅支持二级分组数据、这里做了支持N级处理（由于参数可能存在数组解析原因）这里单独处理不使用框架处理
- * @param   [string]          $key  [语言key（支持 . 多级）]
- * @param   [array]           $vars [替换参数]
- * @param   [string]          $lang [指定语言]
+ * @param   [string]          $key      [语言key（支持 . 多级）]
+ * @param   [array]           $vars     [替换参数]
+ * @param   [string]          $lang     [指定语言]
+ * @param   [string]          $plugins  [指定插件]
  */
-function MyLang($key, $vars = [], $lang = '')
+function MyLang($key, $vars = [], $lang = '', $plugins = '')
 {
     $value = '';
     if(!empty($key))
@@ -195,9 +196,9 @@ function MyLang($key, $vars = [], $lang = '')
             APP_PATH.'lang'.DS.$current_lang.'.php',
         ];
         // 是否插件语言
-        if(RequestController() == 'plugins')
+        if(!empty($plugins) || RequestController() == 'plugins')
         {
-            $pluginsname = MyInput('pluginsname');
+            $pluginsname = empty($plugins) ? MyInput('pluginsname') : $plugins;
             $plugins_dir = APP_PATH.'plugins'.DS.$pluginsname.DS.'lang'.DS;
             array_unshift($arr_file, $plugins_dir.$current_lang.'.php');
             array_unshift($arr_file, $plugins_dir.$request_module.DS.$current_lang.'.php');
