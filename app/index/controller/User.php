@@ -456,7 +456,7 @@ class User extends Common
         // 调用服务层
         $ret = UserService::Logout();
 
-        // 登录返回
+        // 退出返回
         $body_html = (!empty($ret['data']['body_html']) && is_array($ret['data']['body_html'])) ? implode(' ', $ret['data']['body_html']) : $ret['data']['body_html'];
         MyViewAssign([
             'body_html' => $body_html,

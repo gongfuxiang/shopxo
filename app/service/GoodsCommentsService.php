@@ -261,7 +261,7 @@ class GoodsCommentsService
                     if(!isset($params['is_public']) || $params['is_public'] == 1)
                     {
                         $v['user'] = [
-                            'avatar'            => empty($user['avatar']) ? $default_avatar : $user['avatar'],
+                            'avatar'            => ((isset($v['is_anonymous']) && $v['is_anonymous'] == 1) || empty($user['avatar'])) ? $default_avatar : $user['avatar'],
                             'user_name_view'    => (!isset($v['is_anonymous']) || $v['is_anonymous'] == 1 || empty($user['user_name_view'])) ? $username_default : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
                         ];
                     } else {

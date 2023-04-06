@@ -117,7 +117,6 @@ class GoodsComments
                     'label'         => $lang['images'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/images',
-                    'is_list'       => 0,
                 ],
                 [
                     'label'         => $lang['rating'],

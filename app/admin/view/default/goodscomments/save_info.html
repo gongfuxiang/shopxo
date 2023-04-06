@@ -11,12 +11,12 @@
             </legend>
             <div class="am-cf">
                 <div class="am-u-md-6 am-padding-horizontal-0">
-                    <div class="am-alert am-alert-secondary goods-info" data-am-alert>
+                    <div class="am-alert am-alert-secondary goods-info">
                         <p class="am-text-sm">{{:MyLang('common_service.goodscomments.form_item_goods_info_title')}}</p>
                         {{if !empty($data['goods'])}}
                             <div class="base am-nbfc">
                                 <a href="{{$data.goods.goods_url}}" target="_blank">
-                                    <img src="{{$data.goods.images}}" alt="{{$data.goods.title}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-fl" width="60" height="60" />
+                                    <img src="{{$data.goods.images}}" alt="{{$data.goods.title}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="57" height="57" />
                                 </a>
                                 <a class="am-text-top" href="{{$data.goods.goods_url}}" target="_blank">{{$data.goods.title}}</a>
                             </div>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="am-u-md-6 am-padding-horizontal-0">
-                    <div class="am-alert am-alert-secondary user-info" data-am-alert>
+                    <div class="am-alert am-alert-secondary user-info">
                         <p class="am-text-sm">{{:MyLang('common_service.goodscomments.form_item_user_info_title')}}</p>
                         {{if !empty($data['user'])}}
                             <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />

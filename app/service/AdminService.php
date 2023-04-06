@@ -472,7 +472,14 @@ class AdminService
      */
     public static function LoginInfo()
     {
-        return MyCookie(self::$admin_login_key);
+        // 获取管理员信息
+        $admin = MySession(self::$admin_login_key);
+        // 非退出则重新设置管理员信息
+        if(RequestAction() != 'logout')
+        {
+            self::LoginSession($admin);
+        }
+        return $admin;
     }
 
     /**
@@ -487,7 +494,7 @@ class AdminService
     public static function LoginSession($admin)
     {
         unset($admin['login_pwd'], $admin['login_salt']);
-        MyCookie(self::$admin_login_key, $admin);
+        MySession(self::$admin_login_key, $admin);
         return true;
     }
 
@@ -501,7 +508,7 @@ class AdminService
      */
     public static function LoginLogout()
     {
-        return MyCookie(self::$admin_login_key, null);
+        return MySession(self::$admin_login_key, null);
     }
 
     /**

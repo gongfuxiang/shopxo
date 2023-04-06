@@ -127,7 +127,7 @@ class OrderService
         }
 
         // 订单支付前校验订单商品
-        $ret = BuyService::MoreOrderPayBeginCheck(['order_data'=>$order_data]);
+        $ret = BuyService::MoreOrderPayBeginCheck(array_merge($params, ['order_data'=>$order_data]));
         if($ret['code'] != 0)
         {
             return $ret;

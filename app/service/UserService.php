@@ -239,7 +239,8 @@ class UserService
         {
             $user_login_info = self::CacheLoginUserInfo();
         }
-        if(!empty($user_login_info))
+        // 非退出操作则重新设置用户信息
+        if(!empty($user_login_info) && RequestAction() != 'logout')
         {
             // 是否缓存读取
             if($is_cache)
@@ -306,7 +307,7 @@ class UserService
             if(APPLICATION == 'web')
             {
                 // web用户session
-                $user_cache_login_info = MyCookie(self::$user_login_key);
+                $user_cache_login_info = MySession(self::$user_login_key);
 
                 // 用户信息为空，指定了token则设置登录信息
                 if(empty($user_cache_login_info))
@@ -826,7 +827,7 @@ class UserService
             if(APPLICATION == 'web')
             {
                 // 存储session
-                MyCookie(self::$user_login_key, $user);
+                MySession(self::$user_login_key, $user);
             }
             return true;
         }
@@ -3013,10 +3014,10 @@ class UserService
     public static function Logout($params = [])
     {
         // 用户信息
-        $user = self::LoginUserInfo();
+        $user = self::CacheLoginUserInfo();
 
         // 清除session
-        MyCookie(self::$user_login_key, null);
+        MySession(self::$user_login_key, null);
 
         // html代码
         $body_html = [];
