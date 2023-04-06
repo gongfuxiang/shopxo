@@ -57,7 +57,7 @@ $(function()
     });
 
     // url加载
-    $(document).on('click', '.common-left-menu li a, .admin-header-list li a, .menu-mini-container-popup ul li a', function()
+    $(document).on('click', '.common-left-menu li a, .admin-header-list li a.new-window, .menu-mini-container-popup ul li a', function()
     {
         var url = $(this).data('url') || null;
         var type = $(this).data('type');
