@@ -604,100 +604,91 @@ class NavigationService
      */
     public static function HomeHavTopRight($params = [])
     {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_header_navigation_top_right_key');
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        // 列表
+        $lang = MyLang('common_service.navigation.header_top_nav_right');
+        $data = [
+            [
+                'name'      => $lang['user_center'],
+                'type'      => 'center',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-user',
+                'url'       => MyUrl('index/user/index'),
+                'items'     => [],
+            ],
+            [
+                'name'      => $lang['user_shop'],
+                'type'      => 'myself',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-cube',
+                'url'       => '',
+                'items'     => [
+                    [
+                        'name'  => $lang['user_order'],
+                        'url'   => MyUrl('index/order/index'),
+                    ],
+                ],
+            ],
+            [
+                'name'      => $lang['favor'],
+                'type'      => 'favor',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-heart',
+                'url'       => '',
+                'items'     => [
+                    [
+                        'name'  => $lang['goods_favor'],
+                        'url'   => MyUrl('index/usergoodsfavor/index'),
+                    ],
+                ],
+            ],
+            [
+                'name'      => $lang['cart'],
+                'type'      => 'cart',
+                'is_login'  => 1,
+                'badge'     => -1,
+                'icon'      => 'am-icon-shopping-cart',
+                'url'       => MyUrl('index/cart/index'),
+                'items'     => [],
+            ],
+            [
+                'name'      => $lang['message'],
+                'type'      => 'message',
+                'is_login'  => 1,
+                'badge'     => 0,
+                'icon'      => 'am-icon-bell',
+                'url'       => MyUrl('index/message/index'),
+                'items'     => [],
+            ],
+        ];
+
+        // 追加多语言
+        if(MyC('home_use_multilingual_status') == 1)
         {
-            // 列表
-            $lang = MyLang('common_service.navigation.header_top_nav_right');
-            $data = [
-                [
-                    'name'      => $lang['user_center'],
-                    'type'      => 'center',
-                    'is_login'  => 1,
-                    'badge'     => null,
-                    'icon'      => 'am-icon-user',
-                    'url'       => MyUrl('index/user/index'),
-                    'items'     => [],
-                ],
-                [
-                    'name'      => $lang['user_shop'],
-                    'type'      => 'myself',
-                    'is_login'  => 1,
-                    'badge'     => null,
-                    'icon'      => 'am-icon-cube',
-                    'url'       => '',
-                    'items'     => [
-                        [
-                            'name'  => $lang['user_order'],
-                            'url'   => MyUrl('index/order/index'),
-                        ],
-                    ],
-                ],
-                [
-                    'name'      => $lang['favor'],
-                    'type'      => 'favor',
-                    'is_login'  => 1,
-                    'badge'     => null,
-                    'icon'      => 'am-icon-heart',
-                    'url'       => '',
-                    'items'     => [
-                        [
-                            'name'  => $lang['goods_favor'],
-                            'url'   => MyUrl('index/usergoodsfavor/index'),
-                        ],
-                    ],
-                ],
-                [
-                    'name'      => $lang['cart'],
-                    'type'      => 'cart',
-                    'is_login'  => 1,
-                    'badge'     => -1,
-                    'icon'      => 'am-icon-shopping-cart',
-                    'url'       => MyUrl('index/cart/index'),
-                    'items'     => [],
-                ],
-                [
-                    'name'      => $lang['message'],
-                    'type'      => 'message',
-                    'is_login'  => 1,
-                    'badge'     => 0,
-                    'icon'      => 'am-icon-bell',
-                    'url'       => MyUrl('index/message/index'),
-                    'items'     => [],
-                ],
-            ];
-
-            // 追加多语言
-            if(MyC('home_use_multilingual_status') == 1)
+            $multilingual_data = MultilingualService::MultilingualData();
+            if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
             {
-                $multilingual_data = MultilingualService::MultilingualData();
-                if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
-                {
-                    $data[] = [
-                        'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
-                        'is_login'  => 0,
-                        'badge'     => null,
-                        'icon'      => 'am-icon-language',
-                        'url'       => '',
-                        'items'     => $multilingual_data['data'],
-                    ];
-                }
+                $data[] = [
+                    'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
+                    'is_login'  => 0,
+                    'badge'     => null,
+                    'icon'      => 'am-icon-language',
+                    'url'       => '',
+                    'items'     => $multilingual_data['data'],
+                ];
             }
-
-            // 顶部小导航右侧钩子
-            $hook_name = 'plugins_service_header_navigation_top_right_handle';
-            MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'data'          => &$data,
-            ]);
-
-            // 存储缓存
-            MyCache($key, $data, 180);
         }
+
+        // 顶部小导航右侧钩子
+        $hook_name = 'plugins_service_header_navigation_top_right_handle';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
 
         // 实时数据处理
         if(!empty($data) && !empty($params['user']))
