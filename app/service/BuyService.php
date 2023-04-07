@@ -507,10 +507,10 @@ class BuyService
         }
 
         // 是否需要校验商品类型、is_buy、1校验、默认0不校验
-        // 商品小于等于1不校验
         $is_check_goods_site_type = (isset($params['is_buy']) && $params['is_buy'] == 1) ? 1 : 0;
+        // 商品小于等于1不校验
         if($is_check_goods_site_type == 1 && 
-            count($params['goods']) <= 1)
+            count(array_unique(array_column($params['goods'], 'goods_id'))) <= 1)
         {
             $is_check_goods_site_type = 0;
         }
