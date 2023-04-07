@@ -20,7 +20,7 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
 /* 没数据 */
 .table-no {
     text-align: center;
-    padding: 20px 0;
+    padding: 50px 0;
     background: #FFF;
     color: #b9b7b7;
 }
