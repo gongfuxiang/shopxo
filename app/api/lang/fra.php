@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'Token illégal',
+    'token_error_tips'                          => 'Lenvironnement change, le token échoue, veuillez vous reconnecter!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Article inexistant ou supprimé',

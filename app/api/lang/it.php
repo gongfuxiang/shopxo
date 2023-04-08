@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'token illegale',
+    'token_error_tips'                          => 'Lambiente è cambiato, il token non è valido, per favore accedi di nuovo!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Larticolo non esiste o è stato soppresso',

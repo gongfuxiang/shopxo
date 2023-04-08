@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'token 불법',
+    'token_error_tips'                          => '환경 변경, token 무효, 다시 로그인하세요!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => '문서가 없거나 삭제됨',

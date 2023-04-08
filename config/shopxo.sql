@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: shopxo_online
-# Generation Time: 2023-04-07 02:42:33 +0000
+# Generation Time: 2023-04-08 11:17:23 +0000
 # ************************************************************
 
 
@@ -47,7 +47,7 @@ LOCK TABLES `sxo_admin` WRITE;
 
 INSERT INTO `sxo_admin` (`id`, `username`, `login_pwd`, `login_salt`, `mobile`, `email`, `gender`, `status`, `login_total`, `login_time`, `role_id`, `add_time`, `upd_time`)
 VALUES
-	(1,'admin','c6511b0082e594d3aa0f424136e2aba9','320799','','xxx@email.com',0,0,1537,1669009454,1,1481350313,1659361312),
+	(1,'admin','80b2c73b6e40c82ca7bf14d340ef3d48','611817','','xxx@email.com',0,0,1538,1680849732,1,1481350313,1659361312),
 	(4,'shopxo','8a0be7d8918209aab38b41514bed6791','112418','','',2,0,19,1667467387,13,1580807200,1659361305);
 
 /*!40000 ALTER TABLE `sxo_admin` ENABLE KEYS */;
@@ -3380,7 +3380,7 @@ VALUES
 	(326,319,'基础配置','AppConfig','Index','',0,1,'',1543206359),
 	(327,319,'基础配置保存','AppConfig','Save','',1,0,'',1543206402),
 	(331,118,'日志删除','Cache','LogDelete','',4,0,'',1545642163),
-	(332,319,'小程序列表','AppMini','Index','',30,1,'',1546935020),
+	(332,319,'小程序列表','AppMini','Index','',30,0,'',1546935020),
 	(333,319,'小程序配置','AppMini','Config','',40,1,'',1546935090),
 	(334,319,'小程序配置保存','AppMini','Save','',41,0,'',1546935118),
 	(336,319,'小程序包生成','AppMini','Created','',31,0,'',1546935187),

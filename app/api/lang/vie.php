@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'Token bất hợp pháp',
+    'token_error_tips'                          => 'Môi trường thay đổi, token không hoạt động, vui lòng đăng nhập lại!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Bài viết không tồn tại hoặc đã bị xóa',

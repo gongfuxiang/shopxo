@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'token非法',
+    'token_error_tips'                          => '環境發生改變、token失效、請重新登入！',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => '文章不存在或已删除',

@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'Illegale token',
+    'token_error_tips'                          => 'Omgeving is gewijzigd, token is ongeldig, logt u opnieuw in!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Artikel bestaat niet of is geschrapt',

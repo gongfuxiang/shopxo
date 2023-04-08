@@ -18,7 +18,7 @@
  */
 return [
     // 基础公共
-    'token_error_tips'                          => 'トークン不正',
+    'token_error_tips'                          => '環境が変わり、トケンが失効し、再ログインしてください！',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => '記事が存在しないか削除されました',
