@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => 'Umgebung hat sich geändert, Token ist ungültig, bitte melden Sie sich erneut an!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Artikel existiert nicht oder wurde gelöscht',

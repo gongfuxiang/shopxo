@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => '環境が変わり、トケンが失効し、再ログインしてください！',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => '記事が存在しないか削除されました',

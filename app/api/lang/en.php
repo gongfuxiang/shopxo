@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => 'Environment has changed, token is invalid, please log in again!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Article does not exist or has been deleted',

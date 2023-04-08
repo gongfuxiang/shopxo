@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => 'Miljön har ändrats, token är ogiltig, logga in igen!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Artikel finns inte eller har utgått',

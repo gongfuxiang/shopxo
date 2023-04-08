@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => '¡El entorno ha cambiado, el Token ha fallado, ¡ por favor, vuelva a iniciar sesión!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'El artículo no existe o ha sido eliminado',

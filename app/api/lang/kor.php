@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => '환경 변경, token 무효, 다시 로그인하세요!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => '문서가 없거나 삭제됨',

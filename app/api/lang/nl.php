@@ -17,8 +17,6 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 基础公共
-    'token_error_tips'                          => 'Omgeving is gewijzigd, token is ongeldig, logt u opnieuw in!',
     // 文章
     'article'           => [
         'article_no_data_tips'                  => 'Artikel bestaat niet of is geschrapt',
