@@ -64,7 +64,7 @@ class ApiService
             }
         }
         sort($data);
-        return md5(md5(implode('', $data)).md5($user_id));
+        return md5(md5(md5(implode('', $data)).md5($user_id).time().GetNumberCode()));
     }
 }
 ?>
