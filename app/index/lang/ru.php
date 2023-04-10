@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Выберите изображение, которое нужно загрузить',
         'confirm_upload_title'                  => 'Подтвердить загрузку',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Здравствуйте, добро пожаловать',
+        'header_top_nav_left_not_login_first'   => ' Добро пожаловать.',
         'header_top_nav_left_login_first'       => 'Здравствуйте.',
         'header_top_nav_left_login_last'        => 'Добро пожаловать',
         // 搜索

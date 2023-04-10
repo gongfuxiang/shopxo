@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Please select the image to upload',
         'confirm_upload_title'                  => 'Confirm Upload',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Hello, welcome to',
+        'header_top_nav_left_not_login_first'   => 'Welcome',
         'header_top_nav_left_login_first'       => 'Hello!',
         'header_top_nav_left_login_last'        => ', Welcome to',
         // 搜索

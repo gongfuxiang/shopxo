@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Por favor, elija la imagen que necesita cargar',
         'confirm_upload_title'                  => 'Confirmar carga',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Hola, bienvenidos.',
+        'header_top_nav_left_not_login_first'   => 'Bienvenido',
         'header_top_nav_left_login_first'       => 'Hola.',
         'header_top_nav_left_login_last'        => 'Bienvenido a',
         // 搜索

@@ -15,14 +15,14 @@
                     <div class="am-cf">
                         <div class="am-u-sm-8 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label>{{:MyLang('warehouse.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="name" placeholder="{{:MyLang('warehouse.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('warehouse.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                                <label>{{:MyLang('common_service.warehouse.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="name" placeholder="{{:MyLang('common_service.warehouse.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.warehouse.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                             </div>
                         </div>
                         <div class="am-u-sm-4 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label>{{:MyLang('warehouse.form_item_alias')}}</label>
-                                <input type="text" name="alias" placeholder="{{:MyLang('warehouse.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('warehouse.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+                                <label>{{:MyLang('common_service.warehouse.form_item_alias')}}</label>
+                                <input type="text" name="alias" placeholder="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
                             </div>
                         </div>
                     </div>
@@ -45,22 +45,22 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>{{:MyLang('warehouse.form_item_level')}}<span class="am-form-group-label-tips">{{:MyLang('warehouse.form_item_level_tips')}}</span></label>
-                        <input type="number" name="level" placeholder="{{:MyLang('warehouse.form_item_level')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('warehouse.form_item_level_message')}}" class="am-radius" {{if !empty($data['level'])}} value="{{$data.level}}"{{/if}} />
+                        <label>{{:MyLang('common_service.warehouse.form_item_level')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.warehouse.form_item_level_tips')}}</span></label>
+                        <input type="number" name="level" placeholder="{{:MyLang('common_service.warehouse.form_item_level')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_level_message')}}" class="am-radius" {{if !empty($data['level'])}} value="{{$data.level}}"{{/if}} />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-cf">
                         <div class="am-u-sm-6 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label>{{:MyLang('warehouse.form_item_contacts_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="contacts_name" placeholder="{{:MyLang('warehouse.form_item_contacts_name_message')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('warehouse.form_item_contacts_name_message')}}" class="am-radius" {{if !empty($data['contacts_name'])}} value="{{$data.contacts_name}}"{{/if}} required />
+                                <label>{{:MyLang('common_service.warehouse.form_item_contacts_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="contacts_name" placeholder="{{:MyLang('common_service.warehouse.form_item_contacts_name_message')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_contacts_name_message')}}" class="am-radius" {{if !empty($data['contacts_name'])}} value="{{$data.contacts_name}}"{{/if}} required />
                             </div>
                         </div>
                         <div class="am-u-sm-6 am-padding-horizontal-0">
                             <div class="am-form-group">
-                                <label>{{:MyLang('warehouse.form_item_contacts_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="contacts_tel" placeholder="{{:MyLang('warehouse.form_item_contacts_name')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('warehouse.form_item_contacts_tel_message')}}" class="am-radius" {{if !empty($data['contacts_tel'])}} value="{{$data.contacts_tel}}"{{/if}} required />
+                                <label>{{:MyLang('common_service.warehouse.form_item_contacts_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="contacts_tel" placeholder="{{:MyLang('common_service.warehouse.form_item_contacts_name')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('common_service.warehouse.form_item_contacts_tel_message')}}" class="am-radius" {{if !empty($data['contacts_tel'])}} value="{{$data.contacts_tel}}"{{/if}} required />
                             </div>
                         </div>
                     </div>
@@ -69,11 +69,11 @@
 
             {{include file="lib/region_linkage" /}}
             <div class="am-form-group">
-                <label>{{:MyLang('warehouse.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <label>{{:MyLang('common_service.warehouse.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
                     <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
-                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('warehouse.form_item_address_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('warehouse.form_item_address_message')}}" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
+                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.warehouse.form_item_address_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_address_message')}}" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
                     <span class="am-input-group-btn">
                         <button type="button" class="am-btn am-btn-default am-radius" id="map-location-submit">
                             <i class="am-icon-map-marker"></i>

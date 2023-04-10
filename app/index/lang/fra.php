@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Veuillez sélectionner une image que vous devez télécharger',
         'confirm_upload_title'                  => 'Confirmer le téléchargement',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Bonjour et bienvenue à',
+        'header_top_nav_left_not_login_first'   => 'Japonais',
         'header_top_nav_left_login_first'       => 'Bonjour',
         'header_top_nav_left_login_last'        => ', bienvenue à',
         // 搜索

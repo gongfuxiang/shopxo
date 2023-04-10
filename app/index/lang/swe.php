@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Välj bilden att ladda upp',
         'confirm_upload_title'                  => 'Bekräfta uppladdning',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Hej, välkommen till',
+        'header_top_nav_left_not_login_first'   => 'Välkommen',
         'header_top_nav_left_login_first'       => 'Hallå!',
         'header_top_nav_left_login_last'        => 'Välkommen till',
         // 搜索

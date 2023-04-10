@@ -20,8 +20,8 @@
                         {{/if}}
 
                         {{if empty($user)}}
-                            <em>{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
-                            <em>{{:MyC('home_site_name')}}</em>
+                            <em class="first">{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
+                            <em class="site-name">{{:MyC('home_site_name')}}</em>
                             {{if !empty($home_user_login_type)}}
                                 [<a href="{{:MyUrl('index/user/logininfo')}}">{{:MyLang('common.login_title')}}</a>]
                             {{/if}}

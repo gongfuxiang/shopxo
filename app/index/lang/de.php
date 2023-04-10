@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Bitte wählen Sie das Bild zum Hochladen aus',
         'confirm_upload_title'                  => 'Upload bestätigen',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Hallo, willkommen bei',
+        'header_top_nav_left_not_login_first'   => 'Japanisch',
         'header_top_nav_left_login_first'       => 'Hallo!',
         'header_top_nav_left_login_last'        => 'Willkommen in',
         // 搜索

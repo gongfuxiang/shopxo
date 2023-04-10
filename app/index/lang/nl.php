@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Selecteer de afbeelding die u wilt uploaden',
         'confirm_upload_title'                  => 'Upload bevestigen',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Hallo, welkom bij',
+        'header_top_nav_left_not_login_first'   => 'Welkom',
         'header_top_nav_left_login_first'       => 'Hallo!',
         'header_top_nav_left_login_last'        => 'Welkom bij',
         // 搜索

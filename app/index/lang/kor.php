@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => '업로드할 그림을 선택하세요',
         'confirm_upload_title'                  => '업로드 확인',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => '안녕하세요, 어서 오세요',
+        'header_top_nav_left_not_login_first'   => '환영합니다',
         'header_top_nav_left_login_first'       => '안녕하세요',
         'header_top_nav_left_login_last'        => ', 오신 걸 환영합니다',
         // 搜索

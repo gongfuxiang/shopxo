@@ -38,7 +38,7 @@ return [
         'choice_images_error_tips'              => 'Vui lòng chọn ảnh cần upload',
         'confirm_upload_title'                  => 'Xác nhận tải lên',
         // 公共顶部小导航-左侧导航
-        'header_top_nav_left_not_login_first'   => 'Chào mừng đến với',
+        'header_top_nav_left_not_login_first'   => 'Chào mừng bạn',
         'header_top_nav_left_login_first'       => 'Xin chào',
         'header_top_nav_left_login_last'        => 'Chào mừng đến với.',
         // 搜索
