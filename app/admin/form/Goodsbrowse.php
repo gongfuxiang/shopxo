@@ -70,7 +70,7 @@ class GoodsBrowse
                     ],
                 ],
                 [
-                    'label'         => $lang['user'],
+                    'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodsbrowse/module/goods',
                     'grid_size'     => 'lg',
