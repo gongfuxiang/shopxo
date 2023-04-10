@@ -43,8 +43,8 @@
                 {{/if}}
 
                 <!-- 搜索框 -->
-                <form action="{{:MyUrl('index/search/index')}}" method="POST" class="am-radius am-nbfc">
-                    <div class="search-group">
+                <form action="{{:MyUrl('index/search/index')}}" method="POST">
+                    <div class="search-group am-radius am-nbfc">
                         <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
                         <button type="submit" id="ai-topsearch" class="submit am-btn">
                             <i class="am-icon-search"></i>
