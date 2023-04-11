@@ -87,7 +87,7 @@ input.add,input.min{width:15px}
 .mui-mbar-tabs{ display:none;}
 
 /* 顶部小导航 */
-.header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; height: 30px; line-height: 30px; }
+.header-top, .top-nav-right { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; height: 30px; line-height: 30px; }
 .header{ max-width:1000px; margin:0px auto; font-size:12px;position: relative; }  
 
 .mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
@@ -198,10 +198,11 @@ input.add,input.min{width:15px}
     .category-content .category-info em{ top:9px; }
 }
 @media only screen and (max-width: 640px) {
-    .header-top { background: #d2354c; border-bottom-color: #cb2f46; padding: 0 10px; }
+    .header-top { padding: 0 10px; }
+    .header-top, .top-nav-right { background: #d2354c; border-bottom-color: #cb2f46; }
     .header-top * { color: #ececec; }
-    .header-top .top-nav-items,.top-nav-left { float: left; }
-    .top-nav-right { background: #d2354c; }
+    .header-top .top-nav-items, .top-nav-left { float: left; }
+    .top-nav-left, .top-nav-right { max-height: 30px; }
     .top-nav-right .top-nav-items:not(:last-child) { margin-right: 8px; }
     .header-top a:hover, .header-top a:focus { color: #ffd6d6; }
     .top-nav-right .top-nav-items a span,
