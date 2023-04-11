@@ -511,9 +511,6 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
     /* 视频 */
     .box .goods-video-submit-close { left: 340px; }
-
-    /*导航固定*/
-    ul.am-tabs-nav.am-nav.am-nav-tabs {left:auto;right:auto;width:960px ;}
 }
 
 
