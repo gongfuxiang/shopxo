@@ -4716,21 +4716,24 @@ $(function()
     });
 
     // 文本信息复制
-    var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
+    if($('.text-copy-submit').length > 0)
     {
-        text: function(e)
-        {
-            return $(e).data('value');
-        }
-    });
-    text_copy_clipboard.on('success', function(e)
-    {
-        Prompt(window['lang_copy_success'] || '复制成功', 'success');
-    });
-    text_copy_clipboard.on('error', function(e)
-    {
-        Prompt(window['lang_copy_fail'] || '复制失败');
-    });
+	    var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
+	    {
+	        text: function(e)
+	        {
+	            return $(e).data('value');
+	        }
+	    });
+	    text_copy_clipboard.on('success', function(e)
+	    {
+	        Prompt(window['lang_copy_success'] || '复制成功', 'success');
+	    });
+	    text_copy_clipboard.on('error', function(e)
+	    {
+	        Prompt(window['lang_copy_fail'] || '复制失败');
+	    });
+    }
 
     // 调起视频扫码、持续扫码
     var $video_scan_popup = $('#common-video-scan-popup');
