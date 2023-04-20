@@ -171,15 +171,16 @@ class AlipayScanQrcode
         $key = str_replace('.', '_', $parameter['method']).'_response';
         $result = $res['data'][$key];
 
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, $res['data']['sign']))
-        {
-            return DataReturn('签名验证错误', -1);
-        }
-
         // 状态
         if(isset($result['code']) && $result['code'] == 10000)
         {
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $res['data']['sign']))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
+            // 成功
             return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
 
@@ -341,15 +342,15 @@ class AlipayScanQrcode
         $key = str_replace('.', '_', $parameter['method']).'_response';
         $result = $res['data'][$key];
 
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, $res['data']['sign']))
-        {
-            return DataReturn('签名验证错误', -1);
-        }
-
         // 状态
         if(isset($result['code']) && $result['code'] == 10000)
         {
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $res['data']['sign']))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',

@@ -2386,7 +2386,7 @@ return [
         'view_media_fixed_margin_title'                      => 'Margin',
         'view_media_fixed_margin_message'                    => 'Please enter a number with an outer margin of up to 100',
         'view_media_fixed_padding_title'                     => 'Padding',
-        'view_media_fixed_padding_message'                   => 'Please enter a number with an inner margin of up to 100',
+        'view_media_fixed_padding_message'                   => 'Please enter a number with an inner padding of up to 100',
         'view_media_fixed_mouse_hover_images_amplify_title'  => 'Mouse over image to zoom in',
         'view_media_fixed_width_100_title'                   => 'Width 100%',
         'view_media_fixed_height_100_title'                  => 'Height 100%',

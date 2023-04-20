@@ -116,6 +116,12 @@ class AlipayFace
      */
     public function Pay($params = [])
     {
+        // 参数
+        if(empty($params['check_url']))
+        {
+            return DataReturn('支付状态校验地址不能为空', -50);
+        }
+
         // openssl
         if(!function_exists('openssl_sign'))
         {
@@ -162,40 +168,39 @@ class AlipayFace
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
         $key = str_replace('.', '_', $parameter['method']).'_response';
 
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, $key))
-        {
-            return DataReturn('签名验证错误', -1);
-        }
-
         // 状态
-        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000 && !empty($result[$key]['qr_code']))
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
-            if(empty($params['check_url']))
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $key))
             {
-                return DataReturn('支付状态校验地址不能为空', -50);
+                return DataReturn('签名验证错误', -1);
             }
-            if(APPLICATION == 'app')
+            // 存在二维码
+            if(!empty($result[$key]['qr_code']))
             {
-                $data = [
-                    'pay_url'       => $result[$key]['qr_code'],
-                    'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($result[$key]['qr_code']))]),
-                    'order_no'      => $params['order_no'],
-                    'name'          => '支付宝支付',
-                    'msg'           => '打开支付宝APP扫一扫进行支付',
-                    'check_url'     => $params['check_url'],
-                ];
-            } else {
-                $pay_params = [
-                    'url'       => urlencode(base64_encode($result[$key]['qr_code'])),
-                    'order_no'  => $params['order_no'],
-                    'name'      => urlencode('支付宝支付'),
-                    'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
-                    'check_url' => urlencode(base64_encode($params['check_url'])),
-                ];
-                $data = MyUrl('index/pay/qrcode', $pay_params);
+                if(APPLICATION == 'app')
+                {
+                    $data = [
+                        'pay_url'       => $result[$key]['qr_code'],
+                        'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($result[$key]['qr_code']))]),
+                        'order_no'      => $params['order_no'],
+                        'name'          => '支付宝支付',
+                        'msg'           => '打开支付宝APP扫一扫进行支付',
+                        'check_url'     => $params['check_url'],
+                    ];
+                } else {
+                    $pay_params = [
+                        'url'       => urlencode(base64_encode($result[$key]['qr_code'])),
+                        'order_no'  => $params['order_no'],
+                        'name'      => urlencode('支付宝支付'),
+                        'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
+                        'check_url' => urlencode(base64_encode($params['check_url'])),
+                    ];
+                    $data = MyUrl('index/pay/qrcode', $pay_params);
+                }
+                return DataReturn('success', 0, $data);
             }
-            return DataReturn('success', 0, $data);
         }
 
         // 直接返回支付信息
@@ -348,15 +353,15 @@ class AlipayFace
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
         $key = str_replace('.', '_', $parameter['method']).'_response';
 
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, $key))
-        {
-            return DataReturn('签名验证错误', -1);
-        }
-
         // 状态
         if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $key))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',

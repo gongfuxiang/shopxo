@@ -228,7 +228,7 @@ class Excel
 						$temp_letter = $letter_data[$temp_cum];
 						$height = isset($tv['height']) ? intval($tv['height']) : 0;
 						$width = isset($tv['width']) ? intval($tv['width']) : $height;
-						if($tv['type'] == 'images')
+						if($tv['type'] == 'images' && !empty($v[$tk]))
 						{
 							$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 				            $drawing->setPath($v[$tk]);

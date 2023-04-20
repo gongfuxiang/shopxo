@@ -2185,6 +2185,9 @@ class UserService
         // 是否一键登录
         $is_onekey_mobile_bind = isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 ? 1 : 0;
 
+        // 是否需要添加用户
+        $is_insert_user = false;
+
         // 用户信息处理
         $user_platform = self::UserPlatformInfo($field, $params['openid']);
         if(!empty($user_platform))
@@ -2193,41 +2196,39 @@ class UserService
             $user = self::UserBaseInfo('id', $user_platform['user_id']);
             if(empty($user))
             {
-                return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -1);
-            }
-            // 用户状态
-            if($user['status'] != 0)
-            {
-                return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
-            }
-
-            // 如果是一键登录、如当前用户不存在手机号码则绑定
-            if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
-            {
-                // 手机号码不存在则绑定到当前账号下
-                $temp = self::UserBaseInfo('mobile', $data['mobile']);
-                if(empty($temp))
+                $is_insert_user = true;
+            } else {
+                // 用户状态
+                if($user['status'] != 0)
                 {
-                    $upd_data = [
-                        'mobile'    => $data['mobile'],
-                        'upd_time'  => time(),
-                    ];
-                    if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
+                    return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
+                }
+
+                // 如果是一键登录、如当前用户不存在手机号码则绑定
+                if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                {
+                    // 手机号码不存在则绑定到当前账号下
+                    $temp = self::UserBaseInfo('mobile', $data['mobile']);
+                    if(empty($temp))
                     {
-                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user['id']));
-                    }
-                } else {
-                    if($user['id'] != $temp['id'])
-                    {
-                        return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
+                        $upd_data = [
+                            'mobile'    => $data['mobile'],
+                            'upd_time'  => time(),
+                        ];
+                        if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
+                        {
+                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user['id']));
+                        }
+                    } else {
+                        if($user['id'] != $temp['id'])
+                        {
+                            return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
+                        }
                     }
                 }
+                return DataReturn(MyLang('auth_success'), 0, $user);
             }
-            return DataReturn(MyLang('auth_success'), 0, $user);
         } else {
-            // 是否需要添加用户
-            $is_insert_user = false;
-
             // 用户unionid
             $unionid = self::UserUnionidHandle($params);
             if(!empty($unionid['field']) && !empty($unionid['value']))
@@ -2237,46 +2238,47 @@ class UserService
                 if(!empty($unionid_user_platform))
                 {
                     // 用户信息
-                    $unionid_user_base = self::UserBaseInfo('id', $user_platform['user_id']);
+                    $unionid_user_base = self::UserBaseInfo('id', $unionid_user_platform['user_id']);
                     if(empty($user))
                     {
-                        return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -1);
-                    }
-                    // 用户状态
-                    if($unionid_user_base['status'] != 0)
-                    {
-                        return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
-                    }
-
-                    // openid绑定
-                    if(!self::UserPlatformUpdate('id', $unionid_user_platform['id'], [$field => $params['openid']], $params))
-                    {
-                        return DataReturn(MyLang('bind_fail'), -1);
-                    }
-
-                    // 如果是一键登录、如当前用户不存在手机号码则绑定
-                    if(empty($unionid_user_base['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
-                    {
-                        // 手机号码不存在则绑定到当前账号下
-                        $temp = self::UserBaseInfo('mobile', $data['mobile']);
-                        if(empty($temp))
+                        $is_insert_user = true;
+                    } else {
+                        // 用户状态
+                        if($unionid_user_base['status'] != 0)
                         {
-                            $upd_data = [
-                                'mobile'    => $data['mobile'],
-                                'upd_time'  => time(),
-                            ];
-                            if(!Db::name('User')->where(['id'=>$unionid_user_base['id']])->update($upd_data))
+                            return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
+                        }
+
+                        // openid绑定
+                        if(!self::UserPlatformUpdate('id', $unionid_user_platform['id'], [$field => $params['openid']], $params))
+                        {
+                            return DataReturn(MyLang('bind_fail'), -1);
+                        }
+
+                        // 如果是一键登录、如当前用户不存在手机号码则绑定
+                        if(empty($unionid_user_base['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                        {
+                            // 手机号码不存在则绑定到当前账号下
+                            $temp = self::UserBaseInfo('mobile', $data['mobile']);
+                            if(empty($temp))
                             {
-                                return DataReturn(MyLang('bind_fail'), -1);
-                            }
-                        } else {
-                            if($unionid_user_base['id'] != $temp['id'])
-                            {
-                                return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
+                                $upd_data = [
+                                    'mobile'    => $data['mobile'],
+                                    'upd_time'  => time(),
+                                ];
+                                if(!Db::name('User')->where(['id'=>$unionid_user_base['id']])->update($upd_data))
+                                {
+                                    return DataReturn(MyLang('bind_fail'), -1);
+                                }
+                            } else {
+                                if($unionid_user_base['id'] != $temp['id'])
+                                {
+                                    return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -1);
+                                }
                             }
                         }
+                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($unionid_user_base['id']));
                     }
-                    return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($unionid_user_base['id']));
                 }
 
                 // 如果用户不存在数据库中，则unionid放入用户data中
@@ -2314,27 +2316,27 @@ class UserService
                     }
                 }
             }
+        }
+
+        // 添加用户
+        if($is_insert_user)
+        {
+            // 是否需要审核
+            $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+            $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
 
             // 添加用户
-            if($is_insert_user)
+            $ret = self::UserInsert($data, $params);
+            if($ret['code'] == 0)
             {
                 // 是否需要审核
-                $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
-                $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
-
-                // 添加用户
-                $ret = self::UserInsert($data, $params);
-                if($ret['code'] == 0)
+                if($common_register_is_enable_audit == 1)
                 {
-                    // 是否需要审核
-                    if($common_register_is_enable_audit == 1)
-                    {
-                        return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
-                    }
-                    return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
+                    return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
                 }
-                return $ret;
+                return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
             }
+            return $ret;
         }
         return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(null, null, null, $data));
     }

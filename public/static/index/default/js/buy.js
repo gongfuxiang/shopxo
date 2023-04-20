@@ -1,7 +1,10 @@
+var store = $.AMUI.store;
 if(store.enabled)
 {
     // 选择缓存key
     var store_use_new_address_status_key = 'store-buy-use-new-address-status-count';
+} else {
+    alert(lang_store_enabled_tips || '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。');
 }
 
 $(function()

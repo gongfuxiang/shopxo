@@ -470,15 +470,16 @@ class Alipay
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
         $key = str_replace('.', '_', $parameter['method']).'_response';
 
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, $key))
-        {
-            return DataReturn('签名验证错误', -1);
-        }
 
         // 状态
         if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $key))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
