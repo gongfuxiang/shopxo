@@ -53,9 +53,10 @@ class Buy extends Common
      */
     public function Index()
     {
+        $key = 'buy_post_data_'.$this->user['id'];
         if($this->data_post)
         {
-            MySession('buy_post_data', $this->data_post);
+            MyCache($key, $this->data_post, 1800);
             return MyRedirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
@@ -66,7 +67,7 @@ class Buy extends Common
             }
 
             // 获取下单信息
-            $buy_data = MySession('buy_post_data');
+            $buy_data = MyCache($key);
             if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
                 MyViewAssign('msg', MyLang('goods_data_empty_tips'));
