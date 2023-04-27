@@ -62,69 +62,8 @@ $(function()
         var url = $(this).data('url') || null;
         var type = $(this).data('type');
         var key = $(this).data('key');
-        if(url != null)
-        {
-            // 名称
-            var name = $(this).data('node-name') || $(this).find('.nav-name').text();
-
-            // 先隐藏所有的iframe
-            // 页面未打开则添加iframe并打开
-            if($('#ifcontent .iframe-item-key-'+key).length == 0)
-            {
-                var html = `<div class="window-layer am-radius am-nbfc iframe-item-key-`+key+`" data-key="`+key+`">
-                                <div class="window-layer-tab-bar">
-                                    <span>`+name+`</span>
-                                    <div class="am-fr">
-                                        <span class="refresh am-icon-refresh"></span>
-                                        <span class="recovery am-icon-eject"></span>
-                                        <span class="close am-icon-close"></span>
-                                    </div>
-                                </div>
-                                <iframe src="`+url+`" width="100%" height="100%"></iframe>
-                                <div class="window-layer-seat"></div>
-                                <div class="window-layer-resize-bar">
-                                    <div data-type="left" class="window-layer-resize-item-left"></div>
-                                    <div data-type="right" class="window-layer-resize-item-right"></div>
-                                    <div data-type="top" class="window-layer-resize-item-top"></div>
-                                    <div data-type="bottom" class="window-layer-resize-item-bottom"></div>
-                                    <div data-type="left-top" class="window-layer-resize-item-left-top"></div>
-                                    <div data-type="right-top" class="window-layer-resize-item-right-top"></div>
-                                    <div data-type="left-bottom" class="window-layer-resize-item-left-bottom"></div>
-                                    <div data-type="right-bottom" class="window-layer-resize-item-right-bottom"></div>
-                                </div>
-                            </div>`;
-                $('#ifcontent').append(html);
-            }
-
-            // 添加快捷导航
-            if($('.header-menu-open-pages-list ul li.nav-item-key-'+key).length == 0)
-            {
-                var html = `<li data-url="`+url+`" data-key="`+key+`" class="nav-item-key-`+key+`">
-                                <span>`+name+`</span>
-                                <a href="javascript:;" class="am-icon-close"></a>
-                            </li>`;
-                $('.header-menu-open-pages-list ul').append(html);
-            }
-            // 模拟点击当前元素
-            $('.header-menu-open-pages-list ul li.nav-item-key-'+key).trigger('click');
-
-            // 顶部菜单事件，关闭弹层
-            if(type == 'nav')
-            {
-                if($(document).width() < 641)
-                {
-                    $('.header-nav-submit').trigger('click');
-                } else {
-                    $(this).parents('.admin-header-list').trigger('click');
-                }
-            }
-
-            // 关闭左侧弹层
-            if(type == 'menu')
-            {
-                $('#admin-offcanvas').offCanvas('close');
-            }
-        }
+        var name = $(this).data('node-name') || $(this).find('.nav-name').text();
+        AdminTopNavIframeAddHandle(url, name, key, type);
     });
 
     // 菜单选择

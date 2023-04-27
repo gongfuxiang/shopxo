@@ -69,7 +69,7 @@
                                                 <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="{{:MyLang('download_title')}}"></a>
                                             {{/if}}
 
-                                            <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="{{:MyLang('setup_title')}}"></a>
+                                            <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" data-name="{{$v.name}}" data-key="{{$v.plugins}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="{{:MyLang('setup_title')}}"></a>
                                             
                                             <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="{{:MyLang('pluginsadmin.uninstall_confirm_tips')}}" title="{{:MyLang('uninstall_title')}}"></button>
 

@@ -195,14 +195,40 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             APP_PATH.$request_module.DS.'lang'.DS.$current_lang.'.php',
             APP_PATH.'lang'.DS.$current_lang.'.php',
         ];
-        // 是否插件语言
-        if(!empty($plugins) || RequestController() == 'plugins')
+
+        // 是否插件语言、未指定则处理
+        if(empty($plugins))
         {
-            $pluginsname = empty($plugins) ? MyInput('pluginsname') : $plugins;
+            $pluginsname = MyInput('pluginsname');
+            if(empty($pluginsname) && RequestController() != 'plugins')
+            {
+                // 获取最新一条回溯跟踪
+                $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+                if(!empty($backtrace) && !empty($backtrace[0]) && !empty($backtrace[0]['file']))
+                {
+                    $str = 'app/plugins/';
+                    $loc = stripos($backtrace[0]['file'], $str);
+                    if($loc !== false)
+                    {
+                        $temp = explode($str, $backtrace[0]['file']);
+                        if(count($temp) > 1)
+                        {
+                            $pluginsname = explode('/', $temp[1])[0];
+                        }
+                    }
+                }
+            }
+        } else {
+            $pluginsname = $plugins;
+        }
+        if(!empty($pluginsname))
+        {
             $plugins_dir = APP_PATH.'plugins'.DS.$pluginsname.DS.'lang'.DS;
             array_unshift($arr_file, $plugins_dir.$current_lang.'.php');
             array_unshift($arr_file, $plugins_dir.$request_module.DS.$current_lang.'.php');
         }
+
+        // 循环获取语言时间
         foreach($arr_file as $file)
         {
             $md5_key = md5($file);
@@ -248,13 +274,13 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
         }
 
         // 未找到对应语言
-        if($value == '' || $key == $value)
+        if($value == '')
         {
             // 非默认语言则读取默认语言
             $default_lang = MyConfig('lang.default_lang');
             if($default_lang != $lang)
             {
-                $value = MyLang($key, $vars, $default_lang);
+                $value = MyLang($key, $vars, $default_lang, $pluginsname);
             }
         }
 
@@ -2937,7 +2963,7 @@ function ParamsChecked($data, $params)
         return MyLang('common_function.check_config_error_tips');
     }
 
-    foreach ($params as $v)
+    foreach($params as $v)
     {
         if(empty($v['key_name']) || empty($v['error_msg']))
         {

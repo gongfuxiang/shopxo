@@ -55,7 +55,7 @@ class WalletPay
         // 基础信息
         $base = [
             'name'          => '钱包支付',  // 插件名称
-            'version'       => '0.0.3',  // 插件版本
+            'version'       => '0.0.4',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'desc'          => '钱包余额支付',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
@@ -122,7 +122,7 @@ class WalletPay
         }
 
         // 处理支付
-        $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, '钱包余额支付[订单'.$params['order_no'].']');
+        $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, '钱包余额支付[订单'.$params['order_no'].']', ['is_consistent'=>1]);
         if($ret['code'] == 0)
         {
             // 支付方式
@@ -160,7 +160,7 @@ class WalletPay
                 'order'         => $order_list,
                 'payment'       => $payment[0],
                 'pay_log_data'  => $pay_log_data,
-                'pay'       => [
+                'pay'           => [
                     'trade_no'      => '钱包支付',
                     'subject'       => $pay_log_data['subject'],
                     'buyer_user'    => (empty($params['user']) || empty($params['user']['user_name_view'])) ? '' : $params['user']['user_name_view'],

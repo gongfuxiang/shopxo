@@ -339,7 +339,7 @@ class SystemBaseService
     }
 
     /**
-     * 商品优化记录
+     * 商品优惠记录
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

@@ -182,6 +182,94 @@ function StoreAccountsPopupOpen()
     });
 }
 
+/**
+ * 管理顶部菜单添加处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-04-24
+ * @desc    description
+ * @param   {[string]}        url       [url地址]
+ * @param   {[string]}        name      [展示名称]
+ * @param   {[string]}        key       [唯一key值]
+ * @param   {[string]}        type      [类型 nav 或 menu]
+ * @param   {[boolean]}       is_reload [重新加载]
+ */
+function AdminTopNavIframeAddHandle(url, name, key, type = 'nav', is_reload = false)
+{
+    if((url || null) != null)
+    {
+        if($('#ifcontent').length > 0)
+        {
+            // 先隐藏所有的iframe
+            // 页面未打开则添加iframe并打开
+            if($('#ifcontent .iframe-item-key-'+key).length == 0)
+            {
+                var html = `<div class="window-layer am-radius am-nbfc iframe-item-key-`+key+`" data-key="`+key+`">
+                                <div class="window-layer-tab-bar">
+                                    <span>`+name+`</span>
+                                    <div class="am-fr">
+                                        <span class="refresh am-icon-refresh"></span>
+                                        <span class="recovery am-icon-eject"></span>
+                                        <span class="close am-icon-close"></span>
+                                    </div>
+                                </div>
+                                <iframe src="`+url+`" width="100%" height="100%"></iframe>
+                                <div class="window-layer-seat"></div>
+                                <div class="window-layer-resize-bar">
+                                    <div data-type="left" class="window-layer-resize-item-left"></div>
+                                    <div data-type="right" class="window-layer-resize-item-right"></div>
+                                    <div data-type="top" class="window-layer-resize-item-top"></div>
+                                    <div data-type="bottom" class="window-layer-resize-item-bottom"></div>
+                                    <div data-type="left-top" class="window-layer-resize-item-left-top"></div>
+                                    <div data-type="right-top" class="window-layer-resize-item-right-top"></div>
+                                    <div data-type="left-bottom" class="window-layer-resize-item-left-bottom"></div>
+                                    <div data-type="right-bottom" class="window-layer-resize-item-right-bottom"></div>
+                                </div>
+                            </div>`;
+                $('#ifcontent').append(html);
+            } else {
+                if(is_reload)
+                {
+                    var $obj = $('#ifcontent .iframe-item-key-'+key+' iframe');
+                    $obj.attr('src', $obj.attr('src'));
+                }
+            }
+
+            // 添加快捷导航
+            if($('.header-menu-open-pages-list ul li.nav-item-key-'+key).length == 0)
+            {
+                var html = `<li data-url="`+url+`" data-key="`+key+`" class="nav-item-key-`+key+`">
+                                <span>`+name+`</span>
+                                <a href="javascript:;" class="am-icon-close"></a>
+                            </li>`;
+                $('.header-menu-open-pages-list ul').append(html);
+            }
+            // 模拟点击当前元素
+            $('.header-menu-open-pages-list ul li.nav-item-key-'+key).trigger('click');
+
+            // 顶部菜单事件，关闭弹层
+            if(type == 'nav')
+            {
+                if($(document).width() < 641)
+                {
+                    $('.header-nav-submit').trigger('click');
+                } else {
+                    $(this).parents('.admin-header-list').trigger('click');
+                }
+            }
+
+            // 关闭左侧弹层
+            if(type == 'menu')
+            {
+                $('#admin-offcanvas').offCanvas('close');
+            }
+        } else {
+            window.location.href = url;
+        }
+    }
+}
+
 $(function()
 {
     // 插件更新操作事件

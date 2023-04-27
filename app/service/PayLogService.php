@@ -150,7 +150,7 @@ class PayLogService
             'status'            => 1,
             'pay_time'          => time(),
         ];
-        if(Db::name('PayLog')->where(['id'=>intval($params['log_id']), 'status'=>0])->update($data))
+        if(Db::name('PayLog')->where(['id'=>intval($params['log_id']), 'status'=>0])->update($data) !== false)
         {
             return DataReturn(MyLang('update_success'), 0);
         }

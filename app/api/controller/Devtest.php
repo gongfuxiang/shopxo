@@ -639,5 +639,111 @@ class Devtest extends Common
         }
         return $result;
     }
+
+    // 地区导入
+    public function Region()
+    {
+        die('禁止访问');
+        // $save_file = ROOT.'region_text.text';
+        // excel读取
+        // // 获取导入数据
+        // $file = ROOT.'KEN_ALL_ROME.xlsx';
+        // $ret = (new \base\Excel())->Import($file);
+        // if($ret['code'] != 0)
+        // {
+        //     die($ret['msg']);
+        // }
+        // if(empty($ret['data']) || empty($ret['data']['title']) || empty($ret['data']['data']))
+        // {
+        //     die('导入数据为空');
+        // }
+        // // 数据组合
+        // $data = [];
+        // foreach(array_chunk($ret['data']['data'], 1000) as $v)
+        // {
+        //     foreach($v as $vs)
+        //     {
+        //         if(!array_key_exists($vs[1], $data))
+        //         {
+        //             $data[$vs[1]] = [
+        //                 'name'  =>$vs[1],
+        //                 'code'  => '',
+        //                 'item'  => [],
+        //             ];
+        //         }
+        //         $temp = str_replace([' ', '　'], '', $vs[2]);
+        //         if(!array_key_exists($temp, $data[$vs[1]]['item']))
+        //         {
+        //             $data[$vs[1]]['item'][$temp] = [
+        //                 'name'  => $temp,
+        //                 'code'  => '',
+        //                 'item'  => [],
+        //             ];
+        //         }
+        //         $temp2 = explode('（', $vs[3]);
+        //         if(!array_key_exists($temp2[0], $data[$vs[1]]['item'][$temp]['item']))
+        //         {
+        //             $data[$vs[1]]['item'][$temp]['item'][$temp2[0]] = [
+        //                 'name'  => $temp2[0],
+        //                 'code'  => $vs[0],
+        //             ];
+        //         }
+        //     }
+        // }
+        // file_put_contents($save_file, json_encode($data, JSON_UNESCAPED_UNICODE));
+
+        // echo 'ok';
+        // echo '<pre>';
+        // print_r($data);
+
+        // 导入
+        // $data = json_decode(file_get_contents($save_file), true);
+        // // echo '<pre>';
+        // // print_r($data);
+        // foreach(array_chunk($data, 50) as $v)
+        // {
+        //     foreach($v as $v1)
+        //     {
+        //         $insert = [
+        //             'name'      => $v1['name'],
+        //             'code'      => empty($v1['code']) ? '' : $v1['code'],
+        //             'level'     => 1,
+        //             'add_time'  => time(),
+        //         ];
+        //         $id1 = Db::name('Region')->insertGetId($insert);
+        //         if($id1 > 0 && !empty($v1['item']))
+        //         {
+        //             foreach($v1['item'] as $v2)
+        //             {
+        //                 $insert = [
+        //                     'pid'       => $id1,
+        //                     'name'      => $v2['name'],
+        //                     'code'      => empty($v2['code']) ? '' : $v2['code'],
+        //                     'level'     => 2,
+        //                     'add_time'  => time(),
+        //                 ];
+        //                 $id2 = Db::name('Region')->insertGetId($insert);
+        //                 if($id2 > 0 && !empty($v2['item']))
+        //                 {
+        //                     $all = [];
+        //                     foreach($v2['item'] as $v3)
+        //                     {
+        //                         $all[] = [
+        //                             'pid'       => $id2,
+        //                             'name'      => $v3['name'],
+        //                             'code'      => empty($v3['code']) ? '' : $v3['code'],
+        //                             'level'     => 3,
+        //                             'add_time'  => time(),
+        //                         ];
+        //                     }
+        //                     Db::name('Region')->insertAll($all);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // echo 'ok';
+        
+    }
 }
 ?>

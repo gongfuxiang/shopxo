@@ -53,7 +53,7 @@ $(function()
         {
             Prompt(window['lang_not_enable_tips'] || '请先点击勾勾启用');
         } else {
-            window.location.href = $(this).data('set-url');
+            window.parent.AdminTopNavIframeAddHandle($(this).data('set-url'), $(this).data('name'), $(this).data('key'), 'nnav', true);
         }
     });
 
