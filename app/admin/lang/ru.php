@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'форма платежа',
-        'nav_store_payment_name'                => 'Загрузить больше тем',
+        'nav_store_payment_name'                => 'Скачать больше способов оплаты ',
         'upload_top_list_tips'                  => [
             [
                 'name'  => 'Имя класса должно соответствовать имени файла (удалить.php), если Alipay.php берет Alipay',

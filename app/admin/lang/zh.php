@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => '支付方式',
-        'nav_store_payment_name'                => '更多主题下载',
+        'nav_store_payment_name'                => '更多支付方式下载',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay',

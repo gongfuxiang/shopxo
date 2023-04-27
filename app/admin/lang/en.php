@@ -856,7 +856,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'PaymentMethod',
-        'nav_store_payment_name'                => 'More topic downloads',
+        'nav_store_payment_name'                => 'More PaymentMethod downloads',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. The class name must be consistent with the file name (remove. php). If Alipay.php, Alipay is used'

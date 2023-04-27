@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => '지불 방식',
-        'nav_store_payment_name'                => '추가 테마 다운로드',
+        'nav_store_payment_name'                => '추가 결제 방법 다운로드',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. 클래스 이름은 파일 이름과 일치해야 합니다 (.php 제거). Alipay.php의 경우 Alipay',

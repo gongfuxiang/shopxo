@@ -843,7 +843,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'วิธีการชำระเงิน',
-        'nav_store_payment_name'                => 'หัวข้อเพิ่มเติม ดาวน์โหลด',
+        'nav_store_payment_name'                => 'วิธีการชำระเงินเพิ่มเติม ดาวน์โหลด',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. ชื่อคลาสต้องสอดคล้องกับชื่อไฟล์ (ถอด .php) เช่น Alipay.php ใช้ Alipay',

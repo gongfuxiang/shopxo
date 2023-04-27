@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'Betalningsmetod',
-        'nav_store_payment_name'                => 'Fler temahämtningar',
+        'nav_store_payment_name'                => 'Ladda ner fler betalningsmetoder',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '"Klassnamnet måste överensstämma med filnamnet (remove. php). Om Alipay.php används används Alipay."',

@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => '支払い方法',
-        'nav_store_payment_name'                => 'その他のトピックのダウンロード',
+        'nav_store_payment_name'                => 'その他の支払い方法のダウンロード',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1.クラス名はファイル名に一致している必要があります（.phpを除く）、Alipay.phpの場合はAlipay',

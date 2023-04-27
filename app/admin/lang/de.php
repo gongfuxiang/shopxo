@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'Zahlungsmethode',
-        'nav_store_payment_name'                => 'Weitere Theme-Downloads',
+        'nav_store_payment_name'                => 'Weitere Zahlungsmethode Downloads',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '"Der Klassenname muss mit dem Dateinamen übereinstimmen (remove.php). Wenn Alipay.php verwendet wird, wird Alipay verwendet."',

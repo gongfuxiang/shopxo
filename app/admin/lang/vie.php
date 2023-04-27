@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'Phương thức thanh toán',
-        'nav_store_payment_name'                => 'Thêm chủ đề Download',
+        'nav_store_payment_name'                => 'Thêm phương thức thanh toán Tải về',
         'upload_top_list_tips'                  => [
             [
                 'name'  => 'Tên lớp phải phù hợp với tên tệp (loại bỏ.php), chẳng hạn như Alipay.php hoặc Alipay.php',

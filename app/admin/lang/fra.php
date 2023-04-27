@@ -841,7 +841,7 @@ return [
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'Mode de paiement',
-        'nav_store_payment_name'                => 'Plus de thèmes à télécharger',
+        'nav_store_payment_name'                => 'Plus de paiement télécharger',
         'upload_top_list_tips'                  => [
             [
                 'name'  => 'Le nom de la classe doit correspondre au nom du fichier (supprimer.Php), comme alipay.php prend AliPay',
