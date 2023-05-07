@@ -199,24 +199,25 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
         // 是否插件语言、未指定则处理
         if(empty($plugins))
         {
-            $pluginsname = MyInput('pluginsname');
-            if(empty($pluginsname) && RequestController() != 'plugins')
+            // 获取最新一条回溯跟踪
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+            if(!empty($backtrace) && !empty($backtrace[0]) && !empty($backtrace[0]['file']))
             {
-                // 获取最新一条回溯跟踪
-                $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
-                if(!empty($backtrace) && !empty($backtrace[0]) && !empty($backtrace[0]['file']))
+                $str = 'app/plugins/';
+                $loc = stripos($backtrace[0]['file'], $str);
+                if($loc !== false)
                 {
-                    $str = 'app/plugins/';
-                    $loc = stripos($backtrace[0]['file'], $str);
-                    if($loc !== false)
+                    $temp = explode($str, $backtrace[0]['file']);
+                    if(count($temp) > 1)
                     {
-                        $temp = explode($str, $backtrace[0]['file']);
-                        if(count($temp) > 1)
-                        {
-                            $pluginsname = explode('/', $temp[1])[0];
-                        }
+                        $pluginsname = explode('/', $temp[1])[0];
                     }
                 }
+            }
+            // 空则参数读取
+            if(empty($pluginsname))
+            {
+                $pluginsname = MyInput('pluginsname');
             }
         } else {
             $pluginsname = $plugins;
@@ -225,6 +226,7 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
         {
             $plugins_dir = APP_PATH.'plugins'.DS.$pluginsname.DS.'lang'.DS;
             array_unshift($arr_file, $plugins_dir.$current_lang.'.php');
+            array_unshift($arr_file, $plugins_dir.'common'.DS.$current_lang.'.php');
             array_unshift($arr_file, $plugins_dir.$request_module.DS.$current_lang.'.php');
         }
 
