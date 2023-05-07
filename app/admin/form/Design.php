@@ -195,9 +195,10 @@ class Design
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'Design',
-                'data_handle'   => 'DesignService::DesignListHandle',
-                'is_page'       => 1,
+                'table_name'             => 'Design',
+                'data_handle'            => 'DesignService::DesignListHandle',
+                'is_page'                => 1,
+                'is_handle_annex_field'  => 1,
             ],
         ];
     }

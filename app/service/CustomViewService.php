@@ -60,6 +60,12 @@ class CustomViewService
             $common_is_text_list = MyLang('common_is_text_list');
             foreach($data as &$v)
             {
+                // logo
+                if(array_key_exists('logo', $v))
+                {
+                    $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+                }
+
                 // 内容
                 if(isset($v['html_content']))
                 {

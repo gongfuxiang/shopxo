@@ -255,18 +255,6 @@ class UserService
                 }
             }
         }
-
-        // 非退出操作则重新设置用户信息
-        if(!empty($user_login_info) && RequestAction() != 'logout' && MyInput('pluginsaction') != 'logout')
-        {
-            // 重新更新用户session或cookie缓存
-            self::UserLoginRecord($user_login_info['id']);
-            // 重新存储用户缓存
-            if(!empty($user_login_info['token']))
-            {
-                MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user_login_info['token'], $user_login_info);
-            }
-        }
         return $user_login_info;
     }
 
@@ -1495,7 +1483,7 @@ class UserService
                 // 成功返回
                 if(APPLICATION == 'app')
                 {
-                    $result = self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user_ret['data']['user_id']]);
+                    $result = self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user_ret['data']['user_id']]);
                 } else {
                     $result = $user_ret['data'];
                 }
@@ -2223,7 +2211,7 @@ class UserService
                         ];
                         if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
                         {
-                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user['id']]));
+                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user['id']]));
                         }
                     } else {
                         if($user['id'] != $temp['id'])
@@ -2283,7 +2271,7 @@ class UserService
                                 }
                             }
                         }
-                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$unionid_user_base['id']]));
+                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$unionid_user_base['id']]));
                     }
                 }
 
@@ -2315,7 +2303,7 @@ class UserService
                         }
                         if(self::UserPlatformInsert($user_platform_insert, $params))
                         {
-                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user['id']]));
+                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user['id']]));
                         }
                     } else {
                         $is_insert_user = true;
@@ -2340,7 +2328,7 @@ class UserService
                 {
                     return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
                 }
-                return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$ret['data']['user_id']]));
+                return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$ret['data']['user_id']]));
             }
             return $ret;
         }
@@ -2922,7 +2910,7 @@ class UserService
         {
             // 清除验证码
             $obj->Remove();
-            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user_id]));
+            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user_id]));
         }
         return DataReturn(MyLang('bind_fail'), -100);
     }

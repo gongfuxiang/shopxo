@@ -169,9 +169,10 @@ class CustomView
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'CustomView',
-                'data_handle'   => 'CustomViewService::CustomViewListHandle',
-                'is_page'       => 1,
+                'table_name'             => 'CustomView',
+                'data_handle'            => 'CustomViewService::CustomViewListHandle',
+                'is_page'                => 1,
+                'is_handle_annex_field'  => 1,
             ],
         ];
     }

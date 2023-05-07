@@ -2918,7 +2918,7 @@ class GoodsService
     public static function GoodsBreadcrumbData($goods)
     {
         // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_goods_detail_breadcrumb_key');
+        $key = SystemService::CacheKey('shopxo.cache_goods_detail_breadcrumb_key').$goods['id'];
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {

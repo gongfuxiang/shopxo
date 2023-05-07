@@ -200,7 +200,7 @@ class AppMiniUserService
                 // 是否重新获取用户信息
                 if($status)
                 {
-                    $user = UserService::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user['id']]);
+                    $user = UserService::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user['id']]);
                 }
             }
 
@@ -447,7 +447,7 @@ class AppMiniUserService
                 // 是否重新获取用户信息
                 if($status)
                 {
-                    $user = UserService::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user['id']]);
+                    $user = UserService::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user['id']]);
                 }
             }
 
@@ -659,7 +659,7 @@ class AppMiniUserService
                     // 是否重新获取用户信息
                     if($status)
                     {
-                        $user = UserService::AppUserInfoHandle(['where_field'=>'user_id', 'where_value'=>$user['id']]);
+                        $user = UserService::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user['id']]);
                     }
                 }
 

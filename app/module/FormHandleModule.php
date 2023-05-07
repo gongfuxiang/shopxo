@@ -428,7 +428,7 @@ class FormHandleModule
 
                 // 附件字段
                 $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
-                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
 
                 // 1. 展示字段指定数组转换处理
                 // 2. 状态字段按照搜索列表转换处理

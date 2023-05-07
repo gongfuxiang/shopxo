@@ -172,6 +172,7 @@ class QuickNav
                 'is_page'               => 1,
                 'order_by'              => 'sort asc,id asc',
                 'is_handle_time_field'  => 1,
+                'is_handle_annex_field' => 1,
             ],
         ];
     }
