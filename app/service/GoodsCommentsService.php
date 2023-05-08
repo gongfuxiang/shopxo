@@ -230,7 +230,9 @@ class GoodsCommentsService
                         ['id', 'in', array_unique(array_column($data, 'goods_id'))],
                         ['is_delete_time', '=', 0],
                     ],
-                    'field'  => 'id,title,images,price,min_price',
+                    'field' => 'id,title,images,price,min_price',
+                    'm'     => 0,
+                    'n'     => 0,
                 ];
                 $ret = GoodsService::GoodsList($goods_params);
                 if(!empty($ret['data']))
