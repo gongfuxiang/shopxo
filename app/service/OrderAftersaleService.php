@@ -427,11 +427,34 @@ class OrderAftersaleService
     {
         if(!empty($data))
         {
+            // 订单售后列表钩子-前面
+            $hook_name = 'plugins_service_order_aftersale_list_handle_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
             $type_list = MyLang('common_order_aftersale_type_list');
             $status_list = MyLang('common_order_aftersale_status_list');
             $refundment_list = MyLang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
+                // 订单售后处理前钩子
+                $hook_name = 'plugins_service_order_aftersale_handle_begin';
+                $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'order'         => &$v,
+                    'order_id'      => $v['order_id']
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
                 // 订单商品
                 $order = self::OrdferGoodsRow($v['order_id'], $v['order_detail_id'], $v['user_id']);
                 $v['order_data'] = $order['data'];
@@ -487,7 +510,30 @@ class OrderAftersaleService
 
                 // 更新时间
                 $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+
+                // 订单售后处理后钩子
+                $hook_name = 'plugins_service_order_aftersale_handle_end';
+                $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'order'         => &$v,
+                    'order_id'      => $v['order_id']
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
             }
+
+            // 订单售后列表钩子-后面
+            $hook_name = 'plugins_service_order_aftersale_list_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
         }
         return $data;
     }
