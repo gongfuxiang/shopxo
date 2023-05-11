@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Tạm thời đóng đăng ký người dùng',
         'close_user_login_tips'                 => 'Tạm thời tắt đăng nhập người dùng',
+        // 底部
+        'footer_icp_filing_text'                => 'Hồ sơ ICP',
+        'footer_public_security_filing_text'    => 'Công an lập hồ sơ',
+        'footer_business_license_text'          => 'Giấy phép kinh doanh điện tử',
     ],
 
     // 首页

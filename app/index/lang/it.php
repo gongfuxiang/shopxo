@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Registrazione temporanea dellutente',
         'close_user_login_tips'                 => 'Disattivare temporaneamente laccesso utente',
+        // 底部
+        'footer_icp_filing_text'                => 'Deposito ICP',
+        'footer_public_security_filing_text'    => 'Archiviazione di pubblica sicurezza',
+        'footer_business_license_text'          => 'Illuminazione elettronica delle licenze commerciali',
     ],
 
     // 首页

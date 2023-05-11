@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => '사용자 등록 일시 해제',
         'close_user_login_tips'                 => '사용자 로그인 일시 닫기',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP 등록',
+        'footer_public_security_filing_text'    => '공안 등록',
+        'footer_business_license_text'          => '전자 영업 허가증',
     ],
 
     // 首页

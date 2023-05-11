@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => '暂时关闭用户注册',
         'close_user_login_tips'                 => '暂时关闭用户登录',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP备案',
+        'footer_public_security_filing_text'    => '公安备案',
+        'footer_business_license_text'          => '电子营业执照亮照',
     ],
 
     // 首页

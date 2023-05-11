@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Fermer temporairement linscription des utilisateurs',
         'close_user_login_tips'                 => 'Fermer temporairement le login de lutilisateur',
+        // 底部
+        'footer_icp_filing_text'                => 'Dépôt ICP',
+        'footer_public_security_filing_text'    => 'Dépôt de la sécurité publique',
+        'footer_business_license_text'          => 'Licence dentreprise électronique illuminée',
     ],
 
     // 首页

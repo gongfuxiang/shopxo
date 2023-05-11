@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => '暫時關閉用戶註冊',
         'close_user_login_tips'                 => '暫時關閉用戶登錄',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP備案',
+        'footer_public_security_filing_text'    => '警察備案',
+        'footer_business_license_text'          => '電子營業執照亮照',
     ],
 
     // 首页

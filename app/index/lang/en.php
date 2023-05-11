@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Temporarily close user registration',
         'close_user_login_tips'                 => 'Temporarily close user login',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP Filing',
+        'footer_public_security_filing_text'    => 'Public Security Filing',
+        'footer_business_license_text'          => 'Electronic Business License Illumination',
     ],
 
     // 首页

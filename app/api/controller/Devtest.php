@@ -615,6 +615,115 @@ class Devtest extends Common
         }
         die('success:'.$success.', fail:'.$fail);
     }
+    /**
+     * 插件语言翻译生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-24
+     * @desc    description
+     */
+    public function PluginsFanyi()
+    {
+        // if(input('pwd') != 'shopxo520')
+        // {
+        //     die('非法访问');
+        // }
+        // die('禁止访问');
+
+        // 需要翻译的语言、参考 config/lang.php文件
+        $to = 'en';
+        $to_name = '英文';
+        $plugins = 'erp';
+
+        // 待翻译的目录
+        $arr = [
+            APP_PATH.'plugins'.DS.$plugins.DS.'lang'.DS,
+            APP_PATH.'plugins'.DS.$plugins.DS.'lang'.DS.'admin'.DS,
+            APP_PATH.'plugins'.DS.$plugins.DS.'lang'.DS.'index'.DS,
+        ];
+
+        // 获取数据
+        $zh_data = [];
+        foreach($arr as $dir)
+        {
+            if(!is_dir($dir))
+            {
+                continue;
+            }
+            $zh_file = $dir.'zh.php';
+            if(!file_exists($zh_file))
+            {
+                continue;
+            }
+            $temp = require $zh_file;
+            $zh_data = array_merge($zh_data, $this->FanyiData($temp));
+        }
+
+        // 翻译数据 并 生成数据
+        $params = [];
+        $vers = get_class_vars(get_class());
+        foreach($vers as $k=>$v)
+        {
+            if(property_exists($this, $k))
+            {
+                $params[$k] = $this->$k;
+            }
+        }
+        $params['data_request']['to'] = $to;
+        $params['data_request']['q'] = implode("\n", $zh_data);
+        //$params['data_request']['q'] = "你好\n我是龚";
+        $fanyi = PluginsControlCall('multilingual', 'index', 'fanyi', 'index', $params, 1);
+        if(isset($fanyi['code']) && $fanyi['code'] != 0)
+        {
+            die($fanyi['msg']);
+        }
+        $fanyi_data = (!empty($fanyi['data']) && !empty($fanyi['data']['trans_result'])) ? $fanyi['data']['trans_result'] : [];
+        if(empty($fanyi_data))
+        {
+            die('没有翻译数据');
+        }
+
+        // 替换数据
+        $search = array_map(function($item)
+            {
+                return "'".$item."'";
+            }, array_column($fanyi_data, 'src'));
+        $replace = array_map(function($item)
+            {
+                return "'".str_replace("'", '', $item)."'";
+            }, array_column($fanyi_data, 'dst'));
+        // 加入标题名称
+        $search[] = '语言包-中文';
+        $replace[] = '语言包-'.$to_name;
+
+        // 开始生成文件并替换数据
+        $success = 0;
+        $fail = 0;
+        foreach($arr as $dir)
+        {
+            // 复制文件
+            $zh_file = $dir.'zh.php';
+            if(!file_exists($zh_file))
+            {
+                continue;
+            }
+            $to_file = $dir.$to.'.php';
+            if(!\base\FileUtil::CopyFile($zh_file, $to_file, true))
+            {
+                continue;
+            }
+            // 生成文件并替换
+            $content = file_get_contents($to_file);
+            if(file_put_contents($to_file, str_replace($search, $replace, $content)) !== false)
+            {
+                $success++;
+            } else {
+                $fail++;
+            }
+        }
+        die('success:'.$success.', fail:'.$fail);
+    }
     // 翻译数据递归获取
     public function FanyiData($data)
     {

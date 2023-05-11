@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Gebruikersregistratie tijdelijk afsluiten',
         'close_user_login_tips'                 => 'Gebruikersaanmelding tijdelijk uitschakelen',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP-indiening',
+        'footer_public_security_filing_text'    => 'Openbare veiligheid',
+        'footer_business_license_text'          => 'Verlichting van elektronische bedrijfsvergunning',
     ],
 
     // 首页

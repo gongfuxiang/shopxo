@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Cierre temporal del registro de usuarios',
         'close_user_login_tips'                 => 'Cierre temporalmente el inicio de sesión del usuario',
+        // 底部
+        'footer_icp_filing_text'                => 'Registro ICP',
+        'footer_public_security_filing_text'    => 'Registro de seguridad pública',
+        'footer_business_license_text'          => 'Licencia comercial electrónica iluminada',
     ],
 
     // 首页

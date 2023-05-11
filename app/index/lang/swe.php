@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Tillfälligt stängd användarregistrering',
         'close_user_login_tips'                 => 'Stäng tillfälligt av användarinloggning',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP-arkivering',
+        'footer_public_security_filing_text'    => 'Registrering av allmän säkerhet',
+        'footer_business_license_text'          => 'Elektronisk affärslicensbelysning',
     ],
 
     // 首页

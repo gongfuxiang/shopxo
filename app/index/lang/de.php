@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Benutzerregistrierung vorübergehend schließen',
         'close_user_login_tips'                 => 'Benutzeranmeldung vorübergehend deaktivieren',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP-Einreichung',
+        'footer_public_security_filing_text'    => 'Einreichung der öffentlichen Sicherheit',
+        'footer_business_license_text'          => 'Elektronische Gewerbelizenzbeleuchtung',
     ],
 
     // 首页

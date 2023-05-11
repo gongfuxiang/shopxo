@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'Временное закрытие регистрации пользователей',
         'close_user_login_tips'                 => 'Временно отключить вход пользователя',
+        // 底部
+        'footer_icp_filing_text'                => 'Регистрация ICP',
+        'footer_public_security_filing_text'    => 'Регистрация общественной безопасности',
+        'footer_business_license_text'          => 'Электронная лицензия.',
     ],
 
     // 首页

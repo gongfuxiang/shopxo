@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'ユーザー登録の一時停止',
         'close_user_login_tips'                 => 'ユーザーログインの一時停止',
+        // 底部
+        'footer_icp_filing_text'                => 'ICP届出',
+        'footer_public_security_filing_text'    => '警察の届出',
+        'footer_business_license_text'          => '電子営業許可証点灯',
     ],
 
     // 首页

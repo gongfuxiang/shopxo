@@ -51,6 +51,10 @@ return [
         ],
         'close_user_register_tips'              => 'ปิดการลงทะเบียนผู้ใช้ชั่วคราว',
         'close_user_login_tips'                 => 'ปิดการเข้าสู่ระบบผู้ใช้ชั่วคราว',
+        // 底部
+        'footer_icp_filing_text'                => 'การยื่น ICP',
+        'footer_public_security_filing_text'    => 'บันทึกความปลอดภัยสาธารณะ',
+        'footer_business_license_text'          => 'ใบอนุญาตประกอบธุรกิจอิเล็กทรอนิกส์',
     ],
 
     // 首页
