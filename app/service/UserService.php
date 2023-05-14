@@ -2454,7 +2454,7 @@ class UserService
             MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
-                'user_id'       => $params['user']['id'],
+                'user_id'       => (empty($params['user']) || empty($params['user']['id'])) ? 0 : $params['user']['id'],
                 'user'          => &$params['user'],
                 'params'        => $params,
             ]);
