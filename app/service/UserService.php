@@ -2176,6 +2176,9 @@ class UserService
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
 
+        // 用户唯一方法
+        $method = self::UserUniqueMethod();
+
         // 是否一键登录
         $is_onekey_mobile_bind = isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 ? 1 : 0;
 
@@ -2202,7 +2205,7 @@ class UserService
                 if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
                 {
                     // 手机号码不存在则绑定到当前账号下
-                    $temp = self::UserBaseInfo('mobile', $data['mobile']);
+                    $temp = self::$method('mobile', $data['mobile']);
                     if(empty($temp))
                     {
                         $upd_data = [
@@ -2253,7 +2256,7 @@ class UserService
                         if(empty($unionid_user_base['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
                         {
                             // 手机号码不存在则绑定到当前账号下
-                            $temp = self::UserBaseInfo('mobile', $data['mobile']);
+                            $temp = self::$method('mobile', $data['mobile']);
                             if(empty($temp))
                             {
                                 $upd_data = [
@@ -2289,7 +2292,7 @@ class UserService
                 {
                     // 如果手机号码存在则直接绑定openid
                     // 不存在添加，存在更新openid
-                    $user = self::UserBaseInfo('mobile', $data['mobile']);
+                    $user = self::$method('mobile', $data['mobile']);
                     if(!empty($user))
                     {
                         // 上面openid和unionid都没存在信息，但是存在手机号码信息则增加用户平台数据
@@ -2792,7 +2795,8 @@ class UserService
         $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyLang('common_appmini_type'));
 
         // 手机号码获取用户信息
-        $mobile_user = self::UserBaseInfo('mobile', $data['mobile']);
+        $method = self::UserUniqueMethod();
+        $mobile_user = self::$method('mobile', $data['mobile']);
 
         // 额外信息
         if(empty($mobile_user))
@@ -2908,6 +2912,16 @@ class UserService
         }
         if(isset($user_id) && $user_id > 0)
         {
+            // 用户平台信息、不存在则添加
+            $user_platform = self::UserPlatformInfo('user_id', $user_id);
+            if(empty($user_platform))
+            {
+                if(!self::UserPlatformInsert(['user_id' => $user_id], $params))
+                {
+                    return DataReturn(MyLang('insert_fail'), -1);
+                }
+            }
+
             // 清除验证码
             $obj->Remove();
             return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user_id]));
