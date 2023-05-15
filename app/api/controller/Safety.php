@@ -47,7 +47,7 @@ class Safety extends Common
      */
     public function Logout()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::AccountsLogout($params));
     }

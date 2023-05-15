@@ -55,7 +55,7 @@ class Answer extends Common
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = AnswerService::AnswerListWhere($params);
@@ -95,7 +95,7 @@ class Answer extends Common
         // 登录校验
         $this->IsLogin();
 
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
     }
@@ -117,7 +117,7 @@ class Answer extends Common
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = AnswerService::AnswerListWhere($params);

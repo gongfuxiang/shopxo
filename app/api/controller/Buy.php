@@ -52,7 +52,7 @@ class Buy extends Common
     public function Index()
     {
         // 获取商品列表
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
 
         // 默认支付方式
@@ -98,7 +98,7 @@ class Buy extends Common
      */
     public function Add()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
     }

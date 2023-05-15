@@ -294,11 +294,13 @@ class OrderService
         // 发起支付处理钩子
         $hook_name = 'plugins_service_order_pay_launch_handle';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'order_ids'     => $order_ids,
-            'params'        => &$params,
-            'pay_data'      => &$pay_data,
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'pay_log_id'  => $pay_log['data']['id'],
+            'pay_log_no'  => $pay_log['data']['log_no'],
+            'order_ids'   => $order_ids,
+            'params'      => &$params,
+            'pay_data'    => &$pay_data,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {

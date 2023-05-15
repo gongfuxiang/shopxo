@@ -68,7 +68,7 @@ class UserAddress extends Common
      */
     public function Detail()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $data = empty($params['id']) ? [] : UserAddressService::UserAddressRow($params);
 
@@ -90,7 +90,7 @@ class UserAddress extends Common
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressSave($params));
     }
@@ -105,7 +105,7 @@ class UserAddress extends Common
      */
     public function Delete()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressDelete($params));
     }
@@ -120,7 +120,7 @@ class UserAddress extends Common
      */
     public function SetDefault()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressDefault($params));
     }
@@ -135,7 +135,7 @@ class UserAddress extends Common
      */
     public function Extraction()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(ConfigService::SiteTypeExtractionAddressList(null, $params));
     }
@@ -150,7 +150,7 @@ class UserAddress extends Common
      */
     public function OutSystemAdd()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::OutSystemUserAddressAdd($params));
     }

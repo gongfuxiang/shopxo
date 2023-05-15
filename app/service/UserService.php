@@ -2573,6 +2573,16 @@ class UserService
             }
         }
 
+        // 注册添加之前钩子
+        $hook_name = 'plugins_service_user_register_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'      => $hook_name,
+            'is_backend'     => true,
+            'params'         => &$params,
+            'user_base'      => &$user_base,
+            'user_platform'  => &$user_platform,
+        ]);
+
         // 用户信息以手机或邮箱、不存在则添加
         $user_base['add_time'] = time();
         $user_id = Db::name('User')->insertGetId($user_base);
@@ -2592,7 +2602,11 @@ class UserService
         self::UserNumberCodeCreatedHandle($user_id);
 
         // 清除推荐id
-        MySession('share_referrer_id', null);
+        if(!empty($user_base['referrer']))
+        {
+            MySession('share_referrer_id', null);
+            MyCookie('share_referrer_id', null);
+        }
 
         // 返回前端html代码
         $body_html = [];
@@ -3169,15 +3183,25 @@ class UserService
     public static function UserReferrerDecrypt($params = [])
     {
         // 推荐人
-        $referrer = empty($params['referrer']) ? MySession('share_referrer_id') : $params['referrer'];
-
-        // 查看用户id是否已加密
-        if(preg_match('/[a-zA-Z]/', $referrer))
+        if(empty($params['referrer']))
         {
-            $referrer = base64_decode(AsciiToStr($referrer));
+            $referrer = MySession('share_referrer_id');
+            if(empty($referrer))
+            {
+                $referrer = MyCookie('share_referrer_id');
+            }
+        } else {
+            $referrer = $params['referrer'];
         }
-
-        return intval($referrer);
+        if(!empty($referrer))
+        {
+            // 查看用户id是否已加密
+            if(preg_match('/[a-zA-Z]/', $referrer))
+            {
+                return intval(base64_decode(AsciiToStr($referrer)));
+            }
+        }
+        return 0;
     }
 }
 ?>

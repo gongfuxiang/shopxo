@@ -47,7 +47,7 @@ class Search extends Common
     public function Index()
     {
         // 搜素条件
-        $map = SearchService::SearchWhereHandle($this->data_post);
+        $map = SearchService::SearchWhereHandle($this->data_request);
 
         // 返回数据
         $result = [
@@ -78,15 +78,15 @@ class Search extends Common
     public function DataList()
     {
         // 搜素条件
-        $map = SearchService::SearchWhereHandle($this->data_post);
+        $map = SearchService::SearchWhereHandle($this->data_request);
 
         // 获取数据
-        $ret = SearchService::GoodsList($map, $this->data_post);
+        $ret = SearchService::GoodsList($map, $this->data_request);
 
         // 搜索记录
-        $this->data_post['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
-        $this->data_post['search_result_data'] = $ret['data'];
-        SearchService::SearchAdd($this->data_post);
+        $this->data_request['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
+        $this->data_request['search_result_data'] = $ret['data'];
+        SearchService::SearchAdd($this->data_request);
 
         // 返回数据
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($ret['data']));

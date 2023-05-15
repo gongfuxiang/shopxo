@@ -67,7 +67,7 @@ class Personal extends Common
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserService::PersonalSave($params));
     }
@@ -82,7 +82,7 @@ class Personal extends Common
      */
     public function UserAvatarUpload()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['img_field'] = 'file';
         return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));

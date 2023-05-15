@@ -51,13 +51,13 @@ class Orderaftersale extends Common
     public function Index()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = OrderAftersaleService::OrderAftersaleListWhere($params);
@@ -95,8 +95,8 @@ class Orderaftersale extends Common
      */
     public function Aftersale()
     {
-        $order_id = isset($this->data_post['oid']) ? intval($this->data_post['oid']) : 0;
-        $order_detail_id = isset($this->data_post['did']) ? intval($this->data_post['did']) : 0;
+        $order_id = isset($this->data_request['oid']) ? intval($this->data_request['oid']) : 0;
+        $order_detail_id = isset($this->data_request['did']) ? intval($this->data_request['did']) : 0;
         $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
         if($ret['code'] == 0)
         {
@@ -162,7 +162,7 @@ class Orderaftersale extends Common
      */
     public function Create()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCreate($params));
     }
@@ -177,7 +177,7 @@ class Orderaftersale extends Common
      */
     public function Delivery()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleDelivery($params));
     }
@@ -192,7 +192,7 @@ class Orderaftersale extends Common
      */
     public function Cancel()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }

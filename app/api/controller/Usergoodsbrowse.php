@@ -50,12 +50,12 @@ class UserGoodsBrowse extends Common
     public function Index()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = GoodsBrowseService::UserGoodsBrowseListWhere($params);
@@ -92,7 +92,7 @@ class UserGoodsBrowse extends Common
      */
     public function Delete()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsBrowseService::GoodsBrowseDelete($params));
     }

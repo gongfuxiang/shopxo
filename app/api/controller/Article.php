@@ -71,11 +71,11 @@ class Article extends Common
     public function DataList()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = ArticleService::ArticleWhere($params);

@@ -53,13 +53,13 @@ class Order extends Common
     public function Index()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
 
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
 
         // 条件
         $where = OrderService::OrderListWhere($params);
@@ -102,7 +102,7 @@ class Order extends Common
     public function Detail()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
         if(!empty($params['id']))
@@ -154,7 +154,7 @@ class Order extends Common
     public function Comments()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
         if(empty($params['id']))
@@ -200,7 +200,7 @@ class Order extends Common
      */
     public function CommentsSave()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['business_type'] = 'order';
         return ApiService::ApiDataReturn(GoodsCommentsService::Comments($params));
@@ -216,7 +216,7 @@ class Order extends Common
      */
     public function Pay()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderService::Pay($params));
     }
@@ -231,7 +231,7 @@ class Order extends Common
      */
     public function Cancel()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
@@ -247,7 +247,7 @@ class Order extends Common
      */
     public function Collect()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
@@ -264,7 +264,7 @@ class Order extends Common
      */
     public function Delete()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
@@ -282,7 +282,7 @@ class Order extends Common
      */
     public function PayCheck()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
     }

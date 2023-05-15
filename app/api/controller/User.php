@@ -56,7 +56,7 @@ class User extends Common
      */
     public function Login()
     {
-        return ApiService::ApiDataReturn(UserService::Login($this->data_post));
+        return ApiService::ApiDataReturn(UserService::Login($this->data_request));
     }
 
     /**
@@ -69,7 +69,7 @@ class User extends Common
      */
     public function LoginVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_request));
     }
 
     /**
@@ -82,7 +82,7 @@ class User extends Common
      */
     public function Reg()
     {
-        return ApiService::ApiDataReturn(UserService::Reg($this->data_post));
+        return ApiService::ApiDataReturn(UserService::Reg($this->data_request));
     }
 
     /**
@@ -95,7 +95,7 @@ class User extends Common
      */
     public function RegVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_request));
     }
 
     /**
@@ -108,7 +108,7 @@ class User extends Common
      */
     public function ForgetPwd()
     {
-        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_post));
+        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_request));
     }
 
     /**
@@ -121,7 +121,7 @@ class User extends Common
      */
     public function ForgetPwdVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_request));
     }
 
     /**
@@ -134,7 +134,7 @@ class User extends Common
      */
     public function AppMobileBind()
     {
-        return ApiService::ApiDataReturn(UserService::AppMobileBind($this->data_post));
+        return ApiService::ApiDataReturn(UserService::AppMobileBind($this->data_request));
     }
 
     /**
@@ -147,7 +147,7 @@ class User extends Common
      */
     public function AppMobileBindVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::AppMobileBindVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::AppMobileBindVerifySend($this->data_request));
     }
 
     /**
@@ -196,7 +196,7 @@ class User extends Common
         $action = ucfirst(APPLICATION_CLIENT_TYPE).'UserAuth';
         if(method_exists($module, $action))
         {
-            $ret = AppMiniUserService::$action($this->data_post);
+            $ret = AppMiniUserService::$action($this->data_request);
         } else {
             $ret = DataReturn('方法未定义['.$action.']', -1);
         }
@@ -217,7 +217,7 @@ class User extends Common
         $action = ucfirst(APPLICATION_CLIENT_TYPE).'UserInfo';
         if(method_exists($module, $action))
         {
-            $ret = AppMiniUserService::$action($this->data_post);
+            $ret = AppMiniUserService::$action($this->data_request);
         } else {
             $ret = DataReturn('方法未定义['.$action.']', -1);
         }
@@ -297,7 +297,7 @@ class User extends Common
      */
     public function OnekeyUserMobileBind()
     {
-        return ApiService::ApiDataReturn(AppMiniUserService::AppMiniOnekeyUserMobileBind($this->data_post));
+        return ApiService::ApiDataReturn(AppMiniUserService::AppMiniOnekeyUserMobileBind($this->data_request));
     }
 }
 ?>

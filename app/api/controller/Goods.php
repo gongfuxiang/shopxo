@@ -55,7 +55,7 @@ class Goods extends Common
     public function Detail()
     {
         // 参数
-        $goods_id = empty($this->data_post['id']) ? (empty($this->data_post['goods_id']) ? 0 : intval($this->data_post['goods_id'])) : intval($this->data_post['id']);
+        $goods_id = empty($this->data_request['id']) ? (empty($this->data_request['goods_id']) ? 0 : intval($this->data_request['goods_id'])) : intval($this->data_request['id']);
         if(empty($goods_id))
         {
             $ret = DataReturn(MyLang('params_error_tips'), -1);
@@ -149,7 +149,7 @@ class Goods extends Common
         $this->IsLogin();
 
         // 开始操作
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorCancel($params));
     }
@@ -165,7 +165,7 @@ class Goods extends Common
     public function SpecType()
     {
         // 开始处理
-        $params = $this->data_post;
+        $params = $this->data_request;
         $ret = GoodsService::GoodsSpecType($params);
         return ApiService::ApiDataReturn($ret);
     }
@@ -181,7 +181,7 @@ class Goods extends Common
     public function SpecDetail()
     {
         // 开始处理
-        $params = $this->data_post;
+        $params = $this->data_request;
         $ret = GoodsService::GoodsSpecDetail($params);
         return ApiService::ApiDataReturn($ret);
     }
@@ -197,7 +197,7 @@ class Goods extends Common
     public function Stock()
     {
         // 开始处理
-        $params = $this->data_post;
+        $params = $this->data_request;
         $ret = GoodsService::GoodsStock($params);
         return ApiService::ApiDataReturn($ret);
     }
@@ -213,7 +213,7 @@ class Goods extends Common
     public function Category()
     {
         $result = [
-            'category'  => GoodsCategoryService::GoodsCategoryAll($this->data_post),
+            'category'  => GoodsCategoryService::GoodsCategoryAll($this->data_request),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
@@ -228,12 +228,12 @@ class Goods extends Common
      */
     public function GoodsScore()
     {
-        if(empty($this->data_post['goods_id']))
+        if(empty($this->data_request['goods_id']))
         {
             $ret = DataReturn(MyLang('params_error_tips'), -1);
         } else {
             // 获取商品评分
-            $data = GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
+            $data = GoodsCommentsService::GoodsCommentsScore($this->data_request['goods_id']);
             $ret = DataReturn('success', 0, $data);
         }
         return ApiService::ApiDataReturn($ret);
@@ -249,7 +249,7 @@ class Goods extends Common
     public function Comments()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
 
         // 分页
         $number = 10;

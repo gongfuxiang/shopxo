@@ -113,7 +113,8 @@ class Common extends BaseController
 		$this->admin = AdminService::LoginInfo();
 
 		// 权限菜单
-		$menu = AdminPowerService::PowerMenuInit($this->admin);
+		$is_refresh = !empty($this->data_request['lang']);
+        $menu = AdminPowerService::PowerMenuInit($this->admin, $is_refresh);
 		$this->left_menu = $menu['admin_left_menu'];
 
 		// 视图初始化

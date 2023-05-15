@@ -34,7 +34,7 @@ class Base extends Common
     public function Common()
     {
         // 参数
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SystemBaseService::Common($params));
     }
