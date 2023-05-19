@@ -45,14 +45,14 @@ class NavigationService
         $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'));
 
         // 缓存没数据则从数据库重新读取,顶部菜单
-        if($header === null || MyEnv('app_debug'))
+        if($header === null || MyEnv('app_debug') || MyInput('lang'))
         {
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
 
         // 底部导航
-        if($footer === null || MyEnv('app_debug'))
+        if($footer === null || MyEnv('app_debug') || MyInput('lang'))
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');
@@ -62,7 +62,7 @@ class NavigationService
         array_unshift($header, [
             'id'                    => 0,
             'pid'                   => 0,
-            'name'                  => '首页',
+            'name'                  => MyLang('home_title'),
             'url'                   => SystemService::HomeUrl(),
             'data_type'             => 'system',
             'is_show'               => 1,
@@ -329,7 +329,7 @@ class NavigationService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '2,16',
+                'checked_data'      => '1,60',
                 'error_msg'         => MyLang('common_service.navigation.form_item_name_message'),
             ],
             [
@@ -853,148 +853,140 @@ class NavigationService
         // item        二级数据
         // is_system   是否系统内置菜单（0否, 1是）扩展数据可空或0
 
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_user_center_left_nav_key');
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
-        {
-            // 菜单列表
-            $lang = MyLang('common_service.navigation.user_center_left_list');
-            $data = [
-                'center' => [
-                    'name'      => $lang['center'],
-                    'url'       => MyUrl('index/user/index'),
-                    'is_show'   => 1,
-                    'contains'  => ['indexuserindex'],
-                    'icon'      => 'am-icon-home',
-                    'is_system' => 1,
-                ],
-                'business' => [
-                    'name'      => $lang['business'],
-                    'is_show'   => 1,
-                    'icon'      => 'am-icon-cube',
-                    'is_system' => 1,
-                    'item'      => [
-                        [
-                            'name'      => $lang['order'],
-                            'url'       => MyUrl('index/order/index'),
-                            'is_show'   => 1,
-                            'contains'  => ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
-                            'icon'      => 'am-icon-th-list',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['orderaftersale'],
-                            'url'       => MyUrl('index/orderaftersale/index'),
-                            'is_show'   => 1,
-                            'contains'  => ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
-                            'icon'      => 'am-icon-puzzle-piece',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['goodsfavor'],
-                            'url'       => MyUrl('index/usergoodsfavor/index'),
-                            'contains'  => ['indexusergoodsfavorindex'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-heart-o',
-                            'is_system' => 1,
-                        ],
-                    ]
-                ],
-                'property' => [
-                    'name'      => $lang['property'],
-                    'is_show'   => 1,
-                    'icon'      => 'am-icon-trophy',
-                    'is_system' => 1,
-                    'item'      => [
-                        [
-                            'name'      => $lang['integral'],
-                            'url'       => MyUrl('index/userintegral/index'),
-                            'contains'  => ['indexuserintegralindex'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-fire',
-                            'is_system' => 1,
-                        ],
-                    ]
-                ],
-                'base' => [
-                    'name'      => $lang['base'],
-                    'is_show'   => 1,
-                    'icon'      => 'am-icon-user',
-                    'is_system' => 1,
-                    'item'      => [
-                        [
-                            'name'      => $lang['personal'],
-                            'url'       => MyUrl('index/personal/index'),
-                            'contains'  => ['indexpersonalindex', 'indexpersonalsaveinfo'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-gear',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['address'],
-                            'url'       => MyUrl('index/useraddress/index'),
-                            'contains'  => ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-street-view',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['safety'],
-                            'url'       => MyUrl('index/safety/index'),
-                            'contains'  => ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-user-secret',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['message'],
-                            'url'       => MyUrl('index/message/index'),
-                            'contains'  => ['indexmessageindex'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-bell-o',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['goodsbrowse'],
-                            'url'       => MyUrl('index/usergoodsbrowse/index'),
-                            'contains'  => ['indexusergoodsbrowseindex'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-lastfm',
-                            'is_system' => 1,
-                        ],
-                        [
-                            'name'      => $lang['answer'],
-                            'url'       => MyUrl('index/answer/index'),
-                            'contains'  => ['indexanswerindex'],
-                            'is_show'   => 1,
-                            'icon'      => 'am-icon-question',
-                            'is_system' => 1,
-                        ],
-                    ]
-                ],
-                'logout' => [
-                    'name'      =>  $lang['logout'],
-                    'url'       =>  MyUrl('index/user/logout'),
-                    'contains'  =>  ['indexuserlogout'],
-                    'is_show'   =>  1,
-                    'icon'      =>  'am-icon-power-off',
-                    'is_system' =>  1,
-                ],
-            ];
+        // 菜单列表
+        $lang = MyLang('common_service.navigation.user_center_left_list');
+        $data = [
+            'center' => [
+                'name'      => $lang['center'],
+                'url'       => MyUrl('index/user/index'),
+                'is_show'   => 1,
+                'contains'  => ['indexuserindex'],
+                'icon'      => 'am-icon-home',
+                'is_system' => 1,
+            ],
+            'business' => [
+                'name'      => $lang['business'],
+                'is_show'   => 1,
+                'icon'      => 'am-icon-cube',
+                'is_system' => 1,
+                'item'      => [
+                    [
+                        'name'      => $lang['order'],
+                        'url'       => MyUrl('index/order/index'),
+                        'is_show'   => 1,
+                        'contains'  => ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
+                        'icon'      => 'am-icon-th-list',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['orderaftersale'],
+                        'url'       => MyUrl('index/orderaftersale/index'),
+                        'is_show'   => 1,
+                        'contains'  => ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
+                        'icon'      => 'am-icon-puzzle-piece',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['goodsfavor'],
+                        'url'       => MyUrl('index/usergoodsfavor/index'),
+                        'contains'  => ['indexusergoodsfavorindex'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-heart-o',
+                        'is_system' => 1,
+                    ],
+                ]
+            ],
+            'property' => [
+                'name'      => $lang['property'],
+                'is_show'   => 1,
+                'icon'      => 'am-icon-trophy',
+                'is_system' => 1,
+                'item'      => [
+                    [
+                        'name'      => $lang['integral'],
+                        'url'       => MyUrl('index/userintegral/index'),
+                        'contains'  => ['indexuserintegralindex'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-fire',
+                        'is_system' => 1,
+                    ],
+                ]
+            ],
+            'base' => [
+                'name'      => $lang['base'],
+                'is_show'   => 1,
+                'icon'      => 'am-icon-user',
+                'is_system' => 1,
+                'item'      => [
+                    [
+                        'name'      => $lang['personal'],
+                        'url'       => MyUrl('index/personal/index'),
+                        'contains'  => ['indexpersonalindex', 'indexpersonalsaveinfo'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-gear',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['address'],
+                        'url'       => MyUrl('index/useraddress/index'),
+                        'contains'  => ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-street-view',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['safety'],
+                        'url'       => MyUrl('index/safety/index'),
+                        'contains'  => ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-user-secret',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['message'],
+                        'url'       => MyUrl('index/message/index'),
+                        'contains'  => ['indexmessageindex'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-bell-o',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['goodsbrowse'],
+                        'url'       => MyUrl('index/usergoodsbrowse/index'),
+                        'contains'  => ['indexusergoodsbrowseindex'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-lastfm',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['answer'],
+                        'url'       => MyUrl('index/answer/index'),
+                        'contains'  => ['indexanswerindex'],
+                        'is_show'   => 1,
+                        'icon'      => 'am-icon-question',
+                        'is_system' => 1,
+                    ],
+                ]
+            ],
+            'logout' => [
+                'name'      =>  $lang['logout'],
+                'url'       =>  MyUrl('index/user/logout'),
+                'contains'  =>  ['indexuserlogout'],
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-power-off',
+                'is_system' =>  1,
+            ],
+        ];
 
-            // 用户中心左侧菜单钩子
-            $hook_name = 'plugins_service_users_center_left_menu_handle';
-            MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'data'          => &$data,
-            ]);
+        // 用户中心左侧菜单钩子
+        $hook_name = 'plugins_service_users_center_left_menu_handle';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
 
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
         return $data;
     }
 

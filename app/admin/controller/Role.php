@@ -105,7 +105,7 @@ class Role extends Base
      */
     public function Save()
     {
-        return ApiService::ApiDataReturn(AdminRoleService::RoleSave($this->data_post));
+        return ApiService::ApiDataReturn(AdminRoleService::RoleSave($this->data_request));
     }
 
     /**
@@ -117,7 +117,7 @@ class Role extends Base
      */
     public function Delete()
     {
-        return ApiService::ApiDataReturn(AdminRoleService::RoleDelete($this->data_post));
+        return ApiService::ApiDataReturn(AdminRoleService::RoleDelete($this->data_request));
     }
 
     /**
@@ -129,7 +129,7 @@ class Role extends Base
      */
     public function StatusUpdate()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['admin'] = $this->admin;
         return ApiService::ApiDataReturn(AdminRoleService::RoleStatusUpdate($params));
     }

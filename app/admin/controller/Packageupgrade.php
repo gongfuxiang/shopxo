@@ -33,7 +33,7 @@ class Packageupgrade extends Base
      */
     public function Upgrade()
     {
-        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_post));
+        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_request));
     }
 }
 ?>

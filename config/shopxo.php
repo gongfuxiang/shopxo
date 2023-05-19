@@ -112,9 +112,6 @@ return [
     // 首页展示的友情链接列表数据
     'cache_home_link_list_key'              => 'cache_home_link_list_data',
 
-    // 用户中心左侧菜单
-    'cache_user_center_left_nav_key'        => 'cache_user_center_left_nav_key_data',
-
     // 表结构缓存
     'cache_table_structure_key'             => 'cache_table_structure_key_data',
 

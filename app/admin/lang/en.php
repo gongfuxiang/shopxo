@@ -561,6 +561,8 @@ return [
             'extends'         => ['name' => 'Extends', 'type'=>'extends'],
             'seo'             => ['name' => 'SEO Info', 'type'=>'seo'],
         ],
+        'delete_only_goods_text'                => 'Goods Only',
+        'delete_goods_and_images_text'          => 'Goods and Images',
         // 动态表格
         'form_table'                            => [
             'id'                      => 'Goods ID',

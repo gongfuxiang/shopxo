@@ -33,7 +33,7 @@
                         <div class="am-u-sm-12 am-padding-horizontal-0">
                             <div class="am-form-group">
                                 <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_name')}}</label>
-                                <input type="text" name="name" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                                <input type="text" name="name" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                             </div>
                         </div>
                         <div class="am-u-sm-12 am-padding-horizontal-0">
@@ -50,7 +50,7 @@
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_author')}}</label>
-                        <input type="text" name="author" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" class="am-radius" {{if !empty($data['author'])}} value="{{$data.author}}"{{/if}} required />
+                        <input type="text" name="author" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_author_message')}}" class="am-radius" {{if !empty($data['author'])}} value="{{$data.author}}"{{/if}} required />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">

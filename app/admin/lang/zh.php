@@ -560,6 +560,8 @@ return [
             'extends'         => ['name' => '扩展数据', 'type'=>'extends'],
             'seo'             => ['name' => 'SEO信息', 'type'=>'seo'],
         ],
+        'delete_only_goods_text'                => '仅商品',
+        'delete_goods_and_images_text'          => '商品和图片',
         // 动态表格
         'form_table'                            => [
             'id'                      => '商品ID',

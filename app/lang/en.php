@@ -270,7 +270,7 @@ return [
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Accounts',
     'store_bind_form_accounts_placeholder'                  => 'User name/mobile phone/email',
-    'store_bind_form_accounts_message'                      => 'Account format 1~30 characters',
+    'store_bind_form_accounts_message'                      => 'Account format 1~80 characters',
     'store_bind_form_password'                              => 'Password',
     'store_bind_form_password_placeholder'                  => 'Login Password',
     'store_bind_form_password_message'                      => 'Login password format 6~30 characters',
@@ -1009,7 +1009,7 @@ return [
             'form_item_pid_placeholder'             => 'Primary column...',
             'form_item_pid_message'                 => 'Column level selection error',
             'form_item_name'                        => 'Power Name',
-            'form_item_name_message'                => 'Power name format 2~16 characters',
+            'form_item_name_message'                => 'Power name format 1~60 characters',
             'form_item_control'                     => 'Controller Name',
             'form_item_control_message'             => 'The format of the controller name is between 1 and 30 characters (it must start with a letter and can be alphanumeric underscore)',
             'form_item_action'                      => 'Action Name',
@@ -1027,7 +1027,7 @@ return [
         // 角色管理
         'role'              => [
             'form_item_name'                        => 'Role Name',
-            'form_item_name_message'                => 'Role name format 2~16 characters',
+            'form_item_name_message'                => 'Role name format 1~60 characters',
             'form_item_menu'                        => 'Menu Power',
             'form_item_menu_no_data_tips'           => 'No menu data',
             'form_item_plugins'                     => 'Plugins Power',
@@ -1171,7 +1171,7 @@ return [
         'articlecategory'   => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'The name is 2~16 characters long',
+            'form_item_name_message'                => 'The name is 1~60 characters long',
         ],
         // 品牌
         'brand'             => [
@@ -1192,7 +1192,7 @@ return [
         'brandcategory'     => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'The name is 2~16 characters long',
+            'form_item_name_message'                => 'The name is 1~60 characters long',
         ],
         // 订单确认
         'buy'               => [
@@ -1273,7 +1273,7 @@ return [
         'customview'        => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Propose size 300 * 300px',
             // 基础
@@ -1283,7 +1283,7 @@ return [
         'design'            => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Propose size 300 * 300px',
             // 基础
@@ -1310,7 +1310,7 @@ return [
             // 表单
             'form_item_icon'                        => 'Icon',
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_website_url'                 => 'Website Address',
             'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
             'form_item_website_url_message'         => 'Incorrect format of official website address',
@@ -1384,7 +1384,7 @@ return [
         'goodsspectemplate'     => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 1~30 characters',
+            'form_item_name_message'                => 'Name format 1~80 characters',
             'form_item_category_id'                 => 'Goods Category',
             'form_item_category_id_tips'            => 'Include children',
             'form_item_category_id_message'         => 'Please select goods classification',
@@ -1398,7 +1398,7 @@ return [
         'goods'                 => [
             // 表单
             'form_item_title'                       => 'Goods Title',
-            'form_item_title_message'               => 'Goods name format 2~160 characters',
+            'form_item_title_message'               => 'Goods name format 1~600 characters',
             'form_item_category_id'                 => 'Goods Category',
             'form_item_category_id_message'         => 'Please select at least one goods category',
             'form_item_simple_desc'                 => 'Goods description',
@@ -1555,7 +1555,7 @@ return [
             'form_item_big_images'                  => 'Large Picture',
             'form_item_big_images_tips'             => '360 * 360px recommend',
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_vice_name'                   => 'Sub Name',
             'form_item_vice_name_message'           => 'The secondary name can be up to 60 characters',
             'form_item_describe'                    => 'Describe',
@@ -1591,7 +1591,7 @@ return [
         'link'                  => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_url'                         => 'Link Address',
             'form_item_url_placeholder'             => 'Link address, starting with http://or https://',
             'form_item_url_message'                 => 'Incorrect format of link address',
@@ -1610,7 +1610,7 @@ return [
             'form_item_pid_message'                 => 'Please select the navigation level',
             'form_item_name'                        => 'Navigation name',
             'form_item_name_tips'                   => 'Default {:type} name',
-            'form_item_name_message'                => 'Navigation name format 2~16 characters',
+            'form_item_name_message'                => 'Navigation name format 1~60 characters',
             'form_item_url'                         => 'Url address',
             'form_item_url_placeholder'             => 'Url address, starting with http://or https://',
             'form_item_url_message'                 => 'Incorrect format of url address',
@@ -2004,7 +2004,7 @@ return [
         'region'                    => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_code'                        => 'Unique code',
             'form_item_code_message'                => 'Unique code format can be up to 30 characters',
             'form_item_lng'                         => 'Longitude',
@@ -2059,7 +2059,7 @@ return [
         'screeningprice'            => [
             // 表单
             'form_item_name'                        => 'Name',
-            'form_item_name_message'                => 'Name format 2~16 characters',
+            'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_min_price'                   => 'Minimum Price',
             'form_item_min_price_message'           => 'Incorrect minimum price',
             'form_item_max_price'                   => 'Maximum Price',
@@ -2149,7 +2149,7 @@ return [
             'form_item_user_id'                     => 'User ID',
             'form_item_user_id_message'             => 'Please fill in user id',
             'form_item_name'                        => 'Full Name',
-            'form_item_name_message'                => 'Name format is between 2 and 30 characters',
+            'form_item_name_message'                => 'Name format is between 1 and 80 characters',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Alias format can be up to 16 characters',
             'form_item_tel'                         => 'Telephone',
@@ -2274,7 +2274,7 @@ return [
         'warehouse'                 => [
             // 表单
             'form_item_name'                        => 'Full Name',
-            'form_item_name_message'                => 'Name format is between 2 and 30 characters',
+            'form_item_name_message'                => 'Name format is between 1 and 80 characters',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Alias format can be up to 16 characters',
             'form_item_level'                       => 'Weight',
@@ -2538,7 +2538,7 @@ return [
         'view_popup_goods_search_tabs_brand_message'                 => 'Please select a brand',
         'view_popup_goods_search_tabs_keywords'                      => 'Keywords',
         'view_popup_goods_search_tabs_other'                         => 'No conditions required',
-        'view_popup_goods_search_keywords_tips'                      => 'Search keyword format: 1~30 characters',
+        'view_popup_goods_search_keywords_tips'                      => 'Search keyword format: 1~80 characters',
         'view_popup_goods_search_other_tips'                         => 'Directly enter the search page without search criteria',
         // 弹窗商品选择
         'view_popup_goods_search_choice_category_not_choice'         => 'Please select a product category',

@@ -20,7 +20,7 @@
                 <form class="am-form form-validation" action="{{:MyUrl('index/answer/save')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group">
                         <label>{{:MyLang('answer.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" name="name" placeholder="{{:MyLang('answer.form_item_name')}}" minlength="1" maxlength="30" data-validation-message="{{:MyLang('answer.form_item_name_message')}}" class="am-radius" required /></div>
+                        <input type="text" name="name" placeholder="{{:MyLang('answer.form_item_name')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('answer.form_item_name_message')}}" class="am-radius" required /></div>
                     <div class="am-form-group">
                         <label>{{:MyLang('answer.form_item_tel')}}</label>
                         <input type="text" name="tel" placeholder="{{:MyLang('answer.form_item_tel')}}" data-validation-message="{{:MyLang('answer.form_item_tel_message')}}" class="am-radius" /></div>

@@ -48,7 +48,7 @@ class PackageInstall extends Base
      */
     public function Install()
     {
-        return ApiService::ApiDataReturn(PackageInstallService::Install($this->data_post));
+        return ApiService::ApiDataReturn(PackageInstallService::Install($this->data_request));
     }
 }
 ?>

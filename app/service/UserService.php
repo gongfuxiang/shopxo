@@ -2088,7 +2088,7 @@ class UserService
         $p = [
             [
                 'checked_type'      => 'length',
-                'checked_data'      => '2,16',
+                'checked_data'      => '1,60',
                 'key_name'          => 'nickname',
                 'error_msg'         => MyLang('common_service.user.save_nickname_format_error_tips'),
             ],
@@ -3198,10 +3198,10 @@ class UserService
             // 查看用户id是否已加密
             if(preg_match('/[a-zA-Z]/', $referrer))
             {
-                return intval(base64_decode(AsciiToStr($referrer)));
+                $referrer = intval(base64_decode(AsciiToStr($referrer)));
             }
         }
-        return 0;
+        return empty($referrer) ? 0 : intval($referrer);
     }
 }
 ?>

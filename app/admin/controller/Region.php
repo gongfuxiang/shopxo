@@ -68,7 +68,7 @@ class Region extends Base
 	 */
 	public function Delete()
 	{		
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(RegionService::RegionDelete($params));
 	}
@@ -103,7 +103,7 @@ class Region extends Base
      */
     public function CodeData()
     {
-        return ApiService::ApiDataReturn(RegionService::RegionCodeData($this->data_post));
+        return ApiService::ApiDataReturn(RegionService::RegionCodeData($this->data_request));
     }
 }
 ?>

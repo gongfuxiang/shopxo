@@ -103,7 +103,7 @@ class User extends Base
 	 */
 	public function Save()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(UserService::UserSave($params));
 	}
@@ -117,7 +117,7 @@ class User extends Base
 	 */
 	public function Delete()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(UserService::UserDelete($params));
 	}

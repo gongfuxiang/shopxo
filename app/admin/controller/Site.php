@@ -341,7 +341,7 @@ class Site extends Base
     public function GoodsSearch()
     {
         // 搜索数据
-        $ret = SiteService::GoodsSearchList($this->data_post);
+        $ret = SiteService::GoodsSearchList($this->data_request);
         if($ret['code'] == 0)
         {
             MyViewAssign('data', $ret['data']['data']);

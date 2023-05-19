@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\AppMiniUserService;
+
 /**
  * 支付宝驱动
  * @author  Devil
@@ -110,7 +112,7 @@ class Alipay
     private function MyRsaSign($prestr)
     {
         $res = "-----BEGIN RSA PRIVATE KEY-----\n";
-        $res .= wordwrap(MyC('common_app_mini_alipay_rsa_private'), 64, "\n", true);
+        $res .= wordwrap(AppMiniUserService::AppMiniConfig('common_app_mini_alipay_rsa_private'), 64, "\n", true);
         $res .= "\n-----END RSA PRIVATE KEY-----";
         return openssl_sign($prestr, $sign, $res, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
@@ -127,7 +129,7 @@ class Alipay
     private function MyRsaDecrypt($content)
     {
         $res = "-----BEGIN PUBLIC KEY-----\n";
-        $res .= wordwrap(MyC('common_app_mini_alipay_rsa_public'), 64, "\n", true);
+        $res .= wordwrap(AppMiniUserService::AppMiniConfig('common_app_mini_alipay_rsa_public'), 64, "\n", true);
         $res .= "\n-----END PUBLIC KEY-----";
         $res = openssl_get_privatekey($res);
         $content = base64_decode($content);
@@ -155,7 +157,7 @@ class Alipay
     private function OutRsaVerify($prestr, $sign)
     {
         $res = "-----BEGIN PUBLIC KEY-----\n";
-        $res .= wordwrap(MyC('common_app_mini_alipay_out_rsa_public'), 64, "\n", true);
+        $res .= wordwrap(AppMiniUserService::AppMiniConfig('common_app_mini_alipay_out_rsa_public'), 64, "\n", true);
         $res .= "\n-----END PUBLIC KEY-----";
         $pkeyid = openssl_pkey_get_public($res);
         $sign = base64_decode($sign);

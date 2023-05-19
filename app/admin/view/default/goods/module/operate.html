@@ -11,7 +11,13 @@
     <i class="am-icon-copy"></i>
     <span>{{:MyLang('copy_title')}}</span>
 </a>
-<button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
-    <i class="am-icon-trash-o"></i>
-    <span>{{:MyLang('delete_title')}}</span>
-</button>
+<div class="am-dropdown am-dropdown-up am-btn am-btn-danger am-btn-xs am-radius am-btn-block" data-am-dropdown="{trigger: 'hover'}">
+    <div class="am-dropdown-toggle">
+        <i class="am-icon-trash-o"></i>
+        <span>{{:MyLang('delete_title')}}</span>
+    </div>
+    <div class="am-dropdown-content am-radius">
+        <a href="javascript:;" class="am-badge am-badge-warning am-radius submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$module_data.id}}" data-key="ids">{{:MyLang('goods.delete_only_goods_text')}}</a>
+        <a href="javascript:;" class="am-badge am-badge-danger am-radius am-margin-left-sm submit-delete" data-url="{{:MyUrl('admin/goods/delete', ['is_del_images'=>1])}}" data-id="{{$module_data.id}}" data-key="ids">{{:MyLang('goods.delete_goods_and_images_text')}}</a>
+    </div>
+</div>

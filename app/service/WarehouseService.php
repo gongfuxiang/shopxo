@@ -159,7 +159,7 @@ class WarehouseService
         $p = [
             [
                 'checked_type'      => 'length',
-                'checked_data'      => '2,30',
+                'checked_data'      => '1,80',
                 'key_name'          => 'name',
                 'error_msg'         => MyLang('common_service.warehouse.form_item_name_message'),
             ],
@@ -172,7 +172,7 @@ class WarehouseService
             ],
             [
                 'checked_type'      => 'length',
-                'checked_data'      => '2,16',
+                'checked_data'      => '1,60',
                 'key_name'          => 'contacts_name',
                 'error_msg'         => MyLang('common_service.warehouse.form_item_contacts_name_message'),
             ],

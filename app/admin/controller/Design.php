@@ -136,7 +136,7 @@ class Design extends Base
      */
     public function Save()
     {
-        return ApiService::ApiDataReturn(DesignService::DesignSave($this->data_post));
+        return ApiService::ApiDataReturn(DesignService::DesignSave($this->data_request));
     }
 
     /**
@@ -149,7 +149,7 @@ class Design extends Base
      */
     public function StatusUpdate()
     {
-        return ApiService::ApiDataReturn(DesignService::DesignStatusUpdate($this->data_post));
+        return ApiService::ApiDataReturn(DesignService::DesignStatusUpdate($this->data_request));
     }
     
     /**
@@ -162,7 +162,7 @@ class Design extends Base
      */
     public function Delete()
     {
-        return ApiService::ApiDataReturn(DesignService::DesignDelete($this->data_post));
+        return ApiService::ApiDataReturn(DesignService::DesignDelete($this->data_request));
     }
 
     /**
@@ -175,7 +175,7 @@ class Design extends Base
      */
     public function Sync()
     {
-        return ApiService::ApiDataReturn(DesignService::DesignSync($this->data_post));
+        return ApiService::ApiDataReturn(DesignService::DesignSync($this->data_request));
     }
 
     /**

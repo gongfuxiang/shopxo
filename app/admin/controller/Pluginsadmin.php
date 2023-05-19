@@ -155,7 +155,7 @@ class Pluginsadmin extends Base
      */
     public function Save()
     {
-        return ApiService::ApiDataReturn(PluginsAdminService::PluginsSave($this->data_post));
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsSave($this->data_request));
     }
 
     /**
@@ -167,7 +167,7 @@ class Pluginsadmin extends Base
      */
     public function Delete()
     {
-        return ApiService::ApiDataReturn(PluginsAdminService::PluginsDelete($this->data_post));
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsDelete($this->data_request));
     }
 
     /**
@@ -179,7 +179,7 @@ class Pluginsadmin extends Base
      */
     public function StatusUpdate()
     {
-        return ApiService::ApiDataReturn(PluginsAdminService::PluginsStatusUpdate($this->data_post));
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsStatusUpdate($this->data_request));
     }
 
     /**
@@ -248,7 +248,7 @@ class Pluginsadmin extends Base
      */
     public function SortSave()
     {
-        return ApiService::ApiDataReturn(PluginsAdminService::SortSave($this->data_post));
+        return ApiService::ApiDataReturn(PluginsAdminService::SortSave($this->data_request));
     }
 
     /**
@@ -261,7 +261,7 @@ class Pluginsadmin extends Base
      */
     public function Upgrade()
     {
-        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_post));
+        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_request));
     }
 }
 ?>

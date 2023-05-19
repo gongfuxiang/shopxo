@@ -503,6 +503,59 @@ class ResourcesService
     }
 
     /**
+     * 附件根据地址删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T23:35:27+0800
+     * @param    [string|array]              $url [图片url地址]
+     */
+    public static function AttachmentUrlDelete($url)
+    {
+        // url格式处理
+        if(!is_array($url))
+        {
+            $url = explode(',', $url);
+        }
+        foreach($url as &$v)
+        {
+            $v = self::AttachmentPathHandle($v);
+        }
+
+        // 获取附件数据
+        $data = DB::name('Attachment')->where(['url'=>$url])->select()->toArray();
+        if(!empty($data))
+        {
+            // 删除数据库数据
+            if(!DB::name('Attachment')->where(['id'=>array_column($data, 'id')])->delete())
+            {
+                return DataReturn(MyLang('delete_fail'), -1);
+            }
+
+            // 删除磁盘文件
+            $path = substr(ROOT_PATH, 0, -1);
+            foreach($data as $v)
+            {
+                $file = $path.$v['url'];
+                if(file_exists($file) && is_writable($file))
+                {
+                    \base\FileUtil::UnlinkFile($file);
+                }
+            }
+        }
+
+        // 附件删除成功后处理钩子
+        $hook_name = 'plugins_service_attachment_url_delete_success';
+        MyEventTrigger($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'data'              => $data,
+        ]);
+
+        return DataReturn(MyLang('delete_success'), 0);
+    }
+
+    /**
      * 磁盘附加同步到数据库
      * @author  Devil
      * @blog    http://gong.gg/

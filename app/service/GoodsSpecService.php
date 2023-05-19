@@ -113,7 +113,7 @@ class GoodsSpecService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '1,30',
+                'checked_data'      => '1,80',
                 'error_msg'         => MyLang('common_service.goodsspectemplate.form_item_name_message'),
             ],
             [

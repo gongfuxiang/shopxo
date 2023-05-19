@@ -1010,7 +1010,7 @@ return [
             'form_item_pid_placeholder'             => '一级栏目...',
             'form_item_pid_message'                 => '栏目级别选择错误',
             'form_item_name'                        => '权限名称',
-            'form_item_name_message'                => '权限名称格式2~16个字符',
+            'form_item_name_message'                => '权限名称格式1~60个字符',
             'form_item_control'                     => '控制器名称',
             'form_item_control_message'             => '控制器名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
             'form_item_action'                      => '方法名称',
@@ -1029,7 +1029,7 @@ return [
         'role'              => [
             // 表单
             'form_item_name'                        => '角色名称',
-            'form_item_name_message'                => '角色名称格式2~16个字符',
+            'form_item_name_message'                => '角色名称格式1~60个字符',
             'form_item_menu'                        => '菜单权限',
             'form_item_menu_no_data_tips'           => '无菜单数据',
             'form_item_plugins'                     => '插件权限',
@@ -1173,13 +1173,13 @@ return [
         'articlecategory'   => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_item_name_message'                => '名称长度1~60个字符',
         ],
         // 品牌
         'brand'             => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称长度2~30个字符',
+            'form_item_name_message'                => '名称长度1~80个字符',
             'form_item_brand_category_id'           => '品牌分类',
             'form_item_brand_category_id_message'   => '请选择品牌分类',
             'form_item_website_url'                 => '官网地址',
@@ -1196,7 +1196,7 @@ return [
         'brandcategory'     => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_item_name_message'                => '名称长度1~60个字符',
         ],
         // 订单确认
         'buy'               => [
@@ -1277,7 +1277,7 @@ return [
         'customview'        => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_item_name_message'                => '名称长度1~60个字符',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建议大小300*300px',
             // 基础
@@ -1287,7 +1287,7 @@ return [
         'design'            => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称长度2~16个字符',
+            'form_item_name_message'                => '名称长度1~60个字符',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建议大小300*300px',
             // 基础
@@ -1314,7 +1314,7 @@ return [
             // 表单
             'form_item_icon'                        => 'icon图标',
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_website_url'                 => '官网地址',
             'form_item_website_url_placeholder'     => '官网地址、以http://或https://开头',
             'form_item_website_url_message'         => '官网地址格式有误',
@@ -1367,7 +1367,7 @@ return [
         'goodsparamstemplate'   => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~30个字符',
+            'form_item_name_message'                => '名称格式1~80个字符',
             'form_item_category_id'                 => '商品分类',
             'form_item_category_id_tips'            => '包含子级',
             'form_item_category_id_message'         => '请选择商品分类',
@@ -1402,7 +1402,7 @@ return [
         'goods'                 => [
             // 表单
             'form_item_title'                       => '商品名称',
-            'form_item_title_message'               => '商品名称格式2~160个字符',
+            'form_item_title_message'               => '商品名称格式1~600个字符',
             'form_item_category_id'                 => '商品分类',
             'form_item_category_id_message'         => '请至少选择一个商品分类',
             'form_item_simple_desc'                 => '商品简述',
@@ -1558,7 +1558,7 @@ return [
             'form_item_big_images'                  => '大图片',
             'form_item_big_images_tips'             => '建议360*360px',
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_vice_name'                   => '副名称',
             'form_item_vice_name_message'           => '副名称最多60个字符',
             'form_item_describe'                    => '描述',
@@ -1594,7 +1594,7 @@ return [
         'link'                  => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_url'                         => '链接地址',
             'form_item_url_placeholder'             => '链接地址、以http://或https://开头',
             'form_item_url_message'                 => '链接地址格式有误',
@@ -1613,7 +1613,7 @@ return [
             'form_item_pid_message'                 => '请选择导航级别',
             'form_item_name'                        => '导航名称',
             'form_item_name_tips'                   => '默认{:type}名称',
-            'form_item_name_message'                => '导航名称格式2~16个字符',
+            'form_item_name_message'                => '导航名称格式1~60个字符',
             'form_item_url'                         => 'url地址',
             'form_item_url_placeholder'             => 'url地址、以http://或https://开头',
             'form_item_url_message'                 => 'url地址格式有误',
@@ -1875,7 +1875,7 @@ return [
         'payment'               => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~30个字符',
+            'form_item_name_message'                => '名称格式1~80个字符',
             'form_item_apply_terminal'              => '适用终端',
             'form_item_apply_terminal_message'      => '至少选择一个适用终端',
             'form_item_logo'                        => 'LOGO',
@@ -1912,9 +1912,9 @@ return [
             'form_item_logo_tips'                   => '建议600*600px',
             'form_item_logo_message'                => '请上传LOGO',
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~30个字符',
+            'form_item_name_message'                => '名称格式1~80个字符',
             'form_item_author'                      => '作者',
-            'form_item_author_message'              => '作者格式2~30个字符',
+            'form_item_author_message'              => '作者格式1~80个字符',
             'form_item_author_url'                  => '作者主页',
             'form_item_author_url_tips'             => '以http://或https://开头',
             'form_item_author_url_message'          => '请填写作者主页',
@@ -2008,7 +2008,7 @@ return [
         'region'                    => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_code'                        => '唯一编码',
             'form_item_code_message'                => '唯一编码格式最多30个字符',
             'form_item_lng'                         => '经度',
@@ -2063,7 +2063,7 @@ return [
         'screeningprice'            => [
             // 表单
             'form_item_name'                        => '名称',
-            'form_item_name_message'                => '名称格式2~16个字符',
+            'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_min_price'                   => '最小价格',
             'form_item_min_price_message'           => '最小价格有误',
             'form_item_max_price'                   => '最大价格',
@@ -2153,7 +2153,7 @@ return [
             'form_item_user_id'                     => '用户id',
             'form_item_user_id_message'             => '请填写用户id',
             'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式2~30个字符之间',
+            'form_item_name_message'                => '姓名格式1~80个字符之间',
             'form_item_alias'                       => '别名',
             'form_item_alias_message'               => '别名格式最多16个字符',
             'form_item_tel'                         => '电话',
@@ -2181,7 +2181,7 @@ return [
         'user'                      => [
             // 表单
             'form_item_username'                    => '用户名',
-            'form_item_username_message'            => '用户名2~30个字符',
+            'form_item_username_message'            => '用户名1~80个字符',
             'form_item_nickname'                    => '昵称',
             'form_item_nickname_message'            => '昵称最多30个字符',
             'form_item_mobile'                      => '手机号码',
@@ -2227,7 +2227,7 @@ return [
             'save_gender_range_error_tips'          => '性别值范围不正确',
             'save_status_range_error_tips'          => '状态值范围不正确',
             'save_user_info_no_exist_tips'          => '用户信息不存在',
-            'save_nickname_format_error_tips'       => '昵称2~16个字符之间',
+            'save_nickname_format_error_tips'       => '昵称1~60个字符之间',
             // 基础
             'user_no_exist_tips'                    => '用户不存在或已删除',
             'user_status_error_tips'                => '用户状态有误',
@@ -2278,14 +2278,14 @@ return [
         'warehouse'                 => [
             // 表单
             'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式2~30个字符之间',
+            'form_item_name_message'                => '姓名格式1~80个字符之间',
             'form_item_alias'                       => '别名',
             'form_item_alias_message'               => '别名格式最多16个字符',
             'form_item_level'                       => '权重',
             'form_item_level_tips'                  => '权重数值越大代表权重越高',
             'form_item_level_message'               => '请输入有效权重数值',
             'form_item_contacts_name'               => '联系人',
-            'form_item_contacts_name_message'       => '联系人格式2~16个字符之间',
+            'form_item_contacts_name_message'       => '联系人格式1~60个字符之间',
             'form_item_contacts_tel'                => '联系电话',
             'form_item_contacts_tel_message'        => '请填写联系电话',
             'form_item_address'                     => '详细地址',

@@ -56,7 +56,7 @@ class Power extends Base
 	 */
 	public function Save()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminPowerService::PowerSave($params));
 	}
@@ -70,7 +70,7 @@ class Power extends Base
 	 */
 	public function Delete()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminPowerService::PowerDelete($params));
 	}

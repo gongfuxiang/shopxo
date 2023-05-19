@@ -31,7 +31,7 @@
                     <div class="am-u-sm-6 am-padding-horizontal-0">
                         <div class="am-form-group">
                             <label>{{:MyLang('personal.form_item_nickname')}}<span class="am-form-group-label-tips-must">*</span></label>
-                            <input type="text" name="nickname" placeholder="{{:MyLang('personal.form_item_nickname')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('personal.form_item_nickname_message')}}" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}"required />
+                            <input type="text" name="nickname" placeholder="{{:MyLang('personal.form_item_nickname')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('personal.form_item_nickname_message')}}" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}"required />
                         </div>
                     </div>
                     <div class="am-u-sm-6 am-padding-horizontal-0">

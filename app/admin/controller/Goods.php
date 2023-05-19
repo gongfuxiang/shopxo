@@ -163,7 +163,7 @@ class Goods extends Base
 	 */
 	public function Save()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsSave($params));
 	}
@@ -178,7 +178,7 @@ class Goods extends Base
 	 */
 	public function Delete()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsDelete($params));
 	}
@@ -193,7 +193,7 @@ class Goods extends Base
 	 */
 	public function StatusUpdate()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsStatusUpdate($params));
 	}
@@ -208,7 +208,7 @@ class Goods extends Base
      */
 	public function BaseTemplate()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsBaseTemplate($params));
 	}

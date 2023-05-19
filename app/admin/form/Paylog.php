@@ -305,7 +305,7 @@ class PayLog
     {
         if(!empty($value))
         {
-            // 获取支持业务支付 id
+            // 获取业务id
             $ids = Db::name('PayLogValue')->where('business_id|business_no', '=', $value)->column('pay_log_id');
 
             // 避免空条件造成无效的错觉

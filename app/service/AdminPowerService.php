@@ -65,7 +65,7 @@ class AdminPowerService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '2,16',
+                'checked_data'      => '1,60',
                 'error_msg'         => MyLang('common_service.power.form_item_name_message'),
             ],
             [
@@ -88,13 +88,13 @@ class AdminPowerService
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'control',
-                'checked_data'      => '1,30',
+                'checked_data'      => '1,80',
                 'error_msg'         => MyLang('common_service.power.form_item_control_message'),
             ];
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'action',
-                'checked_data'      => '1,30',
+                'checked_data'      => '1,80',
                 'error_msg'         => MyLang('common_service.power.form_item_action_message'),
             ];
         } else {
@@ -214,7 +214,7 @@ class AdminPowerService
         $admin_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
-        if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug'))
+        if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug') || MyInput('lang'))
         {
             // 获取一级数据、有数据，则处理子级数据
             $admin_left_menu = self::AdminPowerMenuData($admin_id, $role_id);

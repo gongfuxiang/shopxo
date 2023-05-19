@@ -33,7 +33,7 @@ class Layout extends Base
      */
     public function LayoutIndexHomeSave()
     {
-        return ApiService::ApiDataReturn(LayoutService::LayoutConfigSave('home', $this->data_post));
+        return ApiService::ApiDataReturn(LayoutService::LayoutConfigSave('home', $this->data_request));
     }
 }
 ?>

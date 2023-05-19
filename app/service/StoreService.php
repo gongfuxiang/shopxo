@@ -128,7 +128,7 @@ class StoreService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'common_store_accounts',
-                'checked_data'      => '1,30',
+                'checked_data'      => '1,80',
                 'error_msg'         => MyLang('store_bind_form_accounts_message'),
             ],
             [

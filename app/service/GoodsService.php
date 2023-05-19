@@ -1885,7 +1885,7 @@ class GoodsService
         // 捕获异常
         try {
             // 删除商品操作
-            self::GoodsDeleteHandle($params['ids']);
+            self::GoodsDeleteHandle($params['ids'], $params);
 
             // 商品删除钩子
             $hook_name = 'plugins_service_goods_delete';
@@ -1913,9 +1913,65 @@ class GoodsService
      * @date    2021-01-27
      * @desc    description
      * @param   [array]          $goods_ids [商品id]
+     * @param   [array]          $params    [输入参数]
      */
-    public static function GoodsDeleteHandle($goods_ids)
+    public static function GoodsDeleteHandle($goods_ids, $params = [])
     {
+        // 是否删除图片
+        $del_images_data = [];
+        $is_del_images = isset($params['is_del_images']) && $params['is_del_images'] == 1;
+        if($is_del_images)
+        {
+            // 商品主图
+            $goods_images = Db::name('Goods')->where([['id', 'in', $goods_ids], ['images', '<>', '']])->column('images');
+            if(!empty($goods_images))
+            {
+                $del_images_data = array_unique(array_merge($del_images_data, $goods_images));
+            }
+            // 商品规格图
+            $goods_spec_type = Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->column('value');
+            if(!empty($goods_spec_type))
+            {
+                foreach($goods_spec_type as $v)
+                {
+                    $v = json_decode($v, true);
+                    if(!empty($v) && is_array($v))
+                    {
+                        $temp = array_unique(array_filter(array_column($v, 'images')));
+                        if(!empty($temp))
+                        {
+                            $del_images_data = array_unique(array_merge($del_images_data, $temp));
+                        }
+                    }
+                }
+            }
+            // 商品相册
+            $goods_photo = Db::name('GoodsPhoto')->where(['goods_id'=>$goods_ids])->column('images');
+            if(!empty($goods_photo))
+            {
+                $del_images_data = array_unique(array_merge($del_images_data, $goods_photo));
+            }
+            // 商品详情图
+            $goods_content = Db::name('Goods')->where([['id', 'in', $goods_ids], ['content_web', '<>', '']])->column('content_web');
+            if(!empty($goods_content))
+            {
+                foreach($goods_content as $v)
+                {
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods');
+                    if(!empty($temp))
+                    {
+                        $del_images_data = array_unique(array_merge($del_images_data, $temp));
+                    }
+                }
+            }
+            // 商品app
+            $goods_app = Db::name('GoodsContentApp')->where([['goods_id', 'in', $goods_ids], ['images', '<>', '']])->column('images');
+            if(!empty($goods_app))
+            {
+                $del_images_data = array_unique(array_merge($del_images_data, $goods_app));
+            }
+        }
+
         // 删除商品
         if(Db::name('Goods')->where(['id'=>$goods_ids])->delete() === false)
         {
@@ -1967,6 +2023,12 @@ class GoodsService
         if(Db::name('WarehouseGoodsSpec')->where(['goods_id'=>$goods_ids])->delete() === false)
         {
             throw new \Exception(MyLang('common_service.goods.delete_warehouse_goods_spec_fail_tips'));
+        }
+
+        // 是否删除图片
+        if($is_del_images && !empty($del_images_data))
+        {
+            ResourcesService::AttachmentUrlDelete($del_images_data);
         }
     }
 

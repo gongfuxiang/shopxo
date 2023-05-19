@@ -136,7 +136,7 @@ class RegionService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '2,16',
+                'checked_data'      => '1,60',
                 'error_msg'         => MyLang('common_service.region.form_item_name_message'),
             ],
         ];

@@ -270,7 +270,7 @@ return [
     // 商店绑定表单
     'store_bind_form_accounts'                              => '帳號',
     'store_bind_form_accounts_placeholder'                  => '用戶名/手機/郵箱',
-    'store_bind_form_accounts_message'                      => '帳號格式1~30個字元',
+    'store_bind_form_accounts_message'                      => '帳號格式1~80個字元',
     'store_bind_form_password'                              => '密碼',
     'store_bind_form_password_placeholder'                  => '登入密碼',
     'store_bind_form_password_message'                      => '登入密碼格式6~30個字元',
@@ -1010,11 +1010,11 @@ return [
             'form_item_pid_placeholder'             => '一級欄目…',
             'form_item_pid_message'                 => '欄目級別選擇錯誤',
             'form_item_name'                        => '許可權名稱',
-            'form_item_name_message'                => '許可權名稱格式2~16個字元',
+            'form_item_name_message'                => '許可權名稱格式1~60個字元',
             'form_item_control'                     => '控制器名稱',
-            'form_item_control_message'             => '控制器名格式1~30個字元之間（必須以字母開始，可以是字母數位底線）',
+            'form_item_control_message'             => '控制器名格式1~80個字元之間（必須以字母開始，可以是字母數位底線）',
             'form_item_action'                      => '方法名稱',
-            'form_item_action_message'              => '法名格式1~30個字元之間（必須以字母開始，可以是字母數位底線）',
+            'form_item_action_message'              => '法名格式1~80個字元之間（必須以字母開始，可以是字母數位底線）',
             'form_item_url'                         => '自定義url地址',
             'form_item_url_message'                 => '自定義url地址、以http://或https://開頭',
             'form_item_icon'                        => '圖標class',
@@ -1029,7 +1029,7 @@ return [
         'role'              => [
             // 表单
             'form_item_name'                        => '角色名稱',
-            'form_item_name_message'                => '角色名稱格式2~16個字元',
+            'form_item_name_message'                => '角色名稱格式1~60個字元',
             'form_item_menu'                        => '選單許可權',
             'form_item_menu_no_data_tips'           => '無選單數據',
             'form_item_plugins'                     => '挿件許可權',
@@ -1173,13 +1173,13 @@ return [
         'articlecategory'   => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱長度2~16個字元',
+            'form_item_name_message'                => '名稱長度1~60個字元',
         ],
         // 品牌
         'brand'             => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱長度2~30個字元',
+            'form_item_name_message'                => '名稱長度1~80個字元',
             'form_item_brand_category_id'           => '品牌分類',
             'form_item_brand_category_id_message'   => '請選擇品牌分類',
             'form_item_website_url'                 => '官網地址',
@@ -1196,7 +1196,7 @@ return [
         'brandcategory'     => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱長度2~16個字元',
+            'form_item_name_message'                => '名稱長度1~60個字元',
         ],
         // 订单确认
         'buy'               => [
@@ -1277,7 +1277,7 @@ return [
         'customview'        => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱長度2~16個字元',
+            'form_item_name_message'                => '名稱長度1~60個字元',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建議大小300*300px',
             // 基础
@@ -1287,7 +1287,7 @@ return [
         'design'            => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱長度2~16個字元',
+            'form_item_name_message'                => '名稱長度1~60個字元',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建議大小300*300px',
             // 基础
@@ -1314,7 +1314,7 @@ return [
             // 表单
             'form_item_icon'                        => 'icon圖標',
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~16個字元',
+            'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_website_url'                 => '官網地址',
             'form_item_website_url_placeholder'     => '官網地址、以http://或https://開頭',
             'form_item_website_url_message'         => '官網地址格式有誤',
@@ -1367,7 +1367,7 @@ return [
         'goodsparamstemplate'   => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~30個字元',
+            'form_item_name_message'                => '名稱格式1~80個字元',
             'form_item_category_id'                 => '商品分類',
             'form_item_category_id_tips'            => '包含子級',
             'form_item_category_id_message'         => '請選擇商品分類',
@@ -1388,7 +1388,7 @@ return [
         'goodsspectemplate'     => [
             // 表单
             'form_item_name'                        => '規格名稱',
-            'form_item_name_message'                => '規格名稱格式1~30個字元',
+            'form_item_name_message'                => '規格名稱格式1~80個字元',
             'form_item_category_id'                 => '商品分類',
             'form_item_category_id_tips'            => '包含子級',
             'form_item_category_id_message'         => '請選擇商品分類',
@@ -1402,7 +1402,7 @@ return [
         'goods'                 => [
             // 表单
             'form_item_title'                       => '商品名稱',
-            'form_item_title_message'               => '商品名稱格式2~160個字元',
+            'form_item_title_message'               => '商品名稱格式1~600個字元',
             'form_item_category_id'                 => '商品分類',
             'form_item_category_id_message'         => '請至少選擇一個商品分類',
             'form_item_simple_desc'                 => '商品簡述',
@@ -1558,7 +1558,7 @@ return [
             'form_item_big_images'                  => '大圖片',
             'form_item_big_images_tips'             => '建議360*360px',
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~16個字元',
+            'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_vice_name'                   => '副名稱',
             'form_item_vice_name_message'           => '副名稱最多60個字元',
             'form_item_describe'                    => '描述',
@@ -1594,7 +1594,7 @@ return [
         'link'                  => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~16個字元',
+            'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_url'                         => '連結位址',
             'form_item_url_placeholder'             => '連結位址、以http://或https://開頭',
             'form_item_url_message'                 => '連結位址格式有誤',
@@ -1613,7 +1613,7 @@ return [
             'form_item_pid_message'                 => '請選擇導航級別',
             'form_item_name'                        => '導航名稱',
             'form_item_name_tips'                   => '默認{:type}名稱',
-            'form_item_name_message'                => '導航名稱格式2~16個字元',
+            'form_item_name_message'                => '導航名稱格式1~60個字元',
             'form_item_url'                         => 'url地址',
             'form_item_url_placeholder'             => 'url地址、以http://或https://開頭',
             'form_item_url_message'                 => 'url地址格式有誤',
@@ -1875,7 +1875,7 @@ return [
         'payment'               => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~30個字元',
+            'form_item_name_message'                => '名稱格式1~80個字元',
             'form_item_apply_terminal'              => '適用終端',
             'form_item_apply_terminal_message'      => '至少選擇一個適用終端',
             'form_item_logo'                        => 'LOGO',
@@ -1912,9 +1912,9 @@ return [
             'form_item_logo_tips'                   => '建議600*600px',
             'form_item_logo_message'                => '請上傳LOGO',
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~30個字元',
+            'form_item_name_message'                => '名稱格式1~80個字元',
             'form_item_author'                      => '作者',
-            'form_item_author_message'              => '作者格式2~30個字元',
+            'form_item_author_message'              => '作者格式1~80個字元',
             'form_item_author_url'                  => '作者主頁',
             'form_item_author_url_tips'             => '以http://或https://開頭',
             'form_item_author_url_message'          => '請填寫作者主頁',
@@ -2008,7 +2008,7 @@ return [
         'region'                    => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~16個字元',
+            'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_code'                        => '唯一編碼',
             'form_item_code_message'                => '唯一編碼格式最多30個字元',
             'form_item_lng'                         => '經度',
@@ -2063,7 +2063,7 @@ return [
         'screeningprice'            => [
             // 表单
             'form_item_name'                        => '名稱',
-            'form_item_name_message'                => '名稱格式2~16個字元',
+            'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_min_price'                   => '最小價格',
             'form_item_min_price_message'           => '最小價格有誤',
             'form_item_max_price'                   => '最大價格',
@@ -2153,7 +2153,7 @@ return [
             'form_item_user_id'                     => '用戶id',
             'form_item_user_id_message'             => '請填寫用戶id',
             'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式2~30個字元之間',
+            'form_item_name_message'                => '姓名格式1~80個字元之間',
             'form_item_alias'                       => '別名',
             'form_item_alias_message'               => '別名格式最多16個字元',
             'form_item_tel'                         => '電話',
@@ -2181,7 +2181,7 @@ return [
         'user'                      => [
             // 表单
             'form_item_username'                    => '用戶名',
-            'form_item_username_message'            => '用戶名2~30個字元',
+            'form_item_username_message'            => '用戶名1~80個字元',
             'form_item_nickname'                    => '昵稱',
             'form_item_nickname_message'            => '昵稱最多30個字元',
             'form_item_mobile'                      => '手機號碼',
@@ -2227,7 +2227,7 @@ return [
             'save_gender_range_error_tips'          => '性別值範圍不正確',
             'save_status_range_error_tips'          => '狀態值範圍不正確',
             'save_user_info_no_exist_tips'          => '用戶資訊不存在',
-            'save_nickname_format_error_tips'       => '昵稱2~16個字元之間',
+            'save_nickname_format_error_tips'       => '昵稱1~60個字元之間',
             // 基础
             'user_no_exist_tips'                    => '用戶不存在或已删除',
             'user_status_error_tips'                => '使用者狀態有誤',
@@ -2278,14 +2278,14 @@ return [
         'warehouse'                 => [
             // 表单
             'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式2~30個字元之間',
+            'form_item_name_message'                => '姓名格式1~80個字元之間',
             'form_item_alias'                       => '別名',
             'form_item_alias_message'               => '別名格式最多16個字元',
             'form_item_level'                       => '權重',
             'form_item_level_tips'                  => '權重數值越大代表權重越高',
             'form_item_level_message'               => '請輸入有效權重數值',
             'form_item_contacts_name'               => '連絡人',
-            'form_item_contacts_name_message'       => '連絡人格式2~16個字元之間',
+            'form_item_contacts_name_message'       => '連絡人格式1~60個字元之間',
             'form_item_contacts_tel'                => '聯繫電話',
             'form_item_contacts_tel_message'        => '請填寫聯繫電話',
             'form_item_address'                     => '詳細地址',
@@ -2542,7 +2542,7 @@ return [
         'view_popup_goods_search_tabs_brand_message'                 => '請選擇品牌',
         'view_popup_goods_search_tabs_keywords'                      => '關鍵字',
         'view_popup_goods_search_tabs_other'                         => '無需條件',
-        'view_popup_goods_search_keywords_tips'                      => '蒐索關鍵字格式1~30個字元',
+        'view_popup_goods_search_keywords_tips'                      => '蒐索關鍵字格式1~80個字元',
         'view_popup_goods_search_other_tips'                         => '無需搜索條件、直接進入蒐索頁面',
         // 弹窗商品选择
         'view_popup_goods_search_choice_category_not_choice'         => '請選擇商品分類',

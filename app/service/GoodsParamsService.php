@@ -127,7 +127,7 @@ class GoodsParamsService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '2,30',
+                'checked_data'      => '1,80',
                 'error_msg'         => MyLang('common_service.goodsparamstemplate.form_item_name_message'),
             ],
         ];

@@ -151,6 +151,18 @@ class Weixin
                     ['value'=>2, 'name'=>'否'],
                 ],
             ],
+            [
+                'element'       => 'select',
+                'title'         => 'H5走NATIVE模式',
+                'message'       => '请选择是否H5走NATIVE模式',
+                'desc'          => '账户没有取得h5支付权限的情况下可以开启',
+                'name'          => 'is_h5_pay_native_mode',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>0, 'name'=>'否'],
+                    ['value'=>1, 'name'=>'是'],
+                ],
+            ],
         ];
 
         return [
@@ -514,11 +526,14 @@ class Weixin
         // 平台
         $client_type = $this->GetApplicationClientType();
 
+        // h5支付模式
+        $h5_pay_mode = (isset($this->config['is_h5_pay_native_mode']) && $this->config['is_h5_pay_native_mode'] == 1) ? 'NATIVE' : 'MWEB';
+
         // 平台类型定义
         $type_all = [
             'pc'        => 'NATIVE',
             'weixin'    => 'JSAPI',
-            'h5'        => 'MWEB',
+            'h5'        => $h5_pay_mode,
             'toutiao'   => 'MWEB',
             'qq'        => 'MWEB',
             'app'       => 'APP',

@@ -560,6 +560,8 @@ return [
             'extends'         => ['name' => 'Datos ampliados', 'type'=>'extends'],
             'seo'             => ['name' => 'Información seo', 'type'=>'seo'],
         ],
+        'delete_only_goods_text'                => 'Solo productos básicos',
+        'delete_goods_and_images_text'          => 'Productos e imágenes',
         // 动态表格
         'form_table'                            => [
             'id'                      => 'Identificación de la mercancía',

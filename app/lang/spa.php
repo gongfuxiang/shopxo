@@ -270,7 +270,7 @@ return [
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Cuenta',
     'store_bind_form_accounts_placeholder'                  => 'Nombre de usuario / teléfono móvil / buzón',
-    'store_bind_form_accounts_message'                      => 'Formato de cuenta de 1 a 30 caracteres',
+    'store_bind_form_accounts_message'                      => 'Formato de cuenta de 1 a 60 caracteres',
     'store_bind_form_password'                              => 'Contraseña',
     'store_bind_form_password_placeholder'                  => 'Contraseña de inicio de sesión',
     'store_bind_form_password_message'                      => 'Formato de contraseña de inicio de sesión de 6 a 30 caracteres',
@@ -1010,7 +1010,7 @@ return [
             'form_item_pid_placeholder'             => 'Columna de primer nivel...',
             'form_item_pid_message'                 => 'Selección incorrecta del nivel de columna',
             'form_item_name'                        => 'Nombre de la autoridad',
-            'form_item_name_message'                => 'Formato de nombre de permiso de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de permiso de 1 a 60 caracteres',
             'form_item_control'                     => 'Nombre del controlador',
             'form_item_control_message'             => 'Formato de nombre del controlador entre 1 y 30 caracteres (debe comenzar con una letra, puede ser subrayado alfanumérico)',
             'form_item_action'                      => 'Nombre del método',
@@ -1029,7 +1029,7 @@ return [
         'role'              => [
             // 表单
             'form_item_name'                        => 'Nombre del personaje',
-            'form_item_name_message'                => 'Formato de nombre de personaje de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de personaje de 1 a 60 caracteres',
             'form_item_menu'                        => 'Permisos de menú',
             'form_item_menu_no_data_tips'           => 'Datos sin menú',
             'form_item_plugins'                     => 'Permisos de plug - in',
@@ -1173,7 +1173,7 @@ return [
         'articlecategory'   => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'La longitud del nombre es de 2 a 16 caracteres.',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
         ],
         // 品牌
         'brand'             => [
@@ -1196,7 +1196,7 @@ return [
         'brandcategory'     => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'La longitud del nombre es de 2 a 16 caracteres.',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
         ],
         // 订单确认
         'buy'               => [
@@ -1277,7 +1277,7 @@ return [
         'customview'        => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'La longitud del nombre es de 2 a 16 caracteres.',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Tamaño recomendado 300 * 300px',
             // 基础
@@ -1287,7 +1287,7 @@ return [
         'design'            => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'La longitud del nombre es de 2 a 16 caracteres.',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Tamaño recomendado 300 * 300px',
             // 基础
@@ -1314,7 +1314,7 @@ return [
             // 表单
             'form_item_icon'                        => 'Icono del icono del icono',
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de 1 a 60 caracteres',
             'form_item_website_url'                 => 'Dirección del sitio web oficial',
             'form_item_website_url_placeholder'     => 'Dirección del sitio web oficial, comenzando con https:// o https://',
             'form_item_website_url_message'         => 'El formato de la dirección del sitio web oficial es incorrecto.',
@@ -1388,7 +1388,7 @@ return [
         'goodsspectemplate'     => [
             // 表单
             'form_item_name'                        => 'Nombre de la especificación',
-            'form_item_name_message'                => 'Formato de nombre de especificación de 1 a 30 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de especificación de 1 a 60 caracteres',
             'form_item_category_id'                 => 'Clasificación de mercancías',
             'form_item_category_id_tips'            => 'Incluir subclases',
             'form_item_category_id_message'         => 'Por favor, elija la clasificación de la mercancía.',
@@ -1402,7 +1402,7 @@ return [
         'goods'                 => [
             // 表单
             'form_item_title'                       => 'Nombre de la mercancía',
-            'form_item_title_message'               => 'Formato de nombre comercial de 2 a 160 caracteres',
+            'form_item_title_message'               => 'Formato de nombre comercial de 1 a 600 caracteres',
             'form_item_category_id'                 => 'Clasificación de mercancías',
             'form_item_category_id_message'         => 'Por favor, elija al menos una clasificación de productos',
             'form_item_simple_desc'                 => 'Breve descripción de los productos básicos',
@@ -1558,7 +1558,7 @@ return [
             'form_item_big_images'                  => 'Grandes imágenes',
             'form_item_big_images_tips'             => 'Recomendación 360 * 360px',
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de 1 a 60 caracteres',
             'form_item_vice_name'                   => 'Nombre adjunto',
             'form_item_vice_name_message'           => 'El nombre Adjunto tiene un máximo de 60 caracteres',
             'form_item_describe'                    => 'Descripción',
@@ -1594,7 +1594,7 @@ return [
         'link'                  => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de 1 a 60 caracteres',
             'form_item_url'                         => 'Dirección del enlace',
             'form_item_url_placeholder'             => 'Dirección del enlace, que comienza con https:// o https://',
             'form_item_url_message'                 => 'El formato de la dirección del enlace es incorrecto',
@@ -1613,7 +1613,7 @@ return [
             'form_item_pid_message'                 => 'Por favor, elija el nivel de navegación',
             'form_item_name'                        => 'Nombre de la navegación',
             'form_item_name_tips'                   => 'Predeterminado {:type} nombre',
-            'form_item_name_message'                => 'Formato de nombre de navegación de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de navegación de 1 a 60 caracteres',
             'form_item_url'                         => 'Dirección URL',
             'form_item_url_placeholder'             => 'Dirección url, que comienza con https:// o https://',
             'form_item_url_message'                 => 'El formato de la dirección URL es incorrecto',
@@ -2008,7 +2008,7 @@ return [
         'region'                    => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de 1 a 60 caracteres',
             'form_item_code'                        => 'Codificación única',
             'form_item_code_message'                => 'Formato de codificación único hasta 30 caracteres',
             'form_item_lng'                         => 'Longitud',
@@ -2063,7 +2063,7 @@ return [
         'screeningprice'            => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre de 2 a 16 caracteres',
+            'form_item_name_message'                => 'Formato de nombre de 1 a 60 caracteres',
             'form_item_min_price'                   => 'Precio mínimo',
             'form_item_min_price_message'           => 'El precio mínimo es incorrecto',
             'form_item_max_price'                   => 'Precio máximo',
@@ -2153,7 +2153,7 @@ return [
             'form_item_user_id'                     => 'ID del usuario',
             'form_item_user_id_message'             => 'Por favor, rellene el ID de usuario',
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre entre 2 y 30 caracteres',
+            'form_item_name_message'                => 'Formato de nombre entre 1 y 80 caracteres',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Formato alias hasta 16 caracteres',
             'form_item_tel'                         => 'Teléfono',
@@ -2227,7 +2227,7 @@ return [
             'save_gender_range_error_tips'          => 'Rango de valores de género incorrecto',
             'save_status_range_error_tips'          => 'El rango de valor del Estado no es correcto',
             'save_user_info_no_exist_tips'          => 'La información del usuario no existe',
-            'save_nickname_format_error_tips'       => 'Entre 2 y 16 caracteres de apodo',
+            'save_nickname_format_error_tips'       => 'Entre 1 y 60 caracteres de apodo',
             // 基础
             'user_no_exist_tips'                    => 'El usuario no existe o ha sido eliminado',
             'user_status_error_tips'                => 'El Estado del usuario es incorrecto',
@@ -2278,14 +2278,14 @@ return [
         'warehouse'                 => [
             // 表单
             'form_item_name'                        => 'Nombre',
-            'form_item_name_message'                => 'Formato de nombre entre 2 y 30 caracteres',
+            'form_item_name_message'                => 'Formato de nombre entre 1 y 80 caracteres',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Formato alias hasta 16 caracteres',
             'form_item_level'                       => 'Peso',
             'form_item_level_tips'                  => 'Cuanto mayor sea el valor del peso, mayor será el peso.',
             'form_item_level_message'               => 'Introduzca un valor de peso válido',
             'form_item_contacts_name'               => 'Contactos',
-            'form_item_contacts_name_message'       => 'Formato de contacto entre 2 y 16 caracteres',
+            'form_item_contacts_name_message'       => 'Formato de contacto entre 1 y 60 caracteres',
             'form_item_contacts_tel'                => 'Número de teléfono de contacto',
             'form_item_contacts_tel_message'        => 'Por favor, rellene el número de contacto.',
             'form_item_address'                     => 'Dirección detallada',
@@ -2542,7 +2542,7 @@ return [
         'view_popup_goods_search_tabs_brand_message'                 => 'Por favor, elija la marca',
         'view_popup_goods_search_tabs_keywords'                      => 'Palabras clave',
         'view_popup_goods_search_tabs_other'                         => 'Sin condiciones',
-        'view_popup_goods_search_keywords_tips'                      => 'Formato de palabra clave de búsqueda de 1 a 30 caracteres',
+        'view_popup_goods_search_keywords_tips'                      => 'Formato de palabra clave de búsqueda de 1 a 60 caracteres',
         'view_popup_goods_search_other_tips'                         => 'Sin condiciones de búsqueda, ingrese directamente a la página de búsqueda',
         // 弹窗商品选择
         'view_popup_goods_search_choice_category_not_choice'         => 'Por favor, elija la clasificación de la mercancía.',

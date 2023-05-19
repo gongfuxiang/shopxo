@@ -158,7 +158,7 @@ class Admin extends Common
 		$this->IsLogin();
 
 		// 参数
-		$params = $this->data_post;
+		$params = $this->data_request;
 
 		// 不是操作自己的情况下
 		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
@@ -182,7 +182,7 @@ class Admin extends Common
      */
 	public function Delete()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminService::AdminDelete($params));
 	}
@@ -245,7 +245,7 @@ class Admin extends Common
      */
 	public function Login()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
 		return ApiService::ApiDataReturn(AdminService::Login($params));
 	}
 
@@ -278,7 +278,7 @@ class Admin extends Common
      */
     public function LoginVerifySend()
     {
-        return ApiService::ApiDataReturn(AdminService::LoginVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(AdminService::LoginVerifySend($this->data_request));
     }
 
 	/**
