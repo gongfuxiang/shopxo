@@ -2090,12 +2090,14 @@ class UserService
                 'checked_type'      => 'length',
                 'checked_data'      => '1,60',
                 'key_name'          => 'nickname',
+                'is_checked'        => 2,
                 'error_msg'         => MyLang('common_service.user.save_nickname_format_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'checked_data'      => [0,1,2],
                 'key_name'          => 'gender',
+                'is_checked'        => 2,
                 'error_msg'         => MyLang('common_service.user.save_gender_range_error_tips'),
             ],
             [
@@ -2107,7 +2109,7 @@ class UserService
                 'checked_type'      => 'length',
                 'key_name'          => 'address',
                 'checked_data'      => '80',
-                'is_checked'        => 1,
+                'is_checked'        => 2,
                 'error_msg'         => MyLang('common_service.user.form_item_address_message'),
             ],
         ];
@@ -2117,24 +2119,45 @@ class UserService
             return DataReturn($ret, -1);
         }
 
-        // 更新数据库
-        $data = [
-            'birthday'      => empty($params['birthday']) ? '' : strtotime($params['birthday']),
-            'nickname'      => $params['nickname'],
-            'gender'        => intval($params['gender']),
-            'province'      => empty($params['province']) ? '' : $params['province'],
-            'city'          => empty($params['city']) ? '' : $params['city'],
-            'county'        => empty($params['county']) ? '' : $params['county'],
-            'address'       => empty($params['address']) ? '' : $params['address'],
-            'upd_time'      => time(),
+        // 更新的字段
+        $fields = [
+            'avatar',
+            'birthday',
+            'nickname',
+            'gender',
+            'province',
+            'city',
+            'county',
+            'address',
+            'upd_time',
         ];
-        // 是否存在头像
-        if(!empty($params['avatar']))
+        $data = [];
+        foreach($fields as $k)
         {
-            $data['avatar'] = ResourcesService::AttachmentPathHandle($params['avatar']);
+            if(array_key_exists($k, $params))
+            {
+                switch($k)
+                {
+                    // 头像
+                    case 'avatar' :
+                        $data[$k] = empty($params['avatar']) ? '' : ResourcesService::AttachmentPathHandle($params['avatar']);
+                        break;
+                    // 生日
+                    case 'birthday' :
+                        $data[$k] = empty($params['birthday']) ? '' : strtotime($params['birthday']);
+                        break;
+                    default :
+                        $data[$k] = empty($params[$k]) ? '' : $params[$k];
+                }
+            }
+        }
+        if(empty($data))
+        {
+            return DataReturn(MyLang('content_params_empty_tips'), -1);
         }
 
         // 更新用户信息
+        $data['upd_time'] = time();
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
             // 重新获取用户信息
