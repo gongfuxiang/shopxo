@@ -1188,9 +1188,9 @@ php;
      */
     public static function BuyDefaultPayment($params = [])
     {
-        if(empty($params['payment_id']))
+        $payment_id = 0;
+        if(empty($params) || empty($params['payment_id']))
         {
-            $payment_id = 0;
             $default_payment = MyC('common_default_payment');
             if(!empty($default_payment) && !empty($default_payment[APPLICATION_CLIENT_TYPE]))
             {
@@ -1201,9 +1201,10 @@ php;
                 ];
                 $payment_id = Db::name('Payment')->where($where)->value('id');
             }
-            $params['payment_id'] = empty($payment_id) ? 0 : $payment_id;
+        } else {
+            $payment_id = $params['payment_id'];
         }
-        return $params['payment_id'];
+        return $payment_id;
     }
 }
 ?>
