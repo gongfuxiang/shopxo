@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\PluginsAdminService;
+use app\service\PluginsService;
 use app\service\PaymentService;
 use app\service\ThemeService;
 use app\service\AppMiniService;
@@ -244,6 +245,7 @@ class PluginsUpgradeService
         {
             // 功能插件
             case 'plugins' :
+                // 获取配置
                 $config = PluginsAdminService::GetPluginsConfig(self::$params['plugins_value']);
                 if(empty($config) || empty($config['base']))
                 {
@@ -252,10 +254,17 @@ class PluginsUpgradeService
                 self::$params['plugins_config'] = $config;
                 self::$params['plugins_ver'] = $config['base']['version'];
                 self::$params['plugins_author'] = $config['base']['author'];
+                // 安全校验
+                $ret = PluginsService::PluginsLegalCheck(self::$params['plugins_value']);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
                 break;
 
             // 支付插件
             case 'payment' :
+                // 获取配置
                 $config = PaymentService::GetPaymentConfig(self::$params['plugins_value']);
                 if(empty($config))
                 {
@@ -264,10 +273,17 @@ class PluginsUpgradeService
                 self::$params['plugins_config'] = $config['base'];
                 self::$params['plugins_ver'] = $config['base']['version'];
                 self::$params['plugins_author'] = $config['base']['author'];
+                // 安全校验
+                $ret = PaymentService::PaymentLegalCheck(self::$params['plugins_value']);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
                 break;
 
             // web主题
             case 'webtheme' :
+                // 获取配置
                 $config = ThemeService::ThemeConfig(self::$params['plugins_value']);
                 if($config['code'] != 0)
                 {
@@ -276,10 +292,17 @@ class PluginsUpgradeService
                 self::$params['plugins_config'] = $config['data'];
                 self::$params['plugins_ver'] = $config['data']['ver'];
                 self::$params['plugins_author'] = $config['data']['author'];
+                // 安全校验
+                $ret = ThemeService::ThemeLegalCheck(self::$params['plugins_value']);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
                 break;
 
             // 小程序主题
             case 'minitheme' :
+                // 获取配置
                 if(empty(self::$params['plugins_terminal']))
                 {
                     return DataReturn(MyLang('common_service.pluginsupgrade.terminal_not_appoint_error_tips'), -1);

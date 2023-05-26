@@ -368,7 +368,28 @@ class PluginsService
         }
 
         // 安全判断
-        if(MyConfig('shopxo.is_develop') === false && RequestModule() == 'admin')
+        $ret = self::PluginsLegalCheck($plugins);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 调用对应插件
+        return DataReturn('success', 0, $obj->$action($params));
+    }
+
+    /**
+     * 插件安全判断
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-05-26
+     * @desc    description
+     * @param   [string]          $plugins [插件标识]
+     */
+    public static function PluginsLegalCheck($plugins)
+    {
+        if(RequestModule() == 'admin')
         {
             $key = 'plugins_legal_check_'.$plugins;
             $ret = MyCache($key);
@@ -379,7 +400,6 @@ class PluginsService
                 {
                     return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
                 }
- 
                 $check_params = [
                     'type'      => 'plugins',
                     'config'    => $config,
@@ -395,9 +415,7 @@ class PluginsService
                 return $ret;
             }
         }
-
-        // 调用对应插件
-        return DataReturn('success', 0, $obj->$action($params));
+        return DataReturn('success', 0);
     }
 
     /**

@@ -368,7 +368,7 @@ class PaymentService
     }
 
     /**
-     * 数据更新
+     * 数据保存
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -376,7 +376,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function PaymentUpdate($params = [])
+    public static function PaymentSave($params = [])
     {
         // 请求类型
         $p = [
@@ -409,6 +409,20 @@ class PaymentService
             return DataReturn($ret, -1);
         }
 
+        // 获取数据
+        $info = Db::name('Payment')->where(['id'=>intval($params['id'])])->find();
+        if(empty($info))
+        {
+            return DataReturn(MyLang('no_data'), -1);
+        }
+
+        // 安全判断
+        $ret = self::PaymentLegalCheck($info['payment']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 附件
         $data_fields = ['logo'];
         $attachment = ResourcesService::AttachmentParams($params, $data_fields);
@@ -418,14 +432,14 @@ class PaymentService
             'name'              => $params['name'],
             'apply_terminal'    => empty($params['apply_terminal']) ? '' : json_encode(explode(',', $params['apply_terminal'])),
             'logo'              => $attachment['data']['logo'],
-            'config'            => json_encode(self::GetPlugConfig($params)),
+            'config'            => json_encode(self::GetPluginsConfig($params)),
             'sort'              => intval($params['sort']),
             'is_enable'         => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_open_user'      => isset($params['is_open_user']) ? intval($params['is_open_user']) : 0,
         ];
 
         $data['upd_time'] = time();
-        if(Db::name('Payment')->where(['id'=>intval($params['id'])])->update($data))
+        if(Db::name('Payment')->where(['id'=>$info['id']])->update($data))
         {
             return DataReturn(MyLang('edit_success'), 0);
         }
@@ -433,6 +447,47 @@ class PaymentService
     }
 
     /**
+     * 支付方式安全判断
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-05-26
+     * @desc    description
+     * @param   [string]          $payment [支付方式标识]
+     */
+    public static function PaymentLegalCheck($payment)
+    {
+        if(RequestModule() == 'admin')
+        {
+            $key = 'payment_legal_check_'.$payment;
+            $ret = MyCache($key);
+            if(empty($ret))
+            {
+                $config = self::GetPaymentConfig($payment);
+                if(empty($config))
+                {
+                    return DataReturn(MyLang('common_service.pluginsupgrade.payment_config_error_tips'), -1);
+                }
+                $check_params = [
+                    'type'      => 'payment',
+                    'config'    => $config['base'],
+                    'plugins'   => $payment,
+                    'author'    => $config['base']['author'],
+                    'ver'       => $config['base']['version'], 
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                MyCache($key, $ret, 3600);
+            }
+            if(!in_array($ret['code'], [0, -9999]))
+            {
+                return $ret;
+            }
+        }
+        return DataReturn('success', 0);
+    }
+
+    /**
+     * 支付插件配置信息
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -440,7 +495,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GetPlugConfig($params = [])
+    private static function GetPluginsConfig($params = [])
     {
         $data = [];
         foreach($params as $k=>$v)

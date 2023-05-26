@@ -91,8 +91,7 @@ class Theme extends Base
 	 */
 	public function Save()
 	{
-        $params['common_default_theme'] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
-        return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
+        return ApiService::ApiDataReturn(ThemeService::ThemeSwitch($this->data_request));
 	}
 
 	/**

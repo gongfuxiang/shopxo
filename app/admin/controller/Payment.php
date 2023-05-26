@@ -103,7 +103,7 @@ class Payment extends Base
 	 */
 	public function Save()
 	{
-        return ApiService::ApiDataReturn(PaymentService::PaymentUpdate($this->data_request));
+        return ApiService::ApiDataReturn(PaymentService::PaymentSave($this->data_request));
 	}
 
 	/**

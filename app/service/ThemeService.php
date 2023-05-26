@@ -12,6 +12,8 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\ConfigService;
+use app\service\StoreService;
 
 /**
  * 主题服务层
@@ -242,6 +244,32 @@ class ThemeService
     }
 
     /**
+     * 主题切换保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-05-26
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ThemeSwitch($params = [])
+    {
+        // 主题标识
+        $theme = empty($params['theme']) ? 'default' : $params['theme'];
+
+        // 安全判断
+        $ret = self::ThemeLegalCheck($theme);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 切换配置
+        $params['common_default_theme'] = $theme;
+        return ConfigService::ConfigSave($params);
+    }
+
+    /**
      * 模板删除
      * @author   Devil
      * @blog     http://gong.gg/
@@ -330,6 +358,13 @@ class ThemeService
             return DataReturn(MyLang('common_service.theme.theme_name_error_tips'), -1);
         }
 
+        // 安全判断
+        $ret = self::ThemeLegalCheck($theme);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 获取配置信息
         $config_res = self::ThemeConfig($theme);
         if($config_res['code'] != 0)
@@ -400,6 +435,47 @@ class ThemeService
         } else {
             return DataReturn(MyLang('download_fail'), -100);
         }
+    }
+
+    /**
+     * 主题安全判断
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-05-26
+     * @desc    description
+     * @param   [string]          $theme [主题标识]
+     */
+    public static function ThemeLegalCheck($theme)
+    {
+        if(RequestModule() == 'admin')
+        {
+            $key = 'theme_legal_check_'.$theme;
+            $ret = MyCache($key);
+            if(empty($ret))
+            {
+                $config_res = self::ThemeConfig($theme);
+                if($config_res['code'] != 0)
+                {
+                    return $config_res;
+                }
+                $config = $config_res['data'];
+                $check_params = [
+                    'type'      => 'webtheme',
+                    'config'    => $config,
+                    'plugins'   => $theme,
+                    'author'    => $config['author'],
+                    'ver'       => isset($config['version']) ? $config['version'] : $config['ver'], 
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                MyCache($key, $ret, 3600);
+            }
+            if(!in_array($ret['code'], [0, -9999]))
+            {
+                return $ret;
+            }
+        }
+        return DataReturn('success', 0);
     }
 
     /**

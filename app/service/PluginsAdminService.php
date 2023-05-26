@@ -1317,6 +1317,13 @@ php;
             return DataReturn(MyLang('plugins_config_error_tips'), -10);
         }
 
+        // 安全判断
+        $ret = PluginsService::PluginsLegalCheck($plugins);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
         \base\FileUtil::CreateDir($new_dir);
