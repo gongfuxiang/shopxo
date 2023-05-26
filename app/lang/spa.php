@@ -1966,8 +1966,14 @@ return [
             'plugins_new_config_error_tips'         => 'El nuevo perfil es incorrecto',
             'plugins_new_config_update_fail_tips'   => 'Falló la actualización del perfil de la nueva aplicación',
             'app_update_no_exist_tips'              => 'La aplicación no existe ({:plugins}), por favor instale primero',
-            'sort_save_data_empty_tips'             => 'No hay datos de plug - in guardables',
-            'sort_save_data_error_tips'             => 'Los datos de clasificación del plug - in son incorrectos',
+            'setup_save_data_empty_tips'            => 'No hay datos de plug - in guardables',
+            'setup_save_data_error_tips'            => 'Los datos de configuración del plug - in son incorrectos',
+        ],
+        // 插件分类
+        'pluginscategory'           => [
+            // 表单
+            'form_item_name'                        => 'Nombre',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
         ],
         // 插件服务
         'plugins'                   => [

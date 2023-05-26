@@ -100,22 +100,23 @@ class PluginsAdminService
                             // 数据组装
                             $db_config = array_key_exists($base['plugins'], $temp_data) ? $temp_data[$base['plugins']] : [];
                             $dir_data[$base['plugins']] = [
-                                'id'            => empty($db_config['id']) ? 0 : $db_config['id'],
-                                'plugins'       => $base['plugins'],
-                                'is_enable'     => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
-                                'is_install'    => empty($db_config) ? 0 : 1,
-                                'logo_old'      => $base['logo'],
-                                'logo'          => ResourcesService::AttachmentPathViewHandle($base['logo']),
-                                'is_home'       => isset($base['is_home']) ? $base['is_home'] : false,
-                                'name'          => isset($base['name']) ? $base['name'] : '',
-                                'author'        => isset($base['author']) ? $base['author'] : '',
-                                'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
-                                'version'       => isset($base['version']) ? $base['version'] : '',
-                                'desc'          => isset($base['desc']) ? $base['desc'] : '',
-                                'apply_version' => isset($base['apply_version']) ? $base['apply_version'] : [],
-                                'apply_terminal'=> isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
-                                'add_time_time' => isset($db_config['add_time']) ? date('Y-m-d H:i:s', $db_config['add_time']) : '',
-                                'add_time_date' => isset($db_config['add_time']) ? date('Y-m-d', $db_config['add_time']) : '',
+                                'id'                   => empty($db_config['id']) ? 0 : $db_config['id'],
+                                'plugins'              => $base['plugins'],
+                                'plugins_category_id'  => isset($db_config['plugins_category_id']) ? $db_config['plugins_category_id'] : 0,
+                                'is_enable'            => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
+                                'is_install'           => empty($db_config) ? 0 : 1,
+                                'logo_old'             => $base['logo'],
+                                'logo'                 => ResourcesService::AttachmentPathViewHandle($base['logo']),
+                                'is_home'              => isset($base['is_home']) ? $base['is_home'] : false,
+                                'name'                 => isset($base['name']) ? $base['name'] : '',
+                                'author'               => isset($base['author']) ? $base['author'] : '',
+                                'author_url'           => isset($base['author_url']) ? $base['author_url'] : '',
+                                'version'              => isset($base['version']) ? $base['version'] : '',
+                                'desc'                 => isset($base['desc']) ? $base['desc'] : '',
+                                'apply_version'        => isset($base['apply_version']) ? $base['apply_version'] : [],
+                                'apply_terminal'      => isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
+                                'add_time_time'        => isset($db_config['add_time']) ? date('Y-m-d H:i:s', $db_config['add_time']) : '',
+                                'add_time_date'        => isset($db_config['add_time']) ? date('Y-m-d', $db_config['add_time']) : '',
                             ];
                         }
                     }
@@ -1523,7 +1524,7 @@ php;
     }
 
     /**
-     * 排序保存
+     * 设置保存
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1531,14 +1532,14 @@ php;
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public static function SortSave($params = [])
+    public static function SetupSave($params = [])
     {
         // 请求类型
         $p = [
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'data',
-                'error_msg'         => MyLang('common_service.pluginsadmin.sort_save_data_empty_tips'),
+                'error_msg'         => MyLang('common_service.pluginsadmin.setup_save_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -1556,15 +1557,19 @@ php;
 
             // 捕获异常
             try {
-                foreach($data as $k=>$v)
+                foreach($data as $v)
                 {
-                    $upd_data = [
-                        'sort'      => intval($k),
-                        'add_time'  => time(),
-                    ];
-                    if(Db::name('Plugins')->where(['id'=>intval($v)])->update($upd_data) === false)
+                    if(!empty($v['id']))
                     {
-                        throw new \Exception(MyLang('operate_fail'));
+                        $upd_data = [
+                            'sort'                 => empty($v['sort']) ? 0 : intval($v['sort']),
+                            'plugins_category_id'  => empty($v['cid']) ? 0 : intval($v['cid']),
+                            'add_time'             => time(),
+                        ];
+                        if(Db::name('Plugins')->where(['id'=>intval($v['id'])])->update($upd_data) === false)
+                        {
+                            throw new \Exception(MyLang('operate_fail'));
+                        }
                     }
                 }
 
@@ -1583,7 +1588,7 @@ php;
                 return DataReturn($e->getMessage(), -1);
             }
         }
-        return DataReturn(MyLang('common_service.pluginsadmin.sort_save_data_error_tips'), -1);
+        return DataReturn(MyLang('common_service.pluginsadmin.setup_save_data_error_tips'), -1);
     }
 }
 ?>

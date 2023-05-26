@@ -1966,8 +1966,14 @@ return [
             'plugins_new_config_error_tips'         => '新配置文件有误',
             'plugins_new_config_update_fail_tips'   => '新应用配置文件更新失败',
             'app_update_no_exist_tips'              => '应用不存在[{:plugins}]、请先安装',
-            'sort_save_data_empty_tips'             => '没有可保存的插件数据',
-            'sort_save_data_error_tips'             => '插件排序数据有误',
+            'setup_save_data_empty_tips'            => '没有可保存的插件数据',
+            'setup_save_data_error_tips'            => '插件设置数据有误',
+        ],
+        // 插件分类
+        'pluginscategory'           => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度1~60个字符',
         ],
         // 插件服务
         'plugins'                   => [

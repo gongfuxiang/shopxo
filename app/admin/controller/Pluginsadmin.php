@@ -17,6 +17,7 @@ use app\service\PluginsAdminService;
 use app\service\ResourcesService;
 use app\service\PluginsService;
 use app\service\PluginsUpgradeService;
+use app\service\PluginsCategoryService;
 
 /**
  * 应用管理
@@ -74,6 +75,10 @@ class Pluginsadmin extends Base
             // 插件更新信息
             $upgrade = PluginsService::PluginsUpgradeInfo($ret['data']);
             $assign['upgrade_info'] = $upgrade['data'];
+
+            // 插件分类
+            $categosy = PluginsCategoryService::PluginsCategoryList();
+            $assign['plugins_categosy_list'] = $categosy['data'];
         }
 
         // 数据赋值
@@ -239,16 +244,16 @@ class Pluginsadmin extends Base
     }
 
     /**
-     * 排序保存
+     * 设置保存
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2021-01-05
      * @desc    description
      */
-    public function SortSave()
+    public function SetupSave()
     {
-        return ApiService::ApiDataReturn(PluginsAdminService::SortSave($this->data_request));
+        return ApiService::ApiDataReturn(PluginsAdminService::SetupSave($this->data_request));
     }
 
     /**

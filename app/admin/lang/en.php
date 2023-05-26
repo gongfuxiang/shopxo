@@ -1039,7 +1039,7 @@ return [
         'base_search_input_placeholder'         => 'Please enter a name/description',
         'base_top_tips_one'                     => 'List sorting method [custom sorting ->earliest installation]',
         'base_top_tips_two'                     => 'Click and drag icon button to adjust plug-in call and display order',
-        'base_open_sort_title'                  => 'Enable sorting',
+        'base_open_setup_title'                 => 'Enable Settings',
         'data_list_author_title'                => 'Author',
         'data_list_author_url_title'            => 'HomePage',
         'data_list_version_title'               => 'Version',
@@ -1055,6 +1055,13 @@ return [
         'cancel_delete_plugins_button_name'     => 'Think again',
         'more_plugins_store_to_text'            => 'Go to the app store to select more plugins to enrich the site >>',
         'no_data_store_to_text'                 => 'Go to the app store to select plug-in rich sites >>',
+        'plugins_category_title'                => 'Application Category',
+        'plugins_category_admin_title'          => 'Category Management',
+    ],
+
+    // 插件分类
+    'pluginscategory'       => [
+        'base_nav_title'                        => 'PluginsCategory',
     ],
 
     // 安装页面

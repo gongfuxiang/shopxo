@@ -13,16 +13,16 @@ namespace app\service;
 use think\facade\Db;
 
 /**
- * 品牌分类服务层
+ * 应用分类服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class BrandCategoryService
+class PluginsCategoryService
 {
     /**
-     * 品牌分类
+     * 应用分类
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -30,36 +30,36 @@ class BrandCategoryService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandCategoryList($params = [])
+    public static function PluginsCategoryList($params = [])
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
 
-        $data = Db::name('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
+        $data = Db::name('PluginsCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
         
         return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
     /**
-     * 获取品牌分类节点数据
+     * 获取应用分类节点数据
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategoryNodeSon($params = [])
+    public static function PluginsCategoryNodeSon($params = [])
     {
         // 获取数据
         $field = '*';
-        $data = Db::name('BrandCategory')->field($field)->order('sort asc')->select()->toArray();
+        $data = Db::name('PluginsCategory')->field($field)->order('sort asc')->select()->toArray();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
                 $v['is_son']        = 'no';
-                $v['ajax_url']      = MyUrl('admin/brandcategory/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']    = MyUrl('admin/brandcategory/delete');
+                $v['ajax_url']      = MyUrl('admin/pluginscategory/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']    = MyUrl('admin/pluginscategory/delete');
                 $v['json']          = json_encode($v);
             }
             return DataReturn(MyLang('operate_success'), 0, $data);
@@ -68,14 +68,14 @@ class BrandCategoryService
     }
 
     /**
-     * 品牌分类保存
+     * 应用分类保存
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategorySave($params = [])
+    public static function PluginsCategorySave($params = [])
     {
         // 请求参数
         $p = [
@@ -83,7 +83,7 @@ class BrandCategoryService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '1,60',
-                'error_msg'         => MyLang('common_service.brandcategory.form_item_name_message'),
+                'error_msg'         => MyLang('common_service.pluginscategory.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -103,7 +103,7 @@ class BrandCategoryService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            $data['id'] = Db::name('BrandCategory')->insertGetId($data);
+            $data['id'] = Db::name('PluginsCategory')->insertGetId($data);
             if($data['id'] <= 0)
             {
                 return DataReturn(MyLang('insert_fail'), -100);
@@ -111,7 +111,7 @@ class BrandCategoryService
             
         } else {
             $data['upd_time'] = time();
-            if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
+            if(Db::name('PluginsCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
                 return DataReturn(MyLang('edit_fail'), -100);
             } else {
@@ -122,14 +122,14 @@ class BrandCategoryService
     }
 
     /**
-     * 品牌分类删除
+     * 应用分类删除
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategoryDelete($params = [])
+    public static function PluginsCategoryDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -151,7 +151,7 @@ class BrandCategoryService
         }
 
         // 开始删除
-        if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
+        if(Db::name('PluginsCategory')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn(MyLang('delete_success'), 0);
         }

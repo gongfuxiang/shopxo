@@ -1962,8 +1962,14 @@ return [
             'plugins_new_config_error_tips'         => 'The new configuration file is incorrect',
             'plugins_new_config_update_fail_tips'   => 'Failed to update the new app profile',
             'app_update_no_exist_tips'              => 'The application does not exist [{:plugins}]. Please install it first',
-            'sort_save_data_empty_tips'             => 'No plug-in data to save',
-            'sort_save_data_error_tips'             => 'The plug-in sorting data is incorrect',
+            'setup_save_data_empty_tips'            => 'No plug-in data to save',
+            'setup_save_data_error_tips'            => 'Incorrect plugin setting data',
+        ],
+        // 插件分类
+        'pluginscategory'           => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'The name is 1~60 characters long',
         ],
         // 插件服务
         'plugins'                   => [

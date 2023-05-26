@@ -1024,7 +1024,7 @@ return [
         'base_search_input_placeholder'         => '请输入名称/描述',
         'base_top_tips_one'                     => '列表排序方式[ 自定义排序 -> 最早安装 ]',
         'base_top_tips_two'                     => '可点击拖动图标按钮调整插件调用和展示顺序',
-        'base_open_sort_title'                  => '开启排序',
+        'base_open_setup_title'                 => '开启设置',
         'data_list_author_title'                => '作者',
         'data_list_author_url_title'            => '主页',
         'data_list_version_title'               => '版本',
@@ -1040,6 +1040,13 @@ return [
         'cancel_delete_plugins_button_name'     => '再考虑一下',
         'more_plugins_store_to_text'            => '去应用商店挑选更多插件丰富站点 >>',
         'no_data_store_to_text'                 => '到应用商店挑选插件丰富站点 >>',
+        'plugins_category_title'                => '应用分类',
+        'plugins_category_admin_title'          => '分类管理',
+    ],
+
+    // 插件分类
+    'pluginscategory'       => [
+        'base_nav_title'                        => '插件分类',
     ],
 
     // 安装页面

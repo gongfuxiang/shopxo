@@ -1899,6 +1899,12 @@ return [
             'pay_request_log_insert_fail_tips'      => '支付請求日誌添加失敗',
             'pay_request_log_update_fail_tips'      => '支付請求日誌更新失敗',
         ],
+        // 插件分类
+        'pluginscategory'           => [
+            // 表单
+            'form_item_name'                        => '名稱',
+            'form_item_name_message'                => '名稱長度1~60個字元',
+        ],
         // 插件管理
         'pluginsadmin'              => [
             // 表单
@@ -1966,8 +1972,8 @@ return [
             'plugins_new_config_error_tips'         => '新設定檔有誤',
             'plugins_new_config_update_fail_tips'   => '新應用設定檔更新失敗',
             'app_update_no_exist_tips'              => '應用不存在[{:plugins}]、請先安裝',
-            'sort_save_data_empty_tips'             => '沒有可保存的挿件數據',
-            'sort_save_data_error_tips'             => '挿件排序數據有誤',
+            'setup_save_data_empty_tips'            => '沒有可保存的挿件數據',
+            'setup_save_data_error_tips'            => '挿件設定數據有誤',
         ],
         // 插件服务
         'plugins'                   => [

@@ -29,9 +29,9 @@
                     <p>{{:MyLang('pluginsadmin.base_top_tips_one')}}</p>
                     <p>
                         <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
-                        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> {{:MyLang('pluginsadmin.base_open_sort_title')}}</button>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> {{:MyLang('save_title')}}</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> {{:MyLang('cancel_title')}}</button>
+                        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-cog submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</button>
                     </p>
                     {{if empty($site_store_info) or empty($site_store_info['user'])}}
                         <p>
@@ -41,17 +41,24 @@
                     {{/if}}
                 </div>
 
-                <!-- 搜索无数据展示 -->
-                <div class="not-data-tips none">
-                    {{include file="public/not_data" /}}
-                </div>
-
                 {{if !empty($data_list['db_data'])}}
+                    <!-- 插件分类 -->
+                    <div class="plugins-category-nav am-padding-vertical-xs">
+                        <strong>{{:MyLang('pluginsadmin.plugins_category_title')}}</strong>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-margin-left-sm">{{:MyLang('all_title')}}</button>
+                        {{if !empty($plugins_categosy_list)}}
+                            {{foreach $plugins_categosy_list as $cv}}
+                                <button type="button" class="am-btn am-btn-default am-radius am-margin-left-sm" data-value="{{$cv.id}}">{{$cv.name}}</button>
+                            {{/foreach}}
+                        {{/if}}
+                        <a href="javascript:;" class="am-fr am-margin-top-xs am-icon-edit submit-popup" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-full="1" data-full-max="1" data-class="plugins-category-save-popup"> {{:MyLang('pluginsadmin.plugins_category_admin_title')}}</a>
+                    </div>
+
                     <!-- 已安装 -->
-                    <ul class="already-install am-nbfc" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
+                    <ul class="already-install am-nbfc" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/setupsave')}}">
                         {{foreach $data_list['db_data'] as $v}}
                             {{if isset($v['is_install']) and $v['is_install'] eq 1}}
-                                <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
+                                <li class="plugins-category-{{$v.plugins_category_id}}" data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
                                     <div class="item {{if $v['is_enable'] eq 0}}am-active{{/if}}" id="data-list-{{$v.plugins}}">
                                         <img src="{{$v.logo}}" class="icon" />
                                         <div class="base">
@@ -85,11 +92,26 @@
                                                 <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
                                             {{/if}}
                                         </div>
+                                        {{if !empty($plugins_categosy_list)}}
+                                            <div class="plugins-category-item am-hide">
+                                                <select class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}">
+                                                    <option value="0">{{:MyLang('please_select_tips')}}</option>
+                                                    {{foreach $plugins_categosy_list as $cv}}
+                                                        <option value="{{$cv.id}}" {{if isset($v['plugins_category_id']) and $cv['id'] eq $v['plugins_category_id']}}selected{{/if}}>{{$cv.name}}</option>
+                                                    {{/foreach}}
+                                                </select>
+                                            </div>
+                                        {{/if}}
                                     </div>
                                 </li>
                             {{/if}}
                         {{/foreach}}
                     </ul>
+
+                    <!-- 搜索无数据展示 -->
+                    <div class="not-data-tips am-hide">
+                        {{include file="public/not_data" /}}
+                    </div>
                 {{/if}}
 
                 {{if !empty($data_list['dir_data'])}}
@@ -102,7 +124,7 @@
                         </strong>
                         <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
                     </div>
-                    <ul class="am-nbfc" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
+                    <ul class="am-nbfc" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
                         {{foreach $data_list['dir_data'] as $v}}
                             {{if !isset($v['is_install']) or $v['is_install'] eq 0}}
                                 <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">

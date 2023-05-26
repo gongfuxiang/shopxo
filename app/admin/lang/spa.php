@@ -1024,7 +1024,7 @@ return [
         'base_search_input_placeholder'         => 'Introduzca el nombre / descripción',
         'base_top_tips_one'                     => 'Método de clasificación de lista [clasificación personalizada - > instalación más temprana]',
         'base_top_tips_two'                     => 'Se puede hacer clic en el botón arrastrar icono para ajustar el orden de llamada y visualización del plug - IN.',
-        'base_open_sort_title'                  => 'Abrir clasificación',
+        'base_open_setup_title'                 => 'Activar configuración',
         'data_list_author_title'                => 'Autor',
         'data_list_author_url_title'            => 'Página principal',
         'data_list_version_title'               => 'Versión',
@@ -1040,6 +1040,13 @@ return [
         'cancel_delete_plugins_button_name'     => 'Piénsalo de nuevo.',
         'more_plugins_store_to_text'            => 'Ir a la tienda de aplicaciones para seleccionar más plug - ins para enriquecer el sitio > > 1',
         'no_data_store_to_text'                 => 'Ir a la tienda de aplicaciones para seleccionar los sitios ricos en plug - ins > >',
+        'plugins_category_title'                => 'Clasificación de aplicaciones',
+        'plugins_category_admin_title'          => 'Gestión clasificada',
+    ],
+
+    // 插件分类
+    'pluginscategory'       => [
+        'base_nav_title'                        => 'Clasificación plugins',
     ],
 
     // 安装页面
