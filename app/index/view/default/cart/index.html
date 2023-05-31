@@ -183,7 +183,7 @@
                             {{if $goods['is_error'] eq 0}}
                                 <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}">
                                     <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
-                                    <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}" />
+                                    <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-min-limit="{{$goods.spec_buy_min_number}}" data-max-limit="{{$goods.spec_buy_max_number}}" data-unit="{{$goods.inventory_unit}}" />
                                     <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                                 </div>
                             {{else /}}

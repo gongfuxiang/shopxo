@@ -27,9 +27,9 @@ class DomainService
      * @version 1.0.0
      * @date    2022-05-10
      * @desc    description
-     * @param   [array]       $params           [输入参数]
-     * @param   [array]       $params['domain'] [域名信息key=>val（'xxx'=>'search/index'）]
-     * @param   [array]       $params['type']   [输入参数（0 移除, 1 增加）]
+     * @param   [array]       $params               [输入参数]
+     * @param   [array]       $params['inc_domain'] [增加、域名信息key=>val（'domain'=>'search/index'）]
+     * @param   [array]       $params['dec_domain'] [移除、域名信息key=>val（'domain'=>'search/index'）]
      */
     public static function DomainUpdate($params = [])
     {

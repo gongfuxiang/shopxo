@@ -399,6 +399,7 @@ return [
     'verification_title'                                    => '核验',
     'service_title'                                         => '服务',
     'print_title'                                           => '打印',
+    'confirm_print_title'                                   => '确认打印',
     'transfer_order_title'                                  => '转单',
     'transfer_audit_title'                                  => '转审',
     'divider_title'                                         => '分配',

@@ -103,7 +103,7 @@ $(function()
         // 数量参数
         var $parent = $(this).parents('.stock-tag');
         var $input = $parent.find('input[type="number"]');
-        var min = parseInt($input.data('min-limit'));
+        var min = parseInt($input.data('min-limit') || 1);
         var max = parseInt($input.data('max-limit'));
         var unit = $input.data('unit') || '';
         var stock = parseInt($input.val());
@@ -135,7 +135,7 @@ $(function()
     {
         // 数量参数
         var $input = $(this);
-        var min = parseInt($input.data('min-limit'));
+        var min = parseInt($input.data('min-limit') || 1);
         var max = parseInt($input.data('max-limit'));
         var unit = $input.data('unit') || '';
         var stock = parseInt($input.val());

@@ -132,11 +132,11 @@
                                         <img src="{{$v.logo}}" class="icon" />
                                         <div class="base">
                                             <h3 class="name">{{$v.name}}</h3>
-                                            <p>{{:MyLang('pluginsadmin.data_list_author_title')}}{{$v.author}}</p>
+                                            <p>{{:MyLang('pluginsadmin.data_list_author_title')}}：{{$v.author}}</p>
                                             {{if empty($site_store_info) or empty($site_store_info['vip']) or !isset($site_store_info['vip']['status']) or $site_store_info['vip']['status'] eq 0}}
-                                                <p>{{:MyLang('pluginsadmin.data_list_author_url_title')}}<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                                <p>{{:MyLang('pluginsadmin.data_list_author_url_title')}}：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
                                             {{/if}}
-                                            <p>{{:MyLang('pluginsadmin.data_list_version_title')}}{{$v.version}}</p>
+                                            <p>{{:MyLang('pluginsadmin.data_list_version_title')}}：{{$v.version}}</p>
                                         </div>
                                         <div class="desc">{{$v.desc}}</div>
                                         <div class="operation">

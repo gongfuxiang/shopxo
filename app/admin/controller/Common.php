@@ -289,6 +289,9 @@ class Common extends BaseController
         // css/js引入host地址
         $assign['public_host'] = MyConfig('shopxo.public_host');
 
+        // 当前host地址
+        $assign['my_host'] = __MY_HOST__;
+
         // 当前url地址
         $assign['my_domain'] = __MY_DOMAIN__;
 

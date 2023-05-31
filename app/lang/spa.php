@@ -399,6 +399,7 @@ return [
     'verification_title'                                    => 'Verificación',
     'service_title'                                         => 'Servicios',
     'print_title'                                           => 'Imprimir',
+    'confirm_print_title'                                   => 'Confirmar Imprimir',
     'transfer_order_title'                                  => 'Orden de transferencia',
     'transfer_audit_title'                                  => 'Remisión',
     'divider_title'                                         => 'Distribución',

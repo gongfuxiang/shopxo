@@ -343,6 +343,9 @@ class Common extends BaseController
         // 当前url地址
         $assign['my_domain'] = __MY_DOMAIN__;
 
+        // 当前host地址
+        $assign['my_host'] = __MY_HOST__;
+
         // 当前完整url地址
         $assign['my_url'] = __MY_URL__;
 

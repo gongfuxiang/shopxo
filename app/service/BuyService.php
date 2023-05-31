@@ -70,6 +70,8 @@ class BuyService
                 ['is_shelves', '=', 1],
             ],
             'field' => 'id,id AS goods_id,title,images,inventory_unit,is_shelves,buy_min_number,buy_max_number,model,site_type',
+            'm'     => 0,
+            'n'     => 0,
         ]);
         $ret = GoodsService::GoodsList($goods_params);
         if(empty($ret['data'][0]))

@@ -130,6 +130,20 @@ define('IS_POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'
 // 是否ajax
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
 
+// 独立域名页面绑定
+if(!IS_AJAX)
+{
+    $domain_file = ROOT.'config'.DS.'domain.php';
+    if(file_exists($domain_file))
+    {
+        $data = include($domain_file);
+        if(!empty($data) && !empty($data[__MY_HOST__]))
+        {
+            $_GET['s'] = $data[__MY_HOST__];
+        }
+    }
+}
+
 // 二级域名页面绑定
 if(!IS_AJAX && substr_count(__MY_HOST__, '.') > 1 && !is_numeric(str_replace('.', '', __MY_HOST__)))
 {
@@ -138,10 +152,10 @@ if(!IS_AJAX && substr_count(__MY_HOST__, '.') > 1 && !is_numeric(str_replace('.'
     if(!empty($second_domain) && file_exists($domain_file) && $second_domain != 'www')
     {
         $data = include($domain_file);
-        if(!empty($data) && (!empty($data[$second_domain]) || !empty($data['s'])))
+        if(!empty($data) && !empty($data[$second_domain]))
         {
             define('SECOND_DOMAIN', $second_domain);
-            $_GET['s'] = empty($data[$second_domain]) ? $data['s'] : $data[$second_domain];
+            $_GET['s'] = $data[$second_domain];
         }
     }
 }

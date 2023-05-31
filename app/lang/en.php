@@ -399,6 +399,7 @@ return [
     'verification_title'                                    => 'Verification',
     'service_title'                                         => 'Service',
     'print_title'                                           => 'Print',
+    'confirm_print_title'                                   => 'Confirm Print',
     'transfer_order_title'                                  => 'Transfer Order',
     'transfer_audit_title'                                  => 'Transfer Audit',
     'divider_title'                                         => 'Divider',

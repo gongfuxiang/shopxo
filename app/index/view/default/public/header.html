@@ -75,7 +75,7 @@
             {{/if}}
         {{/foreach}}
     {{/if}}
-	
+
 	<!-- 公共header内钩子 -->
 	{{if !empty($plugins_common_header_data) and is_array($plugins_common_header_data)}}
 		{{foreach $plugins_common_header_data as $hook}}
@@ -95,7 +95,8 @@
 		var __system_type__ = '{{$system_type}}';
 		var __root__ = '{{$public_host}}';
 		var __my_http__ = '{{$my_http}}';
-		var __my_url__ = '{{$my_url}}';
+		var __my_host__ = '{{$my_host}}';
+        var __my_url__ = '{{$my_url}}';
         var __my_public_url__ = '{{$my_public_url}}';
 		var __public__ = '{{$public_host}}';
 		var __default_theme__ = '{{$default_theme}}';

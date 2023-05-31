@@ -83,13 +83,10 @@ class Goods extends Common
                 'buy_button'        => GoodsService::GoodsBuyButtonList($goods),
                 // 中间tabs导航
                 'middle_tabs_nav'   => GoodsService::GoodsDetailMiddleTabsNavList($goods),
-
                 // 面包屑导航
                 'breadcrumb_data'   => GoodsService::GoodsBreadcrumbData($goods),
-
                 // 加载放大镜
                 'is_load_imagezoom' => 1,
-
                 // 加载视频播放器组件
                 'is_load_ckplayer'  => 1,
             ];
