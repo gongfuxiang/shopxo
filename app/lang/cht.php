@@ -3869,6 +3869,11 @@ return [
             'desc' => '默認關閉',
             'tips' => '請選擇後端使用多語言',
         ],
+        'common_multilingual_default_value'  => [
+            'name' => '默認語言',
+            'desc' => '默認中文',
+            'tips' => '請選擇默認語言',
+        ],
         'home_use_multilingual_status'  => [
             'name' => '前端用多語言',
             'desc' => '默認關閉',

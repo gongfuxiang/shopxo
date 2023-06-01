@@ -3864,6 +3864,11 @@ return [
             'desc' => 'Si se marca, se utiliza',
             'tips' => 'Por favor, marque el idioma que necesita usar',
         ],
+        'common_multilingual_default_value'  => [
+            'name' => 'Idioma predeterminado',
+            'desc' => 'Chino predeterminado',
+            'tips' => 'Por favor, elija el idioma predeterminado',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'El back - end utiliza Multilingüismo',
             'desc' => 'Cierre predeterminado',

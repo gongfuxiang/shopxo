@@ -3904,6 +3904,11 @@ return [
             'desc' => 'Check to use',
             'tips' => 'Please tick the language you want to use',
         ],
+        'common_multilingual_default_value'  => [
+            'name' => 'default language',
+            'desc' => 'Default Chinese',
+            'tips' => 'Please select the default language',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend uses multiple languages',
             'desc' => 'Default on',

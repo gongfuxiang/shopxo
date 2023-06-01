@@ -14,7 +14,7 @@
 // +----------------------------------------------------------------------
 return [
     // 默认语言
-    'default_lang'    => 'zh',
+    'default_lang'    => MyFileConfig('common_multilingual_default_value', '', 'zh', true),
     // 允许的语言列表（preg 正则匹配、code 语言编码、语言名称在对应语言文件中）
     'allow_lang_list' => [
         // 简体中文        

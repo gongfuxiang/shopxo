@@ -25,7 +25,7 @@ function AddressModalHandle(data)
         var address = data.address || null;
         var lng = data.lng || null;
         var lat = data.lat || null;
-        if(name == null || tel == null || province == null || city == null || county == null || address == null)
+        if(name == null || tel == null || province == null || city == null || address == null)
         {
             Prompt(window['lang_operate_params_error'] || '数据填写有误');
             return false;

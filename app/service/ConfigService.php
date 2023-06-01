@@ -126,8 +126,9 @@ class ConfigService
         // cookie有效域名
         'common_cookie_domain',
 
-        // 多语言可选列表
+        // 多语言可选列表和默认值
         'common_multilingual_choose_list',
+        'common_multilingual_default_value',
     ];
 
     /**
