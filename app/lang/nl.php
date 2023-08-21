@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'Openid kan niet leeg zijn',
                 'template_id_empty_tips'            => 'sjabloon_ ID kan niet leeg zijn',
                 'data_empty_tips'                   => 'Gegevens kunnen niet leeg zijn',
+                'trade_no_empty_tips'               => 'trade_no niet leeg zijn',
+                'buyer_user_empty_tips'             => 'buyer_user niet leeg zijn',
+                'goods_title_empty_tips'            => 'goods_title niet leeg zijn',
+                'no_match_logistics_company_code'   => 'Geen overeenkomende logistiek bedrijfscode',
+                'no_match_logistics_mode'           => 'Geen overeenkomende logistiek modus',
             ],
             // 邮件
             'email'         => [

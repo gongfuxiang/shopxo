@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'OpenID không thể rỗng',
                 'template_id_empty_tips'            => 'template_ ID không thể rỗng',
                 'data_empty_tips'                   => 'Data không thể để trống',
+                'trade_no_empty_tips'               => 'trade_no không được để trống',
+                'buyer_user_empty_tips'             => 'buyer_user không được để trống',
+                'goods_title_empty_tips'            => 'goods_title không được để trống',
+                'no_match_logistics_company_code'   => 'Không có mã công ty logistics phù hợp',
+                'no_match_logistics_mode'           => 'Không có chế độ logistics phù hợp',
             ],
             // 邮件
             'email'         => [

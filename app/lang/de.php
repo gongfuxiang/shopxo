@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'Openid kann nicht leer sein',
                 'template_id_empty_tips'            => 'template_ ID kann nicht leer sein',
                 'data_empty_tips'                   => 'Daten können nicht leer sein',
+                'trade_no_empty_tips'               => 'trade_no nicht leer sein',
+                'buyer_user_empty_tips'             => 'buyer_user nicht leer sein',
+                'goods_title_empty_tips'            => 'goods_title nicht leer sein',
+                'no_match_logistics_company_code'   => 'Kein passender Logistikunternehmenscode',
+                'no_match_logistics_mode'           => 'Kein passender Logistikmodus',
             ],
             // 邮件
             'email'         => [
