@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'openid는 비워둘 수 없습니다.',
                 'template_id_empty_tips'            => 'template_id는 비워둘 수 없습니다.',
                 'data_empty_tips'                   => '데이터는 비워둘 수 없습니다.',
+                'trade_no_empty_tips'               => 'trade_no 비워둘 수 없습니다',
+                'buyer_user_empty_tips'             => 'buyer_user 비워둘 수 없습니다',
+                'goods_title_empty_tips'            => 'goods_title 비워둘 수 없습니다',
+                'no_match_logistics_company_code'   => '일치하는 물류 회사 코드가 없습니다',
+                'no_match_logistics_mode'           => '일치하는 물류 모드가 없습니다',
             ],
             // 邮件
             'email'         => [

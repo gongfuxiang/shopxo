@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'openidを空にすることはできません',
                 'template_id_empty_tips'            => 'template_idを空にすることはできません',
                 'data_empty_tips'                   => 'dataを空にすることはできません',
+                'trade_no_empty_tips'               => 'trade_noを空にすることはできません',
+                'buyer_user_empty_tips'             => 'buyer_userを空にすることはできません',
+                'goods_title_empty_tips'            => 'goods_titleを空にすることはできません',
+                'no_match_logistics_company_code'   => '一致する物流会社コードがありません',
+                'no_match_logistics_mode'           => '一致する物流モードがありません',
             ],
             // 邮件
             'email'         => [

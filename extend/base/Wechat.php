@@ -129,6 +129,185 @@ class Wechat
     }
 
     /**
+     * 获取微信小程序中的快递公司编码：根据快递公司名称
+     * @author  Shon Wu
+     * @blog    https://github.com/mantoufan/
+     * @version 1.0.0
+     * @date    2023-08-21
+     * @desc    description
+     * @param   [string]  $express_name      [快递公司名称]
+     * @return  [string|null]                [成功返回快递公司编码, 失败则空]
+     */
+    function GetMiniDeliveryIdByName($express_name)
+    {
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
+        }
+
+        // 获取运力id列表接口
+        $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/open_msg/get_delivery_list?access_token='.$access_token;
+
+        $res = $this->HttpRequestPost($url, (object)null, false); // 需要 POST {} 给接口
+        if (!empty($res))
+        {
+            $res = json_decode($res, true);
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('get_fail');
+            if ($res['errcode'] === 0) 
+            {
+                $delivery_list = $res['delivery_list'];
+                $delivery_names = array_column($delivery_list, 'delivery_name');
+                $delivery_index = array_search($express_name, $delivery_names);
+                if ($delivery_index === false)
+                { // 精确匹配失败后，如果公司名称包含快递、物流、速运、速递和邮政，进行模糊匹配。例如：顺丰快递 - 顺丰速运，韵达快递 - 韵达速递 
+                    $toBeReplaceds = [ // 关键词的笛卡尔积，例如：顺丰快递未匹配，则依次查找顺丰速运、顺丰速递、顺丰物流、顺丰，直到找到一个匹配编码为止
+                        '快递' => ['速运', '速递', '物流', ''],
+                        '物流' => ['快递', '速运', '速递', ''],
+                        '速运' => ['快递', '速递', '物流', ''],
+                        '速递' => ['快递', '速运', '物流', ''], // EMS速递 - EMS
+                        '邮政' => ['邮政快递', '国际邮政'], // 邮政包裹 - 邮政快递包裹 / 国际邮政包裹
+                    ];
+                    foreach ($toBeReplaceds as $pattern => $replaceds) 
+                    {
+                        if (stripos($express_name, $pattern) !== false) {
+                            foreach ($replaceds as $replaced) 
+                            {
+                                $express_name_replaced = str_replace($pattern, $replaced, $express_name);
+                                $delivery_index = array_search($express_name_replaced, $delivery_names);
+                                if ($delivery_index !== false)
+                                {
+                                    break 2;
+                                }
+                            }
+                            break;
+                        } 
+                    }
+                }
+                if ($delivery_index === false)
+                {
+                    return DataReturn(MyLang('common_extend.base.wechat.no_match_logistics_company_code'), -1); // 无匹配物流公司编码
+                }
+                return DataReturn(MyLang('get_success'), 0, $delivery_list[$delivery_index]['delivery_id']);
+            } else 
+            {
+                $msg = isset($res['errcode']) ? $res['errcode'].':'.$msg : $msg;
+            }
+        } else 
+        {
+            $msg = MyLang('get_fail');
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
+     * 小程序发货信息录入
+     * @author    Shon Wu
+     * @blog      https://github.com/mantoufan/
+     * @version   1.0.0
+     * @date      2023-08-21
+     * @desc      description
+     * @param     [string]    $params['order_model']      [订单模式]
+     * @param     [string]    $params['trade_no']         [支付平台交易号]
+     * @param     [string]    $params['buyer_user']       [支付平台用户账号]
+     * @param     [string]    $params['goods_title']      [商品标题]
+     * @optional  [string]    $params['express_name']     [快递公司名称]
+     * @optional  [string]    $params['express_number']   [快递单号]
+     * @optional  [string]    $params['tel']              [收货联系人手机号]
+     * @return    [array|null]                            [成功原样返回微信小程序接口响应, 失败则空]
+     */
+    public function MiniUploadShippingInfo($params = []) 
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => MyLang('common_extend.base.wechat.trade_no_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'buyer_user',
+                'error_msg'         => MyLang('common_extend.base.wechat.buyer_user_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_title',
+                'error_msg'         => MyLang('common_extend.base.wechat.goods_title_empty_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 商城参数转换为微信小程序参数
+        $data = [
+            'order_key' => [
+                'order_number_type' => 2, 
+                'transaction_id' => $params['trade_no'],
+            ],
+            'delivery_mode' => 1, // 发货模式：统一发货
+            'shipping_list' => [['item_desc' => $params['goods_title']]],
+            'payer' => ['openid' => $params['buyer_user']],
+            'upload_time' => date('Y-m-d\TH:i:sP'),
+        ];
+        $data['logistics_type'] = array(
+            0 => 1, // 商城订单模式：销售型（快递 / 快递 + 自提） - 微信小程序：实体物流配送采用快递公司进行实体物流配送形式
+            1 => null, // 商城订单模式：展示型 - 微信小程序：终止，不抛出错误
+            2 => 4, // 商城订单模式：自提型 - 微信小程序：用户自提
+            3 => 3, // 商城订单模式：虚拟销售 - 微信小程序：虚拟商品
+        )[$params['order_model']];
+        if ($data['logistics_type'] === null) 
+        {
+            return DataReturn(MyLang('common_extend.base.wechat.no_match_logistics_mode'), 0); // 无匹配物流模式
+        } elseif ($data['logistics_type'] === 1) 
+        {
+            // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人手机号供顺丰使用
+            $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
+            if ($express_res['code'] !== 0) 
+            {
+                return DataReturn($express_res['msg'], -1);
+            }
+            $data['shipping_list'][0]['express_company'] = $express_res['data'];
+            $data['shipping_list'][0]['tracking_no'] = $params['express_number'];
+            if(isset($params['tel']) && !empty($params['tel'])){
+              $data['shipping_list'][0]['contact'] = ['receiver_contact' => substr($params['tel'], 0, 3) . '****' . substr($params['tel'], -4)];
+            }
+        }
+
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
+        }
+
+        // 录入发货信息接口
+        $url = 'https://api.weixin.qq.com/wxa/sec/order/upload_shipping_info?access_token='.$access_token;
+        
+        $res = $this->HttpRequestPost($url, $data, false);
+        if (!empty($res))
+        {
+            $res = json_decode($res, true);
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('send_fail');
+            if ($msg === 'ok') 
+            {
+                return DataReturn(MyLang('send_success'), 0, $res);
+            } else 
+            {
+                $msg = isset($res['errcode']) ? $res['errcode'].':'.$msg : $msg;
+            }
+        } else 
+        {
+            $msg = MyLang('send_fail');
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
      * 检验数据的真实性，并且获取解密后的明文
      * @author   Devil
      * @blog     http://gong.gg/
@@ -487,7 +666,7 @@ class Wechat
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, JSON_UNESCAPED_UNICODE)); // PHP 5.4+ 避免将中文编译成 Unicode
         curl_setopt($curl, CURLOPT_POST, true);
         $res = curl_exec($curl);
         curl_close($curl);

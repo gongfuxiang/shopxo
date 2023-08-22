@@ -24,6 +24,7 @@ use app\service\OrderAftersaleService;
 use app\service\OrderCurrencyService;
 use app\service\WarehouseService;
 use app\service\SystemService;
+use app\service\AppMiniUserService;
 
 /**
  * 订单服务层
@@ -982,6 +983,9 @@ class OrderService
                         'creator_name'      => MyLang('system_title'),
                         'user_id'           => $order['user_id'],
                         'user_type'         => 'admin',
+                        // 传入支付的 trade_no 和 buyer_user，虚拟发货时，提供给微信小程序录入发货信息
+                        'trade_no'          => !empty($params['pay']) && isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
+                        'buyer_user'        => !empty($params['pay']) && isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : ''
                     ]);
                 }
             }
@@ -2005,7 +2009,7 @@ class OrderService
 
             // 获取订单信息
             $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-            $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
+            $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model,client_type')->find();
             if(empty($order))
             {
                 throw new \Exception(MyLang('order_no_exist_or_delete_error_tips'));
@@ -2096,6 +2100,56 @@ class OrderService
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
+
+            // 微信小程序发货信息录入
+            if ($order['client_type'] === 'weixin')
+            {
+                $order_detail = Db::name('OrderDetail')->field('title')->where(['order_id'=>$order['id']])->find();
+                if (!empty($order_detail))
+                {
+                    if (!empty($params['trade_no']) && !empty($params['buyer_user']))
+                    {
+                       $trade_no = $params['trade_no'];
+                       $buyer_user = $params['buyer_user'];
+                    } else 
+                    {
+                        $pay_log_value = Db::name('PayLogValue')->field('pay_log_id')->where(['business_id'=>$order['id']])->find();
+                        if (!empty($pay_log_value))
+                        {
+                            $pay_log_id = $pay_log_value['pay_log_id'];
+                            $pay_log = Db::name('PayLog')->field('trade_no,buyer_user')->where(['id'=>$pay_log_id])->find();
+                            if (!empty($pay_log)) 
+                            {
+                                $trade_no = $pay_log['trade_no'];
+                                $buyer_user = $pay_log['buyer_user'];
+                            }
+                        }
+                    }
+
+                    if (isset($trade_no) && !empty($trade_no) && isset($buyer_user) && !empty($buyer_user))
+                    {
+                        $address_datas = self::OrderAddressData($order['id']);
+                        if (!empty($address_datas))
+                        {
+                            $address_data = $address_datas[$order['id']];
+                        }
+                        $express = ExpressService::ExpressData($upd_data['express_id']);
+                        $ret = (new \base\Wechat(AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid'), AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret')))->MiniUploadShippingInfo([
+                            'order_model'   => $order['order_model'],
+                            'trade_no'      => $trade_no,
+                            'buyer_user'    => $buyer_user,
+                            'goods_title'   => $order_detail['title'],
+                            'express_name'  => !empty($express) ? $express['name'] : '',
+                            'express_number'=> $upd_data['express_number'],
+                            'tel'           => isset($address_data) ? $address_data['tel'] : '',
+                        ]);
+                        if ($ret['code'] !== 0)
+                        {
+                            throw new \Exception($ret['msg']);
+                        }
+                    }
+                }
+            }
 
             // 完成
             return DataReturn(MyLang('delivery_success'), 0);

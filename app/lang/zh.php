@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'openid不能为空',
                 'template_id_empty_tips'            => 'template_id不能为空',
                 'data_empty_tips'                   => 'data不能为空',
+                'trade_no_empty_tips'               => 'trade_no不能为空',
+                'buyer_user_empty_tips'             => 'buyer_user不能为空',
+                'goods_title_empty_tips'            => 'goods_title不能为空',
+                'no_match_logistics_company_code'   => '无匹配的物流公司编码',
+                'no_match_logistics_mode'           => '无匹配的物流模式',
             ],
             // 邮件
             'email'         => [

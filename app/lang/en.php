@@ -2642,9 +2642,14 @@ return [
             ],
             // 微信
             'wechat'        => [
-                'touser_openid_empty_tips'          => 'Openid cannot be empty',
-                'template_id_empty_tips'            => 'template_ ID cannot be empty',
-                'data_empty_tips'                   => 'Data cannot be empty',
+                'touser_openid_empty_tips'          => 'touser_openid cannot be empty',
+                'template_id_empty_tips'            => 'template_id cannot be empty',
+                'data_empty_tips'                   => 'data cannot be empty',
+                'trade_no_empty_tips'               => 'trade_no cannot be empty',
+                'buyer_user_empty_tips'             => 'buyer_user cannot be empty',
+                'goods_title_empty_tips'            => 'goods_title cannot be empty',
+                'no_match_logistics_company_code'   => 'No matching logistics company code',
+                'no_match_logistics_mode'           => 'No matching logistics mode',
             ],
             // 邮件
             'email'         => [

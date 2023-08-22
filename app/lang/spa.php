@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'OpenID no puede estar vacío',
                 'template_id_empty_tips'            => 'Plantilla El ID no puede estar vacío',
                 'data_empty_tips'                   => 'Los datos no pueden estar vacíos',
+                'trade_no_empty_tips'               => 'trade_no no puede estar vacío',
+                'buyer_user_empty_tips'             => 'buyer_user no puede estar vacío',
+                'goods_title_empty_tips'            => 'goods_title no puede estar vacío',
+                'no_match_logistics_company_code'   => 'No hay un código de empresa de logística correspondiente',
+                'no_match_logistics_mode'           => 'No hay un modo de logística correspondiente',
             ],
             // 邮件
             'email'         => [

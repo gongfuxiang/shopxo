@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'Openid kan inte vara tom',
                 'template_id_empty_tips'            => 'mall_ ID kan inte vara tomt',
                 'data_empty_tips'                   => 'Data kan inte vara tom',
+                'trade_no_empty_tips'               => 'trade_no inte vara tomt',
+                'buyer_user_empty_tips'             => 'buyer_user inte vara tom',
+                'goods_title_empty_tips'            => 'goods_title inte vara tom',
+                'no_match_logistics_company_code'   => 'Ingen matchande logistikföretagskod',
+                'no_match_logistics_mode'           => 'Ingen matchande logistikläge',
             ],
             // 邮件
             'email'         => [

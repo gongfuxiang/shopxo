@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'openid ไม่สามารถว่างได้',
                 'template_id_empty_tips'            => 'template_ ID ต้องไม่ว่างเปล่า',
                 'data_empty_tips'                   => 'ข้อมูลไม่สามารถว่างได้',
+                'trade_no_empty_tips'               => 'trade_no ต้องไม่เป็นค่าว่าง',
+                'buyer_user_empty_tips'             => 'buyer_user ต้องไม่เป็นค่าว่าง',
+                'goods_title_empty_tips'            => 'goods_title ต้องไม่เป็นค่าว่าง',
+                'no_match_logistics_company_code'   => 'ไม่มีรหัสบริษัทขนส่งที่ตรงกัน',
+                'no_match_logistics_mode'           => 'ไม่มีโหมดการขนส่งที่ตรงกัน',
             ],
             // 邮件
             'email'         => [

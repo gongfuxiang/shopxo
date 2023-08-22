@@ -2650,6 +2650,11 @@ return [
                 'touser_openid_empty_tips'          => 'OpenID не может быть пустым',
                 'template_id_empty_tips'            => 'Текст ID не может быть пустым',
                 'data_empty_tips'                   => 'Данные не могут быть пустыми',
+                'trade_no_empty_tips'               => 'trade_no не может быть пустым',
+                'buyer_user_empty_tips'             => 'buyer_user не может быть пустым',
+                'goods_title_empty_tips'            => 'goods_title не может быть пустым',
+                'no_match_logistics_company_code'   => 'Нет соответствующего кода логистической компании',
+                'no_match_logistics_mode'           => 'Нет соответствующего режима логистики',
             ],
             // 邮件
             'email'         => [
