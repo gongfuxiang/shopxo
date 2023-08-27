@@ -48,7 +48,7 @@ class FormTable extends Common
      */
     public function FieldsSelectSave()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user_id'] = $this->user['id'];
         $params['user_type'] = 1;
         return ApiService::ApiDataReturn(FormTableService::FieldsSelectSave($params));
@@ -64,7 +64,7 @@ class FormTable extends Common
      */
     public function FieldsSelectReset()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user_id'] = $this->user['id'];
         $params['user_type'] = 1;
         return ApiService::ApiDataReturn(FormTableService::FieldsSelectReset($params));

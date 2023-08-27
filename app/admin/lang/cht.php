@@ -237,16 +237,22 @@ return [
             '4.虛擬銷售、常規電商流程，用戶下單支付->自動發貨->確認提貨->訂單完成',
         ],
         // 添加自提地址表单
-        'form_take_address_logo'                => 'LOGO',
-        'form_take_address_logo_tips'           => '建議300*300px',
-        'form_take_address_alias'               => '別名',
-        'form_take_address_alias_message'       => '別名格式最多16個字元',
-        'form_take_address_name'                => '連絡人',
-        'form_take_address_name_message'        => '連絡人格式2~16個字元之間',
-        'form_take_address_tel'                 => '聯繫電話',
-        'form_take_address_tel_message'         => '請填寫聯繫電話',
-        'form_take_address_address'             => '詳細地址',
-        'form_take_address_address_message'     => '詳細地址格式1~80個字元之間',
+        'form_take_address_title'                  => '自提地址',
+        'form_take_address_logo'                   => 'LOGO',
+        'form_take_address_logo_tips'              => '建議300*300px',
+        'form_take_address_alias'                  => '別名',
+        'form_take_address_alias_message'          => '別名格式最多16個字元',
+        'form_take_address_name'                   => '連絡人',
+        'form_take_address_name_message'           => '連絡人格式2~16個字元之間',
+        'form_take_address_tel'                    => '聯繫電話',
+        'form_take_address_tel_message'            => '請填寫聯繫電話',
+        'form_take_address_address'                => '詳細地址',
+        'form_take_address_address_message'        => '詳細地址格式1~80個字元之間',
+        // 域名绑定语言
+        'form_domain_multilingual_domain_name'     => '域名',
+        'form_domain_multilingual_domain_message'  => '請填寫功能變數名稱',
+        'form_domain_multilingual_select_message'  => '請選擇功能變數名稱對應語言',
+        'form_domain_multilingual_add_title'       => '添加域名',
     ],
 
     // 后台配置信息
@@ -368,6 +374,7 @@ return [
             'user_placeholder'  => '請輸入用戶名/昵稱/手機/郵箱',
             'name'              => '連絡人',
             'tel'               => '聯繫電話',
+            'title'             => '標題',
             'content'           => '內容',
             'reply'             => '回復內容',
             'is_show'           => '是否顯示',
@@ -478,6 +485,20 @@ return [
         'base_nav_list'                         => [
             ['name' => '基礎配寘', 'type' => 'index'],
             ['name' => 'APP/小程式', 'type' => 'app'],
+        ],
+        'user_base_popup_title'                 => '用戶基礎資訊彈窗提示',
+        'user_onekey_bind_mobile_tips_list'     => [
+            '1. 獲取當前小程式平臺帳戶或者本本機的手機號碼一鍵登入綁定，現時僅支持【微信小程式、百度小程式、頭條小程式】',
+            '2. 依賴需要開啟《强制綁定手機》有效',
+            '3. 部分小程式平臺可能需要申請許可權、請根據小程式平臺要求申請後再對應開啟',
+        ],
+        'user_address_platform_import_tips_list'=> [
+            '1. 獲取當前小程式平臺app帳戶的收貨地址，現時僅支持【小程式】',
+            '2. 確認導入後直接添加為系統用戶收貨地址',
+            '3. 部分小程式平臺可能需要申請許可權、請根據小程式平臺要求申請後再對應開啟',
+        ],
+        'user_base_popup_top_tips_list'         => [
+            '1. 現時僅微信小程式平臺自動授權登入後無用戶昵稱和頭像資訊',
         ],
     ],
 
@@ -1042,6 +1063,7 @@ return [
         'no_data_store_to_text'                 => '到應用商店挑選挿件豐富網站>>',
         'plugins_category_title'                => '應用分類',
         'plugins_category_admin_title'          => '分類管理',
+        'plugins_menu_control_title'            => '左側選單',
     ],
 
     // 插件分类

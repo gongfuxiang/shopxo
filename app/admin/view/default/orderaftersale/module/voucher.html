@@ -1,20 +1,14 @@
 <!-- 凭证 -->
 {{if !empty($module_data) and !empty($module_data['images'])}}
-    <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{"controlNav":false}'>
-        <ul class="am-slides">
-            {{foreach $module_data.images as $ik=>$iv}}
-                <li>
-                    <a href="{{$iv}}" target="_blank">
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-avg-md-4 am-avg-lg-4 am-gallery-default am-padding-0" data-am-gallery="{ pureview: true }">
+        {{foreach $module_data.images as $ik=>$iv}}
+            <li class="am-padding-0 {{if $ik gt 0}}am-margin-left-sm{{/if}}">
+                <div class="am-gallery-item">
+                    <a href="javascript:;">
                         <img src="{{$iv}}" />
                     </a>
-                    <div class="am-slider-desc">
-                        <div class="am-slider-counter">
-                            <strong class="am-text-lg">{{$ik+1}}</strong>
-                            <span class="am-margin-right-sm">/{{:count($module_data['images'])}}</span>
-                        </div>
-                    </div>
-                </li>
-            {{/foreach}}
-        </ul>
-    </div>
+                </div>
+            </li>
+        {{/foreach}}
+    </ul>
 {{/if}}

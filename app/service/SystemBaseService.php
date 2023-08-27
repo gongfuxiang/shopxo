@@ -90,10 +90,13 @@ class SystemBaseService
             'home_is_enable_userregister_agreement'     => (int) MyC('home_is_enable_userregister_agreement', 0, true),
             'home_site_user_register_bg_images'         => ResourcesService::AttachmentPathViewHandle(MyC('home_site_user_register_bg_images')),
 
-            // 用户相关
+            // APP、小程序
             'common_user_is_mandatory_bind_mobile'      => (int) MyC('common_user_is_mandatory_bind_mobile', 0),
             'common_user_onekey_bind_mobile_list'       => MyC('common_user_onekey_bind_mobile_list', [], true),
             'common_user_address_platform_import_list'  => MyC('common_user_address_platform_import_list', [], true),
+            'common_app_user_base_popup_pages'          => MyC('common_app_user_base_popup_pages', [], true),
+            'common_app_user_base_popup_client'         => MyC('common_app_user_base_popup_client', [], true),
+            'common_app_user_base_popup_integral_time'  => (int) MyC('common_app_user_base_popup_integral_time', 1800),
 
             // 站点信息
             'home_site_name'                            => MyC('home_site_name', null, true),
@@ -137,7 +140,7 @@ class SystemBaseService
 
             // 站点设置-扩展-快捷导航
             'home_navigation_main_quick_status'         => (int) MyC('home_navigation_main_quick_status', 0),
-            'home_navigation_main_quick_name'           => MyC('home_navigation_main_quick_name', '百宝箱', true),
+            'home_navigation_main_quick_name'           => MyC('home_navigation_main_quick_name', '更多入口', true),
 
             // 站点设置-扩展-用户地址
             'home_user_address_map_status'              => (int) MyC('home_user_address_map_status', 0),

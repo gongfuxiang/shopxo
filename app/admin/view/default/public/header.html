@@ -12,6 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 
+    <!-- iconfont -->
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
+
     <!-- ckplayer播放器 -->
     {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ckplayer/css/ckplayer.css?v={{:MyC('home_static_cache_version')}}" />
@@ -30,6 +33,8 @@
     {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
+
+    <!-- 左侧菜单图标 -->
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/iconfontmenu.css?v={{:MyC('home_static_cache_version')}}" />
 
     <!-- 插件 -->
@@ -79,6 +84,36 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
 
+    <style type="text/css">
+        :root {
+            /* 基础 */
+            --html-body-size: 10px;
+            --body-bg-color: #ffffff;
+            --color-price: #E22C08;
+            --color-red: #E22C08;
+            --color-yellow: #FAAD14;
+            --color-blue: #76AFFF;
+            --color-green: #5EB95E;
+
+            /* 主色 */
+            --color-main: #E22C08;
+            --color-mian-light: #F25232;
+            --color-main-hover: #EA6B52;
+
+            /* 次色 */
+            --color-secondary: #FFB8AA;
+
+            /* 圆角 */
+            --border-radius-sm: 0.2rem;
+            --border-radius: 0.4rem;
+            --border-radius-lg: 0.8rem;
+
+            /* 阴影 */
+            --box-shadow: 0 5px 20px rgba(50,55,58,0.1);
+            --box-shadow-sm: 0 2px 8px rgba(50,55,58,0.1);
+            --box-shadow-lg: 0 8px 34px rgba(50,55,58,0.1);
+        }
+    </style>
     <script type="text/javascript">
         // 基础配置
         var __system_type__ = '{{$system_type}}';
@@ -108,7 +143,7 @@
         {{/if}}
     </script>
 </head>
-<body>
+<body class="{{$page_unique_mark}}">
 <!-- 页面加载层 -->
 {{if isset($is_page_loading) and $is_page_loading eq 1}}
     {{include file="public/page_loading" /}}

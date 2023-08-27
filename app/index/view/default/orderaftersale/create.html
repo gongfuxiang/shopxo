@@ -1,4 +1,4 @@
-<form class="am-form form-validation" action="{{:MyUrl('index/orderaftersale/create')}}" method="POST" request-type="ajax-reload">
+<form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('index/orderaftersale/create')}}" method="POST" request-type="ajax-reload">
     <div class="am-form-group">
         <label>{{:MyLang('common_service.orderaftersale.form_item_reason')}}<span class="am-form-group-label-tips-must">*</span></label>
         <select name="reason" class="chosen-select" data-placeholder="{{:MyLang('common_service.orderaftersale.form_item_reason_placeholder')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_reason_message')}}" data-only-json='{{:json_encode($return_only_money_reason_list)}}' data-goods-json='{{:json_encode($return_money_goods_reason_list)}}' required>
@@ -8,9 +8,9 @@
     <div class="am-form-group form-number">
         <label>{{:MyLang('common_service.orderaftersale.form_item_number')}}<span class="am-form-group-label-tips-must">*</span></label>
         <div class="am-input-group am-input-group-sm number-container">
-            <span class="am-input-group-label" data-type="0">-</span>
-            <input type="number" name="number" class="am-form-field" value="{{$returned_data.returned_quantity}}" min="1" max="{{$returned_data.returned_quantity}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_number_message', ['max'=>$returned_data['returned_quantity']])}}" required />
-            <span class="am-input-group-label" data-type="1">+</span>
+            <span class="am-input-group-label am-radius" data-type="0">-</span>
+            <input type="number" name="number" class="am-form-field am-radius" value="{{$returned_data.returned_quantity}}" min="1" max="{{$returned_data.returned_quantity}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_number_message', ['max'=>$returned_data['returned_quantity']])}}" required />
+            <span class="am-input-group-label am-radius" data-type="1">+</span>
         </div>
     </div>
 
@@ -21,20 +21,25 @@
 
     <div class="am-form-group">
         <label>{{:MyLang('common_service.orderaftersale.form_item_msg')}}</label>
-        <textarea class="am-radius" name="msg" rows="5" maxlength="200" placeholder="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}"></textarea>
+        <textarea class="am-radius" name="msg" rows="3" maxlength="200" placeholder="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_msg_message')}}"></textarea>
     </div>
 
     <div class="am-form-group">
         <label>{{:MyLang('common_service.orderaftersale.form_item_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.orderaftersale.form_item_images_tips')}}</span></label>
-        <ul class="plug-file-upload-view goods-images-view" data-form-name="images[]" data-max-number="3" data-dialog-type="images">
-        </ul>
-        <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+        <div class="am-file-upload-content">
+            <ul class="plug-file-upload-view goods-images-view" data-form-name="images[]" data-max-number="3" data-dialog-type="images">
+            </ul>
+            <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view">
+                <p class="am-text-xs am-margin-bottom-xs am-color-grey">+</p>
+                <p class="am-text-xs am-color-grey">{{:MyLang('form_upload_images_title')}}</p>
+            </div>
+        </div>
     </div>
 
-    <div class="am-form-group am-form-group-refreshing am-margin-top-sm am-padding-left-0">
+    <div class="am-form-popup-submit">
         <input type="hidden" name="order_id" value="{{$params.oid}}" />
         <input type="hidden" name="order_detail_id" value="{{$params.did}}" />
         <input type="hidden" name="type" value="" />
-        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('submit_title')}}</button>
+        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('submit_title')}}</button>
     </div>
 </form>

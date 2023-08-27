@@ -73,22 +73,18 @@ class Article extends Common
         // 参数
         $params = $this->data_request;
 
-        // 分页
-        $number = 10;
-        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-
         // 条件
         $where = ArticleService::ArticleWhere($params);
 
         // 获取总数
         $total = ArticleService::ArticleTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
         $data_params = [
             'm'         => $start,
-            'n'         => $number,
+            'n'         => $this->page_size,
             'where'     => $where,
         ];
         $data = ArticleService::ArticleList($data_params);

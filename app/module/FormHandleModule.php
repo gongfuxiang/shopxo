@@ -55,6 +55,7 @@ class FormHandleModule
     public $page;
     public $page_start;
     public $page_size;
+    public $page_total;
     public $page_html;
     public $page_url;
 
@@ -138,6 +139,7 @@ class FormHandleModule
             'page'          => $this->page,
             'page_start'    => $this->page_start,
             'page_size'     => $this->page_size,
+            'page_total'    => $this->page_total,
             'page_url'      => $this->page_url,
             'page_html'     => $this->page_html,
             'data_total'    => $this->data_total,
@@ -375,6 +377,13 @@ class FormHandleModule
                 }
                 if($this->data_total > 0)
                 {
+                    // 分页总数、分页不能大于总数
+                    $this->page_total = ceil($this->data_total/$this->page_size);
+                    if($this->page > $this->page_total)
+                    {
+                        $this->page = $this->page_total;
+                    }
+
                     // 增加排序、未设置则默认[ id desc ]
                     $order_by = empty($this->order_by['data']) ? (array_key_exists('order_by', $form_data) ? $form_data['order_by'] : 'id desc') : $this->order_by['data'];
                     if(!empty($order_by))
@@ -582,14 +591,8 @@ class FormHandleModule
                             {
                                 // 数据字段
                                 $field = empty($pv['field']) ? 'id' : $pv['field'];
-                                // 数据字段存在当前数据列表中则直接汇总
-                                if(in_array($field, $data_item_fields))
-                                {
-                                    $value = empty($this->data_list) ? 0 : PriceBeautify(PriceNumberFormat(array_sum(array_column($this->data_list, $field))));
-                                } else {
-                                    $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
-                                    $value = $db->$stats_fun($field);
-                                }
+                                $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
+                                $value = $db->$stats_fun($field);
                                 $stats_data[] = $pv['name'].$value.(empty($pv['unit']) ? '' : $pv['unit']);
                             }
                         }
@@ -854,20 +857,23 @@ class FormHandleModule
      */
     public function FormFieldsUserSelect()
     {
+        // 用户选择字段数据
+        $user_choice_fields = $this->UserChoiceFieldsData();
+        $temp_user_choice_fields = array_column($user_choice_fields, null, 'key');
+
         // 当前用户选择的字段
         $ret = FormTableService::FieldsSelectData(['md5_key'=>$this->md5_key]);
         if(empty($ret['data']))
         {
             // 未设置则读取所有带label的字段、默认显示
-            $this->user_fields = array_filter(array_map(function($value)
-            {
-                if(!empty($value['label']) && $value['view_type'] != 'operate')
-                {
-                    return ['label'=>$value['label'], 'checked'=>1];
-                }
-            }, $this->form_data['form']));
+            $this->user_fields = $user_choice_fields;
         } else {
             $this->user_fields = $ret['data'];
+            // 将每项的数据增加进去
+            foreach($this->user_fields as &$fv)
+            {
+                $fv['data'] = (!empty($fv['key']) && array_key_exists($fv['key'], $temp_user_choice_fields)) ? $temp_user_choice_fields[$fv['key']] : '';
+            }
         }
 
         // 如用户已选择字段则排除数据
@@ -884,13 +890,12 @@ class FormHandleModule
             }
 
             // 根据用户选择顺序追加数据
-            $temp_form = array_column($this->form_data['form'], null, 'label');
             foreach($this->user_fields as $k=>$v)
             {
                 // 字段不存在数据中则移除
-                if(array_key_exists($v['label'], $temp_form))
+                if(!empty($v['key']) && array_key_exists($v['key'], $temp_user_choice_fields) && !empty($temp_user_choice_fields[$v['key']]['data']))
                 {
-                    $temp = $temp_form[$v['label']];
+                    $temp = $temp_user_choice_fields[$v['key']]['data'];
 
                     // 是否存在设置不展示列表、则移除字段
                     if(isset($temp['is_list']) && $temp['is_list'] == 0)
@@ -920,6 +925,34 @@ class FormHandleModule
 
             $this->form_data['form'] = $data;
         }
+    }
+
+    /**
+     * 用户选择字段数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-06-29
+     * @desc    description
+     */
+    public function UserChoiceFieldsData()
+    {
+        return array_filter(array_map(function($value)
+        {
+            if(!empty($value['label']) && $value['view_type'] != 'operate' && !empty($value['view_key']))
+            {
+                $key = is_array($value['view_key']) ? implode('-', $value['view_key']) : str_replace(['../', './', '.', '/'], ['', '', '', '-'], $value['view_key']);
+                return [
+                    // 基础数据
+                    'label'    => $value['label'],
+                    'key'      => $key,
+                    // 默认选中数据
+                    'checked'  => 1,
+                    // 原始数据
+                    'data'     => $value,
+                ];
+            }
+        }, $this->form_data['form']));
     }
 
     /**
@@ -1210,7 +1243,7 @@ class FormHandleModule
                         case '<=' :
                         case '>=' :
                         case 'like' :
-                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
+                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '' && !is_array($this->out_params[$form_key]))
                             {
                                 // 参数值
                                 $value = urldecode($this->out_params[$form_key]);

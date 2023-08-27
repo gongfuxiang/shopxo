@@ -17,6 +17,7 @@ use app\service\GoodsCommentsService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsFavorService;
 use app\service\GoodsCartService;
+use app\service\BreadcrumbService;
 
 /**
  * 商品详情
@@ -84,7 +85,7 @@ class Goods extends Common
                 // 中间tabs导航
                 'middle_tabs_nav'   => GoodsService::GoodsDetailMiddleTabsNavList($goods),
                 // 面包屑导航
-                'breadcrumb_data'   => GoodsService::GoodsBreadcrumbData($goods),
+                'breadcrumb_data'   => BreadcrumbService::Data('GoodsDetail', ['goods'=>$goods]),
                 // 加载放大镜
                 'is_load_imagezoom' => 1,
                 // 加载视频播放器组件
@@ -213,7 +214,7 @@ class Goods extends Common
         $this->IsLogin();
 
         // 开始处理
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorCancel($params));
     }
@@ -228,7 +229,7 @@ class Goods extends Common
      */
     public function SpecType()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         return ApiService::ApiDataReturn(GoodsService::GoodsSpecType($params));
     }
 
@@ -242,7 +243,7 @@ class Goods extends Common
      */
     public function SpecDetail()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         return ApiService::ApiDataReturn(GoodsService::GoodsSpecDetail($params));
     }
 
@@ -256,7 +257,7 @@ class Goods extends Common
      */
     public function Stock()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         return ApiService::ApiDataReturn(GoodsService::GoodsStock($params));
     }
 

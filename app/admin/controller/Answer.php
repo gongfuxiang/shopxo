@@ -60,8 +60,8 @@ class Answer extends Base
         // 模板数据
         $assign = [
             // 静态数据
-            'common_is_show_list' => MyLang('common_is_show_list'),
-            'common_is_text_list' => MyLang('common_is_text_list'),
+            'common_is_show_list' => MyConst('common_is_show_list'),
+            'common_is_text_list' => MyConst('common_is_text_list'),
         ];
         // 数据
         $data = $this->data_detail;

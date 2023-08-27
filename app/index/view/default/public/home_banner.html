@@ -4,7 +4,7 @@
             <ul class="am-slides">
                 {{foreach $banner_list as $banner}}
                     {{if !empty($banner['images_url'])}}
-                        <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}} title="{{$banner.name}}">
+                        <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}}>
                             {{switch banner.event_type}}
                                 {{case 3}}
                                     <!-- 地图 -->

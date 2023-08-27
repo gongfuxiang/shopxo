@@ -13,14 +13,10 @@
         <div class="am-comment-bd">
           <p>{{$v.content}}</p>
           {{if !empty($v['images'])}}
-              <ul class="am-cf comment-images">
+              <ul data-am-widget="figure" class="am-cf comment-images am-figure am-inline-block" data-am-figure="{pureview: 'true'}">
                 {{foreach $v.images as $img}}
                   <li class="am-fl">
-                    <div class="am-gallery-item">
-                      <a href="{{$img}}" target="_blank">
-                        <img src="{{$img}}" class="am-img-thumbnail am-radius" />
-                      </a>
-                    </div>
+                    <img src="{{$img}}" class="am-img-thumbnail am-radius" />
                   </li>
                 {{/foreach}}
               </ul>

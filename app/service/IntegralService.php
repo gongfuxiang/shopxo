@@ -53,7 +53,7 @@ class IntegralService
         if($log_id > 0)
         {
             $lang = MyLang('common_service.integral.add_message_data');
-            $type_msg = MyLang('common_integral_log_type_list')[$type]['name'];
+            $type_msg = MyConst('common_integral_log_type_list')[$type]['name'];
             $detail = $msg.$lang['title'].$type_msg.$operation_integral;
             MessageService::MessageAdd($user_id, $lang['desc'], $detail, $lang['title'], $log_id);
             return true;
@@ -97,7 +97,7 @@ class IntegralService
     {
         if(!empty($data))
         {
-            $integral_log_type_list = MyLang('common_integral_log_type_list');
+            $integral_log_type_list = MyConst('common_integral_log_type_list');
             foreach($data as &$v)
             {
                 // 用户信息

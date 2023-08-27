@@ -211,7 +211,7 @@ class Common extends BaseController
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-        $this->page_size = 10;
+        $this->page_size = 15;
 	}
 
 	/**

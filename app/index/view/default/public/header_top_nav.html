@@ -2,7 +2,7 @@
     <!-- 顶部导航条 start -->
     <div class="header-top">
         <div class="am-container header">
-            <ul class="top-nav-left">
+            <ul class="top-nav-left am-hide-sm-only">
                 <div class="top-nav-items">
                     <div class="menu-hd">
                         <!-- 公共顶部小导航钩子-左侧前面 -->
@@ -56,6 +56,12 @@
                 </div>
             </ul>
 
+            <div class="top-nav-left am-show-sm-only">
+                <a href="{{$home_url}}">
+                    <img class="am-height" src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+                </a>
+            </div>
+
             <ul class="top-nav-right">
                 <!-- 公共顶部小导航钩子-右侧前面 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -74,9 +80,9 @@
                 <!-- 非首页则展示首页入口 -->
                 {{if MyC('home_header_top_is_home', 0) eq 1 and $module_name.$controller_name.$action_name neq 'indexindexindex'}}
                     <div class="top-nav-items top-nav-items-home">
-                        <div class="menu-hd ">
-                            <a href="{{$home_url}}" target="_top">
-                                <i class="am-icon-fw am-icon-home"></i>
+                        <div class="menu-hd">
+                            <a href="{{$home_url}}">
+                                <i class="iconfont icon-index"></i>
                                 <span>{{:MyLang('common.shop_home_title')}}</span>
                             </a>
                         </div>
@@ -89,12 +95,12 @@
                         {{if empty($nav['items'])}}
                             <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
                                 <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
-                                    <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
-                                        <i class="am-icon-fw {{$nav.icon}}"></i>
+                                    <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}">
+                                        <i class="iconfont {{$nav.icon}}"></i>
                                         <span>{{$nav.name}}</span>
                                         {{if isset($nav['badge']) and $nav['badge'] gt -1}}
                                             {{if $nav['badge'] gt 0}}
-                                                <strong class="am-badge am-badge-danger am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
+                                                <strong class="am-badge am-badge-danger am-round am-badge-tips {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
                                             {{else /}}
                                                 <strong class="am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
                                             {{/if}}
@@ -105,16 +111,53 @@
                         {{else /}}
                             <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
                                 <div class="am-dropdown menu-hd" data-am-dropdown>
-                                    <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
-                                        <i class="am-icon-fw {{$nav.icon}}"></i>
+                                    <a class="am-dropdown-toggle" href="javascript:;" data-am-dropdown-toggle>
+                                        <i class="iconfont {{$nav.icon}}"></i>
                                         <span>{{$nav.name}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </a>
                                     <ul class="am-dropdown-content am-radius">
                                         {{foreach $nav.items as $navs}}
-                                            <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
-                                                <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
-                                            </li>
+                                            <!-- 是否为事件类型和事件值数据格式 -->
+                                            {{if isset($navs['event_type']) and isset($navs['event_value'])}}
+                                                <li class="nav-event-item" {{if !empty($navs['data_value'])}}data-value="{{$navs.data_value}}"{{/if}}>
+                                                    {{if isset($navs['event_type']) and isset($navs['event_value']) and in_array($navs['event_type'], [3,4])}}
+                                                        {{switch navs.event_type}}
+                                                            {{case 3}}
+                                                                <!-- 地图 -->
+                                                                <a href="javascript:;" {{if !empty($navs['event_value_data']) and isset($navs['event_value_data'][2]) and isset($navs['event_value_data'][3]) and $navs['event_value_data'][2] neq 0 and $navs['event_value_data'][3] neq 0}}class="submit-map-popup am-flex am-flex-items-center" data-lng="{{$navs['event_value_data'][2]}}" data-lat="{{$navs['event_value_data'][3]}}"{{/if}}>
+                                                                    <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
+                                                                        {{if !empty($navs['images_url']) and !empty($navs['name'])}}
+                                                                            <img src="{{$navs.images_url}}" alt="{{$navs.name}}" />
+                                                                        {{/if}}
+                                                                    </p>
+                                                            {{/case}}
+                                                            {{case 4}}
+                                                                <!-- 电话 -->
+                                                                <a {{if !empty($navs['event_value'])}}href="tel:{{$navs.event_value}}"{{else /}}href="javascript:;"{{/if}} class="am-flex am-flex-items-center">
+                                                                    <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
+                                                                    {{if !empty($navs['images_url']) and !empty($navs['name'])}}
+                                                                        <img src="{{$navs.images_url}}" alt="{{$navs.name}}" />
+                                                                    {{/if}}
+                                                                </p>
+                                                            {{/case}}
+                                                        {{/switch}}
+                                                    {{else /}}
+                                                        <!-- 默认url地址 -->
+                                                        <a {{if !empty($navs['event_value'])}}href="{{$navs.event_value}}"{{else /}}href="javascript:;"{{/if}} class="am-flex am-flex-items-center">
+                                                            <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
+                                                                <img src="{{$navs.images_url}}" alt="{{$navs.name}}" class="am-width" />
+                                                            </p>
+                                                    {{/if}}
+                                                    <p class="am-text-truncate">{{$navs.name}}</p>
+                                                    </a>
+                                                </li>
+                                            {{else /}}
+                                                <!-- 默认为标准名称和url格式 -->
+                                                <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
+                                                    <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
+                                                </li>
+                                            {{/if}}
                                         {{/foreach}}
                                     </ul>
                                 </div>

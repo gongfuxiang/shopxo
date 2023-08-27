@@ -36,7 +36,7 @@ class GoodsCategory extends Base
 		// 模板数据
 		$assign = [
 			// 静态数据
-			'common_is_text_list' 	=> MyLang('common_is_text_list'),
+			'common_is_text_list' 	=> MyConst('common_is_text_list'),
 	        // 商品分类
 	        'goods_category_list' 	=> GoodsCategoryService::GoodsCategoryAll(),
 	        // 编辑器文件存放地址

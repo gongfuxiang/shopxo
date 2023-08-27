@@ -8,9 +8,9 @@
 
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
             <!-- 基础配置 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
                 </div>
@@ -25,31 +25,31 @@
 
                     <!-- 站点类型 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
-                        <select name="{{$data.common_site_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_site_type.error_tips}}" required>
-                            {{foreach $common_site_type_list as $v}}
-                                <option value="{{$v.value}}" {{if isset($data['common_site_type']['value']) and $data['common_site_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
+                        <label class="am-block">{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
+                        {{foreach $common_site_type_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" name="{{$data.common_site_type.only_tag}}" value="{{$v.value}}" {{if isset($data['common_site_type']['value']) and $data['common_site_type']['value'] eq $v['value']}}checked{{/if}} data-validation-message="{{$data.common_site_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
                     </div>
                 </div>
             </div>
 
             <!-- 展示型 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('site.base_item_display_type_title')}}</span>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
-                        <label>{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
+                        <label class="am-block">{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
                         <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.describe}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
                     </div>
                 </div>
             </div>
 
             <!-- 自提点 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('site.base_item_self_extraction_title')}}</h3>
                 </div>
@@ -79,25 +79,28 @@
             </div>
 
             <!-- 虚拟销售 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('site.base_item_fictitious_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
-                        <label>{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
+                        <label class="am-block">{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
                         <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.describe}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
-                        <label>{{$data.common_site_fictitious_return_tips.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_tips.describe}}</span></label>
+                        <label class="am-block">{{$data.common_site_fictitious_return_tips.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_tips.describe}}</span></label>
                         <textarea rows="4" name="{{$data.common_site_fictitious_return_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_return_tips.name}}" data-validation-message="{{$data.common_site_fictitious_return_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_return_tips.value}}{{/if}}</textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
             </div>
         </form>
         <!-- form end -->
@@ -109,11 +112,11 @@
 <div class="am-popup am-radius" id="popup-address-win">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">地址添加</h4>
+            <h4 class="am-popup-title">{{:MyLang('site.form_take_address_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-address am-form-pure am-form-full-screen am-form-popup-fixed" method="post" request-type="sync" request-value="ViewAddressModalBack">
+            <form class="am-form form-validation-address am-form-full-screen am-form-popup-fixed" method="post" request-type="sync" request-value="ViewAddressModalBack">
                 <div class="am-cf">
                     <div class="am-u-sm-6 am-padding-horizontal-0">
                         <div class="am-form-group am-form-file">
@@ -124,7 +127,7 @@
                     </div>
                     <div class="am-u-sm-6 am-padding-horizontal-0">
                         <div class="am-form-group">
-                            <label>{{:MyLang('site.form_take_address_alias')}}</label>
+                            <label class="am-block">{{:MyLang('site.form_take_address_alias')}}</label>
                             <input type="text" name="alias" placeholder="{{:MyLang('site.form_take_address_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('site.form_take_address_alias_message')}}" class="am-radius" />
                         </div>
                     </div>
@@ -133,13 +136,13 @@
                 <div class="am-cf">
                     <div class="am-u-sm-6 am-padding-horizontal-0">
                         <div class="am-form-group">
-                            <label>{{:MyLang('site.form_take_address_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <label class="am-block">{{:MyLang('site.form_take_address_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" name="name" placeholder="{{:MyLang('site.form_take_address_name_message')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('site.form_take_address_name_message')}}" class="am-radius" required />
                         </div>
                     </div>
                     <div class="am-u-sm-6 am-padding-horizontal-0">
                         <div class="am-form-group">
-                            <label>{{:MyLang('site.form_take_address_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <label class="am-block">{{:MyLang('site.form_take_address_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" name="tel" placeholder="{{:MyLang('site.form_take_address_tel')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('site.form_take_address_tel_message')}}" class="am-radius" required />
                         </div>
                     </div>
@@ -147,10 +150,10 @@
 
                 {{include file="lib/region_linkage" /}}
                 <div class="am-form-group">
-                    <label>{{:MyLang('site.form_take_address_address')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <label class="am-block">{{:MyLang('site.form_take_address_address')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="hidden" name="lng" id="form-lng" />
+                    <input type="hidden" name="lat" id="form-lat" />
                     <div class="am-input-group am-input-group-sm">
-                        <input type="hidden" name="lng" id="form-lng" />
-                        <input type="hidden" name="lat" id="form-lat" />
                         <input type="text" name="address" id="form-address" placeholder="{{:MyLang('site.form_take_address_address')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('site.form_take_address_address_message')}}" class="am-radius am-form-field" required />
                         <span class="am-input-group-btn">
                             <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit">
@@ -163,7 +166,14 @@
                 </div>
 
                 <div class="am-form-popup-submit">
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
                 </div>
             </form>
         </div>

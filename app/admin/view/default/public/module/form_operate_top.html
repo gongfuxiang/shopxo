@@ -49,19 +49,37 @@
     > {{:MyLang('delete_title')}}</button>
 {{/if}}
 
-<!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
-{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
-    <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter" data-am-popover="{content: '{{:MyLang('clear_search_where')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('reset_title')}}</a>
-    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}"> {{:MyLang('search_title')}}</button>
+<!-- 右侧操作 -->
+{{if (!empty($admin) and (!isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1)) or (isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1)}}
+    <div class="am-fr am-nbfc operate-right">
+        <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
+        {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+            <!-- 搜索 -->
+            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example form-table-operate-top-search-submit" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}">
+                <i class="am-icon-search"></i>
+                <span>{{:MyLang('search_title')}}</span>
+            </button>
+            <!-- 重置 -->
+            <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-xs form-table-operate-top-reset-submit" data-am-popover="{content: '{{:MyLang('clear_search_where')}}', trigger: 'hover focus', theme: 'warning sm'}">
+                <i class="am-icon-filter"></i>
+                <span>{{:MyLang('reset_title')}}</span>
+            </a>
 
-    <!-- 排序数据字段 -->
-    <input type="hidden" name="fp_order_by_key" value="{{if !empty($form_order_by) and !empty($form_order_by['key'])}}{{$form_order_by.key}}{{/if}}" />
-    <input type="hidden" name="fp_order_by_val" value="{{if !empty($form_order_by) and !empty($form_order_by['val'])}}{{$form_order_by.val}}{{/if}}" />
-{{/if}}
+            <!-- 排序数据字段 -->
+            <input type="hidden" name="fp_order_by_key" value="{{if !empty($form_order_by) and !empty($form_order_by['key'])}}{{$form_order_by.key}}{{/if}}" />
+            <input type="hidden" name="fp_order_by_val" value="{{if !empty($form_order_by) and !empty($form_order_by['val'])}}{{$form_order_by.val}}{{/if}}" />
 
-<!-- 字段选择 -->
-{{if !empty($admin) and (!isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1)}}
-    <div class="am-fr am-nbfc">
-        <button type="button" class="am-btn am-btn-default am-radius am-btn-xs am-icon-cog" data-am-modal="{target: '#form-table-fields-popup'}"> {{:MyLang('setup_title')}}</button>
+            <!-- 分页数据字段 -->
+            <input type="hidden" name="page" value="{{if !empty($page)}}{{$page}}{{/if}}" />
+            <input type="hidden" name="page_size" value="{{if !empty($page_size)}}{{$page_size}}{{/if}}" />
+        {{/if}}
+
+        <!-- 字段选择 -->
+        {{if !empty($admin) and (!isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1)}}
+            <button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal="{target: '#form-table-fields-popup'}">
+                <i class="am-icon-cog"></i>
+                <span>{{:MyLang('setup_title')}}</span>
+            </button>
+        {{/if}}
     </div>
 {{/if}}

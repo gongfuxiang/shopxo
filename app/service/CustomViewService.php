@@ -57,7 +57,7 @@ class CustomViewService
     {
         if(!empty($data))
         {
-            $common_is_text_list = MyLang('common_is_text_list');
+            $common_is_text_list = MyConst('common_is_text_list');
             foreach($data as &$v)
             {
                 // logo

@@ -77,7 +77,7 @@ class Cart extends Common
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartSave($params));
     }
@@ -92,7 +92,7 @@ class Cart extends Common
      */
     public function Delete()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartDelete($params));
     }
@@ -107,7 +107,7 @@ class Cart extends Common
      */
     public function Stock()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartStock($params));
     }

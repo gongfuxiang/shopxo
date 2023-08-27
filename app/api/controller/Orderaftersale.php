@@ -55,25 +55,21 @@ class Orderaftersale extends Common
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
 
-        // 分页
-        $number = 10;
-        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-
         // 条件
         $where = OrderAftersaleService::OrderAftersaleListWhere($params);
 
         // 获取总数
         $total = OrderAftersaleService::OrderAftersaleTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'                 => $start,
-            'n'                 => $number,
+            'n'                 => $this->page_size,
             'where'             => $where,
             'is_orderaftersale' => 1,
-        );
+        ];
         $data = OrderAftersaleService::OrderAftersaleList($data_params);
 
         // 返回数据
@@ -141,7 +137,7 @@ class Orderaftersale extends Common
                 'returned_data'             => $returned['data'],
                 'return_only_money_reason'  => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
                 'return_money_goods_reason' => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
-                'aftersale_type_list'       => MyLang('common_order_aftersale_type_list'),
+                'aftersale_type_list'       => MyConst('common_order_aftersale_type_list'),
                 'return_goods_address'      => $return_goods_address,
                 'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
             ];

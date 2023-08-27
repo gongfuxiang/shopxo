@@ -80,13 +80,13 @@ class OrderAftersale
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_order_aftersale_status_list'),
+                    'view_data'     => MyConst('common_order_aftersale_status_list'),
                     'width'         => 120,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_aftersale_status_list'),
+                        'data'              => MyConst('common_order_aftersale_status_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -97,13 +97,13 @@ class OrderAftersale
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_order_aftersale_type_list'),
+                    'view_data'     => MyConst('common_order_aftersale_type_list'),
                     'width'         => 120,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_aftersale_type_list'),
+                        'data'              => MyConst('common_order_aftersale_type_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -154,13 +154,13 @@ class OrderAftersale
                     'view_type'     => 'field',
                     'view_key'      => 'refundment',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_order_aftersale_refundment_list'),
+                    'view_data'     => MyConst('common_order_aftersale_refundment_list'),
                     'width'         => 120,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_aftersale_refundment_list'),
+                        'data'              => MyConst('common_order_aftersale_refundment_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -170,7 +170,6 @@ class OrderAftersale
                     'label'         => $lang['voucher'],
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/voucher',
-                    'is_list'        => 0,
                 ],
                 [
                     'label'         => $lang['express_name'],
@@ -299,7 +298,7 @@ class OrderAftersale
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

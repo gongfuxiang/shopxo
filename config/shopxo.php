@@ -64,9 +64,6 @@ return [
     // 商品大分类缓存
     'cache_goods_category_key'              => 'cache_goods_category_key_data',
 
-    // 商品详情面包屑导航
-    'cache_goods_detail_breadcrumb_key'     => 'cache_goods_detail_breadcrumb_key_data',
-
     // 商品详情中间导航
     'cache_goods_detail_middle_tabs_key'    => 'cache_goods_detail_middle_tabs_key_data',
 
@@ -153,6 +150,9 @@ return [
 
     // 远程插件更新信息接口
     'store_plugins_upgrade_info_url'        => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeinfo',
+
+    // 插件上传到远程商店店铺
+    'store_plugins_upload_url'              => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupload',
 
 
     // 支付业务类型,支付插件根据业务类型自动生成支付入口文件

@@ -1,0 +1,635 @@
+{{include file="public/header" /}}
+<style type="text/css">
+    ul {
+        padding: 0 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    ul li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    ul li p:first-child {
+        min-width: 80px;
+        color: var(--color-grey-dark);
+    }
+
+    h1 {
+        padding: 0.6rem 1.2rem;
+        background: var(--color-grey-border);
+        border-radius: 0.4rem;
+        margin-bottom: 1.2rem;
+    }
+
+    h3 {
+        padding: 0.6rem 1.2rem;
+    }
+
+    .text-copy-submit {
+        cursor: pointer;
+        color: #409eff;
+        padding: 0.4rem 2rem;
+        border-radius: 0.4rem;
+        white-space: nowrap;
+        transition: 0.5s all;
+    }
+
+    .text-copy-submit:hover {
+        background: #409eff;
+        color: #fff;
+        outline: none;
+    }
+
+    .demo-block {
+        border: 0.1rem solid #f5f5f5;
+        padding: 0.5rem 1rem;
+        min-height: 3rem;
+        min-width: 3rem;
+    }
+
+    .am-min-width {
+        min-width: 50rem;
+    }
+
+    .am-height-vh {
+        height: calc(100vh - 4rem);
+    }
+
+    .am-flex-4 {
+        flex: 4;
+    }
+
+    body ::-webkit-scrollbar-track-piece {
+        background: transparent;
+    }
+
+    body ::-webkit-scrollbar {
+        width: 20px;
+        height: 20px;
+    }
+
+    body ::-webkit-scrollbar-track,
+    body ::-webkit-scrollbar-track:vertical {
+        background-color: transparent;
+    }
+
+    body ::-webkit-scrollbar-thumb,
+    body ::-webkit-scrollbar-thumb:vertical {
+        background: rgba(0, 0, 0, .1);
+        border-radius: 1rem;
+    }
+</style>
+<!-- content start -->
+<div class="am-padding-sm am-flex am-flex-nowarp am-gap-1 am-scrollable-horizontal">
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-2">
+        <h1>配色说明</h1>
+        <ul class="color">
+            <li>
+                <p>基准数大小</p>
+                <p class=" demo-block" style="font-size: var(--html-body-size);">-</p>
+                <p class="text-copy-submit am-width" data-value="--html-body-size">--html-body-size: 10px;</p>
+            </li>
+            <li>
+                <p>背景颜色</p>
+                <p class=" demo-block" style="background: var(--body-bg-color);"></p>
+                <p class="text-copy-submit am-width" data-value="--body-bg-color">--body-bg-color: #f7f7f7;</p>
+            </li>
+            <li>
+                <p>价格颜色</p>
+                <p class=" demo-block" style="background: var(--color-price);"></p>
+                <p class="text-copy-submit am-width" data-value="--color-price">--color-price: #E22C08;</p>
+            </li>
+            <li>
+                <p>红色</p>
+                <p class=" demo-block" style="background: var(--color-red);"></p>
+                <p class="text-copy-submit am-width" data-value="--color-red">--color-red: #f00;</p>
+            </li>
+            <li>
+                <p>默认圆角</p>
+                <p class=" demo-block" style="border-radius: var(--border-radius);"></p>
+                <p class="text-copy-submit am-width" data-value="--border-radius">--border-radius: 0.4rem;</p>
+            </li>
+            <li>
+                <p>小圆角</p>
+                <p class=" demo-block" style="border-radius: var(--border-radius-sm);"></p>
+                <p class="text-copy-submit am-width" data-value="--border-radius-sm">--border-radius-sm: 0.2rem;</p>
+            </li>
+            <li>
+                <p>大圆角</p>
+                <p class=" demo-block" style="border-radius: var(--border-radius-lg);"></p>
+                <p class="text-copy-submit am-width" data-value="">--border-radius-lg:0.8rem;</p>
+            </li>
+            <li>
+                <p>阴影效果</p>
+                <p class=" demo-block" style="box-shadow: var(--box-shadow);"></p>
+                <p class="text-copy-submit am-width" data-value="--box-shadow">--box-shadow: 0 5px 20px
+                    rgba(50,55,58,0.1);
+                </p>
+            </li>
+            <li>
+                <p>小阴影效果</p>
+                <p class=" demo-block" style="box-shadow: var(--box-shadow-sm);"></p>
+                <p class="text-copy-submit am-width" data-value="--box-shadow-sm">--box-shadow-sm: 0 2px 8px
+                    rgba(50,55,58,0.1);</p>
+            </li>
+            <li>
+                <p>大阴影效果</p>
+                <p class=" demo-block" style="box-shadow: var(--box-shadow-lg);"></p>
+                <p class="text-copy-submit am-width" data-value="--box-shadow-lg">--box-shadow-lg: 0 8px 34px
+                    rgba(50,55,58,0.1);</p>
+            </li>
+        </ul>
+    </div>
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-2">
+        <h1>辅助class说明</h1>
+        <ul>
+            <li>
+                <p>class说明</p>
+                <p class="text-copy-submit am-width">am-margin-top-sm</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-4">
+        <h1>操作按钮</h1>
+        <div class="am-margin-top-sm">
+            <h3>默认样式</h3>
+            <ul>
+                <li>
+                    <p>默认</p>
+                    <button type="button" class="am-btn am-btn-default">默认样式</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-default">.am-btn-default</p>
+                </li>
+                <li>
+                    <p>主色按钮</p>
+                    <button type="button" class="am-btn am-btn-primary">主色按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-primary">.am-btn-primary</p>
+                </li>
+                <li>
+                    <p>次色按钮</p>
+                    <button type="button" class="am-btn am-btn-secondary">次色按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-secondary">.am-btn-secondary</p>
+                </li>
+                <li>
+                    <p>成功按钮</p>
+                    <button type="button" class="am-btn am-btn-success">成功按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-success">.am-btn-success</p>
+                </li>
+                <li>
+                    <p>警告按钮</p>
+                    <button type="button" class="am-btn am-btn-warning">警告按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-warning">.am-btn-warning</p>
+                </li>
+                <li>
+                    <p>危险按钮</p>
+                    <button type="button" class="am-btn am-btn-danger">危险按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-danger">.am-btn-danger</p>
+                </li>
+                <li>
+                    <p>链接</p>
+                    <a class="am-btn am-btn-link">链接按钮</a>
+                    <p class="text-copy-submit am-width" data-value="am-btn-link">.am-btn-link</p>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>空心按钮</h3>
+            <ul>
+                <li>
+                    <p>默认</p>
+                    <button type="button" class="am-btn am-btn-default-plain">默认样式</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-default-plain">.am-btn-default-plain</p>
+                </li>
+                <li>
+                    <p>主色按钮</p>
+                    <button type="button" class="am-btn am-btn-primary-plain">主色按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-primary-plain">.am-btn-primary-plain</p>
+                </li>
+                <li>
+                    <p>次色按钮</p>
+                    <button type="button" class="am-btn am-btn-secondary-plain">次色按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-secondary-plain">.am-btn-secondary-plain</p>
+                </li>
+                <li>
+                    <p>成功按钮</p>
+                    <button type="button" class="am-btn am-btn-success-plain">成功按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-success-plain">.am-btn-success-plain</p>
+                </li>
+                <li>
+                    <p>警告按钮</p>
+                    <button type="button" class="am-btn am-btn-warning-plain">警告按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-warning-plain">.am-btn-warning-plain</p>
+                </li>
+                <li>
+                    <p>危险按钮</p>
+                    <button type="button" class="am-btn am-btn-danger-plain">危险按钮</button>
+                    <p class="text-copy-submit am-width" data-value="am-btn-danger-plain">.am-btn-danger-plain</p>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>圆角按钮<span class="text-copy-submit" data-value="am-radius">.am-radius</span></h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-default am-radius">默认样式</button>
+                <button type="button" class="am-btn am-btn-primary am-radius">主色按钮</button>
+                <button type="button" class="am-btn am-btn-secondary am-radius">次色按钮</button>
+                <button type="button" class="am-btn am-btn-success am-radius">成功按钮</button>
+                <button type="button" class="am-btn am-btn-warning am-radius">警告按钮</button>
+                <button type="button" class="am-btn am-btn-danger am-radius">危险按钮</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>椭圆形按钮<span class="text-copy-submit" data-value="am-round">.am-round</span></h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-default am-round">默认样式</button>
+                <button type="button" class="am-btn am-btn-primary am-round">主色按钮</button>
+                <button type="button" class="am-btn am-btn-secondary am-round">次色按钮</button>
+                <button type="button" class="am-btn am-btn-success am-round">成功按钮</button>
+                <button type="button" class="am-btn am-btn-warning am-round">警告按钮</button>
+                <button type="button" class="am-btn am-btn-danger am-round">危险按钮</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>激活状态<span class="text-copy-submit" data-value="am-active">.am-active</span></h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-default am-active">默认样式</button>
+                <button type="button" class="am-btn am-btn-primary am-active">主色按钮</button>
+                <button type="button" class="am-btn am-btn-secondary am-active">次色按钮</button>
+                <button type="button" class="am-btn am-btn-success am-active">成功按钮</button>
+                <button type="button" class="am-btn am-btn-warning am-active">警告按钮</button>
+                <button type="button" class="am-btn am-btn-danger am-active">危险按钮</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>激活状态<span class="text-copy-submit" data-value="am-disabled">.am-disabled</span>或<span class="text-copy-submit" data-value="disabled">disabled</span></h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-default am-disabled">默认样式</button>
+                <button type="button" class="am-btn am-btn-primary am-disabled">主色按钮</button>
+                <button type="button" class="am-btn am-btn-secondary am-disabled">次色按钮</button>
+                <button type="button" class="am-btn am-btn-success am-disabled">成功按钮</button>
+                <button type="button" class="am-btn am-btn-warning am-disabled">警告按钮</button>
+                <button type="button" class="am-btn am-btn-danger am-disabled">危险按钮</button>
+            </div>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-default" disabled>默认样式</button>
+                <button type="button" class="am-btn am-btn-primary" disabled>主色按钮</button>
+                <button type="button" class="am-btn am-btn-secondary" disabled>次色按钮</button>
+                <button type="button" class="am-btn am-btn-success" disabled>成功按钮</button>
+                <button type="button" class="am-btn am-btn-warning" disabled>警告按钮</button>
+                <button type="button" class="am-btn am-btn-danger" disabled>危险按钮</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>按钮尺寸</h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button class="am-btn am-btn-primary am-btn-xl">按钮 - xl</button>
+                <button class="am-btn am-btn-primary am-btn-lg">按钮 - lg</button>
+                <button class="am-btn am-btn-primary">按钮默认大小</button>
+                <button class="am-btn am-btn-primary am-btn-sm">按钮 - sm</button>
+                <button class="am-btn am-btn-primary am-btn-xs">按钮 - xs</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>块级显示<span class="text-copy-submit" data-value="am-block">.am-block</span></h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button type="button" class="am-btn am-btn-primary am-btn-block">块级按钮</button>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>按钮 Icon</h3>
+            <div class="am-margin-top-xs am-padding-left-module">
+                <button class="am-btn am-btn-default">
+                    <i class="am-icon-cog"></i>
+                    <span>设置</span>
+                </button>
+                <a class="am-btn am-btn-warning" href="javascript:;">
+                    <i class="am-icon-shopping-cart"></i>
+                    <span>结账</span>
+                </a>
+                <button class="am-btn am-btn-default">
+                    <i class="am-icon-spinner am-icon-spin"></i>
+                    <span>加载中</span>
+                </button>
+                <button class="am-btn am-btn-primary">
+                    <span>下载片片</span>
+                    <i class="am-icon-cloud-download"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-4">
+        <h1>小徽章Badge</h1>
+        <div class="am-margin-top-sm">
+            <h3>默认样式</h3>
+            <div class="am-flex am-flex-col am-gap-12">
+                <div class="am-flex am-gap-12">
+                    <span class="am-badge">1</span>
+                    <span class="am-badge am-badge-primary">2</span>
+                    <span class="am-badge am-badge-secondary">3</span>
+                    <span class="am-badge am-badge-success">4</span>
+                    <span class="am-badge am-badge-warning">5</span>
+                    <span class="am-badge am-badge-danger">6</span>
+                </div>
+                <div class="am-flex am-gap-12">
+                    <a class="am-badge">Default</a>
+                    <a class="am-badge am-badge-primary">Free</a>
+                    <a class="am-badge am-badge-secondary">Secondary</a>
+                    <a class="am-badge am-badge-success">Success</a>
+                    <a class="am-badge am-badge-warning">Warning</a>
+                    <a class="am-badge am-badge-danger">Danger</a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>空心样式<span class="text-copy-submit" data-value="-plain">-plain</span></h3>
+            <div class="am-flex am-flex-col am-gap-12">
+                <div class="am-flex am-gap-12">
+                    <span class="am-badge am-badge-plain">1</span>
+                    <span class="am-badge am-badge-primary-plain">2</span>
+                    <span class="am-badge am-badge-secondary-plain">3</span>
+                    <span class="am-badge am-badge-success-plain">4</span>
+                    <span class="am-badge am-badge-warning-plain">5</span>
+                    <span class="am-badge am-badge-danger-plain">6</span>
+                    <span class="am-badge am-badge-success-plain">Allmobilize</span>
+                </div>
+                <div class="am-flex am-gap-12">
+                    <a class="am-badge am-badge-plain">Default</a>
+                    <a class="am-badge am-badge-primary-plain">Free</a>
+                    <a class="am-badge am-badge-secondary-plain">Secondary</a>
+                    <a class="am-badge am-badge-success-plain">Success</a>
+                    <a class="am-badge am-badge-warning-plain">Warning</a>
+                    <a class="am-badge am-badge-danger-plain">Danger</a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>圆角样式<span class="text-copy-submit" data-value="am-radius">.am-radius</span></h3>
+            <div class="am-flex am-flex-col am-gap-12">
+                <div class="am-flex am-gap-12">
+                    <span class="am-badge am-radius">1</span>
+                    <span class="am-badge am-badge-primary am-radius">2</span>
+                    <span class="am-badge am-badge-secondary am-radius">3</span>
+                    <span class="am-badge am-badge-success am-radius">4</span>
+                    <span class="am-badge am-badge-warning am-radius">5</span>
+                    <span class="am-badge am-badge-danger am-radius">6</span>
+                    <span class="am-badge am-badge-success am-radius">Allmobilize</span>
+                </div>
+                <div class="am-flex am-gap-12">
+                    <a class="am-badge am-radius">Default</a>
+                    <a class="am-badge am-badge-primary am-radius">Free</a>
+                    <a class="am-badge am-badge-secondary am-radius">Secondary</a>
+                    <a class="am-badge am-badge-success am-radius">Success</a>
+                    <a class="am-badge am-badge-warning am-radius">Warning</a>
+                    <a class="am-badge am-badge-danger am-radius">Danger</a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>椭圆形按钮<span class="text-copy-submit" data-value="am-round">.am-round</span></h3>
+            <div class="am-flex am-flex-col am-gap-12">
+                <div class="am-flex am-gap-12">
+                    <span class="am-badge am-round">1</span>
+                    <span class="am-badge am-badge-primary am-round">2</span>
+                    <span class="am-badge am-badge-secondary am-round">3</span>
+                    <span class="am-badge am-badge-success am-round">4</span>
+                    <span class="am-badge am-badge-warning am-round">5</span>
+                    <span class="am-badge am-badge-danger am-round">6</span>
+                    <span class="am-badge am-badge-success am-round">Allmobilize</span>
+                </div>
+                <div class="am-flex am-gap-12">
+                    <a class="am-badge am-round">Default</a>
+                    <a class="am-badge am-badge-primary am-round">Free</a>
+                    <a class="am-badge am-badge-secondary am-round">Secondary</a>
+                    <a class="am-badge am-badge-success am-round">Success</a>
+                    <a class="am-badge am-badge-warning am-round">Warning</a>
+                    <a class="am-badge am-badge-danger am-round">Danger</a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <div class="am-margin-top-sm">
+            <h3>大小 <spoan>结合辅助类中的字号 class，改变徽章大小。</spoan>
+            </h3>
+            <div class="am-margin-top-xs">
+                <span class="am-badge am-badge-primary">default</span>
+                <span class="am-badge am-badge-secondary am-text-sm">small</span>
+                <span class="am-badge am-badge-success am-text-default">normal</span>
+                <span class="am-badge am-badge-warning am-text-lg">large</span>
+                <span class="am-badge am-badge-danger am-text-xl">x large</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-2">
+        <h1>警告框</h1>
+        <div class="am-margin-top-sm">
+            <h3>默认样式</h3>
+            <div class="am-alert" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                default
+            </div>
+            <div class="am-alert am-alert-primary" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>primary</p>
+                <p>
+                    <a href="#">链接地址</a>
+                </p>
+            </div>
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>secondary</p>
+                <p>
+                    <a href="#">链接地址</a>
+                </p>
+            </div>
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>warning</p>
+                <p>
+                    <a href="#">链接地址</a>
+                </p>
+            </div>
+            <div class="am-alert am-alert-danger" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>danger</p>
+                <p>
+                    <a href="#">链接地址</a>
+                </p>
+            </div>
+            <div class="am-alert am-alert-success" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>success</p>
+                <p>
+                    <a href="#">链接地址</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-background-white am-radius am-padding-sm am-height-vh am-min-width am-scrollable-vertical am-flex-2">
+        <h1>输入组框</h1>
+        <p>下面的代码中演示了结合 Icon 组件及添加文字的样式。</p>
+        <div class="am-margin-top-sm">
+            <div class="am-input-group">
+                <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+                <input type="text" class="am-form-field" placeholder="Username">
+            </div>
+
+            <div class="am-input-group am-margin-top-sm">
+                <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+                <input type="text" class="am-form-field" placeholder="Password">
+            </div>
+
+            <div class="am-input-group am-margin-top-sm">
+                <input type="text" class="am-form-field">
+                <span class="am-input-group-label">.00</span>
+            </div>
+
+            <div class="am-input-group am-margin-top-sm">
+                <span class="am-input-group-label">$</span>
+                <input type="text" class="am-form-field">
+                <span class="am-input-group-label">.00</span>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <h1>输入框结合 Button</h1>
+        <p>需要用 .am-input-group-btn 包住按钮，而不是 .am-input-group-label。</p>
+        <div class="am-margin-top-sm">
+            <div class="am-g">
+                <div class="am-u-lg-6">
+                    <div class="am-input-group">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="button"><span class="am-icon-search"></span> </button>
+                        </span>
+                        <input type="text" class="am-form-field">
+                    </div>
+                </div>
+                <div class="am-u-lg-6">
+                    <div class="am-input-group">
+                        <input type="text" class="am-form-field">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="button">手气还行</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <h1>尺寸</h1>
+        <p>在 .am-input-group 添加标明尺寸的 class 即可。包含 .am-input-group-lg、.am-input-group-sm。</p>
+        <div class="am-margin-top-sm">
+            <div class="am-input-group am-input-group-lg">
+                <span class="am-input-group-label">@</span>
+                <input type="text" class="am-form-field" placeholder="Username">
+            </div>
+
+            <div class="am-input-group am-margin-top-sm">
+                <span class="am-input-group-label">@</span>
+                <input type="text" class="am-form-field" placeholder="Username">
+            </div>
+
+            <div class="am-input-group am-input-group-sm am-margin-top-sm">
+                <span class="am-input-group-label">@</span>
+                <input type="text" class="am-form-field" placeholder="Username">
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <h1>颜色</h1>
+        <p>在 .am-input-group 添加标明尺寸的 class 即可。包含 .am-input-group-lg、.am-input-group-sm。</p>
+        <div class="am-margin-top-sm">
+            <div class="doc-example">
+                <div class="am-input-group am-input-group-primary">
+                    <span class="am-input-group-label">
+                        <i class="am-icon-user am-icon-fw"></i>
+                    </span>
+                    <input type="text" class="am-form-field" placeholder="你的大名">
+                </div>
+                <div class="am-input-group am-input-group-secondary am-margin-top-sm">
+                    <span class="am-input-group-label">
+                        <i class="am-icon-credit-card am-icon-fw"></i>
+                    </span>
+                    <input type="text" class="am-form-field" placeholder="你的银行卡号">
+                </div>
+                <div class="am-input-group am-input-group-success am-margin-top-sm">
+                    <span class="am-input-group-label">
+                        <i class="am-icon-money am-icon-fw"></i>
+                    </span>
+                    <input type="text" class="am-form-field" placeholder="你的银行卡密码">
+                </div>
+                <div class="am-input-group am-input-group-warning am-margin-top-sm">
+                    <span class="am-input-group-label">
+                        <i class="am-icon-bank am-icon-fw"></i>
+                    </span>
+                    <input type="text" class="am-form-field" placeholder="开户行">
+                </div>
+                <div class="am-input-group am-input-group-danger am-margin-top-sm">
+                    <span class="am-input-group-label">
+                        <i class="am-icon-location-arrow am-icon-fw"></i>
+                    </span>
+                    <input type="text" class="am-form-field" placeholder="你所在城市">
+                </div>
+            </div>
+        </div>
+
+        <hr class="am-margin-top-xl" />
+        <p>使用按钮时除了在容器上设置颜色 class 外，还需要设置按钮的样式。</p>
+        <div class="am-g">
+            <div class="am-u-lg-6">
+                <div class="am-input-group am-input-group-danger">
+                    <span class="am-input-group-label">
+                        <input type="checkbox">
+                    </span>
+                    <input type="text" class="am-form-field">
+                </div>
+            </div>
+            <div class="am-u-lg-6">
+                <div class="am-input-group am-input-group-primary">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-primary" type="button">
+                            <span class="am-icon-search"></span>
+                        </button>
+                    </span>
+                    <input type="text" class="am-form-field">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{include file="dev/public/doc" /}}
+</div>
+<!-- content end -->
+
+{{include file="public/footer" /}}

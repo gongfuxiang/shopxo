@@ -156,7 +156,7 @@ class GoodsFavor
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

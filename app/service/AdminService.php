@@ -82,7 +82,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
-                'checked_data'      => array_column(MyLang('common_admin_status_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_admin_status_list'), 'value'),
                 'error_msg'         => MyLang('common_service.admin.save_status_tips'),
             ],
             [
@@ -310,7 +310,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => MyLang('login_type_error_tips'),
             ],
             [
@@ -532,7 +532,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => MyLang('login_type_error_tips'),
             ],
         ];

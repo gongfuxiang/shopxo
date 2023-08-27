@@ -93,6 +93,8 @@ return [
     'error'                                                 => '异常错误',
     'operate_fail'                                          => '操作失败',
     'operate_success'                                       => '操作成功',
+    'report_fail'                                           => '上报失败',
+    'report_success'                                        => '上报成功',
     'get_fail'                                              => '获取失败',
     'get_success'                                           => '获取成功',
     'update_fail'                                           => '更新失败',
@@ -229,7 +231,7 @@ return [
     'user_type_error_tips'                                  => '用户类型有误',
     'user_delete_operate_tips'                              => '用户已删除',
     'goods_id_error_tips'                                   => '商品id有误',
-    'gods_info_incorrect_tips'                              => '商品信息有误',
+    'goods_info_incorrect_tips'                             => '商品信息有误',
     'gods_info_abnormal_tips'                               => '商品信息异常',
     'order_no_error_tips'                                   => '订单号有误',
     'order_id_error_tips'                                   => '订单id有误',
@@ -253,6 +255,8 @@ return [
     'plugins_config_error_tips'                             => '插件配置有误',
     'operate_frequent_tips'                                 => '操作频繁，请稍后再试！',
     'images_format_error_tips'                              => '图片有误，请换一张！',
+    'cancel_order_title'                                    => '取消订单',
+    'delete_order_title'                                    => '删除订单',
     // 商店绑定
     'store_bind_account_name'                               => '绑定ShopXO商店账户',
     'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
@@ -301,6 +305,8 @@ return [
     'search_title'                                          => '搜索',
     'query_title'                                           => '查询',
     'execute_title'                                         => '执行',
+    'now_execute_title'                                     => '立即执行',
+    'confirm_execute_title'                                 => '确认执行',
     'setup_title'                                           => '设置',
     'save_title'                                            => '保存',
     'success_title'                                         => '成功',
@@ -328,6 +334,7 @@ return [
     'view_map_title'                                        => '查看地图',
     'see_title'                                             => '看看',
     'clear_title'                                           => '清除',
+    'clear_all_title'                                       => '清除全部',
     'close_title'                                           => '关闭',
     'open_title'                                            => '打开',
     'number_title'                                          => '数量',
@@ -340,8 +347,10 @@ return [
     'favor_title'                                           => '收藏',
     'already_favor_title'                                   => '已收藏',
     'comment_title'                                         => '评价',
+    'go_comment_title'                                      => '去评价',
     'default_title'                                         => '默认',
     'setup_default_title'                                   => '设为默认',
+    'grade_title'                                           => '等级',
     'only_title'                                            => '仅',
     'strip_title'                                           => '条',
     'level_title'                                           => '级',
@@ -357,8 +366,10 @@ return [
     'and_title'                                             => '与',
     'or_title'                                              => '或',
     'payment_title'                                         => '支付',
+    'go_payment_title'                                      => '去支付',
     'confirm_payment_title'                                 => '确认支付',
     'collect_title'                                         => '收货',
+    'confirm_collect_title'                                 => '确认收货',
     'delivery_title'                                        => '发货',
     'take_title'                                            => '取货',
     'copy_title'                                            => '复制',
@@ -369,6 +380,7 @@ return [
     'audit_title'                                           => '审核',
     'signin_title'                                          => '签到',
     'refuse_title'                                          => '拒绝',
+    'pass_title'                                            => '通过',
     'order_title'                                           => '订单',
     'install_title'                                         => '安装',
     'uninstall_title'                                       => '卸载',
@@ -438,6 +450,7 @@ return [
     'import_title'                                          => '导入',
     'export_title'                                          => '导出',
     'images_title'                                          => '图片',
+    'icon_title'                                            => '图标',
     'video_title'                                           => '视频',
     'text_title'                                            => '文本',
     'loading_title'                                         => '加载',
@@ -445,7 +458,13 @@ return [
     'lat_title'                                             => '纬度',
     'lang_title'                                            => '语言',
     'color_title'                                           => '颜色',
+    'share_title'                                           => '分享',
+    'template_title'                                        => '模板',
+    'recharge_title'                                        => '充值',
+    'cash_title'                                            => '提现',
+    'log_title'                                             => '明细',
     'continue_scan_title'                                   => '继续扫码',
+    'self_pickup_point_title'                               => '自提点',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_stop_sale_title'                                 => '暂停销售',
@@ -559,6 +578,8 @@ return [
     'form_is_full_screen_title'                             => '是否满屏',
     'form_is_full_screen_message'                           => '是否满屏范围值有误',
     'form_status_range_message'                             => '状态范围值有误',
+    'form_status_title'                                     => '状态',
+    'form_status_message'                                   => '请选择状态',
     'form_sort_title'                                       => '顺序',
     'form_sort_tips'                                        => '从小到大',
     'form_sort_message'                                     => '顺序0~255之间的数值',
@@ -648,309 +669,347 @@ return [
             ]
         ]
     ],
-    // 订单状态总数导航
-    'order_status_step_total_list'      =>  [
-        ['value' => 0, 'name' => '待确认'],
-        ['value' => 1, 'name' => '待付款'],
-        ['value' => 2, 'name' => '待发货'],
-        ['value' => 3, 'name' => '待收货'],
-        ['value' => 4, 'name' => '已完成'],
-        ['value' => 5, 'name' => '已取消'],
-        ['value' => 6, 'name' => '已关闭'],
-        ['value' => 100, 'name' => '待评价'],
-        ['value' => 101, 'name' => '退款/售后'],
-    ],
     // 商品详情页面更多导航 - 手机端
-    'app_goods_nav_more_list_data'      => [
+    'app_goods_nav_more_list_data' => [
         'goodsfavor'   => '我的收藏',
         'goodsbrowse'  => '我浏览过',
         'home'         => '回到首页',
     ],
     // 商品详情页面更多导航 - 手机端
-    'app_home_right_list_data'          => [
+    'app_home_right_list_data' => [
         'goodsfavor'   => '我的收藏',
         'usermessage'  => '我的消息',
     ],
+
+    // -------------------- 公共静态数据 --------------------
+    // 订单状态总数导航
+    'common_order_status_step_total_list' => [
+        0    => '待确认',
+        1    => '待付款',
+        2    => '待发货',
+        3    => '待收货',
+        4    => '已完成',
+        5    => '已取消',
+        6    => '已关闭',
+        100  => '待评价',
+        101  => '退款/售后',
+    ],
     // 搜索排序方式
-    'common_search_order_by_list'       =>  [
-        ['name' => '综合', 'type' => 'default', 'value' => 'desc'],
-        ['name' => '销量', 'type' => 'sales', 'value' => 'desc'],
-        ['name' => '热度', 'type' => 'access', 'value' => 'desc'],
-        ['name' => '价格', 'type' => 'price', 'value' => 'desc'],
-        ['name' => '最新', 'type' => 'new', 'value' => 'desc'],
+    'common_search_order_by_list' => [
+        'default'  => '综合',
+        'sales'    => '销量',
+        'access'   => '热度',
+        'price'    => '价格',
+        'new'      => '最新',
     ],
     // 用户注册类型列表
-    'common_user_reg_type_list'          =>  [
-        0 => ['value' => 'username', 'name' => '账号'],
-        1 => ['value' => 'sms', 'name' => '短信'],
-        2 => ['value' => 'email', 'name' => '邮箱'],
+    'common_user_reg_type_list' => [
+        'username'  => '账号',
+        'sms'       => '短信',
+        'email'     => '邮箱',
     ],
     // 登录方式
-    'common_login_type_list'     =>  [
-        0 => ['value' => 'username', 'name' => '帐号密码', 'checked' => true],
-        1 => ['value' => 'email', 'name' => '邮箱验证码'],
-        2 => ['value' => 'sms', 'name' => '手机验证码'],
+    'common_login_type_list' => [
+        'username'  => '帐号密码',
+        'email'     => '邮箱验证码',
+        'sms'       => '手机验证码',
     ],
     // 性别
-    'common_gender_list'                =>  [
-        0 => ['id' => 0, 'name' => '保密', 'checked' => true],
-        1 => ['id' => 1, 'name' => '女'],
-        2 => ['id' => 2, 'name' => '男'],
+    'common_gender_list' => [
+        0 => '保密',
+        1 => '女',
+        2 => '男',
     ],
     // 关闭开启状态
-    'common_close_open_list'          =>  [
-        0 => ['value' => 0, 'name' => '关闭'],
-        1 => ['value' => 1, 'name' => '开启'],
+    'common_close_open_list' => [
+        0 => '关闭',
+        1 => '开启',
     ],
     // 是否启用
-    'common_is_enable_tips'             =>  [
-        0 => ['id' => 0, 'name' => '未启用'],
-        1 => ['id' => 1, 'name' => '已启用'],
+    'common_is_enable_tips' => [
+        0 => '未启用',
+        1 => '已启用',
     ],
-    'common_is_enable_list'             =>  [
-        0 => ['id' => 0, 'name' => '不启用'],
-        1 => ['id' => 1, 'name' => '启用', 'checked' => true],
+    'common_is_enable_list' => [
+        0 => '不启用',
+        1 => '启用',
     ],
     // 是否显示
-    'common_is_show_list'               =>  [
-        0 => ['id' => 0, 'name' => '不显示'],
-        1 => ['id' => 1, 'name' => '显示', 'checked' => true],
+    'common_is_show_list' => [
+        0 => '不显示',
+        1 => '显示',
     ],
     // excel编码列表
-    'common_excel_charset_list'         =>  [
-        0 => ['id' => 0, 'value' => 'utf-8', 'name' => 'utf-8', 'checked' => true],
-        1 => ['id' => 1, 'value' => 'gbk', 'name' => 'gbk'],
+    'common_excel_charset_list' => [
+        0 => 'utf-8',
+        1 => 'gbk',
     ],
     // excel导出类型列表
-    'common_excel_export_type_list'     =>  [
-        0 => ['id' => 0, 'name' => 'CSV', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Excel'],
+    'common_excel_export_type_list' => [
+        0 => 'CSV',
+        1 => 'Excel',
     ],
     // 地图类型列表
-    'common_map_type_list'     =>  [
-        'baidu'     => ['id' => 'baidu', 'name' => '百度地图', 'checked' => true],
-        'amap'      => ['id' => 'amap', 'name' => '高德地图'],
-        'tencent'   => ['id' => 'tencent', 'name' => '腾讯地图'],
-        'tianditu'  => ['id' => 'tianditu', 'name' => '天地图'],
+    'common_map_type_list' => [
+        'baidu'     => '百度地图',
+        'amap'      => '高德地图',
+        'tencent'   => '腾讯地图',
+        'tianditu'  => '天地图',
     ],
     // 支付支付状态
-    'common_order_pay_status'   => [
-        0 => ['id' => 0, 'name' => '待支付', 'checked' => true],
-        1 => ['id' => 1, 'name' => '已支付'],
-        2 => ['id' => 2, 'name' => '已退款'],
-        3 => ['id' => 3, 'name' => '部分退款'],
+    'common_order_pay_status' => [
+        0 => '待支付',
+        1 => '已支付',
+        2 => '已退款',
+        3 => '部分退款',
     ],
     // 订单状态
-    'common_order_status'          =>  [
-        0 => ['id' => 0, 'name' => '待确认', 'checked' => true],
-        1 => ['id' => 1, 'name' => '待付款'],
-        2 => ['id' => 2, 'name' => '待发货'],
-        3 => ['id' => 3, 'name' => '待收货'],
-        4 => ['id' => 4, 'name' => '已完成'],
-        5 => ['id' => 5, 'name' => '已取消'],
-        6 => ['id' => 6, 'name' => '已关闭'],
+    'common_order_status' =>  [
+        0 => '待确认',
+        1 => '待付款',
+        2 => '待发货',
+        3 => '待收货',
+        4 => '已完成',
+        5 => '已取消',
+        6 => '已关闭',
     ],
     // 所属平台
-    'common_platform_type'          =>  [
-        'pc'        => ['value' => 'pc', 'name' => 'PC网站'],
-        'h5'        => ['value' => 'h5', 'name' => 'H5手机网站'],
-        'ios'       => ['value' => 'ios', 'name' => '苹果APP'],
-        'android'   => ['value' => 'android', 'name' => '安卓APP'],
-        'weixin'    => ['value' => 'weixin', 'name' => '微信小程序'],
-        'alipay'    => ['value' => 'alipay', 'name' => '支付宝小程序'],
-        'baidu'     => ['value' => 'baidu', 'name' => '百度小程序'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => '头条小程序'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ小程序'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程序'],
+    'common_platform_type' => [
+        'pc'        => 'PC网站',
+        'h5'        => 'H5手机网站',
+        'ios'       => '苹果APP',
+        'android'   => '安卓APP',
+        'weixin'    => '微信小程序',
+        'alipay'    => '支付宝小程序',
+        'baidu'     => '百度小程序',
+        'toutiao'   => '头条小程序',
+        'qq'        => 'QQ小程序',
+        'kuaishou'  => '快手小程序',
     ],
     // app平台
-    'common_app_type'          =>  [
-        'ios'       => ['value' => 'ios', 'name' => '苹果APP'],
-        'android'   => ['value' => 'android', 'name' => '安卓APP'],
+    'common_app_type' => [
+        'ios'       => '苹果APP',
+        'android'   => '安卓APP',
     ],
     // 小程序平台
-    'common_appmini_type'          =>  [
-        'weixin'    => ['value' => 'weixin', 'name' => '微信小程序'],
-        'alipay'    => ['value' => 'alipay', 'name' => '支付宝小程序'],
-        'baidu'     => ['value' => 'baidu', 'name' => '百度小程序'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => '头条小程序'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ小程序'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程序'],
+    'common_appmini_type' => [
+        'weixin'    => '微信小程序',
+        'alipay'    => '支付宝小程序',
+        'baidu'     => '百度小程序',
+        'toutiao'   => '头条小程序',
+        'qq'        => 'QQ小程序',
+        'kuaishou'  => '快手小程序',
     ],
     // 扣除库存规则
-    'common_deduction_inventory_rules_list' =>  [
-        0 => ['id' => 0, 'name' => '订单确认成功'],
-        1 => ['id' => 1, 'name' => '订单支付成功'],
-        2 => ['id' => 2, 'name' => '订单发货'],
+    'common_deduction_inventory_rules_list' => [
+        0 => '订单确认成功',
+        1 => '订单支付成功',
+        2 => '订单发货',
     ],
     // 商品增加销量规则
-    'common_sales_count_inc_rules_list'     =>  [
-        0 => ['id' => 0, 'name' => '订单支付'],
-        1 => ['id' => 1, 'name' => '订单收货'],
+    'common_sales_count_inc_rules_list' => [
+        0 => '订单支付',
+        1 => '订单收货',
     ],
     // 是否已读
-    'common_is_read_list'               =>  [
-        0 => ['id' => 0, 'name' => '未读', 'checked' => true],
-        1 => ['id' => 1, 'name' => '已读'],
+    'common_is_read_list' => [
+        0 => '未读',
+        1 => '已读',
     ],
     // 消息类型
-    'common_message_type_list'          =>  [
-        0 => ['id' => 0, 'name' => '默认', 'checked' => true],
+    'common_message_type_list' => [
+        0 => '默认',
     ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list'             =>  [
-        0 => ['id' => 0, 'name' => '减少', 'checked' => true],
-        1 => ['id' => 1, 'name' => '增加'],
+    'common_integral_log_type_list' => [
+        0 => '减少',
+        1 => '增加',
     ],
     // 是否上架/下架
-    'common_is_shelves_list'                    =>  [
-        0 => ['id' => 0, 'name' => '下架'],
-        1 => ['id' => 1, 'name' => '上架', 'checked' => true],
+    'common_is_shelves_list' => [
+        0 => '下架',
+        1 => '上架',
     ],
     // 是否
-    'common_is_text_list'   =>  [
-        0 => ['id' => 0, 'name' => '否', 'checked' => true],
-        1 => ['id' => 1, 'name' => '是'],
+    'common_is_text_list' => [
+        0 => '否',
+        1 => '是',
     ],
     // 用户状态
-    'common_user_status_list'           =>  [
-        0 => ['id' => 0, 'name' => '正常', 'checked' => true],
-        1 => ['id' => 1, 'name' => '禁止发言', 'tips' => '用户被禁止发言'],
-        2 => ['id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'],
-        3 => ['id' => 3, 'name' => '待审核', 'tips' => '用户等待审核中'],
+    'common_user_status_list' => [
+        0 => ['name' => '正常'],
+        1 => ['name' => '禁止发言', 'tips' => '用户被禁止发言'],
+        2 => ['name' => '禁止登录', 'tips' => '用户被禁止登录'],
+        3 => ['name' => '待审核', 'tips' => '用户等待审核中'],
     ],
     // 导航数据类型
-    'common_nav_type_list'              =>  [
-        'custom' => ['value'=>'custom', 'name'=>'自定义'],
-        'article' => ['value'=>'article', 'name'=>'文章'],
-        'customview' => ['value'=>'customview', 'name'=>'自定义页面'],
-        'goods_category' => ['value'=>'goods_category', 'name'=>'商品分类'],
+    'common_nav_type_list' => [
+        'custom'          => '自定义',
+        'article'         => '文章',
+        'customview'      => '自定义页面',
+        'goods_category'  => '商品分类',
     ],
     // 搜索框下热门关键字类型
-    'common_search_keywords_type_list'      =>  [
-        0 => ['value' => 0, 'name' => '关闭'],
-        1 => ['value' => 1, 'name' => '自动'],
-        2 => ['value' => 2, 'name' => '自定义'],
+    'common_search_keywords_type_list' => [
+        0 => '关闭',
+        1 => '自动',
+        2 => '自定义',
     ],
     // app事件类型
-    'common_app_event_type' =>  [
-        0 => ['value' => 0, 'name' => 'WEB页面'],
-        1 => ['value' => 1, 'name' => '内部页面(小程序/APP内部地址)'],
-        2 => ['value' => 2, 'name' => '外部小程序appid'],
-        3 => ['value' => 3, 'name' => '跳转原生地图查看指定位置'],
-        4 => ['value' => 4, 'name' => '拨打电话'],
+    'common_app_event_type' => [
+        0 => 'WEB页面',
+        1 => '内部页面(小程序/APP内部地址)',
+        2 => '外部小程序appid',
+        3 => '跳转原生地图查看指定位置',
+        4 => '拨打电话',
     ],
     // 订单售后类型
-    'common_order_aftersale_type_list' =>  [
-        0 => ['value' => 0, 'name' => '仅退款', 'desc' => '未收到货(未签收),协商同意前提下', 'icon' => 'am-icon-random', 'class' => 'am-fl'],
-        1 => ['value' => 1, 'name' => '退款退货', 'desc' => '已收到货,需要退换已收到的货物', 'icon' => 'am-icon-retweet', 'class' => 'am-fr'],
+    'common_order_aftersale_type_list' => [
+        0 => ['name' => '仅退款', 'desc' => '未收到货(未签收),协商同意前提下'],
+        1 => ['name' => '退款退货', 'desc' => '已收到货,需要退换已收到的货物'],
     ],
     // 订单售后状态
-    'common_order_aftersale_status_list' =>  [
-        0 => ['value' => 0, 'name' => '待确认'],
-        1 => ['value' => 1, 'name' => '待退货'],
-        2 => ['value' => 2, 'name' => '待审核'],
-        3 => ['value' => 3, 'name' => '已完成'],
-        4 => ['value' => 4, 'name' => '已拒绝'],
-        5 => ['value' => 5, 'name' => '已取消'],
+    'common_order_aftersale_status_list' => [
+        0 => '待确认',
+        1 => '待退货',
+        2 => '待审核',
+        3 => '已完成',
+        4 => '已拒绝',
+        5 => '已取消',
     ],
     // 订单售后退款方式
-    'common_order_aftersale_refundment_list' =>  [
-        0 => ['value' => 0, 'name' => '原路退回'],
-        1 => ['value' => 1, 'name' => '退至钱包'],
-        2 => ['value' => 2, 'name' => '手动处理'],
+    'common_order_aftersale_refundment_list' => [
+        0 => '原路退回',
+        1 => '退至钱包',
+        2 => '手动处理',
     ],
     // 商品评分
-    'common_goods_comments_rating_list' =>  [
-        0 => ['value'=>0, 'name'=>'未评分', 'badge'=>''],
-        1 => ['value'=>1, 'name'=>'1分', 'badge'=>'danger'],
-        2 => ['value'=>2, 'name'=>'2分', 'badge'=>'warning'],
-        3 => ['value'=>3, 'name'=>'3分', 'badge'=>'secondary'],
-        4 => ['value'=>4, 'name'=>'4分', 'badge'=>'primary'],
-        5 => ['value'=>5, 'name'=>'5分', 'badge'=>'success'],
+    'common_goods_comments_rating_list' => [
+        0 => '未评分',
+        1 => '1分',
+        2 => '2分',
+        3 => '3分',
+        4 => '4分',
+        5 => '5分',
     ],
     // 商品评论业务类型
-    'common_goods_comments_business_type_list' =>  [
-        'order' => ['value' => 'order', 'name' => '订单'],
+    'common_goods_comments_business_type_list' => [
+        'order' => '订单',
     ],
     // 站点类型
-    'common_site_type_list' =>  [
-        0 => ['value' => 0, 'name' => '快递'],
-        1 => ['value' => 1, 'name' => '展示'],
-        2 => ['value' => 2, 'name' => '自提'],
-        3 => ['value' => 3, 'name' => '虚拟售卖'],
-        4 => ['value' => 4, 'name' => '快递+自提', 'is_ext' => 1],
+    'common_site_type_list' => [
+        0 => '快递',
+        1 => '展示',
+        2 => '自提',
+        3 => '虚拟售卖',
+        4 => '快递+自提',
     ],
     // 订单类型
-    'common_order_type_list' =>  [
-        0 => ['value' => 0, 'name' => '快递'],
-        1 => ['value' => 1, 'name' => '展示'],
-        2 => ['value' => 2, 'name' => '自提'],
-        3 => ['value' => 3, 'name' => '虚拟销售'],
+    'common_order_type_list' => [
+        0 => '快递',
+        1 => '展示',
+        2 => '自提',
+        3 => '虚拟销售',
     ],
     // 下单站点类型列表
-    'common_buy_site_model_list' =>  [
-        ['value' => 0, 'name' => '快递邮寄'],
-        ['value' => 2, 'name' => '自提点取货'],
+    'common_buy_site_model_list' => [
+        0 => '快递邮寄',
+        2 => '自提点取货',
     ],
     // 管理员状态
-    'common_admin_status_list'               =>  [
-        0 => ['value' => 0, 'name' => '正常', 'checked' => true],
-        1 => ['value' => 1, 'name' => '暂停'],
-        2 => ['value' => 2, 'name' => '已离职'],
+    'common_admin_status_list' => [
+        0 => '正常',
+        1 => '暂停',
+        2 => '已离职',
     ],
     // 支付日志状态
-    'common_pay_log_status_list'            => [
-        0 => ['value' => 0, 'name' => '待支付', 'checked' => true],
-        1 => ['value' => 1, 'name' => '已支付'],
-        2 => ['value' => 2, 'name' => '已关闭'],
+    'common_pay_log_status_list' => [
+        0 => '待支付',
+        1 => '已支付',
+        2 => '已关闭',
+    ],
+    // 支付日志业务类型
+    'common_pay_log_business_type_list' => [
+        'order' => '订单',
     ],
     // 商品参数组件类型
-    'common_goods_parameters_type_list'     => [
-        0 => ['value' => 0, 'name' => '全部'],
-        1 => ['value' => 1, 'name' => '详情', 'checked' => true],
-        2 => ['value' => 2, 'name' => '基础'],
+    'common_goods_parameters_type_list' => [
+        0 => '全部',
+        1 => '详情',
+        2 => '基础',
     ],
     // 商品关联排序类型
-    'goods_order_by_type_list'              => [
-        0 => ['value' => 'g.access_count,g.sales_count,g.id', 'name' => '综合', 'checked' => true],
-        1 => ['value' => 'g.sales_count', 'name' => '销量'],
-        2 => ['value' => 'g.access_count', 'name' => '热度'],
-        3 => ['value' => 'g.min_price', 'name' => '价格'],
-        4 => ['value' => 'g.id', 'name' => '最新'],
+    'common_goods_order_by_type_list' => [
+        0 => '综合',
+        1 => '销量',
+        2 => '热度',
+        3 => '价格',
+        4 => '最新',
     ],
     // 商品关联排序规则
-    'goods_order_by_rule_list'              => [
-        0 => ['value' => 'desc', 'name' => '降序(desc)', 'checked' => true],
-        1 => ['value' => 'asc', 'name' => '升序(asc)'],
+    'common_goods_order_by_rule_list' => [
+        0 => '降序(desc)',
+        1 => '升序(asc)',
     ],
     // 首页数据类型
-    'common_site_floor_data_type_list'      => [
-        0 => ['value' => 0, 'name' => '自动模式', 'checked' => true],
-        1 => ['value' => 1, 'name' => '手动模式'],
-        2 => ['value' => 2, 'name' => '拖拽模式'],
+    'common_site_floor_data_type_list' => [
+        0 => '自动模式',
+        1 => '手动模式',
+        2 => '拖拽模式',
     ],
     // 文件上传错误码
-    'common_file_upload_error_list'         =>  [
+    'common_file_upload_error_list' => [
         1 => '文件大小超过服务器允许上传的最大值',
         2 => '文件大小超出浏览器限制，查看是否超过[站点设置->附件最大限制]',
         3 => '文件仅部分被上传',
         4 => '没有找到要上传的文件',
         5 => '没有找到服务器临时文件夹',
-        6 => '文件写入到临时文件夹出错 ',
+        6 => '文件写入到临时文件夹出错',
         7 => '文件写入失败',
         8 => '文件上传扩展没有打开',
     ],
-    // -------------------- 后端相关 --------------------
-    // 图片验证码
-    'site_images_verify_rules_list'  => [
-        0 => ['value' => 'bgcolor', 'name' => '彩色背景'],
-        1 => ['value' => 'textcolor', 'name' => '彩色文本'],
-        2 => ['value' => 'point', 'name' => '干扰点'],
-        3 => ['value' => 'line', 'name' => '干扰线'],
+    // 用户基础信息提示页面（index 首页、goods-category 商品分类、cart 购物车、 user 用户中心、share 分享）
+    'common_user_base_popup_pages_list' => [
+        'index'           => '首页',
+        'goods-category'  => '商品分类',
+        'cart'            => '购物车',
+        'user'            => '用户中心',
+        'share'           => '弹窗分享',
     ],
+    // 多语言code 语言编码 => name 语言名称）
+    'common_multilingual_list' => [
+        'zh'   => '简体中文',
+        'cht'  => '繁体中文',
+        'en'   => '英文',
+        'ru'   => '俄语',
+        'kor'  => '韩语',
+        'th'   => '泰语',
+        'jp'   => '日语',
+        'de'   => '德语',
+        'nl'   => '荷兰语',
+        'vie'  => '越南语',
+        'it'   => '意大利语',
+        'spa'  => '西班牙语',
+        'fra'  => '法语',
+        'swe'  => '瑞典语',
+    ],
+    // 图片验证码
+    'common_site_images_verify_rules_list' => [
+        0 => '彩色背景',
+        1 => '彩色文本',
+        2 => '干扰点',
+        3 => '干扰线',
+    ],
+    // url模式列表
+    'common_seo_url_model_list' => [
+        0 => '兼容模式',
+        1 => 'PATHINFO模式',
+        2 => 'PATHINFO模式+短地址',
+    ],
+
+    // -------------------- 后端相关 --------------------
     // 时区
-    'site_timezone_list' => [
+    'common_site_timezone_list' => [
         'Pacific/Pago_Pago'               => '(标准时-11:00) 中途岛、萨摩亚群岛',
         'Pacific/Rarotonga'               => '(标准时-10:00) 夏威夷',
         'Pacific/Gambier'                 => '(标准时-9:00) 阿拉斯加',
@@ -975,31 +1034,6 @@ return [
         'Australia/Adelaide'              => '(标准时+10:00) 悉尼、关岛',
         'Australia/Currie'                => '(标准时+11:00) 马加丹、索罗门群岛',
         'Pacific/Fiji'                    => '(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛',
-    ],
-    // seo
-    // url模式列表
-    'seo_url_model_list'        =>  [
-        0 => ['value' => 0, 'name' => '兼容模式', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'PATHINFO模式'],
-        2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
-    ],
-
-    // 多语言code 语言编码 => name 语言名称）
-    'common_multilingual_list'  => [
-        'zh'   => '简体中文',
-        'cht'  => '繁体中文',
-        'en'   => '英文',
-        'ru'   => '俄语',
-        'kor'  => '韩语',
-        'th'   => '泰语',
-        'jp'   => '日语',
-        'de'   => '德语',
-        'nl'   => '荷兰语',
-        'vie'  => '越南语',
-        'it'   => '意大利语',
-        'spa'  => '西班牙语',
-        'fra'  => '法语',
-        'swe'  => '瑞典语',
     ],
 
     // -------------------- 公共服务层 --------------------
@@ -1196,6 +1230,8 @@ return [
         // 品牌分类
         'brandcategory'     => [
             // 表单
+            'form_item_icon'                        => 'icon图标',
+            'form_item_icon_tips'                   => '建议100*100px',
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称长度1~60个字符',
         ],
@@ -1554,10 +1590,14 @@ return [
         // 商品分类
         'goodscategory'         => [
             // 表单
-            'form_item_icon'                        => 'icon图标',
+            'form_item_icon'                        => '图标',
             'form_item_icon_tips'                   => '建议100*100px',
+            'form_item_icon_active'                 => '选中图标',
+            'form_item_icon_active_tips'            => '建议100*100px',
+            'form_item_realistic_images'            => '实景图',
+            'form_item_realistic_images_tips'       => '建议200*200px',
             'form_item_big_images'                  => '大图片',
-            'form_item_big_images_tips'             => '建议360*360px',
+            'form_item_big_images_tips'             => '建议220*750px',
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称格式1~60个字符',
             'form_item_vice_name'                   => '副名称',
@@ -1705,7 +1745,7 @@ return [
             'form_item_images_tips'                 => '凭证最多上传3张图片',
             'form_item_express_name'                => '快递名称',
             'form_item_express_name_message'        => '快递名称格式1~60个字符之间',
-            'form_item_express_number'              => '快递名称',
+            'form_item_express_number'              => '快递单号',
             'form_item_express_number_message'      => '快递单号格式1~60个字符之间',
             // 审核表单
             'form_item_refundment'                  => '退款方式',
@@ -1742,8 +1782,8 @@ return [
             // 商品退货地址
             'return_goods_address_data'             => [
                 'name'     => '收件人',
-                'tel'      => '电话',
-                'address'  => '地址',
+                'tel'      => '收件电话',
+                'address'  => '退货地址',
             ],
             // 订单售后进度
             'orderaftersale_step_data'              => [
@@ -1764,12 +1804,25 @@ return [
             ],
             // 售后环节提示信息
             'orderaftersale_step_tips_msg'          => [
-                0 => '订单售后已提交申请，等待管理员确认中！',
-                1 => '订单售后，管理员已确认，请尽快完成退货！',
-                2 => '订单售后已退货，等待管理员审核中！',
-                3 => '订单售后已处理结束！',
-                4 => '订单售后申请已被拒绝！',
-                5 => '订单售后申请已关闭！',
+                0 => [
+                    'title' => '待卖家审核',
+                    'desc'  => '已提交申请，等待卖家确认中！'
+                ],
+                1 => [
+                    'title' => '卖家已确认，请尽快完成退货！'
+                ],
+                2 => [
+                    'title' => '待卖家确认收货',
+                    'desc'  => '已退货，等待卖家审核中！'
+                ],
+                3 => [
+                    'title' => '退款成功',
+                    'desc'  => '已处理结束！'
+                ],
+                4 => [
+                    'title' => '卖家已拒绝，退款关闭',
+                    'desc'  => '申请已被拒绝！'
+                ],
             ], 
         ],
         // 订单货币
@@ -1778,8 +1831,6 @@ return [
         ],
         // 订单
         'order'                 => [
-            // 业务类型名称
-            'business_type_name'                    => '订单',
             // 基础
             'order_user_invalid_tips'               => '订单用户无效',
             'pay_api_abnormal_tips'                 => '支付接口异常',
@@ -2385,6 +2436,10 @@ return [
         'view_media_fixed_width_message'                     => '请输入容器宽度、最大6000的数字',
         'view_media_fixed_height_title'                      => '容器高度',
         'view_media_fixed_height_message'                    => '请输入容器高度、最大6000的数字',
+        'view_media_fixed_max_width_title'                   => '容器最大宽度',
+        'view_media_fixed_max_width_message'                 => '请输入容器最大宽度、最大6000的数字',
+        'view_media_fixed_max_height_title'                  => '容器最大高度',
+        'view_media_fixed_max_height_message'                => '请输入容器最大高度、最大6000的数字',
         'view_media_fixed_border_radius_title'               => '圆角',
         'view_media_fixed_border_radius_message'             => '请输入圆角、最大1000的数字',
         'view_media_fixed_border_style_title'                => '边线类型',
@@ -2476,7 +2531,7 @@ return [
         // 关键字信息
         'view_module_title_keywords'                                 => '关键字',
         'view_module_title_keywords_tips'                            => '小屏下不显示',
-        'view_module_title_keywords_message'                         => '请填写关键字、格式1~8个字符',
+        'view_module_title_keywords_message'                         => '请填写关键字、格式1~80个字符',
         'view_module_title_keywords_add'                             => '添加关键字',
         // 指向url地址信息
         'view_module_title_url'                                      => '链接地址',
@@ -2490,7 +2545,7 @@ return [
         'view_style_images'                                          => '图片样式',
         'view_content_setup'                                         => '内容设置',
         'view_content_custom_html'                                   => '自定义html代码',
-        'view_style_width_max_limit_value'                           => '系统标准限宽(1000px、1200px)',
+        'view_style_width_max_limit_value'                           => '系统标准限宽(1000px、1200px、1500px)',
         'view_style_height'                                          => '高度',
         // 容器
         'view_offcanvas_layout_base_title'                           => '基础样式',
@@ -2535,13 +2590,13 @@ return [
         'view_offcanvas_module_images_text_desc_font_size_message'   => '描述字体最大1000',
         // 标题
         'view_offcanvas_module_title_main_title'                     => '主标题',
-        'view_offcanvas_module_title_main_title_message'             => '主标题最多1~8个字符',
+        'view_offcanvas_module_title_main_title_message'             => '主标题最多1~160个字符',
         'view_offcanvas_module_title_vice_title'                     => '副标题',
-        'view_offcanvas_module_title_vice_title_message'             => '副标题最多16个字符',
+        'view_offcanvas_module_title_vice_title_message'             => '副标题最多230个字符',
         'view_offcanvas_module_title_right'                          => '右侧按钮',
         'view_offcanvas_module_title_right_tips'                     => '空则不显示',
         'view_offcanvas_module_title_right_name'                     => '右侧按钮名称',
-        'view_offcanvas_module_title_right_name_message'             => '右侧按钮名称最多4个字符',
+        'view_offcanvas_module_title_right_name_message'             => '右侧按钮名称最多80个字符',
         // 视频
         'view_offcanvas_module_video_images'                         => '封面图片',
         // 弹窗商品搜索
@@ -2549,7 +2604,7 @@ return [
         'view_popup_goods_search_tabs_brand_message'                 => '请选择品牌',
         'view_popup_goods_search_tabs_keywords'                      => '关键字',
         'view_popup_goods_search_tabs_other'                         => '无需条件',
-        'view_popup_goods_search_keywords_tips'                      => '搜索关键字格式1~30个字符',
+        'view_popup_goods_search_keywords_tips'                      => '搜索关键字格式1~80个字符',
         'view_popup_goods_search_other_tips'                         => '无需搜索条件、直接进入搜索页面',
         // 弹窗商品选择
         'view_popup_goods_search_choice_category_not_choice'         => '请选择商品分类',
@@ -2721,6 +2776,16 @@ return [
                 'invalid_file'                      => '非法文件',
                 'error_image_save'                  => '保存出错、图片有误',
                 'error_upload_type'                 => '操作类型有误',
+            ],
+            // 地图
+            'map'           => [
+                'baidu_config_empty_tips'           => '百度地图api秘钥（服务端）未配置',
+                'tencent_config_empty_tips'         => '腾讯地图api秘钥（服务端）未配置',
+                'amap_config_empty_tips'            => '高德地图api秘钥（服务端）未配置',
+                'tianditu_config_empty_tips'        => '天地图api秘钥（服务端）未配置',
+                'type_not_docked_tips'              => '当前地图未开发对接',
+                'type_not_docked_geocoder_tips'     => '当前地图未开发逆解析',
+                'address_geocoder_fail_tips'        => '地址解析失败',
             ],
         ],
     ],
@@ -2959,11 +3024,6 @@ return [
             'desc' => '前台默认模板',
             'tips' => '请选择默认模板',
         ],
-        'common_baidu_map_ak'  => [
-            'name' => '百度地图api密钥',
-            'desc' => '百度地图2.0起必须配置AK密钥',
-            'tips' => '请填写百度地图api密钥',
-        ],
         'home_email_user_reg'  => [
             'name' => '用户注册-邮件模板',
             'desc' => '验证码变量标识符 [ #code# ]',
@@ -3042,7 +3102,7 @@ return [
         ],
         'home_navigation_main_quick_name'  => [
             'name' => '快捷导航名称',
-            'desc' => '默认 百宝箱',
+            'desc' => '默認 更多入口',
             'tips' => '请填写快捷导航名称',
         ],
         'home_index_floor_goods_order_by_rule'  => [
@@ -3074,6 +3134,11 @@ return [
             'name' => '数据使用缓存',
             'desc' => '默认否',
             'tips' => '请选择数据使用缓存',
+        ],
+        'common_data_is_use_redis_cache'  => [
+            'name' => '使用redis缓存',
+            'desc' => '默认否',
+            'tips' => '请选择是否使用redis缓存',
         ],
         'common_app_is_enable_search'  => [
             'name' => '是否启用搜索',
@@ -3166,20 +3231,25 @@ return [
         ],
         'home_site_user_register_bg_images'  => [
             'name' => '用户注册背景图片',
-            'desc' => '',
+            'desc' => '建议1920*350px',
             'tips' => '请上传用户注册背景图片',
+        ],
+        'home_site_user_register_bg_color'  => [
+            'name' => '用户注册背景色',
+            'desc' => '',
+            'tips' => '请选择用户注册背景色',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => '图片',
-            'desc' => '图片1 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片1 [ 建议使用 1920*350px ]',
         ],
         'home_site_user_login_ad2_images'  => [
             'name' => '图片',
-            'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片2 [ 建议使用 1920*350px ]',
         ],
         'home_site_user_login_ad3_images'  => [
             'name' => '图片',
-            'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片2 [ 建议使用 1920*350px ]',
         ],
         'home_site_user_login_ad1_url'  => [
             'name' => 'url地址',
@@ -3212,15 +3282,15 @@ return [
         ],
         'home_site_user_forgetpwd_ad1_images'  => [
             'name' => '图片',
-            'desc' => '图片1 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片1 [ 建议使用 450*350px ]',
         ],
         'home_site_user_forgetpwd_ad2_images'  => [
             'name' => '图片',
-            'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片2 [ 建议使用 450*350px ]',
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => '图片',
-            'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            'desc' => '图片2 [ 建议使用 450*350px ]',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
             'name' => 'url地址',
@@ -3275,9 +3345,19 @@ return [
             'desc' => '默认关闭，开启后用户注册需要同意协议才可以注册',
             'tips' => '请选择是否启用用户注册协议',
         ],
+        'home_order_aftersale_return_goods_contacts_name'  => [
+            'name' => '退货联系人',
+            'desc' => '',
+            'tips' => '请填写退货联系人',
+        ],
+        'home_order_aftersale_return_goods_contacts_tel'  => [
+            'name' => '退货联系电话',
+            'desc' => '',
+            'tips' => '请填写退货联系电话',
+        ],
         'home_order_aftersale_return_goods_address'  => [
             'name' => '退货地址',
-            'desc' => '用户退货货物收货地址',
+            'desc' => '',
             'tips' => '请填写退货地址',
         ],
         'common_app_is_use_mobile_detail'  => [
@@ -3414,6 +3494,21 @@ return [
             'name' => '是否启用用户中心头部小导航',
             'desc' => '默认是',
             'tips' => '请选择是否启用用户中心头部小导航',
+        ],
+        'common_app_user_base_popup_pages'  => [
+            'name' => '用户基础信息提示页面',
+            'desc' => '默认关闭',
+            'tips' => '请选择用户基础信息提示页面',
+        ],
+        'common_app_user_base_popup_client'  => [
+            'name' => '用户基础信息提示终端',
+            'desc' => '默认关闭',
+            'tips' => '请选择用户基础信息提示终端',
+        ],
+        'common_app_user_base_popup_integral_time'  => [
+            'name' => '用户基础信息提示间隔时间',
+            'desc' => '单位 秒、默认1800秒/30分钟',
+            'tips' => '请填写关闭后再次提示间隔时间',
         ],
         'common_site_type'  => [
             'name' => '站点类型',
@@ -3744,11 +3839,6 @@ return [
             'name' => 'web端PC访问',
             'desc' => '默认开启，仅针对web端PC',
         ],
-        'common_tianditu_map_ak'  => [
-            'name' => '天地图api秘钥',
-            'desc' => '天地图的应用Key',
-            'tips' => '请填写天地图api秘钥',
-        ],
         'common_domain_host'  => [
             'name' => '主域名',
             'desc' => '站点地址',
@@ -3799,20 +3889,50 @@ return [
             'desc' => '默认百度地图',
             'tips' => '请选择地图类型',
         ],
-        'common_amap_map_ak'  => [
-            'name' => '高德地图api秘钥',
-            'desc' => '高德地图的应用Key和安全秘钥',
-            'tips' => '请填写高德地图api秘钥',
+        'common_baidu_map_ak'  => [
+            'name' => '百度地图api秘钥（浏览器端）',
+            'desc' => '百度地图的应用Key',
+            'tips' => '请填写百度地图api秘钥（浏览器端）',
         ],
-        'common_tencent_map_ak'  => [
-            'name' => '腾讯地图api秘钥',
-            'desc' => '腾讯地图的应用Key',
-            'tips' => '请填写腾讯地图api秘钥',
+        'common_baidu_map_ak_server'  => [
+            'name' => '百度地图api秘钥（服务端）',
+            'desc' => '百度地图的应用Key',
+            'tips' => '请填写百度地图api秘钥（服务端）',
+        ],
+        'common_amap_map_ak'  => [
+            'name' => '高德地图api秘钥（浏览器端）',
+            'desc' => '高德地图的应用Key',
+            'tips' => '请填写高德地图api秘钥（浏览器端）',
         ],
         'common_amap_map_safety_ak'  => [
             'name' => '高德地图安全秘钥',
             'desc' => '高德地图的应用安全密钥',
             'tips' => '请填写高德地图安全秘钥',
+        ],
+        'common_amap_map_ak_server'  => [
+            'name' => '高德地图api秘钥（服务端）',
+            'desc' => '高德地图的应用Key',
+            'tips' => '请填写高德地图api秘钥（服务端）',
+        ],
+        'common_tencent_map_ak'  => [
+            'name' => '腾讯地图api秘钥（浏览器端）',
+            'desc' => '腾讯地图的应用Key',
+            'tips' => '请填写腾讯地图api秘钥（浏览器端）',
+        ],
+        'common_tencent_map_ak_server'  => [
+            'name' => '腾讯地图api秘钥（服务端）',
+            'desc' => '腾讯地图的应用Key',
+            'tips' => '请填写腾讯地图api秘钥（服务端）',
+        ],
+        'common_tianditu_map_ak'  => [
+            'name' => '天地图api秘钥（浏览器端）',
+            'desc' => '天地图的应用Key',
+            'tips' => '请填写天地图api秘钥（浏览器端）',
+        ],
+        'common_tianditu_map_ak_server'  => [
+            'name' => '天地图api秘钥（服务端）',
+            'desc' => '天地图的应用Key',
+            'tips' => '请填写天地图api秘钥（服务端）',
         ],
         'common_default_payment'  => [
             'name' => '默认支付方式',
@@ -3883,6 +4003,11 @@ return [
             'name' => '自动识别用户语言',
             'desc' => '默认关闭',
             'tips' => '请选择自动识别用户语言',
+        ],
+        'common_domain_multilingual_bind_list'  => [
+            'name' => '域名绑定语言',
+            'desc' => '',
+            'tips' => '请配置域名绑定语言',
         ],
         'common_user_unique_system_type_model'  => [
             'name' => '用户以系统类标识维度',

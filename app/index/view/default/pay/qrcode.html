@@ -17,15 +17,11 @@
 {{include file="public/goods_category" /}}
 
 <!-- conntent start  -->
-<div class="am-g my-content">
-    <div class="am-u-md-6 am-u-sm-centered">
-        <div class="am-panel am-radius qrcode-pay" data-ajax-url="{{:base64_decode(urldecode($params['check_url']))}}" data-order-no="{{$params['order_no']}}">
-            <div class="am-panel-bd">
-                <div class="name">{{:urldecode($params['name'])}}</div>
-                <img class="qrcode-images am-img-thumbnail" src="{{:MyUrl('index/qrcode/index', ['content'=>$params['url']])}}">
-            </div>
-            <div class="msg">{{:urldecode($params['msg'])}}</div>
-        </div>
+<div class="am-g am-container">
+    <div class="am-radius qrcode-pay am-background-body am-margin-xl" data-ajax-url="{{:base64_decode(urldecode($params['check_url']))}}" data-order-no="{{$params['order_no']}}">
+        <div class="name">{{:urldecode($params['name'])}}</div>
+        <img class="qrcode-images am-img-thumbnail" src="{{:MyUrl('index/qrcode/index', ['content'=>$params['url']])}}">
+        <div class="msg am-margin-top-main">{{:urldecode($params['msg'])}}</div>
     </div>
 </div>
 <!-- conntent end  -->

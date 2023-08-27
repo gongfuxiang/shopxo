@@ -164,6 +164,7 @@ class User extends Common
                 'width'         => 100,
                 'height'        => 28,
                 'key_prefix'    => input('type', 'user_reg'),
+                'expire_time'   => MyC('common_verify_expire_time'),
             ];
         $verify = new \base\Verify($params);
         $verify->Entry();

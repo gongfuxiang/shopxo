@@ -50,6 +50,7 @@ class ConfigService
         'home_site_security_record_url',
         'home_site_company_license',
         'common_default_payment',
+        'common_domain_multilingual_bind_list',
     ];
 
     // 附件字段列表
@@ -77,11 +78,14 @@ class ConfigService
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
         'common_multilingual_choose_list',
+        'common_app_user_base_popup_pages',
+        'common_app_user_base_popup_client',
     ];
 
     // json数组字段
     public static $data_json_array_field_list = [
         'common_default_payment',
+        'common_domain_multilingual_bind_list',
     ];
 
     // 需要文件缓存的key
@@ -95,8 +99,9 @@ class ConfigService
         // 时区
         'common_timezone',
 
-        // 是否开启redis缓存
+        // 是否开启缓存
         'common_data_is_use_cache',
+        'common_data_is_use_redis_cache',
         'common_cache_data_redis_host',
         'common_cache_data_redis_port',
         'common_cache_data_redis_password',

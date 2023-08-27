@@ -21,7 +21,14 @@
                     <div class="am-form-group am-form-group-refreshing">
                         <input type="hidden" name="id" value="0" />
                         <input type="hidden" name="user_id" value="0" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <i class="am-icon-paint-brush"></i>
+                            <span>{{:MyLang('cancel_title')}}</span>
+                        </button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                            <i class="am-icon-check"></i>
+                            <span>{{:MyLang('confirm_title')}}</span>
+                        </button>
                     </div>
                 </form>
                 <script type="text/javascript">
@@ -56,8 +63,7 @@
                                                     <img src="{{$express.icon}}" class="am-radius" />
                                                 {{/if}}
                                                 <span>{{$express.name}}</span>
-                                                <div class="rotate"></div>
-                                                <i class="am-icon-check"></i>
+                                                <i class="iconfont icon-subscript"></i>
                                             </div>
                                         </li>
                                     {{/if}}
@@ -73,12 +79,19 @@
                         <label>{{:MyLang('order.form_item_express_number')}}</label>
                         <input type="text" autocomplete="off" name="express_number" placeholder="{{:MyLang('order.form_item_express_number')}}" minlength="1" data-validation-message="{{:MyLang('order.form_item_express_number_message')}}" class="am-radius" required />
                     </div>
-                    
+
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="0" />
                         <input type="hidden" name="express_id" value="0" />
                         <input type="hidden" name="user_id" value="0" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <i class="am-icon-paint-brush"></i>
+                            <span>{{:MyLang('cancel_title')}}</span>
+                        </button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                            <i class="am-icon-check"></i>
+                            <span>{{:MyLang('confirm_title')}}</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -104,8 +117,7 @@
                                                 <img src="{{$payment.logo}}" class="am-radius" />
                                             {{/if}}
                                             <span>{{$payment.name}}</span>
-                                            <div class="rotate"></div>
-                                            <i class="am-icon-check"></i>
+                                            <i class="iconfont icon-subscript"></i>
                                         </div>
                                     </li>
                                 {{/foreach}}
@@ -118,7 +130,14 @@
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="0" />
                         <input type="hidden" name="payment_id" value="0" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <i class="am-icon-paint-brush"></i>
+                            <span>{{:MyLang('cancel_title')}}</span>
+                        </button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                            <i class="am-icon-check"></i>
+                            <span>{{:MyLang('confirm_title')}}</span>
+                        </button>
                     </div>
                 </form>
             </div>

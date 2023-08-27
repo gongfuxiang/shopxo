@@ -77,7 +77,7 @@ class Region extends Common
      */
     public function CodeData()
     {
-        return ApiService::ApiDataReturn(RegionService::RegionCodeData($this->data_post));
+        return ApiService::ApiDataReturn(RegionService::RegionCodeData($this->data_request));
     }
 }
 ?>

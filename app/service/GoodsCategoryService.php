@@ -38,7 +38,7 @@ class GoodsCategoryService
         {
             return null;
         }
-        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
+        $field = empty($params['field']) ? 'id,pid,icon,icon_active,realistic_images,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
         $data = self::GoodsCategoryDataHandle([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
         return empty($data[0]) ? null : $data[0];
     }
@@ -57,7 +57,7 @@ class GoodsCategoryService
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_goods_category_key');
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取分类
             $params['where'] = [
@@ -169,7 +169,7 @@ class GoodsCategoryService
         $where = empty($params['where']) ? [] : $params['where'];
         $where[] = ['is_enable', '=', 1];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
-        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
+        $field = empty($params['field']) ? 'id,pid,icon,icon_active,realistic_images,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 0;
 
@@ -315,17 +315,18 @@ class GoodsCategoryService
     {
         if(!empty($data) && is_array($data))
         {
+            $attachment_fleid = ['icon', 'icon_active', 'realistic_images', 'big_images'];
             foreach($data as &$v)
             {
                 if(is_array($v))
                 {
-                    if(array_key_exists('icon', $v))
+                    // 附件字段处理
+                    foreach($attachment_fleid as $afv)
                     {
-                        $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
-                    }
-                    if(array_key_exists('big_images', $v))
-                    {
-                        $v['big_images'] = ResourcesService::AttachmentPathViewHandle($v['big_images']);
+                        if(array_key_exists($afv, $v))
+                        {
+                            $v[$afv] = ResourcesService::AttachmentPathViewHandle($v[$afv]);
+                        }
                     }
                 }
             }
@@ -394,7 +395,7 @@ class GoodsCategoryService
         }
 
         // 其它附件
-        $data_fields = ['icon', 'big_images'];
+        $data_fields = ['icon', 'icon_active', 'realistic_images', 'big_images'];
         $attachment = ResourcesService::AttachmentParams($params, $data_fields);
         if($attachment['code'] != 0)
         {
@@ -412,6 +413,8 @@ class GoodsCategoryService
             'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'icon'                  => $attachment['data']['icon'],
+            'icon_active'           => $attachment['data']['icon_active'],
+            'realistic_images'      => $attachment['data']['realistic_images'],
             'big_images'            => $attachment['data']['big_images'],
             'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],
             'seo_keywords'          => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
@@ -464,7 +467,7 @@ class GoodsCategoryService
         $id = isset($params['id']) ? intval($params['id']) : 0;
 
         // 获取数据
-        $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended,seo_title,seo_keywords,seo_desc';
+        $field = 'id,pid,icon,icon_active,realistic_images,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended,seo_title,seo_keywords,seo_desc';
         $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select()->toArray();
         if(!empty($data))
         {

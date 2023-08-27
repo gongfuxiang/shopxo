@@ -8,114 +8,167 @@
 
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-reload">
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
-                <select name="{{$data.common_app_is_use_mobile_detail.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_use_mobile_detail']['value']) and $data['common_app_is_use_mobile_detail']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-reload">
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default am-radius">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
+                        <select name="{{$data.common_app_is_use_mobile_detail.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_use_mobile_detail']['value']) and $data['common_app_is_use_mobile_detail']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
 
-            <div class="am-form-group">
-                <label>{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
-                <select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
+                        <select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
 
-            <div class="am-form-group">
-                <label>{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
-                <select name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_onekey_bind_mobile_list.name}}" multiple data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}">
-                    {{foreach :MyLang('common_platform_type') as $v}}
-                        {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
-                            <option value="{{$v.value}}" {{if isset($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
+                        {{foreach :MyConst('common_platform_type') as $v}}
+                            {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" value="{{$v.value}}" {{if isset($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/if}}
+                        {{/foreach}}
+                        {{if is_array(MyLang('appconfig.user_onekey_bind_mobile_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('appconfig.user_onekey_bind_mobile_tips_list'))}}</p>
+                            </div>
                         {{/if}}
-                    {{/foreach}}
-                </select>
-                <div class="am-alert am-alert-warning" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p>1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定，目前仅支持【微信小程序、百度小程序、头条小程序】</p>
-                    <p>2. 依赖需要开启《强制绑定手机》有效</p>
-                    <p>3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启</p>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_user_address_platform_import_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_address_platform_import_list.describe}}</span></label>
+                        {{foreach :MyConst('common_platform_type') as $v}}
+                            {{if in_array($v['value'], ['weixin', 'baidu', 'alipay', 'qq', 'toutiao'])}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_user_address_platform_import_list.only_tag}}" value="{{$v.value}}" {{if isset($data['common_user_address_platform_import_list']['value']) and in_array($v['value'], $data['common_user_address_platform_import_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/if}}
+                        {{/foreach}}
+                        {{if is_array(MyLang('appconfig.user_address_platform_import_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('appconfig.user_address_platform_import_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
+                        <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
+                        <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_enable_answer.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_answer.describe}}</span></label>
+                        <select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
+                        <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_head_vice_nav.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_head_vice_nav.describe}}</span></label>
+                        <select name="{{$data.common_app_is_head_vice_nav.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required>
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_app_is_head_vice_nav']['value']) and $data['common_app_is_head_vice_nav']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="am-form-group">
-                <label>{{$data.common_user_address_platform_import_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_address_platform_import_list.describe}}</span></label>
-                <select name="{{$data.common_user_address_platform_import_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_address_platform_import_list.name}}" multiple data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}">
-                    {{foreach :MyLang('common_platform_type') as $v}}
-                        {{if in_array($v['value'], ['weixin', 'baidu', 'alipay', 'qq', 'toutiao'])}}
-                            <option value="{{$v.value}}" {{if isset($data['common_user_address_platform_import_list']['value']) and in_array($v['value'], $data['common_user_address_platform_import_list']['value'])}}selected{{/if}}>{{$v.name}}</option>
-                        {{/if}}
-                    {{/foreach}}
-                </select>
-                <div class="am-alert am-alert-warning" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p>1. 获取当前小程序平台app账户的收货地址，目前仅支持【小程序】</p>
-                    <p>2. 确认导入后直接添加为系统用户收货地址</p>
-                    <p>3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启</p>
+            <!-- 用户基础数据 -->
+            <div class="am-panel am-panel-default am-radius">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">{{:MyLang('appconfig.user_base_popup_title')}}</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    {{if is_array(MyLang('appconfig.user_base_popup_top_tips_list'))}}
+                        <div class="am-alert am-alert-warning am-margin-top-sm" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>{{:implode('</p><p>', MyLang('appconfig.user_base_popup_top_tips_list'))}}</p>
+                        </div>
+                    {{/if}}
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_user_base_popup_pages.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_pages.describe}}</span></label>
+                        {{foreach :MyConst('common_user_base_popup_pages_list') as $v}}
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="{{$data.common_app_user_base_popup_pages.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_pages']['value']) and in_array($v['value'], $data['common_app_user_base_popup_pages']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_pages.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_user_base_popup_client.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_client.describe}}</span></label>
+                        {{foreach :MyConst('common_platform_type') as $v}}
+                            {{if !in_array($v['value'], ['pc'])}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_app_user_base_popup_client.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_client']['value']) and in_array($v['value'], $data['common_app_user_base_popup_client']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_client.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_user_base_popup_integral_time.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_integral_time.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.common_app_user_base_popup_integral_time.only_tag}}" placeholder="{{$data.common_app_user_base_popup_integral_time.name}}" data-validation-message="{{$data.common_app_user_base_popup_integral_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_app_user_base_popup_integral_time.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">{{:MyLang('second_title')}}</button>
+                          </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
-                <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
-                <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_enable_answer.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_answer.describe}}</span></label>
-                <select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
-                <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_head_vice_nav.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_head_vice_nav.describe}}</span></label>
-                <select name="{{$data.common_app_is_head_vice_nav.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required>
-                    {{foreach :MyLang('common_is_text_list') as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_head_vice_nav']['value']) and $data['common_app_is_head_vice_nav']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
             </div>
         </form>
         <!-- form end -->
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end  -->

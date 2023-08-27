@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\SeoService;
 use app\service\SafetyService;
@@ -23,7 +24,7 @@ use app\service\AgreementService;
  * @version  0.0.1
  * @datetime 2017-03-02T22:48:35+0800
  */
-class Safety extends Common
+class Safety extends Center
 {
 	/**
      * 构造方法
@@ -36,9 +37,6 @@ class Safety extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
 	/**
@@ -193,6 +191,7 @@ class Safety extends Common
             'height' 			=> 28,
             'use_point_back'	=> false,
             'key_prefix' 		=> 'safety',
+            'expire_time'       => MyC('common_verify_expire_time'),
         ];
         $verify = new \base\Verify($params);
         $verify->Entry();
@@ -207,7 +206,7 @@ class Safety extends Common
 	 */
 	public function LoginPwdUpdate()
 	{
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::LoginPwdUpdate($params));
 	}
@@ -221,7 +220,7 @@ class Safety extends Common
 	 */
 	public function VerifySend()
 	{
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::VerifySend($params));
 	}
@@ -236,7 +235,7 @@ class Safety extends Common
 	 */
 	public function VerifyCheck()
 	{
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::VerifyCheck($params));
 	}
@@ -250,7 +249,7 @@ class Safety extends Common
 	 */
 	public function AccountsUpdate()
 	{
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::AccountsUpdate($params));
 	}
@@ -264,7 +263,7 @@ class Safety extends Common
 	 */
 	public function Logout()
 	{
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::AccountsLogout($params));
 	}

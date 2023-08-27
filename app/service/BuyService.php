@@ -499,7 +499,7 @@ class BuyService
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'goods',
-                'error_msg'         => MyLang('gods_info_incorrect_tips'),
+                'error_msg'         => MyLang('goods_info_incorrect_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);

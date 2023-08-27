@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\IntegralService;
 use app\service\SeoService;
 
@@ -20,7 +21,7 @@ use app\service\SeoService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class UserIntegral extends Common
+class UserIntegral extends Center
 {
    /**
      * 构造方法
@@ -34,9 +35,6 @@ class UserIntegral extends Common
     {
         // 调用父类前置方法
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
     /**

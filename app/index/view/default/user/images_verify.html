@@ -1,17 +1,19 @@
-<div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="user-verify-win">
     <div class="am-modal-dialog am-radius">
         <div class="am-modal-hd">
             <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd">
-            <div class="base">
-                <input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" autocomplete="off" />
-                <div class="am-fl">
-                    <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
-                    <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+            <div class="am-input-material">
+                <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" />
+                <div class="am-position-verify">
+                    <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
+                    <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
                 </div>
+                <span class="am-material-bar"></span>
+                <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
             </div>
-            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-md am-block am-margin-top-lg btn-loading-example user-verify-win-submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
         </div>
     </div>
 </div>

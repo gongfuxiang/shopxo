@@ -23,7 +23,7 @@
     </button>
 {{/if}}
 
-{{if !empty($upgrade_info) and isset($upgrade_info[$module_data['payment']]) and $upgrade_info[$module_data['payment']]['version_new'] neq $module_data['version']}}
+{{if !empty($upgrade_info) and isset($upgrade_info[$module_data['payment']]) and isset($upgrade_info[$module_data['payment']]['version_new']) and version_compare($upgrade_info[$module_data['payment']]['version_new'], $module_data['version'], '>')}}
     <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block package-upgrade-event" data-type="payment" data-name="{{$module_data.name}}" data-value="{{$module_data.payment}}" data-json="{{:urlencode(json_encode($upgrade_info[$module_data['payment']]))}}">
         <i class="am-icon-refresh"></i>
         <span>{{:MyLang('update_title')}}</span>

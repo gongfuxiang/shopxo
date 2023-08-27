@@ -93,7 +93,7 @@ class RefundLogService
     {
         if(!empty($data))
         {
-            $refundment_list = MyLang('common_order_aftersale_refundment_list');
+            $refundment_list = MyConst('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 用户信息

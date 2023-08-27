@@ -1,7 +1,7 @@
 <!-- 页面选择 -->
 <div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-pages-select">
     <div class="am-modal-dialog">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         {{if !empty($pages_list)}}
             <form class="am-form" action="false">
                 <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" data-am-tabs="{noSwipe: 1}">
@@ -76,7 +76,7 @@
                                     </div>
                                 {{/if}}
                                 <div class="pages-custom-url-container am-padding-sm">
-                                    {{foreach :MyLang('common_platform_type') as $v}}
+                                    {{foreach :MyConst('common_platform_type') as $v}}
                                         <div class="am-input-group am-input-group-sm">
                                             <span class="am-input-group-btn">
                                                 <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>

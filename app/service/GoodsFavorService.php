@@ -62,46 +62,90 @@ class GoodsFavorService
             return $ret;
         }
 
-        // 开始操作
-        $data = ['goods_id'=>intval($params['id']), 'user_id'=>$params['user']['id']];
-        $temp = Db::name('GoodsFavor')->where($data)->find();
-        if(empty($temp))
+        // 是否数组
+        if(!is_array($params['id']))
         {
-            // 添加收藏
-            $data['add_time'] = time();
-            if(Db::name('GoodsFavor')->insertGetId($data) > 0)
+            $params['id'] = explode(',', $params['id']);
+        }
+
+        // 获取已收藏的数据
+        $where = [
+            ['goods_id', 'in', $params['id']],
+            ['user_id', '=', $params['user']['id']],
+        ];
+        $temp = Db::name('GoodsFavor')->where($where)->column('goods_id');
+
+        // 开始操作
+        $is_mandatory_favor = isset($params['is_mandatory_favor']) && $params['is_mandatory_favor'] == 1;
+        $insert_data = [];
+        $cancel_data = [];
+        foreach($params['id'] as $id)
+        {
+            if($is_mandatory_favor)
             {
-                return DataReturn(MyLang('favor_success'), 0, [
-                    'text'      => MyLang('already_favor_title'),
-                    'status'    => 1,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
-                ]);
+                if(!in_array($id, $temp))
+                {
+                    $insert_data[] = [
+                        'goods_id'  => $id,
+                        'user_id'   => $params['user']['id'],
+                        'add_time'  => time(),
+                    ];
+                }
+            } else {
+                // 存在取消、则添加
+                if(in_array($id, $temp))
+                {
+                    $cancel_data[] = $id;
+                } else {
+                    $insert_data[] = [
+                        'goods_id'  => $id,
+                        'user_id'   => $params['user']['id'],
+                        'add_time'  => time(),
+                    ];
+                }
+            }
+        }
+        // 添加
+        if(!empty($insert_data))
+        {
+            if(Db::name('GoodsFavor')->insertAll($insert_data) >= count($insert_data))
+            {
+                // 仅一个商品操作则返回收藏数据
+                if(count($params['id']) == 1)
+                {
+                    return DataReturn(MyLang('favor_success'), 0, [
+                        'text'      => MyLang('already_favor_title'),
+                        'status'    => 1,
+                        'count'     => self::GoodsFavorTotal(['goods_id'=>$params['id'][0]]),
+                    ]);
+                }
             } else {
                 return DataReturn(MyLang('favor_fail'), -1);
             }
-        } else {
-            // 是否强制收藏
-            if(isset($params['is_mandatory_favor']) && $params['is_mandatory_favor'] == 1)
+        }
+        // 取消
+        if(!empty($cancel_data))
+        {
+            $where = [
+                ['goods_id', 'in', $cancel_data],
+                ['user_id', '=', $params['user']['id']],
+            ];
+            if(Db::name('GoodsFavor')->where($where)->delete() > 0)
             {
-                return DataReturn(MyLang('favor_success'), 0, [
-                    'text'      => MyLang('already_favor_title'),
-                    'status'    => 1,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
-                ]);
-            }
-
-            // 删除收藏
-            if(Db::name('GoodsFavor')->where($data)->delete() > 0)
-            {
-                return DataReturn(MyLang('cancel_success'), 0, [
-                    'text'      => MyLang('favor_title'),
-                    'status'    => 0,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
-                ]);
+                // 仅一个商品操作则返回收藏数据
+                if(count($params['id']) == 1)
+                {
+                    return DataReturn(MyLang('cancel_success'), 0, [
+                        'text'      => MyLang('favor_title'),
+                        'status'    => 0,
+                        'count'     => self::GoodsFavorTotal(['goods_id'=>$params['id'][0]]),
+                    ]);
+                }
             } else {
                 return DataReturn(MyLang('cancel_fail'), -1);
             }
         }
+        return DataReturn(MyLang('favor_success'), 0);
     }
 
     /**

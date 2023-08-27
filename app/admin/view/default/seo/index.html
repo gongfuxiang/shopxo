@@ -9,11 +9,11 @@
 		</div>
 
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
+		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.home_seo_url_model.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_model.describe}}</span></label>
 				<select name="{{$data.home_seo_url_model.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_seo_url_model.error_tips}}" required>
-					{{foreach $seo_url_model_list as $v}}
+					{{foreach $common_seo_url_model_list as $v}}
 						<option value="{{$v.value}}" {{if isset($data['home_seo_url_model']['value']) and $data['home_seo_url_model']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
@@ -38,8 +38,11 @@
 				<label>{{$data.home_seo_site_description.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_description.describe}}</span></label>
 				<textarea rows="6" name="{{$data.home_seo_site_description.only_tag}}" class="am-radius" placeholder="{{$data.home_seo_site_description.name}}" data-validation-message="{{$data.home_seo_site_description.error_tips}}">{{if !empty($data)}}{{$data.home_seo_site_description.value}}{{/if}}</textarea>
 			</div>
-			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+			<div class="am-form-popup-submit">
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
 			</div>
 		</form>
         <!-- form end -->

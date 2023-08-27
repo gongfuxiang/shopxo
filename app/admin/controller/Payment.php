@@ -44,7 +44,7 @@ class Payment extends Base
             // 不能删除的支付方式
             'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
             // 适用平台
-            'common_platform_type'  => MyLang('common_platform_type'),
+            'common_platform_type'  => MyConst('common_platform_type'),
             // 应用商店
             'store_payment_url'     => StoreService::StorePaymentUrl(),
         ];
@@ -86,7 +86,7 @@ class Payment extends Base
             // 当前数据
             'data'                  => $data,
             // 适用平台
-            'common_platform_type'  => MyLang('common_platform_type'),
+            'common_platform_type'  => MyConst('common_platform_type'),
             // 编辑器文件存放地址
             'editor_path_type'      => ResourcesService::EditorPathTypeValue('payment'),
         ];

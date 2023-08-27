@@ -7,7 +7,7 @@
     {__block__}
 
     <!-- 订单商品 -->
-    <div class="am-panel am-panel-default">
+    <div class="am-panel am-panel-default am-radius">
         <div class="am-panel-hd">{{:MyLang('order.detail_goods_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['items'])}}
@@ -20,7 +20,7 @@
 
     <!-- 销售订单 - 收货地址 -->
     {{if $data['order_model'] eq 0 and !empty($data['address_data'])}}
-        <div class="am-panel am-panel-default">
+        <div class="am-panel am-panel-default am-radius">
             <div class="am-panel-hd">{{:MyLang('order.detail_user_address_title')}}</div>
             <div class="am-panel-bd">
                 <p>
@@ -62,7 +62,7 @@
 
     <!-- 自提订单 - 取货信息 -->
     {{if $data['order_model'] eq 2 and !empty($data['address_data'])}}
-        <div class="am-panel am-panel-default">
+        <div class="am-panel am-panel-default am-radius">
             <div class="am-panel-hd">{{:MyLang('order.detail_take_address_title')}}</div>
             <div class="am-panel-bd">
                 <!-- 取货地址 -->
@@ -94,7 +94,7 @@
 
     <!-- 虚拟订单 - 密钥信息 -->
     {{if $data['order_model'] eq 3}}
-        <div class="am-panel am-panel-default">
+        <div class="am-panel am-panel-default am-radius">
             <div class="am-panel-hd">{{:MyLang('order.detail_fictitious_title')}}</div>
             <div class="am-panel-bd">
                 {{if !empty($data['items'])}}

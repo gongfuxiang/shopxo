@@ -3,14 +3,10 @@
 <!-- header top nav -->
 {{include file="public/header_top_nav" /}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
-
-<!-- header nav -->
-{{include file="public/header_nav" /}}
-
-<!-- goods category -->
-{{include file="public/goods_category" /}}
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'search' => '1',
+])}}
 
 <!-- content -->
 <div class="am-container user-main">
@@ -21,12 +17,14 @@
 	<!-- content start -->
 	<div class="user-content">
 		<div class="user-content-body">
+            <!-- user center title -->
+            {{:ModuleInclude('public/module/user_center_main_title', [
+                'operate_url'   => MyUrl('index/safety/index'),
+                'operate_name'  => MyLang('retreat_title'),
+                'operate_icon'  => 'am-icon-mail-reply'
+            ])}}
 			<!-- form start -->
 			<form class="am-form form-validation" action="{{:MyUrl('index/safety/verifycheck')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/safety/newmobileinfo')}}">
-				<legend>
-					<span class="am-text-default">{{:MyLang('safety.mobile_title')}}</span>
-					<a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-				</legend>
 				<div class="am-form-group">
 					<label>{{:MyLang('common_service.safety.form_item_mobile')}}</label>
 					<input type="text" class="am-radius" value="{{$user.mobile_security}}" disabled />

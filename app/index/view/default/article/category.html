@@ -27,64 +27,66 @@
 {{/if}}
 
 <!-- content start -->
-<div class="am-container article-content am-padding-sm">
+<div class="am-container article-content am-padding">
     <!-- 右侧内容 -->
     <div class="am-u-md-10 am-u-md-push-2 article-right">
-        {{if !empty($category_info)}}
-            <div class="article-header am-text-center am-padding-0">
-                <h1 class="am-article-title">{{$category_info.name}}</h1>
-                <hr class="am-article-divider" />
-            </div>
-        {{/if}}
-
-        <!-- 文章分类内容底部钩子 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-            <div class="plugins-tag">
-                <span>plugins_view_article_category_content_top</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_article_category_content_top_data) and is_array($plugins_view_article_category_content_top_data)}}
-            {{foreach $plugins_view_article_category_content_top_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
-
-        <!-- 内容 -->
-        {{if !empty($data_list)}}
-            <div data-am-widget="list_news" class="am-list-news am-list-news-default am-margin-0">
-                <div class="am-list-news-bd">
-                    <ul class="am-list category-content-list">
-                        {{foreach $data_list as $v}}
-                            <li class="am-g am-list-item-dated">
-                                <a href="{{$v.url}}" class="am-list-item-hd" {{if !empty($v['title_color'])}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
-                                <span class="am-list-date">{{$v.add_time}}</span>
-                            </li>
-                        {{/foreach}}
-                    </ul>
+        <div class="am-background-white am-radius am-padding-lg">
+            {{if !empty($category_info)}}
+                <div class="article-header am-text-center am-padding-0">
+                    <h1 class="am-article-title">{{$category_info.name}}</h1>
+                    <hr data-am-widget="divider" class="am-divider am-divider-default" />
                 </div>
-            </div>
+            {{/if}}
 
-            <!-- 分页 -->
-            <div class="am-padding-top-sm">{{$page_html|raw}}</div>
-        {{else /}}
-            {{include file="public/not_data" /}}
-        {{/if}}
+            <!-- 文章分类内容底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_article_category_content_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_article_category_content_top_data) and is_array($plugins_view_article_category_content_top_data)}}
+                {{foreach $plugins_view_article_category_content_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
 
-        <!-- 文章分类内容底部钩子 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-            <div class="plugins-tag">
-                <span>plugins_view_article_category_content_botton</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_article_category_content_botton_data) and is_array($plugins_view_article_category_content_botton_data)}}
-            {{foreach $plugins_view_article_category_content_botton_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
+            <!-- 内容 -->
+            {{if !empty($data_list)}}
+                <div data-am-widget="list_news" class="am-list-news am-list-news-default am-margin-0">
+                    <div class="am-list-news-bd">
+                        <ul class="am-list category-content-list">
+                            {{foreach $data_list as $v}}
+                                <li class="am-g am-list-item-dated">
+                                    <a href="{{$v.url}}" class="am-list-item-hd" {{if !empty($v['title_color'])}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
+                                    <span class="am-list-date">{{$v.add_time}}</span>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-padding-top-sm">{{$page_html|raw}}</div>
+            {{else /}}
+                {{include file="public/not_data" /}}
+            {{/if}}
+
+            <!-- 文章分类内容底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_article_category_content_botton</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_article_category_content_botton_data) and is_array($plugins_view_article_category_content_botton_data)}}
+                {{foreach $plugins_view_article_category_content_botton_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        </div>
     </div>
 
     <!-- 左侧内容 -->
@@ -109,14 +111,14 @@
                 {{if !empty($category_list)}}
                     <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-padding-0" data-am-accordion='{}'>
                         <!-- 分类 -->
-                        <div class="am-panel am-panel-default am-panel-group am-margin-bottom-0">
-                            <div class="am-panel-hd am-padding-left-sm">
-                                <h3 class="am-panel-title">文章分类</h3>
+                        <div class="am-panel am-panel-default am-panel-group am-margin-bottom-0 am-radius">
+                            <div class="am-panel-hd">
+                                <h3 class="am-panel-title am-text-center am-padding-vertical-sm am-text-lg">{{:MyLang('article.article_category_name')}}</h3>
                             </div>
                             <ul class="am-nav category-list">
                                 {{foreach $category_list as $v}}
                                     <li>
-                                        <a href="{{$v.url}}" title="{{$v.name}}" {{if isset($params['id']) and $params['id'] eq $v['id']}}class="am-active"{{/if}}>{{$v.name}}</a>
+                                        <a href="{{$v.url}}" {{if isset($params['id']) and $params['id'] eq $v['id']}}class="am-active"{{/if}}>{{$v.name}}</a>
                                     </li>
                                 {{/foreach}}
                             </ul>
@@ -141,7 +143,7 @@
         </div>
     </div>
     <a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
-        <span class="am-sr-only">侧栏导航</span>
+        <span class="am-sr-only">{{:MyLang('article.article_nav_text')}}</span>
     </a>
 </div>
 <!-- content end -->

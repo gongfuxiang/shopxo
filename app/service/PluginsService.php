@@ -45,7 +45,7 @@ class PluginsService
         } else {
             // 从缓存获取数据、数据不存在则从数据库读取
             $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
-            if($data === null || !$is_cache || MyEnv('app_debug'))
+            if($data === null || !$is_cache || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
             {
                 // 获取数据
                 $ret = self::PluginsField($plugins, 'data');

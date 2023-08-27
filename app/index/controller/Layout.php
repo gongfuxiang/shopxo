@@ -45,7 +45,7 @@ class Layout extends Common
      */
     public function GoodsSearch()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $ret = BaseLayout::GoodsSearchList($params);
         if($ret['code'] == 0)
@@ -66,7 +66,7 @@ class Layout extends Common
      */
     public function GoodsData()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(BaseLayout::GoodsDataList($params));
     }

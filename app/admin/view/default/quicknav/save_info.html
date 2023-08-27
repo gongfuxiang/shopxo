@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/quicknav/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/quicknav/index', $params)}}" enctype="multipart/form-data">
+		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/quicknav/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/quicknav/index', $params)}}" enctype="multipart/form-data">
 			<legend>
 				<span class="am-text-default">{{:MyLang('quicknav.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/quicknav/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
@@ -87,7 +87,14 @@
 
 			<div class="am-form-popup-submit">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+				<a href="{{:MyUrl('admin/quicknav/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
+                    <i class="am-icon-mail-reply"></i>
+                    <span>{{:MyLang('retreat_title')}}</span>
+                </a>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
 			</div>
 		</form>
         <!-- form end -->

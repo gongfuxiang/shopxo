@@ -41,7 +41,7 @@ class Power extends Base
 		];
 		$assign = [
 			'data'					=> AdminPowerService::PowerList($data_params),
-			'common_is_show_list'	=> MyLang('common_is_show_list'),
+			'common_is_show_list'	=> MyConst('common_is_show_list'),
 		];
 		MyViewAssign($assign);
 		return MyView();

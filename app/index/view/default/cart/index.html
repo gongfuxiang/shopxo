@@ -17,348 +17,363 @@
 {{include file="public/goods_category" /}}
 
 <!-- content -->
-<div class="am-container cart-content" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
+<div class="cart-content" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
     {{if !empty($cart_list)}}
         <!-- 商品列表 -->
-        <table class="am-table">
-            <thead>
-                <tr>
-                    <th>{{:MyLang('cart.goods_list_thead_base')}}</th>
-                    <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_price')}}</th>
-                    <th>{{:MyLang('cart.goods_list_thead_number')}}</th>
-                    <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_total')}}</th>
-                    <th>{{:MyLang('operate_title')}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{foreach $cart_list as $goods}}
-                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_error'] eq 1}}am-danger{{/if}}">
-                        <td class="base">
-                            <!-- 商品基础前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_base_begin</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_base_begin';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品基础前面钩子 结束 -->
-
-                            <label class="am-checkbox-inline am-success am-fl">
-                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_error'] eq 1}}disabled{{/if}} data-am-ucheck />
-                            </label>
-                            <div class="goods-detail">
-                                <a href="{{$goods.goods_url}}" target="_blank">
-                                    <img src="{{$goods.images}}">
-                                </a>
-                                <div class="goods-base">
-                                    <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                    {{if !empty($goods.spec)}}
-                                        <ul class="goods-attr">
-                                            {{foreach $goods.spec as $spec}}
-                                                <li>{{$spec.type}}：{{$spec.value}}</li>
-                                            {{/foreach}}
-                                        </ul>
-                                    {{/if}}
-                                </div>
-                            </div>
-                            <div class="wap-base am-show-sm-only">
-                                {{if $goods['original_price'] gt 0}}
-                                    <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
-                                {{/if}}
-                                <strong class="total-price-content">{{$currency_symbol}}{{$goods.price}}</strong>
-                            </div>
-
-                            <!-- 商品基础后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_base_end</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_base_end';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品基础后面钩子 结束 -->
-                        </td>
-                        <td class="price am-hide-sm-only">
-                            <!-- 商品单价前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_price_begin</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_price_begin';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品单价前面钩子 结束 -->
-
-                            <!-- 单价信息 -->
-                            <div class="cart-price">
-                                {{if $goods['original_price'] gt 0}}
-                                    <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
-                                {{/if}}
-                                <p class="line-price">{{$currency_symbol}}{{$goods.price}}</p>
-                            </div>
-
-                            <!-- 商品单价后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_price_end</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_price_end';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品单价后面钩子 结束 -->
-                        </td>
-                        <td class="number">
-                            <!-- 商品数量前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_number_begin</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_number_begin';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品数量前面钩子 结束 -->
-
-                            <!-- 数量操作 -->
-                            {{if $goods['is_error'] eq 0}}
-                                <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}">
-                                    <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
-                                    <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-min-limit="{{$goods.spec_buy_min_number}}" data-max-limit="{{$goods.spec_buy_max_number}}" data-unit="{{$goods.inventory_unit}}" />
-                                    <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
-                                </div>
-                            {{else /}}
-                                <p class="invalid-stock">{{$goods.stock}}</p>
-                                {{if !empty($goods['error_msg'])}}
-                                    <p class="am-text-danger am-margin-top-xs tips-error-text">{{$goods.error_msg}}</p>
-                                {{/if}}
-                            {{/if}}
-
-                            <!-- 商品数量后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_number_end</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_number_end';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品数量后面钩子 结束 -->
-                        </td>
-                        <td class="total-price am-hide-sm-only">
-                            <!-- 商品总价面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_total_price_begin</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_total_price_begin';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品总价面钩子 结束 -->
-
-                            <strong class="total-price-content">{{$currency_symbol}}{{$goods.total_price}}</strong>
-
-                            <!-- 商品总价后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_total_price_end</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_total_price_end';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品总价后面钩子 结束 -->
-                        </td>
-                        <td class="operation">
-                            <a href="javascript:;" class="am-text-danger submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">{{:MyLang('delete_title')}}</a>
-
-                            <!-- 商品操作栏 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_cart_operate</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_cart_operate';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
-                                    {
-                                        if(is_string($hook) || is_int($hook))
-                                        {
-                                            echo htmlspecialchars_decode($hook);
-                                        }
-                                    }
-                                }
-                            {{/php}}
-                            <!-- 商品操作栏 结束 -->
-                        </td>
+        <div class="am-container cart-table am-background-white am-radius am-margin-bottom-main">
+            <table class="am-table">
+                <thead>
+                    <tr class="am-text-sm">
+                        <th>{{:MyLang('cart.goods_list_thead_base')}}</th>
+                        <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_price')}}</th>
+                        <th>{{:MyLang('cart.goods_list_thead_number')}}</th>
+                        <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_total')}}</th>
+                        <th>{{:MyLang('operate_title')}}</th>
                     </tr>
-                {{/foreach}}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {{foreach $cart_list as $goods}}
+                        <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_error'] eq 1}}am-danger{{/if}}">
+                            <td class="base">
+                                <!-- 商品基础前面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_base_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_base_begin';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品基础前面钩子 结束 -->
 
+                                <label class="am-checkbox-inline am-fl">
+                                    <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_error'] eq 1}}disabled{{/if}} data-am-ucheck />
+                                </label>
+                                <div class="goods-detail">
+                                    <a href="{{$goods.goods_url}}" target="_blank">
+                                        <img class="am-radius am-border-grey-light" src="{{$goods.images}}">
+                                    </a>
+                                    <div class="goods-base">
+                                        <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                        {{if !empty($goods.spec)}}
+                                            <ul class="goods-attr">
+                                                {{foreach $goods.spec as $spec}}
+                                                    <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="wap-base am-show-sm-only">
+                                    {{if $goods['original_price'] gt 0}}
+                                        <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
+                                    {{/if}}
+                                    <font class="total-price-content am-color-grey-dark">{{$currency_symbol}}{{$goods.price}}</font>
+                                </div>
+
+                                <!-- 商品基础后面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_base_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_base_end';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品基础后面钩子 结束 -->
+                            </td>
+                            <td class="price am-hide-sm-only">
+                                <!-- 商品单价前面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_price_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_price_begin';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品单价前面钩子 结束 -->
+
+                                <!-- 单价信息 -->
+                                <div class="cart-price">
+                                    {{if $goods['original_price'] gt 0}}
+                                        <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
+                                    {{/if}}
+                                    <p class="line-price">{{$currency_symbol}}{{$goods.price}}</p>
+                                </div>
+
+                                <!-- 商品单价后面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_price_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_price_end';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品单价后面钩子 结束 -->
+                            </td>
+                            <td class="number">
+                                <!-- 商品数量前面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_number_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_number_begin';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品数量前面钩子 结束 -->
+
+                                <!-- 数量操作 -->
+                                {{if $goods['is_error'] eq 0}}
+                                    <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}">
+                                        <span class="am-input-group-label am-radius {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
+                                        <input type="number" class="am-form-field am-radius" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-min-limit="{{$goods.spec_buy_min_number}}" data-max-limit="{{$goods.spec_buy_max_number}}" data-unit="{{$goods.inventory_unit}}" />
+                                        <span class="am-input-group-label am-radius {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
+                                    </div>
+                                {{else /}}
+                                    <p class="invalid-stock">{{$goods.stock}}</p>
+                                    {{if !empty($goods['error_msg'])}}
+                                        <p class="am-text-danger am-margin-top-xs tips-error-text">{{$goods.error_msg}}</p>
+                                    {{/if}}
+                                {{/if}}
+
+                                <!-- 商品数量后面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_number_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_number_end';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品数量后面钩子 结束 -->
+                            </td>
+                            <td class="total-price am-hide-sm-only">
+                                <!-- 商品总价面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_total_price_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_total_price_begin';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品总价面钩子 结束 -->
+
+                                <strong class="total-price-content">{{$currency_symbol}}{{$goods.total_price}}</strong>
+
+                                <!-- 商品总价后面钩子 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_total_price_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_total_price_end';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品总价后面钩子 结束 -->
+                            </td>
+                            <td class="operation">
+                                <div class="operation-btn">
+                                    <a href="javascript:;" class="am-color-grey-dark submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">{{:MyLang('delete_title')}}</a>
+                                    <a href="javascript:;" class="am-color-grey-dark submit-ajax" data-url="{{:MyUrl('index/goods/favor')}}" data-id="{{$goods.goods_id}}" data-view="fun" data-is-confirm="0" data-value="ViewCollectBack">     
+                                        {{if $goods['is_favor'] eq 1 }}
+                                            {{:MyLang('already_favor_title')}}
+                                        {{else /}}
+                                            {{:MyLang('favor_title')}}
+                                        {{/if}}
+                                    </a>
+                                </div>
+                                
+                                <!-- 商品操作栏 开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_cart_operate</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_cart_operate';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 商品操作栏 结束 -->
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                </tbody>
+            </table>
+        </div>
         <!-- 导航 -->
         <div class="cart-nav">
-            <div class="am-fl nav-left am-margin-left-xs">
-                <label class="am-checkbox-inline am-success select-all-event">
-                    <input type="checkbox" value="1" data-am-ucheck />
-                    <span class="el-text">{{:MyLang('select_all_title')}}</span>
-                </label>
-                <a href="javascript:;" class="am-margin-left-sm nav-delete-submit submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}">{{:MyLang('delete_title')}}</a>
+            <div class="am-container am-background-white am-radius am-nbfc am-padding">
+                <div class="nav-left am-fl am-margin-top-xs am-padding-left">
+                    <label class="am-checkbox-inline select-all-event">
+                        <input type="checkbox" value="1" data-am-ucheck />
+                        <span class="el-text am-color-grey-dark">{{:MyLang('select_all_title')}}</span>
+                    </label>
+                    <a href="javascript:;" class="am-margin-left-main nav-delete-submit am-color-grey-dark submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}">{{:MyLang('delete_title')}}</a>
+                    <a href="javascript:;" class="am-margin-left-main nav-collect-submit am-color-grey-dark submit-ajax" data-url="{{:MyUrl('index/goods/favor', ['is_mandatory_favor'=>1])}}" data-id="0" data-view="reload" data-is-confirm="0">{{:MyLang('favor_title')}}</a>
 
-                <!-- 导航左侧内部 开始 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_cart_nav_left_inside</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_name = 'plugins_view_cart_nav_left_inside';
-                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$cart_list]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
+                    <!-- 导航左侧内部 开始 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_cart_nav_left_inside</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_cart_nav_left_inside';
+                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$cart_list]);
+                        if(!empty($hook_data) && is_array($hook_data))
                         {
-                            if(is_string($hook) || is_int($hook))
+                            foreach($hook_data as $hook)
                             {
-                                echo htmlspecialchars_decode($hook);
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
                             }
                         }
-                    }
-                {{/php}}
-                <!-- 导航左侧内部 结束 -->
-            </div>
-            <div class="am-fr nav-right">
-                <!-- 导航右侧内部 开始 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_cart_nav_right_inside</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_name = 'plugins_view_cart_nav_right_inside';
-                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$cart_list]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
+                    {{/php}}
+                    <!-- 导航左侧内部 结束 -->
+                </div>
+                <div class="nav-right am-fr am-padding-right">
+                    <!-- 导航右侧内部 开始 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_cart_nav_right_inside</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_cart_nav_right_inside';
+                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$cart_list]);
+                        if(!empty($hook_data) && is_array($hook_data))
                         {
-                            if(is_string($hook) || is_int($hook))
+                            foreach($hook_data as $hook)
                             {
-                                echo htmlspecialchars_decode($hook);
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
                             }
                         }
-                    }
-                {{/php}}
-                <!-- 导航右侧内部 结束 -->
+                    {{/php}}
+                    <!-- 导航右侧内部 结束 -->
 
-                <form action="{{:MyUrl('index/buy/index')}}" method="post" class="am-fr">
-                    <span class="selected-tips am-fl"><span>{{:MyLang('cart.summary_selected_goods_name')}}</span> <strong>0</strong> <span>{{:MyLang('cart.summary_selected_goods_unit')}}</span></span>
-                    <span class="total-price-tips am-fl">{{:MyLang('cart.summary_nav_goods_total')}}</span>
-                    <strong class="nav-total-price am-fl">{{$currency_symbol}}0.00</strong>
-                    <input type="hidden" name="ids" value="0" />
-                    <input type="hidden" name="buy_type" value="cart" />
-                    <button type="submit" class="am-btn am-btn-primary separate-submit">{{:MyLang('cart.summary_nav_button_name')}}</button>
-                </form>
+                    <form action="{{:MyUrl('index/buy/index')}}" method="post">
+                        <span class="selected-tips am-color-grey-dark"><span>{{:MyLang('cart.summary_selected_goods_name')}}</span> <strong class="am-color-main">0</strong> <span>{{:MyLang('cart.summary_selected_goods_unit')}}</span></span>
+                        <span class="total-price-tips am-color-grey-dark">{{:MyLang('cart.summary_nav_goods_total')}}</span>
+                        <strong class="nav-total-price am-text-default am-color-main">{{$currency_symbol}}0.00</strong>
+                        <input type="hidden" name="ids" value="0" />
+                        <input type="hidden" name="buy_type" value="cart" />
+                        <button type="submit" class="am-btn separate-submit am-border-main am-radius am-background-white am-color-main am-text-sm am-padding-horizontal-main am-text-truncate">{{:MyLang('cart.summary_nav_button_name')}}</button>
+                    </form>
+                </div>
             </div>
         </div>
     {{else /}}
+        <!-- 空购物车 -->
         <div class="mixed-tips">
-            <i class="am-icon-cart-plus am-fl icon"></i>
+            <!-- <i class="am-icon-cart-plus am-fl icon"></i> -->
+            <img class="am-fl" src="{{$attachment_host}}/static/plugins/images/intellectstools/cart.png" />
             <div class="mixed-tips-content am-fl">
                 <h1>{{:MyLang('cart.no_cart_data_tips')}}</h1>
                 <ul>
@@ -382,14 +397,29 @@
 
 <script type="text/javascript">
     // 返回处理
-    function ViewDeleteBack(e)
-    {
-        if(e.code == 0)
-        {
+    function ViewDeleteBack (e) {
+        if (e.code == 0) {
             $.AMUI.progress.done();
             Prompt(e.msg, 'success');
-            $('#data-list-'+e.data_id).remove();
+            $('#data-list-' + e.data_id).remove();
             HomeCartNumberTotalUpdate(parseInt(e.data));
+            if (e.data.buy_number <= 0) {
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1500);
+            }
+        } else {
+            $('form.form-validation').find('button[type="submit"]').button('reset');
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    }
+    // 收藏返回处理
+    function ViewCollectBack (e,obj) {
+        if (e.code == 0) {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            obj.text(e.data.text);
         } else {
             $('form.form-validation').find('button[type="submit"]').button('reset');
             $.AMUI.progress.done();

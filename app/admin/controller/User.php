@@ -69,7 +69,7 @@ class User extends Base
 		// 模板数据
 		$assign = [
 			// 静态数据
-			'common_gender_list' => MyLang('common_gender_list'),
+			'common_gender_list' => MyConst('common_gender_list'),
 		];
 
 		// 用户编辑页面钩子

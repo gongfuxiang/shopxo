@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\SeoService;
 use app\service\MessageService;
 
@@ -20,7 +21,7 @@ use app\service\MessageService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Message extends Common
+class Message extends Center
 {
     /**
      * 构造方法
@@ -33,9 +34,6 @@ class Message extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
     /**

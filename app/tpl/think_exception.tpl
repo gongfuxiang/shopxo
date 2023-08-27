@@ -185,10 +185,19 @@ if (!function_exists('echo_value')) {
         .exception .source-code{
             padding: 6px;
             border: 1px solid #ddd;
-
             background: #f9f9f9;
             overflow-x: auto;
-
+        }
+        .exception .error-submit {
+            text-decoration: none;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            color: #ccc;
+            font-size: 12px;
+        }
+        .exception .error-submit:hover {
+            color: #999;
         }
         .exception .source-code pre{
             margin: 0;
@@ -370,6 +379,7 @@ if (!function_exists('echo_value')) {
     <?php } else { ?>
     <div class="exception">
         <div class="info error-message"><h1><?php echo htmlentities($message); ?></h1></div>
+        <a href="https://error.shopxo.net/" target="_blank" class="error-submit"><?php echo implode('', ['查','看','错','误','解','决','方','案']); ?></a>
     </div>
     <?php } ?>
     

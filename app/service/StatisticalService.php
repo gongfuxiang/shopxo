@@ -568,7 +568,7 @@ class StatisticalService
     public static function OrderTradingTotal($params = [])
     {
         // 订单状态列表
-        $order_status_list = MyLang('common_order_status');
+        $order_status_list = MyConst('common_order_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据
@@ -625,7 +625,7 @@ class StatisticalService
     public static function OrderProfitTotal($params = [])
     {
         // 订单状态列表
-        $order_status_list = MyLang('common_order_status');
+        $order_status_list = MyConst('common_order_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据

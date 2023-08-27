@@ -17,6 +17,7 @@ use app\service\ResourcesService;
 use app\service\SqlConsoleService;
 use app\service\AdminPowerService;
 use app\service\AdminService;
+use app\service\StoreService;
 
 /**
  * 应用管理服务层
@@ -65,10 +66,16 @@ class PluginsAdminService
                     $admin = AdminService::LoginInfo();
                     if(!empty($admin))
                     {
-                        $res = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin['id']);
-                        if(!empty($res))
+                        if($admin['id'] != 1)
                         {
-                            $power_plugins = $res;
+                            // 超级管理员id等于1则不处理权限
+                            $is_power = false;
+                        } else {
+                            $res = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin['id']);
+                            if(!empty($res))
+                            {
+                                $power_plugins = $res;
+                            }
                         }
                     }
                 }
@@ -103,6 +110,7 @@ class PluginsAdminService
                                 'id'                   => empty($db_config['id']) ? 0 : $db_config['id'],
                                 'plugins'              => $base['plugins'],
                                 'plugins_category_id'  => isset($db_config['plugins_category_id']) ? $db_config['plugins_category_id'] : 0,
+                                'plugins_menu_control'  => isset($db_config['plugins_menu_control']) ? $db_config['plugins_menu_control'] : '',
                                 'is_enable'            => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
                                 'is_install'           => empty($db_config) ? 0 : 1,
                                 'logo_old'             => $base['logo'],
@@ -721,7 +729,7 @@ $admin_view=<<<php
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
@@ -1297,6 +1305,100 @@ php;
             return DataReturn($ret, -1);
         }
 
+        // 生成下载包
+        $ret = self::PluginsDownloadHandle($params['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($ret['data']['file'], $ret['data']['config']['base']['name'].'_v'.$ret['data']['config']['base']['version'].'.zip'))
+        {
+            // 删除文件
+            @unlink($ret['data']['file']);
+
+            // 插件事件回调
+            PluginsService::PluginsEventCall($ret['data']['plugins'], 'Download', $params);
+        } else {
+            return DataReturn(MyLang('download_fail'), -100);
+        }
+    }
+
+    /**
+     * 上传到应用商店
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-08-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PluginsStoreUpload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'plugins',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_plugins_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'version_new',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_version_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'describe',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_desc_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'apply_version',
+                'error_msg'         => MyLang('common_service.pluginsadmin.form_item_apply_version_message'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 生成下载包
+        $package = self::PluginsDownloadHandle($params['plugins']);
+        if($package['code'] != 0)
+        {
+            return $package;
+        }
+
+        // 帐号信息
+        $user = StoreService::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
+        {
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
+        }
+
+        // 上传到远程
+        $params['file'] = new \CURLFile($package['data']['file']);
+        $ret = StoreService::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_plugins_upload_url'), $params, 2);
+        // 是个与否都删除本地生成的zip包
+        @unlink($package['data']['file']);
+        // 返回数据
+        return $ret;
+    }
+
+    /**
+     * 应用下载打包处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-08-17
+     * @desc    description
+     * @param   [string]           $plugins [应用标识]
+     */
+    public static function PluginsDownloadHandle($plugins)
+    {
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
@@ -1305,7 +1407,7 @@ php;
 
         // 获取应用标记
         // 防止路径回溯
-        $plugins = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
+        $plugins = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($plugins)));
         if(empty($plugins))
         {
             return DataReturn(MyLang('common_service.pluginsadmin.plugins_identification_error_tips'), -1);
@@ -1326,7 +1428,7 @@ php;
         }
 
         // 目录不存在则创建
-        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins.'_v'.$config['base']['version'];
         \base\FileUtil::CreateDir($new_dir);
 
         // 复制包目录 - 控制器
@@ -1440,17 +1542,12 @@ php;
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($new_dir);
 
-        // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['base']['name'].'_v'.$config['base']['version'].'.zip'))
-        {
-            // 删除文件
-            @unlink($new_dir.'.zip');
-
-            // 插件事件回调
-            PluginsService::PluginsEventCall($plugins, 'Download', $params);
-        } else {
-            return DataReturn(MyLang('download_fail'), -100);
-        }
+        // 返回数据
+        return DataReturn('success', 0, [
+            'file'     => $new_dir.'.zip',
+            'config'   => $config,
+            'plugins'  => $plugins,
+        ]);
     }
 
     /**
@@ -1562,9 +1659,10 @@ php;
                     if(!empty($v['id']))
                     {
                         $upd_data = [
-                            'sort'                 => empty($v['sort']) ? 0 : intval($v['sort']),
-                            'plugins_category_id'  => empty($v['cid']) ? 0 : intval($v['cid']),
-                            'add_time'             => time(),
+                            'sort'                  => empty($v['sort']) ? 0 : intval($v['sort']),
+                            'plugins_category_id'   => empty($v['category_id']) ? 0 : intval($v['category_id']),
+                            'plugins_menu_control'  => empty($v['menu_control']) ? '' : strtolower($v['menu_control']),
+                            'upd_time'              => time(),
                         ];
                         if(Db::name('Plugins')->where(['id'=>intval($v['id'])])->update($upd_data) === false)
                         {

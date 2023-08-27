@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\SeoService;
 use app\service\UserService;
@@ -22,7 +23,7 @@ use app\service\NavigationService;
  * @version  0.0.1
  * @datetime 2017-03-02T22:48:35+0800
  */
-class Personal extends Common
+class Personal extends Center
 {
 	/**
      * 构造方法
@@ -35,9 +36,6 @@ class Personal extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
 	/**
@@ -74,7 +72,7 @@ class Personal extends Common
 			// 用户数据
 			'data' 					=> UserService::UserHandle(UserService::UserInfo('id', $this->user['id'])),
 			// 性别
-			'common_gender_list' 	=> MyLang('common_gender_list'),
+			'common_gender_list' 	=> MyConst('common_gender_list'),
 	        // 浏览器名称
 	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.edit_browser_seo_title'), 1),
 		];
@@ -91,7 +89,7 @@ class Personal extends Common
 	 */
 	public function Save()
 	{
-		$params = $this->data_post;
+		$params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserService::PersonalSave($params));
 	}
@@ -106,7 +104,7 @@ class Personal extends Common
      */
     public function UserAvatarUpload()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['img_field'] = 'file';
         return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));

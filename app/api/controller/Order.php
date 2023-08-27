@@ -57,26 +57,22 @@ class Order extends Common
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
 
-        // 分页
-        $number = 10;
-        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-
         // 条件
         $where = OrderService::OrderListWhere($params);
 
         // 获取总数
         $total = OrderService::OrderTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'                 => $start,
-            'n'                 => $number,
+            'n'                 => $this->page_size,
             'where'             => $where,
             'is_orderaftersale' => 1,
             'is_operate'        => 1,
-        );
+        ];
         $data = OrderService::OrderList($data_params);
 
         // 支付方式
@@ -111,13 +107,13 @@ class Order extends Common
             $where = OrderService::OrderListWhere($params);
 
             // 获取列表
-            $data_params = array(
+            $data_params = [
                 'm'                 => 0,
                 'n'                 => 1,
                 'where'             => $where,
                 'is_orderaftersale' => 1,
                 'is_operate'        => 1,
-            );
+            ];
             $data = OrderService::OrderList($data_params);
             if(!empty($data['data'][0]))
             {

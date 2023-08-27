@@ -22,14 +22,14 @@
 <!-- 轮播-聚合内容 -->
 {{if MyC('home_index_banner_right_status', 1) eq 1}}
     <div class="am-container slideall">
-        <div class="banner-mixed">
+        <div class="banner-mixed am-radius-lg">
             <div class="mod-vip">
-                <div class="m-baseinfo">
-                    <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}}>
+                <div class="m-baseinfo am-flex {{if empty($user)}}am-flex-col{{/if}} am-flex-items-center">
+                    <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-inline-block">
                         <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
                     </a>
-                    <em>
-                        <span class="s-name am-text-truncate">
+                    <div class="am-flex am-flex-col am-flex-1 am-padding-left-sm am-margin-top-sm">
+                        <span class="s-name am-text-truncate am-text-xs">
                             {{if !empty($user)}}
                                 <em>{{:MyLang('index.banner_right_already_login_first')}}</em>
                                 {{if !empty($user['icon'])}}
@@ -41,18 +41,20 @@
                                 <em>{{:MyC('home_site_name')}}</em>
                             {{/if}}
                         </span>
-                    </em>
-                    {{if !empty($user)}}
-                        <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">{{:MyLang('common.logout_title')}}</a>
-                    {{/if}}
+                        {{if !empty($user)}}
+                            <a href="{{:MyUrl('index/user/logout')}}" class="member-logout am-margin-top-xs">{{:MyLang('common.logout_title')}}
+                                <i class="am-icon-angle-double-right"></i>
+                            </a>
+                        {{/if}}
+                    </div>
                 </div>
                 {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
                     <div class="member-login">
                         {{if !empty($home_user_login_type)}}
-                            <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">{{:MyLang('common.login_title')}}</a>
+                            <a class="am-btn-primary btn am-fl am-radius" href="{{:MyUrl('index/user/loginInfo')}}">{{:MyLang('common.login_title')}}</a>
                         {{/if}}
                         {{if !empty($home_user_reg_type)}}
-                            <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">{{:MyLang('common.register_title')}}</a>
+                            <a class="am-btn-warning btn am-fr am-radius" href="{{:MyUrl('index/user/regInfo')}}">{{:MyLang('common.register_title')}}</a>
                         {{/if}}
                     </div>
                 {{/if}}
@@ -61,9 +63,9 @@
                         {{if !empty($user_order_status)}}
                             {{foreach $user_order_status as $v}}
                                 {{if in_array($v['status'], [1,2,3])}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" class="am-text-truncate" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" class="am-text-truncate am-color-grey-dark" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{elseif in_array($v['status'], [100]) /}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" class="am-text-truncate" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" class="am-text-truncate am-color-grey-dark" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{/if}}
                             {{/foreach}}
                         {{/if}}
@@ -76,10 +78,7 @@
                     <ul>
                         {{foreach $article_list as $article}}
                             <li class="am-text-truncate">
-                                {{if isset($article['article_category_name']) and isset($article['category_url'])}}
-                                    <span>[</span><a href="{{$article.category_url}}" target="_blank"><p class="news-category-name am-inline-block am-text-truncate">{{$article.article_category_name}}</p></a><span>]</span>
-                                {{/if}}
-                                <a href="{{$article.url}}" target="_blank" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}>{{$article.title}}</a>
+                                <a href="{{$article.url}}" target="_blank" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}><strong class="am-padding-right-xs">·</strong>{{$article.title}}</a>
                             </li>
                         {{/foreach}}
                     </ul>
@@ -163,8 +162,8 @@
                 <!-- 楼层数据 -->
                 <div id="floor{{$key+1}}">
                     <div class="am-container">
-                        <div class="items-nav-title" {{if !empty($floor['bg_color'])}}style="border-bottom: 2px solid {{$floor.bg_color}};"{{/if}}>
-                            <p class="floor-title">{{$floor.name}}</p>
+                        <div class="items-nav-title">
+                            <p class="floor-title am-title-left-border">{{$floor.name}}</p>
                             <p class="floor-desc">{{$floor.vice_name}}</p>
                             <div class="today-brands ">
                                 {{if !empty($floor['config_keywords']) and is_array($floor['config_keywords'])}}
@@ -179,7 +178,7 @@
                         </div>
                     </div>
                     
-                    <div class="am-g am-g-fixed floor">
+                    <div class="am-g am-container floor floor-flex">
                         <!-- 首页楼层内部顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
@@ -200,124 +199,51 @@
                                 }
                             }
                         {{/php}}
-
-                        <div class="am-u-sm-3 aggregation" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
-                            <div class="word">
+                        <div class="am-u-sm-3 aggregation-container">
+                            <div class="aggregation am-radius" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
+                                {{if !empty($floor['big_images'])}}
+                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank" class="category-bg-images" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{/if}}>
+                                        <img src="{{$floor.big_images}}" />
+                                    </a>
+                                {{/if}}
                                 {{if !empty($floor['items']) and is_array($floor['items'])}}
-                                    {{foreach $floor.items as $category_key=>$category}}
-                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
-                                    {{/foreach}}
-                                {{/if}}           
-                            </div>
-                            <div class="outer-con">
-                                <div class="describe">{{$floor.describe}}</div>
-                            </div>
-                            {{if !empty($floor['big_images'])}}
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">
-                                    <img src="{{$floor.big_images}}" />
-                                </a>
-                            {{/if}}
-                            <div class="triangle-topright"></div>
+                                    <div class="word am-radius">
+                                        {{foreach $floor.items as $category_key=>$category}}
+                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer am-radius" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
+                                        {{/foreach}}
+                                    </div>
+                                {{/if}}
 
-                            <!-- 首页楼层内部底部钩子 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_home_aggregation_inside_bottom</span>
-                                </div>
-                            {{/if}}
-                            {{php}}
-                                $hook_name = 'plugins_view_home_aggregation_inside_bottom';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
-                                if(!empty($hook_data) && is_array($hook_data))
-                                {
-                                    foreach($hook_data as $hook)
+                                <!-- 首页楼层内部底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_home_aggregation_inside_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_home_aggregation_inside_bottom';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                                    if(!empty($hook_data) && is_array($hook_data))
                                     {
-                                        if(is_string($hook) || is_int($hook))
+                                        foreach($hook_data as $hook)
                                         {
-                                            echo htmlspecialchars_decode($hook);
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
                                         }
                                     }
-                                }
-                            {{/php}}
+                                {{/php}}
+                            </div>
                         </div>
-
                         <div class="goods-list">
                             {{if !empty($floor['goods']) and is_array($floor['goods'])}}
-                                {{foreach $floor.goods as $goods_key=>$goods}}
-                                    <div class="goods-items">
-                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block am-text-center">
-                                            <!-- 首页楼层商品内部顶部钩子 -->
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                <div class="plugins-tag">
-                                                    <span>plugins_view_home_goods_inside_top</span>
-                                                </div>
-                                            {{/if}}
-                                            {{php}}
-                                                $hook_name = 'plugins_view_home_goods_inside_top';
-                                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
-                                                if(!empty($hook_data) && is_array($hook_data))
-                                                {
-                                                    foreach($hook_data as $hook)
-                                                    {
-                                                        if(is_string($hook) || is_int($hook))
-                                                        {
-                                                            echo htmlspecialchars_decode($hook);
-                                                        }
-                                                    }
-                                                }
-                                            {{/php}}
-                                            <img src="{{$goods.images}}" alt="{{$goods.title}}" class="goods-images" />
-                                        </a>
-                                        <div class="outer-con">
-                                            <div class="goods-title am-text-truncate-2 am-margin-bottom-xs">
-                                                <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
-                                            </div>
-
-                                            <!-- 首页楼层商品售价顶部钩子 -->
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                <div class="plugins-tag">
-                                                    <span>plugins_view_home_goods_inside_price_top</span>
-                                                </div>
-                                            {{/if}}
-                                            {{php}}
-                                                $hook_name = 'plugins_view_home_goods_inside_price_top';
-                                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
-                                                if(!empty($hook_data) && is_array($hook_data))
-                                                {
-                                                    foreach($hook_data as $hook)
-                                                    {
-                                                        if(is_string($hook) || is_int($hook))
-                                                        {
-                                                            echo htmlspecialchars_decode($hook);
-                                                        }
-                                                    }
-                                                }
-                                            {{/php}}
-                                            <p class="price am-text-truncate">{{$currency_symbol}}{{$goods.price}}</p>
-                                        </div>
-
-                                        <!-- 首页楼层商品内部底部钩子 -->
-                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <div class="plugins-tag">
-                                                <span>plugins_view_home_goods_inside_bottom</span>
-                                            </div>
-                                        {{/if}}
-                                        {{php}}
-                                            $hook_name = 'plugins_view_home_goods_inside_bottom';
-                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
-                                            if(!empty($hook_data) && is_array($hook_data))
-                                            {
-                                                foreach($hook_data as $hook)
-                                                {
-                                                    if(is_string($hook) || is_int($hook))
-                                                    {
-                                                        echo htmlspecialchars_decode($hook);
-                                                    }
-                                                }
-                                            }
-                                        {{/php}}
-                                    </div>
-                                {{/foreach}}
+                                {{:ModuleInclude('module/goods/grid/base', [
+                                    'goods_list'  => $floor.goods,
+                                    'type'        => 'index',
+                                    'lg'          => '4',
+                                    'md'          => '4',
+                                ])}}
                             {{/if}}
                         </div>
 

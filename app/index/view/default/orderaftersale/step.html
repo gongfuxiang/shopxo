@@ -1,15 +1,13 @@
 <!-- 退款 -->
-<ul class="aftersale-step am-cf am-text-center am-radius return-only-money-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 1}}none{{/if}}">
+<ul class="aftersale-step am-cf am-text-center return-only-money-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 1}}none{{/if}}">
     {{if !empty($step_data['step0'])}}
         {{foreach $step_data.step0 as $step}}
-            <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
-                <span class="number am-badge am-round">{{$step.number}}</span>
+            <li class="am-text-truncate am-text-default {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
+                <span class="number am-badge am-round am-text-default">{{$step.number}}</span>
                 <span class="text">{{$step.name}}</span>
-                {{if $step.is_caret eq 1}}
-                    <i class="am-icon-caret-right"></i>
-                {{/if}}
+                <i class="am-caret-right"></i>
                 {{if $step.is_angle eq 1}}
-                    <i class="am-icon-angle-right"></i>
+                    <i class="am-angle-right"></i>
                 {{/if}}
             </li>
         {{/foreach}}
@@ -17,17 +15,15 @@
 </ul>
 
 <!-- 退货/退款 -->
-<ul class="aftersale-step am-cf am-text-center am-radius return-money-goods-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 0}}none{{/if}}">
+<ul class="aftersale-step am-cf am-text-center return-money-goods-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 0}}none{{/if}}">
     {{if !empty($step_data['step1'])}}
         {{foreach $step_data.step1 as $step}}
-            <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
-                <span class="number am-badge am-round">{{$step.number}}</span>
+            <li class="am-text-truncate am-text-default {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
+                <span class="number am-badge am-round am-text-default">{{$step.number}}</span>
                 <span class="text">{{$step.name}}</span>
-                {{if $step.is_caret eq 1}}
-                    <i class="am-icon-caret-right"></i>
-                {{/if}}
+                <i class="am-caret-right"></i>
                 {{if $step.is_angle eq 1}}
-                    <i class="am-icon-angle-right"></i>
+                    <i class="am-angle-right"></i>
                 {{/if}}
             </li>
         {{/foreach}}

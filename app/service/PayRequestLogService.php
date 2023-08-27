@@ -45,7 +45,7 @@ class PayRequestLogService
         $params = array_merge($_GET, $_POST);
         if(empty($params))
         {
-            $params = file_get_contents("php://input");
+            $params = filter_var(file_get_contents("php://input"), FILTER_SANITIZE_STRING);
         }
 
         // 日志主数据

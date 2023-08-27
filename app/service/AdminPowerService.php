@@ -214,12 +214,15 @@ class AdminPowerService
         $admin_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
-        if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug') || MyInput('lang'))
+        if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取一级数据、有数据，则处理子级数据
             $admin_left_menu = self::AdminPowerMenuData($admin_id, $role_id);
             if(!empty($admin_left_menu))
             {
+                // 获取下级插件
+                $plugins_data = AdminRoleService::PluginsList();
+
                 // 语言数据
                 $lang = MyLang('admin_power_menu_list');
                 $temp_lang = [];
@@ -232,7 +235,7 @@ class AdminPowerService
                     {
                         // 权限
                         $key = strtolower($v['control'].'_'.$v['action']);
-                        $admin_power[$v['id']] = $key;
+                        $admin_power[$key] = $v['name'];
 
                         // url、存在自定义url则不覆盖
                         if(empty($v['url']))
@@ -260,7 +263,7 @@ class AdminPowerService
                             {
                                 // 权限
                                 $key = strtolower($vs['control'].'_'.$vs['action']);
-                                $admin_power[$vs['id']] = $key;
+                                $admin_power[$key] = $vs['name'];
 
                                 // url、存在自定义url则不覆盖
                                 if(empty($vs['url']))
@@ -281,28 +284,37 @@ class AdminPowerService
                                 unset($items[$ks]);
                             }
                         }
+                    }
 
-                        // 如果存在子级数据，但是子级无显示项、则父级也不显示
-                        if(empty($items))
+                    // 一级菜单下的插件
+                    if(!empty($plugins_data))
+                    {
+                        foreach($plugins_data as $pv)
                         {
-                            $is_show_parent = 0;
+                            if(!empty($pv['plugins_menu_control']) && strtolower($pv['plugins_menu_control']) == strtolower($v['control']))
+                            {
+                                $items[] = [
+                                    'id'    => 'plugins-'.$pv['plugins'],
+                                    'name'  => $pv['name'],
+                                    'url'   => PluginsAdminUrl($pv['plugins'], 'admin', 'index'),
+                                ];
+                            }
                         }
                     }
 
-                    // 是否显示视图
-                    if($is_show_parent == 1)
+                    // 如果没有子级数据则不显示父级
+                    if(empty($items))
                     {
+                        unset($admin_left_menu[$k]);
+                    } else {
                         // 子级
                         $admin_left_menu[$k]['items'] = $items;
-                    } else {
-                        unset($admin_left_menu[$k]);
                     }
                 }
 
                 // 插件权限
                 if($admin_id == 1 || $role_id == 1)
                 {
-                    $plugins_data = AdminRoleService::PluginsList();
                     $admin_plugins = empty($plugins_data) ? [] : array_column($plugins_data, 'name', 'plugins');
                 } else {
                     $admin_plugins = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('name', 'plugins');
@@ -353,7 +365,7 @@ class AdminPowerService
             $field = 'p.id,p.name,p.control,p.action,p.url,p.is_show,p.icon';
             $data = Db::name('Power')->alias('p')->join('role_power rp', 'p.id=rp.power_id')->where(['rp.role_id' => $role_id, 'p.pid' => $pid])->field($field)->order('p.sort')->select()->toArray();
         }
-        return $data;
+        return empty($data) ? [] : $data;
     }
 }
 ?>

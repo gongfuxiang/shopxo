@@ -83,6 +83,16 @@ class Answer
                     ],
                 ],
                 [
+                    'label'         => $lang['title'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'title',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['content'],
                     'view_type'     => 'module',
                     'view_key'      => 'answer/module/content',

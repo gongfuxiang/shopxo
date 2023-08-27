@@ -11,6 +11,8 @@
 namespace app\index\controller;
 
 use app\service\SeoService;
+use app\service\SearchService;
+use app\service\ApiService;
 
 /**
  * 商品分类
@@ -43,9 +45,41 @@ class Category extends Common
      */
     public function Index()
     {
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('category.browser_seo_title'), 1));
+        MyViewAssign([
+            // 分类展示层级模式
+            'category_level'        => MyC('common_show_goods_category_level', 0, true),
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('category.browser_seo_title'), 1),
+        ]);
         return MyView();
+    }
+
+    /**
+     * 商品搜索数据列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-12
+     * @desc    description
+     */
+    public function DataList()
+    {
+        // 搜素条件
+        $map = SearchService::SearchWhereHandle($this->data_request);
+
+        // 获取数据
+        $ret = SearchService::GoodsList($map, $this->data_request);
+
+        // 搜索记录
+        $this->data_request['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
+        $this->data_request['search_result_data'] = $ret['data'];
+        SearchService::SearchAdd($this->data_request);
+
+        // 渲染html
+        $ret['data']['data'] = MyView('', ['data'=>$ret['data']['data']]);
+
+        // 返回数据
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

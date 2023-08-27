@@ -93,8 +93,10 @@ return [
     'error'                                                 => 'Exception Error',
     'operate_fail'                                          => 'Operation Failed',
     'operate_success'                                       => 'Operation Succeeded',
+    'report_fail'                                           => 'Report Failed',
+    'report_success'                                        => 'Report Succeeded',
     'get_fail'                                              => 'Get Failed',
-    'get_success'                                           => 'Success',
+    'get_success'                                           => 'Get Success',
     'update_fail'                                           => 'Update Failed',
     'update_success'                                        => 'Update Succeeded',
     'insert_fail'                                           => 'Add Failed',
@@ -229,7 +231,7 @@ return [
     'user_type_error_tips'                                  => 'Wrong user type',
     'user_delete_operate_tips'                              => 'User deleted',
     'goods_id_error_tips'                                   => 'Wrong goods ID',
-    'gods_info_incorrect_tips'                              => 'Incorrect goods information',
+    'goods_info_incorrect_tips'                             => 'Incorrect goods information',
     'gods_info_abnormal_tips'                               => 'Abnormal goods information',
     'order_no_error_tips'                                   => 'Wrong order number',
     'order_id_error_tips'                                   => 'Wrong order ID',
@@ -253,6 +255,8 @@ return [
     'plugins_config_error_tips'                             => 'Incorrect plug-in configuration',
     'operate_frequent_tips'                                 => 'Frequent operation, please try again later!',
     'images_format_error_tips'                              => 'The picture is wrong, please change it!',
+    'cancel_order_title'                                    => 'Cancellation Of Order',
+    'delete_order_title'                                    => 'Delete Order',
     // 商店绑定
     'store_bind_account_name'                               => 'Bind ShopXO store account',
     'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
@@ -301,6 +305,8 @@ return [
     'search_title'                                          => 'Search',
     'query_title'                                           => 'Query',
     'execute_title'                                         => 'Execute',
+    'now_execute_title'                                     => 'Execute immediately',
+    'confirm_execute_title'                                 => 'Confirm Execution',
     'setup_title'                                           => 'Setup',
     'save_title'                                            => 'Save',
     'success_title'                                         => 'Success',
@@ -328,6 +334,7 @@ return [
     'view_map_title'                                        => 'View Map',
     'see_title'                                             => 'See',
     'clear_title'                                           => 'Clear',
+    'clear_all_title'                                       => 'Clear All',
     'close_title'                                           => 'Close',
     'open_title'                                            => 'Open',
     'number_title'                                          => 'Number',
@@ -340,8 +347,10 @@ return [
     'favor_title'                                           => 'Favor',
     'already_favor_title'                                   => 'Already Favor',
     'comment_title'                                         => 'Comment',
+    'go_comment_title'                                      => 'To Comment',
     'default_title'                                         => 'Default',
     'setup_default_title'                                   => 'Setup Default',
+    'grade_title'                                           => 'Grade',
     'only_title'                                            => 'Only',
     'strip_title'                                           => 'Strip',
     'level_title'                                           => 'Level',
@@ -357,8 +366,10 @@ return [
     'and_title'                                             => 'And',
     'or_title'                                              => 'Or',
     'payment_title'                                         => 'Payment',
+    'go_payment_title'                                      => 'To Pay',
     'confirm_payment_title'                                 => 'Confirm Payment',
     'collect_title'                                         => 'Collect',
+    'confirm_collect_title'                                 => 'Confirm Collect',
     'delivery_title'                                        => 'Delivery',
     'take_title'                                            => 'Take',
     'copy_title'                                            => 'Copy',
@@ -369,6 +380,7 @@ return [
     'audit_title'                                           => 'Audit',
     'signin_title'                                          => 'SignIn',
     'refuse_title'                                          => 'Refuse',
+    'pass_title'                                            => 'Pass',
     'order_title'                                           => 'Order',
     'install_title'                                         => 'Install',
     'uninstall_title'                                       => 'Uninstall',
@@ -438,6 +450,7 @@ return [
     'import_title'                                          => 'Import',
     'export_title'                                          => 'Export',
     'images_title'                                          => 'Images',
+    'icon_title'                                            => 'Icon',
     'video_title'                                           => 'Video',
     'text_title'                                            => 'Text',
     'loading_title'                                         => 'Loading',
@@ -445,7 +458,13 @@ return [
     'lat_title'                                             => 'Latitude',
     'lang_title'                                            => 'Language',
     'color_title'                                           => 'Color',
+    'share_title'                                           => 'Share',
+    'template_title'                                        => 'Template',
+    'recharge_title'                                        => 'Recharge',
+    'cash_title'                                            => 'Cash',
+    'log_title'                                             => 'Log',
     'continue_scan_title'                                   => 'ContinueScan',
+    'self_pickup_point_title'                               => 'Self Pickup Point',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_stop_sale_title'                                 => 'Stop Sale',
@@ -559,6 +578,8 @@ return [
     'form_is_full_screen_title'                             => 'FullScreen or not',
     'form_is_full_screen_message'                           => 'Whether the full screen range value is incorrect',
     'form_status_range_message'                             => 'Wrong status range value',
+    'form_status_title'                                     => 'Status',
+    'form_status_message'                                   => 'Please select a status',
     'form_sort_title'                                       => 'Sort',
     'form_sort_tips'                                        => 'from small to large',
     'form_sort_message'                                     => 'Values between 0 and 255',
@@ -648,18 +669,6 @@ return [
             ]
         ]
     ],
-    // 订单状态总数导航
-    'order_status_step_total_list'      =>  [
-        ['value' => 0, 'name' => 'To be confirmed'],
-        ['value' => 1, 'name' => 'To be paid'],
-        ['value' => 2, 'name' => 'To be shipped'],
-        ['value' => 3, 'name' => 'Goods to be received'],
-        ['value' => 4, 'name' => 'Completed'],
-        ['value' => 5, 'name' => 'Canceled'],
-        ['value' => 6, 'name' => 'Closed'],
-        ['value' => 100, 'name' => 'To be evaluated'],
-        ['value' => 101, 'name' => 'Refund/AfterSales'],
-    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data'      => [
         'goodsfavor'   => 'My Favor',
@@ -671,286 +680,336 @@ return [
         'goodsfavor'   => 'My Favor',
         'usermessage'  => 'My Message',
     ],
+    
+    // -------------------- 公共静态数据 --------------------
+    // 订单状态总数导航
+    'common_order_status_step_total_list' => [
+        0    => 'To be confirmed',
+        1    => 'Pending payment',
+        2    => 'To be shipped',
+        3    => 'Goods to be received',
+        4    => 'Completed',
+        5    => 'Cancelled',
+        6    => 'Closed',
+        100  => 'To be evaluated',
+        101  => 'Refund / after sales',
+    ],
     // 搜索排序方式
-    'common_search_order_by_list'       =>  [
-        ['name' => 'Comprehensive', 'type' => 'default', 'value' => 'desc'],
-        ['name' => 'Sales', 'type' => 'sales', 'value' => 'desc'], 
-        ['name' => 'Hot', 'type' => 'access', 'value' => 'desc'], 
-        ['name' => 'Price', 'type' => 'price', 'value' => 'desc'], 
-        ['name' => 'Newest', 'type' => 'new', 'value' => 'desc'],
+    'common_search_order_by_list' => [
+        'default'  => 'comprehensive',
+        'sales'    => 'sales volume',
+        'access'   => 'degree of heat',
+        'price'    => 'Price',
+        'new'      => 'newest',
     ],
     // 用户注册类型列表
-    'common_user_reg_type_list'          =>  [
-        0 => ['value' => 'username', 'name' => 'account'],
-        1 => ['value' => 'sms', 'name' => 'sms'],
-        2 => ['value' => 'email', 'name' => 'email'],
+    'common_user_reg_type_list' => [
+        'username'  => 'account number',
+        'sms'       => 'short message',
+        'email'     => 'mailbox',
     ],
     // 登录方式
-    'common_login_type_list'     =>  [
-        0 => ['value' => 'username', 'name' => 'Account password', 'checked' => true],
-        1 => ['value' => 'email', 'name' => 'Email verification code'],
-        2 => ['value' => 'sms', 'name' => 'Mobile verification code'],
+    'common_login_type_list' => [
+        'username'  => 'Account password',
+        'email'     => 'Email verification code',
+        'sms'       => 'Mobile phone verification code',
     ],
     // 性别
-    'common_gender_list'                =>  [
-        0 => ['id' => 0, 'name' => 'Secrecy', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Female'],
-        2 => ['id' => 2, 'name' => 'Male'],
+    'common_gender_list' => [
+        0 => 'secrecy',
+        1 => 'female',
+        2 => 'male',
     ],
     // 关闭开启状态
-    'common_close_open_list'          =>  [
-        0 => ['value' => 0, 'name' => 'Close'],
-        1 => ['value' => 1, 'name' => 'Open'],
+    'common_close_open_list' => [
+        0 => 'close',
+        1 => 'open',
     ],
     // 是否启用
-    'common_is_enable_tips'             =>  [
-        0 => ['id' => 0, 'name' => 'Not Enabled'],
-        1 => ['id' => 1, 'name' => 'Enabled'],
+    'common_is_enable_tips' => [
+        0 => 'not enabled',
+        1 => 'Enabled',
     ],
-    'common_is_enable_list'             =>  [
-        0 => ['id' => 0, 'name' => 'No Enabled'],
-        1 => ['id' => 1, 'name' => 'Enabled', 'checked' => true],
+    'common_is_enable_list' => [
+        0 => 'Not enabled',
+        1 => 'Enable',
     ],
     // 是否显示
-    'common_is_show_list'               =>  [
-        0 => ['id' => 0, 'name' => 'No Show'],
-        1 => ['id' => 1, 'name' => 'Show', 'checked' => true],
+    'common_is_show_list' => [
+        0 => 'Do not show',
+        1 => 'display',
     ],
     // excel编码列表
-    'common_excel_charset_list'         =>  [
-        0 => ['id' => 0, 'value' => 'utf-8', 'name' => 'utf-8', 'checked' => true],
-        1 => ['id' => 1, 'value' => 'gbk', 'name' => 'gbk'],
+    'common_excel_charset_list' => [
+        0 => 'utf-8',
+        1 => 'gbk',
     ],
     // excel导出类型列表
-    'common_excel_export_type_list'     =>  [
-        0 => ['id' => 0, 'name' => 'CSV', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Excel'],
+    'common_excel_export_type_list' => [
+        0 => 'CSV',
+        1 => 'Excel',
     ],
     // 地图类型列表
-    'common_map_type_list'     =>  [
-        'baidu'     => ['id' => 'baidu', 'name' => 'Baidu Map', 'checked' => true],
-        'amap'      => ['id' => 'amap', 'name' => 'Gaud Map'],
-        'tencent'   => ['id' => 'tencent', 'name' => 'Tencent Map'],
-        'tianditu'  => ['id' => 'tianditu', 'name' => 'Sky Map'],
+    'common_map_type_list' => [
+        'baidu'     => 'Baidu Maps',
+        'amap'      => 'Gaud map',
+        'tencent'   => 'Tencent map',
+        'tianditu'  => 'Sky map',
     ],
     // 支付支付状态
-    'common_order_pay_status'   => [
-        0 => ['id' => 0, 'name' => 'To be paid', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Paid'],
-        2 => ['id' => 2, 'name' => 'Refunded'],
-        3 => ['id' => 3, 'name' => 'Partial refund'],
+    'common_order_pay_status' => [
+        0 => 'To be paid',
+        1 => 'Paid',
+        2 => 'Refunded ',
+        3 => 'Partial refund',
     ],
     // 订单状态
-    'common_order_status'          =>  [
-        0 => ['id' => 0, 'name' => 'To be confirmed', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'To be paid'],
-        2 => ['id' => 2, 'name' => 'To be shipped'],
-        3 => ['id' => 3, 'name' => 'Goods to be received'],
-        4 => ['id' => 4, 'name' => 'Completed'],
-        5 => ['id' => 5, 'name' => 'Canceled'],
-        6 => ['id' => 6, 'name' => 'Closed'],
+    'common_order_status' =>  [
+        0 => 'To be confirmed',
+        1 => 'Pending payment',
+        2 => 'To be shipped',
+        3 => 'Goods to be received',
+        4 => 'Completed',
+        5 => 'Cancelled',
+        6 => 'Closed',
     ],
     // 所属平台
-    'common_platform_type'          =>  [
-        'pc'        => ['value' => 'pc', 'name' => 'PC Website'],
-        'h5'        => ['value' => 'h5', 'name' => 'H5 Website'],
-        'ios'       => ['value' => 'ios', 'name' => 'Apple APP'],
-        'android'   => ['value' => 'android', 'name' => 'Android APP'],
-        'weixin'    => ['value' => 'weixin', 'name' => 'WeChat applet'],
-        'alipay'    => ['value' => 'alipay', 'name' => 'Alipay applet'],
-        'baidu'     => ['value' => 'baidu', 'name' => 'Baidu applet'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => 'Toutiao applet'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ applet'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => 'Kwai applet'],
+    'common_platform_type' => [
+        'pc'        => 'PC website',
+        'h5'        => 'H5 mobile website',
+        'ios'       => 'Apple App',
+        'android'   => 'Android App',
+        'weixin'    => 'Wechat applet',
+        'alipay'    => 'Alipay applet',
+        'baidu'     => 'Baidu applet',
+        'toutiao'   => 'Headline applet',
+        'qq'        => 'QQ applet',
+        'kuaishou'  => 'Kwai applet',
     ],
     // app平台
-    'common_app_type'          =>  [
-        'ios'       => ['value' => 'ios', 'name' => 'Apple APP'],
-        'android'   => ['value' => 'android', 'name' => 'Android APP'],
+    'common_app_type' => [
+        'ios'       => 'Apple App',
+        'android'   => 'Android App',
     ],
     // 小程序平台
-    'common_appmini_type'          =>  [
-        'weixin'    => ['value' => 'weixin', 'name' => 'WeChat applet'],
-        'alipay'    => ['value' => 'alipay', 'name' => 'Alipay applet'],
-        'baidu'     => ['value' => 'baidu', 'name' => 'Baidu applet'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => 'Toutiao applet'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ applet'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => 'Kwai applet'],
+    'common_appmini_type' => [
+        'weixin'    => 'Wechat applet',
+        'alipay'    => 'Alipay applet',
+        'baidu'     => 'Baidu applet',
+        'toutiao'   => 'Headline applet',
+        'qq'        => 'QQ applet',
+        'kuaishou'  => 'Kwai applet',
     ],
     // 扣除库存规则
-    'common_deduction_inventory_rules_list' =>  [
-        0 => ['id' => 0, 'name' => 'Order confirmed successfully'],
-        1 => ['id' => 1, 'name' => 'Order payment Succeeded'],
-        2 => ['id' => 2, 'name' => 'Order shipment'],
+    'common_deduction_inventory_rules_list' => [
+        0 => 'Order confirmation successful',
+        1 => 'Order payment succeeded',
+        2 => 'Order delivery',
     ],
     // 商品增加销量规则
-    'common_sales_count_inc_rules_list'     =>  [
-        0 => ['id' => 0, 'name' => 'Order payment'],
-        1 => ['id' => 1, 'name' => 'Order receipt'],
+    'common_sales_count_inc_rules_list' => [
+        0 => 'Order payment',
+        1 => 'Order receipt',
     ],
     // 是否已读
-    'common_is_read_list'               =>  [
-        0 => ['id' => 0, 'name' => 'Unread', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Read'],
+    'common_is_read_list' => [
+        0 => 'Unread',
+        1 => 'Read',
     ],
     // 消息类型
-    'common_message_type_list'          =>  [
-        0 => ['id' => 0, 'name' => 'Default', 'checked' => true],
+    'common_message_type_list' => [
+        0 => 'default',
     ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list'             =>  [
-        0 => ['id' => 0, 'name' => 'Reduce', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Increase'],
+    'common_integral_log_type_list' => [
+        0 => 'reduce',
+        1 => 'increase',
     ],
     // 是否上架/下架
-    'common_is_shelves_list'                    =>  [
-        0 => ['id' => 0, 'name' => 'Off shelf'],
-        1 => ['id' => 1, 'name' => 'Put on the shelf', 'checked' => true],
+    'common_is_shelves_list' => [
+        0 => 'Off the shelf',
+        1 => 'Put on the shelf',
     ],
     // 是否
-    'common_is_text_list'   =>  [
-        0 => ['id' => 0, 'name' => 'No', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Yes'],
+    'common_is_text_list' => [
+        0 => 'no',
+        1 => 'yes',
     ],
     // 用户状态
-    'common_user_status_list'           =>  [
-        0 => ['id' => 0, 'name' => 'normal', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'No speaking', 'tips' => 'User is forbidden to speak'],
-        2 => ['id' => 2, 'name' => 'Disable login', 'tips' => 'User is prohibited from logging in'],
-        3 => ['id' => 3, 'name' => 'To be reviewed', 'tips' => 'User waiting for approval'],
+    'common_user_status_list' => [
+        0 => ['name' => 'normal'],
+        1 => ['name' => 'No speaking', 'tips' => 'User is prohibited from speaking'],
+        2 => ['name' => 'Prohibit login', 'tips' => 'User is prohibited from logging in'],
+        3 => ['name' => 'To be reviewed', 'tips' => 'User waiting for review'],
     ],
     // 导航数据类型
-    'common_nav_type_list'              =>  [
-        'custom' => ['value'=>'custom', 'name'=>'Custom'],
-        'article' => ['value'=>'article', 'name'=>'Article'],
-        'customview' => ['value'=>'customview', 'name'=>'Custom Page'],
-        'goods_category' => ['value'=>'goods_category', 'name'=>'Goods Category'],
+    'common_nav_type_list' => [
+        'custom'          => 'custom',
+        'article'         => 'article',
+        'customview'      => 'Custom page',
+        'goods_category'  => 'Commodity classification',
     ],
     // 搜索框下热门关键字类型
-    'common_search_keywords_type_list'      =>  [
-        0 => ['value' => 0, 'name' => 'Close'],
-        1 => ['value' => 1, 'name' => 'Auto'],
-        2 => ['value' => 2, 'name' => 'Custom'],
+    'common_search_keywords_type_list' => [
+        0 => 'close',
+        1 => 'automatic',
+        2 => 'custom',
     ],
     // app事件类型
-    'common_app_event_type' =>  [
-        0 => ['value' => 0, 'name' => 'WEB Page'],
-        1 => ['value' => 1, 'name' => 'Internal page (applet/APP internal address)'],
-        2 => ['value' => 2, 'name' => 'External applet appid'],
-        3 => ['value' => 3, 'name' => 'Jump to the native map to view the specified location'],
-        4 => ['value' => 4, 'name' => 'Make a call'],
+    'common_app_event_type' => [
+        0 => 'Web page',
+        1 => 'Internal page (Applet / APP internal address)',
+        2 => 'External mini program appid',
+        3 => 'Jump to the native map to view the specified location',
+        4 => 'Make a call',
     ],
     // 订单售后类型
-    'common_order_aftersale_type_list' =>  [
-        0 => ['value' => 0, 'name' => 'Refund only', 'desc' => 'If the goods are not received (not signed), it is agreed that', 'icon' => 'am-icon-random', 'class' => 'am-fl'],
-        1 => ['value' => 1, 'name' => 'Refund return', 'desc' => 'Received goods, need to return and exchange the received goods', 'icon' => 'am-icon-retweet', 'class' => 'am-fr'],
+    'common_order_aftersale_type_list' => [
+        0 => ['name' => 'Refund only', 'desc' => 'Not received (not signed for), subject to mutual agreement'],
+        1 => ['name' => 'Refund and return', 'desc' => 'Received goods, need to return or exchange the received goods'],
     ],
     // 订单售后状态
-    'common_order_aftersale_status_list' =>  [
-        0 => ['value' => 0, 'name' => 'To be confirmed'],
-        1 => ['value' => 1, 'name' => 'To be returned'],
-        2 => ['value' => 2, 'name' => 'To be reviewed'],
-        3 => ['value' => 3, 'name' => 'Completed'],
-        4 => ['value' => 4, 'name' => 'Rejected'],
-        5 => ['value' => 5, 'name' => 'Canceled'],
+    'common_order_aftersale_status_list' => [
+        0 => 'To be confirmed',
+        1 => 'To be returned',
+        2 => 'To be reviewed',
+        3 => 'Completed',
+        4 => 'Rejected',
+        5 => 'Cancelled',
     ],
     // 订单售后退款方式
-    'common_order_aftersale_refundment_list' =>  [
-        0 => ['value' => 0, 'name' => 'Retrace'],
-        1 => ['value' => 1, 'name' => 'Return to wallet'],
-        2 => ['value' => 2, 'name' => 'Manual processing'],
+    'common_order_aftersale_refundment_list' => [
+        0 => 'Return by the same route',
+        1 => 'Back to Wallet',
+        2 => 'Manual processing',
     ],
     // 商品评分
-    'common_goods_comments_rating_list' =>  [
-        0 => ['value'=>0, 'name'=>'No Score', 'badge'=>''],
-        1 => ['value'=>1, 'name'=>'1 Score', 'badge'=>'danger'],
-        2 => ['value'=>2, 'name'=>'2 Score', 'badge'=>'warning'],
-        3 => ['value'=>3, 'name'=>'3 Score', 'badge'=>'secondary'],
-        4 => ['value'=>4, 'name'=>'4 Score', 'badge'=>'primary'],
-        5 => ['value'=>5, 'name'=>'5 Score', 'badge'=>'success'],
+    'common_goods_comments_rating_list' => [
+        0 => 'Unrated',
+        1 => '1 point',
+        2 => '2 points',
+        3 => '3 points',
+        4 => '4 points',
+        5 => '5 points',
     ],
     // 商品评论业务类型
-    'common_goods_comments_business_type_list' =>  [
-        'order' => ['value' => 'order', 'name' => 'Order'],
+    'common_goods_comments_business_type_list' => [
+        'order' => 'order',
     ],
     // 站点类型
-    'common_site_type_list' =>  [
-        0 => ['value' => 0, 'name' => 'Express'],
-        1 => ['value' => 1, 'name' => 'Exhibition'],
-        2 => ['value' => 2, 'name' => 'SelfDelivery'],
-        3 => ['value' => 3, 'name' => 'VirtualSales'],
-        4 => ['value' => 4, 'name' => 'Express+SelfDelivery', 'is_ext' => 1],
+    'common_site_type_list' => [
+        0 => 'express',
+        1 => 'Exhibition',
+        2 => 'Self mention',
+        3 => 'Virtual sale',
+        4 => 'Express + self delivery',
     ],
     // 订单类型
-    'common_order_type_list' =>  [
-        0 => ['value' => 0, 'name' => 'Express'],
-        1 => ['value' => 1, 'name' => 'Exhibition'],
-        2 => ['value' => 2, 'name' => 'SelfDelivery'],
-        3 => ['value' => 3, 'name' => 'VirtualSales'],
+    'common_order_type_list' => [
+        0 => 'express',
+        1 => 'Exhibition',
+        2 => 'Self mention',
+        3 => 'Virtual sales',
     ],
     // 下单站点类型列表
-    'common_buy_site_model_list' =>  [
-        ['value' => 0, 'name' => 'Express'],
-        ['value' => 2, 'name' => 'Extraction'],
+    'common_buy_site_model_list' => [
+        0 => 'Express mail',
+        2 => 'Pick up from the pick-up point',
     ],
     // 管理员状态
-    'common_admin_status_list'               =>  [
-        0 => ['value' => 0, 'name' => 'Normal', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'Suspend'],
-        2 => ['value' => 2, 'name' => 'Resigned'],
+    'common_admin_status_list' => [
+        0 => 'normal',
+        1 => 'suspend',
+        2 => 'Resigned',
     ],
     // 支付日志状态
-    'common_pay_log_status_list'            => [
-        0 => ['value' => 0, 'name' => 'To be paid', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'Paid'],
-        2 => ['value' => 2, 'name' => 'Closed'],
+    'common_pay_log_status_list' => [
+        0 => 'To be paid',
+        1 => 'Paid',
+        2 => 'Closed',
+    ],
+    // 支付日志业务类型
+    'common_pay_log_business_type_list' => [
+        'order' => 'order',
     ],
     // 商品参数组件类型
-    'common_goods_parameters_type_list'     => [
-        0 => ['value' => 0, 'name' => 'Whole'],
-        1 => ['value' => 1, 'name' => 'Detail', 'checked' => true],
-        2 => ['value' => 2, 'name' => 'Base'],
+    'common_goods_parameters_type_list' => [
+        0 => 'whole',
+        1 => 'details',
+        2 => 'Basics',
     ],
     // 商品关联排序类型
-    'goods_order_by_type_list'              => [
-        0 => ['value' => 'g.access_count,g.sales_count,g.id', 'name' => 'Synthesize', 'checked' => true],
-        1 => ['value' => 'g.sales_count', 'name' => 'Sales'],
-        2 => ['value' => 'g.access_count', 'name' => 'Hot'],
-        3 => ['value' => 'g.min_price', 'name' => 'Price'],
-        4 => ['value' => 'g.id', 'name' => 'New'],
+    'common_goods_order_by_type_list' => [
+        0 => 'comprehensive',
+        1 => 'sales volume',
+        2 => 'degree of heat',
+        3 => 'Price',
+        4 => 'newest',
     ],
     // 商品关联排序规则
-    'goods_order_by_rule_list'              => [
-        0 => ['value' => 'desc', 'name' => 'Desc(desc)', 'checked' => true],
-        1 => ['value' => 'asc', 'name' => 'Asc(asc)'],
+    'common_goods_order_by_rule_list' => [
+        0 => 'Descending order (DESC)',
+        1 => 'Ascending (ASC)',
     ],
     // 首页数据类型
-    'common_site_floor_data_type_list'      => [
-        0 => ['value' => 0, 'name' => 'Auto Mode', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'Manual Mode'],
-        2 => ['value' => 2, 'name' => 'Move Mode'],
+    'common_site_floor_data_type_list' => [
+        0 => 'Automatic mode',
+        1 => 'Manual mode',
+        2 => 'Drag mode',
     ],
     // 文件上传错误码
-    'common_file_upload_error_list'         =>  [
+    'common_file_upload_error_list' => [
         1 => 'The file size exceeds the maximum upload allowed by the server',
-        2 => 'The file size exceeds the browser limit. Check whether it exceeds [Site Settings ->Maximum Attachment Limit]',
-        3 => 'The file is only partially uploaded',
-        4 => 'No file to upload found',
-        5 => 'Server temporary folder not found',
-        6 => 'Error writing file to temporary folder ',
-        7 => 'File write Failed',
-        8 => 'File upload extension is not opened',
+        2 => 'The file size exceeds the browser limit. Check if it exceeds the [Site Settings ->Attachment Maximum Limit]',
+        3 => 'The file has only been partially uploaded',
+        4 => 'No files found to upload',
+        5 => 'Server Temporary folder not found',
+        6 => 'Error writing file to Temporary folder',
+        7 => 'File write failure',
+        8 => 'File upload extension not opened',
     ],
-    // -------------------- 后端相关 --------------------
+    // 用户基础信息提示页面（index 首页、goods-category 商品分类、cart 购物车、 user 用户中心、share 分享）
+    'common_user_base_popup_pages_list' => [
+        'index'           => 'home page',
+        'goods-category'  => 'Commodity classification',
+        'cart'            => 'Shopping Cart',
+        'user'            => 'User center',
+        'share'           => 'Pop up sharing',
+    ],
+    // 多语言code 语言编码 => name 语言名称）
+    'common_multilingual_list' => [
+        'zh'   => 'Simplified Chinese',
+        'cht'  => 'Traditional Chinese',
+        'en'   => 'english',
+        'ru'   => 'Russian',
+        'kor'  => 'Korean',
+        'th'   => 'Thai',
+        'jp'   => 'Japanese',
+        'de'   => 'German',
+        'nl'   => 'Dutch',
+        'vie'  => 'Vietnamese',
+        'it'   => 'Italian',
+        'spa'  => 'Spanish',
+        'fra'  => 'French',
+        'swe'  => 'Swedish',
+    ],
     // 图片验证码
-    'site_images_verify_rules_list'  => [
-        0 => ['value' => 'bgcolor', 'name' => 'Color Background'],
-        1 => ['value' => 'textcolor', 'name' => 'Colored Text'],
-        2 => ['value' => 'point', 'name' => 'Jamming Point'],
-        3 => ['value' => 'line', 'name' => 'Jamming Line'],
+    'common_site_images_verify_rules_list' => [
+        0 => 'Color background',
+        1 => 'Color text',
+        2 => 'Interference point',
+        3 => 'Interference line',
     ],
+    // url模式列表
+    'common_seo_url_model_list' => [
+        0 => 'Compatibility mode',
+        1 => 'Pathinfo mode',
+        2 => 'Pathinfo mode + short address',
+    ],
+
+    // -------------------- 后端相关 --------------------
     // 时区
-    'site_timezone_list' => [
+    'common_site_timezone_list' => [
         'Pacific/Pago_Pago'               => '(Standard Time 11:00) Midway Island, Samoa',
         'Pacific/Rarotonga'               => '(Standard Time 10:00) Hawaii',
         'Pacific/Gambier'                 => '(Standard Time 9:00) Alaska',
@@ -975,31 +1034,6 @@ return [
         'Australia/Adelaide'              => '(Standard Time +10:00) Sydney, Guam',
         'Australia/Currie'                => '(Standard time +11:00) Magadan, Solomon Islands',
         'Pacific/Fiji'                    => '(Standard Time +12:00) Auckland, Wellington, Kamchatka Peninsula',
-    ],
-    // seo
-    // url模式列表
-    'seo_url_model_list'        =>  [
-        0 => ['value' => 0, 'name' => 'Compatibility Mode', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'PATHINFO Mode'],
-        2 => ['value' => 2, 'name' => 'PATHINFO Mode+ShortAddress'],
-    ],
-
-    // 多语言（preg 正则匹配、code 语言编码、name 语言名称）
-    'common_multilingual_list'  => [
-        'zh'   => 'Simplified Chinese',
-        'cht'  => 'Traditional Chinese',
-        'en'   => 'English',
-        'ru'   => 'Russian',
-        'kor'  => 'Korean',
-        'th'   => 'Thai',
-        'jp'   => 'Japanese',
-        'de'   => 'German',
-        'nl'   => 'Dutch',
-        'vie'  => 'Vietnamese',
-        'it'   => 'Italian',
-        'spa'  => 'Spanish',
-        'fra'  => 'French',
-        'swe'  => 'Swedish',
     ],
 
     // -------------------- 公共服务层 --------------------
@@ -1192,6 +1226,8 @@ return [
         // 品牌分类
         'brandcategory'     => [
             // 表单
+            'form_item_icon'                        => 'Icon',
+            'form_item_icon_tips'                   => '100 * 100px recommend',
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'The name is 1~60 characters long',
         ],
@@ -1553,8 +1589,12 @@ return [
             // 表单
             'form_item_icon'                        => 'Icon',
             'form_item_icon_tips'                   => '100 * 100px recommend',
+            'form_item_icon_active'                 => 'ActiveIcon',
+            'form_item_icon_active_tips'            => '100 * 100px recommend',
+            'form_item_realistic_images'            => 'Realistic Picture',
+            'form_item_realistic_images_tips'       => '200 * 200px recommend',
             'form_item_big_images'                  => 'Large Picture',
-            'form_item_big_images_tips'             => '360 * 360px recommend',
+            'form_item_big_images_tips'             => '220 * 750px recommend',
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'Name format 1~60 characters',
             'form_item_vice_name'                   => 'Sub Name',
@@ -1738,9 +1778,9 @@ return [
             'wallet_log_refund_user_message_title'  => 'Change in account balance',
             // 商品退货地址
             'return_goods_address_data'             => [
-                'name'     => 'Name',
-                'tel'      => 'Tel',
-                'address'  => 'Address',
+                'name'     => 'recipient',
+                'tel'      => 'Receiving phone number',
+                'address'  => 'Return address',
             ],
             // 订单售后进度
             'orderaftersale_step_data'              => [
@@ -1761,12 +1801,25 @@ return [
             ],
             // 售后环节提示信息
             'orderaftersale_step_tips_msg'          => [
-                0 => 'The order aftersales service has submitted the application, waiting for the confirmation of the administrator!',
-                1 => 'After the order, the administrator has confirmed, please complete the return as soon as possible!',
-                2 => 'The order has been returned after sales, waiting for the administrator to review!',
-                3 => 'The order aftersales processing has ended!',
-                4 => 'The order aftersales application has been rejected!',
-                5 => 'The order aftersales application has been closed!',
+                0 => [
+                    'title' => 'Pending seller review',
+                    'desc'  => 'The application has been submitted and is waiting for confirmation from the seller!'
+                ],
+                1 => [
+                    'title' => 'The seller has confirmed, please complete the return as soon as possible!'
+                ],
+                2 => [
+                    'title' => 'Waiting for seller to confirm receipt',
+                    'desc'  => 'Returned, waiting for seller review!'
+                ],
+                3 => [
+                    'title' => 'Refund successful',
+                    'desc'  => 'Processing completed!'
+                ],
+                4 => [
+                    'title' => 'The seller has refused, the refund is closed',
+                    'desc'  => 'The application has been rejected!'
+                ],
             ], 
         ],
         // 订单货币
@@ -1775,8 +1828,6 @@ return [
         ],
         // 订单
         'order'                 => [
-            // 业务类型名称
-            'business_type_name'                    => 'Order',
             // 基础
             'order_user_invalid_tips'               => 'Invalid order user',
             'pay_api_abnormal_tips'                 => 'Abnormal payment interface',
@@ -2381,6 +2432,10 @@ return [
         'view_media_fixed_width_message'                     => 'Please enter a number with a container width of up to 6000',
         'view_media_fixed_height_title'                      => 'Container height',
         'view_media_fixed_height_message'                    => 'Please enter a number for the container height and a maximum of 6000',
+        'view_media_fixed_max_width_title'                   => 'Maximum width of container',
+        'view_media_fixed_max_width_message'                 => 'Please enter a number for the maximum width of the container and a maximum of 6000',
+        'view_media_fixed_max_height_title'                  => 'Maximum height of container',
+        'view_media_fixed_max_height_message'                => 'Please enter a number for the maximum height of the container and a maximum of 6000',
         'view_media_fixed_border_radius_title'               => 'Radius',
         'view_media_fixed_border_radius_message'             => 'Please enter a number with rounded corners and a maximum of 1000',
         'view_media_fixed_border_style_title'                => 'Edge Type',
@@ -2472,7 +2527,7 @@ return [
         // 关键字信息
         'view_module_title_keywords'                                 => 'Keywords',
         'view_module_title_keywords_tips'                            => 'Not displayed under small screen',
-        'view_module_title_keywords_message'                         => 'Please fill in the keyword and format with 1 to 8 characters',
+        'view_module_title_keywords_message'                         => 'Please fill in the keyword and format with 1 to 80 characters',
         'view_module_title_keywords_add'                             => 'Add Keyword',
         // 指向url地址信息
         'view_module_title_url'                                      => 'Link Address',
@@ -2486,7 +2541,7 @@ return [
         'view_style_images'                                          => 'Picture Styles',
         'view_content_setup'                                         => 'Content Settings',
         'view_content_custom_html'                                   => 'Custom html code',
-        'view_style_width_max_limit_value'                           => 'System standard width limit(1000px、1200px)',
+        'view_style_width_max_limit_value'                           => 'System standard width limit(1000px、1200px、1500px)',
         'view_style_height'                                          => 'Height',
         // 容器
         'view_offcanvas_layout_base_title'                           => 'Base Style',
@@ -2531,13 +2586,13 @@ return [
         'view_offcanvas_module_images_text_desc_font_size_message'   => 'Description font maximum 1000',
         // 标题
         'view_offcanvas_module_title_main_title'                     => 'Main Title',
-        'view_offcanvas_module_title_main_title_message'             => 'The main title can have a maximum of 1 to 8 characters',
+        'view_offcanvas_module_title_main_title_message'             => 'The main title can have a maximum of 1 to 160 characters',
         'view_offcanvas_module_title_vice_title'                     => 'Subtitle',
-        'view_offcanvas_module_title_vice_title_message'             => 'Subtitle up to 16 characters',
+        'view_offcanvas_module_title_vice_title_message'             => 'Subtitle up to 230 characters',
         'view_offcanvas_module_title_right'                          => 'Right button',
         'view_offcanvas_module_title_right_tips'                     => 'Empty does not display',
         'view_offcanvas_module_title_right_name'                     => 'Right button name',
-        'view_offcanvas_module_title_right_name_message'             => 'The right button name can have up to 4 characters',
+        'view_offcanvas_module_title_right_name_message'             => 'The right button name can have up to 80 characters',
         // 视频
         'view_offcanvas_module_video_images'                         => 'Cover Photo',
         // 弹窗商品搜索
@@ -2717,6 +2772,16 @@ return [
                 'invalid_file'                      => 'Illegal File',
                 'error_image_save'                  => 'Save error, picture error',
                 'error_upload_type'                 => 'Wrong operation type',
+            ],
+            // 地图
+            'map'           => [
+                'baidu_config_empty_tips'           => 'Baidu Map API secret key (server side) not configured',
+                'tencent_config_empty_tips'         => 'Tencent Map API secret key (server side) not configured',
+                'amap_config_empty_tips'            => 'Gaode Map API secret key (server side) not configured',
+                'tianditu_config_empty_tips'        => 'The Tiantu API secret key (server side) is not configured',
+                'type_not_docked_tips'              => 'The current map has not been developed and docked',
+                'type_not_docked_geocoder_tips'     => 'The current map has not been developed for reverse resolution',
+                'address_geocoder_fail_tips'        => 'Address resolution failed',
             ],
         ],
     ],
@@ -2964,11 +3029,6 @@ return [
             'desc' => 'Default foreground template',
             'tips' => 'Please select the default template',
         ],
-        'common_baidu_map_ak'  => [
-            'name' => 'Baidu map API key',
-            'desc' => 'AK key must be configured from Baidu map 2.0',
-            'tips' => 'Please fill in Baidu Map api key',
-        ],
         'home_email_user_reg'  => [
             'name' => 'User registration - mail template',
             'desc' => 'Verification code variable identifier [# code #]',
@@ -3051,7 +3111,7 @@ return [
         ],
         'home_navigation_main_quick_name'  => [
             'name' => 'Quick navigation name',
-            'desc' => 'Default Gallery',
+            'desc' => 'Default More Entries',
             'tips' => 'Please fill in the shortcut navigation name',
         ],
         'home_index_floor_goods_order_by_rule'  => [
@@ -3083,6 +3143,11 @@ return [
             'name' => 'Data usage cache',
             'desc' => 'Default no',
             'tips' => 'Please select data to use cache',
+        ],
+        'common_data_is_use_redis_cache'  => [
+            'name' => 'Using Redis Cache',
+            'desc' => 'Default no',
+            'tips' => 'Please choose whether to use Redis caching',
         ],
         'common_app_is_enable_search'  => [
             'name' => 'Enable search',
@@ -3181,22 +3246,27 @@ return [
         ],
         'home_site_user_register_bg_images'  => [
             'name' => 'User registration background image',
-            'desc' => '',
+            'desc' => 'Suggested 1920 * 350px',
             'tips' => 'Please upload the user registration background image',
+        ],
+        'home_site_user_register_bg_color'  => [
+            'name' => 'User registration background color',
+            'desc' => '',
+            'tips' => 'Please select the background color for user registration',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 1 [450X350 images recommended]',
+            'desc' => 'Picture 1 [Suggested 1920 * 350px]',
             'tips' => '',
         ],
         'home_site_user_login_ad2_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 2 [450X350 images recommended]',
+            'desc' => 'Picture 2 [Suggested 1920 * 350px]',
             'tips' => '',
         ],
         'home_site_user_login_ad3_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 2 [450X350 images recommended]',
+            'desc' => 'Picture 2 [Suggested 1920 * 350px]',
             'tips' => '',
         ],
         'home_site_user_login_ad1_url'  => [
@@ -3236,17 +3306,17 @@ return [
         ],
         'home_site_user_forgetpwd_ad1_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 1 [450X350 images recommended]',
+            'desc' => 'Picture 1 [Suggested 450 * 350px]',
             'tips' => '',
         ],
         'home_site_user_forgetpwd_ad2_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 2 [450X350 images recommended]',
+            'desc' => 'Picture 2 [Suggested 450 * 350px]',
             'tips' => '',
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 2 [450X350 images recommended]',
+            'desc' => 'Picture 2 [Suggested 450 * 350px]',
             'tips' => '',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
@@ -3309,9 +3379,19 @@ return [
             'desc' => 'It is closed by default. After it is enabled, user registration can only be registered after agreeing to the agreement',
             'tips' => 'Please select whether to enable user registration agreement',
         ],
+        'home_order_aftersale_return_goods_contacts_name'  => [
+            'name' => 'Return Contact',
+            'desc' => '',
+            'tips' => 'Please fill in the return contact person',
+        ],
+        'home_order_aftersale_return_goods_contacts_tel'  => [
+            'name' => 'Return contact phone number',
+            'desc' => '',
+            'tips' => 'Please fill in the return contact phone number',
+        ],
         'home_order_aftersale_return_goods_address'  => [
             'name' => 'Return address',
-            'desc' => 'Receiving address of goods returned by users',
+            'desc' => '',
             'tips' => 'Please fill in the return address',
         ],
         'common_app_is_use_mobile_detail'  => [
@@ -3448,6 +3528,21 @@ return [
             'name' => 'Enable small navigation of user center head',
             'desc' => 'Default is',
             'tips' => 'Please select whether to enable small navigation of user center head',
+        ],
+        'common_app_user_base_popup_pages'  => [
+            'name' => 'User basic information prompt page',
+            'desc' => 'Default Off',
+            'tips' => 'Please select the user basic information prompt page',
+        ],
+        'common_app_user_base_popup_client'  => [
+            'name' => 'User basic information prompt terminal',
+            'desc' => 'Default Off',
+            'tips' => 'Please select the user basic information prompt terminal',
+        ],
+        'common_app_user_base_popup_integral_time'  => [
+            'name' => 'User basic information prompt interval time',
+            'desc' => 'Unit seconds, default 1800 seconds/30 minutes',
+            'tips' => 'Please fill in the interval for prompting again after closing',
         ],
         'common_site_type'  => [
             'name' => 'Site type',
@@ -3784,11 +3879,6 @@ return [
             'desc' => 'Enabled by default, only for web PC',
             'tips' => '',
         ],
-        'common_tianditu_map_ak'  => [
-            'name' => 'Skymap api secret key',
-            'desc' => 'Application Key of Sky Map',
-            'tips' => 'Please fill in the Skymap api secret key',
-        ],
         'common_domain_host'  => [
             'name' => 'Primary domain name',
             'desc' => 'Site address',
@@ -3839,20 +3929,50 @@ return [
             'desc' => 'Default Baidu map',
             'tips' => 'Please select a map type',
         ],
-        'common_amap_map_ak'  => [
-            'name' => 'Gaode map api secret key',
-            'desc' => 'Application Key and Security Secret Key of Gaud Map',
-            'tips' => 'Please fill in the api secret key of Gaode Map',
+        'common_baidu_map_ak'  => [
+            'name' => 'Baidu map API key(Browser side)',
+            'desc' => 'Application Key for Baidu Maps',
+            'tips' => 'Please fill in Baidu Map api key(Browser side)',
         ],
-        'common_tencent_map_ak'  => [
-            'name' => 'Tencent map api secret key',
-            'desc' => 'Application Key of Tencent Map',
-            'tips' => 'Please fill in Tencent map api secret key',
+        'common_baidu_map_ak_server'  => [
+            'name' => 'Baidu map API key(Server side)',
+            'desc' => 'Application Key for Baidu Maps',
+            'tips' => 'Please fill in Baidu Map api key(Server side)',
+        ],
+        'common_amap_map_ak'  => [
+            'name' => 'Gaode map api secret key(Browser side)',
+            'desc' => 'Application Key of Gaode Map',
+            'tips' => 'Please fill in the api secret key of Gaode Map(Browser side)',
         ],
         'common_amap_map_safety_ak'  => [
             'name' => 'Security key of Gaud Map',
             'desc' => 'Application security key of Gaode map',
             'tips' => 'Please fill in the security key of Gaode map',
+        ],
+        'common_amap_map_ak_server'  => [
+            'name' => 'Gaode map api secret key(Server side)',
+            'desc' => 'Application Key of Gaode Map',
+            'tips' => 'Please fill in the api secret key of Gaode Map(Server side)',
+        ],
+        'common_tencent_map_ak'  => [
+            'name' => 'Tencent map api secret key(Browser side)',
+            'desc' => 'Application Key of Tencent Map',
+            'tips' => 'Please fill in Tencent map api secret key(Browser side)',
+        ],
+        'common_tencent_map_ak_server'  => [
+            'name' => 'Tencent map api secret key(Server side)',
+            'desc' => 'Application Key of Tencent Map',
+            'tips' => 'Please fill in Tencent map api secret key(Server side)',
+        ],
+        'common_tianditu_map_ak'  => [
+            'name' => 'Skymap api secret key(Browser side)',
+            'desc' => 'Application Key of Sky Map',
+            'tips' => 'Please fill in the Skymap api secret key(Browser side)',
+        ],
+        'common_tianditu_map_ak_server'  => [
+            'name' => 'Skymap api secret key(Server side)',
+            'desc' => 'Application Key of Sky Map',
+            'tips' => 'Please fill in the Skymap api secret key(Server side)',
         ],
         'common_default_payment'  => [
             'name' => 'Default payment method',
@@ -3923,6 +4043,11 @@ return [
             'name' => 'Automatically recognize user language',
             'desc' => 'Default on',
             'tips' => 'Please select an automatically recognized user language',
+        ],
+        'common_domain_multilingual_bind_list'  => [
+            'name' => 'Domain name binding language',
+            'desc' => '',
+            'tips' => 'Please configure the domain name binding language',
         ],
         'common_user_unique_system_type_model'  => [
             'name' => 'The user identifies the dimension with a system class',

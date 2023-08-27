@@ -101,7 +101,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_order_aftersale_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_order_aftersale_type_list'), 'value'),
                 'error_msg'         => MyLang('operate_type_error_tips'),
             ],
             [
@@ -327,7 +327,7 @@ class OrderAftersaleService
         }
         if($aftersale['status'] != 1)
         {
-            $common_order_aftersale_status_list = MyLang('common_order_aftersale_status_list');
+            $common_order_aftersale_status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('common_service.orderaftersale.status_not_can_operate_tips').'['.$common_order_aftersale_status_list[$aftersale['status']]['name'].']', -10);
         }
 
@@ -436,9 +436,9 @@ class OrderAftersaleService
                 'data'          => &$data,
             ]);
 
-            $type_list = MyLang('common_order_aftersale_type_list');
-            $status_list = MyLang('common_order_aftersale_status_list');
-            $refundment_list = MyLang('common_order_aftersale_refundment_list');
+            $type_list = MyConst('common_order_aftersale_type_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
+            $refundment_list = MyConst('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 订单售后处理前钩子
@@ -576,7 +576,7 @@ class OrderAftersaleService
         {
             if(empty($params['user']))
             {
-                $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+                $user_ids = Db::name('User')->where('number_code|username|nickname|mobile|email', '=', $params['keywords'])->column('id');
                 if(!empty($user_ids))
                 {
                     $where[] = ['user_id', 'in', $user_ids];
@@ -604,7 +604,12 @@ class OrderAftersaleService
             }
             if(isset($params['status']) && $params['status'] > -1)
             {
-                $where[] = ['status', '=', intval($params['status'])];
+                // 多个状态,字符串以半角逗号分割
+                if(!is_array($params['status']))
+                {
+                    $params['status'] = explode(',', $params['status']);
+                }
+                $where[] = ['status', 'in', $params['status']];
             }
             if(!empty($params['express_number']))
             {
@@ -696,7 +701,7 @@ class OrderAftersaleService
         // 状态校验
         if(in_array($aftersale['status'], [3,5]))
         {
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -785,14 +790,14 @@ class OrderAftersaleService
         // 状态校验
         if($aftersale['status'] != 0)
         {
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 类型
         if($aftersale['type'] != 1)
         {
-            $aftersale_type_list = MyLang('common_order_aftersale_type_list');
+            $aftersale_type_list = MyConst('common_order_aftersale_type_list');
             return DataReturn('类型不可操作['.$aftersale_type_list[$aftersale['type']]['name'].']', -1);
         }
 
@@ -862,7 +867,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'refundment',
-                'checked_data'      => array_column(MyLang('common_order_aftersale_refundment_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_order_aftersale_refundment_list'), 'value'),
                 'error_msg'         => MyLang('common_service.orderaftersale.form_item_refundment_message'),
             ],
         ];
@@ -882,7 +887,7 @@ class OrderAftersaleService
         // 状态校验
         if($aftersale['status'] != 2)
         {
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -999,17 +1004,16 @@ class OrderAftersaleService
                 }
             }
 
-            // 是否仅退款操作需要退数量操作
-            // 如果是仅退、订单状态为待发货或虚拟订单则退回数量
+            // 金额大于0是仅退、订单状态为待发货或虚拟订单则退回数量
             $is_refund_only_number = false;
-            $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
-            if($refund_price >= $order['data']['pay_price'] && $aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
+            if($aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
             {
                 $is_refund_only_number = true;
                 $aftersale['number'] = $order['data']['items']['buy_number'];
             }
 
             // 更新主订单
+            $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
             $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
             $order_upd_data = [
                 'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
@@ -1352,7 +1356,7 @@ class OrderAftersaleService
         // 状态校验
         if(!in_array($aftersale['status'], [0,2]))
         {
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -1436,7 +1440,7 @@ class OrderAftersaleService
         // 状态校验
         if(!in_array($aftersale['status'], [4,5]))
         {
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -1734,7 +1738,9 @@ class OrderAftersaleService
     public static function OrderAftersaleReturnGoodsAddress($order_id)
     {
         // 退货地址信息
-        $data = MyC('home_order_aftersale_return_goods_address', MyLang('no_filled_tips'), true);
+        $name = MyC('home_order_aftersale_return_goods_contacts_name');
+        $tel = MyC('home_order_aftersale_return_goods_contacts_tel');
+        $address = MyC('home_order_aftersale_return_goods_address');
 
         // 是否是否仓库地址
         if(MyC('home_order_aftersale_is_use_warehouse_address', 0, true) == 1)
@@ -1755,9 +1761,9 @@ class OrderAftersaleService
                 $warehouse = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
                 if(!empty($warehouse) && !empty($warehouse['contacts_name']) && !empty($warehouse['contacts_tel']) && !empty($warehouse['province_name']) && !empty($warehouse['city_name']) && !empty($warehouse['county_name']) && !empty($warehouse['address']))
                 {
-                    $lang = MyLang('common_service.orderaftersale.return_goods_address_data');
+                    $name = $warehouse['contacts_name'];
+                    $tel = $warehouse['contacts_tel'];
                     $address = $warehouse['province_name'].$warehouse['city_name'].$warehouse['county_name'].$warehouse['address'];
-                    $data = $lang['name'].'：'.$warehouse['contacts_name'].'，'.$lang['tel'].'：'.$warehouse['contacts_tel'].'，'.$lang['address'].'：'.$address;
                 }
             }
         }
@@ -1765,14 +1771,20 @@ class OrderAftersaleService
         // 订单售后退货地址钩子
         $hook_name = 'plugins_service_order_aftersale_return_address';
         MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'order_id'      => $order_id,
-            'data'          => &$data,
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'order_id'    => $order_id,
+            'name'        => &$name,
+            'tel'         => &$tel,
+            'address'     => &$address,
         ]);
 
         // 返回退货地址信息
-        return $data;
+        return [
+            'name'     => $name,
+            'tel'      => $tel,
+            'address'  => $address,
+        ];
     }
 }
 ?>

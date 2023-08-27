@@ -1,7 +1,8 @@
-<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-radius" data-md5-key="{{$form_md5_key}}">
+<div class="am-form-table-data-list-container am-scrollable-horizontal am-table-scrollable-horizontal am-radius" data-md5-key="{{$form_md5_key}}">
     {{php}}$form_table_data_list = empty($form_table_data_list) ? (empty($data_list) ? [] : $data_list) : $form_table_data_list;{{/php}}
     <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap form-table-data-list">
         <thead>
+            <!-- title -->
             <tr>
                 {{foreach $form_table['form'] as $t}}
                     {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
@@ -24,7 +25,7 @@
                         >
                             {{switch $t.view_type}}
                                 {{case checkbox}}
-                                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($form_table_data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
+                                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($form_table_data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
                                 {{/case}}
                                 {{default /}}
                                     {{if isset($t['label'])}}{{$t.label}}{{/if}}
@@ -43,361 +44,11 @@
             </tr>
 
             <!-- search -->
-            {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
-                <tr class="form-table-search">
-                    {{if !empty($params['page_size'])}}
-                        <input type="hidden" name="page_size" value="{{$params.page_size}}" />
-                    {{/if}}
-                    {{foreach $form_table['form'] as $k=>$t}}
-                        {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
-                            <td class="
-                                {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                                {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                                {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                                {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                                {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                            "
-                            style="
-                                {{if !empty($t['width'])}}
-                                    min-width: {{$t.width}}px;
-                                {{/if}}
-                            "
-                            >
-                                {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
-                                    {{switch $t.search_config.form_type}}
-                                        {{case input}}
-                                            <!-- 输入 -->
-                                            <input type="text" class="am-form-field am-radius" autocomplete="off" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key']])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key']])}}', trigger: 'hover focus'}"{{/if}} />
-                                        {{/case}}
-                                        {{case select}}
-                                            <!-- 选择 -->
-                                            <select name="{{$t.form_key}}"
-                                                class="chosen-select am-text-left"
-                                                data-placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}"
-                                                {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}} multiple{{/if}}
-                                                {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}}
-                                            >
-                                                {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
-                                                    <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
-                                                        {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
-                                                    </option>
-                                                {{/if}}
-                                                {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
-                                                    {{foreach $t['search_config']['data'] as $k=>$v}}
-                                                        {{if is_array($v)}}
-                                                            <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $v[$t['search_config']['data_key']] eq $form_params[$t['form_key']]))}}selected{{/if}}>
-                                                                {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
-                                                                    {{$v[$t['search_config']['data_name']]}}
-                                                                {{/if}}
-                                                            </option>
-                                                        {{else /}}
-                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($k, $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $k eq $form_params[$t['form_key']]))}}selected{{/if}}>{{$v}}</option>
-                                                        {{/if}}
-                                                    {{/foreach}}
-                                                {{/if}}
-                                            </select>
-                                        {{/case}}
-                                        {{case section}}
-                                            <!-- 区间 -->
-                                            <div class="form-table-search-section">
-                                                <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_min" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_min'])}}{{$form_params[$t['form_key'].'_min']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_min'])}}{{$t.search_config.placeholder_min}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_min'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_min'])}}', trigger: 'hover focus'}"{{/if}} />
-                                                <span>-</span>
-                                                <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_max" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_max'])}}{{$form_params[$t['form_key'].'_max']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_max'])}}{{$t.search_config.placeholder_max}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_max'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_max'])}}', trigger: 'hover focus'}"{{/if}} />
-                                            </div>
-                                        {{/case}}
-                                        {{case datetime}}
-                                            <div class="form-table-search-section form-table-search-time">
-                                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\');}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_start'])}}', trigger: 'hover focus'}"{{/if}} />
-                                                <span>-</span>
-                                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\');}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_end'])}}', trigger: 'hover focus'}"{{/if}} />
-                                            </div>
-                                        {{/case}}
-                                        {{case date}}
-                                            <div class="form-table-search-section form-table-search-time">
-                                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\',{d:-1});}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_start'])}}', trigger: 'hover focus'}"{{/if}} />
-                                                <span>-</span>
-                                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\',{d:+1});}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_end'])}}', trigger: 'hover focus'}"{{/if}} />
-                                            </div>
-                                        {{/case}}
-                                        {{case ym}}
-                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius Wdate" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key']])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key']])}}', trigger: 'hover focus'}"{{/if}} />
-                                        {{/case}}
-                                        {{case module}}
-                                            <!-- 从模块加载自定义模块数据 -->
-                                            {{if !empty($t['search_config']['template'])}}
-                                                {{if isset($t['search_config']['data'])}}
-                                                    {{:ModuleInclude($t['search_config']['template'], [
-                                                        'form'=>$t,
-                                                        'data'=>$t['search_config']['data'],
-                                                        'form_name_key'=>$t['form_key'],
-                                                        'params'=>isset($form_params) ? $form_params : [],
-                                                    ])}}
-                                                {{else /}}
-                                                    {{:ModuleInclude($t['search_config']['template'], [
-                                                        'form'=>$t,
-                                                        'data'=>[],
-                                                        'form_name_key'=>$t['form_key'],
-                                                        'params'=>isset($form_params) ? $form_params : [],
-                                                    ])}}
-                                                {{/if}}
-                                            {{/if}}
-                                        {{/case}}
-                                    {{/switch}}
-                                {{/if}}
-                            </td>
-                        {{/if}}
-                    {{/foreach}}
-                </tr>
-            {{/if}}
+            {{include file="public/module/form_table_search" /}}
         </thead>
         <tbody>
-            {{if !empty($form_table_data_list) and !empty($form_table['base']['key_field'])}}
-                <!-- 处理数据数量小于默认数量 -->
-                {{for start="0" end="count($form_table_data_list)"}}
-                    <!-- 1. tr 主键id名称 -->
-                    <!-- 2. 是否黄色选中class -->
-                    <tr
-                        {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
-                            id="data-list-{{$form_table_data_list[$i][$form_table['base']['key_field']]}}"
-                        {{/if}}
-                        {{if !empty($form_table['base']['status_field']) and isset($form_table_data_list[$i][$form_table['base']['status_field']]) and $form_table_data_list[$i][$form_table['base']['status_field']] eq 0}}
-                            class="am-active"
-                        {{/if}}
-                    >
-                        {{foreach $form_table['form'] as $t}}
-                            {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
-                                <!-- 1. 上下居中 -->
-                                <!-- 2. 格子大小 -->
-                                <!-- 3. 内容位置居（左|中|右） -->
-                                <!-- 4. 格子是否固定（left|right 左|右） -->
-                                <!-- 5. 是否操作列 -->
-                                <td class="am-nowrap-initial
-                                    {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                "
-                                style="
-                                    {{if !empty($t['width'])}}
-                                        min-width: {{$t.width}}px;
-                                    {{/if}}
-                                "
-                                >
-                                    {{if isset($form_table_data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
-                                        <!-- 数据匹配 -->
-                                        {{switch $t.view_type}}
-                                            {{case images}}
-                                                {{if !empty($form_table_data_list[$i][$t['view_key']])}}
-                                                    <img src="{{$form_table_data_list[$i][$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
-                                                {{/if}}
-                                            {{/case}}
-                                            {{case field}}
-                                                <p class="
-                                                    {{if isset($t['is_badge']) and $t['is_badge'] eq 1}}
-                                                        am-badge {{if !empty($t['badge_key']) and !empty($t['badge_style']) and isset($form_table_data_list[$i][$t['badge_key']]) and isset($t['badge_style'][$form_table_data_list[$i][$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_list[$i][$t['badge_key']]], 0, 1) neq '#'}}am-badge-{{$t['badge_style'][$form_table_data_list[$i][$t['badge_key']]]}} {{/if}} 
-                                                        {{if !empty($t['badge_shape'])}}am-{{$t.badge_shape}} {{/if}} 
-                                                    {{/if}} 
-                                                    {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and isset($form_table_data_list[$i][$t['color_key']]) and isset($t['color_style'][$form_table_data_list[$i][$t['color_key']]]) and substr($t['color_style'][$form_table_data_list[$i][$t['color_key']]], 0, 1) neq '#'}}am-text-{{$t['color_style'][$form_table_data_list[$i][$t['color_key']]]}}{{/if}} 
-                                                    {{if !empty($t['text_truncate'])}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}}" 
-                                                    style="
-                                                    {{if isset($t['is_badge']) and $t['is_badge'] eq 1 and !empty($t['badge_key']) and !empty($t['badge_style']) and is_array($t['badge_style']) and isset($form_table_data_list[$i][$t['badge_key']]) and isset($t['badge_style'][$form_table_data_list[$i][$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_list[$i][$t['badge_key']]], 0, 1) eq '#'}}background: {{$t['badge_style'][$form_table_data_list[$i][$t['badge_key']]]}};{{/if}} 
-                                                    {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_list[$i][$t['color_key']]) and isset($t['color_style'][$form_table_data_list[$i][$t['color_key']]]) and substr($t['color_style'][$form_table_data_list[$i][$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_list[$i][$t['color_key']]]}};{{/if}}" 
-                                                    {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_list[$i][$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_list[$i][$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}
-                                                >
-                                                    <!-- 图标+提示 -->
-                                                    {{if isset($t['is_first_tips']) and $t['is_first_tips'] eq 1 and ((!empty($t['first_tips_key']) and !empty($form_table_data_list[$i][$t['first_tips_key']])) or (!empty($t['first_tips_data'])))}}
-                                                        <a href="javascript:;" class="am-margin-right-xs {{if !empty($t['first_tips_style'])}}am-text-{{$t.first_tips_style}}{{/if}} am-icon-{{if empty($t['first_tips_icon'])}}exclamation-circle{{else /}}{{$t.first_tips_icon}}{{/if}}" data-am-popover="{content: '{{if !empty($t['first_tips_key']) and !empty($form_table_data_list[$i][$t['first_tips_key']])}}{{:PopoverContentHandle($form_table_data_list[$i][$t['first_tips_key']])}}{{else /}}{{:PopoverContentHandle($t.first_tips_data)}}{{/if}}', trigger: 'hover focus', theme: '{{if !empty($t['first_tips_style'])}}{{$t.first_tips_style}}{{/if}} sm'}"></a>
-                                                    {{/if}}
-
-                                                    <!-- 连接+提示 -->
-                                                    {{if isset($t['is_first_link']) and $t['is_first_link'] eq 1 and ((!empty($t['first_link_key']) and !empty($form_table_data_list[$i][$t['first_link_key']])) or (!empty($t['first_link_data'])))}}
-                                                        <a href="{{if !empty($t['first_link_key']) and !empty($form_table_data_list[$i][$t['first_link_key']])}}{{$form_table_data_list[$i][$t['first_link_key']]}}{{else /}}{{$t.first_link_data}}{{/if}}" class="am-margin-right-xs {{if !empty($t['first_link_style'])}}am-text-{{$t.first_link_style}}{{/if}} am-icon-{{if empty($t['first_link_icon'])}}external-link{{else /}}{{$t.first_link_icon}}{{/if}}" target="_blank" {{if !empty($t['first_link_popover'])}}data-am-popover="{content: '{{:PopoverContentHandle($t.first_link_popover)}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}></a>
-                                                    {{/if}}
-
-                                                    <!-- 圆点 -->
-                                                    {{if isset($t['is_round_point']) and $t['is_round_point'] eq 1}}
-                                                        <i class="am-icon-circle am-margin-right-xs {{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_list[$i][$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]], 0, 1) neq '#'}}am-text-{{$t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]}}{{/if}}" 
-                                                        style="{{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_list[$i][$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]], 0, 1) eq '#'}}color: {{$t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]}};{{/if}}"></i>
-                                                    {{/if}}
-
-                                                    <!-- 前后固定拼接的值 前面 -->
-                                                    {{if isset($t['view_join_first'])}}
-                                                        <span>{{$t.view_join_first}}</span>
-                                                    {{/if}}
-
-                                                    <!-- 如果字段为数组则处理多个字段拼接数据 -->
-                                                    {{if is_array($t['view_key'])}}
-                                                        {{foreach $t['view_key'] as $fk=>$fv}}
-                                                            {{if isset($form_table_data_list[$i][$fv])}}
-                                                                <span>{{$form_table_data_list[$i][$fv]}}</span>
-                                                                <!-- 多个字段拼接数据的的拼接字符 -->
-                                                                {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
-                                                                    <span>{{$t.view_key_join|raw}}</span>
-                                                                {{/if}}
-                                                            {{/if}}
-                                                        {{/foreach}}
-                                                    {{else /}}
-                                                        <!-- 是否存在数据 key -->
-                                                        {{if isset($form_table_data_list[$i][$t['view_key']])}}
-                                                            <!-- 是否指定数据转换 -->
-                                                            {{if !empty($t['view_data']) and is_array($t['view_data'])}}
-                                                                <!-- 不存在数组中则不显示 -->
-                                                                {{if isset($t['view_data'][$form_table_data_list[$i][$t['view_key']]])}}
-                                                                    <!-- 是否指定二维数组key取值 -->
-                                                                    {{if !empty($t['view_data_key'])}}
-                                                                        {{if isset($t['view_data'][$form_table_data_list[$i][$t['view_key']]][$t['view_data_key']])}}
-                                                                            {{$t['view_data'][$form_table_data_list[$i][$t['view_key']]][$t['view_data_key']]}}
-                                                                        {{/if}}
-                                                                    {{else /}}
-                                                                        {{$t['view_data'][$form_table_data_list[$i][$t['view_key']]]}}
-                                                                    {{/if}}
-                                                                {{/if}}
-
-                                                            <!-- 直接展示数据 -->
-                                                            {{else /}}
-                                                                {{$form_table_data_list[$i][$t['view_key']]|raw}}
-                                                            {{/if}}
-                                                        {{/if}}
-                                                    {{/if}}
-                                                    <!-- 前后固定拼接的值 后面 -->
-                                                    {{if isset($t['view_join_last'])}}
-                                                        <span>{{$t.view_join_last}}</span>
-                                                    {{/if}}
-                                                </p>
-                                            {{/case}}
-                                            {{case module}}
-                                                <!-- 从模块加载自定义模块数据 -->
-                                                {{:ModuleInclude(empty($t['template']) ? $t['view_key'] : $t['template'], $form_table_data_list[$i], [
-                                                    'form'      => $t,
-                                                    'params'    => isset($form_params) ? $form_params : [],
-                                                ])}}
-                                            {{/case}}
-                                            {{case status}}
-                                                <!-- 数据状态操作按钮组件 -->
-                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($form_table_data_list[$i][$t['key_field']]) and array_key_exists($t['view_key'], $form_table_data_list[$i])}}
-                                                    <a href="javascript:;"
-                                                        class="am-icon-btn am-icon-check submit-state {{if $form_table_data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
-                                                        data-url="{{$t.post_url}}"
-                                                        data-id="{{if isset($form_table_data_list[$i][$t['key_field']])}}{{$form_table_data_list[$i][$t['key_field']]}}{{/if}}"
-                                                        data-state="{{$form_table_data_list[$i][$t['view_key']]}}"
-                                                        data-field="{{$t.view_key}}"
-                                                        data-is-update-status="{{if isset($t['is_form_su']) and $t['is_form_su'] eq 1}}1{{else /}}0{{/if}}"
-                                                        data-is-loading="{{if isset($t['is_loading']) and $t['is_loading'] eq 1}}1{{else /}}0{{/if}}"
-                                                        data-loading-msg="{{if !empty($t['loading_msg'])}}{{$t.loading_msg}}{{/if}}"
-                                                    ></a>
-                                                {{/if}}
-                                            {{/case}}
-                                            {{case operate}}
-                                                <!-- 是否操作列 -->
-                                                <!-- 模块数据 -->
-                                                {{:ModuleInclude($t['view_key'], $form_table_data_list[$i], [
-                                                    'form'      => $t,
-                                                    'params'    => isset($form_params) ? $form_params : [],
-                                                ])}}
-
-                                                <!-- 列表操作钩子 -->
-                                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                    <div class="plugins-tag">
-                                                        <span>{{$hook_name_form_list_operate}}</span>
-                                                    </div>
-                                                {{/if}}
-                                                {{php}}
-                                                    $hook_data = MyEventTrigger($hook_name_form_list_operate, [
-                                                        'hook_name'     => $hook_name_form_list_operate,
-                                                        'is_backend'    => true,
-                                                        'id'            => isset($form_table_data_list[$i][$form_table['base']['key_field']]) ? $form_table_data_list[$i][$form_table['base']['key_field']] : 0,
-                                                        'data'          => $form_table_data_list[$i],
-                                                    ]);
-                                                    if(!empty($hook_data) && is_array($hook_data))
-                                                    {
-                                                        foreach($hook_data as $hook)
-                                                        {
-                                                            if(is_string($hook) || is_int($hook))
-                                                            {
-                                                                echo htmlspecialchars_decode($hook);
-                                                            }
-                                                        }
-                                                    }
-                                                {{/php}}
-                                            {{/case}}
-                                            {{case radio}}
-                                                {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
-                                                    <!-- 是否配置指定数据不显示控件 -->
-                                                    {{if
-                                                        !isset($t['not_show_data']) or 
-                                                        empty($t['not_show_key']) or 
-                                                        (is_array($t['not_show_data']) and isset($form_table_data_list[$i][$t['not_show_key']]) and !in_array($form_table_data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
-                                                        (isset($t['not_show_type']) and isset($form_table_data_list[$i][$t['not_show_key']]) and (
-                                                            ($t['not_show_type'] eq 0 and $form_table_data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 1 and $form_table_data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 2 and $form_table_data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
-                                                        ))
-                                                    }}
-                                                        <div class="form-table-operate-radio">
-                                                            <label class="am-radio am-secondary am-radio-inline">
-                                                                <input type="radio" name="{{$t.view_key}}" value="{{$form_table_data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
-                                                            </label>
-                                                        </div>
-                                                    {{/if}}
-                                                {{/if}}
-                                            {{/case}}
-                                            {{case checkbox}}
-                                                {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
-                                                    <!-- 是否配置指定数据不显示控件 -->
-                                                    {{if
-                                                        !isset($t['not_show_data']) or 
-                                                        empty($t['not_show_key']) or 
-                                                        (is_array($t['not_show_data']) and isset($form_table_data_list[$i][$t['not_show_key']]) and !in_array($form_table_data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
-                                                        (isset($t['not_show_type']) and isset($form_table_data_list[$i][$t['not_show_key']]) and (
-                                                            ($t['not_show_type'] eq 0 and $form_table_data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 1 and $form_table_data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 2 and $form_table_data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
-                                                        ))
-                                                    }}
-                                                        <div class="form-table-operate-checkbox">
-                                                            <label class="am-checkbox am-secondary am-checkbox-inline">
-                                                                <input type="checkbox" name="{{$t.view_key}}" value="{{$form_table_data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
-                                                            </label>
-                                                        </div>
-                                                    {{/if}}
-                                                {{/if}}
-                                            {{/case}}
-                                        {{/switch}}
-
-                                        <!-- 列表格子钩子 -->
-                                        {{if !empty($t['unique_key']) and $t['view_type'] neq 'operate'}}
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                <div class="plugins-tag">
-                                                    <span>{{$hook_name_form_grid}}_{{$t.unique_key}}</span>
-                                                </div>
-                                            {{/if}}
-                                            {{php}}
-                                                $hook_data = MyEventTrigger($hook_name_form_grid.'_'.$t['unique_key'], [
-                                                    'hook_name'     => $hook_name_form_grid.'_'.$t['unique_key'],
-                                                    'is_backend'    => true,
-                                                    'id'            => isset($form_table_data_list[$i][$form_table['base']['key_field']]) ? $form_table_data_list[$i][$form_table['base']['key_field']] : 0,
-                                                    'data'          => $form_table_data_list[$i],
-                                                ]);
-                                                if(!empty($hook_data) && is_array($hook_data))
-                                                {
-                                                    foreach($hook_data as $hook)
-                                                    {
-                                                        if(is_string($hook) || is_int($hook))
-                                                        {
-                                                            echo htmlspecialchars_decode($hook);
-                                                        }
-                                                    }
-                                                }
-                                            {{/php}}
-                                        {{/if}}
-                                    {{/if}}
-                                </td>
-                            {{/if}}
-                        {{/foreach}}
-                    </tr>
-                {{/for}}
-            {{/if}}
+            <!-- content -->
+            {{include file="public/module/form_table_content" /}}
         </tbody>
     </table>
     <!-- 是否开启数据打印操作 -->
@@ -411,7 +62,13 @@
             var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
         </script>
     {{/if}}
-    {{if empty($form_table_data_list)}}
-        {{include file="public/not_data" /}}
-    {{/if}}
+
+    <!-- 无数据 -->
+    <div class="form-table-no-data">
+        {{if empty($form_table_data_list)}}
+            <!-- form_table_no_data_start -->
+            {{include file="public/not_data" /}}
+            <!-- form_table_no_data_end -->
+        {{/if}}
+    </div>
 </div>

@@ -126,7 +126,7 @@ class GoodsCart
             // 数据配置
             'data'  => [
                 'table_obj'     => Db::name('Cart')->alias('c')->join('goods g', 'g.id=c.goods_id'),
-                'select_field'  => 'c.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'select_field'  => 'c.*, g.title, g.original_price, g.min_price, g.images',
                 'order_by'      => 'c.id desc',
                 'detail_dkey'   => 'c.id',
                 'data_handle'   => 'GoodsCartService::GoodsCartListHandle',
@@ -154,7 +154,7 @@ class GoodsCart
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

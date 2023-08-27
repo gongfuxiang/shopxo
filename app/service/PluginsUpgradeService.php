@@ -16,6 +16,7 @@ use app\service\PluginsService;
 use app\service\PaymentService;
 use app\service\ThemeService;
 use app\service\AppMiniService;
+use app\service\StoreService;
 
 /**
  * 插件更新服务层
@@ -185,15 +186,14 @@ class PluginsUpgradeService
     public static function UrlHandle($params = [])
     {
         // 帐号信息
-        $accounts = MyC('common_store_accounts');
-        $password = MyC('common_store_password');
-        if(empty($accounts) || empty($password))
+        $user = StoreService::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
         {
             return DataReturn(MyLang('store_account_not_bind_tips'), -300);
         }
 
         // 获取信息
-        $ret = StoreService::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_upgrade_url'), $params);
+        $ret = StoreService::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_plugins_upgrade_url'), $params);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             $key = md5($ret['data']);

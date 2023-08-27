@@ -3,17 +3,13 @@
 <!-- header top nav -->
 {{include file="public/header_top_nav" /}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
-
-<!-- header nav -->
-{{include file="public/header_nav" /}}
-
-<!-- goods category -->
-{{include file="public/goods_category" /}}
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'search' => '1',
+])}}
 
 <!-- content -->
-<div class="am-container user-main">
+<div class="am-form-table-data-container am-container user-main">
 
     <!-- user menu start -->
     {{include file="public/user_menu" /}}
@@ -22,6 +18,9 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
+            <!-- user center title -->
+            {{include file="public/module/user_center_main_title" /}}
+
             <!-- content top hook -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -43,7 +42,7 @@
             {{/php}}
 
             <!-- content top start -->
-            <div class="content-top">
+            <div class="form-table-content-top am-cf">
                 {{block name="form_content_top"}}{{/block}}
             </div>
             <!-- content top end -->
@@ -72,9 +71,9 @@
 
                 <!-- form -->
                 {{if !empty($form_table) and !empty($form_table['base']) and !empty($form_table['form']) and is_array($form_table['base']) and is_array($form_table['form'])}}
-                    <form class="form-validation-search" method="post" action="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" request-type="jump" request-value="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}">
+                    <form class="am-form form-validation-search" method="post" action="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" request-type="jump" request-value="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}">
                         <!-- nav start -->
-                        <div class="form-table-navigation">
+                        <div class="form-table-navigation am-cf">
                             {{block name="form_navigation"}}{{/block}}
                         </div>
                         <!-- nav end -->
@@ -92,7 +91,7 @@
                         <!-- form table end -->
 
                         <!-- bottom operate start -->
-                        <div class="form-table-operate-bottom am-nbfc am-margin-top-sm">
+                        <div class="form-table-operate-bottom am-cf am-margin-top-sm">
                             {{block name="form_operate_bottom"}}
                                 {{include file="public/module/form_operate_bottom" /}}
                             {{/block}}
@@ -107,12 +106,11 @@
                 {{/if}}
 
                 <!-- page start -->
-                {{block name="form_page"}}
-                    {{php}}$form_table_data_list = empty($form_table_data_list) ? (empty($data_list) ? [] : $data_list) : $form_table_data_list;{{/php}}
-                    {{if !empty($form_table_data_list) and isset($page_html)}}
-                        {{$page_html|raw}}
-                    {{/if}}
-                {{/block}}
+                <div class="form-table-operate-page am-cf">
+                    {{block name="form_page"}}
+                        {{include file="public/module/form_table_page" /}}
+                    {{/block}}
+                </div>
                 <!-- page end -->
 
                 <!-- extend start -->

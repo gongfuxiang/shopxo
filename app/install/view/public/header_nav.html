@@ -1,6 +1,9 @@
-<div class="header-nav">
+<div class="header-nav" data-am-sticky="{animation: 'slide-top'}">
     <div class="inside">
-        <p class="logo-name">ShopXO<span>安装向导 {{$Think.APPLICATION_VERSION}}</span></p>
+        <p class="logo-name">
+            <strong>Shop<em>XO</em></strong>
+            <span class="desc">安装向导 {{$Think.APPLICATION_VERSION}}</span>
+        </p>
         <ul class="schedule {{if isset($action) && $action == 'index'}}active{{/if}}">
             <li class="number">1</li>
             <li class="word">使用协议</li>
@@ -21,6 +24,6 @@
 </div>
 <!-- <div class="am-container am-text-center am-text-danger am-padding-top-lg am-padding-bottom-sm">
     <span>v8.1版本由</span>
-    <a href="" target="_blank"><strong>XXXXXX</strong></a>
+    <a href="#" target="_blank"><strong>XXXXXX</strong></a>
     <span>独家赞助发布！</span>
 </div> -->

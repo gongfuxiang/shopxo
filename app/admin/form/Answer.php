@@ -91,6 +91,16 @@ class Answer
                     ],
                 ],
                 [
+                    'label'         => $lang['title'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'title',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['content'],
                     'view_type'     => 'module',
                     'view_key'      => 'answer/module/content',
@@ -123,7 +133,7 @@ class Answer
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_show_list'),
+                        'data'              => MyConst('common_is_show_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -139,7 +149,7 @@ class Answer
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -220,7 +230,7 @@ class Answer
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

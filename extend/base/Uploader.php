@@ -478,7 +478,7 @@ class Uploader
      */
     public function getFileErrorInfo($key)
     {
-        $file_error_list = MyLang('common_file_upload_error_list');
+        $file_error_list = MyConst('common_file_upload_error_list');
         return array_key_exists($key, $file_error_list) ? $file_error_list[$key] : MyLang('error');
     }
 

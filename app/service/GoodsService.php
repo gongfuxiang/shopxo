@@ -62,7 +62,7 @@ class GoodsService
         // 缓存
         $key = SystemService::CacheKey('shopxo.cache_goods_floor_list_key');
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 商品大分类
             $data = GoodsCategoryService::GoodsCategoryList(['where'=>[
@@ -100,8 +100,8 @@ class GoodsService
                         // 商品数量
                         $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
                         // 排序配置
-                        $floor_order_by_type_list = MyLang('goods_order_by_type_list');
-                        $floor_order_by_rule_list = MyLang('goods_order_by_rule_list');
+                        $floor_order_by_type_list = MyConst('common_goods_order_by_type_list');
+                        $floor_order_by_rule_list = MyConst('common_goods_order_by_rule_list');
                         $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
                         $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
                         // 排序字段名称
@@ -1072,7 +1072,7 @@ class GoodsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
-                'checked_data'      => array_merge(array_column(MyLang('common_site_type_list'), 'value')),
+                'checked_data'      => array_merge(array_column(MyConst('common_site_type_list'), 'value')),
                 'is_checked'        => 1,
                 'error_msg'         => MyLang('common_service.goods.save_site_type_error_tips'),
             ],
@@ -2592,7 +2592,7 @@ class GoodsService
         }
 
         // 仅可单独购买
-        $site_type_arr = MyLang('common_site_type_list');
+        $site_type_arr = MyConst('common_site_type_list');
         $msg = array_key_exists($site_type, $site_type_arr) ? MyLang('only_title').$site_type_arr[$site_type]['name'] : MyLang('goods_only_buy_title');
         return DataReturn($msg, -1, $site_type);
     }
@@ -2772,7 +2772,7 @@ class GoodsService
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_goods_detail_middle_tabs_key').APPLICATION;
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 是否展示商品评价
             $is_comments = MyC('common_is_show_goods_comments', 1);
@@ -2966,76 +2966,6 @@ class GoodsService
             $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
         return DataReturn(MyLang('handle_success'), 0, $result);
-    }
-
-    /**
-     * 商品面包屑导航数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-07-06
-     * @desc    description
-     * @param   [array]          $goods [商品信息]
-     */
-    public static function GoodsBreadcrumbData($goods)
-    {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_goods_detail_breadcrumb_key').$goods['id'];
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
-        {
-            // 默认首页
-            $data = [
-                [
-                    'type'  => 0,
-                    'name'  => MyLang('home_title'),
-                    'url'   => SystemService::HomeUrl(),
-                    'icon'  => 'am-icon-home',
-                ],
-            ];
-            // 商品分类
-            $cids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods['id']])->column('category_id');
-            if(!empty($cids))
-            {
-                $where = [
-                    ['id', 'in', $cids],
-                    ['is_enable', '=', 1],
-                ];
-                $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
-                if(!empty($category))
-                {
-                    $category = array_map(function($v)
-                    {
-                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
-                        return $v;
-                    }, $category);
-                    if(count($category) == 1)
-                    {
-                        $data[] = [
-                            'type'  => 0,
-                            'name'  => $category[0]['name'],
-                            'url'   => $category[0]['url'],
-                        ];
-                    } else {
-                        $data[] = [
-                            'type'  => 1,
-                            'name'  => MyLang('goods_category_title'),
-                            'data'  => $category,
-                        ];
-                    }
-                }
-            }
-
-            // 当前商品名称
-            $data[] = [
-                'type'  => 0,
-                'name'  => $goods['title'],
-            ];
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
-        return $data;
     }
 
     /**

@@ -37,7 +37,7 @@ class BannerService
         // 缓存
         $key = SystemService::CacheKey('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取banner数据
             $field = 'name,images_url,event_value,event_type,bg_color';

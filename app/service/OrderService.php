@@ -44,7 +44,7 @@ class OrderService
      */
     public static function BusinessTypeName()
     {
-        return MyLang('common_service.order.business_type_name');
+        return 'order';
     }
 
     /**
@@ -84,6 +84,9 @@ class OrderService
         $order_ids = [];
         $order_nos = [];
 
+        // 订单地址
+        $address_data = self::OrderAddressData($ids);
+
         // 循环处理
         $order_data = [];
         foreach($ids as $k=>$order_id)
@@ -98,7 +101,7 @@ class OrderService
             $operate = self::OrderOperateData($order, 'user');
             if($operate['is_pay'] != 1)
             {
-                $status_text = MyLang('common_order_status')[$order['status']]['name'];
+                $status_text = MyConst('common_order_status')[$order['status']]['name'];
                 return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
@@ -112,6 +115,9 @@ class OrderService
             {
                 return DataReturn(MyLang('common_service.order.order_user_invalid_tips').'['.$order_id.']', -1);
             }
+
+            // 订单地址
+            $order['address_data'] = (!empty($address_data) && array_key_exists($order_id, $address_data)) ? $address_data[$order_id] : null;
 
             // 订单数据集合
             $order_data[] = $order;
@@ -449,7 +455,7 @@ class OrderService
         $operate = self::OrderOperateData($order, 'admin');
         if($operate['is_pay'] != 1)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.'-'.$order['order_no'].']', -1);
         }
 
@@ -493,7 +499,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function OrderDirectSuccess($params = [])
+    public static function OrderDirectSuccess($params = [])
     {
         if(!empty($params['order']) && !empty($params['user']))
         {
@@ -527,7 +533,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function OrderPaymentUnderLineSuccess($params = [])
+    public static function OrderPaymentUnderLineSuccess($params = [])
     {
         if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
         {
@@ -862,7 +868,7 @@ class OrderService
             // 日志订单
             if(empty($params['pay_log_data']))
             {
-                return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -1);
+                return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -2);
             }
         }
 
@@ -1282,10 +1288,10 @@ class OrderService
             $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
             // 静态数据
-            $order_status_list = MyLang('common_order_status');
-            $order_pay_status = MyLang('common_order_pay_status');
-            $common_platform_type = MyLang('common_platform_type');
-            $common_order_type_list = MyLang('common_order_type_list');
+            $order_status_list = MyConst('common_order_status');
+            $order_pay_status = MyConst('common_order_pay_status');
+            $common_platform_type = MyConst('common_platform_type');
+            $common_order_type_list = MyConst('common_order_type_list');
             $order_take_status_name = MyLang('common_service.order.order_take_status_name');
             $order_under_line_pay_status_name = MyLang('common_service.order.order_under_line_pay_status_name');
             $order_under_line_name = MyLang('common_service.order.order_under_line_name');
@@ -1579,8 +1585,8 @@ class OrderService
         $data = Db::name('OrderAftersale')->where(['order_id'=>$order_id])->field('status,type,number,price,reason,msg')->order('id desc')->find();
         if(!empty($data))
         {
-            $type_list = MyLang('common_order_aftersale_type_list');
-            $status_list = MyLang('common_order_aftersale_status_list');
+            $type_list = MyConst('common_order_aftersale_type_list');
+            $status_list = MyConst('common_order_aftersale_status_list');
 
             // 类型
             $data['type_text'] = array_key_exists($data['type'], $type_list) ? $type_list[$data['type']]['name'] : '';
@@ -1667,13 +1673,13 @@ class OrderService
                     }
 
                     // 虚拟销售商品 - 虚拟信息处理
-                    if($ov['order_model'] == 3 && $ov['pay_status'] == 1 && in_array($ov['status'], [3,4]))
+                    if(isset($ov['order_model']) && isset($ov['pay_status']) && isset($ov['status']) && $ov['order_model'] == 3 && $ov['pay_status'] == 1 && in_array($ov['status'], [3,4]))
                     {
-                        $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
+                        $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? ResourcesService::ContentStaticReplace($fictitious_value_list[$vs['id']], 'get') : '';
                     }
 
                     // 是否获取最新一条售后信息
-                    if($is_orderaftersale == 1)
+                    if($is_orderaftersale == 1 && isset($ov['status']))
                     {
                         $vs['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($vs['id'], $orderaftersale)) ? $orderaftersale[$vs['id']] : null;
                         $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $vs['orderaftersale']);
@@ -1700,7 +1706,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $order_ids    [订单id]
      */
-    private static function OrderExtractionData($order_ids)
+    public static function OrderExtractionData($order_ids)
     {
         // 必须返回的内容格式
         $result = [];
@@ -1753,7 +1759,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $order_ids    [订单id]
      */
-    private static function OrderAddressData($order_ids)
+    public static function OrderAddressData($order_ids)
     {
         // 销售模式+自提模式 地址信息
         $data = Db::name('OrderAddress')->where(['order_id'=>$order_ids])->column('*', 'order_id');
@@ -1791,7 +1797,7 @@ class OrderService
      * @param    [int]                   $order_status   [订单状态]
      * @param    [array]                 $orderaftersale [售后数据]
      */
-    private static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
+    public static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
     {
         $text = null;
         if(!in_array($order_status, [0,1,5,6]))
@@ -1829,9 +1835,9 @@ class OrderService
     public static function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
     {
         // 状态描述
-        $order_status_list = MyLang('common_order_status');
-        $original_status_name = $order_status_list[$original_status]['name'];
-        $new_status_name = $order_status_list[$new_status]['name'];
+        $order_status_list = MyConst('common_order_status');
+        $original_status_name = ($original_status != '' && isset($order_status_list[$original_status])) ? $order_status_list[$original_status]['name'] : '';
+        $new_status_name = ($new_status != '' && isset($order_status_list[$new_status])) ? $order_status_list[$new_status]['name'] : '';
         $msg .= '['.$original_status_name.'-'.$new_status_name.']';
 
         // 添加
@@ -1906,7 +1912,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_cancel'] != 1)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
@@ -2015,7 +2021,7 @@ class OrderService
             $operate = self::OrderOperateData($order, $user_type);
             if($operate['is_delivery'] != 1)
             {
-                $status_text = MyLang('common_order_status')[$order['status']]['name'];
+                $status_text = MyConst('common_order_status')[$order['status']]['name'];
                 throw new \Exception(MyLang('status_not_can_operate_tips').'['.$status_text.']');
             }
 
@@ -2149,7 +2155,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_collect'] != 1)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
@@ -2258,7 +2264,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_confirm'] != 1)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
@@ -2366,7 +2372,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_delete'] != 1)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
@@ -2426,7 +2432,7 @@ class OrderService
         $result = [];
         $is_comments = isset($params['is_comments']) && $params['is_comments'] == 1;
         $is_aftersale = isset($params['is_aftersale']) && $params['is_aftersale'] == 1;
-        $order_status_list = MyLang('order_status_step_total_list');
+        $order_status_list = MyConst('common_order_status_step_total_list');
         foreach($order_status_list as $v)
         {
             // 订单正常状态

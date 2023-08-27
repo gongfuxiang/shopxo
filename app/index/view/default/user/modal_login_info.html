@@ -1,7 +1,7 @@
 {{include file="public/header" /}}
 
 <!-- conntent start  -->
-<div class="am-g my-content login-modal-container">
+<div class="am-g my-content user-login-modal-container">
     {{if count($home_user_login_type) gt 0}}
         {{include file="user/login_content" /}}
     {{else /}}
@@ -16,7 +16,6 @@
 {{/if}}
 
 {{include file="public/footer" /}}
-
 <script type="text/javascript">
     // 返回处理
     function LoginBackHandle(e)

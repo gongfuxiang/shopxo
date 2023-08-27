@@ -19,6 +19,7 @@ use app\service\GoodsService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsFavorService;
 use app\service\IntegralService;
+use app\service\QuickNavService;
 
 /**
  * 导航服务层
@@ -45,14 +46,14 @@ class NavigationService
         $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'));
 
         // 缓存没数据则从数据库重新读取,顶部菜单
-        if($header === null || MyEnv('app_debug') || MyInput('lang'))
+        if($header === null || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
 
         // 底部导航
-        if($footer === null || MyEnv('app_debug') || MyInput('lang'))
+        if($footer === null || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');
@@ -73,25 +74,37 @@ class NavigationService
         // 选中处理
         if(!empty($header))
         {
-            foreach($header as &$v)
+            $suffix = MyC('home_seo_url_html_suffix', 'html', true);
+            foreach($header as $k=>&$v)
             {
-                $v['active'] = ($v['url'] == __MY_VIEW_URL__) ? 1 : 0;
-                if($v['active'] == 0 && !empty($v['items']))
+                if($k > 0)
                 {
-                    $status = false;
-                    foreach($v['items'] as &$vs)
+                    $url = str_replace(['.'.$suffix, $suffix], '', $v['url']);
+                    $v['active'] = (stripos(__MY_VIEW_URL__, $url) === false) ? 0 : 1;
+                    if($v['active'] == 0 && !empty($v['items']))
                     {
-                        if($vs['url'] == __MY_VIEW_URL__)
+                        $status = false;
+                        foreach($v['items'] as &$vs)
                         {
-                            $vs['active'] = 1;
-                            $status = true;
-                        } else {
-                            $vs['active'] = 0;
+                            $url = str_replace(['.'.$suffix, $suffix], '', $vs['url']);
+                            if((stripos(__MY_VIEW_URL__, $url) !== false))
+                            {
+                                $vs['active'] = 1;
+                                $status = true;
+                            } else {
+                                $vs['active'] = 0;
+                            }
+                        }
+
+                        // 当子元素被选中则父级也选中
+                        if($status)
+                        {
+                            $v['active'] = 1;
                         }
                     }
-
-                    // 当子元素被选中则父级也选中
-                    if($status)
+                } else {
+                    // 首页选中处理
+                    if(__MY_VIEW_URL__ == $v['url'])
                     {
                         $v['active'] = 1;
                     }
@@ -276,7 +289,7 @@ class NavigationService
     {
         if(!empty($data) && is_array($data))
         {
-            $nav_type_list = MyLang('common_nav_type_list');
+            $nav_type_list = MyConst('common_nav_type_list');
             foreach($data as &$v)
             {
                 // 数据类型
@@ -612,7 +625,7 @@ class NavigationService
                 'type'      => 'center',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'am-icon-user',
+                'icon'      => 'icon-user-center-nav-top',
                 'url'       => MyUrl('index/user/index'),
                 'items'     => [],
             ],
@@ -621,7 +634,7 @@ class NavigationService
                 'type'      => 'myself',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'am-icon-cube',
+                'icon'      => 'icon-mall-nav-top',
                 'url'       => '',
                 'items'     => [
                     [
@@ -635,7 +648,7 @@ class NavigationService
                 'type'      => 'favor',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'am-icon-heart',
+                'icon'      => 'icon-collect-nav-top',
                 'url'       => '',
                 'items'     => [
                     [
@@ -644,12 +657,34 @@ class NavigationService
                     ],
                 ],
             ],
+        ];
+
+        // 百宝箱、快捷导航
+        if(MyC('home_navigation_main_quick_status') == 1)
+        {
+            $nav_quick = QuickNavService::QuickNav();
+            if(!empty($nav_quick))
+            {
+                $data[] = [
+                    'name'      => MyC('home_navigation_main_quick_name', MyLang('common.navigation_main_quick_name'), true),
+                    'type'      => 'quick',
+                    'is_login'  => 1,
+                    'badge'     => null,
+                    'icon'      => 'icon-more-nav-top',
+                    'url'       => '',
+                    'items'     => $nav_quick,
+                ];
+            }
+        }
+
+        // 购物车和消息
+        $data = array_merge($data, [
             [
                 'name'      => $lang['cart'],
                 'type'      => 'cart',
                 'is_login'  => 1,
                 'badge'     => -1,
-                'icon'      => 'am-icon-shopping-cart',
+                'icon'      => 'icon-cart-nav-top',
                 'url'       => MyUrl('index/cart/index'),
                 'items'     => [],
             ],
@@ -658,11 +693,11 @@ class NavigationService
                 'type'      => 'message',
                 'is_login'  => 1,
                 'badge'     => 0,
-                'icon'      => 'am-icon-bell',
+                'icon'      => 'icon-message-nav-top',
                 'url'       => MyUrl('index/message/index'),
                 'items'     => [],
             ],
-        ];
+        ]);
 
         // 追加多语言
         if(MyC('home_use_multilingual_status') == 1)
@@ -671,10 +706,10 @@ class NavigationService
             if(!empty($multilingual_data) && !empty($multilingual_data['data']) && !empty($multilingual_data['default']))
             {
                 $data[] = [
-                    'name'      => MyLang('lang_title').'['.$multilingual_data['default']['name'].']',
+                    'name'      => $multilingual_data['default']['name'],
                     'is_login'  => 0,
                     'badge'     => null,
-                    'icon'      => 'am-icon-language',
+                    'icon'      => 'icon-language-nav-top',
                     'url'       => '',
                     'items'     => $multilingual_data['data'],
                 ];
@@ -861,13 +896,13 @@ class NavigationService
                 'url'       => MyUrl('index/user/index'),
                 'is_show'   => 1,
                 'contains'  => ['indexuserindex'],
-                'icon'      => 'am-icon-home',
+                'icon'      => 'icon-user-center-left-home',
                 'is_system' => 1,
             ],
             'business' => [
                 'name'      => $lang['business'],
                 'is_show'   => 1,
-                'icon'      => 'am-icon-cube',
+                'icon'      => 'icon-user-center-left-business',
                 'is_system' => 1,
                 'item'      => [
                     [
@@ -875,7 +910,7 @@ class NavigationService
                         'url'       => MyUrl('index/order/index'),
                         'is_show'   => 1,
                         'contains'  => ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
-                        'icon'      => 'am-icon-th-list',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -883,7 +918,7 @@ class NavigationService
                         'url'       => MyUrl('index/orderaftersale/index'),
                         'is_show'   => 1,
                         'contains'  => ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
-                        'icon'      => 'am-icon-puzzle-piece',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -891,7 +926,7 @@ class NavigationService
                         'url'       => MyUrl('index/usergoodsfavor/index'),
                         'contains'  => ['indexusergoodsfavorindex'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-heart-o',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                 ]
@@ -899,7 +934,7 @@ class NavigationService
             'property' => [
                 'name'      => $lang['property'],
                 'is_show'   => 1,
-                'icon'      => 'am-icon-trophy',
+                'icon'      => 'icon-user-center-left-property',
                 'is_system' => 1,
                 'item'      => [
                     [
@@ -907,7 +942,7 @@ class NavigationService
                         'url'       => MyUrl('index/userintegral/index'),
                         'contains'  => ['indexuserintegralindex'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-fire',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                 ]
@@ -915,7 +950,7 @@ class NavigationService
             'base' => [
                 'name'      => $lang['base'],
                 'is_show'   => 1,
-                'icon'      => 'am-icon-user',
+                'icon'      => 'icon-user-center-left-base',
                 'is_system' => 1,
                 'item'      => [
                     [
@@ -923,7 +958,7 @@ class NavigationService
                         'url'       => MyUrl('index/personal/index'),
                         'contains'  => ['indexpersonalindex', 'indexpersonalsaveinfo'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-gear',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -931,7 +966,7 @@ class NavigationService
                         'url'       => MyUrl('index/useraddress/index'),
                         'contains'  => ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-street-view',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -939,7 +974,7 @@ class NavigationService
                         'url'       => MyUrl('index/safety/index'),
                         'contains'  => ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-user-secret',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -947,7 +982,7 @@ class NavigationService
                         'url'       => MyUrl('index/message/index'),
                         'contains'  => ['indexmessageindex'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-bell-o',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -955,7 +990,7 @@ class NavigationService
                         'url'       => MyUrl('index/usergoodsbrowse/index'),
                         'contains'  => ['indexusergoodsbrowseindex'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-lastfm',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                     [
@@ -963,7 +998,7 @@ class NavigationService
                         'url'       => MyUrl('index/answer/index'),
                         'contains'  => ['indexanswerindex'],
                         'is_show'   => 1,
-                        'icon'      => 'am-icon-question',
+                        'icon'      => '',
                         'is_system' => 1,
                     ],
                 ]
@@ -973,7 +1008,7 @@ class NavigationService
                 'url'       =>  MyUrl('index/user/logout'),
                 'contains'  =>  ['indexuserlogout'],
                 'is_show'   =>  1,
-                'icon'      =>  'am-icon-power-off',
+                'icon'      =>  'icon-user-center-left-logout',
                 'is_system' =>  1,
             ],
         ];
@@ -1016,7 +1051,7 @@ class NavigationService
                 'name'      => $lang['home'],
                 'is_login'  => 0,
                 'badge'     => null,
-                'icon'      => 'nav-icon-home',
+                'icon'      => 'icon-web-mobile-bottom-nav-home',
                 'only_tag'  => 'indexindex',
                 'url'       => SystemService::HomeUrl(),
             ],
@@ -1024,7 +1059,7 @@ class NavigationService
                 'name'      => $lang['category'],
                 'is_login'  => 0,
                 'badge'     => null,
-                'icon'      => 'nav-icon-category',
+                'icon'      => 'icon-web-mobile-bottom-nav-category',
                 'only_tag'  => 'categoryindex',
                 'url'       => MyUrl('index/category/index'),
             ],
@@ -1032,7 +1067,7 @@ class NavigationService
                 'name'      => $lang['cart'],
                 'is_login'  => 1,
                 'badge'     => $cart_total,
-                'icon'      => 'nav-icon-cart',
+                'icon'      => 'icon-web-mobile-bottom-nav-cart',
                 'only_tag'  => 'cartindex',
                 'url'       => MyUrl('index/cart/index'),
             ],
@@ -1040,7 +1075,7 @@ class NavigationService
                 'name'      => $lang['user'],
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'nav-icon-user',
+                'icon'      => 'icon-web-mobile-bottom-nav-user',
                 'only_tag'  => 'userindex',
                 'url'       => MyUrl('index/user/index'),
             ],

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>ShopXO安装程序</title>
-	<meta name="description" content="ShopXO是国内领先的商城系统提供商，为企业提供php商城系统、微信商城、小程序。" />
+	<meta name="description" content="ShopXO企业级免费开源商城系统，为企业提供php商城系统、微信商城、小程序。" />
     <meta name="keywords" content="ShopXO,开源电商系统,开源商城,开源B2C,免费商城系统,商城系统,B2C商城,微信商城,支付宝小程序,微信小程序,微信公众号,支付宝生活号" />
 	<meta name="generator" content="{{$Think.__MY_URL__}}" />
 	<meta name="application-name" content="ShopXO" />
@@ -19,9 +19,45 @@
 	
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/css/common.css" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/install/css/index.css" />
+	<style type="text/css">
+        :root {
+            /* 基础 */
+            --html-body-size: 10px;
+            --body-bg-color: #ffffff;
+            --color-price: #E22C08;
+            --color-red: #E22C08;
+            --color-yellow: #FAAD14;
+            --color-blue: #76AFFF;
+            --color-green: #5EB95E;
+
+            /* 主色 */
+            --color-main: #E22C08;
+            --color-mian-light: #F25232;
+            --color-main-hover: #EA6B52;
+
+            /* 次色 */
+            --color-secondary: #FFB8AA;
+
+            /* 圆角 */
+            --border-radius-sm: 0.2rem;
+            --border-radius: 0.4rem;
+            --border-radius-lg: 0.8rem;
+
+            /* 阴影 */
+            --box-shadow: 0 5px 20px rgba(50,55,58,0.1);
+            --box-shadow-sm: 0 2px 8px rgba(50,55,58,0.1);
+            --box-shadow-lg: 0 8px 34px rgba(50,55,58,0.1);
+        }
+    </style>
 	<script type="text/javascript">
 		// 基础配置
 		var __system_type__ = '{{$system_type}}';
+        var __root__ = '{{$public_host}}';
+        var __my_http__ = '{{$my_http}}';
+        var __my_host__ = '{{$my_host}}';
+        var __my_url__ = '{{$my_url}}';
+        var __my_public_url__ = '{{$my_public_url}}';
+        var __public__ = '{{$public_host}}';
 		var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
 	    var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
 	    var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';

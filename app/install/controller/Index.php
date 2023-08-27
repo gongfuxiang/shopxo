@@ -257,6 +257,16 @@ class Index extends Common
      */
     private function CreateDbConfig($dir, $params = [])
     {
+        // 输入参数特殊字符处理
+        $search = ['<?php', '<?', '?>', '\'', '"', '\\', 'eval('];
+        foreach($params as $k=>&$v)
+        {
+            if(in_array($k, ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PWD', 'DB_PORT', 'DB_CHARSET', 'DB_PREFIX']))
+            {
+                $v = str_replace($search, '', $v);
+            }
+        }
+
         // 配置文件信息处理
         $db_str=<<<php
 <?php

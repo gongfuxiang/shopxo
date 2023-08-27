@@ -1,0 +1,60 @@
+<div class="nav-seasrch header-nav-simple {{if !isset($module_data['is_sm_hide']) or $module_data['is_sm_hide'] eq 1}}am-hide-sm-only{{/if}}">
+    <div class="am-container">
+        <div class="logo">
+            <a href="{{$home_url}}">
+                <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+            </a>
+        </div>
+        {{if !empty($module_data['title'])}}
+            <p class="login-title am-fl am-vertical-align-middle am-margin-left-main">{{$module_data.title}}</p>
+        {{/if}}
+        {{if !empty($module_data['search']) and $module_data['search'] eq 1}}
+            <div class="search-bar am-fr">
+                <!-- 公共搜索框内左侧 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_search_inside_left</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_search_inside_left_data) and is_array($plugins_view_common_search_inside_left_data)}}
+                    {{foreach $plugins_view_common_search_inside_left_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
+                <!-- 搜索框 -->
+                <form action="{{:MyUrl('index/search/index')}}" method="POST">
+                    <div class="search-group am-radius am-nbfc">
+                        <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                        <button type="submit" id="ai-topsearch" class="submit am-btn-primary">
+                            <span>{{:MyLang('common.search_button_text')}}</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- 公共搜索框内右侧 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_search_inside_right</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_search_inside_right_data) and is_array($plugins_view_common_search_inside_right_data)}}
+                    {{foreach $plugins_view_common_search_inside_right_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            </div>
+        {{/if}}
+        {{if isset($module_data['is_go_home']) and $module_data['is_go_home'] eq 1}}
+            <p class="am-fr gohome am-padding-right-xs am-show-sm-down">
+                <a href="{{$home_url}}">
+                    <i class="iconfont icon-index"></i>
+                </a>
+            </p>
+        {{/if}}
+    </div>
+</div>

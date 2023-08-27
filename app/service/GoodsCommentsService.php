@@ -45,7 +45,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'checked_data'      => array_keys(MyLang('common_goods_comments_business_type_list')),
+                'checked_data'      => array_keys(MyConst('common_goods_comments_business_type_list')),
                 'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
             ],
             [
@@ -142,7 +142,7 @@ class GoodsCommentsService
         }
         if($order['status'] != 4)
         {
-            $status_text = MyLang('common_order_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
         if($order['user_is_comments'] != 0)
@@ -245,9 +245,9 @@ class GoodsCommentsService
             }
 
             // 静态数据
-            $common_is_text_list = MyLang('common_is_text_list');
-            $comments_rating_list = MyLang('common_goods_comments_rating_list');
-            $comments_business_type_list = MyLang('common_goods_comments_business_type_list');
+            $common_is_text_list = MyConst('common_is_text_list');
+            $comments_rating_list = MyConst('common_goods_comments_rating_list');
+            $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
 
             // 用户默认头像
             $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
@@ -426,7 +426,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'checked_data'      => array_keys(MyLang('common_goods_comments_business_type_list')),
+                'checked_data'      => array_keys(MyConst('common_goods_comments_business_type_list')),
                 'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
             ],
             [
@@ -444,7 +444,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'rating',
-                'checked_data'      => array_keys(MyLang('common_goods_comments_rating_list')),
+                'checked_data'      => array_keys(MyConst('common_goods_comments_rating_list')),
                 'error_msg'         => MyLang('common_service.goodscomments.form_item_rating_message'),
             ],
         ];

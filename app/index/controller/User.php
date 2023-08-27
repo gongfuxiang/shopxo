@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\SystemService;
 use app\service\OrderService;
@@ -29,7 +30,7 @@ use app\service\GoodsCartService;
  * @version  0.0.1
  * @datetime 2017-03-02T22:48:35+0800
  */
-class User extends Common
+class User extends Center
 {
     /**
      * 构造方法
@@ -94,9 +95,6 @@ class User extends Common
      */
     public function Index()
     {
-        // 登录校验
-        $this->IsLogin();
-
         // 模板数据
         $assign = [
             // 订单页面订单状态form key
@@ -260,6 +258,8 @@ class User extends Common
                     'referer_url'               => $this->GetrefererUrl(),
                     // 注册背景图片
                     'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
+                    // 注册背景色
+                    'user_register_bg_color'    => MyC('home_site_user_register_bg_color'),
                     // 浏览器名称
                     'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_browser_seo_title'), 1),
                 ];
@@ -356,7 +356,7 @@ class User extends Common
      */
     public function Reg()
     {
-        return ApiService::ApiDataReturn(UserService::Reg($this->data_post));
+        return ApiService::ApiDataReturn(UserService::Reg($this->data_request));
     }
 
     /**
@@ -369,7 +369,7 @@ class User extends Common
      */
     public function Login()
     {
-        return ApiService::ApiDataReturn(UserService::Login($this->data_post));
+        return ApiService::ApiDataReturn(UserService::Login($this->data_request));
     }
 
     /**
@@ -384,8 +384,9 @@ class User extends Common
     {
         $params = [
                 'width'         => 100,
-                'height'        => 28,
+                'height'        => 24,
                 'key_prefix'    => input('type', 'user_reg'),
+                'expire_time'   => MyC('common_verify_expire_time'),
             ];
         $verify = new \base\Verify($params);
         $verify->Entry();
@@ -401,7 +402,7 @@ class User extends Common
      */
     public function LoginVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_request));
     }
 
     /**
@@ -414,7 +415,7 @@ class User extends Common
      */
     public function RegVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_request));
     }
 
     /**
@@ -427,7 +428,7 @@ class User extends Common
      */
     public function ForgetPwdVerifySend()
     {
-        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_post));
+        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_request));
     }
 
     /**
@@ -440,7 +441,7 @@ class User extends Common
      */
     public function ForgetPwd()
     {
-        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_post));
+        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_request));
     }
 
     /**

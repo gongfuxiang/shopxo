@@ -35,30 +35,34 @@ class ResourcesService
      */
     public static function ContentStaticReplace($content, $type = 'get')
     {
-        // 配置文件附件url地址
-        $attachment_host = SystemBaseService::AttachmentHost();
-        if(empty($attachment_host))
+        // 仅处理字符串和数字类型
+        if(is_string($content) || is_int($content))
         {
-            $attachment_host = substr(__MY_PUBLIC_URL__, 0, -1);
-        }
-        $attachment_host_path = $attachment_host.'/static/';
+            // 配置文件附件url地址
+            $attachment_host = SystemBaseService::AttachmentHost();
+            if(empty($attachment_host))
+            {
+                $attachment_host = substr(__MY_PUBLIC_URL__, 0, -1);
+            }
+            $attachment_host_path = $attachment_host.'/static/';
 
-        // 根据类型处理附件地址
-        switch($type)
-        {
-            // 读取内容
-            case 'get':
-                return str_replace('src="/static/', 'src="'.$attachment_host_path, $content);
-                break;
+            // 根据类型处理附件地址
+            switch($type)
+            {
+                // 读取内容
+                case 'get':
+                    return str_replace('src="/static/', 'src="'.$attachment_host_path, $content);
+                    break;
 
-            // 内容写入
-            case 'add':
-                $search = [
-                    'src="'.__MY_PUBLIC_URL__.'static/',
-                    'src="'.__MY_ROOT_PUBLIC__.'static/',
-                    'src="'.$attachment_host_path,
-                ];
-                return str_replace($search, 'src="/static/', $content);
+                // 内容写入
+                case 'add':
+                    $search = [
+                        'src="'.__MY_PUBLIC_URL__.'static/',
+                        'src="'.__MY_ROOT_PUBLIC__.'static/',
+                        'src="'.$attachment_host_path,
+                    ];
+                    return str_replace($search, 'src="/static/', $content);
+            }
         }
         return $content;
     }
@@ -818,10 +822,15 @@ class ResourcesService
         // 取参数uuid、默认空
         $uid = input('uuid', '');
 
-        // 取当前session
+        // 取当当前session
         if(empty($uid))
         {
             $uid = MySession('uuid');
+        }
+        // 取当当前cookie
+        if(empty($uid))
+        {
+            $uid = MyCookie('uuid');
         }
 
         // 用户信息
@@ -847,7 +856,7 @@ class ResourcesService
     {
         // 表名处理及sql
         $table_name = MyConfig('database.connections.mysql.prefix').strtolower(preg_replace('/\B([A-Z])/', '_$1', $table));
-        $sql = 'SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`="'.$table_name.'"';
+        $sql = "SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`='".$table_name."'";
 
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_table_structure_key').'_'.md5($sql);

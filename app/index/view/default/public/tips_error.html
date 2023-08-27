@@ -23,10 +23,10 @@
         <span class="msg">{{$msg}}</span>
         <div class="tips-nav">
             {{if !isset($is_to_home) or $is_to_home eq 1}}
-                <a href="{{$home_url}}" class="am-btn am-btn-secondary am-radius">{{:MyLang('common.back_to_the_home_title')}}</a>
+                <a href="{{$home_url}}" class="am-btn am-btn-warning am-btn-xs am-radius">{{:MyLang('common.back_to_the_home_title')}}</a>
             {{/if}}
             {{if !empty($to_url) and !empty($to_title)}}
-                <a href="{{$to_url}}" class="am-btn am-btn-primary am-radius">{{$to_title}}</a>
+                <a href="{{$to_url}}" class="am-btn am-btn-primary am-btn-xs am-radius">{{$to_title}}</a>
             {{/if}}
         </div>
     </div>

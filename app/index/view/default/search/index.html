@@ -72,9 +72,9 @@
 
         <!-- 搜索条件内容、侧边栏内容 -->
         <div id="search-map" class="am-offcanvas">
-            <div class="am-offcanvas-bar">
+            <div class="am-offcanvas-bar am-radius">
                 <div class="am-offcanvas-content">
-                    <ul class="map-item am-list am-list-border am-margin-top-sm am-margin-bottom-0">
+                    <ul class="map-item am-list am-list-border am-margin-bottom-0">
                         <!-- 搜索页面筛选条件内前面钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
@@ -91,7 +91,7 @@
 
                         <!-- 基础数据 -->
                         <li class="am-nbfc">
-                            <p class="am-fl am-margin-left-sm">
+                            <p class="am-fl">
                                 <span>{{:MyLang('search.filter_out_first_text')}}</span>
                                 <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
                                 <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
@@ -144,7 +144,7 @@
                                         <ul class="am-nbfc">
                                             {{foreach $brand_list as $v}}
                                                 <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                    <a href="{{$v.url}}" title="{{$v.name}}">
+                                                    <a href="{{$v.url}}">
                                                         {{if empty($v['logo'])}}
                                                             {{$v.name}}
                                                         {{else /}}
@@ -171,7 +171,7 @@
                                     <ul class="am-nbfc">
                                         {{foreach $category_list as $v}}
                                             <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                <a href="{{$v.url}}" title="{{$v.name}}">{{$v.name}}</a>
+                                                <a href="{{$v.url}}">{{$v.name}}</a>
                                             </li>
                                         {{/foreach}}
                                     </ul>
@@ -191,7 +191,7 @@
                                     <ul class="am-nbfc">
                                         {{foreach $screening_price_list as $v}}
                                             <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                <a href="{{$v.url}}" title="{{$v.name}}">{{$v.name}}</a>
+                                                <a href="{{$v.url}}">{{$v.name}}</a>
                                             </li>
                                         {{/foreach}}
                                     </ul>
@@ -211,7 +211,7 @@
                                     <ul class="am-nbfc">
                                         {{foreach $goods_params_list as $v}}
                                             <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                <a href="{{$v.url}}" title="{{$v.value}}">{{$v.value}}</a>
+                                                <a href="{{$v.url}}">{{$v.value}}</a>
                                             </li>
                                         {{/foreach}}
                                     </ul>
@@ -231,7 +231,7 @@
                                     <ul class="am-nbfc">
                                         {{foreach $goods_spec_list as $v}}
                                             <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                <a href="{{$v.url}}" title="{{$v.value}}">{{$v.value}}</a>
+                                                <a href="{{$v.url}}">{{$v.value}}</a>
                                             </li>
                                         {{/foreach}}
                                     </ul>
@@ -276,7 +276,7 @@
         {{/if}}
 
         <!-- 排序方式 -->
-        <div class="search-nav am-margin-top-sm">
+        <div class="search-nav">
             <ul class="sort-nav" data-am-sticky="{animation: 'slide-top'}">
                 <!-- 搜索页面搜索导航条内前面钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -296,7 +296,7 @@
                 {{if !empty($map_order_by_list)}}
                     {{foreach $map_order_by_list as $k=>$v}}
                         <li class="{{if $v['is_active'] eq 1}}active{{/if}}">
-                            <a href="{{$v.url}}" title="{{$v.name}}">
+                            <a href="{{$v.url}}">
                                 <span>{{$v.name}}</span>
                                 {{if $v['type'] neq 'default'}}
                                     <i class="am-icon-long-arrow-{{if $v['value'] eq 'asc' or $v['is_active'] eq 0}}down{{else /}}up{{/if}}"></i>
@@ -319,6 +319,11 @@
                         {{/if}}
                     {{/foreach}}
                 {{/if}}
+                <li>
+                    <div class="layout-styles" data-value="{{$list_layout_value}}">
+                        <i class="iconfont {{if $list_layout_value eq 1}}icon-table-list {{else /}}icon-table-grid{{/if}}"></i>
+                    </div>
+                </li>
             </ul>
         </div>
 
@@ -337,7 +342,21 @@
         {{/if}}
 
         <!-- 数据列表 -->
-        {{include file="search/content" /}}
+        {{if !empty($data_list)}}
+            {{if $list_layout_value eq 1}}
+                {{:ModuleInclude('module/goods/list/base', [
+                    'goods_list'  => $data_list,
+                    'type'        => 'search',
+                ])}}
+            {{else /}}
+                {{:ModuleInclude('module/goods/grid/base', [
+                    'goods_list'  => $data_list,
+                    'type'        => 'search',
+                ])}}
+            {{/if}}
+        {{else /}}
+            {{include file="public/not_data" /}}
+        {{/if}}
 
         <!-- 搜索页面数据容器底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

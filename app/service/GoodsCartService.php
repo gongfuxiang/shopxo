@@ -70,11 +70,21 @@ class GoodsCartService
         $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select()->toArray();
         if(!empty($data))
         {
+            // 收藏数据
+            $favor_where = [
+                ['goods_id', 'in', array_column($data, 'goods_id')],
+                ['user_id', '=', $params['user']['id']],
+            ];
+            $favor_data = Db::name('GoodsFavor')->where($favor_where)->column('goods_id');
+
             // 商品处理
             $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
             $data = $res['data'];
             foreach($data as &$v)
             {
+                // 是否已收藏
+                $v['is_favor'] = (empty($favor_data) || !in_array($v['goods_id'], $favor_data)) ? 0 : 1;
+
                 // 规格
                 $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
 

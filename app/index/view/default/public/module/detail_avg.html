@@ -21,7 +21,7 @@
 {{/php}}
 
 <!-- content start  -->
-<div class="am-padding-sm {{if isset($form_table['base']['is_detail_nav_operate']) and $form_table['base']['is_detail_nav_operate'] eq 1}}form-navigation-present-operate{{/if}}">
+<div class="am-form-table-data-container am-form-table-data-detail am-padding-sm {{if isset($form_table['base']['is_detail_nav_operate']) and $form_table['base']['is_detail_nav_operate'] eq 1}}form-navigation-present-operate{{/if}}">
     <!-- content inside top hook -->
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
@@ -48,13 +48,13 @@
         {{block name="detail_data"}}
             {{if !empty($form_table) and !empty($form_table['form']) and is_array($form_table['form'])}}
                 {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
-                    <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
-                    <div class="am-panel-bd">
+                    <div class="am-panel am-panel-default am-radius">
+                        <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
+                        <div class="am-panel-bd">
                 {{/if}}
                 <ul class="data-avg-text-list am-avg-sm-{{if empty($form_table['base']['detail_avg_sm_value'])}}2{{else /}}{{$form_table.base.detail_avg_sm_value}}{{/if}} am-avg-md-{{if empty($form_table['base']['detail_avg_md_value'])}}3{{else /}}{{$form_table.base.detail_avg_md_value}}{{/if}} am-avg-lg-{{if empty($form_table['base']['detail_avg_lg_value'])}}4{{else /}}{{$form_table.base.detail_avg_lg_value}}{{/if}} am-radius">
                     {{foreach $form_table.form as $t}}
-                        {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['images', 'field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
+                        {{if isset($t['label']) and isset($t['view_type']) and !in_array($t['view_type'], ['operate', 'radio', 'checkbox']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
                             <li>
                                 <div class="data-avg-text-list-title">{{$t.label}}</div>
                                 <div class="data-avg-text-list-content am-text-truncate-2">
@@ -64,9 +64,8 @@
                         {{/if}}
                     {{/foreach}}
                 </ul>
-            </dl>
                 {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
-                    </div>
+                        </div>
                     </div>
                 {{/if}}
             {{/if}}

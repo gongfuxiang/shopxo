@@ -70,9 +70,9 @@ class User
                 ],
                 [
                     'label'         => $lang['number_code'],
-                    'view_type'     => 'field',
+                    'view_type'     => 'qrcode',
                     'view_key'      => 'number_code',
-                    'width'         => 110,
+                    'width'         => 115,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
@@ -105,7 +105,7 @@ class User
                         'form_name'           => 'id',
                         'where_type_custom'   => 'in',
                         'where_value_custom'  => 'WhereValuePlatform',
-                        'data'                => MyLang('common_platform_type'),
+                        'data'                => MyConst('common_platform_type'),
                         'data_key'            => 'value',
                         'data_name'           => 'name',
                         'is_multiple'         => 1,
@@ -164,13 +164,13 @@ class User
                     'view_type'     => 'field',
                     'view_key'      => 'gender',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_gender_list'),
+                    'view_data'     => MyConst('common_gender_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'gender',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_gender_list'),
+                        'data'              => MyConst('common_gender_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -181,13 +181,13 @@ class User
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_user_status_list'),
+                    'view_data'     => MyConst('common_user_status_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_user_status_list'),
+                        'data'              => MyConst('common_user_status_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -370,7 +370,7 @@ class User
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

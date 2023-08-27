@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
+		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
 			<legend>
 				<span class="am-text-default">{{:MyLang('slide.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/slide/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
@@ -22,7 +22,7 @@
 						<label>{{:MyLang('form_platform_title')}}<span class="am-form-group-label-tips-must">*</span></label>
 						<select name="platform" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_platform_message')}}" required>
 							<option value="">{{:MyLang('optional_tips')}}</option>
-							{{foreach :MyLang('common_platform_type') as $v}}
+							{{foreach :MyConst('common_platform_type') as $v}}
 								<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
 						</select>
@@ -36,7 +36,7 @@
 						<label>{{:MyLang('form_event_type_title')}}</label>
 						<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}">
 							<option value="">{{:MyLang('optional_tips')}}</option>
-							{{foreach :MyLang('common_app_event_type') as $v}}
+							{{foreach :MyConst('common_app_event_type') as $v}}
 								<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
 						</select>
@@ -86,7 +86,14 @@
 
 			<div class="am-form-popup-submit">
 				<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+				<a href="{{:MyUrl('admin/slide/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
+                    <i class="am-icon-mail-reply"></i>
+                    <span>{{:MyLang('retreat_title')}}</span>
+                </a>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
 			</div>
 		</form>
         <!-- form end -->

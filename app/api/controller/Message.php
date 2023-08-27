@@ -55,24 +55,20 @@ class Message extends Common
         // 消息更新未已读
         MessageService::MessageRead($params);
 
-        // 分页
-        $number = 10;
-        $page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-
         // 条件
         $where = MessageService::MessageListWhere($params);
 
         // 获取总数
         $total = MessageService::MessageTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'         => $start,
-            'n'         => $number,
+            'n'         => $this->page_size,
             'where'     => $where,
-        );
+        ];
         $data = MessageService::MessageList($data_params);
         
         // 返回数据

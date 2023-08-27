@@ -230,7 +230,7 @@ class SafetyService
         $img_verify_params = [
             'key_prefix'     => 'safety',
             'expire_time'    => MyC('common_verify_expire_time'),
-            'interval_time'  =>  MyC('common_verify_interval_time'),
+            'interval_time'  => MyC('common_verify_interval_time'),
         ];
 
         // 是否开启图片验证码

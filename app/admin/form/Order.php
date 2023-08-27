@@ -88,7 +88,7 @@ class Order
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_status'),
+                        'data'              => MyConst('common_order_status'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -103,7 +103,7 @@ class Order
                         'form_type'         => 'select',
                         'form_name'         => 'pay_status',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_pay_status'),
+                        'data'              => MyConst('common_order_pay_status'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -159,12 +159,12 @@ class Order
                     'view_type'     => 'field',
                     'view_key'      => 'order_model',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_order_type_list'),
+                    'view_data'     => MyConst('common_order_type_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_type_list'),
+                        'data'              => MyConst('common_order_type_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -175,12 +175,12 @@ class Order
                     'view_type'     => 'field',
                     'view_key'      => 'client_type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_platform_type'),
+                    'view_data'     => MyConst('common_platform_type'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_platform_type'),
+                        'data'              => MyConst('common_platform_type'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -336,7 +336,7 @@ class Order
                         'form_type'             => 'select',
                         'where_type'            => 'in',
                         'form_name'             => 'user_is_comments',
-                        'data'                  => MyLang('common_is_text_list'),
+                        'data'                  => MyConst('common_is_text_list'),
                         'data_key'              => 'id',
                         'data_name'             => 'name',
                         'where_type_custom'     => 'WhereTypyUserIsComments',
@@ -547,7 +547,7 @@ class Order
         if(!empty($value))
         {
             // 获取订单 id
-            $ids = Db::name('OrderAddress')->where('name|tel|address', 'like', '%'.$value.'%')->column('order_id');
+            $ids = Db::name('OrderAddress')->where('name|tel|province_name|city_name|county_name|address', 'like', '%'.$value.'%')->column('order_id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;
@@ -570,7 +570,7 @@ class Order
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

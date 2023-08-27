@@ -76,12 +76,12 @@ class Message
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_message_type_list'),
+                    'view_data'     => MyConst('common_message_type_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_message_type_list'),
+                        'data'              => MyConst('common_message_type_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -127,12 +127,12 @@ class Message
                     'view_type'     => 'field',
                     'view_key'      => 'is_read',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_is_read_list'),
+                    'view_data'     => MyConst('common_is_read_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_read_list'),
+                        'data'              => MyConst('common_is_read_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -147,7 +147,7 @@ class Message
                         'form_type'             => 'select',
                         'where_type'            => 'in',
                         'form_name'             => 'user_is_delete_time',
-                        'data'                  => MyLang('common_is_text_list'),
+                        'data'                  => MyConst('common_is_text_list'),
                         'data_key'              => 'id',
                         'data_name'             => 'name',
                         'where_type_custom'     => 'WhereTypeUserIsDelete',
@@ -241,7 +241,7 @@ class Message
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

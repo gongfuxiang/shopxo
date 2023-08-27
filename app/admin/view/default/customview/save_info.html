@@ -8,9 +8,18 @@
             <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs base-edit-submit"></a>
         </span>
         <div class="page-operate-container am-fr">
-            <a href="javascript:;" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-close window-close-event" data-msg="{{:MyLang('save_close_page_confirm_tips')}}"> {{:MyLang('close_title')}}</a>
-            <a href="{{:MyUrl('index/customview/index', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm am-icon-eye" data-am-popover="{content: '{{:MyLang('customview.save_view_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"> {{:MyLang('view_title')}}</a>
-            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-margin-left-sm am-icon-save page-save-submit" data-am-loading="{loadingText:' {{:MyLang('processing_tips')}}'}"> {{:MyLang('save_title')}}</button>
+            <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius window-close-event" data-msg="{{:MyLang('save_close_page_confirm_tips')}}">
+                <i class="am-icon-close"></i>
+                <span>{{:MyLang('close_title')}}</span>
+            </button>
+            <a href="{{:MyUrl('index/customview/index', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm" data-am-popover="{content: '{{:MyLang('customview.save_view_tips')}}', trigger: 'hover focus', theme: 'danger sm'}">
+                <i class="am-icon-eye"></i>
+                <span>{{:MyLang('view_title')}}</span>
+            </a>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-sm page-save-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                <i class="am-icon-save"></i>
+                <span>{{:MyLang('save_title')}}</span>
+            </button>
         </div>
     </legend>
     <!-- 编辑器容器 -->
@@ -40,7 +49,11 @@ function FormBackSaveinfoEdit(e)
         } else {
             Prompt(e.msg);
         }
-        $form.find('button[type="submit"]').button('reset');
+        setTimeout(function()
+        {
+            $form.find('button[type="submit"]').button('reset');
+            $('.page-save-submit').button('reset');
+        }, 1500);
     } else {
         // logo
         $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/default-images-mini.png');

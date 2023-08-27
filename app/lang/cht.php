@@ -93,6 +93,8 @@ return [
     'error'                                                 => '异常錯誤',
     'operate_fail'                                          => '操作失敗',
     'operate_success'                                       => '操作成功',
+    'report_fail'                                           => '上報失敗',
+    'report_success'                                        => '上報成功',
     'get_fail'                                              => '獲取失敗',
     'get_success'                                           => '獲取成功',
     'update_fail'                                           => '更新失敗',
@@ -229,7 +231,7 @@ return [
     'user_type_error_tips'                                  => '用戶類型有誤',
     'user_delete_operate_tips'                              => '用戶已删除',
     'goods_id_error_tips'                                   => '商品id有誤',
-    'gods_info_incorrect_tips'                              => '商品資訊有誤',
+    'goods_info_incorrect_tips'                             => '商品資訊有誤',
     'gods_info_abnormal_tips'                               => '商品資訊异常',
     'order_no_error_tips'                                   => '訂單號有誤',
     'order_id_error_tips'                                   => '訂單id有誤',
@@ -253,6 +255,8 @@ return [
     'plugins_config_error_tips'                             => '挿件配寘有誤',
     'operate_frequent_tips'                                 => '操作頻繁，請稍後再試！',
     'images_format_error_tips'                              => '圖片有誤，請換一張！',
+    'cancel_order_title'                                    => '取消訂單',
+    'delete_order_title'                                    => '删除訂單',
     // 商店绑定
     'store_bind_account_name'                               => '綁定ShopXO商店帳戶',
     'store_bind_account_tips'                               => '如已綁定、請到商城後臺左側選單工具下麵清除緩存再嘗試訪問！',
@@ -301,6 +305,8 @@ return [
     'search_title'                                          => '蒐索',
     'query_title'                                           => '査詢',
     'execute_title'                                         => '執行',
+    'now_execute_title'                                     => '立即執行',
+    'confirm_execute_title'                                 => '確認執行',
     'setup_title'                                           => '設定',
     'save_title'                                            => '保存',
     'success_title'                                         => '成功',
@@ -328,6 +334,7 @@ return [
     'view_map_title'                                        => '查看地圖',
     'see_title'                                             => '看看',
     'clear_title'                                           => '清除',
+    'clear_all_title'                                       => '清除全部',
     'close_title'                                           => '關閉',
     'open_title'                                            => '打開',
     'number_title'                                          => '數量',
@@ -340,8 +347,10 @@ return [
     'favor_title'                                           => '收藏',
     'already_favor_title'                                   => '已收藏',
     'comment_title'                                         => '評估',
+    'go_comment_title'                                      => '去評價',
     'default_title'                                         => '默認',
     'setup_default_title'                                   => '設為默認',
+    'grade_title'                                           => '等級',
     'only_title'                                            => '僅',
     'strip_title'                                           => '條',
     'level_title'                                           => '級',
@@ -357,8 +366,10 @@ return [
     'and_title'                                             => '與',
     'or_title'                                              => '或',
     'payment_title'                                         => '支付',
+    'go_payment_title'                                      => '去支付',
     'confirm_payment_title'                                 => '確認支付',
     'collect_title'                                         => '收貨',
+    'confirm_collect_title'                                 => '確認收貨',
     'delivery_title'                                        => '發貨',
     'take_title'                                            => '取貨',
     'copy_title'                                            => '複製',
@@ -369,6 +380,7 @@ return [
     'audit_title'                                           => '審核',
     'signin_title'                                          => '簽到',
     'refuse_title'                                          => '拒絕',
+    'pass_title'                                            => '通過',
     'order_title'                                           => '訂單',
     'install_title'                                         => '安裝',
     'uninstall_title'                                       => '卸載',
@@ -438,6 +450,7 @@ return [
     'import_title'                                          => '導入',
     'export_title'                                          => '匯出',
     'images_title'                                          => '圖片',
+    'icon_title'                                            => '圖標',
     'video_title'                                           => '視頻',
     'text_title'                                            => '文字',
     'loading_title'                                         => '加載',
@@ -445,7 +458,13 @@ return [
     'lat_title'                                             => '緯度',
     'lang_title'                                            => '語言',
     'color_title'                                           => '顏色',
+    'share_title'                                           => '分享',
+    'template_title'                                        => '範本',
+    'recharge_title'                                        => '充值',
+    'cash_title'                                            => '提現',
+    'log_title'                                             => '明細',
     'continue_scan_title'                                   => '繼續掃碼',
+    'self_pickup_point_title'                               => '自提點',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_stop_sale_title'                                 => '暫停銷售',
@@ -559,6 +578,8 @@ return [
     'form_is_full_screen_title'                             => '是否滿屏',
     'form_is_full_screen_message'                           => '是否滿屏範圍值有誤',
     'form_status_range_message'                             => '狀態範圍值有誤',
+    'form_status_title'                                     => '狀態',
+    'form_status_message'                                   => '請選擇狀態',
     'form_sort_title'                                       => '順序',
     'form_sort_tips'                                        => '從小到大',
     'form_sort_message'                                     => '順序0~255之間的數值',
@@ -648,18 +669,6 @@ return [
             ]
         ]
     ],
-    // 订单状态总数导航
-    'order_status_step_total_list'      =>  [
-        ['value' => 0, 'name' => '待確認'],
-        ['value' => 1, 'name' => '待付款'],
-        ['value' => 2, 'name' => '待發貨'],
-        ['value' => 3, 'name' => '待收貨'],
-        ['value' => 4, 'name' => '已完成'],
-        ['value' => 5, 'name' => '已取消'],
-        ['value' => 6, 'name' => '已關閉'],
-        ['value' => 100, 'name' => '待評估'],
-        ['value' => 101, 'name' => '退款/售後'],
-    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data'      => [
         'goodsfavor'   => '我的收藏',
@@ -671,267 +680,285 @@ return [
         'goodsfavor'   => '我的收藏',
         'usermessage'  => '我的消息',
     ],
+
+    // -------------------- 公共静态数据 --------------------
+    // 订单状态总数导航
+    'common_order_status_step_total_list' => [
+        0    => '待確認',
+        1    => '待付款',
+        2    => '待發貨',
+        3    => '待收貨',
+        4    => '已完成',
+        5    => '已取消',
+        6    => '已關閉',
+        100  => '待評估',
+        101  => '退款/售後',
+    ],
     // 搜索排序方式
-    'common_search_order_by_list'       =>  [
-        ['name' => '綜合', 'type' => 'default', 'value' => 'desc'],
-        ['name' => '銷量', 'type' => 'sales', 'value' => 'desc'],
-        ['name' => '熱度', 'type' => 'access', 'value' => 'desc'],
-        ['name' => '價格', 'type' => 'price', 'value' => 'desc'],
-        ['name' => '最新', 'type' => 'new', 'value' => 'desc'],
+    'common_search_order_by_list' => [
+        'default'  => '綜合',
+        'sales'    => '銷量',
+        'access'   => '熱度',
+        'price'    => '價格',
+        'new'      => '最新',
     ],
     // 用户注册类型列表
-    'common_user_reg_type_list'          =>  [
-        0 => ['value' => 'username', 'name' => '帳號'],
-        1 => ['value' => 'sms', 'name' => '簡訊'],
-        2 => ['value' => 'email', 'name' => '郵箱'],
+    'common_user_reg_type_list' => [
+        'username'  => '帳號',
+        'sms'       => '簡訊',
+        'email'     => '郵箱',
     ],
     // 登录方式
-    'common_login_type_list'     =>  [
-        0 => ['value' => 'username', 'name' => '帳號密碼', 'checked' => true],
-        1 => ['value' => 'email', 'name' => '郵箱驗證碼'],
-        2 => ['value' => 'sms', 'name' => '手機驗證碼'],
+    'common_login_type_list' => [
+        'username'  => '帳號密碼',
+        'email'     => '郵箱驗證碼',
+        'sms'       => '手機驗證碼',
     ],
     // 性别
-    'common_gender_list'                =>  [
-        0 => ['id' => 0, 'name' => '保密', 'checked' => true],
-        1 => ['id' => 1, 'name' => '女'],
-        2 => ['id' => 2, 'name' => '男'],
+    'common_gender_list' => [
+        0 => '保密',
+        1 => '女',
+        2 => '男',
     ],
     // 关闭开启状态
-    'common_close_open_list'          =>  [
-        0 => ['value' => 0, 'name' => '關閉'],
-        1 => ['value' => 1, 'name' => '開啟'],
+    'common_close_open_list' => [
+        0 => '關閉',
+        1 => '開啟',
     ],
     // 是否启用
-    'common_is_enable_tips'             =>  [
-        0 => ['id' => 0, 'name' => '未啟用'],
-        1 => ['id' => 1, 'name' => '已啟用'],
+    'common_is_enable_tips' => [
+        0 => '未啟用',
+        1 => '已啟用',
     ],
-    'common_is_enable_list'             =>  [
-        0 => ['id' => 0, 'name' => '不啟用'],
-        1 => ['id' => 1, 'name' => '啟用', 'checked' => true],
+    'common_is_enable_list' => [
+        0 => '不啟用',
+        1 => '啟用',
     ],
     // 是否显示
-    'common_is_show_list'               =>  [
-        0 => ['id' => 0, 'name' => '不顯示'],
-        1 => ['id' => 1, 'name' => '顯示', 'checked' => true],
+    'common_is_show_list' => [
+        0 => '不顯示',
+        1 => '顯示',
     ],
     // excel编码列表
-    'common_excel_charset_list'         =>  [
-        0 => ['id' => 0, 'value' => 'utf-8', 'name' => 'utf-8', 'checked' => true],
-        1 => ['id' => 1, 'value' => 'gbk', 'name' => 'gbk'],
+    'common_excel_charset_list' => [
+        0 => 'utf-8',
+        1 => 'gbk',
     ],
     // excel导出类型列表
-    'common_excel_export_type_list'     =>  [
-        0 => ['id' => 0, 'name' => 'CSV', 'checked' => true],
-        1 => ['id' => 1, 'name' => 'Excel'],
+    'common_excel_export_type_list' => [
+        0 => 'CSV',
+        1 => 'Excel',
     ],
     // 地图类型列表
-    'common_map_type_list'     =>  [
-        'baidu'     => ['id' => 'baidu', 'name' => '百度地圖', 'checked' => true],
-        'amap'      => ['id' => 'amap', 'name' => '高德地圖'],
-        'tencent'   => ['id' => 'tencent', 'name' => '騰訊地圖'],
-        'tianditu'  => ['id' => 'tianditu', 'name' => '天地圖'],
+    'common_map_type_list' => [
+        'baidu'     => '百度地圖',
+        'amap'      => '高德地圖',
+        'tencent'   => '騰訊地圖',
+        'tianditu'  => '天地圖',
     ],
     // 支付支付状态
-    'common_order_pay_status'   => [
-        0 => ['id' => 0, 'name' => '待支付', 'checked' => true],
-        1 => ['id' => 1, 'name' => '已支付'],
-        2 => ['id' => 2, 'name' => '已退款'],
-        3 => ['id' => 3, 'name' => '部分退款'],
+    'common_order_pay_status' => [
+        0 => '待支付',
+        1 => '已支付',
+        2 => '已退款',
+        3 => '部分退款',
     ],
     // 订单状态
-    'common_order_status'          =>  [
-        0 => ['id' => 0, 'name' => '待確認', 'checked' => true],
-        1 => ['id' => 1, 'name' => '待付款'],
-        2 => ['id' => 2, 'name' => '待發貨'],
-        3 => ['id' => 3, 'name' => '待收貨'],
-        4 => ['id' => 4, 'name' => '已完成'],
-        5 => ['id' => 5, 'name' => '已取消'],
-        6 => ['id' => 6, 'name' => '已關閉'],
+    'common_order_status' =>  [
+        0 => '待確認',
+        1 => '待付款',
+        2 => '待發貨',
+        3 => '待收貨',
+        4 => '已完成',
+        5 => '已取消',
+        6 => '已關閉',
     ],
     // 所属平台
-    'common_platform_type'          =>  [
-        'pc'        => ['value' => 'pc', 'name' => 'PC網站'],
-        'h5'        => ['value' => 'h5', 'name' => 'H5手機網站'],
-        'ios'       => ['value' => 'ios', 'name' => '蘋果APP'],
-        'android'   => ['value' => 'android', 'name' => '安卓APP'],
-        'weixin'    => ['value' => 'weixin', 'name' => '微信小程式'],
-        'alipay'    => ['value' => 'alipay', 'name' => '支付寶小程式'],
-        'baidu'     => ['value' => 'baidu', 'name' => '百度小程式'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => '頭條小程式'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ小程式'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程式'],
+    'common_platform_type' => [
+        'pc'        => 'PC網站',
+        'h5'        => 'H5手機網站',
+        'ios'       => '蘋果APP',
+        'android'   => '安卓APP',
+        'weixin'    => '微信小程式',
+        'alipay'    => '支付寶小程式',
+        'baidu'     => '百度小程式',
+        'toutiao'   => '頭條小程式',
+        'qq'        => 'QQ小程式',
+        'kuaishou'  => '快手小程式',
     ],
     // app平台
-    'common_app_type'          =>  [
-        'ios'       => ['value' => 'ios', 'name' => '蘋果APP'],
-        'android'   => ['value' => 'android', 'name' => '安卓APP'],
+    'common_app_type' => [
+        'ios'       => '蘋果APP',
+        'android'   => '安卓APP',
     ],
     // 小程序平台
-    'common_appmini_type'          =>  [
-        'weixin'    => ['value' => 'weixin', 'name' => '微信小程式'],
-        'alipay'    => ['value' => 'alipay', 'name' => '支付寶小程式'],
-        'baidu'     => ['value' => 'baidu', 'name' => '百度小程式'],
-        'toutiao'   => ['value' => 'toutiao', 'name' => '頭條小程式'],
-        'qq'        => ['value' => 'qq', 'name' => 'QQ小程式'],
-        'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程式'],
+    'common_appmini_type' => [
+        'weixin'    => '微信小程式',
+        'alipay'    => '支付寶小程式',
+        'baidu'     => '百度小程式',
+        'toutiao'   => '頭條小程式',
+        'qq'        => 'QQ小程式',
+        'kuaishou'  => '快手小程式',
     ],
     // 扣除库存规则
-    'common_deduction_inventory_rules_list' =>  [
-        0 => ['id' => 0, 'name' => '訂單確認成功'],
-        1 => ['id' => 1, 'name' => '訂單支付成功'],
-        2 => ['id' => 2, 'name' => '訂單發貨'],
+    'common_deduction_inventory_rules_list' => [
+        0 => '訂單確認成功',
+        1 => '訂單支付成功',
+        2 => '訂單發貨',
     ],
     // 商品增加销量规则
-    'common_sales_count_inc_rules_list'     =>  [
-        0 => ['id' => 0, 'name' => '訂單支付'],
-        1 => ['id' => 1, 'name' => '訂單收貨'],
+    'common_sales_count_inc_rules_list' => [
+        0 => '訂單支付',
+        1 => '訂單收貨',
     ],
     // 是否已读
-    'common_is_read_list'               =>  [
-        0 => ['id' => 0, 'name' => '未讀', 'checked' => true],
-        1 => ['id' => 1, 'name' => '已讀'],
+    'common_is_read_list' => [
+        0 => '未讀',
+        1 => '已讀',
     ],
     // 消息类型
-    'common_message_type_list'          =>  [
-        0 => ['id' => 0, 'name' => '默認', 'checked' => true],
+    'common_message_type_list' => [
+        0 => '默認',
     ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list'             =>  [
-        0 => ['id' => 0, 'name' => '减少', 'checked' => true],
-        1 => ['id' => 1, 'name' => '新增'],
+    'common_integral_log_type_list' => [
+        0 => '减少',
+        1 => '新增',
     ],
     // 是否上架/下架
-    'common_is_shelves_list'                    =>  [
-        0 => ['id' => 0, 'name' => '下架'],
-        1 => ['id' => 1, 'name' => '上架', 'checked' => true],
+    'common_is_shelves_list' => [
+        0 => '下架',
+        1 => '上架',
     ],
     // 是否
-    'common_is_text_list'   =>  [
-        0 => ['id' => 0, 'name' => '否', 'checked' => true],
-        1 => ['id' => 1, 'name' => '是'],
+    'common_is_text_list' => [
+        0 => '否',
+        1 => '是',
     ],
     // 用户状态
-    'common_user_status_list'           =>  [
-        0 => ['id' => 0, 'name' => '正常', 'checked' => true],
-        1 => ['id' => 1, 'name' => '禁止發言', 'tips' => '用戶被禁止發言'],
-        2 => ['id' => 2, 'name' => '禁止登入', 'tips' => '用戶被禁止登入'],
-        3 => ['id' => 3, 'name' => '待稽核', 'tips' => '用戶等待稽核中'],
+    'common_user_status_list' => [
+        0 => ['name' => '正常'],
+        1 => ['name' => '禁止發言', 'tips' => '用戶被禁止發言'],
+        2 => ['name' => '禁止登入', 'tips' => '用戶被禁止登入'],
+        3 => ['name' => '待稽核', 'tips' => '用戶等待稽核中'],
     ],
     // 导航数据类型
-    'common_nav_type_list'              =>  [
-        'custom' => ['value'=>'custom', 'name'=>'自定義'],
-        'article' => ['value'=>'article', 'name'=>'文章'],
-        'customview' => ['value'=>'customview', 'name'=>'自定義頁面'],
-        'goods_category' => ['value'=>'goods_category', 'name'=>'商品分類'],
+    'common_nav_type_list' => [
+        'custom'          => '自定義',
+        'article'         => '文章',
+        'customview'      => '自定義頁面',
+        'goods_category'  => '商品分類',
     ],
     // 搜索框下热门关键字类型
-    'common_search_keywords_type_list'      =>  [
-        0 => ['value' => 0, 'name' => '關閉'],
-        1 => ['value' => 1, 'name' => '自動'],
-        2 => ['value' => 2, 'name' => '自定義'],
+    'common_search_keywords_type_list' => [
+        0 => '關閉',
+        1 => '自動',
+        2 => '自定義',
     ],
     // app事件类型
-    'common_app_event_type' =>  [
-        0 => ['value' => 0, 'name' => 'WEB頁面'],
-        1 => ['value' => 1, 'name' => '內部頁面（小程式/APP內部地址）'],
-        2 => ['value' => 2, 'name' => '外部小程式appid'],
-        3 => ['value' => 3, 'name' => '跳轉原生地圖查看指定位置'],
-        4 => ['value' => 4, 'name' => '撥打電話'],
+    'common_app_event_type' => [
+        0 => 'WEB頁面',
+        1 => '內部頁面（小程式/APP內部地址）',
+        2 => '外部小程式appid',
+        3 => '跳轉原生地圖查看指定位置',
+        4 => '撥打電話',
     ],
     // 订单售后类型
-    'common_order_aftersale_type_list' =>  [
-        0 => ['value' => 0, 'name' => '僅退款', 'desc' => '未收到貨（未簽收），協商同意前提下', 'icon' => 'am-icon-random', 'class' => 'am-fl'],
-        1 => ['value' => 1, 'name' => '退款退貨', 'desc' => '已收到貨，需要退換已收到的貨物', 'icon' => 'am-icon-retweet', 'class' => 'am-fr'],
+    'common_order_aftersale_type_list' => [
+        0 => ['name' => '僅退款', 'desc' => '未收到貨（未簽收），協商同意前提下'],
+        1 => ['name' => '退款退貨', 'desc' => '已收到貨，需要退換已收到的貨物'],
     ],
     // 订单售后状态
-    'common_order_aftersale_status_list' =>  [
-        0 => ['value' => 0, 'name' => '待確認'],
-        1 => ['value' => 1, 'name' => '待退貨'],
-        2 => ['value' => 2, 'name' => '待稽核'],
-        3 => ['value' => 3, 'name' => '已完成'],
-        4 => ['value' => 4, 'name' => '已拒絕'],
-        5 => ['value' => 5, 'name' => '已取消'],
+    'common_order_aftersale_status_list' => [
+        0 => '待確認',
+        1 => '待退貨',
+        2 => '待稽核',
+        3 => '已完成',
+        4 => '已拒絕',
+        5 => '已取消',
     ],
     // 订单售后退款方式
-    'common_order_aftersale_refundment_list' =>  [
-        0 => ['value' => 0, 'name' => '原路退回'],
-        1 => ['value' => 1, 'name' => '退至錢包'],
-        2 => ['value' => 2, 'name' => '手動處理'],
+    'common_order_aftersale_refundment_list' => [
+        0 => '原路退回',
+        1 => '退至錢包',
+        2 => '手動處理',
     ],
     // 商品评分
-    'common_goods_comments_rating_list' =>  [
-        0 => ['value'=>0, 'name'=>'未評分', 'badge'=>''],
-        1 => ['value'=>1, 'name'=>'1分', 'badge'=>'danger'],
-        2 => ['value'=>2, 'name'=>'2分', 'badge'=>'warning'],
-        3 => ['value'=>3, 'name'=>'3分', 'badge'=>'secondary'],
-        4 => ['value'=>4, 'name'=>'4分', 'badge'=>'primary'],
-        5 => ['value'=>5, 'name'=>'5分', 'badge'=>'success'],
+    'common_goods_comments_rating_list' => [
+        0 => '未評分',
+        1 => '1分',
+        2 => '2分',
+        3 => '3分',
+        4 => '4分',
+        5 => '5分',
     ],
     // 商品评论业务类型
-    'common_goods_comments_business_type_list' =>  [
-        'order' => ['value' => 'order', 'name' => '訂單'],
+    'common_goods_comments_business_type_list' => [
+        'order' => '訂單',
     ],
     // 站点类型
-    'common_site_type_list' =>  [
-        0 => ['value' => 0, 'name' => '快遞'],
-        1 => ['value' => 1, 'name' => '展示'],
-        2 => ['value' => 2, 'name' => '自提'],
-        3 => ['value' => 3, 'name' => '虛擬售賣'],
-        4 => ['value' => 4, 'name' => '快遞+自提', 'is_ext' => 1],
+    'common_site_type_list' => [
+        0 => '快遞',
+        1 => '展示',
+        2 => '自提',
+        3 => '虛擬售賣',
+        4 => '快遞+自提',
     ],
     // 订单类型
-    'common_order_type_list' =>  [
-        0 => ['value' => 0, 'name' => '快遞'],
-        1 => ['value' => 1, 'name' => '展示'],
-        2 => ['value' => 2, 'name' => '自提'],
-        3 => ['value' => 3, 'name' => '虛擬銷售'],
+    'common_order_type_list' => [
+        0 => '快遞',
+        1 => '展示',
+        2 => '自提',
+        3 => '虛擬銷售',
     ],
     // 下单站点类型列表
-    'common_buy_site_model_list' =>  [
-        ['value' => 0, 'name' => '快遞郵寄'],
-        ['value' => 2, 'name' => '自提點取貨'],
+    'common_buy_site_model_list' => [
+        0 => '快遞郵寄',
+        2 => '自提點取貨',
     ],
     // 管理员状态
-    'common_admin_status_list'               =>  [
-        0 => ['value' => 0, 'name' => '正常', 'checked' => true],
-        1 => ['value' => 1, 'name' => '暫停'],
-        2 => ['value' => 2, 'name' => '已離職'],
+    'common_admin_status_list' => [
+        0 => '正常',
+        1 => '暫停',
+        2 => '已離職',
     ],
     // 支付日志状态
-    'common_pay_log_status_list'            => [
-        0 => ['value' => 0, 'name' => '待支付', 'checked' => true],
-        1 => ['value' => 1, 'name' => '已支付'],
-        2 => ['value' => 2, 'name' => '已關閉'],
+    'common_pay_log_status_list' => [
+        0 => '待支付',
+        1 => '已支付',
+        2 => '已關閉',
+    ],
+    // 支付日志业务类型
+    'common_pay_log_business_type_list' => [
+        'order' => '訂單',
     ],
     // 商品参数组件类型
-    'common_goods_parameters_type_list'     => [
-        0 => ['value' => 0, 'name' => '全部'],
-        1 => ['value' => 1, 'name' => '詳情', 'checked' => true],
-        2 => ['value' => 2, 'name' => '基礎'],
+    'common_goods_parameters_type_list' => [
+        0 => '全部',
+        1 => '詳情',
+        2 => '基礎',
     ],
     // 商品关联排序类型
-    'goods_order_by_type_list'              => [
-        0 => ['value' => 'g.access_count,g.sales_count,g.id', 'name' => '綜合', 'checked' => true],
-        1 => ['value' => 'g.sales_count', 'name' => '銷量'],
-        2 => ['value' => 'g.access_count', 'name' => '熱度'],
-        3 => ['value' => 'g.min_price', 'name' => '價格'],
-        4 => ['value' => 'g.id', 'name' => '最新'],
+    'common_goods_order_by_type_list' => [
+        0 => '綜合',
+        1 => '銷量',
+        2 => '熱度',
+        3 => '價格',
+        4 => '最新',
     ],
     // 商品关联排序规则
-    'goods_order_by_rule_list'              => [
-        0 => ['value' => 'desc', 'name' => '降序（desc）', 'checked' => true],
-        1 => ['value' => 'asc', 'name' => '昇冪（asc）'],
+    'common_goods_order_by_rule_list' => [
+        0 => '降序（desc）',
+        1 => '昇冪（asc）',
     ],
     // 首页数据类型
-    'common_site_floor_data_type_list'      => [
-        0 => ['value' => 0, 'name' => '自動模式', 'checked' => true],
-        1 => ['value' => 1, 'name' => '手動模式'],
-        2 => ['value' => 2, 'name' => '拖拽模式'],
+    'common_site_floor_data_type_list' => [
+        0 => '自動模式',
+        1 => '手動模式',
+        2 => '拖拽模式',
     ],
     // 文件上传错误码
-    'common_file_upload_error_list'         =>  [
+    'common_file_upload_error_list' => [
         1 => '文件大小超過服務器允許上傳的最大值',
         2 => '文件大小超出瀏覽器限制，查看是否超過[網站設定->附件最大限制]',
         3 => '檔案僅部分被上傳',
@@ -941,16 +968,48 @@ return [
         7 => '檔案寫入失敗',
         8 => '文件上傳擴展沒有打開',
     ],
-    // -------------------- 后端相关 --------------------
-    // 图片验证码
-    'site_images_verify_rules_list'  => [
-        0 => ['value' => 'bgcolor', 'name' => '彩色背景'],
-        1 => ['value' => 'textcolor', 'name' => '彩色文字'],
-        2 => ['value' => 'point', 'name' => '干擾點'],
-        3 => ['value' => 'line', 'name' => '干擾線'],
+    // 用户基础信息提示页面（index 首页、goods-category 商品分类、cart 购物车、 user 用户中心、share 分享）
+    'common_user_base_popup_pages_list' => [
+        'index'           => '首頁',
+        'goods-category'  => '商品分類',
+        'cart'            => '購物車',
+        'user'            => '用戶中心',
+        'share'           => '彈窗分享',
     ],
+    // 多语言code 语言编码 => name 语言名称）
+    'common_multilingual_list' => [
+        'zh'   => '簡體中文',
+        'cht'  => '繁體中文',
+        'en'   => '英文',
+        'ru'   => '俄語',
+        'kor'  => '韓語',
+        'th'   => '泰語',
+        'jp'   => '日語',
+        'de'   => '德語',
+        'nl'   => '荷蘭語',
+        'vie'  => '越南語',
+        'it'   => '義大利語',
+        'spa'  => '西班牙語',
+        'fra'  => '法語',
+        'swe'  => '瑞典語',
+    ],
+    // 图片验证码
+    'common_site_images_verify_rules_list' => [
+        0 => '彩色背景',
+        1 => '彩色文字',
+        2 => '干擾點',
+        3 => '干擾線',
+    ],
+    // url模式列表
+    'common_seo_url_model_list' => [
+        0 => '相容模式',
+        1 => 'PATHINFO模式',
+        2 => 'PATHINFO模式+短地址',
+    ],
+
+    // -------------------- 后端相关 --------------------
     // 时区
-    'site_timezone_list' => [
+    'common_site_timezone_list' => [
         'Pacific/Pago_Pago'               => '（標準時-11:00）中途島、薩摩亞群島',
         'Pacific/Rarotonga'               => '（標準時-10:00）夏威夷',
         'Pacific/Gambier'                 => '（標準時-9:00）阿拉斯加',
@@ -975,31 +1034,6 @@ return [
         'Australia/Adelaide'              => '（標準時+10:00）雪梨、關島',
         'Australia/Currie'                => '（標準時+11:00）馬加丹、索羅門群島',
         'Pacific/Fiji'                    => '（標準時+12:00）奧克蘭、惠靈頓、堪察加半島',
-    ],
-    // seo
-    // url模式列表
-    'seo_url_model_list'        =>  [
-        0 => ['value' => 0, 'name' => '相容模式', 'checked' => true],
-        1 => ['value' => 1, 'name' => 'PATHINFO模式'],
-        2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
-    ],
-
-    // 多语言code 语言编码 => name 语言名称）
-    'common_multilingual_list'  => [
-        'zh'   => '簡體中文',
-        'cht'  => '繁體中文',
-        'en'   => '英文',
-        'ru'   => '俄語',
-        'kor'  => '韓語',
-        'th'   => '泰語',
-        'jp'   => '日語',
-        'de'   => '德語',
-        'nl'   => '荷蘭語',
-        'vie'  => '越南語',
-        'it'   => '義大利語',
-        'spa'  => '西班牙語',
-        'fra'  => '法語',
-        'swe'  => '瑞典語',
     ],
 
     // -------------------- 公共服务层 --------------------
@@ -1196,6 +1230,8 @@ return [
         // 品牌分类
         'brandcategory'     => [
             // 表单
+            'form_item_icon'                        => 'icon圖標',
+            'form_item_icon_tips'                   => '建議100*100px',
             'form_item_name'                        => '名稱',
             'form_item_name_message'                => '名稱長度1~60個字元',
         ],
@@ -1554,10 +1590,14 @@ return [
         // 商品分类
         'goodscategory'         => [
             // 表单
-            'form_item_icon'                        => 'icon圖標',
+            'form_item_icon'                        => '圖標',
             'form_item_icon_tips'                   => '建議100*100px',
+            'form_item_icon_active'                 => '選中圖標',
+            'form_item_icon_active_tips'            => '建議100*100px',
+            'form_item_realistic_images'            => '實景圖',
+            'form_item_realistic_images_tips'       => '建議200*200px',
             'form_item_big_images'                  => '大圖片',
-            'form_item_big_images_tips'             => '建議360*360px',
+            'form_item_big_images_tips'             => '建議220*750px',
             'form_item_name'                        => '名稱',
             'form_item_name_message'                => '名稱格式1~60個字元',
             'form_item_vice_name'                   => '副名稱',
@@ -1705,7 +1745,7 @@ return [
             'form_item_images_tips'                 => '憑證最多上傳3張圖片',
             'form_item_express_name'                => '快遞名稱',
             'form_item_express_name_message'        => '快遞名稱格式1~60個字元之間',
-            'form_item_express_number'              => '快遞名稱',
+            'form_item_express_number'              => '快遞單號',
             'form_item_express_number_message'      => '快遞單號格式1~60個字元之間',
             // 审核表单
             'form_item_refundment'                  => '退款管道',
@@ -1742,8 +1782,8 @@ return [
             // 商品退货地址
             'return_goods_address_data'             => [
                 'name'     => '收件人',
-                'tel'      => '電話',
-                'address'  => '地址',
+                'tel'      => '收件電話',
+                'address'  => '退貨地址',
             ],
             // 订单售后进度
             'orderaftersale_step_data'              => [
@@ -1764,12 +1804,25 @@ return [
             ],
             // 售后环节提示信息
             'orderaftersale_step_tips_msg'          => [
-                0 => '訂單售後已提交申請，等待管理員確認中！',
-                1 => '訂單售後，管理員已確認，請儘快完成退貨！',
-                2 => '訂單售後已退貨，等待管理員稽核中！',
-                3 => '訂單售後已處理結束！',
-                4 => '訂單售後申請已被拒絕！',
-                5 => '訂單售後申請已關閉！',
+                0 => [
+                    'title' => '待賣家稽核',
+                    'desc'  => '已提交申請，等待賣家確認中！'
+                ],
+                1 => [
+                    'title' => '賣家已確認，請儘快完成退貨！'
+                ],
+                2 => [
+                    'title' => '待賣家確認收貨',
+                    'desc'  => '已退貨，等待賣家稽核中！'
+                ],
+                3 => [
+                    'title' => '退款成功',
+                    'desc'  => '已處理結束！'
+                ],
+                4 => [
+                    'title' => '賣家已拒絕，退款關閉',
+                    'desc'  => '申請已被拒絕！'
+                ],
             ], 
         ],
         // 订单货币
@@ -1778,8 +1831,6 @@ return [
         ],
         // 订单
         'order'                 => [
-            // 业务类型名称
-            'business_type_name'                    => '訂單',
             // 基础
             'order_user_invalid_tips'               => '訂單用戶無效',
             'pay_api_abnormal_tips'                 => '支付介面异常',
@@ -2385,6 +2436,10 @@ return [
         'view_media_fixed_width_message'                     => '請輸入容器寬度、最大6000的數位',
         'view_media_fixed_height_title'                      => '容器高度',
         'view_media_fixed_height_message'                    => '請輸入容器高度、最大6000的數位',
+        'view_media_fixed_max_width_title'                   => '容器最大寬度',
+        'view_media_fixed_max_width_message'                 => '请输入容器最大寬度、最大6000的數位',
+        'view_media_fixed_max_height_title'                  => '容器最大高度',
+        'view_media_fixed_max_height_message'                => '请输入容器最大高度、最大6000的數位',
         'view_media_fixed_border_radius_title'               => '圓角',
         'view_media_fixed_border_radius_message'             => '請輸入圓角、最大1000的數位',
         'view_media_fixed_border_style_title'                => '邊線類型',
@@ -2476,7 +2531,7 @@ return [
         // 关键字信息
         'view_module_title_keywords'                                 => '關鍵字',
         'view_module_title_keywords_tips'                            => '小屏下不顯示',
-        'view_module_title_keywords_message'                         => '請填寫關鍵字、格式1~8個字元',
+        'view_module_title_keywords_message'                         => '請填寫關鍵字、格式1~80個字元',
         'view_module_title_keywords_add'                             => '添加關鍵字',
         // 指向url地址信息
         'view_module_title_url'                                      => '連結位址',
@@ -2490,7 +2545,7 @@ return [
         'view_style_images'                                          => '圖片樣式',
         'view_content_setup'                                         => '內容設定',
         'view_content_custom_html'                                   => '自定義html程式碼',
-        'view_style_width_max_limit_value'                           => '系統標準限寬（1000px、1200px）',
+        'view_style_width_max_limit_value'                           => '系統標準限寬（1000px、1200px、1500px）',
         'view_style_height'                                          => '高度',
         // 容器
         'view_offcanvas_layout_base_title'                           => '基礎樣式',
@@ -2535,13 +2590,13 @@ return [
         'view_offcanvas_module_images_text_desc_font_size_message'   => '描述字體最大1000',
         // 标题
         'view_offcanvas_module_title_main_title'                     => '主標題',
-        'view_offcanvas_module_title_main_title_message'             => '主標題最多1~8個字元',
+        'view_offcanvas_module_title_main_title_message'             => '主標題最多1~160個字元',
         'view_offcanvas_module_title_vice_title'                     => '副標題',
-        'view_offcanvas_module_title_vice_title_message'             => '副標題最多16個字元',
+        'view_offcanvas_module_title_vice_title_message'             => '副標題最多230個字元',
         'view_offcanvas_module_title_right'                          => '右側按鈕',
         'view_offcanvas_module_title_right_tips'                     => '空則不顯示',
         'view_offcanvas_module_title_right_name'                     => '右側按鈕名稱',
-        'view_offcanvas_module_title_right_name_message'             => '右側按鈕名稱最多4個字元',
+        'view_offcanvas_module_title_right_name_message'             => '右側按鈕名稱最多80個字元',
         // 视频
         'view_offcanvas_module_video_images'                         => '封面圖片',
         // 弹窗商品搜索
@@ -2721,6 +2776,16 @@ return [
                 'invalid_file'                      => '非法檔案',
                 'error_image_save'                  => '保存出錯、圖片有誤',
                 'error_upload_type'                 => '操作類型有誤',
+            ],
+            // 地图
+            'map'           => [
+                'baidu_config_empty_tips'           => '百度地圖api秘鑰（服務端）未配寘',
+                'tencent_config_empty_tips'         => '騰訊地圖api秘鑰（服務端）未配寘',
+                'amap_config_empty_tips'            => '高德地圖api秘鑰（服務端）未配寘',
+                'tianditu_config_empty_tips'        => '天地圖api秘鑰（服務端）未配寘',
+                'type_not_docked_tips'              => '當前地圖未開發對接',
+                'type_not_docked_geocoder_tips'     => '當前地圖未開發逆解析',
+                'address_geocoder_fail_tips'        => '地址解析失敗',
             ],
         ],
     ],
@@ -2959,11 +3024,6 @@ return [
             'desc' => '前臺預設範本',
             'tips' => '請選擇預設範本',
         ],
-        'common_baidu_map_ak'  => [
-            'name' => '百度地圖api金鑰',
-            'desc' => '百度地圖2.0起必須配寘AK金鑰',
-            'tips' => '請填寫百度地圖api金鑰',
-        ],
         'home_email_user_reg'  => [
             'name' => '用戶註冊-郵件範本',
             'desc' => '驗證碼變數識別字[ #code# ]',
@@ -3075,6 +3135,11 @@ return [
             'desc' => '默認否',
             'tips' => '請選擇數據使用緩存',
         ],
+        'common_data_is_use_redis_cache'  => [
+            'name' => '使用redis緩存',
+            'desc' => '默認否',
+            'tips' => '請選擇是否使用redis緩存',
+        ],
         'common_app_is_enable_search'  => [
             'name' => '是否啟用蒐索',
             'desc' => '默認是',
@@ -3166,20 +3231,25 @@ return [
         ],
         'home_site_user_register_bg_images'  => [
             'name' => '用戶註冊背景圖片',
-            'desc' => '',
+            'desc' => '建議1920*350px',
             'tips' => '請上傳用戶註冊背景圖片',
+        ],
+        'home_site_user_register_bg_color'  => [
+            'name' => '用戶註冊背景色',
+            'desc' => '',
+            'tips' => '請選擇用戶註冊背景色',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => '圖片',
-            'desc' => '圖片1 [建議使用450X350像數]',
+            'desc' => '圖片1 [建議1920*350px]',
         ],
         'home_site_user_login_ad2_images'  => [
             'name' => '圖片',
-            'desc' => '圖片2 [建議使用450X350像數]',
+            'desc' => '圖片2 [建議1920*350px]',
         ],
         'home_site_user_login_ad3_images'  => [
             'name' => '圖片',
-            'desc' => '圖片2 [建議使用450X350像數]',
+            'desc' => '圖片2 [建議1920*350px]',
         ],
         'home_site_user_login_ad1_url'  => [
             'name' => 'url地址',
@@ -3212,15 +3282,15 @@ return [
         ],
         'home_site_user_forgetpwd_ad1_images'  => [
             'name' => '圖片',
-            'desc' => '圖片1 [建議使用450X350像數]',
+            'desc' => '圖片1 [建議450*350px]',
         ],
         'home_site_user_forgetpwd_ad2_images'  => [
             'name' => '圖片',
-            'desc' => '圖片2 [建議使用450X350像數]',
+            'desc' => '圖片2 [建議450*350px]',
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => '圖片',
-            'desc' => '圖片2 [建議使用450X350像數]',
+            'desc' => '圖片2 [建議450*350px]',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
             'name' => 'url地址',
@@ -3275,9 +3345,19 @@ return [
             'desc' => '默認關閉，開啟後用戶註冊需要同意協定才可以注册',
             'tips' => '請選擇是否啟用用戶註冊協定',
         ],
+        'home_order_aftersale_return_goods_contacts_name'  => [
+            'name' => '退貨連絡人',
+            'desc' => '',
+            'tips' => '請填寫退貨連絡人',
+        ],
+        'home_order_aftersale_return_goods_contacts_tel'  => [
+            'name' => '退貨聯繫電話',
+            'desc' => '',
+            'tips' => '請填寫退貨聯繫電話',
+        ],
         'home_order_aftersale_return_goods_address'  => [
             'name' => '退貨地址',
-            'desc' => '用戶退貨貨物收貨地址',
+            'desc' => '',
             'tips' => '請填寫退貨地址',
         ],
         'common_app_is_use_mobile_detail'  => [
@@ -3414,6 +3494,21 @@ return [
             'name' => '是否啟用用戶中心頭部小導航',
             'desc' => '默認是',
             'tips' => '請選擇是否啟用用戶中心頭部小導航',
+        ],
+        'common_app_user_base_popup_pages'  => [
+            'name' => '用戶基礎資訊提示頁面',
+            'desc' => '默認關閉',
+            'tips' => '請選擇用戶基礎資訊提示頁面',
+        ],
+        'common_app_user_base_popup_client'  => [
+            'name' => '用户基础信息提示终端',
+            'desc' => '默認關閉',
+            'tips' => '請選擇用戶基礎資訊提示終端',
+        ],
+        'common_app_user_base_popup_integral_time'  => [
+            'name' => '用戶基礎資訊提示間隔時間',
+            'desc' => '組織秒、默認1800秒/30分鐘',
+            'tips' => '請填寫關閉後再次提示間隔時間',
         ],
         'common_site_type'  => [
             'name' => '網站類型',
@@ -3744,11 +3839,6 @@ return [
             'name' => 'web端PC訪問',
             'desc' => '默認開啟，僅針對web端PC',
         ],
-        'common_tianditu_map_ak'  => [
-            'name' => '天地圖api秘鑰',
-            'desc' => '天地圖的應用Key',
-            'tips' => '請填寫天地圖api秘鑰',
-        ],
         'common_domain_host'  => [
             'name' => '主功能變數名稱',
             'desc' => '網站地址',
@@ -3799,20 +3889,50 @@ return [
             'desc' => '默認百度地圖',
             'tips' => '請選擇地圖類型',
         ],
-        'common_amap_map_ak'  => [
-            'name' => '高德地圖api秘鑰',
-            'desc' => '高德地圖的應用Key和安全秘鑰',
-            'tips' => '請填寫高德地圖api秘鑰',
+        'common_baidu_map_ak'  => [
+            'name' => '百度地圖api金鑰（瀏覽器端）',
+            'desc' => '百度地圖的應用Key',
+            'tips' => '請填寫百度地圖api金鑰（瀏覽器端）',
         ],
-        'common_tencent_map_ak'  => [
-            'name' => '騰訊地圖api秘鑰',
-            'desc' => '騰訊地圖的應用Key',
-            'tips' => '請填寫騰訊地圖api秘鑰',
+        'common_baidu_map_ak_server'  => [
+            'name' => '百度地圖api金鑰（服務端）',
+            'desc' => '百度地圖的應用Key',
+            'tips' => '請填寫百度地圖api金鑰（服務端）',
+        ],
+        'common_amap_map_ak'  => [
+            'name' => '高德地圖api秘鑰（瀏覽器端）',
+            'desc' => '高德地圖的應用Key',
+            'tips' => '請填寫高德地圖api秘鑰（瀏覽器端）',
         ],
         'common_amap_map_safety_ak'  => [
             'name' => '高德地圖安全秘鑰',
             'desc' => '高德地圖的應用安全金鑰',
             'tips' => '請填寫高德地圖安全秘鑰',
+        ],
+        'common_amap_map_ak_server'  => [
+            'name' => '高德地圖api秘鑰（服務端）',
+            'desc' => '高德地圖的應用Key',
+            'tips' => '請填寫高德地圖api秘鑰（服務端）',
+        ],
+        'common_tencent_map_ak'  => [
+            'name' => '騰訊地圖api秘鑰（瀏覽器端）',
+            'desc' => '騰訊地圖的應用Key',
+            'tips' => '請填寫騰訊地圖api秘鑰（瀏覽器端）',
+        ],
+        'common_tencent_map_ak_server'  => [
+            'name' => '騰訊地圖api秘鑰（服務端）',
+            'desc' => '騰訊地圖的應用Key',
+            'tips' => '請填寫騰訊地圖api秘鑰（服務端）',
+        ],
+        'common_tianditu_map_ak'  => [
+            'name' => '天地圖api秘鑰（瀏覽器端）',
+            'desc' => '天地圖的應用Key',
+            'tips' => '請填寫天地圖api秘鑰（瀏覽器端）',
+        ],
+        'common_tianditu_map_ak_server'  => [
+            'name' => '天地圖api秘鑰（服務端）',
+            'desc' => '天地圖的應用Key',
+            'tips' => '請填寫天地圖api秘鑰（服務端）',
         ],
         'common_default_payment'  => [
             'name' => '默認支付方式',
@@ -3883,6 +4003,11 @@ return [
             'name' => '自動識別用戶語言',
             'desc' => '默認關閉',
             'tips' => '請選擇自動識別用戶語言',
+        ],
+        'common_domain_multilingual_bind_list'  => [
+            'name' => '功能變數名稱綁定語言',
+            'desc' => '',
+            'tips' => '請配寘功能變數名稱綁定語言',
         ],
         'common_user_unique_system_type_model'  => [
             'name' => '用戶以系統類標識維度',

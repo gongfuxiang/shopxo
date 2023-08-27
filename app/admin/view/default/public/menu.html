@@ -3,7 +3,7 @@
 		<ul class="am-list admin-sidebar-list common-left-menu">
 			<li>
 				<a href="javascript:;" data-key="-" data-type="menu" data-url="{{:MyUrl('admin/index/init')}}" class="common-left-menu-active">
-					<span class="iconfont icon-shouye"></span>
+					<span class="iconfont icon-home-page"></span>
 					<p class="nav-name am-inline-block am-text-break">{{:MyLang('home_title')}}</p>
 				</a>
 			</li>
@@ -25,7 +25,7 @@
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
 							{{foreach $v.items as $vs}}
 								<li>
-									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}" data-key="{{$v.id}}-{{$vs.id}}">
+									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}" data-key="{{$vs.id}}">
 										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
 										<p class="nav-name am-inline-block am-text-break">{{$vs.name}}</p>
 									</a>

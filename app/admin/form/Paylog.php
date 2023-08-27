@@ -26,6 +26,34 @@ class PayLog
     // 基础条件
     public $condition_base = [];
 
+    // 业务类型
+    public $business_type_list;
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function __construct($params = [])
+    {
+        $list = MyConst('common_pay_log_business_type_list');
+        $data = Db::name('PayLog')->group('business_type')->column('business_type');
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                if(!array_key_exists($v, $list))
+                {
+                    $list[$v] = ['value' => $v, 'name' => $v];
+                }
+            }
+        }
+        $this->business_type_list = $list;
+    }
+
     /**
      * 入口
      * @author  Devil
@@ -93,12 +121,12 @@ class PayLog
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_pay_log_status_list'),
+                    'view_data'     => MyConst('common_pay_log_status_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_pay_log_status_list'),
+                        'data'              => MyConst('common_pay_log_status_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -128,12 +156,14 @@ class PayLog
                     'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => $this->business_type_list,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => $this->PayLogBusinessTypeList(),
-                        'data_key'          => 'name',
+                        'data'              => $this->business_type_list,
+                        'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
@@ -245,7 +275,7 @@ class PayLog
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;
@@ -276,19 +306,6 @@ class PayLog
             }
         }
         return $data;
-    }
-
-    /**
-     * 业务类型
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-26
-     * @desc    description
-     */
-    public function PayLogBusinessTypeList()
-    {
-        return Db::name('PayLog')->field('business_type as name')->group('business_type')->select()->toArray();
     }
 
     /**

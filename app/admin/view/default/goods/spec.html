@@ -38,13 +38,13 @@
                         <tr>
                             <td class="am-text-middle">
                                 <i class="am-close quick-title-remove">×</i>
-                                <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" />
+                                <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" class="am-radius" />
                             </td>
                             <td class="spec-quick-td-value am-cf">
                                 {{if !empty($spec_base['value'])}}
                                     {{foreach $spec_base.value as $value}}
                                         <div class="am-fl am-margin-xs value-item">
-                                            <input type="text" class="am-fl" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" />
+                                            <input type="text" class="am-fl am-radius" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" />
                                             <i class="am-close quick-value-remove">×</i>
                                         </div>
                                     {{/foreach}}
@@ -97,7 +97,7 @@
                         {{foreach $specifications.type as $type_v}}
                             <th class="table-title table-title-{{$type_v.id}}">
                                 <i class="am-close title-nav-remove" data-index="{{$type_v.id}}">×</i>
-                                <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" required />
+                                <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" class="am-radius" required />
                             </th>
                         {{/foreach}}
                     {{/if}}
@@ -185,7 +185,7 @@
                                 {{switch v.data_type}}
                                     {{case spec}}
                                         <td class="am-text-middle table-value table-value-{{$v.data.key}}">
-                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" data-is-clearout="0" required />
+                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" class="am-radius" data-is-clearout="0" required />
                                         </td>
                                     {{/case}}
 
@@ -270,14 +270,14 @@
 </div>
 
 <!-- 所有规格批量操作弹层 -->
-<div class="am-popup" id="spec-popup-all-operation">
+<div class="am-popup am-radius" id="spec-popup-all-operation">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
             <h4 class="am-popup-title">{{:MyLang('common_service.goods.form_spec_advanced_batch_setup_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <div class="am-alert am-alert-secondary spec-title-container"></div>
+            <div class="am-alert am-alert-secondary am-radius spec-title-container"></div>
             <div class="am-form-group">
                 <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_price_title')}}</label>
                 <input type="text" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" />
@@ -315,7 +315,7 @@
 <!-- 单个规格批量操作弹层 -->
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="spec-modal-all-operation">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">{{:MyLang('common_service.goods.form_spec_all_operate_title')}}
+        <div class="am-modal-hd am-radius">{{:MyLang('common_service.goods.form_spec_all_operate_title')}}
             <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd">

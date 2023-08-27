@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\ResourcesService;
 
 /**
  * 品牌分类服务层
@@ -34,10 +35,35 @@ class BrandCategoryService
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
-
-        $data = Db::name('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
-        
+        $data = self::DataHandle(Db::name('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray());
         return DataReturn(MyLang('handle_success'), 0, $data);
+    }
+
+    /**
+     * 数据处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-06
+     * @desc    description
+     * @param   [array]          $data [二维数组]
+     */
+    public static function DataHandle($data)
+    {
+        if(!empty($data) && is_array($data))
+        {
+            foreach($data as &$v)
+            {
+                if(is_array($v))
+                {
+                    if(array_key_exists('icon', $v))
+                    {
+                        $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     /**
@@ -55,6 +81,7 @@ class BrandCategoryService
         $data = Db::name('BrandCategory')->field($field)->order('sort asc')->select()->toArray();
         if(!empty($data))
         {
+            $data = self::DataHandle($data);
             foreach($data as &$v)
             {
                 $v['is_son']        = 'no';
@@ -92,11 +119,20 @@ class BrandCategoryService
             return DataReturn($ret, -1);
         }
 
+        // 其它附件
+        $data_fields = ['icon'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+
         // 数据
         $data = [
-            'name'      => $params['name'],
-            'sort'      => isset($params['sort']) ? intval($params['sort']) : 0,
-            'is_enable' => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'icon'       => $attachment['data']['icon'],
+            'name'       => $params['name'],
+            'sort'       => isset($params['sort']) ? intval($params['sort']) : 0,
+            'is_enable'  => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
 
         // 添加
@@ -108,7 +144,6 @@ class BrandCategoryService
             {
                 return DataReturn(MyLang('insert_fail'), -100);
             }
-            
         } else {
             $data['upd_time'] = time();
             if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->update($data) === false)

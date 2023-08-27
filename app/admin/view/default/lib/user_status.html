@@ -2,7 +2,7 @@
 <div class="am-form-group">
 	<label class="am-block">{{:MyLang('common.user_status_title')}}</label>
 	<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.user_status_message')}}" required>
-		{{foreach :MyLang('common_user_status_list') as $v}}
+		{{foreach :MyConst('common_user_status_list') as $v}}
 			<option value="{{$v.id}}" {{if isset($data['status']) and $data['status'] eq $v['id']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 		{{/foreach}}
 	</select>

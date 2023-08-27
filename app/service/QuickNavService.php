@@ -45,13 +45,13 @@ class QuickNavService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyLang('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => MyLang('form_platform_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(MyLang('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
                 'is_checked'        => 1,
                 'error_msg'         => MyLang('form_event_type_message'),
             ],
@@ -202,7 +202,7 @@ class QuickNavService
         // 缓存
         $key = SystemService::CacheKey('shopxo.cache_quick_navigation_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取导航数据
             $field = 'id,name,images_url,event_value,event_type,bg_color';

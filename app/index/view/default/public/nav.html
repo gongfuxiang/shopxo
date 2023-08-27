@@ -2,8 +2,8 @@
     <div class="mobile-navigation">
         {{foreach $common_bottom_nav_list as $nav}}
             <li {{if $controller_name.$action_name eq $nav['only_tag']}}class="active"{{/if}}>
-                <a {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}href="javascript:;" class="login-event am-block"{{else /}} href="{{$nav.url}}" class="am-block"{{/if}}>
-                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq $nav['only_tag']}}{{$nav.icon}}-active.png{{else /}}{{$nav.icon}}.png{{/if}}" class="am-block" alt="{{$nav.name}}" />
+                <a {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}href="javascript:;" data-login-info="1" class="login-event am-block"{{else /}} href="{{$nav.url}}" class="am-block"{{/if}}>
+                    <i class="iconfont {{$nav.icon}}{{if $controller_name.$action_name eq $nav['only_tag']}}-active{{/if}}"></i>
                     <p>{{$nav.name}}</p>
                 </a>
                 {{if isset($nav['badge']) and $nav['badge'] nheq null and $nav['badge'] gt 0}}

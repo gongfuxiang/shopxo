@@ -8,7 +8,6 @@
                             {{case 0}}
                                 <li {{if empty($v['url'])}}class="am-active"{{/if}}>
                                     {{if !empty($v['url'])}}<a href="{{$v.url}}">{{/if}}
-                                    {{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}}
                                     {{$v.name}}
                                     {{if !empty($v['url'])}}</a>{{/if}}
                                 </li>

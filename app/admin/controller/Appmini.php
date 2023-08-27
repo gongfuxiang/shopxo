@@ -129,9 +129,9 @@ class Appmini extends Base
 			// 应用商店
 	        'store_theme_url' 		=> StoreService::StoreThemeUrl(),
 			// 小程序平台
-			'common_appmini_type' 	=> MyLang('common_appmini_type'),
+			'common_appmini_type' 	=> MyConst('common_appmini_type'),
 			// 是否
-			'common_is_text_list' 	=> MyLang('common_is_text_list'),
+			'common_is_text_list' 	=> MyConst('common_is_text_list'),
 			// 基础导航
 			'base_nav'				=> MyLang('appmini.base_nav_list'),
 		];

@@ -18,34 +18,62 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
+					<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group am-form-file">
-									<label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.goodscategory.form_item_icon_tips')}}</span></label>
+									<label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
 									<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
 										<li>
 											<input type="hidden" name="icon" value="" />
-											<img src="{{$attachment_host}}/static/admin/default/images/default-images.jpg" />
+											<img src="{{$attachment_host}}/static/common/images/default-images.jpg" />
 											<i>×</i>
 										</li>
 									</ul>
 									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 								</div>
+                            </div>
+                            <div class="am-u-sm-6 am-padding-horizontal-0">
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon_active')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_active_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                                    <ul class="plug-file-upload-view goods-category-icon-active-images-view" data-form-name="icon_active" data-max-number="1" data-dialog-type="images">
+                                        <li>
+                                            <input type="hidden" name="icon_active" value="" />
+                                            <img src="{{$attachment_host}}/static/common/images/default-images.jpg" />
+                                            <i>×</i>
+                                        </li>
+                                    </ul>
+                                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-active-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                                </div>
                 			</div>
+                        </div>
+                        <div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group am-form-file">
-									<label class="am-block">{{:MyLang('common_service.goodscategory.form_item_big_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.goodscategory.form_item_big_images_tips')}}</span></label>
-									<ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
+									<label class="am-block">{{:MyLang('common_service.goodscategory.form_item_realistic_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_realistic_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+									<ul class="plug-file-upload-view goods-category-realistic_images-images-view" data-form-name="realistic_images" data-max-number="1" data-dialog-type="images">
 										<li>
-											<input type="hidden" name="big_images" value="" />
-											<img src="{{$attachment_host}}/static/admin/default/images/default-images.jpg" />
+											<input type="hidden" name="realistic_images" value="" />
+											<img src="{{$attachment_host}}/static/common/images/default-images.jpg" />
 											<i>×</i>
 										</li>
 									</ul>
-									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-realistic_images-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 								</div>
                 			</div>
+                            <div class="am-u-sm-6 am-padding-horizontal-0">
+                                <div class="am-form-group am-form-file">
+                                    <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_big_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_big_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                                    <ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
+                                        <li>
+                                            <input type="hidden" name="big_images" value="" />
+                                            <img src="{{$attachment_host}}/static/common/images/default-images.jpg" />
+                                            <i>×</i>
+                                        </li>
+                                    </ul>
+                                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                                </div>
+                            </div>
                 		</div>
 						
                 		<div class="am-cf">
@@ -87,7 +115,7 @@
                 			</div>
                 			<div class="am-u-sm-6 am-u-md-4 am-padding-horizontal-0">
                 				<div class="am-form-group">
-								    <label>{{:MyLang('common_service.goodscategory.form_item_is_home_recommended')}}</label>
+								    <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_is_home_recommended')}}</label>
 								    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1) or !isset($data['is_home_recommended'])}}checked="true"{{/if}} />
 								</div>
                 			</div>
@@ -96,13 +124,23 @@
                 			</div>
                 		</div>
 						
-						<div class="am-alert am-alert-secondary">
-							{{include file="lib/seo" /}}
-						</div>
+						<div class="am-panel am-panel-default am-radius am-margin-horizontal-xs am-margin-top">
+                            <div class="am-panel-bd">
+                                {{include file="lib/seo" /}}
+                            </div>
+                        </div>
+
 						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="pid" value="0" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+							<button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                                <i class="am-icon-paint-brush"></i>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                                <i class="am-icon-save"></i>
+                                <span>{{:MyLang('save_title')}}</span>
+                            </button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -112,14 +150,14 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}]' data-node-url="{{:MyUrl('admin/goodscategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/goodscategory/delete')}}" data-popup-tag="#data-save-win" data-rank="3">
+		<div id="tree" class="am-margin-top-sm" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon", "value":"{{$attachment_host}}/static/common/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"icon_active", "value":"", "type":"input"}, {"field":"icon_active", "value":"{{$attachment_host}}/static/common/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-active-images-view li img", "style":"src"}, {"field":"realistic_images", "value":"", "type":"input"}, {"field":"realistic_images", "value":"{{$attachment_host}}/static/common/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-realistic_images-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images", "value":"{{$attachment_host}}/static/common/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}]' data-node-url="{{:MyUrl('admin/goodscategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/goodscategory/delete')}}" data-popup-tag="#data-save-win" data-rank="3">
 			{{include file="public/loading" /}}
 		</div>
 		<!-- list end -->
 	</div>
 </div>
 <!-- right content end -->
-		
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

@@ -3,17 +3,15 @@
 <!-- header top nav -->
 {{include file="public/header_top_nav" /}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
-
-<!-- header nav -->
-{{include file="public/header_nav" /}}
-
-<!-- goods category -->
-{{include file="public/goods_category" /}}
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'title'   => MyLang('user.register_nav_title'),
+    'is_go_home' => '1',
+    'is_sm_hide' => '0'
+])}}
 
 <!-- conntent start  -->
-<div class="am-g my-content user-register-container" {{if !empty($user_register_bg_images)}}style="background: #FAFAFA url({{:AttachmentPathViewHandle($user_register_bg_images)}});"{{/if}}>
+<div class="am-g user-register-container" {{if !empty($user_register_bg_images)}}style="background: {{if empty($user_register_bg_color)}}#f5f5f5{{else /}}{{$user_register_bg_color}}{{/if}} url({{:AttachmentPathViewHandle($user_register_bg_images)}});"{{/if}}>
     <div class="am-container">
         <!-- 用户注册页面顶部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -29,13 +27,8 @@
             {{/foreach}}
         {{/if}}
 
-        <div class="register-container am-u-sm-centered">
+        <div class="register-container am-margin-auto">
             <div class="register-top">
-                {{if !empty($home_user_login_type)}}
-                    <span>{{:MyLang('user.register_top_login_tips')}}</span>
-                    <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:MyLang('login_title')}}</a>
-                {{/if}}
-
                 <!-- 用户注册页面钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
@@ -51,186 +44,9 @@
                 {{/if}}
             </div>
 
-            <div class="register-content am-radius">
-                {{if !empty($home_user_reg_type)}}
-                    <div data-am-widget="tabs" class="am-tabs am-tabs-d2" data-am-tabs="{noSwipe: 1}">
-                        <ul class="am-tabs-nav am-cf">
-                            {{if in_array('username', $home_user_reg_type)}}
-                                <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('user.register_type_username_title')}}</a></li>
-                            {{/if}}
-                            {{if in_array('sms', $home_user_reg_type)}}
-                                <li class="{{if !in_array('username', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">{{:MyLang('user.register_type_mobile_title')}}</a></li>
-                            {{/if}}
-                            {{if in_array('email', $home_user_reg_type)}}
-                                <li class="{{if !in_array('username', $home_user_reg_type) and !in_array('sms', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-2]">{{:MyLang('user.register_type_email_title')}}</a></li>
-                            {{/if}}
-                        </ul>
-                        <div class="am-tabs-bd am-padding-bottom-sm">
-                            {{if in_array('username', $home_user_reg_type)}}
-                                <div data-tab-panel-0 class="am-tab-panel am-active">
-                                    <!-- form start -->
-                                    <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                                        <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>{{:MyLang('user.form_item_username')}}</label>
-                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('user.form_item_username_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                        </div>
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>{{:MyLang('user.form_item_password')}}</label>
-                                            <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {{if MyC('home_user_register_img_verify_state') eq 1}}
-                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                                <label>{{:MyLang('form_verify_title')}}</label>
-                                                <div class="am-input-group am-input-group-sm">
-                                                    <input type="text" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                    <span class="am-input-group-btn">
-                                                        <span class="am-btn am-btn-default am-radius form-verify">
-                                                            <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'user_reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
-                                                            <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'user_reg'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        {{/if}}
-
-                                        {{if MyC('home_is_enable_userregister_agreement') eq 1}}
-                                            <div class="agreement am-padding-horizontal-sm">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
-                                                <span>{{:MyLang('and_title')}}</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
-                                            </div>
-                                        {{/if}}
-                                        
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
-                                            <input type="hidden" name="type" value="username" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
-                                        </div>
-                                    </form>
-                                    <!-- form end -->
-                                </div>
-                            {{/if}}
-                            {{if in_array('sms', $home_user_reg_type)}}
-                                <div data-tab-panel-1 class="am-tab-panel {{if !in_array('username', $home_user_reg_type)}}am-active{{/if}}">
-                                    <!-- form start -->
-                                    <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                                        <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>{{:MyLang('user.form_item_mobile')}}</label>
-                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_mobile_placeholder')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('user.form_item_mobile_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                        </div>
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>{{:MyLang('form_verify_title')}}</label>
-                                            <div class="am-input-group am-input-group-sm">
-                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">{{:MyLang('form_verify_button_text')}}</button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>{{:MyLang('user.form_item_password')}}</label>
-                                            <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {{if MyC('home_is_enable_userregister_agreement') eq 1}}
-                                            <div class="agreement am-padding-horizontal-sm">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
-                                                <span>{{:MyLang('and_title')}}</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
-                                            </div>
-                                        {{/if}}
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
-                                            <input type="hidden" name="type" value="sms" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
-                                        </div>
-                                    </form>
-                                    <!-- form end -->
-                                </div>
-                            {{/if}}
-                            {{if in_array('email', $home_user_reg_type)}}
-                                <div data-tab-panel-2 class="am-tab-panel {{if !in_array('username', $home_user_reg_type) and !in_array('sms', $home_user_reg_type)}}am-active{{/if}}">
-                                    <!-- form start -->
-                                    <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                                        <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>{{:MyLang('user.form_item_email')}}</label>
-                                            <input type="email" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_email_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_email_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                        </div>
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>{{:MyLang('form_verify_title')}}</label>
-                                            <div class="am-input-group am-input-group-sm">
-                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">{{:MyLang('form_verify_button_text')}}</button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>{{:MyLang('user.form_item_password')}}</label>
-                                            <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" data-is-clearout="0" required />
-                                                <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {{if MyC('home_is_enable_userregister_agreement') eq 1}}
-                                            <div class="agreement am-padding-horizontal-sm">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
-                                                <span>{{:MyLang('and_title')}}</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
-                                            </div>
-                                        {{/if}}
-
-                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
-                                            <input type="hidden" name="type" value="email" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
-                                        </div>
-                                    </form>
-                                    <!-- form end -->
-                                </div>
-                            {{/if}}
-
-                            <!-- 用户注册页面内底部钩子 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                <div class="plugins-tag">
-                                    <span>plugins_view_user_reg_info_inside_bottom</span>
-                                </div>
-                            {{/if}}
-                            {{if !empty($plugins_view_user_reg_info_inside_bottom_data) and is_array($plugins_view_user_reg_info_inside_bottom_data)}}
-                                {{foreach $plugins_view_user_reg_info_inside_bottom_data as $hook}}
-                                    {{if is_string($hook) or is_int($hook)}}
-                                        {{$hook|raw}}
-                                    {{/if}}
-                                {{/foreach}}
-                            {{/if}}
-                        </div>
-                    </div>
+            <div class="am-radius-lg am-background-white">
+                {{if count($home_user_reg_type) gt 0}}
+                    {{include file="user/reg_content" /}}
                 {{else /}}
                     <div class="am-text-center am-padding-vertical-lg register-close">
                         <i class="am-icon-warning"></i>
@@ -263,7 +79,6 @@
 {{/if}}
 
 {{include file="public/footer" /}}
-
 <script type="text/javascript">
 // 注册成功回调
 function RegisterSuccessBack(e)

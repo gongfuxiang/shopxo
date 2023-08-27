@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\OrderAftersaleService;
 use app\service\SeoService;
@@ -22,7 +23,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Orderaftersale extends Common
+class Orderaftersale extends Center
 {
     /**
      * 构造方法
@@ -35,9 +36,6 @@ class Orderaftersale extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
     /**
@@ -120,7 +118,7 @@ class Orderaftersale extends Common
             $assign['return_goods_address'] = $return_goods_address;
 
             // 静态数据
-            $assign['common_order_aftersale_type_list'] = MyLang('common_order_aftersale_type_list');
+            $assign['common_order_aftersale_type_list'] = MyConst('common_order_aftersale_type_list');
 
             // 编辑器文件存放地址
             $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));
@@ -194,7 +192,7 @@ class Orderaftersale extends Common
             return MyView('public/tips_error');
         }
 
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }

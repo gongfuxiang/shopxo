@@ -24,6 +24,9 @@ use app\layout\service\BaseLayout;
  */
 class DesignService
 {
+    // 排除的文件后缀
+    private static $exclude_ext = ['php'];
+
     /**
      * 列表
      * @author   Devil
@@ -604,7 +607,7 @@ class DesignService
         $data_id = 0;
         for($i=0; $i<$zip->numFiles; $i++)
         {
-             $file = $zip->getNameIndex($i);
+            $file = $zip->getNameIndex($i);
             if(stripos($file, 'config.json') !== false)
             {
                 $stream = $zip->getStream($file);
@@ -612,6 +615,17 @@ class DesignService
                 {
                     $zip->close();
                     return DataReturn(MyLang('common_service.design.upload_config_file_get_fail_tips'), -1);
+                }
+
+                // 排除后缀文件
+                $pos = strripos($file, '.');
+                if($pos !== false)
+                {
+                    $info = pathinfo($file);
+                    if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                    {
+                        continue;
+                    }
                 }
 
                 // 获取配置信息并解析

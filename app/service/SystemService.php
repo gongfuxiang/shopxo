@@ -76,13 +76,17 @@ class SystemService
     public static function BaseInit($params = [])
     {
         // uuid
-        $uuid = MySession('uuid');
+        $uuid = empty($params['uuid']) ? MySession('uuid') : $params['uuid'];
         if(empty($uuid))
         {
-            $uuid = empty($params['uuid']) ? UUId() : $params['uuid'];
-            MySession('uuid', $uuid);
-            MyCookie('uuid', $uuid, false);
+            $uuid = MyCookie('uuid');
+            if(empty($uuid))
+            {
+                $uuid = UUId();
+            }
         }
+        MySession('uuid', $uuid);
+        MyCookie('uuid', $uuid, false);
 
         // token
         if(!empty($params['token']))
@@ -223,6 +227,214 @@ class SystemService
 
         // 页面语言读取钩子
         $hook_name = 'plugins_page_view_lang_data';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
+        return $data;
+    }
+
+    /**
+     * 主题样式默认数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-06-13
+     * @desc    description
+     */
+    public static function ThemeStyleDefaultData()
+    {
+        return [
+            // 基准大小、背景色
+            'html_body_size'                          => 10,
+            'body_bg_color'                           => '#f7f7f7',
+            
+            // 价格色
+            'color_price'                             => '#E22C08',
+            
+            // 红色、黄色、蓝色、绿色
+            'color_red'                               => '#E22C08',
+            'color_yellow'                            => '#FAAD14',
+            'color_blue'                              => '#76AFFF',
+            'color_green'                             => '#5EB95E',
+            
+            // 主色
+            'color_main'                              => '#E22C08',
+            'color_main_light'                        => '#F25232',
+            'color_main_hover'                        => '#EA6B52',
+            
+            // 次色
+            'color_secondary'                         => '#FFB8AA',
+            
+            // 圆角
+            'border_radius_sm'                        => 0.2,
+            'border_radius'                           => 0.4,
+            'border_radius_lg'                        => 0.8,
+            
+            // 阴影
+            'box_shadow'                              => '0 5px 20px rgba(50,55,58,0.1)',
+            'box_shadow_sm'                           => '0 2px 8px rgba(50,55,58,0.1)',
+            'box_shadow_lg'                           => '0 8px 34px rgba(50,55,58,0.1)',
+            
+            // 默认基础色 - 按钮
+            'color_button_default'                    => '#EEEEEE',
+            'color_button_default_hover'              => '#dddddd',
+            'color_button_default_focus'              => '#c7c7c7',
+            'color_button_default_active'             => '#c7c7c7',
+            'color_button_default_disabled'           => '#c2c2c2',
+            'color_button_default_border'             => '#EEEEEE',
+            'color_button_default_hover_border'       => '#dddddd',
+            'color_button_default_focus_border'       => '#c7c7c7',
+            'color_button_default_active_border'      => '#c7c7c7',
+            'color_button_default_disabled_border'    => '#c7c7c7',
+            'color_button_default_text'               => '#666666',
+            'color_button_default_hover_text'         => '#444444',
+            'color_button_default_focus_text'         => '#444444',
+            'color_button_default_active_text'        => '#444444',
+            'color_button_default_disabled_text'      => '#444444',
+            
+            // 主色 - 按钮
+            'color_button_primary'                    => '#E22C08',
+            'color_button_primary_hover'              => '#EA6B52',
+            'color_button_primary_focus'              => '#C02000',
+            'color_button_primary_active'             => '#C02000',
+            'color_button_primary_disabled'           => '#F6BFB4',
+            'color_button_primary_border'             => '#E22C08',
+            'color_button_primary_hover_border'       => '#EA6B52',
+            'color_button_primary_focus_border'       => '#C02000',
+            'color_button_primary_active_border'      => '#C02000',
+            'color_button_primary_disabled_border'    => '#F6BFB4',
+            'color_button_primary_text'               => '#FFFFFF',
+            'color_button_primary_hover_text'         => '#FFFFFF',
+            'color_button_primary_focus_text'         => '#FFFFFF',
+            'color_button_primary_active_text'        => '#FFFFFF',
+            'color_button_primary_disabled_text'      => '#FFFFFF',
+            
+            // 次色 - 按钮
+            'color_button_secondary'                  => '#FFEFE5',
+            'color_button_secondary_hover'            => '#FCE9E6',
+            'color_button_secondary_focus'            => '#FCE9E6',
+            'color_button_secondary_active'           => '#F5B5A9',
+            'color_button_secondary_disabled'         => '#F5B5A9',
+            'color_button_secondary_border'           => '#FFCBAB',
+            'color_button_secondary_hover_border'     => '#FDB6B0',
+            'color_button_secondary_focus_border'     => '#FDB6B0',
+            'color_button_secondary_active_border'    => '#F5B5A9',
+            'color_button_secondary_disabled_border'  => '#F5B5A9',
+            'color_button_secondary_text'             => '#E22C08',
+            'color_button_secondary_hover_text'       => '#EA6247',
+            'color_button_secondary_focus_text'       => '#E64829',
+            'color_button_secondary_active_text'      => '#E2300D',
+            'color_button_secondary_disabled_text'    => '#E2300D',
+            
+            // 成功 - 按钮
+            'color_button_success'                    => '#a8e6a8',
+            'color_button_success_hover'              => '#97ee97',
+            'color_button_success_focus'              => '#5eb95e',
+            'color_button_success_active'             => '#85c085',
+            'color_button_success_disabled'           => '#85c085',
+            'color_button_success_border'             => '#7fe27f',
+            'color_button_success_hover_border'       => '#97ee97',
+            'color_button_success_focus_border'       => '#5eb95e',
+            'color_button_success_active_border'      => '#85c085',
+            'color_button_success_disabled_border'    => '#85c085',
+            'color_button_success_text'               => '#258f25',
+            'color_button_success_hover_text'         => '#239b23',
+            'color_button_success_focus_text'         => '#FFFFFF',
+            'color_button_success_active_text'        => '#bffbbf',
+            'color_button_success_disabled_text'      => '#bffbbf',
+            
+            // 警告 - 按钮
+            'color_button_warning'                    => '#FAAD14',
+            'color_button_warning_hover'              => '#FBC55A',
+            'color_button_warning_focus'              => '#FBC55A',
+            'color_button_warning_active'             => '#EB9C00',
+            'color_button_warning_disabled'           => '#FDE6B8',
+            'color_button_warning_border'             => '#FAAD14',
+            'color_button_warning_hover_border'       => '#FBC55A',
+            'color_button_warning_focus_border'       => '#FBC55A',
+            'color_button_warning_active_border'      => '#EB9C00',
+            'color_button_warning_disabled_border'    => '#FDE6B8',
+            'color_button_warning_text'               => '#FFFFFF',
+            'color_button_warning_hover_text'         => '#FFFFFF',
+            'color_button_warning_focus_text'         => '#FFFFFF',
+            'color_button_warning_active_text'        => '#FFFFFF',
+            'color_button_warning_disabled_text'      => '#FFFFFF',
+            
+            // 危险 - 按钮
+            'color_button_danger'                     => '#ffebeb',
+            'color_button_danger_hover'               => '#FFEFED',
+            'color_button_danger_focus'               => '#FFEFED',
+            'color_button_danger_active'              => '#FFC2B6',
+            'color_button_danger_disabled'            => '#FFFFFF',
+            'color_button_danger_border'              => '#E33816',
+            'color_button_danger_hover_border'        => '#DF2500',
+            'color_button_danger_focus_border'        => '#D58576',
+            'color_button_danger_active_border'       => '#FFC2B6',
+            'color_button_danger_disabled_border'     => '#D58E80',
+            'color_button_danger_text'                => '#da5c43',
+            'color_button_danger_hover_text'          => '#e04527',
+            'color_button_danger_focus_text'          => '#E12C08',
+            'color_button_danger_active_text'         => '#C72100',
+            'color_button_danger_disabled_text'       => '#FFC3B7',
+            
+            // 小徽章部分
+            // 默认基础色 - 小徽章
+            'color_badge_default'                     => '#EEEEEE',
+            'color_badge_default_hover'               => '#e9e9e9',
+            'color_badge_default_text'                => '#666666',
+            'color_badge_default_hover_text'          => '#666666',
+            
+            // 主色 - 小徽章
+            'color_badge_primary'                     => '#eaf1fb',
+            'color_badge_primary_hover'               => '#e4eefe',
+            'color_badge_primary_text'                => '#0c7cd5',
+            'color_badge_primary_hover_text'          => '#0c7cd5',
+            
+            // 次色 - 小徽章
+            'color_badge_secondary'                   => '#ffefe5',
+            'color_badge_secondary_hover'             => '#ffebdf',
+            'color_badge_secondary_text'              => '#f18f51',
+            'color_badge_secondary_hover_text'        => '#f18f51',
+            
+            // 成功色 - 小徽章
+            'color_badge_success'                     => '#d5fbd5',
+            'color_badge_success_hover'               => '#c6f9c6',
+            'color_badge_success_text'                => '#46cf45',
+            'color_badge_success_hover_text'          => '#46cf45',
+            
+            // 警告色 - 小徽章
+            'color_badge_warning'                     => '#ffeac2',
+            'color_badge_warning_hover'               => '#ffe3ae',
+            'color_badge_warning_text'                => '#f3a200',
+            'color_badge_warning_hover_text'          => '#f3a200',
+            
+            // 危险色 - 小徽章
+            'color_badge_danger'                      => '#FFE6E6',
+            'color_badge_danger_hover'                => '#ffdcdc',
+            'color_badge_danger_text'                 => '#e04527',
+            'color_badge_danger_hover_text'           => '#e04527',
+        ];
+    }
+
+    /**
+     * 主题样式数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-06-13
+     * @desc    description
+     */
+    public static function ThemeStyleData()
+    {
+        // 默认样式数据
+        $data = self::ThemeStyleDefaultData();
+
+        // 主题样式数据钩子
+        $hook_name = 'plugins_view_theme_style_data';
         MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,

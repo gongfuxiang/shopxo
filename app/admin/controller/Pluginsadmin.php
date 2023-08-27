@@ -106,10 +106,10 @@ class Pluginsadmin extends Base
             $ret = PluginsAdminService::PluginsList();
             if(!empty($ret['data']['db_data']) || !empty($ret['data']['dir_data']))
             {
-                $data = array_column(array_merge($ret['data']['db_data'], $ret['data']['dir_data']), null, 'plugins');
-                if(isset($data[$params['id']]))
+                $res = array_column(array_merge($ret['data']['db_data'], $ret['data']['dir_data']), null, 'plugins');
+                if(isset($res[$params['id']]))
                 {
-                    $data = $data[$params['id']];
+                    $data = $res[$params['id']];
                     $params['plugins'] = $params['id'];
                 }
             }
@@ -149,6 +149,37 @@ class Pluginsadmin extends Base
             MyViewAssign($assign);
             return MyView('save_info');
         }
+    }
+
+    /**
+     * 上传到商店页面
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-12T21:30:26+0800
+     */
+    public function StoreUploadInfo()
+    {
+        // 参数
+        $params = $this->data_request;
+
+        // 获取数据
+        $data = [];
+        if(!empty($params['id']))
+        {
+            // 获取数据
+            $ret = PluginsAdminService::PluginsList();
+            if(!empty($ret['data']['db_data']) || !empty($ret['data']['dir_data']))
+            {
+                $res = array_column(array_merge($ret['data']['db_data'], $ret['data']['dir_data']), null, 'plugins');
+                if(isset($res[$params['id']]))
+                {
+                    $data = $res[$params['id']];
+                }
+            }
+        }
+        MyViewAssign('data', $data);
+        return MyView();
     }
 
     /**
@@ -215,6 +246,19 @@ class Pluginsadmin extends Base
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');
         }
+    }
+
+    /**
+     * 上传到商店
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     */
+    public function StoreUpload()
+    {
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsStoreUpload($this->data_request));
     }
 
     /**

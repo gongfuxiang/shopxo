@@ -1,68 +1,73 @@
-<!-- 公共上传组件初始化 -->
-<textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
+        </div>
 
-<!-- 公共视频扫码组件初始化 -->     
-<div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
-    <div class="am-popup-inner am-radius">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
-        <div class="scanner">
-            <div class="scan-area">
-                <div class="mark top-left"></div>
-                <div class="mark top-right"></div>
-                <div class="mark bottom-left"></div>
-                <div class="mark bottom-right"></div>
-            </div>
-            <video id="video"></video>
-            <i class="am-icon-refresh am-icon-md video-scan-switch-camera-submit"></i>
-            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs video-scan-continue-submit am-hide">{{:MyLang('continue_scan_title')}}</button>
-            <div class="video-scan-audio-container"></div>
+        <div class="body-content-footer-container">
+            <!-- footer start -->
+            {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+            	{{include file="public/footer_nav" /}}
+            {{/if}}
+            <!-- footer end -->
+
+            <!-- 公共底部钩子 -->
+            {{if !isset($page_pure) or $page_pure neq 1}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_bottom</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
+                    {{foreach $plugins_view_common_bottom_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            {{/if}}
+
+            <!-- footer公共底部钩子 -->
+            {{if !isset($is_footer) or $is_footer eq 1}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_bottom_footer</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_bottom_footer_data) and is_array($plugins_view_common_bottom_footer_data)}}
+                    {{foreach $plugins_view_common_bottom_footer_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            {{/if}}
         </div>
     </div>
-</div>
 
-<!-- footer start -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
-	{{include file="public/footer_nav" /}}
-{{/if}}
-<!-- footer end -->
+    <!-- 公共上传组件初始化 -->
+    <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
 
-<!-- 公共底部钩子 -->
-{{if !isset($page_pure) or $page_pure neq 1}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-        <div class="plugins-tag">
-            <span>plugins_view_common_bottom</span>
+    <!-- 公共视频扫码组件初始化 -->     
+    <div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
+        <div class="am-popup-inner am-radius">
+            <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+            <div class="scanner">
+                <div class="scan-area">
+                    <div class="mark top-left"></div>
+                    <div class="mark top-right"></div>
+                    <div class="mark bottom-left"></div>
+                    <div class="mark bottom-right"></div>
+                </div>
+                <video id="video"></video>
+                <i class="am-icon-refresh am-icon-md video-scan-switch-camera-submit"></i>
+                <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs video-scan-continue-submit am-hide">{{:MyLang('continue_scan_title')}}</button>
+                <div class="video-scan-audio-container"></div>
+            </div>
         </div>
-    {{/if}}
-    {{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
-        {{foreach $plugins_view_common_bottom_data as $hook}}
-            {{if is_string($hook) or is_int($hook)}}
-                {{$hook|raw}}
-            {{/if}}
-        {{/foreach}}
-    {{/if}}
-{{/if}}
-
-<!-- footer公共底部钩子 -->
-{{if !isset($is_footer) or $is_footer eq 1}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-        <div class="plugins-tag">
-            <span>plugins_view_common_bottom_footer</span>
-        </div>
-    {{/if}}
-    {{if !empty($plugins_view_common_bottom_footer_data) and is_array($plugins_view_common_bottom_footer_data)}}
-        {{foreach $plugins_view_common_bottom_footer_data as $hook}}
-            {{if is_string($hook) or is_int($hook)}}
-                {{$hook|raw}}
-            {{/if}}
-        {{/foreach}}
-    {{/if}}
-{{/if}}
+    </div>
 </body>
 </html>
 
 <!-- 类库 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- jshash -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{:MyC('home_static_cache_version')}}"></script>
@@ -192,6 +197,7 @@
     function CommonPopupClose()
     {
         $('.am-popup').modal('close');
+        $('.am-modal').modal('close');
     }
 
     // 子级调用购物车数量更新

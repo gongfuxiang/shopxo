@@ -90,13 +90,13 @@ class GoodsComments
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyLang('common_goods_comments_business_type_list'),
+                    'view_data'     => MyConst('common_goods_comments_business_type_list'),
                     'width'         => 120,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_goods_comments_business_type_list'),
+                        'data'              => MyConst('common_goods_comments_business_type_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -106,7 +106,7 @@ class GoodsComments
                     'label'         => $lang['content'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/content',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'content',
@@ -114,36 +114,39 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => $lang['images'],
+                    'label'         => $lang['reply'],
                     'view_type'     => 'module',
-                    'view_key'      => 'goodscomments/module/images',
+                    'view_key'      => 'goodscomments/module/reply',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'reply',
+                        'where_type'        => 'like',
+                    ],
                 ],
                 [
                     'label'         => $lang['rating'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'goodscomments/module/rating',
-                    'width'         => 100,
+                    'view_type'     => 'star',
+                    'view_key'      => 'rating',
+                    'star_max'      => 5,
+                    'color_style'   => 'danger',
+                    'star_text_key' => 'rating_text',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'rating',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_goods_comments_rating_list'),
+                        'data'              => MyConst('common_goods_comments_rating_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => $lang['reply'],
+                    'label'         => $lang['images'],
                     'view_type'     => 'module',
-                    'view_key'      => 'goodscomments/module/reply',
-                    'grid_size'     => 'lg',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'reply',
-                        'where_type'        => 'like',
-                    ],
+                    'view_key'      => 'goodscomments/module/images',
                 ],
                 [
                     'label'         => $lang['is_show'],
@@ -156,7 +159,7 @@ class GoodsComments
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -172,7 +175,7 @@ class GoodsComments
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -188,7 +191,7 @@ class GoodsComments
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -260,7 +263,7 @@ class GoodsComments
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

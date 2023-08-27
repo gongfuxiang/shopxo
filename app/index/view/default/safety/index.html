@@ -3,14 +3,10 @@
 <!-- header top nav -->
 {{include file="public/header_top_nav" /}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
-
-<!-- header nav -->
-{{include file="public/header_nav" /}}
-
-<!-- goods category -->
-{{include file="public/goods_category" /}}
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'search' => '1',
+])}}
 
 <!-- content -->
 <div class="am-container user-main">
@@ -21,6 +17,9 @@
 	<!-- content start -->
 	<div class="user-content">
     	<div class="user-content-body">
+            <!-- user center title -->
+            {{include file="public/module/user_center_main_title" /}}
+            
 			{{foreach $safety_panel_list as $v}}
 				<section class="am-panel am-panel-default am-radius am-panel-{{if (empty($data[$v['type']]) and empty($v['msg'])) or ($v['type'] eq 'logout')}}danger{{else /}}default{{/if}}">
 					<header class="am-panel-hd">

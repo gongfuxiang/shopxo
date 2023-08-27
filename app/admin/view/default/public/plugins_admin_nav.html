@@ -1,0 +1,12 @@
+{{if !empty($module_data['plugins']) and !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}}
+    <div class="am-nbfc">
+        <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-fr am-margin-top-xs am-text-xs am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
+        <ul class="am-nav am-nav-tabs am-margin-bottom-sm">
+            {{foreach $module_data.nav_data as $v}}
+                <li {{if !empty($params['pluginscontrol']) and $params['pluginscontrol'] eq $v['control']}}class="am-active"{{/if}}>
+                    <a href="{{:PluginsAdminUrl($module_data['plugins'], $v['control'], $v['action'])}}">{{$v.name}}</a>
+                </li>
+            {{/foreach}}
+        </ul>
+    </div>
+{{/if}}

@@ -1,9 +1,9 @@
 <!-- 基础数据编辑 -->
 <div class="am-popup popup-not-title" id="popup-saveinfo">
-    <div class="am-popup-inner">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+    <div class="am-popup-inner am-radius">
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         <div class="am-popup-bd am-padding-0">
-            <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" request-type="sync" request-value="FormBackSaveinfoEdit">
+            <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" request-type="sync" request-value="FormBackSaveinfoEdit">
                 <div class="am-padding-horizontal-sm">
                     <!-- 基础信息 -->
                     <div class="am-panel am-panel-default am-margin-top-sm">
@@ -48,7 +48,7 @@
                     </div>
                     
                     <!-- SEO -->
-                    <div class="am-panel am-panel-default">
+                    <div class="am-panel am-panel-default am-radius">
                         <div class="am-panel-hd">
                             <h3 class="am-panel-title">{{:MyLang('form_seo_data_title')}}</h3>
                         </div>
@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- 操作 -->
-                <div class="am-text-center am-padding-sm am-nbfc am-form-popup-submit">
+                <div class="am-form-popup-submit">
                     <input type="hidden" name="id" value="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" />
                     <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-margin-right-lg" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>

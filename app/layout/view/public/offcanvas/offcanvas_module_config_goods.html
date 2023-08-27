@@ -34,7 +34,7 @@
                             <div class="am-form-group am-form-group-refreshing">
                                 <label>{{:MyLang('layout.view_offcanvas_module_goods_sort_type')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_goods_sort_type_tips')}}</span></label>
                                 <select name="goods_order_by_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('layout.view_offcanvas_module_goods_sort_type_message')}}">
-                                    {{foreach $goods_order_by_type_list as $k=>$v}}
+                                    {{foreach $common_goods_order_by_type_list as $k=>$v}}
                                         <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
                                     {{/foreach}}
                                 </select>
@@ -46,7 +46,7 @@
                             <div class="am-form-group am-form-group-refreshing">
                                 <label>{{:MyLang('layout.view_offcanvas_module_goods_sort_rule')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_goods_sort_rule_tips')}}</span></label>
                                 <select name="goods_order_by_rule" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('layout.view_offcanvas_module_goods_sort_rule_message')}}">
-                                    {{foreach $goods_order_by_rule_list as $k=>$v}}
+                                    {{foreach $common_goods_order_by_rule_list as $k=>$v}}
                                         <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
                                     {{/foreach}}
                                 </select>
@@ -90,7 +90,7 @@
                 </div>
 
                 <!-- 商品样式 -->
-                <div class="am-panel am-panel-default">
+                <div class="am-panel am-panel-default am-radius">
                     <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_module_goods_style')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
@@ -111,7 +111,7 @@
                 </div>
 
                 <!-- 图片样式 -->
-                <div class="am-panel am-panel-default">
+                <div class="am-panel am-panel-default am-radius">
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_images')}}</div>
                     <div class="am-panel-bd">
                         <!-- 媒体样式 -->

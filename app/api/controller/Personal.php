@@ -52,7 +52,7 @@ class Personal extends Common
             // 用户数据
             'data'          => UserService::UserHandle(UserService::UserInfo('id', $this->user['id'])),
             // 性别
-            'gender_list'   => MyLang('common_gender_list'),
+            'gender_list'   => MyConst('common_gender_list'),
         ];
         return ApiService::ApiDataReturn(DataReturn('success', 0, $data));
     }

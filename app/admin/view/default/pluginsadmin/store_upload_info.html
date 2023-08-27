@@ -1,0 +1,58 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        {{if empty($data)}}
+            {{include file="public/not_data" /}}
+        {{else /}}
+            <!-- form start -->
+            <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/pluginsadmin/storeupload')}}" method="POST" request-type="ajax-view" request-value="parent" enctype="multipart/form-data">
+                <div class="am-nbfc">
+                    <div class="am-u-sm-2">
+                        <img src="{{$data.logo}}" class="am-img-thumbnail am-radius" />
+                    </div>
+                    <div class="am-u-sm-10 am-padding-left-0">{{$data.desc}}</div>
+                </div>
+                <hr data-am-widget="divider" class="am-divider am-divider-default" />
+
+                <div class="am-form-group">
+                    <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_version')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_version_tips')}}</span></label>
+                    <input type="text" name="version_new" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_version')}}" minlength="5" maxlength="18" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_version_message')}}" pattern="{{:MyConst('common_regex_version')}}" class="am-radius" {{if !empty($data['version'])}} value="{{$data.version}}"{{/if}} required readonly />
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_apply_version')}}</label>
+                    {{foreach :MyConst('common_system_version_list') as $v}}
+                        <label class="am-checkbox-inline">
+                            <input type="checkbox" name="apply_version" value="{{$v.value}}" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_apply_version_message')}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+
+                <div class="am-form-group am-form-file">
+                    <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_desc')}}</label>
+                    <textarea rows="5" name="describe" class="am-radius am-field-valid" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}" minlength="2" maxlength="1200" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}"></textarea>
+                </div>
+
+                <div class="am-form-popup-submit">
+                    <input type="hidden" name="plugins" value="{{$data.plugins}}" />
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('submit_title')}}'}">
+                        <i class="am-icon-send"></i>
+                        <span>{{:MyLang('submit_title')}}</span>
+                    </button>
+                </div>
+            </form>
+            <!-- form end -->
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

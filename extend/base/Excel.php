@@ -114,7 +114,7 @@ class Excel
 	{
 		// 获取配置编码类型
 		$excel_charset = MyC('admin_excel_charset', 0);
-		$charset = MyLang('common_excel_charset_list')[$excel_charset]['value'];
+		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
 
 		// 拼接文件信息，这里注意两点
 		// 1、字段与字段之间用逗号分隔开
@@ -190,7 +190,7 @@ class Excel
 	{
 		// 获取配置编码类型
 		$excel_charset = MyC('admin_excel_charset', 0);
-		$charset = MyLang('common_excel_charset_list')[$excel_charset]['value'];
+		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
 
 		// 获取字母
 		$letter_data = $this->GetLetterData();

@@ -1,13 +1,13 @@
 <!-- 标题关键字配置 -->
 <div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-title-keywords">
     <div class="am-modal-dialog">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         <form class="am-form am-padding-sm am-text-left form-validation-module-modal-title-keywords" request-type="sync" request-value="FormBackModuleModalTitleKeywords">
             <!-- 关键字 -->
             <div class="am-form-group am-form-group-refreshing">
                 <label>{{:MyLang('layout.view_module_title_keywords')}}<span class="am-form-group-label-tips-must">*</span></label>
                 <div class="am-input-group am-input-group-sm">
-                    <input type="text" placeholder="{{:MyLang('layout.view_module_title_keywords')}}" name="content_keywords" minlength="1" maxlength="8" data-validation-message="{{:MyLang('layout.view_module_keywords_keywords_message')}}" value="" class="am-form-field" required />
+                    <input type="text" placeholder="{{:MyLang('layout.view_module_title_keywords')}}" name="content_keywords" minlength="1" maxlength="80" data-validation-message="{{:MyLang('layout.view_module_title_keywords_message')}}" value="" class="am-form-field" required />
                     <input type="hidden" name="style_keywords_color" value="" />
                     <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color_keywords" data-position="fixed" data-input-tag=".module-style-color_keywords" data-color-tag="input[name='style_keywords_color']" data-color-style="background-color|border-color">
                         <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />

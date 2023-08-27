@@ -23,7 +23,7 @@
     <!-- 用户订单列表基础顶部-结束 -->
 
     <!-- 基础信息 -->
-    <p class="am-margin-bottom-sm">
+    <p class="am-nbfc am-margin-bottom-xs">
         <!-- 订单号 -->
         <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
 
@@ -93,27 +93,25 @@
     <!-- 用户订单列表基础商品顶部-结束 -->
 
     <!-- 商品信息 -->
-    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0 am-margin-bottom-xs" />
     {{foreach $module_data.items as $item}}
         <div class="am-nbfc">
             <a href="{{$item.goods_url}}" target="_blank">
-                <img src="{{$item.images}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="35" height="35" />
+                <img src="{{$item.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
             </a>
             <div class="am-nbfc">
                 <a href="{{$item.goods_url}}" target="_blank" class="am-nowrap-initial">{{$item.title}}</a>
-                {{if !empty($item['spec_text'])}}
-                    <div class="am-margin-top-xs am-nowrap-initial">{{$item.spec_text}}</div>
-                {{/if}}
             </div>
         </div>
+        {{if !empty($item['spec_text'])}}
+            <div class="am-margin-top-xs am-nowrap-initial">{{$item.spec_text}}</div>
+        {{/if}}
         <div class="am-nbfc am-margin-top-xs">
+            <span>{{$module_data.currency_data.currency_symbol}}{{$item.price}}</span>
+            <span>x{{$item.buy_number}}</span>
             {{if $item.original_price gt 0}}
-                <span class="original-price am-margin-right-xs">{{$module_data.currency_data.currency_symbol}}{{$item.original_price}}</span>
+                <span class="original-price am-margin-left-xs">{{$module_data.currency_data.currency_symbol}}{{$item.original_price}}</span>
             {{/if}}
-            <span>
-                <span class="line-price">{{$module_data.currency_data.currency_symbol}}{{$item.price}}</span>
-                <span>x{{$item.buy_number}}</span>
-            </span>
             {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
                 <span class="am-text-danger am-margin-left-lg">{{:MyLang('already_retreat_title')}} {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
             {{/if}}

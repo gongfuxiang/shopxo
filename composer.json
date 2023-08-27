@@ -29,8 +29,6 @@
         "topthink/think-view": "^1.0",
         "phpoffice/phpspreadsheet": "^1.4",
         "overtrue/pinyin": "^4.0",
-        "tecnickcom/tcpdf": "^6.6",
-        "mpdf/mpdf": "^8.1",
         "picqer/php-barcode-generator": "^2.2"
     },
     "require-dev": {

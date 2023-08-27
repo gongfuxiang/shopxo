@@ -20,7 +20,7 @@
                                 <h3 class="am-gallery-title am-margin-top-0">
                                     {{$v.name}}
                                     <div class="am-fr am-text-right">
-                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and $upgrade_info[$v['theme']]['version_new'] neq $v['ver']}}
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and version_compare($upgrade_info[$v['theme']]['version_new'], $v['ver'], '>')}}
                                             <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="webtheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
                                         {{/if}}
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -28,6 +28,9 @@
                                         {{/if}}
                                         {{if $v.is_delete eq 1}}
                                             <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+                                        {{/if}}
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and !empty($upgrade_info[$v['theme']]['version_main']) and $upgrade_info[$v['theme']]['version_main'] neq $v['ver']}}
+                                            <span class="am-fr am-text-danger am-margin-left-sm">v{{$upgrade_info[$v['theme']]['version_main']}}</span>
                                         {{/if}}
                                     </div>
                                 </h3>

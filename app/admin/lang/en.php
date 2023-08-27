@@ -237,16 +237,22 @@ return [
             '4. Virtual sales, conventional e-commerce process, user order payment ->automatic delivery ->confirmation of delivery ->order completion',
         ],
         // 添加自提地址表单
-        'form_take_address_logo'                => 'LOGO',
-        'form_take_address_logo_tips'           => '300 * 300px proposal',
-        'form_take_address_alias'               => 'Alias',
-        'form_take_address_alias_message'       => 'Alias format can be up to 16 characters',
-        'form_take_address_name'                => 'Contacts Name',
-        'form_take_address_name_message'        => 'Contact name format is between 2 and 16 characters',
-        'form_take_address_tel'                 => 'Contact Tel',
-        'form_take_address_tel_message'         => 'Please fill in the contact number',
-        'form_take_address_address'             => 'Detail Address',
-        'form_take_address_address_message'     => 'Detailed address format is between 1 and 80 characters',
+        'form_take_address_title'                  => 'Self pickup address',
+        'form_take_address_logo'                   => 'LOGO',
+        'form_take_address_logo_tips'              => '300 * 300px proposal',
+        'form_take_address_alias'                  => 'Alias',
+        'form_take_address_alias_message'          => 'Alias format can be up to 16 characters',
+        'form_take_address_name'                   => 'Contacts Name',
+        'form_take_address_name_message'           => 'Contact name format is between 2 and 16 characters',
+        'form_take_address_tel'                    => 'Contact Tel',
+        'form_take_address_tel_message'            => 'Please fill in the contact number',
+        'form_take_address_address'                => 'Detail Address',
+        'form_take_address_address_message'        => 'Detailed address format is between 1 and 80 characters',
+        // 域名绑定语言
+        'form_domain_multilingual_domain_name'     => 'Domain Name',
+        'form_domain_multilingual_domain_message'  => 'Please fill in the domain name',
+        'form_domain_multilingual_select_message'  => 'Please select the corresponding language for the domain name',
+        'form_domain_multilingual_add_title'       => 'Add domain name',
     ],
 
     // 后台配置信息
@@ -369,6 +375,7 @@ return [
             'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
             'name'              => 'Contacts',
             'tel'               => 'Contact Number',
+            'title'             => 'Title',
             'content'           => 'Content',
             'reply'             => 'Reply Content',
             'is_show'           => 'Show or not',
@@ -479,6 +486,20 @@ return [
         'base_nav_list'                         => [
             ['name' => 'BaseConfig', 'type' => 'index'],
             ['name' => 'APP/Applet', 'type' => 'app'],
+        ],
+        'user_base_popup_title'                 => 'Pop up prompt for user basic information',
+        'user_onekey_bind_mobile_tips_list'     => [
+            '1. One click login binding for obtaining the current mini program platform account or mobile phone number of this device. Currently, only WeChat mini programs, Baidu mini programs, and Headline mini programs are supported',
+            '2. Dependency requires the activation of Force Phone Binding to be effective',
+            '3. Some mini program platforms may need to apply for permissions. Please apply according to the requirements of the mini program platform before corresponding activation',
+        ],
+        'user_address_platform_import_tips_list'=> [
+            '1. Obtain the shipping address of the current mini program platform app account, currently only supports 【 mini program 】',
+            '2. After confirming the import, directly add it as the system users shipping address',
+            '3. Some mini program platforms may need to apply for permissions. Please apply according to the requirements of the mini program platform before corresponding activation',
+        ],
+        'user_base_popup_top_tips_list'         => [
+            '1. Currently, only the WeChat mini program platform automatically authorizes login without user nickname and avatar information',
         ],
     ],
 
@@ -1039,7 +1060,7 @@ return [
         'base_search_input_placeholder'         => 'Please enter a name/description',
         'base_top_tips_one'                     => 'List sorting method [custom sorting ->earliest installation]',
         'base_top_tips_two'                     => 'Click and drag icon button to adjust plug-in call and display order',
-        'base_open_setup_title'                 => 'Enable Settings',
+        'base_open_setup_title'                 => 'Enable Setup',
         'data_list_author_title'                => 'Author',
         'data_list_author_url_title'            => 'HomePage',
         'data_list_version_title'               => 'Version',
@@ -1057,6 +1078,7 @@ return [
         'no_data_store_to_text'                 => 'Go to the app store to select plug-in rich sites >>',
         'plugins_category_title'                => 'Application Category',
         'plugins_category_admin_title'          => 'Category Management',
+        'plugins_menu_control_title'            => 'LeftMenu',
     ],
 
     // 插件分类

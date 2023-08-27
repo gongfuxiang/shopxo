@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
+use app\service\ResourcesService;
 use app\service\BrandCategoryService;
 
 /**
@@ -32,6 +33,12 @@ class BrandCategory extends Base
      */
 	public function Index()
 	{
+		// 模板数据
+		$assign = [
+	        // 编辑器文件存放地址
+			'editor_path_type'	=> ResourcesService::EditorPathTypeValue('brand_category'),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 

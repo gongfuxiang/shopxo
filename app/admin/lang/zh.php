@@ -237,16 +237,22 @@ return [
             '4. 虚拟销售、常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成',
         ],
         // 添加自提地址表单
-        'form_take_address_logo'                => 'LOGO',
-        'form_take_address_logo_tips'           => '建议300*300px',
-        'form_take_address_alias'               => '别名',
-        'form_take_address_alias_message'       => '别名格式最多16个字符',
-        'form_take_address_name'                => '联系人',
-        'form_take_address_name_message'        => '联系人格式2~16个字符之间',
-        'form_take_address_tel'                 => '联系电话',
-        'form_take_address_tel_message'         => '请填写联系电话',
-        'form_take_address_address'             => '详细地址',
-        'form_take_address_address_message'     => '详细地址格式1~80个字符之间',
+        'form_take_address_title'                  => '自提地址',
+        'form_take_address_logo'                   => 'LOGO',
+        'form_take_address_logo_tips'              => '建议300*300px',
+        'form_take_address_alias'                  => '别名',
+        'form_take_address_alias_message'          => '别名格式最多16个字符',
+        'form_take_address_name'                   => '联系人',
+        'form_take_address_name_message'           => '联系人格式2~16个字符之间',
+        'form_take_address_tel'                    => '联系电话',
+        'form_take_address_tel_message'            => '请填写联系电话',
+        'form_take_address_address'                => '详细地址',
+        'form_take_address_address_message'        => '详细地址格式1~80个字符之间',
+        // 域名绑定语言
+        'form_domain_multilingual_domain_name'     => '域名',
+        'form_domain_multilingual_domain_message'  => '请填写域名',
+        'form_domain_multilingual_select_message'  => '请选择域名对应语言',
+        'form_domain_multilingual_add_title'       => '添加域名',
     ],
 
     // 后台配置信息
@@ -368,6 +374,7 @@ return [
             'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
             'name'              => '联系人',
             'tel'               => '联系电话',
+            'title'             => '标题',
             'content'           => '内容',
             'reply'             => '回复内容',
             'is_show'           => '是否显示',
@@ -478,6 +485,20 @@ return [
         'base_nav_list'                         => [
             ['name' => '基础配置', 'type' => 'index'],
             ['name' => 'APP/小程序', 'type' => 'app'],
+        ],
+        'user_base_popup_title'                 => '用户基础信息弹窗提示',
+        'user_onekey_bind_mobile_tips_list'     => [
+            '1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定，目前仅支持【微信小程序、百度小程序、头条小程序】',
+            '2. 依赖需要开启《强制绑定手机》有效',
+            '3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启',
+        ],
+        'user_address_platform_import_tips_list'=> [
+            '1. 获取当前小程序平台app账户的收货地址，目前仅支持【小程序】',
+            '2. 确认导入后直接添加为系统用户收货地址',
+            '3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启',
+        ],
+        'user_base_popup_top_tips_list'         => [
+            '1. 目前仅微信小程序平台自动授权登录后无用户昵称和头像信息',
         ],
     ],
 
@@ -1042,6 +1063,7 @@ return [
         'no_data_store_to_text'                 => '到应用商店挑选插件丰富站点 >>',
         'plugins_category_title'                => '应用分类',
         'plugins_category_admin_title'          => '分类管理',
+        'plugins_menu_control_title'            => '左侧菜单',
     ],
 
     // 插件分类

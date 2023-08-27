@@ -258,14 +258,19 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
                             // 移除第一级
                             array_shift($key_arr);
                             // 循环后面级别的数据
-                            foreach($key_arr as $v)
+                            foreach($key_arr as $k=>$v)
                             {
                                 if(array_key_exists($v, $value))
                                 {
                                     $value = $value[$v];
+                                    // 匹配到最后一级字段则结束外循环
+                                    if($k == count($key_arr)-1)
+                                    {
+                                        break 2;
+                                    }
                                 } else {
                                     // 未匹配到则赋空值
-                                    $value = $key;
+                                    $value = '';
                                     break;
                                 }
                             }
@@ -278,11 +283,19 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
         // 未找到对应语言
         if($value == '')
         {
-            // 非默认语言则读取默认语言
-            $default_lang = MyConfig('lang.default_lang');
-            if($default_lang != $lang)
+            // 未指定语言则读取默认语言重新再去读取
+            if(empty($lang))
             {
-                $value = MyLang($key, $vars, $default_lang, $pluginsname);
+                // 非默认语言则读取默认语言
+                $default_lang = MyConfig('lang.default_lang');
+                if($default_lang != $lang)
+                {
+                    $value = MyLang($key, $vars, $default_lang, $pluginsname);
+                } else {
+                    $value = $key;
+                }
+            } else {
+                $value = $key;
             }
         }
 
@@ -562,6 +575,46 @@ function RequestAction()
 }
 
 /**
+ * 插件当前请求名称
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-16
+ * @desc    description
+ */
+function PluginsRequestName()
+{
+    $plugins = MyInput('pluginsname');
+    return empty($plugins) ? '' : strtolower($plugins);
+}
+
+/**
+ * 插件当前请求方控制器
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-16
+ * @desc    description
+ */
+function PluginsRequestController()
+{
+    return strtolower(MyInput('pluginscontrol', 'index'));
+}
+
+/**
+ * 插件当前请求方法名
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-16
+ * @desc    description
+ */
+function PluginsRequestAction()
+{
+    return strtolower(MyInput('pluginsaction', 'index'));
+}
+
+/**
  * 获取链接http状态码
  * @author  Devil
  * @blog    http://gong.gg/
@@ -817,7 +870,7 @@ function MyInput($key = null, $default = '')
         $params = input();
         if(empty($params))
         {
-            $params = file_get_contents("php://input");
+            $params = filter_var(file_get_contents("php://input"), FILTER_SANITIZE_STRING);
         }
     }
 
@@ -1014,7 +1067,7 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
         // 权限
         // 角色组权限列表校验
         $res = AdminPowerService::PowerMenuInit();
-        if(!empty($res) && !empty($res['admin_power']) && is_array($res['admin_power']) && in_array($controller.'_'.$action, $res['admin_power']))
+        if(!empty($res) && !empty($res['admin_power']) && is_array($res['admin_power']) && array_key_exists($controller.'_'.$action, $res['admin_power']))
         {
             return true;
         }
@@ -2093,7 +2146,7 @@ function FileUploadError($name, $index = false)
     }
 
     // 错误码对应的错误信息
-    $file_error_list = MyLang('common_file_upload_error_list');
+    $file_error_list = MyConst('common_file_upload_error_list');
     if(isset($file_error_list[$error]))
     {
         return $file_error_list[$error];
@@ -2401,11 +2454,12 @@ function RequestGet($value, $timeout = 10)
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2018-01-03T19:21:38+0800
- * @param    [string]           $url        [url地址]
- * @param    [int]              $timeout    [超时时间（默认10秒）]
- * @return   [array]                        [返回数据]
+ * @param    [string]   $url            [url地址]
+ * @param    [int]      $timeout        [超时时间（默认10秒）]
+ * @param    [string]   $request_type   [请求类型（GET、POST、PUT、DELETE）]
+ * @return   [array]                    [返回数据]
  */
-function CurlGet($url, $timeout = 10)
+function CurlGet($url, $timeout = 10, $request_type = '')
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -2415,6 +2469,10 @@ function CurlGet($url, $timeout = 10)
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_URL, $url);
+    if(!empty($request_type))
+    {
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_type);
+    }
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;
@@ -2426,42 +2484,62 @@ function CurlGet($url, $timeout = 10)
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-03T21:58:54+0800
- * @param    [string]   $url        [请求地址]
- * @param    [array]    $post       [发送的post数据]
- * @param    [boolean]  $is_json    [是否使用 json 数据发送]
- * @param    [int]      $timeout    [超时时间]
- * @return   [mixed]                [请求返回的数据]
+ * @param    [string]   $url            [请求地址]
+ * @param    [array]    $post           [发送的post数据]
+ * @param    [int]      $data_type      [数据类型（0普通参数、1json、2文件）]
+ * @param    [int]      $timeout        [超时时间]
+ * @param    [string]   $request_type   [请求类型（GET、POST、PUT、DELETE）]
+ * @return   [mixed]                    [请求返回的数据]
  */
-function CurlPost($url, $post, $is_json = false, $timeout = 30)
+function CurlPost($url, $post, $data_type = 0, $timeout = 30, $request_type = '')
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_URL, $url);
-
-    // 是否 json
-    if($is_json)
+    if(empty($request_type))
     {
-        $data_string = json_encode($post);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "Content-Type: application/json; charset=utf-8",
-                "Content-Length: " . strlen($data_string)
-            )
-        );
+        curl_setopt($ch, CURLOPT_POST, true);
     } else {
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "Content-Type: application/x-www-form-urlencoded; charset=utf-8",
-                "cache-control: no-cache"
-            )
-        );
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_type);
+    }
+
+    // 根据数据类型处理
+    switch($data_type)
+    {
+        // 是否json
+        case 1 :
+            $data_string = json_encode($post);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        "Content-Type: application/json; charset=utf-8",
+                        "Content-Length: " . strlen($data_string)
+                    ]
+                );
+            break;
+
+        // 是否存在文件上传对象
+        case 2 :
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    "Content-Type: multipart/form-data; charset=utf-8",
+                    "cache-control: no-cache"
+                ]
+            );
+            break;
+
+        default :
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    "Content-Type: application/x-www-form-urlencoded; charset=utf-8",
+                    "cache-control: no-cache"
+                ]
+            );
     }
 
     // 返回结果
@@ -2844,18 +2922,18 @@ function PwdStrength($pwd)
  *
  *  param lng float 经度
  *  param lat float 纬度
- *  param Distance float 该点所在圆的半径，该圆与此正方形内切，默认值为0.5千米
+ *  param distance float 该点所在圆的半径，该圆与此正方形内切，默认值为1.2千米
  *  return array 正方形的四个点的经纬度坐标
  */
-function ReturnSquarePoint($lng, $lat, $Distance = 1.2)
+function ReturnSquarePoint($lng, $lat, $distance = 1.2)
 {
     /* 地球半径，平均半径为6371km */
-    $Radius = 6371;
+    $radius = 6371;
 
-    $d_lng =  2 * asin(sin($Distance / (2 * $Radius)) / cos(deg2rad($lat)));
+    $d_lng =  2 * asin(sin($distance / (2 * $radius)) / cos(deg2rad($lat)));
     $d_lng = rad2deg($d_lng);
 
-    $d_lat = $Distance/$Radius;
+    $d_lat = $distance/$radius;
     $d_lat = rad2deg($d_lat);
 
     return array(

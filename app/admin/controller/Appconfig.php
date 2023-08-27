@@ -23,6 +23,24 @@ use app\service\ConfigService;
  */
 class AppConfig extends Base
 {
+    public $nav_type;
+
+    /**
+     * 构造方法
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+
+        // 导航类型
+        $this->nav_type = empty($this->data_request['nav_type']) ? 'index' : $this->data_request['nav_type'];
+    }
+
 	/**
      * 配置列表
      * @author   Devil
@@ -32,18 +50,18 @@ class AppConfig extends Base
      */
 	public function Index()
 	{
-		// 导航
-        $type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
         $assign = [
-        	// 配置数据
-        	'data'		=> ConfigService::ConfigList(),
-        	// 管理导航
-            'nav_data'	=> MyLang('appconfig.base_nav_list'),
+            // 配置数据
+            'data'                               => ConfigService::ConfigList(),
+            // 管理导航
+            'nav_data'                           => MyLang('appconfig.base_nav_list'),
             // 页面导航
-			'nav_type'	=> $type,
+            'nav_type'                           => $this->nav_type,
+            // 时区
+            'common_user_base_popup_pages_list'  => MyConst('common_user_base_popup_pages_list'),
         ];
         MyViewAssign($assign);
-        return MyView($type);
+        return MyView($this->nav_type);
 	}
 
 	/**
@@ -56,15 +74,18 @@ class AppConfig extends Base
 	public function Save()
 	{
         $params = $_POST;
-        if(isset($this->ress['nav_type']) && $ssss['nav_type'] == 'app')
+        if($this->nav_type == 'app')
         {
             // 空字段处理
             $field_list = [
                 'common_user_onekey_bind_mobile_list',
                 'common_user_address_platform_import_list',
+                'common_app_user_base_popup_pages',
+                'common_app_user_base_popup_client',
             ];
             $params = ConfigService::FieldsEmptyDataHandle($params, $field_list);
         }
+        // 保存数据
 		return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
 	}
 }

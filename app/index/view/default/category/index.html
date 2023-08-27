@@ -17,25 +17,80 @@
 {{include file="public/goods_category" /}}
 
 <!-- content -->
-<div class="am-container category-list-container">
+<div class="am-container category-list-container am-radius">
     {{if !empty($goods_category_list)}}
-        {{if $category_show_level eq 1}}
-            <ul class="model-one am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
-                {{foreach $goods_category_list as $v}}
+        {{if $category_level eq 0}}
+            <div class="am-container zero-search" data-url="{{:MyUrl('index/category/datalist')}}" data-all-name="{{:MyLang('all_title')}}">
+                <div class="zero-search-top">
+                    <div class="am-avg-sm-12 am-avg-md-12 am-avg-lg-12 zero-title am-radius am-scrollable-horizontal" data-am-sticky>
+                        <div class="am-slider am-slider-default am-slider-carousel title-slider" data-am-flexslider="{itemWidth: {{if IsMobile()}}80{{else /}}108{{/if}}, itemMargin: 0, slideshow: false,controlNav:false}">
+                            <!-- 第一级菜单 -->
+                            <ul class="am-slides am-text-nowrap">
+                                {{foreach $goods_category_list as $k=>$v}}
+                                    <li class="{{if $k eq 0}} active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">
+                                        <div class="zero-item">
+                                            {{if !empty($v['icon'])}}
+                                                <a style="background-image: url({{if empty($v['realistic_images'])}}{{$v.icon}}{{else /}}{{$v.realistic_images}}{{/if}})" alt="{{$v.name}}"></a>
+                                            {{/if}}
+                                            <p>{{$v.name}}</p>
+                                        </div>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 如果所有一级分类都没有二级则不展示左侧菜单 -->
+                {{if count(array_filter(array_column($goods_category_list, 'items'))) gt 0}}
+                    <div class="zero-search-left">
+                        <div class="zero-left am-radius" data-am-sticky="{top:130}"> 
+                            <!-- 第二级菜单 -->
+                            <ul class="category-nav">
+                                {{if !empty($goods_category_list[0]) and !empty($goods_category_list[0]['items'])}}
+                                    <li class="am-text-break active" data-id="">{{:MyLang('all_title')}}</li>
+                                    {{foreach $goods_category_list[0]['items'] as $v}}
+                                        <li class="am-text-break" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}" data-id="{{$v.id}}">{{$v.name}}</li>
+                                    {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                {{/if}}
+                <div class="zero-search-right {{if count(array_filter(array_column($goods_category_list, 'items'))) eq 0}}category-one-subset-content{{/if}}">
+                    <div class="zero-right am-radius">
+                        <!-- 第三级菜单 -->
+                        <div class="zero-right-title am-scrollable-horizontal">
+                            <div class="am-text-nowrap"></div>
+                        </div>
+                        <!-- 查询的内容 -->
+                        <div class="zero-right-item"></div>
+                        <!-- 分页 -->
+                        <div class="zero-right-page" data-page="1"></div>
+                    </div>
+                </div>
+            </div>   
+        {{elseif $category_level eq 1}}
+            <div class="model-one">
+                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
+                    {{foreach $goods_category_list as $v}}
                     <li class="am-fl">
                         <div class="item-content am-text-center am-margin-xs">
-                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" title="{{$v.name}}" class="am-block am-padding-xs">
-                                {{if !empty($v['icon'])}}
-                                    <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-margin-bottom-xs" />
+                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block am-padding-xs">
+                                {{if !empty($v['realistic_images'])}}
+                                <img src="{{$v.realistic_images}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs" />
+                                {{elseif !empty($v['icon']) /}}
+                                <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs category-img" />
+                                <img src="{{$v.icon_active}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs category-img-active am-hide" />
                                 {{/if}}
                                 <p>{{$v.name}}</p>
                             </a>
                         </div>
                     </li>
-                {{/foreach}}
-            </ul>
+                    {{/foreach}}
+                </ul>
+            </div>
         {{else /}}
-            <ul class="category-nav am-fl">
+            <ul class="category-nav category-nav-hover am-fl">
                 {{foreach $goods_category_list as $k=>$v}}
                     <li class="am-text-break am-padding-horizontal-sm {{if $k eq 0}} active{{/if}}" data-url="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}">{{$v.name}}</li>
                 {{/foreach}}
@@ -43,11 +98,11 @@
             {{foreach $goods_category_list as $k=>$v}}
                 <div class="category-content category-content-{{$k}} am-fr am-padding-vertical-xs {{if $k neq 0}} none{{/if}}">
                     {{if !empty($v['vice_name']) or !empty($v['describe'])}}
-                        <div class="category-item am-padding-sm am-margin-bottom-sm one-cetegory">
-                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" title="{{$v.name}}">
-                                <div>
+                        <div class="category-item one-cetegory">
+                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}">
+                                <div class="am-flex am-flex-warp">
                                     {{if !empty($v['vice_name'])}}
-                                        <strong {{if !empty($v['bg_color'])}}style="color:{{$v.bg_color}};"{{/if}} class="am-text-sm am-margin-right-sm">{{$v.vice_name}}</strong>
+                                        <span {{if !empty($v['bg_color'])}}style="color:{{$v.bg_color}};"{{/if}}>{{$v.vice_name}}</span>
                                     {{/if}}
                                     {{if !empty($v['describe'])}}
                                         <span class="am-text-grey">{{$v.describe}}</span>
@@ -57,42 +112,37 @@
                         </div>
                     {{/if}}
                     {{if !empty($v['items'])}}
-                        {{if $category_show_level eq 2}}
-                            <div class="category-item am-padding-sm two-content">
+                        {{if $category_level eq 2}}
+                            <div class="category-item two-content">
                                 <ul>
                                     {{foreach $v.items as $vs}}
                                         <li class="am-fl am-text-center">
                                             {{if !empty($vs['icon'])}}
-                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">
+                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" class="am-block">
                                                     <img src="{{$vs.icon}}" alt="{{$vs.name}}" class="category-icon am-block am-margin-bottom-xs" />
                                                 </a>
                                             {{/if}}
                                             <p>
-                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">{{$vs.name}}</a>
+                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" class="am-block">{{$vs.name}}</a>
                                             </p>
                                         </li>
                                     {{/foreach}}
                                 </ul>
                             </div>
-                        {{elseif $category_show_level eq 3}}
+                        {{elseif $category_level eq 3}}
                             {{foreach $v.items as $vs}}
-                                <div class="category-item am-padding-sm">
-                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
+                                <div class="category-item three-content am-cf">
+                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}">
                                         <div class="am-text-center">
                                             <strong>{{$vs.name}}</strong>
                                         </div>
                                     </a>
                                     {{if !empty($vs['items'])}}
-                                        <ul class="am-margin-top-sm am-padding-top-sm">
+                                        <ul>
                                             {{foreach $vs.items as $kss=>$vss}}
                                                 <li class="am-fl am-text-center">
-                                                    {{if !empty($vss['icon'])}}
-                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">
-                                                            <img src="{{$vss.icon}}" alt="{{$vss.name}}" class="category-icon am-block am-margin-bottom-xs" />
-                                                        </a>
-                                                    {{/if}}
                                                     <p>
-                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">{{$vss.name}}</a>
+                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" class="am-block">{{$vss.name}}</a>
                                                     </p>
                                                 </li>
                                             {{/foreach}}
@@ -106,7 +156,7 @@
                             <i class="am-icon-warning"></i>
                             <span>{{:MyLang('category.no_sub_category_data_tips')}}</span>
                             <p class="am-margin-top-lg am-text-center am-text-grey">
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-text-secondary" title="{{:MyLang('category.view_category_sub_goods_name')}}">{{:MyLang('category.view_category_sub_goods_name')}} >></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-text-secondary">{{:MyLang('category.view_category_sub_goods_name')}} >></a>
                             </p>
                         </div>
                     {{/if}}

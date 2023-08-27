@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\OrderService;
 use app\service\PaymentService;
@@ -25,7 +26,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Order extends Common
+class Order extends Center
 {
     /**
      * 构造方法
@@ -38,13 +39,6 @@ class Order extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 支付同步返回不验证登录状态
-        if($this->action_name != 'respond')
-        {
-            // 是否登录
-            $this->IsLogin();
-        }
     }
 
     /**
@@ -184,9 +178,9 @@ class Order extends Common
      */
     public function CommentsSave()
     {
-        if($this->data_post)
+        if($this->data_request)
         {
-            $params = $this->data_post;
+            $params = $this->data_request;
             $params['user'] = $this->user;
             $params['business_type'] = 'order';
             return GoodsCommentsService::Comments($params);
@@ -272,9 +266,9 @@ class Order extends Common
      */
     public function Cancel()
     {
-        if($this->data_post)
+        if($this->data_request)
         {
-            $params = $this->data_post;
+            $params = $this->data_request;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -294,9 +288,9 @@ class Order extends Common
      */
     public function Collect()
     {
-        if($this->data_post)
+        if($this->data_request)
         {
-            $params = $this->data_post;
+            $params = $this->data_request;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -316,9 +310,9 @@ class Order extends Common
      */
     public function Delete()
     {
-        if($this->data_post)
+        if($this->data_request)
         {
-            $params = $this->data_post;
+            $params = $this->data_request;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -339,9 +333,9 @@ class Order extends Common
      */
     public function PayCheck()
     {
-        if($this->data_post)
+        if($this->data_request)
         {
-            $params = $this->data_post;
+            $params = $this->data_request;
             $params['user'] = $this->user;
             return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
         }

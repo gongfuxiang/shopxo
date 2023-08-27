@@ -1,0 +1,6 @@
+<!-- form_table_data_page_start -->
+{{php}}$form_table_data_list = empty($form_table_data_list) ? (empty($data_list) ? [] : $data_list) : $form_table_data_list;{{/php}}
+{{if !empty($form_table_data_list) and isset($page_html)}}
+    {{$page_html|raw}}
+{{/if}}
+<!-- form_table_data_page_end -->

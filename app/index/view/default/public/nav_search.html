@@ -2,17 +2,11 @@
     <!-- 搜索框 start -->
     <div class="nav-search white am-hide-sm-only">
         <div class="am-container">
-            <div class="logo am-show-sm-only">
-                <a href="{{$home_url}}">
-                    <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
-                </a>
-            </div>
-            <div class="logo-big am-hide-sm-only">
+            <div class="logo-big">
                 <a href="{{$home_url}}">
                     <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo'))}}" alt="{{:MyC('home_seo_site_title')}}" />
                 </a>
             </div>
-
             <!-- logo右侧 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -46,8 +40,7 @@
                 <form action="{{:MyUrl('index/search/index')}}" method="POST">
                     <div class="search-group am-radius am-nbfc">
                         <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
-                        <button type="submit" id="ai-topsearch" class="submit am-btn">
-                            <i class="am-icon-search"></i>
+                        <button type="submit" id="ai-topsearch" class="submit am-btn-primary">
                             <span>{{:MyLang('common.search_button_text')}}</span>
                         </button>
                     </div>

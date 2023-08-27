@@ -8,9 +8,9 @@
 
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
+		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
 			<!-- 后台 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('email.base_item_admin_title')}}</h3>
                 </div>
@@ -23,7 +23,7 @@
             </div>
 
 			<!-- 前端 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('email.base_item_index_title')}}</h3>
                 </div>
@@ -50,8 +50,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+			<div class="am-form-popup-submit">
+				<button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
 			</div>
 		</form>
         <!-- form end -->

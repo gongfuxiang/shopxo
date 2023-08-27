@@ -14,7 +14,7 @@
 // +----------------------------------------------------------------------
 return [
     // 默认缓存驱动
-    'default' => (MyFileConfig('common_data_is_use_cache', '', 0, true) == 1) ? 'redis' : 'file',
+    'default' => (MyFileConfig('common_data_is_use_redis_cache', '', 0, true) == 1) ? 'redis' : 'file',
 
     // 缓存连接方式配置
     'stores'  => [

@@ -24,8 +24,8 @@ use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\UserService;
 use app\service\AdminService;
-use app\service\QuickNavService;
 use app\service\MultilingualService;
+use app\service\BreadcrumbService;
 
 /**
  * 前端公共控制器
@@ -40,7 +40,6 @@ class Common extends BaseController
     // 顶部导航、底部导航、快捷导航
     protected $nav_header;
     protected $nav_footer;
-    protected $nav_quick;
 
     // 用户信息
     protected $user;
@@ -66,6 +65,9 @@ class Common extends BaseController
     protected $plugins_controller_name;
     protected $plugins_action_name;
 
+    // 页面唯一标记
+    protected $page_unique_mark;
+
     // 动态表格
     protected $form_table;
     protected $form_where;
@@ -89,6 +91,9 @@ class Common extends BaseController
 
     // 系统类型
     protected $system_type;
+
+    // 面包屑导航
+    protected $breadcrumb_data;
 
     /**
      * 构造方法
@@ -151,6 +156,9 @@ class Common extends BaseController
     {
         // 系统运行结束
         SystemService::SystemEnd($this->data_request);
+
+        // 面包屑导航
+        MyViewAssign('breadcrumb_data', $this->breadcrumb_data);
     }
 
     /**
@@ -195,7 +203,7 @@ class Common extends BaseController
             {
                 exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
             } else {
-                MyRedirect('index/user/logininfo', true);
+                die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('index/user/logininfo').'";}</script>');
             }
         }
     }
@@ -276,6 +284,9 @@ class Common extends BaseController
             $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->controller_name : $this->data_request['form_back_control'];
             $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
             $this->form_back_url = MyUrl($this->module_name.'/'.$this->form_back_control.'/'.$this->form_back_action, $this->form_back_params);
+
+            // 页面唯一标记
+            $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->action_name;
         } else {
             // 插件名称/控制器/方法
             $this->plugins_module_name = $this->data_request['pluginsname'];
@@ -286,12 +297,18 @@ class Common extends BaseController
             $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->plugins_controller_name : $this->data_request['form_back_control'];
             $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
             $this->form_back_url = PluginsHomeUrl($this->plugins_module_name, $this->form_back_control, $this->form_back_action, $this->form_back_params);
+
+            // 页面唯一标记
+            $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->plugins_module_name.'-'.$this->plugins_controller_name.'-'.$this->plugins_action_name;
         }
 
         // 当前插件操作名称
         $assign['plugins_module_name'] = $this->plugins_module_name;
         $assign['plugins_controller_name'] = $this->plugins_controller_name;
         $assign['plugins_action_name'] = $this->plugins_action_name;
+
+        // 页面唯一标记
+        $assign['page_unique_mark'] = $this->page_unique_mark;
 
         // 基础表单返回url
         $assign['form_back_url'] = $this->form_back_url;
@@ -314,7 +331,6 @@ class Common extends BaseController
         // 导航
         $assign['nav_header'] = $this->nav_header;
         $assign['nav_footer'] = $this->nav_footer;
-        $assign['nav_quick'] = $this->nav_quick;
 
         // 导航/底部默认显示
         $assign['is_header'] = 1;
@@ -470,6 +486,12 @@ class Common extends BaseController
         // 多语言
         $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
+        // 主题样式
+        $assign['theme_style_data'] = SystemService::ThemeStyleData();
+
+        // 面包屑导航
+        $assign['breadcrumb_data'] = BreadcrumbService::Data();
+
         // 模板赋值
         MyViewAssign($assign);
     }
@@ -560,9 +582,6 @@ class Common extends BaseController
         $nav = NavigationService::Nav();
         $this->nav_header = $nav['header'];
         $this->nav_footer = $nav['footer'];
-
-        // 快捷导航
-        $this->nav_quick = QuickNavService::QuickNav();
     }
 
     /**
@@ -701,6 +720,8 @@ class Common extends BaseController
             'plugins_view_user_login_info_top',
             // 用户登录内底部钩子
             'plugins_view_user_login_inside_bottom',
+            // 用户登录内注册底部钩子
+            'plugins_view_user_login_inside_reg_bottom',
             // 用户登录内容页面底部钩子
             'plugins_view_user_login_content_bottom',
             // 用户注册页面钩子
@@ -709,6 +730,8 @@ class Common extends BaseController
             'plugins_view_user_reg_info_top',
             // 用户注册页面内底部钩子
             'plugins_view_user_reg_info_inside_bottom',
+            // 用户注册页面内登录底部钩子
+            'plugins_view_user_reg_info_inside_login_bottom',
             // 用户注册页面底部钩子
             'plugins_view_user_reg_info_bottom',
             // 底部导航上面钩子

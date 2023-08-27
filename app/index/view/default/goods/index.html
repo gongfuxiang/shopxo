@@ -25,7 +25,7 @@
                     {{if !empty($goods.photo)}}
                         {{foreach $goods.photo as $photo}}
                             <li>
-                                <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                <img src="{{$photo.images}}" />
                             </li>
                         {{/foreach}}
                     {{/if}}
@@ -70,11 +70,11 @@
     </div>
 
     <!-- 基础信息 -->
-    <div class="item-inform am-container">
+    <div class="item-inform am-container am-radius">
         <!-- pc放大镜 / 左侧 -->
         <div class="clearfix-left" id="clearcontent">
-            <div class="box">
-                <div class="tb-booth tb-pic">
+            <div class="box am-radius">
+                <div class="tb-booth tb-pic am-radius">
                     {{if !empty($goods['photo'][0])}}
                         <img src="{{$goods['photo'][0]['images']}}" alt="{{$goods.title}}" rel="{{$goods['photo'][0]['images']}}" class="jqzoom" />
                     {{/if}}
@@ -83,7 +83,7 @@
                     <ul class="am-slides" id="thumblist">
                         {{if !empty($goods.photo)}}
                             {{foreach $goods.photo as $photo_key=>$photo}}
-                                <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}}">
+                                <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}} am-radius">
                                     <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{$photo.images}}" class="tb-pic-min" />
                                 </li>
                             {{/foreach}}
@@ -126,6 +126,20 @@
                     {{/if}}
                 {{/foreach}}
             {{/if}}
+
+            
+            <!-- 收藏 -->
+            {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
+                <span class="nav-icon login-event favor-submit text-active am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                    <i class="am-icon-heart am-icon-fw" ></i>
+                    <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
+                </span>
+            {{else /}}
+                <span class="nav-icon favor-submit login-event am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                    <i class="am-icon-heart-o am-icon-fw"></i>
+                    <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
+                </span>
+            {{/if}}
         </div>
 
         <!-- 右侧 -->
@@ -163,15 +177,15 @@
                 <!-- 商品页右侧内容内部顶部钩子 结束 -->
 
                 <!--规格/名称-->
-                <div class="tb-detail-hd">
-                    <h1 class="detail-title am-margin-bottom-xs" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
+                <div class="tb-detail-hd am-margin-bottom-xs">
+                    <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
                         {{$goods.title}}
                         <!-- 公共icon数据 -->
                         {{if !empty($goods['plugins_view_icon_data']) and is_array($goods['plugins_view_icon_data'])}}
                             <span class="goods-plugins-view-icon-container">
                                 {{foreach $goods.plugins_view_icon_data as $v}}
                                     {{if !empty($v) or is_array($v) and !empty($v['name'])}}
-                                        <a class="am-badge am-radius" href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</a>
+                                        <a class="am-badge am-radius am-vertical-align-middle" href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</a>
                                     {{/if}}
                                 {{/foreach}}
                             </span>
@@ -192,21 +206,10 @@
                         {{/if}}
                     </h1>
                     {{if !empty($goods['simple_desc'])}}
-                        <p class="simple-desc am-margin-bottom-xs">{{$goods.simple_desc}}</p>
+                        <p class="simple-desc am-margin-top-xs">{{$goods.simple_desc}}</p>
                     {{/if}}
                 </div>
                 <div class="tb-detail-list">
-                    <!-- 公共面板数据 -->
-                    {{if !empty($goods['plugins_view_panel_data']) and is_array($goods['plugins_view_panel_data'])}}
-                        <div class="goods-plugins-view-panel-container am-margin-bottom-sm">
-                            {{foreach $goods.plugins_view_panel_data as $v}}
-                                {{if is_string($v) or is_int($v)}}
-                                    <p>{{$v}}</p>
-                                {{/if}}
-                            {{/foreach}}
-                        </div>
-                    {{/if}}
-
                     <!-- 商品页面基础信息顶部钩子 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <div class="plugins-tag">
@@ -223,43 +226,52 @@
 
                     <!-- 基础面板 -->
                     <div class="tb-detail-price">
-                        {{if isset($goods['original_price']) and $goods['original_price'] gt 0 and !empty($goods['show_field_original_price_text'])}}
-                            <!-- 原价 -->
-                            <div class="items price">
-                                <dt>{{$goods.show_field_original_price_text|raw}}</dt>
+                        <div class="price-top-content">
+                            {{if isset($goods['original_price']) and $goods['original_price'] gt 0 and !empty($goods['show_field_original_price_text'])}}
+                                <!-- 原价 -->
+                                <div class="items price goods-original-price">
+                                    <dt>{{$goods.show_field_original_price_text|raw}}</dt>
+                                    <dd>
+                                        <b class="original-price-value" data-original-price="{{$goods.original_price}}">{{$currency_symbol}}{{$goods.original_price}}</b>
+                                    </dd>
+                                </div>
+                            {{/if}}
+                                <!-- 商品页面基础信息面板售价顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_panel_price_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_panel_price_top_data) and is_array($plugins_view_goods_detail_panel_price_top_data)}}
+                                {{foreach $plugins_view_goods_detail_panel_price_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+
+                            <!-- 售价 -->
+                            <div class="items price iteminfo_mktprice goods-sale-price">
+                                <dt>{{if empty($goods['show_field_price_text'])}}销售价{{else /}}{{$goods.show_field_price_text|raw}}{{/if}}</dt>
                                 <dd>
-                                    <b class="goods-original-price original-price-value" data-original-price="{{$goods.original_price}}">{{$currency_symbol}}{{$goods.original_price}}</b>
-                                </dd>
+                                    <em>{{$currency_symbol}}</em>
+                                    <b class="goods-price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
+                                </dd>                                 
                             </div>
-                        {{/if}}
-
-                        <!-- 商品页面基础信息面板售价顶部钩子 -->
-                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                            <div class="plugins-tag">
-                                <span>plugins_view_goods_detail_panel_price_top</span>
+                            {{if !empty($brand_info)}}    
+                                <div class="tm-indcon sales-volume"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
+                            {{else /}}
+                                <div class="tm-indcon sales-volume sales-top"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
+                            {{/if}}   
+                            <!-- 二维码 -->
+                            <div class="goods-qrcode">
+                                <div class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                                    <a href="javascript:;" class="am-dropdown-toggle am-color-grey-dark">{{:MyLang('goods.qrcode_mobile_buy_name')}} <i class="am-icon-qrcode"></i></a>
+                                    <div class="am-dropdown-content am-padding-sm am-radius">
+                                        <img class="am-img-thumbnail am-radius" src="{{$qrcode_url}}" />
+                                    </div>
+                                </div>
                             </div>
-                        {{/if}}
-                        {{if !empty($plugins_view_goods_detail_panel_price_top_data) and is_array($plugins_view_goods_detail_panel_price_top_data)}}
-                            {{foreach $plugins_view_goods_detail_panel_price_top_data as $hook}}
-                                {{if is_string($hook) or is_int($hook)}}
-                                    {{$hook|raw}}
-                                {{/if}}
-                            {{/foreach}}
-                        {{/if}}
-
-                        <!-- 售价 -->
-                        <div class="items price iteminfo_mktprice">
-                            <dt>{{if empty($goods['show_field_price_text'])}}销售价{{else /}}{{$goods.show_field_price_text|raw}}{{/if}}</dt>
-                            <dd>
-                                <em>{{$currency_symbol}}</em>
-                                <b class="goods-price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
-                            </dd>                                 
-                        </div>
-
-                        <!-- 二维码 -->
-                        <div class="goods-qrcode am-hide-sm-only">
-                            <i class="am-icon-qrcode am-icon-sm"></i>
-                            <img class="qrcode-images am-img-thumbnail" src="{{$qrcode_url}}" />
                         </div>
 
                         <!-- 商品页面基础信息面板底部钩子 -->
@@ -276,25 +288,22 @@
                             {{/foreach}}
                         {{/if}}
                     </div>
+                    <!-- 公共面板数据 -->
+                    {{if !empty($goods['plugins_view_panel_data']) and is_array($goods['plugins_view_panel_data'])}}
+                        <div class="goods-plugins-view-panel-container am-text-danger am-margin-top-sm">
+                            {{foreach $goods.plugins_view_panel_data as $v}}
+                                {{if is_string($v) or is_int($v)}}
+                                    <p>{{$v}}</p>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
+                    {{/if}}
 
-                    <!--销量/浏览/评价-->
-                    <ul class="tm-ind-panel">
-                        <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('inventory_title')}}</span><span class="tm-count">{{$goods.inventory}}</span></div>
-                        </li>
-                        <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('sales_title')}}</span><span class="tm-count">{{$goods.sales_count}}</span></div>
-                        </li>
-                        <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('hot_title')}}</span><span class="tm-count">{{$goods.access_count}}</span></div>
-                        </li>
-                    </ul>
-
+                    <!-- 商品基础参数 -->
                     {{if !empty($goods['parameters']) and !empty($goods['parameters']['base'])}}
-                        <!-- 商品基础参数 -->
-                        <ul class="am-avg-sm-2 am-avg-md-2 am-avg-lg-3 am-padding-vertical-xs parameters-content parameters-base">
+                        <ul class="parameters-content parameters-base am-margin-top-sm">
                             {{foreach $goods.parameters.base as $v}}
-                                <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
+                                <li class="am-text-truncate">
                                     <span>{{$v.name}}:</span>
                                     <span>{{$v.value}}</span>
                                 </li>
@@ -302,9 +311,55 @@
                         </ul>
                     {{/if}}
 
+                    <!-- 配送地址 -->
+                    <!-- v3.0.0计划新增，暂时还没做功能，先隐藏了！ -->
+                    <!-- <dl class="buy-addr-info-container am-margin-top-sm am-padding-left-main">
+                        <dt><div class="addr-title">配送</div></dt>
+                        <dd>
+                            <div id="doc-dropdown-justify" class="addr-drop">
+                                <div id="doc-dropdown-js" class="am-dropdown" data-am-dropdown="{justify: '#doc-dropdown-justify'}">
+                                    <a class="am-dropdown-toggle">杭州至上海浦东新区 <span class="am-icon-caret-down"></span></a>
+                                    <div class="am-dropdown-content am-radius addr-content">
+                                        <div class="addr-drop-title">
+                                            <i class="iconfont icon-time"></i>
+                                            <p>选择收货地址</p>
+                                            <a>添加地址</a>
+                                            <button type="button" class="am-close" id="doc-dropdown-close">&times;</button>
+                                        </div>
+                                        <div class="addr-drop-content am-padding-top-sm">
+                                            <div class="addr-list am-margin-top-sm">
+                                                <div class="addr-list-title">
+                                                    <span class="addr-default" disabled>默认</span>
+                                                    <p class="addr-name">张三</p>
+                                                    <p class="addr-phone">18356672443</p>
+                                                    <div class="addr-list-addr">上海市黄埔区黄埔街道xx小区1233号</div>
+                                                </div>
+                                            </div>
+                                            <div class="addr-list am-margin-top-sm">
+                                                <div class="addr-list-title">
+                                                    <span class="addr-default" disabled>默认</span>
+                                                    <p class="addr-name">张三</p>
+                                                    <p class="addr-phone">18356672443</p>
+                                                    <div class="addr-list-addr">上海市黄埔区黄埔街道xx小区1233号</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="addr-drop-content no-address-flex">
+                                            {{:ModuleInclude('public/not_data', [
+                                                'msg'         => '目前还没有添加地址哦～',
+                                                'icon'        => $attachment_host.'/static/common/images/no-address.png',
+                                            ])}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </dd>
+                        <dd>快递免运费</dd>
+                    </dl> -->
+
                     <!--各种规格-->
                     {{if $goods['is_shelves'] == 1 and $goods['inventory'] gt 0}}
-                        <dl class="buy-spec-info-container">
+                        <dl class="buy-spec-info-container am-margin-top-main">
                             <dt class="buy-event mini-spec-event" data-type="buy">
                                 <div class="cart-title">
                                     <span class="specpara-title">{{:MyLang('goods.panel_can_choice_spec_name')}}</span>
@@ -317,10 +372,10 @@
                                 <div class="theme-popover">
                                     <div class="theme-span"></div>
                                     <div class="theme-poptit">
-                                        <a href="javascript:;" title="{{:MyLang('close_title')}}" class="close am-icon-close am-icon-sm"></a>
+                                        <a href="javascript:;" class="close am-icon-close am-icon-sm"></a>
                                     </div>
-                                    <div class="theme-popbod dform">
-                                        <form class="theme-signin am-padding-sm" action="javascript:;">
+                                    <div class="theme-popbod dform am-background-white">
+                                        <form class="theme-signin am-padding-horizontal-sm" action="javascript:;">
                                             <div class="theme-signin-left">
                                                 <!-- 商品页面规格顶部钩子 -->
                                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -348,7 +403,8 @@
                                                                                 {{if !empty($specs['images'])}}
                                                                                     <img src="{{$specs.images}}" />
                                                                                 {{/if}}
-                                                                                {{$specs.name}}<i></i>
+                                                                                <span>{{$specs.name}}</span>
+                                                                                <i class="iconfont icon-subscript"></i>
                                                                             </li>
                                                                         {{/foreach}}
                                                                     </ul>
@@ -381,7 +437,7 @@
                                                             <input type="number" class="am-form-field" value="{{$goods.buy_min_number}}" id="text_box" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
                                                             <button class="am-input-group-label am-radius" id="add" type="button">+</button>
                                                         </div>
-                                                        <span class="tb-hidden stock-tips"><span>{{:MyLang('inventory_title')}}</span><span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}}</span></span>
+                                                        <span class="tb-hidden stock-tips"><span>({{:MyLang('inventory_title')}}</span><span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}})</span></span>
                                                     </dd>
                                                 </div>
 
@@ -399,7 +455,7 @@
                                                     {{/foreach}}
                                                 {{/if}}
 
-                                                <div class="btn-op">
+                                                <div class="btn-op am-background-white">
                                                     <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">{{:MyLang('confirm_title')}}</span>
                                                     <span class="am-radius btn close am-btn am-btn-danger cancel">{{:MyLang('cancel_title')}}</span>
                                                 </div>
@@ -417,9 +473,8 @@
                                 </div>
                             </dd>
                         </dl>
-                    {{/if}}
+                    {{/if}}      
                 </div>
-
                 <!-- 商品页面购买导航顶部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
@@ -455,7 +510,7 @@
                         <!-- 首页 -->
                         <a href="{{$home_url}}" class=nav-min-home-submit>
                             <span class="nav-icon nav-icon-home">
-                                <i class="am-icon-home am-icon-fw"></i>
+                                <i class="iconfont icon-index"></i>
                                 <em>首页</em>
                             </span>
                         </a>
@@ -463,15 +518,13 @@
                         <!-- 收藏 -->
                         {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
                             <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                                <i class="am-icon-heart am-icon-fw"></i>
+                                <i class="am-icon-heart am-icon-fw" ></i>
                                 <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
-                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
                             </span>
                         {{else /}}
                             <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                                <i class="am-icon-heart am-icon-fw"></i>
+                                <i class="am-icon-heart-o am-icon-fw"></i>
                                 <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
-                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
                             </span>
                         {{/if}}
 
@@ -500,8 +553,7 @@
                                     {{switch $v.type}}
                                         {{case show}}
                                             <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
-                                            class="am-radius buy-btn {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
-                                            {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
+                                            class="am-radius am-btn am-btn-primary {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
                                             data-type="{{$v.type}}" 
                                             data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
                                                 {{if !empty($v['icon'])}}
@@ -512,8 +564,7 @@
                                         {{/case}}
                                         {{default /}}
                                             <button type="button" 
-                                            class="am-radius buy-btn {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}buy-btn-second {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
-                                            {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
+                                            class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{$v.type}}-submit {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
                                             data-type="{{$v.type}}" 
                                             data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
                                                 {{if !empty($v['icon'])}}
@@ -592,7 +643,7 @@
     <!-- 商品页基础信息底部钩子 结束 -->
 
     <!-- 左侧-->
-    <div class="introduce am-container">
+    <div class="introduce am-container am-radius am-margin-top-main">
         <div class="browse">
             <!-- 商品页面左侧顶部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -610,9 +661,9 @@
 
             <!-- 详情/推荐商品-->
             {{if !empty($left_goods)}}
-                <div class="recommend-goods"> 
+                <div class="recommend-goods am-radius"> 
                     <div class="head-title">            
-                        <h3>{{:MyLang('goods.recommend_goods_title')}}</h3>        
+                        <p>{{:MyLang('goods.recommend_goods_title')}}</p>        
                     </div>
                      <ul>                       
                         {{foreach $left_goods as $key=>$v}}
@@ -622,10 +673,10 @@
                                         <img alt="{{$v.title}}" src="{{$v.images}}">
                                     </a>               
                                 </div>
+                                <div class="p-price"><strong>{{$currency_symbol}}{{$v.price}}</strong></div>
                                 <div class="p-name am-text-truncate-2 am-margin-vertical-xs ">
                                     <a href="{{:$v['goods_url']}}" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
                                 </div>
-                                <div class="p-price"><strong>{{$currency_symbol}}{{$v.price}}</strong></div>
                             </li>
                         {{/foreach}}
                      </ul>
@@ -648,19 +699,34 @@
                     {{/if}}
                 {{/foreach}}
             {{/if}}
-
             <!-- tab区块 -->
             {{if !empty($middle_tabs_nav) and !empty($middle_tabs_nav['nav']) and !empty($middle_tabs_nav['type']) and is_array($middle_tabs_nav['nav']) and is_array($middle_tabs_nav['type'])}}
                 <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
                     <!-- tab导航 -->
-                    <ul class="am-avg-sm-{{:count($middle_tabs_nav['nav'])}} am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
+                    <ul class="am-avg-sm-{{:count($middle_tabs_nav['nav'])}} am-tabs-nav am-nav am-nav-tabs am-tabs-short-border" data-am-sticky="{animation: 'slide-top'}">
+                        {{if !empty($buy_button) and !empty($buy_button['data'])}}
+                            {{foreach $buy_button.data as $v}}
+                                {{if !empty($v['type']) and !empty($v['name']) and stripos($v['type'], 'cart') nheq false}}
+                                    <div class="buy-submit-top">
+                                        <button type="button"
+                                        class="am-btn am-radius {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}am-btn-secondary {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
+                                        data-type="{{$v.type}}" 
+                                        data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                            {{if !empty($v['icon'])}}
+                                                <i class="{{$v.icon}}"></i>
+                                            {{/if}}
+                                            {{$v.name}}
+                                        </button>
+                                    </div>
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
                         {{foreach $middle_tabs_nav.nav as $k=>$v}}
                             <li class="{{if isset($v['active']) and $v['active'] eq 1}}am-active{{/if}} goods-middle-nav-{{$v.type}}">
                                 <a href="#goods-middle-tabs-nav-{{$v.type}}" data-title="{{$v.name}}" data-type="{{$v.type}}" data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">{{$v.name}}</a>
                             </li>
                         {{/foreach}}
                     </ul>
-
                     <!-- tab内容 -->
                     <div class="am-tabs-bd">
                         <!-- 详情 -->
@@ -669,7 +735,7 @@
                                 {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
                                     <!-- 商品详情参数 -->
                                     <div class="am-cf tabs-nav-base-container">
-                                        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-padding-vertical-xs parameters-content parameters-detail">
+                                        <ul class="parameters-content parameters-detail">
                                             {{foreach $goods.parameters.detail as $v}}
                                                 <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
                                                     <span>{{$v.name}}:</span>
@@ -701,7 +767,7 @@
                                         <div class="content-photo">
                                             {{foreach $goods.photo as $photo}}
                                                 <li>
-                                                    <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                                    <img src="{{$photo.images}}" />
                                                 </li>
                                             {{/foreach}}
                                         </div>
@@ -729,44 +795,48 @@
                         <!-- 评价 -->
                         {{if in_array('comments', $middle_tabs_nav['type'])}}
                             <div class="am-tab-panel goods-comment" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
-                                <div class="am-cf tabs-nav-base-container score-container">
-                                    <div class="score am-fl">
-                                        <p class="name">{{:MyLang('goods.dynamic_scoring_name')}}</p>
-                                        <p class="value">{{$goods_score.avg}}</p>
+                                {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                    <div class="am-cf tabs-nav-base-container score-container">
+                                        <div class="score">
+                                            <p class="value">{{$goods_score.avg}}</p>
+                                            <p class="name">{{:MyLang('goods.dynamic_scoring_name')}}</p>
+                                        </div>
+                                        <div class="progress-content">
+                                            <div class="am-progress">
+                                                {{foreach $goods_score.rating as $score}}
+                                                    {{if $score.portion gt 0}}
+                                                        <div class="am-progress-bar am-progress-color-deep1
+                                                            {{switch score.rating}}
+                                                                {{case 1}}
+                                                                    am-progress-color-deep5
+                                                                {{/case}}
+                                                                {{case 2}}
+                                                                    am-progress-color-deep4
+                                                                {{/case}}
+                                                                {{case 3}}
+                                                                    am-progress-color-deep3
+                                                                {{/case}}
+                                                                {{case 4}}
+                                                                    am-progress-color-deep2
+                                                                {{/case}}
+                                                            {{/switch}}"
+                                                            style="width: {{$score.portion}}%">
+                                                                <span>{{$score.name}}({{$score.portion}}%)</span>
+                                                            </div>
+                                                        {{/if}}
+                                                {{/foreach}}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="am-progress am-fr">
-                                        {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
-                                            {{foreach $goods_score.rating as $score}}
-                                                {{if $score.portion gt 0}}
-                                                    <div class="am-progress-bar 
-                                                        {{switch score.rating}}
-                                                            {{case 1}}
-                                                                am-progress-bar-danger
-                                                            {{/case}}
-                                                            {{case 2}}
-                                                                am-progress-bar-warning
-                                                            {{/case}}
-                                                            {{case 3}}
-                                                                am-progress-bar-secondary
-                                                            {{/case}}
-                                                            {{case 5}}
-                                                                am-progress-bar-success
-                                                            {{/case}}
-                                                        {{/switch}}"
-                                                        style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
-                                                    {{/if}}
-                                            {{/foreach}}
-                                        {{else /}}
-                                            {{:MyLang('goods.no_scoring_data_tips')}}
-                                        {{/if}}
-                                    </div>
-                                </div>
+                                {{/if}}
                                 <div class="goods-comment-content"></div>
                                 <div class="table-no goods-page-no-data none">
-                                    <i class="am-icon-skyatlas am-icon-lg"></i>
+                                    <img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/common/images/no-comment.png{{/if}}" />
                                     <p>{{:MyLang('goods.no_comments_data_tips')}}</p>
                                 </div>
-                                <div class="goods-page-container"></div>
+                                {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                    <div class="goods-page-container"></div>
+                                {{/if}}
                             </div>
                         {{/if}}
 
@@ -774,19 +844,22 @@
                         {{if in_array('guess_you_like', $middle_tabs_nav['type'])}}
                             <div class="am-tab-panel" id="goods-middle-tabs-nav-guess_you_like">
                                 <div class="like">
-                                    <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                                    <ul class="boxes">
                                         {{if !empty($detail_like_goods)}}
                                             {{foreach $detail_like_goods as $key=>$v}}
                                                 <li>
-                                                    <a href="{{:$v['goods_url']}}">
-                                                        <img alt="{{$v.title}}" src="{{$v.images}}" />
-                                                    </a>
-                                                    <a href="{{:$v['goods_url']}}">
-                                                        <p class="am-text-truncate-2 am-margin-bottom-xs am-text-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
-                                                    </a>
-                                                    <p class="price">
-                                                        <strong>{{$currency_symbol}}{{$v.price}}</strong>
-                                                    </p>
+                                                    <div class="like-item">
+                                                        <a href="{{:$v['goods_url']}}">
+                                                            <img alt="{{$v.title}}" src="{{$v.images}}" />
+                                                        </a>
+                                                        <p class="price">
+                                                            <strong>{{$currency_symbol}}{{$v.price}}</strong>
+                                                        </p>
+                                                        <a class="like-itemn-content" href="{{:$v['goods_url']}}">
+                                                            <p class="am-text-truncate-2 am-margin-bottom-xs am-text-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                            
+                                                        </a>
+                                                    </div>
                                                 </li>
                                             {{/foreach}}
                                         {{/if}}

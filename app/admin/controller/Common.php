@@ -57,6 +57,9 @@ class Common extends BaseController
     protected $plugins_controller_name;
     protected $plugins_action_name;
 
+    // 页面唯一标记
+    protected $page_unique_mark;
+
     // 动态表格
     protected $form_table;
     protected $form_where;
@@ -235,6 +238,9 @@ class Common extends BaseController
             $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->controller_name : $this->data_request['form_back_control'];
             $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
             $this->form_back_url = MyUrl($this->module_name.'/'.$this->form_back_control.'/'.$this->form_back_action, $this->form_back_params);
+
+            // 页面唯一标记
+            $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->action_name;
         } else {
             // 插件名称/控制器/方法
             $this->plugins_module_name = $this->data_request['pluginsname'];
@@ -245,12 +251,18 @@ class Common extends BaseController
             $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->plugins_controller_name : $this->data_request['form_back_control'];
             $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
             $this->form_back_url = PluginsAdminUrl($this->plugins_module_name, $this->form_back_control, $this->form_back_action, $this->form_back_params);
+
+            // 页面唯一标记
+            $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->plugins_module_name.'-'.$this->plugins_controller_name.'-'.$this->plugins_action_name;
         }
 
         // 当前插件操作名称
         $assign['plugins_module_name'] = $this->plugins_module_name;
         $assign['plugins_controller_name'] = $this->plugins_controller_name;
         $assign['plugins_action_name'] = $this->plugins_action_name;
+
+        // 页面唯一标记
+        $assign['page_unique_mark'] = $this->page_unique_mark;
 
         // 基础表单返回url
         $assign['form_back_url'] = $this->form_back_url;

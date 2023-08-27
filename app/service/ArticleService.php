@@ -37,7 +37,7 @@ class ArticleService
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_home_article_list_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
-        if($data === null || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 文章
             $params = [

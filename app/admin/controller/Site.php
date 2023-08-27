@@ -112,10 +112,10 @@ class Site extends Base
             			$c['items'] = GoodsCategoryService::GoodsCategoryList(['where'=>$where]);
 
             			// 配置的关键字
-            			$c['config_keywords'] = array_key_exists($c['id'], $floor_keywords) ? $floor_keywords[$c['id']] : '';
+            			$c['config_keywords'] = (!empty($floor_keywords) && is_array($floor_keywords) && array_key_exists($c['id'], $floor_keywords)) ? $floor_keywords[$c['id']] : '';
 
             			// 配置左侧分类
-            			$c['config_category_ids'] = array_key_exists($c['id'], $floor_category) ? explode(',', $floor_category[$c['id']]) : [];
+            			$c['config_category_ids'] = (!empty($floor_category) && is_array($floor_category) && array_key_exists($c['id'], $floor_category)) ? explode(',', $floor_category[$c['id']]) : [];
             		}
             	}
             	$assign['goods_category_list'] = $category;
@@ -159,40 +159,40 @@ class Site extends Base
 	        'nav_type' 								=> $this->nav_type,
 	        'view_type' 							=> $this->view_type,
 			// 时区
-			'site_timezone_list' 					=> MyLang('site_timezone_list'),
+			'common_site_timezone_list' 			=> MyLang('common_site_timezone_list'),
 			// 平台
-			'common_platform_type' 					=> MyLang('common_platform_type'),
+			'common_platform_type' 					=> MyConst('common_platform_type'),
 			// 关闭开启
-			'common_close_open_list' 				=> MyLang('common_close_open_list'),
+			'common_close_open_list' 				=> MyConst('common_close_open_list'),
 			// 登录方式
-			'common_login_type_list' 				=> MyLang('common_login_type_list'),
+			'common_login_type_list' 				=> MyConst('common_login_type_list'),
 			// 用户注册类型列表
-			'common_user_reg_type_list' 			=> MyLang('common_user_reg_type_list'),
+			'common_user_reg_type_list' 			=> MyConst('common_user_reg_type_list'),
 			// 图片验证码规则
-			'site_images_verify_rules_list' 		=> MyLang('site_images_verify_rules_list'),
+			'common_site_images_verify_rules_list'	=> MyConst('common_site_images_verify_rules_list'),
 			// 热门搜索关键字
-			'common_search_keywords_type_list' 		=> MyLang('common_search_keywords_type_list'),
+			'common_search_keywords_type_list' 		=> MyConst('common_search_keywords_type_list'),
 			// 是否
-			'common_is_text_list' 					=> MyLang('common_is_text_list'),
+			'common_is_text_list' 					=> MyConst('common_is_text_list'),
 			// 站点类型
-			'common_site_type_list' 				=> MyLang('common_site_type_list'),
+			'common_site_type_list' 				=> MyConst('common_site_type_list'),
 			// 扣除库存规则
-			'common_deduction_inventory_rules_list'	=> MyLang('common_deduction_inventory_rules_list'),
+			'common_deduction_inventory_rules_list'	=> MyConst('common_deduction_inventory_rules_list'),
 			// 增加销量规则
-			'common_sales_count_inc_rules_list' 	=> MyLang('common_sales_count_inc_rules_list'),
+			'common_sales_count_inc_rules_list' 	=> MyConst('common_sales_count_inc_rules_list'),
 			// 首页商品排序规则
-			'goods_order_by_type_list' 				=> MyLang('goods_order_by_type_list'),
-			'goods_order_by_rule_list' 				=> MyLang('goods_order_by_rule_list'),
+			'common_goods_order_by_type_list' 		=> MyConst('common_goods_order_by_type_list'),
+			'common_goods_order_by_rule_list' 		=> MyConst('common_goods_order_by_rule_list'),
 			// 首页楼层数据类型
-			'common_site_floor_data_type_list' 		=> MyLang('common_site_floor_data_type_list'),
+			'common_site_floor_data_type_list' 		=> MyConst('common_site_floor_data_type_list'),
 			// 搜索参数类型
-			'common_goods_parameters_type_list' 	=> MyLang('common_goods_parameters_type_list'),
+			'common_goods_parameters_type_list' 	=> MyConst('common_goods_parameters_type_list'),
+			// 多语言
+			'common_multilingual_list'				=> MyConst('common_multilingual_list'),
 			// 主导航
 			'second_nav_list'						=> MyLang('site.second_nav_list'),
 			// 网站设置导航
 			'siteset_nav_list'						=> MyLang('site.siteset_nav_list'),
-			// 多语言
-			'common_multilingual_list'				=> MyLang('common_multilingual_list'),
 		];
 		return $assign;
 	}
@@ -289,6 +289,7 @@ class Site extends Base
 					// 扩展
 					case 'extends' :
 						$field_list[] = 'common_multilingual_choose_list';
+						$params['common_domain_multilingual_bind_list'] = empty($params['common_domain_multilingual_bind_list']) ? '' : json_encode(array_values($params['common_domain_multilingual_bind_list']), JSON_UNESCAPED_UNICODE);
 						break;
 				}
 				break;

@@ -1,22 +1,22 @@
 <!-- 用户中心菜单 -->
 <div class="user-sidebar am-offcanvas" id="user-offcanvas">
-  <div class="am-offcanvas-bar user-offcanvas-bar">
-    <ul class="am-list user-sidebar-list">
+  <div class="am-offcanvas-bar user-offcanvas-bar am-padding-horizontal-lg am-padding-vertical-sm am-background-white am-radius">
+    <ul class="am-list user-sidebar-list am-margin-bottom-0 am-padding-bottom-0">
       {{if !empty($user_left_menu) and is_array($user_left_menu)}}
         {{foreach $user_left_menu as $k=>$v}}
           {{if $v.is_show eq 1}}
             {{if empty($v['item'])}}
               <li class="{{if isset($v['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $v['contains']) and isset($v['is_system']) and $v['is_system'] eq 1 and !isset($params['pluginsname'])) or (isset($params['pluginsname']) and isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginsname'].$params['pluginscontrol'].$params['pluginsaction']), $v['contains']) and (!isset($v['is_system']) or $v['is_system'] neq 1)))}} am-active{{/if}}" >
-                <a href="{{$v.url}}">{{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}} {{$v.name}}</a>
+                <a href="{{$v.url}}">{{if !empty($v['icon'])}}<i class="iconfont {{$v.icon}}"></i>{{/if}} {{$v.name}}</a>
               </li>
             {{else /}}
               <li>
-                <a class="am-cf user-item-parent" data-am-collapse="{target: '#collapse-nav-{{$k}}'}">{{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}} {{$v.name}}<span class="am-icon-angle-down am-fr am-margin-right"></span></a>
+                <a class="am-cf user-item-parent" data-am-collapse="{target: '#collapse-nav-{{$k}}'}">{{if !empty($v['icon'])}}<i class="iconfont {{$v.icon}}"></i>{{/if}} {{$v.name}}</a>
                 <ul class="am-list am-collapse user-sidebar-sub am-in" id="collapse-nav-{{$k}}">
                   {{foreach $v.item as $vs}}
                     {{if $vs.is_show eq 1}}
                       <li class="{{if isset($vs['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $vs['contains']) and isset($vs['is_system']) and $vs['is_system'] eq 1 and !isset($params['pluginsname'])) or (isset($params['pluginsname']) and isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginsname'].$params['pluginscontrol'].$params['pluginsaction']), $vs['contains']) and (!isset($vs['is_system']) or $vs['is_system'] neq 1)))}} am-active{{/if}}">
-                        <a href="{{$vs.url}}" class="am-cf">{{if !empty($vs['icon'])}}<i class="{{$vs.icon}}"></i>{{/if}} {{$vs.name}}</a>
+                        <a href="{{$vs.url}}" class="am-cf">{{$vs.name}}</a>
                       </li>
                     {{/if}}
                   {{/foreach}}
@@ -39,7 +39,7 @@
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-user-avatar view-save" action="{{:MyUrl('index/personal/useravatarupload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+            <form class="am-form form-validation-user-avatar am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('index/personal/useravatarupload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                 <div class="cropper-images-view">
                     <div class="img-container am-fl user-avatar-img-container">
                         <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg" alt="Picture" />
@@ -53,7 +53,7 @@
                     <input type="hidden" name="img_height" id="user-avatar-img_height" />
                     <input type="hidden" name="img_rotate" id="user-avatar-img_rotate" />
                 </div>
-                <div class="submit-operation">
+                <div class="submit-operation am-margin-top-xs">
                     <button type="button" class="am-btn am-btn-default am-fl am-icon-search-plus am-btn-xs am-radius" data-method="zoom" data-option="0.1"></button>
                     <div class="am-form-group am-form-file am-fl am-form-group-refreshing">
                         <button type="button" class="am-btn am-btn-default am-btn-xs am-radius cropper-input-images-submit">
@@ -63,13 +63,23 @@
                     <button type="button" class="am-btn am-btn-default am-fl am-icon-search-minus am-btn-xs am-radius" data-method="zoom" data-option="-0.1"></button>
                 </div>
 
-                <button type="submit" class="am-btn am-btn-primary am-btn-sm am-radius head-submit btn-loading-example am-margin-top-sm" data-am-loading="{loadingText: '{{:MyLang('common.upload_in_text')}}'}">{{:MyLang('common.confirm_upload_title')}}</button>
+                {{if is_array(MyLang('common.avatar_upload_tips'))}}
+                  <div class="am-alert am-alert-secondary">
+                    <p>{{:implode('</p><p>', MyLang('common.avatar_upload_tips'))}}</p>
+                  </div>
+                {{/if}}
+
+                <div class="am-form-popup-submit">
+                  <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                    <i class="am-icon-paint-brush"></i>
+                    <span>{{:MyLang('cancel_title')}}</span>
+                  </button>
+                  <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_upload_title')}}'}">
+                    <i class="am-icon-cloud-upload"></i>
+                    <span>{{:MyLang('confirm_upload_title')}}</span>
+                  </button>
+                </div>
             </form>
-            {{if is_array(MyLang('common.avatar_upload_tips'))}}
-              <div class="am-alert am-alert-secondary">
-                <p>{{:implode('</p><p>', MyLang('common.avatar_upload_tips'))}}</p>
-              </div>
-            {{/if}}
         </div>
     </div>
 </div>

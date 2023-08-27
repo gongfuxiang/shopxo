@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\ApiService;
 use app\service\SeoService;
 use app\service\UserAddressService;
@@ -22,7 +23,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class UserAddress extends Common
+class UserAddress extends Center
 {
     /**
      * 构造方法
@@ -35,9 +36,6 @@ class UserAddress extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
     
     /**
@@ -107,7 +105,7 @@ class UserAddress extends Common
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressSave($params));
     }
@@ -122,7 +120,7 @@ class UserAddress extends Common
      */
     public function Delete()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressDelete($params));
     }
@@ -137,7 +135,7 @@ class UserAddress extends Common
      */
     public function SetDefault()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserAddressService::UserAddressDefault($params));
     }

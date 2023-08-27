@@ -13,6 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\SearchService;
+use app\service\GoodsCartService;
 
 /**
  * 商品搜索
@@ -63,6 +64,8 @@ class Search extends Common
             'goods_params_list'     => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
             // 商品规格
             'goods_spec_list'       => SearchService::SearchGoodsSpecValueList($map, $this->data_request),
+            // 购物车汇总
+            'cart_total'            => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }

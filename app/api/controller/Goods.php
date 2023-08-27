@@ -248,36 +248,29 @@ class Goods extends Common
      */
     public function Comments()
     {
-        // 参数
-        $params = $this->data_request;
-
-        // 分页
-        $number = 10;
-        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-
         // 条件
         $where = [
-            'goods_id'      => $params['goods_id'],
+            'goods_id'      => $this->data_request['goods_id'],
             'is_show'       => 1,
         ];
 
         // 获取总数
         $total = GoodsCommentsService::GoodsCommentsTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'         => $start,
-            'n'         => $number,
+            'n'         => $this->page_size,
             'where'     => $where,
             'is_public' => 1,
-        );
+        ];
         $ret = GoodsCommentsService::GoodsCommentsList($data_params);
         
         // 返回数据
         $result = [
-            'number'            => $number,
+            'number'            => $this->page_size,
             'total'             => $total,
             'page_total'        => $page_total,
             'data'              => $ret['data'],

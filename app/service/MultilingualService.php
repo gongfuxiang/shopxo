@@ -54,8 +54,8 @@ class MultilingualService
                     {
                         // 加入语言名称
                         $temp = array_merge($allow_lang_list[$k], [
-                            'name' =>$v,
-                            'url'  =>$url.$k,
+                            'name' => $v,
+                            'url'  => $url.$k,
                         ]);
                         // 可选语言
                         $select[] = $temp;
@@ -98,7 +98,7 @@ class MultilingualService
     public static function MultilingualCanChooseList()
     {
         $result = [];
-        $data = MyLang('common_multilingual_list');
+        $data = MyConst('common_multilingual_list');
         if(!empty($data) && is_array($data))
         {
             $choose_list = MyC('common_multilingual_choose_list');
@@ -204,6 +204,19 @@ class MultilingualService
                 {
                     // 缓存读取
                     $value = MyCache(self::CacheKey(self::$cache_key.'_'.$user['id']));
+                }
+            }
+
+            // 域名绑定语言
+            $domain_multilingual = MyC('common_domain_multilingual_bind_list');
+            if(!empty($domain_multilingual) && is_array($domain_multilingual))
+            {
+                foreach($domain_multilingual as $v)
+                {
+                    if(!empty($v['domain']) && !empty($v['lang']) && $v['domain'] == __MY_HOST__)
+                    {
+                        $value = $v['lang'];
+                    }
                 }
             }
 

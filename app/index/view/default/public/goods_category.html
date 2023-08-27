@@ -12,17 +12,22 @@
             <div class="category">
                 <ul class="category-list">
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
-                        {{foreach $goods_category_list as $v}}
-                            <li class="first">
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block" title="{{$v.name}}">
+                        {{foreach $goods_category_list as $k=>$v}}
+                            <li class="first" data-index="{{$k}}">
+                                {{if $category_show_level gt 1}}
+                                    <img class="category-fillet-top am-hide" src="{{$attachment_host}}/static/index/default/images/corner_round_top.png" />
+                                    <img class="category-fillet-bottom am-hide" src="{{$attachment_host}}/static/index/default/images/corner_round_bottom.png" />
+                                {{/if}}
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block">
                                 <div class="category-info">
                                     <h3 class="category-name b-category-name am-text-truncate">
                                         {{if !empty($v['icon'])}}
-                                            <img src="{{$v.icon}}" />
+                                            <img class="category-menu-img" src="{{$v.icon}}" />
+                                            <img class="category-menu-img-active" src="{{if empty($v.icon_active)}}{{$v.icon}}{{else/}}{{$v.icon_active}}{{/if}}" />
                                         {{/if}}
                                         <span class="bd-name">{{$v.name}}</span>
                                     </h3>
-                                    <em>&gt;</em>
+                                    <i class="am-icon-angle-right"></i>
                                 </div>
                                 </a>
                                 {{if $category_show_level gt 1}}
@@ -31,32 +36,39 @@
                                             <div class="area-in">
                                                 <div class="area-bg">
                                                     <div class="menu-srot">
-                                                        <div class="sort-side">
+                                                        <div class="sort-side {{if $category_show_level eq 2}}am-flex-row{{elseif $category_show_level eq 3}}am-flex-col{{/if}}">
                                                             {{foreach $v.items as $vs}}
-                                                                <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
-                                                                    {{if $category_show_level eq 2}}
-                                                                        <dd>
-                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
+                                                                {{if $category_show_level eq 2}}
+                                                                    <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
+                                                                        <dd >
+                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}">
+                                                                                {{if !empty($vs['icon'])}}
+                                                                                    <img src="{{$vs.icon}}" width="50" />
+                                                                                {{/if}}
                                                                                 <span>{{$vs.name}}</span>
                                                                             </a>
                                                                         </dd>
-                                                                    {{elseif $category_show_level eq 3}}
-                                                                        <dt>
-                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
-                                                                                <span title="{{$vs.name}}">{{$vs.name}}</span>
+                                                                    </dl>
+                                                                {{elseif $category_show_level eq 3}}
+                                                                    <div class="category-show-level3">
+                                                                        <div class="category-show-level3-title">
+                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}">
+                                                                                <span>{{$vs.name}}</span>
                                                                             </a>
-                                                                        </dt>
+                                                                        </div>
                                                                         {{if !empty($vs['items'])}}
-                                                                            {{foreach $vs.items as $vss}}
-                                                                                <dd>
-                                                                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}">
-                                                                                        <span>{{$vss.name}}</span>
-                                                                                    </a>
-                                                                                </dd>
-                                                                            {{/foreach}}
+                                                                            <div class="category-show-level3-child">
+                                                                                {{foreach $vs.items as $vss}}
+                                                                                    <div>
+                                                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}">
+                                                                                            <span>{{$vss.name}}</span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                {{/foreach}}
+                                                                            </div>
                                                                         {{/if}}
-                                                                    {{/if}}
-                                                                </dl>
+                                                                    </div>
+                                                                {{/if}}
                                                             {{/foreach}}
                                                         </div>
                                                     </div>

@@ -56,7 +56,7 @@ class Buy extends Common
         $key = 'buy_post_data_'.$this->user['id'];
         if($this->data_post)
         {
-            MyCache($key, $this->data_post, 1800);
+            MyCache($key, $this->data_post, 7200);
             return MyRedirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
@@ -107,7 +107,7 @@ class Buy extends Common
                     // 支付方式
                     'payment_list'          => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
                     // 下单类型模式
-                    'buy_site_model_list'   => MyLang('common_buy_site_model_list'),
+                    'buy_site_model_list'   => MyConst('common_buy_site_model_list'),
                 ];
 
                 // 用户地址
@@ -201,7 +201,7 @@ class Buy extends Common
      */
     public function Add()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         if(!empty($params))
         {
             $params['user'] = $this->user;

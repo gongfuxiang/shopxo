@@ -44,13 +44,13 @@ class SlideService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyLang('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => MyLang('form_platform_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(MyLang('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
                 'is_checked'        => 1,
                 'error_msg'         => MyLang('form_event_type_message'),
             ],

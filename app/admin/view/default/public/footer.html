@@ -2,7 +2,7 @@
 <div class="am-popup popup-not-title" id="store-accounts-popup">
     <div class="am-popup-inner">
         {{if empty($site_store_info) or empty($site_store_info['base']) or !isset($site_store_info['base']['is_user_not_cloae_accounts_popup']) or $site_store_info['base']['is_user_not_cloae_accounts_popup'] eq 0}}
-            <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+            <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         {{/if}}
         <div class="am-popup-bd">
             <!-- form start -->
@@ -56,7 +56,7 @@
 <!-- 公共视频扫码组件初始化 -->     
 <div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
     <div class="am-popup-inner am-radius">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         <div class="scanner">
             <div class="scan-area">
                 <div class="mark top-left"></div>
@@ -85,7 +85,7 @@
 
 <!-- 类库 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- jshash -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{:MyC('home_static_cache_version')}}"></script>
@@ -207,6 +207,7 @@
     function CommonPopupClose()
     {
         $('.am-popup').modal('close');
+        $('.am-modal').modal('close');
     }
 </script>
 

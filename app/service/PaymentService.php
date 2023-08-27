@@ -79,7 +79,7 @@ class PaymentService
         {
             if($dh = opendir(self::$payment_dir))
             {
-                $common_platform_type = MyLang('common_platform_type');
+                $common_platform_type = MyConst('common_platform_type');
                 while(($temp_file = readdir($dh)) !== false)
                 {
                     if(substr($temp_file, 0, 1) != '.')
@@ -186,7 +186,7 @@ class PaymentService
             'is_enable'             => 0,
             'is_open_user'          => 0,
             'is_install'            => 0,
-            'apply_terminal'        => empty($data['base']['apply_terminal']) ? array_column(MyLang('common_platform_type'), 'value') : $data['base']['apply_terminal'],
+            'apply_terminal'        => empty($data['base']['apply_terminal']) ? array_column(MyConst('common_platform_type'), 'value') : $data['base']['apply_terminal'],
             'config'                => '',
         ];
     }

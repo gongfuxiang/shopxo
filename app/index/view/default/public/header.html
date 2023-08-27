@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
-	<title>{{$home_seo_site_title}}</title>
-	<meta name="keywords" content="{{$home_seo_site_keywords}}" />
-	<meta name="description" content="{{$home_seo_site_description}}" />
-	<meta name="generator" content="{{$my_url}}" />
-	<meta name="application-name" content="{{$home_seo_site_title}}" />
-	<meta name="msapplication-tooltip" content="{{$home_seo_site_title}}" />
-	<meta name="msapplication-starturl" content="{{$my_url}}" />
-	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+    <meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
+    <title>{{$home_seo_site_title}}</title>
+    <meta name="keywords" content="{{$home_seo_site_keywords}}" />
+    <meta name="description" content="{{$home_seo_site_description}}" />
+    <meta name="generator" content="{{$my_url}}" />
+    <meta name="application-name" content="{{$home_seo_site_title}}" />
+    <meta name="msapplication-tooltip" content="{{$home_seo_site_title}}" />
+    <meta name="msapplication-starturl" content="{{$my_url}}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
 
-	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
     <link rel="apple-touch-icon" href="{{:AttachmentPathViewHandle(MyC('home_site_logo_square'))}}">
     <link rel="apple-touch-icon-precomposed" href="{{:AttachmentPathViewHandle(MyC('home_site_logo_square'))}}">
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
-	
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/module.css?v={{:MyC('home_static_cache_version')}}" />
 
+    <!-- iconfont -->
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
+    
     <!-- ckplayer播放器 -->
-	{{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
-		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ckplayer/css/ckplayer.css?v={{:MyC('home_static_cache_version')}}" />
-	{{/if}}
+    {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ckplayer/css/ckplayer.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 
-	<!-- 打印css -->
-	{{if isset($is_load_hiprint) and $is_load_hiprint eq 1}}
-	    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/hiprint.css" />
-	    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/print-lock.css" />
-	{{/if}}
+    <!-- 打印css -->
+    {{if isset($is_load_hiprint) and $is_load_hiprint eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/hiprint.css" />
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/print-lock.css" />
+    {{/if}}
 
-	<!-- 插件 -->
+    <!-- 插件 -->
     {{if !empty($plugins_css)}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
@@ -49,11 +53,11 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
     <!-- 页面样式 -->
-	{{if !empty($module_css)}}
-		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
-	{{/if}}
+    {{if !empty($module_css)}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 
-	<!-- css钩子 -->
+    <!-- css钩子 -->
     {{if !empty($plugins_css_data) and is_array($plugins_css_data)}}
         {{foreach $plugins_css_data as $hook}}
             {{if !empty($hook) and is_string($hook)}}
@@ -76,106 +80,120 @@
         {{/foreach}}
     {{/if}}
 
-	<!-- 公共header内钩子 -->
-	{{if !empty($plugins_common_header_data) and is_array($plugins_common_header_data)}}
-		{{foreach $plugins_common_header_data as $hook}}
-			{{if is_string($hook) or is_int($hook)}}
-				{{$hook|raw}}
-			{{/if}}
-		{{/foreach}}
-	{{/if}}
+    <!-- 公共header内钩子 -->
+    {{if !empty($plugins_common_header_data) and is_array($plugins_common_header_data)}}
+        {{foreach $plugins_common_header_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
 
-	<!-- 主题配色 -->
+    <!-- 主题配色 -->
     {{if isset($theme_color_value) and $theme_color_value eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
-
-	<script type="text/javascript">
-		// 基础配置
-		var __system_type__ = '{{$system_type}}';
-		var __root__ = '{{$public_host}}';
-		var __my_http__ = '{{$my_http}}';
-		var __my_host__ = '{{$my_host}}';
+    <style type="text/css">
+        :root {
+            {{if !empty($theme_style_data) and is_array($theme_style_data)}}
+                {{foreach $theme_style_data as $k=>$v}}
+                    --{{:str_replace('_', '-', $k);}}: {{$v}}{{if $k eq 'html_body_size'}}px{{elseif in_array($k, ['border_radius', 'border_radius_sm', 'border_radius_lg'])}}rem{{/if}};
+                {{/foreach}}
+            {{else /}}
+                {{include file="public/header_style_root" /}}
+            {{/if}}
+        }
+    </style>
+    <script type="text/javascript">
+        // 基础配置
+        var __system_type__ = '{{$system_type}}';
+        var __root__ = '{{$public_host}}';
+        var __my_http__ = '{{$my_http}}';
         var __my_url__ = '{{$my_url}}';
         var __my_public_url__ = '{{$my_public_url}}';
-		var __public__ = '{{$public_host}}';
-		var __default_theme__ = '{{$default_theme}}';
-		var __modal_login_url__ = '{{:MyUrl("index/user/modallogininfo")}}';
-		var __attachment_host__ = '{{$attachment_host}}';
+        var __public__ = '{{$public_host}}';
+        var __default_theme__ = '{{$default_theme}}';
+        var __modal_login_url__ = '{{:MyUrl("index/user/modallogininfo")}}';
+        var __attachment_host__ = '{{$attachment_host}}';
         var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
-		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
+        var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
         var __currency_symbol__ = '{{$currency_symbol}}';
         var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
         var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
         var __map_view_url__ = '{{:MyUrl("index/map/index")}}';
         var __load_map_type__ = '{{$load_map_type}}';
+        var __user_login_info_url__ = '{{:MyUrl("index/user/logininfo")}}';
+        var __user_regster_info_url__ = '{{:MyUrl("index/user/reginfo")}}';
+        var __user_forget_info_url__ = '{{:MyUrl("index/user/forgetpwdinfo")}}';
         var __goods_spec_type_url__ = '{{:MyUrl("index/goods/spectype")}}';
         var __goods_spec_detail_url__ = '{{:MyUrl("index/goods/specdetail")}}';
         var __goods_stock_url__ = '{{:MyUrl("index/goods/stock")}}';
         var __goods_cart_save_url__ = '{{:MyUrl("index/cart/save")}}';
         var __goods_cart_info_url__ = '{{:MyUrl("index/goods/cartinfo")}}';
-	    // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
-	    {{if !empty($lang_data)}}
-	        {{foreach $lang_data as $k=>$v}}
-	            {{if !empty($k) and isset($v) and !is_array($v)}}
-	                var lang_{{$k}} = '{{$v}}';
-	            {{/if}}
-	        {{/foreach}}
-	    {{/if}}
-	</script>
+        // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
+        {{if !empty($lang_data)}}
+            {{foreach $lang_data as $k=>$v}}
+                {{if !empty($k) and isset($v) and !is_array($v)}}
+                    var lang_{{$k}} = '{{$v}}';
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+    </script>
 </head>
-<body {{if in_array(MiniAppEnv(), MyConfig('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
-<!-- 页面加载层 -->
-{{if isset($is_page_loading) and $is_page_loading eq 1}}
-    {{include file="public/page_loading" /}}
-{{/if}}
+<body class="{{$page_unique_mark}} {{if in_array(MiniAppEnv(), MyConfig('shopxo.mini_app_type_list'))}} mini-app-env{{/if}}">
+<div class="body-content-container">
+    <div class="body-content-formal-container">
+        <!-- 页面加载层 -->
+        {{if isset($is_page_loading) and $is_page_loading eq 1}}
+            {{include file="public/page_loading" /}}
+        {{/if}}
 
-<!-- css钩子 -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-	    <div class="plugins-tag">
-	        <span>plugins_css</span>
-	    </div>
-	{{/if}}
-{{/if}}
+        <!-- css钩子 -->
+        {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_css</span>
+                </div>
+            {{/if}}
+        {{/if}}
 
-<!-- 公共header内钩子 -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-		<div class="plugins-tag">
-			<span>plugins_common_header</span>
-		</div>
-	{{/if}}
-{{/if}}
+        <!-- 公共header内钩子 -->
+        {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_common_header</span>
+                </div>
+            {{/if}}
+        {{/if}}
 
-<!-- 公共顶部钩子 -->
-{{if !isset($page_pure) or $page_pure neq 1}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-		<div class="plugins-tag">
-			<span>plugins_view_common_top</span>
-		</div>
-	{{/if}}
-	{{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data)}}
-		{{foreach $plugins_view_common_top_data as $hook}}
-			{{if is_string($hook) or is_int($hook)}}
-				{{$hook|raw}}
-			{{/if}}
-		{{/foreach}}
-	{{/if}}
-{{/if}}
+        <!-- 公共顶部钩子 -->
+        {{if !isset($page_pure) or $page_pure neq 1}}
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data)}}
+                {{foreach $plugins_view_common_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/if}}
 
-<!-- header公共顶部钩子 -->
-{{if !isset($is_header) or $is_header eq 1}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-		<div class="plugins-tag">
-			<span>plugins_view_common_top_header</span>
-		</div>
-	{{/if}}
-	{{if !empty($plugins_view_common_top_header_data) and is_array($plugins_view_common_top_header_data)}}
-		{{foreach $plugins_view_common_top_header_data as $hook}}
-			{{if is_string($hook) or is_int($hook)}}
-				{{$hook|raw}}
-			{{/if}}
-		{{/foreach}}
-	{{/if}}
-{{/if}}
+        <!-- header公共顶部钩子 -->
+        {{if !isset($is_header) or $is_header eq 1}}
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_top_header</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_top_header_data) and is_array($plugins_view_common_top_header_data)}}
+                {{foreach $plugins_view_common_top_header_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/if}}

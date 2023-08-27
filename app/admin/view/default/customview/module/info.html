@@ -2,7 +2,7 @@
 {{if !empty($module_data)}}
     <div class="am-nbfc">
         <a href="{{:MyUrl('index/customview/index', ['id'=>$module_data['id']])}}" target="_blank" title="{{$module_data.name}}">
-            <img src="{{if empty($module_data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$module_data.logo}}{{/if}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
+            <img src="{{if empty($module_data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$module_data.logo}}{{/if}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="60" height="60" />
         </a>
         <a href="{{:MyUrl('index/customview/index', ['id'=>$module_data['id']])}}" target="_blank" title="{{$module_data.name}}">
             <span class="am-nowrap-initial">{{$module_data.name}}</span>

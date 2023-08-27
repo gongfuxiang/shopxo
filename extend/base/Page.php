@@ -87,13 +87,17 @@ class Page
 			{
 				if(!in_array($k, $this->not_fields) && !is_array($v))
 				{
+					// 分页不参与url拼接
 					if($k == 'page')
 					{
 						continue;
 					}
+
+					// 数据处理
 					$k = empty($k) ? $k : htmlspecialchars($k);
 					$v = empty($v) ? $v : htmlspecialchars($v);
 
+					// 拼接参数
 					if($tmp)
 					{
 						$this->url .= ($state === false) ? '?' : '&';
@@ -120,35 +124,40 @@ class Page
 	 */
 	public function GetPageHtml()
 	{
-		$before_disabled = ($this->page > 1) ? '' : ' class="am-disabled"';
-		$after_disabled = ($this->page > 0 && $this->page < $this->page_total) ? '' : ' class="am-disabled"';
+		$before_disabled = ($this->page > 1) ? '' : ' am-disabled';
+		$after_disabled = ($this->page > 0 && $this->page < $this->page_total) ? '' : ' am-disabled';
 
-		$this->html .= '<ul class="am-pagination am-pagination-centered">';
-		$this->html .= '<li '.$before_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_join.'page=1" class="am-radius am-icon-angle-double-left"></a>';
+		$this->html .= '<div class="am-container">';
+		$this->html .= '<ul class="am-pagination-container am-pagination am-pagination-right pagination-margin-top">';
+		$this->html .= '<li class="first-before-page-submit '.$before_disabled.'">';
+		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page=1" data-value="1" class="am-icon-angle-double-left"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '<li '.$before_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
+		$this->html .= '<li class="prev-before-page-submit '.$before_disabled.'">';
+		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page-1).'" data-value="'.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
 		$this->html .= '</li>';
 
 		$this->html .= $this->GetButtonNumberHtml();
 
-		$this->html .= '<li '.$after_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
+		$this->html .= '<li class="next-after-page-submit '.$after_disabled.'">';
+		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page+1).'" data-value="'.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '<li '.$after_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
+		$this->html .= '<li class="last-after-page-submit '.$after_disabled.'">';
+		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.$this->page_total.'" data-value="'.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
 		$this->html .= '</li>';
 
+		$this->html .= '<span class="current-page-input">';
 		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.each_page_name').'</span>';
-		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
+		$this->html .= '<input type="text" name="page_size" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" data-type="size" data-default-value="'.$this->page_size.'" data-url="'.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=" onclick="this.select()" />';
 		$this->html .= '<span>'.MyLang('common_extend.base.page.page_strip').'</span>';
+		$this->html .= '</span>';
 
+		$this->html .= '<span class="to-page-input">';
 		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.jump_to_text').'</span>';
-		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
+		$this->html .= '<input type="text" name="page" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" data-type="page" data-default-value="1" data-value-max="'.$this->page_total.'" data-url="'.$this->url.$this->page_join.'page=" onclick="this.select()" />';
 		$this->html .= '<span>'.MyLang('common_extend.base.page.page_unit').'</span>';
+		$this->html .= '</span>';
 
 		$this->html .= '<div>';
 		$this->html .= '<span>'.MyLang('common_extend.base.page.data_total', ['total'=>$this->total]).'</span>';
@@ -159,6 +168,7 @@ class Page
 		}
 		$this->html .= '</div>';
 		$this->html .= '</ul>';
+		$this->html .= '</div>';
 
 		return $this->html;
 	}
@@ -185,7 +195,7 @@ class Page
 				$total = ($this->page-$this->bt_number < 1) ? 1 : $this->page-$this->bt_number;
 				for($i=$this->page-1; $i>=$total; $i--)
 				{
-					$html_before = '<li><a href="'.$this->url.$this->page_join.'page='.$i.'" class="am-radius">'.$i.'</a></li>'.$html_before;
+					$html_before = '<li><a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.$i.'" data-value="'.$i.'" class="am-radius">'.$i.'</a></li>'.$html_before;
 				}
 			}
 
@@ -195,7 +205,7 @@ class Page
 				$total = ($this->page+$this->bt_number > $this->page_total) ? $this->page_total : $this->page+$this->bt_number;
 				for($i=$this->page+1; $i<=$total; $i++)
 				{
-					$html_after .= '<li><a href="'.$this->url.$this->page_join.'page='.$i.'" class="am-radius">'.$i.'</a></li>';
+					$html_after .= '<li><a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.$i.'" data-value="'.$i.'" class="am-radius">'.$i.'</a></li>';
 				}
 			}
 		}

@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use app\service\SeoService;
 use app\service\SearchService;
+use app\service\BreadcrumbService;
 
 /**
  * 搜索
@@ -49,6 +50,7 @@ class Search extends Common
         {
             return MyRedirect(MyUrl('index/search/index', ['wd'=>StrToAscii($this->data_post['wd'])]));
         }
+        $params = $this->data_request;
 
         // 搜素条件
         $map = SearchService::SearchWhereHandle($this->data_request);
@@ -68,8 +70,24 @@ class Search extends Common
         $page = new \base\Page($page_params);
         $page_html = $page->GetPageHtml();
 
+        // 面包屑导航
+        $breadcrumb_data = BreadcrumbService::Data('GoodsSearch', $params);
+
+        // 数据列表展示布局（0九宫格、1图文列表）
+        $list_layout_key = 'user_search_layout_type';
+        $list_layout_value = MySession($list_layout_key);
+        if(isset($this->data_request['layout']))
+        {
+            $list_layout_value = empty($this->data_request['layout']) ? 0 : intval($this->data_request['layout']);
+            MySession($list_layout_key, $list_layout_value);
+        } else {
+            if(empty($list_layout_value))
+            {
+                $list_layout_value = 0;
+            }
+        }
+
         // 关键字处理
-        $params = $this->data_request;
         if(!empty($params['wd']))
         {
             $params['wd'] = AsciiToStr($params['wd']);
@@ -86,7 +104,9 @@ class Search extends Common
             // 排序方式
             'map_order_by_list' => SearchService::SearchMapOrderByList($this->data_request),
             // 面包屑导航
-            'breadcrumb_data'   => SearchService::SearchBreadcrumbData($params),
+            'breadcrumb_data'   => $breadcrumb_data,
+            // 列表布局类型
+            'list_layout_value' => $list_layout_value,
         ];
 
         // 品牌列表

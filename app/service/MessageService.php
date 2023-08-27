@@ -240,9 +240,9 @@ class MessageService
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }
 
-            $common_is_text_list = MyLang('common_is_text_list');
-            $common_is_read_list = MyLang('common_is_read_list');
-            $common_message_type_list = MyLang('common_message_type_list');
+            $common_is_text_list = MyConst('common_is_text_list');
+            $common_is_read_list = MyConst('common_is_read_list');
+            $common_message_type_list = MyConst('common_message_type_list');
             foreach($data as &$v)
             {
                 // 用户信息

@@ -237,16 +237,22 @@ return [
             '4. ventas virtuales, procesos convencionales de comercio electrónico, el usuario hace un pedido para pagar - > Envío automático - > confirmación de la recogida - > pedido completado',
         ],
         // 添加自提地址表单
-        'form_take_address_logo'                => 'LOGO',
-        'form_take_address_logo_tips'           => 'Recomendación 300 * 300px',
-        'form_take_address_alias'               => 'Alias',
-        'form_take_address_alias_message'       => 'Formato alias hasta 16 caracteres',
-        'form_take_address_name'                => 'Contactos',
-        'form_take_address_name_message'        => 'Formato de contacto entre 2 y 16 caracteres',
-        'form_take_address_tel'                 => 'Número de teléfono de contacto',
-        'form_take_address_tel_message'         => 'Por favor, rellene el número de contacto.',
-        'form_take_address_address'             => 'Dirección detallada',
-        'form_take_address_address_message'     => 'Formato de dirección detallado entre 1 y 80 caracteres',
+        'form_take_address_title'                  => 'Dirección de recogida propia',
+        'form_take_address_logo'                   => 'LOGO',
+        'form_take_address_logo_tips'              => 'Recomendación 300 * 300px',
+        'form_take_address_alias'                  => 'Alias',
+        'form_take_address_alias_message'          => 'Formato alias hasta 16 caracteres',
+        'form_take_address_name'                   => 'Contactos',
+        'form_take_address_name_message'           => 'Formato de contacto entre 2 y 16 caracteres',
+        'form_take_address_tel'                    => 'Número de teléfono de contacto',
+        'form_take_address_tel_message'            => 'Por favor, rellene el número de contacto.',
+        'form_take_address_address'                => 'Dirección detallada',
+        'form_take_address_address_message'        => 'Formato de dirección detallado entre 1 y 80 caracteres',
+        // 域名绑定语言
+        'form_domain_multilingual_domain_name'     => 'Nombre de dominio',
+        'form_domain_multilingual_domain_message'  => 'Por favor, rellene el nombre de dominio',
+        'form_domain_multilingual_select_message'  => 'Por favor, elija el idioma correspondiente al nombre de dominio',
+        'form_domain_multilingual_add_title'       => 'Añadir nombre de dominio',
     ],
 
     // 后台配置信息
@@ -368,6 +374,7 @@ return [
             'user_placeholder'  => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
             'name'              => 'Contactos',
             'tel'               => 'Número de teléfono de contacto',
+            'title'             => 'Título',
             'content'           => 'Contenido',
             'reply'             => 'Contenido de la respuesta',
             'is_show'           => 'Si se muestra',
@@ -478,6 +485,20 @@ return [
         'base_nav_list'                         => [
             ['name' => 'Configuración básica', 'type' => 'index'],
             ['name' => 'APP / applet', 'type' => 'app'],
+        ],
+        'user_base_popup_title'                 => 'Consejos de ventana emergente de información básica del usuario',
+        'user_onekey_bind_mobile_tips_list'     => [
+            '1. Obtenga la cuenta actual de la Plataforma de applets o el número de teléfono móvil de esta máquina para iniciar sesión con un solo clic, y actualmente solo admite [applet de wechat, applet de baidu, applet de titulares]',
+            '2. La Dependencia requiere abrir el "teléfono obligatorio" válido',
+            '3. Algunas plataformas de applets pueden necesitar solicitar permisos, por favor solicite de acuerdo con los requisitos de la Plataforma de applets antes de abrirlos en consecuencia.',
+        ],
+        'user_address_platform_import_tips_list'=> [
+            '1. Obtiene la dirección de recepción de la cuenta de aplicación de la Plataforma de applets actual, y actualmente solo admite [applets]',
+            '2. Después de confirmar la importación, se añade directamente a la dirección de recepción del usuario del sistema.',
+            '3. Algunas plataformas de applets pueden necesitar solicitar permisos, por favor solicite de acuerdo con los requisitos de la Plataforma de applets antes de abrirlos en consecuencia.',
+        ],
+        'user_base_popup_top_tips_list'         => [
+            '1. En la actualidad, solo la Plataforma de applets de Wechat autoriza automáticamente el inicio de sesión sin apodos de usuario e información de avatar.',
         ],
     ],
 
@@ -1042,6 +1063,7 @@ return [
         'no_data_store_to_text'                 => 'Ir a la tienda de aplicaciones para seleccionar los sitios ricos en plug - ins > >',
         'plugins_category_title'                => 'Clasificación de aplicaciones',
         'plugins_category_admin_title'          => 'Gestión clasificada',
+        'plugins_menu_control_title'            => 'Menú izquierdo',
     ],
 
     // 插件分类

@@ -105,7 +105,7 @@ class UserService
                 $platform = Db::name('UserPlatform')->where(['user_id'=>array_column($data, 'id')])->select()->toArray();
                 if(!empty($platform))
                 {
-                    $common_platform_type = MyLang('common_platform_type');
+                    $common_platform_type = MyConst('common_platform_type');
                     foreach($platform as $v)
                     {
                         if(!array_key_exists($v['user_id'], $platform_data))
@@ -127,8 +127,8 @@ class UserService
             }
 
             // 开始处理数据
-            $common_gender_list = MyLang('common_gender_list');
-            $common_user_status_list = MyLang('common_user_status_list');
+            $common_gender_list = MyConst('common_gender_list');
+            $common_user_status_list = MyConst('common_user_status_list');
             foreach($data as &$v)
             {
                 // 生日
@@ -355,7 +355,7 @@ class UserService
         }
         if(!in_array($user['status'], [0,1]))
         {
-            $common_user_status_list = MyLang('common_user_status_list');
+            $common_user_status_list = MyConst('common_user_status_list');
             if(isset($common_user_status_list[$user['status']]))
             {
                 return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
@@ -566,13 +566,13 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
-                'checked_data'      => array_column(MyLang('common_gender_list'), 'id'),
+                'checked_data'      => array_column(MyConst('common_gender_list'), 'id'),
                 'error_msg'         => MyLang('common_service.user.save_gender_range_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
-                'checked_data'      => array_column(MyLang('common_user_status_list'), 'id'),
+                'checked_data'      => array_column(MyConst('common_user_status_list'), 'id'),
                 'error_msg'         => MyLang('common_service.user.save_status_range_error_tips'),
             ],
             [
@@ -852,7 +852,7 @@ class UserService
             }
             if(isset($user['gender']))
             {
-                $user['gender_text'] = MyLang('common_gender_list')[$user['gender']]['name'];
+                $user['gender_text'] = MyConst('common_gender_list')[$user['gender']]['name'];
             }
             if(isset($user['birthday']))
             {
@@ -1081,7 +1081,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => MyLang('login_type_error_tips'),
             ],
             [
@@ -1209,7 +1209,7 @@ class UserService
         // 用户状态
         if(in_array($user['status'], [2,3]))
         {
-            return DataReturn(MyLang('common_user_status_list')[$user['status']]['tips'], -10);
+            return DataReturn(MyConst('common_user_status_list')[$user['status']]['tips'], -10);
         }
 
         // 用户登录前钩子
@@ -1357,7 +1357,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
                 'error_msg'         => MyLang('register_type_error_tips'),
             ],
             [
@@ -1692,7 +1692,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => MyLang('login_type_error_tips'),
             ],
         ];
@@ -1790,7 +1790,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
                 'error_msg'         => MyLang('register_type_error_tips'),
             ],
         ];
@@ -2129,7 +2129,6 @@ class UserService
             'city',
             'county',
             'address',
-            'upd_time',
         ];
         $data = [];
         foreach($fields as $k)
@@ -2157,8 +2156,7 @@ class UserService
         }
 
         // 更新用户信息
-        $data['upd_time'] = time();
-        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
+        if(self::UserUpdateHandle($data, $params['user']['id'], $params))
         {
             // 重新获取用户信息
             $user = self::UserHandle(self::UserInfo('id', $params['user']['id']));
@@ -2390,7 +2388,7 @@ class UserService
     {
         $field = null;
         $value = null;
-        $fields_arr = array_column(MyLang('common_appmini_type'), 'value');
+        $fields_arr = array_column(MyConst('common_appmini_type'), 'value');
         foreach($fields_arr as $type)
         {
             $openid = $type.'_openid';
@@ -2635,7 +2633,7 @@ class UserService
         $body_html = [];
 
         // 注册成功后钩子
-        $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
+        $user = self::UserHandle(self::UserInfo('id', $user_id, 'id,number_code,system_type,status,username,nickname,mobile,email,gender,avatar,province,city,county,birthday,add_time'));
         $hook_name = 'plugins_service_user_register_end';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
@@ -2829,7 +2827,7 @@ class UserService
         ];
 
         // 是否小程序请求
-        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyLang('common_appmini_type'));
+        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyConst('common_appmini_type'));
 
         // 手机号码获取用户信息
         $method = self::UserUniqueMethod();

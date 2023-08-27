@@ -132,7 +132,7 @@ class RefundLog
                         'form_type'         => 'select',
                         'form_name'         => 'refundment',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_order_aftersale_refundment_list'),
+                        'data'              => MyConst('common_order_aftersale_refundment_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -215,7 +215,7 @@ class RefundLog
         if(!empty($value))
         {
             // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

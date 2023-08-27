@@ -145,8 +145,12 @@ class StoreService
         }
 
         // 保存商店帐号信息
-        $params['common_store_password'] = htmlspecialchars_decode($params['common_store_password']);
-        $ret = ConfigService::ConfigSave($params);
+        // 处理转义符号并加密
+        $save_data = [
+            'common_store_accounts' => $params['common_store_accounts'],
+            'common_store_password' => Authcode(htmlspecialchars_decode($params['common_store_password']), 'ENCODE'),
+        ];
+        $ret = ConfigService::ConfigSave($save_data);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -154,6 +158,31 @@ class StoreService
 
         // 绑定处理
         return self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password']);
+    }
+
+    /**
+     * 账号数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-08-17
+     * @desc    description
+     */
+    public static function AccountsData()
+    {
+        // 数据库配置中读取
+        $accounts = MyC('common_store_accounts');
+        $password = MyC('common_store_password');
+
+        // 存在密码则解密
+        if(!empty($password))
+        {
+            $password = Authcode($password, 'DECODE');
+        }
+        return [
+            'accounts' => $accounts,
+            'password' => $password,
+        ];
     }
 
     /**
@@ -169,13 +198,11 @@ class StoreService
     public static function SiteStoreAccountsBindHandle($accounts = '', $password = '')
     {
         // 帐号信息、站点初始化信息接口、帐号信息可以为空
-        if(empty($accounts))
+        if(empty($accounts) || empty($password))
         {
-            $accounts = MyC('common_store_accounts');
-        }
-        if(empty($password))
-        {
-            $password = MyC('common_store_password');
+            $user = self::AccountsData();
+            $accounts = $user['accounts'];
+            $password = $user['password'];
         }
 
         // 获取信息
@@ -203,11 +230,10 @@ class StoreService
     public static function SiteInspectUpgrade($params = [])
     {
         // 帐号信息
-        $accounts = MyC('common_store_accounts');
-        $password = MyC('common_store_password');
+        $user = self::AccountsData();
 
         // 获取信息
-        return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_inspect_upgrade_url'));
+        return self::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_inspect_upgrade_url'));
     }
 
     /**
@@ -228,9 +254,8 @@ class StoreService
         }
 
         // 帐号信息
-        $accounts = MyC('common_store_accounts');
-        $password = MyC('common_store_password');
-        if(empty($accounts) || empty($password))
+        $user = self::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
         {
             return DataReturn(MyLang('store_account_not_bind_tips'), -300);
         }
@@ -243,7 +268,7 @@ class StoreService
             'plugins_ver'       => $params['ver'],
             'plugins_config'    => $params['config'],
         ];
-        return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_legal_check_url'), $request_params);
+        return self::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_plugins_legal_check_url'), $request_params);
     }
 
     /**
@@ -260,15 +285,14 @@ class StoreService
         if(!empty($params) && !empty($params['plugins_type']) && !empty($params['plugins_data']) && is_array($params['plugins_data']))
         {
             // 帐号信息
-            $accounts = MyC('common_store_accounts');
-            $password = MyC('common_store_password');
-            if(empty($accounts) || empty($password))
+            $user = self::AccountsData();
+            if(empty($user['accounts']) || empty($user['password']))
             {
                 return DataReturn(MyLang('store_account_not_bind_tips'), -300);
             }
 
             // 获取更新信息
-            return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_upgrade_info_url'), $params);
+            return self::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_plugins_upgrade_info_url'), $params);
         }
         return DataReturn(MyLang('plugins_no_data_tips'), 0);
     }
@@ -284,8 +308,9 @@ class StoreService
      * @param   [string]          $password [密码]
      * @param   [string]          $url      [请求地址]
      * @param   [array]           $params   [额外参数]
+     * @param   [array]           $data_type[请求数据类型]
      */
-    public static function RemoteStoreData($accounts, $password, $url, $params = [])
+    public static function RemoteStoreData($accounts, $password, $url, $params = [], $data_type = 0)
     {
         // http状态验证
         $key = 'cache_store_url_http_code';
@@ -325,7 +350,7 @@ class StoreService
             'php_sapi_name' => php_sapi_name(),
             'client_date'   => date('Y-m-d H:i:s'), 
         ];
-        $ret = CurlPost($url, array_merge($data, $params));
+        $ret = CurlPost($url, array_merge($data, $params), $data_type);
         if($ret['code'] != 0)
         {
             // 网络不通

@@ -12,7 +12,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
             <!-- 基础 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
-                        <label>{{$data.home_index_banner_left_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_left_status.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_banner_left_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_left_status.describe}}</span></label>
                         <select name="{{$data.home_index_banner_left_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required>
                             {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -28,7 +28,7 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>{{$data.home_index_banner_right_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_right_status.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_banner_right_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_right_status.describe}}</span></label>
                         <select name="{{$data.home_index_banner_right_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required>
                             {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -37,19 +37,19 @@
                     </div>
 
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_data_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_data_type.describe}}</span></label>
-                        <select name="{{$data.home_index_floor_data_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_data_type.error_tips}}">
-                            {{foreach $common_site_floor_data_type_list as $k=>$v}}
-                                <option value="{{$k}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
+                        <label class="am-block">{{$data.home_index_floor_data_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_data_type.describe}}</span></label>
+                        {{foreach $common_site_floor_data_type_list as $k=>$v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" name="{{$data.home_index_floor_data_type.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_data_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
                         <div class="am-alert">
                             {{:MyLang('site.site_setup_layout_tips')}}<a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-margin-left-sm">{{:MyLang('site.site_setup_layout_button_name')}}</a>
                         </div>
                     </div>
 
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_left_top_category.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_top_category.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_floor_left_top_category.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_top_category.describe}}</span></label>
                         {{if !empty($goods_category_list)}}
                             <ul class="am-list am-list-static am-list-border am-margin-bottom-0">
                                 {{foreach $goods_category_list as $category}}
@@ -58,13 +58,13 @@
                                             <span>{{$category.name}}</span>
                                             <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
                                         </p>
-                                        <select name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" class="am-radius chosen-select" multiple="multiple" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}">
-                                            {{if !empty($category['items'])}}
-                                                {{foreach $category.items as $v}}
-                                                    <option value="{{$v.id}}" {{if !empty($category['config_category_ids']) and in_array($v['id'], $category['config_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
-                                                {{/foreach}}
-                                            {{/if}}
-                                        </select>
+                                        {{if !empty($category['items'])}}
+                                            {{foreach $category.items as $v}}
+                                                <label class="am-checkbox-inline">
+                                                    <input type="checkbox" name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" value="{{$v.id}}" {{if !empty($category['config_category_ids']) and in_array($v['id'], $category['config_category_ids'])}}checked{{/if}} data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                                </label>
+                                            {{/foreach}}
+                                        {{/if}}
                                     </li>
                                 {{/foreach}}
                             </ul>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
                         {{if !empty($goods_category_list)}}
                             <ul class="am-list am-list-static am-list-border am-margin-bottom-0">
                                 {{foreach $goods_category_list as $category}}
@@ -103,13 +103,13 @@
             </div>
 
             <!-- 自动模式 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('site.base_item_site_auto_mode_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
                             <span class="am-input-group-btn">
@@ -125,12 +125,12 @@
                     </div>
 
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
-                        <select name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}">
-                            {{foreach $goods_order_by_type_list as $k=>$v}}
-                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
+                        <label class="am-block">{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
+                        {{foreach $common_goods_order_by_type_list as $k=>$v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
                         {{if is_array(MyLang('site.goods_auto_mode_order_by_tips_list'))}}
                             <div class="am-alert am-alert-warning" data-am-alert>
                                 <button type="button" class="am-close">&times;</button>
@@ -139,24 +139,24 @@
                         {{/if}}
                     </div>
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
-                        <select name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}">
-                            {{foreach $goods_order_by_rule_list as $k=>$v}}
-                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
+                        <label class="am-block">{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
+                        {{foreach $common_goods_order_by_rule_list as $k=>$v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
                     </div>
                 </div>
             </div>
 
             <!-- 手动模式 -->
-            <div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('site.base_item_site_manual_mode_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
+                        <label class="am-block">{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
                         {{if is_array(MyLang('site.goods_manual_mode_max_tips_list'))}}
                             <div class="am-alert am-alert-warning" data-am-alert>
                                 <button type="button" class="am-close">&times;</button>
@@ -200,10 +200,13 @@
                 </div>
             </div>
 
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <input type="hidden" name="view_type" value="{{$view_type}}" />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
             </div>
         </form>
         <!-- form end -->
@@ -212,7 +215,7 @@
 <!-- right content end  -->
 
 <!-- 商品添加弹窗 -->
-<div class="am-popup" id="siteset-goods-popup">
+<div class="am-popup am-radius" id="siteset-goods-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
             <h4 class="am-popup-title">{{:MyLang('site.add_goods_title')}}</h4>
@@ -241,7 +244,7 @@
                             {{/foreach}}
                         {{/if}}
                     </select>
-                    <input type="text" placeholder="{{:MyLang('site.popup_form_item_goods_placeholder')}}" class="am-radius forth-selection-form-keywords" />
+                    <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
                     <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> {{:MyLang('search_title')}}</button>
                 </div>
 

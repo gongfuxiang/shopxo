@@ -1,0 +1,22 @@
+{{if !empty($home_seo_site_title)}}
+    <div class="am-flex am-flex-items-center am-flex-justify-between am-margin-bottom-main">
+        <h1 class="user-center-main-title am-text-xl">
+            {{if empty($module_data['title'])}}
+                {{if empty($user_center_main_title)}}
+                    {{if stripos($home_seo_site_title, ' - ') heq false}}
+                        {{$home_seo_site_title}}
+                    {{else /}}
+                        {{:explode(' - ', $home_seo_site_title)[0]}}
+                    {{/if}}
+                {{else /}}
+                    {{$user_center_main_title}}
+                {{/if}}
+            {{else /}}
+                {{$module_data.title}}
+            {{/if}}
+        </h1>
+        {{if !empty($module_data['operate_url']) and !empty($module_data['operate_name'])}}
+            <a href="{{$module_data['operate_url']}}" class="am-text-sm am-color-main {{if isset($module_data['operate_icon'])}}{{$module_data['operate_icon']}}{{/if}}"> {{$module_data['operate_name']}}</a>
+        {{/if}}
+    </div>
+{{/if}}

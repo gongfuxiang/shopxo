@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Center;
 use app\service\SeoService;
 use app\service\ApiService;
 use app\service\AnswerService;
@@ -21,7 +22,7 @@ use app\service\AnswerService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Answer extends Common
+class Answer extends Center
 {
     /**
      * 构造方法
@@ -35,9 +36,6 @@ class Answer extends Common
     {
         // 调用父类前置方法
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
     /**
@@ -84,7 +82,7 @@ class Answer extends Common
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
     }

@@ -29,9 +29,9 @@
                     <p>{{:MyLang('pluginsadmin.base_top_tips_one')}}</p>
                     <p>
                         <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
-                        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-cog submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</button>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</button>
+                        <a href="javascript:;" class="am-margin-left am-icon-cog submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</a>
+                        <a href="javascript:;" class="am-margin-left am-icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</a>
+                        <a href="javascript:;" class="am-margin-left-sm am-icon-close submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
                     </p>
                     {{if empty($site_store_info) or empty($site_store_info['user'])}}
                         <p>
@@ -45,13 +45,13 @@
                     <!-- 插件分类 -->
                     <div class="plugins-category-nav am-padding-vertical-xs">
                         <strong>{{:MyLang('pluginsadmin.plugins_category_title')}}</strong>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-margin-left-sm">{{:MyLang('all_title')}}</button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-sm">{{:MyLang('all_title')}}</button>
                         {{if !empty($plugins_categosy_list)}}
                             {{foreach $plugins_categosy_list as $cv}}
-                                <button type="button" class="am-btn am-btn-default am-radius am-margin-left-sm" data-value="{{$cv.id}}">{{$cv.name}}</button>
+                                <button type="button" class="am-btn am-btn-default am-radius am-btn-xs am-margin-left-sm" data-value="{{$cv.id}}">{{$cv.name}}</button>
                             {{/foreach}}
                         {{/if}}
-                        <a href="javascript:;" class="am-fr am-margin-top-xs am-icon-edit submit-popup" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-full="1" data-full-max="1" data-class="plugins-category-save-popup"> {{:MyLang('pluginsadmin.plugins_category_admin_title')}}</a>
+                        <a href="javascript:;" class="am-fr am-margin-top-xs am-icon-list-ul submit-popup" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-full="1" data-full-max="1" data-class="plugins-category-save-popup"> {{:MyLang('pluginsadmin.plugins_category_admin_title')}}</a>
                     </div>
 
                     <!-- 已安装 -->
@@ -74,9 +74,10 @@
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="{{:MyLang('edit_title')}}"></a>
                                                 <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="{{:MyLang('download_title')}}"></a>
+                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cloud-upload submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}" title="{{:MyLang('upload_title')}}"></button>
                                             {{/if}}
 
-                                            <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" data-name="{{$v.name}}" data-key="{{$v.plugins}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="{{:MyLang('setup_title')}}"></a>
+                                            <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" data-name="{{$v.name}}" data-key="plugins-{{$v.plugins}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="{{:MyLang('setup_title')}}"></a>
                                             
                                             <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="{{:MyLang('pluginsadmin.uninstall_confirm_tips')}}" title="{{:MyLang('uninstall_title')}}"></button>
 
@@ -88,20 +89,37 @@
 
                                             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-arrows submit-move am-hide" title="{{:MyLang('sort_title')}}"></button>
 
-                                            {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']]) and $upgrade_info[$v['plugins']]['version_new'] neq $v['version']}}
-                                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
+                                            {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']])}}
+                                                {{if isset($upgrade_info[$v['plugins']]['version_new']) and version_compare($upgrade_info[$v['plugins']]['version_new'], $v['version'], '>')}}
+                                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
+                                                {{/if}}
+                                                {{if !empty($upgrade_info[$v['plugins']]['version_main']) and $upgrade_info[$v['plugins']]['version_main'] neq $v['version']}}
+                                                    <span class="am-fr am-text-danger am-margin-top-sm">v{{$upgrade_info[$v['plugins']]['version_main']}}</span>
+                                                {{/if}}
                                             {{/if}}
                                         </div>
-                                        {{if !empty($plugins_categosy_list)}}
-                                            <div class="plugins-category-item am-hide">
-                                                <select class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}">
-                                                    <option value="0">{{:MyLang('please_select_tips')}}</option>
-                                                    {{foreach $plugins_categosy_list as $cv}}
-                                                        <option value="{{$cv.id}}" {{if isset($v['plugins_category_id']) and $cv['id'] eq $v['plugins_category_id']}}selected{{/if}}>{{$cv.name}}</option>
-                                                    {{/foreach}}
-                                                </select>
-                                            </div>
-                                        {{/if}}
+                                        <div class="plugins-right-top-container am-hide">
+                                            {{if !empty($left_menu)}}
+                                                <div class="am-inline-block chosen-select-item">
+                                                    <select class="am-radius chosen-select" name="plugins_menu_control" data-placeholder="{{:MyLang('pluginsadmin.plugins_menu_control_title')}}">
+                                                        <option value="">{{:MyLang('pluginsadmin.plugins_menu_control_title')}}</option>
+                                                        {{foreach $left_menu as $nv}}
+                                                            <option value="{{$nv.control}}" {{if isset($v['plugins_menu_control']) and $v['plugins_menu_control'] eq strtolower($nv['control'])}}selected{{/if}}>{{$nv.name}}</option>
+                                                        {{/foreach}}
+                                                    </select>
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($plugins_categosy_list)}}
+                                                <div class="am-inline-block chosen-select-item">
+                                                    <select class="am-radius chosen-select" name="plugins_category_id" data-placeholder="{{:MyLang('pluginsadmin.plugins_category_title')}}">
+                                                        <option value="">{{:MyLang('pluginsadmin.plugins_category_title')}}</option>
+                                                        {{foreach $plugins_categosy_list as $cv}}
+                                                            <option value="{{$cv.id}}" {{if isset($v['plugins_category_id']) and $cv['id'] eq $v['plugins_category_id']}}selected{{/if}}>{{$cv.name}}</option>
+                                                        {{/foreach}}
+                                                    </select>
+                                                </div>
+                                            {{/if}}
+                                        </div>
                                     </div>
                                 </li>
                             {{/if}}
@@ -140,6 +158,12 @@
                                         </div>
                                         <div class="desc">{{$v.desc}}</div>
                                         <div class="operation">
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="{{:MyLang('edit_title')}}"></a>
+                                                <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="{{:MyLang('download_title')}}"></a>
+                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cloud-upload submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}" title="{{:MyLang('upload_title')}}"></button>
+                                            {{/if}}
+
                                             <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}" title="{{:MyLang('delete_title')}}"></button>
 
                                             <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/install')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="{{:MyLang('install_confirm_tips')}}" title="{{:MyLang('install_title')}}"></button>
@@ -193,7 +217,7 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

@@ -1,0 +1,161 @@
+<!-- 九宫格 -->
+{{if !empty($module_data['goods_list']) and is_array($module_data['goods_list'])}}
+    <div class="module-goods-container module-goods-grid-container module-goods-grid-base">
+        <!-- 基础导航 -->
+        {{if !empty($module_data['base_nav'])}}
+            <div class="am-container">
+                <div class="base-nav am-nbfc">
+                    {{if !empty($module_data['base_nav']['title'])}}
+                        <p class="base-nav-title am-title-left-border">{{$module_data.base_nav.title}}</p>
+                    {{/if}}
+                    {{if !empty($module_data['base_nav']['vice_title'])}}
+                        <p class="base-nav-desc">{{$module_data.base_nav.vice_title}}</p>
+                    {{/if}}
+                    {{if !empty($module_data['base_nav']['keywords_arr'])}}
+                        <div class="base-nav-keywords">
+                            {{foreach $module_data.base_nav.keywords_arr as $kdv}}
+                                <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($kdv)])}}" target="_blank">{{$kdv}}</a>
+                            {{/foreach}}
+                        </div>
+                    {{/if}}
+                    {{if !empty($module_data['base_nav']['url'])}}
+                        <span class="base-nav-more">
+                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="am-icon-angle-right"></i></a>
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+        <!-- 列表 -->
+        <ul class="
+            am-avg-sm-{{if empty($module_data['sm'])}}2{{else /}}{{$module_data.sm}}{{/if}} 
+            am-avg-md-{{if empty($module_data['md'])}}3{{else /}}{{$module_data.md}}{{/if}} 
+            am-avg-lg-{{if empty($module_data['lg'])}}5{{else /}}{{$module_data.lg}}{{/if}} ">
+            {{foreach $module_data.goods_list as $v}}
+                <li>
+                    <div class="item am-padding-bottom-xs am-radius am-shadow {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}item-type-btn{{/if}}">
+                        <!-- 商品信息顶部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_module_goods_inside_top</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_module_goods_inside_top';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v, 'module'=>'grid-base', 'type'=>empty($module_data['type']) ? '' : $module_data['type']]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+                        <a href="{{$v.goods_url}}" target="_blank" class="am-block goods-info">
+                            <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images am-radius am-images-scale" />
+                        </a>
+
+                        <!-- 商品信息售价顶部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_module_goods_inside_price_top</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_module_goods_inside_price_top';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v, 'module'=>'grid-base', 'type'=>empty($module_data['type']) ? '' : $module_data['type']]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+                        {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}
+                            <div class="type-btn">
+                                <p class="am-text-truncate-2 goods-title am-padding-horizontal-sm">
+                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title}}</a>
+                                </p>
+                                <div class="item-bottom am-flex am-flex-justify-between am-gap-1 am-flex-items-end am-padding-sm">
+                                    <div class="price-content">
+                                        {{if isset($module_data['original_price_key'])}}
+                                            {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v[$module_data['original_price_key']]) and $v[$module_data['original_price_key']] gt 0}}
+                                                <p class="original-price am-text-truncate">{{$currency_symbol}}{{$v[$module_data['original_price_key']]}}</p>
+                                            {{/if}}
+                                        {{else/}}
+                                            {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                                <p class="original-price am-text-truncate">{{$currency_symbol}}{{$v.min_original_price}}</p>
+                                            {{/if}}
+                                        {{/if}}
+                                        <p class="am-text-truncate price am-text-truncate am-font-weight am-text-lg am-text-left">
+                                            {{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}
+                                                {{$currency_symbol}}
+                                            {{/if}}
+                                            {{if isset($module_data['price_key'])}}
+                                                {{if isset($v[$module_data['price_key']])}}
+                                                    {{$v[$module_data['price_key']]}}
+                                                {{/if}}
+                                            {{else/}}
+                                                {{$v.min_price}}
+                                            {{/if}}
+                                            {{if isset($module_data['price_unit'])}}
+                                                {{$module_data['price_unit']}}
+                                            {{/if}}
+                                        </p>
+                                    </div>
+                                    <a class="am-btn {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}am-btn-default{{else/}}am-btn-primary{{/if}} am-radius buy-btn" href="{{$v.goods_url}}" target="_blank" {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}disabled{{/if}}>
+                                        {{if isset($module_data['button_text'])}}
+                                            {{$module_data['button_text']}}
+                                        {{else/}}
+                                            购买
+                                        {{/if}}
+                                    </a>
+                                </div>
+                            </div>
+                        {{else/}}
+                            <div class="price-content">
+                                <p class="price am-text-truncate">
+                                    <strong>{{$currency_symbol}}{{$v.min_price}}</strong>
+                                    {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                        <span class="original-price am-text-truncate">{{$currency_symbol}}{{$v.min_original_price}}</span>
+                                    {{/if}}
+                                </p>
+                                <p class="am-text-truncate-2-md goods-title">
+                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title}}</a>
+                                </p>
+                            </div>
+                        {{/if}}
+
+                        <!-- 商品信息底部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_module_goods_inside_bottom</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_module_goods_inside_bottom';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v, 'module'=>'grid-base', 'type'=>empty($module_data['type']) ? '' : $module_data['type']]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+                    </div>
+                </li>
+            {{/foreach}}
+        </ul>
+    </div>
+{{/if}}

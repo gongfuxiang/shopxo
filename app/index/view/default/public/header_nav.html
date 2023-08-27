@@ -16,14 +16,9 @@
             {{/if}}
 
             <!-- 手机端导航伸展按钮 -->
-            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">{{:MyLang('toggle_navigation_title')}}</span> <span class="am-icon-bars"></span></button>
-
-            <!-- logo -->
-            <h1 class="am-topbar-brand wap-logo am-show-sm-only">
-                <a href="{{$home_url}}">
-                    <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
-                </a>
-            </h1>
+            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}">
+                <span class="iconfont icon-more-phone"></span>
+            </button>
 
             <!-- 全部分类 -->
             <a href="{{:MyUrl('index/category/index')}}" class="am-show-md-only">
@@ -91,7 +86,7 @@
                         {{foreach $nav_header as $nav}}
                             {{if empty($nav['items'])}}
                                 <li>
-                                    <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}" {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
+                                    <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
                                 </li>
                             {{else /}}
                                 <li class="am-dropdown" data-am-dropdown>
@@ -101,7 +96,7 @@
                                     <ul class="am-dropdown-content">
                                         {{foreach $nav.items as $navs}}
                                             <li>
-                                                <a href="{{$navs.url}}" title="{{$navs.name}}" {{if isset($navs['active']) and $navs['active'] eq 1}}class="active"{{/if}}>{{$navs.name}}</a>
+                                                <a href="{{$navs.url}}" {{if isset($navs['active']) and $navs['active'] eq 1}}class="active"{{/if}}>{{$navs.name}}</a>
                                             </li>
                                         {{/foreach}}
                                     </ul>
@@ -110,21 +105,6 @@
                         {{/foreach}}
                     </ul>
                 {{/if}}
-
-                <!-- 导航右侧 -->
-                <div class="am-topbar-right am-hide-sm-only">
-                    <!-- 快捷百宝箱 -->
-                    {{if MyC('home_navigation_main_quick_status') eq 1}}
-                        <div class="navigation-main-quick am-radius">
-                            <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
-                                <span class="am-icon-sliders icon"></span>
-                                <b class="am-block"></b>
-                                <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', MyLang('common.navigation_main_quick_name'), true)}}</p>
-                                <i class="am-icon-angle-down"></i>
-                            </a>
-                        </div>
-                    {{/if}}
-                </div>
 
                 <!-- 中间导航内容内部底部 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

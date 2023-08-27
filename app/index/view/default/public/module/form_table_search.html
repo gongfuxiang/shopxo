@@ -1,0 +1,108 @@
+<!-- form_table_data_search_start -->
+{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+    <tr class="form-table-search">
+        {{if !empty($params['page_size'])}}
+            <input type="hidden" name="page_size" value="{{$params.page_size}}" />
+        {{/if}}
+        {{foreach $form_table['form'] as $k=>$t}}
+            {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
+                <td class="
+                    {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
+                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
+                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
+                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                "
+                style="
+                    {{if !empty($t['width'])}}
+                        min-width: {{$t.width}}px;
+                    {{/if}}
+                "
+                >
+                    {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
+                        {{switch $t.search_config.form_type}}
+                            {{case input}}
+                                <!-- 输入 -->
+                                <input type="text" class="am-form-field am-radius" autocomplete="off" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key']])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key']])}}', trigger: 'hover focus'}"{{/if}} />
+                            {{/case}}
+                            {{case select}}
+                                <!-- 选择 -->
+                                <select name="{{$t.form_key}}"
+                                    class="chosen-select am-text-left"
+                                    data-placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}"
+                                    {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}} multiple{{/if}}
+                                    {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}}
+                                >
+                                    {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
+                                        <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
+                                            {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
+                                        </option>
+                                    {{/if}}
+                                    {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
+                                        {{foreach $t['search_config']['data'] as $k=>$v}}
+                                            {{if is_array($v)}}
+                                                <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $v[$t['search_config']['data_key']] eq $form_params[$t['form_key']]))}}selected{{/if}}>
+                                                    {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
+                                                        {{$v[$t['search_config']['data_name']]}}
+                                                    {{/if}}
+                                                </option>
+                                            {{else /}}
+                                                <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($k, $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $k eq $form_params[$t['form_key']]))}}selected{{/if}}>{{$v}}</option>
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            {{/case}}
+                            {{case section}}
+                                <!-- 区间 -->
+                                <div class="form-table-search-section">
+                                    <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_min" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_min'])}}{{$form_params[$t['form_key'].'_min']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_min'])}}{{$t.search_config.placeholder_min}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_min'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_min'])}}', trigger: 'hover focus'}"{{/if}} />
+                                    <span>-</span>
+                                    <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_max" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_max'])}}{{$form_params[$t['form_key'].'_max']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_max'])}}{{$t.search_config.placeholder_max}}{{/if}}" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_max'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_max'])}}', trigger: 'hover focus'}"{{/if}} />
+                                </div>
+                            {{/case}}
+                            {{case datetime}}
+                                <div class="form-table-search-section form-table-search-time">
+                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\');}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_start'])}}', trigger: 'hover focus'}"{{/if}} />
+                                    <span>-</span>
+                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\');}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_end'])}}', trigger: 'hover focus'}"{{/if}} />
+                                </div>
+                            {{/case}}
+                            {{case date}}
+                                <div class="form-table-search-section form-table-search-time">
+                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\',{d:-1});}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_start'])}}', trigger: 'hover focus'}"{{/if}} />
+                                    <span>-</span>
+                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\',{d:+1});}'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key'].'_end'])}}', trigger: 'hover focus'}"{{/if}} />
+                                </div>
+                            {{/case}}
+                            {{case ym}}
+                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius Wdate" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM'})" autocomplete="off" {{if isset($t['search_config']['is_disabled']) and $t['search_config']['is_disabled'] eq 1}} disabled{{/if}} {{if !empty($form_params) and isset($form_params[$t['form_key']])}} data-am-popover="{theme: 'sm', content: '{{:PopoverContentHandle($form_params[$t['form_key']])}}', trigger: 'hover focus'}"{{/if}} />
+                            {{/case}}
+                            {{case module}}
+                                <!-- 从模块加载自定义模块数据 -->
+                                {{if !empty($t['search_config']['template'])}}
+                                    {{if isset($t['search_config']['data'])}}
+                                        {{:ModuleInclude($t['search_config']['template'], [
+                                            'form'=>$t,
+                                            'data'=>$t['search_config']['data'],
+                                            'form_name_key'=>$t['form_key'],
+                                            'params'=>isset($form_params) ? $form_params : [],
+                                        ])}}
+                                    {{else /}}
+                                        {{:ModuleInclude($t['search_config']['template'], [
+                                            'form'=>$t,
+                                            'data'=>[],
+                                            'form_name_key'=>$t['form_key'],
+                                            'params'=>isset($form_params) ? $form_params : [],
+                                        ])}}
+                                    {{/if}}
+                                {{/if}}
+                            {{/case}}
+                        {{/switch}}
+                    {{/if}}
+                </td>
+            {{/if}}
+        {{/foreach}}
+    </tr>
+{{/if}}
+<!-- form_table_data_search_end -->

@@ -44,7 +44,7 @@ class Goodscomments extends Base
      */
     public function Detail()
     {
-        MyViewAssign('common_goods_comments_rating_list', MyLang('common_goods_comments_rating_list'));
+        MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
         return MyView();
     }
 
@@ -62,10 +62,10 @@ class Goodscomments extends Base
             // 当前数据
             'data'                                      => $this->data_detail,
             // 静态数据
-            'common_is_show_list'                       => MyLang('common_is_show_list'),
-            'common_is_text_list'                       => MyLang('common_is_text_list'),
-            'common_goods_comments_rating_list'         => MyLang('common_goods_comments_rating_list'),
-            'common_goods_comments_business_type_list'  => MyLang('common_goods_comments_business_type_list'),
+            'common_is_show_list'                       => MyConst('common_is_show_list'),
+            'common_is_text_list'                       => MyConst('common_is_text_list'),
+            'common_goods_comments_rating_list'         => MyConst('common_goods_comments_rating_list'),
+            'common_goods_comments_business_type_list'  => MyConst('common_goods_comments_business_type_list'),
         ];
    
         // 参数
