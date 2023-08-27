@@ -5,15 +5,15 @@
     margin-top: 0 !important;
 }
 .fictitious-container li .am-u-sm-2 {
-    width: 60px;
+    width: 6rem;
     padding: 0;
 }
 .fictitious-container li .am-u-sm-10 {
-    width: calc(100% - 60px);
+    width: calc(100% - 6rem);
     padding: 0;
 }
 .fictitious-container li img {
-    max-width: 40px;
+    max-width: 4rem;
 }
 .fictitious-container li {
     border-color: #eee;
@@ -31,7 +31,7 @@
 * 取货
 */
 .form-validation-take .common-scan-submit {
-    padding: 16px 5px;
+    padding: 1.6rem 0.5rem;
     left: 0 !important;
     top: 0 !important;
 }

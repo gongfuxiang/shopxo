@@ -1,8 +1,8 @@
 .user-content-body .dl-content a {
-    color: #e7747f;
+    color: var(--color-blue);
 }
 .user-content-body .span-edit {
-    margin-left: 15px;
+    margin-left: 1.5rem;
 }
 .user-content-body img {
     vertical-align: middle;

@@ -79,7 +79,7 @@ $(function()
         $('.submit-move-setup-save').removeClass('am-hide');
         $('.submit-move-setup-cancel').removeClass('am-hide');
         $('.plugins-data-list > ul > li .submit-move').removeClass('am-hide');
-        $('.plugins-data-list > ul > li .plugins-category-item').removeClass('am-hide');
+        $('.plugins-data-list > ul > li .plugins-right-top-container').removeClass('am-hide');
     });
     $('.submit-move-setup-cancel').on('click', function()
     {
@@ -87,7 +87,7 @@ $(function()
         $('.submit-move-setup-save').addClass('am-hide');
         $('.submit-move-setup-cancel').addClass('am-hide');
         $('.plugins-data-list > ul > li .submit-move').addClass('am-hide');
-        $('.plugins-data-list > ul > li .plugins-category-item').addClass('am-hide');
+        $('.plugins-data-list > ul > li .plugins-right-top-container').addClass('am-hide');
     });
     $('.submit-move-setup-save').on('click', function()
     {
@@ -97,10 +97,12 @@ $(function()
             var id = parseInt($(this).data('id')) || 0;
             if(id > 0)
             {
+                var $right = $(this).find('.plugins-right-top-container');
                 json[k] = {
                     sort: k,
                     id: id,
-                    cid: $(this).find('.plugins-category-item select').val() || 0
+                    category_id: $right.find('select[name="plugins_category_id"]').val() || 0,
+                    menu_control: $right.find('select[name="plugins_menu_control"]').val() || '',
                 };
             }
         });
@@ -132,7 +134,7 @@ $(function()
                     $('.submit-move-setup-save').addClass('am-hide');
                     $('.submit-move-setup-cancel').addClass('am-hide');
                     $('.plugins-data-list > ul > li .submit-move').addClass('am-hide');
-                    $('.plugins-data-list > ul > li .plugins-category-item').addClass('am-hide');
+                    $('.plugins-data-list > ul > li .plugins-right-top-container').addClass('am-hide');
                     Prompt(result.msg, 'success');
                     setTimeout(function()
                     {

@@ -6922,7 +6922,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     '.view img{max-width:100%;}\n' +
                     //设置默认字体和字号
                     //font-family不能呢随便改，在safari下fillchar会有解析问题
-                    'body{font-family:sans-serif;font-size:12px;color:#333;}' +
+                    'body{font-family:sans-serif;font-size:14px;color:#333;}' +
                     //设置段落间距
                     'p{margin:5px 0;}</style>' +
                     ( options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '' ) +
@@ -14552,7 +14552,7 @@ UE.plugins['paste'] = function () {
         //trace:717 隐藏的span不能得到top
         //bk.start.innerHTML = '&nbsp;';
         bk.start.style.display = '';
-        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;white-space:nowrap;top:" +
+        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;top:" +
             //要在现在光标平行的位置加入，否则会出现跳动的问题
             domUtils.getXY(bk.start).y + 'px';
 
@@ -25893,6 +25893,7 @@ UE.ui = baidu.editor.ui = {};
         uiName: 'button',
         label: '',
         title: '',
+        className:'',
         showIcon: true,
         showText: true,
         cssRules:'',
@@ -25908,8 +25909,9 @@ UE.ui = baidu.editor.ui = {};
                 '<div id="##_state" stateful>' +
                  '<div class="%%-wrap"><div id="##_body" unselectable="on" ' + (this.title ? 'title="' + this.title + '"' : '') +
                  ' class="%%-body" onmousedown="return $$._onMouseDown(event, this);" onclick="return $$._onClick(event, this);">' +
-                  (this.showIcon ? '<div class="edui-box edui-icon"></div>' : '') +
+                  (this.showIcon ? '<div class="edui-box edui-icon sdsadasdasda"></div>' : '') +
                   (this.showText ? '<div class="edui-box edui-label">' + this.label + '</div>' : '') +
+                  (this.className ==='edui-dialog-closebutton' ? '&times;' : '') +
                  '</div>' +
                 '</div>' +
                 '</div></div>';
@@ -27165,7 +27167,6 @@ UE.ui = baidu.editor.ui = {};
                      '<div id="##_buttons" class="%%-buttons">' + buff.join('') + '</div>' +
                     '</div>';
             }
-
             return '<div id="##" class="%%"><div '+ ( !this.fullscreen ? 'class="%%"' : 'class="%%-wrap edui-dialog-fullscreen-flag"' ) +'><div id="##_body" class="%%-body">' +
                 '<div class="%%-shadow"></div>' +
                 '<div id="##_titlebar" class="%%-titlebar">' +

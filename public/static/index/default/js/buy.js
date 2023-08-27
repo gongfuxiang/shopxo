@@ -29,7 +29,7 @@ $(function()
     // 地址选择
     $('ul.address-list li').on('click', function(e)
     {
-        if($(window).width() < 640)
+        if($(window).width() < 641)
         {
             if(!$('.address').hasClass('mobile-address'))
             {
@@ -97,7 +97,7 @@ $(function()
     });
 
     // 提交订单
-    $('.nav-buy .btn-go').on('click', function()
+    $('.nav-buy .buy-submit').on('click', function()
     {
         // 0销售型, 2自提点 校验地址
         var site_type = $('.nav-buy').data('site-type') || 0;
@@ -137,7 +137,7 @@ $(function()
     });
     $('.extraction-default .extraction-address-item').on('click', function(e)
     {
-        if($(window).width() < 640)
+        if($(window).width() < 641)
         {
             $extraction_popup.modal();
         }

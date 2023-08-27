@@ -1,0 +1,3 @@
+form textarea {
+    height: calc(100vh - 30rem) !important;
+}

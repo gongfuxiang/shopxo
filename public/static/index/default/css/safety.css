@@ -6,16 +6,16 @@
 /**
  * 详情页面
  */
-.user-content-body .verify-submit-win, .user-content-body .verify-submit-win-new { margin-top: 20px; display: block; }
-.user-content-body .reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
-.user-content-body #verify-win .am-modal-bd { margin-top: 10px; }
+.user-content-body .verify-submit-win, .user-content-body .verify-submit-win-new { margin-top: 2rem; display: block; }
+.user-content-body .reg-switch-tips { font-weight: 100; font-size: 1.2rem; color: #f87689; margin-left: 2rem; }
+.user-content-body #verify-win .am-modal-bd { margin-top: 1rem; }
 .user-content-body #verify-win .am-modal-bd .base { overflow: hidden; }
-.user-content-body #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
-.user-content-body #verify-img { vertical-align: middle; border: 1px solid #ccc; }
+.user-content-body #verify-win .am-modal-bd .base .verify-tips { font-size: 1.2rem; }
+.user-content-body #verify-img { vertical-align: middle; border: 0.1rem solid #ccc; }
 
 /**
  * 协议内容
  */
 .user-content-body .document-content {
-    height: 350px;
+    height: 35rem;
 }

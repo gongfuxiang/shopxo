@@ -8,13 +8,13 @@
     color: #FF9800;
 }
 .user-content-body .panel-value {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 700;
 }
 .user-content-body .panel-tips {
     color: #ff9600;
     background: #fdf8ed;
-    padding: 3px 6px;
-    border: 1px solid #f4eadb;
-    margin-left: 10px;
+    padding: 0.3rem 0.6rem;
+    border: 0.1rem solid #f4eadb;
+    margin-left: 1rem;
 }

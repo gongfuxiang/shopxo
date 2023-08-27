@@ -1,13 +1,13 @@
 /**
  * 商品列表
  */
-.user-content-body .goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; top: 0; }
-.user-content-body .goods-detail { position: relative; min-height: 80px; }
-.user-content-body .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.user-content-body .goods-detail img { width: 8rem; height: 8rem; position: absolute; left: 0; top: 0; }
+.user-content-body .goods-detail { position: relative; min-height: 8rem; }
+.user-content-body .goods-title { display: block; max-height: 3.6rem; overflow: hidden; text-overflow: ellipsis; }
 .user-content-body .goods-title:hover { text-decoration: underline; }
-.user-content-body .goods-base {float: left; top: 0; margin-left: 85px; }
-.user-content-body .goods-attr { margin-top: 5px;  }
-.user-content-body .goods-attr li { color: #888; line-height: 16px; }
+.user-content-body .goods-base {float: left; top: 0; margin-left: 8.5rem; }
+.user-content-body .goods-attr { margin-top: 0.5rem;  }
+.user-content-body .goods-attr li { color: #888; line-height: 1.6rem; }
 
 /**
  * 列表
@@ -15,15 +15,15 @@
 @media only screen and (min-width:640px) {
     .user-content-body table tr .row-goods { width: 25%; }
     .user-content-body table tr .row-apply { width: 25%; }
-    .user-content-body table tr .row-operation { width: 85px; }
+    .user-content-body table tr .row-operation { width: 8.5rem; }
 }
 @media only screen and (max-width:640px) {
     .user-content-body table tr .row-apply { width: 50%; }
-    .user-content-body table tr .row-operation { width: 75px; }
+    .user-content-body table tr .row-operation { width: 7.5rem; }
 }
 
 .data-list .am-slider {
-    width: 100px;
-    max-height: 108px;
+    width: 10rem;
+    max-height: 10.8rem;
     overflow: hidden;
 }

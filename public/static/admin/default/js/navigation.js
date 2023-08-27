@@ -1,6 +1,7 @@
 $(function()
 {
 	// 表单初始化
+	FromInit('form.form-validation-custom');
 	FromInit('form.form-validation-article');
 	FromInit('form.form-validation-customview');
 	FromInit('form.form-validation-goods_category');

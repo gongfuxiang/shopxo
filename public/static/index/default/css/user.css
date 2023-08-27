@@ -1,122 +1,14 @@
 /**
- * 公共
+ * 底部内容处理
  */
-.my-content {
-    background-color: #FAFAFA;
+.footer-nav-content,
+.friendship-list {
+	display: none;
 }
-@media only screen and (min-width:641px) {
-    .my-content {
-        padding: 30px 0 50px 0;
-    }
-    .my-content .container-left {
-        padding-left: 5px;
-    }
-    .my-content .container-left img {
-        max-width: calc(100% - 1.5rem);
-        max-height: 100%;
-    }
-    .my-content .container-right {
-        padding-right: 5px;
-    }
-    .user-forgetpwd-container .container-left, .user-login-container .container-left {
-        min-height: 295px;
-        max-height: 375px;
-    }
+.am-footer-default,
+.am-footer-miscs > .am-container {
+	border-top: 0;
 }
-@media only screen and (min-width:1025px) {
-    .my-content .container-left {
-        padding-left: 0;
-    }
-    .my-content .container-right {
-        padding-right: 0;
-    }
-}
-@media only screen and (max-width:641px) {
-    .my-content {
-        padding: 20px 0 30px 0;
-    }
-    .user-login-container .container-right {
-        max-width: 380px;
-        float: none !important;
-        margin: 0 auto;
-    }
-}
-
-/**
- * 表单
- */
-.register-container {
-    max-width: 380px;
-}
-.user-form-container, .register-container .register-content {
-    background: rgba(0,0,0,0.15);
-    padding: 10px;
-    margin-top: 20px;
-}
-.my-content form.am-form {
-    background: #fff;
-    overflow: hidden;
-    padding: 10px 10px 15px 10px;
-}
-.my-content form.am-form .am-form-group {
-    padding: 5px 10px !important;
-}
-
-/**
- * 表单验证码
- */
-.my-content form.am-form .form-verify {
-    padding: 0;
-}
-.my-content form.am-form .form-verify a.form-verify-tips {
-    font-size: 12px;
-    text-decoration: none;
-    line-height: 30px;
-    color: #FFF;
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
-    background: rgba(0,0,0,0.5);
-    text-align: center;
-    display: none;
-    width: 102px;
-    height: 30px;
-    position: absolute;
-    z-index: 1;
-    top: -1px;
-    left: -1px;
-}
-@media only screen and (min-width:641px) {
-    .my-content form.am-form .form-verify:hover a.form-verify-tips {
-        display: block;
-    }
-}
-
-/**
- * 注册协议
- */
-.register-container .agreement {
-    margin: 10px 0;
-}
-.register-container .agreement label {
-    display: initial;
-}
-.register-container .agreement a {
-    color: #d2364c;
-}
-
-/**
- * 弹窗图片验证码
- */
-#verify-win .verify-submit-win{ margin-top: 20px; display: block; }
-#verify-win .am-modal-bd { margin-top: 10px; }
-#verify-win .am-modal-bd .base { overflow: hidden; }
-#verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
-#verify-img { vertical-align: middle; border: 1px solid #ccc; }
-
-
-/**
- * 弹层登录
- */
-.login-modal-container {
-    padding: 0;
-    background: #fff;
+.am-footer-default {
+    background: var(--body-bg-color);
 }

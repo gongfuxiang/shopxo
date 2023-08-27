@@ -7,18 +7,18 @@
 @media only screen and (min-width: 641px) {
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 200px;
+        width: 20rem;
     }
     .user-address-idcard-images ul li {
-        height: 132px;
+        height: 13.2rem;
     }
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 128px;
+        width: 12.8rem;
     }
     .user-address-idcard-images ul li {
-        height: 85px;
+        height: 8.5rem;
     }
 }

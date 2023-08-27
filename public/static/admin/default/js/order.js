@@ -37,7 +37,7 @@ $(function()
 
     // 支付操作
     var $form_pay = $('form.form-validation-pay');
-    $('.submit-pay').on('click', function()
+    $(document).on('click', '.submit-pay', function()
     {
         $form_pay.find('input[name=id]').val($(this).data('id'));
         var payment_id = parseInt($(this).data('payment-id') || 0);

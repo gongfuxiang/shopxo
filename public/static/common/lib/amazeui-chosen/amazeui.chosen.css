@@ -2,7 +2,7 @@
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    font-size: 12px;
+    font-size: 1.2rem;
     zoom: 1;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -16,11 +16,14 @@
     display: none;
     z-index: 1010;
     width: 100%;
-    border: 1px solid #bbb;
+    border: 0.1rem solid #eee;
     border-top: 0;
     background: #fff;
-    -webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
-    box-shadow: 0 4px 5px rgba(0, 0, 0, .15)
+    -webkit-box-shadow: 0 0.4rem 0.5rem rgba(0, 0, 0, .15);
+    box-shadow: 0 0.4rem 0.5rem rgba(0, 0, 0, .15);
+    border-bottom-left-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    overflow: hidden;
 }
 .chosen-container.chosen-with-drop .chosen-drop {
     display: block;
@@ -30,7 +33,7 @@
 }
 .chosen-container .search-choice .group-name,
 .chosen-container .chosen-single .group-name {
-    margin-right: 4px;
+    margin-right: 0.4rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -40,21 +43,21 @@
 .chosen-container .search-choice .group-name:after,
 .chosen-container .chosen-single .group-name:after {
     content: ":";
-    padding-left: 2px;
+    padding-left: 0.2rem;
     vertical-align: top
 }
 .chosen-container-single .chosen-single {
     position: relative;
     display: block;
     overflow: hidden;
-    padding: 0 0 0 8px;
-    height: 36px;
-    border: 1px solid #ddd;
+    padding: 0 0 0 0.8rem;
+    height: 3.6rem;
+    border: 0.1rem solid #f0f0f0;
     background-color: #fff;
     color: #444;
     text-decoration: none;
     white-space: nowrap;
-    line-height: 35px
+    line-height: 3.5rem;
 }
 .chosen-container-single .chosen-default {
     color: #999
@@ -62,20 +65,20 @@
 .chosen-container-single .chosen-single span {
     display: block;
     overflow: hidden;
-    margin-right: 26px;
+    margin-right: 2.6rem;
     text-overflow: ellipsis;
     white-space: nowrap
 }
 .chosen-container-single .chosen-single-with-deselect span {
-    margin-right: 38px
+    margin-right: 3.8rem;
 }
 .chosen-container-single .chosen-single abbr {
     position: absolute;
-    top: 10px;
-    right: 26px;
+    top: 1rem;
+    right: 2.6rem;
     display: block;
-    width: 12px;
-    height: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
     color: #999
 }
 .chosen-container-single .chosen-single abbr:before {
@@ -100,7 +103,7 @@
     top: 0;
     right: 0;
     display: block;
-    width: 18px;
+    width: 1.8rem;
     height: 100%
 }
 .chosen-container-single .chosen-single div:before {
@@ -119,13 +122,13 @@
     position: relative;
     z-index: 1010;
     margin: 0;
-    padding: 5px;
+    padding: 0.5rem;
     white-space: nowrap
 }
 .chosen-container-single .chosen-search:after {
     position: absolute;
-    right: 10px;
-    top: 15px;
+    right: 1rem;
+    top: 1.5rem;
     color: #aaa;
     display: inline-block;
     font-family: "FontAwesome", sans-serif;
@@ -138,18 +141,18 @@
     content: "\f002"
 }
 .chosen-container-single .chosen-search input[type="text"] {
-    margin: 1px 0;
-    padding: 5px 20px 5px 5px;
+    margin: 0.1rem 0;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
     width: 100%;
     height: auto;
     outline: 0;
-    border: 1px solid #ccc;
-    font-size: 1em;
+    border: 0.1rem solid #f0f0f0;
+    font-size: 1rem;
     line-height: normal;
-    border-radius: 2px
+    border-radius: 0.2rem
 }
 .chosen-container-single .chosen-drop {
-    margin-top: -1px;
+    margin-top: -0.1rem;
     -webkit-background-clip: padding-box;
     background-clip: padding-box
 }
@@ -161,17 +164,17 @@
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
-    margin: 0 4px 4px 0;
-    padding: 0 0 0 4px;
-    max-height: 240px;
+    margin: 0 0.4rem 0.4rem 0;
+    padding: 0 0 0 0.4rem;
+    max-height: 24rem;
     -webkit-overflow-scrolling: touch
 }
 .chosen-container .chosen-results li {
     display: none;
     margin: 0;
-    padding: 5px 6px;
+    padding: 0.5rem 0.6rem;
     list-style: none;
-    line-height: 15px;
+    line-height: 1.5rem;
     word-wrap: break-word;
     -webkit-touch-callout: none
 }
@@ -203,10 +206,10 @@
     color: #888
 }
 .chosen-container .chosen-results li.group-option {
-    padding-left: 18px
+    padding-left: 1.8rem
 }
 .chosen-container .chosen-results li.group-option+.group-result {
-    margin-top: 10px
+    margin-top: 1rem
 }
 .chosen-container .chosen-results li em {
     font-style: normal;
@@ -216,11 +219,11 @@
     position: relative;
     overflow: hidden;
     margin: 0;
-    padding: 3px 5px;
+    padding: 0.3rem 0.5rem;
     width: 100%;
     height: auto !important;
     height: 1%;
-    border: 1px solid #ddd;
+    border: 0.1rem solid #f0f0f0;
     background-color: #fff;
     cursor: text
 }
@@ -236,7 +239,7 @@
 .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
     margin: 0;
     padding: 0;
-    height: 25px;
+    height: 2.5rem;
     outline: 0;
     border: 0 !important;
     background: transparent !important;
@@ -250,19 +253,19 @@
 }
 .chosen-container-multi .chosen-choices li.search-choice {
     position: relative;
-    margin: 5px 5px 5px 0;
-    padding: 2px 13px 1px 2px;
-    border: 1px solid #ccc;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.2rem 1.3rem 0.1rem 0.2rem;
+    border: 0.1rem solid #ccc;
     max-width: 100%;
     background-color: #f2f2f2;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f2f2f2));
     background-image: -webkit-linear-gradient(top, #fff, #f2f2f2);
     background-image: linear-gradient(to bottom, #fff, #f2f2f2);
-    -webkit-box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, .05);
-    box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, .05);
-    border-radius: 1px;
+    -webkit-box-shadow: 0 0 0.2rem #fff inset, 0 0.1rem 0 rgba(0, 0, 0, .05);
+    box-shadow: 0 0 0.2rem #fff inset, 0 0.1rem 0 rgba(0, 0, 0, .05);
+    border-radius: 0.1rem;
     color: #333;
-    line-height: 16px;
+    line-height: 1.6rem;
     cursor: default
 }
 .chosen-container-multi .chosen-choices li.search-choice span {
@@ -270,11 +273,11 @@
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
     position: absolute;
-    top: 2px;
-    right: 0px;
+    top: 0.2rem;
+    right: 0rem;
     display: block;
-    width: 12px;
-    height: 12px
+    width: 1.2rem;
+    height: 1.2rem
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:before {
     display: inline-block;
@@ -292,8 +295,8 @@
     color: #666
 }
 .chosen-container-multi .chosen-choices li.search-choice-disabled {
-    padding-right: 5px;
-    border: 1px solid #ccc;
+    padding-right: 0.5rem;
+    border: 0.1rem solid #ccc;
     background-color: #e4e4e4;
     color: #666
 }
@@ -301,7 +304,7 @@
     background: #d4d4d4
 }
 .chosen-container-multi .chosen-choices li.search-choice-focus .search-choice-close {
-    background-position: -42px -10px
+    background-position: -4.2rem -1rem
 }
 .chosen-container-multi .chosen-results {
     margin: 0;
@@ -313,14 +316,14 @@
     cursor: default
 }
 .chosen-container-active .chosen-single {
-    border: 1px solid #3bb4f2;
-    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, .3)
+    border: 0.1rem solid #3bb4f2;
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
-    border: 1px solid #bbb;
-    -webkit-box-shadow: 0 1px 0 #fff inset;
-    box-shadow: 0 1px 0 #fff inset
+    border: 0.1rem solid #eee;
+    -webkit-box-shadow: 0 0.1rem 0 #fff inset;
+    box-shadow: 0 0.1rem 0 #fff inset;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 .chosen-container-active.chosen-with-drop .chosen-single div {
     border-left: none;
@@ -330,9 +333,11 @@
     content: "\f0d8"
 }
 .chosen-container-active .chosen-choices {
-    border: 1px solid #3bb4f2;
-    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, .3)
+    border: 0.1rem solid #3bb4f2;
+    -webkit-box-shadow: inset 0 0.1rem 0.1rem rgba(0,0,0,.075), 0 0 0.5rem rgba(59, 180, 242, 0.3);
+    box-shadow: inset 0 0.1rem 0.1rem rgba(0,0,0,.075), 0 0 0.5rem rgba(59, 180, 242, 0.3);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 .chosen-container-active .chosen-choices li.search-field input[type="text"] {
     color: #222 !important
@@ -344,4 +349,8 @@
 .chosen-disabled .chosen-single,
 .chosen-disabled .chosen-choices .search-choice .search-choice-close {
     cursor: default
+}
+select.am-field-error + .chosen-container-single .chosen-single,
+select.am-field-error + .chosen-container-multi .chosen-choices  {
+    border-color: #dd514c !important;
 }

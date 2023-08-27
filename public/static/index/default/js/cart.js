@@ -12,6 +12,7 @@ $(function()
     {
         var total_stock = 0;
         var total_price = 0.00;
+        var goods_ids = [];
         var ids = [];
         $('.am-table input[type="checkbox"]').each(function(k, v)
         {
@@ -23,13 +24,16 @@ $(function()
                 total_stock += stock;
                 total_price += stock*price;
                 ids.push($(this).val());
+                goods_ids.push($(this).parents('tr').attr('data-goods-id'))
             }
         });
         ids = ids.toString() || 0;
+        goods_ids = goods_ids.toString() || 0;
         $('.cart-nav .selected-tips strong').text(total_stock);
         $('.cart-nav .nav-total-price').text(__currency_symbol__+FomatFloat(total_price));
         $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
         $('.cart-nav .nav-delete-submit').attr('data-id', ids);
+        $('.cart-nav .nav-collect-submit').attr('data-id', goods_ids);
     }
 
     /**
@@ -39,10 +43,10 @@ $(function()
      * @version 1.0.0
      * @date    2018-10-11
      * @desc    description
-     * @param   {[object]}        self  [氮气罐对象]
+     * @param   {[object]}        self  [操作按钮对象]
      * @param   {[int]}           stock [数量]
      */
-    function CardNumberUpdate(self, stock)
+    function CartNumberUpdate(self, stock)
     {
         var id = parseInt(self.parents('tr').data('id'));
         var goods_id = parseInt(self.parents('tr').data('goods-id'));
@@ -75,7 +79,6 @@ $(function()
                 if(res.code == 0)
                 {
                     var $stock = self.parents('.stock-tag');
-                    $stock.find('input').val(res.data.stock);
                     $stock.attr('data-price', res.data.price);
                     $stock.find('input').val(res.data.stock);
                     self.parents('tr').find('.line-price').text(__currency_symbol__+res.data.price);
@@ -127,7 +130,7 @@ $(function()
             }
         }
 
-        CardNumberUpdate($(this), temp_stock);
+        CartNumberUpdate($(this), temp_stock);
     });
 
     // 输入事件
@@ -152,7 +155,7 @@ $(function()
             stock = min;
         }
         $(this).val(stock);
-        CardNumberUpdate($(this), stock);
+        CartNumberUpdate($(this), stock);
     });
 
     // 全选/反选
@@ -186,20 +189,22 @@ $(function()
         var scroll = $(document).scrollTop();
         var height = $nav.innerHeight();
         var location = scroll+$(window).height()-height;
-        var bottom = ($(window).width() < 640) ? height+'px' : '0';
-        if($(window).width() < 640)
+        var bottom = ($(window).width() < 641) ? height+'px' : '0';
+        if($(window).width() < 641)
         {
             location -= $('.mobile-navigation').innerHeight();
-            var bottom = (height-1)+'px';
+            var bottom = (height-14)+'px';
         } else {
             var bottom = 0;
         }
         if(location < nav_top)
         {
-            $nav.css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000});
+            $nav.css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000}).addClass('am-box-shadow-top am-background-white');
+            $nav.find('.am-container').addClass('am-radius-bottom-right-0 am-radius-bottom-left-0 am-radius-bottom-left-0');
             $('body').css({"padding-bottom":height+"px"});
         } else {
-            $nav.css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
+            $nav.css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"}).removeClass('am-box-shadow-top am-background-white');
+            $nav.find('.am-container').removeClass('am-radius-bottom-right-0 am-radius-bottom-left-0');
             $('body').css({"padding-bottom":"0"});
         }
     }
@@ -229,5 +234,4 @@ $(function()
             return false;
         }
     });
-
 });

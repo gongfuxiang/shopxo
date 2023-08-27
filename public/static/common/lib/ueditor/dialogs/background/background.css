@@ -96,7 +96,7 @@ div.alignment,#custom{margin-left: 23px;margin-left: 28px\9;}
 /**
  * 手机端自适应
  */
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .wrapper {
         width: calc(100% - 20px);
     }

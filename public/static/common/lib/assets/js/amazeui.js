@@ -501,7 +501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // if ($html.width() >= window.innerWidth) return;
 	  // var scrollbarWidth = window.innerWidth - $html.width();
 	  var $measure = $('<div ' +
-	  'style="width: 100px;height: 100px;overflow: scroll;' +
+	  'style="width: 10rem;height: 10rem;overflow: scroll;' +
 	  'position: absolute;top: -9999px;"></div>');
 
 	  $(document.body).append($measure);
@@ -3829,8 +3829,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.element = document.createElement('div');
 	    this.element.className = 'ath-container ath-' + ath.OS + ' ath-' + ath.OS + (ath.OSVersion + '').substr(0, 1) + ' ath-' + (ath.isTablet ? 'tablet' : 'phone');
 	    this.element.style.cssText = '-webkit-transition-property:-webkit-transform,opacity;-webkit-transition-duration:0s;-webkit-transition-timing-function:ease-out;transition-property:transform,opacity;transition-duration:0s;transition-timing-function:ease-out;';
-	    this.element.style.webkitTransform = 'translate3d(0,-' + window.innerHeight + 'px,0)';
-	    this.element.style.transform = 'translate3d(0,-' + window.innerHeight + 'px,0)';
+	    this.element.style.webkitTransform = 'translate3d(0,-' + window.innerHeight/10 + 'rem,0)';
+	    this.element.style.transform = 'translate3d(0,-' + window.innerHeight/10 + 'rem,0)';
 
 	    // add the application icon
 	    if (this.options.icon && this.applicationIcon) {
@@ -3953,10 +3953,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    this.viewport.style.width = window.innerWidth + 'px';
-	    this.viewport.style.height = window.innerHeight + 'px';
-	    this.viewport.style.left = window.scrollX + 'px';
-	    this.viewport.style.top = window.scrollY + 'px';
+	    this.viewport.style.width = window.innerWidth/10 + 'rem';
+	    this.viewport.style.height = window.innerHeight/10 + 'rem';
+	    this.viewport.style.left = window.scrollX/10 + 'rem';
+	    this.viewport.style.top = window.scrollY/10 + 'rem';
 
 	    var clientWidth = document.documentElement.clientWidth;
 
@@ -3965,7 +3965,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var screenWidth = ath.OS == 'ios' ? this.orientation == 'portrait' ? screen.width : screen.height : screen.width;
 	    this.scale = screen.width > clientWidth ? 1 : screenWidth / window.innerWidth;
 
-	    this.element.style.fontSize = this.options.fontSize / this.scale + 'px';
+	    this.element.style.fontSize = this.options.fontSize / this.scale/10 + 'rem';
 	  },
 
 	  resize: function() {
@@ -4160,8 +4160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (UI.support.animation && options.spinner &&
 	    val === 'html' && !this.hasSpinner) {
 	    options.loadingText = '<span class="am-icon-' + options.spinner +
-	      ' am-icon-spin"></span>' + options.loadingText;
-
+	      ' am-icon-spin"></span> <span>'+ options.loadingText +'</span>';
 	    this.hasSpinner = true;
 	  }
 
@@ -6521,14 +6520,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      slider.last = slider.pagingCount - 1;
 	      slider.limit = (slider.pagingCount === 1) ? 0 :
 	        (slider.vars.itemWidth > slider.w) ? (slider.itemW * (slider.count - 1)) + (slideMargin * (slider.count - 1)) : ((slider.itemW + slideMargin) * slider.count) - slider.w - slideMargin;
+
+	      slider.computedW = (slider.itemW - slider.boxPadding)/10+'rem';
+	      slider.computedM = slider.itemM/10+'rem';
 	    } else {
 	      slider.itemW = slider.w;
 	      slider.itemM = slideMargin;
 	      slider.pagingCount = slider.count;
 	      slider.last = slider.count - 1;
+
+	      slider.computedW = slider.itemW - slider.boxPadding;
+	      slider.computedM = slider.itemM;
 	    }
-	    slider.computedW = slider.itemW - slider.boxPadding;
-	    slider.computedM = slider.itemM;
 	  };
 
 	  slider.update = function(pos, action) {
@@ -7885,15 +7888,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      /* REPLACE START: _translate */
 
-	      this.scrollerStyle[utils.style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
+	      this.scrollerStyle[utils.style.transform] = 'translate(' + x/10 + 'rem,' + y/10 + 'rem)' + this.translateZ;
 
 	      /* REPLACE END: _translate */
 
 	    } else {
 	      x = Math.round(x);
 	      y = Math.round(y);
-	      this.scrollerStyle.left = x + 'px';
-	      this.scrollerStyle.top = y + 'px';
+	      this.scrollerStyle.left = x/10 + 'rem';
+	      this.scrollerStyle.top = y/10 + 'rem';
 	    }
 
 	    this.x = x;
@@ -8162,11 +8165,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // apply Modal width/height if set
 	  if (!isPopup && !this.isActions) {
 	    if (width) {
-	      style.width = parseInt(width, 10) + 'px';
+	      style.width = parseInt(width, 10)/10 + 'rem';
 	    }
 
 	    if (height) {
-	      style.height = parseInt(height, 10) + 'px';
+	      style.height = parseInt(height, 10)/10 + 'rem';
 	    }
 
 	    this.$dialog.css(style);
@@ -9100,9 +9103,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          offsetX = -this.offset.x / zoomFactor,
 	          offsetY = -this.offset.y / zoomFactor,
 	          transform3d = 'scale3d(' + zoomFactor + ', ' + zoomFactor + ',1) ' +
-	            'translate3d(' + offsetX + 'px,' + offsetY + 'px,0px)',
+	            'translate3d(' + offsetX/10 + 'rem,' + offsetY/10 + 'rem,0rem)',
 	          transform2d = 'scale(' + zoomFactor + ', ' + zoomFactor + ') ' +
-	            'translate(' + offsetX + 'px,' + offsetY + 'px)',
+	            'translate(' + offsetX/10 + 'rem,' + offsetY/10 + 'rem)',
 	          removeClone = (function() {
 	            if (this.clone) {
 	              this.clone.remove();
@@ -9448,7 +9451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    diff = diff - popLeft;
-	    // $popCaret.css({left: (popWidth / 2 - popCaretSize + diff) + 'px'});
+	    // $popCaret.css({left: (popWidth / 2 - popCaretSize + diff)/10 + 'rem'});
 
 	  } else if (popPosition === 'middle') {
 	    popLeft = triggerOffset.left - popWidth - popCaretSize;
@@ -9462,11 +9465,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      popLeft = winWidth - popWidth - 5;
 	      $popover.removeClass('am-popover-left').addClass('am-popover-right');
 	    }
-	    // $popCaret.css({top: (popHeight / 2 - popCaretSize / 2) + 'px'});
+	    // $popCaret.css({top: (popHeight / 2 - popCaretSize / 2)/10 + 'rem'});
 	  }
 
 	  // Apply position style
-	  $popover.css({top: popTop + 'px', left: popLeft + 'px'});
+	  $popover.css({top: popTop/10 + 'rem', left: popLeft/10 + 'rem'});
 	};
 
 	Popover.prototype.toggle = function() {
@@ -10069,7 +10072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	PureView.DEFAULTS = {
 	  tpl: '<div class="am-pureview am-pureview-bar-active">' +
-	  '<ul class="am-pureview-slider"></ul>' +
+	  '<ul class="am-pureview-slider" data-am-close="pureview"></ul>' +
 	  '<ul class="am-pureview-direction">' +
 	  '<li class="am-pureview-prev"><a href=""></a></li>' +
 	  '<li class="am-pureview-next"><a href=""></a></li></ul>' +
@@ -10174,8 +10177,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // Close Icon
 	  $pureview.find(options.selector.close).
 	    on('click.close.pureview.amui', function(e) {
-	      e.preventDefault();
-	      _this.close();
+	      if(e.target.tagName != 'IMG' && !$(e.target).hasClass('am-img-loaded')) {
+		      e.preventDefault();
+		      _this.close();
+		    }
 	    });
 
 	  this.$slider.hammer().on('swipeleft.pureview.amui', function(e) {
@@ -11709,7 +11714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	QRCode.prototype.createTable = function(qrCodeAlg) {
 	  //创建table节点
 	  var s = [];
-	  s.push('<table style="border:0px; margin:0px; padding:0px; border-collapse:collapse; background-color: ' +
+	  s.push('<table style="border:0rem; margin:0rem; padding:0rem; border-collapse:collapse; background-color: ' +
 	  this.options.background +
 	  ';">');
 	  // 计算每个节点的长宽；取整，防止点之间出现分离
@@ -11732,12 +11737,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  // 绘制二维码
-	  foreTd = '<td style="border:0px; margin:0px; padding:0px; width:' + tileW + 'px; background-color: ' + this.options.foreground + '"></td>',
-	    backTd = '<td style="border:0px; margin:0px; padding:0px; width:' + tileW + 'px; background-color: ' + this.options.background + '"></td>',
+	  foreTd = '<td style="border:0rem; margin:0rem; padding:0rem; width:' + tileW/10 + 'rem; background-color: ' + this.options.foreground + '"></td>',
+	    backTd = '<td style="border:0rem; margin:0rem; padding:0rem; width:' + tileW/10 + 'rem; background-color: ' + this.options.background + '"></td>',
 	    l = qrCodeAlg.getModuleCount();
 
 	  for (var row = 0; row < l; row++) {
-	    s.push('<tr style="border:0px; margin:0px; padding:0px; height: ' + tileH + 'px">');
+	    s.push('<tr style="border:0rem; margin:0rem; padding:0rem; height: ' + tileH/10 + 'rem">');
 	    for (var col = 0; col < l; col++) {
 	      s.push(qrCodeAlg.modules[row][col] ? foreTd : backTd);
 	    }
@@ -11759,7 +11764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    moduleCount = qrCodeAlg.getModuleCount(),
 	    scale = this.options.height / this.options.width,
 	    svg = '<svg xmlns="http://www.w3.org/2000/svg" '
-	      + 'width="' + this.options.width + 'px" height="' + this.options.height + 'px" '
+	      + 'width="' + this.options.width/10 + 'rem" height="' + this.options.height/10 + 'rem" '
 	      + 'viewbox="0 0 ' + moduleCount * 10 + ' ' + moduleCount * 10 * scale + '">',
 	    rectHead = '<path ',
 	    foreRect = ' style="stroke-width:0.5;stroke:' + this.options.foreground
@@ -14298,9 +14303,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  if (checkResult) {
 	    $element.css({
-	      top: offsetTop,
-	      left: this.$holder.offset().left,
-	      width: this.$holder.width()
+	      top: offsetTop/10 + 'rem',
+	      left: this.$holder.offset().left/10 + 'rem',
+	      width: this.$holder.width()/10 + 'rem'
 	    });
 
 	    /*
@@ -14325,7 +14330,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// Init code
 	$(window).on('load', function() {
-	  $('[data-am-sticky]').sticky();
+	  setTimeout(function() {
+	  	$('[data-am-sticky]').sticky();
+	  }, 100);
 	});
 
 	module.exports = Sticky;

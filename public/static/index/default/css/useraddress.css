@@ -2,41 +2,36 @@
  * 地址管理
  */
 ul.address-list li .user-base {
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
 }
 .address-operation-btn .cut {
-    padding: 0 5px;
+    padding: 0 0.5rem;
     color: #ccc;
 }
 @media only screen and (min-width: 641px) {
     ul.address-list {
         overflow: hidden;
-        margin-top: 10px;
-    }
-
-    ul.address-list li.address-default {
-        background-image: url(../images/address-peraddressbg.png);
+        margin-top: 1rem;
     }
 
     ul.address-list li {
         display: block;
-        width: calc(50% - 5px);
-        height: 130px;
+        width: calc(50% - 0.5rem);
+        height: 15rem;
         float: left;
-        background-image: url(../images/address-peraddbg.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        margin: 0 10px 10px 0;
-        padding: 10px;
+        margin: 0 1rem 1rem 0;
+        padding: 2rem;
         position: relative;
+        border: 0.1rem solid #eee;
+        border-radius: var(--border-radius)
     }
 
     .address-operation-btn {
         position: absolute;
-        bottom: 5px;
-        right: 25px;
+        bottom: 0.5rem;
+        right: 2.5rem;
         color: #282828;
         text-align: right;
     }
@@ -48,42 +43,43 @@ ul.address-list li .user-base {
 
 @media only screen and (min-width: 1025px) {
     ul.address-list li {
-        width: calc(33.33% - 7px);
+        width: calc(33.33% - 0.7rem);
     }
     
     ul.address-list li:nth-child(2n) {
-        margin-right: 10px;
+        margin-right: 1rem;
     }
     ul.address-list li:nth-child(3n) {
         margin-right: 0;
     }
 }
 
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .control .address-submit-save {
         position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
+        left: 1rem;
+        bottom: 1rem;
+        width: calc(100% - 2rem);
         z-index: 2;
     }
     .am-footer {
-        padding-bottom: 30px;
+        padding-bottom: 3rem;
     }
 
     ul.address-list li {
-        padding: 5px 0 28px 5px;
+        margin: 1rem 0;
+        padding: 2rem 1rem;
         position: relative;
     }
     ul.address-list li:not(:last-child) {
-        border-bottom: 1px solid #eee;
+        border-top: 0.1rem solid #eee;
     }
     .address-detail .phone {
         float: right;
     }
     .address-operation-btn {
         position: absolute;
-        bottom: 5px;
+        bottom: 0;
         right: 0;
         color: #282828;
         text-align: right;
@@ -92,13 +88,19 @@ ul.address-list li .user-base {
         text-decoration: none;
     }
 }
+ul.address-list li.address-default {
+    background-image: url(../images/address-peraddressbg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 0.1rem solid transparent;
+}
 
 
 /**
  * 地址添加/编辑
  */
 .my-content {
-    padding: 15px 10px;
+    padding: 1.5rem 1rem;
 }
 .user-address-idcard-images ul li {
     margin: 0;
@@ -106,18 +108,18 @@ ul.address-list li .user-base {
 @media only screen and (min-width: 641px) {
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 200px;
+        width: 20rem;
     }
     .user-address-idcard-images ul li {
-        height: 132px;
+        height: 13.2rem;
     }
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 128px;
+        width: 12.8rem;
     }
     .user-address-idcard-images ul li {
-        height: 85px;
+        height: 8.5rem;
     }
 }

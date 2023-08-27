@@ -22,7 +22,7 @@ $(function()
         }
     }
     // 支付操作
-    $('.submit-pay').on('click', function()
+    $(document).on('click', '.submit-pay', function()
     {
         PayPopupParamsInit($(this).data('id'), $(this).data('payment-id'));
         $pay_popup.modal();

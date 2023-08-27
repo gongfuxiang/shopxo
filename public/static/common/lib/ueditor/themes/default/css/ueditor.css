@@ -151,8 +151,8 @@ div.edui-box {
     -webkit-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);
     -moz-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);
     box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);
-    border-top-left-radius:2px;
-    border-top-right-radius:2px;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
 }
 
 .edui-default .edui-editor-toolbarboxouter {
@@ -407,10 +407,6 @@ div.edui-box {
     line-height: 20px;
     height: 20px;
     padding-left: 10px;
-}
-
-.edui-default .edui-state-checked .edui-menuitem-body {
-    background: url("../images/icons-all.gif") no-repeat 6px -205px;
 }
 
 .edui-default .edui-state-disabled .edui-menuitem-label {
@@ -1208,13 +1204,9 @@ div.edui-box {
     width: calc(100% + 1px);
     height: calc(100% + 1px);
     background-color: #ffffff;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    *border-right-width: 2px;
-    *border-bottom-width: 2px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
     -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -1228,47 +1220,42 @@ div.edui-box {
 }
 
 .edui-default .edui-dialog-titlebar {
-    height: 30px;
-    border-bottom: 1px solid #c6c6c6;
-    /*background: url(../images/dialog-title-bg.png) repeat-x bottom;*/
+    height: 40px;
+    line-height: 40px;
     position: relative;
     cursor: move;
-    background-color: #f5f5f5;
-    border-top-right-radius: 6px;
-    border-top-left-radius: 6px;
+    text-align: center;
+    border-bottom: 1px solid #F9F9F9;
 }
 .edui-default .edui-dialog-caption {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 30px;
     padding-left: 5px;
 }
 
 .edui-default .edui-dialog-draghandle {
-    height: 30px;
+    height: 40px;
 }
 
 .edui-default .edui-dialog-closebutton {
     position: absolute !important;
     right: 5px;
-    top: 5px;
+    top: 10px;
 }
 
 .edui-default .edui-dialog-closebutton .edui-button-body {
-    height: 20px;
+    height: 30px;
     width: 20px;
     cursor: pointer;
-    background: url("../images/icons-all.gif") no-repeat 0 -59px;
-}
-
-.edui-default .edui-dialog-closebutton .edui-state-hover .edui-button-body {
-    background: url("../images/icons-all.gif") no-repeat 0 -89px;
+    top: -11px;
+    font-size: 20px;
 }
 
 .edui-default .edui-dialog-foot {
-    height: 40px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
+    height: 50px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 .edui-default .edui-dialog-buttons {
@@ -1277,21 +1264,20 @@ div.edui-box {
 }
 
 .edui-default .edui-dialog-buttons .edui-button {
-    margin-right: 10px;
+    margin-right: 20px;
+    cursor: pointer;
 }
 
 .edui-default .edui-dialog-buttons .edui-button .edui-button-body {
-    background: url("../images/icons-all.gif") no-repeat;
-    height: 24px;
-    width: 96px;
     font-size: 12px;
-    line-height: 24px;
+    padding: 3px 20px;
     text-align: center;
     cursor: default;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
 }
-
-.edui-default .edui-dialog-buttons .edui-button .edui-state-hover .edui-button-body {
-    background: url("../images/icons-all.gif") no-repeat 0 -30px;
+.edui-default .edui-dialog-buttons .edui-button .edui-button-body:hover {
+    background: #D4D6D9;
 }
 
 .edui-default .edui-dialog iframe {
@@ -1302,9 +1288,8 @@ div.edui-box {
 }
 
 .edui-default .edui-dialog-modalmask {
-    opacity: 0.3;
     filter: alpha(opacity = 30);
-    background-color: #ccc;
+    background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     z-index: 1200;
 }
@@ -1803,7 +1788,6 @@ div.edui-box {
     height: 20px;
     width: 20px;
     float: right;
-    background: url("../images/icons-all.gif") no-repeat 10px -233px;
 }
 
 .edui-default .edui-menu-body .edui-menuitem {
@@ -1914,7 +1898,7 @@ div.edui-box {
 /**
  * 手机端自适应
  */
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .edui-default .edui-dialog {
         left: 10px !important;
         width: calc(100% - 20px) !important;

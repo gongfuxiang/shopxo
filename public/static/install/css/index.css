@@ -1,6 +1,6 @@
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
+    font-size: 1.4rem;
     line-height: 1.42857143;
     color: #333;
     background-color: #fff;
@@ -12,30 +12,30 @@ ul {
 li {
     list-style: none;
 }
-h2 {
-    margin: 0 0 5px 0;
-}
 p {
     margin: 0;
 }
+em {
+    font-style: inherit;
+}
 .inside {
     margin: 0 auto;
-    padding: 10px;
+    padding: 2rem 1rem;
 }
 .agree {
     width: 100%;
-    height: 60px;
-    line-height: 60px;
+    height: 6rem;
+    line-height: 6rem;
     text-align: center;
 }
 .ongoing-button .am-btn-secondary {
-    margin-right: 20px;
+    margin-right: 2rem;
 }
 .ongoing-button .am-btn-success {
-    margin-left: 20px;
+    margin-left: 2rem;
 }
 .am-footer {
-    border-top: 1px solid #eee;
+    border-top: 0.1rem solid #eee;
 }
 
 /**
@@ -43,104 +43,105 @@ p {
  */
 .header-nav {
     width: 100%;
-    height: 40px;
-    background: #333333;
-    color: #fff;
+    height: 5rem;
+    background: #333;
+    color: #eee;
     overflow: hidden;
 }
 .header-nav .inside {
-    height: 40px;
-    padding: 0;
+    height: 5rem;
+    padding: 0 0.5rem;
 }
 .header-nav .inside .logo-name {
-    width: 180px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 20px;
+    width: 20rem;
+    height: 5rem;
+    line-height: 5rem;
+    font-size: 2.5rem;
     float: left;
 }
-.header-nav .inside .logo-name span {
-    font-size: 12px;
-    margin-left: 2px;
+.header-nav .inside .logo-name strong {
+    color: #046ed9;
+}
+.header-nav .inside .logo-name strong em {
+    color: #f00;
+}
+.header-nav .inside .logo-name .desc {
+    font-size: 1.2rem;
+    color: #c8c8c8;
 }
 .header-nav .inside .schedule {
-    margin-left: 5px;
-    width: calc(25% - 50px);
-    height: 30px;
+    margin-left: 1rem;
+    width: calc(25% - 6rem);
+    height: 3rem;
     float: left;
-    margin-top: 8px;
+    margin-top: 1.2rem;
+    text-align: center;
+}
+.header-nav .inside .schedule li {
+    display: inline-block;
 }
 .header-nav .inside .active .number {
-    background: #008CBA !important;
+    background: #5eb95e !important;
+    color: #fff;
 }
 .header-nav .inside .active .word {
-    color: #008CBA !important;
+    color: #5eb95e !important;
+    font-weight: bold;
 }
 .header-nav .inside .schedule .number {
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
     text-align: center;
-    font-size: 12px;
+    font-size: 1.2rem;
     border-radius: 50%;
-    background: #80AAB7;
-    float: left;
+    background: #4a4a4a;
 }
 .header-nav .inside .schedule .word {
-    width: 60px;
-    height: 25px;
-    float: left;
-    line-height: 28px;
-    text-indent: 5px;
-    font-size: 12px;
+    width: 6rem;
+    height: 2.5rem;
+    line-height: 2.8rem;
+    text-indent: 0.5rem;
+    font-size: 1.2rem;
 }
-
 @media only screen and (min-width: 641px) {
     .inside {
-        max-width: 1000px;
+        max-width: 100rem;
     }
 }
-
-@media only screen and (max-width: 641px) {
-    .header-nav .inside .logo-name {
+@media only screen and (max-width: 640px) {
+    .header-nav .inside .schedule .word {
         display: none;
     }
-    .header-nav .inside .schedule .word {
-        width: 53px;
-        height: 20px;
-        line-height: 20px;
-    }
     .header-nav .inside .schedule {
-        width: 23%;
-        margin-top: 10px;
-    }
-    .header-nav .inside .schedule .number {
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
-    }
-    .header-nav .inside .schedule .word {
-        text-indent: 3px;
+        width: calc(25% - 5rem);
+        margin-left: 0;
     }
 }
 
+/**
+ * 底部导航
+ */
+.am-footer-default .am-footer-switch {
+    font-weight: initial;
+}
 
 /**
  * 协议
  */
 .agreement {
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
 }
 .agreement ul li.title {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 500;
-    margin: 30px 0 10px 0;
+    margin: 3rem 0 1rem 0;
 }
 .agreement ul li:not(.title) {
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 15px;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    margin-bottom: 1.5rem;
     color: #777;
 }
 
@@ -149,9 +150,8 @@ p {
  * 检查
  */
 .check h2 {
-    background: #eaeaea;
-    margin-bottom: 0px;
-    padding: 5px;
+    margin-bottom: 0;
+    padding: 0 0 1rem 0;
 }
 
 
@@ -160,38 +160,42 @@ p {
  */
 .success {
     text-align: center;
-    padding: 60px 0 30px 0;
+    padding: 6rem 0 3rem 0;
 }
 .success h2 {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 .success .box {
     text-align: left;
-    max-width: 360px;
+    max-width: 36rem;
     margin: 0 auto;
 }
 .success .admin-hint, .success .tips-sweet {
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
 .success .tips-sweet {
     color: #f00;
     background: #ffee5b;
-    padding: 5px 8px;
-    border: 1px solid #FF9800;
-    font-size: 12px;
+    padding: 0.5rem 0.8rem;
+    border: 0.1rem solid #FF9800;
+    font-size: 1.2rem;
 }
 .success a {
-    font-size: 16px;
+    font-size: 1.6rem;
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .success {
-        padding: 5px;
+        padding: 0.5rem;
     }
 }
 
 /**
- * 错误
+ * 表单
  */
-.error {
-    margin: 50px 0;
+form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block {
+    border-bottom: 0;
+    padding: 2rem 1rem;
+}
+form.am-form .am-form-group label {
+    font-weight: inherit;
 }

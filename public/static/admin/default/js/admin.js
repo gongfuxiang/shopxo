@@ -36,10 +36,10 @@ $(function()
         var $obj = $(this).parent().parent().find('input');
         if($obj.attr('type') == 'password')
         {
-            $(this).addClass('cr-green');
+            $(this).removeClass('am-icon-eye').addClass('am-icon-eye-slash');
             $obj.attr('type', 'text');
         } else {
-            $(this).removeClass('cr-green');
+            $(this).removeClass('am-icon-eye-slash').addClass('am-icon-eye');
             $obj.attr('type', 'password');
         }
     });

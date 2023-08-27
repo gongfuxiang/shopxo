@@ -24,11 +24,13 @@
 .tabbody .panel table td{vertical-align: middle;}
 #videoUrl {
     width: 490px;
-    height: 21px;
-    line-height: 21px;
+    height: 32px;
+    line-height: 32px;
     margin: 8px 5px;
     background: #FFF;
-    border: 1px solid #d7d7d7;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
+    margin-left: 20px;
 }
 #videoSearchTxt{margin-left:15px;background: #FFF;width:200px;height:21px;line-height:21px;border: 1px solid #d7d7d7;}
 #searchList{width: 570px;overflow: auto;zoom:1;height: 270px;}
@@ -53,35 +55,39 @@
 
 
 
-#preview{position: relative;width: 420px;padding:0;overflow: hidden; margin-left: 10px; _margin-left:5px; height: 280px;background-color: #ddd;float: left}
+#preview{position: relative;width: 420px;padding:0;overflow: hidden; margin-left: 10px; _margin-left:5px; height: 265px;background-color: #eee;float: left;border-radius: 4px;margin-top: 10px;}
 #preview .previewMsg {position:absolute;top:0;margin:0;padding:0;height:280px;width:100%;background-color: #666;}
 #preview .previewMsg span{display:block;margin: 125px auto 0 auto;text-align:center;font-size:18px;color:#fff;}
 #preview .previewVideo {position:absolute;top:0;margin:0;padding:0;height:280px;width:100%;}
 .edui-video-wrapper fieldset{
-    border: 1px solid #ddd;
+    border: 1px solid #D4D6D9;
     padding-left: 5px;
     margin-bottom: 20px;
     padding-bottom: 5px;
     width: 115px;
+    border-radius: 4px;
 }
 
-#videoInfo {width: 120px;float: left;margin-left: 10px;_margin-left:7px;}
+#videoInfo {width: 140px;float: left;margin-left: 20px;}
 fieldset{
-    border: 1px solid #ddd;
+    border: 1px solid #D4D6D9;
     padding-left: 5px;
     margin-bottom: 20px;
     padding-bottom: 5px;
-    width: 115px;
+    width: 135px;
+    border-radius: 4px;
+    margin-top: 10px;
 }
 fieldset legend{font-weight: bold;}
 fieldset p{line-height: 30px;}
 fieldset input.txt{
-    width: 65px;
+    width: 85px;
     height: 21px;
     line-height: 21px;
     margin: 8px 5px;
     background: #FFF;
-    border: 1px solid #d7d7d7;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
 }
 label.url{font-weight: bold;margin-left: 5px;color: #06c;}
 #videoFloat div{cursor:pointer;opacity: 0.5;filter: alpha(opacity = 50);margin:9px;_margin:5px;width:38px;height:36px;float:left;}
@@ -134,30 +140,21 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 
 #upload .placeholder {
     margin: 10px;
-    margin-right:0;
-    border: 2px dashed #e6e6e6;
-    *border: 0px dashed #e6e6e6;
-    height: 161px;
-    padding-top: 150px;
+    height: 142px;
+    padding-top: 180px;
     text-align: center;
-    width: 97%;
-    float: left;
     background: url(./images/image.png) center 70px no-repeat;
     color: #cccccc;
     font-size: 18px;
     position: relative;
-    top:0;
-    *margin-left: 0;
-    *left: 10px;
+    top: 0;
 }
 
 #upload .placeholder .webuploader-pick {
-    font-size: 18px;
+    font-size: 12px;
     background: #00b7ee;
     border-radius: 3px;
-    line-height: 44px;
-    padding: 0 30px;
-    *width: 120px;
+    padding: 9px 10px;
     color: #fff;
     display: inline-block;
     margin: 0 auto 20px auto;
@@ -198,12 +195,15 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 
 #upload .filelist {
     list-style: none;
-    margin: 0;
     padding: 0;
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
-    height: 285px;
+    height: 265px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1.2rem;
+    padding: 10px 3px 10px 5px;
 }
 
 #upload .filelist:after {
@@ -216,17 +216,16 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 }
 
 #upload .filelist li {
-    width: 113px;
-    height: 113px;
+    width: 124px;
+    height: 124px;
     background: url(./images/bg.png);
     text-align: center;
-    margin: 15px 0 0 20px;
-    *margin: 15px 0 0 15px;
     position: relative;
     display: block;
-    float: left;
     overflow: hidden;
     font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #f2f2f2;
 }
 
 #upload .filelist li p.log {
@@ -374,11 +373,11 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 }
 
 #upload .filelist li.filePickerBlock {
-    width: 103px;
-    height: 103px;
+    width: 124px;
+    height: 124px;
     background: url(./images/image.png) no-repeat center 12px;
-    border: 1px solid #eeeeee;
-    border-radius: 0;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
 }
 #upload .filelist li.filePickerBlock div.webuploader-pick  {
     width: 100%;
@@ -448,8 +447,7 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 
 #upload .statusBar {
     height: 45px;
-    border-bottom: 1px solid #dadada;
-    margin: 0 10px;
+    margin: 0 5px;
     padding: 0;
     line-height: 45px;
     vertical-align: middle;
@@ -457,34 +455,38 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 }
 
 #upload .statusBar .progress {
-    border: 1px solid #1483d8;
     width: 198px;
-    background: #fff;
-    height: 18px;
+    background: #BBBDBF;
+    height: 4px;
     position: absolute;
     top: 12px;
     display: none;
     text-align: center;
     line-height: 18px;
-    color: #6dbfff;
+    color: #BBBDBF;
     margin: 0 10px 0 0;
+    border-radius: 5px;
+    position: relative;
+    top: 22px;
 }
 #upload .statusBar .progress span.percentage {
     width: 0;
     height: 100%;
     left: 0;
     top: 0;
-    background: #1483d8;
+    background: #38B865;
     position: absolute;
 }
 #upload .statusBar .progress span.text {
     position: relative;
     z-index: 10;
+    right: -120px;
+    top: -8px;
 }
 
 #upload .statusBar .info {
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     color: #666666;
 }
 
@@ -496,22 +498,22 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 }
 
 #filePickerBtn {
-    display: inline-block;
     float: left;
+    display: inline-block;
 }
 #upload .statusBar .btns .webuploader-pick,
 #upload .statusBar .btns .uploadBtn,
 #upload .statusBar .btns .uploadBtn.state-uploading,
 #upload .statusBar .btns .uploadBtn.state-paused {
     background: #ffffff;
-    border: 1px solid #cfcfcf;
-    color: #565656;
-    padding: 0 18px;
+    border: 1px solid #D4D6D9;
+    color: #666;
+    padding: 0 8px;
     display: inline-block;
     border-radius: 3px;
     margin-left: 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     float: left;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -659,22 +661,23 @@ i.file-preview.file-type-psd{
 #online ul {
     display: block;
     list-style: none;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1.27rem;
+    padding: 10px 0px 10px 5px;
 }
 #online li {
-    float: left;
     display: block;
     list-style: none;
     padding: 0;
-    width: 100px;
-    height: 100px;
-    margin: 0 0 9px 9px;
-    *margin: 0 0 6px 6px;
+    width: 124px;
+    height: 124px;
     background-color: #eee;
     overflow: hidden;
     cursor: pointer;
     position: relative;
+    border-radius: 4px;
+    border: 1px solid #f2f2f2;
 }
 #online li.clearFloat {
     float: none;
@@ -685,8 +688,10 @@ i.file-preview.file-type-psd{
     margin: 0;
     padding: 0;
 }
-#online li img {
+#online li video {
     cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 #online li div.file-wrapper {
     cursor: pointer;
@@ -694,7 +699,7 @@ i.file-preview.file-type-psd{
     display: block;
     width: 111px;
     height: 111px;
-    border: 1px solid #eee;
+    border: 1px solid #D4D6D9;
     background: url("./images/bg.png") repeat;
 }
 #online li div span.file-title{
@@ -713,8 +718,8 @@ i.file-preview.file-type-psd{
 }
 #online li .icon {
     cursor: pointer;
-    width: 100px;
-    height: 100px;
+    width: 124px;
+    height: 124px;
     position: absolute;
     top: 0;
     left: 0;
@@ -723,20 +728,20 @@ i.file-preview.file-type-psd{
     background-repeat: no-repeat;
 }
 #online li .icon:hover {
-    width: 94px;
-    height: 94px;
+    width: 118px;
+    height: 118px;
     border: 3px solid #1094fa;
 }
 #online li.selected .icon {
     background-image: url(images/success.png);
     background-image: url(images/success.gif) \9;
-    background-position: 60px 60px;
+    background-position: 84px 84px;
 }
 #online li.selected .icon:hover {
-    width: 94px;
-    height: 94px;
+    width: 118px;
+    height: 118px;
     border: 3px solid #1094fa;
-    background-position: 57px 57px;
+    background-position: 81px 81px;
 }
 
 #online li .delbtn {      
@@ -756,34 +761,6 @@ i.file-preview.file-type-psd{
 #online li .delbtn:hover {
     color: #fff;
     background-color: #ef1313;
-}
-
-/**
- * 手机端自适应
- */
-@media only screen and (max-width: 641px) {
-    .wrapper {
-        width: calc(100% - 20px);
-        box-sizing:border-box;
-    }
-    #upload_left {
-        width: 100%;
-    }
-    #upload .placeholder {
-        width: calc(100% - 20px);
-    }
-    #online {
-        height: 315px;
-    }
-    #videoUrl {
-        width: calc(100vw - 92px);
-    }
-    #preview {
-        width: calc(100% - 150px);
-    }
-    .tabbody .panel.focus {
-        height: 300px;
-    }
 }
 
 /**
@@ -826,9 +803,11 @@ i.file-preview.file-type-psd{
 /**
  * 右侧小导航
  */
-.alignBar{
-    float:right;
+.alignBar {
+    float: right;
     position: relative;
+    top: -1px;
+    width: calc(100% - 210px);
 }
 
 /**
@@ -838,7 +817,7 @@ i.file-preview.file-type-psd{
     display: none;
 }
 #search-submit {
-    background: #eee;
+    background: #fff;
     font-size: 12px;
     color: #666;
     height: 25px;
@@ -846,13 +825,47 @@ i.file-preview.file-type-psd{
     cursor: pointer;
     padding-left: 15px;
     padding-right: 15px;
+    border-radius: 3px;
     vertical-align: top;
+    height: 32px!important;
 }
 #search-input {
     padding: 4px 5px;
+    width: calc(100% - 76px);
+    margin-right: 0;
 }
 #search-input, #search-submit {
-    border-radius: 3px;
-    border: 1px solid #ccc;
+    border-radius: 4px;
+    border: 1px solid #D4D6D9;
     outline: none;
+    height: 22px;
+    line-height: 22px;
+}
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 640px) {
+    .wrapper {
+        width: calc(100% - 20px);
+        box-sizing:border-box;
+    }
+    #upload_left {
+        width: 100%;
+    }
+    #upload .placeholder {
+        width: calc(100% - 20px);
+    }
+    #online {
+        height: 315px;
+    }
+    #videoUrl {
+        width: calc(100vw - 107px);
+    }
+    #preview {
+        width: calc(100% - 180px);
+    }
+    .alignBar {
+        width: calc(100% - 190px);
+    }
 }

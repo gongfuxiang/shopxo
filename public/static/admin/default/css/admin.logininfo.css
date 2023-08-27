@@ -33,7 +33,7 @@ body {
     width: 100%;
     padding-top: 5%;
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .account-pages {
         padding-top: 10%;
     }
@@ -46,7 +46,7 @@ body {
 .wrapper-page {
     margin: auto;
     position: relative;
-    max-width: 360px;
+    max-width: 36rem;
 }
 @media (max-width: 768px) {
     .wrapper-page {
@@ -54,45 +54,45 @@ body {
     }
 }
 .admin-login {
-    box-shadow: 0 0px 8px 0 rgba(0,0,0,0.06),0 1px 0px 0 rgba(0,0,0,0.02);
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
+    box-shadow: 0 0px 0.8rem 0 rgba(0,0,0,0.06),0 0.1rem 0px 0 rgba(0,0,0,0.02);
+    -webkit-border-radius: 0.5rem;
+    border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
     background-clip: padding-box;
-    margin-bottom: 20px;
-    background: rgba(255,255,255,.85);
+    margin-bottom: 2rem;
+    background: #FFFFFF;
 }
 .logo {
-    font-size: 60px;
+    font-size: 6rem;
     font-weight: 500;
     color: #0e90d2;
-    text-shadow: -1px 1px #fff;
+    text-shadow: -0.1rem 0.1rem #fff;
 }
 .admin-login form {
-    padding: 5px 10px;
+    padding: 0.5rem 1rem;
 }
 .admin-login .am-form-group {
-    padding: 5px 0 !important;
+    padding: 0.5rem 0 !important;
 }
 .admin-login .form-verify a.form-verify-tips {
-    font-size: 12px;
+    font-size: 1.2rem;
     text-decoration: none;
-    line-height: 30px;
+    line-height: 3rem;
     color: #FFF;
     filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
     background: rgba(0,0,0,0.5);
     text-align: center;
     display: none;
-    width: 102px;
-    height: 30px;
+    width: 10.2rem;
+    height: 3rem;
     position: absolute;
     z-index: 1;
-    top: -1px;
-    left: -1px;
+    top: -0.1rem;
+    left: -0.1rem;
 }
 @media only screen and (min-width: 641px) {
     .admin-login {
-        max-width: 360px;
+        max-width: 36rem;
     }
     .admin-login .form-verify:hover a.form-verify-tips {
         display: block;
@@ -104,18 +104,18 @@ body {
  */
 #verify-img {
     vertical-align:middle;
-    border:1px solid #ccc;
+    border:0.1rem solid #ccc;
 }
 #verify-win .verify-submit-win {
-    margin-top:20px;
+    margin-top:2rem;
     display:block;
 }
 #verify-win .am-modal-bd {
-    margin-top:10px;
+    margin-top:1rem;
 }
 #verify-win .am-modal-bd .base {
     overflow:hidden;
 }
 #verify-win .am-modal-bd .base .verify-tips {
-    font-size:12px;
+    font-size:1.2rem;
 }

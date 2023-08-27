@@ -23,4 +23,11 @@ $(function()
             $parents.css('height', height);
         }
     });
+
+    // 列表布局选择
+    $('.layout-styles').on('click', function()
+    {
+        var value = ($(this).data('value') || 0) == 1 ? 0 : 1;
+        window.location.href = UrlFieldReplace('layout', value);
+    });
 });

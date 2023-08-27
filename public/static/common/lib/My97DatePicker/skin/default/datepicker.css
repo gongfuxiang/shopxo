@@ -318,11 +318,15 @@
     -webkit-appearance: none;
     padding-top: 0;
     height: 1.75em;
-    width: 2.8125em;
+    width: 4em;
     border: 0;
     margin-top: 0.1875em;
-    margin-right: 0.1875em;
     background: #35baf6;
     color: #fff;
-    border-radius: 0;
+    border-radius: 0.2em;
+    cursor: pointer;
+}
+
+.WdateDiv .dpButton:not(:last-child) {
+    margin-right: 0.5em;
 }

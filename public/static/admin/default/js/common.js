@@ -28,10 +28,10 @@ function ParametersItemHtmlCreated(type, name, value)
         html += '</select>';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<input type="text" name="parameters_name[]" placeholder="'+$parameters_table.data('params-name')+'" value="'+(name || '')+'" data-validation-message="'+$parameters_table.data('params-message')+'" maxlength="160" required />';
+        html += '<input type="text" name="parameters_name[]" placeholder="'+$parameters_table.data('params-name')+'" value="'+(name || '')+'" data-validation-message="'+$parameters_table.data('params-message')+'" maxlength="160" class="am-radius" required />';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<input type="text" name="parameters_value[]" placeholder="'+$parameters_table.data('value-message')+'" value="'+(value || '')+'" maxlength="200" data-validation-message="'+$parameters_table.data('value-message')+'" />';
+        html += '<input type="text" name="parameters_value[]" placeholder="'+$parameters_table.data('value-message')+'" value="'+(value || '')+'" maxlength="200" data-validation-message="'+$parameters_table.data('value-message')+'" class="am-radius" />';
         html += '</td>';
         html += '<td class="am-text-middle">';
         html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">'+$parameters_table.data('move-top-name')+'</a> ';
@@ -65,20 +65,13 @@ function FormTableHeightHandle()
     // 表格内容
     if($('.am-table-scrollable-horizontal').length > 0)
     {
-        // 页面右侧总内容容器高度
-        var height = $('.content-right .content-top').outerHeight(true) || 0;
-        $('.content-right').css('height', 'calc(100% - '+height+'px)');
-
         // 内容高度
-        var height_top = $('.form-table-operate-top').outerHeight(true) || 0;
-        var height_bottom = $('.form-table-operate-bottom').outerHeight(true) || 0;
-        $('.am-table-scrollable-horizontal').css('height', 'calc(100% - '+(height_top+height_bottom)+'px)');
-    }
-    // 表格内容外围高度
-    if($('.form-validation-search').length > 0)
-    {
-        var height = $('.form-table-content .am-pagination').outerHeight(true) || 0;
-        $('.form-validation-search').css('height', 'calc(100% - '+height+'px)');
+        var body_top = parseInt($('.content-right > .content').css('padding-top').replace('px', '') || 0);
+        var content_top = $('.form-table-content-top').outerHeight(true) || 0;
+        var operate_top = $('.form-table-operate-top').outerHeight(true) || 0;
+        var operate_bottom = $('.form-table-operate-bottom').outerHeight(true) || 0;
+        var page = $('.form-table-content .am-pagination').outerHeight(true) || 0;
+        $('.am-table-scrollable-horizontal').css('height', 'calc(100vh - '+(body_top+content_top+operate_top+operate_bottom+page)+'px)');
     }
 }
 

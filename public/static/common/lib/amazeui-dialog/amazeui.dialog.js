@@ -191,7 +191,7 @@ dialog.popup = function(options) {
   } else {
     html.push('<div class="am-popup am-radius '+options.class+' popup-not-title">');
     html.push('<div class="am-popup-inner am-radius">');
-    html.push('<span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>');
+    html.push('<span data-am-modal-close class="am-close am-close-alt">&times;</span>');
     html.push(options.content);
   }
   html.push('</div> ');
@@ -210,12 +210,17 @@ dialog.offcanvas = function(options) {
   options = options || {};
   options.content = options.content || '正文';
   options.class = options.class || '';
+  options.isClose = options.isClose || false;
   options.onClose = options.onClose || function() {};
   options.width = ((options.width || 0) == 0) ? '' : 'width:'+options.width+'px;';
-
+  var random = 'am-offcanvas-' + Math.random().toString(36).substring(2);
   var html = [];
-  html.push('<div class="am-offcanvas am-offcanvas-popup '+options.class+'">');
+  html.push('<div id="'+random+'" class="am-offcanvas am-offcanvas-popup '+options.class+'">');
   html.push('<div class="am-offcanvas-bar am-offcanvas-bar-flip" style="'+options.width+'">');
+  // 是否需要关闭按钮
+  if(options.isClose){
+      html.push('<a class="am-close am-fr am-text-lg">&times;</a>');
+  }
   // 是否url模式
   if((options.url || null) != null)
   {
@@ -225,7 +230,13 @@ dialog.offcanvas = function(options) {
   }
   html.push('</div>');
   html.push('</div>');
+  if(options.isClose){
+    $(document).on('click', '#' + random + ' .am-offcanvas-bar > .am-close', function(){
+      $('#' + random).offCanvas('close');
+    });
+  }
   return $(html.join('')).appendTo('body').offCanvas().on('closed.offcanvas.amui', function() {
+    
       var $this = $(this);
       setTimeout(function()
       {

@@ -6,9 +6,9 @@
     box-shadow: none;
 }
 .qrcode-pay .name {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 500;
-    margin: 20px 0 10px 0;
+    margin: 2rem 0 1rem 0;
 }
 .qrcode-pay .msg {
     color: #F44336;

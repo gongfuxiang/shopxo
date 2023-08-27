@@ -1,7 +1,7 @@
 /**
  * 列表
  */.content-right table.am-table .user-info img {
-    max-width: 75px;
-    max-height: 75px;
-    margin-right: 5px;
+    max-width: 7.5rem;
+    max-height: 7.5rem;
+    margin-right: 0.5rem;
 }

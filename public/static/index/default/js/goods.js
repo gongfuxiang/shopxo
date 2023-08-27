@@ -48,6 +48,11 @@ function GoodsCommentsHtml(page)
             {
                 $('.goods-comment-content').html(res.data.data);
                 $('.goods-page-container').html(PageLibrary(res.data.total, res.data.number, page, 2));
+                
+				// 图片预览初始化
+				$.AMUI.figure.init();
+                // 图片画廊初始化
+                $.AMUI.gallery.init();
             }
 
             // 没有数据
@@ -222,7 +227,7 @@ function GoodsSpecDetailBackHandle(data)
     var inventory = parseInt(data.spec_base.inventory);
     var $input = $('#text_box');
     var $stock = $('.stock-tips .stock');
-    var $origina_price = $('.goods-original-price');
+    var $origina_price_value = $('.original-price-value');
 
     // 起购数
     var min = parseInt($input.data('original-buy-min-number'));
@@ -246,10 +251,10 @@ function GoodsSpecDetailBackHandle(data)
     // 原价
     if(data.spec_base.original_price > 0)
     {
-        $origina_price.text(__currency_symbol__+data.spec_base.original_price);
-        $origina_price.parents('.items').show();
+        $origina_price_value.text(__currency_symbol__+data.spec_base.original_price);
+        $origina_price_value.parents('.items').show();
     } else {
-        $origina_price.parents('.items').hide();
+        $origina_price_value.parents('.items').hide();
     }
 
     // 已选数量校验、超出规格数量则以规格数量为准
@@ -695,12 +700,13 @@ $(function() {
                     if(res.code == 0)
                     {
                         $this.find('.goods-favor-text').text(res.data.text);
-                        $this.find('.goods-favor-count').text('('+res.data.count+')');
                         if(res.data.status == 1)
                         {
                             $this.addClass('text-active');
+                            $this.find('i').addClass('am-icon-heart').removeClass('am-icon-heart-o');
                         } else {
                             $this.removeClass('text-active');
+                            $this.find('i').addClass('am-icon-heart-o').removeClass('am-icon-heart');
                         }
                         Prompt(res.msg, 'success');
                     } else {
@@ -847,16 +853,14 @@ $(function() {
 // 浏览器窗口实时事件
 $(window).resize(function()
 {
-    var name = document.activeElement.tagName;
-    var arr = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
-    if(arr.indexOf(name) == -1)
+    // 规格显示/隐藏处理
+    if($(window).width() < 1025)
     {
-        // 规格显示/隐藏处理
-        if($(window).width() < 1025)
+        if(parseInt(__is_mobile__ || 0) != 1)
         {
             PoptitClose();
-        } else {
-            PoptitPcShow();
         }
+    } else {
+        PoptitPcShow();
     }
 });

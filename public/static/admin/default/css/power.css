@@ -2,7 +2,7 @@
 	list-style-type: none;
 }
 .tree-list li .item-content {
-	border:1px dashed #ceecff;
+	border:0.1rem dashed #ceecff;
 	background: #ddf2ff;
 }
 .tree-list li .stretch {

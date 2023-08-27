@@ -7,16 +7,16 @@ body {
 .page-nav {
     border-color: #333;
     color: #ccc;
-    padding-bottom: 2px;
+    padding-bottom: 0.2rem;
 }
 .page-top-nav-logo {
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
     vertical-align: middle;
 }
 .page-operate-container .am-btn {
-    padding: 4px 10px;
+    padding: 0.4rem 1rem;
 }
 form .am-form-popup-submit button {
-    width: 120px;
+    width: 12rem;
 }

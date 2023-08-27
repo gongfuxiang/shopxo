@@ -4,7 +4,7 @@ function FloorResizeHandle()
     $('.floor').each(function(k, v)
     {
         var height = $(this).find('.goods-list').height();
-        $(this).find('.aggregation').css('height', ((window.innerWidth || $(window).width()) <= 640) ? 'auto' : height+'px');
+        $(this).find('.aggregation').css('height', ((window.innerWidth || $(window).width()) <= 640) ? 'auto' : height - 12 +'px');
     });
 }
 
@@ -21,7 +21,7 @@ $(function()
         function AutoScroll()
         {
             $('.banner-news').find("ul").animate({
-                marginTop: "-39px"
+                marginTop: "-30px"
             }, 500, function() {
                 $(this).css({
                     marginTop: "0px"

@@ -9,14 +9,16 @@
  * 滚动导航
  */
 .goods-nav {
-    background:#f5f5f5;
-    top:100px;
+    background:#fbfbfb;
+    top:10rem;
     right:0;
-    width:80px;
+    width:8rem;
     position:fixed;
     z-index:10001;
-    border:1px solid #eee;
+    border:0.1rem solid #f2f2f2;
     border-right:0px;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
 }
 .goods-nav ul {
     margin:0;
@@ -24,7 +26,7 @@
 }
 .goods-nav li {
     display:inline-block;
-    border-bottom:1px solid #eee;
+    border-bottom:0.1rem solid #f2f2f2;
     width:100%;
 }
 .goods-nav li:last-child {
@@ -32,16 +34,16 @@
 }
 .goods-nav li a {
     color:#666;
-    padding:10px 15px;
+    padding:1rem 1.5rem;
     display:inline-block;
     width:100%;
 }
 .goods-nav li a:hover,.goods-nav-active {
-    color:#333;
-    background:#eee;
+    color: #333 !important;
+    background: #f2f2f2;
 }
 .goods-nav li.nav-shrink-submit {
-    background: #dadada;
+    background: #efefef;
     cursor: pointer;
 }
 .goods-nav-retract .nav-shrink-submit {
@@ -52,12 +54,12 @@
  * 区域分割
  */
 .division-block {
-    margin-bottom:30px;
+    margin-bottom:3rem;
 }
 .division-block .nav-detail-title {
-    border-bottom:3px ridge #c7c7c7;
-    padding:8px 5px 5px 5px;
-    margin-bottom:10px;
+    border-bottom:0.3rem ridge #c7c7c7;
+    padding:0.8rem 0.5rem 0.5rem 0.5rem;
+    margin-bottom:1rem;
     background:#f3f3f3;
     font-weight:bold;
 }
@@ -66,7 +68,7 @@
  * 规格
  */
 .specifications-table .title-nav th input {
-    width: calc(100% - 25px);
+    width: calc(100% - 2.5rem);
 }
 .specifications-table .title-nav-remove {
     position: absolute;
@@ -74,32 +76,34 @@
     right: 0px;
 }
 .specifications-table th {
-    min-width: 100px;
+    min-width: 10rem;
 }
 .specifications-table th.operation-btn {
-    min-width: 150px;
+    min-width: 15rem;
 }
 .specifications-table th.extend-btn {
-    min-width: 45px;
+    min-width: 4.5rem;
 }
 #goods-nav-operations {
     position: relative;
 }
 .spec-images-list .am-alert-warning {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 .spec-images-list {
-    border: 1px solid #eee;
-    padding: 10px;
-    margin-top: 15px;
+    border: 0.1rem solid #eee;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: var(--border-radius);
 }
 .spec-images-list li {
     display: inline-block;
-    width: 100px;
-    margin: 5px 10px 10px 0;
+    width: 10rem;
+    margin: 0.5rem 1rem 1rem 0;
 }
 .specifications-container {
-    border: 1px solid #ddd;
+    border: 0.1rem solid #eee;
+    border-radius: var(--border-radius);
 }
 .specifications-table {
     border: 0;
@@ -112,8 +116,8 @@
     cursor: pointer;
 }
 .specifications-line-images-auto-add input {
-    width: 30px !important;
-    padding: 1px !important;
+    width: 3rem !important;
+    padding: 0.1rem !important;
 }
 .specifications-table thead tr > th:nth-last-child(-n+2),
 .specifications-table tbody tr > td:nth-last-child(-n+2) {
@@ -128,20 +132,20 @@
 }
 .specifications-table thead tr > th:nth-last-child(2),
 .specifications-table tbody tr > td:nth-last-child(2) {
-    right: 150px;
-    -webkit-box-shadow: 0px 0px 1px #ddd;
-    -moz-box-shadow: 0px 0px 1px #ddd;
-    box-shadow: 0px 0px 1px #ddd;
-    -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
-    -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
-    box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+    right: 15rem;
+    -webkit-box-shadow: 0px 0px 0.1rem #ddd;
+    -moz-box-shadow: 0px 0px 0.1rem #ddd;
+    box-shadow: 0px 0px 0.1rem #ddd;
+    -webkit-box-shadow: -0.5rem 0px 1rem rgba(136, 136, 136, 0.3);
+    -moz-box-shadow: -0.5rem 0px 1rem rgba(136, 136, 136, 0.3);
+    box-shadow: -0.5rem 0px 1rem rgba(136, 136, 136, 0.3);
 }
 
 /**
  * app详情
  */
 i.drag-sort-submit {
-    margin-left:30px;
+    margin-left:3rem;
 }
 ul {
     margin:0px;
@@ -149,8 +153,8 @@ ul {
     overflow:hidden;
 }
 .content-app-items > li {
-    border:1px dashed #eee;
-    padding:10px;
+    border:0.1rem dashed #eee;
+    padding:1rem;
 }
 ul li {
     list-style-type:none;
@@ -163,15 +167,15 @@ ul li {
     border-bottom:0 !important;
 }
 .content-app-items li {
-    padding-bottom:10px;
-    margin-bottom:20px;
+    padding-bottom:1rem;
+    margin-bottom:2rem;
     overflow:hidden;
 }
 .content-app-left,.content-app-right {
     width:45% !important;
     display:inline-table;
-    margin-bottom:5px;
-    padding-right:5px !important;
+    margin-bottom:0.5rem;
+    padding-right:0.5rem !important;
 }
 
 /**
@@ -182,10 +186,10 @@ ul li {
     position: relative;
 }
 .spec-quick table td.am-text-middle {
-    padding-right: 25px;
+    padding-right: 2.5rem;
 }
 .spec-quick-td-value .value-item input {
-    width: calc(100% - 23px) !important;
+    width: calc(100% - 2.3rem) !important;
 }
 .spec-quick table td.am-text-middle i.quick-title-remove,
 .spec-quick table td.spec-quick-td-value i.quick-value-remove {
@@ -195,7 +199,7 @@ ul li {
     z-index: 2;
 }
 .spec-quick table td.spec-quick-td-value i.quick-value-remove {
-    top: 2px;
+    top: 0.2rem;
 }
 .spec-quick .goods-specifications {
     border-bottom: 0;
@@ -204,23 +208,23 @@ ul li {
 
 @media only screen and (min-width: 641px) {
     .spec-quick-th-title {
-        width: 150px;
+        width: 15rem;
     }
     .spec-quick-td-value .value-item {
-        width: calc(30% - 12px) !important;
+        width: calc(30% - 1.2rem) !important;
     }
 }
 @media only screen and (min-width: 1025px) {
     .spec-quick-td-value .value-item {
-        width: calc(20% - 12px) !important;
+        width: calc(20% - 1.2rem) !important;
     }
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .spec-quick-th-title {
         width: 20%;
     }
     .spec-quick-td-value .value-item {
-        width: calc(50% - 12px) !important;
+        width: calc(50% - 1.2rem) !important;
     }
 }
 
@@ -231,7 +235,7 @@ ul li {
     padding: 0;
 }
 #specifications-quick-container .chosen-container {
-    min-width: 120px;
+    min-width: 12rem;
 }
 #specifications-quick-container select {
     border: 0px;
@@ -241,13 +245,13 @@ ul li {
     border-color: transparent !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    height: 29px;
-    line-height: 29px;
+    height: 2.9rem;
+    line-height: 2.9rem;
 }
 #specifications-quick-container .chosen-container .chosen-drop {
     border-style: dashed;
-    left: -1px;
-    width: calc(100% + 2px);
+    left: -0.1rem;
+    width: calc(100% + 0.2rem);
 }
 #specifications-quick-container:hover .chosen-container .chosen-drop {
     border-color: #666  !important;

@@ -1,54 +1,145 @@
-.goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; top: 0; }
-.goods-detail { position: relative; margin-left: 18px; min-height: 80px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-detail img { width: 7.9rem; height: 7.3rem; position: absolute; left: 0; top: 0; }
+.goods-detail { position: relative; margin-left: 3rem; min-height: 8rem; }
+.goods-title { display: block; height: 4.6rem; overflow: hidden; text-overflow: ellipsis; }
 .goods-title:hover { text-decoration: underline; }
-.goods-base { float: left; top: 0; margin-left: 85px; }
-.goods-attr { margin-top: 5px;  }
-.goods-attr li { color: #888; line-height: 16px; }
+.goods-base { float: left; top: 0; margin-left: 10.4rem; }
+.goods-attr { margin-top: 0.5rem;  }
+.goods-attr li { color: #666666; margin-top: 0.4rem; line-height: 1.4rem; }
 strong.total-price-content, .nav-total-price { font-weight: 700; }
-.stock-tag { width: 100px; }
-.stock-tag .am-form-field { padding: 3px; height: 25px; text-align: center; font-size: 14px !important; width: 80px; }
-.stock-tag .am-input-group-label { line-height: 23px; height: 25px; font-size: 14px !important; padding: 0 10px; }
+.stock-tag { width: 10rem; }
+.stock-tag .am-form-field { padding: 0.3rem; height: 3.6rem; text-align: center; font-size: 1.4rem !important; width: 8rem; }
+.stock-tag .am-input-group-label { line-height: 2.3rem; height: 2.5rem; font-size: 1.4rem !important; padding: 0 1rem; }
 .stock-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
-.selected-tips strong, .nav-total-price { font-size: 16px; }
-strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2364c; font-family: Verdana,Tahoma,arial; }
-.am-table { margin-bottom: 10px; }
-.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
+strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
+.am-table { margin-bottom: 1rem; }
+.am-table > tbody > tr > td { border-top: 0.1rem solid #F5F5F5; }
 
-.cart-nav { background: #eee; height: 50px; line-height: 46px; }
-.cart-nav .separate-submit { height: 50px; width: 145px; font-size: 20px; font-weight: 500; }
-.selected-tips { margin-right: 15px; }
-.cart-nav label { font-weight: 500; margin: 0;  }
+.cart-nav { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.el-text {
+    margin-left: 0.6rem;
+}
+.selected-tips { margin-right: 3rem; }
+.cart-nav label {
+    margin: 0 !important;
+}
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
 .cart-nav .nav-delete-submit { vertical-align: middle; }
-
-@media only screen and (min-width:640px)  {
-    .cart-content table tr .base { width: 30%; }
-    .cart-content table tr .price { width: 15%; }
-    .cart-content table tr .number { width: 20%; }
-    .cart-content table tr .total-price { width: 20%; }
-    .cart-content table tr .operation { width: 15%; }
-    .cart-content { margin-top: 20px; }
-    .cart-nav .nav-total-price { margin-right: 5px; }
+.cart-content table tr th {
+    padding: 2rem 0 1rem 0;
+}
+.cart-content table tr th:first-of-type {
+    padding-left: 4.3rem;
+}
+.cart-content table tr th:nth-of-type(3) {
+    text-align: center;
 }
 
+.cart-content table tr td { 
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+.cart-content table tr td:nth-of-type(3) div{
+    margin: 0 auto;
+}
+.cart-content table tr:first-of-type td {
+    border-top: 0;
+}
+.cart-content table tr td .cart-price .line-price {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #666666;
+}
+.operation-btn {
+    display: flex;
+    flex-flow: column wrap;
+    min-width: 3.6rem;
+}
+.operation-btn a:last-of-type {
+    margin-top: 0.4rem;
+}
+.nav-right form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.cart-nav.am-box-shadow-top .nav-left {
+    padding-left: 0;
+}
+.cart-nav.am-box-shadow-top .nav-right {
+    padding-right: 0;
+}
+@media only screen and (min-width:640px)  {
+    .cart-content table tr .base { width: 45%; padding-left: 2rem; }
+    .cart-content table tr .price { width: 10%; }
+    .cart-content table tr .number { width: 20%; }
+    .cart-content table tr .total-price { width: 15%; }
+    .cart-content table tr .operation { width: 10%; }
+    .cart-content { margin-top: 2rem; }
+    .cart-nav .nav-total-price { margin-right: 0.5rem; }
+}
+@media only screen and (max-width:1024px)  {
+    .cart-nav.am-box-shadow-top {
+        padding: 0 0.6rem;
+    }
+    .cart-nav .nav-left {
+        padding-left: 1rem;
+    }
+    .cart-nav .nav-right {
+        padding-right: 1rem;
+    }
+}
 @media only screen and (max-width:640px)  {
-    .cart-content table tr .base { width: 55%; }
-    .selected-tips { display: none; }
-    .am-footer { margin-top: 10px; }
+    .cart-content table tr .base {
+        width: 55%;
+        padding-left: 1rem;
+    }
+    .selected-tips {
+        display: none;
+    }
+    .am-footer {
+        margin-top: 1rem;
+    }
 
-    .nav-left { width: calc(30% - 5px); }
-    .nav-right { width: 68%; }
+    .nav-left {
+        min-width: 12.5rem;
+    }
+    .nav-left a { 
+        margin-left: 0.5rem;
+    }
+    .nav-left a:last-of-type { 
+        vertical-align: bottom;
+    }
     .cart-nav, .nav-left, .nav-right { overflow: hidden; }
-    .nav-right .nav-total-price { display: block;
-    width: calc(100% - 182px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-    .cart-nav .separate-submit { float: right; }
-    .wap-base { padding-left: 20px; }
+    .nav-right .nav-total-price {
+        display: block;
+        max-width: 10rem;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .cart-nav .separate-submit {
+        float: right;
+        margin: 0 0 0 1rem;
+        padding: 0.6rem 1.5rem;
+        max-width: 11rem;
+    }
+    .wap-base { padding: 1rem 0 0 3.6rem;}
 
-    .goods-detail { min-height: 40px; }
-    .goods-detail img { width: 40px; height: 40px; }
-    .goods-base { margin-left: 45px; }
-    .stock-tag { width: 85px; }
+    .goods-detail { min-height: 4rem; }
+    .goods-detail img { width: 4rem; height: 4rem; }
+    .goods-base { margin-left: 4.5rem; }
+    .stock-tag { width: 8.5rem; }
 
-    .am-footer { padding-bottom: 50px; }
+    .am-footer { padding-bottom: 5rem; }
+    .stock-tag .am-form-field {
+        width: 5rem;
+    }
+    .operation-btn a:last-child {
+        display: none;
+    }
 }

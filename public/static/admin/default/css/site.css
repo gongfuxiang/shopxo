@@ -3,25 +3,38 @@
  */
 ul.home_site_logo-images-view li,
 ul.home_site_logo_wap-images-view li {
-    width: 220px;
-    height: 60px;
+    width: 22rem;
+    height: 6rem;
 }
 
 /**
- * 用户注册背景图
+ * 用户注册背景图、用户登录背景图
  */
-ul.home_site_user_register_bg_images-images-view li {
-    width: 300px;
-    height: 180px;
+ul.home_site_user_register_bg_images-images-view li,
+ul.home_site_user_login_ad1_images-images-view li,
+ul.home_site_user_login_ad2_images-images-view li,
+ul.home_site_user_login_ad3_images-images-view li {
+    width: 30rem;
+    height: 10rem;
+}
+
+/**
+ * 密码找回背景图
+ */
+ul.home_site_user_forgetpwd_ad1_images-images-view li,
+ul.home_site_user_forgetpwd_ad2_images-images-view li,
+ul.home_site_user_forgetpwd_ad3_images-images-view li {
+    width: 20rem;
+    height: 16rem;
 }
 
 /**
  * 地址添加/编辑
  */
 .address-list .address-logo {
-    width: 18px;
-    height: 18px;
-    margin-right: 2px;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 0.2rem;
     vertical-align: text-top;
 }
 .address-list .edit-submit,
@@ -37,17 +50,17 @@ ul.home_site_user_register_bg_images-images-view li {
     .address-list .edit-submit,
     .address-list .delete-submit {
         position: absolute;
-        top: 12px;
-        right: 5px;
+        top: 1.2rem;
+        right: 0.5rem;
         float: none !important;
     }
     .address-list .delete-submit {
-        right: 70px;
+        right: 7rem;
     }
 }
 
 /**
- * 收到模式下商品列表容器
+ * 手动模式下商品列表容器
  */
 .manual-mode-goods-container li {
     position: relative;
@@ -56,7 +69,7 @@ ul.home_site_user_register_bg_images-images-view li {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 8px 25px 8px 15px;
+    padding: 0.8rem 2.5rem 0.8rem 1.5rem;
 }
 
 /**
@@ -69,7 +82,7 @@ ul.home_site_user_register_bg_images-images-view li {
     display: -webkit-inline-box;
 }
 .forth-selection-container .forth-selection-form-category, .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
-    width: calc(50% - 48px) !important;
+    width: calc(50% - 4.8rem) !important;
 }
 .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
     display: -webkit-inline-box !important;
@@ -78,35 +91,35 @@ ul.home_site_user_register_bg_images-images-view li {
     width: 100%;
 }
 .forth-selection-container .search-submit {
-    width: 87px;
+    width: 8.7rem;
 }
 .goods-list-container {
-    height: calc(100% - 92px);
-    border: 1px solid #eee;
+    height: calc(100% - 9.2rem);
+    border: 0.1rem solid #eee;
 }
 .goods-list-container .am-gallery-bordered .am-gallery-title {
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
 .goods-list-container ul li {
     position: relative;
     cursor: pointer;
 }
 .goods-list-container ul li:hover .am-gallery-item {
-    -webkit-box-shadow: 0 0 6px #3cb4f1;
-    box-shadow: 0 0 6px #3cb4f1;
+    -webkit-box-shadow: 0 0 0.6rem #3cb4f1;
+    box-shadow: 0 0 0.6rem #3cb4f1;
 }
 .goods-list-container .icon-submit-container {
     position: absolute;
-    right: 15px;
-    bottom: 47px;
+    right: 1.5rem;
+    bottom: 4.7rem;
 }
 .goods-list-container .icon-submit-container .am-icon-btn {
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    font-size: 20px;
-    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    width: 3.6rem;
+    height: 3.6rem;
+    line-height: 3.6rem;
+    font-size: 2rem;
+    -webkit-box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
 }
 .goods-list-container .am-icon-btn.am-success:hover {
     background: #4CAF50;
@@ -115,5 +128,16 @@ ul.home_site_user_register_bg_images-images-view li {
     background: #F44336;
 }
 .goods-page-container {
-    height: 40px;
+    height: 4rem;
+}
+
+/**
+ * 域名对应语言
+ */
+.domain-multilingual-list > ul li input.item-domain-input,
+.domain-multilingual-list > ul li .item-multilingual-choice {
+    width: calc(50% - 4rem) !important;
+}
+.domain-multilingual-list.am-form-success [class*="icon-"] {
+    color: #fff;
 }

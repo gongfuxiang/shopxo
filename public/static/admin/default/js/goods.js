@@ -561,7 +561,7 @@ $(function()
         var html = '<tr>';
             html += '<td class="am-text-middle">';
             html += '<i class="am-close quick-title-remove">×</i>';
-            html += '<input type="text" name="spec_base_title_'+index+'" placeholder="'+$spec_table.data('spec-type-name')+'" />';
+            html += '<input type="text" name="spec_base_title_'+index+'" placeholder="'+$spec_table.data('spec-type-name')+'" class="am-radius" />';
             html += '</td>';
             html += '<td class="spec-quick-td-value am-cf">';
             html += '<div class="am-fl am-margin-xs value-item am-text-left">';
@@ -578,7 +578,7 @@ $(function()
     {
         var index = $(this).data('index');
         var html = '<div class="am-fl am-margin-xs value-item">';
-            html += '<input type="text" class="am-fl" name="spec_base_value_'+index+'[]" placeholder="'+$spec_table.data('spec-value-name')+'" />';
+            html += '<input type="text" class="am-fl am-radius" name="spec_base_value_'+index+'[]" placeholder="'+$spec_table.data('spec-value-name')+'" />';
             html += '<i class="am-close quick-value-remove">×</i>';
             html += '</div>';
         $(this).parent().before(html);
@@ -695,8 +695,8 @@ $(function()
     if($('#goods-fictitious-container').length > 0)
     {
         UE.getEditor('goods-fictitious-container', {
-            toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',   '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist']],
-            initialFrameHeight : 100
+            toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',   '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist', '|', 'simpleupload', 'insertimage', 'insertvideo', 'attachment']],
+            initialFrameHeight : 200
         });
     }
 

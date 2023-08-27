@@ -283,7 +283,9 @@ function StyleBaseHandle(data, key, replace_rules, exclude)
         { type: "margin", css: "margin", unit: "px" },
         { type: "padding", css: "padding", unit: "px" },
         { type: "height", css: "height", unit: "px" },
-        { type: "width", css: "width", unit: "px" }
+        { type: "width", css: "width", unit: "px" },
+        { type: "max_height", css: "max-height", unit: "px" },
+        { type: "max_width", css: "max-width", unit: "px" }
     ];
     for(var i in arr2)
     {
@@ -373,10 +375,16 @@ function MediaFixedHandle(data)
 {
     // 文件容器
     var media_container_ent = '';
+    // 文件容器样式
     var media_container_style = StyleBaseHandle(data, 'style_media_fixed_');
     if((media_container_style || null) != null)
     {
         media_container_ent += 'module-fixed-doc ';
+    }
+    // 文件容器加上居中、避免容器没居中导致内容居中无效
+    if((data['style_media_fixed_is_auto'] || 0) == 1)
+    {
+        media_container_ent += 'module-fixed-doc-ent-auto ';
     }
 
     // 文件

@@ -8,37 +8,37 @@ html, body {
 .block-container, .block-combination-container-2 li {
     width: 100%;
     background: #fff !important;
-    padding: 10px;
-    border: 1px solid #eee;
-    border-radius: 3px;
+    padding: 1rem;
+    border: 0.1rem solid #eee;
+    border-radius: 0.3rem;
     overflow: hidden;;
 }
 .block-container, .block-combination-container-2 li {
     position: relative;
 }
 .block-container {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 }
 
 .block-container .block-title, .block-combination-container-2 li .block-title {
-    margin-left: 10px;
+    margin-left: 1rem;
 }
 .block-container .block-title .icon, .block-combination-container-2 li .block-title .icon {
     background: #3f82fe;
     display: block;
-    width: 5px;
-    height: 16px;
+    width: 0.5rem;
+    height: 1.6rem;
     position: absolute;
-    left: 10px;
-    top: 13px;
+    left: 1rem;
+    top: 1.3rem;
 }
 .block-container .block-title .title, .block-combination-container-2 li .block-title .title {
     color: #666;
-    font-size: 14px;
-    margin-left: 5px;
+    font-size: 1.4rem;
+    margin-left: 0.5rem;
 }
 .right-operate .quick-time a {
-    margin-right: 8px;
+    margin-right: 0.8rem;
     color: #bde2f4;
 }
 .right-operate .quick-time a:hover {
@@ -46,7 +46,7 @@ html, body {
 }
 .right-operate .echarts-where input {
     display: -webkit-inline-box !important;
-    width: 155px !important;
+    width: 15.5rem !important;
     border-color: #eee;
     color: #888;
 }
@@ -64,10 +64,10 @@ html, body {
     color: #ccc;
 }
 .block-container .echarts-title{
-    height: 46px;
+    height: 4.6rem;
 }
 .block-combination-container-2 li .echarts-title {
-    height: 100px;
+    height: 10rem;
 }
 .block-combination-container-2 .right-operate {
     float: none;
@@ -75,25 +75,25 @@ html, body {
 .block-combination-container-2 .right-operate .quick-time,
 .block-combination-container-2 .right-operate .echarts-where {
     display: block;
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
 .block-combination-container-2 .right-operate .quick-time {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 .block-combination-container-2 .right-operate .echarts-where input {
-    width: calc(50% - 46px) !important;
+    width: calc(50% - 4.6rem) !important;
 }
 .block-container .am-dropdown .am-selected-btn {
     padding: 0.3em 1em 0.3em 0.3em;
-    border-radius: 3px;
-    margin-left: 5px;
+    border-radius: 0.3rem;
+    margin-left: 0.5rem;
 }
 @media only screen and (min-width: 641px) {
     .block-combination-container-2 {
-        margin-bottom: 20px;
+        margin-bottom: 2rem;
     }
     .block-combination-container-2 li {
-        width: calc(50% - 10px);
+        width: calc(50% - 1rem);
     }
     .block-combination-container-2 li:nth-child(1) {
         float: left;
@@ -106,14 +106,14 @@ html, body {
         right: 0;
     }
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .block-combination-container-2 li {
-        margin-bottom: 20px;
+        margin-bottom: 2rem;
     }
 }
 @media only screen and (max-width: 1000px) {
     .block-container .echarts-title {
-        height: 100px;
+        height: 10rem;
     }
     .right-operate {
         float: none;
@@ -121,13 +121,13 @@ html, body {
     .right-operate .quick-time,
     .right-operate .echarts-where {
         display: block;
-        margin-top: 5px;
+        margin-top: 0.5rem;
     }
     .right-operate .quick-time {
-        margin-top: 10px;
+        margin-top: 1rem;
     }
     .right-operate .echarts-where input {
-        width: calc(50% - 46px) !important;
+        width: calc(50% - 4.6rem) !important;
     }
 }
 
@@ -136,11 +136,11 @@ html, body {
  * 基础数据
  */
 .shopxo-base li {
-    padding: 20px;
+    padding: 2rem;
 }
 .shopxo-base li .li-content {
-    padding: 10px;
-    border-radius: 3px;
+    padding: 1rem;
+    border-radius: 0.3rem;
     background: #00BCD4;
     position: relative;
 }
@@ -157,15 +157,15 @@ html, body {
     background: #9c40ac;
 }
 .shopxo-base li .name {
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 700;
     margin: 0;
     color: #fff;
 }
 .shopxo-base li .li-content .total {
-    margin: 0 0 5px 0;
+    margin: 0 0 0.5rem 0;
     color: #fff;
-    font-size: 26px;
+    font-size: 2.6rem;
     font-weight: 700;
 }
 .shopxo-base li .li-content p, .shopxo-base li .li-content .item {
@@ -176,18 +176,18 @@ html, body {
 }
 .shopxo-base li .li-content .item {
     color: #f0f0f0;
-    font-size: 12px;
+    font-size: 1.2rem;
 }
 .shopxo-base li .li-content .bg-icon {
-    font-size: 36px;
+    font-size: 3.6rem;
     position: absolute;
-    top: calc(50% - 45px);
-    right: 10px;
+    top: calc(50% - 4.5rem);
+    right: 1rem;
     color: rgba(255, 255, 255, 0.12);
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .shopxo-base li {
-        padding: 10px 5px;
+        padding: 1rem 0.5rem;
     }
     .shopxo-base ul.am-avg-lg-4 li:nth-child(3),
     .shopxo-base ul.am-avg-lg-4 li:nth-child(4) {
@@ -203,19 +203,19 @@ html, body {
 #echarts-goods-hot,
 #echarts-pay-type,
 #echarts-map-whole-country {
-    margin-top: 10px;
-    height: 400px;
+    margin-top: 1rem;
+    height: 40rem;
 }
 
 /**
  * 系统信息
  */
 .dl-content {
-    margin: 10px 0 0 0;
+    margin: 1rem 0 0 0;
 }
 .dl-content dt, .dl-content dd {
-    line-height: 22px;
-    min-height: 30px;
+    line-height: 2.2rem;
+    min-height: 3rem;
 }
 .dl-content dd:last-child {
     border-bottom: 0;
@@ -225,11 +225,11 @@ html, body {
  * 顶部基础
  */
 .base-content-top {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 .base-content-top .vip {
-    border-radius: 2px;
-    padding: 0 6px;
+    border-radius: 0.2rem;
+    padding: 0 0.6rem;
     background: #e1e1e1;
     color: #666;
 }
@@ -243,20 +243,20 @@ html, body {
 .inspect-upgrade-submit i {
     background: #f00;
     display: inline-block;
-    padding: 3px;
+    padding: 0.3rem;
     vertical-align: super;
-    margin-left: 2px;
-    border-radius: 15px;
+    margin-left: 0.2rem;
+    border-radius: 1.5rem;
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .base-content-top .left-content,
     .base-content-top .right-content {
         width: 100%;
     }
     .base-content-top .right-content {
-        margin-top: 10px;
-        border-top: 1px dashed #eee;
-        padding-top: 10px;
+        margin-top: 1rem;
+        border-top: 0.1rem dashed #eee;
+        padding-top: 1rem;
     }
     .base-content-top .left-content .ad-content,
     .base-content-top .right-content .right-base {
@@ -268,32 +268,32 @@ html, body {
  * 更新信息展示
  */
 #inspect-upgrade-popup .am-popup-bd {
-    padding-bottom: 50px;
+    padding-bottom: 5rem;
     overflow: auto;
 }
 #inspect-upgrade-popup .upgrade-title span {
     font-weight: bold;
-    font-size: 16px;
-    line-height: 16px;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
 }
 #inspect-upgrade-popup .upgrade-title * {
     vertical-align: middle;
 }
 #inspect-upgrade-popup .upgrade-content-item ul li {
-    line-height: 26px;
-    min-height: 26px;
+    line-height: 2.6rem;
+    min-height: 2.6rem;
 }
 #inspect-upgrade-popup .upgrade-bottom {
     position: fixed;
     left: 0;
     bottom: 0px;
     width: 100%;
-    height: 70px;
-    padding: 0 25px;
+    height: 7rem;
+    padding: 0 2.5rem;
 }
 #inspect-upgrade-popup .upgrade-bottom-content {
     background: #fff;
-    padding: 10px 20px 0 0;
-    height: 50px;
-    border-top: 1px solid #ececec;
+    padding: 1rem 2rem 0 0;
+    height: 5rem;
+    border-top: 0.1rem solid #ececec;
 }

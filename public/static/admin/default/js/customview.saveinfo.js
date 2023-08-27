@@ -12,6 +12,7 @@ $(function()
     // 保存数据
     $('.page-save-submit').on('click', function()
     {
+        $(this).button('loading');
         var $form = $('form.form-validation');
         $form.attr('data-opt-type', 1);
         $form.attr('request-type', 'ajax-fun');

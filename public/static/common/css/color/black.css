@@ -20,7 +20,7 @@ pre,
 .am-table-bordered > thead > tr > td,
 .am-table-bordered > tbody > tr > td,
 .am-table-bordered > tfoot > tr > td {
-    border-left: 1px solid #232323;
+    border-left: 0.1rem solid #232323;
 }
 .am-table > thead > tr > th,
 .am-table > tbody > tr > th,
@@ -33,14 +33,14 @@ pre,
 .form-table-fields-button-container,
 #inspect-upgrade-popup .upgrade-bottom-content,
 .form-inventory-submit {
-    border-top: 1px solid #232323;
+    border-top: 0.1rem solid #232323;
 }
 .am-table > thead > tr > td {
-    border-bottom: 1px solid #232323 !important;
+    border-bottom: 0.1rem solid #232323 !important;
 }
 .am-popup,
 .popup-not-title .am-popup-inner {
-    border: 1px solid #232323;
+    border: 0.1rem solid #232323;
 }
 .am-tagsinput,
 .data-list thead th {
@@ -347,7 +347,7 @@ table.am-table .am-btn-default,
 }
 .chosen-container-multi .chosen-choices li.search-choice {
     color: #bababa;
-    border: 1px solid #888;
+    border: 0.1rem solid #888;
     background-color: #1d1d1d;
     background-image: -webkit-gradient(linear,left top,left bottom,from(#141414),to(#1d1d1d));
     background-image: -webkit-linear-gradient(top,#141414,#1d1d1d);
@@ -386,7 +386,7 @@ table.am-table .am-btn-default,
     background: #171717;
 }
 .am-table-scrollable-horizontal {
-    border: 1px solid #232323;
+    border: 0.1rem solid #232323;
 }
 .am-pagination > li > a:hover, .am-pagination > li > span:hover, .am-pagination > li > a:focus, .am-pagination > li > span:focus {
     background-color: #5e5e5e;
@@ -451,7 +451,7 @@ ul.am-dropdown-content > li > a,
 }
 .admin-multilingual-select,
 .common-nav-bar {
-    box-shadow: 0 0 10px 2px #444444;
+    box-shadow: 0 0 1rem 0.2rem #444444;
 }
 table.am-table .am-btn-default,
 table.am-table .am-btn-primary,
@@ -506,7 +506,7 @@ form.am-form .am-form-group-refreshing:hover {
 .am-btn-default.am-active,
 .am-dropdown.am-active .am-btn-default.am-dropdown-toggle,
 button.colorpicker-submit:hover {
-    border: 1px solid #353535;
+    border: 0.1rem solid #353535;
 }
 button.colorpicker-submit:hover,
 .am-tagsinput .tag [data-role="remove"]:hover {
@@ -637,26 +637,26 @@ header {
 }
 .common-prompt.am-alert-success {
     border-color: #3b592b;
-    box-shadow: 0 2px 4px #3b592b, 0 0 6px rgb(0 0 0 / 20%);
+    box-shadow: 0 0.2rem 0.4rem #3b592b, 0 0 0.6rem rgb(0 0 0 / 20%);
 }
 .common-prompt.am-alert-danger {
     border-color: #a48585;
-    box-shadow: 0 2px 4px #a48585, 0 0 6px rgb(0 0 0 / 20%);
+    box-shadow: 0 0.2rem 0.4rem #a48585, 0 0 0.6rem rgb(0 0 0 / 20%);
 }
 .common-prompt.am-alert-warning {
     border-color: #917968;
-    box-shadow: 0 2px 4px #917968, 0 0 6px rgb(0 0 0 / 20%);
+    box-shadow: 0 0.2rem 0.4rem #917968, 0 0 0.6rem rgb(0 0 0 / 20%);
 }
 .popup-not-title .am-close,
 .modal-dialog-not-title .am-close {
     background: #5d5d5d;
     color: #dfdfdf;
-    border: 3px solid #868686;
+    border: 0.3rem solid #868686;
 }
 .popup-not-title .am-close:hover,
 .modal-dialog-not-title .am-close:hover {
     background: #252525;
-    border: 3px solid #5a5a5a;
+    border: 0.3rem solid #5a5a5a;
 }
 .admin-login {
     background: rgba(0,0,0,.85);
@@ -667,13 +667,13 @@ ul.plug-file-upload-view li {
 .admin-nav-bar,
 .index-multilingual-select {
     background-color: #212121;
-    box-shadow: 0 0 15px rgb(0 0 0 / 50%);
+    box-shadow: 0 0 1.5rem rgb(0 0 0 / 50%);
 }
 .am-icon-btn:hover, .am-icon-btn:focus {
     background-color: #494949;
 }
 #modal-plugins-multilingual-select-container .am-modal-bd ul {
-    border: 1px solid #2b2b2b;
+    border: 0.1rem solid #2b2b2b;
 }
 .data-avg-text-list, .data-avg-text-list li {
     border-color: #232323;
@@ -690,8 +690,8 @@ ul.plug-file-upload-view li {
  * 打印模板
  */
 .hiprint-printPaper.design {
-    background: -webkit-linear-gradient(top, transparent 15px, #181818 15px, #181818 16px, transparent 16px, transparent 31px, #181818 31px, #181818 32px, transparent 32px, transparent 47px, #181818 47px, #181818 48px, transparent 48px, transparent 63px, #1c1c1c 63px, #1c1c1c 63px), -webkit-linear-gradient( left, transparent 15px, #181818 15px, #181818 16px, transparent 16px, transparent 31px, #181818 31px, #181818 32px, transparent 32px, transparent 47px, #181818 47px, #181818 48px, transparent 48px, transparent 63px, #1c1c1c 63px, #1c1c1c 63px);
-    background-size: 64px 64px;
+    background: -webkit-linear-gradient(top, transparent 1.5rem, #181818 1.5rem, #181818 1.6rem, transparent 1.6rem, transparent 3.1rem, #181818 3.1rem, #181818 3.2rem, transparent 3.2rem, transparent 4.7rem, #181818 4.7rem, #181818 4.8rem, transparent 4.8rem, transparent 6.3rem, #1c1c1c 6.3rem, #1c1c1c 6.3rem), -webkit-linear-gradient( left, transparent 1.5rem, #181818 1.5rem, #181818 1.6rem, transparent 1.6rem, transparent 3.1rem, #181818 3.1rem, #181818 3.2rem, transparent 3.2rem, transparent 4.7rem, #181818 4.7rem, #181818 4.8rem, transparent 4.8rem, transparent 6.3rem, #1c1c1c 6.3rem, #1c1c1c 6.3rem);
+    background-size: 6.4rem 6.4rem;
     background-repeat: repeat;
 }
 .right-option-setting {
@@ -763,12 +763,12 @@ ul.plug-file-upload-view li {
     color: #888;
 }
 .admin-header {
-    -webkit-box-shadow: 0 1px 2px rgb(37 48 60 / 60%);
-    box-shadow: 0 1px 2px rgb(37 48 60 / 60%);
+    -webkit-box-shadow: 0 0.1rem 0.2rem rgb(37 48 60 / 60%);
+    box-shadow: 0 0.1rem 0.2rem rgb(37 48 60 / 60%);
 }
 .form-bottom-nav-fixed {
     background: #242424;
-    border-top: 1px solid #2b2b2b;
+    border-top: 0.1rem solid #2b2b2b;
 }
 .admin-sidebar-list li a {
     color: #676767;
@@ -795,7 +795,7 @@ ul.plug-file-upload-view li {
 }
 .product-unit-table thead tr > th:last-child, .product-unit-table tbody tr > td:last-child {
     background: rgb(30 30 30);
-    box-shadow: rgb(136 136 136 / 10%) -5px 0px 8px;
+    box-shadow: rgb(136 136 136 / 10%) -0.5rem 0px 0.8rem;
 }
 .position-data-list {
     border-color: #292929;
@@ -818,10 +818,10 @@ ul.plug-file-upload-view li {
     color: #c2c2c2;
 }
 .am-modal-dialog {
-    box-shadow: rgb(62 62 62 / 60%) 0px 0px 10px;
+    box-shadow: rgb(62 62 62 / 60%) 0px 0px 1rem;
 }
 #modal-unit-list .am-selected-list li:not(:last-child) {
-    border-bottom: 1px solid #222222;
+    border-bottom: 0.1rem solid #222222;
 }
 .table-bottom-item-right .auto-sales-deliver {
     border-color: #2f2f2f;
@@ -843,7 +843,7 @@ ul.plug-file-upload-view li {
     background: #393939;
 }
 .window-layer-alone-layer {
-    border: 1px solid #363636;
+    border: 0.1rem solid #363636;
 }
 .window-layer-alone-layer .window-layer-tab-bar .am-fr span {
     color: #626262;
@@ -861,7 +861,7 @@ ul.plug-file-upload-view li {
     background-color: #191919;
 }
 ::-webkit-scrollbar-track-piece {
-    border-top: 1px solid rgba(0,0,0,.01);
+    border-top: 0.1rem solid rgba(0,0,0,.01);
 }
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:vertical {

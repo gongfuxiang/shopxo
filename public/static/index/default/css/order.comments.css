@@ -3,13 +3,13 @@
  */
 .user-content-body ul.rating {
     overflow: hidden;
-    margin-bottom: 2px;
-    padding: 3px 5px;
-    line-height: 22px;
+    margin-bottom: 0.2rem;
+    padding: 0.3rem 0.5rem;
+    line-height: 2.2rem;
 }
 .user-content-body ul.rating li {
     float: left;
-    margin-right: 10px;
+    margin-right: 1rem;
 }
 .user-content-body ul.rating li i {
     cursor: pointer;
@@ -18,10 +18,10 @@
     color: #888;
 }
 .user-content-body ul.rating li i.am-icon-star {
-    color: #d13b49;
+    color: var(--color-main);
 }
 .user-content-body ul.rating li.tips-text {
-    width: 38px;
+    width: 3.8rem;
 }
 .user-content-body .rating-items {
     margin-bottom: 0;
@@ -42,25 +42,25 @@
  * 商品列表
  */
 .order-goods .base { width: 50%; }
-.goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; left: 0; top: 0; }
-.goods-detail { position: relative; min-height: 80px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-detail img { width: 8rem; height: 8rem; position: absolute; border: 0.1rem solid #eee; left: 0; top: 0; }
+.goods-detail { position: relative; min-height: 8rem; }
+.goods-title { display: block; max-height: 3.6rem; overflow: hidden; text-overflow: ellipsis; }
 .goods-title:hover { text-decoration: underline; }
-.goods-base {float: left; top: 0; margin-left: 85px; }
-.goods-attr { margin-top: 5px;  }
-.goods-attr li { color: #888; line-height: 16px; }
-.am-table { margin-bottom: 10px; }
-.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
-.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+.goods-base {float: left; top: 0; margin-left: 8.5rem; }
+.goods-attr { margin-top: 0.5rem;  }
+.goods-attr li { color: #888; line-height: 1.6rem; }
+.am-table { margin-bottom: 1rem; }
+.am-table > tbody > tr > td { border-top: 0.1rem solid #F5F5F5; }
+.am-table > thead > tr > th { border-bottom: 0.1rem solid #f7f7f7; }
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 40%; }
     .cart-content table tr .price { width: 20%; }
     .cart-content table tr .number { width: 20%; }
     .cart-content table tr .total-price { width: 20%; }
-    .cart-content { margin-top: 20px; }
+    .cart-content { margin-top: 2rem; }
 }  
 @media only screen and (max-width:640px) {
-    .goods-detail img { width: 60px; height: 60px; }
-    .goods-base { margin-left: 65px; }
-    .goods-detail { min-height: 60px; }
+    .goods-detail img { width: 6rem; height: 6rem; }
+    .goods-base { margin-left: 6.5rem; }
+    .goods-detail { min-height: 6rem; }
 }

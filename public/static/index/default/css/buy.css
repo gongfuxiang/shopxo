@@ -1,275 +1,813 @@
 /*页面*/
-.buy-items h3{border-bottom: 2px solid #e3e3e3; margin-top:15px;}
+.buy-items h3 {
+    margin-top: 0;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+.buy-items table thead tr th {
+    padding: 1rem 1rem 1rem 0;
+    border: 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+.buy-items table tbody tr td {
+    padding: 1rem 1rem 1rem 0;
+    border: 0;
+}
+
+.buy-items table tbody tr td .buy-point-discharge {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-items table tbody tr td .buy-point-discharge-sum {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.warehouse-info {
+    display: flex;
+    align-items: center;
+}
 
 /*地址管理*/
-h3 { font-size: 14px;font-weight: 700;}
-.address h3 { border-bottom:none;}
-ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-height:80px;}
-.address-left{ width:calc(100% - 25px);float:left;position: relative;}
-ul.address-list li .user-base {font-size: 14px; font-weight: 700; margin-bottom: 5px; }
-.address-right{ float:right; margin-right:5px;padding-top:15px ;}   
+h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.address h3 {
+    border-bottom: none;
+}
+
+ul.address-list li {
+    display: none;
+    width: 100%;
+    position: relative;
+    min-height: 8rem;
+}
+
+/* 地址卡片 */
+.address-cart {
+    padding: 0.4rem;
+}
+
+ul.address-list li.address-default.address-cart {
+    background: repeating-linear-gradient(-45deg,
+            #ff0000,
+            #ff0000 1rem,
+            #ffffff 1rem,
+            #ffffff 2rem,
+            #4A5BE3 2rem,
+            #4A5BE3 3rem,
+            #ffffff 3rem,
+            #ffffff 4rem);
+}
+
+.address-cart .address-content {
+    padding: 0.6rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+}
+
+.address-left {
+    position: relative;
+}
+
+ul.address-list li .user-base {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+ul.address-list li .user-base .address-alias {
+    max-width: 8rem;
+    font-weight: 400;
+}
+
+ul.address-list li .user-base .address-detail {
+    display: flex;
+    align-items: center;
+}
+
+ul.address-list li .user-base .address-detail .user {
+    max-width: 8rem;
+    display: inline-block;
+}
+
+.address-right {
+    position: absolute;
+    right: 10px;
+    margin-right: 0.6rem;
+    top: 43%;
+    transform: translate(50%, -50%);
+
+}
+
+.address-position-top {
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
 
 /*地址操作-编辑删除*/
-.address-operation-btn {display:none;font-size: 12px;color: #282828;text-align: right; padding-right:5px ;}
-.address-operation-btn .cut { padding: 0 5px;color: #ccc; vertical-align: top; }
-.address-default { display:block !important;}  
+.address-operation-btn {
+    display: none;
+    font-size: 1.2rem;
+    color: #282828;
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.address-default {
+    display: block !important;
+}
+
+.address .control {
+    display: flex;
+    align-items: center;
+}
+
+.address .control .address-submit-save {
+    padding: 0.5rem 1.2rem;
+    margin-left: 2rem;
+}
 
 /* 物流/支付 */
-@media only screen and (min-width: 640px) {
-  .business-item ul li:nth-child(3n) {
-      margin-right: 10px;
-  }
+@media only screen and (min-width: 641px) {
+    .address {
+        padding: 2rem;
+    }
+
+    .business-item ul li:nth-child(3n) {
+        margin-right: 1rem;
+    }
+
+    ul.address-list li .region {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-height: 1.8rem;
+        height: 3.4rem;
+        overflow-wrap: break-word;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    ul.address-list li.address-default.address-cart {
+        padding: 0 0 0.4rem 0;
+    }
+    ul.address-list li.address-default.address-cart .address-content {
+        padding: 1.1rem;
+    }
+
+    .address .control .address-submit-save {
+        padding: 1rem 1.2rem;
+        margin-left: 0;
+        background: var(--color-main);
+        color: #FFFFFF;
+        border-radius: 0;
+    }
+    ul.address-list li .user-base {
+        padding-bottom: 1rem;
+        width: calc(100% - 4rem);
+    }
+    ul.address-list li .user-base.am-border-bottom-grey {
+        border: 0;
+    }
+    .mobile-address ul.address-list li .user-base.am-border-bottom-grey {
+        border-bottom: 0.1rem solid #EEEEEE;
+    }
 }
 
 /*运费、留言、扩展数据*/
-.td.td-oplist .pay-logis,.td.td-bonus select{position:absolute;top:6px;right:0;}
-.memo-input {width:calc(100% - 55px);border: 1px solid #f8f7f7;padding: 5px;outline:none;border-radius: 2px;}
-@media only screen and (max-width: 1025px) {
-  .buy-message {
-    padding: 0 5px;
-  }
+.td.td-oplist .pay-logis,
+.td.td-bonus select {
+    position: absolute;
+    top: 0.6rem;
+    right: 0;
+}
+
+.memo-input {
+    width: calc(100% - 5.2rem);
+    border: 0.1rem solid #EEEEEE;
+    padding: 1rem;
+    outline: none;
+    border-radius: 0.4rem;
+}
+
+@media only screen and (max-width: 1024px) {
+    .buy-message {
+        padding: 0 0.5rem;
+    }
 }
 
 /*合计*/
-.box{float:left;width:70%;height:40px ;line-height:40px ;font-size: 14px;text-align: right;padding-right:10px ;}
-.pay-address{display: none;}
-.nav-buy .btn-go{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px; border: 0; }
-.order-nav{position: fixed; left: 0; bottom: 0;width:100%; }
-.nav-buy .btn-go:hover, .nav-buy .btn-go:focus { color: #fff !important; text-decoration: none; }
+.buy-order-nav .box {
+    float: left;
+    width: calc(100% - 12rem);
+    height: 5rem;
+    line-height: 5rem;
+    text-align: left;
+    font-size: 1.4rem;
+}
 
-.link-list h3 { padding: 0 0 5px 5px; }
-ul.address-list, .business-item ul { overflow: hidden; }
-.nav-buy .btn-go.am-disabled { background-color: #efa4af; }
+.pay-address {
+    display: none;
+}
+
+.buy-order-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.link-list h3 span {
+    font-weight: 500;
+}
+
+ul.address-list,
+.business-item ul {
+    overflow: hidden;
+}
 
 /* 扩展数据 */
-.buy-extension-data { background: #ffffeb; border: 1px solid #ffe2cf; }
-.buy-extension-data li { padding: 5px 0; }
-.buy-extension-data li:not(:last-child) { border-bottom: 1px dashed #ffe2cf; }
-.buy-extension-data .extension-items-tips { color: #ff8f44; }
-
-/**
- * 手机下选择地址
- */
-.link-list .mobile-address { position: fixed; left: 0; bottom: 0; background-color: #fff; width: 100%; height: 100%; z-index: 1099; padding-top: 0 !important; margin-top: 0 !important; border-top: 0 !important; overflow-y: scroll; overflow-x: hidden; padding-bottom: 28px; }
-.link-list .mobile-address .control { margin-bottom: 10px; }
-.link-list .mobile-address .control h3 { background-color: #eee; padding: 5px; }
-.link-list .mobile-address .control, .link-list .mobile-address ul.address-list li, .link-list .mobile-address ul.address-list li .address-operation-btn { display: block !important; }
-.link-list .mobile-address .control .address-submit-save { position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; }
-.link-list .mobile-address ul.address-list li { border-bottom: 1px solid #eee; padding-top: 5px; }
-.link-list .mobile-address ul.address-list li .address-left { width: 100%; }
-.link-list .mobile-address ul.address-list li .address-right { display: none; }
-
-/*留言*/ 
-.buy-message .order-extra {border:1px solid #ddd; overflow: hidden;padding: 15px 10px;}
-
-@media only screen and (min-width:640px) {
-  /*地址操作*/
-  .address { padding: 0 1px 0 5px; }
-  .address .control { margin-bottom: 10px; }
-  .address .control h3{ display: -webkit-inline-box; border: none;margin-top:20px; }
-  .am-form-content {margin-left:75px;}   
-  .am-form-label {width:60px;float: left;}
-  .link-list h3 {padding-bottom:5px;}
-
-  /*业务*/
-  .business-item ul li {width:calc(25% - 8px); }
-  .business-item ul li:nth-child(4n) { margin-right: 0; }
-  .business-item ul li:hover, ul.address-list li:hover { border:1px solid #d2364c; box-shadow: 0px 0 0px 1px #d2364c; }
-
-   /*留言*/ 
-  .buy-message .memo-input {min-width:280px ;max-width:60%; }
-
-  /*带个人信息的结算*/
-  .box ,.nav-buy .btn-go{float:right;width:auto;height:auto;padding:10px 10px;}
-  .pay-address{display:block;} 
-  .box{font-size:12px;overflow: hidden;border: 2px solid #de9ba2;}
-
-  .order-nav {clear: both;text-align: right;position: relative;margin-top: 10px;border: none;}
-  .order-nav .address-confirm .box{position: relative;float: right;z-index: 100;padding-right:2%; padding-bottom:10px;border: 1px solid #f50;font-family: tahoma;display: inline-block;right: 0;background-color: #fff0e8;}
-  .order-nav form.am-form { overflow: inherit;}
-
-  .nav-buy .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
-  .nav-buy .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
-  .base-real-pay {line-height: 16px;margin: 0px 0px 10px;position: relative;}
-  .base-real-pay .g_price span {font-size: 26px;}
-  .price .nav-total-price {font: 700 26px tahoma;}
-  /*地址管理*/
-  .address ul{margin-top: 10px; padding: 1px;}
-  ul.address-list li{display:block; width: calc(33% - 5px);height: 130px;float: left;margin:0 10px 10px 0 ;padding:10px;border: 1px solid #e5e5e5;}
-  ul.address-list li.address-default{background-image: url(../images/address-peraddressbg.png);background-repeat: no-repeat; background-size: 100% 100%;border: 0;box-shadow: none;}
-  ul.address-list li:nth-child(3n) { margin-right: 0; }
-  .address-left{ width:100%;position: relative;}
-  .th .td-inner{padding-left:0 ;}
-      
-  /*地址操作*/
-  .address-operation-btn {display:block;position: absolute;bottom:25px ;right:10px ;}
-  .address-right .am-icon-angle-right,
-  .mobile-address-close-submit { display: none; }
-}
-
-@media only screen and (min-width:1025px) {
-  ul.address-list li { width: calc(25% - 8px); }
-  ul.address-list li:nth-child(4n) { margin-right: 0; }
-  ul.address-list li:nth-child(3n) { margin-right: 10px; }
-  .address { padding: 0; }
-
-  .business-item ul li { width: calc(20% - 8px); }
-  .business-item ul li:nth-child(5n) { margin-right: 0; }
-  .business-item ul li:nth-child(4n) { margin-right: 10px; }
-  .business-item ul { padding: 10px 1px 0 1px; }
-  .link-list h3 { padding: 0 0 5px 0; }
-}
-
-@media only screen and (max-width:640px) {
-  .cart-content table tr .base { width: 100%; }
-  .address { margin-top: 10px; border-top: 1px solid #eee; }
-  .address .control { display: none; }
-  .address-default {background: url(../images/buy-peraddress.png) repeat-x; background-position: bottom; }
-  ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
-  ul.address-list .am-icon-angle-right { color: #888; }
-
-  .business-item ul li { width: calc(50% - 6px); }
-  .business-item ul li:nth-child(2n) { margin-right: 0; }
-  .pay-confirm em { font-size: 12px; }
-  .pay-confirm .nav-total-price { color: #d2364c; font-weight: 700; }
-  .order-nav { background: #f5f5f5; z-index: 100; }
-  .am-footer { padding-bottom: 40px; }
-}
-
-
-/**
- * 商品列表
- */
-.goods-items table.am-table tr th { font-weight: 500; }
-.goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; top: 0; }
-.goods-detail { position: relative; min-height: 80px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
-.goods-title:hover { text-decoration: underline; }
-.goods-base { float: left; top: 0; margin-left: 85px; }
-.goods-attr { margin-top: 5px;  }
-.goods-attr li { color: #888; line-height: 16px; }
-.am-table { margin-bottom: 10px; }
-.am-table > tbody > tr > td { border-top: 1px solid #eee; }
-.am-table > thead > tr > th { border-bottom: 1px solid #f5f5f5; }
-@media only screen and (min-width:640px)  {
-    .cart-content table tr .base { width: 40%; }
-    .cart-content table tr .price { width: 20%; }
-    .cart-content table tr .number { width: 20%; }
-    .cart-content table tr .total-price { width: 20%; }
-    .cart-content { margin-top: 20px; }
-}
-@media only screen and (max-width:640px)  {
-  .goods-detail {
-    margin-bottom: 5px;
-  }
-}
-
-
-/**
- * 自提地址
- */
-.extraction-address-item {
-  box-shadow: none;
-}
-.extraction-address-item .first-icon {
-  width: 13px;
-}
-.extraction-address-item .first-icon i {
-  color: #666;
-}
-.extraction-address-item .address-detail {
-  margin-top: 2px;
-}
-@media only screen and (min-width: 640px) {
-  .extraction-address-container {
-    padding: 0 5px;
-  }
-}
-@media only screen and (min-width: 1025px) {
-  .extraction-address-container {
+.buy-extension-data li {
     padding: 0;
-  }
 }
-@media only screen and (max-width: 640px) {
-  .extraction-default {
-    background: url(../images/buy-peraddress.png) repeat-x;
-    background-position: bottom;
-    border: 0;
-  }
-  .extraction-default .am-panel-bd {
-    padding: 20px 5px;
-  }
-  .extraction-default .am-panel-bd .address-right {
-    padding-top: 5px;
-  }
-}
-/**
- * 自提地址-弹层
- */
-#extraction-address-popup .am-list {
-  margin-top: 0;
-}
-#extraction-address-popup .am-list > li {
-  padding: 10px 5px;
-  border-color: #eee;
-}
-#extraction-address-popup .address-logo {
-  width: 38px;
-  height: 38px;
-}
-#extraction-address-popup .am-list > li:first-child {
-  border-top: 0;
-}
-#extraction-address-popup .extraction-address-item button {
-  position: absolute;
-  top: 15px;
-  right: 5px;
+
+.buy-extension-data .extension-items-tips {
+    color: #ff8f44;
 }
 
 /**
- * 销售+自提导航
- */
-@media only screen and (min-width: 640px) {
-  .buy-header-nav {
-    margin-top: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-  }
+* 手机下选择地址
+*/
+.link-list .mobile-address {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    z-index: 1099;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    border-top: 0 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 6rem;
 }
+
+.link-list .mobile-address .control {
+    margin-bottom: 1rem;
+}
+
+.link-list .mobile-address .control h3 {
+    background-color: #FFFFFF;
+    padding: 1rem 0 0 1rem;
+}
+
+.link-list .mobile-address .control,
+.link-list .mobile-address ul.address-list li,
+.link-list .mobile-address ul.address-list li .address-operation-btn {
+    display: block !important;
+}
+
+.link-list .mobile-address .control .address-submit-save {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    width: 100%;
+    z-index: 100;
+    width: calc(100% - 2rem);
+    z-index: 100;
+    border-radius: var(--border-radius);
+}
+
+.link-list .mobile-address ul.address-list li .address-left {
+    width: 100%;
+}
+
+.link-list .mobile-address ul.address-list li .address-right {
+    display: none;
+}
+
+.address ul.address-express-delivery {
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 2rem;
+    overflow: unset;
+}
+
+@media only screen and (min-width: 641px) {
+    /*地址操作*/
+    .address .control h3 {
+        display: -webkit-inline-box;
+        border: none;
+    }
+
+    .am-form-content {
+        margin-left: 7.5rem;
+    }
+
+    .am-form-label {
+        width: 6rem;
+        float: left;
+    }
+
+    /*业务*/
+    .business-item ul li {
+        width: calc(25% - 0.8rem);
+    }
+
+    .business-item ul li:nth-child(4n) {
+        margin-right: 0;
+    }
+
+    .business-item ul li:hover {
+        border: 0.1rem solid #d2364c;
+        box-shadow: 0px 0 0px 0.1rem #d2364c;
+    }
+
+    /*带个人信息的结算*/
+    .buy-order-nav .box {
+        float: right;
+        width: auto;
+        height: auto;
+        font-size: 1.2rem;
+        line-height: 3rem;
+        overflow: hidden;
+    }
+
+    .pay-address {
+        display: block;
+    }
+
+    .buy-order-nav {
+        clear: both;
+        text-align: right;
+        position: relative;
+        margin-top: 1rem;
+        border: none;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    .buy-order-nav .address-confirm .box {
+        position: relative;
+        float: right;
+        z-index: 100;
+        padding-right: 2%;
+        padding-bottom: 1rem;
+        border: 0.1rem solid #f50;
+        font-family: tahoma;
+        display: inline-block;
+        right: 0;
+        background-color: #fff0e8;
+    }
+
+    .buy-order-nav form.am-form {
+        overflow: inherit;
+    }
+
+    .nav-buy .go-btn-wrap {
+        width: 100%;
+        overflow: hidden;
+        padding-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .base-real-pay {
+        line-height: 3rem;
+        position: relative;
+    }
+
+    .buy-line-title {
+        width: 5.2rem;
+        text-align: right;
+        display: inline-block;
+    }
+
+    .base-real-pay .g_price span {
+        font-size: 2.6rem;
+    }
+
+    .price .nav-total-price {
+        font-size: 1.6rem;
+    }
+
+    /*地址管理*/
+    ul.address-list li {
+        display: block;
+        width: calc((100% - 2rem) / 2);
+    }
+
+    ul.address-list li.address-default {
+        background-image: url(../images/address-peraddressbg.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border: 0;
+        box-shadow: none;
+    }
+
+    ul.address-list li:nth-child(3n) {
+        margin-right: 0;
+    }
+
+    .address-left {
+        width: 100%;
+        position: relative;
+    }
+
+    .th .td-inner {
+        padding-left: 0;
+    }
+
+    /*地址操作*/
+    .address-operation-btn {
+        display: block;
+    }
+
+    .address-right .am-icon-angle-right,
+    .mobile-address-close-submit {
+        display: none;
+    }
+}
+
 @media only screen and (min-width: 1025px) {
-  .buy-header-nav {
-    margin-left: 0;
-    margin-right: 0;
-  }
+    ul.address-list li {
+        width: calc((100% - 4rem) / 3);
+    }
+
+    .business-item ul li {
+        width: calc(20% - 0.8rem);
+    }
+
+    .business-item ul li:nth-child(5n) {
+        margin-right: 0;
+    }
+
+    .business-item ul li:nth-child(4n) {
+        margin-right: 1rem;
+    }
+
+    .business-item ul {
+        padding: 1rem 0.1rem 0 0.1rem;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .cart-content table tr .base {
+        width: 100%;
+    }
+
+    .address {
+        margin-top: 1rem;
+    }
+    .address.address-phone-padding {
+        padding: 1.1rem;
+    }
+
+    .address .control, .extraction-address-content-right {
+        display: none;
+    }
+
+    .address ul {
+        margin-top: 0;
+    }
+
+    .address-default {
+        background: url(../images/buy-peraddress.png) repeat-x;
+        background-position: bottom;
+    }
+
+    ul.address-list li {
+        padding: 0.5rem;
+        min-height: 6rem;
+        overflow: hidden;
+    }
+
+    ul.address-list .am-icon-angle-right {
+        color: #999;
+    }
+
+    .business-item ul li {
+        width: calc(50% - 0.6rem);
+    }
+
+    .business-item ul li:nth-child(2n) {
+        margin-right: 0;
+    }
+
+    .buy-order-nav .box {
+        border: 0;
+    }
+
+    .buy-order-nav .nav-total-price {
+        color: var(--color-main);
+        font-weight: 700;
+        font-size: 2.6rem;
+    }
+
+    .buy-order-nav {
+        z-index: 100;
+    }
+
+    .am-footer {
+        padding-bottom: 4rem;
+    }
+
+    .buy-order-nav .box {
+        text-align: right;
+        padding: 0 1rem 0 0;
+        margin: 0;
+    }
+
+    .link-list .address-container {
+        margin-top: 0;
+    }
+    .link-list .address-container .user-address-container {
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-top: 0;
+    }
 }
 
 /**
- * 商品分组列表
- */
-@media only screen and (max-width: 1025px) {
-  .goods-group-list {
-    padding: 0 5px;
-  }
+* 商品列表
+*/
+.goods-items table.am-table tr th {
+    font-weight: 500;
+}
+
+.goods-detail img {
+    width: 5.8rem;
+    height: 5.8rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.goods-detail {
+    position: relative;
+    min-height: 8rem;
+}
+
+.goods-title {
+    display: block;
+    max-height: 3.6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.goods-title:hover {
+    text-decoration: underline;
+}
+
+.goods-base {
+    float: left;
+    top: 0;
+    margin-left: 7.6rem;
+}
+
+.goods-attr {
+    margin-top: 0.5rem;
+    display: flex;
+}
+
+.goods-attr li {
+    color: #888;
+    line-height: 1.6rem;
+}
+
+@media only screen and (min-width: 641px) {
+    .cart-content table tr .base {
+        width: 40%;
+    }
+
+    .cart-content table tr .price {
+        width: 20%;
+    }
+
+    .cart-content table tr .number {
+        width: 20%;
+    }
+
+    .cart-content table tr .total-price {
+        width: 20%;
+    }
+
+    .cart-content {
+        margin-top: 2rem;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .goods-detail {
+        margin-bottom: 0.5rem;
+    }
 }
 
 /**
- * 无数据提示
- */
+* 自提地址
+*/
+.extraction-address-item {
+    box-shadow: none;
+    position: relative;
+}
+
+.extraction-address-item .address-detail a {
+    color: #75B768;
+    font-weight: 400;
+}
+
+.extraction-address-container .am-popup-hd {
+    border-bottom: 0.1rem solid #EEEEEE;
+}
+
+.extraction-address-container .am-popup-hd .am-popup-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333333;
+}
+
+.extraction-address-container .am-popup-hd .am-popup-hd .am-close {
+    color: #C4C4C4;
+}
+
+.extraction-address-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.extraction-address-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.extraction-address-content-left {
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    padding-right: 3rem;
+    line-height: 2.5rem;
+}
+
+.extraction-address-content-right {
+    padding: 0.5rem;
+}
+
+.extraction-phone-address {
+    display: flex !important;
+    flex-flow: row nowrap;
+}
+
+@media only screen and (max-width: 640px) {
+    .extraction-default .am-panel-bd {
+        padding: 2rem 0.5rem;
+    }
+    .extraction-default .am-panel-bd .address-right {
+        padding-top: 0.5rem;
+    }
+
+    .extraction-phone-address-content {
+        padding-right: 7.5rem;
+    }
+
+    .extraction-phone-address-img {
+        flex-shrink: 0;
+    }
+
+    .extraction-phone-address-content-title .address-detail a {
+        margin-left: -0.8rem;
+        background: transparent;
+    }
+    .extraction-address-content-left p {
+        width: 100%;
+    }
+}
+
+
+/**
+* 自提地址-弹层
+*/
+#extraction-address-popup .am-list {
+    margin-top: 0;
+}
+
+#extraction-address-popup .am-list>li {
+    padding: 1rem 0.5rem;
+}
+
+#extraction-address-popup .address-logo {
+    width: 4.6rem;
+    height: 4.6rem;
+}
+
+#extraction-address-popup .am-list>li:first-child {
+    border-top: 0;
+}
+
+#extraction-address-popup .am-list>li:hover {
+    background-color: transparent;
+}
+
+#extraction-address-popup .extraction-address-item button {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    padding: 0.7rem 1.8rem;
+    transform: translate(-50%, -50%);
+}
+
+/**
+* 销售+自提导航
+*/
+@media only screen and (min-width: 641px) {
+    .buy-header-nav {
+        margin-top: 1rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    .buy-header-nav {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/**
+* 商品分组列表
+*/
+@media only screen and (max-width: 1024px) {
+    .goods-group-list {
+        padding: 0 0.5rem;
+    }
+}
+
+/**
+* 无数据提示
+*/
 .link-list .table-no {
-  padding: 50px 0;
+    padding: 0;
+    min-height: 20rem;
 }
 
 /**
- * 面板
- */
+* 面板
+*/
 .link-list .am-panel {
-  -webkit-box-shadow: none;
-  box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 /**
- * 查看地图
- */
+* 查看地图
+*/
 .link-list .am-badge-default:hover {
-  background: #666;
+    background: #666;
+}
+/**
+* 分组商品
+*/
+.plugins-coupon-buy-container .plugins-coupon-buy-choice {
+    margin-bottom: 1rem;
+}
+/* * 
+* 选择支付 
+*/
+.buy-pay-footer .business-list-nbfc ul {
+    width: calc(100% + 3.8rem);
+    margin-left: -1.9rem;
+    margin-top: -0.9rem;
+    display: flex;
+    flex-flow: row wrap;
+}
+.buy-pay-footer .business-list-nbfc ul li i {
+    position: absolute;
+    bottom: -1.9rem;
+    right: -1.7rem;
+    font-size: 3.4rem;
+    color: var(--color-main);
+    display: none;
+}
+.buy-pay-footer .business-list-nbfc ul li.selected i {
+    display: block;
 }
