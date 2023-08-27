@@ -3505,7 +3505,7 @@ return [
             'desc' => '默認關閉',
             'tips' => '請選擇用戶基礎資訊提示終端',
         ],
-        'common_app_user_base_popup_integral_time'  => [
+        'common_app_user_base_popup_interval_time'  => [
             'name' => '用戶基礎資訊提示間隔時間',
             'desc' => '組織秒、默認1800秒/30分鐘',
             'tips' => '請填寫關閉後再次提示間隔時間',

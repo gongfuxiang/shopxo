@@ -96,7 +96,7 @@ class SystemBaseService
             'common_user_address_platform_import_list'  => MyC('common_user_address_platform_import_list', [], true),
             'common_app_user_base_popup_pages'          => MyC('common_app_user_base_popup_pages', [], true),
             'common_app_user_base_popup_client'         => MyC('common_app_user_base_popup_client', [], true),
-            'common_app_user_base_popup_integral_time'  => (int) MyC('common_app_user_base_popup_integral_time', 1800),
+            'common_app_user_base_popup_interval_time'  => (int) MyC('common_app_user_base_popup_interval_time', 1800),
 
             // 站点信息
             'home_site_name'                            => MyC('home_site_name', null, true),

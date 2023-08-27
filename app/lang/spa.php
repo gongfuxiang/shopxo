@@ -3505,7 +3505,7 @@ return [
             'desc' => 'Cierre predeterminado',
             'tips' => 'Por favor, seleccione el terminal de recordatorio de información básica del usuario',
         ],
-        'common_app_user_base_popup_integral_time'  => [
+        'common_app_user_base_popup_interval_time'  => [
             'name' => 'Intervalo entre las indicaciones de información básica del usuario',
             'desc' => 'Segundos unitarios, 1800 segundos / 30 minutos por defecto',
             'tips' => 'Por favor, rellene el intervalo de recordatorio después del cierre.',

@@ -3539,7 +3539,7 @@ return [
             'desc' => 'Default Off',
             'tips' => 'Please select the user basic information prompt terminal',
         ],
-        'common_app_user_base_popup_integral_time'  => [
+        'common_app_user_base_popup_interval_time'  => [
             'name' => 'User basic information prompt interval time',
             'desc' => 'Unit seconds, default 1800 seconds/30 minutes',
             'tips' => 'Please fill in the interval for prompting again after closing',

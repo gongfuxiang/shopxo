@@ -3505,7 +3505,7 @@ return [
             'desc' => '默认关闭',
             'tips' => '请选择用户基础信息提示终端',
         ],
-        'common_app_user_base_popup_integral_time'  => [
+        'common_app_user_base_popup_interval_time'  => [
             'name' => '用户基础信息提示间隔时间',
             'desc' => '单位 秒、默认1800秒/30分钟',
             'tips' => '请填写关闭后再次提示间隔时间',
