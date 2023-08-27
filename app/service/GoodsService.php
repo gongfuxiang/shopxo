@@ -2869,7 +2869,7 @@ class GoodsService
         }
 
         // 自定义路径
-        $path = 'static'.DS.'upload'.DS.'images'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
+        $path = 'download'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
 
         // 名称增加站点模式（站点模式不一样商品url地址也会不一样）
         $filename = $goods_id.SystemBaseService::SiteTypeValue().'.png';
