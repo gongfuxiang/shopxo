@@ -1428,7 +1428,7 @@ php;
         }
 
         // 目录不存在则创建
-        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins.'_v'.$config['base']['version'];
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
         \base\FileUtil::CreateDir($new_dir);
 
         // 复制包目录 - 控制器
