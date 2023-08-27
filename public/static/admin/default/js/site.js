@@ -339,4 +339,18 @@ $(function()
         // 下拉选择组件初始化
         SelectChosenInit();
     });
+    // cookie域名移除
+    $(document).on('click', '.domain-multilingual-list .delete-submit', function()
+    {
+        var $parent = $(this).parents('li');
+        AMUI.dialog.confirm({
+            title: window['lang_reminder_title'] || '温馨提示',
+            content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
+            onConfirm: function(options)
+            {
+                $parent.remove();
+            },
+            onCancel: function(){}
+        });
+    });
 });

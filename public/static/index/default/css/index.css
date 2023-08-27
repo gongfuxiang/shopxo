@@ -216,7 +216,6 @@ ul, li, ol {list-style: none;}
     }
     .floor .goods-list { padding-left: 0; width: 100%;}
     .floor .word { padding: 1rem; }
-    .floor .word .outer { width: calc(33% - 1.2rem); }
     .floor .aggregation {
         background-color: transparent !important;
     }

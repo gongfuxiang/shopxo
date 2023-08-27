@@ -398,11 +398,11 @@ class ConstService
             ],
             // 用户基础信息提示页面（index 首页、goods-category 商品分类、cart 购物车、 user 用户中心、share 分享）
             'common_user_base_popup_pages_list' => [
-                'index'           => ['value' => 'index', 'name' => MyLang('common_file_upload_error_list.index')],
-                'goods-category'  => ['value' => 'goods-category', 'name' => MyLang('common_file_upload_error_list.goods-category')],
-                'cart'            => ['value' => 'cart', 'name' => MyLang('common_file_upload_error_list.cart')],
-                'user'            => ['value' => 'user', 'name' => MyLang('common_file_upload_error_list.user')],
-                'share'           => ['value' => 'share', 'name' => MyLang('common_file_upload_error_list.share')],
+                'index'           => ['value' => 'index', 'name' => MyLang('common_user_base_popup_pages_list.index')],
+                'goods-category'  => ['value' => 'goods-category', 'name' => MyLang('common_user_base_popup_pages_list.goods-category')],
+                'cart'            => ['value' => 'cart', 'name' => MyLang('common_user_base_popup_pages_list.cart')],
+                'user'            => ['value' => 'user', 'name' => MyLang('common_user_base_popup_pages_list.user')],
+                'share'           => ['value' => 'share', 'name' => MyLang('common_user_base_popup_pages_list.share')],
             ],
             // 多语言code 语言编码 => name 语言名称）
             'common_multilingual_list' => [
