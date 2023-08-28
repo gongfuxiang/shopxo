@@ -98,14 +98,33 @@
 ![扩展部分](https://doc.shopxo.net/upload/image/20211023/1634962862173709.jpg "扩展部分.jpg")
 ![多门店](https://doc.shopxo.net/upload/image/20220406/1649233148208137.jpg "扩展部分.jpg")
 
-### 可视化DIY拖拽装修展示
-![可视化拖拽](https://doc.shopxo.net/upload/image/20210727/1627370212919280.gif "可视化DIY拖拽装修")
-
 ### PC端展示
-![PC脑端](https://doc.shopxo.net/upload/image/20210727/1627370212898377.gif "PC前端")
+![首页](https://doc.shopxo.net/upload/image/20230828/1693210805201220.png"首页")
+![分类](https://doc.shopxo.net/upload/image/20230828/1693210804418522.png"分类")
+![搜索](https://doc.shopxo.net/upload/image/20230828/1693210803669179.png"搜索")
+![商品](https://doc.shopxo.net/upload/image/20230828/1693210804875207.png"商品")
+![博客](https://doc.shopxo.net/upload/image/20230828/1693210805510335.png"博客")
+![会员等级](https://doc.shopxo.net/upload/image/20230828/1693210806650622.png"会员等级")
+![秒杀](https://doc.shopxo.net/upload/image/20230828/1693210806336891.png"秒杀")
+![积分商城](https://doc.shopxo.net/upload/image/20230828/1693210806925384.png"积分商城")
+![店铺](https://doc.shopxo.net/upload/image/20230828/1693210807240485.png"店铺")
+![签到](https://doc.shopxo.net/upload/image/20230828/1693210807820181.png"店铺")
+![问答](https://doc.shopxo.net/upload/image/20230828/1693210808639502.png"问答")
+![登录](https://doc.shopxo.net/upload/image/20230828/1693210808971631.png"登录")
+![注册](https://doc.shopxo.net/upload/image/20230828/1693210809261675.png"注册")
+![用户中心](https://doc.shopxo.net/upload/image/20230828/1693210808973902.png"用户中心")
+
 
 ### 后台管理展示
-![后台管理](https://doc.shopxo.net/upload/image/20210727/1627370212801103.gif "后台管理")
+![首页](https://doc.shopxo.net/upload/image/20230828/1693211226243199.png"首页")
+![用户](https://doc.shopxo.net/upload/image/20230828/1693211226381960.png"用户")
+![商品](https://doc.shopxo.net/upload/image/20230828/1693211226994365.png"商品")
+![订单](https://doc.shopxo.net/upload/image/20230828/1693211227360148.png"订单")
+![插件](https://doc.shopxo.net/upload/image/20230828/1693211227379650.png"插件")
+
+
+### 可视化DIY拖拽装修展示
+![可视化拖拽](https://doc.shopxo.net/upload/image/20210727/1627370212919280.gif "可视化DIY拖拽装修")
 
 
 ### 系统管理模块
