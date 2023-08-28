@@ -99,28 +99,27 @@
 ![多门店](https://doc.shopxo.net/upload/image/20220406/1649233148208137.jpg "扩展部分.jpg")
 
 ### PC端展示
-![首页](https://doc.shopxo.net/upload/image/20230828/1693210805201220.png"首页")
-![分类](https://doc.shopxo.net/upload/image/20230828/1693210804418522.png"分类")
-![搜索](https://doc.shopxo.net/upload/image/20230828/1693210803669179.png"搜索")
-![商品](https://doc.shopxo.net/upload/image/20230828/1693210804875207.png"商品")
-![博客](https://doc.shopxo.net/upload/image/20230828/1693210805510335.png"博客")
-![会员等级](https://doc.shopxo.net/upload/image/20230828/1693210806650622.png"会员等级")
-![秒杀](https://doc.shopxo.net/upload/image/20230828/1693210806336891.png"秒杀")
-![积分商城](https://doc.shopxo.net/upload/image/20230828/1693210806925384.png"积分商城")
-![店铺](https://doc.shopxo.net/upload/image/20230828/1693210807240485.png"店铺")
-![签到](https://doc.shopxo.net/upload/image/20230828/1693210807820181.png"店铺")
-![问答](https://doc.shopxo.net/upload/image/20230828/1693210808639502.png"问答")
-![登录](https://doc.shopxo.net/upload/image/20230828/1693210808971631.png"登录")
-![注册](https://doc.shopxo.net/upload/image/20230828/1693210809261675.png"注册")
-![用户中心](https://doc.shopxo.net/upload/image/20230828/1693210808973902.png"用户中心")
+![首页](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/home.png "首页")
+![分类](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/category.png "分类")
+![搜索](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/search.png "首页")
+![博客](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/blog.png "博客")
+![会员等级](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/membershiplevelvip.png "会员等级")
+![秒杀](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/seckill.png "秒杀")
+![签到](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/signin.png "签到")
+![积分商城](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/points.png "积分商城")
+![店铺](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/shop.png "店铺")
+![问答](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/answers.png "问答")
+![用户中心](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/user-center.png "用户中心")
+![登录](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/login.png "登录")
+![注册](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/regster.png "注册")
 
 
 ### 后台管理展示
-![首页](https://doc.shopxo.net/upload/image/20230828/1693211226243199.png"首页")
-![用户](https://doc.shopxo.net/upload/image/20230828/1693211226381960.png"用户")
-![商品](https://doc.shopxo.net/upload/image/20230828/1693211226994365.png"商品")
-![订单](https://doc.shopxo.net/upload/image/20230828/1693211227360148.png"订单")
-![插件](https://doc.shopxo.net/upload/image/20230828/1693211227379650.png"插件")
+![首页](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/home.png "首页")
+![用户](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/user.png "用户")
+![商品](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/goods.png "商品")
+![订单](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/order.png "订单")
+![插件](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/plugins.png "插件")
 
 
 ### 可视化DIY拖拽装修展示
