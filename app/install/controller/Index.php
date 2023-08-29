@@ -420,6 +420,9 @@ php;
             return DataReturn('sql运行失败['.$failure.']条', -1);
         }
 
+        // 更新加密串
+        $db->execute('UPDATE `'.$params['DB_PREFIX'].'config` SET `value`="'.md5(time().rand(100, 99999)).'" WHERE `only_tag`="common_data_encryption_secret"');
+
         return DataReturn('success', 0, $result);
     }
 
