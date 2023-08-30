@@ -2643,14 +2643,17 @@ function ViewQrCodeInit () {
  */
 function ViewDocumentTitleInit () {
     $('*').each(function (k, v) {
-        var title = $(this).attr('title') || null;
-        if (title !== null) {
-            $(this).popover({
-                content: title,
-                trigger: 'hover focus',
-                theme: 'sm'
-            });
-            $(this).removeAttr('title');
+        if($(this).prop('tagName') != 'IMG')
+        {
+            var title = $(this).attr('title') || null;
+            if (title !== null) {
+                $(this).popover({
+                    content: title,
+                    trigger: 'hover focus',
+                    theme: 'sm'
+                });
+                $(this).removeAttr('title');
+            }
         }
     });
 }
