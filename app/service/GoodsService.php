@@ -2264,10 +2264,32 @@ class GoodsService
         {
             $base = Db::name('GoodsSpecBase')->find($goods_service_goods_spec_base_static_data[$key]);
         } else {
-            // 有规格值
-            $base = [];
-            if(!empty($spec))
+            // 商品信息
+            $info = Db::name('Goods')->where(['id'=>$goods_id])->field('id,title,is_exist_many_spec')->find();
+            if(empty($info))
             {
+                return DataReturn('【'.$goods_id.'】'.MyLang('no_goods'), -1);
+            }
+
+            // 规格值校验处理
+            $base = [];
+            if(empty($spec))
+            {
+                // 没有指定规格、但是商品已存在规则则报错
+                if($info['is_exist_many_spec'] == 1)
+                {
+                    return DataReturn('【'.$info['title'].'】'.MyLang('common_service.goods.base_spec_not_choice_tips'), -1);
+                }
+
+                // 单个规则则直接获取规格基础
+                $base = Db::name('GoodsSpecBase')->where($where)->find();
+            } else {
+                // 指定规格规格、但是商品没有规格则报错
+                if($info['is_exist_many_spec'] == 0)
+                {
+                    return DataReturn('【'.$info['title'].'】'.MyLang('common_service.goods.base_spec_empty_tips'), -1);
+                }
+
                 // 获取规格值基础值id
                 $where['value'] = $spec;
                 $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
@@ -2304,8 +2326,6 @@ class GoodsService
                         }
                     }
                 }
-            } else {
-                $base = Db::name('GoodsSpecBase')->where($where)->find();
             }
             if(!empty($base))
             {

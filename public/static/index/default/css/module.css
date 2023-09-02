@@ -202,12 +202,8 @@
 
 .module-goods-list-base .item .goods-info {
     width: 14rem;
-    border-radius: 0.4rem;
-    overflow: hidden;
-    display: inline-block;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    height: 14rem;
+    border-radius: var(--border-radius);
 }
 
 .module-goods-list-base .item .goods-info img {
@@ -310,6 +306,7 @@
 @media only screen and (min-width: 1600px) {
     .module-goods-list-base .item .goods-info {
         width: 16rem;
+        height: 16rem;
     }
 }
 

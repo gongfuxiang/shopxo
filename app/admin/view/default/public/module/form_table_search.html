@@ -6,12 +6,12 @@
         {{/if}}
         {{foreach $form_table['form'] as $k=>$t}}
             {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
-                <td class="
-                    {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                <td class="form-table-search-item-head-value-{{$t.unique_key}}
+                    {{if isset($t['is_middle']) and $t['is_middle'] eq 1}} am-text-middle {{/if}}
+                    {{if !empty($t['grid_size'])}} am-grid-{{$t.grid_size}} {{/if}}
+                    {{if !empty($t['align'])}} am-text-{{$t.align}} {{/if}}
+                    {{if !empty($t['fixed'])}} am-grid-fixed-{{$t.fixed}} {{/if}}
+                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}} am-operate-grid {{/if}}
                 "
                 style="
                     {{if !empty($t['width'])}}

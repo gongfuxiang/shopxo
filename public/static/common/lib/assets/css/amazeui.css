@@ -3392,7 +3392,7 @@ fieldset[disabled] .am-checkbox-inline {
   text-decoration: none;
   line-height: 1.2rem;
   background-color: #fff;
-  border: 0.1rem solid rgba(0,0,0,.02);
+  border: 0.1rem solid rgba(0,0,0,.06);
   border-radius: 0;
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
@@ -4014,6 +4014,7 @@ fieldset[disabled] .am-checkbox-inline {
   text-align: center;
   background-color: #999999;
   border-radius: 0;
+  border: 0;
 }
 .am-badge:empty {
   display: none;

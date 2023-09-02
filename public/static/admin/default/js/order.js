@@ -39,16 +39,20 @@ $(function()
     var $form_pay = $('form.form-validation-pay');
     $(document).on('click', '.submit-pay', function()
     {
-        $form_pay.find('input[name=id]').val($(this).data('id'));
         var payment_id = parseInt($(this).data('payment-id') || 0);
-        if($('.payment-items-'+payment_id).length > 0)
+        $form_pay.find('input[name=id]').val($(this).data('id'));
+        $form_pay.find('input[name=payment_id]').val(0);
+        $form_pay.find('ul.payment-list li').each(function(k, v)
         {
-            $form_pay.find('input[name=payment_id]').val(payment_id);
-            $('.payment-items-'+payment_id).addClass('selected').siblings('li').removeClass('selected');
-        } else {
-            $form_pay.find('input[name=payment_id]').val(0);
-            $('ul.payment-list li.selected').removeClass('selected');
-        }
+            var temp = parseInt($(this).data('value') || 0);
+            if(temp == payment_id)
+            {
+                $(this).addClass('selected');
+                $form_pay.find('input[name=payment_id]').val(payment_id);
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
     });
     // 支付操作表单
     $form_pay.find('button[type=submit]').on('click', function()

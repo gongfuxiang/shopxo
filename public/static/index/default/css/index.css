@@ -25,7 +25,7 @@ ul, li, ol {list-style: none;}
 .floor {position: relative; }
 
 /*小标签*/
-.aggregation .word{overflow: hidden; padding: 2rem 1.5rem; margin: 1.5rem;background: rgba(255,255,255,0.6);}
+.aggregation .word{overflow: hidden; padding: 2rem 1.5rem; margin: 1.5rem;background: rgba(255,255,255,0.6); width: calc(100% - 3rem); }
 .word .outer {margin: 0.5rem; width: calc(50% - 1.4rem); height: 2.6rem;  line-height: 2.6rem; text-align: center;color: #666666;display: inline-block; border: 0.1rem solid #cecece; text-decoration: none; overflow: hidden;}
 
 /*楼层左侧*/
@@ -224,5 +224,5 @@ ul, li, ol {list-style: none;}
 @media only screen and (min-width: 641px) {
     .category-content .category{background: rgba(238,238,238,.32); }
     /*楼层左侧*/
-    .aggregation .word{ padding: 0.5rem 1rem; position: absolute;bottom: 0;}
+    .aggregation .word{ padding: 0.5rem 1rem; position: absolute;bottom: 0; }
 }

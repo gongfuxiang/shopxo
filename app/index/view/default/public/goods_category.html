@@ -15,8 +15,8 @@
                         {{foreach $goods_category_list as $k=>$v}}
                             <li class="first" data-index="{{$k}}">
                                 {{if $category_show_level gt 1}}
-                                    <img class="category-fillet-top am-hide" src="{{$attachment_host}}/static/index/default/images/corner_round_top.png" />
-                                    <img class="category-fillet-bottom am-hide" src="{{$attachment_host}}/static/index/default/images/corner_round_bottom.png" />
+                                    <img class="category-fillet-top am-hide" src="{{$attachment_host}}/static/index/{{$default_theme}}/images/corner_round_top.png" />
+                                    <img class="category-fillet-bottom am-hide" src="{{$attachment_host}}/static/index/{{$default_theme}}/images/corner_round_bottom.png" />
                                 {{/if}}
                                 <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block">
                                 <div class="category-info">

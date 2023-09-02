@@ -397,12 +397,15 @@ class UserService
      * @param   [string]          $where_field      [字段名称]
      * @param   [string]          $where_value      [字段值]
      * @param   [string]          $field            [指定字段]
+     * @param   [array]           $params           [输入参数]
      */
-    public static function UserPlatformInfo($where_field, $where_value, $field = '*')
+    public static function UserPlatformInfo($where_field, $where_value, $field = '*', $params = [])
     {
+        $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
+        $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
         $where = [
-            ['system_type', '=', SYSTEM_TYPE],
-            ['platform', '=', APPLICATION_CLIENT_TYPE],
+            ['system_type', '=', $system_type],
+            ['platform', '=', $platform],
             [$where_field, '=', $where_value],
         ];
         return Db::name('UserPlatform')->where($where)->field($field)->find();
@@ -418,8 +421,9 @@ class UserService
      * @param   [string]          $where_field      [字段名称]
      * @param   [string]          $where_value      [字段值]
      * @param   [string]          $field            [指定字段]
+     * @param   [array]           $params           [输入参数]
      */
-    public static function UserInfo($where_field, $where_value, $field = '*')
+    public static function UserInfo($where_field, $where_value, $field = '*', $params = [])
     {
         // 用户平台表结构
         $structure = ResourcesService::TableStructureData('UserPlatform');
@@ -446,9 +450,11 @@ class UserService
         }
 
         // 查询用户信息
+        $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
+        $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
         $where = [
-            ['up.system_type', '=', SYSTEM_TYPE],
-            ['up.platform', '=', APPLICATION_CLIENT_TYPE],
+            ['up.system_type', '=', $system_type],
+            ['up.platform', '=', $platform],
             [$where_field, '=', $where_value],
             ['u.is_delete_time', '=', 0],
             ['u.is_logout_time', '=', 0],
@@ -503,8 +509,9 @@ class UserService
         if($where_field != 'id')
         {
             $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
+            $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
             $where[] = ['system_type', '=', $system_type];
-            $where[] = ['platform', '=', APPLICATION_CLIENT_TYPE];
+            $where[] = ['platform', '=', $platform];
         }
         $data['upd_time'] = time();
         return Db::name('UserPlatform')->where($where)->update($data);
@@ -792,13 +799,14 @@ class UserService
      * @datetime 2017-03-09T11:37:43+0800
      * @param    [int]     $user_id [用户id]
      * @param    [array]   $user    [用户信息]
+     * @param    [array]   $params  [输入参数]
      * @return   [boolean]          [记录成功true, 失败false]
      */
-    public static function UserLoginRecord($user_id = 0, $user = [])
+    public static function UserLoginRecord($user_id = 0, $user = [], $params = [])
     {
         if(!empty($user_id) && empty($user))
         {
-            $user = self::UserHandle(self::UserInfo('id', $user_id));
+            $user = self::UserHandle(self::UserInfo('id', $user_id, '*', $params));
         }
         if(!empty($user))
         {
@@ -1291,7 +1299,7 @@ class UserService
         $body_html = [];
 
         // 用户登录后钩子
-        $user = self::UserHandle(self::UserInfo('id', $user_id));
+        $user = self::UserHandle(self::UserInfo('id', $user_id, '*', $params));
 
         // 会员码生成处理
         if(empty($user['number_code']))
@@ -2687,12 +2695,12 @@ class UserService
      * @param   [array]          $data   [用户信息]
      * @param   [array]          $params [输入参数]
      */
-    public static function UserBaseHandle($data, $params)
+    public static function UserBaseHandle($data, $params = [])
     {
         // 系统类型
         if(empty($data['system_type']))
         {
-            $data['system_type'] = SYSTEM_TYPE;
+            $data['system_type'] = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
         }
 
         // 基础参数处理

@@ -62,7 +62,7 @@
             
             <!-- 快递 - 用户地址 -->
             {{if isset($base['site_model']) and $base['site_model'] eq 0}}
-                <div id="buy-items-address" class="address user-address-container">
+                <div id="buy-items-address" class="address user-address-container address-phone-padding">
                     <div class="control am-margin-bottom-main">
                         <h3>
                             <span>{{:MyLang('buy.confirm_delivery_address_name')}}</span>
@@ -117,7 +117,7 @@
                                     'msg'         => MyLang('buy.no_address_info_tips'),
                                     'icon'        => $attachment_host.'/static/common/images/no-address.png',
                                 ])}}
-                            <button class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-top-main address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
+                            <button class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-bottom-main address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                         </div>
                     {{/if}}
                 </div>
@@ -453,17 +453,17 @@
                                                         {{/php}}
                                                         <!-- 分组商品详情基础底部钩子-结束 -->
                                                     </td>
-                                                    <td class="price am-hide-sm-only">
+                                                    <td class="am-hide-sm-only">
                                                         {{if $goods['original_price'] gt 0}}
                                                             <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
                                                         {{/if}}
-                                                        <p class="original-price">{{$currency_symbol}}{{$goods.price}}</p>
+                                                        <p>{{$currency_symbol}}{{$goods.price}}</p>
                                                     </td>
                                                     <td class="number am-hide-sm-only am-color-grey">
                                                         {{$goods.stock}} {{$goods.inventory_unit}}
                                                     </td>
                                                     <td class="total-price am-hide-sm-only am-color-grey-dark am-text-center">
-                                                        <span>{{$currency_symbol}}</span><strong class="total-price-content">{{$goods.total_price}}</strong>
+                                                        <span>{{$currency_symbol}}</span><strong class="line-price total-price-content">{{$goods.total_price}}</strong>
                                                     </td>
                                                 </tr>
                                             {{/foreach}}
@@ -505,12 +505,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3"></td>
-                                                <td class="am-text-center am-text-bottom">
+                                                <td colspan="4" class="am-text-right am-text-bottom">
                                                     <!-- 含运费小计 -->
-                                                    <div class="buy-point-discharge">
+                                                    <div class="am-text-right">
                                                         {{if $v['order_base']['total_price'] neq $v['order_base']['actual_price']}}
-                                                            <span class="original-price am-margin-right-xs">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
+                                                            <span class="original-price am-margin-right-sm">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
                                                         {{/if}}
                                                         <span class="buy-point-discharge-sum">
                                                             <span>{{:MyLang('buy.goods_item_total_name')}}</span>

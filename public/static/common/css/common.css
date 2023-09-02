@@ -495,6 +495,7 @@ form.am-form .am-form-group.am-form-icon {
 }
 .common-prompt .am-close {
     font-size: 1.8rem;
+    color: #666;
 }
 .common-prompt i{
     position: absolute;
@@ -506,19 +507,16 @@ form.am-form .am-form-group.am-form-icon {
     background-color: #FFEBE0; 
     border-color: #EB5E12; 
     color: #EB5E12; 
-    /* box-shadow: 0 0.2rem 0.4rem #fef0f0, 0 0 0.6rem rgba(0, 0, 0, 0);  */
 }
 .common-prompt.am-alert-warning { 
     background-color: #FFF6E3; 
     border-color: #FAAD14; 
     color: #FAAD14; 
-    /* box-shadow: 0 0.2rem 0.4rem #ffe7d5, 0 0 0.6rem rgba(0, 0, 0, 0);  */
 }
 .common-prompt.am-alert-success { 
     background: #E9FFF0;
     border-color: #38b865;     
     color: #38B865;
-    /* box-shadow: 0 0.2rem 0.4rem #e3fbd6, 0 0 0.6rem rgba(0, 0, 0, 0);  */
 }
 .common-prompt .prompt-content { text-align: left; font-size: 1.2rem; }
 .common-prompt .prompt-msg {
@@ -1097,7 +1095,7 @@ button.colorpicker-submit img {
  * 表格-基础样式
  */
 .am-table-scrollable-horizontal {
-    border: 0.1rem solid rgba(0,0,0,.02);
+    border: 0.1rem solid rgba(0,0,0,.04);
     position: relative;
 }
 .am-table-scrollable-horizontal .form-table-no-data {
@@ -1219,14 +1217,11 @@ button.colorpicker-submit img {
 /**
  * 表格-用户信息
  */
-.am-form-table-data-container ul.user-base {
-    padding-top: 0.2rem;
-}
 .am-form-table-data-container ul.user-base li {
-    line-height: 1.2rem;
+    line-height: 1.4rem;
 }
 .am-form-table-data-container ul.user-base li:first-child {
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.5rem;
 }
 .am-form-table-data-container ul.user-base .user-number-code .am-dropdown-content {
     min-width: 10rem;

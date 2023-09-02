@@ -12,14 +12,18 @@ $(function()
             ids = ids.join(',');
         }
         $('form.pay-form input[name=ids]').val(ids);
-        if((payment_id || null) != null && $('.payment-items-'+payment_id).length > 0)
+        $('form.pay-form input[name=payment_id]').val(0);
+        $('form.pay-form ul.payment-list li').each(function(k, v)
         {
-            $('form.pay-form input[name=payment_id]').val(payment_id);
-            $('.payment-items-'+payment_id).addClass('selected').siblings('li').removeClass('selected');
-        } else {
-            $('form.pay-form input[name=payment_id]').val(0);
-            $('ul.payment-list li.selected').removeClass('selected');
-        }
+            var temp = parseInt($(this).data('value') || 0);
+            if(temp == payment_id)
+            {
+                $(this).addClass('selected');
+                $('form.pay-form input[name=payment_id]').val(payment_id);
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
     }
     // 支付操作
     $(document).on('click', '.submit-pay', function()
@@ -68,7 +72,10 @@ $(function()
         // 是否自动打开支付窗口
         if($pay_popup.data('is-auto') == 1)
         {
-            $pay_popup.modal();
+            setTimeout(function()
+            {
+                $('.submit-pay').trigger('click');
+            }, 100);
         }
 
         // 是否自动提交支付表单

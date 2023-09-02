@@ -10,12 +10,12 @@
                         <!-- 2. 格子大小 -->
                         <!-- 3. 内容位置居（左|中|右） -->
                         <!-- 4. 格子是否固定（left|right 左|右） -->
-                        <th class="
-                            {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                            {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                            {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                            {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                            {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                        <th class="form-table-search-item-head-title-{{$t.unique_key}}
+                            {{if isset($t['is_middle']) and $t['is_middle'] eq 1}} am-text-middle {{/if}}
+                            {{if !empty($t['grid_size'])}} am-grid-{{$t.grid_size}} {{/if}}
+                            {{if !empty($t['align'])}} am-text-{{$t.align}} {{/if}}
+                            {{if !empty($t['fixed'])}} am-grid-fixed-{{$t.fixed}} {{/if}}
+                            {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}} am-operate-grid {{/if}}
                         "
                         style="
                             {{if !empty($t['width'])}}

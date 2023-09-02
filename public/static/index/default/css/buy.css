@@ -15,19 +15,6 @@
     border: 0;
 }
 
-.buy-items table tbody tr td .buy-point-discharge {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.buy-items table tbody tr td .buy-point-discharge-sum {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-}
-
 .warehouse-info {
     display: flex;
     align-items: center;
@@ -214,7 +201,7 @@ ul.address-list li .user-base .address-detail .user {
 /*合计*/
 .buy-order-nav .box {
     float: left;
-    width: calc(100% - 12rem);
+    width: calc(100% - 14rem);
     height: 5rem;
     line-height: 5rem;
     text-align: left;

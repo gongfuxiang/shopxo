@@ -2005,7 +2005,7 @@ class OrderService
             $ret = ParamsChecked($params, $p);
             if($ret !== true)
             {
-                throw new \Exception($ret['msg']);
+                throw new \Exception($ret);
             }
 
             // 用户类型
@@ -2045,7 +2045,7 @@ class OrderService
                     $ret = ParamsChecked($params, $p);
                     if($ret !== true)
                     {
-                        throw new \Exception($ret['msg']);
+                        throw new \Exception($ret);
                     }
                     break;
 
@@ -2061,7 +2061,7 @@ class OrderService
                     $ret = ParamsChecked($params, $p);
                     if($ret !== true)
                     {
-                        throw new \Exception($ret['msg']);
+                        throw new \Exception($ret);
                     }
 
                     // 校验
@@ -2076,40 +2076,57 @@ class OrderService
                     }
                     break;
             }
-            // 订单更新
-            $upd_data = [
-                'status'            => 3,
-                'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
-                'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
-                'delivery_time'     => time(),
-                'upd_time'          => time(),
-            ];
-            if(!Db::name('Order')->where($where)->update($upd_data))
-            {
-                throw new \Exception(MyLang('delivery_fail'));
-            }
 
-            // 库存扣除
-            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'delivery']);
-            if($ret['code'] != 0)
-            {
-                throw new \Exception($ret['msg']);
-            }
-
-            // 用户消息
-            $lang = MyLang('common_service.order.order_delivery_message_data');
-            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
-
-            // 订单状态日志
-            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
-            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
-
-            // 完成
-            return DataReturn(MyLang('delivery_success'), 0);
+            // 发货更新操作
+            return self::OrderDeliveryUpdateHandle($order, $params);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }
+    }
+
+    /**
+     * 订单发货更新处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $order [订单信息]
+     * @param   [array]          $params[输入参数]
+     */
+    public static function OrderDeliveryUpdateHandle($order, $params = [])
+    {
+        // 订单更新
+        $upd_data = [
+            'status'            => 3,
+            'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
+            'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
+            'delivery_time'     => time(),
+            'upd_time'          => time(),
+        ];
+        if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
+        {
+            return DataReturn(MyLang('delivery_fail'), -1);
+        }
+
+        // 库存扣除
+        $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'delivery']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 用户消息
+        $lang = MyLang('common_service.order.order_delivery_message_data');
+        MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
+
+        // 订单状态日志
+        $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+        $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+        self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
+
+        // 完成
+        return DataReturn(MyLang('delivery_success'), 0);
     }
 
     /**

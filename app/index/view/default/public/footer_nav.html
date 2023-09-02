@@ -77,7 +77,7 @@
 							<li class="am-fl am-text-center title">友情链接</li>
 							{{foreach $link_list as $v}}
 								<li class="am-fl am-text-center">
-									<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
+									<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}}>{{$v.name}}</a>
 								</li>
 							{{/foreach}}
 						</ul>
