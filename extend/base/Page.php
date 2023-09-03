@@ -127,7 +127,6 @@ class Page
 		$before_disabled = ($this->page > 1) ? '' : ' am-disabled';
 		$after_disabled = ($this->page > 0 && $this->page < $this->page_total) ? '' : ' am-disabled';
 
-		$this->html .= '<div class="am-container">';
 		$this->html .= '<ul class="am-pagination-container am-pagination am-pagination-right pagination-margin-top">';
 		$this->html .= '<li class="first-before-page-submit '.$before_disabled.'">';
 		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page=1" data-value="1" class="am-icon-angle-double-left"></a>';
@@ -168,7 +167,6 @@ class Page
 		}
 		$this->html .= '</div>';
 		$this->html .= '</ul>';
-		$this->html .= '</div>';
 
 		return $this->html;
 	}
