@@ -56,7 +56,7 @@ $(function()
     FromInit('form.form-validation-specifications-extends');
 
     // 商品导航
-    $('.goods-nav li a').on('click', function()
+    $(document).on('click', '.goods-nav li a', function()
     {
         // 样式
         $('.goods-nav li a').removeClass('goods-nav-active');
@@ -67,7 +67,7 @@ $(function()
     });
 
     // 商品导航收缩
-    $('.goods-nav li.nav-shrink-submit').on('click', function()
+    $(document).on('click', '.goods-nav li.nav-shrink-submit', function()
     {
         if($(this).find('i').hasClass('am-icon-angle-double-right'))
         {
@@ -89,7 +89,7 @@ $(function()
     });
 
     // 规格列添加
-    $('.specifications-nav-title-add').on('click', function()
+    $(document).on('click', '.specifications-nav-title-add', function()
     {
         var spec_max = $spec_table.data('spec-add-max-number') || 3;
         if($('.specifications-table th.table-title').length >= spec_max)
@@ -134,7 +134,7 @@ $(function()
     });
 
     // 添加一行规格值
-    $('.specifications-line-add').on('click', function()
+    $(document).on('click', '.specifications-line-add', function()
     {
         if($('.specifications-table th.table-title').length <= 0)
         {
@@ -200,7 +200,7 @@ $(function()
     });
 
     // 添加规格图片
-    $('.specifications-line-images-add').on('click', function()
+    $(document).on('click', '.specifications-line-images-add', function()
     {
         // 是否存在规格
         if($('.specifications-table th.table-title').length <= 0)
@@ -227,13 +227,13 @@ $(function()
     });
 
     // 规格图片删除
-    $('.spec-images-list ul.spec-images-content').on('click', 'ul.plug-file-upload-view li i', function()
+    $(document).on('click', '.spec-images-list ul.spec-images-content ul.plug-file-upload-view li i', function()
     {
         $(this).parents('li.spec-images-items').remove();
     });
 
     // 规格图片自动添加
-    $('.specifications-line-images-auto-add').on('click', function()
+    $(document).on('click', '.specifications-line-images-auto-add', function()
     {
         // 是否存在规格
         var spec_count = $('.specifications-table th.table-title').length || 0;
@@ -324,7 +324,7 @@ $(function()
     });
 
     // 自动添加图片规格input输入值处理
-    $('.specifications-line-images-auto-add input').on('blur', function()
+    $(document).on('blur', '.specifications-line-images-auto-add input', function()
     {
         var value = parseInt($(this).val()) || 1;
         if(value <= 0)
@@ -340,14 +340,14 @@ $(function()
     });
 
     // 自动添加图片规格input禁止冒泡
-    $('.specifications-line-images-auto-add input').on('click', function()
+    $(document).on('click', '.specifications-line-images-auto-add input', function()
     {
         return false;
     });
 
     // 规格批量操作-开启
     var $spec_modal = $('#spec-modal-all-operation');
-    $('.specifications-table thead th i.am-icon-edit').on('click', function()
+    $(document).on('click', '.specifications-table thead th i.am-icon-edit', function()
     {
         $spec_modal.modal({
             width: 200,
@@ -372,7 +372,7 @@ $(function()
 
     // 规格高级批量操作-弹层
     var $spec_popup_all_operation = $('#spec-popup-all-operation');
-    $('.specifications-nav-set-all').on('click', function()
+    $(document).on('click', '.specifications-nav-set-all', function()
     {
         // 获取规格标题
         var title = [];
@@ -548,7 +548,7 @@ $(function()
 
 
     // 规格快捷操作 - 规格列添加
-    $('.quick-spec-title-add').on('click', function()
+    $(document).on('click', '.quick-spec-title-add', function()
     {
         var spec_max = $spec_table.data('spec-add-max-number') || 3;
         if($('.spec-quick table tbody tr').length >= spec_max)
@@ -601,7 +601,7 @@ $(function()
     });
 
     // 规格快捷操作 - 生成规格
-    $('.quick-spec-created').on('click', function()
+    $(document).on('click', '.quick-spec-created', function()
     {
         var spec = [];
         $('.spec-quick table tbody tr').each(function(k, v)
@@ -708,7 +708,7 @@ $(function()
     });
 
     // 商品参数模板选择
-    $('#parameters-quick-container select').on('change', function()
+    $(document).on('change', '#parameters-quick-container select', function()
     {
         var value = $(this).val() || null;
         if(value != null)
@@ -725,7 +725,7 @@ $(function()
     // 商品规格模板和参数模板数据获取、选择商品分类后异步读取
     var $spec_quick = $('#specifications-quick-container');
     var $params_quick = $('#parameters-quick-container');
-    $('select[name="category_id"]').on('change', function()
+    $(document).on('change', 'select[name="category_id"]', function()
     {
         var value = $(this).val() || '';
         $.ajax({

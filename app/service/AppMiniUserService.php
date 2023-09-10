@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
+use think\facade\Db;
 use app\service\UserService;
 
 /**
@@ -49,6 +50,59 @@ class AppMiniUserService
     }
 
     /**
+     * 用户openid或unionid数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-09-07
+     * @desc    description
+     * @param   [string]          $openid_field  [openid字段]
+     * @param   [string]          $openid_value  [openid值]
+     * @param   [string]          $unionid_field [unionid字段]
+     * @param   [string]          $unionid_value [unionid值]
+     */
+    public static function UserOpenOrUnionidData($openid_field, $openid_value, $unionid_field = '', $unionid_value = '')
+    {
+        // 通过openid获取
+        $user = UserService::AppUserInfoHandle(['where_field'=>$openid_field, 'where_value'=>$openid_value]);
+        if(empty($user))
+        {
+            // 通过unionid获取
+            if(!empty($unionid_field) && !empty($unionid_value))
+            {
+                $user = UserService::AppUserInfoHandle(['where_field'=>$unionid_field, 'where_value'=>$unionid_value]);
+            }
+            if(empty($user))
+            {
+                $where = [$openid_field=>$openid_value];
+                if(!empty($unionid_field) && !empty($unionid_value))
+                {
+                    $where[$unionid_field] = $unionid_value;
+                }
+                // 是否存在其他平台的用户openid或unionid、存在则添加
+                $temp = Db::name('UserPlatform')->whereOr($where)->find();
+                if(!empty($temp))
+                {
+                    $insert_data = [
+                        'user_id'       => $temp['user_id'],
+                        $openid_field   => $openid_value,
+                        'add_time'      => time(),
+                    ];
+                    if(!empty($unionid_field) && !empty($unionid_value))
+                    {
+                        $insert_data[$unionid_field] = $unionid_value;
+                    }
+                    if(UserService::UserPlatformInsert($insert_data) > 0)
+                    {
+                        $user = UserService::AppUserInfoHandle(['where_field'=>$openid_field, 'where_value'=>$openid_value]);
+                    }
+                }
+            }
+        }
+        return $user;
+    }
+
+    /**
      * 支付宝用户授权
      * @author  Devil
      * @blog    http://gong.gg/
@@ -67,7 +121,7 @@ class AppMiniUserService
             if($ret['code'] == 0)
             {
                 // 先从数据库获取用户信息
-                $user = UserService::AppUserInfoHandle(['where_field'=>'alipay_openid', 'where_value'=>$ret['data']['user_id']]);
+                $user = self::UserOpenOrUnionidData('alipay_openid', $ret['data']['user_id']);
                 if(empty($user))
                 {
                     $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
@@ -116,7 +170,7 @@ class AppMiniUserService
         if($ret === true)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'alipay_openid', 'where_value'=>$params['openid']]);
+            $user = self::UserOpenOrUnionidData('alipay_openid', $params['openid']);
             if(empty($user))
             {
                 // 字段名称不一样参数处理
@@ -162,12 +216,7 @@ class AppMiniUserService
             $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
 
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'weixin_openid', 'where_value'=>$ret['data']['openid']]);
-            if(empty($user) && !empty($unionid))
-            {
-                // 根据unionid获取数据
-                $user = UserService::AppUserInfoHandle(['where_field'=>'weixin_unionid', 'where_value'=>$unionid]);
-            }
+            $user = self::UserOpenOrUnionidData('weixin_openid', $ret['data']['openid'], 'weixin_unionid', $unionid);
             if(empty($user))
             {
                 // 微信已无用户端获取用户基础信息、直接添加用户
@@ -246,8 +295,11 @@ class AppMiniUserService
         $ret = ParamsChecked($params, $p);
         if($ret === true)
         {
+            // unionid
+            $unionid = isset($params['unionid']) ? $params['unionid'] : '';
+
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'weixin_openid', 'where_value'=>$params['openid']]);
+            $user = self::UserOpenOrUnionidData('weixin_openid', $params['openid'], 'weixin_unionid', $unionid);
             if(empty($user))
             {
                 // 字段名称不一样参数处理
@@ -257,7 +309,7 @@ class AppMiniUserService
                 $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
 
                 // 公共参数处理
-                $auth_data['weixin_unionid'] = isset($params['unionid']) ? $params['unionid'] : '';
+                $auth_data['weixin_unionid'] = $unionid;
                 $auth_data['openid'] = $params['openid'];
                 $auth_data['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
                 $ret = UserService::AuthUserProgram($auth_data, 'weixin_openid');
@@ -295,7 +347,7 @@ class AppMiniUserService
         if($ret['code'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'baidu_openid', 'where_value'=>$ret['data']['openid']]);
+            $user = self::UserOpenOrUnionidData('baidu_openid', $ret['data']['openid']);
             if(!empty($user))
             {
                 // 用户状态
@@ -341,7 +393,7 @@ class AppMiniUserService
         if($ret === true)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'baidu_openid', 'where_value'=>$params['openid']]);
+            $user = self::UserOpenOrUnionidData('baidu_openid', $params['openid']);
             if(empty($user))
             {
                 $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);
@@ -418,12 +470,7 @@ class AppMiniUserService
             $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
 
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'toutiao_openid', 'where_value'=>$ret['data']['openid']]);
-            if(empty($user) && !empty($unionid))
-            {
-                // 根据unionid获取数据
-                $user = UserService::AppUserInfoHandle(['where_field'=>'toutiao_unionid', 'where_value'=>$unionid]);
-            }
+            $user = self::UserOpenOrUnionidData('toutiao_openid', $ret['data']['openid'], 'toutiao_unionid', $unionid);
             if(empty($user))
             {
                 $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
@@ -493,8 +540,11 @@ class AppMiniUserService
         $ret = ParamsChecked($params, $p);
         if($ret === true)
         {
+            // unionid
+            $unionid = isset($params['unionid']) ? $params['unionid'] : '';
+
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'toutiao_openid', 'where_value'=>$params['openid']]);
+            $user = self::UserOpenOrUnionidData('toutiao_openid', $params['openid'], 'toutiao_unionid', $unionid);
             if(empty($user))
             {
                 $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);
@@ -502,7 +552,7 @@ class AppMiniUserService
                 $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
                 $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
                 $auth_data['openid'] = $params['openid'];
-                $auth_data['toutiao_unionid'] = isset($params['unionid']) ? $params['unionid'] : '';
+                $auth_data['toutiao_unionid'] = $unionid;
                 $auth_data['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
                 $ret = UserService::AuthUserProgram($auth_data, 'toutiao_openid');
             } else {
@@ -538,7 +588,7 @@ class AppMiniUserService
         if($ret['code'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'kuaishou_openid', 'where_value'=>$ret['data']['openid']]);
+            $user = self::UserOpenOrUnionidData('kuaishou_openid', $ret['data']['openid']);
             if(empty($user))
             {
                 $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
@@ -584,7 +634,7 @@ class AppMiniUserService
         if($ret === true)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(['where_field'=>'kuaishou_openid', 'where_value'=>$params['openid']]);
+            $user = self::UserOpenOrUnionidData('kuaishou_openid', $params['openid']);
             if(empty($user))
             {
                 $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);

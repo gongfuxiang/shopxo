@@ -6,7 +6,7 @@ $(function()
     $(function()
     {
         // 处理
-        $('.submit-reply').on('click', function()
+        $(document).on('click', '.submit-reply', function()
         {
             var json = $(this).data('json');
             var $popup = $('#my-popup-reply');

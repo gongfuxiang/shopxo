@@ -1,7 +1,7 @@
 $(function()
 {
 	// 模板切换
-	$('.select-theme').on('click', function()
+	$(document).on('click', '.select-theme', function()
 	{
 		var theme = $(this).data('theme');
 		if(!$(this).parent().hasClass('theme-active'))

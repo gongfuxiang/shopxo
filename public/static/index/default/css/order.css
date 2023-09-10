@@ -165,7 +165,7 @@ ul.progress-4 li {
  */
 .fictitious-panel-container ul.am-list li {
 	border: 0 !important;
-	border-bottom: 0.1rem solid #CCCCCC !important;
+	border-bottom: 0.1rem solid #EEE !important;
 }
 .fictitious-panel-container ul.am-list li:last-child {
 	border-bottom: 0 !important;
@@ -223,56 +223,12 @@ ul.progress-4 li {
 	background: rgba(12, 124, 213, 0.08);
 	color: #0c7cd5;
 }
-.order-state .am-alert-default {
-	background: var(--body-bg-color);
-	color: #333333;
-}
-.order-state .order-state-address-icon {
-    width: 0.6rem;
-    height: 0.6rem;
-    background: #0c7cd5;
-    border-radius: 50%;
-    position: absolute;
-        top: 1.6rem;
-    left: 2.5rem;
-    z-index: 2;
-}
-.order-state .order-state-address-icon:before {
-	content: '';
-    width: 0.6rem;
-    height: 0.6rem;
-    background: #0c7cd5;
-	border-radius: 50%;
-	position: absolute;
-    animation: mymove 1.5s infinite;
-    z-index: 1;
-}
-.order-state .order-state-address-icon:after {
-	content: '';
-    width: 0.6rem;
-    height: 0.6rem;
-    background: #0c7cd5;
-	border-radius: 50%;
-	position: absolute;
-	box-shadow: 0rem 0rem 0rem 0.5rem rgba(12, 124, 213, 0.15);
-    z-index: 1;
-}
-@keyframes mymove {
-	0% {
-		box-shadow: 0rem 0rem 0rem 0rem rgba(12, 124, 213, 0.3);
-	}
-
-	100% {
-		box-shadow: 0rem 0rem 0rem 0.5rem rgba(12, 124, 213, 0.3);
+@media only screen and (max-width: 640px) {
+	.order-state .am-alert {
+		width: 100%;
 	}
 }
 
-.order-state .order-state-address {
-	padding-left: 3.5rem;
-}
-.order-state .order-state-address .title {
-    margin-bottom: 0.4rem;
-}
 /**
  * 订单列表
  */
@@ -360,8 +316,7 @@ ul.progress-4 li {
 	padding: 0 2.4rem;
 }
 .order-point-discount .items {
-	padding: 0.8rem 2rem;
-	margin-bottom: 0.1rem;
+	padding: 0.2rem 2rem;
 }
 .order-point-discount .items .items-title {
 	width: auto;

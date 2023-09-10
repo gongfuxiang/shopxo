@@ -3495,6 +3495,7 @@ strong {
     text-align: center;
     width: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .items-nav-title .floor-title {
@@ -3505,13 +3506,33 @@ strong {
     font-weight: 600;
 }
 
-.items-nav-title .today-brands,
-.items-nav-title .more {
+.items-nav-title .today-brands {
     display: none;
 }
 
 .items-nav-title a:hover {
     color: var(--color-main);
+}
+
+.items-nav-title .more {
+    position: absolute;
+    right: -0.5rem;
+    top: 1.3rem;
+    overflow: hidden;
+}
+
+.items-nav-title .more .more-link {
+    color: #FFFFFF;
+    background: #F72862 none repeat scroll 0% 0%;
+    display: block;
+    line-height: 2rem;
+    padding: 0 1rem;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+}
+
+.items-nav-title .more a i {
+    margin-left: 0.5rem;
 }
 
 @media only screen and (min-width: 641px) {
@@ -3558,28 +3579,6 @@ strong {
         float: left;
         margin-left: 1rem;
         margin-top: 1.2rem;
-    }
-
-    .items-nav-title .more {
-        display: block;
-        position: absolute;
-        right: -0.5rem;
-        top: 1.3rem;
-        overflow: hidden;
-    }
-
-    .items-nav-title .more .more-link {
-        color: #FFFFFF;
-        background: #F72862 none repeat scroll 0% 0%;
-        display: block;
-        line-height: 2rem;
-        padding: 0 1rem;
-        border-radius: 1rem;
-        font-size: 1.4rem;
-    }
-
-    .items-nav-title .more a i {
-        margin-left: 0.5rem;
     }
 
     .items-nav-title .today-brands {

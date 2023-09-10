@@ -287,6 +287,7 @@ return [
     'theme_color_white_title'                               => 'White',
     'theme_color_black_title'                               => 'Dark',
     'base_config_title'                                     => 'Base Config',
+    'extend_config_title'                                   => 'Extend Config',
     'clear_search_where'                                    => 'Clear Search Where',
     'register_time_title'                                   => 'Register Time',
     'add_time_title'                                        => 'Add Time',
@@ -3208,6 +3209,11 @@ return [
             'name' => 'describe',
             'desc' => '',
             'tips' => 'Please fill in the description',
+        ],
+        'common_app_mini_weixin_privacy_content'  => [
+            'name' => 'Privacy Popup Description',
+            'desc' => 'If left blank, the system defaults to a general description',
+            'tips' => 'Please fill in the privacy pop-up instructions',
         ],
         'common_user_center_notice'  => [
             'name' => 'User center announcement',

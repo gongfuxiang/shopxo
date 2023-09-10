@@ -493,7 +493,7 @@ $(function()
     });
 
     // 加入购物车
-    $('form.form-validation button[type="submit"]').on('click', function()
+    $(document).on('click', 'form.form-validation button[type="submit"]', function()
     {
         // 参数
         var params = GoodsCartInfoBuyCartCheck();

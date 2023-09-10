@@ -187,6 +187,7 @@ class SystemBaseService
             // 微信小程序
             'common_app_mini_weixin_title'              => MyC('common_app_mini_weixin_title', null, true),
             'common_app_mini_weixin_describe'           => MyC('common_app_mini_weixin_describe', null, true),
+            'common_app_mini_weixin_privacy_content'    => MyC('common_app_mini_weixin_privacy_content', null, true),
             // 支付宝小程序
             'common_app_mini_alipay_title'              => MyC('common_app_mini_alipay_title', null, true),
             'common_app_mini_alipay_describe'           => MyC('common_app_mini_alipay_describe', null, true),

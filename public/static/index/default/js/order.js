@@ -33,7 +33,7 @@ $(function()
     });
 
     // 支付表单
-    $('form.pay-form button[type=submit]').on('click', function()
+    $(document).on('click', 'form.pay-form button[type=submit]', function()
     {
         var ids = $('form.pay-form input[name=ids]').val() || null;
         if(ids == null)
@@ -52,7 +52,7 @@ $(function()
     /**
      * 评价打分
      */
-    $('ul.rating li').on('click', function()
+    $(document).on('click', 'ul.rating li', function()
     {
         $(this).parent().find('li i').removeClass('am-icon-star').addClass('am-icon-star-o');
         var index = $(this).index();
@@ -86,7 +86,7 @@ $(function()
     }
 
     // 批量支付
-    $('.batch-pay-submit').on('click', function()
+    $(document).on('click', '.batch-pay-submit', function()
     {
         // 是否有选择的数据
         var values = FromTableCheckedValues('order_form_checkbox_value', '.am-table-scrollable-horizontal');

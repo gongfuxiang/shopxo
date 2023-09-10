@@ -1,6 +1,6 @@
 $(function () {
     // 一级分类显/隐操作
-    $('.category-list-container ul.category-nav-hover li').on('mouseover', function () {
+    $(document).on('mouseover', '.category-list-container ul.category-nav-hover li', function () {
         var index = $(this).index();
         $('.category-list-container ul.category-nav-hover li').removeClass('active');
         $(this).addClass('active');
@@ -9,7 +9,7 @@ $(function () {
     });
 
     // 一级分类双击进入商品搜索页
-    $('.category-list-container ul.category-nav-hover li').on('dblclick', function () {
+    $(document).on('dblclick', '.category-list-container ul.category-nav-hover li', function () {
         var url = $(this).data('url') || null;
         if (url != null) {
             window.location.href = url;

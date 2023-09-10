@@ -1,7 +1,7 @@
 $(function()
 {
     // 开启基础编辑
-    $('.base-edit-submit').on('click', function()
+    $(document).on('click', '.base-edit-submit', function()
     {
         var $form = $('form.form-validation');
         $form.attr('data-opt-type', 0);
@@ -10,7 +10,7 @@ $(function()
     });
 
     // 保存数据
-    $('.page-save-submit').on('click', function()
+    $(document).on('click', '.page-save-submit', function()
     {
         $(this).button('loading');
         var $form = $('form.form-validation');

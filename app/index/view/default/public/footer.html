@@ -146,7 +146,7 @@
         {{/case}}
         {{case tencent}}
             <script type="text/javascript" src="{{$my_http}}://map.qq.com/api/js?v=2.exp&key={{:MyC('common_tencent_map_ak')}}"></script>
-            <script type="text/javascript" src="{{$my_http}}://map.qq.com/api/gljs?libraries=service&v=1.exp&key={{:MyC('common_tencent_map_ak')}}"></script>
+            <script type="text/javascript" src="{{$my_http}}://map.qq.com/api/gljs?libraries={{if empty($map_tencent_libraries)}}service{{else /}}{{$map_tencent_libraries}}{{/if}}&v=1.exp&key={{:MyC('common_tencent_map_ak')}}"></script>
         {{/case}}
         {{case tianditu}}
             <script type="text/javascript" src="{{$my_http}}://api.tianditu.gov.cn/api?v=4.0&tk={{:MyC('common_tianditu_map_ak')}}"></script>

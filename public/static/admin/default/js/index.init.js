@@ -501,7 +501,7 @@ $(function()
 {
     // 检查更新
     var $inspect_upgrade_popup = $('#inspect-upgrade-popup');
-    $('.inspect-upgrade-submit').on('click', function()
+    $(document).on('click', '.inspect-upgrade-submit', function()
     {
         // 基础信息
         AMUI.dialog.loading({title: window['lang_upgrade_check_loading_tips'] || '正在获取最新内容、请稍候...'});
@@ -590,7 +590,7 @@ $(function()
     });
 
     // 系统更新确认
-    $('.inspect-upgrade-confirm').on('click', function()
+    $(document).on('click', '.inspect-upgrade-confirm', function()
     {
         $inspect_upgrade_popup.modal('close');
         SystemUpgradeRequestHandle({"url": $(this).data('url')});
@@ -606,19 +606,19 @@ $(function()
     });
 
     // 基础条件值改变事件
-    $('.echarts-title select[name="value"]').on('change', function()
+    $(document).on('change', '.echarts-title select[name="value"]', function()
     {
         $(this).parent().find('button.echarts-where-submit').trigger('click');
     });
 
     // 条件确认
-    $('.echarts-where-submit').on('click', function()
+    $(document).on('click', '.echarts-where-submit', function()
     {
         EchartsInit($(this));
     });
 
     // 快捷时间
-    $('.quick-time a').on('click', function()
+    $(document).on('click', '.quick-time a', function()
     {
         // 参数判断
         var start = $(this).data('start') || '';

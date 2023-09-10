@@ -1445,18 +1445,19 @@ function MobileBrowserEnvironment () {
 
 /**
  * 分页按钮获取
- * @param  {[int]} total      [数据总条数]
- * @param  {[int]} number     [页面数据显示条数]
- * @param  {[int]} page       [当前页码数]
- * @param  {[int]} sub_number [按钮生成个数]
- * @return {[string]}         [html代码]
+ * @param  {[int]}      total       [数据总条数]
+ * @param  {[int]}      number      [页面数据显示条数]
+ * @param  {[int]}      page        [当前页码数]
+ * @param  {[int]}      sub_number  [按钮生成个数]
+ * @param  {[boolean]}  is_extend   [是否展示扩展信息]
+ * @return {[string]}               [html代码]
  */
-function PageLibrary (total, number, page, sub_number) {
+function PageLibrary (total, number, page, sub_number, is_extend = false) {
     if ((page || null) == null) page = 1;
     if ((number || null) == null) number = 15;
     if ((sub_number || null) == null) sub_number = 2;
 
-    var page_total = Math.ceil(total / number);
+    var page_total = Math.ceil((total || 0) / number);
     if (page > page_total) page = page_total;
     page = (page <= 0) ? 1 : parseInt(page);
 
@@ -1471,16 +1472,16 @@ function PageLibrary (total, number, page, sub_number) {
     if (sub_number > 0) {
         // 前按钮
         if (page > 1) {
-            total = (page - sub_number < 1) ? 1 : page - sub_number;
-            for (var i = page - 1; i >= total; i--) {
+            var temp = (page - sub_number < 1) ? 1 : page - sub_number;
+            for (var i = page - 1; i >= temp; i--) {
                 html_before = '<li><a href="javascript:;" data-page="' + i + '" class="am-radius">' + i + '</a></li>' + html_before;
             }
         }
 
         // 后按钮
         if (page_total > page) {
-            total = (page + sub_number > page_total) ? page_total : page + sub_number;
-            for (var i = page + 1; i <= total; i++) {
+            var temp = (page + sub_number > page_total) ? page_total : page + sub_number;
+            for (var i = page + 1; i <= temp; i++) {
                 html_after += '<li><a href="javascript:;" data-page="' + i + '" class="am-radius">' + i + '</a></li>';
             }
         }
@@ -1490,7 +1491,32 @@ function PageLibrary (total, number, page, sub_number) {
     html += '<li';
     html += (page > 0 && page < page_total) ? '' : ' class="am-disabled"';
     page_y = page + 1;
-    html += '><a href="javascript:;" data-page="' + page_y + '" class="am-radius">&raquo;</a></li></ul>';
+    html += '><a href="javascript:;" data-page="' + page_y + '" class="am-radius">&raquo;</a></li>';
+
+    // 页码信息
+    if(is_extend) {
+        html += `<span class="current-page-input">
+                    <span class="am-margin-left-sm">`+(window['lang_page_each_page_name'] || '每页')+`</span>
+                    <input type="text" name="page_size" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="`+number+`" data-type="size" data-default-value="30" onclick="this.select()">
+                    <span>`+(window['lang_page_page_strip'] || '条')+`</span>
+                </span>
+                <span class="to-page-input">
+                    <span class="am-margin-left-sm">`+(window['lang_page_jump_to_text'] || '跳转到')+`</span>
+                    <input type="text" name="page" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="`+page+`" data-type="page" data-default-value="1" data-value-max="`+page_total+`" onclick="this.select()">
+                    <span>`+(window['lang_page_page_unit'] || '页')+`</span>
+                </span>`;
+    }
+
+    // 分页结束
+    html += '</ul>';
+
+    // 统计信息、换行展示
+    if(is_extend) {
+        html += `<div class="am-text-right am-text-grey">
+                    <span>`+(window['lang_page_data_total'] || '共 {:total} 条数据').replace('{:total}', total)+`</span>
+                    <span class="am-margin-left-sm">`+(window['lang_page_data_total'] || '共 {:total} 页').replace('{:total}', page_total)+`</span>
+                </div>`;
+    }
     return html;
 }
 
@@ -4300,7 +4326,10 @@ $(function () {
             $form_table.find('input[name="page' + ((type == 'size') ? '_size' : '') + '"]').val(value);
             $form_table.find('.form-table-operate-top-search-submit').trigger('click');
         } else {
-            window.location.href = $(this).data('url') + value;
+            var url = $(this).data('url') || null;
+            if(url != null) {
+                window.location.href = $(this).data('url') + value;
+            }
         }
     });
 

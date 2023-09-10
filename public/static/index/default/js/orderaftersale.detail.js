@@ -13,7 +13,7 @@ $(function()
     var $form_panel = $('.aftersale-form-panel');
 
     // 类型切换
-    $('.aftersale-type .items-align').on('click', function()
+    $(document).on('click', '.aftersale-type .items-align', function()
     {
         $('.aftersale-type .items-align').removeClass('selected');
         $(this).addClass('selected');
@@ -63,7 +63,7 @@ $(function()
     });
 
     // 数量加减
-    $('.number-container .am-input-group-label').on('click', function()
+    $(document).on('click', '.number-container .am-input-group-label', function()
     {
         var number = $('.number-container input').val();
         var max = $('.number-container input').attr('max') || 1;

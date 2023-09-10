@@ -287,6 +287,7 @@ return [
     'theme_color_white_title'                               => 'Blanco ordinario',
     'theme_color_black_title'                               => 'Oscuridad nocturna',
     'base_config_title'                                     => 'Configuración básica',
+    'extend_config_title'                                   => 'Configuración extendida',
     'clear_search_where'                                    => 'Eliminar las condiciones de búsqueda',
     'register_time_title'                                   => 'Tiempo de registro',
     'add_time_title'                                        => 'Añadir tiempo',
@@ -3197,6 +3198,11 @@ return [
             'name' => 'Descripción',
             'desc' => '',
             'tips' => 'Por favor, rellene la descripción',
+        ],
+        'common_app_mini_weixin_privacy_content'  => [
+            'name' => 'Instrucciones de la ventana emergente de privacidad',
+            'desc' => 'Descripción general predeterminada del sistema vacío',
+            'tips' => 'Por favor, rellene las instrucciones de la ventana emergente de privacidad.',
         ],
         'common_user_center_notice'  => [
             'name' => 'Anuncio del Centro de usuarios',

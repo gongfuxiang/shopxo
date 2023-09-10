@@ -10,7 +10,7 @@ $(function()
 	/**
 	 * 添加
 	 */
-	$('.submit-add').on('click', function()
+	$(document).on('click', '.submit-add', function()
 	{
 		// 获取标签
 		var tag = $(this).data('tag');

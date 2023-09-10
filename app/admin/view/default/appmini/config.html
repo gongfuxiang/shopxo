@@ -43,6 +43,17 @@
 							</div>
 						</div>
 					</div>
+					<div class="am-panel am-panel-default am-radius">
+						<div class="am-panel-hd">
+							<h3 class="am-panel-title">{{:MyLang('extend_config_title')}}</h3>
+						</div>
+						<div class="am-panel-bd">
+							<div class="am-form-group">
+								<label>{{$data.common_app_mini_weixin_privacy_content.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_privacy_content.describe}}</span></label>
+								<textarea rows="4" name="{{$data.common_app_mini_weixin_privacy_content.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_weixin_privacy_content.name}}" data-validation-message="{{$data.common_app_mini_weixin_privacy_content.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_weixin_privacy_content.value}}{{/if}}</textarea>
+							</div>
+						</div>
+					</div>
 				{{/case}}
 				{{case alipay}}
 					<!-- 支付宝 -->

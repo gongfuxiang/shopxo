@@ -67,14 +67,14 @@ $(function()
     });
 
     // 菜单选择
-    $('.common-left-menu li a').on('click', function()
+    $(document).on('click', '.common-left-menu li a', function()
     {
         $('.common-left-menu a').removeClass('common-left-menu-active');
         $(this).addClass('common-left-menu-active');
     });
 
     // mini伸缩开关
-    $('.menu-scaling-submit').on('click', function()
+    $(document).on('click', '.menu-scaling-submit', function()
     {
         var status = $(this).attr('data-status') || 0;
         $('#admin-offcanvas ul').css('opacity', 0.1);

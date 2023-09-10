@@ -3,7 +3,7 @@ $(function()
     $verify_win = $('#verify-win');
 
     // 原帐号验证码发送
-    $('.verify-submit, .verify-submit-win').on('click', function()
+    $(document).on('click', '.verify-submit, .verify-submit-win', function()
     {
         var $this = $(this);
         var $verify = $('#verify-img-value');
@@ -95,7 +95,7 @@ $(function()
     });
 
     // 新帐号验证码获取
-    $('.verify-submit-new, .verify-submit-win-new').on('click', function()
+    $(document).on('click', '.verify-submit-new, .verify-submit-win-new', function()
     {
         var $this = $(this);
         var $accounts = $('#accounts');

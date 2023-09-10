@@ -1,10 +1,11 @@
 /**
  * 商品模块 - 公共
  */
-.odule-goods-container .base-nav {
+.module-goods-container .base-nav {
     width: 100%;
     min-height: 3.4rem;
     overflow: hidden;
+    position: relative;
 }
 
 .module-goods-container .base-nav .base-nav-title {
@@ -15,15 +16,24 @@
     font-weight: 600;
 }
 
-.module-goods-container .base-nav .base-nav-keywords,
-.module-goods-container .base-nav .base-nav-more {
+.module-goods-container .base-nav .base-nav-keywords {
     display: none;
+}
+
+.module-goods-container .base-nav .base-nav-more {
+    position: absolute;
+    right: -0.5rem;
+    top: 0.83rem;
+    overflow: hidden;
+}
+
+.module-goods-container .base-nav .base-nav-more a i {
+    margin-left: 0.5rem;
 }
 
 @media only screen and (min-width: 1025px) {
     .module-goods-container .base-nav {
         text-align: left;
-        position: relative;
         margin-top: 0.9rem;
     }
 
@@ -59,17 +69,6 @@
         margin: 0px 0.5rem;
     }
 
-    .module-goods-container .base-nav .base-nav-more {
-        display: block;
-        position: absolute;
-        right: -0.5rem;
-        top: 0.83rem;
-        overflow: hidden;
-    }
-
-    .module-goods-container .base-nav .base-nav-more a i {
-        margin-left: 0.5rem;
-    }
     .module-goods-container .base-nav .base-nav-desc {
         margin-top: 1.6rem;
     }

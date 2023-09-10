@@ -3,7 +3,7 @@ $(function()
 	/**
 	 * 添加
 	 */
-	$('.submit-add').on('click', function()
+	$(document).on('click', '.submit-add', function()
 	{
 		// 更改窗口名称
 		$title = $('#data-save-win').find('.am-popup-title');

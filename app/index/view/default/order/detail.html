@@ -126,16 +126,29 @@
                                 <p>{{:MyLang('order.order_delivery_tips')}}</p>
                             </div>
                         {{/if}}
-                        <!-- 判断是否是虚拟销售 -->
-                        {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4])}}
-                            <div class="am-alert am-alert-default">
-                                <div class="order-state-address-icon"></div>
-                                <div class="order-state-address">
-                                    <p class="title">123123123</p>
-                                    <p class="time">2023-07-09 15:56:34</p>
-                                </div>
+
+                        <!-- 订单详情操作顶部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_index_order_detail_operate_top</span>
                             </div>
                         {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_index_order_detail_operate_top';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'id'=>$data['id'], 'data'=>$data]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+
+                        <!-- 订单详情操作 -->
                         <div class="operation">
                             <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
                             {{if !empty($data['operate_data'])}}
@@ -193,6 +206,27 @@
                             {{/php}}
                         </div>
 
+                        <!-- 订单详情操作底部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_index_order_detail_operate_buttom</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_index_order_detail_operate_buttom';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'id'=>$data['id'], 'data'=>$data]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+
                         <!-- 自提模式下 - 取货码 -->
                         {{if $data['order_model'] eq 2 and in_array($data['status'], [2,3]) and !empty($data['extraction_data'])}}
                             <div class="extraction-take-container am-inline-block am-background-body am-radius am-text-center am-padding-lg">
@@ -230,7 +264,7 @@
                                 <div class="items-detail am-fl">{{$data.address_data.tel}}</div>
                             </div>
                             <div class="items am-cf">
-                                <div class="items-title am-fl">{{if $data.order_model eq 2}}{{:MyLang('order.detail_take_title')}}{{else /}}{{:MyLang('order.detail_shipping_address_title')}}{{/if}}</div>
+                                <div class="items-title am-fl">{{if $data.order_model eq 2}}{{:MyLang('order.detail_take_title')}}{{else /}}{{:MyLang('order.detail_shipping_address_title')}}{{/if}}：</div>
                                 <div class="items-detail am-fl">
                                     {{if $data['order_model'] eq 0}}
                                         {{if !empty($data['address_data']['alias'])}}
@@ -295,7 +329,7 @@
                                             </div>
                                             <div class="am-list-item-text richtext virtually-right am-padding-left-xl">
                                                 {{if empty($goods['fictitious_goods_value'])}}
-                                                    <span>{{:MyLang('no_config_data_tips')}}</span>
+                                                    <span class="am-text-grey">{{:MyLang('no_config_data_tips')}}</span>
                                                 {{else /}}
                                                     {{$goods.fictitious_goods_value|raw}}
                                                 {{/if}}
@@ -591,12 +625,14 @@
 
                 {{if !empty($data['extension_data'])}}
                     <div class="order-point-discount">
-                        {{foreach $data.extension_data as $ertk=>$ext}}
-                            <div class="items am-cf am-alert am-alert-warning am-radius-sm">
-                                <div class="items-detail">{{$ext.tips}}</div>
-                                <div class="items-title">{{$ext.name}}：</div>
-                            </div>
-                        {{/foreach}}
+                        <div class="am-alert am-alert-warning am-radius-sm">
+                            {{foreach $data.extension_data as $ertk=>$ext}}
+                                <div class="items am-nbfc">
+                                    <div class="items-detail">{{$ext.tips}}</div>
+                                    <div class="items-title">{{$ext.name}}：</div>
+                                </div>
+                            {{/foreach}}
+                        </div>
                     </div>
                 {{/if}}
 

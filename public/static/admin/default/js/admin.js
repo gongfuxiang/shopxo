@@ -31,7 +31,7 @@ $(function()
     }
 
     // 查看密码
-    $('.eye-submit').on('click', function()
+    $(document).on('click', '.eye-submit', function()
     {
         var $obj = $(this).parent().parent().find('input');
         if($obj.attr('type') == 'password')
@@ -45,7 +45,7 @@ $(function()
     });
 
     // 短信验证码获取
-    $('.verify-submit, .verify-submit-win').on('click', function()
+    $(document).on('click', '.verify-submit, .verify-submit-win', function()
     {
         // 表单发送按钮
         var form_tag = $(this).data('form-tag') || null;

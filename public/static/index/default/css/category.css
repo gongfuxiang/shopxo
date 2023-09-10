@@ -171,6 +171,10 @@
     .zero-search-right .module-goods-list-base .item .item-content .base-content .detail-content {
         display: none;
     }
+    .zero-search-right .module-goods-list-base .item .goods-info {
+        width: 6.5rem;
+        height: 6.5rem;
+    }
     .am-footer {
         padding-bottom: 5rem;
     }

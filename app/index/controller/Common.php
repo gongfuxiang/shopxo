@@ -441,6 +441,7 @@ class Common extends BaseController
         // 默认不加载地图api、类型默认百度地图
         $assign['is_load_map_api'] = 0;
         $assign['load_map_type'] = MyC('common_map_type', 'baidu', true);
+        $assign['map_tencent_libraries'] = 'service';
 
         // 默认不加载打印组件
         $assign['is_load_hiprint'] = 0;

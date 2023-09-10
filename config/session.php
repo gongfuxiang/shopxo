@@ -33,7 +33,7 @@ if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
         // 存储连接标识 当type使用cache的时候有效
         'store'          => null,
         // 过期时间
-        'expire'         => 3600,
+        'expire'         => 43200,
         // 前缀
         'prefix'         => 'shopxo',
     ];

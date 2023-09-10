@@ -27,7 +27,7 @@ $(function()
     }
 
     // 地址选择
-    $('ul.address-list li').on('click', function(e)
+    $(document).on('click', 'ul.address-list li', function(e)
     {
         if($(window).width() < 641)
         {
@@ -44,28 +44,28 @@ $(function()
     });
 
     // 手机模式下选择地址
-    $('.address').on('click', 'ul.address-list li', function()
+    $(document).on('click', '.address ul.address-list li', function()
     {
         var anchor = $(this).parents('.address').attr('id') || '';
         window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
     });
 
     // 手机模式下关闭地址选中
-    $('.mobile-address-close-submit').on('click', function()
+    $(document).on('click', '.mobile-address-close-submit', function()
     {
         $('.address').removeClass('mobile-address');
         $(document.body).css({"overflow": "auto", "position":"unset"});
     });
 
     // 设为默认地址
-    $('.address-default-submit').on('click', function(e)
+    $(document).on('click', '.address-default-submit', function(e)
     {
         ConfirmNetworkAjax($(this));
         e.stopPropagation();
     });
 
     // 混合列表选择
-    $('.business-list ul li').on('click', function()
+    $(document).on('click', '.business-list ul li', function()
     {
         var $parent = $(this).parents('.business-list');
         var field = $parent.data('field') || null;
@@ -78,7 +78,7 @@ $(function()
     });
 
     // 弹出地址选择
-    $('.address-submit-save').on('click', function(e)
+    $(document).on('click', '.address-submit-save', function(e)
     {
         ModalLoad($(this).data('url'), $(this).data('popup-title'), 'common-address-modal');
 
@@ -90,14 +90,14 @@ $(function()
     });
 
     // 阻止事件冒泡
-    $('.address-submit-delete').on('click', function(e)
+    $(document).on('click', '.address-submit-delete', function(e)
     {
         ConfirmDataDelete($(this));
         e.stopPropagation();
     });
 
     // 提交订单
-    $('.nav-buy .buy-submit').on('click', function()
+    $(document).on('click', '.nav-buy .buy-submit', function()
     {
         // 0销售型, 2自提点 校验地址
         var site_type = $('.nav-buy').data('site-type') || 0;
@@ -135,7 +135,7 @@ $(function()
         var anchor = $(this).parents('.address').attr('id') || '';
         window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
     });
-    $('.extraction-default .extraction-address-item').on('click', function(e)
+    $(document).on('click', '.extraction-default .extraction-address-item', function(e)
     {
         if($(window).width() < 641)
         {
@@ -144,7 +144,7 @@ $(function()
     });
 
     // 销售+自提 切换
-    $('.buy-header-nav li a').on('click', function()
+    $(document).on('click', '.buy-header-nav li a', function()
     {
         var value = $(this).data('value') || 0;
         var url = UrlFieldReplace('address_id', null);

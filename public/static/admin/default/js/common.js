@@ -341,7 +341,7 @@ $(function()
     }
 
     // 商品规格和参数上下移动
-    $('.specifications-table,.parameters-table').on('click', '.line-move', function()
+    $(document).on('click', '.specifications-table,.parameters-table .line-move', function()
     {
         // 父级table
         var $table = $(this).parents('table');
@@ -388,7 +388,7 @@ $(function()
 
     // 商品参数添加
     var $parameters_table = $('.parameters-table');
-    $('.parameters-line-add').on('click', function()
+    $(document).on('click', '.parameters-line-add', function()
     {
         // 追加内容
         ParametersItemHtmlCreated();
@@ -478,7 +478,7 @@ $(function()
     });
 
     // 商品参数清空
-    $('.parameters-quick-remove').on('click', function()
+    $(document).on('click', '.parameters-quick-remove', function()
     {
         $parameters_table.find('tbody').html('');
     });

@@ -5,7 +5,7 @@ $(function()
 {
     // 发货操作
     var $form_delivery = $('form.form-validation-delivery');
-    $('.submit-delivery').on('click', function()
+    $(document).on('click', '.submit-delivery', function()
     {
         $form_delivery.find('input[name=id]').val($(this).data('id'));
         $form_delivery.find('input[name=express_number]').val('');
@@ -73,7 +73,7 @@ $(function()
 
     // 取货操作
     var $form_take = $('form.form-validation-take');
-    $('.submit-take').on('click', function()
+    $(document).on('click', '.submit-take', function()
     {
         $form_take.find('input[name=id]').val($(this).data('id') || 0);
         $form_take.find('input[name=user_id]').val($(this).data('user-id') || 0);

@@ -12,7 +12,7 @@ $(function()
     });
 
     // 条件展开/隐藏
-    $('.map-item .map-more-submit').on('click', function()
+    $(document).on('click', '.map-item .map-more-submit', function()
     {
         var $parents = $(this).parents('.map-right');
         var height = $parents.hasClass('map-images-text-items') ? '55px' : '45px';
@@ -25,7 +25,7 @@ $(function()
     });
 
     // 列表布局选择
-    $('.layout-styles').on('click', function()
+    $(document).on('click', '.layout-styles', function()
     {
         var value = ($(this).data('value') || 0) == 1 ? 0 : 1;
         window.location.href = UrlFieldReplace('layout', value);

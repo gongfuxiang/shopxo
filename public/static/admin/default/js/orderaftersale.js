@@ -29,13 +29,13 @@ $(function()
         $popup.modal(); 
     }
     // 审核
-    $('table.am-table .submit-audit').on('click', function()
+    $(document).on('click', 'table.am-table .submit-audit', function()
     {
         PopupInit($('#order-audit-popup'), $(this).data('json'));
     });
 
     // 拒绝
-    $('table.am-table .submit-refuse').on('click', function()
+    $(document).on('click', 'table.am-table .submit-refuse', function()
     {
         PopupInit($('#order-refuse-popup'), $(this).data('json'));
     });

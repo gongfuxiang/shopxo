@@ -225,6 +225,16 @@ class SystemService
         // 追加多语言code
         $data['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
+        // 分页加入语言
+        $page_lang = MyLang('common_extend.base.page');
+        if(!empty($page_lang) && is_array($page_lang))
+        {
+            foreach($page_lang as $k=>$v)
+            {
+                $data['page_'.$k] = $v;
+            }
+        }
+
         // 页面语言读取钩子
         $hook_name = 'plugins_page_view_lang_data';
         MyEventTrigger($hook_name,

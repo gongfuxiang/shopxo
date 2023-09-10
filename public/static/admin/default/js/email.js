@@ -1,7 +1,7 @@
 $(function()
 {
 	// 邮件发送测试
-	$('.test-email-submit').on('click', function()
+	$(document).on('click', '.test-email-submit', function()
 	{
 		// ajax请求
 		$.AMUI.progress.start();

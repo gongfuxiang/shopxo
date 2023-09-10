@@ -101,7 +101,7 @@ $(function()
     }
 
     // 购物车数量操作
-    $('.stock-tag .stock-submit').on('click', function()
+    $(document).on('click', '.stock-tag .stock-submit', function()
     {
         // 数量参数
         var $parent = $(this).parents('.stock-tag');
@@ -134,7 +134,7 @@ $(function()
     });
 
     // 输入事件
-    $('.stock-tag input[type="number"]').on('blur', function()
+    $(document).on('blur', '.stock-tag input[type="number"]', function()
     {
         // 数量参数
         var $input = $(this);
@@ -159,7 +159,7 @@ $(function()
     });
 
     // 全选/反选
-    $('.select-all-event').on('click', function()
+    $(document).on('click', '.select-all-event', function()
     {
         if($(this).find('input').is(':checked'))
         {
@@ -175,7 +175,7 @@ $(function()
     });
 
     // 选择
-    $('.am-table input[type="checkbox"]').on('click', function()
+    $(document).on('click', '.am-table input[type="checkbox"]', function()
     {
         // 计算选择的商品总数和总价
         CartBaseTotal();
@@ -221,7 +221,7 @@ $(function()
     });
 
     // 结算事件
-    $('.separate-submit').on('click', function()
+    $(document).on('click', '.separate-submit', function()
     {
         // 计算选择的商品总数和总价
         CartBaseTotal();

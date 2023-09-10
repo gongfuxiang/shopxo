@@ -189,11 +189,11 @@ $(function()
     });
     
     // 用户中心菜单
-    $('.user-item-parent').on('click', function()
+    $(document).on('click', '.user-item-parent', function()
     {
         $(this).find('.am-icon-angle-down').toggleClass('more-icon-rotate');
     });
-    $('.user-sidebar-list li').on('click', function()
+    $(document).on('click', '.user-sidebar-list li', function()
     {
         var value = $(this).data('value') || null;
         if(value != null)
@@ -298,7 +298,7 @@ $(function()
     // 头像图片上传
     var URL = window.URL || window.webkitURL, blobURL;
     if (URL) {
-      $('.common-cropper-popup input[type="file"]').on('change', function () {
+      $(document).on('change', '.common-cropper-popup input[type="file"]', function () {
         var files = this.files,
             file;
 
@@ -557,7 +557,7 @@ $(function()
         }
     });
     // tabs选项卡，底部边框动态效果 - 点击切换
-    $('.am-tabs-border>ul.am-tabs-nav > li').on('click', function(e)
+    $(document).on('click', '.am-tabs-border>ul.am-tabs-nav > li', function(e)
     {   
         var $parent = $(this).parent();
         var $sub = $(this).find('> a');
@@ -568,7 +568,7 @@ $(function()
     });
 
     // 登录表单验证显示效果
-    $('.am-input-material input').on('blur',function()
+    $(document).on('blur', '.am-input-material input', function()
     {
         var value = $(this).val();
         if(value === '')
@@ -580,13 +580,13 @@ $(function()
             $(this).addClass('am-value-valid-true');
         }
     })
-    $('.am-input-material input').on('focus',function(){
+    $(document).on('focus', '.am-input-material input', function(){
         $(this).removeClass('am-value-valid-false');
         $(this).removeClass('am-value-valid-true');
     });
 
     // 查看密码
-    $('.eye-submit').on('click', function()
+    $(document).on('click', '.eye-submit', function()
     {
         var $obj = $(this).parent().parent().find('input');
         if($obj.attr('type') == 'password')
@@ -599,7 +599,7 @@ $(function()
         }
     });
     // 用户验证码获取
-    $('.user-form-content-container .user-verify-submit, #user-verify-win .user-verify-win-submit').on('click', function()
+    $(document).on('click', '.user-form-content-container .user-verify-submit, #user-verify-win .user-verify-win-submit', function()
     {
         // 表单发送按钮
         var form_tag = $(this).data('form-tag') || null;

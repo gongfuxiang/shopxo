@@ -252,11 +252,12 @@ class OrderSplitService
             // 不存在规格则使用默认
             $spec = empty($v['spec']) ? [['type' => GoodsService::GoodsSpecDefaultName(),'value' => 'default']] : $v['spec'];
 
-            // 获取商品库存
+            // 获取商品库存、仓库商品壳仓库商品规格都必须等于当前商品
             $where = [
                 ['wgs.goods_id', '=', $v['goods_id']],
                 ['wgs.md5_key', '=', md5(implode('', array_column($spec, 'value')))],
                 ['wgs.inventory', '>', 0],
+                ['wg.goods_id', '=', $v['goods_id']],
                 ['wg.is_enable', '=', 1],
                 ['w.is_enable', '=', 1],
                 ['w.is_delete_time', '=', 0],

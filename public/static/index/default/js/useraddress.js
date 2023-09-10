@@ -1,7 +1,7 @@
 $(function()
 {
     // 弹出地址选择
-    $('.address-submit-save').on('click', function(e)
+    $(document).on('click', '.address-submit-save', function(e)
     {
         ModalLoad($(this).data('url'), $(this).data('popup-title'), 'common-address-modal');
 
@@ -10,14 +10,14 @@ $(function()
     });
 
     // 阻止事件冒泡
-    $('.address-submit-delete').on('click', function(e)
+    $(document).on('click', '.address-submit-delete', function(e)
     {
         ConfirmDataDelete($(this));
         e.stopPropagation();
     });
 
     // 设为默认地址
-    $('.address-default-submit').on('click', function(e)
+    $(document).on('click', '.address-default-submit', function(e)
     {
         ConfirmNetworkAjax($(this));
         e.stopPropagation();

@@ -287,6 +287,7 @@ return [
     'theme_color_white_title'                               => '普通白色',
     'theme_color_black_title'                               => '夜間深色',
     'base_config_title'                                     => '基礎配寘',
+    'extend_config_title'                                   => '擴展配寘',
     'clear_search_where'                                    => '清除搜索條件',
     'register_time_title'                                   => '註冊時間',
     'add_time_title'                                        => '添加時間',
@@ -3197,6 +3198,11 @@ return [
             'name' => '描述',
             'desc' => '',
             'tips' => '請填寫描述',
+        ],
+        'common_app_mini_weixin_privacy_content'  => [
+            'name' => '隱私彈窗說明',
+            'desc' => '空則系統默認通用說明',
+            'tips' => '請填寫隱私彈窗說明',
         ],
         'common_user_center_notice'  => [
             'name' => '用戶中心公告',

@@ -97,7 +97,7 @@ $(function()
     var $popup_address = $('#popup-address-win');
 
     // 地址添加开启
-    $('.address-submit-add').on('click', function()
+    $(document).on('click', '.address-submit-add', function()
     {
         $popup_address.modal();
         $popup_address.attr('data-type', 'add');
@@ -192,7 +192,7 @@ $(function()
     $('.goods-page-container').html(PageLibrary());
 
     // 开启商品弹窗
-    $('.goods-popup-add').on('click', function()
+    $(document).on('click', '.goods-popup-add', function()
     {
         // 操作标记
         $popup_siteset_goods.attr('data-tag', $(this).data('tag') || '');
@@ -292,7 +292,7 @@ $(function()
     });
 
     // 弹窗全屏
-    $('#siteset-goods-popup').on('click', '.am-popup-hd .am-full', function()
+    $(document).on('click', '#siteset-goods-popup .am-popup-hd .am-full', function()
     {
         var width = $(window).width();
         var height = $(window).height();
@@ -309,7 +309,7 @@ $(function()
     });
 
     // 添加域名
-    $('.domain-submit-add').on('click', function()
+    $(document).on('click', '.domain-submit-add', function()
     {
         var please_select_tip = $(this).data('please-select-tips') || '请选择...';
         var select_html = '<option value="0">'+please_select_tip+'</option>';

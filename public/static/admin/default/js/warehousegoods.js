@@ -133,11 +133,11 @@ $(function()
         }
     }
     // 弹窗全屏
-    $('#warehouse-goods-popup').on('click', '.am-popup-hd .am-full', function()
+    $(document).on('click', '#warehouse-goods-popup .am-popup-hd .am-full', function()
     {
         WarehouseGoodsPopupWinHandle($(this));
     });
-    $('#warehouse-goods-popup').on('dblclick', '.am-popup-hd', function()
+    $(document).on('dblclick', '#warehouse-goods-popup .am-popup-hd', function()
     {
         WarehouseGoodsPopupWinHandle($(this));
     });

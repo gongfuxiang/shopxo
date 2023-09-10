@@ -3,7 +3,7 @@ $(function()
 	/**
 	 * 展开/关闭
 	 */
-	$('.tree-list i.stretch').on('click', function()
+	$(document).on('click', '.tree-list i.stretch', function()
 	{
 		if($(this).hasClass('am-icon-plus'))
 		{
@@ -19,7 +19,7 @@ $(function()
 	/**
 	 * 添加
 	 */
-	$('.submit-add').on('click', function()
+	$(document).on('click', '.submit-add', function()
 	{
 		// 移除菜单禁止状态
 		$('form select[name="pid"]').removeAttr('disabled');
@@ -43,7 +43,7 @@ $(function()
 	/**
 	 * 编辑
 	 */
-	$('.submit-edit').on('click', function()
+	$(document).on('click', '.submit-edit', function()
 	{
 		// 更改窗口名称
 		var $popup = $('#power-save-win');

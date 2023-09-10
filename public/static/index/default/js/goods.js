@@ -622,7 +622,7 @@ $(function() {
     $('.jqzoom').imagezoom({
         yzoom: 398
     });
-    $('#thumblist li img').on('mouseover', function() {
+    $(document).on('mouseover', '#thumblist li img', function() {
         $(this).parents('li').addClass('tb-selected').siblings().removeClass('tb-selected');
         var img = $(this).attr('mid');
         $('.jqzoom').attr('src', img);
@@ -630,13 +630,13 @@ $(function() {
     });
 
     // 规格选择显示事件
-    $('.mini-spec-event').on('click', function()
+    $(document).on('click', '.mini-spec-event', function()
     {
         SpecPopupShow($(this));
     });
 
     //弹出规格选择
-    $('.buy-event').on('click', function() {
+    $(document).on('click', '.buy-event', function() {
         if($(window).width() < 1025) {
             // 是否登录
             if(__user_id__ != 0)
@@ -647,12 +647,12 @@ $(function() {
             PoptitPcShow();
         }
     });
-    $('.theme-poptit .close, .btn-op .close').on('click', function() {
+    $(document).on('click', '.theme-poptit .close, .btn-op .close', function() {
         PoptitClose();
     });
 
     // 购买
-    $('.buy-submit, .cart-submit').on('click', function()
+    $(document).on('click', '.buy-submit, .cart-submit', function()
     {
         // 是否登录
         if(__user_id__ != 0)
@@ -664,7 +664,7 @@ $(function() {
         }
     });
     // 确认
-    $('.theme-popover .confirm').on('click', function()
+    $(document).on('click', '.theme-popover .confirm', function()
     {
         // 是否登录
         if(__user_id__ != 0)
@@ -677,7 +677,7 @@ $(function() {
     });
 
     // 收藏
-    $('.favor-submit').on('click', function()
+    $(document).on('click', '.favor-submit', function()
     {
         // 是否登录
         if(__user_id__ != 0)
@@ -725,7 +725,7 @@ $(function() {
 
     // 视频
     var player = null;
-    $('.goods-video-submit-start').on('click', function()
+    $(document).on('click', '.goods-video-submit-start', function()
     {
         // 当前
         var is_wap = $(window).width() < 1025;
@@ -745,7 +745,7 @@ $(function() {
             menu: null
         });
     });
-    $('.goods-video-submit-close').on('click', function()
+    $(document).on('click', '.goods-video-submit-close', function()
     {
         $('.goods-video-container').addClass('none');
         $('.goods-video-submit-close').addClass('none');
@@ -788,7 +788,7 @@ $(function() {
     });
 
     //数量增加操作
-    $('#add').on('click', function()
+    $(document).on('click', '#add', function()
     {
         var max = parseInt($stock_tips.attr('data-max-limit')) || 0;
         var inventory = parseInt($stock_tips.text());
@@ -811,7 +811,7 @@ $(function() {
         GoodsNumberChange();
     });
     //数量减少操作
-    $('#min').on('click', function()
+    $(document).on('click', '#min', function()
     {
         var min = parseInt($stock_tips.attr('data-min-limit')) || 1;
         var value = parseInt($input.val())-1;
@@ -843,7 +843,7 @@ $(function() {
     });
 
     // tab事件
-    $('.introduce-main .am-tabs li').on('click', function()
+    $(document).on('click', '.introduce-main .am-tabs li', function()
     {
         $(window).smoothScroll({position: $('.introduce-main').offset().top});
     });

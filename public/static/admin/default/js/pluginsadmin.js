@@ -51,7 +51,7 @@ function PluginsSearch()
 $(function()
 {
     // 删除提示
-    $('.submit-delete-modal').on('click', function()
+    $(document).on('click', '.submit-delete-modal', function()
     {
         var $modal = $('#plugins-delete-modal');
         $modal.find('button.submit-ajax').attr('data-id', $(this).data('id'));
@@ -59,7 +59,7 @@ $(function()
     });
 
     // 插件设置事件
-    $('.plugins-set-event').on('click', function()
+    $(document).on('click', '.plugins-set-event', function()
     {
         if($(this).parents('.item').hasClass('am-active'))
         {
@@ -73,7 +73,7 @@ $(function()
     $('.plugins-data-list ul').dragsort({ dragSelector: 'button.submit-move', placeHolderTemplate: '<li><div class="item drag-sort-dotted"></div></li>'});
 
     // 排序开启/取消/保存
-    $('.submit-move-setup-open').on('click', function()
+    $(document).on('click', '.submit-move-setup-open', function()
     {
         $('.submit-move-setup-open').addClass('am-hide');
         $('.submit-move-setup-save').removeClass('am-hide');
@@ -81,7 +81,7 @@ $(function()
         $('.plugins-data-list > ul > li .submit-move').removeClass('am-hide');
         $('.plugins-data-list > ul > li .plugins-right-top-container').removeClass('am-hide');
     });
-    $('.submit-move-setup-cancel').on('click', function()
+    $(document).on('click', '.submit-move-setup-cancel', function()
     {
         $('.submit-move-setup-open').removeClass('am-hide');
         $('.submit-move-setup-save').addClass('am-hide');
@@ -89,7 +89,7 @@ $(function()
         $('.plugins-data-list > ul > li .submit-move').addClass('am-hide');
         $('.plugins-data-list > ul > li .plugins-right-top-container').addClass('am-hide');
     });
-    $('.submit-move-setup-save').on('click', function()
+    $(document).on('click', '.submit-move-setup-save', function()
     {
         var json = {};
         $('.plugins-data-list > ul > li').each(function(k, v)
@@ -153,12 +153,12 @@ $(function()
     });
 
     // 搜索
-    $('.plugins-search button').on('click', function()
+    $(document).on('click', '.plugins-search button', function()
     {
         PluginsSearch();
     });
     // 输入回车搜索
-    $('.plugins-search input').on('keydown', function(e)
+    $(document).on('keydown', '.plugins-search input', function(e)
     {
         if(e.keyCode == 13)
         {
@@ -168,7 +168,7 @@ $(function()
     });
 
     // 分类筛选
-    $('.plugins-category-nav button').on('click', function()
+    $(document).on('click', '.plugins-category-nav button', function()
     {
         // 分类样式
         $('.plugins-category-nav button').removeClass('am-btn-secondary').addClass('am-btn-default');
