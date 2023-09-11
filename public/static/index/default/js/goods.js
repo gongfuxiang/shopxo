@@ -418,7 +418,7 @@ function GoodsSpecType()
                     {
                         if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
                         {
-                            $(extends_element[i]['element']).html(extends_element[i]['content']);
+                            $(extends_element[i]['element']).prop(extends_element[i]['content']);
                         }
                     }
                 }
