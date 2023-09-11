@@ -199,15 +199,18 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
         // 是否插件语言、未指定则处理
         if(empty($plugins))
         {
+            $pluginsname = '';
             // 获取最新一条回溯跟踪
             $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
             if(!empty($backtrace) && !empty($backtrace[0]) && !empty($backtrace[0]['file']))
             {
+                // 替换反斜杠为斜杠、避免操作系统不同存在兼容性问题
+                $path = str_replace('\\', '/', $backtrace[0]['file']);
                 $str = 'app/plugins/';
-                $loc = stripos($backtrace[0]['file'], $str);
+                $loc = stripos($path, $str);
                 if($loc !== false)
                 {
-                    $temp = explode($str, $backtrace[0]['file']);
+                    $temp = explode($str, $path);
                     if(count($temp) > 1)
                     {
                         $pluginsname = explode('/', $temp[1])[0];
