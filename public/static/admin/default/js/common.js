@@ -341,7 +341,7 @@ $(function()
     }
 
     // 商品规格和参数上下移动
-    $(document).on('click', '.specifications-table,.parameters-table .line-move', function()
+    $(document).on('click', '.specifications-table .line-move, .parameters-table .line-move', function()
     {
         // 父级table
         var $table = $(this).parents('table');
