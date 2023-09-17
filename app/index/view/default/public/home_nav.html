@@ -14,9 +14,9 @@
                         {{/case}}
                         {{default /}}
                             <!-- 默认url地址 -->
-                            <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}}{{if !empty($nav['event_value'])}}href="{{$nav.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}{{/if}}>
+                            <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}}{{if !empty($nav['event_value'])}}href="{{$nav.event_value}}"{{else /}}href="javascript:;"{{/if}}{{/if}}>
                     {{/switch}}
-                        <div class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                        <div class="nav-icon {{if empty($nav['bg_color'])}} item-exposed{{/if}}" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
                             <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
                         </div>
                         <div class="mini-nav-title">{{$nav.name}}</div>

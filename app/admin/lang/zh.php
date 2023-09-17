@@ -838,7 +838,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'              => '基础信息',
-            'goods_placeholder'  => '请输入订单号/商品名称/型号',
+            'goods_placeholder'  => '请输入订单ID/订单号/商品名称/型号',
             'user'               => '用户信息',
             'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
             'status'             => '状态',
@@ -1144,12 +1144,15 @@ return [
         // 动态表格
         'form_table'                            => [
             'name'         => '名称',
+            'describe'     => '描述',
             'platform'     => '所属平台',
             'images'       => '图片',
             'event_type'   => '事件类型',
             'event_value'  => '事件值',
             'is_enable'    => '是否启用',
             'sort'         => '排序',
+            'start_time'   => '开始时间',
+            'end_time'     => '结束时间',
             'add_time'     => '创建时间',
             'upd_time'     => '更新时间',
         ],

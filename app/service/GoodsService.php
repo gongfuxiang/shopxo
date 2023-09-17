@@ -377,6 +377,16 @@ class GoodsService
                 // 数据主键id
                 $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
 
+                // 商品价格容器
+                $v['price_container'] = [
+                    'price'                 => isset($v['price']) ? $v['price'] : 0.00,
+                    'min_price'             => isset($v['min_price']) ? $v['min_price'] : 0.00,
+                    'max_price'             => isset($v['max_price']) ? $v['max_price'] : 0.00,
+                    'original_price'        => isset($v['original_price']) ? $v['original_price'] : 0.00,
+                    'min_original_price'    => isset($v['min_original_price']) ? $v['min_original_price'] : 0.00,
+                    'max_original_price'    => isset($v['max_original_price']) ? $v['max_original_price'] : 0.00,
+                ];
+
                 // 商品处理前钩子
                 $hook_name = 'plugins_service_goods_handle_begin';
                 $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -390,16 +400,6 @@ class GoodsService
                 {
                     return $ret;
                 }
-
-                // 商品价格容器
-                $v['price_container'] = [
-                    'price'                 => isset($v['price']) ? $v['price'] : 0.00,
-                    'min_price'             => isset($v['min_price']) ? $v['min_price'] : 0.00,
-                    'max_price'             => isset($v['max_price']) ? $v['max_price'] : 0.00,
-                    'original_price'        => isset($v['original_price']) ? $v['original_price'] : 0.00,
-                    'min_original_price'    => isset($v['min_original_price']) ? $v['min_original_price'] : 0.00,
-                    'max_original_price'    => isset($v['max_original_price']) ? $v['max_original_price'] : 0.00,
-                ];
 
                 // 商品url地址
                 if(!empty($data_id))

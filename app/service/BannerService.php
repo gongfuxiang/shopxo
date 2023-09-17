@@ -40,9 +40,14 @@ class BannerService
         if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取banner数据
-            $field = 'name,images_url,event_value,event_type,bg_color';
+            $field = 'name,describe,images_url,event_value,event_type,bg_color';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('Slide')->field($field)->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order($order_by)->select()->toArray();
+            $where = [
+                ['platform', '=', APPLICATION_CLIENT_TYPE],
+                ['is_enable', '=', 1],
+            ];
+            $expire_where = '(`start_time` = 0 OR `start_time` <= '.time().') AND (`end_time` = 0 OR `end_time` >= '.time().')';
+            $data = Db::name('Slide')->field($field)->where($where)->whereRaw($expire_where)->order($order_by)->select()->toArray();
             if(!empty($data))
             {
                 foreach($data as &$v)

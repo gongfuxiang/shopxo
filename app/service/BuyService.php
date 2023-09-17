@@ -115,6 +115,10 @@ class BuyService
                     $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $goods['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                     $goods['extends'] = $goods_base['data']['spec_base']['extends'];
+
+                    // 商品价格容器赋值规格价格
+                    $goods['price_container']['price'] = $goods['price'];
+                    $goods['price_container']['original_price'] = $goods['original_price'];
                 } else {
                     return $goods_base;
                 }

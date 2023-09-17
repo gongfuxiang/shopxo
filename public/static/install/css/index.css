@@ -18,6 +18,12 @@ p {
 em {
     font-style: inherit;
 }
+.body-content-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
 .inside {
     margin: 0 auto;
     padding: 2rem 1rem;
@@ -28,14 +34,14 @@ em {
     line-height: 6rem;
     text-align: center;
 }
-.ongoing-button .am-btn-secondary {
+.ongoing-button .am-btn:first-child {
     margin-right: 2rem;
 }
-.ongoing-button .am-btn-success {
+.ongoing-button .am-btn:last-child {
     margin-left: 2rem;
 }
 .am-footer {
-    border-top: 0.1rem solid #eee;
+    border-top: 0.1rem solid #fafafa;
 }
 
 /**
@@ -194,7 +200,7 @@ em {
  */
 form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block {
     border-bottom: 0;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
 }
 form.am-form .am-form-group label {
     font-weight: inherit;

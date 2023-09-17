@@ -48,7 +48,7 @@ ul.order-base li span.am-badge{position: absolute; top: -0.7rem; left: 55%;}
  */
 @media only screen and (max-width:640px) {
     header{display: none;}
-    .am-footer{padding-bottom: 5rem;}
+    .am-footer{padding-bottom: 7rem;}
     .nav-search{display: none;} .user-main{padding: 0;margin-top: 0;}
     .user-base{text-align: center; height: 24rem;border-radius: 0;}
     .user-avatar{margin-bottom: 1rem; }

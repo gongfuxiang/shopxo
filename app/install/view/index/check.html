@@ -599,8 +599,14 @@
     </table>
 
     <div class="agree ongoing-button">
-        <a href="{{:MyUrl('install/index/index')}}" class="am-btn am-btn-secondary am-radius am-btn-xs">上一步</a>
-        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs check-submit" data-url="{{:MyUrl('install/index/create')}}">下一步</button>
+        <a href="{{:MyUrl('install/index/index')}}" class="am-btn am-btn-secondary am-radius am-btn-xs">
+            <i class="am-icon-arrow-left"></i>
+            <span>上一步</span>
+        </a>
+        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs check-submit" data-url="{{:MyUrl('install/index/create')}}">
+            <i class="am-icon-arrow-right"></i>
+            <span>继续下一步</span>
+        </button>
     </div>
 </div>
 <!-- conntent end  -->

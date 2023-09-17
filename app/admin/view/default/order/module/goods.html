@@ -39,8 +39,8 @@
     {{/if}}
     <p class="am-nbfc am-margin-bottom-xs">
         <!-- 订单号/id -->
-        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
-        <strong class="am-icon-circle-thin am-margin-left-lg"> {{$module_data.id}}</strong>
+        <strong class="am-icon-bookmark-o text-copy-submit" data-value="{{$module_data.order_no}}"> {{$module_data.order_no}}</strong>
+        <strong class="am-icon-circle-thin am-margin-left-lg text-copy-submit" data-value="{{$module_data.id}}"> {{$module_data.id}}</strong>
 
         <!-- 仓库信息 -->
         {{if !empty($module_data['warehouse_name'])}}

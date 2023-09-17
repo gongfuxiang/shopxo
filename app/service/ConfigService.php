@@ -51,6 +51,7 @@ class ConfigService
         'home_site_company_license',
         'common_default_payment',
         'common_domain_multilingual_bind_list',
+        'common_multilingual_choose_list',
     ];
 
     // 附件字段列表
@@ -77,7 +78,6 @@ class ConfigService
         'home_search_params_type',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
-        'common_multilingual_choose_list',
         'common_app_user_base_popup_pages',
         'common_app_user_base_popup_client',
     ];
@@ -86,6 +86,12 @@ class ConfigService
     public static $data_json_array_field_list = [
         'common_default_payment',
         'common_domain_multilingual_bind_list',
+        'common_multilingual_choose_list',
+    ];
+
+    // 二维数组附件字段
+    public static $data_array_attachment_field_list = [
+        'common_multilingual_choose_list' => 'icon'
     ];
 
     // 需要文件缓存的key
@@ -169,6 +175,21 @@ class ConfigService
                     if($k == $fv)
                     {
                         $v['value'] = empty($v['value']) ? [] : json_decode($v['value'], true);
+                    }
+                }
+
+                // 数组附件字段
+                foreach(self::$data_array_attachment_field_list as $fk=>$fv)
+                {
+                    if(!empty($data[$fk]) && is_array($data[$fk]) && !empty($data[$fk]['value']) && is_array($data[$fk]['value']))
+                    {
+                        foreach($data[$fk]['value'] as $fkk=>$fvv)
+                        {
+                            if(!empty($fvv[$fv]))
+                            {
+                                $data[$fk]['value'][$fkk][$fv] = ResourcesService::AttachmentPathViewHandle($fvv[$fv]);
+                            }
+                        }
                     }
                 }
 
@@ -302,6 +323,21 @@ class ConfigService
                     if(isset($data[$fv]))
                     {
                         $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
+                    }
+                }
+
+                // 数组附件字段
+                foreach(self::$data_array_attachment_field_list as $fk=>$fv)
+                {
+                    if(!empty($data[$fk]) && is_array($data[$fk]))
+                    {
+                        foreach($data[$fk] as $fkk=>$fvv)
+                        {
+                            if(!empty($fvv[$fv]))
+                            {
+                                $data[$fk][$fkk][$fv] = ResourcesService::AttachmentPathViewHandle($fvv[$fv]);
+                            }
+                        }
                     }
                 }
 

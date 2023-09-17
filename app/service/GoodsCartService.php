@@ -109,6 +109,10 @@ class GoodsCartService
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                     $v['extends'] = $goods_base['data']['spec_base']['extends'];
+
+                    // 商品价格容器赋值规格价格
+                    $v['price_container']['price'] = $v['price'];
+                    $v['price_container']['original_price'] = $v['original_price'];
                 } else {
                     $v['is_invalid'] = 1;
                     $v['inventory'] = 0;

@@ -2143,6 +2143,8 @@ return [
             // 表单
             'form_item_name'                        => '名稱',
             'form_item_name_message'                => '名稱格式2~60個字元',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述格式最多230個字元',
             'form_item_images_url'                  => '輪播圖片',
             'form_item_images_url_tips'             => [
                 '1. PC端建議尺寸：1920*480px',

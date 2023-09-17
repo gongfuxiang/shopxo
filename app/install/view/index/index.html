@@ -18,8 +18,15 @@
         <li>英文原文：<a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></li>
     </ul>
 
-    <div class="agree">
-        <a href="{{:MyUrl('install/index/check')}}" class="am-btn am-btn-success am-radius am-btn-xs">同意安装</a>
+    <div class="agree ongoing-button">
+        <button type="submit" class="am-btn am-btn-danger am-radius am-btn-xs window-close-event">
+            <i class="am-icon-remove"></i>
+            <span>拒绝并关闭</span>
+        </button>
+        <a href="{{:MyUrl('install/index/check')}}" class="am-btn am-btn-success am-radius am-btn-xs">
+            <i class="am-icon-arrow-right"></i>
+            <span>同意并安装</span>
+        </a>
     </div>
 </div>
 <!-- conntent end  -->

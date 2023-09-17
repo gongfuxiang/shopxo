@@ -709,7 +709,7 @@ class NavigationService
                     'name'      => $multilingual_data['default']['name'],
                     'is_login'  => 0,
                     'badge'     => null,
-                    'icon'      => 'icon-language-nav-top',
+                    'icon'      => empty($multilingual_data['default']['icon']) ? 'icon-language-nav-top' : $multilingual_data['default']['icon'],
                     'url'       => '',
                     'items'     => $multilingual_data['data'],
                 ];

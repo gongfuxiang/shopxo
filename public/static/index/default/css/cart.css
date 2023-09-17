@@ -129,13 +129,11 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
         max-width: 11rem;
     }
     .wap-base { padding: 1rem 0 0 3.6rem;}
-
     .goods-detail { min-height: 4rem; }
     .goods-detail img { width: 4rem; height: 4rem; }
     .goods-base { margin-left: 4.5rem; }
     .stock-tag { width: 8.5rem; }
-
-    .am-footer { padding-bottom: 5rem; }
+    .am-footer { padding-bottom: 7rem; }
     .stock-tag .am-form-field {
         width: 5rem;
     }

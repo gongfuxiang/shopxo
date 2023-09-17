@@ -141,3 +141,33 @@ ul.home_site_user_forgetpwd_ad3_images-images-view li {
 .domain-multilingual-list.am-form-success [class*="icon-"] {
     color: #fff;
 }
+
+/**
+ * 多语言图标
+ */
+.multilingual-icon-submit {
+    border-radius: var(--border-radius);
+    border: 0.1rem dashed #c2c2c2 !important;
+    padding: 0.2rem !important;
+    min-width: auto;
+}
+.multilingual-icon-submit ul {
+    padding: 0;
+    margin: 0;
+}
+.multilingual-icon-submit ul li {
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+}
+.multilingual-icon-submit ul li i {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding-left: 0;
+    line-height: 1.2rem;
+    right: -0.2rem;
+    top: -0.2rem;
+}

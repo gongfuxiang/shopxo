@@ -258,11 +258,9 @@
                                     <b class="goods-price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
                                 </dd>                                 
                             </div>
-                            {{if !empty($brand_info)}}    
-                                <div class="tm-indcon sales-volume"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
-                            {{else /}}
-                                <div class="tm-indcon sales-volume sales-top"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
-                            {{/if}}   
+
+                            <!-- 销量 -->
+                            <div class="tm-indcon sales-volume"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>  
                             <!-- 二维码 -->
                             <div class="goods-qrcode">
                                 <div class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">

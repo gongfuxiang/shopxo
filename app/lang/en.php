@@ -2139,6 +2139,8 @@ return [
             // 表单
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'Name format: 2~60 characters',
+            'form_item_describe'                    => 'Describe',
+            'form_item_describe_message'            => 'The description format can be up to 230 characters long',
             'form_item_images_url'                  => 'Slide Pictures',
             'form_item_images_url_tips'             => [
                 '1. Recommended size of PC end: 1920 * 480px',

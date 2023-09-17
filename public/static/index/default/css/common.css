@@ -344,7 +344,7 @@ input.min {
 
 .mobile-navigation li {
     width: 25%;
-    padding: 0.2rem;
+    padding: 1rem 0.2rem;
     background: #FFFFFF;
     border-top: 0.1rem solid #f5f5f5;
     float: left;
@@ -369,12 +369,11 @@ input.min {
     color: var(--color-main);
 }
 
-.hot-icon {
+.mobile-navigation .hot-icon {
     position: absolute;
-    top: 1%;
+    top: 0.5rem;
     left: 53%;
     z-index: 2;
-    border: 0.1rem solid #FFFFFF;
 }
 
 .top-nav-right {
@@ -401,11 +400,20 @@ ul.am-dropdown-content>li>a:focus {
 .header-top .nav-images {
     width: 1.4rem;
     height: 1.4rem;
-    border-radius: 50%;
+    line-height: 1.4rem;
     overflow: hidden;
+    border-radius: var(--border-radius-sm);
+}
+.header-top .nav-images img {
+    border-radius: var(--border-radius-sm);
 }
 .top-nav-right .top-nav-items .menu-hd i {
     font-size: 1.4rem;
+}
+.top-nav-right .top-nav-items .menu-hd .nav-icon {
+    max-height: 1.2rem;
+    line-height: 1.2rem;
+    border-radius: var(--border-radius-sm);
 }
 @media only screen and (min-width: 641px) {
     .am-container {

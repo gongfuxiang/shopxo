@@ -167,9 +167,20 @@
                         <label>{{$data.common_multilingual_choose_list.name}}<span class="am-form-group-label-tips">{{$data.common_multilingual_choose_list.describe}}</span></label>
                         <div>
                             {{foreach $common_multilingual_list as $k=>$v}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_multilingual_choose_list.only_tag}}" value="{{$k}}" data-am-ucheck {{if !empty($data['common_multilingual_choose_list']['value']) and is_array($data['common_multilingual_choose_list']['value']) and in_array($k, $data['common_multilingual_choose_list']['value'])}}checked{{/if}} /> {{$v}}
-                                </label>
+                                <div class="am-inline-block am-padding-bottom-xs">
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.common_multilingual_choose_list.only_tag}}[{{$k}}][status]" value="1" data-am-ucheck {{if !empty($data['common_multilingual_choose_list']['value']) and is_array($data['common_multilingual_choose_list']['value']) and !empty($data['common_multilingual_choose_list']['value'][$k]) and isset($data['common_multilingual_choose_list']['value'][$k]['status']) and $data['common_multilingual_choose_list']['value'][$k]['status'] eq 1}}checked{{/if}} /> {{$v}}
+                                    </label>
+                                    <div class="am-form-group am-form-file am-inline-block plug-file-upload-submit multilingual-icon-submit am-margin-right-lg" data-view-tag="ul.multilingual-icon-{{$k}}">
+                                        <ul class="plug-file-upload-view multilingual-icon-{{$k}}" data-form-name="{{$data.common_multilingual_choose_list.only_tag}}[{{$k}}][icon]" data-max-number="1" data-dialog-type="images" data-remove-default-images="{{$attachment_host}}/static/common/images/default-images.jpg">
+                                            <li>
+                                                <input type="hidden" name="{{$data.common_multilingual_choose_list.only_tag}}[{{$k}}][icon]" value="{{if !empty($data['common_multilingual_choose_list']['value']) and is_array($data['common_multilingual_choose_list']['value']) and !empty($data['common_multilingual_choose_list']['value'][$k]) and !empty($data['common_multilingual_choose_list']['value'][$k]['icon'])}}{{$data['common_multilingual_choose_list']['value'][$k]['icon']}}{{/if}}" />
+                                                <img src="{{if !empty($data['common_multilingual_choose_list']['value']) and is_array($data['common_multilingual_choose_list']['value']) and !empty($data['common_multilingual_choose_list']['value'][$k]) and !empty($data['common_multilingual_choose_list']['value'][$k]['icon'])}}{{$data['common_multilingual_choose_list']['value'][$k]['icon']}}{{else /}}{{$attachment_host}}/static/common/images/default-images.jpg{{/if}}" />
+                                                <i>x</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             {{/foreach}}
                         </div>
                     </div>

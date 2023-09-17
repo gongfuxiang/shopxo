@@ -65,6 +65,18 @@ class Slide
                     ],
                 ],
                 [
+                    'label'          => $lang['describe'],
+                    'view_type'      => 'field',
+                    'view_key'       => 'describe',
+                    'text_truncate'  => 2,
+                    'is_popover'     => 1,
+                    'is_sort'        => 1,
+                    'search_config'  => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['platform'],
                     'view_type'     => 'field',
                     'view_key'      => 'platform',
@@ -137,6 +149,24 @@ class Slide
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
+                    ],
+                ],
+                [
+                    'label'         => $lang['start_time'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'start_time',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => $lang['end_time'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'end_time',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'datetime',
                     ],
                 ],
                 [

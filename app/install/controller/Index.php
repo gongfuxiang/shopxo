@@ -420,6 +420,11 @@ php;
             return DataReturn('sql运行失败['.$failure.']条', -1);
         }
 
+        // 更新管理员账号密码
+        $login_salt = GetNumberCode(6);
+        $login_pwd = LoginPwdEncryption($params['ADMIN_PWD'], $login_salt);
+        $db->execute('UPDATE `'.$params['DB_PREFIX'].'admin` SET `username`="'.$params['ADMIN_USERNAME'].'", login_pwd="'.$login_pwd.'", `login_salt`="'.$login_salt.'" WHERE `id`=1');
+
         // 更新加密串
         $db->execute('UPDATE `'.$params['DB_PREFIX'].'config` SET `value`="'.md5(time().rand(100, 99999)).'" WHERE `only_tag`="common_data_encryption_secret"');
 
@@ -523,6 +528,16 @@ php;
                 'checked_type'      => 'empty',
                 'key_name'          => 'DB_PREFIX',
                 'error_msg'         => '请填写数据表前缀',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'ADMIN_USERNAME',
+                'error_msg'         => '请填写管理员账号',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'ADMIN_PWD',
+                'error_msg'         => '请填写管理员密码',
             ],
         ];
         $ret = ParamsChecked($params, $p);

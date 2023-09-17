@@ -54,8 +54,9 @@ class MultilingualService
                     {
                         // 加入语言名称
                         $temp = array_merge($allow_lang_list[$k], [
-                            'name' => $v,
-                            'url'  => $url.$k,
+                            'name'  => $v['name'],
+                            'icon'  => $v['icon'],
+                            'url'   => $url.$k,
                         ]);
                         // 可选语言
                         $select[] = $temp;
@@ -99,14 +100,17 @@ class MultilingualService
     {
         $result = [];
         $data = MyConst('common_multilingual_list');
-        if(!empty($data) && is_array($data))
+        $choose_list = MyC('common_multilingual_choose_list');
+        if(!empty($data) && is_array($data) && !empty($choose_list) && is_array($choose_list))
         {
-            $choose_list = MyC('common_multilingual_choose_list');
             foreach($data as $k=>$v)
             {
-                if(!empty($choose_list) && is_array($choose_list) && in_array($k, $choose_list))
+                if(array_key_exists($k, $choose_list) && isset($choose_list[$k]) && isset($choose_list[$k]['status']) && $choose_list[$k]['status'] == 1)
                 {
-                    $result[$k] = $v;
+                    $result[$k] = [
+                        'name'  => $v,
+                        'icon'  => empty($choose_list[$k]['icon']) ? '' : $choose_list[$k]['icon'],
+                    ];
                 }
             }
         }

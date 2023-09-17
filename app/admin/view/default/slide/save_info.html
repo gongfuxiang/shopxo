@@ -31,25 +31,35 @@
         	</div>
 
         	<div class="am-cf">
-        		<div class="am-u-sm-6 am-padding-horizontal-0">
+        		<div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
         			<div class="am-form-group">
-						<label>{{:MyLang('form_event_type_title')}}</label>
-						<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}">
-							<option value="">{{:MyLang('optional_tips')}}</option>
-							{{foreach :MyConst('common_app_event_type') as $v}}
-								<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-							{{/foreach}}
-						</select>
-					</div>
+                        <label>{{:MyLang('common_service.slide.form_item_describe')}}</label>
+                        <input type="text" name="describe" placeholder="{{:MyLang('common_service.slide.form_item_describe_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.slide.form_item_describe_message')}}" class="am-radius" {{if !empty($data['describe'])}} value="{{$data.describe}}"{{/if}} />
+                    </div>
         		</div>
-        		<div class="am-u-sm-6 am-padding-horizontal-0">
-        			<div class="am-form-group">
-						<label>{{:MyLang('form_bg_color_title')}}</label>
-						<input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-						<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
-							<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-						</button>
-					</div>
+        		<div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
+                    <div class="am-cf">
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>{{:MyLang('form_event_type_title')}}</label>
+                                <select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}">
+                                    <option value="">{{:MyLang('optional_tips')}}</option>
+                                    {{foreach :MyConst('common_app_event_type') as $v}}
+                                        <option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>{{:MyLang('form_bg_color_title')}}</label>
+                                <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
+                                <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
         		</div>
         	</div>
 
@@ -60,7 +70,7 @@
 			</div>
 
 			<div class="am-cf">
-    			<div class="am-u-sm-6 am-padding-horizontal-0">
+    			<div class="am-u-sm-4 am-u-md-6 am-padding-horizontal-0">
     				<div class="am-form-group am-form-file">
 						<label class="am-block">{{:MyLang('common_service.slide.form_item_images_url')}}<span class="am-form-group-label-tips-must">*</span>{{if is_array(MyLang('common_service.slide.form_item_images_url_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.slide.form_item_images_url_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
 						<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
@@ -72,13 +82,27 @@
 						<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 					</div>
     			</div>
-    			<div class="am-u-sm-6 am-padding-horizontal-0">
+    			<div class="am-u-sm-8 am-u-md-6 am-padding-horizontal-0">
     				<div class="am-cf">
 		    			<div class="am-u-sm-12 am-padding-horizontal-0">
-		    				{{include file="lib/sort" /}}
+		    				<div class="am-form-group">
+                                <label>{{:MyLang('form_time_valid_title')}}</label>
+                                <div class="form-multiple-where-input">
+                                    <input type="text" name="start_time" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('form_time_start_title')}}" data-validation-message="{{:MyLang('form_time_start_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'end-time\');}'})" {{if !empty($data['start_time'])}}value="{{$data.start_time}}"{{/if}} data-is-clearout="0" id="start-time" />
+                                    <span class="am-text-grey">~</span>
+                                    <input type="text" name="end_time" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('form_time_end_title')}}" data-validation-message="{{:MyLang('form_time_end_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'start-time\');}'})" {{if !empty($data['end_time'])}}value="{{$data.end_time}}"{{/if}} data-is-clearout="0" id="end-time" />
+                                </div>
+                            </div>
 		    			</div>
 		    			<div class="am-u-sm-12 am-padding-horizontal-0">
-		    				{{include file="lib/is_enable" /}}
+		    				<div class="am-cf">
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    {{include file="lib/sort" /}}
+                                </div>
+                                <div class="am-u-sm-6 am-padding-horizontal-0">
+                                    {{include file="lib/is_enable" /}}
+                                </div>
+                            </div>
 		    			</div>
 		    		</div>
     			</div>

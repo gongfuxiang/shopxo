@@ -873,7 +873,7 @@ function MyInput($key = null, $default = '')
         $params = input();
         if(empty($params))
         {
-            $params = filter_var(file_get_contents("php://input"), FILTER_SANITIZE_STRING);
+            $params = file_get_contents("php://input");
         }
     }
 

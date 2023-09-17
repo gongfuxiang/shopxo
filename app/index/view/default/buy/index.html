@@ -288,7 +288,7 @@
                                                             }
                                                         {{/php}}
                                                         <!-- 分组导航内部开始钩子-结束 -->
-                        
+
                                                         <!-- 仓库信息 -->
                                                         <span class="warehouse-item-container">
                                                             {{if !empty($v['icon'])}}
@@ -307,7 +307,7 @@
                                                             {{/if}}
                                                             {{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-sm">{{$v.alias}}</span>{{/if}}
                                                         </span>
-                        
+
                                                         <!-- 分组导航内部中间钩子-开始 -->
                                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                             <div class="plugins-tag">
@@ -329,14 +329,14 @@
                                                             }
                                                         {{/php}}
                                                         <!-- 分组导航内部中间钩子-结束 -->
-                        
+
                                                         <!-- 地理位置 -->
                                                         {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                                             <div class="am-margin-left-sm">
-                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> {{:MyLang('view_map_title')}}</a>
+                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400 am-text-xs am-margin-left-sm" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> {{:MyLang('view_map_title')}}</a>
                                                             </div>
                                                         {{/if}}
-                        
+
                                                         <!-- 分组导航内部结束钩子-开始 -->
                                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                             <div class="plugins-tag">

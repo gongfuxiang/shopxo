@@ -321,7 +321,7 @@ class OrderAftersale
         if(!empty($value))
         {
             // 获取订单详情搜索的订单售后 id
-            $ids = Db::name('OrderAftersale')->alias('oa')->join('order_detail od', 'oa.order_detail_id=od.id')->whereOr('od.title|od.model', 'like', '%'.$value.'%')->whereOr('oa.order_no', '=', $value)->column('oa.id');
+            $ids = Db::name('OrderAftersale')->alias('oa')->join('order_detail od', 'oa.order_detail_id=od.id')->whereOr('od.title|od.model', 'like', '%'.$value.'%')->whereOr('oa.order_id|oa.order_no', '=', $value)->column('oa.id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

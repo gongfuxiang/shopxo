@@ -272,9 +272,12 @@ class WeixinScanQrcode
     public function Respond($params = [])
     {
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
-
-        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
+        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
         {
+            if($result['sign'] != $this->GetSign($result))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
             return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
         return DataReturn('处理异常错误', -100);

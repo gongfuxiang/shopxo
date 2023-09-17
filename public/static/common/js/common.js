@@ -3782,17 +3782,25 @@ $(function () {
     $(document).on('click', '.plug-file-upload-view li i', function () {
         // 容器
         var $tag = $(this).parents('ul.plug-file-upload-view');
+        // 删除默认图片
+        var remove_default_images = $tag.data('remove-default-images') || null;
+        if(remove_default_images == null)
+        {
+            // 删除数据
+            $(this).parent().remove();
 
-        // 删除数据
-        $(this).parent().remove();
-
-        // 数据处理
-        var max_number = $tag.attr('data-max-number') || 0;
-        if (max_number > 0) {
-            if ($tag.find('li').length < max_number) {
-                $('.plug-file-upload-submit').show();
+            // 数据处理
+            var max_number = $tag.attr('data-max-number') || 0;
+            if (max_number > 0) {
+                if ($tag.find('li').length < max_number) {
+                    $('.plug-file-upload-submit').show();
+                }
             }
+        } else {
+            $(this).parent().find('input').val('');
+            $(this).parent().find('img').attr('src', remove_default_images);
         }
+        return false;
     });
 
 

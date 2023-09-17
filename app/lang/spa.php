@@ -2143,6 +2143,8 @@ return [
             // 表单
             'form_item_name'                        => 'Nombre',
             'form_item_name_message'                => 'Formato de nombre de 2 a 60 caracteres',
+            'form_item_describe'                    => 'Descripción',
+            'form_item_describe_message'            => 'El formato de descripción tiene un máximo de 230 caracteres',
             'form_item_images_url'                  => 'Imagen de rotación',
             'form_item_images_url_tips'             => [
                 '1. tamaño recomendado en el lado de la pc: 1920 * 480px',

@@ -853,7 +853,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Base Info',
-            'goods_placeholder'  => 'Please enter the order number/goods name/model',
+            'goods_placeholder'  => 'Please enter order ID/order number/goods name/model',
             'user'               => 'User Info',
             'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
             'status'             => 'Status',
@@ -1159,12 +1159,15 @@ return [
         // 动态表格
         'form_table'                            => [
             'name'         => 'Name',
+            'describe'     => 'Describe',
             'platform'     => 'Platform',
             'images'       => 'Images',
             'event_type'   => 'Event Tyoe',
             'event_value'  => 'Event Value',
             'is_enable'    => 'Enable or not',
             'sort'         => 'Sort',
+            'start_time'   => 'Start Time',
+            'end_time'     => 'Edn Time',
             'add_time'     => 'Creation Time',
             'upd_time'     => 'Update Time',
         ],

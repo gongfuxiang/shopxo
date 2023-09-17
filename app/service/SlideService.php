@@ -42,6 +42,13 @@ class SlideService
                 'error_msg'         => MyLang('common_service.slide.form_item_name_message'),
             ],
             [
+                'checked_type'      => 'length',
+                'key_name'          => 'describe',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.slide.form_item_describe_message'),
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
                 'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
@@ -86,6 +93,7 @@ class SlideService
         // 数据
         $data = [
             'name'          => $params['name'],
+            'describe'      => empty($params['describe']) ? '' : $params['describe'],
             'platform'      => $params['platform'],
             'event_type'    => (isset($params['event_type']) && $params['event_type'] != '') ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
@@ -93,6 +101,8 @@ class SlideService
             'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',
             'sort'          => intval($params['sort']),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'start_time'    => empty($params['start_time']) ? 0 : strtotime($params['start_time']),
+            'end_time'      => empty($params['end_time']) ? 0 : strtotime($params['end_time']),
         ];
 
         if(empty($params['id']))

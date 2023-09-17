@@ -838,7 +838,7 @@ return [
         // 动态表格
         'form_table'                            => [
             'goods'              => 'Información básica',
-            'goods_placeholder'  => 'Por favor, introduzca el número de pedido / nombre del producto / Modelo',
+            'goods_placeholder'  => 'Introduzca el id del pedido / número de pedido / nombre del producto / Modelo',
             'user'               => 'Información del usuario',
             'user_placeholder'   => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
             'status'             => 'Estado',
@@ -1144,12 +1144,15 @@ return [
         // 动态表格
         'form_table'                            => [
             'name'         => 'Nombre',
+            'describe'     => 'Descripción',
             'platform'     => 'Plataforma a la que pertenece',
             'images'       => 'Imagen',
             'event_type'   => 'Tipo de evento',
             'event_value'  => 'Valor del evento',
             'is_enable'    => 'Si habilitar',
             'sort'         => 'Ordenar',
+            'start_time'   => 'Hora de inicio',
+            'end_time'     => 'Fin del tiempo',
             'add_time'     => 'Tiempo de creación',
             'upd_time'     => 'Tiempo de actualización',
         ],

@@ -885,6 +885,10 @@ ul.plug-file-upload-view-file li {
     -moz-box-shadow: 0 0.2rem 1rem rgb(136 136 136 / 0.4);
     box-shadow: 0 0.2rem 1rem rgb(136 136 136 / 40%);
 }
+
+/**
+ * 切换选择组件
+ */
 .am-switch {
     border-radius: var(--border-radius);
 }
@@ -1597,6 +1601,14 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
+ * 表单基础
+ */
+.form-multiple-where-input input {
+    display: -webkit-inline-box !important;
+    width: calc(50% - 0.9rem) !important;
+}
+
+/**
  * 表单内部顶部操作导航
  */
 .form-legend-fixed {
@@ -1767,6 +1779,13 @@ a.input-clearout-submit:focus > i {
 .chosen-container-single > .chosen-single.input-clearout-element > .chosen-single-icon,
 .am-selected > .am-selected-btn.input-clearout-element > .am-selected-icon {
     display: none;
+}
+
+/**
+ * 文本复制
+ */
+.text-copy-submit {
+    cursor: pointer;
 }
 
 

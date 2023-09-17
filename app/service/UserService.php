@@ -404,9 +404,9 @@ class UserService
         $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
         $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
         $where = [
+            [$where_field, '=', $where_value],
             ['system_type', '=', $system_type],
             ['platform', '=', $platform],
-            [$where_field, '=', $where_value],
         ];
         return Db::name('UserPlatform')->where($where)->field($field)->find();
     }
@@ -453,9 +453,33 @@ class UserService
         $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
         $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
         $where = [
+            [$where_field, '=', $where_value],
             ['up.system_type', '=', $system_type],
             ['up.platform', '=', $platform],
+            ['u.is_delete_time', '=', 0],
+            ['u.is_logout_time', '=', 0],
+        ];
+        return Db::name('User')->alias('u')->join('user_platform up', 'u.id=up.user_id')->where($where)->field($field)->find();
+    }
+
+    /**
+     * 根据字段获取用户系统信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [string]          $field            [指定字段]
+     * @param   [array]           $params           [输入参数]
+     */
+    public static function UserSystemInfo($where_field, $where_value, $field = 'u.*', $params = [])
+    {
+        $system_type = empty($params['system_type_name']) ? SYSTEM_TYPE : $params['system_type_name'];
+        $where = [
             [$where_field, '=', $where_value],
+            ['up.system_type', '=', $system_type],
             ['u.is_delete_time', '=', 0],
             ['u.is_logout_time', '=', 0],
         ];
@@ -1574,7 +1598,7 @@ class UserService
     private static function IsExistAccounts($accounts, $field = 'mobile')
     {
         $method = self::UserUniqueMethod();
-        $temp = self::$method($field, $accounts, 'id');
+        $temp = self::$method($field, $accounts);
         return !empty($temp);
     }
 
@@ -1588,7 +1612,7 @@ class UserService
      */
     public static function UserUniqueMethod()
     {
-        return (MyC('common_user_unique_system_type_model') == 1) ? 'UserInfo' : 'UserBaseInfo';
+        return (MyC('common_user_unique_system_type_model') == 1) ? 'UserSystemInfo' : 'UserBaseInfo';
     }
 
     /**

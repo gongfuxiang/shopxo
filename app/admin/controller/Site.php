@@ -288,7 +288,21 @@ class Site extends Base
 
 					// 扩展
 					case 'extends' :
-						$field_list[] = 'common_multilingual_choose_list';
+						// 可用语言状态+图标
+						$choose_list = [];
+						if(!empty($params['common_multilingual_choose_list']) && is_array($params['common_multilingual_choose_list']))
+						{
+							foreach($params['common_multilingual_choose_list'] as $k=>$v)
+							{
+								$choose_list[$k] = [
+									'icon'   => empty($v['icon']) ? '' : ResourcesService::AttachmentPathHandle($v['icon']),
+									'status' => (isset($v['status']) && $v['status'] == 1) ? 1 : 0,
+								];
+							}
+						}
+						$params['common_multilingual_choose_list'] = empty($choose_list) ? '' : json_encode($choose_list, JSON_UNESCAPED_UNICODE);
+
+						// 域名绑定多语言
 						$params['common_domain_multilingual_bind_list'] = empty($params['common_domain_multilingual_bind_list']) ? '' : json_encode(array_values($params['common_domain_multilingual_bind_list']), JSON_UNESCAPED_UNICODE);
 						break;
 				}

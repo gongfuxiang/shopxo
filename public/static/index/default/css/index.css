@@ -6,11 +6,12 @@ ul, li, ol {list-style: none;}
 
 /*手机导航*/
 .small-nav {font-size:1.2rem;}
-.small-nav .am-u-sm-3 { text-align: center; margin-top: 1rem; }
-.small-nav .nav-icon {max-width: 5rem; max-height: 5rem; padding: 1.2rem; margin: 0 auto; border-radius: 5rem; background-color: #ccc; }
+.small-nav .am-u-sm-3 { text-align: center; margin-top: 1rem; width: 20%; }
+.small-nav .nav-icon {max-width: 5rem; max-height: 5rem; padding: 1.2rem; margin: 0 auto; border-radius: 5rem; }
 .small-nav .am-u-sm-3:last-child { float: left; }
 .small-nav .mini-nav-title { margin-top: 0.5rem; }
 .small-nav a { text-decoration: none !important; }
+.small-nav .nav-icon.item-exposed { padding: 0; -webkit-box-shadow: none; box-shadow: none; }
 
 /*走马灯*/
 .banner-mixed{position: relative;border-top:0.1rem solid #F5F5F5 ;border-bottom: 0.1rem #f5f5f5 solid;overflow: hidden;}
@@ -205,7 +206,7 @@ ul, li, ol {list-style: none;}
     .banner-news-title{line-height: 3rem; height: 3rem; color: #333333; max-width: 7.2rem;float: left;}
     .banner-news li {padding-left: 1rem;}
     .banner-news li strong {display: none;}
-    .am-footer { padding-bottom: 5rem; }
+    .am-footer { padding-bottom: 7rem; }
     .banner .am-slider .am-slides li img {height: 20rem;}
 
     /*楼层*/
