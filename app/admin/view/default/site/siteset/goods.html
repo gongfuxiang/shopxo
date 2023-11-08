@@ -35,9 +35,7 @@
                 <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" max="3" name="{{$data.common_show_goods_category_level.only_tag}}" placeholder="{{$data.common_show_goods_category_level.name}}" data-validation-message="{{$data.common_show_goods_category_level.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_show_goods_category_level.value}}"{{/if}} />
-                    <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="button">{{:MyLang('level_title')}}</button>
-                  </span>
+                    <span class="am-input-group-label am-radius">{{:MyLang('level_title')}}</span>
                 </div>
                 {{if is_array(MyLang('site.goods_tips_list'))}}
                     <div class="am-alert am-alert-warning" data-am-alert>

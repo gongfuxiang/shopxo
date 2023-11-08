@@ -299,6 +299,7 @@ return [
         'browser_seo_title'                     => '訂單售後',
         'detail_browser_seo_title'              => '訂單售後詳情',
         'view_orderaftersale_enter_name'        => '查看售後訂單',
+        'orderaftersale_apply_name'             => '申請售後',
         'operate_delivery_name'                 => '立即退貨',
         'goods_list_thead_base'                 => '商品資訊',
         'goods_list_thead_price'                => '單價',

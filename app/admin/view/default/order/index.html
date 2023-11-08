@@ -69,8 +69,7 @@
                                     {{/if}}
                                 {{/foreach}}
                             </ul>
-                        {{/if}}
-                        {{if empty($express_list)}}
+                        {{else /}}
                             {{include file="public/not_data" /}}
                         {{/if}}
                     </div>
@@ -122,8 +121,7 @@
                                     </li>
                                 {{/foreach}}
                             </ul>
-                        {{/if}}
-                        {{if empty($buy_payment_list)}}
+                        {{else /}}
                             {{include file="public/not_data" /}}
                         {{/if}}
                     </div>

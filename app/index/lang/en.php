@@ -299,6 +299,7 @@ return [
         'browser_seo_title'                     => 'Order AfterSales',
         'detail_browser_seo_title'              => 'Order AfterSales Detail',
         'view_orderaftersale_enter_name'        => 'View after-sales orders',
+        'orderaftersale_apply_name'             => 'Apply for after-sales service',
         'operate_delivery_name'                 => 'Return immediately',
         'goods_list_thead_base'                 => 'Goods Info',
         'goods_list_thead_price'                => 'Price',

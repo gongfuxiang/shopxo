@@ -426,7 +426,6 @@ function FromInit (form_name) {
                                 return false;
                             }
                             break;
-
                     }
 
                     // 请求 url http类型
@@ -439,9 +438,10 @@ function FromInit (form_name) {
                     // 请求参数
                     var form_data_count = 0;
                     var form_data = GetFormVal(form_name);
-                    form_data.forEach(function (value, key) {
+                    var temp_form_data = form_data.appendData || form_data;
+                    for(var i in temp_form_data) {
                         form_data_count += 1;
-                    });
+                    }
 
                     // 请求参数是否超过系统环境参数
                     if (typeof (__env_max_input_vars_count__) != 'undefined') {
@@ -528,10 +528,6 @@ function FromInit (form_name) {
             }
         });
 }
-// 默认初始化一次,默认标签[form.form-validation]
-FromInit('form.form-validation');
-// 公共列表 form 搜索条件
-FromInit('form.form-validation-search');
 
 /**
  * 表单数据填充
@@ -1112,6 +1108,7 @@ function AjaxRequest (e) {
     var view = e.attr('data-view') || '';
     var view_value = e.attr('data-view-value') || '';
     var is_example = e.hasClass('btn-loading-example');
+    var is_reset = e.attr('data-is-reset');
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
@@ -1138,10 +1135,19 @@ function AjaxRequest (e) {
         timeout: e.attr('data-timeout') || 60000,
         data: data,
         success: function (result) {
-            // 刷新和跳转不释放按钮禁用状态
-            var not_reset = ['reload', 'jump'];
-            if (is_example && not_reset.indexOf(view) == -1) {
-                e.button('reset');
+            if(is_example) {
+                // 是否指定需要释放按钮禁用状态
+                if(is_reset == 1) {
+                    e.button('reset');
+                } else {
+                    // 未指定则刷新和跳转不释放按钮禁用状态
+                    if(is_reset == undefined) {
+                        var not_reset = ['reload', 'jump'];
+                        if (not_reset.indexOf(view) == -1) {
+                            e.button('reset');
+                        }
+                    }
+                }
             }
 
             // 关闭进度条
@@ -1424,6 +1430,26 @@ function MobileBrowserEnvironment () {
     // 微信
     if (ua.match(/MicroMessenger/i) == 'micromessenger') {
         return 'weixin';
+    }
+
+    // 支付宝
+    if (ua.match(/AlipayClient/i) == 'alipayclient') {
+        return 'alipay';
+    }
+
+    // 百度
+    if (ua.match(/swan-baiduboxapp/i) == 'swan-baiduboxapp') {
+        return 'baidu';
+    }
+
+    // 头条
+    if (ua.match(/ToutiaoMicroApp/i) == 'toutiaomicroapp') {
+        return 'toutiao';
+    }
+
+    // 快手
+    if (ua.match(/AllowKsCallApp/i) == 'allowkscallapp') {
+        return 'kuaishou';
     }
 
     // 新浪微博
@@ -2779,9 +2805,211 @@ function FormTableContentModuleInit () {
     });
 }
 
+/**
+ * 初始化生成滚动箭头
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-10-21
+ * @desc    只可以放在循环的子元素的上两级，或ul的上一级 例如<div class="am-slider-horizontal"><ul><li></li></ul></div>
+ */
+function InitScroll () {
+    if ($('body').find('.am-slider-horizontal').length > 0) {
+        $('.am-slider-horizontal').each(function () {
+            // 判断长度 =》 是否生成滚动箭头
+            var parent_width = $(this).width();
+            var children_width_li = 0;
+            $(this).find('li').each(function (index, item) {
+                children_width_li += $(item).width();
+            })
+            // 判断是否需要生成右侧按钮
+            if (parent_width >= children_width_li) {
+                // 判断是否已生成过右侧箭头按钮
+                if ($(this).find('.tabs-right').length > 0) {
+                    $(this).find('.tabs-right').remove();
+                }
+            } else {
+                // 判断是否已生成过右侧箭头按钮
+                if ($(this).find('.tabs-right').length < 1) {
+                    var slider_html = '<div class="tabs-right" data-num="1" onclick="TabsEvent(this,' + parent_width + ',' + children_width_li + ')">' +
+                        '<i class="am-icon-chevron-right"></i>' +
+                        '</div>';
+                    $(this).append(slider_html);
+                }
+            }
+        })
+    }
+}
+
+/**
+ * tabs导航事件
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-10-21
+ * @desc    description
+ * @param   {[string]}     obj        [tab元素]
+ * @param   {[int]}        parent_w   [父级宽度]
+ * @param   {[int]}        children_w [子级宽度]
+ */
+function TabsEvent (obj, parent_w, children_w) {
+    var pratnt_obj = $(obj).parent();
+    var num = $(obj).attr('data-num');
+    if (num * parent_w >= children_w) {
+        pratnt_obj.animate({ scrollLeft: 0 }, 500);
+        $(obj).attr('data-num', 1)
+    } else {
+        pratnt_obj.animate({ scrollLeft: parent_w * num }, 500);
+        $(obj).attr('data-num', Number($(obj).attr('data-num')) + 1);
+    }
+}
+
+/**
+ * 公共单个文件上传表单回调处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-10-21
+ * @desc    description
+ */
+function CommonFormUploadEditorSingleBackHandle(params) {
+    var $form = $('form.form-validation-common-upload-editor-single');
+    $form.find('button[type="reset"]').trigger('click');
+    $form.find('button[type="submit"]').button('reset');
+    if(params.code == 0) {
+        CommonFormUploadEditorDataViewHandle([params.data], $($('body').attr('view-tag')).attr('data-dialog-type') || 'images');
+    } else {
+        Prompt(params.msg);
+    }
+}
+
+/**
+ * 公共表单文件上传数据展示处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-10-21
+ * @desc    description
+ * @param   {[array]}        data [数据列表]
+ * @param   {[string]}       type [类型（images 图片、video 视频、file 文件）]
+ */
+function CommonFormUploadEditorDataViewHandle(data, type = 'images') {
+    if ((data || null) != null && data.length > 0) {
+        var $tag = $($('body').attr('view-tag'));
+        var max_number = $tag.attr('data-max-number') || 0;
+        var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
+        var form_name = $tag.attr('data-form-name') || '';
+        var is_attr = $tag.attr('data-is-attr') || null;
+
+        // 只限制一条
+        if (max_number <= 1) {
+            $tag.find('li').remove();
+        }
+
+        // 根据类型处理
+        switch(type) {
+            // 图片
+            case 'images' :
+                for (var i in data) {
+                    var src = data[i]['src'] || data[i]['url'];
+                    // 是否直接赋值属性
+                    if (i == 0 && is_attr != null) {
+                        $('form [name="' + form_name + '"]').val(src);
+                        $tag.attr(is_attr, src);
+                        break;
+                    }
+
+                    // 是否限制数量
+                    if (max_number > 0 && $tag.find('li').length >= max_number) {
+                        var temp_msg = window['lang_upload_images_max_tips'] || '最多上传{value}张图片';
+                        Prompt(temp_msg.replace('{value}', max_number));
+                        break;
+                    }
+
+                    var html = '<li>';
+                    html += '<input type="text" name="' + form_name + '" value="' + src + '" />';
+                    html += '<img src="' + src + '" />';
+                    if (is_delete == 1) {
+                        html += '<i>×</i>';
+                    }
+                    html += '</li>';
+                    $tag.append(html);
+                }
+                break;
+
+            // 视频
+            case 'video' :
+                for (var i in data) {
+                    var src = data[i]['src'] || data[i]['url'];
+                    // 是否直接赋值属性
+                    if (i == 0 && is_attr != null) {
+                        $('form [name="' + form_name + '"]').val(src);
+                        $tag.attr(is_attr, src);
+                        break;
+                    }
+
+                    // 是否限制数量
+                    if (max_number > 0 && $tag.find('li').length >= max_number) {
+                        var temp_msg = window['lang_upload_video_max_tips'] || '最多上传{value}个视频';
+                        Prompt(temp_msg.replace('{value}', max_number));
+                        break;
+                    }
+
+                    var html = '<li>';
+                    html += '<input type="text" name="' + form_name + '" value="' + src + '" />';
+                    html += '<video src="' + src + '" controls>your browser does not support the video tag</video>';
+                    if (is_delete == 1) {
+                        html += '<i>×</i>';
+                    }
+                    html += '</li>';
+                    $tag.append(html);
+                }
+                break;
+
+            // 文件
+            case 'file' :
+                for (var i in data) {
+                    var src = data[i]['src'] || data[i]['url'];
+                    // 是否直接赋值属性
+                    if (i == 0 && is_attr != null) {
+                        $('form [name="' + form_name + '"]').val(src);
+                        $tag.attr(is_attr, src);
+                        break;
+                    }
+
+                    // 是否限制数量
+                    if (max_number > 0 && $tag.find('li').length >= max_number) {
+                        var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
+                        Prompt(temp_msg.replace('{value}', max_number));
+                        break;
+                    }
+
+                    var index = parseInt($tag.find('li').length) || 0;
+                    var html = '<li>';
+                    html += '<input type="text" name="' + form_name + '[' + index + '][title]" value="' + data[i].title + '" />';
+                    html += '<input type="text" name="' + form_name + '[' + index + '][url]" value="' + src + '" />';
+                    html += '<a href="' + src + '" title="' + data[i].title + '" target="_blank">' + data[i].title + '</a>';
+                    if (is_delete == 1) {
+                        html += '<i>×</i>';
+                    }
+                    html += '</li>';
+                    $tag.append(html);
+                }
+                break;
+        }
+    }
+}
+
 
 // 公共数据操作
 $(function () {
+    // 默认初始化一次,默认标签[form.form-validation]
+    FromInit('form.form-validation');
+    // 公共列表 form 搜索条件
+    FromInit('form.form-validation-search');
+    // 公共单个文件上传表单初始化
+    FromInit('form.form-validation-common-upload-editor-single');
+
     // 表格初始化
     FormTableContainerInit();
 
@@ -2957,6 +3185,12 @@ $(function () {
 
                 // 表格数据模块初始化
                 FormTableContentModuleInit();
+
+                // 回调方法
+                var back_function = 'FormTableDataListPageChangeBackEvent';
+                if (IsExitsFunction(back_function)) {
+                    window[back_function](result);
+                }
             },
             error: function (xhr, type) {
                 $.AMUI.progress.done();
@@ -3442,9 +3676,9 @@ $(function () {
                 $this.attr('disabled', false);
                 if (result.code == 0) {
                     // 更新选中值
-                    $parent.find('select[name="province"]').attr('data-value', result.data.province);
-                    $parent.find('select[name="city"]').attr('data-value', result.data.city);
-                    $parent.find('select[name="county"]').attr('data-value', result.data.county);
+                    $parent.find('select[name="province"]').attr('data-value', result.data.province.id);
+                    $parent.find('select[name="city"]').attr('data-value', result.data.city.id);
+                    $parent.find('select[name="county"]').attr('data-value', result.data.county.id);
                     // 地址初始化
                     RegionLinkageInit();
                     Prompt(result.msg, 'success');
@@ -3595,130 +3829,17 @@ $(function () {
         upload_editor.ready(function () {
             // 图片上传动作
             upload_editor.addListener("beforeInsertImage", function (t, result) {
-                if (result.length > 0) {
-                    var $tag = $($('body').attr('view-tag'));
-                    var max_number = $tag.attr('data-max-number') || 0;
-                    var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
-                    var form_name = $tag.attr('data-form-name') || '';
-                    var is_attr = $tag.attr('data-is-attr') || null;
-
-                    // 只限制一条
-                    if (max_number <= 1) {
-                        $tag.find('li').remove();
-                    }
-
-                    // 循环处理
-                    for (var i in result) {
-                        // 是否直接赋值属性
-                        if (i == 0 && is_attr != null) {
-                            $('form [name="' + form_name + '"]').val(result[i].src);
-                            $tag.attr(is_attr, result[i].src);
-                            break;
-                        }
-
-                        // 是否限制数量
-                        if (max_number > 0 && $tag.find('li').length >= max_number) {
-                            var temp_msg = window['lang_upload_images_max_tips'] || '最多上传{value}张图片';
-                            Prompt(temp_msg.replace('{value}', max_number));
-                            break;
-                        }
-
-                        var html = '<li>';
-                        html += '<input type="text" name="' + form_name + '" value="' + result[i].src + '" />';
-                        html += '<img src="' + result[i].src + '" />';
-                        if (is_delete == 1) {
-                            html += '<i>×</i>';
-                        }
-                        html += '</li>';
-                        $tag.append(html);
-                    }
-                }
+                CommonFormUploadEditorDataViewHandle(result, 'images');
             });
 
             // 视频上传
             upload_editor.addListener("beforeInsertVideo", function (t, result) {
-                if (result.length > 0) {
-                    var $tag = $($('body').attr('view-tag'));
-                    var max_number = $tag.attr('data-max-number') || 0;
-                    var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
-                    var form_name = $tag.attr('data-form-name') || '';
-                    var is_attr = $tag.attr('data-is-attr') || null;
-
-                    // 只限制一条
-                    if (max_number <= 1) {
-                        $tag.find('li').remove();
-                    }
-
-                    // 循环处理
-                    for (var i in result) {
-                        // 是否直接赋值属性
-                        if (i == 0 && is_attr != null) {
-                            $('form [name="' + form_name + '"]').val(result[i].src);
-                            $tag.attr(is_attr, result[i].src);
-                            break;
-                        }
-
-                        // 是否限制数量
-                        if (max_number > 0 && $tag.find('li').length >= max_number) {
-                            var temp_msg = window['lang_upload_video_max_tips'] || '最多上传{value}个视频';
-                            Prompt(temp_msg.replace('{value}', max_number));
-                            break;
-                        }
-
-                        var html = '<li>';
-                        html += '<input type="text" name="' + form_name + '" value="' + result[i].src + '" />';
-                        html += '<video src="' + result[i].src + '" controls>your browser does not support the video tag</video>';
-                        if (is_delete == 1) {
-                            html += '<i>×</i>';
-                        }
-                        html += '</li>';
-                        $tag.append(html);
-                    }
-                }
+                CommonFormUploadEditorDataViewHandle(result, 'video');
             });
 
             // 文件上传
             upload_editor.addListener("beforeInsertFile", function (t, result) {
-                if (result.length > 0) {
-                    var $tag = $($('body').attr('view-tag'));
-                    var max_number = $tag.attr('data-max-number') || 0;
-                    var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
-                    var form_name = $tag.attr('data-form-name') || '';
-                    var is_attr = $tag.attr('data-is-attr') || null;
-
-                    // 只限制一条
-                    if (max_number <= 1) {
-                        $tag.find('li').remove();
-                    }
-
-                    // 循环处理
-                    for (var i in result) {
-                        // 是否直接赋值属性
-                        if (i == 0 && is_attr != null) {
-                            $('form [name="' + form_name + '"]').val(result[i].url);
-                            $tag.attr(is_attr, result[i].url);
-                            break;
-                        }
-
-                        // 是否限制数量
-                        if (max_number > 0 && $tag.find('li').length >= max_number) {
-                            var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
-                            Prompt(temp_msg.replace('{value}', max_number));
-                            break;
-                        }
-
-                        var index = parseInt($tag.find('li').length) || 0;
-                        var html = '<li>';
-                        html += '<input type="text" name="' + form_name + '[' + index + '][title]" value="' + result[i].title + '" />';
-                        html += '<input type="text" name="' + form_name + '[' + index + '][url]" value="' + result[i].url + '" />';
-                        html += '<a href="' + result[i].url + '" title="' + result[i].title + '" target="_blank">' + result[i].title + '</a>';
-                        if (is_delete == 1) {
-                            html += '<i>×</i>';
-                        }
-                        html += '</li>';
-                        $tag.append(html);
-                    }
-                }
+                CommonFormUploadEditorDataViewHandle(result, 'file');
             });
         });
     }
@@ -3737,25 +3858,48 @@ $(function () {
             return false;
         }
 
-        // 容器
+        // 容器配置
         var $view_tag = $($(this).attr('data-view-tag'));
+        var max_number = $view_tag.attr('data-max-number') || 0;
+
+        // 是否限制数量
+        if (max_number > 0 && $view_tag.find('li').length > 0) {
+            var count = 0;
+            var remove_default_images = $view_tag.data('remove-default-images') || null;
+            $view_tag.find('li').each(function(k, v)
+            {
+                // 默认图片项不参与数量计算
+                if($(this).find('img').attr('src') != remove_default_images) {
+                    count++;
+                }
+            });
+            if(count > max_number) {
+                var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
+                Prompt(temp_msg.replace('{value}', max_number));
+                return false;
+            }
+        }
 
         // 加载组件类型
         var dialog_type = null;
+        var form_action = 'uploadimage';
         switch ($view_tag.attr('data-dialog-type')) {
             // 视频
             case 'video':
                 dialog_type = 'insertvideo';
+                form_action = 'uploadvideo';
                 break;
 
             // 图片
             case 'images':
                 dialog_type = 'insertimage';
+                form_action = 'uploadimage';
                 break;
 
             // 文件
             case 'file':
                 dialog_type = 'attachment';
+                form_action = 'uploadfile';
                 break;
         }
         if (dialog_type == null) {
@@ -3769,13 +3913,26 @@ $(function () {
             return false;
         }
 
+        // 赋值参数
+        $('body').attr('view-tag', $(this).attr('data-view-tag'));
+
+        // 是否单个上传
+        if(parseInt($view_tag.data('is-single') || 0) == 1) {
+            var $form = $('form.form-validation-common-upload-editor-single');
+            $form.find('input[name="action"]').val(form_action);
+            $form.find('input[name="upfile"]').attr('accept', form_action == 'uploadimage' ? 'image/*' : '').trigger('click');
+            return false;
+        }
+
         // 打开组件
         var dialog = upload_editor.getDialog(dialog_type);
         dialog.render();
         dialog.open();
+    });
 
-        // 赋值参数
-        $('body').attr('view-tag', $(this).attr('data-view-tag'));
+    // 公共单个文件上传表单
+    $('form.form-validation-common-upload-editor-single input[name="upfile"]').on('change', function() {
+        $(this).parents('form').find('button[type="submit"]').trigger('click');
     });
 
     // 删除容器中的内容
@@ -3939,15 +4096,26 @@ $(function () {
 
     // 关闭窗口
     $(document).on('click', '.window-close-event', function () {
-        if (confirm($(this).data('msg') || window['lang_window_close_confirm_tips'] || '您确定要关闭本页吗？')) {
-            var user_agent = navigator.userAgent;
-            if (user_agent.indexOf('Firefox') != -1 || user_agent.indexOf('Chrome') != -1) {
-                location.href = 'about:blank';
-            } else {
-                window.opener = null;
-                window.open('', '_self');
+        // 根据环境判断处理
+        var env = MobileBrowserEnvironment();
+        // 是否微信环境存在微信sdk
+        if(env == 'weixin' && typeof(wx) == 'object') {
+            wx.closeWindow();
+        // 是否支付宝环境存在支付宝sdk
+        } else if(env == 'alipay' && typeof(AlipayJSBridge) == 'object') {
+            AlipayJSBridge.call('exitApp');
+        } else {
+            // web端
+            if (confirm($(this).data('msg') || window['lang_window_close_confirm_tips'] || '您确定要关闭本页吗？')) {
+                var user_agent = navigator.userAgent;
+                if (user_agent.indexOf('Firefox') != -1 || user_agent.indexOf('Chrome') != -1) {
+                    location.href = 'about:blank';
+                } else {
+                    window.opener = null;
+                    window.open('', '_self');
+                }
+                window.close();
             }
-            window.close();
         }
     });
 
@@ -4351,7 +4519,7 @@ $(function () {
     });
     // 评论舰艇
     // 监听textarea是否有值-----改变btn评论按钮的颜色状态
-    $(document).bind('input propertychange', '.addEventListener-textarea', function (obj) {
+    $(document).bind('input', '.add-event-listener-textarea', function (obj) {
         if ($(obj.target).val().length > 0) {
             $(obj.target).parent().find('.textarea-btn').addClass('am-background-main')
         } else {
@@ -4361,52 +4529,8 @@ $(function () {
 
     $(window).resize(function () {
         // 动态监听 初始化生成滚动箭头
-        initScroll();
+        InitScroll();
     });
     // 生成滚动箭头
-    initScroll();
+    InitScroll();
 });
-/**
- * 初始化生成滚动箭头 ----- 只可以放在循环的子元素的上两级，或ul的上一级 例如<div class="am-slider-horizontal"><ul><li></li></ul></div>
- */
-function initScroll () {
-    if ($('body').find('.am-slider-horizontal').length > 0) {
-        $('.am-slider-horizontal').each(function () {
-            // 判断长度 =》 是否生成滚动箭头
-            var parentWidth = $(this).width();
-            var childrenWidthLi = 0;
-            $(this).find('li').each(function (index, item) {
-                childrenWidthLi += $(item).width();
-            })
-            // 判断是否需要生成右侧按钮
-            if (parentWidth >= childrenWidthLi) {
-                // 判断是否已生成过右侧箭头按钮
-                if ($(this).find('.tabs-right').length > 0) {
-                    $(this).find('.tabs-right').remove();
-                }
-            } else {
-                // 判断是否已生成过右侧箭头按钮
-                if ($(this).find('.tabs-right').length < 1) {
-                    var sliderHtml =
-                        '<div class="tabs-right" data-num="1" onclick="tabsEvent(this,' + parentWidth + ',' + childrenWidthLi + ')">' +
-                        '<i class="am-icon-chevron-right"></i>' +
-                        '</div>';
-                    $(this).append(sliderHtml);
-                }
-            }
-        })
-    }
-}
-
-function tabsEvent (obj, parentW, childrenW) {
-    var pratntObj = $(obj).parent();
-    var num = $(obj).attr('data-num');
-    console.log('num:' + num);
-    if (num * parentW >= childrenW) {
-        pratntObj.animate({ scrollLeft: 0 }, 500);
-        $(obj).attr('data-num', 1)
-    } else {
-        pratntObj.animate({ scrollLeft: parentW * num }, 500);
-        $(obj).attr('data-num', Number($(obj).attr('data-num')) + 1);
-    }
-}

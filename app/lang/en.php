@@ -352,6 +352,7 @@ return [
     'default_title'                                         => 'Default',
     'setup_default_title'                                   => 'Setup Default',
     'grade_title'                                           => 'Grade',
+    'total_title'                                           => 'Total',
     'only_title'                                            => 'Only',
     'strip_title'                                           => 'Strip',
     'level_title'                                           => 'Level',
@@ -634,6 +635,7 @@ return [
     'uninstall_confirm_tips'                                => 'It cannot be recovered after uninstallation. Are you sure to continue?',
     'collect_confirm_tips'                                  => 'Please carefully confirm that the goods have been received and confirm to continue?',
     'save_close_page_confirm_tips'                          => 'Are you sure you want to save the data and continue to close this page?',
+    'service_confirm_tips'                                  => 'Confirm that customer service is complete and cannot be restored after operation!',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => 'Site Cache', 'desc' => 'This function can be used to update all caches after data conversion or when the foreground cannot be accessed normally'],
@@ -1117,26 +1119,6 @@ return [
         'agreement'         => [
             // 表单
             'form_item_document_type_message'       => '协议文档类型为空',
-        ],
-        // 问答
-        'answer'            => [
-            // 表单
-            'form_item_name'                        => 'Contacts',
-            'form_item_name_message'                => 'Contact format can be up to 30 characters',
-            'form_item_tel'                         => 'Telephone',
-            'form_item_tel_message'                 => 'Please fill in a valid phone number',
-            'form_item_title'                       => 'Title',
-            'form_item_title_message'               => 'Header format can be up to 60 characters',
-            'form_item_access_count'                => 'Number of visits',
-            'form_item_access_count_message'        => 'Number of visits in the format of 0~9',
-            'form_item_content'                     => 'Content',
-            'form_item_content_message'             => 'Content format is between 5 and 1000 characters',
-            'form_item_reply'                       => 'Reply Content',
-            'form_item_reply_message'               => 'The format of reply content is between 1 and 1000 characters',
-            'form_item_save_reply_message'          => 'Reply content format can be up to 1000 characters',
-            'form_is_reply'                         => 'Reply or not',
-            // 基础
-            'no_username_name'                      => 'Net Friend',
         ],
         // 用户中心导航
         'appcenternav'      => [
@@ -1716,7 +1698,6 @@ return [
                 'safety'            => 'Safety',
                 'message'           => 'My Message',
                 'goodsbrowse'       => 'My Browse',
-                'answer'            => 'Q&A/Message',
                 'logout'            => 'Sign Out',
             ],
             // 用户中心基础信息中mini导航
@@ -2422,7 +2403,6 @@ return [
         'page_user_goods_browse_list'                        => 'My Tracks',
         'page_user_integral_list'                            => 'My Points',
         'page_user_message_list'                             => 'My Message',
-        'page_user_answer_list'                              => 'Q&A/Message',
         // 页面-扩展模块
         'page_plugins_title'                                 => 'Expansion module',
         // 页面
@@ -2912,14 +2892,19 @@ return [
             'desc' => 'It is closed by default. After being opened, user registration needs to be approved before login',
             'tips' => 'Please select user registration to enable audit',
         ],
-        'home_site_logo_wap'  => [
+        'home_site_logo_app'  => [
             'name' => 'Mobile logo',
-            'desc' => 'Support [JPG, PNG, GIF], 220x66px recommended',
+            'desc' => 'Support [JPG, PNG, GIF], 60*60px recommended',
             'tips' => 'Please upload the logo of the mobile website',
+        ],
+        'home_site_logo_wap'  => [
+            'name' => 'Wap logo',
+            'desc' => 'Support [JPG, PNG, GIF], 220*66px recommended',
+            'tips' => 'Please upload the logo of the wap website',
         ],
         'home_site_logo'  => [
             'name' => 'Computer logo',
-            'desc' => 'Support [JPG, PNG, GIF], 220x60px recommended',
+            'desc' => 'Support [JPG, PNG, GIF], 220*60px recommended',
             'tips' => 'Please upload the logo of the computer website',
         ],
         'home_content_max_width'  => [
@@ -2929,7 +2914,7 @@ return [
         ],
         'home_site_logo_square'  => [
             'name' => 'Square logo',
-            'desc' => 'PNG format is recommended. 300x300px is recommended',
+            'desc' => 'PNG format is recommended. 300*300px is recommended',
             'tips' => 'Please upload the square logo',
         ],
         'home_user_reg_type'  => [
@@ -3176,11 +3161,6 @@ return [
             'name' => 'Top keyword of right floor',
             'desc' => 'Keywords under floor (enter)',
             'tips' => 'Please fill in the keywords on the top right of the first floor',
-        ],
-        'common_app_is_enable_answer'  => [
-            'name' => 'Whether to enable message',
-            'desc' => 'Default no',
-            'tips' => '',
         ],
         'common_spec_add_max_number'  => [
             'name' => 'Maximum quantity of goods specifications that can be added',
@@ -3462,11 +3442,6 @@ return [
             'desc' => '',
             'tips' => 'Please fill in the description',
         ],
-        'common_is_login_answer'  => [
-            'name' => 'Message needs to be logged in',
-            'desc' => 'Default no',
-            'tips' => 'Please select whether to log in for message',
-        ],
         'common_order_close_limit_time'  => [
             'name' => 'Order closing script duration',
             'desc' => 'Unit minute, 30 minutes by default',
@@ -3679,7 +3654,7 @@ return [
         ],
         'home_index_floor_left_top_category'  => [
             'name' => 'Second level goods classification on the left side of the home floor',
-            'desc' => 'Classification under floor (drop-down multiple selection)',
+            'desc' => 'Multiple choices available',
             'tips' => 'Please fill in the second level goods classification on the left side of the home floor',
         ],
         'home_navigation_main_quick_status'  => [

@@ -240,10 +240,10 @@ class FormHandleModule
         $this->page = max(1, isset($this->out_params['page']) ? intval($this->out_params['page']) : 1);
         $this->page_size = min(empty($this->out_params['page_size']) ? MyC('common_page_size', 10, true) : intval($this->out_params['page_size']), 1000);
 
-        // 当前系统操作名称
-        $this->module_name = RequestModule();
-        $this->controller_name = RequestController();
-        $this->action_name = RequestAction();
+        // 当前系统操作名称、是否指定模块
+        $this->module_name = empty($this->out_params['module_name']) ? RequestModule() : $this->out_params['module_name'];
+        $this->controller_name = empty($this->out_params['controller_name']) ? RequestController() : $this->out_params['controller_name'];
+        $this->action_name = empty($this->out_params['action_name']) ? RequestAction() : $this->out_params['action_name'];
 
         // 是否开启删除
         $is_delete = isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1;
@@ -737,10 +737,13 @@ class FormHandleModule
                             }
                         }
                         // 当前详情数据最大数记录
-                        $temp_max = (count($v[$dv['field']]) == count($v[$dv['field']], 1)) ? 1 : count($v[$dv['field']]);
-                        if($temp_max > $detail_data_row_max)
+                        if(isset($v[$dv['field']]))
                         {
-                            $detail_data_row_max = $temp_max;
+                            $temp_max = (count($v[$dv['field']]) == count($v[$dv['field']], 1)) ? 1 : count($v[$dv['field']]);
+                            if($temp_max > $detail_data_row_max)
+                            {
+                                $detail_data_row_max = $temp_max;
+                            }
                         }
                     }
                     $is_table_title = false;

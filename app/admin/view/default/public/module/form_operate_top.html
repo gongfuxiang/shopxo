@@ -21,24 +21,33 @@
 
 <!-- 是否开启数据打印操作 -->
 {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
-    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-print form-table-operate-top-data-print-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_print_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_print_name')}}</button>
+    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs form-table-operate-top-data-print-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_print_tips')}}', trigger: 'hover focus', theme: 'warning sm'}">
+        <i class="am-icon-print"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_print_name')}}</span>
+    </button>
 {{/if}}
 
 <!-- 是否开启数据导出pdf操作 -->
 {{if isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1}}
-    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-file-pdf-o form-table-operate-top-data-print-submit" data-is-pdf="1" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_export_pdf_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_export_pdf_name')}}</button>
+    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs form-table-operate-top-data-print-submit" data-is-pdf="1" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_export_pdf_tips')}}', trigger: 'hover focus', theme: 'warning sm'}">
+        <i class="am-icon-file-pdf-o"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_export_pdf_name')}}</span>
+    </button>
 {{/if}}
 
 <!-- 是否开启数据导出excel操作 -->
 {{if isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1}}
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-file-excel-o form-table-operate-top-export-excel-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_export_excel_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_export_excel_name')}}</button>
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-operate-top-export-excel-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_export_excel_tips')}}', trigger: 'hover focus', theme: 'warning sm'}">
+        <i class="am-icon-file-excel-o"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_export_excel_name')}}</span>
+    </button>
 {{/if}}
 
 <!-- 是否开启删除操作 -->
 {{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
     <button
         type="button"
-        class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o form-table-operate-top-delete-submit"
+        class="am-btn am-btn-danger am-radius am-btn-xs form-table-operate-top-delete-submit"
         data-url="{{if isset($form_table['base']['delete_url'])}}{{$form_table.base.delete_url}}{{/if}}"
         data-form="{{if isset($form_table['base']['delete_form'])}}{{$form_table.base.delete_form}}{{/if}}"
         data-key="{{if isset($form_table['base']['delete_key'])}}{{$form_table.base.delete_key}}{{/if}}"
@@ -46,7 +55,10 @@
         data-confirm-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
         data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
         data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_list_delete_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"
-    > {{:MyLang('delete_title')}}</button>
+    >
+        <i class="am-icon-trash-o"></i>
+        <span>{{:MyLang('delete_title')}}</span>
+    </button>
 {{/if}}
 
 <!-- 右侧操作 -->

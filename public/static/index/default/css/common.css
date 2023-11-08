@@ -458,6 +458,7 @@ ul.am-dropdown-content>li>a:focus {
         width: 80%;
     }
 
+    .search-bar form .search-group,
     .search-bar input,
     #ai-topsearch {
         height: 4rem;
@@ -1550,14 +1551,6 @@ ul.am-dropdown-content>.am-active>a:focus,
     color: #999999;
 }
 
-.user-login-content-container .bottom-content {
-    padding-top: 2rem;
-}
-
-.user-register-content-container .bottom-content {
-    padding-top: 0.9rem;
-}
-
 /**
  * 公共用户注册
  */
@@ -2023,6 +2016,60 @@ fieldset[disabled] .am-btn-danger.am-active {
     color: var(--color-button-danger-disabled-text);
     background-color: var(--color-button-danger-disabled);
     border-color: var(--color-button-danger-disabled-border);
+}
+
+/**
+ * 辅助色按钮
+ */
+.am-btn-assist {
+    color: var(--color-button-assist-text);
+    background-color: var(--color-button-assist);
+    border-color: var(--color-button-assist-border);
+}
+.am-btn-assist:hover {
+    color: var(--color-button-assist-hover-text);
+    background-color: var(--color-button-assist-hover);
+    border-color: var(--color-button-assist-hover-border);
+}
+.am-btn-assist:focus {
+    color: var(--color-button-assist-focus-text);
+    background-color: var(--color-button-assist-focus);
+    border-color: var(--color-button-assist-focus-border);
+}
+.am-btn-assist:active,
+.am-btn-assist.am-active,
+.am-dropdown.am-active .am-btn-assist.am-dropdown-toggle {
+    color: var(--color-button-assist-active-text);
+    background-color: var(--color-button-assist-active);
+    border-color: var(--color-button-assist-active-border);
+}
+.am-input-group-assist .am-input-group-btn>.am-btn,
+.am-input-group-assist .am-input-group-label,
+.am-input-group-assist.am-input-group .am-form-field {
+    border-color: var(--color-button-assist-border);
+}
+.am-input-group-assist .am-input-group-label {
+    color: var(--color-button-assist-text);
+    background-color: var(--color-button-assist);
+}
+.am-btn-assist.am-disabled,
+.am-btn-assist[disabled],
+fieldset[disabled] .am-btn-assist,
+.am-btn-assist.am-disabled:hover,
+.am-btn-assist[disabled]:hover,
+fieldset[disabled] .am-btn-assist:hover,
+.am-btn-assist.am-disabled:focus,
+.am-btn-assist[disabled]:focus,
+fieldset[disabled] .am-btn-assist:focus,
+.am-btn-assist.am-disabled:active,
+.am-btn-assist[disabled]:active,
+fieldset[disabled] .am-btn-assist:active,
+.am-btn-assist.am-disabled.am-active,
+.am-btn-assist[disabled].am-active,
+fieldset[disabled] .am-btn-assist.am-active {
+    color: var(--color-button-assist-disabled-text);
+    background-color: var(--color-button-assist-disabled);
+    border-color: var(--color-button-assist-disabled-border);
 }
 
 
@@ -4062,6 +4109,9 @@ strong {
 .am-color-grey-light {
     color: #CCCCCC;
 }
+.am-color-grey-d {
+    color: #dddddd;
+}
 
 /**
  * 行高
@@ -4282,6 +4332,9 @@ strong {
 .am-flex-align-self-baseline {
     align-self: baseline;
 }
+.am-flex-align-self-center {
+    align-self: center;
+}
 
 .am-flex-1 {
     flex: 1;
@@ -4289,6 +4342,10 @@ strong {
 
 .am-flex-2 {
     flex: 2;
+}
+
+.am-flex-width {
+    width: 0;
 }
 
 /* 沾满空间 */

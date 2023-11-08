@@ -1,6 +1,20 @@
-<div class="am-tabs am-margin-0 am-tabs-border user-form-content-container user-login-content-container" data-am-tabs="{noSwipe: 1}">
+<div class="am-tabs am-margin-0 am-tabs-border user-form-content-container user-login-content-container {{if MyC('home_user_login_img_verify_state') neq 1}} not-login-verify{{/if}}" data-am-tabs="{noSwipe: 1}">
+    <!-- 用户登录容器内顶部钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_user_login_content_inside_top</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_user_login_content_inside_top_data) and is_array($plugins_view_user_login_content_inside_top_data)}}
+        {{foreach $plugins_view_user_login_content_inside_top_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
     {{if count($home_user_login_type) gt 1}}
-    <!-- am-tabs-border：底部边框 -->
+        <!-- am-tabs-border：底部边框 -->
         <ul class="am-tabs-nav am-nav am-nav-tabs">
             {{if in_array('username', $home_user_login_type)}}
                 <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('user.login_type_username_title')}}</a></li>
@@ -106,8 +120,11 @@
                 <!-- form end -->
             </div>
         {{/if}}
+    </div>
 
-        <div class="am-padding-horizontal-lg am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
+    <!-- 底部内容 -->
+    <div class="bottom-container am-padding-horizontal-lg am-padding-top-xs am-margipaddingn-bottom-sm am-nbfc">
+        <div class="am-padding-horizontal-sm am-margin-bottom-sm am-nbfc">
             <!-- 用户登录内底部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -121,10 +138,13 @@
                     {{/if}}
                 {{/foreach}}
             {{/if}}
+
             <!-- 右侧快捷入口 -->
             <div class="am-fr">
                 <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank" class="am-color-grey">{{:MyLang('user.forget_password_nav_title')}}</a>
             </div>
+        </div>
+        <div class="am-padding-horizontal-sm am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
             <div class="bottom-content">
                 {{if !empty($home_user_reg_type)}}
                     <span>{{:MyLang('user.login_top_register_tips')}}</span>
@@ -147,6 +167,20 @@
             </div>
         </div>
     </div>
+
+    <!-- 用户登录容器内底部钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_user_login_content_inside_bottom</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_user_login_content_inside_bottom_data) and is_array($plugins_view_user_login_content_inside_bottom_data)}}
+        {{foreach $plugins_view_user_login_content_inside_bottom_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
 </div>
 
 <!-- 用户登录内容页面底部钩子 -->

@@ -167,7 +167,7 @@ class Index extends Common
         }
 
         // 参数
-        $params = input('post.');
+        $params = $this->RequestParams();
         $ret = $this->ParamsCheck($params);
         if($ret['code'] != 0)
         {
@@ -213,7 +213,7 @@ class Index extends Common
         }
 
         // 开始安装
-        $params = input('post.');
+        $params = $this->RequestParams();
         $db = $this->DbObj($params);
         if(!is_object($db))
         {
@@ -246,6 +246,33 @@ class Index extends Common
     }
 
     /**
+     * 请求参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-09-23
+     * @desc    description
+     */
+    public function RequestParams()
+    {
+        $params = input('post.');
+        if(!empty($params) && is_array($params))
+        {
+            // 需要去除的特殊字符
+            $search = ['<?php', '<?', '?>', '\'', '"', '&quot;', '\\', 'eval(', '&amp;', '&lt;', '&gt;'];
+            foreach($params as &$v)
+            {
+                // 去除的特殊字符
+                if(!is_array($v))
+                {
+                    $v = str_replace($search, '', $v);
+                }
+            }
+        }
+        return $params;
+    }
+
+    /**
      * 生成配置文件
      * @author   Devil
      * @blog    http://gong.gg/
@@ -257,17 +284,6 @@ class Index extends Common
      */
     private function CreateDbConfig($dir, $params = [])
     {
-        // 输入参数特殊字符处理
-        $search = ['<?php', '<?', '?>', '\'', '"', '\\', 'eval('];
-        foreach($params as $k=>&$v)
-        {
-            if(in_array($k, ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PWD', 'DB_PORT', 'DB_CHARSET', 'DB_PREFIX']))
-            {
-                $v = str_replace($search, '', $v);
-            }
-        }
-
-        // 配置文件信息处理
         $db_str=<<<php
 <?php
 // +----------------------------------------------------------------------

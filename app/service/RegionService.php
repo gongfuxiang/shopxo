@@ -359,7 +359,11 @@ class RegionService
         }
 
         // 获取地区
-        $result = ['province'=>'', 'city'=>'', 'county'=>''];
+        $result = [
+            'province' =>['id'=>0, 'name'=>''],
+            'city'     =>['id'=>0, 'name'=>''],
+            'county'   =>['id'=>0, 'name'=>''],
+        ];
         $field = 'id,pid,level,name,code';
         $region = self::RegionNode(['field'=>$field, 'where'=>[['code', '=', $params['code']]]]);
         if(!empty($region) && !empty($region[0]))
@@ -367,7 +371,7 @@ class RegionService
             $arr = [1=>'province', 2=>'city', 3=>'county'];
             if(array_key_exists($region[0]['level'], $arr))
             {
-                $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                $result[$arr[$region[0]['level']]] = ['id'=>$region[0]['id'], 'name'=>$region[0]['name']];
                 // 上一级
                 if($region[0]['level'] > 1)
                 {
@@ -376,7 +380,7 @@ class RegionService
                     {
                         if(array_key_exists($region[0]['level'], $arr))
                         {
-                            $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                            $result[$arr[$region[0]['level']]] = ['id'=>$region[0]['id'], 'name'=>$region[0]['name']];
                             // 上一级
                             if($region[0]['level'] > 1)
                             {
@@ -385,7 +389,7 @@ class RegionService
                                 {
                                     if(array_key_exists($region[0]['level'], $arr))
                                     {
-                                        $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                                        $result[$arr[$region[0]['level']]] = ['id'=>$region[0]['id'], 'name'=>$region[0]['name']];
                                     }
                                 }
                             }
@@ -394,7 +398,7 @@ class RegionService
                 }
             }
         }
-        if(empty($result) || count(array_filter(array_values($result))) == 0)
+        if(empty($result) || count(array_filter(array_column($result, 'id'))) == 0)
         {
             return DataReturn(MyLang('common_service.region.region_no_data_tips'), -1);
         }

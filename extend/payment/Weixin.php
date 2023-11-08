@@ -373,10 +373,7 @@ class Weixin
                 <title>微信安全支付</title>
                 <meta name="apple-mobile-web-app-capable" content="yes">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
-                <body style="text-align:center;padding-top:10%;">
-                    <p style="color:#999;">正在支付中...</p>
-                    <p style="color:#f00;margin-top:20px;">请不要关闭页面！</p>
-                </body>
+                <body></body>
                 <script type="text/javascript">
                     function onBridgeReady()
                     {

@@ -364,28 +364,6 @@ return [
         ],
     ],
 
-    // 问答
-    'answer'                => [
-        'base_nav_title'                        => 'Preguntas y respuestas',
-        'user_info_title'                       => 'Información del usuario',
-        // 动态表格
-        'form_table'                            => [
-            'user'              => 'Información del usuario',
-            'user_placeholder'  => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
-            'name'              => 'Contactos',
-            'tel'               => 'Número de teléfono de contacto',
-            'title'             => 'Título',
-            'content'           => 'Contenido',
-            'reply'             => 'Contenido de la respuesta',
-            'is_show'           => 'Si se muestra',
-            'is_reply'          => 'Si responder',
-            'reply_time_time'   => 'Tiempo de respuesta',
-            'access_count'      => 'Número de visitas',
-            'add_time_time'     => 'Tiempo de creación',
-            'upd_time_time'     => 'Tiempo de actualización',
-        ],
-    ],
-
     // 仓库管理
     'warehouse'             => [
         'base_nav_title'                        => 'Almacén',
@@ -587,6 +565,7 @@ return [
         'form_table'                            => [
             'id'                      => 'Identificación de la mercancía',
             'info'                    => 'Información sobre productos básicos',
+            'info_placeholder'        => 'Introduzca el nombre del producto / descripción / código / código de barras / información seo',
             'category_text'           => 'Clasificación de mercancías',
             'brand_name'              => 'Marca',
             'price'                   => 'Precio de venta (yuan)',
@@ -1505,13 +1484,6 @@ return [
         'data_index' => [
             'name'  => 'Gestión de datos',
             'item'  => [
-                'answer_index'          => 'Preguntas y respuestas mensajes',
-                'answer_reply'          => 'Preguntas y respuestas respuesta al mensaje',
-                'answer_delete'         => 'Eliminar mensajes de preguntas y respuestas',
-                'answer_statusupdate'   => 'Actualización del Estado de los mensajes de preguntas y respuestas',
-                'answer_saveinfo'       => 'Preguntas y respuestas añadir / editar Página',
-                'answer_save'           => 'Preguntas y respuestas añadir / editar',
-                'answer_detail'         => 'Detalles del mensaje de preguntas y respuestas',
                 'message_index'         => 'Gestión de mensajes',
                 'message_delete'        => 'Eliminación de mensajes',
                 'message_detail'        => 'Detalles del mensaje',

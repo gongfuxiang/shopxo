@@ -352,6 +352,7 @@ return [
     'default_title'                                         => 'Predeterminado',
     'setup_default_title'                                   => 'Establecer como predeterminado',
     'grade_title'                                           => 'Nivel',
+    'total_title'                                           => 'Total',
     'only_title'                                            => 'Solo',
     'strip_title'                                           => 'Artículo',
     'level_title'                                           => 'Nivel',
@@ -634,6 +635,7 @@ return [
     'uninstall_confirm_tips'                                => '¿No se puede restaurar después de desinstalar, ¿ se confirma que continúa?',
     'collect_confirm_tips'                                  => '¡¡ se confirma que se han recibido las mercancías y que no se pueden restaurar después de la operación!',
     'save_close_page_confirm_tips'                          => 'Confirme si los datos se guardan y continúa cerrando esta página.',
+    'service_confirm_tips'                                  => '¡¡ confirme que el servicio al cliente se ha completado y no se puede restaurar después de la operación!',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => 'Caché del sitio', 'desc' => 'Esta función se puede utilizar para actualizar todos los cachés después de la conversión de datos o cuando el primer plano no puede acceder normalmente.'],
@@ -1119,26 +1121,6 @@ return [
         'agreement'         => [
             // 表单
             'form_item_document_type_message'       => 'El tipo de documento del Protocolo está vacío',
-        ],
-        // 问答
-        'answer'            => [
-            // 表单
-            'form_item_name'                        => 'Contactos',
-            'form_item_name_message'                => 'Formato de contacto hasta 30 caracteres',
-            'form_item_tel'                         => 'Teléfono',
-            'form_item_tel_message'                 => 'Por favor, rellene el número de teléfono válido.',
-            'form_item_title'                       => 'Título',
-            'form_item_title_message'               => 'El formato del título tiene un máximo de 60 caracteres',
-            'form_item_access_count'                => 'Número de visitas',
-            'form_item_access_count_message'        => 'Valores del formato de número de visitas 0 a 9',
-            'form_item_content'                     => 'Contenido',
-            'form_item_content_message'             => 'Formato de contenido entre 5 y 1000 caracteres',
-            'form_item_reply'                       => 'Contenido de la respuesta',
-            'form_item_reply_message'               => 'Formato de contenido de respuesta entre 1 y 1000 caracteres',
-            'form_item_save_reply_message'          => 'Formato de contenido de respuesta hasta 1000 caracteres',
-            'form_is_reply'                         => 'Si se ha respondido',
-            // 基础
-            'no_username_name'                      => 'Internautas',
         ],
         // 用户中心导航
         'appcenternav'      => [
@@ -1719,7 +1701,6 @@ return [
                 'safety'            => 'Configuración de Seguridad',
                 'message'           => 'Mis noticias',
                 'goodsbrowse'       => 'Mis huellas',
-                'answer'            => 'Preguntas y respuestas / mensajes',
                 'logout'            => 'Salida segura',
             ],
             // 用户中心基础信息中mini导航
@@ -2426,7 +2407,6 @@ return [
         'page_user_goods_browse_list'                        => 'Mis huellas',
         'page_user_integral_list'                            => 'Mis puntos',
         'page_user_message_list'                             => 'Mis noticias',
-        'page_user_answer_list'                              => 'Preguntas y respuestas / mensajes',
         // 页面-扩展模块
         'page_plugins_title'                                 => 'Módulo de expansión',
         // 页面
@@ -2910,14 +2890,19 @@ return [
             'desc' => 'Se cierra por defecto. después de abrir, el registro del usuario necesita ser revisado antes de iniciar sesión.',
             'tips' => 'Por favor, elija el registro del usuario para abrir la auditoría',
         ],
-        'home_site_logo_wap'  => [
+        'home_site_logo_app'  => [
             'name' => 'Logotipo del teléfono móvil',
-            'desc' => 'Soporte [jpg, png, gif], recomendado 220x66px',
+            'desc' => 'Soporte [jpg, png, gif], recomendado 60*60px',
             'tips' => 'Por favor, suba el logotipo del sitio web móvil',
+        ],
+        'home_site_logo_wap'  => [
+            'name' => 'Logotipo del lado WAP',
+            'desc' => 'Soporte [jpg, png, gif], recomendado 220*66px',
+            'tips' => 'Por favor, suba el logotipo del sitio web del lado WAP',
         ],
         'home_site_logo'  => [
             'name' => 'Logotipo del lado de la computadora',
-            'desc' => 'Soporte [jpg, png, gif], recomendado 220x60px',
+            'desc' => 'Soporte [jpg, png, gif], recomendado 220*60px',
             'tips' => 'Por favor, suba el logotipo del sitio web del lado de la computadora.',
         ],
         'home_content_max_width'  => [
@@ -2927,7 +2912,7 @@ return [
         ],
         'home_site_logo_square'  => [
             'name' => 'Logotipo cuadrado',
-            'desc' => 'Se recomienda usar el formato png, se recomienda 300x300px',
+            'desc' => 'Se recomienda usar el formato png, se recomienda 300*300px',
             'tips' => 'Por favor, suba el logotipo cuadrado',
         ],
         'home_user_reg_type'  => [
@@ -3166,10 +3151,6 @@ return [
             'name' => 'Palabras clave en el lado derecho de la parte superior del piso de inicio',
             'desc' => 'Palabra clave debajo del piso (introduzca la devolución)',
             'tips' => 'Por favor, rellene la palabra clave derecha en la parte superior del piso de la página de inicio.',
-        ],
-        'common_app_is_enable_answer'  => [
-            'name' => 'Si habilitar mensajes',
-            'desc' => 'Predeterminado No',
         ],
         'common_spec_add_max_number'  => [
             'name' => 'Los productos pueden agregar la cantidad máxima de especificaciones',
@@ -3428,11 +3409,6 @@ return [
             'desc' => '',
             'tips' => 'Por favor, rellene la descripción',
         ],
-        'common_is_login_answer'  => [
-            'name' => 'Los mensajes deben iniciar sesión',
-            'desc' => 'Predeterminado No',
-            'tips' => 'Por favor, elija si dejar un mensaje requiere iniciar sesión.',
-        ],
         'common_order_close_limit_time'  => [
             'name' => 'Duración del guión de cierre del pedido',
             'desc' => 'Minutos unitarios, 30 minutos por defecto',
@@ -3645,7 +3621,7 @@ return [
         ],
         'home_index_floor_left_top_category'  => [
             'name' => 'Clasificación de productos secundarios en el lado izquierdo del piso de inicio',
-            'desc' => 'Clasificación por debajo del piso (selección múltiple desplegable)',
+            'desc' => 'Se puede elegir más',
             'tips' => 'Por favor, rellene la clasificación de productos secundarios en el lado izquierdo del piso de inicio.',
         ],
         'home_navigation_main_quick_status'  => [

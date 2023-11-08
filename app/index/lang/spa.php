@@ -299,6 +299,7 @@ return [
         'browser_seo_title'                     => 'Posventa de pedidos',
         'detail_browser_seo_title'              => 'Detalles de la posventa del pedido',
         'view_orderaftersale_enter_name'        => 'Ver pedidos post - venta',
+        'orderaftersale_apply_name'             => 'Solicitar posventa',
         'operate_delivery_name'                 => 'Devolución inmediata',
         'goods_list_thead_base'                 => 'Información sobre productos básicos',
         'goods_list_thead_price'                => 'Precio unitario',

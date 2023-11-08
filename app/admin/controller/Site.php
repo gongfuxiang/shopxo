@@ -216,6 +216,14 @@ class Site extends Base
 		// 导航类型
 		switch($this->nav_type)
 		{
+			// 基础
+			case 'base' :
+				$field_list[] = 'home_site_logo';
+				$field_list[] = 'home_site_logo_wap';
+				$field_list[] = 'home_site_logo_app';
+				$field_list[] = 'home_site_logo_square';
+				break;
+
 			// 用户注册
 			case 'register' :
 				$field_list[] = 'home_user_reg_type';
@@ -244,6 +252,9 @@ class Site extends Base
 
 			// 站点类型
 			case 'sitetype' :
+				// 站点类型
+				$params['common_site_type'] = empty($params['common_site_type']) ? '' : (is_array($params['common_site_type']) ? json_encode($params['common_site_type'], JSON_UNESCAPED_UNICODE) : $params['common_site_type']);
+
 				// 自提地址处理
 				if(!empty($params['common_self_extraction_address']))
 				{
@@ -312,7 +323,7 @@ class Site extends Base
 			case 'cache' :
 				// session是否使用缓存
 				// 数据是否使用缓存
-				if((isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1) || (isset($params['common_data_is_use_cache']) && $params['common_data_is_use_cache'] == 1))
+				if((isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1) || (isset($params['common_data_is_use_redis_cache']) && $params['common_data_is_use_redis_cache'] == 1))
 				{
 					// 连接测试
 					$ret = SiteService::RedisCheckConnectPing($params['common_cache_data_redis_host'], $params['common_cache_data_redis_port'], $params['common_cache_data_redis_password']);

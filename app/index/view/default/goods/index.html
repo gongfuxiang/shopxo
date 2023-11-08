@@ -227,6 +227,19 @@
                     <!-- 基础面板 -->
                     <div class="tb-detail-price">
                         <div class="price-top-content">
+                            <!-- 商品页面基础信息面板原价顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_panel_original_price_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_panel_original_price_top_data) and is_array($plugins_view_goods_detail_panel_original_price_top_data)}}
+                                {{foreach $plugins_view_goods_detail_panel_original_price_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
                             {{if isset($goods['original_price']) and $goods['original_price'] gt 0 and !empty($goods['show_field_original_price_text'])}}
                                 <!-- 原价 -->
                                 <div class="items price goods-original-price">
@@ -236,7 +249,8 @@
                                     </dd>
                                 </div>
                             {{/if}}
-                                <!-- 商品页面基础信息面板售价顶部钩子 -->
+
+                            <!-- 商品页面基础信息面板售价顶部钩子 -->
                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_goods_detail_panel_price_top</span>
@@ -263,13 +277,27 @@
                             <div class="tm-indcon sales-volume"><span class="tm-count">{{$goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>  
                             <!-- 二维码 -->
                             <div class="goods-qrcode">
-                                <div class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                                <div class="am-dropdown" data-am-dropdown>
                                     <a href="javascript:;" class="am-dropdown-toggle am-color-grey-dark">{{:MyLang('goods.qrcode_mobile_buy_name')}} <i class="am-icon-qrcode"></i></a>
                                     <div class="am-dropdown-content am-padding-sm am-radius">
-                                        <img class="am-img-thumbnail am-radius" src="{{$qrcode_url}}" />
+                                        <img src="{{$qrcode_url}}" width="150" height="150" />
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- 商品页面基础信息面板售价顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_panel_price_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_panel_price_bottom_data) and is_array($plugins_view_goods_detail_panel_price_bottom_data)}}
+                                {{foreach $plugins_view_goods_detail_panel_price_bottom_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
                         </div>
 
                         <!-- 商品页面基础信息面板底部钩子 -->
@@ -357,7 +385,7 @@
 
                     <!--各种规格-->
                     {{if $goods['is_shelves'] == 1 and $goods['inventory'] gt 0}}
-                        <dl class="buy-spec-info-container am-margin-top-main">
+                        <dl class="buy-spec-info-container">
                             <dt class="buy-event mini-spec-event" data-type="buy">
                                 <div class="cart-title">
                                     <span class="specpara-title">{{:MyLang('goods.panel_can_choice_spec_name')}}</span>
@@ -393,7 +421,7 @@
                                                     {{if !empty($goods['specifications']['choose'])}}
                                                         {{foreach $goods.specifications.choose as $key=>$spec}}
                                                             {{if !empty($spec['value'])}}
-                                                                <div class="theme-options sku-items">
+                                                                <div class="theme-options sku-items am-flex am-flex-row am-flex-items-center">
                                                                     <div class="cart-title">{{$spec.name}}</div>
                                                                     <ul>
                                                                         {{foreach $spec.value as $keys=>$specs}}
@@ -427,7 +455,7 @@
                                                 {{/if}}
 
                                                 <!-- 库存数量 -->
-                                                <div class="theme-options">
+                                                <div class="theme-options am-flex am-flex-row am-flex-items-center">
                                                     <div class="cart-title number">{{:MyLang('number_title')}}</div>
                                                     <dd>
                                                         <div class="am-input-group am-input-group-sm number-tag">
@@ -770,6 +798,7 @@
                                             {{/foreach}}
                                         </div>
                                     {{/if}}
+
                                     <!-- web详情 -->
                                     <div class="content-web am-scrollable-horizontal richtext">{{$goods.content_web|raw}}</div>
 
@@ -792,9 +821,24 @@
 
                         <!-- 评价 -->
                         {{if in_array('comments', $middle_tabs_nav['type'])}}
-                            <div class="am-tab-panel goods-comment" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
+                            <div class="am-tab-panel goods-comment am-relative" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
+                                <!-- 商品页面tabs内评价底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_tabs_comments_top</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_tabs_comments_top_data) and is_array($plugins_view_goods_detail_tabs_comments_top_data)}}
+                                    {{foreach $plugins_view_goods_detail_tabs_comments_top_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+
+                                <!-- 评价数据 -->
                                 {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
-                                    <div class="am-cf tabs-nav-base-container score-container">
+                                    <div class="am-cf tabs-nav-base-container score-container {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}} shifting{{/if}}">
                                         <div class="score">
                                             <p class="value">{{$goods_score.avg}}</p>
                                             <p class="name">{{:MyLang('goods.dynamic_scoring_name')}}</p>
@@ -829,11 +873,27 @@
                                 {{/if}}
                                 <div class="goods-comment-content"></div>
                                 <div class="table-no goods-page-no-data none">
-                                    <img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/common/images/no-comment.png{{/if}}" />
-                                    <p>{{:MyLang('goods.no_comments_data_tips')}}</p>
+                                    <div class=" am-flex am-flex-row am-flex-items-center am-gap-24 am-text-left">
+                                        <img class="no-data-comment" src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/common/images/no-comment.png{{/if}}" />
+                                        <p class="no-data-tips tips-width am-text-truncate">{{:MyLang('goods.no_comments_data_tips')}}</p>
+                                    </div>
                                 </div>
                                 {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
                                     <div class="goods-page-container"></div>
+                                {{/if}}
+
+                                <!-- 商品页面tabs内评价底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_tabs_comments_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_tabs_comments_bottom_data) and is_array($plugins_view_goods_detail_tabs_comments_bottom_data)}}
+                                    {{foreach $plugins_view_goods_detail_tabs_comments_bottom_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
                                 {{/if}}
                             </div>
                         {{/if}}
@@ -841,6 +901,21 @@
                         <!-- 猜你喜欢 -->
                         {{if in_array('guess_you_like', $middle_tabs_nav['type'])}}
                             <div class="am-tab-panel" id="goods-middle-tabs-nav-guess_you_like">
+                                <!-- 商品页面tabs内猜你喜欢顶部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_tabs_guess_like_top</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_tabs_guess_like_top_data) and is_array($plugins_view_goods_detail_tabs_guess_like_top_data)}}
+                                    {{foreach $plugins_view_goods_detail_tabs_guess_like_top_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+
+                                <!-- 猜你喜欢商品 -->
                                 <div class="like">
                                     <ul class="boxes">
                                         {{if !empty($detail_like_goods)}}
@@ -863,6 +938,20 @@
                                         {{/if}}
                                     </ul>
                                 </div>
+
+                                <!-- 商品页面tabs内猜你喜欢底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_tabs_guess_like_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_tabs_guess_like_bottom_data) and is_array($plugins_view_goods_detail_tabs_guess_like_bottom_data)}}
+                                    {{foreach $plugins_view_goods_detail_tabs_guess_like_bottom_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
                             </div>
                         {{/if}}
 
@@ -916,4 +1005,23 @@ function CartSubmitBack(e)
     $.AMUI.progress.done();
     $('form.cart-form').find('button[type="submit"]').button('reset');
 }
+
+$(function(){  
+    /**
+     * 评价打分
+     */
+    $(document).on('click', 'ul.rating li', function()
+    {
+        $(this).parent().find('li i').removeClass('am-icon-star').addClass('am-icon-star-o');
+        var index = $(this).index();
+        var rating_arr = ('非常差,差,一般,好,非常好').split(',');
+        for(var i=0; i<=index; i++)
+        {
+            $(this).parent().find('li').eq(i).find('i').removeClass('am-icon-star-o').addClass('am-icon-star');
+        }
+        $(this).parent().find('li.tips-text').text(rating_arr[index]);
+        $(this).parents('td').find('input.input-rating').val(index+1).trigger('blur');
+        $(this).parent().removeClass('not-selected');
+    });
+})
 </script>

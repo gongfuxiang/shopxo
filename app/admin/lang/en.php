@@ -365,28 +365,6 @@ return [
         ],
     ],
 
-    // 问答
-    'answer'                => [
-        'base_nav_title'                        => 'Q&A',
-        'user_info_title'                       => 'User Info',
-        // 动态表格
-        'form_table'                            => [
-            'user'              => 'User Info',
-            'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
-            'name'              => 'Contacts',
-            'tel'               => 'Contact Number',
-            'title'             => 'Title',
-            'content'           => 'Content',
-            'reply'             => 'Reply Content',
-            'is_show'           => 'Show or not',
-            'is_reply'          => 'Reply or not',
-            'reply_time_time'   => 'Reply Time',
-            'access_count'      => 'Access Count',
-            'add_time_time'     => 'Creation Time',
-            'upd_time_time'     => 'Update Time',
-        ],
-    ],
-
     // 仓库管理
     'warehouse'             => [
         'base_nav_title'                        => 'Warehouse',
@@ -588,6 +566,7 @@ return [
         'form_table'                            => [
             'id'                      => 'Goods ID',
             'info'                    => 'Goods Info',
+            'info_placeholder'        => 'Please enter product name/brief description/code/barcode/SEO information',
             'category_text'           => 'Category',
             'brand_name'              => 'Brand',
             'price'                   => 'Sales Price(yuan)',
@@ -1520,13 +1499,6 @@ return [
         'data_index' => [
             'name' => 'Data Admin',
             'item' => [
-                'answer_index'          => 'Q&A message',
-                'answer_reply'          => 'Q&A message reply',
-                'answer_delete'         => 'Q&A message delete',
-                'answer_statusupdate'   => 'Update message status',
-                'answer_saveinfo'       => 'Q&A add/edit page',
-                'answer_save'           => 'Q&A add/edit',
-                'answer_detail'         => 'Q&A message details',
                 'message_index'         => 'Message log',
                 'message_delete'        => 'Message delete',
                 'message_detail'        => 'Message details',

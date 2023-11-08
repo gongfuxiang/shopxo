@@ -277,33 +277,33 @@ class Goods extends Common
             return ApiService::ApiDataReturn(DataReturn(MyLang('params_error_tips'), -1));
         }
 
-        // 分页
-        $number = 10;
-        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-
         // 条件
         $where = [
-            'goods_id'      => $params['goods_id'],
-            'is_show'       => 1,
+            'goods_id'  => $params['goods_id'],
+            'is_show'   => 1,
         ];
 
         // 获取总数
         $total = GoodsCommentsService::GoodsCommentsTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
+        $page_total = ceil($total/$this->page_size);
+        $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = array(
-            'm'         => $start,
-            'n'         => $number,
-            'where'     => $where,
-            'is_public' => 1,
-        );
-        $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        $data = [];
+        if($total > 0)
+        {
+            $data_params = [
+                'm'         => $start,
+                'n'         => $this->page_size,
+                'where'     => $where,
+                'is_public' => 1,
+            ];
+            $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        }
 
         // 返回数据
         $result = [
-            'number'            => $number,
+            'number'            => $this->page_size,
             'total'             => $total,
             'page_total'        => $page_total,
             'data'              => MyView('', ['data'=>$data['data']]),
@@ -369,6 +369,18 @@ class Goods extends Common
             // 商品页面tabs顶部钩子
             'plugins_view_goods_detail_tabs_content',
 
+            // 商品页面tabs内评价顶部钩子
+            'plugins_view_goods_detail_tabs_comments_top',
+
+            // 商品页面tabs内评价底部钩子
+            'plugins_view_goods_detail_tabs_comments_bottom',
+
+            // 商品页面tabs内猜你喜欢顶部钩子
+            'plugins_view_goods_detail_tabs_guess_like_top',
+
+            // 商品页面tabs内猜你喜欢底部钩子
+            'plugins_view_goods_detail_tabs_guess_like_bottom',
+
             // 商品页面tabs内容钩子
             'plugins_view_goods_detail_tabs_bottom',
 
@@ -384,8 +396,14 @@ class Goods extends Common
             // 商品页面基础信息标题里面钩子
             'plugins_view_goods_detail_title',
 
+            // 商品页面基础信息面板原价顶部钩子
+            'plugins_view_goods_detail_panel_original_price_top',
+
             // 商品页面基础信息面板售价顶部钩子
             'plugins_view_goods_detail_panel_price_top',
+
+            // 商品页面基础信息面板售价底部钩子
+            'plugins_view_goods_detail_panel_price_bottom',
 
             // 商品页面基础信息购买小导航内部前面钩子
             'plugins_view_goods_detail_base_buy_nav_min_inside_begin',

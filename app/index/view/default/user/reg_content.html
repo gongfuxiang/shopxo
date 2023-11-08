@@ -157,21 +157,25 @@
                 <!-- form end -->
             </div>
         {{/if}}
+    </div>
 
-        <!-- 用户注册页面内底部钩子 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-            <div class="plugins-tag">
-                <span>plugins_view_user_reg_info_inside_bottom</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_user_reg_info_inside_bottom_data) and is_array($plugins_view_user_reg_info_inside_bottom_data)}}
-            {{foreach $plugins_view_user_reg_info_inside_bottom_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
-        
+    <!-- 底部内容 -->
+    <div class="bottom-container am-padding-horizontal-lg am-padding-top-xs am-padding-bottom-sm am-nbfc">
+        <div class="am-padding-horizontal-sm am-margin-bottom-sm am-nbfc">
+            <!-- 用户注册页面内底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_reg_info_inside_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_reg_info_inside_bottom_data) and is_array($plugins_view_user_reg_info_inside_bottom_data)}}
+                {{foreach $plugins_view_user_reg_info_inside_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        </div>
         <div class="am-padding-horizontal-sm am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
             <!-- 用户注册页面内登录底部钩子 -->
             <div class="bottom-content">

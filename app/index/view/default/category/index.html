@@ -27,7 +27,7 @@
                             <!-- 第一级菜单 -->
                             <ul class="am-slides am-text-nowrap">
                                 {{foreach $goods_category_list as $k=>$v}}
-                                    <li class="{{if $k eq 0}} active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">
+                                    <li class="am-text-truncate {{if $k eq 0}} active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">
                                         <div class="zero-item">
                                             {{if !empty($v['icon'])}}
                                                 <a style="background-image: url({{if empty($v['realistic_images'])}}{{$v.icon}}{{else /}}{{$v.realistic_images}}{{/if}})" alt="{{$v.name}}"></a>
@@ -71,16 +71,18 @@
             </div>   
         {{elseif $category_level eq 1}}
             <div class="model-one">
-                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
+                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5">
                     {{foreach $goods_category_list as $v}}
                     <li class="am-fl">
-                        <div class="item-content am-text-center am-margin-xs">
-                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block am-padding-xs">
+                        <div class="item-content am-text-center am-margin-lg">
+                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block">
                                 {{if !empty($v['realistic_images'])}}
-                                <img src="{{$v.realistic_images}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs" />
+                                    <img src="{{$v.realistic_images}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale" />
                                 {{elseif !empty($v['icon']) /}}
-                                <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs category-img" />
-                                <img src="{{$v.icon_active}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-margin-bottom-xs category-img-active am-hide" />
+                                    <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale am-margin-bottom-xs category-img" />
+                                    {{if !empty($v['icon_active'])}}
+                                        <img src="{{$v.icon_active}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale am-margin-bottom-xs category-img-active am-hide" />
+                                    {{/if}}
                                 {{/if}}
                                 <p>{{$v.name}}</p>
                             </a>

@@ -346,3 +346,11 @@ ul.progress-4 li {
 	text-align: right;
 	float: right;
 }
+
+
+/* 
+* 上传
+*/
+.order-goods ul.plug-file-upload-view li {
+    margin-top: 0.5rem;
+}

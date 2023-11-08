@@ -31,7 +31,7 @@
 				</legend>
 				<div class="am-form-group">
 					<label>{{:MyLang('common_service.safety.form_item_mobile')}}</label>
-					<input type="text" name="accounts" class="am-radius" id="accounts" placeholder="{{:MyLang('common_service.safety.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_mobile_message')}}" required />
+					<input type="text" name="accounts" class="am-form-field am-radius" id="accounts" placeholder="{{:MyLang('common_service.safety.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_mobile_message')}}" required />
 				</div>
 				<div class="am-form-group">
 					<label>{{:MyLang('form_verify_title')}}</label>
@@ -57,13 +57,16 @@
 					</div>
 					<div class="am-modal-bd">
 						<div class="base">
-							<input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" />
+							<input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" autocomplete="off" data-is-clearout="0" />
 							<div class="am-fl">
 								<img src="{{:MyUrl('index/safety/verifyentry')}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
 								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/safety/verifyentry')}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
 							</div>
 						</div>
-						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block am-margin-top-lg btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+							<i class="am-icon-check"></i>
+                			<span>{{:MyLang('confirm_title')}}</span>
+						</button>
 					</div>
 				</div>
 			</div>

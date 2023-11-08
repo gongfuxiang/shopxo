@@ -241,7 +241,7 @@ class Common extends BaseController
         $assign['common_customer_store_email'] = MyC('common_customer_store_email');
         $assign['common_customer_store_address'] = MyC('common_customer_store_address');
         $assign['common_customer_store_qrcode'] = AttachmentPathViewHandle(MyC('common_customer_store_qrcode'));
-        
+
         // 主题
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $assign['default_theme'] = $default_theme;
@@ -717,6 +717,10 @@ class Common extends BaseController
             'plugins_view_header_navigation_top_right_begin',
             // 公共顶部小导航钩子-右侧后面
             'plugins_view_header_navigation_top_right_end',
+            // 用户登录容器内顶部钩子
+            'plugins_view_user_login_content_inside_top',
+            // 用户登录容器内底部钩子
+            'plugins_view_user_login_content_inside_bottom',
             // 用户登录页面顶部钩子
             'plugins_view_user_login_info_top',
             // 用户登录内底部钩子

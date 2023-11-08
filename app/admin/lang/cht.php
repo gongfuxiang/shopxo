@@ -364,28 +364,6 @@ return [
         ],
     ],
 
-    // 问答
-    'answer'                => [
-        'base_nav_title'                        => '問答',
-        'user_info_title'                       => '用戶資訊',
-        // 动态表格
-        'form_table'                            => [
-            'user'              => '用戶資訊',
-            'user_placeholder'  => '請輸入用戶名/昵稱/手機/郵箱',
-            'name'              => '連絡人',
-            'tel'               => '聯繫電話',
-            'title'             => '標題',
-            'content'           => '內容',
-            'reply'             => '回復內容',
-            'is_show'           => '是否顯示',
-            'is_reply'          => '是否回復',
-            'reply_time_time'   => '回復時間',
-            'access_count'      => '訪問次數',
-            'add_time_time'     => '創建時間',
-            'upd_time_time'     => '更新時間',
-        ],
-    ],
-
     // 仓库管理
     'warehouse'             => [
         'base_nav_title'                        => '倉庫',
@@ -587,6 +565,7 @@ return [
         'form_table'                            => [
             'id'                      => '商品ID',
             'info'                    => '商品資訊',
+            'info_placeholder'        => '請輸入商品名稱/簡述/編碼/條碼/SEO資訊',
             'category_text'           => '商品分類',
             'brand_name'              => '品牌',
             'price'                   => '銷售價格（元）',
@@ -1505,13 +1484,6 @@ return [
         'data_index' => [
             'name'  => '資料管理',
             'item'  => [
-                'answer_index'          => '問答留言',
-                'answer_reply'          => '問答留言回復',
-                'answer_delete'         => '問答留言删除',
-                'answer_statusupdate'   => '問答留言狀態更新',
-                'answer_saveinfo'       => '問答添加/編輯頁面',
-                'answer_save'           => '問答添加/編輯',
-                'answer_detail'         => '問答留言詳情',
                 'message_index'         => '消息管理',
                 'message_delete'        => '消息删除',
                 'message_detail'        => '消息詳情',

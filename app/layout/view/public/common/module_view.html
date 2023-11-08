@@ -495,15 +495,15 @@
                                                 {{/case}}
                                                 {{case leftright}}
                                                     <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
-                                                        {{foreach $vss.config.data_list as $ik=>$i}}
+                                                        {{foreach $vss.config.data_list as $g}}
                                                             <li>
                                                                 <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
                                                                     <a href="javascript:{{if !empty($g['goods_url'])}}CustomUrlOpenHandle('{{$g.goods_url}}'){{/if}};" class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                        <img src="{{$g.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                     </a>
                                                                     <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
                                                                         <div class="module-title">
-                                                                            <a href="javascript:{{if !empty($g['goods_url'])}}CustomUrlOpenHandle('{{$g.goods_url}}'){{/if}};">{{$i.title}}</a>
+                                                                            <a href="javascript:{{if !empty($g['goods_url'])}}CustomUrlOpenHandle('{{$g.goods_url}}'){{/if}};">{{$g.title}}</a>
                                                                         </div>
                                                                         <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
                                                                     </div>

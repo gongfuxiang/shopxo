@@ -390,6 +390,23 @@ class SystemService
             'color_button_danger_focus_text'          => '#E12C08',
             'color_button_danger_active_text'         => '#C72100',
             'color_button_danger_disabled_text'       => '#FFC3B7',
+
+            // 辅助 - 按钮
+            'color_button_assist'                     => '#f7e7e7',
+            'color_button_assist_hover'               => '#f2bab0',
+            'color_button_assist_focus'               => '#fac3bb',
+            'color_button_assist_active'              => '#E22C08',
+            'color_button_assist_disabled'            => '#faeaec',
+            'color_button_assist_border'              => '#E22C08',
+            'color_button_assist_hover_border'        => '#ea755d',
+            'color_button_assist_focus_border'        => '#D58576',
+            'color_button_assist_active_border'       => '#E22C08',
+            'color_button_assist_disabled_border'     => '#f6d9d5',
+            'color_button_assist_text'                => '#E22C08',
+            'color_button_assist_hover_text'          => '#e54726',
+            'color_button_assist_focus_text'          => '#e33210',
+            'color_button_assist_active_text'         => '#ffffff',
+            'color_button_assist_disabled_text'       => '#f1c3bb',
             
             // 小徽章部分
             // 默认基础色 - 小徽章

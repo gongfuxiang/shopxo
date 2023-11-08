@@ -41,7 +41,7 @@ dialog.alert = function(options) {
   // 是否url模式
   if((options.url || null) != null)
   {
-    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:calc(100% - 20px);"></iframe>');
+    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:calc(100% - 3.2rem);"></iframe>');
   } else {
     html.push('<div class="am-modal-bd">' + options.content + '</div>');
   }

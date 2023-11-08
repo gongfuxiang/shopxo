@@ -45,9 +45,7 @@
                 <label>{{$data.home_order_aftersale_return_launch_day.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_launch_day.describe}}</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" name="{{$data.home_order_aftersale_return_launch_day.only_tag}}" placeholder="{{$data.home_order_aftersale_return_launch_day.name}}" data-validation-message="{{$data.home_order_aftersale_return_launch_day.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_launch_day.value}}"{{/if}} />
-                    <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="button">{{:MyLang('day_title')}}</button>
-                  </span>
+                    <span class="am-input-group-label am-radius">{{:MyLang('day_title')}}</span>
                 </div>
             </div>
 

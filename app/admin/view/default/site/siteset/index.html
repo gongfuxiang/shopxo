@@ -110,12 +110,7 @@
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">个</button>
-                          </span>
-                        </div>
+                        <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
                         {{if is_array(MyLang('site.goods_auto_mode_max_count_tips_list'))}}
                             <div class="am-alert am-alert-warning" data-am-alert>
                                 <button type="button" class="am-close">&times;</button>

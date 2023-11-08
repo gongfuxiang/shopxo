@@ -31,9 +31,13 @@ function GoodsCommentsHtml(page)
     if($('.goods-comment-content article').length <= 0)
     {
         $('.goods-page-no-data').removeClass('none');
+        $('.evaluate').removeClass('evaluate-no-data');
+        $('.score-container').removeClass('evaluate-no-data');
         $('.goods-page-no-data p').text(window['lang_loading_tips'] || '加载中...');
     } else {
         $('.goods-page-no-data').addClass('none');
+        $('.evaluate').addClass('evaluate-no-data');
+        $('.score-container').addClass('evaluate-no-data');
     }
 
     $.ajax({
@@ -44,6 +48,8 @@ function GoodsCommentsHtml(page)
         success: function(res)
         {
             $('.goods-page-no-data').addClass('none');
+            $('.evaluate').addClass('evaluate-no-data');
+            $('.score-container').addClass('evaluate-no-data');
             if(res.code == 0)
             {
                 $('.goods-comment-content').html(res.data.data);
@@ -59,12 +65,16 @@ function GoodsCommentsHtml(page)
             if($('.goods-comment-content article').length <= 0)
             {
                 $('.goods-page-no-data').removeClass('none');
-                $('.goods-page-no-data p').text(window['lang_comment_no_data_tips'] || '没有评论数据');
+                $('.evaluate').removeClass('evaluate-no-data');
+                $('.score-container').removeClass('evaluate-no-data');
+                $('.goods-page-no-data p').text(window['lang_comment_no_data_tips'] || '此商品暂时还没有评价哦~');
             }
         },
         error: function(xhr, type)
         {
             $('.goods-page-no-data').removeClass('none');
+            $('.evaluate').removeClass('evaluate-no-data');
+            $('.score-container').removeClass('evaluate-no-data');
             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
@@ -847,7 +857,6 @@ $(function() {
     {
         $(window).smoothScroll({position: $('.introduce-main').offset().top});
     });
-
 });
 
 // 浏览器窗口实时事件

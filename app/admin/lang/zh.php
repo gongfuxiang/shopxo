@@ -364,28 +364,6 @@ return [
         ],
     ],
 
-    // 问答
-    'answer'                => [
-        'base_nav_title'                        => '问答',
-        'user_info_title'                       => '用户信息',
-        // 动态表格
-        'form_table'                            => [
-            'user'              => '用户信息',
-            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
-            'name'              => '联系人',
-            'tel'               => '联系电话',
-            'title'             => '标题',
-            'content'           => '内容',
-            'reply'             => '回复内容',
-            'is_show'           => '是否显示',
-            'is_reply'          => '是否回复',
-            'reply_time_time'   => '回复时间',
-            'access_count'      => '访问次数',
-            'add_time_time'     => '创建时间',
-            'upd_time_time'     => '更新时间',
-        ],
-    ],
-
     // 仓库管理
     'warehouse'             => [
         'base_nav_title'                        => '仓库',
@@ -587,6 +565,7 @@ return [
         'form_table'                            => [
             'id'                      => '商品ID',
             'info'                    => '商品信息',
+            'info_placeholder'        => '请输入商品名称/简述/编码/条码/SEO信息',
             'category_text'           => '商品分类',
             'brand_name'              => '品牌',
             'price'                   => '销售价格(元)',
@@ -1505,13 +1484,6 @@ return [
         'data_index' => [
             'name'  => '数据管理',
             'item'  => [
-                'answer_index'          => '问答留言',
-                'answer_reply'          => '问答留言回复',
-                'answer_delete'         => '问答留言删除',
-                'answer_statusupdate'   => '问答留言状态更新',
-                'answer_saveinfo'       => '问答添加/编辑页面',
-                'answer_save'           => '问答添加/编辑',
-                'answer_detail'         => '问答留言详情',
                 'message_index'         => '消息管理',
                 'message_delete'        => '消息删除',
                 'message_detail'        => '消息详情',

@@ -44,7 +44,7 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
 .btn-op{position:fixed;left:0;bottom: 0;width:100%; z-index: 3;}
 .buy-spec-info-container dt.buy-event {text-align: left;width:100% ;}
 
-.theme-options dd{margin:1rem 0px ;}
+.theme-options dd{margin:1rem 0px 1rem 1rem;}
 .introduce-main .am-sticky-placeholder { margin: 0px !important; }
 .introduce-main ul.am-tabs-nav.am-nav.am-nav-tabs {
     background: #fefdfd;
@@ -52,6 +52,7 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
     width: 100%;
     border-radius: var(--border-radius);
     border: 0.1rem solid #EEEEEE;
+    padding-right: 13rem;
 }
 .introduce-main .am-sticky-placeholder .am-nav-tabs > li span { color: #888; }
 .introduce-main .am-sticky-placeholder .am-nav-tabs > li.am-active span { color: #333; }
@@ -62,7 +63,7 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
 .sku-items-disabled img{ opacity: 0.3; }
 
 /* 购买导航 */
-.buy-nav { position: fixed; bottom: 0px; right: 0px; z-index: 1000; width: 100%; background: #FFFFFF;}
+.buy-nav { position: fixed; bottom: 0px; right: 0px; z-index: 1001; width: 100%; background: #FFFFFF;}
 .buy-nav-opt a { color: #666666; }
 .text-active { color: var(--color-main) !important; }
 .buy-nav-opt span { color: #666666; }
@@ -87,11 +88,22 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
     border: 0.1rem solid var(--color-main);
     box-shadow: 0px 0 0px 0.1rem var(--color-main);
 }
-.theme-options .cart-title {
-    margin-top: 0.5rem;
+
+.theme-signin-left .cart-title {
+    display: inline-block;
+    width: 5.6rem;
+    height: 20px; /*高度需要添加，不然文字下面会多出一些空隙*/
 }
+
+.theme-signin-left .cart-title::after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+
 .theme-options ul {
     float: left;
+    margin-left: 1rem;
 }
 
 /*选中样式*/
@@ -176,6 +188,10 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
 .score-container .progress-content {
     width: calc(100% - 22.2rem);
     padding: 0 8rem;
+}
+.score-container .comment-btn {
+    padding: 2.07rem 0 2.07rem 8rem;
+    border-left: 0.1rem solid #EEEEEE;
 }
 .score-container .am-progress {
     margin-bottom: 0;
@@ -287,7 +303,23 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
 .tb-detail-price .items {display: block;}
 .tb-detail-price .items.am-margin-bottom0 { margin-bottom: 0; }
 .tb-detail-price .price-top-content .items:last-of-type { margin-bottom: 0; }
-.tb-detail-price .items dt { float:left; text-align: left;}
+.tb-detail-price .items dt {
+    float: left;
+    white-space: unset;
+    display: inline-block;
+    min-width: 5.6rem;
+    height: 20px;
+}
+
+.tb-detail-price .items dt::after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+.tb-detail-price .items dd {
+    margin-left: 1.5rem;
+    width: calc(100% - 8.5rem);
+}
 .tb-detail-price .goods-price {font-size: 2.4rem;font-weight: bold; line-height: 1.6rem;}
 
 /* 二维码 */
@@ -373,7 +405,7 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     header, .header-top { display: none; }
     .theme-signin-left { margin-bottom:4.8rem; }
     .parameters-base { padding-left: 0; }
-    .buy-event .cart-title { padding-bottom: 0.5rem; }
+    .buy-event .cart-title { padding: 0.5rem 0;}
 }
 
 
@@ -601,9 +633,6 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     right: 0.5rem;
     top: 0.4rem;
 }
-.introduce-main .buy-submit-top ~ li {
-    width: calc((100% - 25rem) / 3);
-}
 .introduce-main .buy-submit-top > button {
     padding: 0.7rem;
     font-size: 1.4rem;
@@ -799,17 +828,17 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     ul.am-avg-sm-4.am-tabs-nav.am-nav.am-nav-tabs {width: auto;}
 
     /*可选规格*/
-    .buy-event .cart-title{border:none ;margin-left: -6rem;position: relative;padding:1rem 0px 0.5rem 2.3rem ;}
+    .buy-event .cart-title{border:none ;margin-left: -6rem;position: relative;padding:1rem 0px 1rem 2.3rem ;}
     .buy-event .cart-title .am-icon-angle-right {position: absolute;right: -0;}
 
     /*销量*/
     .tm-ind-panel {border-width:0.1rem 0px;margin: -0.1rem 0px 0px 0px;padding: 1rem 0px;
-    position: relative;overflow: hidden;clear: both;display: flex;}    
+    position: relative;overflow: hidden;clear: both;display: flex;}
     .tm-ind-item {float: left;width: 33%;text-align: center;position: relative;left: -0.1rem;border-left: 0.1rem solid #E5DFDA; flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}   
     .tm-ind-panel .tm-count {display: inline-block;line-height: 1.6rem;height: 1.6rem;color: var(--color-main);font-weight: 700;margin-left: 0.3rem;}    
 
     /*基础*/
-    .tb-detail-price .items dt { min-width: 5.5rem; }
+    .tb-detail-price .items dt { min-width: 5.6rem; }
     .buy-spec-info-container,.buy-spec-info-container {padding-left: 5.6rem;}
     .tb-detail-hd,.tb-detail-price{text-align: left;}
     .tb-detail-hd h1 {font-size: 1.8rem;}
@@ -882,7 +911,7 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     .scoll{display: none;}
     .clearfix-left{display:block;float: left;width:35rem;}
     .clearfix-right{width:calc(100% - 37rem);margin-left:1rem;}
-    .buy-spec-info-container { border-bottom: 0; }
+    .buy-spec-info-container { border-bottom: 0; margin-top: 2rem;}
 
     /*左侧商品-看了又看*/
     .introduce-main{width:80%;float:left;background:#fff ;}
@@ -967,14 +996,8 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     ul.tm-ind-panel li:last-child {
         text-align: right;
     }
-    .tb-detail-price .items dt {
-        margin-right: 1rem;
-    }
     .tb-detail-hd h1 {
         font-size: 1.4rem;
-    }
-    .introduce-main .buy-submit-top ~ li {
-        width: calc((100% - 12rem) / 3);
     }
     .introduce-main .buy-submit-top ~ li a {
         padding-left: 0;
@@ -1031,3 +1054,35 @@ flex: 1 1 0%;line-height: 1.6rem;cursor: pointer;}
     margin-left: 0.2rem;
 }
 
+
+
+
+
+
+
+/**
+ * 商品评论
+ */
+.no-data-comment {
+    width: 15rem;
+}
+.no-data-tips {
+    width: 25rem;
+}
+.tips-width {
+    width: 36rem !important;
+    padding-right: 11rem;
+}
+
+.table-no {
+    min-height: 17.7rem;
+}
+@media only screen and (max-width:640px) {
+    .goods-page-no-data img {
+        width: 6rem;
+    }
+    .tips-width {
+      width: 100% !important;
+      padding: 0;   
+    }
+}

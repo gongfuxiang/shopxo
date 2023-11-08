@@ -993,14 +993,6 @@ class NavigationService
                         'icon'      => '',
                         'is_system' => 1,
                     ],
-                    [
-                        'name'      => $lang['answer'],
-                        'url'       => MyUrl('index/answer/index'),
-                        'contains'  => ['indexanswerindex'],
-                        'is_show'   => 1,
-                        'icon'      => '',
-                        'is_system' => 1,
-                    ],
                 ]
             ],
             'logout' => [

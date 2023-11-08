@@ -81,10 +81,11 @@ class Goods
                     'is_sort'       => 1,
                     'sort_field'    => 'title',
                     'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'title|simple_desc|seo_title|seo_keywords|seo_keywords',
-                        'where_type'        => 'like',
-                        'placeholder'       => '请输入商品名称/简述/SEO信息'
+                        'form_type'           => 'input',
+                        'form_name'           => 'id',
+                        'where_type_custom'   => 'in',
+                        'where_value_custom'  => 'WhereValueGoodsInfo',
+                        'placeholder'         => $lang['info_placeholder'],
                     ],
                 ],
                 [
@@ -309,6 +310,29 @@ class Goods
                 ],
             ],
         ];
+    }
+
+    /**
+     * 商品信息条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueGoodsInfo($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 获取商品 id
+            $ids = Db::name('Goods')->alias('g')->join('goods_spec_base gb', 'g.id=gb.goods_id')->where('g.title|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords|gb.coding|gb.barcode', 'like', '%'.$value.'%')->column('g.id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
     }
 
     /**

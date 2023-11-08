@@ -46,46 +46,6 @@ class User extends Center
     }
 
     /**
-     * 获取上一个页面地址
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-03-04
-     * @desc    description
-     */
-    private function GetrefererUrl()
-    {
-        // 上一个页面, 空则用户中心
-        $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : htmlentities($_SERVER['HTTP_REFERER']);
-        if(!empty($_SERVER['HTTP_REFERER']))
-        {
-            // 是否是指定页面，则赋值用户中心
-            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
-            $status = false;
-            foreach($all as $v)
-            {
-                if(strpos($_SERVER['HTTP_REFERER'], $v) !== false)
-                {
-                    $referer_url = MyUrl('index/user/index');
-                    $status = true;
-                    break;
-                }
-            }
-
-            // 未匹配到指定页面
-            if(!$status)
-            {
-                // 非商城域名，则赋值用户中心
-                if(GetUrlHost($referer_url) != GetUrlHost(__MY_URL__))
-                {
-                    $referer_url = MyUrl('index/user/index');
-                }
-            }
-        }
-        return $referer_url;
-    }
-
-    /**
      * 用户中心
      * @author  Devil
      * @blog    http://gong.gg/
@@ -255,7 +215,7 @@ class User extends Center
                 // 模板数据
                 $assign = [
                     // 返回地址
-                    'referer_url'               => $this->GetrefererUrl(),
+                    'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
                     // 注册背景图片
                     'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
                     // 注册背景色
@@ -293,7 +253,7 @@ class User extends Center
                 // 模板数据
                 $assign = [
                     // 返回地址
-                    'referer_url'               => $this->GetrefererUrl(),
+                    'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
                     // 注册背景图片
                     'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
                     // 浏览器名称
@@ -333,7 +293,7 @@ class User extends Center
                 $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('user.user_login_browser_seo_title'), 1);
 
                 // 返回地址
-                $assign['referer_url'] = $this->GetrefererUrl();
+                $assign['referer_url'] = UserService::UserLoginOrRegBackRefererUrl();
                 MyViewAssign($assign);
                 return MyView();
             }

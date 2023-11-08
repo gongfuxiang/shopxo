@@ -52,7 +52,6 @@ class SystemBaseService
 
             // 手机端相关配置
             'common_app_is_enable_search'               => (int) MyC('common_app_is_enable_search', 1),
-            'common_app_is_enable_answer'               => (int) MyC('common_app_is_enable_answer', 1),
             'common_app_is_header_nav_fixed'            => (int) MyC('common_app_is_header_nav_fixed', 0),
             'common_app_is_online_service'              => (int) MyC('common_app_is_online_service', 0),
             'common_app_customer_service_tel'           => MyC('common_app_customer_service_tel', null, true),
@@ -61,9 +60,6 @@ class SystemBaseService
             'common_domain_host'                        => MyC('common_domain_host', null, true),
             'common_cdn_attachment_host'                => MyC('common_cdn_attachment_host', null, true),
             'common_cdn_public_host'                    => MyC('common_cdn_public_host', null, true),
-
-            // 扩展项-留言、问答
-            'common_is_login_answer'                    => (int) MyC('common_is_login_answer', 0, true),
 
             // 扩展项-订单
             'common_order_close_limit_time'             => (int) MyC('common_order_close_limit_time', 30, true),
@@ -102,6 +98,7 @@ class SystemBaseService
             'home_site_name'                            => MyC('home_site_name', null, true),
             'home_site_logo'                            => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo')),
             'home_site_logo_wap'                        => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_wap')),
+            'home_site_logo_app'                        => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_app')),
             'home_site_logo_square'                     => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_square')),
             'home_site_state'                           => (int) MyC('home_site_state', 1),
             'home_site_web_home_state'                  => (int) MyC('home_site_web_home_state', 1),
@@ -310,7 +307,8 @@ class SystemBaseService
     public static function SiteTypeValue()
     {
         // 当前站点类型、默认快递（0快递, 1展示型, 2自提点, 3虚拟销售, 4销售+自提）
-        $value = (int) MyC('common_site_type', 0, true);
+        $site_type = MyC('common_site_type');
+        $value = empty($site_type) ? 0 : (is_array($site_type) ? (array_key_exists(APPLICATION_CLIENT_TYPE, $site_type) ? $site_type[APPLICATION_CLIENT_TYPE] : 0) : $site_type);
 
         // 钩子
         $hook_name = 'plugins_service_base_site_type_value';

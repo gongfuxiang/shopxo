@@ -21,11 +21,12 @@
 					</div>
 					<div class="am-form-group">
 						<label class="am-block">{{$data.home_site_logo.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo.describe}}</span></label>
-						<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-delete="0" data-dialog-type="images">
+						<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-dialog-type="images">
 							{{if !empty($data['home_site_logo']['value'])}}
 								<li>
 									<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
 									<img src="{{:AttachmentPathViewHandle($data.home_site_logo.value)}}" />
+                                    <i>x</i>
 								</li>
 							{{/if}}
 						</ul>
@@ -34,24 +35,40 @@
 
 					<div class="am-form-group">
 						<label class="am-block">{{$data.home_site_logo_wap.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_wap.describe}}</span></label>
-						<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-delete="0" data-dialog-type="images">
+						<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-dialog-type="images">
 							{{if !empty($data['home_site_logo_wap']['value'])}}
 								<li>
 									<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
 									<img src="{{:AttachmentPathViewHandle($data.home_site_logo_wap.value)}}" />
+                                    <i>x</i>
 								</li>
 							{{/if}}
 						</ul>
 						<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_wap-images-view">+ {{:MyLang('site.choice_upload_logo_title')}}</div>
 					</div>
 
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_site_logo_app.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_app.describe}}</span></label>
+                        <ul class="plug-file-upload-view home_site_logo_app-images-view" data-form-name="home_site_logo_app" data-max-number="1" data-dialog-type="images">
+                            {{if !empty($data['home_site_logo_app']['value'])}}
+                                <li>
+                                    <input type="text" name="home_site_logo_app" value="{{$data.home_site_logo_app.value}}" />
+                                    <img src="{{:AttachmentPathViewHandle($data.home_site_logo_app.value)}}" />
+                                    <i>x</i>
+                                </li>
+                            {{/if}}
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_app-images-view">+ {{:MyLang('site.choice_upload_logo_title')}}</div>
+                    </div>
+
 					<div class="am-form-group">
 						<label class="am-block">{{$data.home_site_logo_square.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_square.describe}}</span></label>
-						<ul class="plug-file-upload-view home_site_logo_square-images-view" data-form-name="home_site_logo_square" data-max-number="1" data-delete="0" data-dialog-type="images">
+						<ul class="plug-file-upload-view home_site_logo_square-images-view" data-form-name="home_site_logo_square" data-max-number="1" data-dialog-type="images">
 							{{if !empty($data['home_site_logo_square']['value'])}}
 								<li>
 									<input type="text" name="home_site_logo_square" value="{{$data.home_site_logo_square.value}}" />
 									<img src="{{:AttachmentPathViewHandle($data.home_site_logo_square.value)}}" />
+                                    <i>x</i>
 								</li>
 							{{/if}}
 						</ul>

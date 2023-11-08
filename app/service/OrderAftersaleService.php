@@ -1004,12 +1004,14 @@ class OrderAftersaleService
                 }
             }
 
-            // 金额大于0是仅退、订单状态为待发货或虚拟订单则退回数量
+            // 是否需要自动退回数量
+            // 仅退款类型、申请退款金额+已退款金额大于等于订单商品详情总额时
+            // 非已发货和已完成、或虚拟订单模式
             $is_refund_only_number = false;
-            if($aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
+            if($aftersale['type'] == 0 && $aftersale['price']+$order['data']['items']['refund_price'] >= $order['data']['items']['total_price'] && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
             {
                 $is_refund_only_number = true;
-                $aftersale['number'] = $order['data']['items']['buy_number'];
+                $aftersale['number'] = $order['data']['items']['buy_number']-$order['data']['items']['returned_quantity'];
             }
 
             // 更新主订单
@@ -1183,11 +1185,13 @@ class OrderAftersaleService
         // 操作退款
         $pay_name = 'payment\\'.$pay_log['payment'];
         $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['order_no'], 'price'=>$aftersale['price']]);
+        // 如果支付金额与支付单总额仅相差一分钱则使用支付单总额（该问题可能在有些支付会转换为分的情况下出现精度原因造成金额不一致）
+        $pay_price = ($pay_log['total_price']-$pay_log['pay_price'] <= 0.01) ? $pay_log['total_price'] : $pay_log['pay_price'];
         $pay_params = [
             'order_id'          => $order['id'],
             'order_no'          => $pay_log['log_no'],
             'trade_no'          => $pay_log['trade_no'],
-            'pay_price'         => $pay_log['pay_price'],
+            'pay_price'         => $pay_price,
             'refund_price'      => $aftersale['price'],
             'client_type'       => $order['client_type'],
             'refund_reason'     => $msg,

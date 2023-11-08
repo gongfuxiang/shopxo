@@ -80,10 +80,11 @@ class Order extends Common
 
         // 返回数据
         $result = [
-            'total'         => $total,
-            'page_total'    => $page_total,
-            'data'          => $data['data'],
-            'payment_list'  => $payment_list,
+            'total'               => $total,
+            'page_total'          => $page_total,
+            'data'                => $data['data'],
+            'payment_list'        => $payment_list,
+            'default_payment_id'  => PaymentService::BuyDefaultPayment($params),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }

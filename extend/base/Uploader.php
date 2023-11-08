@@ -88,24 +88,24 @@ class Uploader
             return;
         }
         
-        $file = $this->file = $_FILES[$this->fileField];
-        if (!$file) {
+        $this->file = $_FILES[$this->fileField];
+        if (!$this->file) {
             $this->stateInfo = $this->getStateErrorInfo('error_file_not_found');
             return;
         }
         if ($this->file['error']) {
-            $this->stateInfo = $this->getFileErrorInfo($file['error']);
+            $this->stateInfo = $this->getFileErrorInfo($this->file['error']);
             return;
-        } else if (!file_exists($file['tmp_name'])) {
+        } else if (!file_exists($this->file['tmp_name'])) {
             $this->stateInfo = $this->getStateErrorInfo('error_tmp_file_not_found');
             return;
-        } else if (!is_uploaded_file($file['tmp_name'])) {
+        } else if (!is_uploaded_file($this->file['tmp_name'])) {
             $this->stateInfo = $this->getStateErrorInfo('error_tmp_file');
             return;
         }
 
-        $this->oriName = $file['name'];
-        $this->fileSize = $file['size'];
+        $this->oriName = $this->file['name'];
+        $this->fileSize = $this->file['size'];
         $this->fileType = $this->getFileExt();
         $this->fullName = $this->getFullName();
         $this->filePath = $this->getFilePath();
@@ -134,7 +134,7 @@ class Uploader
         }
 
         //移动文件
-        if (!(move_uploaded_file($file['tmp_name'], $this->filePath) && file_exists($this->filePath))) { //移动失败
+        if (!(move_uploaded_file($this->file['tmp_name'], $this->filePath) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateErrorInfo('error_file_move');
         } else { //移动成功
             $this->stateInfo = 'SUCCESS';
@@ -151,31 +151,31 @@ class Uploader
      */
     private function uploadImage()
     {
-        $file = $this->file = $_FILES[$this->fileField];
-        if (!$file) {
+        $this->file = empty($_FILES[$this->fileField]) ? '' : $_FILES[$this->fileField];
+        if (!$this->file) {
             $this->stateInfo = $this->getStateErrorInfo('error_file_not_found');
             return;
         }
         if ($this->file['error']) {
-            $this->stateInfo = $this->getStateErrorInfo($file['error']);
+            $this->stateInfo = $this->getStateErrorInfo($this->file['error']);
             return;
-        } else if (!file_exists($file['tmp_name'])) {
+        } else if (!file_exists($this->file['tmp_name'])) {
             $this->stateInfo = $this->getStateErrorInfo('error_tmp_file_not_found');
             return;
-        } else if (!is_uploaded_file($file['tmp_name'])) {
+        } else if (!is_uploaded_file($this->file['tmp_name'])) {
             $this->stateInfo = $this->getStateErrorInfo('error_tmp_file');
             return;
         }
 
         // 防止原名称没有带后缀
-        $info = getimagesize($file['tmp_name']);
-        if(stripos($file['name'], '.') === false)
+        $info = getimagesize($this->file['tmp_name']);
+        if(stripos($this->file['name'], '.') === false)
         {
-            $file['name'] .= str_replace('/', '.', $info['mime']);
+            $this->file['name'] .= str_replace('/', '.', $info['mime']);
         }
 
-        $this->oriName = $file['name'];
-        $this->fileSize = $file['size'];
+        $this->oriName = $this->file['name'];
+        $this->fileSize = $this->file['size'];
         $this->fileType = $this->getFileExt();
         $this->fullName = $this->getFullName();
         $this->filePath = $this->getFilePath();
@@ -204,7 +204,7 @@ class Uploader
         }
 
         // 验证一句话木马（如果是加密的无法判断）
-        $content = @file_get_contents($file['tmp_name']);
+        $content = @file_get_contents($this->file['tmp_name']);
         if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
         {
             $this->stateInfo = $this->getStateErrorInfo('invalid_file');
@@ -212,7 +212,7 @@ class Uploader
         }
 
         // 是否需要直接存储文件
-        if(!move_uploaded_file($file['tmp_name'], $this->filePath))
+        if(!move_uploaded_file($this->file['tmp_name'], $this->filePath))
         {
             $this->stateInfo = $this->getStateErrorInfo('error_file_move');
         }
@@ -236,7 +236,7 @@ class Uploader
      */
     private function uploadBase64()
     {
-        $base64Data = $_POST[$this->fileField];
+        $base64Data = empty($_POST[$this->fileField]) ? '' : $_POST[$this->fileField];
         $img = base64_decode($base64Data);
 
         $this->oriName = $this->config['oriName'];

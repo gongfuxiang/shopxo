@@ -38,9 +38,7 @@
                 <label>{{$data.home_search_limit_number.name}}<span class="am-form-group-label-tips">{{$data.home_search_limit_number.describe}}</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" name="{{$data.home_search_limit_number.only_tag}}" placeholder="{{$data.home_search_limit_number.name}}" data-validation-message="{{$data.home_search_limit_number.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_search_limit_number.value}}"{{/if}} />
-                    <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="button">{{:MyLang('strip_title')}}</button>
-                  </span>
+                    <span class="am-input-group-label am-radius">{{:MyLang('strip_title')}}</span>
                 </div>
             </div>
             <div class="am-form-group">

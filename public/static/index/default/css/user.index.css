@@ -120,6 +120,5 @@ ul.order-base li span.am-badge{position: absolute; top: -0.7rem; left: 55%;}
 .various .order-list .goods-base { width: calc(100% - 13.5rem);}
 @media only screen and (max-width:640px) {
     .various .goods-detail{ min-height: 10rem; padding: 1rem 0; }
-    .various .goods-base ul li>span{ display: block; margin-left: 0 !important; }
     .various .goods-detail .order-submit { margin-top: 2.5rem; }
 }

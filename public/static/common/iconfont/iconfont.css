@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4094254 */
-  src: url('iconfont.woff2?t=1693103489088') format('woff2'),
-       url('iconfont.woff?t=1693103489088') format('woff'),
-       url('iconfont.ttf?t=1693103489088') format('truetype');
+  src: url('iconfont.woff2?t=1699357465980') format('woff2'),
+       url('iconfont.woff?t=1699357465980') format('woff'),
+       url('iconfont.ttf?t=1699357465980') format('truetype');
 }
 
 .iconfont {
@@ -13,40 +13,88 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-saoyisao:before {
-  content: "\e8b5";
-}
-
-.icon-web-mobile-bottom-nav-category:before {
-  content: "\e6d5";
-}
-
-.icon-web-mobile-bottom-nav-home:before {
-  content: "\e6d9";
-}
-
-.icon-web-mobile-bottom-nav-user:before {
-  content: "\e603";
-}
-
-.icon-web-mobile-bottom-nav-cart:before {
-  content: "\e611";
-}
-
 .icon-web-mobile-bottom-nav-home-active:before {
-  content: "\e606";
-}
-
-.icon-web-mobile-bottom-nav-user-active:before {
-  content: "\e81f";
+  content: "\e6ea";
 }
 
 .icon-web-mobile-bottom-nav-category-active:before {
-  content: "\e636";
+  content: "\e6e9";
+}
+
+.icon-web-mobile-bottom-nav-user-active:before {
+  content: "\e6e8";
 }
 
 .icon-web-mobile-bottom-nav-cart-active:before {
-  content: "\e637";
+  content: "\e6e7";
+}
+
+.icon-web-mobile-bottom-nav-user:before {
+  content: "\e6b4";
+}
+
+.icon-web-mobile-bottom-nav-cart:before {
+  content: "\e6c8";
+}
+
+.icon-web-mobile-bottom-nav-home:before {
+  content: "\e6d7";
+}
+
+.icon-web-mobile-bottom-nav-category:before {
+  content: "\e6d8";
+}
+
+.icon-footer-email:before {
+  content: "\e6d4";
+}
+
+.icon-footer-address:before {
+  content: "\e6d6";
+}
+
+.icon-footer-tel:before {
+  content: "\e6d3";
+}
+
+.icon-login-right-pc:before {
+  content: "\e6d2";
+}
+
+.icon-login-right-scan:before {
+  content: "\e6d1";
+}
+
+.icon-payment-fail:before {
+  content: "\e6e6";
+}
+
+.icon-chongzhi-zffs:before {
+  content: "\e6cf";
+}
+
+.icon-chongzhi-czje:before {
+  content: "\e6d0";
+}
+
+.icon-zhifu-yixuan:before {
+  content: "\e6cc";
+}
+
+.icon-zhifu-weixuan:before {
+  content: "\e6ce";
+}
+
+.icon-keyboard-backspace:before {
+  content: "\e6cd";
+}
+
+.icon-transfer:before {
+  content: "\e6e4";
+}
+
+.icon-saoyisao:before {
+  content: "\e8b5";
 }
 
 .icon-more-phone:before {
@@ -113,7 +161,7 @@
   content: "\e6bc";
 }
 
-.icon-chongzhi_wdqb:before {
+.icon-recharge:before {
   content: "\e6ab";
 }
 
@@ -149,7 +197,7 @@
   content: "\e6b5";
 }
 
-.icon-tixian_wdqb:before {
+.icon-cash:before {
   content: "\e6b6";
 }
 
@@ -173,7 +221,7 @@
   content: "\e6a7";
 }
 
-.icon-fkm_wdqb:before {
+.icon-qrcode:before {
   content: "\e6a8";
 }
 

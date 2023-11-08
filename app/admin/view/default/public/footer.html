@@ -52,6 +52,13 @@
 
 <!-- 公共上传组件初始化 -->
 <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
+<!-- 公共单个上传组件表单初始化 -->
+<form class="am-form form-validation-common-upload-editor-single" method="post" action="{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}" request-type="ajax-fun" request-value="CommonFormUploadEditorSingleBack" style="display: none;">
+    <input type="file" name="upfile" accept="" />
+    <input type="hidden" name="action" value="uploadimage" />
+    <button type="reset"></button>
+    <button type="submit"></button>
+</form>
 
 <!-- 公共视频扫码组件初始化 -->     
 <div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
@@ -208,6 +215,12 @@
     {
         $('.am-popup').modal('close');
         $('.am-modal').modal('close');
+    }
+
+    // 公共单个文件上传表单回调
+    function CommonFormUploadEditorSingleBack(e)
+    {
+        CommonFormUploadEditorSingleBackHandle(e);
     }
 </script>
 

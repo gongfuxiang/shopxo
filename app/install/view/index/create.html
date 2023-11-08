@@ -6,26 +6,27 @@
 <!-- conntent start  -->
 <div class="am-g inside create">
     <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/confirm')}}" request-type="ajax-fun" request-value="FormBackConfirm" timeout="60000">
+        <div class="am-alert am-radius" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p class="am-text-sm">
+                <strong>温馨提示</strong>
+            </p>
+            <div class="am-padding-left-sm am-text-xs am-margin-top-xs">
+                <p>建议采用utf8mb4编码、MySQL版本5.6或5.7</p>
+                {{if !empty($charset_type_list)}}
+                    {{foreach $charset_type_list as $v}}
+                        <p>{{$v.charset}}编码、MySQL版本需 {{$v.version}} 及以上版本 （{{$v.collate}}）</p>
+                    {{/foreach}}
+                {{/if}}
+                <p class="am-margin-top-xs am-text-danger">填写的信息中不要包含【&nbsp;&nbsp;&nbsp;'&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;<span><</span>?php&nbsp;&nbsp;&nbsp;&nbsp;<span><</span>?&nbsp;&nbsp;&nbsp;&nbsp;?<span>></span>&nbsp;&nbsp;&nbsp;&nbsp;<&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;&&nbsp;&nbsp;&nbsp;】类特殊符号</p>
+            </div>
+        </div>
+
         <div class="am-panel am-panel-default am-radius">
             <div class="am-panel-hd">
                 <h2 class="am-margin-0">数据库配置信息</h2>
             </div>
             <div class="am-panel-bd">
-                <div class="am-alert am-radius" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p class="am-text-sm">
-                        <strong>温馨提示</strong>
-                    </p>
-                    <div class="am-padding-left-sm am-text-xs am-margin-top-xs">
-                        <p>建议采用utf8mb4编码、MySQL版本5.6或5.7</p>
-                        {{if !empty($charset_type_list)}}
-                            {{foreach $charset_type_list as $v}}
-                                <p>{{$v.charset}}编码、MySQL版本需 {{$v.version}} 及以上版本 （{{$v.collate}}）</p>
-                            {{/foreach}}
-                        {{/if}}
-                        <p class="am-margin-top-xs am-text-danger">填写的配置信息中不要包含【单引号，双引号，反斜杠，<span><</span>?php，<span><</span>?，?<span>></span>】类特殊符号</p>
-                    </div>
-                </div>
                 <div class="am-form-group">
                     <label class="am-u-sm-2 am-form-label">数据库类型</label>
                     <div class="am-u-sm-10">

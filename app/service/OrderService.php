@@ -600,14 +600,6 @@ class OrderService
         $pay_ret = (new $pay_name($payment['config']))->Respond(array_merge(input('get.'), input('post.')));
         if(isset($pay_ret['code']) && $pay_ret['code'] == 0)
         {
-            if(empty($pay_ret['data']['out_trade_no']))
-            {
-                return DataReturn(MyLang('order_no_error_tips'), -1);
-            }
-            // 获取订单信息
-            $where = ['order_no'=>$pay_ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-            $order = Db::name('Order')->where($where)->find();
-
             // 线下支付方式
             if(in_array($payment_name, MyConfig('shopxo.under_line_list')))
             {
@@ -620,7 +612,11 @@ class OrderService
                 }
             }
         }
-        return $pay_ret;
+        return DataReturn(
+                    empty($pay_ret['msg']) ? MyLang('pay_fail') : $pay_ret['msg'],
+                    isset($pay_ret['code']) ? $pay_ret['code'] : -100,
+                    isset($pay_ret['data']) ? $pay_ret['data'] : ''
+                );
     }
 
     /**

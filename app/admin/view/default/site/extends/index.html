@@ -9,23 +9,6 @@
     <div class="content">
         <!-- form start -->
         <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}" enctype="multipart/form-data">
-            <!-- 基础配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                    <div class="am-form-group">
-                        <label>{{$data.common_is_login_answer.name}}<span class="am-form-group-label-tips">{{$data.common_is_login_answer.describe}}</span></label>
-                        <select name="{{$data.common_is_login_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_login_answer.error_tips}}" required>
-                            {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_is_login_answer']['value']) and $data['common_is_login_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
-                    </div>
-                </div>
-            </div>
-
             <!-- 定时脚本配置 -->
             <div class="am-panel am-panel-default am-radius">
                 <div class="am-panel-hd">
@@ -40,9 +23,7 @@
                         <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
-                          </span>
+                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
                         </div>
                         <div class="am-alert">
                             <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
@@ -53,9 +34,7 @@
                         <label>{{$data.common_order_success_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_success_limit_time.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
-                          </span>
+                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
                         </div>
                         <div class="am-alert">
                             <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
@@ -66,9 +45,7 @@
                         <label>{{$data.common_pay_log_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_pay_log_order_close_limit_time.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_pay_log_order_close_limit_time.only_tag}}" placeholder="{{$data.common_pay_log_order_close_limit_time.name}}" data-validation-message="{{$data.common_pay_log_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_pay_log_order_close_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
-                          </span>
+                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
                         </div>
                         <div class="am-alert">
                             <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
@@ -79,9 +56,7 @@
                         <label>{{$data.common_goods_give_integral_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_goods_give_integral_limit_time.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
-                          </span>
+                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
                         </div>
                         <div class="am-alert">
                             <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>

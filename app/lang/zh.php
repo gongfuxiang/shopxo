@@ -352,6 +352,7 @@ return [
     'default_title'                                         => '默认',
     'setup_default_title'                                   => '设为默认',
     'grade_title'                                           => '等级',
+    'total_title'                                           => '共',
     'only_title'                                            => '仅',
     'strip_title'                                           => '条',
     'level_title'                                           => '级',
@@ -634,6 +635,7 @@ return [
     'uninstall_confirm_tips'                                => '卸载后不可恢复、确认继续吗？',
     'collect_confirm_tips'                                  => '确认已收到货物、操作后不可恢复！',
     'save_close_page_confirm_tips'                          => '请确认数据是否保存、继续关闭本页吗？',
+    'service_confirm_tips'                                  => '确认客户服务完成，操作后不可恢复！',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => '站点缓存', 'desc' => '数据转换后或前台不能正常访问时，可以使用此功能更新所有缓存'],
@@ -1120,26 +1122,6 @@ return [
             // 表单
             'form_item_document_type_message'       => '协议文档类型为空',
         ],
-        // 问答
-        'answer'            => [
-            // 表单
-            'form_item_name'                        => '联系人',
-            'form_item_name_message'                => '联系人格式最多30个字符',
-            'form_item_tel'                         => '电话',
-            'form_item_tel_message'                 => '请填写有效的电话',
-            'form_item_title'                       => '标题',
-            'form_item_title_message'               => '标题格式最多60个字符',
-            'form_item_access_count'                => '访问次数',
-            'form_item_access_count_message'        => '访问次数格式0~9的数值',
-            'form_item_content'                     => '内容',
-            'form_item_content_message'             => '内容格式5~1000个字符之间',
-            'form_item_reply'                       => '回复内容',
-            'form_item_reply_message'               => '回复内容格式1~1000个字符之间',
-            'form_item_save_reply_message'          => '回复内容格式最多1000个字符',
-            'form_is_reply'                         => '是否已回复',
-            // 基础
-            'no_username_name'                      => '网友',
-        ],
         // 用户中心导航
         'appcenternav'      => [
             // 表单
@@ -1379,7 +1361,7 @@ return [
             'form_item_business_type_message'       => '业务类型有误',
             'form_item_rating'                      => '评分',
             'form_item_rating_placeholder'          => '未评分',
-            'form_item_rating_message'              => '评分有误',
+            'form_item_rating_message'              => '请选择评分',
             'form_item_content'                     => '评论内容',
             'form_item_content_placeholder'         => '宝贝满足你的期待吗？说说它的优点和美中不足的地方吧',
             'form_item_content_message'             => '评论内容6~230个字符之间',
@@ -1719,7 +1701,6 @@ return [
                 'safety'            => '安全设置',
                 'message'           => '我的消息',
                 'goodsbrowse'       => '我的足迹',
-                'answer'            => '问答/留言',
                 'logout'            => '安全退出',
             ],
             // 用户中心基础信息中mini导航
@@ -2426,7 +2407,6 @@ return [
         'page_user_goods_browse_list'                        => '我的足迹',
         'page_user_integral_list'                            => '我的积分',
         'page_user_message_list'                             => '我的消息',
-        'page_user_answer_list'                              => '问答/留言',
         // 页面-扩展模块
         'page_plugins_title'                                 => '扩展模块',
         // 页面
@@ -2910,14 +2890,19 @@ return [
             'desc' => '默认关闭，开启后用户注册需要审核通过方可登录',
             'tips' => '请选择用户注册开启审核',
         ],
-        'home_site_logo_wap'  => [
+        'home_site_logo_app'  => [
             'name' => '手机端logo',
-            'desc' => '支持 [jpg, png, gif]，建议220x66px',
+            'desc' => '支持 [jpg, png, gif]，建议60*60px',
             'tips' => '请上传手机端网站logo',
+        ],
+        'home_site_logo_wap'  => [
+            'name' => 'wap端logo',
+            'desc' => '支持 [jpg, png, gif]，建议220*66px',
+            'tips' => '请上传wap端网站logo',
         ],
         'home_site_logo'  => [
             'name' => '电脑端logo',
-            'desc' => '支持 [jpg, png, gif]，建议220x60px',
+            'desc' => '支持 [jpg, png, gif]，建议220*60px',
             'tips' => '请上传电脑端网站logo',
         ],
         'home_content_max_width'  => [
@@ -2927,7 +2912,7 @@ return [
         ],
         'home_site_logo_square'  => [
             'name' => '正方形logo',
-            'desc' => '建议使用png格式，建议300x300px',
+            'desc' => '使用png格式，建议300*300px',
             'tips' => '请上传正方形logo',
         ],
         'home_user_reg_type'  => [
@@ -3166,10 +3151,6 @@ return [
             'name' => '首页楼层顶部右侧关键字',
             'desc' => '楼层下关键字（输入回车）',
             'tips' => '请填写首页楼层顶部右侧关键字',
-        ],
-        'common_app_is_enable_answer'  => [
-            'name' => '是否启用留言',
-            'desc' => '默认否',
         ],
         'common_spec_add_max_number'  => [
             'name' => '商品可添加规格最大数量',
@@ -3428,11 +3409,6 @@ return [
             'desc' => '',
             'tips' => '请填写描述',
         ],
-        'common_is_login_answer'  => [
-            'name' => '留言需要登录',
-            'desc' => '默认否',
-            'tips' => '请选择是否留言需要登录',
-        ],
         'common_order_close_limit_time'  => [
             'name' => '订单关闭脚本时长',
             'desc' => '单位 分钟，默认30分钟',
@@ -3645,7 +3621,7 @@ return [
         ],
         'home_index_floor_left_top_category'  => [
             'name' => '首页楼层左侧二级商品分类',
-            'desc' => '楼层下分类（下拉多选）',
+            'desc' => '可以多选',
             'tips' => '请填写首页楼层左侧二级商品分类',
         ],
         'home_navigation_main_quick_status'  => [

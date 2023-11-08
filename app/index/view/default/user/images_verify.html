@@ -5,7 +5,7 @@
         </div>
         <div class="am-modal-bd">
             <div class="am-input-material">
-                <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" />
+                <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" data-is-clearout="0" />
                 <div class="am-position-verify">
                     <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
                     <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
@@ -13,7 +13,10 @@
                 <span class="am-material-bar"></span>
                 <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
             </div>
-            <button type="button" class="am-btn am-btn-primary am-radius am-btn-md am-block am-margin-top-lg btn-loading-example user-verify-win-submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-md am-block am-margin-top-lg btn-loading-example user-verify-win-submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+                <i class="am-icon-check"></i>
+                <span>{{:MyLang('confirm_title')}}</span>
+            </button>
         </div>
     </div>
 </div>

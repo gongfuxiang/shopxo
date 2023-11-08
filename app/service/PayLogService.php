@@ -41,11 +41,6 @@ class PayLogService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'user_id',
-                'error_msg'         => MyLang('common_service.paylog.save_user_id_empty_tips'),
-            ],
-            [
-                'checked_type'      => 'empty',
                 'key_name'          => 'business_type',
                 'error_msg'         => MyLang('common_service.paylog.save_business_type_empty_tips'),
             ],
@@ -69,7 +64,7 @@ class PayLogService
         // 日志主数据
         $data = [
             'log_no'            => date('YmdHis').GetNumberCode(6),
-            'user_id'           => intval($params['user_id']),
+            'user_id'           => empty($params['user_id']) ? 0 : intval($params['user_id']),
             'total_price'       => PriceNumberFormat($params['total_price']),
             'business_type'     => trim($params['business_type']),
             'subject'           => isset($params['subject']) ? $params['subject'] : '',

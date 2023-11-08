@@ -352,6 +352,7 @@ return [
     'default_title'                                         => '默認',
     'setup_default_title'                                   => '設為默認',
     'grade_title'                                           => '等級',
+    'total_title'                                           => '共',
     'only_title'                                            => '僅',
     'strip_title'                                           => '條',
     'level_title'                                           => '級',
@@ -634,6 +635,7 @@ return [
     'uninstall_confirm_tips'                                => '卸載後不可恢復、確認繼續嗎？',
     'collect_confirm_tips'                                  => '確認已收到貨物、操作後不可恢復！',
     'save_close_page_confirm_tips'                          => '請確認數據是否保存、繼續關閉本頁嗎？',
+    'service_confirm_tips'                                  => '確認客戶服務完成，操作後不可恢復！',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => '網站緩存', 'desc' => '資料轉換後或前臺不能正常訪問時，可以使用此功能更新所有緩存'],
@@ -1119,26 +1121,6 @@ return [
         'agreement'         => [
             // 表单
             'form_item_document_type_message'       => '協定文檔類型為空',
-        ],
-        // 问答
-        'answer'            => [
-            // 表单
-            'form_item_name'                        => '連絡人',
-            'form_item_name_message'                => '連絡人格式最多30個字元',
-            'form_item_tel'                         => '電話',
-            'form_item_tel_message'                 => '請填寫有效的電話',
-            'form_item_title'                       => '標題',
-            'form_item_title_message'               => '標題格式最多60個字元',
-            'form_item_access_count'                => '訪問次數',
-            'form_item_access_count_message'        => '訪問次數格式0~9的數值',
-            'form_item_content'                     => '內容',
-            'form_item_content_message'             => '內容格式5~1000個字元之間',
-            'form_item_reply'                       => '回復內容',
-            'form_item_reply_message'               => '回復內容格式1~1000個字元之間',
-            'form_item_save_reply_message'          => '回復內容格式最多1000個字元',
-            'form_is_reply'                         => '是否已回復',
-            // 基础
-            'no_username_name'                      => '網友',
         ],
         // 用户中心导航
         'appcenternav'      => [
@@ -1719,7 +1701,6 @@ return [
                 'safety'            => '安全設置',
                 'message'           => '我的消息',
                 'goodsbrowse'       => '我的足迹',
-                'answer'            => '問答/留言',
                 'logout'            => '安全退出',
             ],
             // 用户中心基础信息中mini导航
@@ -2426,7 +2407,6 @@ return [
         'page_user_goods_browse_list'                        => '我的足迹',
         'page_user_integral_list'                            => '我的積分',
         'page_user_message_list'                             => '我的消息',
-        'page_user_answer_list'                              => '問答/留言',
         // 页面-扩展模块
         'page_plugins_title'                                 => '擴展模組',
         // 页面
@@ -2910,14 +2890,19 @@ return [
             'desc' => '默認關閉，開啟後用戶註冊需要稽核通過方可登入',
             'tips' => '請選擇用戶註冊開啟稽核',
         ],
-        'home_site_logo_wap'  => [
+        'home_site_logo_app'  => [
             'name' => '手機端logo',
-            'desc' => '支持[jpg，png，gif]，建議220x66px',
+            'desc' => '支持 [jpg, png, gif]，建議60*60px',
             'tips' => '請上傳手機端網站logo',
+        ],
+        'home_site_logo_wap'  => [
+            'name' => 'wap端logo',
+            'desc' => '支持[jpg，png，gif]，建議220*66px',
+            'tips' => '請上傳wap端網站logo',
         ],
         'home_site_logo'  => [
             'name' => '電腦端logo',
-            'desc' => '支持[jpg，png，gif]，建議220x60px',
+            'desc' => '支持[jpg，png，gif]，建議220*60px',
             'tips' => '請上傳電腦端網站logo',
         ],
         'home_content_max_width'  => [
@@ -2927,7 +2912,7 @@ return [
         ],
         'home_site_logo_square'  => [
             'name' => '正方形logo',
-            'desc' => '建議使用png格式，建議300x300px',
+            'desc' => '建議使用png格式，建議300*300px',
             'tips' => '請上傳正方形logo',
         ],
         'home_user_reg_type'  => [
@@ -3166,10 +3151,6 @@ return [
             'name' => '首頁樓層頂部右側關鍵字',
             'desc' => '樓層下關鍵字（輸入回車）',
             'tips' => '請填寫首頁樓層頂部右側關鍵字',
-        ],
-        'common_app_is_enable_answer'  => [
-            'name' => '是否啟用留言',
-            'desc' => '默認否',
         ],
         'common_spec_add_max_number'  => [
             'name' => '商品可添加規格最大數量',
@@ -3428,11 +3409,6 @@ return [
             'desc' => '',
             'tips' => '請填寫描述',
         ],
-        'common_is_login_answer'  => [
-            'name' => '留言需要登入',
-            'desc' => '默認否',
-            'tips' => '請選擇是否留言需要登入',
-        ],
         'common_order_close_limit_time'  => [
             'name' => '訂單關閉腳本時長',
             'desc' => '組織分鐘，默認30分鐘',
@@ -3645,7 +3621,7 @@ return [
         ],
         'home_index_floor_left_top_category'  => [
             'name' => '首頁樓層左側二級商品分類',
-            'desc' => '樓層下分類（下拉多選）',
+            'desc' => '可以多選',
             'tips' => '請填寫首頁樓層左側二級商品分類',
         ],
         'home_navigation_main_quick_status'  => [

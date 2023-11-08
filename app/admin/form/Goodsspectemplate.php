@@ -87,7 +87,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => $lang['category_id'],
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,

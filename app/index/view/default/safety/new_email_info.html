@@ -32,7 +32,7 @@
 				<div class="am-form-group">
 					<label>{{:MyLang('form_verify_title')}}</label>
 					<div class="am-input-group am-input-group-sm">
-						<input type="number" name="verify" class="am-radius" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" required />
+						<input type="number" name="verify" class="-am-form-field am-radius" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" required />
 						<span class="am-input-group-btn">
 							<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit-new" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/safety/verifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}">{{:MyLang('form_verify_button_text')}}</button>
 						</span>
@@ -53,13 +53,16 @@
 					</div>
 					<div class="am-modal-bd">
 						<div class="base">
-							<input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" />
+							<input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" autocomplete="off" data-is-clearout="0" />
 							<div class="am-fl">
 								<img src="{{:MyUrl('index/safety/verifyentry')}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
 								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/safety/verifyentry')}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
 							</div>
 						</div>
-						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+							<i class="am-icon-check"></i>
+                            <span>{{:MyLang('confirm_title')}}</span>
+						</button>
 					</div>
 				</div>
 			</div>

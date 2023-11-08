@@ -66,6 +66,9 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
     align-items: center;
     justify-content: flex-end;
 }
+.cart-nav .nav-left {
+    margin-top: 0.5rem;
+}
 .cart-nav.am-box-shadow-top .nav-left {
     padding-left: 0;
 }
@@ -104,13 +107,14 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
         margin-top: 1rem;
     }
 
-    .nav-left {
+    .cart-nav .nav-left {
         min-width: 12.5rem;
+        margin-top: 0.2rem;
     }
-    .nav-left a { 
+    .cart-nav .nav-left a { 
         margin-left: 0.5rem;
     }
-    .nav-left a:last-of-type { 
+    .cart-nav .nav-left a:last-of-type { 
         vertical-align: bottom;
     }
     .cart-nav, .nav-left, .nav-right { overflow: hidden; }

@@ -160,7 +160,7 @@ class GoodsCommentsService
                 'order_id'      => $order_id,
                 'goods_id'      => $goods_id,
                 'business_type' => $params['business_type'],
-                'content'       => isset($params['content'][$k]) ? htmlspecialchars(trim($params['content'][$k])) : '',
+                'content'       => isset($params['content'][$k]) ? str_replace(['"', "'", '&quot', '&lt;', '&gt;'], '', htmlspecialchars(trim($params['content'][$k]))) : '',
                 'images'        => empty($params['images'][$k]) ? '' : json_encode($params['images'][$k]),
                 'rating'        => isset($params['rating'][$k]) ? intval($params['rating'][$k]) : 0,
                 'is_anonymous'  => $is_anonymous,

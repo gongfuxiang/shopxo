@@ -80,6 +80,13 @@
 	 * videoObjectDefault
 	 * 功能：静态变量,默认播放配置，当外部传递过来的配置有未包含在varsDefault里的，则使用varsDefault里的配置
 	 */
+	var default_lang = (window['lang_multilingual_default_code'] || 'zh.cn');
+	if(default_lang == 'zh') {
+		default_lang = 'zh.cn';
+	}
+	if(default_lang == 'cht') {
+		default_lang = 'zh.hk';
+	}
 	var videoObjectDefault= {
 		container: '',//视频容器的ID
 		volume: 0.8,//默认音量，范围0-1
@@ -124,7 +131,7 @@
 		},
 		track:null,//字幕
 		title:'',//视频标题
-		language:'',//语言包文件
+		language:default_lang,//语言包文件
 		barHideTime:1500,//控制栏隐藏时间
 		playbackrateOpen:true,//是否开启控制栏倍速选项
 		playbackrateList:[0.75,1,1.25,1.5,2,4],//倍速配置值

@@ -14,22 +14,31 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
                 </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <div class="am-panel-bd am-padding-vertical-0">
                     <!-- 提示 -->
                     {{if is_array(MyLang('site.sitetype_top_tips_list'))}}
-                        <div class="am-alert am-alert-warning am-radius am-margin-top-xs" data-am-alert>
+                        <div class="am-alert am-alert-warning am-radius am-margin-top am-margin-bottom-0" data-am-alert>
                             <button type="button" class="am-close">&times;</button>
                             <p>{{:implode('</p><p>', MyLang('site.sitetype_top_tips_list'))}}</p>
                         </div>
                     {{/if}}
 
                     <!-- 站点类型 -->
-                    <div class="am-form-group">
+                    <div class="am-form-group platform-list-value-container">
                         <label class="am-block">{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
-                        {{foreach $common_site_type_list as $v}}
-                            <label class="am-radio-inline">
-                                <input type="radio" name="{{$data.common_site_type.only_tag}}" value="{{$v.value}}" {{if isset($data['common_site_type']['value']) and $data['common_site_type']['value'] eq $v['value']}}checked{{/if}} data-validation-message="{{$data.common_site_type.error_tips}}" data-am-ucheck /> {{$v.name}}
-                            </label>
+                        {{foreach $common_platform_type as $v}}
+                            <div class="am-input-group am-input-group-sm">
+                                <span class="am-input-group-btn">
+                                    <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
+                                </span>
+                                <select name="{{$data.common_site_type.only_tag}}[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
+                                    {{if !empty($common_site_type_list)}}
+                                        {{foreach $common_site_type_list as $site}}
+                                            <option value="{{$site.value}}" {{if !empty($data['common_site_type']) and !empty($data['common_site_type']['value']) and isset($data['common_site_type']['value'][$v['value']]) and $data['common_site_type']['value'][$v['value']] eq $site['value']}}selected{{/if}}>{{$site.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </div>
                         {{/foreach}}
                     </div>
                 </div>

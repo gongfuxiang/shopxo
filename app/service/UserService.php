@@ -3256,5 +3256,45 @@ class UserService
         }
         return empty($referrer) ? 0 : intval($referrer);
     }
+
+    /**
+     * 用户登录注册后跳转页面地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public static function UserLoginOrRegBackRefererUrl()
+    {
+        // 上一个页面, 空则用户中心
+        $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : htmlentities($_SERVER['HTTP_REFERER']);
+        if(!empty($_SERVER['HTTP_REFERER']))
+        {
+            // 是否是指定页面，则赋值用户中心
+            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
+            $status = false;
+            foreach($all as $v)
+            {
+                if(strpos($_SERVER['HTTP_REFERER'], $v) !== false)
+                {
+                    $referer_url = MyUrl('index/user/index');
+                    $status = true;
+                    break;
+                }
+            }
+
+            // 未匹配到指定页面
+            if(!$status)
+            {
+                // 非商城域名，则赋值用户中心
+                if(GetUrlHost($referer_url) != GetUrlHost(__MY_URL__))
+                {
+                    $referer_url = MyUrl('index/user/index');
+                }
+            }
+        }
+        return $referer_url;
+    }
 }
 ?>

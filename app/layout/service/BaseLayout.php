@@ -664,7 +664,6 @@ class BaseLayout
             'user_address_list'                         => MyUrl('index/useraddress/index'),
             'user_goods_browse_list'                    => MyUrl('index/usergoodsbrowse/index'),
             'user_integral_list'                        => MyUrl('index/userintegral/index'),
-            'user_answer_list'                          => MyUrl('index/answer/index'),
             'user_message_list'                         => MyUrl('index/message/index'),
         ];
 
@@ -680,7 +679,6 @@ class BaseLayout
             'user_address_list'                         => '/pages/user-address/user-address',
             'user_goods_browse_list'                    => '/pages/user-goods-browse/user-goods-browse',
             'user_integral_list'                        => '/pages/user-integral/user-integral',
-            'user_answer_list'                          => '/pages/user-answer-list/user-answer-list',
             'user_message_list'                         => '/pages/message/message',
         ];
 
@@ -1025,7 +1023,6 @@ class BaseLayout
                     [ 'value' => 'user_goods_browse_list', 'name' => MyLang('layout.page_user_goods_browse_list')],
                     [ 'value' => 'user_integral_list', 'name' => MyLang('layout.page_user_integral_list')],
                     [ 'value' => 'user_message_list', 'name' => MyLang('layout.page_user_message_list')],
-                    [ 'value' => 'user_answer_list', 'name' => MyLang('layout.page_user_answer_list')],
                 ],
             ],
 

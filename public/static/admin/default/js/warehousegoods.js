@@ -126,9 +126,9 @@ $(function()
             var $parent = e.parents('.am-popup');
             if($parent.hasClass('popup-full'))
             {
-                $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
-            } else {
                 $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
+            } else {
+                $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
             }
         }
     }

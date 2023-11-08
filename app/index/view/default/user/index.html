@@ -195,9 +195,7 @@
                                                             </li>
                                                             <li>
                                                                 <span>{{$order.status_name}}</span>
-                                                                {{if $order['items_count'] gt 1}}
-                                                                    <span class="items-count">{{:MyLang('goods_more_total_tips', ['total'=>$order['items_count']])}}</span>
-                                                                {{/if}}
+                                                                <span class="items-count">{{:MyLang('goods_more_total_tips', ['total'=>$order['items_count']])}}</span>
                                                             </li>
                                                         </ul>
                                                     </div>

@@ -14,6 +14,8 @@ use think\facade\Db;
 use app\service\PaymentService;
 use app\service\OrderService;
 use app\plugins\wallet\service\WalletService;
+use app\plugins\scanpay\service\ScanpayLogService;
+use app\plugins\membershiplevelvip\service\PayService as LevelPayService;
 
 /**
  * 钱包支付
@@ -108,6 +110,12 @@ class WalletPay
             return $ret;
         }
 
+        // 是否登录用户
+        if(empty($params['user']) || empty($params['user']['id']))
+        {
+            return DataReturn('请先登录后再使用钱包支付！', -1);
+        }
+
         // 获取用户钱包校验
         $user_wallet = WalletService::UserWallet($params['user']['id']);
         if($user_wallet['code'] != 0)
@@ -122,7 +130,7 @@ class WalletPay
         }
 
         // 处理支付
-        $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, '钱包余额支付[订单'.$params['order_no'].']', ['is_consistent'=>1]);
+        $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, $params['name'].'[订单'.$params['order_no'].']', ['is_consistent'=>1]);
         if($ret['code'] == 0)
         {
             // 支付方式
@@ -142,8 +150,28 @@ class WalletPay
                 return DataReturn('日志订单关联信息有误', -1);
             }
 
-            // 获取订单
-            $order_list = Db::name('Order')->where(['id'=>$pay_log_value, 'status'=>1])->select()->toArray();
+            // 根据业务类型
+            $business_type = empty($params['business_type']) ? 'system-order' : $params['business_type'];
+
+            // 获取对应订单信息
+            $order_list = [];
+            switch($business_type)
+            {
+                // 系统订单
+                case 'system-order' :
+                    $order_list = Db::name('Order')->where(['id'=>$pay_log_value, 'status'=>1])->select()->toArray();
+                    break;
+
+                // 扫码收款
+                case 'plugins-scanpay' :
+                    $order_list = Db::name('PluginsScanpayLog')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                    break;
+
+                // 会员等级
+                case 'plugins-membershiplevelvip' :
+                    $order_list = Db::name('PluginsMembershiplevelvipPaymentUserOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                    break;
+            }
             if(empty($order_list))
             {
                 return DataReturn('订单信息有误', -1);
@@ -161,16 +189,44 @@ class WalletPay
                 'payment'       => $payment[0],
                 'pay_log_data'  => $pay_log_data,
                 'pay'           => [
-                    'trade_no'      => '钱包支付',
+                    'trade_no'      => 'wallet',
                     'subject'       => $pay_log_data['subject'],
                     'buyer_user'    => (empty($params['user']) || empty($params['user']['user_name_view'])) ? '' : $params['user']['user_name_view'],
                     'pay_price'     => $pay_log_data['total_price'],
                 ],
             ];
-            $ret = OrderService::OrderPayHandle($pay_params);
-            if($ret['code'] == 0)
+
+            // 调用支付处理方法
+            switch($business_type)
             {
-                return DataReturn('支付成功', 0, MyUrl('index/order/respond', ['appoint_status'=>0]));
+                // 系统订单
+                case 'system-order' :
+                    $ret = OrderService::OrderPayHandle($pay_params);
+                    if($ret['code'] == 0)
+                    {
+                        return DataReturn('支付成功', 0, MyUrl('index/order/respond', ['appoint_status'=>0]));
+                    }
+                    break;
+
+                // 扫码收款
+                case 'plugins-scanpay' :
+                    $pay_params['order'] = $pay_params['order'][0];
+                    $ret = ScanpayLogService::ScanpayLogHandle($pay_params);
+                    if($ret['code'] == 0)
+                    {
+                        return DataReturn('支付成功', 0, PluginsHomeUrl('scanpay', 'index', 'respond'));
+                    }
+                    break;
+
+                // 会员购买
+                case 'plugins-membershiplevelvip' :
+                    $pay_params['order'] = $pay_params['order'][0];
+                    $ret = LevelPayService::LevelPayHandle($pay_params);
+                    if($ret['code'] == 0)
+                    {
+                        return DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
+                    }
+                    break;
             }
         }
         return $ret;

@@ -149,12 +149,10 @@ class ResourcesService
     {
         if(!empty($value))
         {
-            // 附件地址
-            $host = SystemBaseService::AttachmentHost();
-
             // 是否数组
             if(is_array($value))
             {
+                $host = SystemBaseService::AttachmentHost();
                 foreach($value as &$v)
                 {
                     // 是否二级
@@ -174,7 +172,7 @@ class ResourcesService
             } else {
                 if(substr($value, 0, 4) != 'http')
                 {
-                    $value = $host.$value;
+                    $value = SystemBaseService::AttachmentHost().$value;
                 }
             }
         }

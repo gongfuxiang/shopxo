@@ -41,6 +41,7 @@ class ConfigService
         'home_email_user_forget_pwd',
         'home_email_user_email_binding',
         'home_site_close_reason',
+        'common_site_type',
         'common_self_extraction_address',
         'home_index_floor_top_right_keywords',
         'home_index_floor_manual_mode_goods',
@@ -58,6 +59,7 @@ class ConfigService
     public static $attachment_field_list = [
         'home_site_logo',
         'home_site_logo_wap',
+        'home_site_logo_app',
         'home_site_logo_square',
         'common_customer_store_qrcode',
         'home_site_user_register_bg_images',
@@ -84,6 +86,7 @@ class ConfigService
 
     // json数组字段
     public static $data_json_array_field_list = [
+        'common_site_type',
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',

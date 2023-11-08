@@ -299,6 +299,7 @@ return [
         'browser_seo_title'                     => '订单售后',
         'detail_browser_seo_title'              => '订单售后详情',
         'view_orderaftersale_enter_name'        => '查看售后订单',
+        'orderaftersale_apply_name'             => '申请售后',
         'operate_delivery_name'                 => '立即退货',
         'goods_list_thead_base'                 => '商品信息',
         'goods_list_thead_after_base_title'     => '售后商品',

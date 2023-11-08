@@ -664,7 +664,7 @@ function GetHttpCode($url, $timeout = 5)
  */
 function IsUrl($value)
 {
-    return empty($value) ? false : in_array(substr($value, 0, 6), ['http:/', 'https:']);
+    return (empty($value) || is_array($value)) ? false : in_array(substr($value, 0, 6), ['http:/', 'https:']);
 }
 
 /**
@@ -941,7 +941,7 @@ function IsWeixinEnv()
 }
 
 /**
- * 是否微信环境
+ * 是否钉钉环境
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -983,6 +983,34 @@ function IsAlipayEnv()
 }
 
 /**
+ * 是否百度环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsBaiduEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'baiduboxapp') !== false);
+}
+
+/**
+ * 是否快手环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsKuaishouEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'Kwai') !== false);
+}
+
+/**
  * 是否新浪微博环境
  * @author  Devil
  * @blog    http://gong.gg/
@@ -994,6 +1022,111 @@ function IsAlipayEnv()
 function IsWeiboEnv()
 {
     return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'Weibo') !== false);
+}
+
+/**
+ * web环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-10-24
+ * @desc    description
+ */
+function WebEnv()
+{
+    // 微信
+    if(IsWeixinEnv())
+    {
+        return 'weixin';
+    }
+
+    // 支付宝
+    if(IsAlipayEnv())
+    {
+        return 'alipay';
+    }
+
+    // 百度
+    if(IsBaiduEnv())
+    {
+        return 'baidu';
+    }
+
+    // 快手
+    if(IsKuaishouEnv())
+    {
+        return 'kuaishou';
+    }
+
+    // 钉钉
+    if(IsDingdingEnv())
+    {
+        return 'dingding';
+    }
+
+    // QQ
+    if(IsQQEnv())
+    {
+        return 'qq';
+    }
+
+    // 微博
+    if(IsWeiboEnv())
+    {
+        return 'weibo';
+    }
+
+    return null;
+}
+
+/**
+ * 判断当前是否小程序环境中
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-29T22:21:44+0800
+ */
+function MiniAppEnv()
+{
+    if(!empty($_SERVER['HTTP_USER_AGENT']))
+    {
+        // 微信小程序 miniProgram
+        // QQ小程序 miniProgram
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'miniProgram') !== false)
+        {
+            // 是否QQ小程序
+            if(stripos($_SERVER['HTTP_USER_AGENT'], 'QQ') !== false)
+            {
+                return 'qq';
+            }
+            return 'weixin';
+        }
+
+        // 支付宝客户端 AlipayClient
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
+        {
+            return 'alipay';
+        }
+
+        // 百度小程序 swan-baiduboxapp
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'swan-baiduboxapp') !== false)
+        {
+            return 'baidu';
+        }
+
+        // 头条小程序 ToutiaoMicroApp
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'ToutiaoMicroApp') !== false)
+        {
+            return 'toutiao';
+        }
+
+        // 快手小程序 AllowKsCallApp
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AllowKsCallApp') !== false)
+        {
+            return 'kuaishou';
+        }
+    }
+    return null;
 }
 
 /**
@@ -1230,21 +1363,105 @@ function FormModulePath($params = [])
             $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
             $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
 
-            // 是否定义模块组
-            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller);
+            // 是否定义模块组、是否存在控制住+方法的form文件
+            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller.$action);
             if(!class_exists($path))
             {
-                $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
+                $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller);
+                if(!class_exists($path))
+                {
+                    $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller.$action);
+                    if(!class_exists($path))
+                    {
+                        $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
+                    }
+                }
             }
         }
     } else {
-        $path = '\app\\'.$group.'\form\\'.ucfirst($controller);
+        // 是否存在控制住+方法的form文件
+        $path = '\app\\'.$group.'\form\\'.ucfirst($controller.$action);
+        if(!class_exists($path))
+        {
+            $path = '\app\\'.$group.'\form\\'.ucfirst($controller);
+        }
     }
 
     return [
         'module'    => $path,
         'action'    => $action,
     ];
+}
+
+/**
+ * 获取动态表格数据
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-08
+ * @desc    description
+ * @param   [array]           $params [输入参数]
+ */
+function FormModuleData($params = [])
+{
+    $data = [];
+    if(!empty($params['control']) && !empty($params['id']))
+    {
+        // 模块组、默认前端
+        $group = empty($params['group']) ? 'index' : $params['group'];
+        // 控制器
+        $control = strtolower($params['control']);
+        // 方法、默认详情
+        $action = empty($params['action']) ? 'detail' : strtolower($params['action']);
+
+        // 请求参数
+        $request_params = [
+            // 数据id
+            'id'           => $params['id'],
+            // 详情数据key
+            'detail_dkey'  => empty($params['detail_dkey']) ? 'id' : $params['detail_dkey'],
+            // 详情额外参数
+            'detail_where' => empty($params['where']) ? [] : $params['where'],
+        ];
+
+        // 是否插件
+        if(empty($params['plugins']))
+        {
+            // 模块地址
+            $module = '\app\\'.$group.'\form\\'.ucfirst($control);
+            // 模块参数
+            $request_params['module_name'] = $group;
+            $request_params['controller_name'] = $control;
+            $request_params['action_name'] = $action;
+        } else {
+            // 模块地址
+            $module = '\app\plugins\\'.$params['plugins'].'\form\\'.$group.'\\'.ucfirst($control);
+            // 模块参数
+            $request_params['pluginsname'] = $params['plugins'];
+            $request_params['pluginscontrol'] = $control;
+            $request_params['pluginsaction'] = $action;
+        }
+
+        // 模块运行方法
+        $run = empty($params['run']) ? 'Run' : $params['run'];
+
+        // 调用模块获取数据
+        $ret = (new app\module\FormHandleModule())->Run($module, $run, $request_params);
+        if($ret['code'] == 0 && !empty($ret['data']) && is_array($ret['data']))
+        {
+            // 全部数据
+            if(empty($params['data_type']) || $params['data_type'] == 'all')
+            {
+                $data = $ret['data'];
+            } else {
+                if(array_key_exists($params['data_type'], $ret['data']))
+                {
+                    $data = $ret['data'][$params['data_type']];
+                }
+            }
+        }
+    }
+    return $data;
 }
 
 /**
@@ -1471,56 +1688,6 @@ function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
         }
     }
     return DataReturn(MyLang('common_function.plugins_class_no_exist_tips').'['.$plugins.'-'.$service.']', -1);
-}
-
-/**
- * 判断当前是否小程序环境中
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2019-06-29T22:21:44+0800
- */
-function MiniAppEnv()
-{
-    if(!empty($_SERVER['HTTP_USER_AGENT']))
-    {
-        // 微信小程序 miniProgram
-        // QQ小程序 miniProgram
-        if(stripos($_SERVER['HTTP_USER_AGENT'], 'miniProgram') !== false)
-        {
-            // 是否QQ小程序
-            if(stripos($_SERVER['HTTP_USER_AGENT'], 'QQ') !== false)
-            {
-                return 'qq';
-            }
-            return 'weixin';
-        }
-
-        // 支付宝客户端 AlipayClient
-        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
-        {
-            return 'alipay';
-        }
-
-        // 百度小程序 swan-baiduboxapp
-        if(stripos($_SERVER['HTTP_USER_AGENT'], 'swan-baiduboxapp') !== false)
-        {
-            return 'baidu';
-        }
-
-        // 头条小程序 ToutiaoMicroApp
-        if(stripos($_SERVER['HTTP_USER_AGENT'], 'ToutiaoMicroApp') !== false)
-        {
-            return 'toutiao';
-        }
-
-        // 快手小程序 AllowKsCallApp
-        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AllowKsCallApp') !== false)
-        {
-            return 'kuaishou';
-        }
-    }
-    return null;
 }
 
 /**
@@ -1953,6 +2120,12 @@ function CurrentScriptName()
  */
 function MyUrl($path, $params = [])
 {
+    // 空或数组则返回空字符串
+    if(empty($path) || is_array($path))
+    {
+        return '';
+    }
+
     // 当前脚本名称
     $script_name = CurrentScriptName();
 

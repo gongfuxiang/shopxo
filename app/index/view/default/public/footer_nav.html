@@ -19,7 +19,7 @@
 		<div class="am-container footer-nav-content">
 			<!-- 底部导航 -->
 			{{if !empty($nav_footer)}}
-				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 footer-nav-list" data-am-gallery="{}">
+				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 am-u-lg-9 footer-nav-list" data-am-gallery="{}">
 					{{foreach $nav_footer as $k=>$v}}
 						{{if $k lt 4}}
 							<li>
@@ -40,22 +40,22 @@
 			{{/if}}
 
 			<!-- 商店信息 -->
-			<ul class="footer-about am-u-md-4">
+			<ul class="footer-about am-u-md-4 am-u-lg-3">
 				{{if !empty($common_customer_store_tel)}}
 					<li class="tel">
-						<i class="am-icon-volume-control-phone"></i>
+						<i class="iconfont icon-footer-tel am-vertical-align-middle"></i>
 						<a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
 					</li>
 				{{/if}}
 				{{if !empty($common_customer_store_address)}}
 					<li class="address">
-						<i class="am-icon-map-marker"></i>
+						<i class="iconfont icon-footer-address am-vertical-align-middle"></i>
 						<span>{{$common_customer_store_address}}</span>
 					</li>
 				{{/if}}
 				{{if !empty($common_customer_store_email)}}
 					<li class="email">
-						<i class="am-icon-envelope"></i>
+						<i class="iconfont icon-footer-email am-vertical-align-middle"></i>
 						<span>{{$common_customer_store_email}}</span>
 					</li>
 				{{/if}}

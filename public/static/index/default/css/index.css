@@ -32,9 +32,7 @@ ul, li, ol {list-style: none;}
 /*楼层左侧*/
 .aggregation .outer-con .describe { color: #FFFFFF; max-width: 100%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 .floor .aggregation-container { overflow: hidden; width: 18rem; text-align: center; margin: 0.6rem 0;}
-.floor .aggregation {
-    overflow: hidden;
-}
+.floor .aggregation {overflow: hidden; position: relative;}
 .floor .goods-list {width:calc(100% - 18rem);float: right;}
 .aggregation .outer-con{ padding: 1rem; text-align: center; }
 

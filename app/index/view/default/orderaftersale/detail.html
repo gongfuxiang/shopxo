@@ -14,7 +14,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <h1 class="am-text-xl am-font-weight">申请售后</h1>
+            <h1 class="am-text-xl am-font-weight">{{:MyLang('orderaftersale.orderaftersale_apply_name')}}</h1>
             <!-- 用户订单售后详情顶部-开始 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -270,7 +270,7 @@
 
                 <!-- 详情 -->
                 {{if !empty($new_aftersale_data) and $new_aftersale_data['status'] neq 5}}
-                    <div class="detail am-nbfc">
+                    <div class="detail am-cf">
                         <div class="apply-container">
                             <div class="am-panel am-panel-default am-radius">
                                 <div class="am-panel-hd">{{:MyLang('orderaftersale.goods_after_status_title')}}</div>
