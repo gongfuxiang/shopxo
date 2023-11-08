@@ -293,8 +293,7 @@ $(function()
         $modal.find('.package-upgrade-submit').attr('data-type', type).attr('data-value', value).attr('data-terminal', terminal);
         $modal.modal({
             closeViaDimmer: false,
-            width: 310,
-            height: 257
+            width: 310
         });
     });
 
