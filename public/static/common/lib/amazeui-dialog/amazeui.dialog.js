@@ -118,8 +118,8 @@ dialog.loading = function(options) {
       html.push('<div class="am-modal-dialog am-radius am-nbfc">');
       html.push('<div class="am-modal-bd am-padding-vertical-0">');
       html.push('<div class="am-padding-horizontal-sm am-padding-vertical-sm">');
-      html.push('<span class="am-icon-spinner am-icon-spin"></span>');
-      html.push('<span class="am-margin-left-xs">' + options.title + '</span>');
+      html.push('<span class="am-icon-spinner am-icon-spin am-vertical-align-middle"></span>');
+      html.push('<span class="am-margin-left-xs am-vertical-align-middle">' + options.title + '</span>');
       html.push('</div>');
       html.push('</div>');
       html.push('</div>');
