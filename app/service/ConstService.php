@@ -454,7 +454,7 @@ class ConstService
             // -------------------- 正则 --------------------
             // 用户名
             'common_regex_username'             =>  '^[A-Za-z0-9_]{2,18}$',
-            // 用户名
+            // 密码
             'common_regex_pwd'                  =>  '^.{6,18}$',
             // 包含字母和数字、6~16个字符
             'common_regex_alpha_number'         => '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$',

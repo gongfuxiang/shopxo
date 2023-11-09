@@ -84,10 +84,10 @@
 * 更多查看应用商店 ( https://store.shopxo.net/ )
 
 ### 系统特性
-![系统特性](https://doc.shopxo.net/upload/image/20210727/1627370211229661.jpeg "系统特性")
+![系统特性](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/system/core.jpg "系统特性")
 
 ### 全平台支持
-![全平台支持](https://doc.shopxo.net/upload/image/20210727/1627370212203702.jpeg "全平台支持")
+![全平台支持](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/system/platform.jpg "全平台支持")
 
 
 #### 小程序支持多种配色
