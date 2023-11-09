@@ -91,12 +91,11 @@
 
 
 #### 小程序支持多种配色
-![多种配色](https://doc.shopxo.net/upload/image/20211023/1634962774958024.jpg "配色.jpg")
+![多种配色](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/app/color.png "配色.jpg")
 
 #### 小程序效果图片
-![主要部分](https://doc.shopxo.net/upload/image/20211023/1634962851731604.jpg "主要部分.jpg")
-![扩展部分](https://doc.shopxo.net/upload/image/20211023/1634962862173709.jpg "扩展部分.jpg")
-![多门店](https://doc.shopxo.net/upload/image/20220406/1649233148208137.jpg "扩展部分.jpg")
+![小程序页面](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/app/page.png "小程序页面.jpg")
+
 
 ### PC端展示
 ![首页](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/home.png "首页")
