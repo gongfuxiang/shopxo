@@ -98,19 +98,7 @@
 
 
 ### PC端展示
-![首页](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/home.png "首页")
-![分类](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/category.png "分类")
-![搜索](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/search.png "首页")
-![博客](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/blog.png "博客")
-![会员等级](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/membershiplevelvip.png "会员等级")
-![秒杀](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/seckill.png "秒杀")
-![签到](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/signin.png "签到")
-![积分商城](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/points.png "积分商城")
-![店铺](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/shop.png "店铺")
-![问答](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/answers.png "问答")
-![用户中心](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/user-center.png "用户中心")
-![登录](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/login.png "登录")
-![注册](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/regster.png "注册")
+![前端](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/index/main.jpg "前端")
 
 
 ### 后台管理展示
