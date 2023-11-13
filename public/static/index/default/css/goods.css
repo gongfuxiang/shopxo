@@ -10,7 +10,7 @@ input{font-size:1.2rem;font-size:100%;outline:none;line-height:normal;color:#444
 .buy-event,.item-props-can{cursor: pointer;}
 
 .theme-popover-mask{z-index:1000;position:fixed;left:0;top:0;width:100%;height:100%;background:#333;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;display:none;}
-.theme-popover{z-index:1001;position:fixed;bottom:0;left:0;width:100%;display:none;}
+.theme-popover{z-index:1002;position:fixed;bottom:0;left:0;width:100%;display:none;}
 .theme-poptit{padding:1.2rem;position:relative;overflow: hidden;background:#fff ;height:8rem ;}
 .theme-poptit .close{float:right;color:#999;padding:0.5rem;margin:-0.2rem -0.5rem -0.5rem;font:bold 1.4rem/1.4rem simsun;text-shadow:0 0.1rem 0 #ddd}
 .theme-poptit .close:hover{color:#444;}
