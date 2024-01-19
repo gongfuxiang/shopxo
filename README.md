@@ -102,11 +102,7 @@
 
 
 ### 后台管理展示
-![首页](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/home.png "首页")
-![用户](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/user.png "用户")
-![商品](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/goods.png "商品")
-![订单](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/order.png "订单")
-![插件](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/plugins.png "插件")
+![后端](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/admin/main.jpg "首页")
 
 
 ### 可视化DIY拖拽装修展示
