@@ -116,24 +116,27 @@ function EchartsStyle (data, radius) {
     }
 
     var new_data = data.map(function (item, index) {
-        var item_style = {
-            itemStyle: {
-                borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
+        if((gradient_color[index] || null) != null) {
+            var item_style = {
+                itemStyle: {
+                    borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+            }
+            return Object.assign({}, item, item_style);
         }
-        return Object.assign({}, item, item_style);
+        return item;
     });
     return new_data;
 };
@@ -556,24 +559,27 @@ function EchartsNewUser (name_arr, data) {
     ]
     var borderRadius = [40, 40, 0, 0];
     var new_data = data.map(function (item, index) {
-        var item_style = {
-            itemStyle: {
-                borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
+        if((gradient_color[index] || null) != null) {
+            var item_style = {
+                itemStyle: {
+                    borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+            }
+            return Object.assign({}, item, item_style);
         }
-        return Object.assign({}, item, item_style);
+        return item;
     });
     var chart = echarts.init(document.getElementById('echarts-new-user'), 'macarons');
     var option = {
@@ -653,24 +659,27 @@ function EchartsBuyUser (name_arr, data) {
     ]
     var borderRadius = [40, 40, 0, 0];
     var new_data = data.map(function (item, index) {
-        var item_style = {
-            itemStyle: {
-                borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
-                }, {
-                    offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
-                }])
-            },
+        if((gradient_color[index] || null) != null) {
+            var item_style = {
+                itemStyle: {
+                    borderRadius: borderRadius,  // 设置柱状图边框的圆角大小，单位为像素
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: gradient_color[index][0] // 渐变色从正上方开始，颜色为#42b983
+                    }, {
+                        offset: 1, color: gradient_color[index][1] // 指100%处的颜色，颜色为#4a82c9
+                    }])
+                },
+            }
+            return Object.assign({}, item, item_style);
         }
-        return Object.assign({}, item, item_style);
+        return item;
     });
     var chart = echarts.init(document.getElementById('echarts-buy-user'), 'macarons');
     var option = {
