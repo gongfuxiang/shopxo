@@ -384,7 +384,8 @@ class AdminPowerService
 
                     // 获取二级菜单
                     $two = self::AdminPowerMenuData($admin_id, $role_id, $v['id']);
-                    $is_show_parent = $v['is_show'] == 1 && empty($two);
+                    $is_old_two_data = !empty($two);
+                    $three_power = [];
                     if(!empty($two))
                     {
                         foreach($two as $ks=>$vs)
@@ -462,9 +463,32 @@ class AdminPowerService
                                         $admin_power[$key] = $itsv['name'];
                                     }
                                 }
+
+                                // 存在三级的权限菜单则表示二级也有数据
+                                $is_old_two_data = true;
                             }
                         }
                         $two = array_values($two);
+                    } else {
+                        // 二级下的三级权限菜单
+                        $two_ids = Db::name('Power')->where(['pid'=>$v['id']])->column('id');
+                        $three_power = self::AdminPowerMenuData($admin_id, $role_id, $two_ids);
+                        if(!empty($three_power))
+                        {
+                            foreach($three_power as $itsv)
+                            {
+                                // 是否存在控制器和方法
+                                if(!empty($itsv['control']) && !empty($itsv['action']))
+                                {
+                                    // 权限
+                                    $key = strtolower($itsv['control'].'_'.$itsv['action']);
+                                    $admin_power[$key] = $itsv['name'];
+                                }
+                            }
+
+                            // 存在三级的权限菜单则表示二级也有数据
+                            $is_old_two_data = true;
+                        }
                     }
 
                     // 一级菜单下的插件
@@ -482,23 +506,17 @@ class AdminPowerService
                                 ];
                             }
                         }
-                        // 是否二级数据
-                        if(!empty($two))
-                        {
-                            $is_show_parent = true;
-                        }
                     }
 
-                    // 是否需要显示一级菜单
-                    if(!$is_show_parent)
-                    {
-                        unset($admin_left_menu[$k]);
-                    }
-                    // 是否存在子级数据
+                    // 是否有二级数据
                     if(!empty($two))
                     {
-                        // 子级
                         $admin_left_menu[$k]['items'] = $two;
+                    }
+                    // 数据是否显示、本来就不显示或者原来下级有数据但是现在没有数据了
+                    if($v['is_show'] == 0 || ($is_old_two_data && empty($two)))
+                    {
+                        unset($admin_left_menu[$k]);
                     }
                 }
 
@@ -572,7 +590,7 @@ class AdminPowerService
      * @desc    description
      * @param   [int]          $admin_id [管理员id]
      * @param   [int]          $role_id  [角色id]
-     * @param   [int]          $pid      [父id]
+     * @param   [int|array]    $pid      [父id]
      */
     public static function AdminPowerMenuData($admin_id, $role_id, $pid = 0)
     {
