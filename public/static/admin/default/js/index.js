@@ -226,7 +226,9 @@ $(function () {
                 $(v).addClass('common-left-menu-active');
             })
             var offset_scroll_top = $('.menu-list').find('.must-menu-scroll').scrollTop();
-            var offset_top = $('.menu-list').find('a.common-left-menu-active').parent().offset().top - ($('.must-menu-list-am-active').hasClass('is_logo') ? $('.menu-logo').height() : 0);
+            var $menu_active = $('.menu-list').find('a.common-left-menu-active');
+            var menu_active_top = ($menu_active.length > 0) ? $menu_active.parent().offset().top : 0;
+            var offset_top = menu_active_top - ($('.must-menu-list-am-active').hasClass('is_logo') ? $('.menu-logo').height() : 0);
             if (is_reload_menu_status == 0 || (event.originalEvent && event.originalEvent.isTrusted)) {
                 $('.must-menu-scroll').animate({
                     scrollTop: offset_top + offset_scroll_top,
