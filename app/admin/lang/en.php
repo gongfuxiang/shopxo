@@ -35,6 +35,7 @@ return [
             'upgrade_date_name'                 => 'Update Date：',
         ],
         // 页面基础
+        'base_update_system_title'              => 'System updates',
         'base_update_button_title'              => 'Update Now',
         'base_item_base_stats_title'            => 'Shop Statistics',
         'base_item_base_stats_tips'             => 'Time filtering is only valid for totals',

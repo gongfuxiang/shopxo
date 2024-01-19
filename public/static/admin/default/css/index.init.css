@@ -367,10 +367,6 @@ body {
 /**
  * 更新信息展示
  */
-#inspect-upgrade-popup .am-popup-bd {
-    padding-bottom: 5rem;
-    overflow: auto;
-}
 
 #inspect-upgrade-popup .upgrade-title span {
     font-weight: bold;
@@ -385,22 +381,6 @@ body {
 #inspect-upgrade-popup .upgrade-content-item ul li {
     line-height: 2.6rem;
     min-height: 2.6rem;
-}
-
-#inspect-upgrade-popup .upgrade-bottom {
-    position: fixed;
-    left: 0;
-    bottom: 0px;
-    width: 100%;
-    height: 7rem;
-    padding: 0 2.5rem;
-}
-
-#inspect-upgrade-popup .upgrade-bottom-content {
-    background: #fff;
-    padding: 1rem 2rem 0 0;
-    height: 5rem;
-    border-top: 0.1rem solid #ececec;
 }
 
 /**

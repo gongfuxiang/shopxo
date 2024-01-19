@@ -752,17 +752,26 @@
 <!-- right content end  -->
 
 <!-- 检查更新显示信息 -->
-<div class="am-popup popup-not-title" id="inspect-upgrade-popup">
+<div class="am-popup am-radius" id="inspect-upgrade-popup">
     <div class="am-popup-inner">
-        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('index.base_update_system_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
         <div class="am-popup-bd">
-        	<div class="upgrade-content"></div>
-			<div class="upgrade-bottom am-text-right">
-				<div class="upgrade-bottom-content">
-					<button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
-					<button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm am-hide inspect-upgrade-confirm" data-url="{{:MyUrl('admin/index/inspectupgradeconfirm')}}">{{:MyLang('index.base_update_button_title')}}</button>
-				</div>
-			</div>
+            <form class="am-form am-form-popup-fixed">
+            	<div class="upgrade-content"></div>
+                <div class="am-form-popup-submit">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs inspect-upgrade-confirm" data-url="{{:MyUrl('admin/index/inspectupgradeconfirm')}}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('index.base_update_button_title')}}</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

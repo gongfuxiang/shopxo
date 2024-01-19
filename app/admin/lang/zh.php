@@ -35,6 +35,7 @@ return [
             'upgrade_date_name'                 => '更新日期：',
         ],
         // 页面基础
+        'base_update_system_title'              => '系统更新',
         'base_update_button_title'              => '立即更新',
         'base_item_base_stats_title'            => '商城统计',
         'base_item_base_stats_tips'             => '时间筛选仅对总数有效',

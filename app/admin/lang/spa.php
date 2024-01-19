@@ -35,6 +35,7 @@ return [
             'upgrade_date_name'                 => 'Fecha de actualización:',
         ],
         // 页面基础
+        'base_update_system_title'              => 'Actualización del sistema',
         'base_update_button_title'              => 'Actualización inmediata',
         'base_item_base_stats_title'            => 'Estadísticas del centro comercial',
         'base_item_base_stats_tips'             => 'El cribado temporal solo es válido para el total',
