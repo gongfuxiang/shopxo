@@ -227,18 +227,22 @@ $(function () {
             })
             var offset_scroll_top = $('.menu-list').find('.must-menu-scroll').scrollTop();
             var $menu_active = $('.menu-list').find('a.common-left-menu-active');
-            var menu_active_top = ($menu_active.length > 0) ? $menu_active.parent().offset().top : 0;
-            var offset_top = menu_active_top - ($('.must-menu-list-am-active').hasClass('is_logo') ? $('.menu-logo').height() : 0);
-            if (is_reload_menu_status == 0 || (event.originalEvent && event.originalEvent.isTrusted)) {
-                $('.must-menu-scroll').animate({
-                    scrollTop: offset_top + offset_scroll_top,
-                }, 300);
-                is_reload_menu_status = 1;
-            }
+            if($menu_active.length > 0) {
+                $('.must-menu-list-am-active').css({'display': 'block'});
+                var offset_top = $('.menu-list a.common-left-menu-active').parent().offset().top - ($('.must-menu-list-am-active').hasClass('is_logo') ? $('.menu-logo').height() : 0);
+                if (is_reload_menu_status == 0 || (event.originalEvent && event.originalEvent.isTrusted)) {
+                    $('.must-menu-scroll').animate({
+                        scrollTop: offset_top + offset_scroll_top,
+                    }, 300);
+                    is_reload_menu_status = 1;
+                }
 
-            $('.must-menu-list-am-active').animate({
-                'top': offset_top + offset_scroll_top
-            }, 300);
+                $('.must-menu-list-am-active').animate({
+                    'top': offset_top + offset_scroll_top
+                }, 300);
+            } else {
+                $('.must-menu-list-am-active').css({'top': 0, 'display': 'none'});
+            }
         }
         // 存储tabs标签数据
         AdminMenuNavTabsMemoryHandle();
