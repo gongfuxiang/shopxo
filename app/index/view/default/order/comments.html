@@ -31,7 +31,9 @@
                                     <tr>
                                         <th>{{:MyLang('order.comments_goods_list_thead_base')}}</th>
                                         <th class="am-hide-sm-only">{{:MyLang('order.comments_goods_list_thead_price')}}</th>
-                                        <th>{{:MyLang('order.comments_goods_list_thead_content')}}</th>
+                                        <th>{{:MyLang('order.comments_goods_list_thead_content')}}
+                                            <span class="am-form-group-label-tips">{{:MyLang('common_service.goodscomments.form_item_images_message')}}</span>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,11 +83,13 @@
                                                 </div>
                                                 <textarea name="content[]" class="am-radius" placeholder="{{:MyLang('common_service.goodscomments.form_item_content_placeholder')}}" rows="4" minlength="6" maxlength="230" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
-
-                                                <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images">
-                                                </ul>
-                                                <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}">+ {{:MyLang('form_upload_images_title')}}</div>
-                                                <span class="am-form-group-label-tips">{{:MyLang('common_service.goodscomments.form_item_images_message')}}</span>
+                                                <div class="am-form-file-upload-container">
+                                                    <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images">
+                                                    </ul>
+                                                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}"
+                                                        <i class="iconfont icon-upload-add"></i>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     {{/foreach}}
@@ -114,4 +118,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

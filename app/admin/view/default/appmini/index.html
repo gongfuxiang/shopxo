@@ -2,14 +2,7 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="appmini/nav" /}}
-    <!-- second nav end -->
     <div class="content">
-        <!-- nav start -->
-        {{include file="appmini/base_nav" /}}
-        <!-- nav end -->
-
         <!-- list start -->
         {{if !empty($data_list)}}
             <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/appmini/themesave')}}" data-nav-type="{{$nav_type}}">
@@ -60,4 +53,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

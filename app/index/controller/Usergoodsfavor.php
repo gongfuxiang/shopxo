@@ -48,7 +48,7 @@ class UserGoodsFavor extends Center
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('usergoodsfavor.browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('usergoodsfavor.base_nav_title'), 1));
         return MyView();
     }
 
@@ -62,17 +62,16 @@ class UserGoodsFavor extends Center
      */
     public function Detail()
     {
-        $assign = [
+        MyViewAssign([
             'data'      => $this->data_detail,
             'is_header' => 0,
             'is_footer' => 0,
-        ];
-        MyViewAssign($assign);
+        ]);
         return MyView();
     }
 
     /**
-     * 商品收藏取消
+     * 取消
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

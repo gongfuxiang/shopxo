@@ -1,0 +1,14 @@
+<!-- 评论图片 -->
+{{if !empty($module_data) and !empty($module_data['images'])}}
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-avg-md-4 am-avg-lg-4 am-gallery-default am-padding-0" data-am-gallery="{ pureview: true }">
+        {{foreach $module_data.images as $ik=>$iv}}
+            <li class="am-padding-0 {{if $ik gt 0}}am-margin-left-sm{{/if}}">
+                <div class="am-gallery-item am-nbfc">
+                    <a href="javascript:;">
+                        <img src="{{$iv}}" />
+                    </a>
+                </div>
+            </li>
+        {{/foreach}}
+    </ul>
+{{/if}}

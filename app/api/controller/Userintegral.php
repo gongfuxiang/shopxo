@@ -40,7 +40,7 @@ class UserIntegral extends Common
     }
 
     /**
-     * 用户积分列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

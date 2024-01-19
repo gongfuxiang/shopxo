@@ -245,6 +245,7 @@ class PayLog
                     'view_key'      => 'paylog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 120,
                 ],
             ],
             // 数据配置

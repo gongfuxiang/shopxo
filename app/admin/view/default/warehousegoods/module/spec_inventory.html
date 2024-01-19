@@ -1,12 +1,29 @@
 {{if !empty($module_data['spec']) and is_array($module_data['spec'])}}
-    <div class="am-scrollable-vertical spec-inventory-list">
-        <ul>
-            {{foreach $module_data.spec as $sv}}
-                <li class="am-nbfc">
-                    <p class="spec-name am-fl">{{if empty($sv['spec'])}}默认规格{{else /}}{{$sv.spec}}{{/if}}</p>
-                    <strong class="am-fr">{{$sv.inventory}}</strong>
-                </li>
-            {{/foreach}}
-        </ul>
+    <div class="spec-inventory-list">
+        <div class="am-nbfc">
+            <span>{{if empty($module_data['spec'][0]['spec'])}}{{:MyLang('common_service.warehousegoods.goods_goods_spec_default_name')}}{{else /}}{{$module_data['spec'][0]['spec']}}{{/if}}</span>
+            <strong class="am-fr">{{$module_data.spec[0]['inventory']}}</strong>
+        </div>
+        {{if count($module_data.spec) gt 1}}
+            <a href="javascript:;" data-am-modal="{target: '#warehousegoods-spec-inventory-modal-{{$module_data.id}}', width: 300}">{{:MyLang('view_title')}}({{:count($module_data.spec)}}) ></a>
+            <div class="am-modal am-modal-no-btn" tabindex="-1" id="warehousegoods-spec-inventory-modal-{{$module_data.id}}">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">
+                        <span>{{:MyLang('common_service.warehousegoods.goods_goods_spec_inventory_name')}}</span>
+                        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                    </div>
+                    <div class="am-modal-bd">
+                        <ul>
+                            {{foreach $module_data.spec as $sv}}
+                                <li class="am-nbfc am-padding-sm">
+                                    <p class="spec-name am-fl">{{if empty($sv['spec'])}}{{:MyLang('common_service.warehousegoods.goods_goods_spec_default_name')}}{{else /}}{{$sv.spec}}{{/if}}</p>
+                                    <strong class="am-fr">{{$sv.inventory}}</strong>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
     </div>
 {{/if}}

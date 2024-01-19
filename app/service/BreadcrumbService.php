@@ -39,7 +39,7 @@ class BreadcrumbService
             [
                 'type'  => 0,
                 'name'  => MyLang('home_title'),
-                'url'   => SystemService::HomeUrl(),
+                'url'   => SystemService::DomainUrl(),
                 'icon'  => 'am-icon-home',
             ],
         ];

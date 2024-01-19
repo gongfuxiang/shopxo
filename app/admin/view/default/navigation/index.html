@@ -1,6 +1,12 @@
 <!-- content nav start -->
 {{block name="form_content_top"}}
-	{{include file="navigation/nav" /}}
+    <!-- nav start -->
+    {{:ModuleInclude('public/nav_switch_tabs', [
+        'nav_data'  => $nav_data,
+        'nav_type'  => $nav_type,
+        'url'       => 'admin/navigation/index'
+    ])}}
+    <!-- nav end -->
 {{/block}}
 <!-- content nav end -->
 
@@ -10,12 +16,13 @@
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
 	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
-		<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
-		<ul class="am-dropdown-content">
+		<button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
+		<ul class="am-dropdown-content am-radius-lg">
             {{foreach $add_type_list as $k=>$v}}
     			<li>
-                    <a href="javascript:;" class="am-padding-0">
-        				<button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> {{$v}}</button>
+                    <a href="javascript:;" class="am-text-primary am-text-left submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> 
+                        <i class="iconfont icon-btn-add"></i>
+                        {{$v}}
                     </a>
     			</li>
             {{/foreach}}
@@ -38,7 +45,7 @@
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-custom am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
                             <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
@@ -47,17 +54,17 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" required />
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="url" placeholder="{{:MyLang('common_service.navigation.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.navigation.form_item_url_message')}}" class="am-radius" required />
                     </div>
-                    {{include file="lib/sort" /}}
-                    {{include file="lib/is_show" /}}
-                    {{include file="lib/is_new_window_open" /}}
+                    {{include file="lib/sort_row" /}}
+                    {{include file="lib/is_show_row" /}}
+                    {{include file="lib/is_new_window_open_row" /}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="custom" />
@@ -88,7 +95,7 @@
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-article am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
                             <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
@@ -97,7 +104,7 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{$add_type_list.article}}<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_article_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
@@ -112,13 +119,13 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}</span></label>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort" /}}
-                    {{include file="lib/is_show" /}}
-                    {{include file="lib/is_new_window_open" /}}
+                    {{include file="lib/sort_row" /}}
+                    {{include file="lib/is_show_row" /}}
+                    {{include file="lib/is_new_window_open_row" /}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="article" />
@@ -133,7 +140,7 @@
                         </button>
                     </div>
                 </form>
-                <!-- form end -->
+                    <!-- form end -->
             </div>
         </div>
     </div>
@@ -150,7 +157,7 @@
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-customview am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
                             <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
@@ -159,7 +166,7 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{$add_type_list.customview}}<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_customview_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
@@ -168,13 +175,13 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}</span></label>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort" /}}
-                    {{include file="lib/is_show" /}}
-                    {{include file="lib/is_new_window_open" /}}
+                    {{include file="lib/sort_row" /}}
+                    {{include file="lib/is_show_row" /}}
+                    {{include file="lib/is_new_window_open_row" /}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="customview" />
@@ -205,7 +212,7 @@
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-goods_category am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
                             <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
@@ -214,7 +221,7 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{$add_type_list.goods_category}}<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_goods_category_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
@@ -233,13 +240,13 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}</span></label>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort" /}}
-                    {{include file="lib/is_show" /}}
-                    {{include file="lib/is_new_window_open" /}}
+                    {{include file="lib/sort_row" /}}
+                    {{include file="lib/is_show_row" /}}
+                    {{include file="lib/is_new_window_open_row" /}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="goods_category" />
@@ -270,7 +277,7 @@
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-design am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
                             <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
@@ -279,7 +286,7 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group row">
                         <label>{{$add_type_list.design}}<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_design_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
@@ -288,13 +295,13 @@
                             {{/foreach}}
                         </select>
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}</span></label>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort" /}}
-                    {{include file="lib/is_show" /}}
-                    {{include file="lib/is_new_window_open" /}}
+                    {{include file="lib/sort_row" /}}
+                    {{include file="lib/is_show_row" /}}
+                    {{include file="lib/is_new_window_open_row" /}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="design" />
@@ -309,7 +316,7 @@
                         </button>
                     </div>
                 </form>
-                <!-- form end -->
+                    <!-- form end -->
             </div>
         </div>
     </div>

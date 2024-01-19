@@ -185,6 +185,7 @@ class RefundLog
                     'view_key'      => 'refundlog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 80,
                 ],
             ],
             // 数据配置

@@ -2,49 +2,66 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- table nav start -->
-    {{include file="appconfig/nav" /}}
-    <!-- table nav end -->
-
     <div class="content">
+        <!-- table nav start -->
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $nav_type,
+            'url'       => 'admin/appconfig/index'
+        ])}}
+        <!-- table nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-reload">
-            <!-- 基础配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-view">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('base_config_title'),
+                        'key'  => 'base-config-title',
+                    ],
+                    [
+                        'name' => MyLang('appconfig.user_base_popup_title'),
+                        'key'  => 'user-base-popup',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <!-- 基础配置 -->
+                <div class="item am-active" data-key="base-config-title">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
-                        <select name="{{$data.common_app_is_use_mobile_detail.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_app_is_use_mobile_detail']['value']) and $data['common_app_is_use_mobile_detail']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_use_mobile_detail.only_tag}}" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required {{if isset($data['common_app_is_use_mobile_detail']['value']) and $data['common_app_is_use_mobile_detail']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
-                        <select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
-                        {{foreach :MyConst('common_platform_type') as $v}}
-                            {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" value="{{$v.value}}" {{if isset($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}" data-am-ucheck /> {{$v.name}}
-                                </label>
-                            {{/if}}
-                        {{/foreach}}
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_platform_type') as $v}}
+                                {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" value="{{$v.value}}" {{if !empty($data['common_user_onekey_bind_mobile_list']) and isset($data['common_user_onekey_bind_mobile_list']['value']) and is_array($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    </label>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
                         {{if is_array(MyLang('appconfig.user_onekey_bind_mobile_tips_list'))}}
-                            <div class="am-alert am-alert-warning" data-am-alert>
-                                <button type="button" class="am-close">&times;</button>
+                            <div class="am-tips-card">
                                 <p>{{:implode('</p><p>', MyLang('appconfig.user_onekey_bind_mobile_tips_list'))}}</p>
                             </div>
                         {{/if}}
@@ -52,16 +69,17 @@
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_user_address_platform_import_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_address_platform_import_list.describe}}</span></label>
-                        {{foreach :MyConst('common_platform_type') as $v}}
-                            {{if in_array($v['value'], ['weixin', 'baidu', 'alipay', 'qq', 'toutiao'])}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_user_address_platform_import_list.only_tag}}" value="{{$v.value}}" {{if isset($data['common_user_address_platform_import_list']['value']) and in_array($v['value'], $data['common_user_address_platform_import_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}" data-am-ucheck /> {{$v.name}}
-                                </label>
-                            {{/if}}
-                        {{/foreach}}
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_platform_type') as $v}}
+                                {{if in_array($v['value'], ['weixin', 'baidu', 'alipay', 'qq', 'toutiao'])}}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.common_user_address_platform_import_list.only_tag}}" value="{{$v.value}}" {{if !empty($data['common_user_address_platform_import_list']) and isset($data['common_user_address_platform_import_list']['value']) and is_array($data['common_user_address_platform_import_list']['value']) and in_array($v['value'], $data['common_user_address_platform_import_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    </label>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
                         {{if is_array(MyLang('appconfig.user_address_platform_import_tips_list'))}}
-                            <div class="am-alert am-alert-warning" data-am-alert>
-                                <button type="button" class="am-close">&times;</button>
+                            <div class="am-tips-card">
                                 <p>{{:implode('</p><p>', MyLang('appconfig.user_address_platform_import_tips_list'))}}</p>
                             </div>
                         {{/if}}
@@ -69,80 +87,86 @@
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
-                        <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_enable_search.only_tag}}" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
-                        <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_header_nav_fixed.only_tag}}" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
-                        <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_online_service.only_tag}}" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_head_vice_nav.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_head_vice_nav.describe}}</span></label>
-                        <select name="{{$data.common_app_is_head_vice_nav.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_app_is_head_vice_nav']['value']) and $data['common_app_is_head_vice_nav']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_head_vice_nav.only_tag}}" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required {{if isset($data['common_app_is_head_vice_nav']['value']) and $data['common_app_is_head_vice_nav']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 用户基础数据 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('appconfig.user_base_popup_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 用户基础数据 -->
+                <div class="item" data-key="user-base-popup">
                     {{if is_array(MyLang('appconfig.user_base_popup_top_tips_list'))}}
-                        <div class="am-alert am-alert-warning am-margin-top-sm" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
+                        <div class="am-operate-stretch-tips">
+                            <div class="title">
+                                <i class="iconfont icon-tips"></i>
+                                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                            </div>
                             <p>{{:implode('</p><p>', MyLang('appconfig.user_base_popup_top_tips_list'))}}</p>
                         </div>
                     {{/if}}
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_user_base_popup_pages.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_pages.describe}}</span></label>
-                        {{foreach :MyConst('common_user_base_popup_pages_list') as $v}}
-                            <label class="am-checkbox-inline">
-                                <input type="checkbox" name="{{$data.common_app_user_base_popup_pages.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_pages']['value']) and in_array($v['value'], $data['common_app_user_base_popup_pages']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_pages.error_tips}}" data-am-ucheck /> {{$v.name}}
-                            </label>
-                        {{/foreach}}
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_user_base_popup_pages_list') as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_app_user_base_popup_pages.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_pages']['value']) and in_array($v['value'], $data['common_app_user_base_popup_pages']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_pages.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_user_base_popup_client.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_client.describe}}</span></label>
-                        {{foreach :MyConst('common_platform_type') as $v}}
-                            {{if !in_array($v['value'], ['pc'])}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_app_user_base_popup_client.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_client']['value']) and in_array($v['value'], $data['common_app_user_base_popup_client']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_client.error_tips}}" data-am-ucheck /> {{$v.name}}
-                                </label>
-                            {{/if}}
-                        {{/foreach}}
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_platform_type') as $v}}
+                                {{if !in_array($v['value'], ['pc'])}}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.common_app_user_base_popup_client.only_tag}}" value="{{$v.value}}" {{if isset($data['common_app_user_base_popup_client']['value']) and in_array($v['value'], $data['common_app_user_base_popup_client']['value'])}}checked{{/if}} data-validation-message="{{$data.common_app_user_base_popup_client.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    </label>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_user_base_popup_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_interval_time.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_app_user_base_popup_interval_time.only_tag}}" placeholder="{{$data.common_app_user_base_popup_interval_time.name}}" data-validation-message="{{$data.common_app_user_base_popup_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_app_user_base_popup_interval_time.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">{{:MyLang('second_title')}}</button>
-                          </span>
-                        </div>
+                        <input type="number" min="0" name="{{$data.common_app_user_base_popup_interval_time.only_tag}}" placeholder="{{$data.common_app_user_base_popup_interval_time.name}}" data-validation-message="{{$data.common_app_user_base_popup_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_app_user_base_popup_interval_time.value}}"{{/if}} />
                     </div>
                 </div>
             </div>

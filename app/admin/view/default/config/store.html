@@ -4,31 +4,37 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/store')}}">
-            <div class="am-form-group">
-                <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>
-                <input type="text" name="{{$data.common_customer_store_tel.only_tag}}" placeholder="{{$data.common_customer_store_tel.name}}" data-validation-message="{{$data.common_customer_store_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_tel.value}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.common_customer_store_email.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_email.describe}}</span></label>
-                <input type="email" name="{{$data.common_customer_store_email.only_tag}}" placeholder="{{$data.common_customer_store_email.name}}" data-validation-message="{{$data.common_customer_store_email.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_email.value}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.common_customer_store_address.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_address.describe}}</span></label>
-                <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
-                <ul class="plug-file-upload-view common_customer_store_qrcode-images-view" data-form-name="common_customer_store_qrcode" data-max-number="1" data-dialog-type="images">
-                    {{if !empty($data['common_customer_store_qrcode']['value'])}}
-                        <li>
-                            <input type="text" name="common_customer_store_qrcode" value="{{$data.common_customer_store_qrcode.value}}" />
-                            <img src="{{:AttachmentPathViewHandle($data.common_customer_store_qrcode.value)}}" />
-                            <i>×</i>
-                        </li>
-                    {{/if}}
-                </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_qrcode-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/config/store')}}">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>
+                    <input type="text" name="{{$data.common_customer_store_tel.only_tag}}" placeholder="{{$data.common_customer_store_tel.name}}" data-validation-message="{{$data.common_customer_store_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_tel.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.common_customer_store_email.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_email.describe}}</span></label>
+                    <input type="email" name="{{$data.common_customer_store_email.only_tag}}" placeholder="{{$data.common_customer_store_email.name}}" data-validation-message="{{$data.common_customer_store_email.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_email.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.common_customer_store_address.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_address.describe}}</span></label>
+                    <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label class="am-block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
+                    <div class="am-form-file-upload-container">
+                        <ul class="plug-file-upload-view common_customer_store_qrcode-images-view" data-form-name="common_customer_store_qrcode" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                            <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_qrcode-images-view">
+                                {{if empty($data['common_customer_store_qrcode']['value'])}}
+                                    <i class="iconfont icon-upload-add"></i>
+                                {{else /}}
+                                    <input type="text" name="common_customer_store_qrcode" value="{{$data.common_customer_store_qrcode.value}}" />
+                                    <img src="{{:AttachmentPathViewHandle($data.common_customer_store_qrcode.value)}}" />
+                                    <i>x</i>
+                                    <i class="iconfont icon-eye"></i>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="am-form-popup-submit">
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
@@ -44,4 +50,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

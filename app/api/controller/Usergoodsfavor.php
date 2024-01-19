@@ -40,7 +40,7 @@ class UserGoodsFavor extends Common
     }
 
     /**
-     * [Index 获取列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -78,7 +78,7 @@ class UserGoodsFavor extends Common
     }
 
     /**
-     * 用户商品收藏取消
+     * 取消
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

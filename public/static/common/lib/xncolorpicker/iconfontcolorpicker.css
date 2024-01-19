@@ -1,0 +1,36 @@
+@font-face {font-family: "iconfontcolorpicker";
+  src: url('//at.alicdn.com/t/font_2330183_hjqs7adohe.eot?t=1611198440225'); /* IE9 */
+  src: url('//at.alicdn.com/t/font_2330183_hjqs7adohe.eot?t=1611198440225#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOAAAsAAAAACCgAAAM0AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDQAqCLIIBATYCJAMYCw4ABCAFhXEHSxsmB8iuwG3owcQgTIgy2hi0bXqFKGQd8AdC8fC43+u5SV4+UVvZERqFighl7dTmxIycZwlkWW3+9/fe+2ElMrG9HwGOaekvsYN9Z2kJbHJUhOLO4t9v7s0fsccI9UkOCPXtmqPiSzM2GpwgZ8ZG1Wz36wZdIAPZOLGAEtggCSxOx5ZBucEKn4BhKgfHTFdlAz4bzimyqQKzAEcJPJCo/BB5f5BvUflh7IKWuJ1A1yI9uG3snUGfwuwXiJthFfRlnIrC/G2hVkwt4gVgtdOzjlcAngfvHz9gDQJJk5lD915ej2DpM3jnzqUKyHgIYE2nB5tFxmZAIR5Wem7rFIyK1l29yxagqy1Jn/FmP913TDUgwSnb1Ieuhez/yyNrFEkQFaTrg528DZ/h0Mh8VmaVyKBcgaIFaSS+MPuRpHXCLh3sAE4zKau9yRCyLGZoWGsZU9B3MufneYefz+Yc99Dly93oc8742A70nxYmZ8ux6OLs/LGHgYcv3yR17d0x2T6Wt9Y/nFc7yHkQ/dxNfReOD8v/5+ndSejldVrG/Knrd/M4JfhPYXzrp8Y6AgZBSEobLxBkfGJ5JYr8fwDfzFKC8Ydjr/A87Y+dD/yvdbPRWTsWqn8T6KbcSh3IH8s6gLwRFQGQ/qHGv+Vj/OS7z9P9f7VXwIc+9oGj/sPISwDerUhn1k9gdSwpGsdU1aJkdiYKVMuhQTJqunj51qnXqaTzd+QLM9wEkpb1kM2YkAUbgEbPIahmCtC1ydjsnpl1aFE62GgLQFjrCZJhBGRrg44sWAc0FiLNr1XYEeg6HAvI3hK/bXWTEorw6h69zjNja2Qg/EY6T3IuvI6JT8heJ4ors+V5F1hWetgMW0Zzg3+TMuLlRpQ3ti1i0HCe4gYgUDIbC84Daak7kWKmYapVvVJd5ykM2IoRRZAIKrmHmrRcxnjVxUCBkYlM5FhR/ZeIEXaCWNcSCncvQAfhhWcsedgeyMLIPAy5KcyijEdcdcwNq22cMFANy6VQHIFUkiCRUd0pIJqoawxwFWaYrEq1rsL6NsTpf2qBLvMFa6TIUaKJGi3N01CJ6ptwlcXKt7rLTjrusFigBQA=') format('woff2'),
+  url('//at.alicdn.com/t/font_2330183_hjqs7adohe.woff?t=1611198440225') format('woff'),
+  url('//at.alicdn.com/t/font_2330183_hjqs7adohe.ttf?t=1611198440225') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('//at.alicdn.com/t/font_2330183_hjqs7adohe.svg?t=1611198440225#iconfontcolorpicker') format('svg'); /* iOS 4.1- */
+}
+
+.iconfontcolorpicker {
+  font-family: "iconfontcolorpicker" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconcolorpickerxiala:before {
+  content: "\e704";
+}
+
+.iconcolorpickerzhankai1:before {
+  content: "\e66d";
+}
+
+.iconcolorpickercheck:before {
+  content: "\e600";
+}
+
+.iconcolorpicker11:before {
+  content: "\e625";
+}
+
+.iconcolorpicker1:before {
+  content: "\e624";
+}

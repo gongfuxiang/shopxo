@@ -6,12 +6,13 @@
             <!-- 关键字 -->
             <div class="am-form-group am-form-group-refreshing">
                 <label>{{:MyLang('layout.view_module_title_keywords')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <div class="am-input-group am-input-group-sm">
+                <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center am-flex-items-center">
                     <input type="text" placeholder="{{:MyLang('layout.view_module_title_keywords')}}" name="content_keywords" minlength="1" maxlength="80" data-validation-message="{{:MyLang('layout.view_module_title_keywords_message')}}" value="" class="am-form-field" required />
-                    <input type="hidden" name="style_keywords_color" value="" />
-                    <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color_keywords" data-position="fixed" data-input-tag=".module-style-color_keywords" data-color-tag="input[name='style_keywords_color']" data-color-style="background-color|border-color">
-                        <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                    </a>
+                    <div class="colorpicker-container colorpicker-simple">
+                        <input type="hidden" name="style_keywords_color" value="" />
+                        <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_keywords']" data-color-tag="input[name='style_keywords_color']"></div>
+                        <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                    </div>
                 </div>
             </div>
 

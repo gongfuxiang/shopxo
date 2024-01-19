@@ -121,6 +121,9 @@ class Goods extends Common
                 // 商品购买按钮列表
                 $buy_button = GoodsService::GoodsBuyButtonList($goods);
 
+                // 猜你喜欢
+                $guess_you_like = GoodsService::GoodsDetailGuessYouLikeData($goods['id']);
+
                 // 数据返回
                 $result = [
                     'goods'             => $goods,
@@ -128,6 +131,7 @@ class Goods extends Common
                     'buy_button'        => $buy_button,
                     'middle_tabs_nav'   => $middle_tabs_nav,
                     'nav_more_list'     => $nav_more_list,
+                    'guess_you_like'    => $guess_you_like,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             }

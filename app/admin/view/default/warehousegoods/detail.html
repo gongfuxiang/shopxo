@@ -3,15 +3,27 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('warehousegoods.base_spec_inventory_title'),
+                'key'  => 'base-spec-inventory',
+            ]
+        ]
+    ])}}
 
-    <!-- 规格 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('warehousegoods.base_spec_inventory_title')}}</div>
-        <div class="am-panel-bd">
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        {__block__}
+
+        <!-- 规格 -->
+        <div class="item" data-key="base-spec-inventory">
             {{if !empty($spec)}}
-                <table class="am-table am-table-striped am-table-hover form-inventory-container">
+                <table class="am-table am-table-striped am-table-hover">
                     <thead>
                         <tr>
                             <th>{{:MyLang('spec_title')}}</th>

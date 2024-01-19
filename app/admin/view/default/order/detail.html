@@ -3,101 +3,117 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('order.detail_goods_title'),
+                'key'  => 'order-detail-goods',
+            ],
+            [
+                'name' => $data['order_model'] == 2 ? MyLang('order.detail_take_address_title') : MyLang('order.detail_user_address_title'),
+                'key'  => 'order-detail-user-address',
+            ],
+            [
+                'name' => MyLang('order.detail_fictitious_title'),
+                'key'  => 'order-detail-fictitious',
+            ]
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        {__block__}
 
-    <!-- 订单商品 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('order.detail_goods_title')}}</div>
-        <div class="am-panel-bd">
-            {{if !empty($data['items'])}}
-                {{:ModuleInclude('order/module/goods', $data)}}
-            {{else /}}
-                {{include file="public/not_data" /}}
-            {{/if}}
-        </div>
-    </div>
-
-    <!-- 销售订单 - 收货地址 -->
-    {{if $data['order_model'] eq 0 and !empty($data['address_data'])}}
-        <div class="am-panel am-panel-default am-radius">
-            <div class="am-panel-hd">{{:MyLang('order.detail_user_address_title')}}</div>
-            <div class="am-panel-bd">
-                <p>
-                    <span>{{:MyLang('order.detail_user_address_name')}}：</span>
-                    <span>{{$data.address_data.name}}</span>
-                </p>
-                <p>
-                    <span>{{:MyLang('order.detail_user_address_tel')}}：</span>
-                    <span>{{$data.address_data.tel}}</span>
-                </p>
-                <p>
-                    <span>{{:MyLang('order.detail_user_address_value')}}：</span>
-                    <span>{{$data.address_data.province_name}}</span>
-                    <span>{{$data.address_data.city_name}}</span>
-                    <span>{{$data.address_data.county_name}}</span>
-                    <span>{{$data.address_data.address}}</span>
-                </p>
-                {{if !empty($data['address_data']['idcard_name']) or !empty($data['address_data']['idcard_number']) or !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
-                    <div class="am-alert am-alert-secondary">
-                        <p class="am-margin-bottom-xs"><strong>{{:MyLang('order.detail_user_address_idcard')}}</strong></p>
-                        <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed am-margin-vertical-0" />
-                        <div class="am-margin-top-xs">
-                            <p>{{:MyLang('order.detail_user_address_idcard_name')}}：{{$data.address_data.idcard_name}}</p>
-                            <p>{{:MyLang('order.detail_user_address_idcard_number')}}：{{$data.address_data.idcard_number}}</p>
-                            {{if !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
-                                <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($data['address_data']['idcard_front'])}}<a href="{{$data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="100" height="68" src="{{$data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($data['address_data']['idcard_back'])}}<a href="{{$data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="100" height="68" src="{{$data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
-                            {{/if}}
-                        </div>
-                    </div>
-                {{/if}}
-                {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                    <div class="am-margin-top-xs">
-                        <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> {{:MyLang('view_map_title')}}</button>
-                    </div>
-                {{/if}}
-            </div>
-        </div>
-    {{/if}}
-
-    <!-- 自提订单 - 取货信息 -->
-    {{if $data['order_model'] eq 2 and !empty($data['address_data'])}}
-        <div class="am-panel am-panel-default am-radius">
-            <div class="am-panel-hd">{{:MyLang('order.detail_take_address_title')}}</div>
-            <div class="am-panel-bd">
-                <!-- 取货地址 -->
-                <div class="am-alert am-alert-warning">
-                    <p>
-                        <span>{{:MyLang('order.detail_take_address_contact')}}：</span>
-                        <span>{{$data.address_data.name}}</span>
-                        <span> / </span>
-                        <span>{{$data.address_data.tel}}</span>
-                    </p>
-                    <p>
-                        <span>{{:MyLang('order.detail_take_address_value')}}：</span>
-                        <span>{{$data.address_data.province_name}}</span>
-                        <span>{{$data.address_data.city_name}}</span>
-                        <span>{{$data.address_data.county_name}}</span>
-                        <span>{{$data.address_data.address}}</span>
-                    </p>
-                    {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                        <div class="am-margin-top-xs">
-                            <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> {{:MyLang('view_map_title')}}</button>
-                        </div>
-                    {{/if}}
-                </div>
-                <!-- 取货码 -->
-                {{:ModuleInclude('order/module/take', $data)}}
-            </div>
-        </div>
-    {{/if}}
-
-    <!-- 虚拟订单 - 密钥信息 -->
-    {{if $data['order_model'] eq 3}}
-        <div class="am-panel am-panel-default am-radius">
-            <div class="am-panel-hd">{{:MyLang('order.detail_fictitious_title')}}</div>
-            <div class="am-panel-bd">
+        <!-- 订单商品 -->
+        <div class="item" data-key="order-detail-goods">
+            <div class="am-padding-sm">
                 {{if !empty($data['items'])}}
+                    {{:ModuleInclude('order/module/goods', $data)}}
+                {{else /}}
+                    {{include file="public/not_data" /}}
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- 销售订单 - 收货/期货地址 -->
+        <div class="item" data-key="order-detail-user-address">
+            <div class="am-padding-sm">
+                {{if !empty($data['address_data'])}}
+                    {{if $data['order_model'] eq 0}}
+                        <p>
+                            <span>{{:MyLang('order.detail_user_address_name')}}：</span>
+                            <span>{{$data.address_data.name}}</span>
+                        </p>
+                        <p>
+                            <span>{{:MyLang('order.detail_user_address_tel')}}：</span>
+                            <span>{{$data.address_data.tel}}</span>
+                        </p>
+                        <p>
+                            <span>{{:MyLang('order.detail_user_address_value')}}：</span>
+                            <span>{{$data.address_data.province_name}}</span>
+                            <span>{{$data.address_data.city_name}}</span>
+                            <span>{{$data.address_data.county_name}}</span>
+                            <span>{{$data.address_data.address}}</span>
+                        </p>
+                        {{if !empty($data['address_data']['idcard_name']) or !empty($data['address_data']['idcard_number']) or !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
+                            <div class="am-alert am-alert-secondary">
+                                <p class="am-margin-bottom-xs"><strong>{{:MyLang('order.detail_user_address_idcard')}}</strong></p>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed am-margin-vertical-0" />
+                                <div class="am-margin-top-xs">
+                                    <p>{{:MyLang('order.detail_user_address_idcard_name')}}：{{$data.address_data.idcard_name}}</p>
+                                    <p>{{:MyLang('order.detail_user_address_idcard_number')}}：{{$data.address_data.idcard_number}}</p>
+                                    {{if !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
+                                        <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($data['address_data']['idcard_front'])}}<a href="{{$data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="100" height="68" src="{{$data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($data['address_data']['idcard_back'])}}<a href="{{$data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="100" height="68" src="{{$data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
+                            <div class="am-margin-top-xs">
+                                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</button>
+                            </div>
+                        {{/if}}
+                    {{else /}}
+                        {{if $data['order_model'] eq 2}}
+                            <!-- 取货地址 -->
+                            <div class="am-alert am-alert-warning">
+                                <p>
+                                    <span>{{:MyLang('order.detail_take_address_contact')}}：</span>
+                                    <span>{{$data.address_data.name}}</span>
+                                    <span> / </span>
+                                    <span>{{$data.address_data.tel}}</span>
+                                </p>
+                                <p>
+                                    <span>{{:MyLang('order.detail_take_address_value')}}：</span>
+                                    <span>{{$data.address_data.province_name}}</span>
+                                    <span>{{$data.address_data.city_name}}</span>
+                                    <span>{{$data.address_data.county_name}}</span>
+                                    <span>{{$data.address_data.address}}</span>
+                                </p>
+                                {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
+                                    <div class="am-margin-top-xs">
+                                        <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</button>
+                                    </div>
+                                {{/if}}
+                            </div>
+                            <!-- 取货码 -->
+                            {{:ModuleInclude('order/module/take', $data)}}
+                        {{/if}}
+                    {{/if}}
+                {{else /}}
+                    {{include file="public/not_data" /}}
+                {{/if}}
+                
+            </div>
+        </div>
+
+        <!-- 虚拟订单 - 密钥信息 -->
+        <div class="item" data-key="order-detail-fictitious">
+            <div class="am-padding-sm">
+                {{if $data['order_model'] eq 3 and !empty($data['items'])}}
                     <ul class="am-list am-margin-bottom-0 fictitious-container">
                         {{foreach $data.items as $goods}}
                             <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
@@ -119,5 +135,5 @@
                 {{/if}}
             </div>
         </div>
-    {{/if}}
+    </div>
 {{/block}}

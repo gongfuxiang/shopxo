@@ -82,6 +82,14 @@ class Config extends Base
 		$view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
 		switch($view_type)
 		{
+			// 系统配置
+			case 'index' :
+				$field_list[] = 'admin_logo';
+				$field_list[] = 'admin_login_logo';
+				$field_list[] = 'admin_login_ad_images';
+				break;
+
+			// 商店信息
 			case 'store' :
 				$field_list[] = 'common_customer_store_qrcode';
 				break;

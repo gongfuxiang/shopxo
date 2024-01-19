@@ -20,6 +20,34 @@ use app\service\AdminPowerService;
 use app\service\MultilingualService;
 
 /**
+ * 递归对象转数组
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-11-20
+ * @desc    description
+ * @param   [object|array]          $data [需要转换的数据]
+ */
+function DataObjectToArray($data)
+{
+    if(!empty($data))
+    {
+        if(is_object($data))
+        {
+            $data = get_object_vars($data);
+        }
+        if(is_array($data))
+        {
+            foreach($data as $k=>$v)
+            {
+                $data[$k] = DataObjectToArray($v);
+            }
+        }
+    }
+    return $data;
+}
+
+/**
  * 图片转base64
  * @author  Devil
  * @blog    http://gong.gg/
@@ -474,12 +502,12 @@ function MyViewAssign($data, $value = '')
     // 模板引擎数据渲染分配钩子
     $hook_name = 'plugins_view_assign_data';
     MyEventTrigger($hook_name,
-        [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'data'          => &$data,
-            'value'         => &$value,
-        ]);
+    [
+        'hook_name'     => $hook_name,
+        'is_backend'    => true,
+        'data'          => &$data,
+        'value'         => &$value,
+    ]);
 
     \think\facade\View::assign($data, $value);
 }
@@ -499,12 +527,12 @@ function MyView($view = '', $data = [])
     // 模板引擎数据渲染前钩子
     $hook_name = 'plugins_view_fetch_begin';
     MyEventTrigger($hook_name,
-        [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'view'          => &$view,
-            'data'          => &$data,
-        ]);
+    [
+        'hook_name'     => $hook_name,
+        'is_backend'    => true,
+        'view'          => &$view,
+        'data'          => &$data,
+    ]);
 
     // 调用框架视图方法
     $result = \think\facade\View::fetch($view, $data);
@@ -512,13 +540,13 @@ function MyView($view = '', $data = [])
     // 模板引擎数据渲染后钩子
     $hook_name = 'plugins_view_fetch_end';
     MyEventTrigger($hook_name,
-        [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'view'          => &$view,
-            'data'          => $data,
-            'result'        => &$result,
-        ]);
+    [
+        'hook_name'     => $hook_name,
+        'is_backend'    => true,
+        'view'          => &$view,
+        'data'          => $data,
+        'result'        => &$result,
+    ]);
 
     return $result;
 }
@@ -2476,12 +2504,17 @@ function UrlParamJoin($param)
  */
 function MyC($key, $default = null, $mandatory = false)
 {
-    $data = MyCache($key);
-    if($mandatory === true)
+    // 从缓存读取配置
+    $value = MyCache($key);
+
+    // 1. 强制校验值
+    // 2. 未设置则默认值
+    if(($mandatory === true && empty($value)) || $value === null)
     {
-        return empty($data) ? $default : $data;
+        $value = $default;
     }
-    return ($data === null) ? $default : $data;
+
+    return $value;
 }
 
 /**
@@ -2665,9 +2698,10 @@ function CurlGet($url, $timeout = 10, $request_type = '')
  * @param    [int]      $data_type      [数据类型（0普通参数、1json、2文件）]
  * @param    [int]      $timeout        [超时时间]
  * @param    [string]   $request_type   [请求类型（GET、POST、PUT、DELETE）]
- * @return   [mixed]                    [请求返回的数据]
+ * @param    [mixed]                    [请求返回的数据]
+ * @param    [array]                    [请求头数据]
  */
-function CurlPost($url, $post, $data_type = 0, $timeout = 30, $request_type = '')
+function CurlPost($url, $post, $data_type = 0, $timeout = 30, $request_type = '', $header = [])
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
@@ -2691,31 +2725,33 @@ function CurlPost($url, $post, $data_type = 0, $timeout = 30, $request_type = ''
         // 是否json
         case 1 :
             $data_string = json_encode($post);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                        "Content-Type: application/json; charset=utf-8",
-                        "Content-Length: " . strlen($data_string)
-                    ]
-                );
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+            $header = array_merge($header, [
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length: ' . strlen($data_string),
+            ]);
             break;
 
         // 是否存在文件上传对象
         case 2 :
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    "Content-Type: multipart/form-data; charset=utf-8",
-                    "cache-control: no-cache"
-                ]
-            );
+            $header = array_merge($header, [
+                'Content-Type: multipart/form-data; charset=utf-8',
+                'cache-control: no-cache',
+            ]);
             break;
 
         default :
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    "Content-Type: application/x-www-form-urlencoded; charset=utf-8",
-                    "cache-control: no-cache"
-                ]
-            );
+            $header = array_merge($header, [
+                'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
+                'cache-control: no-cache',
+            ]);
+    }
+    // 是否存在指定头信息
+    if(!empty($header))
+    {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     }
 
     // 返回结果

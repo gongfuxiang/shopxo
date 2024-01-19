@@ -75,7 +75,7 @@
                     {{if !empty($user_address_list)}}
                         <ul class="address-list address-express-delivery am-margin-top-main">
                             {{foreach $user_address_list as $address}}
-                                <li class="address-cart am-radius am-border-grey am-shadow {{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                                <li class="address-cart am-radius am-border-grey box-shadow-hover {{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
                                     <div class="address-content am-background-white">
                                         <div class="address-left">
                                             <div class="user-base am-border-bottom-grey-light am-color-grey-dark">
@@ -239,7 +239,7 @@
         <div class="buy-items am-background-white am-radius am-padding-main am-margin-top-main">
             <h3>{{:MyLang('buy.buy_item_order_title')}}</h3>
             {{if !empty($buy_goods)}}
-                <div class="goods-group-lis am-margin-top-main">
+                <div class="goods-group-list am-margin-top-sm">
                     <div class="am-panel am-radius am-border-0 am-margin-0">
                         <div class="am-panel-bd am-padding-0">
                             <!-- 商品明细 -->
@@ -565,7 +565,7 @@
                 {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
                     <div id="buy-items-payment" class="buy-items">
                         <h3>{{:MyLang('buy.buy_item_payment_title')}}</h3>
-                        <div class="business-list business-list-nbfc payment am-margin-top-main" data-field="payment_id">
+                        <div class="business-list business-list-nbfc payment am-margin-top-sm" data-field="payment_id">
                             {{if !empty($payment_list)}}
                                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
                                     {{foreach $payment_list as $payment}}
@@ -610,8 +610,10 @@
             <!-- 留言 -->
             <div class="buy-message am-padding-horizontal-main am-margin-top-sm">
                 <div class="order-extra am-radius am-padding-bottom-xs">
-                    <label>{{:MyLang('buy.user_message_title')}}</label>
-                    <textarea type="text" class="memo-input" placeholder="{{:MyLang('buy.user_message_placeholder')}}"></textarea>
+                    <h3>{{:MyLang('buy.user_message_title')}}</h3>
+                    <div class="am-margin-top-sm">
+                        <textarea type="text" class="memo-input" placeholder="{{:MyLang('buy.user_message_placeholder')}}" maxlength="230"></textarea>
+                    </div>
                 </div>
 
                 <!-- 订单确认页面用户留言底部钩子-开始 -->
@@ -647,7 +649,7 @@
                 <!-- 订单确认页面订单确认信息顶部钩子-结束 -->
 
                 <!-- 基础信息 -->
-                <div class="buy-order-nav am-padding-top-sm am-background-white am-box-shadow-top">
+                <div class="buy-order-nav am-padding-top-sm am-background-white box-shadow-top-hover">
                     <div class="box am-radius am-padding-main am-color-grey-dark am-margin-bottom-main am-border-grey am-radius">
                         <div class="base-real-pay">
                             <span class="buy-line-title">{{:MyLang('buy.summary_title')}}</span>
@@ -766,7 +768,6 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 
 <script type="text/javascript">
 // 提交订单回调

@@ -401,7 +401,7 @@ class GoodsCartService
                 $data['stock'] = $goods['buy_max_number'];
             }
             $data['upd_time'] = time();
-            if(Db::name('Cart')->where($where)->update($data))
+            if(Db::name('Cart')->where($where)->update($data) !== false)
             {
                 return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));
             }
@@ -491,7 +491,7 @@ class GoodsCartService
             'stock'     => $data['stock'],
             'upd_time'  => time(),
         ];
-        if(Db::name('Cart')->where(['id'=>$data['id']])->update($upd_data))
+        if(Db::name('Cart')->where(['id'=>$data['id']])->update($upd_data) !== false)
         {
             // 重新计算总价
             $data['total_price'] = PriceNumberFormat($data['stock']*$data['price']);

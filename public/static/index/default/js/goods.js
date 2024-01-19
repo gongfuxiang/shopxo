@@ -28,56 +28,59 @@ function PoptitClose()
  */
 function GoodsCommentsHtml(page)
 {
-    if($('.goods-comment-content article').length <= 0)
+    if($('.goods-comment').length > 0)
     {
-        $('.goods-page-no-data').removeClass('none');
-        $('.evaluate').removeClass('evaluate-no-data');
-        $('.score-container').removeClass('evaluate-no-data');
-        $('.goods-page-no-data p').text(window['lang_loading_tips'] || '加载中...');
-    } else {
-        $('.goods-page-no-data').addClass('none');
-        $('.evaluate').addClass('evaluate-no-data');
-        $('.score-container').addClass('evaluate-no-data');
-    }
-
-    $.ajax({
-        url: RequestUrlHandle($('.goods-comment').data('url')),
-        type: 'POST',
-        data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
-        dataType: 'json',
-        success: function(res)
-        {
-            $('.goods-page-no-data').addClass('none');
-            $('.evaluate').addClass('evaluate-no-data');
-            $('.score-container').addClass('evaluate-no-data');
-            if(res.code == 0)
-            {
-                $('.goods-comment-content').html(res.data.data);
-                $('.goods-page-container').html(PageLibrary(res.data.total, res.data.number, page, 2));
-                
-				// 图片预览初始化
-				$.AMUI.figure.init();
-                // 图片画廊初始化
-                $.AMUI.gallery.init();
-            }
-
-            // 没有数据
-            if($('.goods-comment-content article').length <= 0)
-            {
-                $('.goods-page-no-data').removeClass('none');
-                $('.evaluate').removeClass('evaluate-no-data');
-                $('.score-container').removeClass('evaluate-no-data');
-                $('.goods-page-no-data p').text(window['lang_comment_no_data_tips'] || '此商品暂时还没有评价哦~');
-            }
-        },
-        error: function(xhr, type)
+        if($('.goods-comment-content article').length <= 0)
         {
             $('.goods-page-no-data').removeClass('none');
             $('.evaluate').removeClass('evaluate-no-data');
             $('.score-container').removeClass('evaluate-no-data');
-            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+            $('.goods-page-no-data p').text(window['lang_loading_tips'] || '加载中...');
+        } else {
+            $('.goods-page-no-data').addClass('none');
+            $('.evaluate').addClass('evaluate-no-data');
+            $('.score-container').addClass('evaluate-no-data');
         }
-    });
+
+        $.ajax({
+            url: RequestUrlHandle($('.goods-comment').data('url')),
+            type: 'POST',
+            data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
+            dataType: 'json',
+            success: function(res)
+            {
+                $('.goods-page-no-data').addClass('none');
+                $('.evaluate').addClass('evaluate-no-data');
+                $('.score-container').addClass('evaluate-no-data');
+                if(res.code == 0)
+                {
+                    $('.goods-comment-content').html(res.data.data);
+                    $('.goods-page-container').html(PageLibrary(res.data.total, res.data.number, page, 2));
+                    
+    				// 图片预览初始化
+    				$.AMUI.figure.init();
+                    // 图片画廊初始化
+                    $.AMUI.gallery.init();
+                }
+
+                // 没有数据
+                if($('.goods-comment-content article').length <= 0)
+                {
+                    $('.goods-page-no-data').removeClass('none');
+                    $('.evaluate').removeClass('evaluate-no-data');
+                    $('.score-container').removeClass('evaluate-no-data');
+                    $('.goods-page-no-data p').text(window['lang_comment_no_data_tips'] || '此商品暂时还没有评价哦~');
+                }
+            },
+            error: function(xhr, type)
+            {
+                $('.goods-page-no-data').removeClass('none');
+                $('.evaluate').removeClass('evaluate-no-data');
+                $('.score-container').removeClass('evaluate-no-data');
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+            }
+        });
+    }
 }
 
 /**

@@ -2,61 +2,57 @@
 
 <!-- right content start  -->
 <div class="content-right">
-	<!-- table nav start -->
-	{{include file="sms/nav"" /}}
-	<!-- table nav end -->
-
 	<div class="content">
-		<!-- form start -->
-		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
-			<!-- 后台 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('sms.base_item_admin_title')}}</h3>
+        <!-- nav start -->
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $type,
+            'url'       => 'admin/sms/index'
+        ])}}
+        <!-- nav end -->	
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
+            <div class="nav-content">
+                <!-- table tips start -->
+                {{include file="sms/tips"" /}}
+                <!-- table tips end -->
+                <!-- 后台 -->
+
+                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('sms.base_item_admin_title')}}</p>
+                <div class="am-form-group">
+                    <label>{{$data.admin_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_sms_login_template.describe}}</span></label>
+                    <input type="text" name="{{$data.admin_sms_login_template.only_tag}}" placeholder="{{$data.admin_sms_login_template.name}}" data-validation-message="{{$data.admin_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_sms_login_template.value}}"{{/if}} />
                 </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                	<div class="am-form-group">
-						<label>{{$data.admin_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_sms_login_template.describe}}</span></label>
-						<input type="text" name="{{$data.admin_sms_login_template.only_tag}}" placeholder="{{$data.admin_sms_login_template.name}}" data-validation-message="{{$data.admin_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_sms_login_template.value}}"{{/if}} />
-					</div>
+                <!-- 前端 -->
+                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('sms.base_item_index_title')}}</p>
+                <div class="am-form-group">
+                    <label>{{$data.common_sms_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_sms_currency_template.describe}}</span></label>
+                    <input type="text" name="{{$data.common_sms_currency_template.only_tag}}" placeholder="{{$data.common_sms_currency_template.name}}" data-validation-message="{{$data.common_sms_currency_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_currency_template.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_login_template.describe}}</span></label>
+                    <input type="text" name="{{$data.home_sms_login_template.only_tag}}" placeholder="{{$data.home_sms_login_template.name}}" data-validation-message="{{$data.home_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_login_template.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_sms_user_reg_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_reg_template.describe}}</span></label>
+                    <input type="text" name="{{$data.home_sms_user_reg_template.only_tag}}" placeholder="{{$data.home_sms_user_reg_template.name}}" data-validation-message="{{$data.home_sms_user_reg_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_reg_template.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_sms_user_forget_pwd_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_forget_pwd_template.describe}}</span></label>
+                    <input type="text" name="{{$data.home_sms_user_forget_pwd_template.only_tag}}" placeholder="{{$data.home_sms_user_forget_pwd_template.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_forget_pwd_template.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_sms_user_mobile_binding_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_mobile_binding_template.describe}}</span></label>
+                    <input type="text" name="{{$data.home_sms_user_mobile_binding_template.only_tag}}" placeholder="{{$data.home_sms_user_mobile_binding_template.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_mobile_binding_template.value}}"{{/if}} />
                 </div>
             </div>
-
-            <!-- 前端 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('sms.base_item_index_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-					<div class="am-form-group">
-						<label>{{$data.common_sms_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_sms_currency_template.describe}}</span></label>
-						<input type="text" name="{{$data.common_sms_currency_template.only_tag}}" placeholder="{{$data.common_sms_currency_template.name}}" data-validation-message="{{$data.common_sms_currency_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_currency_template.value}}"{{/if}} />
-					</div>
-                    <div class="am-form-group">
-                        <label>{{$data.home_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_login_template.describe}}</span></label>
-                        <input type="text" name="{{$data.home_sms_login_template.only_tag}}" placeholder="{{$data.home_sms_login_template.name}}" data-validation-message="{{$data.home_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_login_template.value}}"{{/if}} />
-                    </div>
-					<div class="am-form-group">
-						<label>{{$data.home_sms_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_reg.describe}}</span></label>
-						<input type="text" name="{{$data.home_sms_user_reg.only_tag}}" placeholder="{{$data.home_sms_user_reg.name}}" data-validation-message="{{$data.home_sms_user_reg.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_reg.value}}"{{/if}} />
-					</div>
-					<div class="am-form-group">
-						<label>{{$data.home_sms_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_forget_pwd.describe}}</span></label>
-						<input type="text" name="{{$data.home_sms_user_forget_pwd.only_tag}}" placeholder="{{$data.home_sms_user_forget_pwd.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_forget_pwd.value}}"{{/if}} />
-					</div>
-					<div class="am-form-group">
-						<label>{{$data.home_sms_user_mobile_binding.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_mobile_binding.describe}}</span></label>
-						<input type="text" name="{{$data.home_sms_user_mobile_binding.only_tag}}" placeholder="{{$data.home_sms_user_mobile_binding.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_mobile_binding.value}}"{{/if}} />
-					</div>
-				</div>
-			</div>
-			<div class="am-form-popup-submit">
-				<button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+            <div class="am-form-popup-submit">
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -64,4 +60,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

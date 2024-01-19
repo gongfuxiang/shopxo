@@ -61,7 +61,7 @@ class User extends Center
             'form_search_order_status_form_key'             => 'status',
             'form_search_order_user_is_comments_form_key'   => 'user_is_comments',
             // 浏览器名称
-            'home_seo_site_title'                           => SeoService::BrowserSeoTitle(MyLang('user.browser_seo_title'), 1),
+            'home_seo_site_title'                           => SeoService::BrowserSeoTitle(MyLang('user.base_nav_title'), 1),
         ];
 
         // 用户中心基础信息 mini 导航
@@ -188,7 +188,7 @@ class User extends Center
                 // 左侧图片、随机其中一个
                 'user_forgetpwd_left_data'  => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
                 // 浏览器名称
-                'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('user.forget_password_browser_seo_title'), 1),
+                'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('user.forget_password_base_nav_title'), 1),
             ];
             MyViewAssign($assign);
             return MyView();
@@ -221,7 +221,7 @@ class User extends Center
                     // 注册背景色
                     'user_register_bg_color'    => MyC('home_site_user_register_bg_color'),
                     // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_browser_seo_title'), 1),
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_base_nav_title'), 1),
                 ];
                 MyViewAssign($assign);
                 return MyView();
@@ -257,7 +257,7 @@ class User extends Center
                     // 注册背景图片
                     'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
                     // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_login_browser_seo_title'), 1),
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_login_base_nav_title'), 1),
                 ];
                 MyViewAssign($assign);
                 return MyView();
@@ -290,7 +290,7 @@ class User extends Center
             if(empty($this->user))
             {
                 // 浏览器名称
-                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('user.user_login_browser_seo_title'), 1);
+                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('user.user_login_base_nav_title'), 1);
 
                 // 返回地址
                 $assign['referer_url'] = UserService::UserLoginOrRegBackRefererUrl();

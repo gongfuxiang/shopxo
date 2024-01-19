@@ -84,10 +84,6 @@ class Common extends BaseController
     // 系统类型
     protected $system_type;
 
-    // 主题颜色key
-    protected $theme_color_value_key = 'admin_theme_color_value';
-    protected $theme_color_value = 0;
-
 	/**
      * 构造方法
      * @author   Devil
@@ -121,9 +117,6 @@ class Common extends BaseController
 
 		// 视图初始化
 		$this->ViewInit();
-
-        // 动态表格初始化
-        $this->FormTableInit();
 
         // 公共钩子初始化
         $this->CommonPluginsInit();
@@ -282,7 +275,7 @@ class Common extends BaseController
         // 货币符号
         $assign['currency_symbol'] = ResourcesService::CurrencyDataSymbol();
 
-		// 控制器静态文件状态css,js
+        // 控制器静态文件状态css,js
         $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
         $assign['module_css'] = file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '';
@@ -291,10 +284,13 @@ class Common extends BaseController
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $assign['module_js'] = file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '';
 
+        // 后台logo
+        $assign['admin_logo'] = MyC('admin_logo');
+
         // 价格正则
         $assign['default_price_regex'] = MyConst('common_regex_price');
 
-		// 附件host地址
+        // 附件host地址
         $attachment_host = SystemBaseService::AttachmentHost();
         $assign['attachment_host'] = $attachment_host;
 
@@ -317,7 +313,7 @@ class Common extends BaseController
         $assign['my_http'] = __MY_HTTP__;
 
         // 首页地址
-        $assign['home_url'] = SystemService::HomeUrl();
+        $assign['home_url'] = SystemService::DomainUrl();
 
         // 开发模式
         $assign['shopxo_is_develop'] = MyConfig('shopxo.is_develop');
@@ -394,17 +390,11 @@ class Common extends BaseController
         // 系统环境参数最大数
         $assign['env_max_input_vars_count'] = SystemService::EnvMaxInputVarsCount();
 
-        // 主题配色
-        $this->theme_color_value = intval(MyCookie($this->theme_color_value_key));
-        if($this->theme_color_value == 1)
-        {
-            $assign['theme_color_name'] = MyLang('theme_color_white_title');
-            $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>0]);
-        } else {
-            $assign['theme_color_name'] = MyLang('theme_color_black_title');
-            $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
-        }
-        $assign['theme_color_value'] = $this->theme_color_value;
+        // 主题配色选择数据
+        $assign['theme_color_choice_data'] = SystemService::GetAdminThemeColor($this->data_request);
+
+        // 主题配色页面数据
+        $assign['theme_color_view_data'] = SystemService::AdminThemeStyleDefaultData($this->data_request);
 
         // 页面语言
         $assign['lang_data'] = SystemService::PageViewLangData();

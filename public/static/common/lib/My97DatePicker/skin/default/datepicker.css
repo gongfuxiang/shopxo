@@ -5,8 +5,8 @@
 .WdateDiv {
     width: 216px;
     background-color: #FFF;
-    border-radius: 5px;
-    border: 1px solid #cecece;
+    border-radius: 8px;
+    border: 1px solid #f8f8f8;
 }
 
 .WdateDiv2 {
@@ -321,7 +321,7 @@
     width: 4em;
     border: 0;
     margin-top: 0.1875em;
-    background: #35baf6;
+    background: #2A94FF;
     color: #fff;
     border-radius: 0.2em;
     cursor: pointer;

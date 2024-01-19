@@ -2,238 +2,223 @@
 
 <!-- right content start  -->
 <div class="content-right">
-	<!-- second nav start -->
-    {{include file="appmini/nav" /}}
     <!-- second nav end -->
 	<div class="content">
-		<!-- 新版本小程序主题提示 -->
-	    <div class="am-alert am-alert-warning am-radius">
-	    	<a class="am-fr" href="{{$store_theme_url}}" target="_blank">{{:MyLang('appmini.nav_store_theme_name')}} <i class="am-icon-external-link"></i></a>
-	        <p class="am-text-sm">{{:MyLang('appmini.nav_theme_download_tips')}}</p>
-	        <p class="am-margin-top-xs">
-	            <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} <i class="am-icon-external-link"></i></a>
-	        </p>
-	    </div>
+        <!-- 新版本小程序主题提示 -->
+        <div class="am-operate-stretch-tips">
+            <div class="title">
+                <i class="iconfont icon-tips"></i>
+                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+            </div>
+            <div class="am-pr">
+                <p class="am-text-sm">{{:MyLang('appmini.nav_theme_download_tips')}}</p>
+                <a class="am-fr" href="{{$store_theme_url}}" target="_blank">
+                    <i class="iconfont icon-download-btn"></i>
+                    <span>{{:MyLang('appmini.nav_store_theme_name')}}</span>
+                </a>
+                <p class="am-margin-top-xs">
+                    <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} <i class="am-icon-external-link"></i></a>
+                </p>
+            </div>
+        </div>
 
-		<!-- form start -->
-		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
-			{{switch $nav_type}}
-				{{case weixin}}
-					<!-- 微信 -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_weixin_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_weixin_appid.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appid.name}}" data-validation-message="{{$data.common_app_mini_weixin_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_weixin_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_appsecret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_weixin_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appsecret.name}}" data-validation-message="{{$data.common_app_mini_weixin_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appsecret.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_weixin_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_weixin_title.only_tag}}" placeholder="{{$data.common_app_mini_weixin_title.name}}" data-validation-message="{{$data.common_app_mini_weixin_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_weixin_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('extend_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_weixin_privacy_content.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_privacy_content.describe}}</span></label>
-								<textarea rows="4" name="{{$data.common_app_mini_weixin_privacy_content.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_weixin_privacy_content.name}}" data-validation-message="{{$data.common_app_mini_weixin_privacy_content.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_weixin_privacy_content.value}}{{/if}}</textarea>
-							</div>
-						</div>
-					</div>
-				{{/case}}
-				{{case alipay}}
-					<!-- 支付宝 -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_appid.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_rsa_public.name}}</label>
-								<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_public.value}}{{/if}}</textarea>
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_rsa_private.name}}</label>
-								<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_private.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_private.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_private.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_private.value}}{{/if}}</textarea>
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_out_rsa_public.name}}</label>
-								<textarea rows="3" name="{{$data.common_app_mini_alipay_out_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_out_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_out_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_out_rsa_public.value}}{{/if}}</textarea>
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_alipay_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('appmini.form_alipay_extend_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<!-- tips -->
-					        <div class="am-alert am-alert-warning" data-am-alert>
-					        	<button type="button" class="am-close">&times;</button>
-					            <p>
-					                <span>{{:MyLang('appmini.form_alipay_extend_tips')}}</span>
-					                <a href="https://opendocs.alipay.com/mini/component/contact-button" target="_blank" class="am-margin-left-sm">{{:MyLang('view_title')}} <i class="am-icon-external-link"></i></a>
-					            </p>
-					        </div>
-							<div class="am-form-group">
-				                <label>{{$data.common_app_mini_alipay_tnt_inst_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_tnt_inst_id.describe}}</span></label>
-				                <input type="text" name="{{$data.common_app_mini_alipay_tnt_inst_id.only_tag}}" placeholder="{{$data.common_app_mini_alipay_tnt_inst_id.name}}" data-validation-message="{{$data.common_app_mini_alipay_tnt_inst_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_tnt_inst_id.value}}"{{/if}} />
-				            </div>
-				            <div class="am-form-group">
-				                <label>{{$data.common_app_mini_alipay_scene.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_scene.describe}}</span></label>
-				                <input type="text" name="{{$data.common_app_mini_alipay_scene.only_tag}}" placeholder="{{$data.common_app_mini_alipay_scene.name}}" data-validation-message="{{$data.common_app_mini_alipay_scene.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_scene.value}}"{{/if}} />
-				            </div>
-						</div>
-					</div>
-				{{/case}}
-				{{case baidu}}
-					<!-- 百度 -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_baidu_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_baidu_appid.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appid.name}}" data-validation-message="{{$data.common_app_mini_baidu_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_baidu_appkey.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appkey.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_baidu_appkey.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appkey.name}}" data-validation-message="{{$data.common_app_mini_baidu_appkey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appkey.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_baidu_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appsecret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_baidu_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appsecret.name}}" data-validation-message="{{$data.common_app_mini_baidu_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appsecret.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_baidu_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_baidu_title.only_tag}}" placeholder="{{$data.common_app_mini_baidu_title.name}}" data-validation-message="{{$data.common_app_mini_baidu_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_baidu_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_baidu_describe.only_tag}}" placeholder="{{$data.common_app_mini_baidu_describe.name}}" data-validation-message="{{$data.common_app_mini_baidu_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-				{{/case}}
-				{{case toutiao}}
-					<!-- 头条 -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_appid.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appid.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appsecret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appsecret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appsecret.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_title.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_title.name}}" data-validation-message="{{$data.common_app_mini_toutiao_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_describe.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_describe.name}}" data-validation-message="{{$data.common_app_mini_toutiao_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-				{{/case}}
-				{{case qq}}
-					<!-- QQ -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_qq_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_qq_appid.only_tag}}" placeholder="{{$data.common_app_mini_qq_appid.name}}" data-validation-message="{{$data.common_app_mini_qq_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_qq_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appsecret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_qq_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_qq_appsecret.name}}" data-validation-message="{{$data.common_app_mini_qq_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appsecret.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_qq_apptoken.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_apptoken.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_qq_apptoken.only_tag}}" placeholder="{{$data.common_app_mini_qq_apptoken.name}}" data-validation-message="{{$data.common_app_mini_qq_apptoken.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_apptoken.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_qq_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_qq_title.only_tag}}" placeholder="{{$data.common_app_mini_qq_title.name}}" data-validation-message="{{$data.common_app_mini_qq_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_qq_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_qq_describe.only_tag}}" placeholder="{{$data.common_app_mini_qq_describe.name}}" data-validation-message="{{$data.common_app_mini_qq_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-				{{/case}}
-				{{case kuaishou}}
-					<!-- 头条 -->
-					<div class="am-panel am-panel-default am-radius">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_kuaishou_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_kuaishou_appid.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appid.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_kuaishou_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appsecret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_kuaishou_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appsecret.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appsecret.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_kuaishou_title.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_kuaishou_title.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_title.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_title.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_kuaishou_describe.name}}</label>
-								<input type="text" name="{{$data.common_app_mini_kuaishou_describe.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_describe.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_describe.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-				{{/case}}
-				{{default /}}
-					<div class="table-no"><i class="am-icon-warning"></i> {{$nav_type}}{{:MyLang('no_config_data_tips')}}</div>
-			{{/switch}}
-			<div class="am-form-popup-submit">
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
+            {{switch $nav_type}}
+                {{case weixin}}
+                    <!-- 微信 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_appid.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_weixin_appid.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appid.name}}" data-validation-message="{{$data.common_app_mini_weixin_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appid.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_appsecret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_weixin_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appsecret.name}}" data-validation-message="{{$data.common_app_mini_weixin_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appsecret.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_title.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_weixin_title.only_tag}}" placeholder="{{$data.common_app_mini_weixin_title.name}}" data-validation-message="{{$data.common_app_mini_weixin_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_describe.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_share_original_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_share_original_id.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_weixin_share_original_id.only_tag}}" placeholder="{{$data.common_app_mini_weixin_share_original_id.name}}" data-validation-message="{{$data.common_app_mini_weixin_share_original_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_share_original_id.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_mini_weixin_upload_shipping_status.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_upload_shipping_status.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_app_mini_weixin_upload_shipping_status.only_tag}}" data-validation-message="{{$data.common_app_mini_weixin_upload_shipping_status.error_tips}}" required {{if isset($data['common_app_mini_weixin_upload_shipping_status']['value']) and $data['common_app_mini_weixin_upload_shipping_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_weixin_privacy_content.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_privacy_content.describe}}</span></label>
+                        <textarea rows="4" name="{{$data.common_app_mini_weixin_privacy_content.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_weixin_privacy_content.name}}" data-validation-message="{{$data.common_app_mini_weixin_privacy_content.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_weixin_privacy_content.value}}{{/if}}</textarea>
+                    </div>
+                {{/case}}
+                {{case alipay}}
+                    {{:ModuleInclude('public/nav_switch_btn', [
+                        'nav_data' => [
+                            [
+                                'name' => MyLang('base_config_title'),
+                                'key'  => 'base-confit-title',
+                            ],
+                            [
+                                'name' => MyLang('appmini.form_alipay_extend_title'),
+                                'key'  => 'form-alipay-extend',
+                            ]
+                        ]
+                    ])}}
+                    <!-- 支付宝 -->
+                    <div class="nav-content">
+                        <div class="item am-active" data-key="base-confit-title">
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_appid.name}}</label>
+                                <input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_rsa_public.name}}</label>
+                                <textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_public.value}}{{/if}}</textarea>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_rsa_private.name}}</label>
+                                <textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_private.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_private.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_private.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_private.value}}{{/if}}</textarea>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_out_rsa_public.name}}</label>
+                                <textarea rows="3" name="{{$data.common_app_mini_alipay_out_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_out_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_out_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_out_rsa_public.value}}{{/if}}</textarea>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_title.name}}</label>
+                                <input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_describe.name}}</label>
+                                <input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} />
+                            </div>
+                        </div>
+                        <div class="item" data-key="form-alipay-extend">
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_tnt_inst_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_tnt_inst_id.describe}}</span></label>
+                                <input type="text" name="{{$data.common_app_mini_alipay_tnt_inst_id.only_tag}}" placeholder="{{$data.common_app_mini_alipay_tnt_inst_id.name}}" data-validation-message="{{$data.common_app_mini_alipay_tnt_inst_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_tnt_inst_id.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_app_mini_alipay_scene.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_scene.describe}}</span></label>
+                                <input type="text" name="{{$data.common_app_mini_alipay_scene.only_tag}}" placeholder="{{$data.common_app_mini_alipay_scene.name}}" data-validation-message="{{$data.common_app_mini_alipay_scene.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_scene.value}}"{{/if}} />
+                            </div>
+                            <!-- tips -->
+                            <div class="am-form-group">
+                                <div class="am-tips-card">
+                                    <p>
+                                        <span>{{:MyLang('appmini.form_alipay_extend_tips')}}</span>
+                                        <a href="https://opendocs.alipay.com/mini/component/contact-button" target="_blank" class="am-margin-left-sm">{{:MyLang('view_title')}} <i class="am-icon-external-link"></i></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/case}}
+                {{case baidu}}
+                    <!-- 百度 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_baidu_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appid.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_baidu_appid.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appid.name}}" data-validation-message="{{$data.common_app_mini_baidu_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appid.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_baidu_appkey.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appkey.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_baidu_appkey.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appkey.name}}" data-validation-message="{{$data.common_app_mini_baidu_appkey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appkey.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_baidu_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_baidu_appsecret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_baidu_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_baidu_appsecret.name}}" data-validation-message="{{$data.common_app_mini_baidu_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_appsecret.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_baidu_title.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_baidu_title.only_tag}}" placeholder="{{$data.common_app_mini_baidu_title.name}}" data-validation-message="{{$data.common_app_mini_baidu_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_baidu_describe.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_baidu_describe.only_tag}}" placeholder="{{$data.common_app_mini_baidu_describe.name}}" data-validation-message="{{$data.common_app_mini_baidu_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_describe.value}}"{{/if}} />
+                    </div>
+                {{/case}}
+                {{case toutiao}}
+                    <!-- 头条 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_toutiao_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appid.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_toutiao_appid.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appid.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appid.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_toutiao_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appsecret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_toutiao_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appsecret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appsecret.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_toutiao_title.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_toutiao_title.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_title.name}}" data-validation-message="{{$data.common_app_mini_toutiao_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_toutiao_describe.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_toutiao_describe.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_describe.name}}" data-validation-message="{{$data.common_app_mini_toutiao_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_describe.value}}"{{/if}} />
+                    </div>
+                {{/case}}
+                {{case qq}}
+                    <!-- QQ -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_qq_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appid.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_qq_appid.only_tag}}" placeholder="{{$data.common_app_mini_qq_appid.name}}" data-validation-message="{{$data.common_app_mini_qq_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appid.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_qq_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appsecret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_qq_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_qq_appsecret.name}}" data-validation-message="{{$data.common_app_mini_qq_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appsecret.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_qq_apptoken.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_apptoken.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_qq_apptoken.only_tag}}" placeholder="{{$data.common_app_mini_qq_apptoken.name}}" data-validation-message="{{$data.common_app_mini_qq_apptoken.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_apptoken.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_qq_title.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_qq_title.only_tag}}" placeholder="{{$data.common_app_mini_qq_title.name}}" data-validation-message="{{$data.common_app_mini_qq_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_qq_describe.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_qq_describe.only_tag}}" placeholder="{{$data.common_app_mini_qq_describe.name}}" data-validation-message="{{$data.common_app_mini_qq_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_describe.value}}"{{/if}} />
+                    </div>
+                {{/case}}
+                {{case kuaishou}}
+                    <!-- 头条 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_kuaishou_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appid.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_appid.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appid.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appid.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_kuaishou_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appsecret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appsecret.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appsecret.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_kuaishou_title.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_title.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_title.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_app_mini_kuaishou_describe.name}}</label>
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_describe.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_describe.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_describe.value}}"{{/if}} />
+                    </div>
+                {{/case}}
+                {{default /}}
+                    <div class="table-no"><i class="am-icon-warning"></i> {{$nav_type}}{{:MyLang('no_config_data_tips')}}</div>
+            {{/switch}}
+            <div class="am-form-popup-submit">
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
             </div>
-		</form>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -241,4 +226,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

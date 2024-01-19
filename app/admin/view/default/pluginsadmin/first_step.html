@@ -3,13 +3,14 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('pluginsadmin.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/pluginsadmin/index', $params)
+        ])}}
+        <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" method="POST" request-type="form" enctype="multipart/form-data">
-            <legend>
-                <span class="am-text-default">{{:MyLang('pluginsadmin.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
-                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-            </legend>
-
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" method="POST" request-type="form" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.pluginsadmin.form_item_plugins_tips')}}</span></label>
                 <input type="text" name="plugins" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($data['plugins'])}} value="{{$data.plugins}}"{{/if}} required />
@@ -21,9 +22,9 @@
                 {{/if}}
             </div>
 
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('common_service.pluginsadmin.form_create_first_step_button_name')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('common_service.pluginsadmin.form_create_first_step_button_name')}}</button>
             </div>
         </form>
         <!-- form end -->
@@ -33,4 +34,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

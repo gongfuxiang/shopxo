@@ -1,21 +1,53 @@
 <div class="am-form-group region-linkage" data-url="{{:MyUrl('admin/region/node')}}" data-code-url="{{:MyUrl('admin/region/codedata')}}">
     <label class="am-block">
-        <span>{{:MyLang('form_region_title')}}</span>
-        {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}
-        <div class="am-input-group am-input-group-sm am-fr region-linkage-code">
+        <span>
+            {{:MyLang('form_region_title')}}
+            {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}
+        </span>
+    </label>
+    <div class="am-flex am-gap-1">
+        <div class="am-cascader">
+            <div class="am-cascader-suffix">
+                <div class="am-input-inner input-model"></div>
+                <input type="text" name="province_city_county" readonly="readonly" autocomplete="off" placeholder="请选择省市区"
+                value="{{if isset($data['province_name'])}}{{$data.province_name}}{{/if}} {{if isset($data['city_name'])}}{{$data.city_name}}{{/if}} {{if isset($data['county_name'])}}{{$data.county_name}}{{/if}}"
+                class="am-input-inner" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
+                <input type="hidden" name="province" value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}">
+                <input type="hidden" name="city" value="{{if isset($data['city'])}}{{$data.city}}{{else /}}0{{/if}}">
+                <input type="hidden" name="county" value="{{if isset($data['county'])}}{{$data.county}}{{else /}}0{{/if}}">
+                <span class="am-input-suffix">
+                    <i class="iconfont icon-nav-arrow-down"></i>
+                </span>
+            </div>
+            <div class="am-cascader-dropdown">
+                <div class="am-cascader-panel">
+                    <div class="am-scrollbar province am-cascader-menu {{if isset($data['province'])}}am-active{{/if}}" data-key="province">
+                        <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
+                            <ul class="am-scrollbar-view am-cascader-menu-list">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-scrollbar city am-cascader-menu {{if isset($data['city'])}}am-active{{/if}}" data-key="city">
+                        <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
+                            <ul class="am-scrollbar-view am-cascader-menu-list">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-scrollbar county am-cascader-menu {{if isset($data['county'])}}am-active{{else /}}0{{/if}}" data-key="county">
+                        <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
+                            <ul class="am-scrollbar-view am-cascader-menu-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-popper-arrow"></div>
+            </div>
+        </div>
+        <div class="am-input-group am-input-group-sm region-linkage-code">
             <input type="text" class="am-form-field am-radius" placeholder="{{:MyLang('form_region_code_placeholder')}}" />
             <span class="am-input-group-btn">
-                <button type="button" class="am-btn am-btn-default am-btn-xs am-radius">{{:MyLang('form_region_code_button_name')}}</button>
+                <button type="button" class="am-btn am-btn-xs am-radius">{{:MyLang('form_region_code_button_name')}}</button>
             </span>
         </div>
-    </label>
-    <select name="province" data-next="city" class="am-radius chosen-select" data-placeholder="{{:MyLang('form_region_province_title')}}" data-validation-message="{{:MyLang('form_region_province_message')}}" data-value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
-        <option value="">{{:MyLang('form_region_province_title')}}</option>
-    </select>
-    <select name="city" data-next="county" class="am-radius chosen-select" data-placeholder="{{:MyLang('form_region_city_title')}}" data-validation-message="{{:MyLang('form_region_city_message')}}" data-value="{{if isset($data['city'])}}{{$data.city}}{{else /}}0{{/if}}" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
-        <option value="">{{:MyLang('form_region_city_title')}}</option>
-    </select>
-    <select name="county" class="am-radius chosen-select" data-placeholder="{{:MyLang('form_region_county_title')}}" data-validation-message="{{:MyLang('form_region_county_message')}}" data-value="{{if isset($data['county'])}}{{$data.county}}{{else /}}0{{/if}}">
-        <option value="">{{:MyLang('form_region_county_title')}}</option>
-    </select>
+    </div>
 </div>

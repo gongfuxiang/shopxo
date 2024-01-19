@@ -22,6 +22,9 @@ use app\service\MultilingualService;
  */
 class SystemService
 {
+    // 后台主题配色缓存key
+    public static $admin_theme_color_value_key = 'admin_theme_color_value_key';
+
     /**
      * 系统运行开始
      * @author   Devil
@@ -186,16 +189,21 @@ class SystemService
     }
 
     /**
-     * 首页地址
+     * 域名地址
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2022-05-12
      * @desc    description
      */
-    public static function HomeUrl()
+    public static function DomainUrl()
     {
-        return MyC('common_domain_host', __MY_URL__, true);
+        $url = MyC('common_domain_host', __MY_URL__, true);
+        if(substr($url, -1) != DS)
+        {
+            $url .= DS;
+        }
+        return $url;
     }
 
     /**
@@ -205,8 +213,9 @@ class SystemService
      * @version 1.0.0
      * @date    2022-08-22
      * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public static function PageViewLangData()
+    public static function PageViewLangData($params = [])
     {
         // 页面公共语言
         $lang_common = MyLang('page_common');
@@ -254,8 +263,9 @@ class SystemService
      * @version 1.0.0
      * @date    2023-06-13
      * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public static function ThemeStyleDefaultData()
+    public static function ThemeStyleDefaultData($params = [])
     {
         return [
             // 基准大小、背景色
@@ -454,14 +464,363 @@ class SystemService
      * @version 1.0.0
      * @date    2023-06-13
      * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public static function ThemeStyleData()
+    public static function ThemeStyleData($params = [])
     {
         // 默认样式数据
         $data = self::ThemeStyleDefaultData();
 
         // 主题样式数据钩子
         $hook_name = 'plugins_view_theme_style_data';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
+        return $data;
+    }
+
+    /**
+     * 设置后台主题配色
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-01-09
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SetAdminThemeColor($params = [])
+    {
+        if(isset($params['value']) && $params['value'] != 'blue')
+        {
+            MyCookie(self::$admin_theme_color_value_key, $params['value']);
+        } else {
+            MyCookie(self::$admin_theme_color_value_key, null);
+        }
+        return MyUrl('admin/index/index');
+    }
+
+    /**
+     * 获取后台主题配色选择数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-01-09
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GetAdminThemeColor($params = [])
+    {
+        // 主题列表
+        $list = [
+            'blue'    => ['color' => '#2A94FF', 'name' => MyLang('blue_title')],
+            'green'   => ['color' => '#37D995', 'name' => MyLang('green_title')],
+            'red'     => ['color' => '#F54D40', 'name' => MyLang('red_title')],
+            'orange'  => ['color' => '#FF971E', 'name' => MyLang('orange_title')],
+            'yellow'  => ['color' => '#F4BE36', 'name' => MyLang('yellow_title')],
+            'purple'  => ['color' => '#9574CD', 'name' => MyLang('purple_title')],
+            'brown'   => ['color' => '#9F5933', 'name' => MyLang('brown_title')],
+            'black'   => ['color' => '#394244', 'name' => MyLang('black_title')],
+        ];
+
+        // 当前选择的主题
+        $value = MyCookie(self::$admin_theme_color_value_key);
+        if(empty($value) || !array_key_exists($value, $list))
+        {
+            $value = 'blue';
+        }
+        $theme = $list[$value]['name'];
+
+        // 可选数据列表
+        $data = [];
+        foreach($list as $k=>$v)
+        {
+            $data[] = [
+                'name'  => $v['name'],
+                'color' => $v['color'],
+                'value' => $k,
+                'url'   => MyUrl('admin/index/color', ['value'=>$k]),
+            ];
+        }
+
+        // 配色数据
+        $data = [
+            'data'  => $data,
+            'theme' => $theme,
+            'value' => $value,
+        ];
+
+        // 后台主题配色选择数据钩子
+        $hook_name = 'plugins_admin_theme_style_choice_data';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
+        return $data;
+    }
+
+    /**
+     * 后台主题配色数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-01-10
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AdminThemeStyleDefaultData($params = [])
+    {
+        // 主题配色列表
+        $list = [
+            // 蓝色
+            'blue'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#F1FCFF',
+                'color_tips_warm_br'   => '#F1FCFF',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#2A94FF',
+                'color_main_light'     => '#EDF4FF',
+                'color_main_hover'     => '#1677FF',
+                'color_main_disabled'  => '#7B94AE',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 绿色
+            'green'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#F1FFF5',
+                'color_tips_warm_br'   => '#F1FFF5',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#37D995',
+                'color_main_light'     => '#dffff2',
+                'color_main_hover'     => '#22e895',
+                'color_main_disabled'  => '#79AB8C',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 红色
+            'red'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#fff7f7',
+                'color_tips_warm_br'   => '#fff7f7',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#F54D40',
+                'color_main_light'     => '#fff3f2',
+                'color_main_hover'     => '#ec3628',
+                'color_main_disabled'  => '#AF6963',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 橙色
+            'orange'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#FFF8F1',
+                'color_tips_warm_br'   => '#FFF8F1',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#FF971E',
+                'color_main_light'     => '#fff4e8',
+                'color_main_hover'     => '#FF8106',
+                'color_main_disabled'  => '#B49877',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 黄色
+            'yellow'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#fff9f3',
+                'color_tips_warm_br'   => '#fff9f3',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#F4BE36',
+                'color_main_light'     => '#fff6df',
+                'color_main_hover'     => '#FFD550',
+                'color_main_disabled'  => '#A89B79',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 紫色
+            'purple'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#f9f4ff',
+                'color_tips_warm_br'   => '#f9f4ff',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#9574CD',
+                'color_main_light'     => '#f6f2ff',
+                'color_main_hover'     => '#B39EDC',
+                'color_main_disabled'  => '#7C6D95',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 棕色
+            'brown'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#FFF6F1',
+                'color_tips_warm_br'   => '#FFF6F1',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#9F5933',
+                'color_main_light'     => '#ffefd9',
+                'color_main_hover'     => '#CA9A6F',
+                'color_main_disabled'  => '#7F685B',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+
+            // 黑色
+            'black'  => [
+                // 基础
+                'html_body_size'       => '10px',
+                'body_bg_color'        => '#ffffff',
+                'color_red'            => '#E22C08',
+                'color_yellow'         => '#FAAD14',
+                'color_blue'           => '#2A94FF',
+                'color_green'          => '#5EB95E',
+                // 温馨提示
+                'color_tips_warm_bg'   => '#F8F8F8',
+                'color_tips_warm_br'   => '#F8F8F8',
+                // 左侧菜单
+                'color_left_menu_bg'   => '#1E222B',
+                // 主色
+                'color_main'           => '#394244',
+                'color_main_light'     => '#ebebeb',
+                'color_main_hover'     => '#334F5B',
+                'color_main_disabled'  => '#333637',
+                // 圆角
+                'border_radius_sm'     => '0.2rem',
+                'border_radius'        => '0.4rem',
+                'border_radius_lg'     => '0.8rem',
+                // 阴影
+                'box_shadow'           => '0 5px 20px rgba(50,55,58,0.1)',
+                'box_shadow_sm'        => '0 2px 8px rgba(50,55,58,0.1)',
+                'box_shadow_lg'        => '0 8px 34px rgba(50,55,58,0.1)',
+            ],
+        ];
+
+        // 当前选择的主题
+        $value = MyCookie(self::$admin_theme_color_value_key);
+        if(empty($value) || !array_key_exists($value, $list))
+        {
+            $value = 'blue';
+        }
+        $data = $list[$value];
+
+        // 后台主题样式数据钩子
+        $hook_name = 'plugins_view_admin_theme_style_data';
         MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,

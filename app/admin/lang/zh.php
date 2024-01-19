@@ -21,13 +21,15 @@ return [
     'index'                 => [
         // 页面公共
         'page_common'           => [
-            'order_transaction_amount_name'     => '订单成交金额走势',
-            'order_trading_trend_name'          => '订单交易走势',
+            'order_transaction_amount_name'     => '订单成交金额',
+            'order_trading_trend_name'          => '订单交易',
             'goods_hot_name'                    => '热销商品',
             'goods_hot_tips'                    => '仅显示前30条商品',
             'payment_name'                      => '支付方式',
             'order_region_name'                 => '订单地域分布',
-            'order_region_tips'                 => '仅显示30条数据',
+            'order_region_tips'                 => '仅显示10条数据',
+            'new_user_name'                     => '新增用户',
+            'buy_user_name'                     => '下单用户',
             'upgrade_check_loading_tips'        => '正在获取最新内容、请稍候...',
             'upgrade_version_name'              => '更新版本：',
             'upgrade_date_name'                 => '更新日期：',
@@ -44,8 +46,8 @@ return [
         'base_item_same_month_title'            => '当月',
         'base_item_yesterday_title'             => '昨日',
         'base_item_today_title'                 => '今日',
-        'base_item_order_profit_title'          => '订单成交金额走势',
-        'base_item_order_trading_title'         => '订单交易走势',
+        'base_item_order_profit_title'          => '订单成交金额',
+        'base_item_order_trading_title'         => '订单交易',
         'base_item_order_tips'                  => '所有订单',
         'base_item_hot_sales_goods_title'       => '热销商品',
         'base_item_hot_sales_goods_tips'        => '不含取消关闭的订单',
@@ -55,6 +57,8 @@ return [
         'base_item_map_whole_country_province'  => '省',
         'base_item_map_whole_country_city'      => '市',
         'base_item_map_whole_country_county'    => '区/县',
+        'base_item_new_user_title'              => '新增用户',
+        'base_item_buy_user_title'              => '下单用户',
         'system_info_title'                     => '系统信息',
         'system_ver_title'                      => '软件版本',
         'system_os_ver_title'                   => '操作系统',
@@ -145,7 +149,7 @@ return [
             'address_logo_message'              => '请上传logo图片',
         ],
         // 主导航
-        'second_nav_list'                       => [
+        'base_nav_list'                       => [
             ['name' => '基础配置', 'type' => 'base'],
             ['name' => '网站设置', 'type' => 'siteset'],
             ['name' => '站点类型', 'type' => 'sitetype'],
@@ -164,7 +168,6 @@ return [
             ['name' => '商品', 'type' => 'goods'],
             ['name' => '搜索', 'type' => 'search'],
             ['name' => '订单', 'type' => 'order'],
-            ['name' => '优惠', 'type' => 'discount'],
             ['name' => '扩展', 'type' => 'extends'],
         ],
         // 页面基础
@@ -176,6 +179,7 @@ return [
         'base_item_data_cache_title'            => '数据缓存配置',
         'base_item_redis_cache_title'           => 'redis缓存配置',
         'base_item_crontab_config_title'        => '定时脚本配置',
+        'base_item_regex_config_title'          => '正则配置',
         'base_item_quick_nav_title'             => '快捷导航',
         'base_item_user_base_title'             => '用户基础',
         'base_item_user_address_title'          => '用户地址',
@@ -225,7 +229,7 @@ return [
         'left_images_random_tips'               => '左侧图片最多可上传3张图片、每次随机展示其中一张',
         'background_color_tips'                 => '可自定义背景图片、默认底灰色',
         'site_setup_layout_tips'                => '拖拽模式需要自行进入首页设计页面、请先保存选中配置后再',
-        'site_setup_layout_button_name'         => '去设计页面 >>',
+        'site_setup_layout_button_name'         => '设计页面',
         'site_setup_goods_category_tips'        => '如需更多楼层展示，请先到 / 商品管理->商品分类、一级分类设置首页推荐',
         'site_setup_goods_category_no_data_tips'=> '暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐',
         'site_setup_order_default_payment_tips' => '可以设置不同平台对应的默认支付方式、请先在[ 网站管理 -> 支付方式 ]中安装好支付插件启用并对用户开放',
@@ -260,7 +264,7 @@ return [
         'admin_login_title'                     => '后台登录',
         'admin_login_info_bg_images_list_tips'  => [
             '1. 背景图片位于[ public/static/admin/default/images/login ]目录下',
-            '2. 背景图片命名规则(1~50)、如 1.jpg',
+            '2. 背景图片命名规则(1~50)、如 1.png',
         ],
         'map_type_tips'                         => '由于每一家的地图标准不一样、请勿随意切换地图、会导致地图坐标标注不准确的情况。',
         'apply_map_baidu_name'                  => '请到百度地图开放平台申请',
@@ -427,6 +431,7 @@ return [
         'login_type_mobile_title'               => '手机验证码',
         'login_type_email_title'                => '邮箱验证码',
         'login_close_tips'                      => '暂时关闭了登录',
+        'login_welcome_title'                   => '欢迎登录',
         // 忘记密码
         'form_forget_password_name'             => '忘记密码?',
         'form_forget_password_tips'             => '请联系管理员重置密码',
@@ -490,7 +495,7 @@ return [
         ],
         'nav_store_theme_name'                  => '更多主题下载',
         'nav_theme_download_name'               => '查看小程序打包教程',
-        'nav_theme_download_tips'               => '手机端主题采用uniapp开发（支持多端小程序+H5），APP也在紧急适配中。',
+        'nav_theme_download_tips'               => '手机端主题采用uniapp开发（支持多端小程序、H5、APP）',
         'form_alipay_extend_title'              => '客服配置',
         'form_alipay_extend_tips'               => 'PS：如【APP/小程序】中开启（开启在线客服），则以下配置必填 [企业编码] 和 [聊天窗编码]',
         'form_theme_upload_tips'                => '上传一个zip压缩格式的安装包',
@@ -549,7 +554,8 @@ return [
         'base_nav_title'                        => '商品',
         'goods_nav_list'                        => [
             'base'            => ['name' => '基础信息', 'type'=>'base'],
-            'specifications'  => ['name' => '商品规格', 'type'=>'specifications'],
+            'spec'            => ['name' => '商品规格', 'type'=>'spec'],
+            'spec_images'     => ['name' => '规格图片', 'type'=>'spec_images'],
             'parameters'      => ['name' => '商品参数', 'type'=>'parameters'],
             'photo'           => ['name' => '商品相册', 'type'=>'photo'],
             'video'           => ['name' => '商品视频', 'type'=>'video'],
@@ -568,8 +574,8 @@ return [
             'info_placeholder'        => '请输入商品名称/简述/编码/条码/SEO信息',
             'category_text'           => '商品分类',
             'brand_name'              => '品牌',
-            'price'                   => '销售价格(元)',
-            'original_price'          => '原价(元)',
+            'price'                   => '销售价格',
+            'original_price'          => '原价',
             'inventory'               => '库存总量',
             'is_shelves'              => '上下架',
             'is_deduction_inventory'  => '扣减库存',
@@ -649,8 +655,8 @@ return [
             'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
             'goods'              => '商品信息',
             'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
-            'price'              => '销售价格(元)',
-            'original_price'     => '原价(元)',
+            'price'              => '销售价格',
+            'original_price'     => '原价',
             'add_time'           => '创建时间',
         ],
     ],
@@ -663,8 +669,8 @@ return [
             'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
             'goods'              => '商品信息',
             'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
-            'price'              => '销售价格(元)',
-            'original_price'     => '原价(元)',
+            'price'              => '销售价格',
+            'original_price'     => '原价',
             'add_time'           => '创建时间',
         ],
     ],
@@ -677,8 +683,8 @@ return [
             'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
             'goods'              => '商品信息',
             'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
-            'price'              => '销售价格(元)',
-            'original_price'     => '原价(元)',
+            'price'              => '销售价格',
+            'original_price'     => '原价',
             'add_time'           => '创建时间',
         ],
     ],
@@ -772,19 +778,19 @@ return [
             'user_placeholder'    => '请输入用户名/昵称/手机/邮箱',
             'status'              => '订单状态',
             'pay_status'          => '支付状态',
-            'total_price'         => '总价(元)',
-            'pay_price'           => '支付金额(元)',
-            'price'               => '单价(元)',
+            'total_price'         => '总价',
+            'pay_price'           => '支付金额',
+            'price'               => '单价',
             'warehouse_name'      => '出货仓库',
             'order_model'         => '订单模式',
             'client_type'         => '来源',
             'address'             => '地址信息',
             'take'                => '取货信息',
-            'refund_price'        => '退款金额(元)',
+            'refund_price'        => '退款金额',
             'returned_quantity'   => '退货数量',
             'buy_number_count'    => '购买总数',
-            'increase_price'      => '增加金额(元)',
-            'preferential_price'  => '优惠金额(元)',
+            'increase_price'      => '增加金额',
+            'preferential_price'  => '优惠金额',
             'payment_name'        => '支付方式',
             'user_note'           => '用户备注',
             'extension'           => '扩展信息',
@@ -823,7 +829,7 @@ return [
             'status'             => '状态',
             'type'               => '申请类型',
             'reason'             => '原因',
-            'price'              => '退款金额(元)',
+            'price'              => '退款金额',
             'number'             => '退货数量',
             'msg'                => '退款说明',
             'refundment'         => '退款类型',
@@ -842,8 +848,14 @@ return [
 
     // 支付方式
     'payment'               => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => '已安装', 'type' => 0],
+            ['name' => '未安装', 'type' => 1],
+        ],
         'base_nav_title'                        => '支付方式',
-        'nav_store_payment_name'                => '更多支付方式下载',
+        'base_upload_payment_name'              => '上传支付',
+        'base_nav_store_payment_name'           => '更多支付方式下载',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay',
@@ -892,7 +904,8 @@ return [
             ['name' => '当前主题', 'type' => 'index'],
             ['name' => '主题安装', 'type' => 'upload'],
         ],
-        'nav_store_theme_name'                  => '更多主题下载',
+        'base_upload_theme_name'                => '上传主题',
+        'base_nav_store_theme_name'             => '更多主题下载',
         'list_author_title'                     => '作者',
         'list_version_title'                    => '适用版本',
         'form_theme_upload_tips'                => '上传一个zip压缩格式的主题安装包',
@@ -945,8 +958,8 @@ return [
             'log_no'            => '支付单号',
             'payment'           => '支付方式',
             'status'            => '状态',
-            'total_price'       => '业务订单金额(元)',
-            'pay_price'         => '支付金额(元)',
+            'total_price'       => '业务订单金额',
+            'pay_price'         => '支付金额',
             'business_type'     => '业务类型',
             'business_list'     => '业务id/单号',
             'trade_no'          => '支付平台交易号',
@@ -1019,11 +1032,12 @@ return [
             ['name' => '应用管理', 'type' => 'index'],
             ['name' => '上传应用', 'type' => 'upload'],
         ],
+        'base_upload_application_name'          => '上传应用',
         'base_nav_more_plugins_download_name'   => '更多插件下载',
         // 基础页面
         'base_search_input_placeholder'         => '请输入名称/描述',
         'base_top_tips_one'                     => '列表排序方式[ 自定义排序 -> 最早安装 ]',
-        'base_top_tips_two'                     => '可点击拖动图标按钮调整插件调用和展示顺序',
+        'base_top_tips_two'                     => '可点击拖动调整插件调用和展示顺序',
         'base_open_setup_title'                 => '开启设置',
         'data_list_author_title'                => '作者',
         'data_list_author_url_title'            => '主页',
@@ -1047,7 +1061,7 @@ return [
 
     // 插件分类
     'pluginscategory'       => [
-        'base_nav_title'                        => '插件分类',
+        'base_nav_title'                        => '应用分类',
     ],
 
     // 安装页面
@@ -1169,6 +1183,47 @@ return [
         ],
     ],
 
+    // 短信日志
+    'smslog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'platform'        => '短信平台',
+            'status'          => '状态',
+            'mobile'          => '手机',
+            'template_value'  => '模板内容',
+            'template_var'    => '模板变量',
+            'sign_name'       => '短信签名',
+            'request_url'     => '请求接口',
+            'request_params'  => '请求参数',
+            'response_data'   => '响应数据',
+            'reason'          => '失败原因',
+            'tsc'             => '耗时(秒)',
+            'add_time'        => '添加时间',
+            'upd_time'        => '更新时间',
+        ],
+    ],
+
+    // 邮件日志
+    'emaillog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'email'           => '收件邮箱',
+            'status'          => '状态',
+            'title'           => '邮件标题',
+            'template_value'  => '邮件内容',
+            'template_var'    => '邮件变量',
+            'reason'          => '失败原因',
+            'smtp_host'       => 'SMTP服务器',
+            'smtp_port'       => 'SMTP端口',
+            'smtp_name'       => '邮箱用户名',
+            'smtp_account'    => '发信人邮件',
+            'smtp_send_name'  => '发件人姓名',
+            'tsc'             => '耗时(秒)',
+            'add_time'        => '添加时间',
+            'upd_time'        => '更新时间',
+        ],
+    ],
+
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。',
@@ -1214,7 +1269,7 @@ return [
     // 后台权限菜单
     'admin_power_menu_list' => [
         'config_index' => [
-            'name'  => '系统设置',
+            'name'  => '系统',
             'item'  => [
                 'config_index'                 => '系统配置',
                 'config_store'                 => '商店信息',
@@ -1224,10 +1279,14 @@ return [
                 'index_inspectupgradeconfirm'  => '系统更新确认',
                 'index_stats'                  => '首页统计数据',
                 'index_income'                 => '首页统计数据（收入统计）',
+                'shortcutmenu_index'           => '常用功能',
+                'shortcutmenu_save'            => '常用功能添加/编辑',
+                'shortcutmenu_sort'            => '常用功能排序',
+                'shortcutmenu_delete'          => '常用功能删除',
             ]
         ],
         'site_index' => [
-            'name'  => '站点配置',
+            'name'  => '站点',
             'item'  => [
                 'site_index'                  => '站点设置',
                 'site_save'                   => '站点设置编辑',
@@ -1245,7 +1304,7 @@ return [
             ]
         ],
         'power_index' => [
-            'name'  => '权限控制',
+            'name'  => '权限',
             'item'  => [
                 'admin_index'        => '管理员列表',
                 'admin_saveinfo'     => '管理员添加/编辑页面',
@@ -1260,11 +1319,12 @@ return [
                 'role_detail'        => '角色详情',
                 'power_index'        => '权限分配',
                 'power_save'         => '权限添加/编辑',
+                'power_statusupdate' => '权限状态更新',
                 'power_delete'       => '权限删除',
             ]
         ],
         'user_index' => [
-            'name'  => '用户管理',
+            'name'  => '用户',
             'item'  => [
                 'user_index'            => '用户列表',
                 'user_saveinfo'         => '用户编辑/添加页面',
@@ -1279,7 +1339,7 @@ return [
             ]
         ],
         'goods_index' => [
-            'name'  => '商品管理',
+            'name'  => '商品',
             'item'  => [
                 'goods_index'                       => '商品管理',
                 'goods_saveinfo'                    => '商品添加/编辑页面',
@@ -1290,6 +1350,7 @@ return [
                 'goods_detail'                      => '商品详情',
                 'goodscategory_index'               => '商品分类',
                 'goodscategory_save'                => '商品分类添加/编辑',
+                'goodscategory_statusupdate'        => '商品分类状态更新',
                 'goodscategory_delete'              => '商品分类删除',
                 'goodsparamstemplate_index'         => '商品参数',
                 'goodsparamstemplate_delete'        => '商品参数删除',
@@ -1322,7 +1383,7 @@ return [
             ]
         ],
         'order_index' => [
-            'name'  => '订单管理',
+            'name'  => '订单',
             'item'  => [
                 'order_index'             => '订单管理',
                 'order_delete'            => '订单删除',
@@ -1342,7 +1403,7 @@ return [
             ]
         ],
         'navigation_index' => [
-            'name'  => '网站管理',
+            'name'  => '网站',
             'item'  => [
                 'navigation_index'         => '导航管理',
                 'navigation_save'          => '导航添加/编辑',
@@ -1376,6 +1437,7 @@ return [
                 'screeningprice_delete'    => '筛选价格删除',
                 'region_index'             => '地区管理',
                 'region_save'              => '地区添加/编辑',
+                'region_statusupdate'      => '地区状态更新',
                 'region_delete'            => '地区删除',
                 'region_codedata'          => '获取地区编号数据',
                 'express_index'            => '快递管理',
@@ -1406,7 +1468,7 @@ return [
             ]
         ],
         'brand_index' => [
-            'name'  => '品牌管理',
+            'name'  => '品牌',
             'item'  => [
                 'brand_index'           => '品牌管理',
                 'brand_saveinfo'        => '品牌添加/编辑页面',
@@ -1420,7 +1482,7 @@ return [
             ]
         ],
         'warehouse_index' => [
-            'name'  => '仓库管理',
+            'name'  => '仓库',
             'item'  => [
                 'warehouse_index'               => '仓库管理',
                 'warehouse_saveinfo'            => '仓库添加/编辑页面',
@@ -1440,7 +1502,7 @@ return [
             ]
         ],
         'app_index' => [
-            'name'  => '手机管理',
+            'name'  => '手机',
             'item'  => [
                 'appconfig_index'            => '基础配置',
                 'appconfig_save'             => '基础配置保存',
@@ -1468,7 +1530,7 @@ return [
             ]
         ],
         'article_index' => [
-            'name'  => '文章管理',
+            'name'  => '文章',
             'item'  => [
                 'article_index'           => '文章管理',
                 'article_saveinfo'        => '文章添加/编辑页面',
@@ -1482,7 +1544,7 @@ return [
             ]
         ],
         'data_index' => [
-            'name'  => '数据管理',
+            'name'  => '数据',
             'item'  => [
                 'message_index'         => '消息管理',
                 'message_delete'        => '消息删除',
@@ -1496,26 +1558,32 @@ return [
                 'refundlog_detail'      => '退款日志详情',
                 'integrallog_index'     => '积分日志',
                 'integrallog_detail'    => '积分日志详情',
+                'smslog_index'          => '短信日志',
+                'smslog_detail'         => '短信日志详情',
             ]
         ],
         'store_index' => [
-            'name'  => '应用中心',
+            'name'  => '应用',
             'item'  => [
-                'pluginsadmin_index'         => '应用管理',
-                'plugins_index'              => '应用调用管理',
-                'pluginsadmin_saveinfo'      => '应用添加/编辑页面',
-                'pluginsadmin_save'          => '应用添加/编辑',
-                'pluginsadmin_statusupdate'  => '应用状态更新',
-                'pluginsadmin_delete'        => '应用删除',
-                'pluginsadmin_upload'        => '应用上传',
-                'pluginsadmin_download'      => '应用打包',
-                'pluginsadmin_install'       => '应用安装',
-                'pluginsadmin_uninstall'     => '应用卸载',
-                'pluginsadmin_sortsave'      => '应用排序保存',
-                'store_index'                => '应用商店',
-                'packageinstall_index'       => '软件包安装页面',
-                'packageinstall_install'     => '软件包安装',
-                'packageupgrade_upgrade'     => '软件包更新',
+                'pluginsadmin_index'            => '应用管理',
+                'plugins_index'                 => '应用调用管理',
+                'pluginsadmin_saveinfo'         => '应用添加/编辑页面',
+                'pluginsadmin_save'             => '应用添加/编辑',
+                'pluginsadmin_statusupdate'     => '应用状态更新',
+                'pluginsadmin_delete'           => '应用删除',
+                'pluginsadmin_upload'           => '应用上传',
+                'pluginsadmin_download'         => '应用打包',
+                'pluginsadmin_install'          => '应用安装',
+                'pluginsadmin_uninstall'        => '应用卸载',
+                'pluginsadmin_sortsave'         => '应用排序保存',
+                'store_index'                   => '应用商店',
+                'packageinstall_index'          => '软件包安装页面',
+                'packageinstall_install'        => '软件包安装',
+                'packageupgrade_upgrade'        => '软件包更新',
+                'pluginscategory_index'         => '应用分类',
+                'pluginscategory_save'          => '应用分类添加/编辑',
+                'pluginscategory_statusupdate'  => '应用分类状态更新',
+                'pluginscategory_delete'        => '应用分类删除',
             ]
         ],
         'tool_index' => [

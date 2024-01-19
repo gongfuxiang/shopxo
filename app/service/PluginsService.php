@@ -313,7 +313,7 @@ class PluginsService
                 {
                     return DataReturn(MyLang('common_service.plugins.plugins_invalid_tips').'['.$plugins.']', -10);
                 }
-                MyRedirect(SystemService::HomeUrl(), true);
+                MyRedirect(SystemService::DomainUrl(), true);
             }
             return DataReturn(MyLang('common_service.plugins.plugins_not_install_tips').'['.$plugins.']', -10);
         }

@@ -203,7 +203,7 @@
                             <div class="aggregation am-radius" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
                                 {{if !empty($floor['big_images'])}}
                                     <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank" class="category-bg-images" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{/if}}>
-                                        <img src="{{$floor.big_images}}" />
+                                        <img src="{{$floor.big_images}}" class="scale-hover" />
                                     </a>
                                 {{/if}}
                                 {{if !empty($floor['items']) and is_array($floor['items'])}}

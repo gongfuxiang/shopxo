@@ -4,7 +4,20 @@
 <div class="content-right">
     <div class="content">
         <!-- nav start -->
-        {{include file="theme/nav" /}}
+        <div class="am-g am-padding-bottom am-border-bottom-f8 am-margin-bottom">
+            <div class="am-flex am-flex-justify-between am-flex-items-center am-flex-warp am-gap-12">
+                <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/theme/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('theme.base_upload_theme_name')}}">
+                    <i class="iconfont icon-upload"></i>
+                    <span>{{:MyLang('theme.base_upload_theme_name')}}</span>
+                </button>
+                {{if !empty($is_system_show_base) and !empty($store_theme_url)}}
+                    <a class="am-text-sm am-flex nwarp" href="{{$store_theme_url}}" target="_blank">
+                        <i class="iconfont icon-download-btn"></i> 
+                        <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('theme.base_nav_store_theme_name')}}</span>
+                    </a>
+                {{/if}}
+            </div>
+        </div>
         <!-- nav end -->
 
         <!-- list start -->
@@ -50,11 +63,10 @@
         {{else /}}
             {{include file="public/not_data" /}}
         {{/if}}
-        <!-- lis end -->
+        <!-- list end -->
     </div>
 </div>
 <!-- right content end  -->
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

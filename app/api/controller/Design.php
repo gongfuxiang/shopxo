@@ -35,8 +35,8 @@ class Design extends Common
      */
     public function Index()
     {
-        $data = [];
-        $layout_data = [];
+        $data = null;
+        $layout_data = null;
         if(!empty($this->data_request['id']))
         {
             $data_params = [
@@ -50,18 +50,16 @@ class Design extends Common
             if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data'][0]))
             {
                 $data = $ret['data'][0];
+
+                // 访问统计
+                DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
+
+                // 配置处理
+                $layout_data = BaseLayout::ConfigHandle($data['config']);
+
+                // 去除布局配置数据、避免很多配置数据造成带宽浪费
+                unset($data['config']);
             }
-        }
-        if(!empty($data))
-        {
-            // 访问统计
-            DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
-
-            // 配置处理
-            $layout_data = BaseLayout::ConfigHandle($data['config']);
-
-            // 去除布局配置数据、避免很多配置数据造成带宽浪费
-            unset($data['config']);
         }
 
         // 返回数据

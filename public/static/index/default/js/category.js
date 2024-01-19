@@ -1,4 +1,5 @@
 // 商品搜索
+var is_loading_first = 1;
 function CategoryGoodsSearchAjax(page = 1, page_size = null) {
     // 选中的分类id（三级没有则选择二级，二级没有则选择一级）
     var category_id = parseInt($('.zero-search-right .zero-right-title a.active').data('id') || 0);
@@ -23,9 +24,18 @@ function CategoryGoodsSearchAjax(page = 1, page_size = null) {
         dataType: 'json',
         success: function (res) {
             if (res.code == 0) {
+                // 数据赋值
                 $('.zero-right-item').html(res.data.data);
                 if (res.data.total > 0) {
+                    // 分页html生成
                     $('.zero-right-page').html(PageLibrary(res.data.total, res.data.page_size, res.data.page, 2, true));
+
+                    // 首次访问页面不执行动画
+                    if(is_loading_first == 0) {
+                        $('html,body').animate({scrollTop: $('.category-list-container').offset().top+3}, 'slow');
+                    }
+                    // 记录是否首次状态
+                    is_loading_first = 0;
                 } else {
                     $('.zero-right-page').empty();
                 }
@@ -63,21 +73,19 @@ $(function () {
 
     // 一级菜单点击
     $(document).on('click', '.zero-title ul li', function () {
-        var data = $(this).data('json');
+        var data = $(this).data('json') || null;
         $('.zero-right-title a').remove();
         $('.zero-right-title').hide();
-        $(this).addClass('active').siblings().removeClass('active')
-        if (data) {
-            var json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
-            if (json.length > 0) {
-                var menuHtml = '';
-                json.forEach(item => {
-                    var childJson = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
-                    menuHtml += '<li class="am-text-break" data-json="' + childJson + '" data-id="' + item.id + '">' + item.name + '</li>';
-                });
-                $('.zero-left ul li').eq(0).siblings().remove();
-                $('.zero-left ul li').eq(0).after(menuHtml);
-            }
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.zero-left ul li').eq(0).siblings().remove();
+        var json = (data == null) ? null : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
+        if (json != null && json.length > 0) {
+            var menuHtml = '';
+            json.forEach(item => {
+                var childJson = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
+                menuHtml += '<li class="am-text-break" data-json="' + childJson + '" data-id="' + item.id + '">' + item.name + '</li>';
+            });
+            $('.zero-left ul li').eq(0).after(menuHtml);
         }
         CategoryGoodsSearchAjax();
         $('.zero-left ul li').eq(0).addClass('active').siblings().removeClass('active');

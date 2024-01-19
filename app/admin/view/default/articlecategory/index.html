@@ -3,66 +3,59 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-        <!-- operation start -->
-        <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> {{:MyLang('add_title')}}</button>
-        </div>
-        <!-- operation end -->
-
         <!-- save win start -->
         <div class="am-popup am-radius" id="data-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('add_title')}}</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
-						<div class="am-form-group">
-							<label>{{:MyLang('common_service.articlecategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" class="am-radius" required />
-						</div>
-						{{include file="lib/sort" /}}
-						{{include file="lib/is_enable" /}}
-						<div class="am-form-popup-submit">
-							<input type="hidden" name="id" />
-							<button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
-	                            <i class="am-icon-paint-brush"></i>
-	                            <span>{{:MyLang('cancel_title')}}</span>
-	                        </button>
-	                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
-	                            <i class="am-icon-save"></i>
-	                            <span>{{:MyLang('save_title')}}</span>
-	                        </button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- save win end -->
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title" data-add-title="{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('articlecategory.base_nav_title')}}{{:MyLang('add_title')}}</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <!-- form start -->
+                    <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-fun" request-value="CardFormSaveBack">
+                        <div class="am-form-group row">
+                            <label>{{:MyLang('common_service.articlecategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" placeholder="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" class="am-radius" required />
+                        </div>
+                        {{include file="lib/sort_row" /}}
+                        {{include file="lib/is_enable_row" /}}
+                        <div class="am-form-popup-submit">
+                            <input type="hidden" name="id" />
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                                <i class="am-icon-paint-brush"></i>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                                <i class="am-icon-save"></i>
+                                <span>{{:MyLang('save_title')}}</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- form end -->
+                </div>
+            </div>
+        </div>
+        <!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm" data-node-url="{{:MyUrl('admin/articlecategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/articlecategory/delete')}}" data-popup-tag="#data-save-win">
-			{{include file="public/loading" /}}
-		</div>
-		<!-- list end -->
+        <div id="card" data-node-url="{{:MyUrl('admin/articlecategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/articlecategory/delete')}}" data-popup-tag="#data-save-win">
+            {{include file="public/loading" /}}
+        </div>
+        <!-- list end -->
 	</div>
 </div>
 <!-- right content end  -->
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 
 <script type="text/javascript">
 	// 初始化
-	Tree(0, $('#tree').data('node-url'), 0);
+	Card(0, $('#card').data('node-url'), 0);
 
 	// 回调处理
-	function TreeFormSaveBack(e)
+	function CardFormSaveBack(e)
 	{
-		TreeFormSaveBackHandle(e);
+		CardFormSaveBackHandle(e);
 	}
 </script>

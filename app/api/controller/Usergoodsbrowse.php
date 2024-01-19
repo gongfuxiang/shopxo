@@ -40,7 +40,7 @@ class UserGoodsBrowse extends Common
     }
     
     /**
-     * 商品浏览列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

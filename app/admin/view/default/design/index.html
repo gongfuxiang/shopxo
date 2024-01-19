@@ -3,8 +3,14 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#popup-design-upload'}"> {{:MyLang('import_title')}}</button>
-    <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus" target="_blank"> {{:MyLang('add_title')}}</a>
+    <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
+        <i class="iconfont icon-btn-add am-show-sm-only"></i>
+        <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+    </a>
+    <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius" data-am-modal="{target: '#popup-design-upload'}">
+        <i class="iconfont icon-import am-show-sm-only"></i>
+        <span class="am-hide-sm-only">{{:MyLang('import_title')}}</span>
+    </button>
     <!-- 父级内容 -->
     {__block__}
     {{if $is_system_show_base eq 1 and !empty($store_design_url)}}
@@ -23,17 +29,18 @@
             </div>
             <div class="am-popup-bd">
                 <!-- win form start -->
-                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                    {{if is_array(MyLang('design.upload_list_tips'))}}
-                        <div class="am-alert am-radius am-alert-tips">
-                            <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
-                        </div>
-                    {{/if}}
+                <form class="am-form form-validation am-form-popup-fixed am-upload-file" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                     <div class="am-form-group am-form-group-refreshing">
                         <div class="am-form-file">
-                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:MyLang('form_choice_file_title')}}</button>
+                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="iconfont icon-upload-file"></i></button>
                             <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
                             <div id="form-payment-tips" class="am-margin-top-xs"></div>
+                            <div class="tips am-text-xs cr-ccc am-margin-top-sm">
+                                {{:MyLang('common_service.theme.form_item_upload_tips')}}
+                                {{if is_array(MyLang('design.upload_list_tips'))}}
+                                    <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
+                                {{/if}}
+                            </div>
                         </div>
                     </div>
                     <div class="am-form-popup-submit">

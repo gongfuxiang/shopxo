@@ -542,36 +542,36 @@
                 <?php endif ?>
             </td>
         </tr>
-        <tr class="<?php if(class_exists('mysqli')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>mysqli 类</td>
+        <tr class="<?php if(extension_loaded('pdo')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>pdo 扩展类</td>
             <td>支持</td>
             <td>
-                <?php if (class_exists('mysqli')): ?>
+                <?php if (extension_loaded('pdo')): ?>
                     支持
                 <?php else: ?>
                     不支持
                 <?php endif ?>
             </td>
             <td>
-                <?php if (class_exists('mysqli')): ?>
+                <?php if (extension_loaded('pdo')): ?>
                     √
                 <?php else: ?>
                     ×
                 <?php endif ?>
             </td>
         </tr>
-        <tr class="<?php if(class_exists('pdo')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>pdo 类</td>
+        <tr class="<?php if(extension_loaded('pdo_mysql')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>pdo_mysql 扩展类</td>
             <td>支持</td>
             <td>
-                <?php if (class_exists('pdo')): ?>
+                <?php if (extension_loaded('pdo_mysql')): ?>
                     支持
                 <?php else: ?>
                     不支持
                 <?php endif ?>
             </td>
             <td>
-                <?php if (class_exists('pdo')): ?>
+                <?php if (extension_loaded('pdo_mysql')): ?>
                     √
                 <?php else: ?>
                     ×
@@ -579,7 +579,7 @@
             </td>
         </tr>
         <tr class="<?php if(class_exists('ZipArchive')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>ZipArchive 类</td>
+            <td>ZipArchive 扩展类</td>
             <td>支持</td>
             <td>
                 <?php if (class_exists('ZipArchive')): ?>

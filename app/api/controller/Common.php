@@ -128,7 +128,8 @@ class Common extends BaseController
      */
     private function SiteStstusCheck()
     {
-        if(MyC('home_site_state') != 1)
+        $data = MyC('home_site_app_state', [], true);
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, $data))
         {
             exit(json_encode(DataReturn(MyC('home_site_close_reason', MyLang('upgrading_tips')), -10000)));
         }

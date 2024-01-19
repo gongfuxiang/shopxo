@@ -1,10 +1,12 @@
 <!-- 用户状态 开始 -->
 <div class="am-form-group">
-	<label class="am-block">{{:MyLang('common.user_status_title')}}</label>
-	<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.user_status_message')}}" required>
-		{{foreach :MyConst('common_user_status_list') as $v}}
-			<option value="{{$v.id}}" {{if isset($data['status']) and $data['status'] eq $v['id']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-		{{/foreach}}
-	</select>
+    <label class="am-block">{{:MyLang('common.user_status_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+    <div class="am-radio-group">
+        {{foreach :MyConst('common_user_status_list') as $v}}
+            <label class="am-radio-inline am-margin-right-sm">
+                <input type="radio" name="status" value="{{$v.id}}" {{if isset($data['status']) and $data['status'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+            </label>
+        {{/foreach}}
+    </div>
 </div>
 <!-- 用户状态 结束 -->

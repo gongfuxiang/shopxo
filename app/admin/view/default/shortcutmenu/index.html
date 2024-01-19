@@ -1,0 +1,98 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content bk-cr-white am-padding-0">
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/shortcutmenu/save')}}" method="POST" request-type="ajax-fun" request-value="ShortCutMenuFormSaveBack" enctype="multipart/form-data">
+            <div class="shortcut-menu-sort am-flex-1 am-flex am-flex-col am-flex-warp am-padding">
+                <div class="am-tips-card">
+                    <p>{{:MyLang('common_service.shortcutmenu.form_item_top_tips')}}</p>
+                </div>
+                <ul data-url="{{:MyUrl('admin/shortcutmenu/delete')}}" data-sort="{{:MyUrl('admin/shortcutmenu/sort')}}">
+                    {{if !empty($data)}}
+                        {{foreach $data as $v}}
+                            <li class="item" data-id="{{$v.id}}" data-json="{{:urlencode(base64_encode(json_encode($v)))}}">
+                                <div class="am-relative">
+                                    <i class="iconfont icon-close am-relative z-i"></i>
+                                    <img class="am-radius" src="{{$v.icon}}" width="46" height="46">
+                                </div>
+                                <span>{{$v.name}}</span>
+                            </li>
+                        {{/foreach}}
+                    {{/if}}
+                    <li class="add-menu am-cursor-pointer {{if count($data) egt 9}}am-hide{{/if}}">
+                        <div class="am-relative">
+                            <img class="am-radius" src="{{$attachment_host}}/static/common/images/add-icon.png" width="46" height="46">
+                        </div>
+                        <span>{{:MyLang('add_title')}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="shortcut-menu-form am-flex-1 am-flex am-flex-col am-flex-justify-between am-padding">
+                <div class="am-flex-1">
+                    <div class="am-font-weight am-text-sm cr-333 am-margin-bottom-lg form-base-title" data-base-title="{{:MyLang('common_service.shortcutmenu.form_base_title')}}" data-add-title="{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('edit_title')}}">{{:MyLang('common_service.shortcutmenu.form_base_title')}}{{:MyLang('add_title')}}</div>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.shortcutmenu.form_item_menu_or_url')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <div class="address-group am-flex am-flex-items-center am-gap-1 am-width">
+                            <select data-choice-one-to="input[name='url']" name="menu" class="am-radius chosen-select js-choice-one" data-placeholder="{{:MyLang('common_service.shortcutmenu.form_item_menu_select_placeholder')}}" data-validation-message="{{:MyLang('common_service.shortcutmenu.form_item_menu_or_url_message')}}">
+                                <option value="">{{:MyLang('common_service.shortcutmenu.form_item_menu_select_placeholder')}}</option>
+                                {{if !empty($left_menu)}}
+                                    {{foreach $left_menu as $v}}
+                                        <option value="{{$v.id}}" data-name="{{$v.name}}" {{if !empty($v['items'])}}disabled{{/if}}>{{$v.name}}</option>
+                                        {{if !empty($v['items'])}}
+                                            {{foreach $v.items as $vs}}
+                                                <option style="padding-left: 15px;" value="{{$vs.id}}" data-name="{{$vs.name}}" {{if !empty($vs['items'])}}disabled{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                                {{if !empty($vs['items'])}}
+                                                    {{foreach $vs.items as $kss=>$vss}}
+                                                        <option style="padding-left: 30px;" value="{{$vss.id}}" data-name="{{$vss.name}}">{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                                    {{/foreach}}
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                            <span>{{:MyLang('or_title')}}</span>
+                            <input  data-choice-one-to="select[name='menu']" type="text" placeholder="{{:MyLang('common_service.shortcutmenu.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.shortcutmenu.form_item_menu_or_url_message')}}" class="am-radius js-choice-one" required />
+                        </div>
+                        
+                    </div>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.shortcutmenu.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="text" placeholder="{{:MyLang('common_service.shortcutmenu.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.shortcutmenu.form_item_name_message')}}" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.shortcutmenu.form_item_icon')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view shortcut-menu-icon" data-form-name="icon" data-max-number="1" data-dialog-type="images" data-is-single="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.shortcut-menu-icon">
+                                    <i class="iconfont icon-upload-add"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-text-right">
+                    <input type="hidden" name="id" value="" />
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                        <i class="am-icon-save"></i>
+                        <span>{{:MyLang('save_title')}}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+
+<script type="text/javascript">
+    // 回调处理
+    function ShortCutMenuFormSaveBack (e) {
+        ShortCutMenuFormSaveBackHandle(e);
+    }
+</script>

@@ -4,41 +4,43 @@
 <!-- 扩展 -->
 {{block name="form_extend"}}
     <!-- 取货弹窗 -->
-    <div class="am-modal" tabindex="-1" id="order-take-modal">
+    <div class="am-modal am-radius" tabindex="-1" id="order-take-modal">
         <div class="am-modal-dialog am-radius am-nbfc">
             <div class="am-modal-hd">
+                <span>{{:MyLang('order.form_item_take')}}</span>
                 <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
             </div>
             <div class="am-modal-bd">
-                <form class="am-form form-validation-take" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
-                    <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
-                        <label>{{:MyLang('order.form_item_take')}}</label>
-                        <div class="am-form-icon am-nbfc">
-                            <i class="am-icon-camera common-scan-submit" data-back-fun="OrderTakeScanBackHandle"></i>
-                            <input type="text" autocomplete="off" name="extraction_code" placeholder="{{:MyLang('order.form_item_take_message')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('order.form_item_take_message')}}" class="am-radius am-form-field" required />
+                <div class="am-padding-sm">
+                    <form class="am-form form-validation-take am-form-popup-fixed" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                        <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
+                            <div class="am-form-icon am-nbfc">
+                                <i class="am-icon-camera common-scan-submit" data-back-fun="OrderTakeScanBackHandle"></i>
+                                <input type="text" autocomplete="off" name="extraction_code" placeholder="{{:MyLang('order.form_item_take_message')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('order.form_item_take_message')}}" class="am-radius am-form-field" required />
+                            </div>
                         </div>
-                    </div>
-                    <div class="am-form-group am-form-group-refreshing">
-                        <input type="hidden" name="id" value="0" />
-                        <input type="hidden" name="user_id" value="0" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
-                            <i class="am-icon-paint-brush"></i>
-                            <span>{{:MyLang('cancel_title')}}</span>
-                        </button>
-                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
-                            <i class="am-icon-check"></i>
-                            <span>{{:MyLang('confirm_title')}}</span>
-                        </button>
-                    </div>
-                </form>
-                <script type="text/javascript">
-                    // 扫码回调
-                    function OrderTakeScanBackHandle(value)
-                    {
-                        $('form.form-validation-take input[name="extraction_code"]').val(value);
-                        $('form.form-validation-take').find('button[type="submit"]').trigger('click');
-                    }
-                </script>
+                        <div class="am-form-popup-submit">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="user_id" value="0" />
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                                <i class="am-icon-paint-brush"></i>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                                <i class="am-icon-check"></i>
+                                <span>{{:MyLang('confirm_title')}}</span>
+                            </button>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        // 扫码回调
+                        function OrderTakeScanBackHandle(value)
+                        {
+                            $('form.form-validation-take input[name="extraction_code"]').val(value);
+                            $('form.form-validation-take').find('button[type="submit"]').trigger('click');
+                        }
+                    </script>
+                </div>
             </div>
         </div>
     </div>

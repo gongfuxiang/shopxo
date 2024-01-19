@@ -24,6 +24,7 @@ use app\service\OrderAftersaleService;
 use app\service\OrderCurrencyService;
 use app\service\WarehouseService;
 use app\service\SystemService;
+use app\service\OtherHandleService;
 
 /**
  * 订单服务层
@@ -883,6 +884,24 @@ class OrderService
 
         // 捕获异常
         try {
+            // 先更新支付日志
+            if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
+            {
+                $pay_log_data = [
+                    'log_id'        => $params['pay_log_data']['id'],
+                    'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
+                    'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
+                    'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
+                    'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : MyLang('common_service.order.pay_subject_name'),
+                    'payment'       => $params['payment']['payment'],
+                    'payment_name'  => $params['payment']['name'],
+                ];
+                $ret = PayLogService::PayLogSuccess($pay_log_data);
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+            }
 
             // 循环处理
             foreach($params['order'] as $order)
@@ -987,25 +1006,6 @@ class OrderService
                         'user_id'           => $order['user_id'],
                         'user_type'         => 'admin',
                     ]);
-                }
-            }
-
-            // 更新支付日志
-            if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
-            {
-                $pay_log_data = [
-                    'log_id'        => $params['pay_log_data']['id'],
-                    'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
-                    'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
-                    'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
-                    'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : MyLang('common_service.order.pay_subject_name'),
-                    'payment'       => $params['payment']['payment'],
-                    'payment_name'  => $params['payment']['name'],
-                ];
-                $ret = PayLogService::PayLogSuccess($pay_log_data);
-                if($ret['code'] != 0)
-                {
-                    throw new \Exception($ret['msg']);
                 }
             }
 
@@ -1608,11 +1608,11 @@ class OrderService
         $result = [];
         $order = array_column($order, null, 'id');
         $order_ids = array_keys($order);
-        $data = Db::name('OrderDetail')->where(['order_id'=>$order_ids])->select()->toArray();
-        if(!empty($data))
+        $detail = Db::name('OrderDetail')->where(['order_id'=>$order_ids])->select()->toArray();
+        if(!empty($detail))
         {
             // 订单详情自增id
-            $order_detail_ids = array_column($data, 'id');
+            $order_detail_ids = array_column($detail, 'id');
 
             // 虚拟商品取货码
             $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$order_detail_ids])->column('value', 'order_detail_id');
@@ -1635,58 +1635,56 @@ class OrderService
             }
 
             // 商品处理
-            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $res = GoodsService::GoodsDataHandle($detail, ['data_key_field'=>'goods_id']);
             $data = $res['data'];
-            foreach($data as $vs)
+            $detail = array_column($detail, null, 'id');
+            foreach($data as $v)
             {
                 // 当前商品订单信息
-                if(array_key_exists($vs['order_id'], $order))
+                if(array_key_exists($v['order_id'], $order))
                 {
                     // 当前商品详情主订单信息
-                    $ov = $order[$vs['order_id']];
+                    $ov = $order[$v['order_id']];
 
                     // 避免订单商品价格被处理，强制使用原始内容
-                    if(!empty($vs['price_container']))
-                    {
-                        $vs['price'] = $vs['price_container']['price'];
-                        $vs['original_price'] = $vs['price_container']['original_price'];
-                    }
+                    $v['price'] = $detail[$v['id']]['price'];
+                    $v['total_price'] = $detail[$v['id']]['total_price'];
 
                     // 规格
-                    $vs['spec_text'] = null;
-                    if(!empty($vs['spec']))
+                    $v['spec_text'] = null;
+                    if(!empty($v['spec']))
                     {
-                        $vs['spec'] = json_decode($vs['spec'], true);
-                        if(!empty($vs['spec']) && is_array($vs['spec']))
+                        $v['spec'] = json_decode($v['spec'], true);
+                        if(!empty($v['spec']) && is_array($v['spec']))
                         {
-                            $vs['spec_text'] = implode('，', array_map(function($spec)
+                            $v['spec_text'] = implode('，', array_map(function($spec)
                             {
                                 return $spec['type'].':'.$spec['value'];
-                            }, $vs['spec']));
+                            }, $v['spec']));
                         }
                     } else {
-                        $vs['spec'] = null;
+                        $v['spec'] = null;
                     }
 
                     // 虚拟销售商品 - 虚拟信息处理
                     if(isset($ov['order_model']) && isset($ov['pay_status']) && isset($ov['status']) && $ov['order_model'] == 3 && $ov['pay_status'] == 1 && in_array($ov['status'], [3,4]))
                     {
-                        $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? ResourcesService::ContentStaticReplace($fictitious_value_list[$vs['id']], 'get') : '';
+                        $v['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($v['id'], $fictitious_value_list)) ? ResourcesService::ContentStaticReplace($fictitious_value_list[$v['id']], 'get') : '';
                     }
 
                     // 是否获取最新一条售后信息
                     if($is_orderaftersale == 1 && isset($ov['status']))
                     {
-                        $vs['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($vs['id'], $orderaftersale)) ? $orderaftersale[$vs['id']] : null;
-                        $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $vs['orderaftersale']);
+                        $v['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($v['id'], $orderaftersale)) ? $orderaftersale[$v['id']] : null;
+                        $v['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $v['orderaftersale']);
                     }
 
                     // 加入分组
-                    if(!array_key_exists($vs['order_id'], $result))
+                    if(!array_key_exists($v['order_id'], $result))
                     {
-                        $result[$vs['order_id']] = [];
+                        $result[$v['order_id']] = [];
                     }
-                    $result[$vs['order_id']][] = $vs;
+                    $result[$v['order_id']][] = $v;
                 }
             }
         }
@@ -2009,7 +2007,7 @@ class OrderService
 
             // 获取订单信息
             $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-            $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
+            $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model,client_type')->find();
             if(empty($order))
             {
                 throw new \Exception(MyLang('order_no_exist_or_delete_error_tips'));
@@ -2074,7 +2072,12 @@ class OrderService
             }
 
             // 发货更新操作
-            return self::OrderDeliveryUpdateHandle($order, $params);
+            $ret = self::OrderDeliveryUpdateHandle($order, $params);
+            if($ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+            return $ret;
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }
@@ -2121,8 +2124,55 @@ class OrderService
         $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
         self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
 
+        // 同步微信发货
+        if(isset($order['client_type']) && $order['client_type'] == 'weixin')
+        {
+            $ret = self::OrderDeliverySyncWeixin($order, $params);
+            if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+        }
+
         // 完成
         return DataReturn(MyLang('delivery_success'), 0);
+    }
+
+    /**
+     * 微信小程序发货同步到微信小程序
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-01-16
+     * @desc    description
+     * @param   [array]          $order  [订单信息]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderDeliverySyncWeixin($order, $params = [])
+    {
+        $order_detail = Db::name('OrderDetail')->where(['order_id'=>$order['id']])->column('title');
+        if(!empty($order_detail))
+        {
+            // 获取订单地址、用户电话
+            $order_address = self::OrderAddressData($order['id']);
+            $receiver_tel = (!empty($order_address) && !empty($order_address[$order['id']]) && !empty($order_address[$order['id']]['tel'])) ? $order_address[$order['id']]['tel'] : '';
+
+            // 发货快递信息
+            $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
+            $express_number = isset($params['express_number']) ? intval($params['express_number']) : '';
+
+            // 调用微信发货同步处理
+            return OtherHandleService::OrderDeliverySyncWeixinHandle([
+                'business_id'     => $order['id'],
+                'business_type'   => self::BusinessTypeName(),
+                'order_model'     => $order['order_model'],
+                'goods_title'     => $order_detail,
+                'express_id'      => $express_id,
+                'express_number'  => $express_number,
+                'receiver_tel'    => $receiver_tel,
+            ]);
+        }
+        return DataReturn(MyLang('handle_noneed'), 0);
     }
 
     /**
@@ -2467,7 +2517,7 @@ class OrderService
         ];
 
         // 用户类型
-        $user_type = isset($params['user_type']) ? $params['user_type'] : '';
+        $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
         if($user_type == 'user')
         {
             if(empty($params['user']))
@@ -2483,7 +2533,7 @@ class OrderService
         // 订单状态各项总数
         $data = self::OrderStatusGroupTotal($where);
 
-        // 待评价 状态站位100
+        // 待评价 状态占位100
         if($is_comments)
         {
             switch($user_type)
@@ -2505,7 +2555,7 @@ class OrderService
             ];
         }
 
-        // 退款/售后 状态站位101
+        // 退款/售后 状态占位101
         if($is_aftersale)
         {
             $where = [
@@ -2642,7 +2692,7 @@ class OrderService
         $pay_log = Db::name('PayLog')->where($where)->field('id,status')->find();
         if(empty($pay_log))
         {
-            return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -400, ['url'=>SystemService::HomeUrl()]);
+            return DataReturn(MyLang('common_service.order.pay_log_error_tips'), -400, ['url'=>SystemService::DomainUrl()]);
         }
         if($pay_log['status'] == 1)
         {

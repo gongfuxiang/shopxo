@@ -58,7 +58,7 @@ class Safety extends Center
 			// 安全信息列表
 			'safety_panel_list'		=> NavigationService::UserSafetyPanelList(),
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.browser_seo_title'), 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.base_nav_title'), 1),
         ];
         MyViewAssign($assign);
 		return MyView();
@@ -74,7 +74,7 @@ class Safety extends Center
 	public function LoginPwdInfo()
 	{
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.password_update_browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.password_update_base_nav_title'), 1));
 		return MyView();
 	}
 
@@ -93,7 +93,7 @@ class Safety extends Center
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_base_nav_title'), 1));
 		return MyView();
 	}
 
@@ -112,7 +112,7 @@ class Safety extends Center
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_base_nav_title'), 1));
 		return MyView();
 	}
 
@@ -131,7 +131,7 @@ class Safety extends Center
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_base_nav_title'), 1));
 		return MyView();
 	}
 
@@ -150,7 +150,7 @@ class Safety extends Center
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_base_nav_title'), 1));
 		return MyView();
 	}
 
@@ -171,7 +171,7 @@ class Safety extends Center
 			// 协议内容
 			'document_data'			=> $document['data'],
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.logout_browser_seo_title'), 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.logout_base_nav_title'), 1),
         ];
         MyViewAssign($assign);
 		return MyView();

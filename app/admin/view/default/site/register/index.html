@@ -2,70 +2,92 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
-            <div class="am-form-group">
-                <label class="am-block">{{$data.home_user_reg_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_type.describe}}</span></label>
-                {{foreach $common_user_reg_type_list as $v}}
-                    <label class="am-checkbox-inline">
-                        <input type="checkbox" name="{{$data.home_user_reg_type.only_tag}}" value="{{$v.value}}" {{if isset($data['home_user_reg_type']['value']) and in_array($v['value'], $data['home_user_reg_type']['value'])}}checked{{/if}} data-validation-message="{{$data.home_user_reg_type.error_tips}}" data-am-ucheck /> {{$v.name}}
-                    </label>
-                {{/foreach}}
-            </div>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="item am-active">
+                    <!-- 提示 -->
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
+                        <p>{{:MyLang('site.background_color_tips')}}</p>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_user_reg_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_type.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_user_reg_type_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.home_user_reg_type.only_tag}}" value="{{$v.value}}" {{if isset($data['home_user_reg_type']['value']) and in_array($v['value'], $data['home_user_reg_type']['value'])}}checked{{/if}} data-validation-message="{{$data.home_user_reg_type.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
 
-            <div class="am-form-group">
-                <label class="am-block">{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.home_user_register_img_verify_state.only_tag}}" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
 
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
-                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_register_is_enable_audit.only_tag}}" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
 
-            <div class="am-form-group">
-                <label class="am-block">{{$data.home_is_enable_userregister_agreement.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_userregister_agreement.describe}}</span></label>
-                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_is_enable_userregister_agreement.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_userregister_agreement.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.home_is_enable_userregister_agreement.only_tag}}" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
 
-            <div class="am-form-group">
-                <label class="am-block">{{$data.home_site_user_register_bg_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_register_bg_images.describe}}</span></label>
-                <ul class="plug-file-upload-view home_site_user_register_bg_images-images-view" data-form-name="home_site_user_register_bg_images" data-max-number="1" data-dialog-type="images">
-                    {{if !empty($data['home_site_user_register_bg_images']['value'])}}
-                        <li>
-                            <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
-                            <img src="{{:AttachmentPathViewHandle($data.home_site_user_register_bg_images.value)}}" />
-                            <i>×</i>
-                        </li>
-                    {{/if}}
-                </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_register_bg_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
-            </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_site_user_register_bg_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_register_bg_images.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_register_bg_images-images-view" data-form-name="home_site_user_register_bg_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_register_bg_images-images-view">
+                                    {{if empty($data['home_site_user_register_bg_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_register_bg_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="am-form-group">
-                    <label class="am-block">{{$data.home_site_user_register_bg_color.name}}</label>
-                    <input type="hidden" name="{{$data.home_site_user_register_bg_color.only_tag}}" value="{{$data.home_site_user_register_bg_color.value}}" />
-                    <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_register_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_register_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_register_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_register_bg_color']['value'])}} style="background-color:{{$data.home_site_user_register_bg_color.value}};"{{/if}}>
-                        <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                    </button>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_site_user_register_bg_color.name}}</label>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_register_bg_color.only_tag}}" value="{{$data.home_site_user_register_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_register_bg_color.value}}" data-color-style="background-color" data-color-tag="input[name='{{$data.home_site_user_register_bg_color.only_tag}}']"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="30" height="30" />
+                        </div>
+                    </div>
                 </div>
+            </div>
             
             <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
@@ -82,4 +104,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

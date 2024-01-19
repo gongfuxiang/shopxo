@@ -26,6 +26,9 @@ return [
         'operate_params_error'              => 'Los parámetros de operación son incorrectos',
         'not_operate_error'                 => 'No hay operaciones relacionadas',
         'not_data_error'                    => 'No hay datos relevantes',
+        'icon_name'                         => 'Icon',
+        'title_name'                        => 'Nombre',
+        'status_name'                       => 'Estado',
         'confirm_name'                      => 'Confirmación',
         'cancel_name'                       => 'Cancelación',
         'select_reverse_name'               => 'Anti - Elección',
@@ -41,6 +44,9 @@ return [
         'store_enabled_tips'                => 'Su navegador no admite almacenamiento local. Deshaga el "modo dedicado" o actualice a un navegador moderno.',
         'copy_fail'                         => 'Falló la copia',
         'copy_success'                      => 'Copia exitosa',
+        'images_preview_title'              => 'Vista previa de la imagen',
+        'video_preview_title'               => 'Vista previa del vídeo',
+        'file_preview_title'                => 'Vista previa del archivo',
         // 上传下载
         'get_loading_tips'                  => 'En proceso de adquisición...',
         'download_loading_tips'             => 'Se está descargando...',
@@ -49,6 +55,10 @@ return [
         'system_download_loading_tips'      => 'El paquete del sistema se está descargando...',
         'upgrade_download_loading_tips'     => 'El paquete de actualización se está descargando...',
         // 公共common.js
+        'operate_name'                      => 'Operación',
+        'operate_add_name'                  => 'Nuevo',
+        'operate_edit_name'                 => 'Edición',
+        'operate_delete_name'               => 'Eliminar',
         'select_not_chosen_tips'            => 'Por favor, seleccione el elemento',
         'select_chosen_min_tips'            => 'Seleccione al menos el elemento (valor).',
         'select_chosen_max_tips'            => 'Seleccione como máximo el elemento (valor).',
@@ -60,9 +70,6 @@ return [
         'form_call_fun_not_exist_tips'      => 'El método definido por el formulario no está definido',
         'form_config_main_tips'             => 'Configuración incorrecta de los parámetros del formulario [acción o método]',
         'max_input_vars_tips'               => 'El número de parámetros solicitados ha superado el límite de ph.ini',
-        'operate_add_name'                  => 'Nuevo',
-        'operate_edit_name'                 => 'Edición',
-        'operate_delete_name'               => 'Eliminar',
         'upload_images_format_tips'         => 'El formato de la imagen es incorrecto, por favor vuelva a subirlo',
         'upload_video_format_tips'          => 'El formato de vídeo es incorrecto, por favor vuelva a subirlo',
         'ie_browser_tips'                   => 'El navegador IE no está disponible',
@@ -255,13 +262,20 @@ return [
     'plugins_config_error_tips'                             => 'Configuración incorrecta del plug - in',
     'operate_frequent_tips'                                 => '¡Las operaciones son frecuentes, ¡ por favor, vuelva a intentarlo más tarde!',
     'images_format_error_tips'                              => '¡La imagen es incorrecta, ¡ por favor, cambie una!',
+    'images_preview_title'                                  => 'Vista previa de la imagen',
+    'video_preview_title'                                   => 'Vista previa del vídeo',
+    'file_preview_title'                                    => 'Vista previa del archivo',
     'cancel_order_title'                                    => 'Cancelación del pedido',
     'delete_order_title'                                    => 'Eliminar pedido',
+    'operate_list_tips_button_text'                         => 'Consejos de operación',
+    'operate_list_tips_retract_text'                        => 'Guardar consejos',
+    'operate_list_tips_msg'                                 => 'Puntos a los que se debe prestar atención al recordar las operaciones de configuración pertinentes',
     // 商店绑定
     'store_bind_account_name'                               => 'Vincular la cuenta de la tienda shopxo',
     'store_bind_account_tips'                               => '¡Si está vinculado, ¡ vaya a la herramienta de menú izquierdo en el Fondo del centro comercial para eliminar la caché y luego intente acceder!',
     'store_account_not_bind_tips'                           => 'Por favor, vincule primero la cuenta de la tienda de aplicaciones',
     'store_check_update_name'                               => 'Comprobar actualizaciones',
+    'store_auto_update_name'                                => 'Actualización automática',
     'store_bind_accounts_name'                              => 'Vincular la cuenta de la tienda shopxo',
     'store_bind_accounts_tips'                              => 'Vincular la cuenta de la tienda de aplicaciones shopxo, obtener la información de la última versión del plug - in, instalación y actualización en línea',
     'store_bind_authorized_subject_name'                    => 'Sujeto autorizado',
@@ -302,6 +316,7 @@ return [
     'reverse_select_title'                                  => 'Anti - Elección',
     'reset_title'                                           => 'Restablecer',
     'confirm_title'                                         => 'Confirmación',
+    'screen_title'                                          => 'Selección',
     'cancel_title'                                          => 'Cancelación',
     'search_title'                                          => 'Buscar',
     'query_title'                                           => 'Consulta',
@@ -315,6 +330,7 @@ return [
     'edit_title'                                            => 'Edición',
     'modify_title'                                          => 'Modificación',
     'delete_title'                                          => 'Eliminar',
+    'delete_all_title'                                      => 'Eliminar todo',
     'remove_title'                                          => 'Eliminar',
     'moveup_title'                                          => 'Subir',
     'movedown_title'                                        => 'Bajar',
@@ -336,6 +352,10 @@ return [
     'see_title'                                             => 'Mira',
     'clear_title'                                           => 'Eliminar',
     'clear_all_title'                                       => 'Eliminar todo',
+    'close_other_title'                                     => 'Cierre otros',
+    'close_all_title'                                       => 'Cerrar todo',
+    'notice_title'                                          => 'Anuncio',
+    'refresh_title'                                         => 'Refrescar',
     'close_title'                                           => 'Cierre',
     'open_title'                                            => 'Abrir',
     'number_title'                                          => 'Cantidad',
@@ -375,6 +395,7 @@ return [
     'delivery_title'                                        => 'Envío',
     'take_title'                                            => 'Recogida',
     'copy_title'                                            => 'Copiar',
+    'admin_title'                                           => 'Gestión',
     'user_title'                                            => 'Usuarios',
     'revoke_audit_title'                                    => 'Retirada del juicio',
     'reverse_audit_title'                                   => 'Contra el juicio',
@@ -417,6 +438,7 @@ return [
     'transfer_order_title'                                  => 'Orden de transferencia',
     'transfer_audit_title'                                  => 'Remisión',
     'divider_title'                                         => 'Distribución',
+    'name_title'                                            => 'Nombre',
     'status_title'                                          => 'Estado',
     'collection_fee_title'                                  => 'Recaudación',
     'complaint_title'                                       => 'Quejas',
@@ -434,6 +456,7 @@ return [
     'termination_title'                                     => 'Levantar',
     'subordinate_title'                                     => 'Subordinado',
     'profit_title'                                          => 'Ingresos',
+    'stats_title'                                           => 'Estadísticas',
     'gender_title'                                          => 'Género',
     'birthday_title'                                        => 'Cumpleaños',
     'address_title'                                         => 'Dirección',
@@ -460,6 +483,15 @@ return [
     'lat_title'                                             => 'Latitud',
     'lang_title'                                            => 'Idiomas',
     'color_title'                                           => 'Color',
+    'color_matching_title'                                  => 'ColorMatching',
+    'blue_title'                                            => 'Azul',
+    'green_title'                                           => 'Verde',
+    'red_title'                                             => 'Rojo',
+    'orange_title'                                          => 'Naranja',
+    'yellow_title'                                          => 'Amarillo',
+    'purple_title'                                          => 'Morado',
+    'brown_title'                                           => 'Marrón',
+    'black_title'                                           => 'Negro',
     'share_title'                                           => 'Compartir',
     'template_title'                                        => 'Plantilla',
     'recharge_title'                                        => 'Recargar',
@@ -467,6 +499,8 @@ return [
     'log_title'                                             => 'Detalles',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
     'self_pickup_point_title'                               => 'Punto de referencia propio',
+    'web_title'                                             => 'Lado web',
+    'app_title'                                             => 'Teléfono móvil',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
     'goods_stop_sale_title'                                 => 'Suspensión de ventas',
@@ -996,6 +1030,13 @@ return [
         'fra'  => 'Francés',
         'swe'  => 'Sueco',
     ],
+    // 商品分类展示层级类型
+    'common_show_goods_category_level_list' => [
+        0 => 'Clasificación + productos básicos',
+        1 => 'Clasificación de primer nivel',
+        2 => 'Clasificación secundaria',
+        3 => 'Clasificación de tres niveles',
+    ],
     // 图片验证码
     'common_site_images_verify_rules_list' => [
         0 => 'Fondo de color',
@@ -1008,6 +1049,22 @@ return [
         0 => 'Modo compatible',
         1 => 'Modelo pathinfo',
         2 => 'Modo pathinfo + dirección corta',
+    ],
+    // 短信日志平台
+    'common_sms_log_platform_list' => [
+        'aliyun' => 'Alibaba Cloud',
+    ],
+    // 短信日志状态
+    'common_sms_log_status_list' => [
+        0 => 'No enviado',
+        1 => 'Enviado',
+        2 => 'Ha fracasado',
+    ],
+    // 邮件日志状态
+    'common_email_log_status_list' => [
+        0 => 'No enviado',
+        1 => 'Enviado',
+        2 => 'Ha fracasado',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1041,6 +1098,20 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 常用功能菜单
+        'shortcutmenu'      => [
+            'form_base_title'                    => 'Funciones comunes',
+            'form_item_name'                     => 'Nombre',
+            'form_item_name_message'             => 'Formato de nombre de 1 a 60 caracteres',
+            'form_item_icon'                     => 'Iconos',
+            'form_item_icon_message'             => 'Por favor, suba el icono',
+            'form_item_menu_or_url'              => 'Apunta a la dirección',
+            'form_item_menu_or_url_message'      => 'Por favor, seleccione al menos un menú de permisos o rellene la dirección URL',
+            'form_item_top_tips'                 => 'Seleccione hasta 9 funciones, arrastre para ajustar la clasificación',
+            'form_item_menu_select_placeholder'  => 'Por favor, elija el menú',
+            'form_item_url_placeholder'          => 'Por favor, introduzca la dirección',
+            'form_item_top_tips'                 => 'Seleccione hasta 9 funciones, arrastre para ajustar la clasificación',
+        ],
         // 权限管理
         'power'             => [
             // 表单
@@ -1054,7 +1125,7 @@ return [
             'form_item_action'                      => 'Nombre del método',
             'form_item_action_message'              => 'Formato de nombre legal entre 1 y 30 caracteres (debe comenzar con una letra, puede ser subrayado alfanumérico)',
             'form_item_url'                         => 'Dirección URL personalizada',
-            'form_item_url_message'                 => 'Dirección URL personalizada, que comienza con https:// o https://',
+            'form_item_url_message'                 => 'Dirección URL personalizada, que comienza con https:// o https:// o /',
             'form_item_icon'                        => 'Clase de icono',
             'form_item_icon_message'                => 'Formato de icono hasta 30 caracteres',
             'form_item_icon_tips_list'              => [
@@ -1242,6 +1313,7 @@ return [
             'order_data_error_tips'                 => 'Los datos del pedido son incorrectos',
             'order_detail_data_error_tips'          => 'Los datos de detalles del pedido son incorrectos',
             'order_inventory_dec_type_error_tips'   => 'El tipo de operación de deducción de inventario es incorrecto',
+            'order_submit_booking_success_tips'     => '¡¡ la cita del pedido fue exitosa y esperó la revisión del administrador!',
             'inventory_dec_not_enable_tips'         => 'No se abre la deducción del inventario',
             'inventory_dec_not_confirm_tips'        => 'El estado actual del pedido no se confirma operativamente - no se deduce el inventario',
             'inventory_dec_not_pay_tips'            => 'El estado actual del pedido no se paga operativamente - no se deduce el inventario',
@@ -1395,7 +1467,7 @@ return [
             'form_item_config_value_placeholder'    => 'Pegar la información de configuración de los parámetros del producto',
             'form_item_config_template_title'       => 'Plantilla de parámetros de productos básicos',
             'form_item_config_copy_title'           => 'Copiar configuración',
-            'form_item_config_empty_title'          => 'Copiar configuración',
+            'form_item_config_empty_title'          => 'Parámetros de vaciado',
             'form_item_config_list_content_tips'    => 'Se puede arrastrar y ordenar directamente en la línea de parámetros en el punto o hacer clic para subir y bajar.',
             // 保存
             'save_params_data_empty_tips'           => 'Por favor, rellene la configuración de los parámetros',
@@ -1469,6 +1541,7 @@ return [
             'form_spec_template_message'            => 'Por favor, seleccione la plantilla de especificaciones del producto',
             'form_spec_quick_add_title'             => 'Añadir especificaciones por lotes',
             'form_spec_quick_generate_title'        => 'Generar especificaciones',
+            'form_spec_add_column_title'            => 'Añadir especificaciones',
             'form_spec_type_title'                  => 'Nombre de la especificación',
             'form_spec_type_message'                => 'Por favor, rellene el nombre de la especificación.',
             'form_spec_value_title'                 => 'Valor de la especificación',
@@ -1693,6 +1766,7 @@ return [
                 'order'             => 'Gestión de pedidos',
                 'orderaftersale'    => 'Posventa de pedidos',
                 'goodsfavor'        => 'Colección de productos básicos',
+                'goodscomments'     => 'Comentarios sobre productos básicos',
                 'property'          => 'Centro de propiedad',
                 'integral'          => 'Mis puntos',
                 'base'              => 'Gestión de datos',
@@ -1720,7 +1794,7 @@ return [
             'form_item_number'                      => 'Número de productos básicos',
             'form_item_number_message'              => 'Por favor, rellene el número de artículos válidos, mínimo 1, máximo {:max}',
             'form_item_price'                       => 'Importe del reembolso',
-            'form_item_price_message'               => 'Por favor, introduzca un monto de reembolso válido, máximo {:price} yuanes',
+            'form_item_price_message'               => 'Por favor, introduzca un monto de reembolso válido, máximo {:price}es',
             'form_item_msg'                         => 'Instrucciones de reembolso',
             'form_item_msg_message'                 => 'Instrucciones de reembolso de hasta 200 caracteres',
             'form_item_images'                      => 'Cargar comprobantes',
@@ -1820,7 +1894,7 @@ return [
             'pay_params_error_tips'                 => 'Pago incorrecto',
             'pay_price_error_tips'                  => 'El monto del pedido es incorrecto, por favor inicie el pago normalmente.',
             'only_under_line_error_tips'            => 'Solo se procesan los métodos de pago fuera de línea',
-            'order_pay_user_message_msg'            => 'El pago del pedido fue exitoso, la cantidad {:price} yuanes',
+            'order_pay_user_message_msg'            => 'El pago del pedido fue exitoso, la cantidad {:price}es',
             'order_update_fail_tips'                => 'Falló la actualización del pedido',
             'user_under_line_pay_history_desc'      => 'Pago fuera de línea del usuario',
             'order_status_history_insert_fail_tips' => 'Falló la adición del registro de pedidos',
@@ -2171,6 +2245,7 @@ return [
         ],
         // 主题
         'theme'                     => [
+            'form_item_upload_tips'                 => 'Cargar un paquete de temas en formato zip comprimido',
             'view_dir_no_power_tips'                => 'El catálogo de vistas no tiene permisos',
             'static_dir_no_power_tips'              => 'El catálogo de recursos no tiene permisos',
             'package_invalid_tips'                  => 'Paquete temático no válido',
@@ -2315,6 +2390,8 @@ return [
             'goods_inventory_dec_fail_tips'         => 'Falló la deducción del inventario de productos del almacén',
             'goods_spec_inventory_inc_fail_tips'    => 'Falló el retroceso del inventario de especificaciones de productos del almacén',
             'goods_inventory_inc_fail_tips'         => 'Falló el retroceso del inventario de productos del almacén',
+            'goods_goods_spec_default_name'         => 'Especificaciones predeterminadas',
+            'goods_goods_spec_inventory_name'       => 'Inventario de especificaciones',
         ],
         // 仓库商品
         'warehouse'                 => [
@@ -2694,6 +2771,12 @@ return [
                 'touser_openid_empty_tips'          => 'OpenID no puede estar vacío',
                 'template_id_empty_tips'            => 'Plantilla El ID no puede estar vacío',
                 'data_empty_tips'                   => 'Los datos no pueden estar vacíos',
+                'not_opened_trade_managed_msg'      => 'No se ha abierto la gestión de envíos',
+                'trade_no_empty_tips'               => 'trade_no no puede estar vacío',
+                'buyer_user_empty_tips'             => 'buyer_user no puede estar vacío',
+                'goods_title_empty_tips'            => 'goods_title no puede estar vacío',
+                'no_match_logistics_company_code'   => 'No hay un código de empresa de logística correspondiente',
+                'no_match_logistics_mode'           => 'No hay un modo de logística correspondiente',
             ],
             // 邮件
             'email'         => [
@@ -2833,14 +2916,19 @@ return [
             'name' => 'Número de certificado ICP',
             'desc' => 'Por ejemplo: Shanghai ICP Preparation xxx',
         ],
+        'home_site_app_state'  => [
+            'name' => 'Cierre el teléfono',
+            'desc' => 'Si se marca, se cierra',
+            'tips' => 'Por favor, elija si cierra el teléfono.',
+        ],
         'home_statistics_code'  => [
             'name' => 'Código estadístico inferior',
             'desc' => 'Soporte html, que se puede utilizar para agregar códigos estadísticos de tráfico',
         ],
-        'home_site_state'  => [
-            'name' => 'Estado del sitio',
+        'home_site_web_state'  => [
+            'name' => 'Estado del sitio web',
             'desc' => 'El sitio se puede cerrar temporalmente y otros no pueden acceder, pero no afecta el acceso del Administrador al backstage.',
-            'tips' => 'Por favor, elija el Estado del sitio',
+            'tips' => 'Por favor, elija el Estado del sitio web',
         ],
         'home_site_close_reason'  => [
             'name' => 'Razones del cierre',
@@ -2935,7 +3023,7 @@ return [
             'desc' => 'Evitar la adquisición frecuente de códigos de verificación, generalmente entre 30 y 120 segundos, unidades [segundos]',
             'tips' => 'Por favor, rellene el intervalo de tiempo para obtener el Código de verificación.',
         ],
-        'home_sms_user_reg'  => [
+        'home_sms_user_reg_template'  => [
             'name' => 'Registro del usuario - ID de la plantilla de SMS',
             'desc' => 'Código de verificación',
             'tips' => 'Por favor, rellene el contenido de la plantilla de SMS de registro del usuario',
@@ -2950,7 +3038,7 @@ return [
             'desc' => 'Access Key ID',
             'tips' => 'Rellene el ID de la clave de acceso',
         ],
-        'home_sms_user_forget_pwd'  => [
+        'home_sms_user_forget_pwd_template'  => [
             'name' => 'Recuperación de contraseña - ID de la plantilla de SMS',
             'desc' => 'Código de verificación',
             'tips' => 'Por favor, rellene la contraseña para recuperar el contenido de la plantilla de SMS',
@@ -3012,15 +3100,15 @@ return [
             'desc' => 'Plantilla predeterminada de recepción',
             'tips' => 'Por favor, seleccione la plantilla predeterminada',
         ],
-        'home_email_user_reg'  => [
+        'home_email_user_reg_template'  => [
             'name' => 'Registro de usuarios - plantilla de correo',
             'desc' => 'Verify Code variable identifier (...)',
         ],
-        'home_email_user_forget_pwd'  => [
+        'home_email_user_forget_pwd_template'  => [
             'name' => 'Recuperación de contraseñas - plantilla de correo',
             'desc' => 'Verify Code variable identifier (...)',
         ],
-        'home_email_user_email_binding'  => [
+        'home_email_user_email_binding_template'  => [
             'name' => 'Vinculación del buzón - plantilla de correo',
             'desc' => 'Verify Code variable identifier (...)',
         ],
@@ -3028,7 +3116,7 @@ return [
             'name' => 'Etiqueta de la versión CSS / js',
             'desc' => 'Para el reconocimiento de la versión de caché del navegador CSS / js',
         ],
-        'home_sms_user_mobile_binding'  => [
+        'home_sms_user_mobile_binding_template'  => [
             'name' => 'Vinculación del número de teléfono móvil - ID de la plantilla de SMS',
             'desc' => 'Código de verificación',
             'tips' => 'Por favor, rellene el número de teléfono móvil para vincular el contenido de la plantilla de SMS',
@@ -3182,6 +3270,16 @@ return [
             'desc' => '',
             'tips' => 'Por favor, rellene la descripción',
         ],
+        'common_app_mini_weixin_share_original_id'  => [
+            'name' => 'Id original del applet de Wechat',
+            'desc' => 'Rellene la aplicación para compartirla con Wechat y usar el applet',
+            'tips' => 'Por favor, rellene el id original del applet de wechat.',
+        ],
+        'common_app_mini_weixin_upload_shipping_status'  => [
+            'name' => 'Envío simultáneo de Wechat',
+            'desc' => 'Cierre predeterminado',
+            'tips' => 'Por favor, elija si sincronizar los envíos de wechat.',
+        ],
         'common_app_mini_weixin_privacy_content'  => [
             'name' => 'Instrucciones de la ventana emergente de privacidad',
             'desc' => 'Descripción general predeterminada del sistema vacío',
@@ -3279,7 +3377,7 @@ return [
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => 'Imagen',
-            'desc' => 'Imagen 2 [Recomendación 450 * 350px]',
+            'desc' => 'Imagen 3 [Recomendación 450 * 350px]',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
             'name' => 'Dirección URL',
@@ -3544,6 +3642,21 @@ return [
             'desc' => '',
             'tips' => 'Por favor, rellene el número de versión del componente de transmisión en vivo.',
         ],
+        'admin_logo'  => [
+            'name' => 'Logotipo en segundo plano',
+            'desc' => 'Recomendación 322 * 78px',
+            'tips' => 'Por favor, suba el logotipo de fondo',
+        ],
+        'admin_login_logo'  => [
+            'name' => 'Logotipo de inicio de sesión en segundo plano',
+            'desc' => 'Recomendación 220 * 60px',
+            'tips' => 'Por favor, suba el logotipo de inicio de sesión en segundo plano',
+        ],
+        'admin_login_ad_images'  => [
+            'name' => 'Imagen del anuncio de inicio de sesión en segundo plano',
+            'desc' => 'Recomendación 570 * 480px',
+            'tips' => 'Por favor, suba la imagen del anuncio de inicio de sesión en segundo plano',
+        ],
         'admin_login_info_bg_images_rand'  => [
             'name' => 'Mapa de fondo aleatorio de la página de inicio de sesión en segundo plano',
             'desc' => 'Habilitado por defecto',
@@ -3556,8 +3669,8 @@ return [
         ],
         'common_show_goods_category_level'  => [
             'name' => 'Nivel de exhibición clasificado',
-            'desc' => 'Nivel 0 predeterminado',
-            'tips' => 'Por favor, rellene el nivel de exhibición clasificada.',
+            'desc' => 'Clasificación predeterminada + mercancía',
+            'tips' => 'Por favor, elija el nivel de exhibición de clasificación',
         ],
         'common_cdn_attachment_host'  => [
             'name' => 'Anexo nombre de dominio CDN',
@@ -3997,6 +4110,21 @@ return [
             'name' => 'El usuario identifica la dimensión con la clase del sistema',
             'desc' => 'Cierre predeterminado',
             'tips' => 'Por favor, seleccione el usuario para identificar la dimensión con la clase del sistema',
+        ],
+        'common_regex_mobile'  => [
+            'name' => 'El teléfono móvil es regular',
+            'desc' => '',
+            'tips' => 'Por favor, rellene la regularidad del teléfono móvil.',
+        ],
+        'common_regex_tel'  => [
+            'name' => 'Regular el asiento',
+            'desc' => '',
+            'tips' => 'Por favor, rellene el asiento regular.',
+        ],
+        'common_regex_id_card'  => [
+            'name' => 'Número de identificación regular',
+            'desc' => '',
+            'tips' => 'Por favor, rellene el número de identificación regularmente.',
         ],
     ],
 ];

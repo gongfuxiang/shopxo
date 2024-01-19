@@ -178,7 +178,7 @@ font-weight: normal;*/
 /*option css*/
 /*option css*/
 .hiprint-option-items {
-    font-size: .75rem;
+    font-size: 1.2rem;
     padding: 10px 5px;
     display: flex;
     flex-wrap: wrap;
@@ -704,7 +704,7 @@ font-weight: normal;*/
 .hi-pretty {
     position: relative;
     display: inline-block;
-    margin-right: 1em;
+    margin-right: 0.5em;
     white-space: nowrap;
     line-height: 1;
 }
@@ -744,7 +744,7 @@ font-weight: normal;*/
             z-index: 0;
             position: absolute;
             left: 0;
-            top: calc((0% - (100% - 2em)) - 8%);
+            top: calc((0% - (100% - 1em)) - 8%);
             background-color: transparent;
         }
 

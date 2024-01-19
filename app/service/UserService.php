@@ -16,6 +16,7 @@ use app\service\RegionService;
 use app\service\SafetyService;
 use app\service\ResourcesService;
 use app\service\SystemBaseService;
+use app\service\ConfigService;
 use app\service\ApiService;
 
 /**
@@ -426,26 +427,26 @@ class UserService
     public static function UserInfo($where_field, $where_value, $field = '*', $params = [])
     {
         // 用户平台表结构
-        $structure = ResourcesService::TableStructureData('UserPlatform');
-        unset($structure['id'], $structure['user_id'], $structure['add_time'], $structure['upd_time']);
-        $structure = array_keys($structure);
+        $platform_structure = ResourcesService::TableStructureData('UserPlatform');
+        unset($platform_structure['id'], $platform_structure['user_id'], $platform_structure['add_time'], $platform_structure['upd_time']);
+        $platform_structure = array_keys($platform_structure);
 
         // 用户基础和平台条件
         $where_field_arr = explode('|', $where_field);
         foreach($where_field_arr as $k=>$v)
         {
-            $where_field_arr[$k] = (in_array($v, $structure) ? 'up.' : 'u.').$v;
+            $where_field_arr[$k] = (in_array($v, $platform_structure) ? 'up.' : 'u.').$v;
         }
         $where_field = implode('|', $where_field_arr);
 
         // 查询字段处理
         if($field == '*')
         {
-            $field = 'u.*, up.'.implode(', up.', $structure);
+            $field = 'u.*, up.'.implode(', up.', $platform_structure);
         } else {
             $field_arr = explode(',', $field);
-            $u_arr = array_diff($field_arr, $structure);
-            $up_arr = array_intersect($field_arr, $structure);
+            $u_arr = array_diff($field_arr, $platform_structure);
+            $up_arr = array_intersect($field_arr, $platform_structure);
             $field = 'u.'.implode(', u.', $u_arr).(empty($up_arr) ? '' : ', up.'.implode(', up.', $up_arr));
         }
 
@@ -459,7 +460,77 @@ class UserService
             ['u.is_delete_time', '=', 0],
             ['u.is_logout_time', '=', 0],
         ];
-        return Db::name('User')->alias('u')->join('user_platform up', 'u.id=up.user_id')->where($where)->field($field)->find();
+        $user = Db::name('User')->alias('u')->join('user_platform up', 'u.id=up.user_id')->where($where)->field($field)->find();
+        // 如果当前系统类型和平台 用户和平台表没有对应数据，则先读取用户基础信息在匹配平台数据
+        if(empty($user))
+        {
+            // 是否存在条件字段.指定前缀，则去除
+            if(stripos($where_field, '.') !== false)
+            {
+                $temp = explode('.', $where_field);
+                $where_field = $temp[1];
+            }
+            // 如果当前条件字段是平台表字段则先从平台表读取数据
+            if(in_array($where_field, $platform_structure))
+            {
+                $user_platform = self::MatchingUserPlatformData($where_field, $where_value, $params);
+                if(!empty($user_platform))
+                {
+                    $user = self::UserBaseInfo('id', $user_platform['user_id'], '*', $params);
+                    if(!empty($user))
+                    {
+                        $user = array_merge($user, $user_platform);
+                    }
+                }
+            } else {
+                $user = self::UserBaseInfo($where_field, $where_value, '*', $params);
+                if(!empty($user))
+                {
+                    $user_platform = self::MatchingUserPlatformData('user_id', $user['id'], $params);
+                    if(!empty($user_platform))
+                    {
+                        $user = array_merge($user, $user_platform);
+                    }
+                }
+            }
+        }
+        return $user;
+    }
+
+    /**
+     * 匹配用户平台数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-12-29
+     * @desc    description
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [array]           $params           [输入参数]
+     */
+    public static function MatchingUserPlatformData($where_field, $where_value, $params = [])
+    {
+        $temp_platform = [];
+        $user_platform = Db::name('UserPlatform')->where([$where_field=>$where_value])->select()->toArray();
+        if(!empty($user_platform))
+        {
+            $platform = empty($params['platform']) ? APPLICATION_CLIENT_TYPE : $params['platform'];
+            foreach($user_platform as $pv)
+            {
+                // 优先取当前平台类型的数据
+                if($pv['platform'] == $platform)
+                {
+                    $temp_platform = $pv;
+                    break;
+                }
+            }
+            if(empty($temp_platform))
+            {
+                $temp_platform = $user_platform[0];
+            }
+            unset($temp_platform['id'], $temp_platform['add_time'], $temp_platform['upd_time']);
+        }
+        return $temp_platform;
     }
 
     /**
@@ -1288,6 +1359,16 @@ class UserService
             }
         }
 
+        // 昵称和头像
+        if(empty($user['nickname']) && !empty($params['nickname']))
+        {
+            $upd_data['nickname'] = $params['nickname'];
+        }
+        if((empty($user['avatar']) || stripos($user['avatar'], 'default-user-avatar.jpg') !== false) && !empty($params['avatar']))
+        {
+            $upd_data['avatar'] = $params['avatar'];
+        }
+
         // 更新用户信息
         if(!empty($upd_data))
         {
@@ -1536,7 +1617,7 @@ class UserService
      * @datetime 2017-03-10T10:06:29+0800
      * @param   [array]          $params [输入参数]
      */
-    private static function UserRegAccountsCheck($params = [])
+    public static function UserRegAccountsCheck($params = [])
     {
         switch($params['type'])
         {
@@ -1595,7 +1676,7 @@ class UserService
      * @param    [string] $field        [字段名称]
      * @return   [boolean]              [存在true, 不存在false]
      */
-    private static function IsExistAccounts($accounts, $field = 'mobile')
+    public static function IsExistAccounts($accounts, $field = 'mobile')
     {
         $method = self::UserUniqueMethod();
         $temp = self::$method($field, $accounts);
@@ -1626,7 +1707,7 @@ class UserService
      * @param    [int]      $status         [状态 0未开启, 1已开启]
      * @return   [object]                   [图片验证码类对象]
      */
-    private static function IsImaVerify($params, $verify_params, $status = 0)
+    public static function IsImaVerify($params, $verify_params, $status = 0)
     {
         if($status == 1)
         {
@@ -1656,7 +1737,7 @@ class UserService
      * @datetime 2017-03-10T10:06:29+0800
      * @param   [array]          $params [输入参数]
      */
-    private static function UserLoginAccountsCheck($params = [])
+    public static function UserLoginAccountsCheck($params = [])
     {
         $field = '';
         switch($params['type'])
@@ -1771,7 +1852,7 @@ class UserService
             // 短信
             case 'sms' :
                 $obj = new \base\Sms($verify_params);
-                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_login_template'));
+                $status = $obj->SendCode($params['accounts'], $code, ConfigService::SmsTemplateValue('home_sms_login_template'));
                 break;
 
             // 邮箱
@@ -1869,7 +1950,7 @@ class UserService
             // 短信
             case 'sms' :
                 $obj = new \base\Sms($verify_params);
-                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_reg'));
+                $status = $obj->SendCode($params['accounts'], $code, ConfigService::SmsTemplateValue('home_sms_user_reg_template'));
                 break;
 
             // 邮箱
@@ -1877,7 +1958,7 @@ class UserService
                 $obj = new \base\Email($verify_params);
                 $email_params = [
                     'email'     =>  $params['accounts'],
-                    'content'   =>  MyC('home_email_user_reg'),
+                    'content'   =>  MyC('home_email_user_reg_template'),
                     'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.user.register_email_send_title'),
                     'code'      =>  $code,
                 ];
@@ -1949,7 +2030,7 @@ class UserService
             // 手机
             case 'mobile' :
                 $obj = new \base\Sms($verify_params);
-                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_forget_pwd'));
+                $status = $obj->SendCode($params['accounts'], $code, ConfigService::SmsTemplateValue('home_sms_user_forget_pwd_template'));
                 break;
 
             // 邮箱
@@ -1957,7 +2038,7 @@ class UserService
                 $obj = new \base\Email($verify_params);
                 $email_params = [
                     'email'     =>  $params['accounts'],
-                    'content'   =>  MyC('home_email_user_forget_pwd'),
+                    'content'   =>  MyC('home_email_user_forget_pwd_template'),
                     'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.user.forget_pwd_email_send_title'),
                     'code'      =>  $code,
                 ];
@@ -1989,7 +2070,7 @@ class UserService
      * @param    [string]     $accounts [账户名称]
      * @return   [string]               [账户字段 mobile, email]
      */
-    private static function UserForgetAccountsCheck($accounts)
+    public static function UserForgetAccountsCheck($accounts)
     {
         if(CheckMobile($accounts))
         {
@@ -3037,7 +3118,7 @@ class UserService
         // 发送验证码
         $obj = new \base\Sms($verify_params);
         $code = GetNumberCode(4);
-        $status = $obj->SendCode($params['mobile'], $code, MyC('home_sms_user_mobile_binding'));
+        $status = $obj->SendCode($params['mobile'], $code, ConfigService::SmsTemplateValue('home_sms_user_mobile_binding_template'));
         if($status)
         {
             return DataReturn(MyLang('send_success'), 0);
@@ -3137,7 +3218,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,province,city,county,gender', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,province,city,county,gender,add_time', 'id');
             }
 
             // 数据处理
@@ -3231,7 +3312,7 @@ class UserService
      * @version 1.0.0
      * @date    2019-06-21
      * @desc    description
-     * @param   [array]           $params [输入参数, referrer 参数用户推荐id]
+     * @param   [array]           $params [输入参数, referrer 参数用户推荐id, 会员码, 手机, 邮箱]
      */
     public static function UserReferrerDecrypt($params = [])
     {
@@ -3248,11 +3329,24 @@ class UserService
         }
         if(!empty($referrer))
         {
-            // 查看用户id是否已加密
-            if(preg_match('/[a-zA-Z]/', $referrer))
+            // 用户验证、默认用户id和会员码
+            $field = 'id|number_code';
+            // 是否手机号码
+            if(CheckMobile($referrer))
             {
-                $referrer = intval(base64_decode(AsciiToStr($referrer)));
+                $field = 'mobile';
+            // 是否电子邮箱
+            } else if(CheckEmail($referrer))
+            {
+                $field = 'email';
+            } else {
+                // 查看用户id是否已加密
+                if(preg_match('/[a-zA-Z]/', $referrer))
+                {
+                    $referrer = intval(base64_decode(AsciiToStr($referrer)));
+                }
             }
+            $referrer = Db::name('User')->where([$field=>$referrer, 'status'=>0])->value('id');
         }
         return empty($referrer) ? 0 : intval($referrer);
     }
@@ -3272,7 +3366,7 @@ class UserService
         if(!empty($_SERVER['HTTP_REFERER']))
         {
             // 是否是指定页面，则赋值用户中心
-            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
+            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo', 'logout'];
             $status = false;
             foreach($all as $v)
             {

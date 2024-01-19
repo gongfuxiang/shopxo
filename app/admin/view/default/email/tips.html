@@ -1,0 +1,8 @@
+<div class="am-operate-stretch-tips">
+    <div class="title">
+        <i class="iconfont icon-tips"></i>
+        <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+        <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i>
+    </div>
+    <p class="am-text-xs">{{:MyLang('email.top_tips')}} {{if !empty($site_store_links) and !empty($site_store_links['email_set_course'])}}<a href="{{$site_store_links.email_set_course}}" class="am-margin-left-sm" target="_blank">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}</p>
+</div>

@@ -58,7 +58,7 @@ class Order extends Center
             // 支付方式
             'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.base_nav_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();
@@ -94,7 +94,7 @@ class Order extends Center
             // 虚拟销售配置
             'site_fictitious'       => $site_fictitious['data'],
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.detail_browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.detail_base_nav_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();
@@ -124,7 +124,7 @@ class Order extends Center
             // 上一个页面url地址
             'referer_url'           => empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : htmlentities($_SERVER['HTTP_REFERER']),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.comments_browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.comments_base_nav_title'), 1),
             // 编辑器文件存放地址
             'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']),
         ];
@@ -242,7 +242,7 @@ class Order extends Center
         $assign = [
             // 自定义链接
             'to_url'    => MyUrl('index/order/index'),
-            'to_title'  => MyLang('order.browser_seo_title'),
+            'to_title'  => MyLang('order.base_nav_title'),
             // 状态信息
             'msg'       => $ret['msg'],
         ];

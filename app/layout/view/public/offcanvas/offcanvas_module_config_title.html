@@ -10,24 +10,26 @@
                         <!-- 主标题 -->
                         <div class="am-form-group am-form-group-refreshing">
                             <label>{{:MyLang('layout.view_offcanvas_module_title_main_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                            <div class="am-input-group am-input-group-sm">
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
                                 <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_main_title')}}" name="content_title" minlength="1" maxlength="160" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_main_title_message')}}" value="" class="am-form-field am-radius" required />
-                                <input type="hidden" name="style_title_color" value="" />
-                                <a href="javascript:;" class="am-input-group-label am-radius colorpicker-submit module-style-color_title" data-position="fixed" data-input-tag=".module-style-color_title" data-color-tag="input[name='style_title_color']" data-color-style="background-color|border-color">
-                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                                </a>
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title']" data-color-tag="input[name='style_title_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                </div>
                             </div>
                         </div>
 
                         <!-- 副标题 -->
                         <div class="am-form-group am-form-group-refreshing">
                             <label>{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}</label>
-                            <div class="am-input-group am-input-group-sm">
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
                                 <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}" name="content_title_vice" minlength="0" maxlength="230" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_vice_title_message')}}" value="" class="am-form-field am-radius" />
-                                <input type="hidden" name="style_title_vice_color" value="" />
-                                <a href="javascript:;" class="am-input-group-label am-radius colorpicker-submit module-style-color_title_vice" data-position="fixed" data-input-tag=".module-style-color_title_vice" data-color-tag="input[name='style_title_vice_color']" data-color-style="background-color|border-color">
-                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                                </a>
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_vice_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_vice']" data-color-tag="input[name='style_title_vice_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -40,12 +42,13 @@
                         <!-- 右侧按钮名称 -->
                         <div class="am-form-group am-form-group-refreshing">
                             <label>{{:MyLang('layout.view_offcanvas_module_title_right_name')}}</label>
-                            <div class="am-input-group am-input-group-sm">
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
                                 <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_right_name')}}" name="content_title_more" minlength="0" maxlength="80" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_right_name_message')}}" value="" class="am-form-field am-radius" />
-                                <input type="hidden" name="style_title_more_color" value="" />
-                                <a href="javascript:;" class="am-input-group-label am-radius colorpicker-submit module-style-color_title_more" data-position="fixed" data-input-tag=".module-style-color_title_more" data-color-tag="input[name='style_title_more_color']" data-color-style="background-color|border-color">
-                                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                                </a>
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_more_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_more']" data-color-tag="input[name='style_title_more_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                </div>
                             </div>
                         </div>
 

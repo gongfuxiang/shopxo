@@ -1,3 +1,9 @@
 form textarea {
+    width: 100% !important;
+    max-width: 100% !important;
     height: calc(100vh - 30rem) !important;
+}
+
+.sql-tips .am-alert {
+    margin: 0 0 2rem 0;
 }

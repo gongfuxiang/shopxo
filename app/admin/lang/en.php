@@ -27,7 +27,9 @@ return [
             'goods_hot_tips'                    => 'Show only the first 30 items',
             'payment_name'                      => 'Payment Method',
             'order_region_name'                 => 'Order geographical distribution',
-            'order_region_tips'                 => 'Only 30 pieces of data are displayed',
+            'order_region_tips'                 => 'Only 10 pieces of data are displayed',
+            'new_user_name'                     => 'New Users',
+            'buy_user_name'                     => 'Ordering Users',
             'upgrade_check_loading_tips'        => 'Getting the latest content, please wait...',
             'upgrade_version_name'              => 'Updated Version：',
             'upgrade_date_name'                 => 'Update Date：',
@@ -55,6 +57,8 @@ return [
         'base_item_map_whole_country_province'  => 'Province',
         'base_item_map_whole_country_city'      => 'City',
         'base_item_map_whole_country_county'    => 'County',
+        'base_item_new_user_title'              => 'New Users',
+        'base_item_buy_user_title'              => 'Ordering Users',
         'system_info_title'                     => 'System Info',
         'system_ver_title'                      => 'Software Version',
         'system_os_ver_title'                   => 'Operating System',
@@ -145,7 +149,7 @@ return [
             'address_logo_message'              => 'Please upload the logo image',
         ],
         // 主导航
-        'second_nav_list'                       => [
+        'base_nav_list'                       => [
             ['name' => 'Base Config', 'type' => 'base'],
             ['name' => 'Site Settings', 'type' => 'siteset'],
             ['name' => 'Site Type', 'type' => 'sitetype'],
@@ -164,7 +168,6 @@ return [
             ['name' => 'Goods', 'type' => 'goods'],
             ['name' => 'Search', 'type' => 'search'],
             ['name' => 'Order', 'type' => 'order'],
-            ['name' => 'Discount', 'type' => 'discount'],
             ['name' => 'Extensions', 'type' => 'extends'],
         ],
         // 页面基础
@@ -176,6 +179,7 @@ return [
         'base_item_data_cache_title'            => 'Data Cache Config',
         'base_item_redis_cache_title'           => 'Redis Cache Config',
         'base_item_crontab_config_title'        => 'Timing Script Config',
+        'base_item_regex_config_title'          => 'Regular configuration',
         'base_item_quick_nav_title'             => 'Quick Navigation',
         'base_item_user_base_title'             => 'User Base',
         'base_item_user_address_title'          => 'User Address',
@@ -225,7 +229,7 @@ return [
         'left_images_random_tips'               => 'The left picture can upload up to 3 pictures, and one of them can be displayed randomly each time',
         'background_color_tips'                 => 'Customizable background image, default background gray',
         'site_setup_layout_tips'                => 'The drag mode needs to enter the homepage design page by yourself. Please save the selected configuration before',
-        'site_setup_layout_button_name'         => 'Go to design page >>',
+        'site_setup_layout_button_name'         => 'design page',
         'site_setup_goods_category_tips'        => 'If you need more floor displays, please go to/Product Management ->Product Classification, Primary Classification Settings Home Page Recommendation',
         'site_setup_goods_category_no_data_tips'=> 'There is no data for the time being. Please go to/Product Management ->Product Classification, Primary Classification Settings Home Page for recommendation',
         'site_setup_order_default_payment_tips' => 'You can set the default payment method corresponding to different platforms. Please install the payment plug-in in [Website Management ->Payment Method] to enable and open it to users',
@@ -260,7 +264,7 @@ return [
         'admin_login_title'                     => 'Background Login',
         'admin_login_info_bg_images_list_tips'  => [
             '1. The background image is located in the [public/static/admin/default/images/login] directory',
-            '2. Naming rules for background pictures (1~50), such as 1.jpg',
+            '2. Naming rules for background pictures (1~50), such as 1.png',
         ],
         'map_type_tips'                         => 'Due to the different map standards of each company, do not switch maps at will, which will lead to inaccurate map coordinates.',
         'apply_map_baidu_name'                  => 'Please apply at Baidu Map Open Platform',
@@ -491,7 +495,7 @@ return [
         ],
         'nav_store_theme_name'                  => 'More topic downloads',
         'nav_theme_download_name'               => 'View the applet packaging tutorial',
-        'nav_theme_download_tips'               => 'The theme of mobile phone is developed by uniapp (supporting multi-terminal applet+H5), and APP is also in emergency adaptation。',
+        'nav_theme_download_tips'               => 'The mobile theme is developed using Uniapp (supporting multiple mini programs, H5, and APP)',
         'form_alipay_extend_title'              => 'Customer service configuration',
         'form_alipay_extend_tips'               => 'PS: If [APP/applet] is enabled (online customer service is enabled), the following configuration must be filled in [Enterprise Code] and [Chat Window Code]',
         'form_theme_upload_tips'                => 'Upload a zip compressed installation package',
@@ -550,7 +554,8 @@ return [
         'base_nav_title'                        => 'Goods',
         'goods_nav_list'                        => [
             'base'            => ['name' => 'Basic Info', 'type'=>'base'],
-            'specifications'  => ['name' => 'Goods Spec', 'type'=>'specifications'],
+            'spec'            => ['name' => 'Goods Spec', 'type'=>'spec'],
+            'spec_images'     => ['name' => 'Spec Images', 'type'=>'spec_images'],
             'parameters'      => ['name' => 'Goods Params', 'type'=>'parameters'],
             'photo'           => ['name' => 'Goods Photo', 'type'=>'photo'],
             'video'           => ['name' => 'Goods Video', 'type'=>'video'],
@@ -857,8 +862,14 @@ return [
 
     // 支付方式
     'payment'               => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => 'was installed', 'type' => 0],
+            ['name' => 'Not Installed', 'type' => 1],
+        ],
         'base_nav_title'                        => 'PaymentMethod',
-        'nav_store_payment_name'                => 'More PaymentMethod downloads',
+        'base_upload_payment_name'              => 'Upload payment',
+        'base_nav_store_payment_name'           => 'More PaymentMethod downloads',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. The class name must be consistent with the file name (remove. php). If Alipay.php, Alipay is used'
@@ -907,7 +918,8 @@ return [
             ['name' => 'Current Theme', 'type' => 'index'],
             ['name' => 'Theme Install', 'type' => 'upload'],
         ],
-        'nav_store_theme_name'                  => 'More topic downloads',
+        'base_upload_theme_name'                => 'Upload Theme',
+        'base_nav_store_theme_name'             => 'More topic downloads',
         'list_author_title'                     => 'Author',
         'list_version_title'                    => 'Applicable Version',
         'form_theme_upload_tips'                => 'Upload a zip compressed theme installation package',
@@ -1034,11 +1046,12 @@ return [
             ['name' => 'Application Management', 'type' => 'index'],
             ['name' => 'Upload Application', 'type' => 'upload'],
         ],
+        'base_upload_application_name'          => 'Upload application',
         'base_nav_more_plugins_download_name'   => 'More plug-in downloads',
         // 基础页面
         'base_search_input_placeholder'         => 'Please enter a name/description',
         'base_top_tips_one'                     => 'List sorting method [custom sorting ->earliest installation]',
-        'base_top_tips_two'                     => 'Click and drag icon button to adjust plug-in call and display order',
+        'base_top_tips_two'                     => 'Click and drag to adjust the order of plugin calls and displays',
         'base_open_setup_title'                 => 'Enable Setup',
         'data_list_author_title'                => 'Author',
         'data_list_author_url_title'            => 'HomePage',
@@ -1062,7 +1075,7 @@ return [
 
     // 插件分类
     'pluginscategory'       => [
-        'base_nav_title'                        => 'PluginsCategory',
+        'base_nav_title'                        => 'Application Category',
     ],
 
     // 安装页面
@@ -1184,6 +1197,47 @@ return [
         ],
     ],
 
+    // 短信日志
+    'smslog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'platform'        => 'SMS platform',
+            'status'          => 'Status',
+            'mobile'          => 'Phone',
+            'template_value'  => 'Template content',
+            'template_var'    => 'Template variable',
+            'sign_name'       => 'SMS Signature',
+            'request_url'     => 'Request interface',
+            'request_params'  => 'Request parameters',
+            'response_data'   => 'Response data',
+            'reason'          => 'Reason for failure',
+            'tsc'             => 'Time taken (seconds)',
+            'add_time'        => 'Add time',
+            'upd_time'        => 'Update time',
+        ],
+    ],
+
+    // 邮件日志
+    'emaillog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'email'           => 'Recipient email',
+            'status'          => 'Status',
+            'title'           => 'Email title',
+            'template_value'  => 'Email content',
+            'template_var'    => 'Email var',
+            'reason'          => 'Reason for failure',
+            'smtp_host'       => 'Smtp server',
+            'smtp_port'       => 'Smtp port',
+            'smtp_name'       => 'Email username',
+            'smtp_account'    => 'Senders email',
+            'smtp_send_name'  => 'Senders name',
+            'tsc'             => 'Time taken (seconds)',
+            'add_time'        => 'Add time',
+            'upd_time'        => 'Update time',
+        ],
+    ],
+
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'PS: Non-developers should not execute any SQL statements at will, which may cause the entire system database to be deleted.',
@@ -1229,7 +1283,7 @@ return [
     // 后台权限菜单
     'admin_power_menu_list' => [
         'config_index' => [
-            'name' => 'System Setup',
+            'name' => 'System',
             'item' => [
                 'config_index'                 => 'System config',
                 'config_store'                 => 'Store info',
@@ -1239,10 +1293,14 @@ return [
                 'index_inspectupgradeconfirm'  => 'System update confirmation',
                 'index_stats'                  => 'Home page statistics',
                 'index_income'                 => 'Home page Statistics (income statistics]',
+                'shortcutmenu_index'           => 'Common functions',
+                'shortcutmenu_save'            => 'Adding/Editing Common Functions',
+                'shortcutmenu_sort'            => 'Common Function Sorting',
+                'shortcutmenu_delete'          => 'Common function deletion',
             ]
         ],
         'site_index' => [
-            'name' => 'Site Config',
+            'name' => 'Site',
             'item' => [
                 'site_index'                  => 'Site setup',
                 'site_save'                   => 'Site setup editing',
@@ -1260,7 +1318,7 @@ return [
             ]
         ],
         'power_index' => [
-            'name' => 'Power Control',
+            'name' => 'Power',
             'item' => [
                 'admin_index'        => 'Admin list',
                 'admin_saveinfo'     => 'Admin add/edit page',
@@ -1275,11 +1333,12 @@ return [
                 'role_detail'        => 'Role details',
                 'power_index'        => 'Power divide',
                 'power_save'         => 'Power add/edit',
+                'power_statusupdate' => 'Power status update',
                 'power_delete'       => 'Power delete',
             ]
         ],
         'user_index' => [
-            'name' => 'User Admin',
+            'name' => 'User',
             'item' => [
                 'user_index'            => 'User list',
                 'user_saveinfo'         => 'User edit / add page',
@@ -1294,7 +1353,7 @@ return [
             ]
         ],
         'goods_index' => [
-            'name' => 'Goods Admin',
+            'name' => 'Goods',
             'item' => [
                 'goods_index'                       => 'Goods admin',
                 'goods_saveinfo'                    => 'Goods add/edit page',
@@ -1305,6 +1364,7 @@ return [
                 'goods_detail'                      => 'Goods details',
                 'goodscategory_index'               => 'Goods category',
                 'goodscategory_save'                => 'Goods category add/edit',
+                'goodscategory_statusupdate'        => 'Goods category status update',
                 'goodscategory_delete'              => 'Goods category delete',
                 'goodsparamstemplate_index'         => 'Goods params',
                 'goodsparamstemplate_delete'        => 'Delete goods params',
@@ -1337,7 +1397,7 @@ return [
             ]
         ],
         'order_index' => [
-            'name' => 'Order Admin',
+            'name' => 'Order',
             'item' => [
                 'order_index'             => 'Order admin',
                 'order_delete'            => 'Order delete',
@@ -1357,7 +1417,7 @@ return [
             ]
         ],
         'navigation_index' => [
-            'name' => 'Website Admin',
+            'name' => 'Web',
             'item' => [
                 'navigation_index'         => 'Navigation admin',
                 'navigation_save'          => 'Navigation add/edit',
@@ -1391,6 +1451,7 @@ return [
                 'screeningprice_delete'    => 'Filter price delete',
                 'region_index'             => 'Regional admin',
                 'region_save'              => 'Region add/edit',
+                'region_statusupdate'      => 'Regional status update',
                 'region_delete'            => 'Region delete',
                 'region_codedata'          => 'Get area number data',
                 'express_index'            => 'Express Management',
@@ -1421,7 +1482,7 @@ return [
             ]
         ],
         'brand_index' => [
-            'name' => 'Brand Admin',
+            'name' => 'Brand',
             'item' => [
                 'brand_index'           => 'Brand admin',
                 'brand_saveinfo'        => 'Brand add/edit page',
@@ -1435,7 +1496,7 @@ return [
             ]
         ],
         'warehouse_index' => [
-            'name' => 'Warehouse Admin',
+            'name' => 'Stock',
             'item' => [
                 'warehouse_index'               => 'Warehouse admin',
                 'warehouse_saveinfo'            => 'Warehouse add/edit page',
@@ -1455,7 +1516,7 @@ return [
             ]
         ],
         'app_index' => [
-            'name' => 'Mobile Admin',
+            'name' => 'Mobile',
             'item' => [
                 'appconfig_index'            => 'Basic config',
                 'appconfig_save'             => 'Basic config saving',
@@ -1483,7 +1544,7 @@ return [
             ]
         ],
         'article_index' => [
-            'name' => 'Article Admin',
+            'name' => 'Article',
             'item' => [
                 'article_index'           => 'Article admin',
                 'article_saveinfo'        => 'Article add/edit page',
@@ -1497,7 +1558,7 @@ return [
             ]
         ],
         'data_index' => [
-            'name' => 'Data Admin',
+            'name' => 'Data',
             'item' => [
                 'message_index'         => 'Message log',
                 'message_delete'        => 'Message delete',
@@ -1511,26 +1572,32 @@ return [
                 'refundlog_detail'      => 'Refund log details',
                 'integrallog_index'     => 'Integral log',
                 'integrallog_detail'    => 'Points log details',
+                'smslog_index'          => 'SMS log',
+                'smslog_detail'         => 'SMS log details',
             ]
         ],
         'store_index' => [
-            'name' => 'Application Center',
+            'name' => 'Store',
             'item' => [
-                'pluginsadmin_index'         => 'Application admin',
-                'plugins_index'              => 'Application call admin',
-                'pluginsadmin_saveinfo'      => 'Application add/edit page',
-                'pluginsadmin_save'          => 'Apply add/edit',
-                'pluginsadmin_statusupdate'  => 'Application status update',
-                'pluginsadmin_delete'        => 'Apply delete',
-                'pluginsadmin_upload'        => 'Application upload',
-                'pluginsadmin_download'      => 'Application packaging',
-                'pluginsadmin_install'       => 'Application installation',
-                'pluginsadmin_uninstall'     => 'Apps Uninstall',
-                'pluginsadmin_sortsave'      => 'Apply sort save',
-                'store_index'                => 'App store',
-                'packageinstall_index'       => 'Package installation page',
-                'packageinstall_install'     => 'Package installation',
-                'packageupgrade_upgrade'     => 'Package update',
+                'pluginsadmin_index'            => 'Application admin',
+                'plugins_index'                 => 'Application call admin',
+                'pluginsadmin_saveinfo'         => 'Application add/edit page',
+                'pluginsadmin_save'             => 'Apply add/edit',
+                'pluginsadmin_statusupdate'     => 'Application status update',
+                'pluginsadmin_delete'           => 'Apply delete',
+                'pluginsadmin_upload'           => 'Application upload',
+                'pluginsadmin_download'         => 'Application packaging',
+                'pluginsadmin_install'          => 'Application installation',
+                'pluginsadmin_uninstall'        => 'Apps Uninstall',
+                'pluginsadmin_sortsave'         => 'Apply sort save',
+                'store_index'                   => 'App store',
+                'packageinstall_index'          => 'Package installation page',
+                'packageinstall_install'        => 'Package installation',
+                'packageupgrade_upgrade'        => 'Package update',
+                'pluginscategory_index'         => 'Application category',
+                'pluginscategory_save'          => 'Add/edit application category',
+                'pluginscategory_statusupdate'  => 'Application category status update',
+                'pluginscategory_delete'        => 'Application category deletion',
             ]
         ],
         'tool_index' => [

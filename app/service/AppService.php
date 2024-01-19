@@ -96,12 +96,12 @@ class AppService
         $data = [
             [
                 'name'  => $lang['goodsfavor'],
-                'icon'  => 'heart',
+                'icon'  => 'icon-star',
                 'url'   => '/pages/user-favor/user-favor',
             ],
             [
                 'name'  => $lang['usermessage'],
-                'icon'  => 'chat',
+                'icon'  => 'icon-message',
                 'badge' => $message_total,
                 'url'   => '/pages/message/message',
             ]

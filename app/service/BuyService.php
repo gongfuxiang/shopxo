@@ -286,41 +286,27 @@ class BuyService
             {
                 // 正常购买
                 case 'goods' :
-                    $ret = self::BuyGoods($params);
+                    $goods = self::BuyGoods($params);
                     break;
 
                 // 购物车
                 case 'cart' :
-                    $ret = self::BuyCart($params);
+                    $goods = self::BuyCart($params);
                     break;
 
                 // 默认
                 default :
-                    $ret = DataReturn(MyLang('params_error_tips'), -1);
+                    $goods = DataReturn(MyLang('params_error_tips'), -1);
             }
         } else {
-            $ret = DataReturn(MyLang('params_error_tips'), -1);
+            $goods = DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 数据组装
-        if($ret['code'] == 0)
+        if($goods['code'] == 0)
         {
-            // 商品数据
-            $goods = $ret['data'];
-
-            // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
-            $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
-            $common_site_type = SystemBaseService::SiteTypeValue();
-            $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
-
-            // 商品销售模式
-            // 商品小于等于1则使用商品的类型
-            if(count($goods) <= 1 && isset($goods[0]) && isset($goods[0]['goods_id']))
-            {
-                $ret = GoodsService::GoodsSalesModelType($goods[0]['goods_id']);
-                $common_site_type = $ret['data'];
-                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
-            }
+            // 下单类型
+            $model = self::BuyOredrSiteTypeModelData($goods['data'], $params);
 
             // 数据处理
             $address = null;
@@ -328,7 +314,7 @@ class BuyService
 
             // 站点模式 - 用户收货地址（未选择则取默认地址）
             // 销售, 销售+自提(指定为销售)
-            if($site_model == 0)
+            if($model['site_model'] == 0)
             {
                 $address_params = [
                     'user'  => $params['user'],
@@ -346,7 +332,7 @@ class BuyService
 
             // 自提模式 - 自提点地址
             // 自提, 销售+自提(指定为自提)
-            if($site_model == 2)
+            if($model['site_model'] == 2)
             {
                 $extraction = self::SiteExtractionAddress($params);
                 if(!empty($extraction['data']['data_list']))
@@ -360,9 +346,51 @@ class BuyService
             }
 
             // 订单拆分处理
-            return self::OrderSplitHandle($site_model, $common_site_type, $address, $extraction_address, $goods, $params);
+            return self::OrderSplitHandle($model['site_model'], $model['common_site_type'], $address, $extraction_address, $goods['data'], $params);
         }
         return $ret;
+    }
+
+    /**
+     * 下单站点类型数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-12-10
+     * @desc    description
+     * @param   [array]          $goods  [订单商品数据]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BuyOredrSiteTypeModelData($goods, $params = [])
+    {
+        // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
+        $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
+        $common_site_type = SystemBaseService::SiteTypeValue();
+        $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
+
+        // 商品销售模式
+        // 商品小于等于1则使用商品的类型
+        if(!empty($goods) && count($goods) == 1 && isset($goods[0]) && isset($goods[0]['goods_id']))
+        {
+            $ret = GoodsService::GoodsSalesModelType($goods[0]['goods_id']);
+            $common_site_type = $ret['data'];
+            $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
+        }
+
+        // 下单站点类型数据钩子
+        $hook_name = 'plugins_service_buy_oredr_site_type_model';
+        MyEventTrigger($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'params'            => $params,
+            'common_site_type'  => &$common_site_type,
+            'site_model'        => &$site_model,
+        ]);
+
+        return [
+            'common_site_type'  => $common_site_type,
+            'site_model'        => $site_model,
+        ];
     }
 
     /**
@@ -605,17 +633,6 @@ class BuyService
      */
     public static function OrderInsert($params = [])
     {
-        // 站点类型，是否开启了展示型
-        $common_site_type = SystemBaseService::SiteTypeValue();
-        if($common_site_type == 1)
-        {
-            return DataReturn(MyLang('common_service.buy.exhibition_not_allow_submit_tips'), -1);
-        }
-
-        // 销售+自提, 用户自选站点类型
-        $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
-        $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
-
         // 请求参数
         $p = [
             [
@@ -624,24 +641,11 @@ class BuyService
                 'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
-
-        // // 快递,自提点,销售+自提 则校验地址
-        if(in_array($site_model, [0,2]))
-        {
-            $p[] = [
-                'checked_type'      => 'isset',
-                'key_name'          => 'address_id',
-                'error_msg'         => MyLang('common_service.buy.choice_not_address_tips'),
-            ];
-        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
         }
-
-        // 是否预约模式
-        $common_order_is_booking = MyC('common_order_is_booking', 0);
 
         // 查询用户状态是否正常
         $ret = UserService::UserStatusCheck($params['user']['id']);
@@ -657,6 +661,22 @@ class BuyService
         {
             return $buy;
         }
+
+        // 下单类型
+        $model = self::BuyOredrSiteTypeModelData(($buy['data']['base']['goods_count'] == 1) ? $buy['data']['goods'][0]['goods_items'] : null, $params);
+        // 站点展示型
+        if($model['common_site_type'] == 1)
+        {
+            return DataReturn(MyLang('common_service.buy.exhibition_not_allow_submit_tips'), -1);
+        }
+        // 快递,自提点,销售+自提 则校验地址
+        if(($model['site_model'] == 0 && empty($params['address_id'])) || $model['site_model'] == 2 && $params['address_id'] === null)
+        {
+            return DataReturn(MyLang('common_service.buy.choice_not_address_tips'), -1);
+        }
+
+        // 是否预约模式
+        $common_order_is_booking = MyC('common_order_is_booking', 0);
 
         // 金额大于0、非预约模式 必须选择支付方式
         if($buy['data']['base']['actual_price'] > 0 && $common_order_is_booking != 1)
@@ -699,14 +719,6 @@ class BuyService
         $order_data = [];
         foreach($buy['data']['goods'] as $v)
         {
-            // 商品销售模式
-            // 当前整体仓库商品等于1则使用商品的类型
-            if($buy['data']['base']['goods_count'] == 1)
-            {
-                $ret = GoodsService::GoodsSalesModelType($v['goods_items'][0]['goods_id']);
-                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
-            }
-
             // 商品校验
             $check = self::BuyGoodsCheck(['goods'=>$v['goods_items'], 'is_buy'=>1]);
             if($check['code'] != 0)
@@ -716,7 +728,7 @@ class BuyService
 
             // 快递,自提点,销售+自提 地址处理
             $address = [];
-            if(in_array($site_model, [0,2]))
+            if(in_array($model['site_model'], [0,2]))
             {
                 if(empty($v['order_base']['address']))
                 {
@@ -740,7 +752,7 @@ class BuyService
                 'payment_id'            => $payment_id,
                 'buy_number_count'      => $v['order_base']['buy_count'],
                 'client_type'           => APPLICATION_CLIENT_TYPE,
-                'order_model'           => $site_model,
+                'order_model'           => $model['site_model'],
                 'is_under_line'         => $is_under_line,
             ];
 
@@ -800,7 +812,7 @@ class BuyService
         {
             // 预约成功
             case 0 :
-                $msg = MyLang('prebook_success');
+                $msg = MyLang('common_service.buy.order_submit_booking_success_tips');
                 break;
 
             // 提交成功,进入合并支付
@@ -1665,7 +1677,6 @@ class BuyService
      * @date    2019-11-18
      * @desc    description
      * @param   [int]       $params['address_id'] [自提点地址索引值]
-     * @param   [array]     $params['address_id'] [自提点地址列表]
      */
     public static function SiteExtractionAddress($params = [])
     {

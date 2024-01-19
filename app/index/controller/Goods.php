@@ -103,31 +103,11 @@ class Goods extends Common
             // 详情tab商品 猜你喜欢
             if(!empty($assign['middle_tabs_nav']) && in_array('guess_you_like', $assign['middle_tabs_nav']['type']))
             {
-                $params = [
-                    'where'     => [
-                        ['is_shelves', '=', 1],
-                        ['is_delete_time', '=', 0],
-                    ],
-                    'order_by'  => 'sales_count desc',
-                    'field'     => 'id,title,title_color,price,images',
-                    'n'         => 16,
-                ];
-                $like_goods = GoodsService::GoodsList($params);
-                $assign['detail_like_goods'] = $like_goods['data'];
+                $assign['guess_you_like'] = GoodsService::GoodsDetailGuessYouLikeData($goods['id']);
             }
 
             // 左侧商品 看了又看
-            $params = [
-                'where'     => [
-                    ['is_shelves', '=', 1],
-                    ['is_delete_time', '=', 0],
-                ],
-                'order_by'  => 'access_count desc',
-                'field'     => 'id,title,title_color,price,images',
-                'n'         => 10,
-            ];
-            $right_goods = GoodsService::GoodsList($params);
-            $assign['left_goods'] = $right_goods['data'];
+            $assign['left_goods'] = GoodsService::GoodsDetailSeeingYouData($goods['id']);
 
             // seo
             $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];

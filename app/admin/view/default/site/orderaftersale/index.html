@@ -2,50 +2,47 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}" enctype="multipart/form-data">
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_only_money_reason.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_only_money_reason.describe}}</span></label>
-                <textarea rows="6" name="{{$data.home_order_aftersale_return_only_money_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_order_aftersale_return_only_money_reason.name}}" data-validation-message="{{$data.home_order_aftersale_return_only_money_reason.error_tips}}">{{if !empty($data)}}{{$data.home_order_aftersale_return_only_money_reason.value}}{{/if}}</textarea>
-            </div>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_only_money_reason.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_only_money_reason.describe}}</span></label>
+                    <textarea rows="6" name="{{$data.home_order_aftersale_return_only_money_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_order_aftersale_return_only_money_reason.name}}" data-validation-message="{{$data.home_order_aftersale_return_only_money_reason.error_tips}}">{{if !empty($data)}}{{$data.home_order_aftersale_return_only_money_reason.value}}{{/if}}</textarea>
+                </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_money_goods_reason.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_money_goods_reason.describe}}</span></label>
-                <textarea rows="6" name="{{$data.home_order_aftersale_return_money_goods_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_order_aftersale_return_money_goods_reason.name}}" data-validation-message="{{$data.home_order_aftersale_return_money_goods_reason.error_tips}}">{{if !empty($data)}}{{$data.home_order_aftersale_return_money_goods_reason.value}}{{/if}}</textarea>
-            </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_money_goods_reason.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_money_goods_reason.describe}}</span></label>
+                    <textarea rows="6" name="{{$data.home_order_aftersale_return_money_goods_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_order_aftersale_return_money_goods_reason.name}}" data-validation-message="{{$data.home_order_aftersale_return_money_goods_reason.error_tips}}">{{if !empty($data)}}{{$data.home_order_aftersale_return_money_goods_reason.value}}{{/if}}</textarea>
+                </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_goods_contacts_name.name}}</label>
-                <input type="text" name="{{$data.home_order_aftersale_return_goods_contacts_name.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_contacts_name.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_contacts_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_contacts_name.value}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_goods_contacts_tel.name}}</label>
-                <input type="text" name="{{$data.home_order_aftersale_return_goods_contacts_tel.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_contacts_tel.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_contacts_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_contacts_tel.value}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_goods_address.name}}</label>
-                <input type="text" name="{{$data.home_order_aftersale_return_goods_address.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_address.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_address.value}}"{{/if}} />
-            </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_goods_contacts_name.name}}</label>
+                    <input type="text" name="{{$data.home_order_aftersale_return_goods_contacts_name.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_contacts_name.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_contacts_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_contacts_name.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_goods_contacts_tel.name}}</label>
+                    <input type="text" name="{{$data.home_order_aftersale_return_goods_contacts_tel.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_contacts_tel.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_contacts_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_contacts_tel.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_goods_address.name}}</label>
+                    <input type="text" name="{{$data.home_order_aftersale_return_goods_address.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_address.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_address.value}}"{{/if}} />
+                </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_is_use_warehouse_address.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_is_use_warehouse_address.describe}}</span></label>
-                <select name="{{$data.home_order_aftersale_is_use_warehouse_address.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_order_aftersale_is_use_warehouse_address.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['home_order_aftersale_is_use_warehouse_address']['value']) and $data['home_order_aftersale_is_use_warehouse_address']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_is_use_warehouse_address.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_is_use_warehouse_address.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.home_order_aftersale_is_use_warehouse_address.only_tag}}" data-validation-message="{{$data.home_order_aftersale_is_use_warehouse_address.error_tips}}" required {{if isset($data['home_order_aftersale_is_use_warehouse_address']['value']) and $data['home_order_aftersale_is_use_warehouse_address']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_order_aftersale_return_launch_day.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_launch_day.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
+                <div class="am-form-group">
+                    <label>{{$data.home_order_aftersale_return_launch_day.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_launch_day.describe}}</span></label>
                     <input type="number" min="0" name="{{$data.home_order_aftersale_return_launch_day.only_tag}}" placeholder="{{$data.home_order_aftersale_return_launch_day.name}}" data-validation-message="{{$data.home_order_aftersale_return_launch_day.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_launch_day.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">{{:MyLang('day_title')}}</span>
                 </div>
             </div>
 
@@ -64,4 +61,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

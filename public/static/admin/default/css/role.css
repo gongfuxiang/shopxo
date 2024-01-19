@@ -1,19 +1,65 @@
 .tree-list li {
-	list-style-type: none;
+    list-style-type: none;
 }
-.tree-list li .item-content {
-	border:0.1rem dashed #ceecff;
-	background: #ddf2ff;
+
+.tree-list>li {
+    background: #F0F9FF;
 }
+.tree-list>li>div>label {
+    font-size: 1.4rem;
+}
+
 .tree-list li label,
 .tree-list li label input[type="checkbox"] {
-	cursor: pointer;
-	margin: 0;
+    cursor: pointer;
+    margin: 0;
 }
-.tree-list li label input[type="checkbox"],
-.tree-list li label span {
-	vertical-align: middle;
+
+.list-find {
+    background-color: #fbfeff;
+    padding-left: 3rem;
 }
-.list-find li label span {
-	font-weight: normal;
+
+.list-find>li {
+    border-bottom: 0.1rem solid #EBF4FA;
+}
+
+.list-find>li label span {
+    font-weight: normal;
+}
+
+/* 插件权限 */
+.tree-plugins {
+    background: transparent;
+}
+
+.tree-plugins li {
+    min-width: 180px;
+    width: 10%;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.tree-plugins label.am-checkbox-inline {
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.tree-plugins label.am-checkbox-inline .am-ucheck-icons {
+    top: 0.2rem;
+}
+.tree-plugins li label.am-checkbox-inline .am-ucheck-icons {
+    top: 0.3rem;
+}
+
+.tree-plugins li>div {
+    background: #fff;
+    padding: 1rem;
+}
+
+@media only screen and (max-width:641px) {
+    .tree-plugins li {
+        width: 50%;
+        min-width: auto;
+    }
 }

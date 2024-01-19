@@ -171,6 +171,7 @@ class Message
                     'view_key'      => 'message/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 120,
                 ],
             ],
             // 数据配置

@@ -1,131 +1,201 @@
-
 /**
  * 基础
  */
-html, body {
+html,
+body {
     background: #f5f5f5;
 }
-.block-container, .block-combination-container-2 li {
-    width: 100%;
-    background: #fff !important;
-    padding: 1rem;
-    border: 0.1rem solid #eee;
-    border-radius: 0.3rem;
-    overflow: hidden;;
-}
-.block-container, .block-combination-container-2 li {
-    position: relative;
-}
-.block-container {
-    margin-bottom: 2rem;
+
+.content-right>.content {
+    background: transparent !important;
 }
 
-.block-container .block-title, .block-combination-container-2 li .block-title {
-    margin-left: 1rem;
+.block-container,
+.block-combination-container-2 li {
+    background: #fff !important;
+    padding: 1.2rem;
+    border-radius: 8px;
+    overflow: hidden;
 }
-.block-container .block-title .icon, .block-combination-container-2 li .block-title .icon {
-    background: #3f82fe;
+
+.block-container,
+.block-combination-container-2 li {
+    position: relative;
+}
+
+.block-container {
+    margin-bottom: 1rem;
+}
+
+.block-container .block-title .title.icon::before,
+.block-combination-container-2 li .block-title .title.icon::before {
+    content: '';
+    background: var(--color-main);
     display: block;
-    width: 0.5rem;
-    height: 1.6rem;
+    width: 0.3rem;
+    height: 1.4rem;
     position: absolute;
-    left: 1rem;
-    top: 1.3rem;
+    left: 0;
+    top: 0.3rem;
+    border-radius: 0.2rem;
 }
-.block-container .block-title .title, .block-combination-container-2 li .block-title .title {
-    color: #666;
+
+.block-container .block-title .title,
+.block-combination-container-2 li .block-title .title {
+    color: #333;
     font-size: 1.4rem;
-    margin-left: 0.5rem;
+    font-weight: 500;
+    position: relative;
+    padding: 0 1.1rem;
 }
+
+.block-title .title.am-active {
+    color: var(--color-main) !important;
+}
+
+.block-title .title.am-active::before {
+    content: '';
+    width: 100%;
+    height: 0.2rem;
+    background-color: var(--color-main);
+    position: absolute;
+    bottom: -1.2rem;
+    left: 0;
+}
+
+.right-operate .quick-time {
+    display: inline-flex;
+    position: relative;
+}
+
+.right-operate .quick-time a,
+.right-operate .quick-time .dropdown-more {
+    border: 0.1rem solid #f7f7f7;
+}
+
 .right-operate .quick-time a {
-    margin-right: 0.8rem;
-    color: #bde2f4;
+    font-size: 1.2rem;
+    color: #666;
+    display: table-cell;
+    padding: 0.1rem 1rem;
+    transition: all 0.3s ease-in-out;
+    border-radius: 0;
+    position: relative;
+    border-right: 0;
 }
-.right-operate .quick-time a:hover {
-    color: #095f8a;
+
+.right-operate .quick-time a:first-child {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
 }
+
+.right-operate .quick-time .dropdown-more {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.right-operate .quick-time .dropdown-more .am-dropdown {
+    height: 100%;
+}
+
+.right-operate .quick-time .dropdown-more a {
+    padding-right: 0.5rem;
+    border: 0;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    display: inline-block;
+    height: 100%;
+}
+
+.right-operate .quick-time .dropdown-more a > i {
+    font-size: 1rem;
+}
+
+.right-operate .quick-time .am-dropdown-content {
+    width: 24rem;
+}
+
+.right-operate .quick-time .am-dropdown-content .item {
+    width: calc(100% / 3 - 0.7rem);
+}
+
+.right-operate .quick-time .am-dropdown-content .item a {
+    padding: 0.6rem;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.2rem;
+}
+
+.right-operate .quick-time .dropdown-more:has(.am-active),
+.right-operate .quick-time .dropdown-more:hover,
+.right-operate .quick-time .dropdown-more.am-active,
+.right-operate .quick-time > a.am-active,
+.right-operate .quick-time > a:hover {
+    color: var(--color-main);
+    background-color: var(--color-main-light);
+    border-color: var(--color-main-light);
+}
+
+.right-operate .quick-time .dropdown-more:has(.am-active) > .am-dropdown > a,
+.right-operate .quick-time .dropdown-more:hover > .am-dropdown > a,
+.right-operate .quick-time .dropdown-more.am-active > .am-dropdown > a {
+    color: var(--color-main);
+}
+
+.right-operate .quick-time .dropdown-more .item a.am-active,
+.right-operate .quick-time .dropdown-more .item a:hover {
+    color: var(--color-main);
+    background-color: transparent !important;
+    font-weight: 500;
+}
+
 .right-operate .echarts-where input {
     display: -webkit-inline-box !important;
     width: 15.5rem !important;
-    border-color: #eee;
     color: #888;
+    height: 2.4rem;
+    border-color: #f7f7f7;
 }
+
 .right-operate .echarts-where-submit {
-    color: #8cd8ff;
+    border: 0.1rem solid var(--color-main);
     background-color: transparent;
-    border-color: #d0efff;
+    color: var(--color-main);
+    font-size: 1.2rem;
+    padding: 0.3rem 0.5rem;
 }
+
 .right-operate .echarts-where-submit:hover {
     color: #fff;
-    background-color: #3bb4f2;
-    border-color: #3bb4f2;
+    background-color: var(--color-main);
+    border-color: var(--color-main);
 }
+
+.right-operate .echarts-where-submit i {
+    font-size: 1.2rem;
+}
+
 .right-operate .echarts-where .join {
     color: #ccc;
 }
-.block-container .echarts-title{
-    height: 4.6rem;
-}
-.block-combination-container-2 li .echarts-title {
-    height: 10rem;
-}
-.block-combination-container-2 .right-operate {
-    float: none;
-}
-.block-combination-container-2 .right-operate .quick-time,
-.block-combination-container-2 .right-operate .echarts-where {
-    display: block;
-    margin-top: 0.5rem;
-}
-.block-combination-container-2 .right-operate .quick-time {
-    margin-top: 1rem;
-}
-.block-combination-container-2 .right-operate .echarts-where input {
-    width: calc(50% - 4.6rem) !important;
-}
+
 .block-container .am-dropdown .am-selected-btn {
-    padding: 0.3em 1em 0.3em 0.3em;
+    padding: 0.3em 2em 0.3em 0.8em;
     border-radius: 0.3rem;
     margin-left: 0.5rem;
+    width: 7.4rem;
+    background: #f2f4f7;
+    color: #666;
 }
-@media only screen and (min-width: 641px) {
-    .block-combination-container-2 {
-        margin-bottom: 2rem;
-    }
-    .block-combination-container-2 li {
-        width: calc(50% - 1rem);
-    }
-    .block-combination-container-2 li:nth-child(1) {
-        float: left;
-        top: 0;
-        left: 0;
-    }
-    .block-combination-container-2 li:nth-child(2) {
-        float: right;
-        top: 0;
-        right: 0;
-    }
-}
-@media only screen and (max-width: 640px) {
-    .block-combination-container-2 li {
-        margin-bottom: 2rem;
-    }
-}
+
+@media only screen and (min-width: 641px) {}
+
+@media only screen and (max-width: 640px) {}
+
 @media only screen and (max-width: 1000px) {
-    .block-container .echarts-title {
-        height: 10rem;
-    }
-    .right-operate {
-        float: none;
-    }
-    .right-operate .quick-time,
     .right-operate .echarts-where {
         display: block;
-        margin-top: 0.5rem;
     }
-    .right-operate .quick-time {
-        margin-top: 1rem;
-    }
+
     .right-operate .echarts-where input {
         width: calc(50% - 4.6rem) !important;
     }
@@ -136,48 +206,43 @@ html, body {
  * 基础数据
  */
 .shopxo-base li {
-    padding: 2rem;
+    padding: 0.5rem;
 }
+
 .shopxo-base li .li-content {
-    padding: 1rem;
-    border-radius: 0.3rem;
-    background: #00BCD4;
+    padding: 1.1rem 1.4rem;
+    border-radius: 0.8rem;
+    background: #F6F5FC;
     position: relative;
 }
-.shopxo-base li:nth-child(1) .li-content {
-    background: #00BCD4;
-}
-.shopxo-base li:nth-child(2) .li-content {
-    background: #FF9800;
-}
-.shopxo-base li:nth-child(3) .li-content {
-    background: #e63a75;
-}
-.shopxo-base li:nth-child(4) .li-content {
-    background: #9c40ac;
-}
+
 .shopxo-base li .name {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 700;
     margin: 0;
-    color: #fff;
+    color: #333;
 }
+
 .shopxo-base li .li-content .total {
     margin: 0 0 0.5rem 0;
-    color: #fff;
-    font-size: 2.6rem;
+    color: #333;
+    font-size: 2.4rem;
     font-weight: 700;
 }
-.shopxo-base li .li-content p, .shopxo-base li .li-content .item {
+
+.shopxo-base li .li-content p,
+.shopxo-base li .li-content .item {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     max-width: 100%;
 }
+
 .shopxo-base li .li-content .item {
-    color: #f0f0f0;
+    color: #666;
     font-size: 1.2rem;
 }
+
 .shopxo-base li .li-content .bg-icon {
     font-size: 3.6rem;
     position: absolute;
@@ -185,10 +250,18 @@ html, body {
     right: 1rem;
     color: rgba(255, 255, 255, 0.12);
 }
+
+.shopxo-base li .li-content .li-content-foot {
+    border-top: 0.1rem solid #E2EAF2;
+    padding-top: 0.8rem;
+    color: #666;
+}
+
 @media only screen and (max-width: 640px) {
     .shopxo-base li {
         padding: 1rem 0.5rem;
     }
+
     .shopxo-base ul.am-avg-lg-4 li:nth-child(3),
     .shopxo-base ul.am-avg-lg-4 li:nth-child(4) {
         padding-top: 0;
@@ -198,13 +271,27 @@ html, body {
 /**
  * 图表容器
  */
-#echarts-order-profit,
-#echarts-order-trading,
+.echarts-content,
 #echarts-goods-hot,
 #echarts-pay-type,
 #echarts-map-whole-country {
-    margin-top: 1rem;
-    height: 40rem;
+    position: relative;
+    margin-top: 0.8rem;
+    height: 32rem;
+}
+
+.echarts-tabs-change {
+    position: absolute !important;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.echarts-tabs-change.echarts-tabs-change-active {
+    opacity: 1;
+    z-index: 1;
 }
 
 /**
@@ -213,10 +300,13 @@ html, body {
 .dl-content {
     margin: 1rem 0 0 0;
 }
-.dl-content dt, .dl-content dd {
+
+.dl-content dt,
+.dl-content dd {
     line-height: 2.2rem;
     min-height: 3rem;
 }
+
 .dl-content dd:last-child {
     border-bottom: 0;
 }
@@ -227,19 +317,25 @@ html, body {
 .base-content-top {
     margin-bottom: 1rem;
 }
+
 .base-content-top .vip {
-    border-radius: 0.2rem;
     padding: 0 0.6rem;
     background: #e1e1e1;
     color: #666;
+    display: -webkit-inline-box;
+    height: 2.2rem;
+    line-height: 2.2rem;
 }
+
 .base-content-top .vip-active {
-    background: #ffe500;
-    color: #c97e10;
+    background: linear-gradient(90deg, #EBC38B 0%, #FFE6C7 52%, #EECBA4 100%);
+    color: #38290C;
 }
+
 .base-content-top .ad-content:hover {
     color: #f44336;
 }
+
 .inspect-upgrade-submit i {
     background: #f00;
     display: inline-block;
@@ -248,16 +344,20 @@ html, body {
     margin-left: 0.2rem;
     border-radius: 1.5rem;
 }
+
 @media only screen and (max-width: 640px) {
+
     .base-content-top .left-content,
     .base-content-top .right-content {
         width: 100%;
     }
+
     .base-content-top .right-content {
         margin-top: 1rem;
         border-top: 0.1rem dashed #eee;
         padding-top: 1rem;
     }
+
     .base-content-top .left-content .ad-content,
     .base-content-top .right-content .right-base {
         float: right;
@@ -271,18 +371,22 @@ html, body {
     padding-bottom: 5rem;
     overflow: auto;
 }
+
 #inspect-upgrade-popup .upgrade-title span {
     font-weight: bold;
     font-size: 1.6rem;
     line-height: 1.6rem;
 }
+
 #inspect-upgrade-popup .upgrade-title * {
     vertical-align: middle;
 }
+
 #inspect-upgrade-popup .upgrade-content-item ul li {
     line-height: 2.6rem;
     min-height: 2.6rem;
 }
+
 #inspect-upgrade-popup .upgrade-bottom {
     position: fixed;
     left: 0;
@@ -291,9 +395,251 @@ html, body {
     height: 7rem;
     padding: 0 2.5rem;
 }
+
 #inspect-upgrade-popup .upgrade-bottom-content {
     background: #fff;
     padding: 1rem 2rem 0 0;
     height: 5rem;
     border-top: 0.1rem solid #ececec;
+}
+
+/**
+ * 常用功能
+ */
+.shortcut-menu {
+    width: 100%;
+    max-width: 38rem;
+}
+
+.shortcut-menu .shortcut-menu-list {
+    margin-bottom: 2rem;
+}
+
+.shortcut-menu .shortcut-menu-list .shortcut-menu-content {
+    row-gap: 2.4rem;
+}
+
+.shortcut-menu .shortcut-menu-list .table-no {
+    padding: 0;
+    margin: 0;
+    min-height: 28rem;
+}
+
+.shortcut-menu .shortcut-menu-list .item {
+    width: calc(100% / 3);
+}
+
+.shortcut-menu .shortcut-menu-list .item img {
+    width: 4.6rem;
+    height: 4.6rem;
+}
+
+.shortcut-menu .shortcut-menu-list .item p {
+    margin-top: 1rem;
+}
+
+/**
+ * 订单地域分布
+*/
+.block-combination-container-2 .area-select li {
+    padding: 0.5rem 1.2rem;
+}
+
+.area-select .am-selected-btn {
+    border-radius: var(--border-radius);
+    border: 0;
+    background: #F2F4F7;
+    height: 2.4rem;
+    line-height: 2.4rem;
+    padding: 0 2.3rem 0 1rem;
+}
+
+.area-select .am-selected>.am-selected-btn.am-btn-default:hover,
+.area-select .am-dropdown.am-active .am-btn-default.am-dropdown-toggle {
+    background: #F2F4F7 !important;
+}
+
+.area-select .am-selected-content {
+    border-radius: 0.8rem;
+}
+
+@media only screen and (max-width: 1760px) {
+    .user-flex {
+        border: 0;
+        flex-flow: column nowrap;
+        align-items: start;
+        gap: 1rem;
+    }
+
+    .user-flex .echarts-tabs {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 11px;
+    }
+
+    .user-flex .right-oprate-item {
+        align-self: end;
+    }
+}
+
+@media only screen and (max-width: 1740px) {
+    .area-flex {
+        flex-direction: column;
+        gap: 10px;
+        height: auto !important;
+        align-items: start;
+    }
+
+    .area-flex .right-operate {
+        align-self: end;
+    }
+}
+
+@media only screen and (max-width: 1525px) {
+
+    .goods-hot-flex,
+    .pay-type-flex {
+        flex-direction: column;
+        gap: 10px;
+        height: auto !important;
+        align-items: start;
+    }
+
+    .goods-hot-flex .right-operate,
+    .pay-type-flex .right-operate {
+        align-self: end;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+
+    .goods-hot-flex .right-operate,
+    .pay-type-flex .right-operate,
+    .area-flex .right-operate,
+    .user-flex .right-operate {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .user-flex .right-oprate-item {
+        width: 100%;
+    }
+
+    .goods-hot-flex .right-operate .quick-time,
+    .pay-type-flex .right-operate .quick-time,
+    .area-flex .right-operate .quick-time,
+    .user-flex .right-operate .quick-time {
+        align-self: start;
+    }
+
+    .goods-hot-flex .right-operate .echarts-where,
+    .pay-type-flex .right-operate .echarts-where,
+    .area-flex .right-operate .echarts-where,
+    .user-flex .right-operate .echarts-where {
+        width: 100%;
+    }
+
+    .goods-hot-flex .right-operate .echarts-where input,
+    .pay-type-flex .right-operate .echarts-where input,
+    .area-flex .right-operate .echarts-where input,
+    .user-flex .right-operate .echarts-where input {
+        width: calc(50% - 4rem) !important;
+    }
+}
+
+@media only screen and (min-width:1160px) and (max-width:1320px) {
+
+    .inventory,
+    .shortcut-menu {
+        max-width: 23rem !important;
+    }
+
+    .inventory .li-content .item {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1160px) {
+
+    .shop-flex,
+    .order-flex {
+        flex-direction: column;
+        align-items: start;
+        gap: 0;
+    }
+
+    .shop-flex>.am-flex-width,
+    .order-flex>.am-flex-width {
+        width: 100%;
+    }
+
+    .shop-flex .inventory,
+    .order-flex .shortcut-menu {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .shortcut-menu .shortcut-menu-list .item {
+        width: calc(100% / 9);
+    }
+}
+
+@media only screen and (max-width: 910px) {
+    .order-flex .echarts-title {
+        border: 0;
+    }
+
+    .order-flex .echarts-tabs {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 11px;
+    }
+
+    .shop-flex .echarts-title,
+    .order-flex .echarts-title {
+        flex-direction: column;
+        align-items: start;
+        gap: 1rem;
+    }
+
+    .shop-flex .right-operate,
+    .order-flex .right-oprate-item {
+        align-self: end;
+    }
+
+    .block-combination-container-2 {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 730px) {
+
+    .shop-flex .right-operate,
+    .order-flex .right-oprate-item {
+        align-self: start;
+        width: 100%;
+    }
+
+    .shop-flex .right-operate,
+    .order-flex .right-operate {
+        width: 100%;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .shop-flex .right-operate .echarts-where,
+    .order-flex .right-operate .echarts-where {
+        width: 100%;
+    }
+
+    .shop-flex .right-operate .echarts-where input,
+    .order-flex .right-operate .echarts-where input {
+        width: calc(50% - 4rem) !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .shortcut-menu .shortcut-menu-list .item {
+        width: calc(100% / 3);
+    }
 }

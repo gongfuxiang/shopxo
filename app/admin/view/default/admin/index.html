@@ -3,7 +3,10 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <a href="{{:MyUrl('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:MyLang('add_title')}}</a>
+    <a href="{{:MyUrl('admin/admin/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs"> 
+        <i class="iconfont icon-btn-add am-show-sm-only"></i>
+        <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+    </a>
     <!-- 父级内容 -->
     {__block__}
 {{/block}}
@@ -11,8 +14,7 @@
 <!-- 底部提示信息 -->
 {{block name="form_operate_bottom"}}
     {{if isset($admin) and isset($admin['id']) and $admin['id'] eq 1 and is_array(MyLang('admin.top_tips_list'))}}
-        <!-- 仅超级管理员显示的温馨提示 -->
-        <div class="am-alert am-alert-danger">
+        <div class="am-tips-card">
             <p>{{:implode('</p><p>', MyLang('admin.top_tips_list'))}}</p>
         </div>
     {{/if}}

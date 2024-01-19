@@ -27,7 +27,9 @@ return [
             'goods_hot_tips'                    => '僅顯示前30條商品',
             'payment_name'                      => '支付方式',
             'order_region_name'                 => '訂單地域分佈',
-            'order_region_tips'                 => '僅顯示30條數據',
+            'order_region_tips'                 => '僅顯示10條數據',
+            'new_user_name'                     => '新增用戶',
+            'buy_user_name'                     => '下單用戶',
             'upgrade_check_loading_tips'        => '正在獲取最新內容、請稍候…',
             'upgrade_version_name'              => '更新版本：',
             'upgrade_date_name'                 => '更新日期：',
@@ -55,6 +57,8 @@ return [
         'base_item_map_whole_country_province'  => '省',
         'base_item_map_whole_country_city'      => '市',
         'base_item_map_whole_country_county'    => '區/縣',
+        'base_item_new_user_title'              => '新增用戶',
+        'base_item_buy_user_title'              => '下單用戶',
         'system_info_title'                     => '系統資訊',
         'system_ver_title'                      => '軟體版本',
         'system_os_ver_title'                   => '作業系統',
@@ -145,7 +149,7 @@ return [
             'address_logo_message'              => '請上傳logo圖片',
         ],
         // 主导航
-        'second_nav_list'                       => [
+        'base_nav_list'                       => [
             ['name' => '基礎配寘', 'type' => 'base'],
             ['name' => '網站設定', 'type' => 'siteset'],
             ['name' => '網站類型', 'type' => 'sitetype'],
@@ -164,7 +168,6 @@ return [
             ['name' => '商品', 'type' => 'goods'],
             ['name' => '蒐索', 'type' => 'search'],
             ['name' => '訂單', 'type' => 'order'],
-            ['name' => '優惠', 'type' => 'discount'],
             ['name' => '擴展', 'type' => 'extends'],
         ],
         // 页面基础
@@ -176,6 +179,7 @@ return [
         'base_item_data_cache_title'            => '數據緩存配寘',
         'base_item_redis_cache_title'           => 'redis緩存配寘',
         'base_item_crontab_config_title'        => '定時腳本配寘',
+        'base_item_regex_config_title'          => '正則配寘',
         'base_item_quick_nav_title'             => '快捷導航',
         'base_item_user_base_title'             => '用戶基礎',
         'base_item_user_address_title'          => '用戶地址',
@@ -225,7 +229,7 @@ return [
         'left_images_random_tips'               => '左側圖片最多可上傳3張圖片、每次隨機展示其中一張',
         'background_color_tips'                 => '可自定義背景圖片、默認底灰色',
         'site_setup_layout_tips'                => '拖拽模式需要自行進入首頁設計頁面、請先保存選中配寘後再',
-        'site_setup_layout_button_name'         => '去設計頁面>>',
+        'site_setup_layout_button_name'         => '設計頁面',
         'site_setup_goods_category_tips'        => '如需更多樓層展示，請先到/商品管理->商品分類、一級分類設置首頁推薦',
         'site_setup_goods_category_no_data_tips'=> '暫無數據，請先到/商品管理->商品分類、一級分類設置首頁推薦',
         'site_setup_order_default_payment_tips' => '可以設定不同平臺對應的默認支付方式、請先在[網站管理->支付方式]中安裝好支付挿件啟用並對用戶開放',
@@ -241,13 +245,13 @@ return [
         'form_take_address_logo'                   => 'LOGO',
         'form_take_address_logo_tips'              => '建議300*300px',
         'form_take_address_alias'                  => '別名',
-        'form_take_address_alias_message'          => '別名格式最多16個字元',
+        'form_take_address_alias_message'          => '別名格式最多16個字',
         'form_take_address_name'                   => '連絡人',
-        'form_take_address_name_message'           => '連絡人格式2~16個字元之間',
+        'form_take_address_name_message'           => '連絡人格式2~16個字之間',
         'form_take_address_tel'                    => '聯繫電話',
         'form_take_address_tel_message'            => '請填寫聯繫電話',
         'form_take_address_address'                => '詳細地址',
-        'form_take_address_address_message'        => '詳細地址格式1~80個字元之間',
+        'form_take_address_address_message'        => '詳細地址格式1~80個字之間',
         // 域名绑定语言
         'form_domain_multilingual_domain_name'     => '域名',
         'form_domain_multilingual_domain_message'  => '請填寫功能變數名稱',
@@ -260,7 +264,7 @@ return [
         'admin_login_title'                     => '後臺登入',
         'admin_login_info_bg_images_list_tips'  => [
             '1.背景圖片位於[ public/static/admin/default/images/login ]目錄下',
-            '2.背景圖片命名規則（1~50）、如1.jpg',
+            '2.背景圖片命名規則（1~50）、如1.png',
         ],
         'map_type_tips'                         => '由於每一家的地圖標準不一樣、請勿隨意切換地圖、會導致地圖座標標注不準確的情况。',
         'apply_map_baidu_name'                  => '請到百度地圖開放平臺申請',
@@ -490,7 +494,7 @@ return [
         ],
         'nav_store_theme_name'                  => '更多主題下載',
         'nav_theme_download_name'               => '查看小程式打包教程',
-        'nav_theme_download_tips'               => '手機端主題採用uniapp開發（支持多端小程式+H5），APP也在緊急適配中。',
+        'nav_theme_download_tips'               => '手機端主題採用uniapp開發（支持多端小程式、H5、APP）',
         'form_alipay_extend_title'              => '客服配寘',
         'form_alipay_extend_tips'               => 'PS：如【APP/小程式】中開啟（開啟線上客服），則以下配寘必填[企業編碼]和[聊天窗編碼]',
         'form_theme_upload_tips'                => '上傳一個zip壓縮格式的安裝包',
@@ -549,7 +553,8 @@ return [
         'base_nav_title'                        => '商品',
         'goods_nav_list'                        => [
             'base'            => ['name' => '基礎資訊', 'type'=>'base'],
-            'specifications'  => ['name' => '商品規格', 'type'=>'specifications'],
+            'spec'            => ['name' => '商品規格', 'type'=>'spec'],
+            'spec_images'     => ['name' => '規格圖片', 'type'=>'spec_images'],
             'parameters'      => ['name' => '商品參數', 'type'=>'parameters'],
             'photo'           => ['name' => '商品相册', 'type'=>'photo'],
             'video'           => ['name' => '商品視頻', 'type'=>'video'],
@@ -568,8 +573,8 @@ return [
             'info_placeholder'        => '請輸入商品名稱/簡述/編碼/條碼/SEO資訊',
             'category_text'           => '商品分類',
             'brand_name'              => '品牌',
-            'price'                   => '銷售價格（元）',
-            'original_price'          => '原價（元）',
+            'price'                   => '銷售價格',
+            'original_price'          => '原價',
             'inventory'               => '庫存總量',
             'is_shelves'              => '上下架',
             'is_deduction_inventory'  => '扣减庫存',
@@ -649,8 +654,8 @@ return [
             'user_placeholder'   => '請輸入用戶名/昵稱/手機/郵箱',
             'goods'              => '商品資訊',
             'goods_placeholder'  => '請輸入商品名稱/簡述/SEO資訊',
-            'price'              => '銷售價格（元）',
-            'original_price'     => '原價（元）',
+            'price'              => '銷售價格',
+            'original_price'     => '原價',
             'add_time'           => '創建時間',
         ],
     ],
@@ -663,8 +668,8 @@ return [
             'user_placeholder'   => '請輸入用戶名/昵稱/手機/郵箱',
             'goods'              => '商品資訊',
             'goods_placeholder'  => '請輸入商品名稱/簡述/SEO資訊',
-            'price'              => '銷售價格（元）',
-            'original_price'     => '原價（元）',
+            'price'              => '銷售價格',
+            'original_price'     => '原價',
             'add_time'           => '創建時間',
         ],
     ],
@@ -677,8 +682,8 @@ return [
             'user_placeholder'   => '請輸入用戶名/昵稱/手機/郵箱',
             'goods'              => '商品資訊',
             'goods_placeholder'  => '請輸入商品名稱/簡述/SEO資訊',
-            'price'              => '銷售價格（元）',
-            'original_price'     => '原價（元）',
+            'price'              => '銷售價格',
+            'original_price'     => '原價',
             'add_time'           => '創建時間',
         ],
     ],
@@ -772,19 +777,19 @@ return [
             'user_placeholder'    => '請輸入用戶名/昵稱/手機/郵箱',
             'status'              => '訂單狀態',
             'pay_status'          => '支付狀態',
-            'total_price'         => '總價（元）',
-            'pay_price'           => '支付金額（元）',
-            'price'               => '單價（元）',
+            'total_price'         => '總價',
+            'pay_price'           => '支付金額',
+            'price'               => '單價',
             'warehouse_name'      => '出貨倉庫',
             'order_model'         => '訂單模式',
             'client_type'         => '來源',
             'address'             => '地址資訊',
             'take'                => '取貨資訊',
-            'refund_price'        => '退款金額（元）',
+            'refund_price'        => '退款金額',
             'returned_quantity'   => '退貨數量',
             'buy_number_count'    => '購買總數',
-            'increase_price'      => '新增金額（元）',
-            'preferential_price'  => '優惠金額（元）',
+            'increase_price'      => '新增金額',
+            'preferential_price'  => '優惠金額',
             'payment_name'        => '支付方式',
             'user_note'           => '用戶備註',
             'extension'           => '擴展資訊',
@@ -823,7 +828,7 @@ return [
             'status'             => '狀態',
             'type'               => '申請類型',
             'reason'             => '原因',
-            'price'              => '退款金額（元）',
+            'price'              => '退款金額',
             'number'             => '退貨數量',
             'msg'                => '退款說明',
             'refundment'         => '退款類型',
@@ -842,8 +847,14 @@ return [
 
     // 支付方式
     'payment'               => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => '已安裝', 'type' => 0],
+            ['name' => '未安裝', 'type' => 1],
+        ],
         'base_nav_title'                        => '支付方式',
-        'nav_store_payment_name'                => '更多主題下載',
+        'base_upload_payment_name'              => '上傳支付',
+        'base_nav_store_payment_name'           => '更多主題下載',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1.類名必須於檔名一致（去除.php），如Alipay.php則取Alipay',
@@ -892,7 +903,8 @@ return [
             ['name' => '當前主題', 'type' => 'index'],
             ['name' => '主題安裝', 'type' => 'upload'],
         ],
-        'nav_store_theme_name'                  => '更多主題下載',
+        'base_upload_theme_name'                => '上傳主題',
+        'base_nav_store_theme_name'             => '更多主題下載',
         'list_author_title'                     => '作者',
         'list_version_title'                    => '適用版本',
         'form_theme_upload_tips'                => '上傳一個zip壓縮格式的主題安裝包',
@@ -945,8 +957,8 @@ return [
             'log_no'            => '支付單號',
             'payment'           => '支付方式',
             'status'            => '狀態',
-            'total_price'       => '業務訂單金額（元）',
-            'pay_price'         => '支付金額（元）',
+            'total_price'       => '業務訂單金額',
+            'pay_price'         => '支付金額',
             'business_type'     => '業務類型',
             'business_list'     => '業務id/單號',
             'trade_no'          => '支付平臺交易號',
@@ -1019,11 +1031,12 @@ return [
             ['name' => '應用管理', 'type' => 'index'],
             ['name' => '上傳應用', 'type' => 'upload'],
         ],
+        'base_upload_application_name'          => '上傳應用',
         'base_nav_more_plugins_download_name'   => '更多挿件下載',
         // 基础页面
         'base_search_input_placeholder'         => '請輸入名稱/描述',
         'base_top_tips_one'                     => '清單排序方式[自定義排序->最早安裝]',
-        'base_top_tips_two'                     => '可點擊拖動圖標按鈕調整挿件調用和展示順序',
+        'base_top_tips_two'                     => '可點擊拖動調整挿件調用和展示順序',
         'base_open_setup_title'                 => '開啟設定',
         'data_list_author_title'                => '作者',
         'data_list_author_url_title'            => '主頁',
@@ -1047,7 +1060,7 @@ return [
 
     // 插件分类
     'pluginscategory'       => [
-        'base_nav_title'                        => '挿件分類',
+        'base_nav_title'                        => '應用分類',
     ],
 
     // 安装页面
@@ -1169,6 +1182,47 @@ return [
         ],
     ],
 
+    // 短信日志
+    'smslog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'platform'        => '短信平臺',
+            'status'          => '狀態',
+            'mobile'          => '手機',
+            'template_value'  => '範本內容',
+            'template_var'    => '範本變數',
+            'sign_name'       => '簡訊簽名',
+            'request_url'     => '請求介面',
+            'request_params'  => '請求參數',
+            'response_data'   => '響應數據',
+            'reason'          => '失敗原因',
+            'tsc'             => '耗時(秒)',
+            'add_time'        => '添加時間',
+            'upd_time'        => '更新時間',
+        ],
+    ],
+
+    // 邮件日志
+    'emaillog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'email'           => '收件郵箱',
+            'status'          => '狀態',
+            'title'           => '郵件標題',
+            'template_value'  => '郵件內容',
+            'template_var'    => '郵件變數',
+            'reason'          => '失敗原因',
+            'smtp_host'       => 'SMTP服務器',
+            'smtp_port'       => 'SMTP端口',
+            'smtp_name'       => '郵箱用戶名',
+            'smtp_account'    => '發信人郵件',
+            'smtp_send_name'  => '發件人姓名',
+            'tsc'             => '耗時(秒)',
+            'add_time'        => '添加時間',
+            'upd_time'        => '更新時間',
+        ],
+    ],
+
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'PS：非開發人員請不要隨意執行任何SQL語句，操作可能導致將整個系統資料庫被删除。',
@@ -1214,7 +1268,7 @@ return [
     // 后台权限菜单
     'admin_power_menu_list' => [
         'config_index' => [
-            'name'  => '系統設置',
+            'name'  => '系統',
             'item'  => [
                 'config_index'                 => '系統配寘',
                 'config_store'                 => '商店資訊',
@@ -1224,10 +1278,14 @@ return [
                 'index_inspectupgradeconfirm'  => '系統更新確認',
                 'index_stats'                  => '首頁統計資料',
                 'index_income'                 => '首頁統計資料（收入統計）',
+                'shortcutmenu_index'           => '常用功能',
+                'shortcutmenu_save'            => '常用功能添加/編輯',
+                'shortcutmenu_sort'            => '常用功能排序',
+                'shortcutmenu_delete'          => '常用功能删除',
             ]
         ],
         'site_index' => [
-            'name'  => '網站配寘',
+            'name'  => '網站',
             'item'  => [
                 'site_index'                  => '網站設定',
                 'site_save'                   => '網站設定編輯',
@@ -1245,7 +1303,7 @@ return [
             ]
         ],
         'power_index' => [
-            'name'  => '許可權控制',
+            'name'  => '權限',
             'item'  => [
                 'admin_index'        => '管理員清單',
                 'admin_saveinfo'     => '管理員添加/編輯頁面',
@@ -1260,11 +1318,12 @@ return [
                 'role_detail'        => '角色詳情',
                 'power_index'        => '許可權分配',
                 'power_save'         => '許可權添加/編輯',
+                'power_statusupdate' => '許可權狀態更新',
                 'power_delete'       => '許可權删除',
             ]
         ],
         'user_index' => [
-            'name'  => '用戶管理',
+            'name'  => '用戶',
             'item'  => [
                 'user_index'            => '用戶列表',
                 'user_saveinfo'         => '用戶編輯/添加頁面',
@@ -1279,7 +1338,7 @@ return [
             ]
         ],
         'goods_index' => [
-            'name'  => '商品管理',
+            'name'  => '商品',
             'item'  => [
                 'goods_index'                       => '商品管理',
                 'goods_saveinfo'                    => '商品添加/編輯頁面',
@@ -1290,6 +1349,7 @@ return [
                 'goods_detail'                      => '商品詳情',
                 'goodscategory_index'               => '商品分類',
                 'goodscategory_save'                => '商品分類添加/編輯',
+                'goodscategory_statusupdate'        => '商品分類狀態更新',
                 'goodscategory_delete'              => '商品分類删除',
                 'goodsparamstemplate_index'         => '商品參數',
                 'goodsparamstemplate_delete'        => '商品參數删除',
@@ -1322,7 +1382,7 @@ return [
             ]
         ],
         'order_index' => [
-            'name'  => '訂單管理',
+            'name'  => '訂單',
             'item'  => [
                 'order_index'             => '訂單管理',
                 'order_delete'            => '訂單删除',
@@ -1342,7 +1402,7 @@ return [
             ]
         ],
         'navigation_index' => [
-            'name'  => '網站管理',
+            'name'  => '網站',
             'item'  => [
                 'navigation_index'         => '導航管理',
                 'navigation_save'          => '導航添加/編輯',
@@ -1376,6 +1436,7 @@ return [
                 'screeningprice_delete'    => '篩選價格删除',
                 'region_index'             => '地區管理',
                 'region_save'              => '地區添加/編輯',
+                'region_statusupdate'      => '地區狀態更新',
                 'region_delete'            => '地區删除',
                 'region_codedata'          => '獲取地區編號數據',
                 'express_index'            => '快遞管理',
@@ -1406,7 +1467,7 @@ return [
             ]
         ],
         'brand_index' => [
-            'name'  => '品牌管理',
+            'name'  => '品牌',
             'item'  => [
                 'brand_index'           => '品牌管理',
                 'brand_saveinfo'        => '品牌添加/編輯頁面',
@@ -1420,7 +1481,7 @@ return [
             ]
         ],
         'warehouse_index' => [
-            'name'  => '倉庫管理',
+            'name'  => '倉庫',
             'item'  => [
                 'warehouse_index'               => '倉庫管理',
                 'warehouse_saveinfo'            => '倉庫添加/編輯頁面',
@@ -1440,7 +1501,7 @@ return [
             ]
         ],
         'app_index' => [
-            'name'  => '手機管理',
+            'name'  => '手機',
             'item'  => [
                 'appconfig_index'            => '基礎配寘',
                 'appconfig_save'             => '基礎配寘保存',
@@ -1468,7 +1529,7 @@ return [
             ]
         ],
         'article_index' => [
-            'name'  => '文章管理',
+            'name'  => '文章',
             'item'  => [
                 'article_index'           => '文章管理',
                 'article_saveinfo'        => '文章添加/編輯頁面',
@@ -1482,7 +1543,7 @@ return [
             ]
         ],
         'data_index' => [
-            'name'  => '資料管理',
+            'name'  => '資料',
             'item'  => [
                 'message_index'         => '消息管理',
                 'message_delete'        => '消息删除',
@@ -1496,26 +1557,32 @@ return [
                 'refundlog_detail'      => '退款日誌詳情',
                 'integrallog_index'     => '積分日誌',
                 'integrallog_detail'    => '積分日誌詳情',
+                'smslog_index'          => '簡訊日誌',
+                'smslog_detail'         => '簡訊日誌詳情',
             ]
         ],
         'store_index' => [
-            'name'  => '應用中心',
+            'name'  => '應用',
             'item'  => [
-                'pluginsadmin_index'         => '應用管理',
-                'plugins_index'              => '應用調用管理',
-                'pluginsadmin_saveinfo'      => '應用添加/編輯頁面',
-                'pluginsadmin_save'          => '應用添加/編輯',
-                'pluginsadmin_statusupdate'  => '應用狀態更新',
-                'pluginsadmin_delete'        => '應用删除',
-                'pluginsadmin_upload'        => '應用上傳',
-                'pluginsadmin_download'      => '應用打包',
-                'pluginsadmin_install'       => '應用安裝',
-                'pluginsadmin_uninstall'     => '應用卸載',
-                'pluginsadmin_sortsave'      => '應用排序保存',
-                'store_index'                => '應用商店',
-                'packageinstall_index'       => '套裝軟體安裝頁面',
-                'packageinstall_install'     => '套裝軟體安裝',
-                'packageupgrade_upgrade'     => '套裝軟體更新',
+                'pluginsadmin_index'            => '應用管理',
+                'plugins_index'                 => '應用調用管理',
+                'pluginsadmin_saveinfo'         => '應用添加/編輯頁面',
+                'pluginsadmin_save'             => '應用添加/編輯',
+                'pluginsadmin_statusupdate'     => '應用狀態更新',
+                'pluginsadmin_delete'           => '應用删除',
+                'pluginsadmin_upload'           => '應用上傳',
+                'pluginsadmin_download'         => '應用打包',
+                'pluginsadmin_install'          => '應用安裝',
+                'pluginsadmin_uninstall'        => '應用卸載',
+                'pluginsadmin_sortsave'         => '應用排序保存',
+                'store_index'                   => '應用商店',
+                'packageinstall_index'          => '套裝軟體安裝頁面',
+                'packageinstall_install'        => '套裝軟體安裝',
+                'packageupgrade_upgrade'        => '套裝軟體更新',
+                'pluginscategory_index'         => '應用分類',
+                'pluginscategory_save'          => '應用分類添加/編輯',
+                'pluginscategory_statusupdate'  => '應用分類狀態更新',
+                'pluginscategory_delete'        => '應用分類删除',
             ]
         ],
         'tool_index' => [

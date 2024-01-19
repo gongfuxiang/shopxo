@@ -1,92 +1,152 @@
 <header class="am-topbar am-topbar-inverse admin-header">
-	<!-- logo/名称信息 -->
-	<div class="am-topbar-brand">
-		<a href="{{:MyUrl('admin/index/index')}}">
-			<h2>{{$admin_theme_site_name}}<span class="admin-site-vice-name am-margin-left-xs">{{:MyLang('common.admin_browser_title')}}</span></h2>
-		</a>
-	</div>
+    <div class="header-top">
+        <!-- 手机模式下导航按钮 -->
+        <button
+            class="am-topbar-btn am-topbar-toggle am-btn am-btn-xs am-btn-primary am-show-sm-only am-radius header-nav-submit"
+            data-am-collapse="{target: '#topbar-collapse'}">
+            <span class="am-sr-only">{{:MyLang('toggle_navigation_title')}}</span>
+            <i class="am-icon-bars"></i>
+        </button>
+        <!-- 右侧内容 -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-right-list">
+                <!-- 语言切换 -->
+                {{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
+                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                        <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
+                            <i class="iconfont icon-language"></i>
+                            <span class="am-show-sm-only">{{:MyLang('lang_title')}}[{{$multilingual_data.default.name}}]</span>
+                        </a>
+                        <ul class="am-dropdown-content am-radius-lg">
+                            {{foreach $multilingual_data.data as $v}}
+                                <li {{if $multilingual_default_code eq $v['code']}}class="am-active"{{/if}}>
+                                    <a href="{{$v.url}}">
+                                        {{if !empty($v['icon'])}}
+                                            <img src="{{$v.icon}}" alt="{{$v.name}}" class="am-radius am-vertical-align-middle am-margin-right-xs" width="14" height="14" />
+                                        {{/if}}
+                                        <span class="am-vertical-align-middle">{{$v.name}}</span>
+                                    </a>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </li>
+                {{/if}}
 
-	<!-- 快捷导航 -->
-    <div class="am-fl am-text-nowrap am-scrollable-horizontal header-menu-open-pages-list tabs-switch-horizontal-container">
-        <ul></ul>
+                <!-- 主题配色切换 -->
+                {{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data['data']) and !empty($theme_color_choice_data['theme']) and !empty($theme_color_choice_data['value'])}}
+                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                        <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
+                            <i class="iconfont icon-theme"></i>
+                            <span class="am-show-sm-only">{{:MyLang('color_matching_title')}}[{{$theme_color_choice_data.theme}}]</span>
+                        </a>
+                        <ul class="am-dropdown-content am-radius-lg">
+                            {{foreach $theme_color_choice_data.data as $v}}
+                                <li {{if $theme_color_choice_data['value'] eq $v['value']}}class="am-active"{{/if}}>
+                                    <a href="{{$v.url}}">
+                                        <i class="am-inline-block am-padding-xs am-circle" style="background: {{$v.color}};"></i>
+                                        <span class="am-margin-left-xs">{{$v.name}}</span>
+                                    </a>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </li>
+                {{/if}}
+
+                <!-- 清除缓存 -->
+                {{if AdminIsPower('cache', 'statusupdate')}}
+                    <li class="am-dropdown">
+                        <a href="javascript:;" class="submit-ajax am-flex am-flex-row am-flex-items-center am-gap-12" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1"  data-am-popover="{content: '{{:MyLang('common.remove_cache_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                            <i class="iconfont icon-clear-session"></i>
+                            <span class="am-show-sm-only">{{:MyLang('common.remove_cache_title')}}</span>
+                        </a>
+                    </li>
+                {{/if}}
+
+                <!-- 全屏 -->
+                <li class="am-dropdown">
+                    <a href="javascript:;" class="fullscreen-event am-flex am-flex-row am-flex-items-center am-gap-12" data-fulltext-open="{{:MyLang('fullscreen_open_title')}}" data-fulltext-exit="{{:MyLang('fullscreen_exit_title')}}" data-am-popover="{content: '{{:MyLang('fullscreen_open_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                        <i class="iconfont icon-full-screen"></i>
+                        <span class="fullscreen-text am-show-sm-only">{{:MyLang('fullscreen_open_title')}}</span>
+                    </a>
+                </li>
+
+                <!-- 首页 -->
+                <li class="am-dropdown">
+                    <a href="{{$home_url}}" class="am-flex am-flex-row am-flex-items-center am-gap-12" target="_blank" data-am-popover="{content: '{{:MyLang('shop_home_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                        <i class="iconfont icon-home"></i>
+                        <span class="am-show-sm-only">{{:MyLang('shop_home_title')}}</span>
+                    </a>
+                </li>
+
+                <!-- 后台公告 -->
+                {{if !empty($admin_notice)}}
+                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                        <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
+                            <i class="iconfont icon-notice"></i>
+                            <span class="am-show-sm-only">{{:MyLang('notice_title')}}</span>
+                        </a>
+                        <div class="am-dropdown-content am-radius-lg cr-333 notice-width">
+                            <p>{{$admin_notice|raw}}</p>
+                        </div>
+                    </li>
+                {{/if}}
+
+                <!-- 管理员设置 -->
+                <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle" href="javascript:;">{{$admin.username}}</a>
+                    <ul class="am-dropdown-content am-radius-lg">
+                        <li>
+                            <a href="javascript:;" class="new-window" data-type="nav" data-url="{{:MyUrl('admin/admin/saveinfo', ['id'=>$admin['id']])}}" data-node-name="{{:MyLang('setup_title')}}">
+                                <i class="iconfont icon-setup"></i>
+                                <span>{{:MyLang('setup_title')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{:MyUrl('admin/admin/logout')}}">
+                                <i class="iconfont icon-logout"></i>
+                                <span>{{:MyLang('quit_title')}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-
-    <!-- 手机模式下导航按钮 -->
-	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-xs am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
-		<span class="am-sr-only">{{:MyLang('toggle_navigation_title')}}</span>
-		<i class="am-icon-bars"></i>
-	</button>
-
-	<!-- 右侧内容 -->
-	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-			{{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
-				<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
-					<a class="am-dropdown-toggle" href="javascript:;">
-						<i class="am-icon-language"></i>
-						<span>{{:MyLang('lang_title')}}[{{$multilingual_data.default.name}}]</span>
-					</a>
-					<ul class="am-dropdown-content am-radius">
-						{{foreach $multilingual_data.data as $v}}
-		                    <li>
-		                        <a href="{{$v.url}}">{{$v.name}}</a>
-		                    </li>
-	                    {{/foreach}}
-	                </ul>
-				</li>
-			{{/if}}
-
-			<li class="am-dropdown">
-				<a href="{{$theme_color_url}}">
-					<i class="am-icon-adjust"></i>
-					<span>{{$theme_color_name}}</span>
-				</a>
-			</li>
-			{{if AdminIsPower('cache', 'statusupdate')}}
-				<li class="am-dropdown">
-					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">
-						<i class="am-icon-paint-brush"></i>
-						<span>{{:MyLang('common.remove_cache_title')}}</span>
-					</a>
-				</li>
-			{{/if}}
-
-			<li class="am-dropdown">
-				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="{{:MyLang('fullscreen_open_title')}}" data-fulltext-exit="{{:MyLang('fullscreen_exit_title')}}">
-					<i class="am-icon-arrows-alt"></i>
-					<span class="fullscreen-text">{{:MyLang('fullscreen_open_title')}}</span>
-				</a>
-			</li>
-
-			<li class="am-dropdown">
-				<a href="{{$home_url}}" target="_blank">
-					<i class="am-icon-home"></i>
-					<span>{{:MyLang('shop_home_title')}}</span>
-				</a>
-			</li>
-			
-			<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
-				<a class="am-dropdown-toggle" href="javascript:;">
-					<i class="am-icon-user"></i>
-					<span class="tpl-header-list-user-nick">{{$admin.username}}</span>
-					<span class="tpl-header-list-user-ico">
-					</span>
-				</a>
-				<ul class="am-dropdown-content am-radius">
-					<li>
-						<a href="javascript:;" class="new-window" data-type="nav" data-url="{{:MyUrl('admin/admin/saveinfo', ['id'=>$admin['id']])}}" data-node-name="{{:MyLang('setup_title')}}">
-							<i class="am-icon-cog"></i>
-							<span>{{:MyLang('setup_title')}}</span>
-						</a>
-					</li>
-					<li>
-						<a href="{{:MyUrl('admin/admin/logout')}}">
-							<i class="am-icon-power-off"></i>
-							<span>{{:MyLang('quit_title')}}</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</div>
+    <div class="tabs-list">
+        <!-- 快捷导航 -->
+        <div class="am-text-nowrap am-scrollable-horizontal header-menu-open-pages-list tabs-switch-horizontal-container">
+            <ul></ul>
+        </div>
+        <div class="tabs-tool am-dropdown am-hide-sm-only am-hide" data-am-dropdown>
+            <a class="am-dropdown-toggle" href="javascript:;" data-am-dropdown-toggle>
+                <span class="iconfont icon-nav-tools scaleanimation"></span>
+            </a>
+            <ul class="am-dropdown-content am-radius-lg">
+                <li>
+                    <a href="javascript:;" data-key="nav-refresh">
+                        <i class="iconfont icon-nav-refresh cr-666"></i>
+                        <span>{{:MyLang('refresh_title')}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-key="nav-close">
+                        <i class="iconfont icon-nav-close cr-666"></i>
+                        <span>{{:MyLang('close_title')}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-key="nav-close-other">
+                        <i class="iconfont icon-nav-close-other cr-666"></i>
+                        <span>{{:MyLang('close_other_title')}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-key="nav-close-all">
+                        <i class="iconfont icon-nav-close-all cr-666"></i>
+                        <span>{{:MyLang('close_all_title')}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </header>

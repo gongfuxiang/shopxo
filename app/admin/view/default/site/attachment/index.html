@@ -2,32 +2,21 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'attachment'])}}" enctype="multipart/form-data">
-            <div class="am-form-group">
-                <label>{{$data.home_max_limit_image.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_image.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'attachment'])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.home_max_limit_image.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_image.describe}}</span></label>
                     <input type="number" min="0" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">B</span>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_max_limit_file.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_file.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
+                <div class="am-form-group">
+                    <label>{{$data.home_max_limit_file.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_file.describe}}</span></label>
                     <input type="number" min="0" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">B</span>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
+                <div class="am-form-group">
+                    <label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
                     <input type="number" min="0" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">B</span>
                 </div>
             </div>
 
@@ -46,4 +35,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

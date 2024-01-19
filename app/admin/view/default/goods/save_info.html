@@ -3,428 +3,409 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<!-- form start -->
-		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goods/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goods/index', $params)}}" enctype="multipart/form-data">
-			<legend>
-				<span class="am-text-default">{{:MyLang('goods.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
-				<a href="{{:MyUrl('admin/goods/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-			</legend>
-
-			<!-- 右侧快捷导航 -->
-			{{if !empty($goods_nav_list) and is_array($goods_nav_list)}}
-				<nav class="goods-nav goods-nav-retract" style="right:-110px;">
-					<ul>
-						{{foreach $goods_nav_list as $v}}
-							<li>
-								<a href="javascript:;" data-value="#goods-nav-{{$v.type}}">{{$v.name}}</a>
-							</li>
-						{{/foreach}}
-						<li class="am-text-center am-padding-xs nav-shrink-submit" style="width:50px;left:-80px;">
-							<i class="am-icon-sm am-icon-angle-double-left"></i>
-						</li>
-					</ul>
-				</nav>
-			{{/if}}
-
-			<!-- 基础信息 -->
-			<div class="am-panel am-panel-default am-radius" id="goods-nav-base">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.base.name}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                	<div class="am-cf">
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-							<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-								<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
-								<div class="am-input-group am-input-group-sm">
-									<input type="text" name="title" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
-									<span class="am-input-group-btn">
-										<button type="button" class="am-btn am-btn-default am-btn-xs colorpicker-submit" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
-											<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-										</button>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="am-u-sm-6 am-padding-horizontal-0">
-							<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
-								<br />
-								<select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_category_id_message')}}" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" required>
-									{{if !empty($goods_category_list)}}
-										{{foreach $goods_category_list as $v}}
-											<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
-											{{if !empty($v['items'])}}
-												{{foreach $v.items as $vs}}
-													<option style="padding-left: 20px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
-													{{if !empty($vs['items'])}}
-														{{foreach $vs.items as $kss=>$vss}}
-															<option style="padding-left: 40px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
-														{{/foreach}}
-													{{/if}}
-												{{/foreach}}
-											{{/if}}
-										{{/foreach}}
-									{{/if}}
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="am-cf">
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_simple_desc')}}</label>
-								<input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} />
-							</div>
-                		</div>
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_model')}}</label>
-								<input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="30" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} />
-							</div>
-                		</div>
-                	</div>
-
-                	<div class="am-cf">
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label class="am-block">{{:MyLang('common_service.goods.form_item_brand')}}</label>
-								<select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_message')}}">
-									{{if !empty($brand_list)}}
-										<option value="0">{{:MyLang('please_select_tips')}}</option>
-										{{foreach $brand_list as $v}}
-											<option value="{{$v.id}}" {{if isset($data['brand_id']) and $data['brand_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-										{{/foreach}}
-									{{/if}}
-								</select>
-							</div>
-                		</div>
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label class="am-block">{{:MyLang('common_service.goods.form_item_place_origin')}}</label>
-								<select name="place_origin" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_place_origin_message')}}">
-									<option value="0">{{:MyLang('please_select_tips')}}</option>
-									{{if !empty($region_province_list)}}
-										{{foreach $region_province_list as $v}}
-											<option value="{{$v.id}}" {{if !empty($data['place_origin']) and $v['id'] eq $data['place_origin']}}selected{{/if}}>{{$v.name}}</option>
-										{{/foreach}}
-									{{/if}}
-								</select>
-							</div>
-                		</div>
-                	</div>
-
-                	<div class="am-cf">
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_inventory_unit')}}<span class="am-form-group-label-tips-must">*</span></label>
-								<input type="text" name="inventory_unit" placeholder="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" minlength="1" maxlength="6" data-validation-message="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" class="am-radius" {{if !empty($data['inventory_unit'])}} value="{{$data.inventory_unit}}"{{/if}} required />
-							</div>
-                		</div>
-                		<div class="am-u-sm-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-			                    <label>{{:MyLang('common_service.goods.form_item_give_integral')}}{{if is_array(MyLang('common_service.goods.form_item_give_integral_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_give_integral_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
-			                    <div class="am-input-group am-input-group-sm">
-			                        <input type="number" name="give_integral" placeholder="{{:MyLang('common_service.goods.form_item_give_integral_placeholder')}}" min="0" max="100" data-validation-message="{{:MyLang('common_service.goods.form_item_give_integral_message')}}" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
-			                        <span class="am-input-group-btn">
-			                            <button type="button" class="am-btn am-btn-default am-radius">%</button>
-			                        </span>
-			                    </div>
-			                </div>
-                		</div>
-                	</div>
-
-                	<div class="am-cf">
-                		<div class="am-u-md-6 am-padding-horizontal-0">
-                			<div class="am-form-group">
-								<label>{{:MyLang('common_service.goods.form_item_site_type')}}</label>
-								{{if is_array(MyLang('common_service.goods.form_item_site_type_tips'))}}
-									<div class="am-alert am-alert-warning am-radius am-margin-top-0" data-am-alert>
-									    <p>{{:implode('</p><p>', MyLang('common_service.goods.form_item_site_type_tips'))}}</p>
-									</div>
-								{{/if}}
-								<select name="site_type" class="am-radius chosen-select am-margin-top-xs" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_site_type_message')}}">
-									<option value="">{{:MyLang('optional_tips')}}</option>
-									{{if !empty($common_site_type_list)}}
-										{{foreach $common_site_type_list as $v}}
-											<option value="{{$v.value}}" {{if isset($data['site_type']) and $v['value'] eq $data['site_type']}}selected{{/if}}>{{$v.name}}</option>
-										{{/foreach}}
-									{{/if}}
-								</select>
-							</div>
-                		</div>
-                		<div class="am-u-md-6 am-padding-horizontal-0">
-                			<div class="am-cf">
-                				<div class="am-u-sm-6 am-padding-horizontal-0">
-                					<div class="am-form-group am-form-file">
-										<label class="am-block">{{:MyLang('common_service.goods.form_item_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-										<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
-											{{if !empty($data['images'])}}
-												<li>
-													<input type="text" name="images" value="{{$data.images}}" />
-													<img src="{{$data.images}}" />
-													<i>×</i>
-												</li>
-											{{/if}}
-										</ul>
-										<div class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
-									</div>
-                				</div>
-                				<div class="am-u-sm-6 am-padding-horizontal-0">
-                					<div class="am-form-group">
-										<label class="am-block">{{:MyLang('common_service.goods.form_item_is_deduction_inventory')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_deduction_inventory_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-										<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
-									</div>
-									<div class="am-form-group">
-										<label class="am-block">{{:MyLang('common_service.goods.form_item_is_shelves')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_shelves_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-										<input name="is_shelves" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
-									</div>
-                				</div>
-                			</div>
-                		</div>
-                	</div>
-				</div>
-			</div>
-
-			<!-- 商品规格 -->
-			<div class="am-panel am-panel-default am-radius" id="goods-nav-specifications">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.specifications.name}}<span class="am-form-group-label-tips-must">*</span></h3>
-                </div>
-                <div class="am-panel-bd business-form-group">
-                    <div class="am-margin-horizontal-sm">
-                    	{{include file="goods/spec" /}}
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('goods.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/goods/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/goods/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goods/index', $params)}}" enctype="multipart/form-data">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => $goods_nav_list.base.name,
+                        'key'  => 'base',
+                    ],
+                    [
+                        'name' => $goods_nav_list.spec.name,
+                        'key'  => 'spec',
+                    ],
+                    [
+                        'name' => $goods_nav_list.parameters.name,
+                        'key'  => 'parameters',
+                    ],
+                    [
+                        'name' => $goods_nav_list.photo.name . '/' . $goods_nav_list.video.name,
+                        'key'  => 'photo-video',
+                    ],
+                    [
+                        'name' => $goods_nav_list.app.name,
+                        'key'  => 'app',
+                    ],
+                    [
+                        'name' => $goods_nav_list.web.name,
+                        'key'  => 'web',
+                    ],
+                    [
+                        'name' => $goods_nav_list.fictitious.name,
+                        'key'  => 'fictitious',
+                    ],
+                    [
+                        'name' => $goods_nav_list.extends.name,
+                        'key'  => 'extends',
+                    ],
+                    [
+                        'name' => $goods_nav_list.seo.name,
+                        'key'  => 'seo',
+                    ]
+                ]
+            ])}}
+            <!-- nav end -->
+            <div class="nav-content">
+                <!-- 基础信息 -->
+                <div id="goods-nav-base" class="item am-active" data-key="base">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <div class="am-flex am-flex-items-center am-gap-1">
+                            <input type="text" name="title" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+                            <div class="colorpicker-container colorpicker-simple">
+                                <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
+                                <div class="colorpicker-submit" data-color="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']"></div>
+                                <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_category_id_message')}}" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" required>
+                            {{if !empty($goods_category_list)}}
+                                {{foreach $goods_category_list as $v}}
+                                    <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
+                                    {{if !empty($v['items'])}}
+                                        {{foreach $v.items as $vs}}
+                                            <option style="padding-left: 20px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                            {{if !empty($vs['items'])}}
+                                                {{foreach $vs.items as $kss=>$vss}}
+                                                    <option style="padding-left: 40px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_simple_desc')}}</label>
+                        <input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_model')}}</label>
+                        <input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="30" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_brand')}}</label>
+                        <select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_message')}}">
+                            {{if !empty($brand_list)}}
+                                <option value="0">{{:MyLang('please_select_tips')}}</option>
+                                {{foreach $brand_list as $v}}
+                                    <option value="{{$v.id}}" {{if isset($data['brand_id']) and $data['brand_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_place_origin')}}</label>
+                        <select name="place_origin" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_place_origin_message')}}">
+                            <option value="0">{{:MyLang('please_select_tips')}}</option>
+                            {{if !empty($region_province_list)}}
+                                {{foreach $region_province_list as $v}}
+                                    <option value="{{$v.id}}" {{if !empty($data['place_origin']) and $v['id'] eq $data['place_origin']}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_inventory_unit')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="text" name="inventory_unit" placeholder="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" minlength="1" maxlength="6" data-validation-message="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" class="am-radius" {{if !empty($data['inventory_unit'])}} value="{{$data.inventory_unit}}"{{/if}} required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>
+                            {{:MyLang('common_service.goods.form_item_give_integral')}}
+                            {{if is_array(MyLang('common_service.goods.form_item_give_integral_tips'))}}
+                                <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_give_integral_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            {{/if}}
+                        </label>
+                        <input type="number" name="give_integral" placeholder="{{:MyLang('common_service.goods.form_item_give_integral_placeholder')}}(%)" min="0" max="100" data-validation-message="{{:MyLang('common_service.goods.form_item_give_integral_message')}}" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>
+                            {{:MyLang('common_service.goods.form_item_site_type')}}
+                            {{if is_array(MyLang('common_service.goods.form_item_site_type_tips'))}}
+                                <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('</p><p>', MyLang('common_service.goods.form_item_site_type_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            {{/if}}
+                        </label>
+                        <select name="site_type" class="am-radius chosen-select am-margin-top-xs" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_site_type_message')}}">
+                            <option value="">{{:MyLang('optional_tips')}}</option>
+                            {{if !empty($common_site_type_list)}}
+                                {{foreach $common_site_type_list as $v}}
+                                    <option value="{{$v.value}}" {{if isset($data['site_type']) and $v['value'] eq $data['site_type']}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="am-form-group am-form-file">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">
+                                    {{if empty($data['images'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="images" value="{{$data.images}}" />
+                                        <img src="{{$data.images}}" />
+                                        <i>×</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_deduction_inventory')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_deduction_inventory_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_shelves')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_shelves_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <input name="is_shelves" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
                     </div>
                 </div>
-            </div>
 
-			<!-- 商品参数 -->
-            <div class="am-panel am-panel-default am-radius" id="goods-nav-parameters">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.parameters.name}}</h3>
-                </div>
-                <div class="am-panel-bd business-form-group">
-                    <div class="am-margin-horizontal-sm">
-						{{include file="public/goodsparamstemplate/tips" /}}
-						<!-- 通过配置生成商品参数 -->
-						<div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
-							<span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
-								<span>{{:MyLang('common_service.goods.form_params_select_title')}}</span>
-								<i class="am-icon-caret-down"></i>
-							</span>
-							<div class="am-dropdown-content parameters-quick-config">
-								<div class="am-margin-bottom-sm">
-									<select class="am-radius chosen-select" data-placeholder="{{:MyLang('common_service.goods.form_params_select_placeholder')}}" data-validation-message="{{:MyLang('common_service.goods.form_params_select_message')}}">
-										<option value="">{{:MyLang('common_service.goods.form_params_select_placeholder')}}</option>
-										{{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
-											{{foreach $goods_base_template.params as $v}}
-												<option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
-											{{/foreach}}
-										{{/if}}
-									</select>
-								</div>
-								<textarea rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
-								<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
-							</div>
-						</div>
-						<!-- 复制操作 -->
-						<span class="business-operations-submit am-margin-left-sm parameters-quick-copy">
-							<i class="am-icon-copy"></i>
-							<span>{{:MyLang('common_service.goods.form_params_config_copy_title')}}</span>
-						</span>
-					    <!-- 清空操作 -->
-					    <span class="business-operations-submit am-margin-left-sm parameters-quick-remove">
-							<i class="am-icon-times"></i>
-							<span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>
-						</span>
-						<span class="am-text-warning am-margin-left-sm">{{:MyLang('common_service.goods.form_params_list_content_tips')}}</span>
-
-						<!-- 参数表格 -->
-						{{include file="public/goodsparamstemplate/table" /}}
-					</div>
-                </div>
-            </div>
-
-			<!-- 相册 -->
-			<div class="am-panel am-panel-default am-radius" id="goods-nav-photo">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span></h3>
-                </div>
-                <div class="am-panel-bd business-form-group">
-                    <div class="am-margin-horizontal-sm">
-                    	<div class="am-alert am-alert-warning am-radius" data-am-alert>
-	                        <button type="button" class="am-close">&times;</button>
-	                        <p>{{:MyLang('common_service.goods.form_photo_top_tips')}}</p>
-	                    </div>
-	                    <ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="30" data-dialog-type="images">
-	                        {{if !empty($data['photo'])}}
-	                            {{foreach $data.photo as $v}}
-	                                <li>
-	                                    <input type="text" name="photo[]" value="{{$v.images_old}}" />
-	                                    <img src="{{$v.images}}" />
-	                                    <i>×</i>
-	                                </li>
-	                            {{/foreach}}
-	                        {{/if}}
-	                    </ul>
-	                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">+ {{:MyLang('common_service.goods.form_photo_button_add_name')}}</div>
+                <!-- 商品规格 -->
+                <div id="goods-nav-spec" class="item" data-key="spec">
+                    {{if is_array(MyLang('common_service.goods.form_spec_top_list_tips'))}}
+                        <div class="am-operate-stretch-tips">
+                            <div class="title">
+                                <i class="iconfont icon-tips"></i>
+                                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                            </div>
+                            <p>{{:implode('</p><p>', MyLang('common_service.goods.form_spec_top_list_tips'))}}</p>
+                        </div>
+                    {{/if}}
+                    <div class="am-form-group">
+                        <label>{{$goods_nav_list.spec.name}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <div>
+                            {{include file="goods/spec" /}}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-			<!-- 视频 -->
-            <div class="am-panel am-panel-default am-radius" id="goods-nav-video">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.video.name}}</h3>
-                </div>
-                <div class="am-panel-bd business-form-group">
-                    <div class="am-margin-horizontal-sm">
-	                    <div class="am-alert am-alert-warning am-radius" data-am-alert>
-	                        <button type="button" class="am-close">&times;</button>
-	                        <p>{{:MyLang('common_service.goods.form_video_top_tips')}}</p>
-	                    </div>
-	                    <ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video">
-	                        {{if !empty($data['video'])}}
-	                            <li>
-	                                <input type="text" name="video" value="{{$data.video}}" />
-	                                <video src="{{$data.video}}" controls>your browser does not support the video tag</video>
-	                                <i>×</i>
-	                            </li>
-	                        {{/if}}
-	                    </ul>
-	                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-video-view">+ {{:MyLang('common_service.goods.form_video_button_add_name')}}</div>
-	                </div>
-                </div>
-            </div>
+                <!-- 商品参数 -->
+                <div id="goods-nav-parameters" class="item" data-key="parameters">
+                    <div class="am-form-group">
+                        <label>选择参数<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_params_list_content_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <div class="am-flex am-flex-items-center am-gap-2">
+                            <!-- 通过配置生成商品参数 -->
+                            <div class="am-dropdown goods-params" id="parameters-quick-container" data-am-dropdown>
+                                <span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
+                                    <span>{{:MyLang('common_service.goods.form_params_select_title')}}</span>
+                                    <i class="am-icon-caret-down"></i>
+                                </span>
+                                <div class="am-dropdown-content am-radius parameters-quick-config">
+                                    <div class="am-margin-bottom-sm">
+                                        <select class="am-radius chosen-select" data-placeholder="{{:MyLang('common_service.goods.form_params_select_placeholder')}}" data-validation-message="{{:MyLang('common_service.goods.form_params_select_message')}}">
+                                            <option value="">{{:MyLang('common_service.goods.form_params_select_placeholder')}}</option>
+                                            {{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
+                                                {{foreach $goods_base_template.params as $v}}
+                                                    <option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
+                                    <textarea rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
+                                    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
+                                </div>
+                            </div>
+                            <!-- 复制操作 -->
+                            <span class="business-operations-submit parameters-quick-copy">
+                                <i class="iconfont icon-copy"></i>
+                                <span>{{:MyLang('common_service.goods.form_params_config_copy_title')}}</span>
+                            </span>
+                            <!-- 清空操作 -->
+                            <span class="business-operations-submit parameters-quick-remove">
+                                <i class="iconfont icon-clear"></i>
+                                <span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>
+                            </span>
+                        </div>
 
-			<!-- 手机详情 -->
-			<div class="am-panel am-panel-default am-radius" id="goods-nav-app">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.app.name}}</h3>
+                        <!-- 参数表格 -->
+                        {{include file="public/goodsparamstemplate/table" /}}
+                    </div>
+                    <div class="am-form-group">
+                        {{include file="public/goodsparamstemplate/tips" /}}
+                    </div>
                 </div>
-                <div class="am-panel-bd business-form-group">
-                    <div class="am-margin-horizontal-sm">
-                    	<div class="am-alert am-alert-warning am-radius" data-am-alert>
-	                        <button type="button" class="am-close">&times;</button>
-	                        <p>{{:MyLang('common_service.goods.form_app_top_tips')}}</p>
-	                    </div>
-						<ul class="content-app-items" 
-							data-max-count="10" 
-							data-required="1" 
-							data-images-name="content_app_images" 
-							data-content-name="content_app_text" 
-							data-images-title="{{:MyLang('form_upload_images_title')}}" 
-							data-content-title="{{:MyLang('common_service.goods.form_app_value_title')}}" 
-							data-delete-title="{{:MyLang('delete_title')}}" 
-							data-drag-title="{{:MyLang('sort_title')}}"
-						>
-							{{if !empty($data['content_app'])}}
-								{{foreach $data.content_app as $v}}
-									<li>
-										<div>
-											<div class="content-app-left">
-												<label class="am-block">{{:MyLang('images_title')}}</label>
-												<ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images">
-													{{if !empty($v['images'])}}
-														<li>
-															<input type="text" name="content_app_images_{{$v.id}}" value="{{$v.images_old}}" />
-															<img src="{{$v.images}}" />
-															<i>×</i>
-														</li>
-													{{/if}}
-												</ul>
-												<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-{{$v.id}}">+ {{:MyLang('form_upload_images_title')}}</div>
-											</div>
-											<div class="am-form-group content-app-right fr">
-												<label>{{:MyLang('common_service.goods.form_app_value_title')}}</label>
-												<textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="{{:MyLang('common_service.goods.form_app_value_title')}}" data-validation-message="{{:MyLang('common_service.goods.form_app_value_message')}}">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
-											</div>
-										</div>
-										<a href="javascript:;" class="am-text-xs am-text-danger am-icon-remove content-app-items-rem-sub"> {{:MyLang('delete_title')}}</a>
-										<a href="javascript:;" class="am-text-xs am-margin-left-lg am-icon-arrows drag-sort-submit"> {{:MyLang('sort_title')}}</a>
-									</li>
-								{{/foreach}}
-							{{/if}}
-						</ul>
-						<span class="business-operations-submit content-app-items-add-sub">+ {{:MyLang('common_service.goods.form_app_button_add_name')}}</span>
-					</div>
-				</div>
-			</div>
 
-			<!-- 电脑详情 -->
-			<div class="am-panel am-panel-default am-radius" id="goods-nav-web">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.web.name}}<span class="am-form-group-label-tips-must">*</span></h3>
+                <!-- 相册/视频 -->
+                <div class="item" data-key="photo-video">
+                    <div id="goods-nav-photo" class="am-form-group">
+                        <label>{{$goods_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span><a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_photo_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                        </label>
+                        <div class="am-panel-bd business-form-group">
+                            <div class="am-form-file-upload-container">
+                                <ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="30" data-dialog-type="images" data-is-eye="1">
+                                    {{if !empty($data['photo'])}}
+                                        {{foreach $data.photo as $v}}
+                                            <li>
+                                                <input type="text" name="photo[]" value="{{$v.images_old}}" />
+                                                <img src="{{$v.images}}" />
+                                                <i>×</i>
+                                                <i class="iconfont icon-eye"></i>
+                                            </li>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                                <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">
+                                    <i class="iconfont icon-upload-add"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 视频 -->
+                    <div id="goods-nav-video" class="am-form-group">
+                        <label>{{$goods_nav_list.video.name}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_video_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                        </label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.goods-video-view">
+                                    {{if empty($data['video'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="video" value="{{$data.video}}" />
+                                        <video src="{{$data.video}}" controls>your browser does not support the video tag</video>
+                                        <i>×</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="am-panel-bd business-form-group">
-                	<div class="am-margin-horizontal-sm">
+                <!-- 手机详情 -->
+                <div id="goods-nav-app" class="item" data-key="app">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
+                        <p>{{:MyLang('common_service.goods.form_app_top_tips')}}</p>
+                    </div>
+                    <div class="am-form-group">
+                        <ul class="content-app-items" 
+                            data-max-count="10" 
+                            data-required="1" 
+                            data-images-name="content_app_images" 
+                            data-content-name="content_app_text" 
+                            data-images-title="{{:MyLang('form_upload_images_title')}}" 
+                            data-content-title="{{:MyLang('common_service.goods.form_app_value_title')}}" 
+                            data-delete-title="{{:MyLang('delete_title')}}" 
+                            data-drag-title="{{:MyLang('sort_title')}}"
+                        >
+                            {{if !empty($data['content_app'])}}
+                                {{foreach $data.content_app as $v}}
+                                    <li>
+                                        <div class="am-flex am-flex-warp am-gap-32">
+                                            <div class="am-form-group content-app-left">
+                                                <label class="am-block">{{:MyLang('images_title')}}</label>
+                                                <div class="am-form-file-upload-container">
+                                                    <ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                                        <li class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-{{$v.id}}">
+                                                            {{if empty($v['images'])}}
+                                                                <i class="iconfont icon-upload-add"></i>
+                                                            {{else /}}
+                                                                <input type="text" name="content_app_images_{{$v.id}}" value="{{$v.images_old}}" />
+                                                                <img src="{{$v.images}}" />
+                                                                <i>×</i>
+                                                                <i class="iconfont icon-eye"></i>
+                                                            {{/if}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group content-app-right">
+                                                <label>{{:MyLang('common_service.goods.form_app_value_title')}}</label>
+                                                <textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="{{:MyLang('common_service.goods.form_app_value_title')}}" data-validation-message="{{:MyLang('common_service.goods.form_app_value_message')}}">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="am-flex am-flex-items-center am-gap-32">
+                                            <a href="javascript:;" class="am-text-xs am-text-danger content-app-items-rem-sub am-flex am-flex-items-center">
+                                                <i class="iconfont icon-delete"></i>
+                                                {{:MyLang('delete_title')}}
+                                            </a>
+                                            <a href="javascript:;" class="am-text-xs drag-sort-submit am-flex am-flex-items-center">
+                                                <i class="iconfont icon-sort"></i>
+                                                {{:MyLang('sort_title')}}
+                                            </a>
+                                        </div>
+                                    </li>
+                                {{/foreach}}
+                            {{/if}}
+                        </ul>
+                        <span class="business-operations-submit content-app-items-add-sub am-border-0 am-text-sm">
+                            <i class="iconfont icon-add"></i>
+                            {{:MyLang('common_service.goods.form_app_button_add_name')}}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 电脑详情 -->
+                <div id="goods-nav-web" class="item" data-key="web">
+                    <div class="am-form-group">
+                        <label>{{$goods_nav_list.web.name}}<span class="am-form-group-label-tips-must">*</span></label>
                         <textarea class="am-radius" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="{{:MyLang('common_service.goods.form_web_content_message')}}">{{if !empty($data['content_web'])}}{{$data.content_web}}{{/if}}</textarea>
                     </div>
                 </div>
-            </div>
 
-			<!-- 虚拟信息 -->
-            <div class="am-panel am-panel-default am-radius" id="goods-nav-fictitious">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.fictitious.name}}</h3>
-                </div>
-                <div class="am-panel-bd business-form-group">
-                	<div class="am-margin-horizontal-sm">
+                <!-- 虚拟信息 -->
+                <div id="goods-nav-fictitious" class="item" data-key="fictitious">
+                    <div class="am-form-group">
+                        <label>{{$goods_nav_list.fictitious.name}}</label>
                         <textarea id="goods-fictitious-container" name="fictitious_goods_value">{{if !empty($data['fictitious_goods_value'])}}{{$data.fictitious_goods_value|raw}}{{/if}}</textarea>
                     </div>
                 </div>
-            </div>
 
-			<!-- 扩展数据 -->
-            <div class="am-panel am-panel-default am-radius" id="goods-nav-extends">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.extends.name}}<span class="am-form-group-label-tips">{{:MyLang('plugins_view_region_config_tips')}}</span></h3>
+                <!-- 扩展数据 -->
+                <div id="goods-nav-extends" class="item" data-key="extends">
+                    <div class="am-form-group">
+                        <label>{{$goods_nav_list.extends.name}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('plugins_view_region_config_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <div class="am-flex am-flex-col am-gap-32">
+                            <!-- 插件扩展数据 start -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_admin_goods_save</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_admin_goods_save_data) and is_array($plugins_view_admin_goods_save_data) and !empty(array_filter($plugins_view_admin_goods_save_data))}}
+                                {{foreach $plugins_view_admin_goods_save_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{else /}}
+                                {{include file="public/not_data" /}}
+                            {{/if}}
+                            <!-- 插件扩展数据 end -->
+                        </div>
+                    </div>
                 </div>
-                <div class="am-panel-bd business-form-group">
-                	<div class="am-margin-horizontal-sm">
-	                	<!-- 插件扩展数据 start -->
-						{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-			                <div class="plugins-tag">
-			                    <span>plugins_view_admin_goods_save</span>
-			                </div>
-			            {{/if}}
-						{{if !empty($plugins_view_admin_goods_save_data) and is_array($plugins_view_admin_goods_save_data) and !empty(array_filter($plugins_view_admin_goods_save_data))}}
-							{{foreach $plugins_view_admin_goods_save_data as $hook}}
-			                    {{if is_string($hook) or is_int($hook)}}
-			                        {{$hook|raw}}
-			                    {{/if}}
-			                {{/foreach}}
-						{{else /}}
-							{{include file="public/not_data" /}}
-						{{/if}}
-						<!-- 插件扩展数据 end -->
-					</div>
-                </div>
-            </div>
 
-            <!-- SEO信息 -->
-            <div class="am-panel am-panel-default am-radius" id="goods-nav-seo">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{$goods_nav_list.seo.name}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- SEO信息 -->
+                <div id="goods-nav-seo" class="item" data-key="seo">
                     {{include file="lib/seo" /}}
                 </div>
             </div>
 
-			<div class="am-form-popup-submit">
-				<input type="hidden" name="id" {{if isset($data) and !empty($data['id']) and (!isset($is_copy) or $is_copy neq 1)}} value="{{$data.id}}"{{/if}} />
-                <a href="{{:MyUrl('admin/goods/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
-                    <i class="am-icon-mail-reply"></i>
-                    <span>{{:MyLang('retreat_title')}}</span>
-                </a>
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if isset($data) and !empty($data['id']) and (!isset($is_copy) or $is_copy neq 1)}} value="{{$data.id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -435,7 +416,6 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 
 <script type="text/javascript">
 // 规格扩展返回处理

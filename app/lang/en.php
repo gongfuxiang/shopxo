@@ -26,6 +26,9 @@ return [
         'operate_params_error'              => 'Incorrect operation parameters',
         'not_operate_error'                 => 'No related operation',
         'not_data_error'                    => 'No relevant data',
+        'icon_name'                         => 'Icon',
+        'title_name'                        => 'Name',
+        'status_name'                       => 'Status',
         'confirm_name'                      => 'Confirm',
         'cancel_name'                       => 'Cancel',
         'select_reverse_name'               => 'Cancel',
@@ -41,6 +44,9 @@ return [
         'store_enabled_tips'                => 'Your browser does not support local storage. Please disable Private Mode or upgrade to a modern browser.',
         'copy_fail'                         => 'Copy Failed',
         'copy_success'                      => 'Copy Succeeded',
+        'images_preview_title'              => 'Images Preview',
+        'video_preview_title'               => 'Video Preview',
+        'file_preview_title'                => 'File preview',
         // 上传下载
         'get_loading_tips'                  => 'Getting...',
         'download_loading_tips'             => 'Downloading...',
@@ -49,6 +55,10 @@ return [
         'system_download_loading_tips'      => 'The system package is being downloaded...',
         'upgrade_download_loading_tips'     => 'The upgrade package is being downloaded...',
         // 公共common.js
+        'operate_name'                      => 'Operate',
+        'operate_add_name'                  => 'Add',
+        'operate_edit_name'                 => 'Edit',
+        'operate_delete_name'               => 'Delete',
         'select_not_chosen_tips'            => 'Please select an item',
         'select_chosen_min_tips'            => 'Select at least {value} items',
         'select_chosen_max_tips'            => 'Select at most {value} items',
@@ -60,9 +70,6 @@ return [
         'form_call_fun_not_exist_tips'      => 'The method defined by the form is not defined',
         'form_config_main_tips'             => 'The form [action or method] parameter configuration is incorrect',
         'max_input_vars_tips'               => 'The number of request parameters has exceeded the php.ini limit',
-        'operate_add_name'                  => 'Add',
-        'operate_edit_name'                 => 'Edit',
-        'operate_delete_name'               => 'Delete',
         'upload_images_format_tips'         => 'Image format error, please upload again',
         'upload_video_format_tips'          => 'Video format error, please upload again',
         'ie_browser_tips'                   => 'ie browser is not available',
@@ -257,11 +264,18 @@ return [
     'images_format_error_tips'                              => 'The picture is wrong, please change it!',
     'cancel_order_title'                                    => 'Cancellation Of Order',
     'delete_order_title'                                    => 'Delete Order',
+    'operate_list_tips_button_text'                         => 'Operation prompt',
+    'operate_list_tips_retract_text'                        => 'Collapse prompt',
+    'operate_list_tips_msg'                                 => 'Key points to note when prompting related settings operations',
+    'images_preview_title'                                  => 'Images Preview',
+    'video_preview_title'                                   => 'Video Preview',
+    'file_preview_title'                                    => 'File preview',
     // 商店绑定
     'store_bind_account_name'                               => 'Bind ShopXO store account',
     'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
     'store_account_not_bind_tips'                           => 'Please bind the store account first',
     'store_check_update_name'                               => 'Check for update',
+    'store_auto_update_name'                                => 'Automatic update',
     'store_bind_accounts_name'                              => 'Bind ShopXO store account',
     'store_bind_accounts_tips'                              => 'Bind ShopXO App Store account, get the latest version information of plug-in, install and update online',
     'store_bind_authorized_subject_name'                    => 'Authorized Subject',
@@ -302,6 +316,7 @@ return [
     'reverse_select_title'                                  => 'Back',
     'reset_title'                                           => 'Reset',
     'confirm_title'                                         => 'Confirm',
+    'screen_title'                                          => 'Screen',
     'cancel_title'                                          => 'Cancel',
     'search_title'                                          => 'Search',
     'query_title'                                           => 'Query',
@@ -315,6 +330,7 @@ return [
     'edit_title'                                            => 'Edit',
     'modify_title'                                          => 'Modify',
     'delete_title'                                          => 'Delete',
+    'delete_all_title'                                      => 'Delete All',
     'remove_title'                                          => 'Remove',
     'moveup_title'                                          => 'Moveup',
     'movedown_title'                                        => 'Movedown',
@@ -336,6 +352,10 @@ return [
     'see_title'                                             => 'See',
     'clear_title'                                           => 'Clear',
     'clear_all_title'                                       => 'Clear All',
+    'close_other_title'                                     => 'Close Other',
+    'close_all_title'                                       => 'Close All',
+    'notice_title'                                          => 'Notice',
+    'refresh_title'                                         => 'Refresh',
     'close_title'                                           => 'Close',
     'open_title'                                            => 'Open',
     'number_title'                                          => 'Number',
@@ -375,6 +395,7 @@ return [
     'delivery_title'                                        => 'Delivery',
     'take_title'                                            => 'Take',
     'copy_title'                                            => 'Copy',
+    'admin_title'                                           => 'Admin',
     'user_title'                                            => 'User',
     'revoke_audit_title'                                    => 'Revoke Audit',
     'reverse_audit_title'                                   => 'Reverse Audit',
@@ -417,6 +438,7 @@ return [
     'transfer_order_title'                                  => 'Transfer Order',
     'transfer_audit_title'                                  => 'Transfer Audit',
     'divider_title'                                         => 'Divider',
+    'name_title'                                            => 'Name',
     'status_title'                                          => 'Status',
     'collection_fee_title'                                  => 'Collection Fee',
     'complaint_title'                                       => 'Complaint',
@@ -434,6 +456,7 @@ return [
     'termination_title'                                     => 'Termination',
     'subordinate_title'                                     => 'Subordinate',
     'profit_title'                                          => 'Profit',
+    'stats_title'                                           => 'Stats',
     'gender_title'                                          => 'Gender',
     'birthday_title'                                        => 'Birthday',
     'address_title'                                         => 'Address',
@@ -460,6 +483,15 @@ return [
     'lat_title'                                             => 'Latitude',
     'lang_title'                                            => 'Language',
     'color_title'                                           => 'Color',
+    'color_matching_title'                                  => 'ColorMatching',
+    'blue_title'                                            => 'Blue',
+    'green_title'                                           => 'Green',
+    'red_title'                                             => 'Red',
+    'orange_title'                                          => 'Orange',
+    'yellow_title'                                          => 'Yellow',
+    'purple_title'                                          => 'Purple',
+    'brown_title'                                           => 'Brown',
+    'black_title'                                           => 'Black',
     'share_title'                                           => 'Share',
     'template_title'                                        => 'Template',
     'recharge_title'                                        => 'Recharge',
@@ -467,6 +499,8 @@ return [
     'log_title'                                             => 'Log',
     'continue_scan_title'                                   => 'ContinueScan',
     'self_pickup_point_title'                               => 'Self Pickup Point',
+    'web_title'                                             => 'WEB end',
+    'app_title'                                             => 'Mobile end',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_stop_sale_title'                                 => 'Stop Sale',
@@ -996,6 +1030,13 @@ return [
         'fra'  => 'French',
         'swe'  => 'Swedish',
     ],
+    // 商品分类展示层级类型
+    'common_show_goods_category_level_list' => [
+        0 => 'CategoryGoods',
+        1 => 'OneLevelCategory',
+        2 => 'TwoLevelCategory',
+        3 => 'ThreeLevelCategory',
+    ],
     // 图片验证码
     'common_site_images_verify_rules_list' => [
         0 => 'Color background',
@@ -1008,6 +1049,22 @@ return [
         0 => 'Compatibility mode',
         1 => 'Pathinfo mode',
         2 => 'Pathinfo mode + short address',
+    ],
+    // 短信日志平台
+    'common_sms_log_platform_list' => [
+        'aliyun' => 'Alibaba Cloud',
+    ],
+    // 短信日志状态
+    'common_sms_log_status_list' => [
+        0 => 'Not sent',
+        1 => 'has been sent',
+        2 => 'Failed',
+    ],
+    // 邮件日志状态
+    'common_email_log_status_list' => [
+        0 => 'Not sent',
+        1 => 'has been sent',
+        2 => 'Failed',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1041,6 +1098,20 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 常用功能菜单
+        'shortcutmenu'      => [
+            'form_base_title'                    => 'Common functions',
+            'form_item_name'                     => 'Name',
+            'form_item_name_message'             => 'Name format 1~60 characters',
+            'form_item_icon'                     => 'Icon',
+            'form_item_icon_message'             => 'Please upload the icon',
+            'form_item_menu_or_url'              => 'Point to address',
+            'form_item_menu_or_url_message'      => 'Please select at least one permission menu or fill in the URL address',
+            'form_item_top_tips'                 => 'Select up to 9 functions, drag to adjust sorting',
+            'form_item_menu_select_placeholder'  => 'Please select the menu',
+            'form_item_url_placeholder'          => 'Please enter the address',
+            'form_item_top_tips'                 => 'Select up to 9 functions, drag to adjust sorting',
+        ],
         // 权限管理
         'power'             => [
             'form_item_pid'                         => 'Column Level',
@@ -1053,7 +1124,7 @@ return [
             'form_item_action'                      => 'Action Name',
             'form_item_action_message'              => 'The format of the method name is between 1 and 30 characters (it must start with a letter and can be alphanumeric underscore)',
             'form_item_url'                         => 'Custom Url Address',
-            'form_item_url_message'                 => 'Custom url address, starting with http://or https://',
+            'form_item_url_message'                 => 'Custom url address, starting with http:// or https:// or /',
             'form_item_icon'                        => 'Icon Class',
             'form_item_icon_message'                => 'Icon format can be up to 30 characters',
             'form_item_icon_tips_list'              => [
@@ -1238,6 +1309,7 @@ return [
             'order_data_error_tips'                 => 'The order data is incorrect',
             'order_detail_data_error_tips'          => 'Incorrect order details',
             'order_inventory_dec_type_error_tips'   => 'Wrong inventory deduction operation type',
+            'order_submit_booking_success_tips'     => 'Order reservation successful, waiting for administrator review!',
             'inventory_dec_not_enable_tips'         => 'Deduction inventory not opened',
             'inventory_dec_not_confirm_tips'        => 'The current order status has not been confirmed - do not deduct inventory',
             'inventory_dec_not_pay_tips'            => 'The current order status has not been operated for payment - do not deduct inventory',
@@ -1466,6 +1538,7 @@ return [
             'form_spec_template_message'            => 'Please select a goods specification template',
             'form_spec_quick_add_title'             => 'Batch add specifications',
             'form_spec_quick_generate_title'        => 'Generate specifications',
+            'form_spec_add_column_title'            => 'Add specifications',
             'form_spec_type_title'                  => 'Spec Name',
             'form_spec_type_message'                => 'Please fill in the specification name',
             'form_spec_value_title'                 => 'Spec Value',
@@ -1690,6 +1763,7 @@ return [
                 'order'             => 'Order Admin',
                 'orderaftersale'    => 'Order Aftersales',
                 'goodsfavor'        => 'Goods Favor',
+                'goodscomments'     => 'Goods Comments',
                 'property'          => 'Property Center',
                 'integral'          => 'My Points',
                 'base'              => 'Data Admin',
@@ -1717,7 +1791,7 @@ return [
             'form_item_number'                      => 'Number of goods',
             'form_item_number_message'              => 'Please fill in the valid number of goods, minimum 1, maximum {:max}',
             'form_item_price'                       => 'Refund Amount',
-            'form_item_price_message'               => 'Please enter a valid refund amount, up to {:price} yuan',
+            'form_item_price_message'               => 'Please enter a valid refund amount, up to {:price}',
             'form_item_msg'                         => 'Refund instructions',
             'form_item_msg_message'                 => 'Refund instructions can be up to 200 characters',
             'form_item_images'                      => 'Upload Voucher',
@@ -1737,7 +1811,7 @@ return [
             // 基础
             'order_aftersale_overdue_tips'          => 'The order has been sold later, please contact customer service for processing',
             'order_aftersale_have_in_hand_tips'     => 'Order aftersales is in progress, please do not repeat the application',
-            'refund_amount_max_order_price_tips'    => 'The refund amount is greater than the order payment amount [historical refund {:history_price} yuan, order amount {:order_price} yuan]',
+            'refund_amount_max_order_price_tips'    => 'The refund amount is greater than the order payment amount [historical refund {:history_price}, order amount {:order_price}]',
             'return_quantity_max_order_number_tips' => 'The return quantity is greater than the purchase quantity [historical return quantity {:history_number}, order goods quantity {:buy_number}]',
             'refund_only_not_can_return_goods_tips' => 'This aftersales order is for refund only, and return operation is not allowed',
             'status_not_can_operate_tips'           => 'The aftersales order status is inoperable',
@@ -1753,7 +1827,7 @@ return [
             'refund_user_message_title'             => 'Order refund',
             'order_aftersale_update_fail_tips'      => 'After-sales order update failed',
             'pay_log_trade_empty_tips'              => 'The platform document number is empty, please confirm whether the payment log exists',
-            'pay_log_refund_reason'                 => '{:order_no} Order refund {:price} yuan',
+            'pay_log_refund_reason'                 => '{:order_no} Order refund {:price}',
             'payment_plugins_tetrace_fail_tips'     => 'Payment plug-in refund processing error',
             'wallet_update_fail_tips'               => 'Wallet update failed',
             'wallet_log_insert_fail_tips'           => 'Failed to add wallet log',
@@ -1817,7 +1891,7 @@ return [
             'pay_params_error_tips'                 => 'Payment transfer parameter error',
             'pay_price_error_tips'                  => 'The order amount is incorrect, please initiate payment normally',
             'only_under_line_error_tips'            => 'Only offline payment method processing',
-            'order_pay_user_message_msg'            => 'The order was paid successfully, with the amount of {:price} yuan',
+            'order_pay_user_message_msg'            => 'The order was paid successfully, with the amount of {:price}',
             'order_update_fail_tips'                => 'Order update failed',
             'user_under_line_pay_history_desc'      => 'User offline payment',
             'order_status_history_insert_fail_tips' => 'Failed to add order log',
@@ -1831,7 +1905,7 @@ return [
             'order_take_status_name'                => 'To be picked up',
             'order_under_line_pay_status_name'      => 'To be confirmed',
             'order_under_line_name'                 => 'Offline payment',
-            'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}元',
+            'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}',
             'order_goods_sales_count_inc_fail_tips' => 'Failed to increase sales volume of order goods',
             'order_detail_goods_empty_tips'         => 'There is an error in the order. No related goods were found',
             'pay_have_in_hand_tips'                 => 'In payment',
@@ -2167,6 +2241,7 @@ return [
         ],
         // 主题
         'theme'                     => [
+            'form_item_upload_tips'                 => 'Upload a theme pack in zip compressed format',
             'view_dir_no_power_tips'                => 'View directory does not have permission',
             'static_dir_no_power_tips'              => 'The resource directory does not have permission',
             'package_invalid_tips'                  => 'Invalid theme pack',
@@ -2311,6 +2386,8 @@ return [
             'goods_inventory_dec_fail_tips'         => 'Failed to deduct the inventory of warehouse goods',
             'goods_spec_inventory_inc_fail_tips'    => 'Rollback of warehouse goods specification inventory failed',
             'goods_inventory_inc_fail_tips'         => 'Failed to roll back the inventory of warehouse goods',
+            'goods_goods_spec_default_name'         => 'Default spec',
+            'goods_goods_spec_inventory_name'       => 'Spec inventory',
         ],
         // 仓库商品
         'warehouse'                 => [
@@ -2690,6 +2767,12 @@ return [
                 'touser_openid_empty_tips'          => 'Openid cannot be empty',
                 'template_id_empty_tips'            => 'template_ ID cannot be empty',
                 'data_empty_tips'                   => 'Data cannot be empty',
+                'not_opened_trade_managed_msg'      => 'Delivery management not activated',
+                'trade_no_empty_tips'               => 'trade_no cannot be empty',
+                'buyer_user_empty_tips'             => 'buyer_user cannot be empty',
+                'goods_title_empty_tips'            => 'goods_title cannot be empty',
+                'no_match_logistics_company_code'   => 'No matching logistics company code',
+                'no_match_logistics_mode'           => 'No matching logistics mode',
             ],
             // 邮件
             'email'         => [
@@ -2837,10 +2920,15 @@ return [
             'desc' => 'Support HTML, which can be used to add traffic statistics code',
             'tips' => '',
         ],
-        'home_site_state'  => [
-            'name' => 'Site status',
+        'home_site_app_state'  => [
+            'name' => 'Turn off mobile devices',
+            'desc' => 'Check to close',
+            'tips' => 'Please choose whether to turn off the mobile end',
+        ],
+        'home_site_web_state'  => [
+            'name' => 'Web site status',
             'desc' => 'The site can be closed temporarily, and other people cannot access it, but it does not affect the administrators access to the background',
-            'tips' => 'Please select site status',
+            'tips' => 'Please select the web site status',
         ],
         'home_site_close_reason'  => [
             'name' => 'Closing reason',
@@ -2937,7 +3025,7 @@ return [
             'desc' => 'Prevent frequent access to verification code, generally between 30 and 120 seconds, unit: [seconds]',
             'tips' => 'Please fill in the time interval for obtaining verification code',
         ],
-        'home_sms_user_reg'  => [
+        'home_sms_user_reg_template'  => [
             'name' => 'User registration - SMS template ID',
             'desc' => 'Verification code',
             'tips' => 'Please fill in the content of user registration SMS template',
@@ -2952,7 +3040,7 @@ return [
             'desc' => 'Access Key ID',
             'tips' => 'Please fill in the Access Key ID',
         ],
-        'home_sms_user_forget_pwd'  => [
+        'home_sms_user_forget_pwd_template'  => [
             'name' => 'Password retrieval - SMS template ID',
             'desc' => 'Verification code',
             'tips' => 'Please fill in the password to retrieve the content of the SMS template',
@@ -3017,17 +3105,17 @@ return [
             'desc' => 'Default foreground template',
             'tips' => 'Please select the default template',
         ],
-        'home_email_user_reg'  => [
+        'home_email_user_reg_template'  => [
             'name' => 'User registration - mail template',
             'desc' => 'Verification code variable identifier [# code #]',
             'tips' => '',
         ],
-        'home_email_user_forget_pwd'  => [
+        'home_email_user_forget_pwd_template'  => [
             'name' => 'Password retrieval - mail template',
             'desc' => 'Verification code variable identifier [# code #]',
             'tips' => '',
         ],
-        'home_email_user_email_binding'  => [
+        'home_email_user_email_binding_template'  => [
             'name' => 'Mailbox binding - mail template',
             'desc' => 'Verification code variable identifier [# code #]',
             'tips' => '',
@@ -3037,7 +3125,7 @@ return [
             'desc' => 'For CSS / JS browser cache version recognition',
             'tips' => '',
         ],
-        'home_sms_user_mobile_binding'  => [
+        'home_sms_user_mobile_binding_template'  => [
             'name' => 'Mobile number binding - SMS template ID',
             'desc' => 'Verification code',
             'tips' => 'Please fill in the content of mobile phone number binding SMS template',
@@ -3192,6 +3280,16 @@ return [
             'desc' => '',
             'tips' => 'Please fill in the description',
         ],
+        'common_app_mini_weixin_share_original_id'  => [
+            'name' => 'Original ID of WeChat Mini Program',
+            'desc' => 'Fill in the app and share it on WeChat to use the mini program',
+            'tips' => 'Please fill in the original ID of the WeChat mini program',
+        ],
+        'common_app_mini_weixin_upload_shipping_status'  => [
+            'name' => 'Synchronize WeChat shipment',
+            'desc' => 'Default Off',
+            'tips' => 'Please choose whether to synchronize WeChat shipment or not',
+        ],
         'common_app_mini_weixin_privacy_content'  => [
             'name' => 'Privacy Popup Description',
             'desc' => 'If left blank, the system defaults to a general description',
@@ -3304,7 +3402,7 @@ return [
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => 'picture',
-            'desc' => 'Picture 2 [Suggested 450 * 350px]',
+            'desc' => 'Picture 3 [Suggested 450 * 350px]',
             'tips' => '',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
@@ -3577,6 +3675,21 @@ return [
             'desc' => '',
             'tips' => 'Please fill in the version number of the live broadcast component',
         ],
+        'admin_logo'  => [
+            'name' => 'Background logo',
+            'desc' => 'Suggest 322*78px',
+            'tips' => 'Please upload the backend logo',
+        ],
+        'admin_login_logo'  => [
+            'name' => 'Background login logo',
+            'desc' => 'Suggest 220*60px',
+            'tips' => 'Please upload the backend login logo',
+        ],
+        'admin_login_ad_images'  => [
+            'name' => 'Background login advertisement image',
+            'desc' => 'Suggest 570*480px',
+            'tips' => 'Please upload the background login advertisement image',
+        ],
         'admin_login_info_bg_images_rand'  => [
             'name' => 'Random background image of background login page',
             'desc' => 'Enabled by default',
@@ -3589,8 +3702,8 @@ return [
         ],
         'common_show_goods_category_level'  => [
             'name' => 'Classification display level',
-            'desc' => 'Default level 0',
-            'tips' => 'Please fill in the classification display level',
+            'desc' => 'Default Category+Goods',
+            'tips' => 'Please select a classification display level',
         ],
         'common_cdn_attachment_host'  => [
             'name' => 'Attachment CDN domain name',
@@ -4036,6 +4149,21 @@ return [
             'name' => 'The user identifies the dimension with a system class',
             'desc' => 'Default on',
             'tips' => 'Please select a user to identify the dimension with a system class',
+        ],
+        'common_regex_mobile'  => [
+            'name' => 'Mobile Regular',
+            'desc' => '',
+            'tips' => 'Please fill in the mobile phone regular',
+        ],
+        'common_regex_tel'  => [
+            'name' => 'Landline regularization',
+            'desc' => '',
+            'tips' => 'Please fill in the landline registration form',
+        ],
+        'common_regex_id_card'  => [
+            'name' => 'ID card number is regular',
+            'desc' => '',
+            'tips' => 'Please fill in the ID number Regular',
         ],
     ],
 ];

@@ -136,7 +136,7 @@
                                                                 <a href="javascript:;" {{if !empty($navs['event_value_data']) and isset($navs['event_value_data'][2]) and isset($navs['event_value_data'][3]) and $navs['event_value_data'][2] neq 0 and $navs['event_value_data'][3] neq 0}}class="submit-map-popup am-flex am-flex-items-center" data-lng="{{$navs['event_value_data'][2]}}" data-lat="{{$navs['event_value_data'][3]}}"{{/if}}>
                                                                     <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
                                                                         {{if (!empty($navs['icon']) or !empty($navs['images_url'])) and !empty($navs['name'])}}
-                                                                            <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" />
+                                                                            <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width am-block" />
                                                                         {{/if}}
                                                                     </p>
                                                             {{/case}}
@@ -145,7 +145,7 @@
                                                                 <a {{if !empty($navs['event_value'])}}href="tel:{{$navs.event_value}}"{{else /}}href="javascript:;"{{/if}} class="am-flex am-flex-items-center">
                                                                     <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
                                                                     {{if (!empty($navs['icon']) or !empty($navs['images_url'])) and !empty($navs['name'])}}
-                                                                        <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" />
+                                                                        <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width am-block" />
                                                                     {{/if}}
                                                                 </p>
                                                             {{/case}}
@@ -155,7 +155,7 @@
                                                         <a {{if !empty($navs['event_value'])}}href="{{$navs.event_value}}"{{else /}}href="javascript:;"{{/if}} class="am-flex am-flex-items-center">
                                                             <p class="nav-images am-margin-right-xs" style="{{if !empty($navs['bg_color'])}}background:{{$navs.bg_color}};{{/if}}">
                                                                 {{if (!empty($navs['icon']) or !empty($navs['images_url'])) and !empty($navs['name'])}}
-                                                                    <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width" />
+                                                                    <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width am-block" />
                                                                 {{/if}}
                                                             </p>
                                                     {{/if}}
@@ -169,7 +169,7 @@
                                                         <a class="am-flex am-flex-items-center" href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">
                                                             {{if !empty($navs['icon']) or !empty($navs['images_url'])}}
                                                                 <p class="nav-images am-margin-right-xs" >
-                                                                <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width" />
+                                                                <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width am-block" />
                                                                 </p>
                                                             {{/if}}
                                                             <p class="am-text-truncate">{{$navs.name}}</p>

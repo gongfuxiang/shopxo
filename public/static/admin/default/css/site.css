@@ -1,52 +1,43 @@
 /**
- * 登录
- */
-ul.home_site_logo-images-view li,
-ul.home_site_logo_wap-images-view li {
-    width: 22rem;
-    height: 6rem;
-}
-
-/**
- * 用户注册背景图、用户登录背景图
- */
-ul.home_site_user_register_bg_images-images-view li,
-ul.home_site_user_login_ad1_images-images-view li,
-ul.home_site_user_login_ad2_images-images-view li,
-ul.home_site_user_login_ad3_images-images-view li {
-    width: 30rem;
-    height: 10rem;
-}
-
-/**
- * 密码找回背景图
- */
-ul.home_site_user_forgetpwd_ad1_images-images-view li,
-ul.home_site_user_forgetpwd_ad2_images-images-view li,
-ul.home_site_user_forgetpwd_ad3_images-images-view li {
-    width: 20rem;
-    height: 16rem;
-}
-
-/**
  * 地址添加/编辑
  */
+.address-list li {
+    padding: 1rem 1.2rem;
+    color: #333;
+}
+
+.address-list li:nth-child(odd) {
+    background-color: #fff;
+}
+
+.address-list li:nth-child(even) {
+    background: #F6F6F6;
+}
+
 .address-list .address-logo {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 3.2rem;
+    height: 3.2rem;
     margin-right: 0.2rem;
     vertical-align: text-top;
 }
+
 .address-list .edit-submit,
 .address-list .delete-submit {
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--color-main);
+    padding: 0 1rem;
 }
-@media only screen and (min-width:640px) {
-    .address-list {
-        padding: 0 20% 0 0 !important;
-    }
+
+.address-list .edit-submit:hover,
+.address-list .delete-submit:hover {
+    color: #146BE6;
 }
+
 @media only screen and (max-width:640px) {
+
     .address-list .edit-submit,
     .address-list .delete-submit {
         position: absolute;
@@ -54,6 +45,7 @@ ul.home_site_user_forgetpwd_ad3_images-images-view li {
         right: 0.5rem;
         float: none !important;
     }
+
     .address-list .delete-submit {
         right: 7rem;
     }
@@ -64,12 +56,33 @@ ul.home_site_user_forgetpwd_ad3_images-images-view li {
  */
 .manual-mode-goods-container li {
     position: relative;
+    background: #FFFFFF;
 }
+
 .manual-mode-goods-container li button.am-close {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.8rem 2.5rem 0.8rem 1.5rem;
+    padding: 1.1rem 2.5rem 1.1rem 1.5rem;
+    color: #ddd;
+}
+
+.manual-mode-goods-container li:hover {
+    background: #F6F6F6;
+}
+
+.manual-mode-goods-container li:hover button.am-close {
+    color: var(--color-main);
+}
+
+.manual-mode-goods-container li a {
+    color: #333;
+    padding: 1rem 1.2rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.manual-mode-goods-container li:hover a {
+    color: var(--color-main);
 }
 
 /**
@@ -78,55 +91,55 @@ ul.home_site_user_forgetpwd_ad3_images-images-view li {
 .goods-add-container {
     height: 100%;
 }
+
 .forth-selection-container select.forth-selection-form-category {
     display: -webkit-inline-box;
 }
-.forth-selection-container .forth-selection-form-category, .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+
+.forth-selection-container .forth-selection-form-category,
+.forth-selection-container .chosen-container,
+.forth-selection-container .forth-selection-form-keywords {
     width: calc(50% - 4.8rem) !important;
 }
-.forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+
+.forth-selection-container .chosen-container,
+.forth-selection-container .forth-selection-form-keywords {
     display: -webkit-inline-box !important;
 }
+
 .forth-selection-container .chosen-single {
     width: 100%;
 }
+
 .forth-selection-container .search-submit {
     width: 8.7rem;
 }
+
 .goods-list-container {
     height: calc(100% - 9.2rem);
     border: 0.1rem solid #eee;
 }
+
 .goods-list-container .am-gallery-bordered .am-gallery-title {
     margin-top: 0.5rem;
 }
+
 .goods-list-container ul li {
     position: relative;
     cursor: pointer;
 }
+
 .goods-list-container ul li:hover .am-gallery-item {
-    -webkit-box-shadow: 0 0 0.6rem #3cb4f1;
-    box-shadow: 0 0 0.6rem #3cb4f1;
+    -webkit-box-shadow: 0 0 0.6rem var(--color-blue);
+    box-shadow: 0 0 0.6rem var(--color-blue);
 }
+
 .goods-list-container .icon-submit-container {
     position: absolute;
-    right: 1.5rem;
-    bottom: 4.7rem;
+    right: -0.3rem;
+    top: -1rem;
 }
-.goods-list-container .icon-submit-container .am-icon-btn {
-    width: 3.6rem;
-    height: 3.6rem;
-    line-height: 3.6rem;
-    font-size: 2rem;
-    -webkit-box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
-}
-.goods-list-container .am-icon-btn.am-success:hover {
-    background: #4CAF50;
-}
-.goods-list-container .am-icon-btn.am-danger:hover {
-    background: #F44336;
-}
+
 .goods-page-container {
     height: 4rem;
 }
@@ -134,40 +147,129 @@ ul.home_site_user_forgetpwd_ad3_images-images-view li {
 /**
  * 域名对应语言
  */
-.domain-multilingual-list > ul li input.item-domain-input,
-.domain-multilingual-list > ul li .item-multilingual-choice {
+
+.domain-multilingual-list>ul {
+    max-width: 90rem;
+}
+
+.domain-multilingual-list>ul li input.item-domain-input,
+.domain-multilingual-list>ul li .item-multilingual-choice {
     width: calc(50% - 4rem) !important;
 }
-.domain-multilingual-list.am-form-success [class*="icon-"] {
-    color: #fff;
+
+.domain-multilingual-list .delete-btn {
+    padding: 0.6rem 1.2rem;
 }
 
 /**
  * 多语言图标
  */
-.multilingual-icon-submit {
-    border-radius: var(--border-radius);
-    border: 0.1rem dashed #c2c2c2 !important;
-    padding: 0.2rem !important;
-    min-width: auto;
+.multilingual-content > .am-inline-block:not(:last-child) {
+    margin-right: 1.22rem;
 }
-.multilingual-icon-submit ul {
-    padding: 0;
+.multilingual-content .am-checkbox-inline {
     margin: 0;
 }
-.multilingual-icon-submit ul li {
-    border: 0 !important;
-    margin: 0 !important;
+.multilingual-content ul.plug-file-upload-view {
     padding: 0 !important;
-    width: 1.8rem !important;
-    height: 1.8rem !important;
 }
-.multilingual-icon-submit ul li i {
-    font-size: 1.2rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    padding-left: 0;
-    line-height: 1.2rem;
-    right: 0;
-    top: 0;
+
+
+/* 拖拽模式 */
+.drop-mode img {
+    width: 22rem;
+}
+
+/* 自动 + 手动 */
+.am-form-group .am-tagsinput {
+    max-width: 41.5rem;
+    border-radius: var(--border-radius);
+    border: 0.1rem solid #D8D9DC;
+}
+
+.am-form-group .am-tagsinput .tag {
+    background: #F3F3F3;
+    color: #333;
+    border-radius: var(--border-radius);
+    padding: 0.1rem 0.6rem;
+    font-weight: normal !important;
+}
+
+/* 订单 */
+.payment-list-width {
+    max-width: 90rem;
+}
+
+.payment-list-width .am-form-group {
+    width: calc(50% - 1.2rem);
+}
+
+/* 扩展-多语言 */
+.multilingual-content {
+    padding: 3.6rem 1.6rem;
+    background: #F9F9F9;
+    border-radius: var(--border-radius);
+}
+
+.auto-hand-cart>li {
+    margin-bottom: 2rem;
+}
+
+.auto-hand-cart>li:last-child {
+    margin-bottom: 0;
+}
+
+/* 自提地址弹窗 */
+.content-right>.content #popup-address-win form .form-multiple-where-input,
+.content-right>.content #popup-address-win form input,
+.content-right>.content #popup-address-win form .chosen-select {
+    max-width: 100%;
+}
+
+/**
+ * 网站设置商品分类
+ */
+.level-type-content .item {
+    display: none;
+}
+
+.level-type-content .item.am-active {
+    display: block;
+}
+
+.level-type-content .item>div {
+    gap: 6rem;
+}
+.level-type-content .item>div p {
+    text-align: center;
+    font-size: 1.4rem;
+    font-family: PingFangSC,
+    PingFang SC;
+    font-weight: 500;
+    color: #666666;
+}
+
+.level-type-content .item img {
+    max-height: 44.7rem;
+    box-shadow: 0.1rem 0.2rem 1rem 0rem rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 1200px) {
+    .level-type-content .item {
+        gap: 4rem;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .level-type-content .item {
+        gap: 3rem;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .level-type-content .item {
+        gap: 1.5rem;
+    }
+    .level-type-content .item img {
+        max-height: 20rem;
+    }
 }

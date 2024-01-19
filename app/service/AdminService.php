@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\SystemService;
 use app\service\AdminPowerService;
+use app\service\ConfigService;
 
 /**
  * 管理员服务层
@@ -579,7 +580,7 @@ class AdminService
             // 短信
             case 'sms' :
                 $obj = new \base\Sms($verify_params);
-                $status = $obj->SendCode($params['accounts'], $code, MyC('admin_sms_login_template'));
+                $status = $obj->SendCode($params['accounts'], $code, ConfigService::SmsTemplateValue('admin_sms_login_template'));
                 break;
 
             // 邮箱

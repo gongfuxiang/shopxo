@@ -357,19 +357,19 @@ class GoodsService
             }
 
             // 商品分类
-            $category_group = $is_category ? self::GoodsListCategoryGroupList($goods_ids) : [];
+            $category_group = $is_category ? self::GoodsListCategoryGroupList($goods_ids, $params) : [];
 
             // 规格
-            $spec_group = $is_spec ? self::GoodsSpecificationsData($goods_ids) : [];
+            $spec_group = $is_spec ? self::GoodsSpecificationsData($goods_ids, $params) : [];
 
             // 参数
-            $params_group = $is_params ? self::GoodsParametersData($goods_ids) : [];
+            $params_group = $is_params ? self::GoodsParametersData($goods_ids, $params) : [];
 
             // app数据
-            $app_group = $is_content_app ? self::GoodsAppData($goods_ids) : [];
+            $app_group = $is_content_app ? self::GoodsAppData($goods_ids, $params) : [];
 
             // 获取商品购物车数量
-            $user_cart = $is_cart ? self::UserCartGoodsCountData($goods_ids) : [];
+            $user_cart = $is_cart ? self::UserCartGoodsCountData($goods_ids, $params) : [];
 
             // 开始处理数据
             foreach($data as &$v)
@@ -630,8 +630,9 @@ class GoodsService
      * @date    2022-10-13
      * @desc    description
      * @param   [array]          $goods_ids [商品id]
+     * @param   [array]          $params    [输入参数]
      */
-    public static function GoodsListCategoryGroupList($goods_ids)
+    public static function GoodsListCategoryGroupList($goods_ids, $params = [])
     {
         $result = [];
         $category_join = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_ids])->field('goods_id,category_id')->select()->toArray();
@@ -713,8 +714,9 @@ class GoodsService
      * @date    2023-03-20
      * @desc    description
      * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
      */
-    public static function UserCartGoodsCountData($goods_ids)
+    public static function UserCartGoodsCountData($goods_ids, $params = [])
     {
         $result = [];
         $user = UserService::LoginUserInfo();
@@ -741,9 +743,10 @@ class GoodsService
      * @date    2018-07-10
      * @desc    description
      * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
      * @return  [array]                      [app内容]
      */
-    public static function GoodsAppData($goods_ids)
+    public static function GoodsAppData($goods_ids, $params = [])
     {
         $group = [];
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->field('id,goods_id,images,content')->order('sort asc')->select()->toArray();
@@ -775,8 +778,9 @@ class GoodsService
      * @date    2020-07-16
      * @desc    description
      * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
      */
-    public static function GoodsSpecificationsData($goods_ids)
+    public static function GoodsSpecificationsData($goods_ids, $params = [])
     {
         $group = [];
         $data = Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->order('id asc')->select()->toArray();
@@ -813,12 +817,12 @@ class GoodsService
                     {
                         foreach($gv['choose'][0]['value'] as &$temp_spec)
                         {
-                            $temp_spec_params = [
+                            $temp_spec_params = array_merge($params, [
                                 'id'    => $gid,
                                 'spec'  => [
                                     ['type' => $gv['choose'][0]['name'], 'value' => $temp_spec['name']]
                                 ],
-                            ];
+                            ]);
                             $temp = self::GoodsSpecDetail($temp_spec_params);
                             if($temp['code'] == 0)
                             {
@@ -841,8 +845,9 @@ class GoodsService
      * @date    2020-08-31
      * @desc    description
      * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
      */
-    public static function GoodsParametersData($goods_ids)
+    public static function GoodsParametersData($goods_ids, $params = [])
     {
         $data = [];
         $list = Db::name('GoodsParams')->where(['goods_id'=>$goods_ids])->order('id asc')->select()->toArray();
@@ -3023,6 +3028,67 @@ class GoodsService
             'spec'      => $spec['data'],
             'params'    => $parameter['data'],
         ]);
+    }
+
+    /**
+     * 商品详情页面猜你喜欢的相关商品
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-12-29
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsDetailGuessYouLikeData($goods_id)
+    {
+        $goods_list = [];
+        if(!empty($goods_id))
+        {
+            $category_ids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->column('category_id');
+            if(!empty($category_ids))
+            {
+                $category_ids = GoodsCategoryService::GoodsCategoryParentIds(GoodsCategoryService::GoodsCategoryItemsIds($category_ids));
+                $params = [
+                    'where'     => [
+                        ['g.is_shelves', '=', 1],
+                        ['g.is_delete_time', '=', 0],
+                        ['gci.category_id', 'in', $category_ids],
+                        ['g.id', 'not in', $goods_id],
+                    ],
+                    'order_by'  => 'sales_count desc',
+                    'n'         => 16,
+                    'is_spec'   => true,
+                    'is_cart'   => true,
+                ];
+                $ret = self::CategoryGoodsList($params);
+                $goods_list = empty($ret['data']) ? [] : $ret['data'];
+            }
+        }
+        return $goods_list;
+    }
+
+    /**
+     * 商品详情页面看了又看的相关商品
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-12-29
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsDetailSeeingYouData($goods_id)
+    {
+        $params = [
+            'where'     => [
+                ['is_shelves', '=', 1],
+                ['is_delete_time', '=', 0],
+                ['id', 'not in', $goods_id],
+            ],
+            'order_by'  => 'access_count desc',
+            'n'         => 10,
+        ];
+        $ret = self::GoodsList($params);
+        return empty($ret['data']) ? [] : $ret['data'];
     }
 }
 ?>

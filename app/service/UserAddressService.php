@@ -186,6 +186,10 @@ class UserAddressService
                 // 地理位置距离字段
                 $v['distance_value'] = null;
                 $v['distance_unit'] = null;
+
+                // 地址状态（0未禁用、1已禁用），msg禁用原因
+                $v['address_disable_status'] = 0;
+                $v['address_disable_msg'] = null;
             }
 
             // 是否处理默认地址,没有默认地址将第一个设置为默认地址
@@ -205,6 +209,12 @@ class UserAddressService
             'data'          => &$data,
             'user_id'       => $params['user']['id'],
         ]);
+
+        // 根据距离排序
+        if(count($data) > 1 && array_sum(array_column($data, 'distance_value')) > 0)
+        {
+            $data = ArrayQuickSort($data, 'distance_value');
+        }
 
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
@@ -303,6 +313,12 @@ class UserAddressService
             'data'          => &$data,
             'user_id'       => $params['user']['id'],
         ]);
+
+        // 如果地址为禁用状态则赋值空
+        if(!empty($data) && isset($data['address_disable_status']) && $data['address_disable_status'] == 1)
+        {
+            $data = null;
+        }
 
         return DataReturn(MyLang('get_success'), 0, $data);
     }

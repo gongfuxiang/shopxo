@@ -1,0 +1,8 @@
+{{if !empty($module_data['title']) and !empty($module_data['back_url'])}}
+    <legend>
+        <span class="am-text-sm am-font-weight">{{$module_data.title}}</span>
+        <a href="{{$module_data.back_url}}" class="am-fr am-text-lg">
+            <i class="iconfont icon-back"></i>
+        </a>
+    </legend>
+{{/if}}

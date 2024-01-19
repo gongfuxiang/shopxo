@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\UserService;
+use app\service\ConfigService;
 
 /**
  * 安全服务层
@@ -250,12 +251,12 @@ class SafetyService
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);
-            $status = $obj->SendCode($accounts, $code, MyC('home_sms_user_mobile_binding'));
+            $status = $obj->SendCode($accounts, $code, ConfigService::SmsTemplateValue('home_sms_user_mobile_binding_template'));
         } else {
             $obj = new \base\Email($verify_params);
             $email_params = [
                 'email'     =>  $accounts,
-                'content'   =>  MyC('home_email_user_email_binding'),
+                'content'   =>  MyC('home_email_user_email_binding_template'),
                 'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.safety.send_verify_email_title'),
                 'code'      =>  $code,
             ];

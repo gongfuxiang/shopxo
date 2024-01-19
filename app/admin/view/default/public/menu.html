@@ -1,49 +1,127 @@
-<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
-	<div class="am-offcanvas-bar admin-offcanvas-bar">
-		<ul class="am-list admin-sidebar-list common-left-menu">
-			<li>
-				<a href="javascript:;" data-key="-" data-type="menu" data-url="{{:MyUrl('admin/index/init')}}" class="common-left-menu-active">
-					<span class="iconfont icon-home-page"></span>
-					<p class="nav-name am-inline-block am-text-break">{{:MyLang('home_title')}}</p>
-				</a>
-			</li>
-			{{foreach $left_menu as $v}}
-				{{if empty($v['items'])}}
-					<li>
-						<a href="javascript:;" data-type="menu" data-url="{{$v.url}}" data-key="{{$v.id}}">
-							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
-							<p class="nav-name am-inline-block am-text-break">{{$v.name}}</p>
-						</a>
-					</li>
-				{{else /}}
-					<li class="admin-parent">
-						<a data-type="menu" class="am-cf menu-parent-items-{{$v.id}}" data-am-collapse="{target: '#power-menu-{{$v.id}}'}">
-							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
-							<p class="nav-name am-inline-block am-text-break">{{$v.name}}</p>
-							<i class="am-icon-angle-down am-fr am-margin-right left-menu-more-ico-rotate"></i>
-						</a>
-						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
-							{{foreach $v.items as $vs}}
-								<li>
-									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}" data-key="{{$vs.id}}">
-										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
-										<p class="nav-name am-inline-block am-text-break">{{$vs.name}}</p>
-									</a>
-								</li>
-							{{/foreach}}
-						</ul>
-					</li>
-				{{/if}}
-			{{/foreach}}
-		</ul>
-	</div>
-	<a href="javascript:;" class="am-icon-dedent menu-scaling-submit am-hide-sm-only" data-status="0"></a>
-</div>
-<div class="menu-mini-container-tips am-animation-slide-right">
-	<div class="mui-mbar-tab-tip am-icon-caret-left"></div>
-	<span></span>
-</div>
-<div class="menu-mini-container-popup am-animation-slide-right">
-	<div class="mui-mbar-tab-tip am-icon-caret-left"></div>
-	<ul></ul>
+<div>
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="menu-list">
+            <div class="must-menu-list {{if isset($multilingual_default_code)}}{{$multilingual_default_code}}{{/if}}">
+                {{if !empty($admin_logo)}}
+                    <a class="menu-logo am-padding-horizontal-sm am-vertical-align" href="{{:MyUrl('admin/index/index')}}">
+                        <img src="{{$admin_logo}}" class="am-vertical-align-middle" />
+                    </a>
+                {{/if}}
+                <div class="must-menu-scroll">
+                    <div class="must-menu-list-am-active {{if !empty($admin_logo)}}is_logo{{/if}}"></div>
+                    <div class="am-offcanvas-bar admin-offcanvas-bar">
+                        <ul class="am-list admin-sidebar-list common-left-menu">
+                            <li>
+                                <a href="javascript:;" data-key="-" data-type="menu" data-parent=""
+                                    data-url="{{:MyUrl('admin/index/init')}}" class="common-left-menu-active flex-center menu-item menu-home">
+                                    <span class="iconfont icon-admin-home-page"></span>
+                                    <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm am-padding-left-xs">{{:MyLang('home_title')}}</p>
+                                </a>
+                            </li>
+                            {{foreach $left_menu as $v}}
+                                {{if empty($v['items'])}}
+                                    <li>
+                                        <a href="javascript:;" class="menu-item flex-center" data-type="menu" data-url="{{$v.url}}" data-key="{{$v.id}}" data-parent="">
+                                            {{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
+                                            <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm am-padding-left-xs">{{$v.name}}</p>
+                                        </a>
+                                    </li>
+                                {{else /}}
+                                    <li class="admin-parent">
+                                        <a data-type="menu" class="am-cf menu-parent-items-{{$v.id}} flex-center menu-item"
+                                            data-am-collapse="{target: '#power-menu-{{$v.id}}'}" data-id="{{$v.id}}">
+                                            {{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
+                                            <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm am-padding-left-xs">
+                                                {{$v.name}}</p>
+                                            <i class="iconfont icon-angle-down am-fr left-menu-more-ico-rotate am-list-children-close menu-icon"></i>
+                                        </a>
+                                        <ul class="am-list am-list-children-close am-collapse admin-sidebar-sub"
+                                            id="power-menu-{{$v.id}}">
+                                            {{foreach $v.items as $vs}}
+                                                {{if empty($vs['items'])}}
+                                                    <li>
+                                                        <a href="javascript:;" class="menu-items-{{$vs.id}} flex-center menu-item" data-parent-id="{{$v.id}}" data-parent="{{$v.id}}"
+                                                            data-type="menu" data-url="{{$vs.url}}" data-key="{{$vs.id}}">
+                                                            {{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
+                                                            <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm">{{$vs.name}}</p>
+                                                        </a>
+                                                    </li>
+                                                {{else /}}
+                                                    <li class="admin-parent">
+                                                        <a data-type="menu" class="am-cf menu-parent-items-{{$vs.id}} flex-center menu-item"
+                                                            data-am-collapse="{target: '#power-menu-{{$vs.id}}-phone'}">
+                                                            <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm">
+                                                                {{$vs.name}}</p>
+                                                            <i class="iconfont icon-angle-down am-fr left-menu-more-ico-rotate menu-icon"></i>
+                                                        </a>
+                                                        <ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$vs.id}}-phone">
+                                                            {{foreach $vs.items as $vss}}
+                                                                <li>
+                                                                    <a href="javascript:;" class="menu-items-{{$vss.key}} menu-item" data-parent-id="{{$vs.id}}" data-parent="{{$v.id}}|{{$vs.id}}"
+                                                                        data-type="menu" data-url="{{$vss.url}}" data-key="{{$vss.id}}">
+                                                                        <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm">{{$vss.name}}
+                                                                        </p>
+                                                                    </a>
+                                                                </li>
+                                                            {{/foreach}}
+                                                        </ul>
+                                                    </li>
+                                                {{/if}}
+                                            {{/foreach}}
+                                        </ul>
+                                    </li>
+                                {{/if}}
+                            {{/foreach}}
+                        </ul>
+                    </div>
+                    <a href="javascript:;" class="iconfont icon-stretch menu-scaling-submit am-hide-sm-only am-hide" data-status="0"></a>
+                </div>
+            </div>
+            <div class="child-menu-list {{if isset($multilingual_default_code)}}{{$multilingual_default_code}}{{/if}}">
+                <div class="menu-name am-text-sm am-text-break am-text-truncate"></div>
+                <div class="child-menu-scroll">
+                    <div class="am-list admin-sidebar-list common-left-menu">
+                        {{foreach $left_menu as $v}}
+                            {{if empty($v['items'])}}
+                            {{else /}}
+                                <ul class="am-list am-hide second" id="power-menu-{{$v.id}}">
+                                    {{foreach $v.items as $vs}}
+                                        {{if empty($vs['items'])}}
+                                            <li>
+                                                <a href="javascript:;" class="menu-items-{{$vs.id}} flex-center menu-item" data-parent-id="{{$v.id}}" data-parent="{{$v.id}}"
+                                                    data-type="menu" data-url="{{$vs.url}}" data-key="{{$vs.id}}">
+                                                    {{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
+                                                    <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm">{{$vs.name}}</p>
+                                                </a>
+                                            </li>
+                                        {{else /}}
+                                            <li class="admin-parent">
+                                                <a data-type="menu" class="am-cf menu-parent-items-{{$vs.id}} flex-center menu-item"
+                                                    data-am-collapse="{target: '#power-menu-{{$vs.id}}'}">
+                                                    <p class="nav-name am-inline-block am-text-break am-text-truncate am-text-sm">
+                                                        {{$vs.name}}</p>
+                                                    <i class="iconfont icon-angle-down am-fr left-menu-more-ico-rotate menu-icon"></i>
+                                                </a>
+                                                <ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$vs.id}}">
+                                                    {{foreach $vs.items as $vss}}
+                                                        <li>
+                                                            <a href="javascript:;" class="menu-items-{{$vss.key}} menu-item" data-parent-id="{{$vs.id}}" data-parent="{{$v.id}}|{{$vs.id}}"
+                                                                data-type="menu" data-url="{{$vss.url}}" data-key="{{$vss.id}}">
+                                                                <p class="nav-name am-inline-block am-text-break am-text-truncate">{{$vss.name}}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            </li>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

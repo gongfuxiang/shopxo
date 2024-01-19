@@ -36,11 +36,11 @@ class Email extends Base
 		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
 		$assign = [
 			// 配置信息
-			'data'		=> ConfigService::ConfigList(),
+			'data'      => ConfigService::ConfigList(),
 			// 管理导航
-            'nav_data'	=> MyLang('email.base_nav_list'),
-            // 页面导航
-			'nav_type'	=> $type,
+			'nav_data'  => MyLang('email.base_nav_list'),
+			// 页面导航
+			'type'      => $type,
 		];
 		MyViewAssign($assign);
 		return MyView($type);

@@ -30,7 +30,7 @@ $(function()
 	});
 
 	// 邮箱编辑器初始化
-	if($('.table-nav .am-active').data('type') == 'message')
+	if($('.nav-content').hasClass('rich-text'))
 	{
 		// 配置信息
 		var toolbars = [[

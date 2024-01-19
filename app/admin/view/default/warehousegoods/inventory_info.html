@@ -6,7 +6,7 @@
         {{if !empty($data['spec'])}}
             <!-- form start -->
             <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/warehousegoods/inventorysave')}}" method="POST" request-type="ajax-reload" request-value="parent">
-                <table class="am-table am-table-striped am-table-hover form-inventory-container">
+                <table class="am-table am-table-striped am-table-hover">
                     <thead>
                         <tr>
                             <th>{{:MyLang('spec_title')}}</th>
@@ -62,4 +62,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

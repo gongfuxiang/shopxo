@@ -55,6 +55,12 @@ return [
         'footer_icp_filing_text'                => 'Registro ICP',
         'footer_public_security_filing_text'    => 'Registro de seguridad pública',
         'footer_business_license_text'          => 'Licencia comercial electrónica iluminada',
+        // 购物车
+        'user_cart_success_modal_tips'          => '¡¡ la mercancía se ha unido con éxito al carrito de la compra!',
+        'user_cart_success_modal_text_first'    => 'Carrito de compras en total',
+        'user_cart_success_modal_text_last'     => 'Artículo',
+        'user_cart_success_modal_cart_title'    => 'Ir al carrito de la compra para liquidar',
+        'user_cart_success_modal_buy_title'     => 'Sigue comprando',
     ],
 
     // 首页
@@ -62,7 +68,7 @@ return [
         'banner_right_already_login_first'      => 'Hi,',
         'banner_right_not_login_first'          => 'Hola, bienvenidos.',
         'banner_right_article_title'            => 'Titulares de noticias',
-        'design_browser_seo_title'              => 'Diseño de la página de inicio',
+        'design_base_nav_title'                 => 'Diseño de la página de inicio',
     ],
 
     // 商品
@@ -85,14 +91,14 @@ return [
 
     // 商品搜索
     'search'            => [
-        'browser_seo_title'                     => 'Búsqueda de productos',
+        'base_nav_title'                        => 'Búsqueda de productos',
         'filter_out_first_text'                 => 'Selección',
         'filter_out_last_data_text'             => 'Datos de barra',
     ],
 
     // 商品分类
     'category'          => [
-        'browser_seo_title'                     => 'Clasificación de mercancías',
+        'base_nav_title'                        => 'Clasificación de mercancías',
         'no_category_data_tips'                 => 'No hay datos clasificados',
         'no_sub_category_data_tips'             => 'No hay datos subclasificados',
         'view_category_sub_goods_name'          => 'Ver los productos bajo clasificación',
@@ -105,7 +111,7 @@ return [
             'goods_no_choice_tips'              => 'Por favor, elija el producto',
         ],
         // 基础
-        'browser_seo_title'                     => 'Carrito de compras',
+        'base_nav_title'                        => 'Carrito de compras',
         'goods_list_thead_base'                 => 'Información sobre productos básicos',
         'goods_list_thead_price'                => 'Precio unitario',
         'goods_list_thead_number'               => 'Cantidad',
@@ -128,7 +134,7 @@ return [
             'payment_choice_tips'               => 'Por favor, elija pagar',
         ],
         // 基础
-        'browser_seo_title'                     => 'Confirmación del pedido',
+        'base_nav_title'                        => 'Confirmación del pedido',
         'exhibition_not_allow_submit_tips'      => 'El tipo de exhibición no permite la presentación de pedidos',
         'buy_item_order_title'                  => 'Información del pedido',
         'buy_item_payment_title'                => 'Optar por pagar',
@@ -161,7 +167,7 @@ return [
 
     // 文章
     'article'            => [
-        'category_browser_seo_title'            => 'Todos los artículos',
+        'category_base_nav_title'               => 'Todos los artículos',
         'article_no_data_tips'                  => 'El artículo no existe o ha sido eliminado',
         'article_id_params_tips'                => 'El ID del artículo es incorrecto',
         'release_time'                          => 'Tiempo de lanzamiento:',
@@ -193,11 +199,11 @@ return [
             'pay_url_empty_tips'                => 'La Dirección de la dirección de la dirección de pago es incorrecta.',
         ],
         // 基础
-        'browser_seo_title'                     => 'Mi pedido',
-        'detail_browser_seo_title'              => 'Detalles del pedido',
+        'base_nav_title'                        => 'Mi pedido',
+        'detail_base_nav_title'                 => 'Detalles del pedido',
         'detail_take_title'                     => 'Pickup address',
         'detail_shipping_address_title'         => 'Address',
-        'comments_browser_seo_title'            => 'Comentarios sobre pedidos',
+        'comments_base_nav_title'               => 'Comentarios sobre pedidos',
         'batch_payment_name'                    => 'Pago por lotes',
         'comments_goods_list_thead_base'        => 'Información sobre productos básicos',
         'comments_goods_list_thead_price'       => 'Precio unitario',
@@ -296,8 +302,8 @@ return [
             'refund_reason_empty_tips'          => 'Los datos de la razón del reembolso están vacíos',
         ],
         // 基础
-        'browser_seo_title'                     => 'Posventa de pedidos',
-        'detail_browser_seo_title'              => 'Detalles de la posventa del pedido',
+        'base_nav_title'                        => 'Posventa de pedidos',
+        'detail_base_nav_title'                 => 'Detalles de la posventa del pedido',
         'view_orderaftersale_enter_name'        => 'Ver pedidos post - venta',
         'orderaftersale_apply_name'             => 'Solicitar posventa',
         'operate_delivery_name'                 => 'Devolución inmediata',
@@ -368,10 +374,10 @@ return [
     // 用户
     'user'              => [
         // 基础
-        'browser_seo_title'                     => 'Centro de usuarios',
-        'forget_password_browser_seo_title'     => 'Recuperación de la contraseña',
-        'user_register_browser_seo_title'       => 'Registro de usuarios',
-        'user_login_browser_seo_title'          => 'Inicio de sesión del usuario',
+        'base_nav_title'                        => 'Centro de usuarios',
+        'forget_password_base_nav_title'        => 'Recuperación de la contraseña',
+        'user_register_base_nav_title'          => 'Registro de usuarios',
+        'user_login_base_nav_title'             => 'Inicio de sesión del usuario',
         'password_reset_illegal_error_tips'     => 'Ya está conectado, para restablecer la contraseña, salga de la cuenta actual primero',
         'register_illegal_error_tips'           => 'Ya está conectado. para registrar una nueva cuenta, salga de la cuenta actual primero.',
         'login_illegal_error_tips'              => 'Ya está conectado, no repita el inicio de sesión',
@@ -439,12 +445,12 @@ return [
 
     // 用户地址
     'useraddress'       => [
-        'browser_seo_title'                     => 'Mi dirección',
+        'base_nav_title'                        => 'Mi dirección',
     ],
 
     // 用户足迹
     'usergoodsbrowse'   => [
-        'browser_seo_title'                     => 'Mis huellas',
+        'base_nav_title'                        => 'Mis huellas',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => 'Información sobre productos básicos',
@@ -457,7 +463,7 @@ return [
 
     // 用户商品收藏
     'usergoodsfavor'    => [
-        'browser_seo_title'                     => 'Colección de productos básicos',
+        'base_nav_title'                        => 'Colección de productos básicos',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => 'Información sobre productos básicos',
@@ -468,9 +474,30 @@ return [
         ],
     ],
 
+    // 用户商品评论
+    'usergoodscomments'         => [
+        'base_nav_title'                        => 'Comentarios sobre productos básicos',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => 'Información básica',
+            'goods_placeholder'  => 'Por favor, introduzca el nombre / modelo del producto.',
+            'business_type'      => 'Tipo de negocio',
+            'content'            => 'Contenido del comentario',
+            'images'             => 'Imágenes de comentarios',
+            'rating'             => 'Puntuación',
+            'reply'              => 'Contenido de la respuesta',
+            'is_show'            => 'Si se muestra',
+            'is_anonymous'       => 'Anonimato o no',
+            'is_reply'           => 'Si responder',
+            'reply_time_time'    => 'Tiempo de respuesta',
+            'add_time_time'      => 'Tiempo de creación',
+            'upd_time_time'      => 'Tiempo de actualización',
+        ],
+    ],
+
     // 用户积分
     'userintegral'      => [
-        'browser_seo_title'                     => 'Mis puntos',
+        'base_nav_title'                        => 'Mis puntos',
         // 页面
         'base_normal_title'                     => 'Normal disponible',
         'base_normal_tips'                      => 'Puntos que se pueden usar normalmente',
@@ -490,8 +517,8 @@ return [
 
     // 个人资料
     'personal'          => [
-        'browser_seo_title'                     => 'Datos personales',
-        'edit_browser_seo_title'                => 'Edición de perfiles',
+        'base_nav_title'                        => 'Datos personales',
+        'edit_base_nav_title'                   => 'Edición de perfiles',
         'form_item_nickname'                    => 'Apodo',
         'form_item_nickname_message'            => 'Entre 2 y 16 caracteres de apodo',
         'form_item_birthday'                    => 'Cumpleaños',
@@ -509,7 +536,7 @@ return [
     // 消息管理
     'message'            => [
         // 基础
-        'browser_seo_title'                     => 'Mis noticias',
+        'base_nav_title'                        => 'Mis noticias',
         // 动态表格
         'form_table'                => [
             'type'                  => 'Tipo de mensaje',
@@ -521,40 +548,14 @@ return [
         ],
     ],
 
-    // 问答/留言
-    'answer'            => [
-        // 基础
-        'browser_seo_title'                     => 'Preguntas y respuestas / mensajes',
-        // 表单
-        'form_title'                            => 'Preguntas / mensajes',
-        'form_item_name'                        => 'Apodo',
-        'form_item_name_message'                => 'Formato de apodo entre 1 y 30 caracteres',
-        'form_item_tel'                         => 'Teléfono',
-        'form_item_tel_message'                 => 'Por favor, rellene el teléfono',
-        'form_item_title'                       => 'Título',
-        'form_item_title_message'               => 'Formato de título entre 1 y 60 caracteres',
-        'form_item_content'                     => 'Contenido',
-        'form_item_content_message'             => 'Formato de contenido entre 5 y 1000 caracteres',
-        // 动态表格
-        'form_table'                            => [
-            'name'                  => 'Contactos',
-            'tel'                   => 'Número de teléfono de contacto',
-            'title'                 => 'Título',
-            'content'               => 'Contenido',
-            'reply'                 => 'Contenido de la respuesta',
-            'reply_time_time'       => 'Tiempo de respuesta',
-            'add_time_time'         => 'Tiempo de creación',
-        ],
-    ],
-
     // 安全
     'safety'            => [
         // 基础
-        'browser_seo_title'                     => 'Configuración de Seguridad',
-        'password_update_browser_seo_title'     => 'Modificación de la contraseña de inicio de sesión - configuración de Seguridad',
-        'mobile_update_browser_seo_title'       => 'Modificación del número de teléfono móvil - configuración de Seguridad',
-        'email_update_browser_seo_title'        => 'Modificación del correo electrónico - configuración de Seguridad',
-        'logout_browser_seo_title'              => 'Cancelación de la cuenta - configuración de Seguridad',
+        'base_nav_title'                        => 'Configuración de Seguridad',
+        'password_update_base_nav_title'        => 'Modificación de la contraseña de inicio de sesión - configuración de Seguridad',
+        'mobile_update_base_nav_title'          => 'Modificación del número de teléfono móvil - configuración de Seguridad',
+        'email_update_base_nav_title'           => 'Modificación del correo electrónico - configuración de Seguridad',
+        'logout_base_nav_title'                 => 'Cancelación de la cuenta - configuración de Seguridad',
         'original_account_check_error_tips'     => 'Falló la verificación de la cuenta original',
         // 页面
         'logout_title'                          => 'Cancelación de la cuenta',

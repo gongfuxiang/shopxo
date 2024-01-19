@@ -27,16 +27,20 @@
                                 <div class="am-u-sm-6 am-padding-horizontal-0">
                                     <div class="am-form-group am-form-file">
                                         <label class="am-block">{{:MyLang('common_service.design.form_logo_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.design.form_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                                        <ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
-                                            {{if !empty($data['logo'])}}
-                                                <li>
-                                                    <input type="text" name="logo" value="{{$data.logo}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" />
-                                                    <img src="{{$data.logo}}" />
-                                                    <i>×</i>
+                                        <div class="am-form-file-upload-container">
+                                            <ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+                                                <li class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">
+                                                    {{if empty($data['logo'])}}
+                                                        <i class="iconfont icon-upload-add"></i>
+                                                    {{else /}}
+                                                        <input type="text" name="logo" value="{{$data.logo}}" />
+                                                        <img src="{{:AttachmentPathViewHandle($data.logo)}}" />
+                                                        <i>x</i>
+                                                        <i class="iconfont icon-eye"></i>
+                                                    {{/if}}
                                                 </li>
-                                            {{/if}}
-                                        </ul>
-                                        <div class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="am-u-sm-6 am-padding-horizontal-0">
@@ -65,7 +69,7 @@
                         <i class="am-icon-paint-brush"></i>
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>
-                    <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-lg" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">
+                    <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">
                         <i class="am-icon-check"></i>
                         <span>{{:MyLang('confirm_title')}}</span>
                     </button> 

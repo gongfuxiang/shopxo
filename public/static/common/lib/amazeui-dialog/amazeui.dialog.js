@@ -14,6 +14,8 @@ var dialog = dialog || {};
 
 dialog.alert = function(options) {
   options = options || {};
+  options.style = options.style || '';
+  options.content_style = options.content_style || '';
   options.class = options.class || '';
   options.title = options.title || null;
   options.content = options.content || '提示内容';
@@ -22,9 +24,11 @@ dialog.alert = function(options) {
   options.isBtn = options.isBtn || false;
   options.config = options.config || {};
   options.onConfirm = options.onConfirm || function() {};
+  options.onClose = options.onClose || function() {};
+  options.onOpen = options.onOpen || function() {};
   var html = [];
   html.push('<div class="am-modal am-modal-alert '+options.class+'" tabindex="-1">');
-  html.push('<div class="am-modal-dialog am-radius am-nbfc">');
+  html.push('<div class="am-modal-dialog am-radius am-nbfc" style="'+options.style+'">');
   if(options.title !== null || options.isClose === true)
   {
     html.push('<div class="am-modal-hd">');
@@ -38,12 +42,19 @@ dialog.alert = function(options) {
     }
     html.push('</div>');
   }
-  // 是否url模式
-  if((options.url || null) != null)
+  // 是否iframe
+  if((options.iframe || null) != null)
   {
-    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:calc(100% - 3.2rem);"></iframe>');
+    html.push(options.iframe);
+
+  // 是否url模式
+  } else if((options.url || null) != null)
+  {
+    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:calc(100% - 4.5rem);"></iframe>');
+
+    // 默认内容
   } else {
-    html.push('<div class="am-modal-bd">' + options.content + '</div>');
+    html.push('<div class="am-modal-bd" style="'+options.content_style+'">' + options.content + '</div>');
   }
   if(options.isBtn)
   {
@@ -51,18 +62,20 @@ dialog.alert = function(options) {
   }
   html.push('</div>');
   html.push('</div>');
+  var $alert = $(html.join('')).appendTo('body').modal(options.config);
+  $alert.on('opened.modal.amui', function() {
+    options.onOpen();
+  });
 
-  return $(html.join(''))
-    .appendTo('body')
-    .modal(options.config)
-    .on('closed.modal.amui', function() {
-      options.onConfirm();
-      var $this = $(this);
-      setTimeout(function()
-      {
-        $this.remove();
-      }, 1000);
-    });
+  $alert.on('closed.modal.amui', function() {
+    options.onConfirm();
+    options.onClose();
+    var $this = $(this);
+    setTimeout(function()
+    {
+      $this.remove();
+    }, 1000);
+  });
 };
 
 dialog.confirm = function(options) {
@@ -78,7 +91,7 @@ dialog.confirm = function(options) {
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');
   html.push('<div class="am-modal-dialog am-radius am-nbfc">');
   html.push('<div class="am-modal-hd">' + options.title + '</div>');
-  html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">' + options.content + '</div></div>');
+  html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs am-text-sm">' + options.content + '</div></div>');
   html.push('<div class="am-modal-footer">');
   html.push('<span class="am-modal-btn am-text-danger" data-am-modal-cancel>'+options.cancelText+'</span>');
   html.push('<span class="am-modal-btn" data-am-modal-confirm>'+options.confirmText+'</span>');
@@ -175,6 +188,7 @@ dialog.popup = function(options) {
   options.content = options.content || '正文';
   options.class = options.class || '';
   options.onClose = options.onClose || function() {};
+  options.onOpen = options.onOpen || function() {};
 
   var html = [];
 
@@ -196,14 +210,19 @@ dialog.popup = function(options) {
   }
   html.push('</div> ');
   html.push('</div>');
-  return $(html.join('')).appendTo('body').modal().on('closed.modal.amui', function() {
-      var $this = $(this);
-      setTimeout(function()
-      {
-        $this.remove();
-      }, 1000);
-      options.onClose();
-    });
+  var $popup = $(html.join('')).appendTo('body').modal();
+  $popup.on('opened.modal.amui', function() {
+    options.onOpen();
+  });
+
+  $popup.on('closed.modal.amui', function() {
+    options.onClose();
+    var $this = $(this);
+    setTimeout(function()
+    {
+      $this.remove();
+    }, 1000);
+  });
 };
 
 dialog.offcanvas = function(options) {

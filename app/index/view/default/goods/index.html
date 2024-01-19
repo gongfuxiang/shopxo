@@ -113,33 +113,34 @@
                 {{/if}}
             </div>
 
-            <!-- 商品页面相册底部钩子 -->
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_goods_detail_photo_bottom</span>
-                </div>
-            {{/if}}
-            {{if !empty($plugins_view_goods_detail_photo_bottom_data) and is_array($plugins_view_goods_detail_photo_bottom_data)}}
-                {{foreach $plugins_view_goods_detail_photo_bottom_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
+            <div class="photo-bottom am-cf">
+                <!-- 商品页面相册底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_goods_detail_photo_bottom</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_goods_detail_photo_bottom_data) and is_array($plugins_view_goods_detail_photo_bottom_data)}}
+                    {{foreach $plugins_view_goods_detail_photo_bottom_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
 
-            
-            <!-- 收藏 -->
-            {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
-                <span class="nav-icon login-event favor-submit text-active am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                    <i class="am-icon-heart am-icon-fw" ></i>
-                    <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
-                </span>
-            {{else /}}
-                <span class="nav-icon favor-submit login-event am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                    <i class="am-icon-heart-o am-icon-fw"></i>
-                    <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
-                </span>
-            {{/if}}
+                <!-- 收藏 -->
+                {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
+                    <span class="nav-icon login-event favor-submit text-active am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                        <i class="am-icon-heart am-icon-fw" ></i>
+                        <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
+                    </span>
+                {{else /}}
+                    <span class="nav-icon favor-submit login-event am-hide-sm-only googs-shop-collect" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                        <i class="am-icon-heart-o am-icon-fw"></i>
+                        <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
+                    </span>
+                {{/if}}
+            </div>
         </div>
 
         <!-- 右侧 -->
@@ -918,8 +919,8 @@
                                 <!-- 猜你喜欢商品 -->
                                 <div class="like">
                                     <ul class="boxes">
-                                        {{if !empty($detail_like_goods)}}
-                                            {{foreach $detail_like_goods as $key=>$v}}
+                                        {{if !empty($guess_you_like)}}
+                                            {{foreach $guess_you_like as $key=>$v}}
                                                 <li>
                                                     <div class="like-item">
                                                         <a href="{{:$v['goods_url']}}">
@@ -997,31 +998,15 @@ function CartSubmitBack(e)
 {
     if(e.code == 0)
     {
+        // 更新公共购物车数量
         HomeCartNumberTotalUpdate(e.data.buy_number);
-        Prompt(e.msg, 'success');
+
+        // 展示购物车成功提示弹窗
+        HomeUserCartSuccessModal(e.data.buy_number);
     } else {
         Prompt(e.msg);
     }
     $.AMUI.progress.done();
     $('form.cart-form').find('button[type="submit"]').button('reset');
 }
-
-$(function(){  
-    /**
-     * 评价打分
-     */
-    $(document).on('click', 'ul.rating li', function()
-    {
-        $(this).parent().find('li i').removeClass('am-icon-star').addClass('am-icon-star-o');
-        var index = $(this).index();
-        var rating_arr = ('非常差,差,一般,好,非常好').split(',');
-        for(var i=0; i<=index; i++)
-        {
-            $(this).parent().find('li').eq(i).find('i').removeClass('am-icon-star-o').addClass('am-icon-star');
-        }
-        $(this).parent().find('li.tips-text').text(rating_arr[index]);
-        $(this).parents('td').find('input.input-rating').val(index+1).trigger('blur');
-        $(this).parent().removeClass('not-selected');
-    });
-})
 </script>

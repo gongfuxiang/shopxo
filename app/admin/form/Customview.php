@@ -42,7 +42,7 @@ class CustomView
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'is_middle'     => 0,
+                'is_middle'     => 1,
                 'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置

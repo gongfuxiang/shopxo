@@ -5,15 +5,15 @@
 	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
 	<title>{{$admin_theme_site_name}}{{:MyLang('common.admin_browser_title')}}</title>
+
+    <!-- iconfont -->
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
-
-    <!-- iconfont -->
-    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
 
     <!-- ckplayer播放器 -->
     {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
@@ -33,9 +33,6 @@
     {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
-
-    <!-- 左侧菜单图标 -->
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/iconfontmenu.css?v={{:MyC('home_static_cache_version')}}" />
 
     <!-- 插件 -->
     {{if !empty($plugins_css)}}
@@ -80,38 +77,15 @@
 	{{/if}}
 
     <!-- 主题配色 -->
-    {{if isset($theme_color_value) and $theme_color_value eq 1}}
-        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
-    {{/if}}
-
     <style type="text/css">
         :root {
-            /* 基础 */
-            --html-body-size: 10px;
-            --body-bg-color: #ffffff;
-            --color-price: #E22C08;
-            --color-red: #E22C08;
-            --color-yellow: #FAAD14;
-            --color-blue: #76AFFF;
-            --color-green: #5EB95E;
-
-            /* 主色 */
-            --color-main: #E22C08;
-            --color-mian-light: #F25232;
-            --color-main-hover: #EA6B52;
-
-            /* 次色 */
-            --color-secondary: #FFB8AA;
-
-            /* 圆角 */
-            --border-radius-sm: 0.2rem;
-            --border-radius: 0.4rem;
-            --border-radius-lg: 0.8rem;
-
-            /* 阴影 */
-            --box-shadow: 0 5px 20px rgba(50,55,58,0.1);
-            --box-shadow-sm: 0 2px 8px rgba(50,55,58,0.1);
-            --box-shadow-lg: 0 8px 34px rgba(50,55,58,0.1);
+            {{if !empty($theme_color_view_data) and is_array($theme_color_view_data)}}
+                {{foreach $theme_color_view_data as $k=>$v}}
+                    --{{:str_replace('_', '-', $k);}}: {{$v}};
+                {{/foreach}}
+            {{else /}}
+                {{include file="public/header_style_root" /}}
+            {{/if}}
         }
     </style>
     <script type="text/javascript">
@@ -126,6 +100,7 @@
         var __default_theme__ = '{{$default_theme}}';
         var __attachment_host__ = '{{$attachment_host}}';
         var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
+        var __admin_id__ = {{if empty($admin['id'])}}0{{else /}}{{$admin.id}}{{/if}};
         var __currency_symbol__ = '{{$currency_symbol}}';
         var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
         var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';

@@ -1,6 +1,9 @@
 <span class="am-form echarts-where">
-    <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="{{:MyLang('form_time_start_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['start']}}{{/if}}" />
+    <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" data-is-clearout="0" placeholder="{{:MyLang('form_time_start_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['start']}}{{/if}}" />
     <span class="join">-</span>
-    <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('form_time_end_title')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['end']}}{{/if}}" />
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-line-chart btn-loading-example echarts-where-submit" data-am-loading="{loadingText:' {{:MyLang('loading_title')}}'}"> {{:MyLang('confirm_title')}}</button>
+    <input type="text" autocomplete="off" class="Wdate am-radius" data-is-clearout="0" placeholder="{{:MyLang('form_time_end_title')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['end']}}{{/if}}" />
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs btn-loading-example echarts-where-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:' {{:MyLang('screen_title')}}'}">
+        <i class="iconfont icon-index-shaix"></i>
+        <span>{{:MyLang('screen_title')}}</span>
+    </button>
 </span>

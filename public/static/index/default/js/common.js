@@ -27,6 +27,7 @@ function FormTableHeightHandle()
         // 内容高度
         if($(window).width() >= 641)
         {
+            var pure_top = $('.popup-pure-page').length > 0 ? parseInt($('.popup-pure-page').css('padding-top').replace('px', '') || 0) : 0;
             var height_header_top = $('.header-top').outerHeight(true) || 0;
             var height_nav_search = $('.nav-search').outerHeight(true) || 0;
             var height_nav_shop = $('.shop-navigation').outerHeight(true) || 0;
@@ -40,7 +41,7 @@ function FormTableHeightHandle()
             var user_center_ext = $('#user-offcanvas').length > 0 ? 60 : 0;
 
             // 数据列表
-            $('.am-table-scrollable-horizontal').css('height', 'calc(100vh - '+(height_header_top+height_nav_search+height_nav_shop+height_forn_content_top+height_form_nav+height_form_top+height_form_bottom+height_form_page+header_nav_simple+user_center_main_title+user_center_ext)+'px)');
+            $('.am-table-scrollable-horizontal').css('height', 'calc(100vh - '+(pure_top+height_header_top+height_nav_search+height_nav_shop+height_forn_content_top+height_form_nav+height_form_top+height_form_bottom+height_form_page+header_nav_simple+user_center_main_title+user_center_ext+2)+'px)');
         }
 
         // 用户中心左侧导航
@@ -75,6 +76,47 @@ function HomeCartNumberTotalUpdate(number)
     } else {
         $this.text(number);
     }
+}
+
+/**
+ * 用户购物车成功弹窗展示
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-01-02
+ * @desc    description
+ * @param   {[int]}        number [购物车数量]
+ */
+var home_user_cart_success_modal_timer = null;
+function HomeUserCartSuccessModal(number = null)
+{
+    // 先清除之前的定时任务
+    clearInterval(home_user_cart_success_modal_timer);
+
+    // 设置数量并打开弹窗
+    var $modal = $('#common-user-cart-success-modal');
+    if(number !== null)
+    {
+        $modal.find('.common-cart-total').text(number > 99 ? '99+' : number);
+    }
+    $modal.modal({
+        closeViaDimmer: 0,
+        width: 360,
+        height: 200,
+        dimmer: false
+    });
+
+    // 定时5秒关闭弹窗
+    home_user_cart_success_modal_timer = setTimeout(function()
+    {
+        $modal.modal('close');
+    }, 5000);
+
+    // 窗口呗关闭则清除定时任务
+    $modal.on('close.modal.amui', function()
+    {
+        clearInterval(home_user_cart_success_modal_timer);
+    });
 }
 
 $(function()
@@ -354,7 +396,10 @@ $(function()
                     $.AMUI.progress.done();
                     if(res.code == 0)
                     {
-                        HomeCartNumberTotalUpdate(parseInt(res.data.buy_number));
+                        // 更新公共购物车数量
+                        HomeCartNumberTotalUpdate(res.data.buy_number);
+                        
+                        // 提示成功
                         Prompt(res.msg, 'success');
                     } else {
                         Prompt(res.msg);
@@ -376,26 +421,27 @@ $(function()
     var $common_goods_spec_choice_submit_event_obj = null;
     $(document).on('click', '.common-goods-spec-choice-submit-event', function()
     {
-      // 基础参数
-      var goods_id = $(this).data('goods-id') || null;
-      if(goods_id == null)
-      {
-        Prompt(window['lang_goods_id_empty_tips'] || '商品ID数据');
-        return false;
-      }
-      var spec = $(this).data('spec') || null;
-      if(spec == null)
-      {
-        Prompt(window['lang_goods_spec_empty_tips'] || '无规格数据');
-        return false;
-      }
-      spec = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(spec)).toString(CryptoJS.enc.Utf8));
+        // 基础参数
+        var goods_id = $(this).data('goods-id') || null;
+        if(goods_id == null)
+        {
+            Prompt(window['lang_goods_id_empty_tips'] || '商品ID数据');
+            return false;
+        }
 
-      // 规格处理
-      var html = `<div class="common-goods-spec-choice-container am-padding-sm">`;
+        var spec = $(this).data('spec') || null;
+        if(spec == null)
+        {
+            Prompt(window['lang_goods_spec_empty_tips'] || '无规格数据');
+            return false;
+        }
+        spec = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(spec)).toString(CryptoJS.enc.Utf8));
+
+        // 规格处理
+        var html = `<div class="common-goods-spec-choice-container am-padding-sm">`;
         html += `<div class="common-goods-spec-choice-content am-scrollable-vertical" data-id="`+goods_id+`">`;
-      for(var i in spec)
-      {
+        for(var i in spec)
+        {
         html += `<div class="spec-options sku-items am-radius">
                     <div class="spec-title">`+spec[i]['name']+`</div>
                     <ul>`;
@@ -412,9 +458,9 @@ $(function()
             }
         html += `</ul>`;
         html += `</div>`;
-      }
-      html += `</div>`;
-      html += `<div class="am-text-right am-margin-top-lg">
+        }
+        html += `</div>`;
+        html += `<div class="am-text-right am-margin-top-lg">
                 <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                     <i class="am-icon-paint-brush"></i>
                     <span>`+(window['lang_cancel_name'] || '取消')+`
@@ -426,13 +472,13 @@ $(function()
             </div>
         </div>`;
 
-      // 调用弹窗组件
-      AMUI.dialog.alert({
+        // 调用弹窗组件
+        AMUI.dialog.alert({
         isClose: true,
         content: html
-      });
-      // 当前对象赋值
-      $common_goods_spec_choice_submit_event_obj = $(this);
+        });
+        // 当前对象赋值
+        $common_goods_spec_choice_submit_event_obj = $(this);
     });
 
     // 商品规格选择

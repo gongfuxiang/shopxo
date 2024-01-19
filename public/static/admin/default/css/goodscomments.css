@@ -9,6 +9,10 @@
 /**
  * 编辑
  */
-.content-right .am-alert.goods-info a {
-    color: #0e90d2;
+.goods-info a {
+    color: var(--color-blue);
+    font-size: 1.4rem !important;
+}
+.user-info-dropdown-data-container > a i {
+    margin-top: 0.4rem;
 }

@@ -246,6 +246,7 @@ class PayRequestLog
                     'view_key'      => 'payrequestlog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 80,
                 ],
             ],
             // 数据配置

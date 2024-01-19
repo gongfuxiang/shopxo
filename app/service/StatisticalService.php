@@ -807,35 +807,113 @@ class StatisticalService
     {
         // 维度默认省
         $region_arr = ['province_name', 'city_name', 'county_name'];
-        $region_name = (empty($params['value']) || !array_key_exists($params['value'], $region_arr)) ? $region_arr[0] : $region_arr[$params['value']];
+        $region_name = (empty($params['value']) || !array_key_exists($params['value'], $region_arr)) ? 'od.'.$region_arr[0] : 'od.'.$region_arr[$params['value']];
 
         // 获取订单id
         $where = [
-            ['status', '<=', 4],
-            ['order_model', 'in', [0,2]],
+            ['o.status', '<=', 4],
+            ['o.order_model', 'not in', [5,6]],
         ];
         if(!empty($params['start']))
         {
-            $where[] = ['add_time', '>=', $params['start']];
+            $where[] = ['o.add_time', '>=', $params['start']];
         }
         if(!empty($params['end']))
         {
-            $where[] = ['add_time', '<=', $params['end']];
+            $where[] = ['o.add_time', '<=', $params['end']];
         }
-        $order_ids = Db::name('Order')->where($where)->column('id');
-
-        // 获取订单详情热销商品
-        if(empty($order_ids))
-        {
-            $data = [];
-        } else {
-            $data = Db::name('OrderAddress')->field($region_name.' as name, count(*) AS value')->where('order_id', 'IN', $order_ids)->group($region_name)->order('value asc')->limit(30)->select()->toArray();
-        }
-
+        $data = array_reverse(Db::name('Order')->alias('o')->join('order_address od', 'o.id=od.order_id')->where($where)->field($region_name.' as name, count(o.id) AS value')->group($region_name)->order('value desc')->limit(10)->select()->toArray());
         // 数据组装
         $result = [
             'name_arr'  => array_column($data, 'name'),
             'data'      => array_column($data, 'value'),
+        ];
+        return DataReturn(MyLang('handle_success'), 0, $result);
+    }
+
+    /**
+     * 新增用户
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function NewUserTotal($params = [])
+    {
+        // 循环获取统计数据
+        $data = [];
+        $value_arr = [];
+        $name_arr = [];
+        $date = self::DayCreate($params['start'], $params['end']);
+        foreach($date as $day)
+        {
+            // 当前日期名称
+            $name_arr[] = date('m-d', $day['start']);
+
+            // 用户总数
+            $where = [
+                ['add_time', '>=', $day['start']],
+                ['add_time', '<=', $day['end']],
+            ];
+            $value_arr[] = Db::name('User')->where($where)->count();
+        }
+
+        // 数据格式组装
+        $data[] = [
+            'name'  => MyLang('common_service.statistical.stats_total_name'),
+            'type'  => 'line',
+            'data'  => $value_arr,
+        ];
+
+        // 数据组装
+        $result = [
+            'name_arr'  => $name_arr,
+            'data'      => $data,
+        ];
+        return DataReturn(MyLang('handle_success'), 0, $result);
+    }
+
+    /**
+     * 下单用户
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function BuyUserTotal($params = [])
+    {
+        // 循环获取统计数据
+        $data = [];
+        $value_arr = [];
+        $name_arr = [];
+        $date = self::DayCreate($params['start'], $params['end']);
+        foreach($date as $day)
+        {
+            // 当前日期名称
+            $name_arr[] = date('m-d', $day['start']);
+
+            // 用户总数
+            $where = [
+                ['add_time', '>=', $day['start']],
+                ['add_time', '<=', $day['end']],
+                ['status', 'not in', [5,6]],
+            ];
+            $value_arr[] = Db::name('Order')->where($where)->count();
+        }
+
+        // 数据格式组装
+        $data[] = [
+            'name'  => MyLang('common_service.statistical.stats_total_name'),
+            'type'  => 'line',
+            'data'  => $value_arr,
+        ];
+
+        // 数据组装
+        $result = [
+            'name_arr'  => $name_arr,
+            'data'      => $data,
         ];
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -917,6 +995,16 @@ class StatisticalService
             // 订单地域分布
             case 'order-whole-country' :
                 $ret = self::OrderWholeCountryTotal($params);
+                break;
+
+            // 新增用户
+            case 'new-user' :
+                $ret = self::NewUserTotal($params);
+                break;
+
+            // 下单用户
+            case 'buy-user' :
+                $ret = self::BuyUserTotal($params);
                 break;
 
             default :

@@ -21,7 +21,7 @@ use app\service\GoodsCommentsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Goodscomments extends Base
+class GoodsComments extends Base
 {
     /**
      * 列表
@@ -44,7 +44,6 @@ class Goodscomments extends Base
      */
     public function Detail()
     {
-        MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
         return MyView();
     }
 
@@ -88,6 +87,7 @@ class Goodscomments extends Base
     public function Save()
     {
         $params = $this->data_request;
+        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsSave($params));
     }
 
@@ -101,6 +101,7 @@ class Goodscomments extends Base
     public function Delete()
     {
         $params = $this->data_request;
+        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsDelete($params));
     }
 
@@ -114,6 +115,7 @@ class Goodscomments extends Base
     public function Reply()
     {
         $params = $this->data_request;
+        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsReply($params));
     }
 
@@ -127,6 +129,7 @@ class Goodscomments extends Base
     public function StatusUpdate()
     {
         $params = $this->data_request;
+        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsStatusUpdate($params));
     }
 }

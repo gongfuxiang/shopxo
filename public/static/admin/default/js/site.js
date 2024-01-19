@@ -10,10 +10,8 @@ FromInit('form.form-validation-address');
  * @desc    description
  * @param   {[object]}        data [地址信息]
  */
-function AddressModalHandle(data)
-{
-    $(function()
-    {
+function AddressModalHandle (data) {
+    $(function () {
         // 参数处理
         var logo = data.logo || null;
         var alias = data.alias || null;
@@ -23,46 +21,50 @@ function AddressModalHandle(data)
         var city = data.city || null;
         var county = data.county || null;
         var address = data.address || null;
+        var province_city_county = data.province_city_county || null;
         var lng = data.lng || null;
         var lat = data.lat || null;
-        if(name == null || tel == null || province == null || city == null || address == null)
-        {
+
+        // 获取省市区的数组
+        var province_city_county_list = province_city_county.split(' ');
+        var province_city_county_obj = {
+            province_name: province_city_county_list.length > 0 ? province_city_county_list[0] : '',
+            city_name: province_city_county_list.length > 1 ? province_city_county_list[1] : '',
+            county_name: province_city_county_list.length > 2 ? province_city_county_list[2] : '',
+        }
+        data = Object.assign({}, data, province_city_county_obj);
+        if (name == null || tel == null || province == null || city == null || address == null) {
             Prompt(window['lang_operate_params_error'] || '数据填写有误');
             return false;
         }
-
-        // 地区名称
-        data['province_name'] = $('.region-linkage select[name="province"]').find('option:selected').text();
-        data['city_name'] = $('.region-linkage select[name="city"]').find('option:selected').text();
-        data['county_name'] = $('.region-linkage select[name="county"]').find('option:selected').text();
-
         // 数据拼接
-        var html = '<li>';
-            if(logo != null)
-            {
-                html += '<img src="'+logo+'" alt="'+name+'" class="am-img-thumbnail am-radius address-logo" /> ';
-            }
-            html += '<span class="address-content">';
-            html += '<span class="address-text">'+data['province_name']+' '+data['city_name']+' '+data['county_name']+' '+address+'（'+name+'-'+tel+'）</span>';
-            if(alias != null)
-            {
-                html += '<span class="am-badge am-radius am-badge-success am-margin-left-xs">'+alias+'</span>';
-            }
-            html += '</span>';
-            html += '<span class="am-badge am-radius am-icon-remove delete-submit"> 移除</span>';
-            html += '<span class="am-badge am-radius am-icon-edit edit-submit"> 编辑</span>';
-            html += '</li>';
+        var html = '<li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">';
+        html += '<div class="am-flex am-flex-items-center am-flex-1 am-flex-width">';
+        if (logo != null) {
+            html += '<img src="' + logo + '" alt="' + name + '" class="am-img-thumbnail am-radius address-logo" /> ';
+        }
+        html += '<span class="address-content">';
+        html += '<span class="address-text">' + province_city_county + ' ' + address + '（' + name + '-' + tel + '）</span>';
+        if (alias != null) {
+            html += '<span class="am-badge am-radius-sm am-badge-success am-margin-left-xs">' + alias + '</span>';
+        }
+        html += '</span>';
+        html += '</div>';
+        html += '<div>';
+        html += '<span class="edit-submit"><i class="iconfont icon-edit am-text-xs"></i>编辑</span> ';
+        html += '<span class="delete-submit"><i class="iconfont icon-btn-del am-text-xs"></i>移除</span>';
+        html += '</div>';
+        html += '</li>';
 
         // 数据处理
         var value = SelfExtractionAddressValue();
-        
+
         // 弹层
         var $popup_address = $('#popup-address-win');
 
         // 操作类型（add, edit）
         var form_type = $popup_address.attr('data-type') || 'add';
-        if(form_type == 'add')
-        {
+        if (form_type == 'add') {
             $('ul.address-list').append(html);
             data['id'] = value.length;
             value.push(data);
@@ -85,20 +87,17 @@ function AddressModalHandle(data)
  * @date    2019-11-12
  * @desc    description
  */
-function SelfExtractionAddressValue()
-{
+function SelfExtractionAddressValue () {
     var value = $('.self-extraction-address-value').val() || null;
     return (value == null) ? [] : JSON.parse(value);
 }
 
-$(function()
-{
+$(function () {
     // 弹层
     var $popup_address = $('#popup-address-win');
 
     // 地址添加开启
-    $(document).on('click', '.address-submit-add', function()
-    {
+    $(document).on('click', '.address-submit-add', function () {
         $popup_address.modal();
         $popup_address.attr('data-type', 'add');
 
@@ -106,29 +105,28 @@ $(function()
         $popup_address.find('.sitetype-logo').html('');
 
         // 清空数据
-        FormDataFill({"alias":"", "name":"", "tel":"", "address":"", "province":0, "city":0, "county":0, "lng":"", "lat":""}, 'form.form-validation-address');
+        FormDataFill({ "alias": "", "name": "", "tel": "", "address": "", "province": 0, "city": 0, "county": 0, "province_city_county": '', "lng": "", "lat": "" }, 'form.form-validation-address');
 
         // 地图初始化
         MapInit();
+        // 地区初始化
+        RegionLinkageInit();
     });
 
     // 地址移除
-    $(document).on('click', '.address-list .delete-submit', function()
-    {
+    $(document).on('click', '.address-list .delete-submit', function () {
         var index = $(this).parents('li').index();
         var value = SelfExtractionAddressValue();
-        if(value.length > 0)
-        {
+        if (value.length > 0) {
             AMUI.dialog.confirm({
                 title: window['lang_reminder_title'] || '温馨提示',
                 content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
-                onConfirm: function(options)
-                {
+                onConfirm: function (options) {
                     value.splice(index, 1);
                     $('.self-extraction-address-value').val(JSON.stringify(value));
                     $('ul.address-list').find('li').eq(index).remove();
                 },
-                onCancel: function(){}
+                onCancel: function () { }
             });
         } else {
             $('ul.address-list').find('li').eq(index).remove();
@@ -136,41 +134,49 @@ $(function()
     });
 
     // 地址编辑
-    $(document).on('click', '.address-list .edit-submit', function()
-    {
+    $(document).on('click', '.address-list .edit-submit', function () {
         var index = $(this).parents('li').index();
         var value = SelfExtractionAddressValue();
-        if(value.length <= 0)
-        {
+        if (value.length <= 0) {
             Prompt(window['lang_address_no_data'] || '地址数据为空');
             return false;
         }
 
         var item = value[index] || null;
-        if(item == null)
-        {
+        if (item == null) {
             Prompt(window['lang_address_not_exist'] || '地址不存在');
             return false;
         }
 
         // logo
-        var html = '';
-        if((item.logo || null) != null)
-        {
-            html += '<li>';
-            html += '<input type="text" name="logo" value="'+item.logo+'" data-validation-message="'+(window['lang_address_logo_message'] || '请上传logo图片')+'" required />';
-            html += '<img src="'+item.logo+'" alt="'+item.name+'" />';
+        var html = '<li class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">';
+        if ((item.logo || null) != null) {
+            html += '';
+            html += '<input type="text" name="logo" value="' + item.logo + '" data-validation-message="' + (window['lang_address_logo_message'] || '请上传logo图片') + '" required />';
+            html += '<img src="' + item.logo + '" alt="' + item.name + '" />';
             html += '<i>×</i>';
-            html += '</li>';
+        } else {
+            html += '<i class="iconfont icon-upload-add"></i>';
         }
+        html += '</li>';
         $popup_address.find('.sitetype-logo').html(html);
 
+        // 地区初始化
+        RegionNodeData(0, 'province', 'province', item['province'], false);
+        RegionNodeData(item['province'], 'city', 'city', item['city'], false);
+        RegionNodeData(item['city'], 'county', 'county', item['county'], false);
+
+        var province = $popup_address.find('.region-linkage .province li.am-active').data('name');
+        var city = $popup_address.find('.region-linkage .city li.am-active').data('name');
+        var county = $popup_address.find('.region-linkage .county li.am-active').data('name');
+
+        var province_city_county = {
+            province_city_county: (province ? province : '') + (city ? ' ' + city : '') + (county ? ' ' + county : '')
+        }
+        item = Object.assign({}, item, province_city_county)
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');
 
-        // 地区初始化
-        RegionNodeData(item['province'], 'city', 'city', item['city']);
-        RegionNodeData(item['city'], 'county', 'county', item['county']);
 
         // 基础数据
         $popup_address.modal();
@@ -183,7 +189,7 @@ $(function()
 
 
     // 商品列表拖拽
-    $('ul.manual-mode-goods-container').dragsort({ dragSelector: 'li', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
+    $('ul.manual-mode-goods-container').dragsort({ dragSelector: 'li', placeHolderTemplate: '<li class="drag-sort-dotted"></li>' });
 
     // 商品搜索popup容器   
     var $popup_siteset_goods = $('#siteset-goods-popup');
@@ -192,8 +198,7 @@ $(function()
     $('.goods-page-container').html(PageLibrary());
 
     // 开启商品弹窗
-    $(document).on('click', '.goods-popup-add', function()
-    {
+    $(document).on('click', '.goods-popup-add', function () {
         // 操作标记
         $popup_siteset_goods.attr('data-tag', $(this).data('tag') || '');
         $popup_siteset_goods.attr('data-form-name', $(this).data('form-name') || '');
@@ -204,12 +209,10 @@ $(function()
     });
 
     // 搜索商品
-    $(document).on('click', '.forth-selection-container .search-submit, .pagelibrary li a', function()
-    {
+    $(document).on('click', '.forth-selection-container .search-submit, .pagelibrary li a', function () {
         // 分页处理
         var is_active = $(this).data('is-active') || 0;
-        if(is_active == 1)
-        {
+        if (is_active == 1) {
             return false;
         }
         var page = $(this).data('page') || 1;
@@ -219,61 +222,54 @@ $(function()
         var category_id = $('.forth-selection-form-category').val();
         var keywords = $('.forth-selection-form-keywords').val();
         var goods_ids = [];
-        $($popup_siteset_goods.attr('data-tag')).find('input[type="hidden"]').each(function(k, v)
-        {
+        $($popup_siteset_goods.attr('data-tag')).find('input[type="hidden"]').each(function (k, v) {
             goods_ids.push($(this).val());
         });
 
         var $this = $(this);
         $.AMUI.progress.start();
-        if($this.hasClass('search-submit'))
-        {
+        if ($this.hasClass('search-submit')) {
             $this.button('loading');
         }
-        $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
+        $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> ' + ($('.goods-list-container').data('loading-msg')) + '</div>');
         $.ajax({
             url: RequestUrlHandle(url),
             type: 'post',
-            data: {"page":page, "category_id":category_id, "keywords":keywords, "goods_ids":goods_ids},
+            data: { "page": page, "category_id": category_id, "keywords": keywords, "goods_ids": goods_ids },
             dataType: 'json',
-            success: function(res)
-            {
+            success: function (res) {
                 $.AMUI.progress.done();
                 $this.button('reset');
-                if(res.code == 0)
-                {
+                if (res.code == 0) {
                     $('.goods-list-container').attr('data-is-init', 0);
                     $('.goods-list-container ul.am-gallery').html(res.data.data);
                     $('.goods-page-container').html(PageLibrary(res.data.total, res.data.page_size, res.data.page, 4));
                 } else {
                     Prompt(res.msg);
-                    $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
+                    $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> ' + res.msg + '</div>');
                 }
             },
-            error: function(xhr, type)
-            {
+            error: function (xhr, type) {
                 $.AMUI.progress.done();
                 $this.button('reset');
                 var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> ' + msg + '</div>');
             }
         });
     });
 
     // 删除列表
-    $(document).on('click', '.manual-mode-goods-container li button.am-close', function()
-    {
+    $(document).on('click', '.manual-mode-goods-container li button.am-close', function () {
         $(this).parent('li').remove();
     });
 
     // 商品添加/删除
-    $(document).on('click', '.goods-list-container .goods-add-submit, .goods-list-container .goods-del-submit', function()
-    {
+    $(document).on('click', '.goods-list-container .goods-add-submit, .goods-list-container .goods-del-submit', function () {
         // 基础参数
         var $this = $(this);
         var type = $this.data('type');
-        var icon_html = $this.parents('li').data((type == 'add' ? 'del' : 'add')+'-html');
+        var icon_html = $this.parents('li').data((type == 'add' ? 'del' : 'add') + '-html');
         var goods_id = $this.parents('li').data('gid');
         var goods_title = $this.parents('li').data('title');
         var goods_url = $this.parents('li').data('url');
@@ -282,25 +278,21 @@ $(function()
         var form_name = $popup_siteset_goods.attr('data-form-name') || '';
 
         // 商品是否已经添加
-        if($(tag).find('.manual-mode-goods-item-'+goods_id).length > 0)
-        {
-            $(tag).find('.manual-mode-goods-item-'+goods_id).remove();
+        if ($(tag).find('.manual-mode-goods-item-' + goods_id).length > 0) {
+            $(tag).find('.manual-mode-goods-item-' + goods_id).remove();
         } else {
-            $(tag).append('<li class="manual-mode-goods-item-'+goods_id+'"><input type="hidden" name="'+form_name+'" value="'+goods_id+'" /><a href="'+goods_url+'" target="_blank" class="am-text-truncate"><img src="'+goods_img+'" alt="'+goods_title+'" class="am-fl am-margin-right-xs" width="20" height="20" /><span>'+goods_title+'</span></a><button type="button" class="am-close am-fr">&times;</button></li>');
+            $(tag).append('<li class="manual-mode-goods-item-' + goods_id + '"><input type="hidden" name="' + form_name + '" value="' + goods_id + '" /><a href="' + goods_url + '" target="_blank" class="am-text-truncate am-flex am-flex-items-center am-gap-1"><img src="' + goods_img + '" alt="' + goods_title + '" class="am-border-c am-radius" width="26" height="26" /><span class="am-flex-1 am-flex-width">' + goods_title + '</span></a><button type="button" class="am-close am-fr">&times;</button></li>');
         }
         $this.parent().html(icon_html);
     });
 
     // 弹窗全屏
-    $(document).on('click', '#siteset-goods-popup .am-popup-hd .am-full', function()
-    {
+    $(document).on('click', '#siteset-goods-popup .am-popup-hd .am-full', function () {
         var width = $(window).width();
         var height = $(window).height();
-        if(width >= 630 && height >= 630)
-        {
+        if (width >= 630 && height >= 630) {
             var $parent = $(this).parents('.am-popup');
-            if($parent.hasClass('popup-full'))
-            {
+            if ($parent.hasClass('popup-full')) {
                 $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
             } else {
                 $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
@@ -309,30 +301,27 @@ $(function()
     });
 
     // 添加域名
-    $(document).on('click', '.domain-submit-add', function()
-    {
+    $(document).on('click', '.domain-submit-add', function () {
         var please_select_tip = $(this).data('please-select-tips') || '请选择...';
-        var select_html = '<option value="0">'+please_select_tip+'</option>';
+        var select_html = '<option value="0">' + please_select_tip + '</option>';
         var json = $(this).data('json') || null;
-        if(json != null)
-        {
+        if (json != null) {
             json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8));
-            for(var i in json)
-            {
-                select_html += '<option value="'+i+'">'+json[i]+'</option>';
+            for (var i in json) {
+                select_html += '<option value="' + i + '">' + json[i] + '</option>';
             }
         }
         var form_name = $(this).data('form-name');
-        var index = parseInt(Math.random()*1000001);
-        var html = `<li>
-                        <input type="text" name="`+form_name+`[`+index+`][domain]" placeholder="`+($(this).data('domain-placeholder') || '域名')+`" data-validation-message="`+($(this).data('domain-message') || '请填写域名')+`" class="am-radius am-inline-block item-domain-input" value="" />
+        var index = parseInt(Math.random() * 1000001);
+        var html = `<li class="am-flex am-flex-row am-flex-items-center am-gap-2">
+                        <input type="text" name="`+ form_name + `[` + index + `][domain]" placeholder="` + ($(this).data('domain-placeholder') || '域名') + `" data-validation-message="` + ($(this).data('domain-message') || '请填写域名') + `" class="am-radius am-inline-block item-domain-input" value="" />
                         <div class="am-inline-block item-multilingual-choice">
-                            <select name="`+form_name+`[`+index+`][lang]" class="am-radius chosen-select" data-placeholder="`+please_select_tip+`" data-validation-message="`+($(this).data('select-message') || '请选择域名对应语言')+`">
-                                `+select_html+`
+                            <select name="`+ form_name + `[` + index + `][lang]" class="am-radius chosen-select" data-placeholder="` + please_select_tip + `" data-validation-message="` + ($(this).data('select-message') || '请选择域名对应语言') + `">
+                                `+ select_html + `
                             </select>
                         </div>
                         <div class="am-fr am-margin-top-xs">
-                            <a href="javascript:;" class="am-badge am-radius am-icon-remove delete-submit"> `+($(this).data('remove-title') || '移除')+`</a>
+                            <a href="javascript:;" class="am-btn am-btn-primary-plain am-radius delete-submit delete-btn"><i class="iconfont icon-btn-del am-text-xs"></i> `+ ($(this).data('remove-title') || '移除') + `</a>
                         </div>
                     </li>`;
         $('.domain-multilingual-list > ul').append(html);
@@ -340,17 +329,29 @@ $(function()
         SelectChosenInit();
     });
     // cookie域名移除
-    $(document).on('click', '.domain-multilingual-list .delete-submit', function()
-    {
+    $(document).on('click', '.domain-multilingual-list .delete-submit', function () {
         var $parent = $(this).parents('li');
         AMUI.dialog.confirm({
             title: window['lang_reminder_title'] || '温馨提示',
             content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
-            onConfirm: function(options)
-            {
+            onConfirm: function (options) {
                 $parent.remove();
             },
-            onCancel: function(){}
+            onCancel: function () { }
         });
     });
+    $('.check-radio-change').on('click', function () {
+        var key = $(this).val();
+        $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+        if (key === '0' || key === '1') {
+            $(".reverse-drop-show").removeClass('am-hide');
+        } else {
+            $(".reverse-drop-show").addClass('am-hide');
+        }
+    })
+    // 商品分类层级
+    $('.level-type input').on('click', function () {
+        var key = $(this).val();
+        $(".level-type-content .item[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+    })
 });

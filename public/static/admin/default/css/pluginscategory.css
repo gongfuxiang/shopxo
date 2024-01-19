@@ -1,0 +1,8 @@
+
+/**
+ * 分类弹窗
+ */
+ #tree table.am-table thead tr th:last-of-type,
+ #tree table.am-table thbody tr td:last-of-type  {
+     width: 10rem;
+ }

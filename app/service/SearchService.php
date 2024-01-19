@@ -668,9 +668,8 @@ class SearchService
         if(MyC('home_search_is_category', 0) == 1)
         {
             $cid = empty($params['category_id']) ? (empty($params['cid']) ? 0 : intval($params['cid'])) : intval($params['category_id']);
-            $pid = empty($cid) ? 0 : Db::name('GoodsCategory')->where(['id'=>$cid])->value('pid');
             $where = [
-                ['pid', '=', intval($pid)],
+                ['pid', '=', intval($cid)],
             ];
             $data = GoodsCategoryService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
         }

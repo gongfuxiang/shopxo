@@ -3,15 +3,19 @@
     <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap form-table-data-list">
         <thead>
             <!-- title -->
-            <tr>
+            <tr class="form-table-search">
+                {{if !empty($params['page_size'])}}
+                    <input type="hidden" name="page_size" value="{{$params.page_size}}" />
+                {{/if}}
                 {{foreach $form_table['form'] as $t}}
                     {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
                         <!-- 1. 上下居中 -->
                         <!-- 2. 格子大小 -->
                         <!-- 3. 内容位置居（左|中|右） -->
                         <!-- 4. 格子是否固定（left|right 左|右） -->
-                        <th class="form-table-search-item-head-title-{{$t.unique_key}}
-                            {{if isset($t['is_middle']) and $t['is_middle'] eq 1}} am-text-middle {{/if}}
+                        <th class="form-table-search-item-head-title-{{$t.unique_key}} 
+                            form-table-search-item-head-value-{{$t.unique_key}}
+                            am-text-top
                             {{if !empty($t['grid_size'])}} am-grid-{{$t.grid_size}} {{/if}}
                             {{if !empty($t['align'])}} am-text-{{$t.align}} {{/if}}
                             {{if !empty($t['fixed'])}} am-grid-fixed-{{$t.fixed}} {{/if}}
@@ -23,28 +27,37 @@
                             {{/if}}
                         "
                         >
-                            {{switch $t.view_type}}
-                                {{case checkbox}}
-                                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($form_table_data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
-                                {{/case}}
-                                {{default /}}
-                                    {{if isset($t['label'])}}{{$t.label}}{{/if}}
-                            {{/switch}}
+                            <div class="am-flex am-flex-col am-gap-1-half">
+                                <div class="am-pr am-flex {{if $t.view_type eq 'checkbox'}}am-flex-justify-center{{/if}}">
+                                    {{switch $t.view_type}}
+                                        {{case checkbox}}
+                                            <label class="am-checkbox am-checkbox-inline">
+                                                <input type="checkbox" class="form-table-operate-checkbox-submit" value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" {{if empty($form_table_data_list)}}disabled{{/if}} data-am-ucheck>
+                                            </label>
+                                        {{/case}}
+                                        {{default /}}
+                                        {{if isset($t['label'])}}
+                                            <div class="am-text-left">{{$t.label}}</div>
+                                            {{/if}}
+                                    {{/switch}}
 
-                            <!-- 排序操作 -->
-                            {{if isset($t['is_sort']) and $t['is_sort'] eq 1 and !empty($t['sort_key'])}}
-                                <div class="form-sort-container am-nbfc am-inline-block">
-                                    <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="asc" class="sort-icon am-icon-caret-up {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_key'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'asc'}}sort-active{{/if}}"></a>
-                                    <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="desc" class="sort-icon am-icon-caret-down {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_key'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'desc'}}sort-active{{/if}}"></a>
+                                    <!-- 排序操作 -->
+                                    {{if isset($t['is_sort']) and $t['is_sort'] eq 1 and !empty($t['sort_key'])}}
+                                        <div class="form-sort-container am-nbfc am-inline-block">
+                                            <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="asc" class="sort-icon am-icon-caret-up {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_key'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'asc'}}sort-active{{/if}}"></a>
+                                            <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="desc" class="sort-icon am-icon-caret-down {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_key'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'desc'}}sort-active{{/if}}"></a>
+                                        </div>
+                                    {{/if}}
                                 </div>
-                            {{/if}}
+
+                                <!-- search -->
+                                {{include file="public/module/form_table_search" /}}
+
+                            </div>
                         </th>
                     {{/if}}
                 {{/foreach}}
             </tr>
-
-            <!-- search -->
-            {{include file="public/module/form_table_search" /}}
         </thead>
         <tbody>
             <!-- content -->

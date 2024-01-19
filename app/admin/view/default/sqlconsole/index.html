@@ -3,35 +3,49 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
-        <div class="am-alert am-alert-warning am-radius" data-am-alert>
-            <button type="button" class="am-close">&times;</button>
+        <!-- tips -->
+        <div class="sql-tips">
+            <div class="am-alert am-alert-success am-radius am-hide">
+                <button type="button" class="am-close tips-close">&times;</button>
+                <p></p>
+            </div>
+            <div class="am-alert am-alert-danger am-radius am-hide">
+                <button type="button" class="am-close tips-close">&times;</button>
+                <p></p>
+            </div>
+        </div>
+        <div class="am-operate-stretch-tips">
+            <div class="title">
+                <i class="iconfont icon-tips"></i>
+                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i>
+            </div>
             <p>{{:MyLang('sqlconsole.top_tips')}}</p>
+            {{if !isset($shopxo_is_develop) or $shopxo_is_develop neq true}}
+                <p class="am-font-weight">1. {{:MyLang('common_service.sqlconsole.form_dev_tips')}}</p>
+            {{/if}}
         </div>
 
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <!-- form start -->
-            <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
+            <form class="am-form form-validation am-form-full-screen am-form-popup-sticky"
+                action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun"
+                request-value="ViewImplementBack">
                 <div class="am-form-group">
-                    <textarea name="sql" class="am-radius" placeholder="{{:MyLang('common_service.sqlconsole.form_sql_placeholder')}}" data-validation-message="{{:MyLang('common_service.sqlconsole.form_sql_message')}}" required></textarea>
-                </div>
-
-                <!-- tips -->
-                <div class="sql-tips">
-                    <div class="am-alert am-alert-success am-radius am-hide"></div>
-                    <div class="am-alert am-alert-danger am-radius am-hide"></div>
+                    <textarea name="sql" class="am-radius"
+                        placeholder="{{:MyLang('common_service.sqlconsole.form_sql_placeholder')}}"
+                        data-validation-message="{{:MyLang('common_service.sqlconsole.form_sql_message')}}"
+                        required></textarea>
                 </div>
                 <div class="am-form-popup-submit">
-                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('execute_title')}}'}">
-                    <i class="am-icon-send"></i>
-                    <span>{{:MyLang('execute_title')}}</span>
-                </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example"
+                        data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('execute_title')}}'}">
+                        <i class="am-icon-send"></i>
+                        <span>{{:MyLang('execute_title')}}</span>
+                    </button>
                 </div>
             </form>
             <!-- form end -->
-        {{else /}}
-            <div class="am-alert">
-                <p>{{:MyLang('common_service.sqlconsole.form_dev_tips')}}</p>
-            </div>
         {{/if}}
     </div>
 </div>
@@ -39,22 +53,18 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 <script type="text/javascript">
     // 返回处理
-    function ViewImplementBack(e)
-    {
+    function ViewImplementBack (e) {
         $('form.form-validation').find('button[type="submit"]').button('reset');
         $.AMUI.progress.done();
-        if(e.code == 0)
-        {
+        if (e.code == 0) {
             $.AMUI.progress.done();
             Prompt(e.msg, 'success');
-            if((e.data || null) != null)
-            {
+            if ((e.data || null) != null) {
                 $('.sql-tips .am-alert-success').removeClass('am-hide');
                 $('.sql-tips .am-alert-danger').addClass('am-hide');
-                $('.sql-tips .am-alert-success').html(e.data);
+                $('.sql-tips .am-alert-success p').html(e.data);
             } else {
                 $('.sql-tips .am-alert-success').addClass('am-hide');
                 $('.sql-tips .am-alert-danger').addClass('am-hide');
@@ -63,7 +73,11 @@
             Prompt(e.msg);
             $('.sql-tips .am-alert-success').addClass('am-hide');
             $('.sql-tips .am-alert-danger').removeClass('am-hide');
-            $('.sql-tips .am-alert-danger').html(e.msg);
+            $('.sql-tips .am-alert-danger p').html(e.msg);
         }
     }
+    $('.tips-close').on('click', function () {
+        $(this).siblings().empty();
+        $(this).parent().addClass('am-hide');
+    })
 </script>

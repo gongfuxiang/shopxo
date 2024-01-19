@@ -34,7 +34,8 @@ class Agreement extends Base
      */
     public function Index()
     {
-        // 模板数据
+        // 导航
+        $type = empty($this->data_request['type']) ? 'register' : $this->data_request['type'];
         $assign = [
             // 配置信息
             'data'              => ConfigService::ConfigList(),
@@ -42,15 +43,11 @@ class Agreement extends Base
             'nav_data'          => MyLang('agreement.base_nav_list'),
             // 编辑器文件存放地址
             'editor_path_type'  => ResourcesService::EditorPathTypeValue('agreement'),
+            // 页面导航
+            'type'              => $type,
         ];
-
-        // 导航/视图
-        $nav_type = empty($this->data_request['nav_type']) ? 'register' : $this->data_request['nav_type'];
-        $assign['nav_type'] = $nav_type;
-
-        // 数据赋值
         MyViewAssign($assign);
-        return MyView($nav_type);
+        return MyView($type);
     }
 
     /**

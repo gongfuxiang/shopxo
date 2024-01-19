@@ -155,6 +155,7 @@ class GoodsComments
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
@@ -171,6 +172,7 @@ class GoodsComments
                     'view_key'      => 'is_anonymous',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'align'         => 'center',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
@@ -187,6 +189,7 @@ class GoodsComments
                     'view_key'      => 'is_reply',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'align'         => 'center',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',

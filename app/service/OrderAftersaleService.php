@@ -1196,6 +1196,7 @@ class OrderAftersaleService
             'client_type'       => $order['client_type'],
             'refund_reason'     => $msg,
             'pay_time'          => $pay_log['pay_time'],
+            'pay_log_data'      => $pay_log,
         ];
 
         // 订单发起售后原路退回前钩子

@@ -1,9 +1,0 @@
-{{if !empty($common_appmini_type) and is_array($common_appmini_type)}}
-    <ul class="am-nav am-nav-pills table-nav second-nav">
-        {{foreach $common_appmini_type as $nav}}
-            <li {{if isset($nav_type) and $nav_type eq $nav['value']}}class="am-active"{{/if}} data-type="{{$nav.value}}">
-                <a href="{{:MyUrl('admin/appmini/'.$action_name, ['nav_type'=>$nav['value'], 'view_type'=>$view_type])}}">{{$nav.name}}</a>
-            </li>
-        {{/foreach}}
-    </ul>
-{{/if}}

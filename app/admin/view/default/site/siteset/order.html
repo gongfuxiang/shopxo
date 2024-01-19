@@ -2,114 +2,153 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- nav start -->
-        {{include file="site/public/siteset_nav" /}}
+        {{if !empty($siteset_nav_list) and is_array($siteset_nav_list)}}
+            {{:ModuleInclude('public/nav_switch_tabs', [
+                'nav_data'  => $siteset_nav_list,
+                'view_type' => $view_type,
+                'nav_type'  => $nav_type,
+                'url'       => 'admin/site/index'
+            ])}}
+        {{/if}}
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
-            <!-- 基础 -->
-            <div class="am-panel am-panel-default am-margin-top-sm">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('base_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('base_title'),
+                        'key'  => 'base-title',
+                    ],
+                    [
+                        'name' => MyLang('site.base_item_default_payment_title'),
+                        'key'  => 'site-defalut-payment',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <!-- 基础 -->
+                <div class="item am-active" data-key="base-title">
                     <!-- 是否预约模式 -->
                     <div class="am-form-group">
                         <label>{{$data.common_order_is_booking.name}}<span class="am-form-group-label-tips">{{$data.common_order_is_booking.describe}}</span></label>
-                        <select name="{{$data.common_order_is_booking.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_order_is_booking.only_tag}}" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required {{if isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <!-- 库存 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_is_deduction_inventory.name}}<span class="am-form-group-label-tips">{{$data.common_is_deduction_inventory.describe}}</span></label>
-                        <select name="{{$data.common_is_deduction_inventory.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_deduction_inventory.error_tips}}" required>
+                        <label>{{$data.common_is_deduction_inventory.name}}</label>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_is_deduction_inventory']['value']) and $data['common_is_deduction_inventory']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_deduction_inventory.only_tag}}" data-validation-message="{{$data.common_is_deduction_inventory.error_tips}}" required {{if isset($data['common_is_deduction_inventory']['value']) and $data['common_is_deduction_inventory']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_is_deduction_inventory.describe}}</p>
+                        </div>
                     </div>
                     <div class="am-form-group">
-                        <label>{{$data.common_deduction_inventory_rules.name}}<span class="am-form-group-label-tips">{{$data.common_deduction_inventory_rules.describe}}</span></label>
+                        <label>{{$data.common_deduction_inventory_rules.name}}</label>
                         <select name="{{$data.common_deduction_inventory_rules.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_deduction_inventory_rules.error_tips}}" required>
                             {{foreach $common_deduction_inventory_rules_list as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_deduction_inventory_rules']['value']) and $data['common_deduction_inventory_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_deduction_inventory_rules.describe}}</p>
+                        </div>
                     </div>
 
                     <!-- 订单商品销量 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_goods_sales_count_inc_rules.name}}<span class="am-form-group-label-tips">{{$data.common_goods_sales_count_inc_rules.describe}}</span></label>
+                        <label>{{$data.common_goods_sales_count_inc_rules.name}}</label>
                         <select name="{{$data.common_goods_sales_count_inc_rules.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_goods_sales_count_inc_rules.error_tips}}" required>
                             {{foreach $common_sales_count_inc_rules_list as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_goods_sales_count_inc_rules']['value']) and $data['common_goods_sales_count_inc_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_goods_sales_count_inc_rules.describe}}</p>
+                        </div>
                     </div>
 
                     <!-- 订单支付 -->
                     <div class="am-form-group">
                         <label>{{$data.home_is_enable_order_bulk_pay.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_order_bulk_pay.describe}}</span></label>
-                        <select name="{{$data.home_is_enable_order_bulk_pay.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_is_enable_order_bulk_pay.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['home_is_enable_order_bulk_pay']['value']) and $data['home_is_enable_order_bulk_pay']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.home_is_enable_order_bulk_pay.only_tag}}" data-validation-message="{{$data.home_is_enable_order_bulk_pay.error_tips}}" required {{if isset($data['home_is_enable_order_bulk_pay']['value']) and $data['home_is_enable_order_bulk_pay']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_is_pay_price_must_max_equal.name}}<span class="am-form-group-label-tips">{{$data.common_is_pay_price_must_max_equal.describe}}</span></label>
-                        <select name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_close_open_list as $v}}
-                                <option value="{{$v.value}}" {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
 
                     <!-- 线下支付 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_is_under_line_order_normal.name}}<span class="am-form-group-label-tips">{{$data.common_is_under_line_order_normal.describe}}</span></label>
-                        <select name="{{$data.common_is_under_line_order_normal.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_under_line_order_normal.error_tips}}" required>
+                        <label>{{$data.common_is_under_line_order_normal.name}}</label>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_is_under_line_order_normal']['value']) and $data['common_is_under_line_order_normal']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_under_line_order_normal.only_tag}}" data-validation-message="{{$data.common_is_under_line_order_normal.error_tips}}" required {{if isset($data['common_is_under_line_order_normal']['value']) and $data['common_is_under_line_order_normal']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_is_under_line_order_normal.describe}}</p>
+                        </div>
                     </div>
 
                     <!-- 虚拟订单直接提交支付 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_fictitious_order_direct_pay.name}}<span class="am-form-group-label-tips">{{$data.common_fictitious_order_direct_pay.describe}}</span></label>
-                        <select name="{{$data.common_fictitious_order_direct_pay.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_fictitious_order_direct_pay.error_tips}}" required>
+                        <label>{{$data.common_fictitious_order_direct_pay.name}}</label>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_fictitious_order_direct_pay']['value']) and $data['common_fictitious_order_direct_pay']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_fictitious_order_direct_pay.only_tag}}" data-validation-message="{{$data.common_fictitious_order_direct_pay.error_tips}}" required {{if isset($data['common_fictitious_order_direct_pay']['value']) and $data['common_fictitious_order_direct_pay']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_fictitious_order_direct_pay.describe}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 默认支付方式 -->
-            <div class="am-panel am-panel-default am-margin-top-sm">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('site.base_item_default_payment_title')}}</h3>
-                </div>
-                <div class="am-panel-bd">
-                    <div class="business-form-group am-padding-vertical-0 platform-list-value-container">
-                        <p class="am-text-warning">{{:MyLang('site.site_setup_order_default_payment_tips')}}</p>
+                <!-- 默认支付方式 -->
+                <div class="item" data-key="site-defalut-payment">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong>操作提示</strong>
+                            <i class="iconfont icon-contract contract"></i> 
+                        </div>
+                        <p>{{:MyLang('site.site_setup_order_default_payment_tips')}}</p>
+                    </div>
+                    <div class="am-flex am-flex-warp am-gap-12 payment-list-width">
                         {{foreach $common_platform_type as $v}}
-                            <div class="am-input-group am-input-group-sm">
-                                <span class="am-input-group-btn">
-                                    <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
-                                </span>
+                            <div class="am-form-group am-flex-shrink">
+                                <label>{{$v.name}}</label>
                                 <select name="common_default_payment[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
                                     <option value="">{{:MyLang('optional_tips')}}</option>
                                     {{if !empty($payment_list)}}
@@ -142,4 +181,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

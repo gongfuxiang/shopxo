@@ -55,6 +55,12 @@ return [
         'footer_icp_filing_text'                => 'ICP備案',
         'footer_public_security_filing_text'    => '警察備案',
         'footer_business_license_text'          => '電子營業執照亮照',
+        // 购物车
+        'user_cart_success_modal_tips'          => '商品已成功加入購物車！',
+        'user_cart_success_modal_text_first'    => '購物車共',
+        'user_cart_success_modal_text_last'     => '件商品',
+        'user_cart_success_modal_cart_title'    => '去購物車結算',
+        'user_cart_success_modal_buy_title'     => '繼續購物',
     ],
 
     // 首页
@@ -62,7 +68,7 @@ return [
         'banner_right_already_login_first'      => 'Hi,',
         'banner_right_not_login_first'          => '您好，歡迎來到',
         'banner_right_article_title'            => '資訊頭條',
-        'design_browser_seo_title'              => '首頁設計',
+        'design_base_nav_title'                 => '首頁設計',
     ],
 
     // 商品
@@ -85,14 +91,14 @@ return [
 
     // 商品搜索
     'search'            => [
-        'browser_seo_title'                     => '商品搜索',
+        'base_nav_title'                        => '商品搜索',
         'filter_out_first_text'                 => '篩選出',
         'filter_out_last_data_text'             => '條數據',
     ],
 
     // 商品分类
     'category'          => [
-        'browser_seo_title'                     => '商品分類',
+        'base_nav_title'                        => '商品分類',
         'no_category_data_tips'                 => '沒有分類數據',
         'no_sub_category_data_tips'             => '沒有子分類數據',
         'view_category_sub_goods_name'          => '查看分類下商品',
@@ -105,7 +111,7 @@ return [
             'goods_no_choice_tips'              => '請選擇商品',
         ],
         // 基础
-        'browser_seo_title'                     => '購物車',
+        'base_nav_title'                        => '購物車',
         'goods_list_thead_base'                 => '商品資訊',
         'goods_list_thead_price'                => '單價',
         'goods_list_thead_number'               => '數量',
@@ -128,7 +134,7 @@ return [
             'payment_choice_tips'               => '請選擇支付',
         ],
         // 基础
-        'browser_seo_title'                     => '訂單確認',
+        'base_nav_title'                        => '訂單確認',
         'exhibition_not_allow_submit_tips'      => '展示型不允許提交訂單',
         'buy_item_order_title'                  => '訂單資訊',
         'buy_item_payment_title'                => '選擇支付',
@@ -161,7 +167,7 @@ return [
 
     // 文章
     'article'            => [
-        'category_browser_seo_title'            => '所有文章',
+        'category_base_nav_title'               => '所有文章',
         'article_no_data_tips'                  => '文章不存在或已删除',
         'article_id_params_tips'                => '文章ID有誤',
         'release_time'                          => '發佈時間：',
@@ -193,11 +199,11 @@ return [
             'pay_url_empty_tips'                => '支付url地址有誤',
         ],
         // 基础
-        'browser_seo_title'                     => '我的訂單',
-        'detail_browser_seo_title'              => '訂單詳情',
+        'base_nav_title'                        => '我的訂單',
+        'detail_base_nav_title'                 => '訂單詳情',
         'detail_take_title'                     => '取貨地址',
         'detail_shipping_address_title'         => '收貨地址',
-        'comments_browser_seo_title'            => '訂單評論',
+        'comments_base_nav_title'               => '訂單評論',
         'batch_payment_name'                    => '批量支付',
         'comments_goods_list_thead_base'        => '商品資訊',
         'comments_goods_list_thead_price'       => '單價',
@@ -251,18 +257,18 @@ return [
             'goods_placeholder'     => '請輸入訂單號/商品名稱/型號',
             'status'                => '訂單狀態',
             'pay_status'            => '支付狀態',
-            'total_price'           => '總價（元）',
-            'pay_price'             => '支付金額（元）',
-            'price'                 => '單價（元）',
+            'total_price'           => '總價',
+            'pay_price'             => '支付金額',
+            'price'                 => '單價',
             'order_model'           => '訂單模式',
             'client_type'           => '下單平臺',
             'address'               => '地址資訊',
             'take'                  => '取貨資訊',
-            'refund_price'          => '退款金額（元）',
+            'refund_price'          => '退款金額',
             'returned_quantity'     => '退貨數量',
             'buy_number_count'      => '購買總數',
-            'increase_price'        => '新增金額（元）',
-            'preferential_price'    => '優惠金額（元）',
+            'increase_price'        => '新增金額',
+            'preferential_price'    => '優惠金額',
             'payment_name'          => '支付方式',
             'user_note'             => '留言資訊',
             'extension'             => '擴展資訊',
@@ -296,8 +302,8 @@ return [
             'refund_reason_empty_tips'          => '退款原因數據為空',
         ],
         // 基础
-        'browser_seo_title'                     => '訂單售後',
-        'detail_browser_seo_title'              => '訂單售後詳情',
+        'base_nav_title'                        => '訂單售後',
+        'detail_base_nav_title'                 => '訂單售後詳情',
         'view_orderaftersale_enter_name'        => '查看售後訂單',
         'orderaftersale_apply_name'             => '申請售後',
         'operate_delivery_name'                 => '立即退貨',
@@ -350,7 +356,7 @@ return [
             'status'                => '狀態',
             'type'                  => '申請類型',
             'reason'                => '原因',
-            'price'                 => '退款金額（元）',
+            'price'                 => '退款金額',
             'number'                => '退貨數量',
             'msg'                   => '退款說明',
             'refundment'            => '退款類型',
@@ -368,10 +374,10 @@ return [
     // 用户
     'user'              => [
         // 基础
-        'browser_seo_title'                     => '用戶中心',
-        'forget_password_browser_seo_title'     => '密碼找回',
-        'user_register_browser_seo_title'       => '用戶註冊',
-        'user_login_browser_seo_title'          => '用戶登錄',
+        'base_nav_title'                        => '用戶中心',
+        'forget_password_base_nav_title'        => '密碼找回',
+        'user_register_base_nav_title'          => '用戶註冊',
+        'user_login_base_nav_title'             => '用戶登錄',
         'password_reset_illegal_error_tips'     => '已經登入了，如要重置密碼，請先退出當前帳戶',
         'register_illegal_error_tips'           => '已經登入了，如要注册新帳戶，請先退出當前帳戶',
         'login_illegal_error_tips'              => '已經登入了，請勿重複登入',
@@ -403,10 +409,10 @@ return [
         'form_item_service'                     => '《服務協議》',
         'form_item_privacy'                     => '《隱私政策》',
         'form_item_username'                    => '用戶名',
-        'form_item_username_message'            => '請使用字母、數位、底線2~18個字元',
+        'form_item_username_message'            => '請使用字母、數位、底線2~18個字',
         'form_item_password'                    => '登入密碼',
         'form_item_password_placeholder'        => '請輸入登入密碼',
-        'form_item_password_message'            => '密碼格式6~18個字元之間',
+        'form_item_password_message'            => '密碼格式6~18個字之間',
         'form_item_mobile'                      => '手機號碼',
         'form_item_mobile_placeholder'          => '請輸入手機號碼',
         'form_item_mobile_message'              => '手機號碼格式錯誤',
@@ -440,38 +446,59 @@ return [
 
     // 用户地址
     'useraddress'       => [
-        'browser_seo_title'                     => '我的地址',
+        'base_nav_title'                        => '我的地址',
     ],
 
     // 用户足迹
     'usergoodsbrowse'   => [
-        'browser_seo_title'                     => '我的足迹',
+        'base_nav_title'                        => '我的足迹',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => '商品資訊',
             'goods_placeholder'     => '請輸入商品名稱/簡述/SEO資訊',
-            'price'                 => '銷售價格（元）',
-            'original_price'        => '原價（元）',
+            'price'                 => '銷售價格',
+            'original_price'        => '原價',
             'add_time'              => '創建時間',
         ],
     ],
 
     // 用户商品收藏
     'usergoodsfavor'    => [
-        'browser_seo_title'                     => '商品收藏',
+        'base_nav_title'                        => '商品收藏',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => '商品資訊',
             'goods_placeholder'     => '請輸入商品名稱/簡述/SEO資訊',
-            'price'                 => '銷售價格（元）',
-            'original_price'        => '原價（元）',
+            'price'                 => '銷售價格',
+            'original_price'        => '原價',
             'add_time'              => '創建時間',
+        ],
+    ],
+
+    // 用户商品评论
+    'usergoodscomments' => [
+        'base_nav_title'                        => '商品評論',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => '基礎資訊',
+            'goods_placeholder'  => '請輸入商品名稱/型號',
+            'business_type'      => '業務類型',
+            'content'            => '評論內容',
+            'images'             => '評論圖片',
+            'rating'             => '評分',
+            'reply'              => '回復內容',
+            'is_show'            => '是否顯示',
+            'is_anonymous'       => '是否匿名',
+            'is_reply'           => '是否回復',
+            'reply_time_time'    => '回復時間',
+            'add_time_time'      => '創建時間',
+            'upd_time_time'      => '更新時間',
         ],
     ],
 
     // 用户积分
     'userintegral'      => [
-        'browser_seo_title'                     => '我的積分',
+        'base_nav_title'                        => '我的積分',
         // 页面
         'base_normal_title'                     => '正常可用',
         'base_normal_tips'                      => '可以正常使用的積分',
@@ -491,26 +518,26 @@ return [
 
     // 个人资料
     'personal'          => [
-        'browser_seo_title'                     => '個人資料',
-        'edit_browser_seo_title'                => '個人資料編輯',
+        'base_nav_title'                        => '個人資料',
+        'edit_base_nav_title'                   => '個人資料編輯',
         'form_item_nickname'                    => '昵稱',
-        'form_item_nickname_message'            => '昵稱2~16個字元之間',
+        'form_item_nickname_message'            => '昵稱2~16個字之間',
         'form_item_birthday'                    => '生日',
         'form_item_birthday_message'            => '生日格式有誤',
         'form_item_province'                    => '所在省',
-        'form_item_province_message'            => '所在省最多30個字元',
+        'form_item_province_message'            => '所在省最多30個字',
         'form_item_city'                        => '所在市',
-        'form_item_city_message'                => '所在市最多30個字元',
+        'form_item_city_message'                => '所在市最多30個字',
         'form_item_county'                      => '所在區/縣',
-        'form_item_county_message'              => '所在區/縣最多30個字元',
+        'form_item_county_message'              => '所在區/縣最多30個字',
         'form_item_address'                     => '詳細地址',
-        'form_item_address_message'             => '詳細地址2~30個字元',
+        'form_item_address_message'             => '詳細地址2~30個字',
     ],
 
     // 消息管理
     'message'            => [
         // 基础
-        'browser_seo_title'                     => '我的消息',
+        'base_nav_title'                        => '我的消息',
         // 动态表格
         'form_table'                => [
             'type'                  => '消息類型',
@@ -522,40 +549,14 @@ return [
         ],
     ],
 
-    // 问答/留言
-    'answer'            => [
-        // 基础
-        'browser_seo_title'                     => '問答/留言',
-        // 表单
-        'form_title'                            => '提問/留言',
-        'form_item_name'                        => '昵稱',
-        'form_item_name_message'                => '昵稱格式1~30個字元之間',
-        'form_item_tel'                         => '電話',
-        'form_item_tel_message'                 => '請填寫電話',
-        'form_item_title'                       => '標題',
-        'form_item_title_message'               => '標題格式1~60個字元之間',
-        'form_item_content'                     => '內容',
-        'form_item_content_message'             => '內容格式5~1000個字元之間',
-        // 动态表格
-        'form_table'                            => [
-            'name'                  => '連絡人',
-            'tel'                   => '聯繫電話',
-            'title'                 => '標題',
-            'content'               => '內容',
-            'reply'                 => '回復內容',
-            'reply_time_time'       => '回復時間',
-            'add_time_time'         => '創建時間',
-        ],
-    ],
-
     // 安全
     'safety'            => [
         // 基础
-        'browser_seo_title'                     => '安全設置',
-        'password_update_browser_seo_title'     => '登入密碼修改-安全設置',
-        'mobile_update_browser_seo_title'       => '手機號碼修改-安全設置',
-        'email_update_browser_seo_title'        => '電子郵箱修改-安全設置',
-        'logout_browser_seo_title'              => '帳號註銷-安全設置',
+        'base_nav_title'                        => '安全設置',
+        'password_update_base_nav_title'        => '登入密碼修改-安全設置',
+        'mobile_update_base_nav_title'          => '手機號碼修改-安全設置',
+        'email_update_base_nav_title'           => '電子郵箱修改-安全設置',
+        'logout_base_nav_title'                 => '帳號註銷-安全設置',
         'original_account_check_error_tips'     => '原帳號校驗失敗',
         // 页面
         'logout_title'                          => '帳號註銷',

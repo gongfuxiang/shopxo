@@ -55,6 +55,12 @@ return [
         'footer_icp_filing_text'                => 'ICP Filing',
         'footer_public_security_filing_text'    => 'Public Security Filing',
         'footer_business_license_text'          => 'Electronic Business License Illumination',
+        // 购物车
+        'user_cart_success_modal_tips'          => 'The product has been successfully added to the shopping cart!',
+        'user_cart_success_modal_text_first'    => 'Shopping Cart Total',
+        'user_cart_success_modal_text_last'     => 'Items',
+        'user_cart_success_modal_cart_title'    => 'GoCart',
+        'user_cart_success_modal_buy_title'     => 'ContinueBuy',
     ],
 
     // 首页
@@ -62,7 +68,7 @@ return [
         'banner_right_already_login_first'      => 'Hi,',
         'banner_right_not_login_first'          => 'Hello, welcome to',
         'banner_right_article_title'            => 'News headlines',
-        'design_browser_seo_title'              => 'Home page design',
+        'design_base_nav_title'                 => 'Home page design',
     ],
 
     // 商品
@@ -85,14 +91,14 @@ return [
 
     // 商品搜索
     'search'            => [
-        'browser_seo_title'                     => 'Goods Search',
+        'base_nav_title'                        => 'Goods Search',
         'filter_out_first_text'                 => 'Filter Out',
         'filter_out_last_data_text'             => 'Data',
     ],
 
     // 商品分类
     'category'          => [
-        'browser_seo_title'                     => 'Goods Category',
+        'base_nav_title'                        => 'Goods Category',
         'no_category_data_tips'                 => 'No classification data',
         'no_sub_category_data_tips'             => 'No subcategory data',
         'view_category_sub_goods_name'          => 'View goods under category',
@@ -105,7 +111,7 @@ return [
             'goods_no_choice_tips'              => 'Please select an item',
         ],
         // 基础
-        'browser_seo_title'                     => 'Cart',
+        'base_nav_title'                        => 'Cart',
         'goods_list_thead_base'                 => 'Goods Info',
         'goods_list_thead_price'                => 'Price',
         'goods_list_thead_number'               => 'Number',
@@ -128,7 +134,7 @@ return [
             'payment_choice_tips'               => 'Please select payment',
         ],
         // 基础
-        'browser_seo_title'                     => 'Order Confirm',
+        'base_nav_title'                        => 'Order Confirm',
         'exhibition_not_allow_submit_tips'      => 'Order submission is not allowed for display type',
         'buy_item_order_title'                  => 'Order Info',
         'buy_item_payment_title'                => 'Choice Payment',
@@ -161,7 +167,7 @@ return [
 
     // 文章
     'article'            => [
-        'category_browser_seo_title'            => 'All Articles',
+        'category_base_nav_title'               => 'All Articles',
         'article_no_data_tips'                  => 'Article does not exist or has been deleted',
         'article_id_params_tips'                => 'Incorrect Article ID',
         'release_time'                          => 'Release Time:',
@@ -193,11 +199,11 @@ return [
             'pay_url_empty_tips'                => 'The payment url address is incorrect',
         ],
         // 基础
-        'browser_seo_title'                     => 'My Order',
-        'detail_browser_seo_title'              => 'Order Detail',
+        'base_nav_title'                        => 'My Order',
+        'detail_base_nav_title'                 => 'Order Detail',
         'detail_take_title'                     => 'Pickup address',
         'detail_shipping_address_title'         => 'Address',
-        'comments_browser_seo_title'            => 'Order Comments',
+        'comments_base_nav_title'               => 'Order Comments',
         'batch_payment_name'                    => 'Batch Payment',
         'comments_goods_list_thead_base'        => 'Goods Info',
         'comments_goods_list_thead_price'       => 'Price',
@@ -296,8 +302,8 @@ return [
             'refund_reason_empty_tips'          => 'Refund reason data is empty',
         ],
         // 基础
-        'browser_seo_title'                     => 'Order AfterSales',
-        'detail_browser_seo_title'              => 'Order AfterSales Detail',
+        'base_nav_title'                        => 'Order AfterSales',
+        'detail_base_nav_title'                 => 'Order AfterSales Detail',
         'view_orderaftersale_enter_name'        => 'View after-sales orders',
         'orderaftersale_apply_name'             => 'Apply for after-sales service',
         'operate_delivery_name'                 => 'Return immediately',
@@ -368,10 +374,10 @@ return [
     // 用户
     'user'              => [
         // 基础
-        'browser_seo_title'                     => 'User Center',
-        'forget_password_browser_seo_title'     => 'Password Recovery',
-        'user_register_browser_seo_title'       => 'User Register',
-        'user_login_browser_seo_title'          => 'User Login',
+        'base_nav_title'                        => 'User Center',
+        'forget_password_base_nav_title'        => 'Password Recovery',
+        'user_register_base_nav_title'          => 'User Register',
+        'user_login_base_nav_title'             => 'User Login',
         'password_reset_illegal_error_tips'     => 'You have logged in. If you want to reset your password, please log out of your current account first',
         'register_illegal_error_tips'           => 'You have logged in. If you want to register a new account, please exit the current account first',
         'login_illegal_error_tips'              => 'Already logged in, please do not log in again',
@@ -439,12 +445,12 @@ return [
 
     // 用户地址
     'useraddress'       => [
-        'browser_seo_title'                     => 'My Address',
+        'base_nav_title'                        => 'My Address',
     ],
 
     // 用户足迹
     'usergoodsbrowse'   => [
-        'browser_seo_title'                     => 'My Browse',
+        'base_nav_title'                        => 'My Browse',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => 'Goods Info',
@@ -457,7 +463,7 @@ return [
 
     // 用户商品收藏
     'usergoodsfavor'    => [
-        'browser_seo_title'                     => 'Goods Favor',
+        'base_nav_title'                        => 'Goods Favor',
         // 动态表格统计数据
         'form_table'                            => [
             'goods'                 => 'Goods Info',
@@ -468,9 +474,30 @@ return [
         ],
     ],
 
+    // 用户商品评论
+    'usergoodscomments'         => [
+        'base_nav_title'                        => 'GoodsComments',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => 'Base Info',
+            'goods_placeholder'  => 'Please enter the goods name/model',
+            'business_type'      => 'Business Type',
+            'content'            => 'Content',
+            'images'             => 'Images',
+            'rating'             => 'Rating',
+            'reply'              => 'Reply',
+            'is_show'            => 'Show or not',
+            'is_anonymous'       => 'Anonymous or not',
+            'is_reply'           => 'Reply or not',
+            'reply_time_time'    => 'Reply Time',
+            'add_time_time'      => 'Creation Time',
+            'upd_time_time'      => 'Update Time',
+        ],
+    ],
+
     // 用户积分
     'userintegral'      => [
-        'browser_seo_title'                     => 'My Integral',
+        'base_nav_title'                        => 'My Integral',
         // 页面
         'base_normal_title'                     => 'Normal Availability',
         'base_normal_tips'                      => 'Points that can be used normally',
@@ -490,8 +517,8 @@ return [
 
     // 个人资料
     'personal'          => [
-        'browser_seo_title'                     => 'Personal Data',
-        'edit_browser_seo_title'                => 'Personal Data Edit',
+        'base_nav_title'                        => 'Personal Data',
+        'edit_base_nav_title'                   => 'Personal Data Edit',
         'form_item_nickname'                    => 'Nickname',
         'form_item_nickname_message'            => 'Nickname is between 2 and 16 characters',
         'form_item_birthday'                    => 'Birthday',
@@ -509,7 +536,7 @@ return [
     // 消息管理
     'message'            => [
         // 基础
-        'browser_seo_title'                     => 'My Message',
+        'base_nav_title'                        => 'My Message',
         // 动态表格
         'form_table'                => [
             'type'                  => 'Message Type',
@@ -521,40 +548,14 @@ return [
         ],
     ],
 
-    // 问答/留言
-    'answer'            => [
-        // 基础
-        'browser_seo_title'                     => 'Q&A/Message',
-        // 表单
-        'form_title'                            => 'Q&A/Message',
-        'form_item_name'                        => 'Nickname',
-        'form_item_name_message'                => 'Nickname format is between 1 and 30 characters',
-        'form_item_tel'                         => 'Phone',
-        'form_item_tel_message'                 => 'Please fill in the phone number',
-        'form_item_title'                       => 'Title',
-        'form_item_title_message'               => 'Title format is between 1 and 60 characters',
-        'form_item_content'                     => 'Content',
-        'form_item_content_message'             => 'Content format is between 5 and 1000 characters',
-        // 动态表格
-        'form_table'                            => [
-            'name'                  => 'Contacts',
-            'tel'                   => 'Contact Number',
-            'title'                 => 'Title',
-            'content'               => 'Content',
-            'reply'                 => 'Reply Content',
-            'reply_time_time'       => 'Reply Time',
-            'add_time_time'         => 'Creation Time',
-        ],
-    ],
-
     // 安全
     'safety'            => [
         // 基础
-        'browser_seo_title'                     => 'Security settings',
-        'password_update_browser_seo_title'     => 'Login password modification - security settings',
-        'mobile_update_browser_seo_title'       => 'Mobile number modification - security settings',
-        'email_update_browser_seo_title'        => 'E-mail modification - security settings',
-        'logout_browser_seo_title'              => 'Account logout - security settings',
+        'base_nav_title'                        => 'Security settings',
+        'password_update_base_nav_title'        => 'Login password modification - security settings',
+        'mobile_update_base_nav_title'          => 'Mobile number modification - security settings',
+        'email_update_base_nav_title'           => 'E-mail modification - security settings',
+        'logout_base_nav_title'                 => 'Account logout - security settings',
         'original_account_check_error_tips'     => 'Original account verification failed',
         // 页面
         'logout_title'                          => 'Account Logout',

@@ -1,20 +1,13 @@
-<div class="am-cf">
-    <div class="am-u-sm-6 am-u-md-4 am-padding-horizontal-0">
-        <div class="am-form-group">
-            <label>{{:MyLang('form_seo_title_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_title_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-            <input type="text" name="seo_title" placeholder="{{:MyLang('form_seo_title_title')}}" maxlength="100" data-validation-message="{{:MyLang('form_seo_title_message')}}" class="am-radius" {{if !empty($data['seo_title'])}} value="{{$data.seo_title}}"{{/if}} />
-        </div>
-    </div>
-    <div class="am-u-sm-6 am-u-md-4 am-padding-horizontal-0">
-        <div class="am-form-group">
-            <label>{{:MyLang('form_seo_keywords_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_keywords_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-            <input type="text" name="seo_keywords" placeholder="{{:MyLang('form_seo_keywords_title')}}" maxlength="130" data-validation-message="{{:MyLang('form_seo_keywords_message')}}" class="am-radius" {{if !empty($data['seo_keywords'])}} value="{{$data.seo_keywords}}"{{/if}} />
-        </div>
-    </div>
-    <div class="am-u-sm-12 am-u-md-4 am-padding-horizontal-0">
-        <div class="am-form-group">
-            <label>{{:MyLang('form_seo_desc_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_desc_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-            <textarea rows="1" name="seo_desc" maxlength="230" class="am-radius" placeholder="{{:MyLang('form_seo_desc_title')}}" data-validation-message="{{:MyLang('form_seo_desc_message')}}">{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</textarea>
-        </div>
-    </div>
+
+<div class="am-form-group">
+    <label>{{:MyLang('form_seo_title_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_title_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+    <input type="text" name="seo_title" placeholder="{{:MyLang('form_seo_title_title')}}" maxlength="100" data-validation-message="{{:MyLang('form_seo_title_message')}}" class="am-radius" {{if !empty($data['seo_title'])}} value="{{$data.seo_title}}"{{/if}} />
+</div>
+<div class="am-form-group">
+    <label>{{:MyLang('form_seo_keywords_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_keywords_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+    <input type="text" name="seo_keywords" placeholder="{{:MyLang('form_seo_keywords_title')}}" maxlength="130" data-validation-message="{{:MyLang('form_seo_keywords_message')}}" class="am-radius" {{if !empty($data['seo_keywords'])}} value="{{$data.seo_keywords}}"{{/if}} />
+</div>
+<div class="am-form-group">
+    <label>{{:MyLang('form_seo_desc_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('form_seo_desc_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+    <textarea rows="4" name="seo_desc" maxlength="230" class="am-radius" placeholder="{{:MyLang('form_seo_desc_title')}}" data-validation-message="{{:MyLang('form_seo_desc_message')}}">{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</textarea>
 </div>

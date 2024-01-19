@@ -2,7 +2,7 @@
 
 <!-- right content start  -->
 <div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}">
-	<div class="content">
+	<div class="content bg-transparent am-padding-0">
 		<!-- 顶部钩子 -->
 		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
 		    <div class="plugins-tag">
@@ -31,26 +31,29 @@
 				<div class="am-fl am-nbfc left-content">
 					<!-- 帐号信息 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
-						<i class="am-icon-user"></i>
-						<span>{{$site_store_info.user.user_name_view}}</span>
-						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('modify_title')}}</a>
+                        <i class="iconfont icon-admin-store-user am-vertical-align-middle"></i>
+						<span class="am-vertical-align-middle">{{$site_store_info.user.user_name_view}}</span>
+						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('modify_title')}}">{{:MyLang('modify_title')}}</a>
 					{{else /}}
-						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('store_bind_accounts_name')}}</a>
+						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('store_bind_accounts_name')}}">{{:MyLang('store_bind_accounts_name')}}</a>
 						<!-- 连接商店错误信息 -->
 						{{if !empty($site_store_error)}}
-							<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
+							<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm am-vertical-align-middle" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						{{/if}}
 					{{/if}}
 
 					<!-- 广告 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
-						<a class="am-margin-left-sm am-text-danger ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
+						<a class="am-margin-left-sm am-text-danger am-vertical-align-middle ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
 					{{/if}}
 				</div>
 				<div class="am-fr am-nbfc right-content">
 					<!-- VIP授权信息 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
+						<a class="vip am-radius {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}>
+                            <i class="iconfont icon-admin-store-vip"></i>
+                            <span class="am-margin-left-xs">{{$site_store_info.vip.auth_view}}</span>
+                        </a>
 					{{/if}}
 
 					<!-- 右侧版本信息及更新检查 -->
@@ -76,28 +79,6 @@
 		    {{/foreach}}
 		{{/if}}
 
-		<!-- 后台公告 -->
-		{{if !empty($admin_notice)}}
-			<div class="am-alert am-alert-danger" data-am-alert>
-				<button type="button" class="am-close">&times;</button>
-				<p>{{$admin_notice|raw}}</p>
-			</div>
-		{{/if}}
-
-		<!-- 基础统计基础顶部钩子 -->
-		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-		    <div class="plugins-tag">
-		        <span>plugins_admin_view_index_init_stats_base_top</span>
-		    </div>
-		{{/if}}
-		{{if !empty($plugins_admin_view_index_init_stats_base_top_data) and is_array($plugins_admin_view_index_init_stats_base_top_data)}}
-		    {{foreach $plugins_admin_view_index_init_stats_base_top_data as $hook}}
-		        {{if is_string($hook) or is_int($hook)}}
-		            {{$hook|raw}}
-		        {{/if}}
-		    {{/foreach}}
-		{{/if}}
-
 		<!-- 是否展示统计数据 -->
 		{{if isset($is_stats) and $is_stats eq 1}}
 			<!-- 基础统计内部顶部钩子 -->
@@ -114,124 +95,293 @@
 			    {{/foreach}}
 			{{/if}}
 
-			<!-- 基础统计 -->
-			<div class="block-container shopxo-base">
-				<div class="block-title echarts-title">
-					<span class="icon"></span>
-					<span class="title">{{:MyLang('index.base_item_base_stats_title')}}</span>
-					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_base_stats_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-					<div class="am-fr right-operate" data-type="base-count" data-empty-time="1">
-					    {{if !empty($time_data)}}
-					        <span class="quick-time">
-					            {{foreach $time_data as $k=>$v}}
-					            	{{if !in_array($k, ['this-month', 'last-month'])}}
-					                	<a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-					            	{{/if}}
-					            {{/foreach}}
-					            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
-					        </span>
-					    {{/if}}
-					    {{include file="/index/stats_where" /}}
-					</div>
-				</div>
-				<ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
-					<li>
-						<div class="li-content">
-							<p class="name">{{:MyLang('index.base_item_user_title')}}</p>
-							<p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-								<span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item">
-								<span>{{:MyLang('index.base_item_today_title')}}</span>
-								<span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
-							</div>
-							<i class="am-icon-user am-icon-lg bg-icon"></i>
-						</div>
-					</li>
-					<li>
-						<div class="li-content">
-							<p class="name">{{:MyLang('index.base_item_order_number_title')}}</p>
-							<p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item">
-								<span>{{:MyLang('index.base_item_today_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
-							</div>
-							<i class="am-icon-pie-chart am-icon-lg bg-icon"></i>
-						</div>
-					</li>
-					<li>
-						<div class="li-content">
-							<p class="name">{{:MyLang('index.base_item_order_complete_number_title')}}</p>
-							<p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item">
-								<span>{{:MyLang('index.base_item_today_title')}}</span>
-								<span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
-							</div>
-							<i class="am-icon-gg am-icon-lg bg-icon"></i>
-						</div>
-					</li>
-					<!-- 收入统计权限判断 -->
-					{{if isset($is_income) and $is_income eq true}}
-						<li>
-							<div class="li-content">
-								<p class="name">{{:MyLang('index.base_item_order_complete_title')}}</p>
-								<p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
-								<div class="item am-margin-bottom-xs">
-									<span>{{:MyLang('index.base_item_last_month_title')}}</span>
-									<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
-								</div>
-								<div class="item am-margin-bottom-xs">
-									<span>{{:MyLang('index.base_item_same_month_title')}}</span>
-									<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
-								</div>
-								<div class="item am-margin-bottom-xs">
-									<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-									<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
-								</div>
-								<div class="item">
-									<span>{{:MyLang('index.base_item_today_title')}}</span>
-									<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
-								</div>
-								<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
-							</div>
-						</li>
-					{{/if}}
-				</ul>
-			</div>
+			<!-- 基础统计 商城统计-->
+            <div class="am-flex am-flex-row am-flex-justify-between am-gap-1 shop-flex">
+                <div class="am-flex-1 am-flex-width">
+                    <div class="block-container shopxo-base">
+                        <div class="block-title echarts-title am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
+                            <div class="am-relative">
+                                <span class="title icon">{{:MyLang('index.base_item_base_stats_title')}}</span>
+                            </div>
+                            <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="base-count" data-empty-time="1">
+                                {{if !empty($time_data)}}
+                                    <div class="quick-time am-flex am-flex-items-center">
+                                        {{foreach :array_values($time_data) as $k=>$v}}
+                                            {{if !in_array($k, ['this-month', 'last-month'])}}
+                                                {{if $k lt 4}}
+                                                    <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                {{/if}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                        <div id="shopxo-base-dropdown" class="dropdown-more">
+                                            <div class="am-dropdown" data-am-dropdown="{justify: '#shopxo-base-dropdown'}">
+                                                <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                                <div class="am-dropdown-content am-radius-lg">
+                                                    <div class="am-flex am-flex-warp am-gap-1">
+                                                        {{foreach :array_values($time_data) as $k=>$v}}
+                                                            {{if $k gt 3}}
+                                                                <div class="item">
+                                                                    <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                </div>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                        <div class="item">
+                                                            <a class="am-inline-block time" href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/if}}
+                                {{include file="/index/stats_where" /}}
+                            </div>
+                        </div>
+                        <ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
+                            <li>
+                                <div class="li-content down-hover glideover-hover">
+                                    <div class="am-flex am-flex-row am-flex-justify-between">
+                                        <div>
+                                            <p class="name">{{:MyLang('index.base_item_user_title')}}</p>
+                                            <p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
+                                        </div>
+                                        <div class="item am-flex am-flex-col am-flex-items-end">
+                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$user.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="am-flex am-flex-row am-gap-1 am-margin-bottom-xs">
+                                        <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                        <span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
+                                    </div>
+                                    <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_last_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
+                                        </div>
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_same_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-content down-hover glideover-hover">
+                                    <div class="am-flex am-flex-row am-flex-justify-between">
+                                        <div>
+                                            <p class="name">{{:MyLang('index.base_item_order_number_title')}}</p>
+                                            <p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
+                                        </div>
+                                        <div class="item am-flex am-flex-col am-flex-items-end">
+                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">    
+                                        <div class="item">
+                                            <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_last_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
+                                        </div>
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_same_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-content down-hover glideover-hover">
+                                    <div class="am-flex am-flex-row am-flex-justify-between">
+                                        <div>
+                                            <p class="name">{{:MyLang('index.base_item_order_complete_number_title')}}</p>
+                                            <p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
+                                        </div>
+                                        <div class="item am-flex am-flex-col am-flex-items-end">
+                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">    
+                                        <div class="item">
+                                            <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_last_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
+                                        </div>
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <span>{{:MyLang('index.base_item_same_month_title')}}</span>
+                                            <span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- 收入统计权限判断 -->
+                            {{if isset($is_income) and $is_income eq true}}
+                                <li>
+                                    <div class="li-content down-hover glideover-hover">
+                                        <div class="am-flex am-flex-row am-flex-justify-between">
+                                            <div>
+                                                <p class="name">{{:MyLang('index.base_item_order_complete_title')}}</p>
+                                                <p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
+                                            </div>
+                                            <div class="item am-flex am-flex-col am-flex-items-end">
+                                                <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                                <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">
+                                            <div class="item">
+                                                <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                                <span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
+                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                                <span>{{:MyLang('index.base_item_last_month_title')}}</span>
+                                                <span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                            </div>
+                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                                <span>{{:MyLang('index.base_item_same_month_title')}}</span>
+                                                <span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 基础统计基础顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_admin_view_index_init_stats_base_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_admin_view_index_init_stats_base_top_data) and is_array($plugins_admin_view_index_init_stats_base_top_data)}}
+                    {{foreach $plugins_admin_view_index_init_stats_base_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            </div>
+            <div class="am-flex am-flex-row am-flex-justify-between am-gap-1 order-flex">
+                {{if isset($is_income) and $is_income eq true}}
+                    <div class="am-flex-1 am-flex-width">
+                        <div class="block-container">
+                            <div class="block-title echarts-title am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm am-border-bottom">
+                                <div class="am-relative am-flex am-flex-row am-gap-1 echarts-tabs">
+                                    <span class="title am-active am-cursor-pointer" data-key="order-profit">{{:MyLang('index.base_item_order_profit_title')}}</span>
+                                    <span class="title am-cursor-pointer" data-key="order-trading">{{:MyLang('index.base_item_order_trading_title')}}</span>
+                                </div>
+                                <div class="right-oprate-item">
+                                    <div class="order-profit">
+                                        <!-- 订单成交金额走势，收入统计权限判断-->
+                                        <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="order-profit" data-init="1">
+                                            {{if !empty($time_data)}}
+                                                <span class="quick-time am-flex am-flex-items-center">
+                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                        {{if $k lt 3}}
+                                                            <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                        {{/if}}   
+                                                    {{/foreach}}
+                                                    <div id="order-profit-dropdown" class="dropdown-more">
+                                                        <div class="am-dropdown" data-am-dropdown="{justify: '#order-profit-dropdown'}">
+                                                            <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                                            <div class="am-dropdown-content am-radius-lg">
+                                                                <div class="am-flex am-flex-warp am-gap-1">
+                                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                                        {{if $k gt 2}}
+                                                                            <div class="item">
+                                                                                <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                    {{/foreach}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            {{/if}}
+                                            {{include file="/index/stats_where" /}}
+                                        </div>
+                                    </div>
+                                    <div class="order-trading am-hide">
+                                        <!-- 订单交易走势 -->
+                                        <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="order-trading" data-init="1">
+                                            {{if !empty($time_data)}}
+                                                <span class="quick-time am-flex am-flex-items-center">
+                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                        {{if $k lt 3}}
+                                                            <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                        {{/if}}   
+                                                    {{/foreach}}
+                                                    <div id="order-trading-dropdown" class="dropdown-more">
+                                                        <div class="am-dropdown" data-am-dropdown="{justify: '#order-trading-dropdown'}">
+                                                            <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                                            <div class="am-dropdown-content am-radius-lg">
+                                                                <div class="am-flex am-flex-warp am-gap-1">
+                                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                                        {{if $k gt 2}}
+                                                                            <div class="item">
+                                                                                <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                    {{/foreach}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            {{/if}}
+                                            {{include file="/index/stats_where" /}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="echarts-content">
+                                <div id="echarts-order-profit" class="echarts-tabs-change echarts-tabs-change-active"></div>
+                                <div id="echarts-order-trading" class="echarts-tabs-change"></div>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+                <div class="block-container shortcut-menu">
+                    <div class="am-flex am-flex-row am-flex-justify-between am-flex-items-center">
+                        <div class="am-relative block-title">
+                            <span class="title icon">{{:MyLang('common_service.shortcutmenu.form_base_title')}}</span>
+                        </div>
+                        <div class="more-layout">
+                            <a href="javascript:;" class="submit-popup" data-class="admin-index-shortcutmenu-popup" data-on-open="ShortcutmenuOpenBackEvent" data-on-close="ShortcutmenuCloseBackEvent" data-url="{{:MyUrl('admin/shortcutmenu/index')}}" data-title="{{:MyLang('admin_title')}}">{{:MyLang('admin_title')}}</a>
+                        </div>
+                    </div>
+                    <div class="shortcut-menu-list am-margin-top-xl">
+                        {{if empty($shortcut_menu_data)}}
+                            {{include file="public/not_data" /}}
+                        {{else /}}
+                            <div class="shortcut-menu-content am-flex am-flex-row am-flex-warp">
+                                {{foreach $shortcut_menu_data as $v}}
+                                    <a href="javascript:;" data-url="{{$v.url}}" data-key="{{$v.menu}}" data-id="{{$v.menu}}" data-type="menu" data-name="{{$v.name}}" class="item am-text-center am-radius">
+                                        <img src="{{$v.icon}}" class="am-radius scale-hover" />
+                                        <p class="cr-333">{{$v.name}}</p>
+                                    </a>
+                                {{/foreach}}
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
 
 			<!-- 订单金额走势统计内部顶部钩子 -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -245,28 +395,6 @@
 			            {{$hook|raw}}
 			        {{/if}}
 			    {{/foreach}}
-			{{/if}}
-
-			<!-- 订单成交金额走势，收入统计权限判断-->
-			{{if isset($is_income) and $is_income eq true}}
-				<div class="block-container">
-					<div class="block-title echarts-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.base_item_order_profit_title')}}</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-						<div class="am-fr right-operate" data-type="order-profit" data-init="1">
-						    {{if !empty($time_data)}}
-						        <span class="quick-time">
-						            {{foreach $time_data as $k=>$v}}
-						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-						            {{/foreach}}
-						        </span>
-						    {{/if}}
-						    {{include file="/index/stats_where" /}}
-						</div>
-					</div>
-					<div id="echarts-order-profit"></div>
-				</div>
 			{{/if}}
 
 			<!-- 订单交易走势统计内部顶部钩子 -->
@@ -283,26 +411,6 @@
 			    {{/foreach}}
 			{{/if}}
 
-			<!-- 订单交易走势 -->
-			<div class="block-container">
-				<div class="block-title echarts-title">
-					<span class="icon"></span>
-					<span class="title">{{:MyLang('index.base_item_order_trading_title')}}</span>
-					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-					<div class="am-fr right-operate" data-type="order-trading" data-init="1">
-					    {{if !empty($time_data)}}
-					        <span class="quick-time">
-					            {{foreach $time_data as $k=>$v}}
-					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-					            {{/foreach}}
-					        </span>
-					    {{/if}}
-					    {{include file="/index/stats_where" /}}
-					</div>
-				</div>
-				<div id="echarts-order-trading"></div>
-			</div>
-
 			<!-- 组合商品和支付统计内部顶部钩子 -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
 			    <div class="plugins-tag">
@@ -318,20 +426,40 @@
 			{{/if}}
 
 			<!-- 组合 -->
-			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2">
-				<li>
+			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1 am-margin-bottom-sm">
+				<li class="am-flex-1">
 					<!-- 热销商品 -->
-					<div class="block-title echarts-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.base_item_hot_sales_goods_title')}}</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_hot_sales_goods_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-						<div class="am-fr right-operate" data-type="goods-hot" data-init="1" data-empty-time="1">
+					<div class="block-title echarts-title goods-hot-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
+                        <div class="am-relative">
+                            <span class="title icon">{{:MyLang('index.base_item_hot_sales_goods_title')}}</span>
+                        </div>
+                        <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="goods-hot" data-init="1" data-empty-time="1">
 						    {{if !empty($time_data)}}
-						        <span class="quick-time">
-						            {{foreach $time_data as $k=>$v}}
-						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-						            {{/foreach}}
-						            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
+						        <span class="quick-time am-flex am-flex-items-center">
+                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                        {{if $k lt 3}}
+                                            <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                        {{/if}}   
+                                    {{/foreach}}
+                                    <div id="goods-hot-dropdown" class="dropdown-more">
+                                        <div class="am-dropdown" data-am-dropdown="{justify: '#goods-hot-dropdown'}">
+                                            <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                            <div class="am-dropdown-content am-radius-lg">
+                                                <div class="am-flex am-flex-warp am-gap-1">
+                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                        {{if $k gt 2}}
+                                                            <div class="item">
+                                                                <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                            </div>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                    <div class="item">
+                                                        <a class="am-inline-block time" href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 						        </span>
 						    {{/if}}
 						    {{include file="/index/stats_where" /}}
@@ -339,19 +467,36 @@
 					</div>
 					<div id="echarts-goods-hot"></div>
 				</li>
-
-				<li>
+				<li class="am-flex-1">
 					<!-- 支付方式 -->
-					<div class="block-title echarts-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.base_item_payment_type_title')}}</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-						<div class="am-fr right-operate" data-type="pay-type" data-init="1">
+					<div class="block-title echarts-title pay-type-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
+                        <div class="am-relative">
+                            <span class="title icon">{{:MyLang('index.base_item_payment_type_title')}}</span>
+                        </div>
+						<div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="pay-type" data-init="1">
 						    {{if !empty($time_data)}}
-						        <span class="quick-time">
-						            {{foreach $time_data as $k=>$v}}
-						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-						            {{/foreach}}
+						        <span class="quick-time am-flex am-flex-items-center">
+                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                        {{if $k lt 3}}
+                                            <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                        {{/if}}   
+                                    {{/foreach}}
+                                    <div id="pay-type-dropdown" class="dropdown-more">
+                                        <div class="am-dropdown" data-am-dropdown="{justify: '#pay-type-dropdown'}">
+                                            <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                            <div class="am-dropdown-content am-radius-lg">
+                                                <div class="am-flex am-flex-warp am-gap-1">
+                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                        {{if $k gt 2}}
+                                                            <div class="item">
+                                                                <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                            </div>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 						        </span>
 						    {{/if}}
 						    {{include file="/index/stats_where" /}}
@@ -376,32 +521,128 @@
 			{{/if}}
 
 			<!-- 订单地域分布 -->
-			<div class="am-nbfc {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
-				<div class="block-container {{if $is_system_show_base eq 0}}am-margin-bottom-0{{/if}}">
-					<div class="block-title echarts-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.base_item_map_whole_country_title')}}</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_map_whole_country_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
-						<select name="value" data-am-selected="{btnWidth: '50px', btnSize: 'xs'}">
-							<option value="0" selected>{{:MyLang('index.base_item_map_whole_country_province')}}</option>
-							<option value="1">{{:MyLang('index.base_item_map_whole_country_city')}}</option>
-							<option value="2">{{:MyLang('index.base_item_map_whole_country_county')}}</option>
-						</select>
-						<div class="am-fr right-operate" data-type="order-whole-country" data-init="1" data-empty-time="1">
-						    {{if !empty($time_data)}}
-						        <span class="quick-time">
-						            {{foreach $time_data as $k=>$v}}
-						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-						            {{/foreach}}
-						            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
-						        </span>
-						    {{/if}}
-						    {{include file="/index/stats_where" /}}
-						</div>
+			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1 am-margin-bottom-sm">
+				<li class="am-flex-1">
+                    <div class="block-title echarts-title area-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
+                        <div class="am-relative area-select">
+                            <span class="title icon">{{:MyLang('index.base_item_map_whole_country_title')}}</span>
+                            <select name="value" data-am-selected="{btnWidth: '100px', btnSize: 'xs'}">
+                                <option value="0" selected>{{:MyLang('index.base_item_map_whole_country_province')}}</option>
+                                <option value="1">{{:MyLang('index.base_item_map_whole_country_city')}}</option>
+                                <option value="2">{{:MyLang('index.base_item_map_whole_country_county')}}</option>
+                            </select>
+                        </div>
+                        <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="order-whole-country" data-init="1" data-empty-time="1">
+                            {{if !empty($time_data)}}
+                                <span class="quick-time am-flex am-flex-items-center">
+                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                        {{if $k lt 3}}
+                                            <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                        {{/if}}   
+                                    {{/foreach}}
+                                    <div id="order-whole-country-dropdown" class="dropdown-more">
+                                        <div class="am-dropdown" data-am-dropdown="{justify: '#order-whole-country-dropdown'}">
+                                            <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                            <div class="am-dropdown-content am-radius-lg">
+                                                <div class="am-flex am-flex-warp am-gap-1">
+                                                    {{foreach :array_values($time_data) as $k=>$v}}
+                                                        {{if $k gt 2}}
+                                                            <div class="item">
+                                                                <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                            </div>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                    <div class="item">
+                                                        <a class="am-inline-block time" href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            {{/if}}
+                            {{include file="/index/stats_where" /}}
+                        </div>
+                    </div>
+                    <div id="echarts-map-whole-country"></div>
+                </li>
+				<li class="am-flex-1">
+                    <div class="block-title echarts-title user-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm am-border-bottom">
+                        <div class="am-relative am-flex am-flex-row am-gap-1 echarts-tabs">
+                            <span class="title am-active am-cursor-pointer" data-key="new-user">{{:MyLang('index.base_item_new_user_title')}}</span>
+                            <span class="title am-cursor-pointer" data-key="buy-user">{{:MyLang('index.base_item_buy_user_title')}}</span>
+                        </div>
+                        <div class="right-oprate-item">
+                            <div class="new-user">
+                                <!--新增用户-->
+                                <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="new-user" data-init="1">
+                                    {{if !empty($time_data)}}
+                                        <span class="quick-time am-flex am-flex-items-center">
+                                            {{foreach :array_values($time_data) as $k=>$v}}
+                                                {{if $k lt 3}}
+                                                    <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                {{/if}}   
+                                            {{/foreach}}
+                                            <div id="new-user-dropdown" class="dropdown-more">
+                                                <div class="am-dropdown" data-am-dropdown="{justify: '#new-user-dropdown'}">
+                                                    <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                                    <div class="am-dropdown-content am-radius-lg">
+                                                        <div class="am-flex am-flex-warp am-gap-1">
+                                                            {{foreach :array_values($time_data) as $k=>$v}}
+                                                                {{if $k gt 2}}
+                                                                    <div class="item">
+                                                                        <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                    </div>
+                                                                {{/if}}
+                                                            {{/foreach}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    {{/if}}
+                                    {{include file="/index/stats_where" /}}
+                                </div>
+                            </div>
+                            <div class="buy-user am-hide">
+                                <!-- 购买用户统计 -->
+                                <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="buy-user" data-init="1">
+                                    {{if !empty($time_data)}}
+                                        <span class="quick-time am-flex am-flex-items-center">
+                                            {{foreach :array_values($time_data) as $k=>$v}}
+                                                {{if $k lt 3}}
+                                                    <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                {{/if}}   
+                                            {{/foreach}}
+                                            <div id="buy-user-dropdown" class="dropdown-more">
+                                                <div class="am-dropdown" data-am-dropdown="{justify: '#buy-user-dropdown'}">
+                                                    <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
+                                                    <div class="am-dropdown-content am-radius-lg">
+                                                        <div class="am-flex am-flex-warp am-gap-1">
+                                                            {{foreach :array_values($time_data) as $k=>$v}}
+                                                                {{if $k gt 2}}
+                                                                    <div class="item">
+                                                                        <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                    </div>
+                                                                {{/if}}
+                                                            {{/foreach}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    {{/if}}
+                                    {{include file="/index/stats_where" /}}
+                                </div>
+                            </div>
+                        </div>
 					</div>
-					<div id="echarts-map-whole-country"></div>
-				</div>
-			</div>
+                    <div class="echarts-content">
+                        <div id="echarts-new-user" class="echarts-tabs-change echarts-tabs-change-active"></div>
+                        <div id="echarts-buy-user" class="echarts-tabs-change"></div>
+                    </div>
+                </li>
+            </ul>
 		{{/if}}
 
 		<!-- 系统信息顶部钩子 -->
@@ -420,11 +661,10 @@
 
 		<!-- 系统信息 -->
 		{{if $is_system_show_base eq 1}}
-			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 am-padding-bottom-sm">
-				<li>
+			<ul class="block-combination-container-2 am-padding-bottom-sm am-flex am-flex-row am-flex-justify-between am-gap-1">
+				<li class="am-flex-1">
 					<div class="block-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.system_info_title')}}</span>
+						<span class="title icon">{{:MyLang('index.system_info_title')}}</span>
 					</div>
 					<dl class="dl-content">
 						<dt class="am-text-truncate">{{:MyLang('index.system_ver_title')}}</dt>
@@ -447,10 +687,9 @@
 					</dl>
 				</li>
 
-				<li>
+				<li class="am-flex-1">
 					<div class="block-title">
-						<span class="icon"></span>
-						<span class="title">{{:MyLang('index.development_team_title')}}</span>
+						<span class="title icon">{{:MyLang('index.development_team_title')}}</span>
 					</div>
 					<dl class="dl-content">
 						<dt class="am-text-truncate">{{:MyLang('index.development_team_website_title')}}</dt>
@@ -530,4 +769,21 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
+<script>
+    // 常用功能
+    // 关闭弹窗监听回调
+    function ShortcutmenuCloseBackEvent()
+    {
+        var sttaus = parseInt(sessionStorage.getItem('admin_shortcutmenu_oprate_status') || 0);
+        if(sttaus == 1)
+        {
+            sessionStorage.setItem('admin_shortcutmenu_oprate_status', 0); 
+            window.location.reload();
+        }
+    }
+    // 开启弹窗监听回调
+    function ShortcutmenuOpenBackEvent()
+    {
+        sessionStorage.setItem('admin_shortcutmenu_oprate_status', 0); 
+    }
+</script>

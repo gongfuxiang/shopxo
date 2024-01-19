@@ -51,6 +51,7 @@ class Agreement extends Common
         $assign = [
             'is_header' => $is_content,
             'is_footer' => $is_content,
+            'data'      => null,
         ];
 
         // 获取协议内容

@@ -2,57 +2,74 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'login'])}}" enctype="multipart/form-data">
-            <!-- 基础配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'login'])}}" enctype="multipart/form-data">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('base_config_title'),
+                        'key'  => 'base-config-title',
+                    ],
+                    [
+                        'name' => MyLang('images_title'),
+                        'key'  => 'images-title',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <!-- 基础配置 -->
+                <div class="item am-active" data-key="base-config-title">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_user_login_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_type.describe}}</span></label>
-                        {{foreach $common_login_type_list as $v}}
-                            <label class="am-checkbox-inline">
-                                <input type="checkbox" name="{{$data.home_user_login_type.only_tag}}" value="{{$v.value}}" {{if isset($data['home_user_login_type']['value']) and in_array($v['value'], $data['home_user_login_type']['value'])}}checked{{/if}} data-validation-message="{{$data.home_user_login_type.error_tips}}" data-am-ucheck /> {{$v.name}}
-                            </label>
-                        {{/foreach}}
+                        <div class="am-checkbox-group">    
+                            {{foreach $common_login_type_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.home_user_login_type.only_tag}}" value="{{$v.value}}" {{if isset($data['home_user_login_type']['value']) and in_array($v['value'], $data['home_user_login_type']['value'])}}checked{{/if}} data-validation-message="{{$data.home_user_login_type.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
                     </div>
 
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_user_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_img_verify_state.describe}}</span></label>
-                        <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_close_open_list as $v}}
-                                <option value="{{$v.value}}" {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.home_user_login_img_verify_state.only_tag}}" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 图片1 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}1</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 图片1 -->
+                <div class="item" data-key="images-title">
+                    <!-- 提示 -->
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
+                        <p>{{:MyLang('site.left_images_random_tips')}}</p>
+                    </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.home_site_user_login_ad1_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_login_ad1_images-images-view" data-form-name="home_site_user_login_ad1_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_login_ad1_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_login_ad1_images" value="{{$data.home_site_user_login_ad1_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad1_images.value)}}" />
-                                    <i>×</i>
+                        <label class="am-block">{{$data.home_site_user_login_ad1_images.name}}1<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_images.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_login_ad1_images-images-view" data-form-name="home_site_user_login_ad1_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad1_images-images-view">
+                                    {{if empty($data['home_site_user_login_ad1_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_login_ad1_images" value="{{$data.home_site_user_login_ad1_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad1_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad1_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
@@ -62,32 +79,32 @@
 
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_login_ad1_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad1_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_login_ad1_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad1_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad1_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad1_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad1_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_login_ad1_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad1_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_login_ad1_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_login_ad1_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 图片2 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}2</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                    <hr class="am-border-top-f8 am-margin-vertical-sm am-padding-bottom-xl" />
+
+                    <!-- 图片2 -->
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.home_site_user_login_ad2_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_login_ad2_images-images-view" data-form-name="home_site_user_login_ad2_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_login_ad2_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_login_ad2_images" value="{{$data.home_site_user_login_ad2_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad2_images.value)}}" />
-                                    <i>×</i>
+                        <label class="am-block">{{$data.home_site_user_login_ad2_images.name}}2<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_images.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_login_ad2_images-images-view" data-form-name="home_site_user_login_ad2_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad2_images-images-view">
+                                    {{if empty($data['home_site_user_login_ad2_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_login_ad2_images" value="{{$data.home_site_user_login_ad2_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad2_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad2_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
@@ -97,32 +114,32 @@
 
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_login_ad2_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad2_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_login_ad2_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad2_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad2_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad2_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad2_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_login_ad2_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad2_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_login_ad2_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_login_ad2_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 图片3 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}3</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                    <hr class="am-border-top-f8 am-margin-vertical-sm am-padding-bottom-xl" />
+
+                    <!-- 图片3 -->
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.home_site_user_login_ad3_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_login_ad3_images-images-view" data-form-name="home_site_user_login_ad3_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_login_ad3_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_login_ad3_images" value="{{$data.home_site_user_login_ad3_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad3_images.value)}}" />
-                                    <i>×</i>
+                        <label class="am-block">{{$data.home_site_user_login_ad3_images.name}}3<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_images.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_login_ad3_images-images-view" data-form-name="home_site_user_login_ad3_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad3_images-images-view">
+                                    {{if empty($data['home_site_user_login_ad3_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_login_ad3_images" value="{{$data.home_site_user_login_ad3_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_login_ad3_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad3_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>    
                     </div>
 
                     <div class="am-form-group">
@@ -132,14 +149,15 @@
 
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_login_ad3_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad3_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_login_ad3_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad3_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad3_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad3_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad3_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_login_ad3_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad3_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_login_ad3_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_login_ad3_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
@@ -155,4 +173,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

@@ -3,14 +3,56 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<!-- form start -->
-		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
-            <!-- 基础配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('base_config_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/config/index')}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('base_config_title'),
+                        'key'  => 'base-config-title',
+                    ],
+                    [
+                        'name' => MyLang('config.admin_login_title'),
+                        'key'  => 'admin-login',
+                    ],
+                    [
+                        'name' => MyLang('goods_title'),
+                        'key'  => 'goods',
+                    ],
+                    [
+                        'name' => MyLang('map_title'),
+                        'key'  => 'map',
+                    ],
+                    [
+                        'name' => MyLang('extend_title'),
+                        'key'  => 'extend',
+                    ],
+                    [
+                        'name' => MyLang('safety_title'),
+                        'key'  => 'safety',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <!-- 基础配置 -->
+                <div class="item am-active" data-key="base-config-title">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.admin_logo.name}}<span class="am-form-group-label-tips">{{$data.admin_logo.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view admin_logo-images-view" data-form-name="admin_logo" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.admin_logo-images-view">
+                                    {{if empty($data['admin_logo']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="admin_logo" value="{{$data.admin_logo.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.admin_logo.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_excel_charset.name}}<span class="am-form-group-label-tips">{{$data.admin_excel_charset.describe}}</span></label>
                         <select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
@@ -36,14 +78,43 @@
                         <textarea rows="4" name="{{$data.admin_notice.only_tag}}" class="am-radius" placeholder="{{$data.admin_notice.name}}" data-validation-message="{{$data.admin_notice.error_tips}}">{{if !empty($data)}}{{$data.admin_notice.value}}{{/if}}</textarea>
                     </div>
                 </div>
-            </div>
 
-            <!-- 后台登录 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('config.admin_login_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 后台登录 -->
+                <div class="item" data-key="admin-login">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.admin_login_logo.name}}<span class="am-form-group-label-tips">{{$data.admin_login_logo.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view admin_login_logo-images-view" data-form-name="admin_login_logo" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.admin_login_logo-images-view">
+                                    {{if empty($data['admin_login_logo']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="admin_login_logo" value="{{$data.admin_login_logo.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.admin_login_logo.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.admin_login_ad_images.name}}<span class="am-form-group-label-tips">{{$data.admin_login_ad_images.describe}}</span></label>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view admin_login_ad_images-images-view" data-form-name="admin_login_ad_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.admin_login_ad_images-images-view">
+                                    {{if empty($data['admin_login_ad_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="admin_login_ad_images" value="{{$data.admin_login_ad_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.admin_login_ad_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
                         <select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
@@ -52,7 +123,7 @@
                             {{/foreach}}
                         </select>
                         {{if is_array(MyLang('config.admin_login_info_bg_images_list_tips'))}}
-                            <div class="am-alert am-alert-warning">
+                            <div class="am-tips-card">
                                 <p>{{:implode('</p><p>', MyLang('config.admin_login_info_bg_images_list_tips'))}}</p>
                             </div>
                         {{/if}}
@@ -74,29 +145,19 @@
                         </select>
                     </div>
                 </div>
-            </div>
 
-            <!-- 商品 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('goods_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 商品 -->
+                <div class="item" data-key="goods">
                     <div class="am-form-group">
                         <label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>
                         <input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
                     </div>
                 </div>
-            </div>
 
-            <!-- 地图 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('map_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 地图 -->
+                <div class="item" data-key="map">
                     <div class="am-form-group">
-                        <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <select name="{{$data.common_map_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_map_type.error_tips}}" required>
                             {{foreach :MyConst('common_map_type_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_map_type']['value']) and $data['common_map_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -110,9 +171,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_baidu_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_baidu_map_ak_server.only_tag}}" placeholder="{{$data.common_baidu_map_ak_server.describe}}" data-validation-message="{{$data.common_baidu_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak_server.value}}"{{/if}} />
-                    </div>
-                    <div class="business-form-group am-padding-top-0">
-                        <div class="am-alert am-alert-warning am-margin-top-0">
+                        <div class="am-tips-card">
                             {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
@@ -125,9 +184,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_amap_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_amap_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_amap_map_ak_server.only_tag}}" placeholder="{{$data.common_amap_map_ak_server.describe}}" data-validation-message="{{$data.common_amap_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_amap_map_ak_server.value}}"{{/if}} />
-                    </div>
-                    <div class="business-form-group am-padding-top-0">
-                        <div class="am-alert am-alert-warning am-margin-top-0">
+                        <div class="am-tips-card">
                             {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
@@ -139,9 +196,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_tencent_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_tencent_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_tencent_map_ak_server.only_tag}}" placeholder="{{$data.common_tencent_map_ak_server.describe}}" data-validation-message="{{$data.common_tencent_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tencent_map_ak_server.value}}"{{/if}} />
-                    </div>
-                    <div class="business-form-group am-padding-top-0">
-                        <div class="am-alert am-alert-warning am-margin-top-0">
+                        <div class="am-tips-card">
                             {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
@@ -153,21 +208,14 @@
                     <div class="am-form-group">
                         <label>{{$data.common_tianditu_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_tianditu_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_tianditu_map_ak_server.only_tag}}" placeholder="{{$data.common_tianditu_map_ak_server.describe}}" data-validation-message="{{$data.common_tianditu_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tianditu_map_ak_server.value}}"{{/if}} />
-                    </div>
-                    <div class="business-form-group am-padding-top-0">
-                        <div class="am-alert am-alert-warning am-margin-top-0">
+                        <div class="am-tips-card">
                             {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 扩展 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('extend_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 扩展 -->
+                <div class="item" data-key="extend">
                     <div class="am-form-group">
                         <label>{{$data.common_is_https_connect_store.name}}<span class="am-form-group-label-tips">{{$data.common_is_https_connect_store.describe}}</span></label>
                         <select name="{{$data.common_is_https_connect_store.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_https_connect_store.error_tips}}" required>
@@ -177,14 +225,9 @@
                         </select>
                     </div>
                 </div>
-            </div>
 
-            <!-- 安全 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('safety_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 安全 -->
+                <div class="item" data-key="safety">
                     <div class="am-form-group">
                         <label>{{$data.common_data_encryption_secret.name}}<span class="am-form-group-label-tips">{{$data.common_data_encryption_secret.describe}}</span></label>
                         <input type="text" name="{{$data.common_data_encryption_secret.only_tag}}" placeholder="{{$data.common_data_encryption_secret.describe}}" data-validation-message="{{$data.common_data_encryption_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_data_encryption_secret.value}}"{{/if}} />
@@ -194,21 +237,20 @@
                         <label>{{$data.common_cookie_domain.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_domain.describe}}</span></label>
                         <input type="text" name="{{$data.common_cookie_domain.only_tag}}" placeholder="{{$data.common_cookie_domain.describe}}" data-validation-message="{{$data.common_cookie_domain.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cookie_domain.value}}"{{/if}} />
                         {{if is_array(MyLang('config.cookie_domain_list_tips'))}}
-                            <div class="am-alert am-alert-warning">
+                            <div class="am-tips-card">
                                 <p>{{:implode('</p><p>', MyLang('config.cookie_domain_list_tips'))}}</p>
                             </div>
                         {{/if}}
                     </div>
                 </div>
             </div>
-
-			<div class="am-form-popup-submit">
-				<button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+            <div class="am-form-popup-submit">
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -216,4 +258,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

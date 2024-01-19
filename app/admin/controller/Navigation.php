@@ -42,7 +42,7 @@ class Navigation extends Base
 		parent::__construct();
 
 		// 导航类型
-		$this->nav_type = empty($this->data_request['nav_type']) ? 'header' : $this->data_request['nav_type'];
+		$this->nav_type = empty($this->data_request['type']) ? 'header' : $this->data_request['type'];
 	}
 
 	/**

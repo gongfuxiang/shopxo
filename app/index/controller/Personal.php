@@ -52,7 +52,7 @@ class Personal extends Center
 			// 用户展示数据
 			'personal_show_list' 	=> NavigationService::UsersPersonalShowFieldList(),
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.browser_seo_title'), 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.base_nav_title'), 1),
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -74,7 +74,7 @@ class Personal extends Center
 			// 性别
 			'common_gender_list' 	=> MyConst('common_gender_list'),
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.edit_browser_seo_title'), 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.edit_base_nav_title'), 1),
 		];
 		MyViewAssign($assign);
 		return MyView();

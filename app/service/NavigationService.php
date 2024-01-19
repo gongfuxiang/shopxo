@@ -64,7 +64,7 @@ class NavigationService
             'id'                    => 0,
             'pid'                   => 0,
             'name'                  => MyLang('home_title'),
-            'url'                   => SystemService::HomeUrl(),
+            'url'                   => SystemService::DomainUrl(),
             'data_type'             => 'system',
             'is_show'               => 1,
             'is_new_window_open'    => 0,
@@ -929,6 +929,14 @@ class NavigationService
                         'icon'      => '',
                         'is_system' => 1,
                     ],
+                    [
+                        'name'      => $lang['goodscomments'],
+                        'url'       => MyUrl('index/usergoodscomments/index'),
+                        'contains'  => ['indexusergoodscommentsindex'],
+                        'is_show'   => 1,
+                        'icon'      => '',
+                        'is_system' => 1,
+                    ],
                 ]
             ],
             'property' => [
@@ -1045,7 +1053,7 @@ class NavigationService
                 'badge'     => null,
                 'icon'      => 'icon-web-mobile-bottom-nav-home',
                 'only_tag'  => 'indexindex',
-                'url'       => SystemService::HomeUrl(),
+                'url'       => SystemService::DomainUrl(),
             ],
             [
                 'name'      => $lang['category'],

@@ -42,10 +42,10 @@ class PayRequestLogService
         $behavior_obj = new \base\Behavior();
 
         // 输入参数
-        $params = array_merge($_GET, $_POST);
+        $params = file_get_contents("php://input");
         if(empty($params))
         {
-            $params = file_get_contents("php://input");
+            $params = array_merge($_GET, $_POST);
         }
 
         // 日志主数据

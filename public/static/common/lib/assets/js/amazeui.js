@@ -5322,6 +5322,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.active = true;
 	    this.animating = 0;
 	  }, this);
+	  if((this.options.width || null) != null) {
+	  	let width = (this.options.width == 'auto') ? 'auto' : this.options.width+'rem';
+	  	$dropdown.css('min-width', width);
+	  }
 
 	  if (animation) {
 	    this.animating = 1;

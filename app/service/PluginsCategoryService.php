@@ -122,6 +122,55 @@ class PluginsCategoryService
     }
 
     /**
+     * 权限菜单状态更新
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function PluginsCategoryStatusUpdate($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => MyLang('data_id_error_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => MyLang('operate_field_error_tips'),
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'state',
+                'checked_data'      => [0,1],
+                'error_msg'         => MyLang('form_status_range_message'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 捕获异常
+        try {
+            // 数据更新
+            if(!Db::name('PluginsCategory')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+            {
+                throw new \Exception(MyLang('operate_fail'));
+            }
+
+            return DataReturn(MyLang('operate_success'), 0);
+        } catch(\Exception $e) {
+            return DataReturn($e->getMessage(), -1);
+        }
+    }
+
+    /**
      * 应用分类删除
      * @author   Devil
      * @blog     http://gong.gg/

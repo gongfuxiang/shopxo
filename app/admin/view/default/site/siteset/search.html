@@ -2,109 +2,129 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- nav start -->
-        {{include file="site/public/siteset_nav" /}}
+        {{if !empty($siteset_nav_list) and is_array($siteset_nav_list)}}
+            {{:ModuleInclude('public/nav_switch_tabs', [
+                'nav_data'  => $siteset_nav_list,
+                'view_type' => $view_type,
+                'nav_type'  => $nav_type,
+                'url'       => 'admin/site/index'
+            ])}}
+        {{/if}}
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
-            <div class="am-form-group">
-                <label>{{$data.home_search_history_record.name}}<span class="am-form-group-label-tips">{{$data.home_search_history_record.describe}}</span></label>
-                <select name="{{$data.home_search_history_record.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_history_record.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['home_search_history_record']['value']) and $data['home_search_history_record']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_keywords_type.name}}</label>
-                <select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
-                    {{foreach $common_search_keywords_type_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_search_keywords.describe}}</span></label>
-                <input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_search_limit_number.name}}<span class="am-form-group-label-tips">{{$data.home_search_limit_number.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
-                    <input type="number" min="0" name="{{$data.home_search_limit_number.only_tag}}" placeholder="{{$data.home_search_limit_number.name}}" data-validation-message="{{$data.home_search_limit_number.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_search_limit_number.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">{{:MyLang('strip_title')}}</span>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.home_search_history_record.name}}<span class="am-form-group-label-tips">{{$data.home_search_history_record.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.home_search_history_record.only_tag}}" data-validation-message="{{$data.home_search_history_record.error_tips}}" required {{if isset($data['home_search_history_record']['value']) and $data['home_search_history_record']['value'] eq $v['id']}}checked{{/if}}  data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_keywords_where_and.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_keywords_where_and.describe}}</span></label>
-                <select name="{{$data.home_search_is_keywords_where_and.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_keywords_where_and.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['home_search_is_keywords_where_and']['value']) and $data['home_search_is_keywords_where_and']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_keywords_seo_fields.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_keywords_seo_fields.describe}}</span></label>
-                <select name="{{$data.home_search_is_keywords_seo_fields.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_keywords_seo_fields.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['home_search_is_keywords_seo_fields']['value']) and $data['home_search_is_keywords_seo_fields']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_keywords_type.name}}</label>
+                    <div class="am-radio-group">
+                        {{foreach $common_search_keywords_type_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_keywords_type.only_tag}}" data-validation-message="{{$data.home_search_keywords_type.error_tips}}" {{if isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']}}checked{{/if}}  data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_search_keywords.describe}}</span></label>
+                    <input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
+                </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_brand.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_brand.describe}}</span></label>
-                <select name="{{$data.home_search_is_brand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_brand.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_is_brand']['value']) and $data['home_search_is_brand']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_category.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_category.describe}}</span></label>
-                <select name="{{$data.home_search_is_category.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_category.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_is_category']['value']) and $data['home_search_is_category']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_price.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_price.describe}}</span></label>
-                <select name="{{$data.home_search_is_price.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_price.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_is_price']['value']) and $data['home_search_is_price']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_params.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_params.describe}}</span></label>
-                <select name="{{$data.home_search_is_params.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_params.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_is_params']['value']) and $data['home_search_is_params']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_params_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_params_type.describe}}</span></label>
-                <select name="{{$data.home_search_params_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_search_params_type.name}}" data-validation-message="{{$data.home_search_params_type.error_tips}}">
-                    {{foreach $common_goods_parameters_type_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.home_search_is_spec.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_spec.describe}}</span></label>
-                <select name="{{$data.home_search_is_spec.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_spec.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_search_is_spec']['value']) and $data['home_search_is_spec']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_limit_number.name}}<span class="am-form-group-label-tips">{{$data.home_search_limit_number.describe}}</span></label>
+                    <input type="number" min="0" name="{{$data.home_search_limit_number.only_tag}}" placeholder="{{$data.home_search_limit_number.name}}" data-validation-message="{{$data.home_search_limit_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_search_limit_number.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_keywords_where_and.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_keywords_where_and.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.home_search_is_keywords_where_and.only_tag}}" data-validation-message="{{$data.home_search_is_keywords_where_and.error_tips}}" required {{if isset($data['home_search_is_keywords_where_and']['value']) and $data['home_search_is_keywords_where_and']['value'] eq $v['id']}}checked{{/if}}  data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_keywords_seo_fields.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_keywords_seo_fields.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.home_search_is_keywords_seo_fields.only_tag}}" data-validation-message="{{$data.home_search_is_keywords_seo_fields.error_tips}}" required {{if isset($data['home_search_is_keywords_seo_fields']['value']) and $data['home_search_is_keywords_seo_fields']['value'] eq $v['id']}}checked{{/if}}  data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_brand.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_brand.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_brand.only_tag}}" data-validation-message="{{$data.home_search_is_brand.error_tips}}" required {{if isset($data['home_search_is_brand']['value']) and $data['home_search_is_brand']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_category.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_category.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_category.only_tag}}" data-validation-message="{{$data.home_search_is_category.error_tips}}" required {{if isset($data['home_search_is_category']['value']) and $data['home_search_is_category']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_price.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_price.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_price.only_tag}}" data-validation-message="{{$data.home_search_is_price.error_tips}}" required {{if isset($data['home_search_is_price']['value']) and $data['home_search_is_price']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_params.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_params.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_params.only_tag}}" data-validation-message="{{$data.home_search_is_params.error_tips}}" required {{if isset($data['home_search_is_params']['value']) and $data['home_search_is_params']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_params_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_params_type.describe}}</span></label>
+                    <select name="{{$data.home_search_params_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_search_params_type.name}}" data-validation-message="{{$data.home_search_params_type.error_tips}}">
+                        {{foreach $common_goods_parameters_type_list as $v}}
+                            <option value="{{$v.value}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_is_spec.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_spec.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_spec.only_tag}}" data-validation-message="{{$data.home_search_is_spec.error_tips}}" required {{if isset($data['home_search_is_spec']['value']) and $data['home_search_is_spec']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
             </div>
 
             <div class="am-form-popup-submit">
@@ -123,4 +143,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

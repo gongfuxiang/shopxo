@@ -41,10 +41,10 @@
         {{php}}
             $temp_star_data_key_field = (!empty($t['view_key']) and isset($form_table_data_detail[$t['view_key']])) ? 'view_key' : 'star_data_key';
         {{/php}}
-        {{if !empty($temp_star_data_key_field) and isset($form_table_data_detail[$temp_star_data_key_field])}}
+        {{if !empty($temp_star_data_key_field) and isset($form_table_data_detail[$t[$temp_star_data_key_field]])}}
             <div class="am-text-grey am-inline-block am-vertical-align-middle">
                 {{for start="1" end="empty($t['star_max']) ? 5 : $t['star_max']" comparison="elt" name="star_i"}}
-                    {{if $star_i gt $form_table_data_detail[$temp_star_data_key_field]}}
+                    {{if $star_i gt $form_table_data_detail[$t[$temp_star_data_key_field]]}}
                         <i class="am-icon-star-o"></i>
                     {{else /}}
                         <i class="am-icon-star {{if !empty($t['color_style'])}} am-text-{{$t.color_style}}{{/if}}" {{if !empty($t['color_value'])}} style="color:{{$t.color_value}}"{{/if}}></i>
@@ -63,11 +63,40 @@
                 {{if !empty($t['badge_shape'])}}am-{{$t.badge_shape}} {{/if}} 
             {{/if}} 
             {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) neq '#'}}am-text-{{$t['color_style'][$form_table_data_detail[$t['color_key']]]}}{{/if}} 
-            {{if !empty($t['text_truncate'])}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}}" 
+            {{if !empty($t['text_truncate']) and (!isset($t['is_truncate_detail']) or $t['is_truncate_detail'] eq 1)}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}} 
+            {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}submit-popup{{/if}} 
+            {{if isset($t['is_modal']) and $t['is_modal'] eq 1 and (!empty($t['modal_url']) or (!empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])))}}submit-modal{{/if}}" 
             style="
             {{if isset($t['is_badge']) and $t['is_badge'] eq 1 and !empty($t['badge_key']) and !empty($t['badge_style']) and is_array($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) eq '#'}}background: {{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}};{{/if}} 
             {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}" 
-            {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_detail[$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}
+            {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_detail[$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}} 
+            {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}
+                data-url="{{if !empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])}}{{$form_table_data_detail[$t['popup_url_key']]}}{{else /}}{{if !empty($t['popup_url'])}}{{$t.popup_url}}{{/if}}{{/if}}" 
+                {{if !empty($t['popup_title'])}}
+                    data-title="{{$t.popup_title}}" 
+                {{/if}}
+                {{if !empty($t['popup_class'])}}
+                    data-class="{{$t.popup_class}}" 
+                {{/if}}
+                {{if isset($t['popup_full'])}}
+                    data-full="{{$t.popup_full}}" 
+                {{/if}}
+                {{if isset($t['popup_full_max'])}}
+                    data-full-max="{{$t.popup_full_max}}" 
+                {{/if}}
+                {{if !empty($t['popup_full_max_size'])}}
+                    data-full-max-size="{{$t.popup_full_max_size}}" 
+                {{/if}}
+            {{/if}} 
+            {{if isset($t['is_modal']) and $t['is_modal'] eq 1 and (!empty($t['modal_url']) or (!empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])))}}
+                data-url="{{if !empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])}}{{$form_table_data_detail[$t['modal_url_key']]}}{{else /}}{{if !empty($t['modal_url'])}}{{$t.modal_url}}{{/if}}{{/if}}" 
+                {{if !empty($t['modal_width'])}}
+                    data-width="{{$t.modal_width}}" 
+                {{/if}}
+                {{if !empty($t['modal_height'])}}
+                    data-height="{{$t.modal_height}}" 
+                {{/if}}
+            {{/if}} 
         >
             <!-- 图标+提示 -->
             {{if isset($t['is_first_tips']) and $t['is_first_tips'] eq 1 and ((!empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])) or (!empty($t['first_tips_data'])))}}
@@ -138,13 +167,15 @@
         <!-- 数据状态操作按钮组件 -->
         {{if !empty($t['key_field']) and !empty($t['post_url'])}}
             <a href="javascript:;"
-                class="am-icon-btn am-icon-check submit-state {{if $form_table_data_detail[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                class="am-icon-btn submit-state {{if $form_table_data_detail[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
                 data-url="{{$t.post_url}}"
                 data-id="{{if isset($form_table_data_detail[$t['key_field']])}}{{$form_table_data_detail[$t['key_field']]}}{{/if}}"
                 data-state="{{$form_table_data_detail[$t['view_key']]}}"
                 data-field="{{$t.view_key}}"
                 data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
-            ></a>
+            >
+                <i class="iconfont icon-enable"></i>
+            </a>
         {{/if}}
     {{/case}}
 {{/switch}}

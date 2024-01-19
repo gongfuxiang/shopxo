@@ -2,118 +2,114 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'forgetpwd'])}}" enctype="multipart/form-data">
-            <!-- 图片1 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}1</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'forgetpwd'])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <!-- 图片1 -->
+                <div class="item am-active">
+                    <!-- 提示 -->
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
+                        <p>{{:MyLang('site.left_images_random_tips')}}</p>
+                    </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_site_user_forgetpwd_ad1_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad1_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_forgetpwd_ad1_images-images-view" data-form-name="home_site_user_forgetpwd_ad1_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_forgetpwd_ad1_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_forgetpwd_ad1_images" value="{{$data.home_site_user_forgetpwd_ad1_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad1_images.value)}}" />
-                                    <i>×</i>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_forgetpwd_ad1_images-images-view" data-form-name="home_site_user_forgetpwd_ad1_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad1_images-images-view">
+                                    {{if empty($data['home_site_user_forgetpwd_ad1_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_forgetpwd_ad1_images" value="{{$data.home_site_user_forgetpwd_ad1_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad1_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad1_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>
                     </div>
-
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_forgetpwd_ad1_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad1_url.describe}}</span></label>
                         <input type="url" placeholder="{{$data.home_site_user_forgetpwd_ad1_url.name}}" name="{{$data.home_site_user_forgetpwd_ad1_url.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad1_url.value}}" class="am-radius" />
                     </div>
-
                     <div class="am-form-group">
                         <label>{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad1_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_forgetpwd_ad1_bg_color']['value'])}} style="background-color:{{$data.home_site_user_forgetpwd_ad1_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad1_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_forgetpwd_ad1_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad1_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 图片2 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}2</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                    <!-- 图片2 -->
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_site_user_forgetpwd_ad2_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad2_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_forgetpwd_ad2_images-images-view" data-form-name="home_site_user_forgetpwd_ad2_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_forgetpwd_ad2_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_forgetpwd_ad2_images" value="{{$data.home_site_user_forgetpwd_ad2_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad2_images.value)}}" />
-                                    <i>×</i>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_forgetpwd_ad2_images-images-view" data-form-name="home_site_user_forgetpwd_ad2_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad2_images-images-view">
+                                    {{if empty($data['home_site_user_forgetpwd_ad2_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_forgetpwd_ad2_images" value="{{$data.home_site_user_forgetpwd_ad2_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad2_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad2_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>
                     </div>
-
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_forgetpwd_ad2_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad2_url.describe}}</span></label>
                         <input type="url" placeholder="{{$data.home_site_user_forgetpwd_ad2_url.name}}" name="{{$data.home_site_user_forgetpwd_ad2_url.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad2_url.value}}" class="am-radius" />
                     </div>
-
                     <div class="am-form-group">
                         <label>{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad2_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_forgetpwd_ad2_bg_color']['value'])}} style="background-color:{{$data.home_site_user_forgetpwd_ad2_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad2_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_forgetpwd_ad2_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad2_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 图片3 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('images_title')}}3</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                    <!-- 图片3 -->
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_site_user_forgetpwd_ad3_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad3_images.describe}}</span></label>
-                        <ul class="plug-file-upload-view home_site_user_forgetpwd_ad3_images-images-view" data-form-name="home_site_user_forgetpwd_ad3_images" data-max-number="1" data-dialog-type="images">
-                            {{if !empty($data['home_site_user_forgetpwd_ad3_images']['value'])}}
-                                <li>
-                                    <input type="text" name="home_site_user_forgetpwd_ad3_images" value="{{$data.home_site_user_forgetpwd_ad3_images.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad3_images.value)}}" />
-                                    <i>×</i>
+                        <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                            <ul class="plug-file-upload-view home_site_user_forgetpwd_ad3_images-images-view" data-form-name="home_site_user_forgetpwd_ad3_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad3_images-images-view">
+                                    {{if empty($data['home_site_user_forgetpwd_ad3_images']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_user_forgetpwd_ad3_images" value="{{$data.home_site_user_forgetpwd_ad3_images.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad3_images.value)}}" />
+                                        <i>x</i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
                                 </li>
-                            {{/if}}
-                        </ul>
-                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_forgetpwd_ad3_images-images-view">+{{:MyLang('form_choice_images_title')}}</div>
+                            </ul>
+                        </div>
                     </div>
-
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_forgetpwd_ad3_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_forgetpwd_ad3_url.describe}}</span></label>
                         <input type="url" placeholder="{{$data.home_site_user_forgetpwd_ad3_url.name}}" name="{{$data.home_site_user_forgetpwd_ad3_url.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad3_url.value}}" class="am-radius" />
                     </div>
-
                     <div class="am-form-group">
                         <label>{{:MyLang('form_bg_color_title')}}</label>
-                        <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad3_bg_color.value}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white am-text-right bg-color-tag-{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_forgetpwd_ad3_bg_color']['value'])}} style="background-color:{{$data.home_site_user_forgetpwd_ad3_bg_color.value}};"{{/if}}>
-                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-                        </button>
+                        <div class="colorpicker-container">
+                            <input type="hidden" name="{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}" value="{{$data.home_site_user_forgetpwd_ad3_bg_color.value}}" />
+                            <div class="colorpicker-submit" data-color="{{$data.home_site_user_forgetpwd_ad3_bg_color.value}}"  data-color-tag="input[name='{{$data.home_site_user_forgetpwd_ad3_bg_color.only_tag}}']" data-color-style="background-color"></div>
+                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
@@ -129,4 +125,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

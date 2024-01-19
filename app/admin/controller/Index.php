@@ -15,6 +15,8 @@ use app\service\ApiService;
 use app\service\StatisticalService;
 use app\service\StoreService;
 use app\service\SystemUpgradeService;
+use app\service\ShortcutMenuService;
+use app\service\SystemService;
 
 /**
  * 首页
@@ -92,6 +94,9 @@ class Index extends Common
 		];
 		$assign['data'] = $data;
 
+        // 常用功能
+        $assign['shortcut_menu_data'] = ShortcutMenuService::ShortcutMenuList(['admin'=>$this->admin]);
+
 		// 用户是否有数据统计权限
 		$is_stats = AdminIsPower('index', 'stats');
 		MyViewAssign('is_stats', $is_stats);
@@ -161,15 +166,7 @@ class Index extends Common
 	 */
 	public function Color()
 	{
-		// 是否指定配色（0默认白色、1黑色）
-		if(isset($this->data_request['value']) && $this->data_request['value'] == 1)
-		{
-			MyCookie($this->theme_color_value_key, 1);
-		} else {
-			MyCookie($this->theme_color_value_key, null);
-		}
-		// 跳转首页
-		return MyRedirect(MyUrl('admin/index/index'));
+		return MyRedirect(SystemService::SetAdminThemeColor($this->data_request));
 	}
 
 	/**

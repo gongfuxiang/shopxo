@@ -43,6 +43,7 @@
 
     <!-- 公共上传组件初始化 -->
     <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
+
     <!-- 公共单个上传组件表单初始化 -->
     <form class="am-form form-validation-common-upload-editor-single" method="post" action="{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}" request-type="ajax-fun" request-value="CommonFormUploadEditorSingleBack" style="display: none;">
         <input type="file" name="upfile" accept="" />
@@ -50,6 +51,31 @@
         <button type="reset"></button>
         <button type="submit"></button>
     </form>
+
+    <!-- 公共购物车加入成功提示 -->
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="common-user-cart-success-modal">
+        <div class="am-modal-dialog am-radius">
+            <div class="am-modal-hd">
+                <span>{{:MyLang('reminder_title')}}</span>
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+
+                <div class="am-text-center am-margin-top">
+                    <span class="am-text-success iconfont icon-enable"> {{:MyLang('common.user_cart_success_modal_tips')}}</span>
+                </div>
+                <div class="am-margin-top-sm">
+                    <span>{{:MyLang('common.user_cart_success_modal_text_first')}}</span>
+                    <strong class="common-cart-total">{{$user_cart_summary.buy_number}}</strong>
+                    <span>{{:MyLang('common.user_cart_success_modal_text_last')}}</span>
+                </div>
+                <div class="am-margin-top-sm">
+                    <a href="{{:MyUrl('index/cart/index')}}" class="am-btn am-btn-secondary am-radius am-margin-right-sm">{{:MyLang('common.user_cart_success_modal_cart_title')}}</a>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm" data-am-modal-close>{{:MyLang('common.user_cart_success_modal_buy_title')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 公共视频扫码组件初始化 -->     
     <div class="am-popup am-radius popup-iframe popup-not-title" id="common-video-scan-popup">
@@ -122,7 +148,7 @@
 <script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 颜色选择器 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/colorpicker/jquery.colorpicker.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/xncolorpicker/xncolorpicker.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/My97DatePicker/WdatePicker.js"></script>

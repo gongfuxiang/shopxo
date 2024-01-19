@@ -27,7 +27,9 @@ return [
             'goods_hot_tips'                    => 'Solo se muestran los primeros 30 productos',
             'payment_name'                      => 'Método de pago',
             'order_region_name'                 => 'Distribución geográfica de los pedidos',
-            'order_region_tips'                 => 'Solo se muestran 30 datos',
+            'order_region_tips'                 => 'Solo se muestran 10 datos',
+            'new_user_name'                     => 'Nuevos usuarios',
+            'buy_user_name'                     => 'Usuarios que hacen pedidos',
             'upgrade_check_loading_tips'        => 'Obteniendo el último contenido, por favor Espere...',
             'upgrade_version_name'              => 'Versión actualizada:',
             'upgrade_date_name'                 => 'Fecha de actualización:',
@@ -55,6 +57,8 @@ return [
         'base_item_map_whole_country_province'  => 'Provincias',
         'base_item_map_whole_country_city'      => 'Ciudad',
         'base_item_map_whole_country_county'    => 'Distrito / Condado',
+        'base_item_new_user_title'              => 'Nuevos usuarios',
+        'base_item_buy_user_title'              => 'Usuarios que hacen pedidos',
         'system_info_title'                     => 'Información del sistema',
         'system_ver_title'                      => 'Versión de software',
         'system_os_ver_title'                   => 'Sistema operativo',
@@ -145,7 +149,7 @@ return [
             'address_logo_message'              => 'Por favor, suba la imagen del logotipo',
         ],
         // 主导航
-        'second_nav_list'                       => [
+        'base_nav_list'                       => [
             ['name' => 'Configuración básica', 'type' => 'base'],
             ['name' => 'Configuración del sitio web', 'type' => 'siteset'],
             ['name' => 'Tipo de sitio', 'type' => 'sitetype'],
@@ -164,7 +168,6 @@ return [
             ['name' => 'Productos Básicos', 'type' => 'goods'],
             ['name' => 'Buscar', 'type' => 'search'],
             ['name' => 'Pedidos', 'type' => 'order'],
-            ['name' => 'Concesiones', 'type' => 'discount'],
             ['name' => 'Expansión', 'type' => 'extends'],
         ],
         // 页面基础
@@ -176,6 +179,7 @@ return [
         'base_item_data_cache_title'            => 'Configuración de la caché de datos',
         'base_item_redis_cache_title'           => 'Configuración de la caché redis',
         'base_item_crontab_config_title'        => 'Configuración del guión de tiempo',
+        'base_item_regex_config_title'          => 'Configuración regular',
         'base_item_quick_nav_title'             => 'Navegación rápida',
         'base_item_user_base_title'             => 'Base de usuarios',
         'base_item_user_address_title'          => 'Dirección del usuario',
@@ -225,7 +229,7 @@ return [
         'left_images_random_tips'               => 'La imagen izquierda puede cargar hasta 3 imágenes y mostrar una de ellas al azar cada vez.',
         'background_color_tips'                 => 'Se puede personalizar la imagen de fondo, el gris de fondo predeterminado',
         'site_setup_layout_tips'                => 'El modo de arrastre necesita ingresar a la página de diseño de la página de inicio por sí mismo. por favor, guarde la configuración seleccionada antes de hacerlo.',
-        'site_setup_layout_button_name'         => 'Ir a la página de diseño > "',
+        'site_setup_layout_button_name'         => 'Ir a la página de diseño',
         'site_setup_goods_category_tips'        => 'Para más exhibición de pisos, por favor vaya primero / gestión de productos básicos - > clasificación de productos básicos, configuración de clasificación de primer nivel, recomendación de la página de inicio',
         'site_setup_goods_category_no_data_tips'=> 'No hay datos por el momento, por favor vaya primero / gestión de productos básicos - > clasificación de productos básicos, configuración de clasificación de primer nivel recomendación de la página de inicio',
         'site_setup_order_default_payment_tips' => 'Se puede configurar el método de pago predeterminado correspondiente a diferentes plataformas, primero instale el plug - in de pago en [gestión del sitio web - > método de pago] para habilitarlo y abrirlo a los usuarios.',
@@ -260,7 +264,7 @@ return [
         'admin_login_title'                     => 'Iniciar sesión en segundo plano',
         'admin_login_info_bg_images_list_tips'  => [
             '1. la imagen de fondo se encuentra en el catálogo [público / estático / admin / default / images / login]',
-            '2. reglas de nomenclatura de imágenes de fondo (1 a 50), como 1.jpg',
+            '2. reglas de nomenclatura de imágenes de fondo (1 a 50), como 1.png',
         ],
         'map_type_tips'                         => 'Debido a que los estándares de mapa de cada familia son diferentes, no cambie el mapa a voluntad, lo que dará lugar a coordenadas inexactas del mapa.',
         'apply_map_baidu_name'                  => 'Por favor, solicite en la plataforma abierta de mapas de baidu.',
@@ -490,7 +494,7 @@ return [
         ],
         'nav_store_theme_name'                  => 'Descarga de más temas',
         'nav_theme_download_name'               => 'Ver el tutorial de embalaje de applets',
-        'nav_theme_download_tips'               => 'El tema del teléfono móvil se desarrolla con una aplicación uniapp (admite applets multiterminales + h5), y la aplicación también se está adaptando de emergencia.',
+        'nav_theme_download_tips'               => 'El tema del teléfono móvil se desarrolla con una aplicación uniapp (admite applets multiterminales, h5, app)',
         'form_alipay_extend_title'              => 'Configuración del servicio al cliente',
         'form_alipay_extend_tips'               => 'Ps: si se abre en [app / applet] (se abre el servicio al cliente en línea), se deben rellenar las siguientes configuraciones [código corporativo] y [código de ventana de chat]',
         'form_theme_upload_tips'                => 'Cargar un paquete de instalación en formato zip comprimido',
@@ -549,7 +553,8 @@ return [
         'base_nav_title'                        => 'Productos Básicos',
         'goods_nav_list'                        => [
             'base'            => ['name' => 'Información básica', 'type'=>'base'],
-            'specifications'  => ['name' => 'Especificaciones del producto', 'type'=>'specifications'],
+            'spec'            => ['name' => 'Especificaciones del producto', 'type'=>'spec'],
+            'spec_images'     => ['name' => 'Imagen de las especificaciones', 'type'=>'spec_images'],
             'parameters'      => ['name' => 'Parámetros de los productos básicos', 'type'=>'parameters'],
             'photo'           => ['name' => 'Álbum de fotos de productos', 'type'=>'photo'],
             'video'           => ['name' => 'Video de productos básicos', 'type'=>'video'],
@@ -842,8 +847,14 @@ return [
 
     // 支付方式
     'payment'               => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => 'Instalado', 'type' => 0],
+            ['name' => 'No instalado', 'type' => 1],
+        ],
         'base_nav_title'                        => 'Método de pago',
-        'nav_store_payment_name'                => 'Descarga de más métodos de pago',
+        'base_upload_payment_name'              => 'Cargar pago',
+        'base_nav_store_payment_name'           => 'Descarga de más métodos de pago',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. el nombre de la clase debe ser consistente con el nombre del archivo (eliminar. php), como alipay.php, Alipay',
@@ -892,7 +903,8 @@ return [
             ['name' => 'Temas actuales', 'type' => 'index'],
             ['name' => 'Instalación temática', 'type' => 'upload'],
         ],
-        'nav_store_theme_name'                  => 'Descarga de más temas',
+        'base_upload_theme_name'                => 'Subir Tema',
+        'base_nav_store_theme_name'             => 'Descarga de más temas',
         'list_author_title'                     => 'Autor',
         'list_version_title'                    => 'Versión aplicable',
         'form_theme_upload_tips'                => 'Cargar un paquete de instalación de temas en formato zip comprimido',
@@ -1019,11 +1031,12 @@ return [
             ['name' => 'Gestión de aplicaciones', 'type' => 'index'],
             ['name' => 'Cargar aplicación', 'type' => 'upload'],
         ],
+        'base_upload_application_name'          => 'Cargar aplicación',
         'base_nav_more_plugins_download_name'   => 'Descarga de más plug - ins',
         // 基础页面
         'base_search_input_placeholder'         => 'Introduzca el nombre / descripción',
         'base_top_tips_one'                     => 'Método de clasificación de lista [clasificación personalizada - > instalación más temprana]',
-        'base_top_tips_two'                     => 'Se puede hacer clic en el botón arrastrar icono para ajustar el orden de llamada y visualización del plug - IN.',
+        'base_top_tips_two'                     => 'Se puede hacer clic y arrastrar para ajustar el orden de llamada y exhibición del plug - IN.',
         'base_open_setup_title'                 => 'Activar configuración',
         'data_list_author_title'                => 'Autor',
         'data_list_author_url_title'            => 'Página principal',
@@ -1047,7 +1060,7 @@ return [
 
     // 插件分类
     'pluginscategory'       => [
-        'base_nav_title'                        => 'Clasificación plugins',
+        'base_nav_title'                        => 'Clasificación de aplicaciones',
     ],
 
     // 安装页面
@@ -1169,6 +1182,47 @@ return [
         ],
     ],
 
+    // 短信日志
+    'smslog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'platform'        => 'sms platform',
+            'status'          => 'Estado',
+            'mobile'          => 'mobile',
+            'template_value'  => 'contenido de la plantilla',
+            'template_var'    => 'variables de plantilla',
+            'sign_name'       => 'firma de sms',
+            'request_url'     => 'Interfaz de solicitud',
+            'request_params'  => 'parámetros de solicitud',
+            'response_data'   => 'datos de respuesta',
+            'reason'          => 'causa del fracaso',
+            'tsc'             => 'tiempo(segundos)',
+            'add_time'        => 'añadir tiempo',
+            'upd_time'        => 'tiempo de actualización',
+        ],
+    ],
+
+    // 邮件日志
+    'emaillog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'email'           => 'Buzón de recepción',
+            'status'          => 'Estado',
+            'title'           => 'Título del correo',
+            'template_value'  => 'Contenido del correo',
+            'template_var'    => 'Variables de correo',
+            'reason'          => 'causa del fracaso',
+            'smtp_host'       => 'Servidor SMTP',
+            'smtp_port'       => 'Puerto SMTP',
+            'smtp_name'       => 'Nombre de usuario del buzón',
+            'smtp_account'    => 'Correo del remitente',
+            'smtp_send_name'  => 'Nombre del remitente',
+            'tsc'             => 'tiempo(segundos)',
+            'add_time'        => 'añadir tiempo',
+            'upd_time'        => 'tiempo de actualización',
+        ],
+    ],
+
     // sql控制台
     'sqlconsole'            => [
         'top_tips'                              => 'Ps: los no desarrolladores no deben ejecutar ninguna instrucción SQL a voluntad, la operación puede causar la eliminación de toda la base de datos del sistema.',
@@ -1224,6 +1278,10 @@ return [
                 'index_inspectupgradeconfirm'  => 'Confirmación de la actualización del sistema',
                 'index_stats'                  => 'Estadísticas de la página de inicio',
                 'index_income'                 => 'Estadísticas de la página de inicio (estadísticas de ingresos)',
+                'shortcutmenu_index'           => 'Funciones comunes',
+                'shortcutmenu_save'            => 'Añadir / editar funciones comunes',
+                'shortcutmenu_sort'            => 'Clasificación de funciones comunes',
+                'shortcutmenu_delete'          => 'Eliminación de funciones comunes',
             ]
         ],
         'site_index' => [
@@ -1260,6 +1318,7 @@ return [
                 'role_detail'        => 'Detalles del personaje',
                 'power_index'        => 'Asignación de permisos',
                 'power_save'         => 'Permisos para agregar / editar',
+                'power_statusupdate' => 'Actualización del Estado de permisos',
                 'power_delete'       => 'Eliminación de permisos',
             ]
         ],
@@ -1290,6 +1349,7 @@ return [
                 'goods_detail'                      => 'Detalles del producto',
                 'goodscategory_index'               => 'Clasificación de mercancías',
                 'goodscategory_save'                => 'Añadir / editar clasificación de productos',
+                'goodscategory_statusupdate'        => 'Actualización del Estado de clasificación de mercancías',
                 'goodscategory_delete'              => 'Eliminación de la clasificación de mercancías',
                 'goodsparamstemplate_index'         => 'Parámetros de los productos básicos',
                 'goodsparamstemplate_delete'        => 'Eliminación de parámetros de productos básicos',
@@ -1376,6 +1436,7 @@ return [
                 'screeningprice_delete'    => 'Eliminar el precio del filtro',
                 'region_index'             => 'Gestión regional',
                 'region_save'              => 'Área añadir / editar',
+                'region_statusupdate'      => 'Actualización del Estado regional',
                 'region_delete'            => 'Área eliminada',
                 'region_codedata'          => 'Obtención de datos de numeración regional',
                 'express_index'            => 'Gestión de mensajería',
@@ -1496,26 +1557,32 @@ return [
                 'refundlog_detail'      => 'Detalles del registro de reembolso',
                 'integrallog_index'     => 'Registro de puntos',
                 'integrallog_detail'    => 'Detalles del registro de puntos',
+                'smslog_index'          => 'Registro de mensajes cortos',
+                'smslog_detail'         => 'Detalles del registro de mensajes cortos',
             ]
         ],
         'store_index' => [
             'name'  => 'Centro de aplicaciones',
             'item'  => [
-                'pluginsadmin_index'         => 'Gestión de aplicaciones',
-                'plugins_index'              => 'Gestión de llamadas de aplicaciones',
-                'pluginsadmin_saveinfo'      => 'Aplicación añadir / editar Página',
-                'pluginsadmin_save'          => 'Añadir / editar aplicación',
-                'pluginsadmin_statusupdate'  => 'Actualización del Estado de aplicación',
-                'pluginsadmin_delete'        => 'Eliminar aplicación',
-                'pluginsadmin_upload'        => 'Carga de la aplicación',
-                'pluginsadmin_download'      => 'Paquete de aplicaciones',
-                'pluginsadmin_install'       => 'Instalación de aplicaciones',
-                'pluginsadmin_uninstall'     => 'Desinstalación de aplicaciones',
-                'pluginsadmin_sortsave'      => 'Ordenar y guardar aplicaciones',
-                'store_index'                => 'Tienda de aplicaciones',
-                'packageinstall_index'       => 'Página de instalación de paquetes de software',
-                'packageinstall_install'     => 'Instalación de paquetes de software',
-                'packageupgrade_upgrade'     => 'Actualización de paquetes de software',
+                'pluginsadmin_index'            => 'Gestión de aplicaciones',
+                'plugins_index'                 => 'Gestión de llamadas de aplicaciones',
+                'pluginsadmin_saveinfo'         => 'Aplicación añadir / editar Página',
+                'pluginsadmin_save'             => 'Añadir / editar aplicación',
+                'pluginsadmin_statusupdate'     => 'Actualización del Estado de aplicación',
+                'pluginsadmin_delete'           => 'Eliminar aplicación',
+                'pluginsadmin_upload'           => 'Carga de la aplicación',
+                'pluginsadmin_download'         => 'Paquete de aplicaciones',
+                'pluginsadmin_install'          => 'Instalación de aplicaciones',
+                'pluginsadmin_uninstall'        => 'Desinstalación de aplicaciones',
+                'pluginsadmin_sortsave'         => 'Ordenar y guardar aplicaciones',
+                'store_index'                   => 'Tienda de aplicaciones',
+                'packageinstall_index'          => 'Página de instalación de paquetes de software',
+                'packageinstall_install'        => 'Instalación de paquetes de software',
+                'packageupgrade_upgrade'        => 'Actualización de paquetes de software',
+                'pluginscategory_index'         => 'Clasificación de aplicaciones',
+                'pluginscategory_save'          => 'Añadir / editar clasificación de aplicaciones',
+                'pluginscategory_statusupdate'  => 'Actualización del Estado de clasificación de la aplicación',
+                'pluginscategory_delete'        => 'Eliminar la clasificación de la aplicación',
             ]
         ],
         'tool_index' => [

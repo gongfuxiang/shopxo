@@ -37,13 +37,16 @@ class Admin extends Common
 		parent::__construct();
 
 		// 需要校验权限
-		if(in_array($this->action_name, ['index', 'detail', 'delete']))
+		if(!in_array($this->action_name, ['logininfo', 'login', 'logout', 'adminverifyentry', 'loginverifysend']))
 		{
 			// 登录校验
-			$this->IsLogin();
-			
-			// 权限校验
-			$this->IsPower();
+            $this->IsLogin();
+
+            // 权限校验
+            $this->IsPower();
+
+            // 动态表格初始化
+            $this->FormTableInit();
 		}
 	}
 
@@ -214,7 +217,7 @@ class Admin extends Common
         $host = SystemBaseService::AttachmentHost();
         for($i=1; $i<=50; $i++)
         {
-            $path = 'static/admin/default/images/login/'.$i.'.jpg';
+            $path = 'static/admin/default/images/login/'.$i.'.png';
             if(file_exists(ROOT_PATH.$path))
             {
                 $bg_images_list[] = $host.DS.$path;
@@ -222,7 +225,12 @@ class Admin extends Common
         }
         $assign['bg_images_list'] = $bg_images_list;
 
-		// 管理员登录页面钩子
+        // logo
+        $assign['admin_login_logo'] = MyC('admin_login_logo');
+        // 广告图片
+        $assign['admin_login_ad_images'] = MyC('admin_login_ad_images');
+
+        // 管理员登录页面钩子
         $hook_name = 'plugins_view_admin_login_info';
         $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [

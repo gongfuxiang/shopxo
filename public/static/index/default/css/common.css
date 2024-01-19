@@ -436,6 +436,9 @@ ul.am-dropdown-content>li>a:focus {
         float: left;
         padding-left: 1.6rem;
     }
+    .top-nav-right .top-nav-items .am-badge-tips {
+        padding: 0.2rem 0.6rem;
+    }
 
     .nav-search .logo-big {
         float: left;
@@ -2384,151 +2387,6 @@ a.am-badge-danger-plain:active {
 }
 
 
-
-.am-badge-tips {
-    padding: 0.2rem 0.6rem;
-}
-
-
-/**
- * 数据列表按钮美化
- */
-table.am-table tbody .am-btn {
-    padding: 0.3em 1em;
-}
-
-table.am-table tbody .am-btn-default {
-    border: 0.1rem solid #666666;
-    background: #FFFFFF;
-    color: #666666;
-}
-
-table.am-table tbody .am-btn-default:focus,
-table.am-table tbody .am-btn-default:active,
-table.am-table tbody .am-btn-default.am-active {
-    color: #666666 !important;
-    border-color: #666666;
-}
-
-table.am-table tbody .am-btn-default:hover,
-table.am-table tbody .am-btn-default:active,
-table.am-table tbody .am-btn-default.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-default.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: #666666;
-    border-color: #666666;
-}
-
-table.am-table tbody .am-btn-primary {
-    border: 0.1rem solid var(--color-main);
-    background: #FFFFFF;
-    color: var(--color-main);
-}
-
-table.am-table tbody .am-btn-primary:focus,
-table.am-table tbody .am-btn-primary:active,
-table.am-table tbody .am-btn-primary.am-active {
-    color: var(--color-main) !important;
-    border-color: var(--color-main);
-}
-
-table.am-table tbody .am-btn-primary:hover,
-table.am-table tbody .am-btn-primary:active,
-table.am-table tbody .am-btn-primary.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-primary.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: var(--color-main);
-    border-color: var(--color-main);
-}
-
-table.am-table tbody .am-btn-secondary {
-    border: 0.1rem solid #e91e63;
-    background: #FFFFFF;
-    color: #e91e63;
-}
-
-table.am-table tbody .am-btn-secondary:focus,
-table.am-table tbody .am-btn-secondary:active,
-table.am-table tbody .am-btn-secondary.am-active {
-    color: #e91e63 !important;
-    border-color: #e91e63;
-}
-
-table.am-table tbody .am-btn-secondary:hover,
-table.am-table tbody .am-btn-secondary:active,
-table.am-table tbody .am-btn-secondary.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: #e91e63;
-    border-color: #e91e63;
-}
-
-table.am-table tbody .am-btn-success {
-    border: 0.1rem solid #5eb95e;
-    background: #FFFFFF;
-    color: #5eb95e;
-}
-
-table.am-table tbody .am-btn-success:focus,
-table.am-table tbody .am-btn-success:active,
-table.am-table tbody .am-btn-success.am-active {
-    color: #5eb95e !important;
-    border-color: #5eb95e;
-}
-
-table.am-table tbody .am-btn-success:hover,
-table.am-table tbody .am-btn-success:active,
-table.am-table tbody .am-btn-success.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-success.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: #5eb95e;
-    border-color: #5eb95e;
-}
-
-table.am-table tbody .am-btn-warning {
-    border: 0.1rem solid #FAAD14;
-    color: #FAAD14;
-    background: #FFFFFF;
-}
-
-table.am-table tbody .am-btn-warning:focus,
-table.am-table tbody .am-btn-warning:active,
-table.am-table tbody .am-btn-warning.am-active {
-    color: #FFFFFF !important;
-    border-color: #FAAD14;
-}
-
-table.am-table tbody .am-btn-warning:hover,
-table.am-table tbody .am-btn-warning:active,
-table.am-table tbody .am-btn-warning.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-warning.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: #FAAD14;
-    border-color: #FAAD14;
-}
-
-table.am-table tbody .am-btn-danger {
-    border: 0.1rem solid #f00;
-    background: #FFFFFF;
-    color: #f00;
-}
-
-table.am-table tbody .am-btn-danger:focus,
-table.am-table tbody .am-btn-danger:active,
-table.am-table tbody .am-btn-danger.am-active {
-    color: #f00 !important;
-    border-color: #f00;
-}
-
-table.am-table tbody .am-btn-danger:hover,
-table.am-table tbody .am-btn-danger:active,
-table.am-table tbody .am-btn-danger.am-active,
-table.am-table tbody .am-dropdown.am-active .am-btn-danger.am-dropdown-toggle {
-    color: #FFFFFF !important;
-    background: #f00;
-    border-color: #f00;
-}
-
 /**
  * 下拉选框
  */
@@ -2547,39 +2405,6 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
 .chosen-container .chosen-results li.highlighted {
     background-color: #edf6ff !important;
     color: #409eff !important;
-}
-
-/**
- * 分页
- */
-.am-pagination-container>li>a {
-    text-align: center;
-    border-color: #EEEEEE;
-}
-
-.am-pagination-container>.am-active>a,
-.am-pagination-container>.am-active>a:hover {
-    background-color: var(--color-main);
-    border-color: var(--color-main);
-    color: #FFFFFF;
-}
-
-.am-pagination-container>li>a:hover,
-.am-pagination-container>li>span:hover,
-.am-pagination-container>li>a:focus,
-.am-pagination-container>li>span:focus {
-    background: #FFFFFF;
-}
-@media only screen and (max-width: 640px) {
-    .am-pagination-container .first-before-page-submit,
-    .am-pagination-container .last-after-page-submit,
-    .am-pagination-container .current-page-input,
-    .am-pagination-container .to-page-input {
-        display: none;
-    }
-    .am-pagination-container .next-after-page-submit a {
-        margin-right: 0;
-    }
 }
 
 /**
@@ -2605,12 +2430,6 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
     height: 5.4rem;
 }
 
-.am-popup .am-popup-bd {
-    background: none;
-    height: 100%;
-    padding: 1rem 2.4rem 2.4rem 2.4rem;
-}
-
 .am-popup .am-popup-hd .am-close,
 .am-popup .am-modal-hd .am-close,
 .am-popup .am-popup-hd .am-full {
@@ -2628,6 +2447,9 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
 
 .am-popup.popup-not-title .am-popup-inner {
     padding-top: 0;
+}
+.am-popup-top-tips {
+    margin-top: -0.6rem;
 }
 
 /**
@@ -3223,22 +3045,6 @@ strong {
     color: var(--color-main);
 }
 
-.am-checkbox,
-.am-radio,
-.am-checkbox-inline,
-.am-radio-inline {
-    font-size: 1.4rem;
-}
-
-.am-ucheck-icons {
-    line-height: 2.2rem;
-}
-
-.am-ucheck-icons .am-icon-checked,
-.am-ucheck-icons .am-icon-unchecked {
-    font-size: 1.8rem;
-}
-
 /**
 * 输入框组样式覆盖
 */
@@ -3343,6 +3149,12 @@ strong {
 .am-tabs-border>ul.am-tabs-nav.am-nav.am-nav-tabs li a {
     padding: 0.56rem 1rem;
     line-height: 4.2rem;
+}
+/**
+ * 纯净模式下tab导航
+ */
+.popup-pure-page .am-nav-tabs>li a {
+    line-height: 1.6rem;
 }
 
 /**
@@ -4275,156 +4087,6 @@ strong {
 }
 
 /**
-* flex 布局
- */
-.am-flex {
-    display: flex !important;
-}
-
-.am-flex-col {
-    flex-direction: column;
-}
-
-.am-flex-row {
-    flex-direction: row;
-}
-
-.am-flex-nowarp {
-    flex-wrap: nowrap;
-}
-
-.am-flex-warp {
-    flex-wrap: wrap;
-}
-
-.am-flex-justify-center {
-    justify-content: center;
-}
-
-.am-flex-justify-between {
-    justify-content: space-between;
-}
-
-.am-flex-justify-around {
-    justify-content: space-around;
-}
-
-.am-flex-justify-left {
-    justify-content: left;
-}
-
-.am-flex-justify-right {
-    justify-content: right;
-}
-
-.am-flex-items-center {
-    align-items: center;
-}
-
-.am-flex-items-baseline {
-    align-items: baseline;
-}
-
-.am-flex-items-end {
-    align-items: end;
-}
-
-.am-flex-align-self-baseline {
-    align-self: baseline;
-}
-.am-flex-align-self-center {
-    align-self: center;
-}
-
-.am-flex-1 {
-    flex: 1;
-}
-
-.am-flex-2 {
-    flex: 2;
-}
-
-.am-flex-width {
-    width: 0;
-}
-
-/* 沾满空间 */
-.am-flex-shrink {
-    flex-shrink: 0;
-}
-
-.am-flex-grow {
-    flex-grow: 1;
-}
-
-.am-gap-1 {
-    gap: 1rem;
-}
-
-.am-gap-12 {
-    gap: 1.2rem;
-}
-
-.am-gap-16 {
-    gap: 1.6rem;
-}
-
-.am-gap-2 {
-    gap: 2rem;
-}
-
-.am-gap-24 {
-    gap: 2.4rem;
-}
-
-.am-gap-32 {
-    gap: 3.2rem;
-}
-
-/**
- * 定位
- */
-.am-absolute {
-    position: absolute;
-}
-
-.am-relative {
-    position: relative;
-}
-
-.am-bottom-0 {
-    bottom: 0;
-}
-
-.am-bottom {
-    bottom: 100%;
-}
-
-.am-top-0 {
-    top: 0;
-}
-
-.am-top {
-    top: 100%;
-}
-
-.am-left-0 {
-    left: 0;
-}
-
-.am-left {
-    left: 100%;
-}
-
-.am-right-0 {
-    right: 0;
-}
-
-.am-right {
-    right: 100%;
-}
-
-/**
  * icon标签宽度控制
  */
 .am-icon-width {
@@ -4517,24 +4179,26 @@ strong {
     padding: 2.4rem 2.4rem 4rem 2.4rem;
 }
 
-.form-table-operate-top .am-btn {
+/**
+ * 表格-顶部操作相关样式
+ */
+.form-table-operate-top .am-btn:not(.am-btn-link) {
     border: 0.1rem solid #d6d6d6;
     background-color: #fff;
     color: #5F6264;
 }
 
-.form-table-operate-top .am-btn:hover {
+.form-table-operate-top .am-btn:not(.am-btn-link):hover {
     background: #EFF0F1;
     border: 0.1rem solid #CCCCCC;
     color: #333;
 }
 
-.form-table-operate-top .am-btn:active {
+.form-table-operate-top .am-btn:not(.am-btn-link):active {
     background: #DEE0E3;
     border: 0.1rem solid #DEE0E3;
     color: #333;
 }
-
 
 /**
  * 标题轮播样式覆盖
@@ -4567,6 +4231,25 @@ strong {
 .title-slider:hover .am-direction-nav li a.am-next:hover,
 .title-slider:hover .am-direction-nav li a.am-prev:hover {
     opacity: 1;
+}
+
+/**
+ * 公共列表数据表格
+ */
+.form-table-operate-top > .am-btn {
+    border: 0.1rem solid #d6d6d6;
+    background-color: #fff;
+    color: #5F6264;
+}
+.form-table-operate-top > .am-btn:hover {
+    background: #EFF0F1;
+    border: 0.1rem solid #CCCCCC;
+    color: #333;
+}
+.form-table-operate-top > .am-btn:active {
+    background: #DEE0E3;
+    border: 0.1rem solid #DEE0E3;
+    color: #333;
 }
 
 /**

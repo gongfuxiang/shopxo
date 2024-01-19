@@ -26,6 +26,7 @@ use app\service\UserService;
 use app\service\AdminService;
 use app\service\MultilingualService;
 use app\service\BreadcrumbService;
+use app\service\GoodsCartService;
 
 /**
  * 前端公共控制器
@@ -120,7 +121,7 @@ class Common extends BaseController
         SystemService::SystemBegin($this->data_request);
 
         // 站点状态校验
-        $this->SiteStstusCheck();
+        $this->SiteStstusCheck('_web');
 
         // web端pc访问状态
         if(!IsMobile())
@@ -372,7 +373,7 @@ class Common extends BaseController
         $assign['my_http'] = __MY_HTTP__;
 
         // 首页地址
-        $assign['home_url'] = SystemService::HomeUrl();
+        $assign['home_url'] = SystemService::DomainUrl();
 
         // url模式
         $assign['url_model'] = MyC('home_seo_url_model', 0);
@@ -492,6 +493,9 @@ class Common extends BaseController
 
         // 面包屑导航
         $assign['breadcrumb_data'] = BreadcrumbService::Data();
+
+        // 用户购物车数量
+        $assign['user_cart_summary'] = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
 
         // 模板赋值
         MyViewAssign($assign);

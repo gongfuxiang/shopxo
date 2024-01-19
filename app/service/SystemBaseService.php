@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\ResourcesService;
 use app\service\QuickNavService;
 use app\service\PluginsService;
+use app\service\AppMiniUserService;
 
 /**
  * 系统基础公共信息服务层
@@ -55,6 +56,7 @@ class SystemBaseService
             'common_app_is_header_nav_fixed'            => (int) MyC('common_app_is_header_nav_fixed', 0),
             'common_app_is_online_service'              => (int) MyC('common_app_is_online_service', 0),
             'common_app_customer_service_tel'           => MyC('common_app_customer_service_tel', null, true),
+            'common_app_h5_url'                         => MyC('common_app_h5_url', null, true),
 
             // 基础-站点域名和CDN
             'common_domain_host'                        => MyC('common_domain_host', null, true),
@@ -100,7 +102,8 @@ class SystemBaseService
             'home_site_logo_wap'                        => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_wap')),
             'home_site_logo_app'                        => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_app')),
             'home_site_logo_square'                     => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_square')),
-            'home_site_state'                           => (int) MyC('home_site_state', 1),
+            'home_site_app_state'                       => MyC('home_site_app_state', [], true),
+            'home_site_web_state'                       => (int) MyC('home_site_web_state', 1),
             'home_site_web_home_state'                  => (int) MyC('home_site_web_home_state', 1),
             'home_site_web_pc_state'                    => (int) MyC('home_site_web_pc_state', 1),
             'home_site_close_reason'                    => MyC('home_site_close_reason', null, true),
@@ -144,6 +147,9 @@ class SystemBaseService
             'home_user_address_idcard_status'           => (int) MyC('home_user_address_idcard_status', 0),
             'home_extraction_address_position'          => (int) MyC('home_extraction_address_position', 0),
 
+            // 站点设置-扩展-多语言
+            'home_use_multilingual_status'              => (int) MyC('home_use_multilingual_status', 0),
+
             // 订单相关
             'home_is_enable_order_bulk_pay'             => (int) MyC('home_is_enable_order_bulk_pay', 0),
             'common_order_is_booking'                   => (int) MyC('common_order_is_booking'),
@@ -182,31 +188,32 @@ class SystemBaseService
 
             // 小程序基础信息
             // 微信小程序
-            'common_app_mini_weixin_title'              => MyC('common_app_mini_weixin_title', null, true),
-            'common_app_mini_weixin_describe'           => MyC('common_app_mini_weixin_describe', null, true),
-            'common_app_mini_weixin_privacy_content'    => MyC('common_app_mini_weixin_privacy_content', null, true),
+            'common_app_mini_weixin_title'              => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_title'),
+            'common_app_mini_weixin_describe'           => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_describe'),
+            'common_app_mini_weixin_share_original_id'  => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_share_original_id'),
+            'common_app_mini_weixin_privacy_content'    => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_privacy_content'),
             // 支付宝小程序
-            'common_app_mini_alipay_title'              => MyC('common_app_mini_alipay_title', null, true),
-            'common_app_mini_alipay_describe'           => MyC('common_app_mini_alipay_describe', null, true),
+            'common_app_mini_alipay_title'              => AppMiniUserService::AppMiniConfig('common_app_mini_alipay_title'),
+            'common_app_mini_alipay_describe'           => AppMiniUserService::AppMiniConfig('common_app_mini_alipay_describe'),
             // 百度小程序
-            'common_app_mini_baidu_title'               => MyC('common_app_mini_baidu_title', null, true),
-            'common_app_mini_baidu_describe'            => MyC('common_app_mini_baidu_describe', null, true),
+            'common_app_mini_baidu_title'               => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_title'),
+            'common_app_mini_baidu_describe'            => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_describe'),
             // 头条小程序
-            'common_app_mini_toutiao_title'             => MyC('common_app_mini_toutiao_title', null, true),
-            'common_app_mini_toutiao_describe'          => MyC('common_app_mini_toutiao_describe', null, true),
+            'common_app_mini_toutiao_title'             => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_title'),
+            'common_app_mini_toutiao_describe'          => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_describe'),
             // QQ小程序
-            'common_app_mini_qq_title'                  => MyC('common_app_mini_qq_title', null, true),
-            'common_app_mini_qq_describe'               => MyC('common_app_mini_qq_describe', null, true),
+            'common_app_mini_qq_title'                  => AppMiniUserService::AppMiniConfig('common_app_mini_qq_title'),
+            'common_app_mini_qq_describe'               => AppMiniUserService::AppMiniConfig('common_app_mini_qq_describe'),
             // 快手小程序
-            'common_app_mini_kuaishou_title'            => MyC('common_app_mini_kuaishou_title', null, true),
-            'common_app_mini_kuaishou_describe'         => MyC('common_app_mini_kuaishou_describe', null, true),
+            'common_app_mini_kuaishou_title'            => AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_title'),
+            'common_app_mini_kuaishou_describe'         => AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_describe'),
         ];
 
         // 支付宝小程序在线客服
         if(APPLICATION_CLIENT_TYPE == 'alipay')
         {
-            $config['common_app_mini_alipay_tnt_inst_id']  = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
-            $config['common_app_mini_alipay_scene']        = MyC('common_app_mini_alipay_scene', null, true);
+            $config['common_app_mini_alipay_tnt_inst_id']  = AppMiniUserService::AppMiniConfig('common_app_mini_alipay_tnt_inst_id');
+            $config['common_app_mini_alipay_scene']        = AppMiniUserService::AppMiniConfig('common_app_mini_alipay_scene');
         }
 
         // 数据集合

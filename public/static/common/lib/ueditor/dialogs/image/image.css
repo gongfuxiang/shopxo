@@ -760,7 +760,7 @@
 /**
  * 手机端自适应
  */
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 641px) {
     .wrapper, #remote .top, #remote .left {
         width: 100%;
         box-sizing:border-box;

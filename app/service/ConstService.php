@@ -124,6 +124,7 @@ class ConstService
                 '3.0.2' => ['value' => '3.0.2', 'name' => 'v3.0.2'],
                 '3.0.3' => ['value' => '3.0.3', 'name' => 'v3.0.3'],
                 '4.0.0' => ['value' => '4.0.0', 'name' => 'v4.0.0'],
+                '5.0.0' => ['value' => '5.0.0', 'name' => 'v5.0.0'],
             ],
 
             // 搜索排序方式
@@ -425,6 +426,13 @@ class ConstService
                 'fra'  => MyLang('common_multilingual_list.fra'),
                 'swe'  => MyLang('common_multilingual_list.swe'),
             ],
+            // 商品分类展示层级类型
+            'common_show_goods_category_level_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_show_goods_category_level_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_show_goods_category_level_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_show_goods_category_level_list.2')],
+                3 => ['value' => 3, 'name' => MyLang('common_show_goods_category_level_list.3')],
+            ],
             // 图片验证码
             'common_site_images_verify_rules_list' => [
                 0 => ['value' => 'bgcolor', 'name' => MyLang('common_site_images_verify_rules_list.0')],
@@ -450,6 +458,22 @@ class ConstService
                 ['value' => 100, 'name' => MyLang('common_order_status_step_total_list.100')],
                 ['value' => 101, 'name' => MyLang('common_order_status_step_total_list.101')],
             ],
+            // 短信日志平台
+            'common_sms_log_platform_list' => [
+                'aliyun' => ['value' => 'aliyun', 'name' => MyLang('common_sms_log_platform_list.aliyun')],
+            ],
+            // 短信日志状态
+            'common_sms_log_status_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_sms_log_status_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_sms_log_status_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_sms_log_status_list.2')],
+            ],
+            // 邮件日志状态
+            'common_email_log_status_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_email_log_status_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_email_log_status_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_email_log_status_list.2')],
+            ],
 
             // -------------------- 正则 --------------------
             // 用户名
@@ -459,13 +483,13 @@ class ConstService
             // 包含字母和数字、6~16个字符
             'common_regex_alpha_number'         => '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$',
             // 手机号码
-            'common_regex_mobile'               =>  '^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$',
+            'common_regex_mobile'               =>  MyC('common_regex_mobile', '^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$'),
             // 座机号码
-            'common_regex_tel'                  =>  '^\d{3,4}-?\d{8}$',
+            'common_regex_tel'                  =>  MyC('common_regex_tel', '^\d{3,4}-?\d{8}$'),
             // 电子邮箱
             'common_regex_email'                =>  '^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$',
             // 身份证号码
-            'common_regex_id_card'              =>  '^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$',
+            'common_regex_id_card'              =>  MyC('common_regex_id_card', '^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$'),
             // 价格格式
             'common_regex_price'                =>  '^([0-9]{1}\d{0,7})(\.\d{1,2})?$',
             // ip

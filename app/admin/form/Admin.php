@@ -89,13 +89,14 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => $lang['status'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'status',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_admin_status_list'),
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'              => $lang['status'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'status_name',
+                    'is_round_point'     => 1,
+                    'round_point_key'    => 'status',
+                    'round_point_style'  => [0=>'success', 2=>'danger'],
+                    'is_sort'            => 1,
+                    'search_config'      => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_admin_status_list'),
@@ -205,21 +206,14 @@ class Admin
                 'table_name'            => 'Admin',
                 'is_page'               => 1,
                 'is_handle_time_field'  => 1,
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'status'  => [
+                        'data'  => MyConst('common_admin_status_list'),
+                    ],
+                ],
             ],
         ];
-    }
-
-    /**
-     * 获取角色组列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-11
-     * @desc    description
-     */
-    public function GetRoleList()
-    {
-        
     }
 }
 ?>

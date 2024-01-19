@@ -1,0 +1,27 @@
+.shortcut-menu-sort ul {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-flow: row wrap;
+    row-gap: 2rem;
+    column-gap: 4.1rem;
+}
+
+.shortcut-menu-sort ul li {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.shortcut-menu-sort ul li i {
+    position: absolute;
+    right: -0.8rem;
+    top: -1.1rem;
+    color: #575B66;
+    opacity: 0.65;
+    font-size: 1.6rem;
+}
+
+.shortcut-menu-form {
+    background: #F5FBFF;
+}

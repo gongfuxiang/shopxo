@@ -1,0 +1,18 @@
+<!-- 商品基础信息 -->
+{{if !empty($module_data)}}
+    {{if !empty($module_data['goods'])}}
+        <div class="am-nbfc">
+            {{if !empty($module_data['goods']['images'])}}
+                <a href="{{$module_data.goods.goods_url}}" target="_blank">
+                    <img src="{{$module_data.goods.images}}" alt="{{$module_data.goods.title}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
+                </a>
+            {{/if}}
+            <p class="am-text-truncate">
+                <a href="{{$module_data.goods.goods_url}}" target="_blank">{{$module_data.goods.title}}</a>
+            </p>
+            <p>{{$currency_symbol}}{{$module_data.goods.price}}</p>
+        </div>
+    {{else /}}
+        {{:MyLang('gods_info_abnormal_tips')}}
+    {{/if}}
+{{/if}}

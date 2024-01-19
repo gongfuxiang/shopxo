@@ -277,19 +277,17 @@
     right: 0rem;
     display: block;
     width: 1.2rem;
-    height: 1.2rem
+    height: 1.2rem;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:before {
-    display: inline-block;
-    font-family: "FontAwesome", sans-serif;
-    font-weight: 400;
+    font-family: "iconfont" !important;
+    font-size: 1rem !important;
     font-style: normal;
-    vertical-align: baseline;
-    line-height: 1;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: "\f00d";
-    color: #999
+    content: '\e729';
+    color: #999;
+    position: relative;
+    top: -0.1rem;
 }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close:hover:before {
     color: #666

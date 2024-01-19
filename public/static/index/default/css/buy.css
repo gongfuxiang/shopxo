@@ -3,18 +3,17 @@
     margin-top: 0;
     font-weight: 500;
     font-size: 1.6rem;
+    display: inline;
+}
+.buy-items > .goods-group-list > .am-panel > .am-panel-bd > table > thead > tr > th,
+.buy-items > .goods-group-list > .am-panel > .am-panel-bd > table > tbody > tr > td {
+    border: 0;
+    padding: 1rem 1rem 1rem 0;
 }
 .buy-items table thead tr th {
-    padding: 1rem 1rem 1rem 0;
-    border: 0;
     font-size: 1.4rem;
     font-weight: 400;
 }
-.buy-items table tbody tr td {
-    padding: 1rem 1rem 1rem 0;
-    border: 0;
-}
-
 .warehouse-info {
     display: flex;
     align-items: center;
@@ -25,7 +24,6 @@ h3 {
     font-size: 1.4rem;
     font-weight: 700;
 }
-
 .address h3 {
     border-bottom: none;
 }
@@ -41,7 +39,6 @@ ul.address-list li {
 .address-cart {
     padding: 0.4rem;
 }
-
 ul.address-list li.address-default.address-cart {
     background: repeating-linear-gradient(-45deg,
             #ff0000,
@@ -53,7 +50,6 @@ ul.address-list li.address-default.address-cart {
             #ffffff 3rem,
             #ffffff 4rem);
 }
-
 .address-cart .address-content {
     padding: 0.6rem;
     position: relative;
@@ -61,11 +57,9 @@ ul.address-list li.address-default.address-cart {
     justify-content: space-between;
     flex-flow: column;
 }
-
 .address-left {
     position: relative;
 }
-
 ul.address-list li .user-base {
     font-size: 1.2rem;
     font-weight: 700;
@@ -73,22 +67,18 @@ ul.address-list li .user-base {
     display: flex;
     align-items: center;
 }
-
 ul.address-list li .user-base .address-alias {
     max-width: 8rem;
     font-weight: 400;
 }
-
 ul.address-list li .user-base .address-detail {
     display: flex;
     align-items: center;
 }
-
 ul.address-list li .user-base .address-detail .user {
     max-width: 8rem;
     display: inline-block;
 }
-
 .address-right {
     position: absolute;
     right: 10px;
@@ -97,7 +87,6 @@ ul.address-list li .user-base .address-detail .user {
     transform: translate(50%, -50%);
 
 }
-
 .address-position-top {
     top: 50%;
     transform: translate(-50%,-50%);
@@ -111,16 +100,13 @@ ul.address-list li .user-base .address-detail .user {
     text-align: right;
     padding-right: 0.5rem;
 }
-
 .address-default {
     display: block !important;
 }
-
 .address .control {
     display: flex;
     align-items: center;
 }
-
 .address .control .address-submit-save {
     padding: 0.5rem 1.2rem;
     margin-left: 2rem;
@@ -131,7 +117,6 @@ ul.address-list li .user-base .address-detail .user {
     .address {
         padding: 2rem;
     }
-
     .business-item ul li:nth-child(3n) {
         margin-right: 1rem;
     }
@@ -148,7 +133,6 @@ ul.address-list li .user-base .address-detail .user {
         overflow-wrap: break-word;
     }
 }
-
 @media only screen and (max-width: 640px) {
     ul.address-list li.address-default.address-cart {
         padding: 0 0 0.4rem 0;
@@ -156,7 +140,6 @@ ul.address-list li .user-base .address-detail .user {
     ul.address-list li.address-default.address-cart .address-content {
         padding: 1.1rem;
     }
-
     .address .control .address-submit-save {
         padding: 1rem 1.2rem;
         margin-left: 0;
@@ -183,15 +166,13 @@ ul.address-list li .user-base .address-detail .user {
     top: 0.6rem;
     right: 0;
 }
-
 .memo-input {
-    width: calc(100% - 5.2rem);
+    width: 100%;
     border: 0.1rem solid #EEEEEE;
     padding: 1rem;
     outline: none;
     border-radius: 0.4rem;
 }
-
 @media only screen and (max-width: 1024px) {
     .buy-message {
         padding: 0 0.5rem;
@@ -207,18 +188,15 @@ ul.address-list li .user-base .address-detail .user {
     text-align: left;
     font-size: 1.4rem;
 }
-
 .pay-address {
     display: none;
 }
-
 .buy-order-nav {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
 }
-
 .link-list h3 span {
     font-weight: 500;
 }
@@ -232,7 +210,6 @@ ul.address-list,
 .buy-extension-data li {
     padding: 0;
 }
-
 .buy-extension-data .extension-items-tips {
     color: #ff8f44;
 }
@@ -255,22 +232,18 @@ ul.address-list,
     overflow-x: hidden;
     padding-bottom: 6rem;
 }
-
 .link-list .mobile-address .control {
     margin-bottom: 1rem;
 }
-
 .link-list .mobile-address .control h3 {
     background-color: #FFFFFF;
     padding: 1rem 0 0 1rem;
 }
-
 .link-list .mobile-address .control,
 .link-list .mobile-address ul.address-list li,
 .link-list .mobile-address ul.address-list li .address-operation-btn {
     display: block !important;
 }
-
 .link-list .mobile-address .control .address-submit-save {
     position: fixed;
     left: 1rem;
@@ -281,15 +254,12 @@ ul.address-list,
     z-index: 100;
     border-radius: var(--border-radius);
 }
-
 .link-list .mobile-address ul.address-list li .address-left {
     width: 100%;
 }
-
 .link-list .mobile-address ul.address-list li .address-right {
     display: none;
 }
-
 .address ul.address-express-delivery {
     display: flex;
     align-items: center;
@@ -297,18 +267,15 @@ ul.address-list,
     gap: 2rem;
     overflow: unset;
 }
-
 @media only screen and (min-width: 641px) {
     /*地址操作*/
     .address .control h3 {
         display: -webkit-inline-box;
         border: none;
     }
-
     .am-form-content {
         margin-left: 7.5rem;
     }
-
     .am-form-label {
         width: 6rem;
         float: left;
@@ -318,11 +285,9 @@ ul.address-list,
     .business-item ul li {
         width: calc(25% - 0.8rem);
     }
-
     .business-item ul li:nth-child(4n) {
         margin-right: 0;
     }
-
     .business-item ul li:hover {
         border: 0.1rem solid #d2364c;
         box-shadow: 0px 0 0px 0.1rem #d2364c;
@@ -337,11 +302,9 @@ ul.address-list,
         line-height: 3rem;
         overflow: hidden;
     }
-
     .pay-address {
         display: block;
     }
-
     .buy-order-nav {
         clear: both;
         text-align: right;
@@ -351,7 +314,6 @@ ul.address-list,
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
     }
-
     .buy-order-nav .address-confirm .box {
         position: relative;
         float: right;
@@ -364,33 +326,27 @@ ul.address-list,
         right: 0;
         background-color: #fff0e8;
     }
-
     .buy-order-nav form.am-form {
         overflow: inherit;
     }
-
     .nav-buy .go-btn-wrap {
         width: 100%;
         overflow: hidden;
         padding-top: 1rem;
         margin-bottom: 1rem;
     }
-
     .base-real-pay {
         line-height: 3rem;
         position: relative;
     }
-
     .buy-line-title {
         width: 5.2rem;
         text-align: right;
         display: inline-block;
     }
-
     .base-real-pay .g_price span {
         font-size: 2.6rem;
     }
-
     .price .nav-total-price {
         font-size: 1.6rem;
     }
@@ -412,12 +368,10 @@ ul.address-list,
     ul.address-list li:nth-child(3n) {
         margin-right: 0;
     }
-
     .address-left {
         width: 100%;
         position: relative;
     }
-
     .th .td-inner {
         padding-left: 0;
     }
@@ -426,55 +380,44 @@ ul.address-list,
     .address-operation-btn {
         display: block;
     }
-
     .address-right .am-icon-angle-right,
     .mobile-address-close-submit {
         display: none;
     }
 }
-
 @media only screen and (min-width: 1025px) {
     ul.address-list li {
         width: calc((100% - 4rem) / 3);
     }
-
     .business-item ul li {
         width: calc(20% - 0.8rem);
     }
-
     .business-item ul li:nth-child(5n) {
         margin-right: 0;
     }
-
     .business-item ul li:nth-child(4n) {
         margin-right: 1rem;
     }
-
     .business-item ul {
         padding: 1rem 0.1rem 0 0.1rem;
     }
 }
-
 @media only screen and (max-width: 640px) {
     .cart-content table tr .base {
         width: 100%;
     }
-
     .address {
         margin-top: 1rem;
     }
     .address.address-phone-padding {
         padding: 1.1rem;
     }
-
     .address .control, .extraction-address-content-right {
         display: none;
     }
-
     .address ul {
         margin-top: 0;
     }
-
     .address-default {
         background: url(../images/buy-peraddress.png) repeat-x;
         background-position: bottom;
@@ -489,39 +432,31 @@ ul.address-list,
     ul.address-list .am-icon-angle-right {
         color: #999;
     }
-
     .business-item ul li {
         width: calc(50% - 0.6rem);
     }
-
     .business-item ul li:nth-child(2n) {
         margin-right: 0;
     }
-
     .buy-order-nav .box {
         border: 0;
     }
-
     .buy-order-nav .nav-total-price {
         color: var(--color-main);
         font-weight: 700;
         font-size: 2.6rem;
     }
-
     .buy-order-nav {
         z-index: 100;
     }
-
     .am-footer {
         padding-bottom: 4rem;
     }
-
     .buy-order-nav .box {
         text-align: right;
         padding: 0 1rem 0 0;
         margin: 0;
     }
-
     .link-list .address-container {
         margin-top: 0;
     }
@@ -539,7 +474,6 @@ ul.address-list,
 .goods-items table.am-table tr th {
     font-weight: 500;
 }
-
 .goods-detail img {
     width: 5.8rem;
     height: 5.8rem;
@@ -547,64 +481,53 @@ ul.address-list,
     left: 0;
     top: 0;
 }
-
 .goods-detail {
     position: relative;
     min-height: 8rem;
 }
-
 .goods-title {
     display: block;
     max-height: 3.6rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .goods-title:hover {
     text-decoration: underline;
 }
-
 .goods-base {
     float: left;
     top: 0;
     margin-left: 7.6rem;
 }
-
 .goods-attr {
     margin-top: 0.5rem;
     display: flex;
 }
-
 .goods-attr li {
     color: #888;
     line-height: 1.6rem;
 }
-
 @media only screen and (min-width: 641px) {
     .cart-content table tr .base {
         width: 40%;
     }
-
     .cart-content table tr .price {
         width: 20%;
     }
-
     .cart-content table tr .number {
         width: 20%;
     }
-
     .cart-content table tr .total-price {
         width: 20%;
     }
-
     .cart-content {
         margin-top: 2rem;
     }
 }
-
 @media only screen and (max-width: 640px) {
     .goods-detail {
         margin-bottom: 0.5rem;
+        min-height: 6rem;
     }
 }
 
@@ -615,38 +538,31 @@ ul.address-list,
     box-shadow: none;
     position: relative;
 }
-
 .extraction-address-item .address-detail a {
     color: #75B768;
     font-weight: 400;
 }
-
 .extraction-address-container .am-popup-hd {
     border-bottom: 0.1rem solid #EEEEEE;
 }
-
 .extraction-address-container .am-popup-hd .am-popup-title {
     font-size: 1.4rem;
     font-weight: 500;
     color: #333333;
 }
-
 .extraction-address-container .am-popup-hd .am-popup-hd .am-close {
     color: #C4C4C4;
 }
-
 .extraction-address-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .extraction-address-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .extraction-address-content-left {
     display: flex;
     align-items: center;
@@ -654,16 +570,13 @@ ul.address-list,
     padding-right: 3rem;
     line-height: 2.5rem;
 }
-
 .extraction-address-content-right {
     padding: 0.5rem;
 }
-
 .extraction-phone-address {
     display: flex !important;
     flex-flow: row nowrap;
 }
-
 @media only screen and (max-width: 640px) {
     .extraction-default .am-panel-bd {
         padding: 2rem 0.5rem;
@@ -671,15 +584,12 @@ ul.address-list,
     .extraction-default .am-panel-bd .address-right {
         padding-top: 0.5rem;
     }
-
     .extraction-phone-address-content {
         padding-right: 7.5rem;
     }
-
     .extraction-phone-address-img {
         flex-shrink: 0;
     }
-
     .extraction-phone-address-content-title .address-detail a {
         margin-left: -0.8rem;
         background: transparent;
@@ -696,24 +606,19 @@ ul.address-list,
 #extraction-address-popup .am-list {
     margin-top: 0;
 }
-
 #extraction-address-popup .am-list>li {
     padding: 1rem 0.5rem;
 }
-
 #extraction-address-popup .address-logo {
     width: 4.6rem;
     height: 4.6rem;
 }
-
 #extraction-address-popup .am-list>li:first-child {
     border-top: 0;
 }
-
 #extraction-address-popup .am-list>li:hover {
     background-color: transparent;
 }
-
 #extraction-address-popup .extraction-address-item button {
     position: absolute;
     top: 50%;
@@ -732,7 +637,6 @@ ul.address-list,
         margin-right: 0.5rem;
     }
 }
-
 @media only screen and (min-width: 1025px) {
     .buy-header-nav {
         margin-left: 0;

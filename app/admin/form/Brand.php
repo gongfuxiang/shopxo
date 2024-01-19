@@ -83,8 +83,9 @@ class Brand
                 ],
                 [
                     'label'         => $lang['logo'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'brand/module/logo',
+                    'view_type'     => 'images',
+                    'view_key'      => 'logo',
+                    'images_height' => 25,
                 ],
                 [
                     'label'         => $lang['url'],

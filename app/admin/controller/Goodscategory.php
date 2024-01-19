@@ -58,7 +58,6 @@ class GoodsCategory extends Base
 		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategoryNodeSon($this->data_request));
 	}
 
-
 	/**
 	 * 保存
 	 * @author   Devil
@@ -69,6 +68,21 @@ class GoodsCategory extends Base
 	public function Save()
 	{
 		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategorySave($this->data_request));
+	}
+
+	/**
+	 * 状态更新
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
+	 */
+	public function StatusUpdate()
+	{
+		$params = $this->data_request;
+		$params['admin'] = $this->admin;
+		return ApiService::ApiDataReturn(GoodsCategoryService::GoodsCategoryStatusUpdate($params));
 	}
 
 	/**

@@ -212,7 +212,8 @@ div.edui-box {
 
 .edui-default .edui-editor-bottomContainer td {
     white-space: nowrap;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #f5f5f5;
+    padding: 3px 12px;
     line-height: 20px;
     font-size: 12px;
     font-family: Arial, Helvetica, Tahoma, Verdana, Sans-Serif;

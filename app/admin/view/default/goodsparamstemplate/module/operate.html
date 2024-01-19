@@ -1,9 +1,9 @@
 <!-- 操作栏 -->
-<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/goodsparamstemplate/detail', ['id'=>$module_data['id']])}}">
+<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/goodsparamstemplate/detail', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('detail_title')}}">
     <i class="am-icon-eye"></i>
     <span>{{:MyLang('detail_title')}}</span>
 </button>
-<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/goodsparamstemplate/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}">
+<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/goodsparamstemplate/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}" data-title="{{:MyLang('edit_title')}}">
     <i class="am-icon-edit"></i>
     <span>{{:MyLang('edit_title')}}</span>
 </button>

@@ -48,7 +48,7 @@
                 {{foreach $parameters as $pv}}
                     <tr>
                         <td class="am-text-middle">
-                            <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.form_goods_params_type_message')}}">
+                            <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.form_goods_params_type_message')}}" data-is-clearout="0">
                                 {{if !empty($common_goods_parameters_type_list)}}
                                     {{foreach $common_goods_parameters_type_list as $v}}
                                         <option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -57,15 +57,15 @@
                             </select>
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="parameters_name[]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" required />
+                            <input type="text" name="parameters_name[]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="parameters_value[]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" />
+                            <input type="text" name="parameters_value[]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" />
                         </td>
                         <td class="am-text-middle">
                             <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
                             <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
-                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">{{:MyLang('remove_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary line-remove">{{:MyLang('remove_title')}}</a>
                         </td>
                     </tr>
                 {{/foreach}}
@@ -73,6 +73,9 @@
         </tbody>
     </table>
 </div>
-<div class="am-margin-top-sm">
-    <span class="business-operations-submit parameters-line-add">+ {{:MyLang('common.form_goods_params_row_add_title')}}</span>
+<div class="am-margin-top-sm am-border-bottom-table">
+    <span class="business-operations-submit parameters-line-add am-border-0 am-text-sm">
+        <i class="iconfont icon-add"></i>
+        {{:MyLang('common.form_goods_params_row_add_title')}}
+    </span>
 </div>

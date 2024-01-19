@@ -3,13 +3,24 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('goodsparamstemplate.detail_params_title'),
+                'key'  => 'goodsparamstemplate-detail_params_title',
+            ]
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        {__block__}
 
-    <!-- 商品参数 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('goodsparamstemplate.detail_params_title')}}</div>
-        <div class="am-panel-bd">
+        <!-- 商品参数 -->
+        <div class="item" data-key="goodsparamstemplate-detail_params_title">
             {{include file="public/goodsparamstemplate/detail" /}}
         </div>
     </div>

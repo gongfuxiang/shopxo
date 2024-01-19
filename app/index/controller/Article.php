@@ -165,7 +165,7 @@ class Article extends Common
         $assign['category_info'] = $category_info;
 
         // 浏览器名称
-        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? MyLang('article.category_browser_seo_title') : $category_info['name'], 1);
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? MyLang('article.category_base_nav_title') : $category_info['name'], 1);
 
         // 数据赋值
         MyViewAssign($assign);

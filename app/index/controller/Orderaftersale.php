@@ -49,7 +49,7 @@ class Orderaftersale extends Center
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('orderaftersale.browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('orderaftersale.base_nav_title'), 1));
         return MyView();
     }
 
@@ -76,7 +76,7 @@ class Orderaftersale extends Center
                 // 订单售后搜索form key
                 'form_search_keywords_form_key' => 'f0p',
                 // 浏览器名称
-                'home_seo_site_title'           => SeoService::BrowserSeoTitle(MyLang('orderaftersale.detail_browser_seo_title'), 1),
+                'home_seo_site_title'           => SeoService::BrowserSeoTitle(MyLang('orderaftersale.detail_base_nav_title'), 1),
             ];
 
             // 仅退款原因

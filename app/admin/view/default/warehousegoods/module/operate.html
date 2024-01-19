@@ -1,9 +1,9 @@
 <!-- 操作栏 -->
-<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/warehousegoods/detail', ['id'=>$module_data['id']])}}">
+<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/warehousegoods/detail', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('detail_title')}}">
     <i class="am-icon-eye"></i>
     <span>{{:MyLang('detail_title')}}</span>
 </button>
-<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/warehousegoods/inventoryinfo', ['id'=>$module_data['id']])}}" data-class="warehouse-goods-popup">
+<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/warehousegoods/inventoryinfo', ['id'=>$module_data['id']])}}" data-class="warehouse-goods-popup" data-title="{{:MyLang('inventory_title')}}">
     <i class="am-icon-square-o"></i>
     <span>{{:MyLang('inventory_title')}}</span>
 </button>

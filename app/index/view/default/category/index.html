@@ -46,8 +46,8 @@
                         <div class="zero-left am-radius" data-am-sticky="{top:130}"> 
                             <!-- 第二级菜单 -->
                             <ul class="category-nav">
+                                <li class="am-text-break active" data-id="">{{:MyLang('all_title')}}</li>
                                 {{if !empty($goods_category_list[0]) and !empty($goods_category_list[0]['items'])}}
-                                    <li class="am-text-break active" data-id="">{{:MyLang('all_title')}}</li>
                                     {{foreach $goods_category_list[0]['items'] as $v}}
                                         <li class="am-text-break" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}" data-id="{{$v.id}}">{{$v.name}}</li>
                                     {{/foreach}}

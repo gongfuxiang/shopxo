@@ -2168,7 +2168,7 @@ table.am-table-bordered {
 .am-table > thead > tr.am-active > th,
 .am-table > tbody > tr.am-active > th,
 .am-table > tfoot > tr.am-active > th {
-  background-color: #ffd;
+  background-color: #fffff9;
 }
 .am-table > thead > tr > td.am-disabled,
 .am-table > tbody > tr > td.am-disabled,
@@ -5279,7 +5279,7 @@ a.am-close:hover {
   content: "\f0d6";
 }
 .am-icon-caret-down:before {
-  content: "\f0d7";
+  content: "\f107";
 }
 .am-icon-caret-up:before {
   content: "\f0d8";
@@ -6921,7 +6921,7 @@ a.am-close:hover {
   background-color: #f9f9f9;
 }
 .am-list > li.am-active {
-  background-color: #ffd;
+  background-color: #fffff9;
 }
 .am-list > li > a {
   display: block;
@@ -8037,17 +8037,28 @@ TODO:
   }
 }
 .am-modal-hd {
-  padding: 2.8rem 1rem 0.5rem 1rem;
+  padding: 2rem 1rem 1rem 1rem;
   font-size: 1.8rem;
   font-weight: 500;
+  cursor: move;
+}
+.am-modal:not(.am-modal-confirm) .am-modal-dialog .am-modal-hd {
+  padding: 1.2rem 1.5rem;
+  font-size: 1.4rem;
+  overflow: hidden;
+  min-height: 4.5rem;
+  line-height: 2rem;
+  text-align: left;
+  color: #333;
 }
 .am-modal-hd + .am-modal-bd {
   padding-top: 0;
 }
 .am-modal-hd .am-close {
   position: absolute;
-  top: 0.4rem;
-  right: 0.4rem;
+  top: 0.8rem;
+  right: 0.6rem;
+  font-weight: 400;
 }
 .am-modal-bd {
   padding: 1.5rem 1rem;
@@ -8274,7 +8285,7 @@ TODO:
   }
 }
 .am-popup-inner {
-  padding-top: 4.4rem;
+  padding-top: 4.3rem;
   height: 100%;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -8322,6 +8333,9 @@ TODO:
   padding: 1.5rem;
   background: #f8f8f8;
   color: #555555;
+}
+.am-popup .am-popup-hd, .am-modal:not(.am-modal-confirm) .am-modal-dialog .am-modal-hd {
+    border-bottom: 0.1rem solid #f5f5f5;
 }
 /* ==========================================================================
    Component: OffCanvas Plugin

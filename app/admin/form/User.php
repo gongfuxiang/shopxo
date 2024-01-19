@@ -160,6 +160,24 @@ class User
                     ],
                 ],
                 [
+                    'label'              => $lang['status_name'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'status_name',
+                    'is_round_point'     => 1,
+                    'round_point_key'    => 'status',
+                    'round_point_style'  => [0=>'success', 1=>'warning', 2=>'danger'],
+                    'is_sort'            => 1,
+                    'search_config'      => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'status',
+                        'where_type'        => 'in',
+                        'data'              => MyConst('common_user_status_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
                     'label'         => $lang['gender_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'gender',
@@ -171,23 +189,6 @@ class User
                         'form_name'         => 'gender',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_gender_list'),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => $lang['status_name'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'status',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_user_status_list'),
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'status',
-                        'where_type'        => 'in',
-                        'data'              => MyConst('common_user_status_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -303,8 +304,14 @@ class User
             ],
             // 数据配置
             'data'  => [
-                'table_name'   => 'User',
-                'data_handle'  => 'UserService::UserListHandle',
+                'table_name'           => 'User',
+                'data_handle'          => 'UserService::UserListHandle',
+                'is_fixed_name_field'  => 1,
+                'fixed_name_data'      => [
+                    'status'  => [
+                        'data'  => MyConst('common_user_status_list'),
+                    ],
+                ],
             ],
         ];
     }

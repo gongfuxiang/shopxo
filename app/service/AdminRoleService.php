@@ -171,13 +171,28 @@ class AdminRoleService
                 $v['is_power'] = in_array($v['id'], $action) ? 'ok' : 'no';
 
                 // 获取子权限
-                $item =  Db::name('Power')->field($power_field)->where(array('pid'=>$v['id']))->order('sort')->select()->toArray();
+                $item = Db::name('Power')->field($power_field)->where(array('pid'=>$v['id']))->order('sort')->select()->toArray();
                 if(!empty($item))
                 {
                     foreach($item as $ks=>$vs)
                     {
+                        // 是否有权限
                         $item[$ks]['is_power'] = in_array($vs['id'], $action) ? 'ok' : 'no';
+
+                        // 获取三级
+                        $items = Db::name('Power')->field($power_field)->where(array('pid'=>$vs['id']))->order('sort')->select()->toArray();
+                        if(!empty($items))
+                        {
+                            foreach($items as $kss=>$vss)
+                            {
+                                // 是否有权限
+                                $items[$kss]['is_power'] = in_array($vss['id'], $action) ? 'ok' : 'no';
+                            }
+                            // 放入二级级数据中
+                            $item[$ks]['item'] = $items;
+                        }
                     }
+                    // 放入一级数据中
                     $v['item'] = $item;
                 }
             }

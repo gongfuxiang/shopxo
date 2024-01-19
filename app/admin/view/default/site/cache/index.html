@@ -2,75 +2,83 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}" enctype="multipart/form-data">
-            {{if is_array(MyLang('site.site_cache_tips_list'))}}
-                <div class="am-alert am-alert-warning" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p>{{:implode('</p><p>', MyLang('site.site_cache_tips_list'))}}</p>
-                </div>
-            {{/if}}
-
-            <!-- Session缓存配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('site.base_item_session_cache_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}" enctype="multipart/form-data">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('site.base_item_session_cache_title'),
+                        'key'  => 'session-cache',
+                    ],
+                    [
+                        'name' => MyLang('site.base_item_data_cache_title'),
+                        'key'  => 'data-cache',
+                    ],
+                    [
+                        'name' => MyLang('site.base_item_redis_cache_title'),
+                        'key'  => 'redis-cache',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                {{if is_array(MyLang('site.site_cache_tips_list'))}}
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
+                        <p>{{:implode('</p><p>', MyLang('site.site_cache_tips_list'))}}</p>
+                    </div>
+                {{/if}}
+                <!-- Session缓存配置 -->
+                <div class="item am-active" data-key="session-cache">
                     <div class="am-form-group">
                         <label>{{$data.common_session_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_session_is_use_cache.describe}}</span></label>
-                        <select name="{{$data.common_session_is_use_cache.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_session_is_use_cache.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_session_is_use_cache']['value']) and $data['common_session_is_use_cache']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_session_is_use_cache.only_tag}}" data-validation-message="{{$data.common_session_is_use_cache.error_tips}}" required {{if isset($data['common_session_is_use_cache']['value']) and $data['common_session_is_use_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_cache_session_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_session_redis_prefix.describe}}</span></label>
                         <input type="text" name="{{$data.common_cache_session_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_session_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_session_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_session_redis_prefix.value}}"{{/if}} />
                     </div>
                 </div>
-            </div>
 
-            <!-- 数据缓存配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('site.base_item_data_cache_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- 数据缓存配置 -->
+                <div class="item" data-key="data-cache">
                     <div class="am-form-group">
                         <label>{{$data.common_data_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_data_is_use_cache.describe}}</span></label>
-                        <select name="{{$data.common_data_is_use_cache.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_data_is_use_cache.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_data_is_use_cache']['value']) and $data['common_data_is_use_cache']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_data_is_use_cache.only_tag}}" data-validation-message="{{$data.common_data_is_use_cache.error_tips}}" required {{if isset($data['common_data_is_use_cache']['value']) and $data['common_data_is_use_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_cache_data_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_prefix.describe}}</span></label>
                         <input type="text" name="{{$data.common_cache_data_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_data_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_data_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_prefix.value}}"{{/if}} />
                     </div>
                 </div>
-            </div>
 
-            <!-- redis缓存配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('site.base_item_redis_cache_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <!-- redis缓存配置 -->
+                <div class="item" data-key="redis-cache">
                     <div class="am-form-group">
                         <label>{{$data.common_data_is_use_redis_cache.name}}<span class="am-form-group-label-tips">{{$data.common_data_is_use_redis_cache.describe}}</span></label>
-                        <select name="{{$data.common_data_is_use_redis_cache.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_data_is_use_redis_cache.error_tips}}" required>
+                        <div class="am-radio-group">
                             {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_data_is_use_redis_cache']['value']) and $data['common_data_is_use_redis_cache']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_data_is_use_redis_cache.only_tag}}" data-validation-message="{{$data.common_data_is_use_redis_cache.error_tips}}" required {{if isset($data['common_data_is_use_redis_cache']['value']) and $data['common_data_is_use_redis_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_cache_data_redis_host.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_host.describe}}</span></label>
@@ -109,4 +117,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

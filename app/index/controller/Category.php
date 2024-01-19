@@ -49,7 +49,7 @@ class Category extends Common
             // 分类展示层级模式
             'category_level'        => MyC('common_show_goods_category_level', 0, true),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('category.browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('category.base_nav_title'), 1),
         ]);
         return MyView();
     }

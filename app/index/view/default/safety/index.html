@@ -18,7 +18,7 @@
 	<div class="user-content">
     	<div class="user-content-body">
             <!-- user center title -->
-            {{include file="public/module/user_center_main_title" /}}
+            {{include file="public/user_center_main_title" /}}
             
 			{{foreach $safety_panel_list as $v}}
 				<section class="am-panel am-panel-default am-radius am-panel-{{if (empty($data[$v['type']]) and empty($v['msg'])) or ($v['type'] eq 'logout')}}danger{{else /}}default{{/if}}">
@@ -54,4 +54,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

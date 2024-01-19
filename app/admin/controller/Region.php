@@ -56,8 +56,25 @@ class Region extends Base
 	 */
 	public function Save()
 	{
-		return ApiService::ApiDataReturn(RegionService::RegionSave($this->data_request));
+        $params = $this->data_request;
+        $params['admin'] = $this->admin;
+		return ApiService::ApiDataReturn(RegionService::RegionSave($params));
 	}
+
+    /**
+     * 状态更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
+     */
+    public function StatusUpdate()
+    {
+        $params = $this->data_request;
+        $params['admin'] = $this->admin;
+        return ApiService::ApiDataReturn(RegionService::RegionStatusUpdate($params));
+    }
 
 	/**
 	 * 删除

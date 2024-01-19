@@ -60,8 +60,6 @@
         var __public__ = '{{$public_host}}';
 		var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
 	    var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
-	    var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';
-	    var __load_map_type__ = '{{$load_map_type}}';
 	    // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
 	    {{if !empty($lang_data)}}
 	        {{foreach $lang_data as $k=>$v}}

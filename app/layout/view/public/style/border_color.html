@@ -1,7 +1,8 @@
-<div class="am-form-group am-form-group-refreshing">
+<div class="am-form-group am-form-group-refreshing am-flex am-flex-col">
     <label>{{:MyLang('layout.view_media_fixed_border_color_title')}}</label>
-    <input type="hidden" name="style[key]_color" data-validation-message="{{:MyLang('layout.view_media_fixed_border_color_message')}}" value="" [required] />
-    <button type="button" class="am-btn am-btn-default am-btn-xs colorpicker-submit module-style-color[key] am-btn-block am-radius" data-position="fixed" data-input-tag="button.module-style-color[key]" data-color-tag="input[name='style[key]_color']" data-color-style="background-color">
-        <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-    </button>
+    <div class="colorpicker-container">
+        <input type="hidden" name="style[key]_color" data-validation-message="{{:MyLang('layout.view_media_fixed_border_color_message')}}" value="" [required] />
+        <div class="colorpicker-submit" data-color-tag="input[name='style[key]_color']" data-color-style="background-color"></div>
+        <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+    </div>
 </div>

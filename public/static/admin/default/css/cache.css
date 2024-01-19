@@ -1,13 +1,18 @@
-.content-right .am-panel {
-    position: relative;
+.cache-item:last-child {
+    border: 0;
 }
-.content-right .am-panel .cache-submit {
-    width: 7rem;
-    height: 3.3rem;
-    position: absolute;
-    top: -0.1rem;
-    right: -0.1rem;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+
+.cache-item label {
+    font-weight: 500;
+}
+
+.cache-item label .am-form-group-label-tips {
+    color: #ccc;
+    font-weight: 400;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+}
+
+.cache-item:hover label .am-form-group-label-tips {
+    color: var(--color-main);
 }

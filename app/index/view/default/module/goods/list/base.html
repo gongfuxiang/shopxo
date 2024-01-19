@@ -33,7 +33,7 @@
             am-avg-lg-{{if empty($module_data['lg'])}}2{{else /}}{{$module_data.lg}}{{/if}} ">
             {{foreach $module_data.goods_list as $v}}
                 <li>
-                    <div class="item am-padding-main am-radius am-shadow">
+                    <div class="item am-padding-main am-radius box-shadow-hover">
                         <!-- 商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
@@ -56,7 +56,7 @@
                         {{/php}}
 
                         <a href="{{$v.goods_url}}" target="_blank" class="am-block goods-info">
-                            <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images am-radius am-images-down" />
+                            <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images am-radius down-hover" />
                         </a>
 
                         <!-- 商品信息售价顶部钩子 -->

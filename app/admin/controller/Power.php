@@ -32,19 +32,19 @@ class Power extends Base
      */
 	public function Index()
 	{
-		$data_params = [
-			'field'		=> 'id,pid,name,control,action,url,sort,is_show,icon',
-			'order_by'	=> 'sort asc',
-			'where'		=> [
-				['pid', '=', 0]
-			],
-		];
-		$assign = [
-			'data'					=> AdminPowerService::PowerList($data_params),
-			'common_is_show_list'	=> MyConst('common_is_show_list'),
-		];
-		MyViewAssign($assign);
 		return MyView();
+	}
+
+	/**
+	 * 获取节点子列表
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-25T15:19:45+0800
+	 */
+	public function GetNodeSon()
+	{
+		return ApiService::ApiDataReturn(AdminPowerService::PowerNodeSon($this->data_request));
 	}
 
 	/**
@@ -59,6 +59,21 @@ class Power extends Base
 		$params = $this->data_request;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminPowerService::PowerSave($params));
+	}
+
+	/**
+	 * 状态更新
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
+	 */
+	public function StatusUpdate()
+	{
+		$params = $this->data_request;
+		$params['admin'] = $this->admin;
+		return ApiService::ApiDataReturn(AdminPowerService::PowerStatusUpdate($params));
 	}
 
 	/**

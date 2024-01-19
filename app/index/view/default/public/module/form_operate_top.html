@@ -67,12 +67,12 @@
         <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
         {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
             <!-- 搜索 -->
-            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example form-table-operate-top-search-submit" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}">
+            <button type="submit" class="am-btn am-btn-default am-radius am-btn-xs btn-loading-example form-table-operate-top-search-submit" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}">
                 <i class="am-icon-search"></i>
                 <span>{{:MyLang('search_title')}}</span>
             </button>
             <!-- 重置 -->
-            <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-xs form-table-operate-top-reset-submit" data-am-popover="{content: '{{:MyLang('clear_search_where')}}', trigger: 'hover focus', theme: 'warning sm'}">
+            <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-default am-radius am-btn-xs form-table-operate-top-reset-submit" data-am-popover="{content: '{{:MyLang('clear_search_where')}}', trigger: 'hover focus', theme: 'warning sm'}">
                 <i class="am-icon-filter"></i>
                 <span>{{:MyLang('reset_title')}}</span>
             </a>

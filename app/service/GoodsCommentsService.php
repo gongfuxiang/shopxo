@@ -288,7 +288,7 @@ class GoodsCommentsService
                 // 商品信息
                 if(array_key_exists('goods_id', $v) && $is_goods == 1)
                 {
-                    $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : [];   
+                    $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : null;   
                 }
 
                 // 业务类型
@@ -358,6 +358,41 @@ class GoodsCommentsService
     }
 
     /**
+     * 前端商品评论列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserGoodsCommentsListWhere($params = [])
+    {
+        $where = [];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where[]= ['user_id', '=', $params['user']['id']];
+        }
+
+        if(!empty($params['keywords']))
+        {
+            $goods_where = [
+                ['g.is_delete_time', '=', 0],
+                ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'],
+            ];
+            $goods_ids = Db::name('Goods')->alias('g')->join('goods_comments gc', 'g.id=gc.goods_id')->where($goods_where)->column('g.id');
+            if(!empty($goods_ids))
+            {
+                $where[] = ['goods_id', 'in', $goods_ids];
+            }
+        }
+
+        return $where;
+    }
+
+    /**
      * 订单规格字符串处理
      * @author   Devil
      * @blog    http://gong.gg/
@@ -424,22 +459,10 @@ class GoodsCommentsService
                 'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
-                'checked_type'      => 'in',
-                'key_name'          => 'business_type',
-                'checked_data'      => array_keys(MyConst('common_goods_comments_business_type_list')),
-                'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '6,230',
                 'error_msg'         => MyLang('common_service.goodscomments.form_item_content_message'),
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'reply',
-                'checked_data'      => '230',
-                'error_msg'         => MyLang('common_service.goodscomments.form_item_reply_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -454,21 +477,67 @@ class GoodsCommentsService
             return DataReturn($ret, -1);
         }
 
+        // 用户类型
+        $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+
+        // 管理员操作
+        if($user_type == 'admin')
+        {
+            $p = [
+                [
+                    'checked_type'      => 'in',
+                    'key_name'          => 'business_type',
+                    'checked_data'      => array_keys(MyConst('common_goods_comments_business_type_list')),
+                    'error_msg'         => MyLang('common_service.goodscomments.form_item_business_type_message'),
+                ],
+                [
+                    'checked_type'      => 'length',
+                    'key_name'          => 'reply',
+                    'checked_data'      => '230',
+                    'error_msg'         => MyLang('common_service.goodscomments.form_item_reply_message'),
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+        }
+
         // 开始操作
         $data = [
-            'content'           => $params['content'],
-            'reply'             => $params['reply'],
-            'business_type'     => $params['business_type'],
-            'rating'            => intval($params['rating']),
-            'reply_time'        => empty($params['reply_time']) ? 0 : strtotime($params['reply_time']),
-            'is_reply'          => isset($params['is_reply']) ? intval($params['is_reply']) : 0,
-            'is_show'           => isset($params['is_show']) ? intval($params['is_show']) : 0,
-            'is_anonymous'      => isset($params['is_anonymous']) ? intval($params['is_anonymous']) : 0,
-            'upd_time'          => time(),
+            'content'       => $params['content'],
+            'rating'        => intval($params['rating']),
+            'is_anonymous'  => isset($params['is_anonymous']) ? intval($params['is_anonymous']) : 0,
+            'upd_time'      => time(),
         ];
 
+        // 管理员操作
+        if($user_type == 'admin')
+        {
+            $data = array_merge($data, [
+                'business_type'  => $params['business_type'],
+                'reply'          => $params['reply'],
+                'reply_time'     => empty($params['reply_time']) ? 0 : strtotime($params['reply_time']),
+                'is_reply'       => isset($params['is_reply']) ? intval($params['is_reply']) : 0,
+                'is_show'        => isset($params['is_show']) ? intval($params['is_show']) : 0,
+            ]);
+        }
+
+        // 更新条件
+        $where = [
+            ['id', '=', intval($params['id'])]
+        ];
+
+        // 是否用户操作
+        if($user_type == 'user')
+        {
+            $user_id = empty($params['user']) ? 0 : intval($params['user']['id']);
+            $where[] = ['user_id', '=', $user_id];
+        }
+
         // 更新
-        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update($data))
+        if(Db::name('GoodsComments')->where($where)->update($data))
         {
             return DataReturn(MyLang('edit_success'), 0);
         }
@@ -497,8 +566,23 @@ class GoodsCommentsService
             $params['ids'] = explode(',', $params['ids']);
         }
 
+        // 用户类型
+        $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+
+        // 更新条件
+        $where = [
+            ['id', 'in', $params['ids']]
+        ];
+
+        // 是否用户操作
+        if($user_type == 'user')
+        {
+            $user_id = empty($params['user']) ? 0 : intval($params['user']['id']);
+            $where[] = ['user_id', '=', $user_id];
+        }
+
         // 开始删除
-        if(Db::name('GoodsComments')->where(['id'=>$params['ids']])->delete())
+        if(Db::name('GoodsComments')->where($where)->delete())
         {
             return DataReturn(MyLang('delete_success'), 0);
         }

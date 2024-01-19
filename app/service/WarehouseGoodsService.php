@@ -174,7 +174,7 @@ class WarehouseGoodsService
                         'goods_id'      => $temp['goods_id'],
                         'warehouse_id'  => $temp['warehouse_id'],
                     ];
-                    if(!Db::name('WarehouseGoods')->where($where)->delete() && Db::name('WarehouseGoodsSpec')->where($where)->delete())
+                    if(Db::name('WarehouseGoods')->where($where)->delete() === false || Db::name('WarehouseGoodsSpec')->where($where)->delete() === false)
                     {
                         throw new \Exception(MyLang('common_service.warehousegoods.row_delete_fail_tips', ['index'=>$index]));
                     }
@@ -828,6 +828,51 @@ class WarehouseGoodsService
             return DataReturn(MyLang('common_service.warehousegoods.goods_sync_inventory_fail_tips'), -21);
         }
 
+        // 获取商品对应仓库库存、未启用的仓库和商品则赋值0库存
+        $warehouse_goods = Db::name('WarehouseGoods')->field('id,warehouse_id,goods_id,inventory,is_enable')->where(['goods_id'=>$goods_id])->select()->toArray();
+        if(!empty($warehouse_goods))
+        {
+            // 对应仓库
+            $warehouse = Db::name('Warehouse')->where(['id'=>array_column($warehouse_goods, 'warehouse_id')])->column('id,name,is_enable', 'id');
+            // 对应规格
+            $warehouse_goods_spec = Db::name('WarehouseGoodsSpec')->where(['warehouse_goods_id'=>array_column($warehouse_goods, 'id')])->select()->toArray();
+            foreach($warehouse_goods as &$wg)
+            {
+                $temp_warehouse = (empty($warehouse) || !array_key_exists($wg['warehouse_id'], $warehouse)) ? '' : $warehouse[$wg['warehouse_id']];
+                // 放入仓库名称
+                $wg['warehouse_name'] = empty($temp_warehouse) ? '' : $temp_warehouse['name'];
+                // 仓库商品未启用、仓库不存在、仓库未启用 则库存赋值为0
+                $wg['is_valid'] = ($wg['is_enable'] == 0 || empty($temp_warehouse) || $temp_warehouse['is_enable'] == 0) ? 0 : 1;
+                unset($wg['is_enable']);
+                // 加入仓库商品规格
+                if(!empty($warehouse_goods_spec))
+                {
+                    if(!array_key_exists('spec_data', $wg))
+                    {
+                        $wg['spec_data'] = [];
+                    }
+                    foreach($warehouse_goods_spec as $sv)
+                    {
+                        if($sv['warehouse_goods_id'] == $wg['id'])
+                        {
+                            // 非默认规则则为json转为数组
+                            if($sv['spec'] != 'default')
+                            {
+                                $sv['spec'] = json_decode($sv['spec'], true);
+                                // 如果为空则表示非正确的规格数据，则赋值为默认规格default
+                                if(empty($sv['spec']))
+                                {
+                                    $sv['spec'] = 'default';
+                                }
+                            }
+                            unset($sv['add_time']);
+                            $wg['spec_data'][] = $sv;
+                        }
+                    }
+                }
+            }
+        }
+
         // 商品仓库库存修改钩子
         $hook_name = 'plugins_service_warehouse_goods_inventory_sync';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -836,6 +881,7 @@ class WarehouseGoodsService
             'goods_id'          => $goods_id,
             'inventory_total'   => $inventory_total,
             'spec'              => $spec,
+            'warehouse_goods'   => $warehouse_goods,
             'params'            => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)

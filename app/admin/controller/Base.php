@@ -38,6 +38,9 @@ class Base extends Common
 
         // 权限校验
         $this->IsPower();
+
+        // 动态表格初始化
+        $this->FormTableInit();
     }
 }
 ?>

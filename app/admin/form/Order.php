@@ -433,11 +433,11 @@ class Order
                 ],
                 'is_page_stats'     => 1,
                 'page_stats_data'   => [
-                    ['name'=>'订单总额', 'field'=>'total_price', 'unit'=>'元'],
-                    ['name'=>'支付总额', 'field'=>'pay_price', 'unit'=>'元'],
+                    ['name'=>'订单总额', 'field'=>'total_price'],
+                    ['name'=>'支付总额', 'field'=>'pay_price'],
                     ['name'=>'商品总数', 'field'=>'buy_number_count'],
-                    ['name'=>'退款', 'field'=>'refund_price', 'unit'=>'元'],
-                    ['name'=>'退货', 'field'=>'returned_quantity'],
+                    ['name'=>'退款金额', 'field'=>'refund_price'],
+                    ['name'=>'退货数量', 'field'=>'returned_quantity'],
                 ],
                 'data_params'       => [
                     'is_public' => 0,

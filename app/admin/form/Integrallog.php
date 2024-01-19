@@ -140,6 +140,7 @@ class IntegralLog
                     'view_key'      => 'integrallog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 80,
                 ],
             ],
             // 数据配置

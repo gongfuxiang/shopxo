@@ -3,115 +3,139 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('role.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/role/index', $params)
+        ])}}
+        <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/role/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/role/index', $params)}}">
-        	<legend>
-				<span class="am-text-default">{{:MyLang('role.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
-				<a href="{{:MyUrl('admin/role/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-			</legend>
-			<div class="am-cf">
-				<div class="am-u-sm-6 am-padding-horizontal-0">
-					<div class="am-form-group">
-						<label>{{:MyLang('common_service.role.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" placeholder="{{:MyLang('common_service.role.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.role.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}}value="{{$data.name}}"{{/if}} required />
-					</div>
-				</div>
-				<div class="am-u-sm-6 am-padding-horizontal-0">
-					{{include file="lib/is_enable" /}}
-				</div>
-			</div>
-			
-			<div class="am-form-group">
-				<label>{{:MyLang('common_service.role.form_item_menu')}}</label>
-				<ul class="tree-list am-avg-sm-1 am-avg-md-1 am-avg-lg-1">
-					{{if !empty($power['power'])}}
-						{{foreach $power.power as $v}}
-							<li>
-								<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $v['is_show'] eq 0}}bk-cr-ffd{{/if}}">
-									<label>
-										<input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
-										<span>{{$v.name}}</span>
-									</label>
-								</div>
-							</li>
-							{{if !empty($v['item'])}}
-								<ul class="list-find am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-margin-top-xs am-margin-left-xl">
-									{{foreach $v.item as $vs}}
-										<li>
-											<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $vs['is_show'] eq 0}}bk-cr-ffd{{/if}}">
-											<label>
-													<input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} />
-													<span>{{$vs.name}}</span>
-												</label>
-											</div>
-										</li>
-									{{/foreach}}
-								</ul>
-							{{/if}}
-						{{/foreach}}
-					{{else /}}
-						<p class="am-text-warning">{{:MyLang('common_service.role.form_item_menu_no_data_tips')}}</p>
-					{{/if}}
-				</ul>
-			</div>
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/role/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/role/index', $params)}}">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.role.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" placeholder="{{:MyLang('common_service.role.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.role.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}}value="{{$data.name}}"{{/if}} required />
+            </div>
+            {{include file="lib/is_enable" /}}
+            
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('common_service.role.form_item_menu'),
+                        'key'  => 'role-form-item-menu',
+                    ],
+                    [
+                        'name' => MyLang('common_service.role.form_item_plugins'),
+                        'key'  => 'role-form-item-plugins',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <div class="item am-active" data-key="role-form-item-menu">
+                    <div class="am-form-group">
+                        <ul class="tree-list am-avg-sm-1 am-avg-md-1 am-avg-lg-1 am-nbfc am-radius-lg">
+                            {{if !empty($power['power'])}}
+                                {{foreach $power.power as $v}}
+                                    <li>
+                                        <div class="item-content am-padding-sm">
+                                            <label class="am-checkbox-inline">
+                                                <input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                <span class="{{if $v['is_show'] eq 0}}cr-999{{/if}}">{{$v.name}}</span>
+                                            </label>
+                                        </div>
+                                        {{if !empty($v['item'])}}
+                                            <ul class="list-find am-avg-sm-1 am-avg-md-1 am-avg-lg-1">
+                                                {{foreach $v.item as $vs}}
+                                                    <li class="am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp">
+                                                        <div class="item-content am-padding-sm">
+                                                        <label class="am-checkbox-inline">
+                                                            <input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                            <span class="{{if $vs['is_show'] eq 0}}cr-999{{/if}}">{{$vs.name}}</span>
+                                                        </label>
+                                                        </div>
+                                                        {{if !empty($vs['item'])}}
+                                                            <div class="am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">
+                                                                {{foreach $vs.item as $vss}}
+                                                                    <label class="am-checkbox-inline">
+                                                                        <input type="checkbox" name="power_id" value="{{$vss.id}}" {{if $vss['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck>
+                                                                        <span class="{{if $vss['is_show'] eq 0}}cr-999{{/if}}">{{$vss.name}}</span>
+                                                                    </label>
+                                                                {{/foreach}}
+                                                            </div>
+                                                        {{/if}}
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </li>
+                                {{/foreach}}
+                            {{else /}}
+                                <p class="am-text-warning">{{:MyLang('common_service.role.form_item_menu_no_data_tips')}}</p>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
 
-			<div class="am-form-group">
-				<label>{{:MyLang('common_service.role.form_item_plugins')}}<span class="am-text-warning am-margin-left-sm">{{:MyLang('common_service.role.form_item_plugins_tips')}}</span></label>
-				<ul class="tree-list am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
-					{{if !empty($power['plugins'])}}
-						{{foreach $power.plugins as $v}}
-							<li>
-								<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs">
-									<label>
-										<input type="checkbox" name="plugins" value="{{$v.plugins}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
-										<span>{{$v.name}}</span>
-									</label>
-								</div>
-							</li>
-						{{/foreach}}
-					{{else /}}
-						<p class="am-text-warning">{{:MyLang('plugins_no_data_tips')}}</p>
-					{{/if}}
-				</ul>
-			</div>
+                <div class="item" data-key="role-form-item-plugins">
+                    <div class="am-form-group">
+                        <div class="tree-plugins am-padding-left-sm am-checkbox-group am-flex am-flex-warp-re am-flex-items-center am-gap-12">
+                            <label class="am-checkbox-inline am-text-truncate">
+                                <input type="checkbox" name="plugins" value="" class="auth-choice" data-am-ucheck />
+                                <span>全选</span>
+                            </label>
+                            <span>{{:MyLang('common_service.role.form_item_plugins_tips')}}</span>
+                        </div>
+                        <ul class="tree-list tree-plugins am-flex am-flex-warp">
+                            {{if !empty($power['plugins'])}}
+                                {{foreach $power.plugins as $v}}
+                                    <li>
+                                        <div class="item-content am-checkbox-group">
+                                            <label class="am-checkbox-inline am-text-truncate">
+                                                <input type="checkbox" name="plugins" value="{{$v.plugins}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                <span>{{$v.name}}</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                {{/foreach}}
+                            {{else /}}
+                                <p class="am-text-warning">{{:MyLang('plugins_no_data_tips')}}</p>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-			<!-- 插件扩展数据 start -->
-			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <!-- 插件扩展数据 start -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
                     <span>plugins_view_admin_role_save</span>
                 </div>
             {{/if}}
-			{{if !empty($plugins_view_admin_role_save_data) and is_array($plugins_view_admin_role_save_data)}}
-				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
-					<div>
-						{{foreach $plugins_view_admin_role_save_data as $hook}}
-		                    {{if is_string($hook) or is_int($hook)}}
-		                        {{$hook|raw}}
-		                    {{/if}}
-		                {{/foreach}}
-					</div>
-				</div>
-			{{/if}}
-			<!-- 插件扩展数据 end -->
+            {{if !empty($plugins_view_admin_role_save_data) and is_array($plugins_view_admin_role_save_data)}}
+                <div class="am-alert am-alert-secondary">
+                    <label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
+                    <div>
+                        {{foreach $plugins_view_admin_role_save_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+            <!-- 插件扩展数据 end -->
 
-			<div class="am-form-popup-submit">
-				<input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
-				<a href="{{:MyUrl('admin/role/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
-                    <i class="am-icon-mail-reply"></i>
-                    <span>{{:MyLang('retreat_title')}}</span>
-                </a>
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
-		<!-- right form end  -->
+            </div>
+        </form>
+        <!-- right form end  -->
 	</div>
 </div>
 <!-- right content end  -->
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

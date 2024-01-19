@@ -1,0 +1,46 @@
+
+#tree table.am-table th:nth-child(1),
+#tree table.am-table td:nth-child(1) {
+    width: 15rem;
+}
+
+#tree table.am-table th:nth-child(2),
+#tree table.am-table td:nth-child(2) {
+    width: calc(100% / 2);
+}
+
+#tree table.am-table th:nth-child(4),
+#tree table.am-table td:nth-child(4) {
+    width: 15rem;
+}
+
+
+@media only screen and (max-width: 940px) {
+
+    #tree table.am-table thead th,
+    #tree table.am-table td {
+        padding: 1rem;
+    }
+
+    #tree table.am-table th:nth-child(2),
+    #tree table.am-table th:nth-child(3),
+    #tree table.am-table td:nth-child(2),
+    #tree table.am-table td:nth-child(3) {
+        width: calc(100% - 22rem);
+    }
+
+    #tree table.am-table th:nth-child(1),
+    #tree table.am-table td:nth-child(1) {
+        width: 10rem;
+    }
+
+    #tree table.am-table th:nth-child(3),
+    #tree table.am-table td:nth-child(3) {
+        display: none;
+    }
+
+    #tree table.am-table th:nth-child(4),
+    #tree table.am-table td:nth-child(4) {
+        width: 12rem;
+    }
+}

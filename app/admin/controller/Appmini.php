@@ -122,18 +122,20 @@ class Appmini extends Base
 	public function CurrentViewInit()
 	{
 		return [
-			// 操作导航类型
-			'nav_type' 				=> $this->params['application_name'],
-			// 操作页面类型
-			'view_type' 			=> $this->view_type,
-			// 应用商店
-	        'store_theme_url' 		=> StoreService::StoreThemeUrl(),
-			// 小程序平台
-			'common_appmini_type' 	=> MyConst('common_appmini_type'),
-			// 是否
-			'common_is_text_list' 	=> MyConst('common_is_text_list'),
 			// 基础导航
-			'base_nav'				=> MyLang('appmini.base_nav_list'),
+			'base_nav'                => MyLang('appmini.base_nav_list'),
+			// 操作导航类型
+			'nav_type'                => $this->params['application_name'],
+			// 操作页面类型
+			'view_type'               => $this->view_type,
+			// 应用商店
+			'store_theme_url'         => StoreService::StoreThemeUrl(),
+			// 小程序平台
+			'common_appmini_type'     => MyConst('common_appmini_type'),
+			// 是否
+			'common_is_text_list'     => MyConst('common_is_text_list'),
+			// 是否开启
+			'common_close_open_list'  => MyConst('common_close_open_list'),
 		];
 	}
 

@@ -67,8 +67,9 @@ class PaymentService
      * @version 1.0.0
      * @date    2018-09-17
      * @desc    description
+     * @param   [int]           $type [null全部、0已安装、1未安装]
      */
-    public static function PluginsPaymentList()
+    public static function PluginsPaymentList($type = null)
     {
         // 初始化
         self::Init();
@@ -95,33 +96,46 @@ class PaymentService
                             $temp['payment'] = $payment;
 
                             // 获取数据库配置信息
-                            $db_config = self::PaymentList(['where'=>['payment'=>$payment]]);
-                            if(!empty($db_config[0]))
+                            $is_install = false;
+                            if($type === null || $type == 0)
                             {
-                                $temp['is_install'] = 1;
-                                $temp['id'] = $db_config[0]['id'];
-                                $temp['name'] = $db_config[0]['name'];
-                                $temp['logo'] = $db_config[0]['logo'];
-                                $temp['config'] = $db_config[0]['config'];
-                                $temp['is_enable'] = $db_config[0]['is_enable'];
-                                $temp['is_open_user'] = $db_config[0]['is_open_user'];
-
-                                // 支付平台类型
-                                $apply_terminal_names = [];
-                                if(!empty($db_config[0]['apply_terminal']) && is_array($db_config[0]['apply_terminal']))
+                                $db_config = self::PaymentList(['where'=>['payment'=>$payment]]);
+                                if(!empty($db_config[0]))
                                 {
-                                    foreach($common_platform_type as $platform_type)
+                                    $temp['is_install'] = 1;
+                                    $temp['id'] = $db_config[0]['id'];
+                                    $temp['name'] = $db_config[0]['name'];
+                                    $temp['logo'] = $db_config[0]['logo'];
+                                    $temp['config'] = $db_config[0]['config'];
+                                    $temp['is_enable'] = $db_config[0]['is_enable'];
+                                    $temp['is_open_user'] = $db_config[0]['is_open_user'];
+
+                                    // 支付平台类型
+                                    $apply_terminal_names = [];
+                                    if(!empty($db_config[0]['apply_terminal']) && is_array($db_config[0]['apply_terminal']))
                                     {
-                                        if(in_array($platform_type['value'], $db_config[0]['apply_terminal']))
+                                        foreach($common_platform_type as $platform_type)
                                         {
-                                            $apply_terminal_names[] = $platform_type['name'];
+                                            if(in_array($platform_type['value'], $db_config[0]['apply_terminal']))
+                                            {
+                                                $apply_terminal_names[] = $platform_type['name'];
+                                            }
                                         }
                                     }
+                                    $temp['apply_terminal_names'] = $apply_terminal_names;
+                                    $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
+                                    $is_install = true;
                                 }
-                                $temp['apply_terminal_names'] = $apply_terminal_names;
-                                $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
                             }
-                            $data[] = $temp;
+                            if($type === null || $type == 1)
+                            {
+                                $data[] = $temp;
+                            } else {
+                                if($is_install)
+                                {
+                                    $data[] = $temp;
+                                }
+                            }
                         }
                     }
                 }
@@ -670,7 +684,7 @@ class PaymentService
                     if($stream !== false)
                     {
                         $file_content = stream_get_contents($stream);
-                        if($file_content !== false)
+                        if($file_content !== false && strpos($file_content, 'eval(') === false)
                         {
                             if(@file_put_contents($new_file, $file_content) !== false)
                             {

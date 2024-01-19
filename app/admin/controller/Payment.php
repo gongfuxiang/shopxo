@@ -25,6 +25,24 @@ use app\service\ResourcesService;
  */
 class Payment extends Base
 {
+    private $nav_type;
+
+    /**
+     * 构造方法
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+
+        // 导航类型
+        $this->nav_type = empty($this->data_request['type']) ? 0 : intval($this->data_request['type']);
+    }
+
 	/**
      * 列表
      * @author   Devil
@@ -35,14 +53,18 @@ class Payment extends Base
 	public function Index()
 	{
         // 插件列表
-        $payment = PaymentService::PluginsPaymentList();
+        $payment = PaymentService::PluginsPaymentList($this->nav_type);
 
         // 模板数据
         $assign = [
+            // 导航类型
+            'nav_type'              => $this->nav_type,
             // 支付插件列表
             'data_list'             => empty($payment['data']) ? [] : $payment['data'],
             // 不能删除的支付方式
             'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
+            // 管理导航
+            'nav_data'              => MyLang('payment.base_nav_list'),
             // 适用平台
             'common_platform_type'  => MyConst('common_platform_type'),
             // 应用商店

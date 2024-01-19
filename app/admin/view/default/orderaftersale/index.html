@@ -37,13 +37,15 @@
                 <form class="am-form form-validation-audit am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
                         <label class="am-block">{{:MyLang('common_service.orderaftersale.form_item_refundment')}}</label>
-                        {{if !empty($common_order_aftersale_refundment_list)}}
-                            {{foreach $common_order_aftersale_refundment_list as $v}}
-                                <label class="am-radio-inline am-success">
-                                    <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_refundment_message')}}" required /> {{$v.name}}
-                                </label>
-                            {{/foreach}}
-                        {{/if}}
+                        <div class="am-radio-group">
+                            {{if !empty($common_order_aftersale_refundment_list)}}
+                                {{foreach $common_order_aftersale_refundment_list as $v}}
+                                    <label class="am-radio-inline">
+                                        <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_refundment_message')}}" required /> {{$v.name}}
+                                    </label>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
                     </div>
 
                     <div class="am-form-popup-submit">

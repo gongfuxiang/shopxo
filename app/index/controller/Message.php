@@ -50,7 +50,7 @@ class Message extends Center
         MessageService::MessageRead(['user'=>$this->user]);
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('message.browser_seo_title'), 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('message.base_nav_title'), 1));
         return MyView();
     }
 

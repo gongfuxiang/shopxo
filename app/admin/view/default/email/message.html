@@ -2,61 +2,57 @@
 
 <!-- right content start  -->
 <div class="content-right">
-	<!-- table nav start -->
-	{{include file="email/nav"" /}}
-	<!-- table nav end -->
-
 	<div class="content">
-		<!-- form start -->
-		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
-			<!-- 后台 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('email.base_item_admin_title')}}</h3>
+        <!-- nav start -->
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $type,
+            'url'       => 'admin/email/index'
+        ])}}
+        <!-- nav end -->	
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
+            <div class="nav-content rich-text">
+                <!-- table tips start -->
+                {{include file="email/tips"" /}}
+                <!-- table tips end -->
+                <!-- 后台 -->
+                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('email.base_item_admin_title')}}</p>
+                <div class="am-form-group">
+                    <label>{{$data.admin_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_email_login_template.describe}}</span></label>
+                    <textarea id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value}}{{/if}}</textarea>
                 </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                	<div class="am-form-group">
-						<label>{{$data.admin_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_email_login_template.describe}}</span></label>
-						<textarea id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value}}{{/if}}</textarea>
-					</div>
+
+                <!-- 前端 -->
+                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('email.base_item_index_title')}}</p>
+                <div class="am-form-group">
+                    <label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
+                    <textarea id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value}}{{/if}}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_login_template.describe}}</span></label>
+                    <textarea id="home_email_login_template" name="{{$data.home_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_login_template.value}}{{/if}}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_email_user_reg_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg_template.describe}}</span></label>
+                    <textarea id="email_user_reg" name="{{$data.home_email_user_reg_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg_template.value}}{{/if}}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_email_user_forget_pwd_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd_template.describe}}</span></label>
+                    <textarea id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd_template.value}}{{/if}}</textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_email_user_email_binding_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding_template.describe}}</span></label>
+                    <textarea id="email_user_email_binding" name="{{$data.home_email_user_email_binding_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding_template.value}}{{/if}}</textarea>
                 </div>
             </div>
-
-			<!-- 前端 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('email.base_item_index_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-					<div class="am-form-group">
-						<label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
-						<textarea id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value}}{{/if}}</textarea>
-					</div>
-                    <div class="am-form-group">
-                        <label>{{$data.home_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_login_template.describe}}</span></label>
-                        <textarea id="home_email_login_template" name="{{$data.home_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_login_template.value}}{{/if}}</textarea>
-                    </div>
-					<div class="am-form-group">
-						<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
-						<textarea id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value}}{{/if}}</textarea>
-					</div>
-					<div class="am-form-group">
-						<label>{{$data.home_email_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd.describe}}</span></label>
-						<textarea id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value}}{{/if}}</textarea>
-					</div>
-					<div class="am-form-group">
-						<label>{{$data.home_email_user_email_binding.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding.describe}}</span></label>
-						<textarea id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value}}{{/if}}</textarea>
-					</div>
-				</div>
-			</div>
-			<div class="am-form-popup-submit">
-				<button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+            <div class="am-form-popup-submit">
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -64,4 +60,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

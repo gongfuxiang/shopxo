@@ -2,43 +2,41 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'verify'])}}" enctype="multipart/form-data">
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
-                    <input type="number" min="0" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'verify'])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="item am-active">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_verify_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_interval_time.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.common_img_verify_state.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_img_verify_state.only_tag}}" data-validation-message="{{$data.common_img_verify_state.error_tips}}" required {{if isset($data['common_img_verify_state']['value']) and $data['common_img_verify_state']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+    
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_site_images_verify_rules_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_images_verify_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], $data['common_images_verify_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_images_verify_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_verify_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_interval_time.describe}}</span></label>
-                <div class="am-input-group am-input-group-sm">
-                    <input type="number" min="0" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} />
-                    <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
-                </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.common_img_verify_state.describe}}</span></label>
-                <select name="{{$data.common_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_img_verify_state.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['common_img_verify_state']['value']) and $data['common_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label class="am-block">{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>
-                {{foreach $common_site_images_verify_rules_list as $v}}
-                    <label class="am-checkbox-inline">
-                        <input type="checkbox" name="{{$data.common_images_verify_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], $data['common_images_verify_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_images_verify_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
-                    </label>
-                {{/foreach}}
             </div>
 
             <div class="am-form-popup-submit">
@@ -56,4 +54,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

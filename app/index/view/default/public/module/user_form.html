@@ -19,7 +19,7 @@
     <div class="user-content">
         <div class="user-content-body">
             <!-- user center title -->
-            {{include file="public/module/user_center_main_title" /}}
+            {{include file="public/user_center_main_title" /}}
 
             <!-- content top hook -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -91,7 +91,7 @@
                         <!-- form table end -->
 
                         <!-- bottom operate start -->
-                        <div class="form-table-operate-bottom am-cf am-margin-top-sm">
+                        <div class="form-table-operate-bottom am-cf am-margin-top">
                             {{block name="form_operate_bottom"}}
                                 {{include file="public/module/form_operate_bottom" /}}
                             {{/block}}
@@ -102,7 +102,7 @@
                     <!-- 字段选择 -->
                     {{include file="public/module/form_fields_select" /}}
                 {{else /}}
-                    <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}动态表格配置有误{{else /}}{{$form_error}}{{/if}}</div>
+                    <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}{{:MyLang('form_table_config_error_tips')}}{{else /}}{{$form_error}}{{/if}}</div>
                 {{/if}}
 
                 <!-- page start -->
@@ -165,7 +165,6 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 
 <!-- page buttom -->
 {{block name="form_page_bottom"}}{{/block}}

@@ -50,7 +50,7 @@ class UserAddress extends Center
         // 模板数据
         $assign = [
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('useraddress.browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('useraddress.base_nav_title'), 1),
         ];
         // 用户地址列表
         $data = UserAddressService::UserAddressList(['user'=>$this->user]);

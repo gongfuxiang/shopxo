@@ -1,0 +1,4 @@
+<!-- 回复内容 -->
+{{if !empty($module_data) and isset($module_data['is_reply']) and $module_data['is_reply'] eq 1 and !empty($module_data['reply'])}}
+    <div class="am-scrollable-vertical am-nowrap-initial reply-content">{{$module_data.reply|raw}}</div>
+{{/if}}

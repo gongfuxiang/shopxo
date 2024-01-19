@@ -3,23 +3,21 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<!-- cache list start -->
-		{{foreach $cache_type_list as $v}}
-			{{if $v['is_enable'] eq 1}}
-				<div class="am-panel am-panel-default am-radius">
-					<div class="am-panel-hd">{{$v.name}}</div>
-					<a href="javascript:;" class="submit-ajax" data-url="{{$v.url}}" data-is-confirm="0">
-						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr cache-submit">{{:MyLang('update_title')}}</button>
-					</a>
-					<div class="am-panel-bd">{{$v.desc}}</div>
-				</div>
-			{{/if}}
-		{{/foreach}}
-		<!-- cache list end -->
+        <!-- cache list start -->
+        {{foreach $cache_type_list as $v}}
+            {{if $v['is_enable'] eq 1}}
+                <div class="cache-item am-flex am-flex-col am-gap-12 am-border-bottom-f8 am-margin-bottom-xl am-padding-bottom">
+                    <label>{{$v.name}}<span class="am-form-group-label-tips">{{$v.desc}}</span></label>
+                    <div>
+                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs cache-submit submit-ajax" data-url="{{$v.url}}" data-is-confirm="0">{{:MyLang('update_title')}}</button>
+                    </div>
+                </div>
+            {{/if}}
+        {{/foreach}}
+        <!-- cache list end -->
 	</div>
 </div>
 <!-- right content end  -->
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

@@ -1,0 +1,7 @@
+/**
+ * 列表
+ */
+table.am-table .reply-content,
+table.am-table .am-gallery .am-gallery-item {
+    max-height: 4.5rem;
+}

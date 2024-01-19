@@ -119,7 +119,7 @@ class Index extends Common
             $assign['common_goods_order_by_rule_list'] = MyConst('common_goods_order_by_rule_list');
 
             // 浏览器名称
-            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('index.design_browser_seo_title'), 1);
+            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('index.design_base_nav_title'), 1);
 
             // 编辑器文件存放地址定义
             $assign['editor_path_type'] = 'index-design';

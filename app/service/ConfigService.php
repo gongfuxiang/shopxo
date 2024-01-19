@@ -37,9 +37,9 @@ class ConfigService
         'common_agreement_userlogout',
         'common_email_currency_template',
         'home_footer_info',
-        'home_email_user_reg',
-        'home_email_user_forget_pwd',
-        'home_email_user_email_binding',
+        'home_email_user_reg_template',
+        'home_email_user_forget_pwd_template',
+        'home_email_user_email_binding_template',
         'home_site_close_reason',
         'common_site_type',
         'common_self_extraction_address',
@@ -53,10 +53,16 @@ class ConfigService
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
+        'common_regex_mobile',
+        'common_regex_tel',
+        'common_regex_id_card',
     ];
 
     // 附件字段列表
     public static $attachment_field_list = [
+        'admin_logo',
+        'admin_login_logo',
+        'admin_login_ad_images',
         'home_site_logo',
         'home_site_logo_wap',
         'home_site_logo_app',
@@ -77,6 +83,7 @@ class ConfigService
         'home_user_login_type',
         'home_user_reg_type',
         'admin_login_type',
+        'home_site_app_state',
         'home_search_params_type',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
@@ -304,7 +311,7 @@ class ConfigService
     {
         $key = SystemService::CacheKey('shopxo.cache_common_my_config_key');
         $data = MyCache($key);
-        if($data === null || $status == 1)
+        if($data === null || $status == 1 || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
         {
             // 所有配置
             $data = Db::name('Config')->column('value', 'only_tag');
@@ -326,6 +333,15 @@ class ConfigService
                     if(isset($data[$fv]))
                     {
                         $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
+                    }
+                }
+
+                // 单附件字段
+                foreach(self::$attachment_field_list as $fv)
+                {
+                    if(!empty($data[$fv]))
+                    {
+                        $data[$fv] = ResourcesService::AttachmentPathViewHandle($data[$fv]);
                     }
                 }
 
@@ -516,23 +532,28 @@ class ConfigService
         ]);
 
         // 数据距离处理
-        if(!empty($data) && is_array($data) && !empty($params) && !empty($params['lng']) && !empty($params['lat']))
+        if(!empty($data) && is_array($data) && !empty($params))
         {
-            $unit = 'km';
-            foreach($data as &$v)
+            $lng = empty($params['lng']) ? (empty($params['user_lng']) ? '' : $params['user_lng']) : $params['lng'];
+            $lat = empty($params['lat']) ? (empty($params['user_lat']) ? '' : $params['user_lat']) : $params['lat'];
+            if(!empty($lng) && !empty($lat))
             {
-                if(!empty($v) && is_array($v))
+                $unit = 'km';
+                foreach($data as &$v)
                 {
-                    // 计算距离
-                    $v['distance_value'] = \base\GeoTransUtil::GetDistance($v['lng'], $v['lat'], $params['lng'], $params['lat'], 2);
-                    $v['distance_unit'] = $unit;
+                    if(!empty($v) && is_array($v))
+                    {
+                        // 计算距离
+                        $v['distance_value'] = \base\GeoTransUtil::GetDistance($v['lng'], $v['lat'], $lng, $lat, 2);
+                        $v['distance_unit'] = $unit;
+                    }
                 }
-            }
 
-            // 根据距离排序
-            if(count($data) > 1)
-            {
-                $data = ArrayQuickSort($data, 'distance_value');
+                // 根据距离排序
+                if(count($data) > 1 && array_sum(array_column($data, 'distance_value')) > 0)
+                {
+                    $data = ArrayQuickSort($data, 'distance_value');
+                }
             }
         }
         return DataReturn(MyLang('operate_success'), 0, $data);
@@ -586,6 +607,33 @@ class ConfigService
             }
         }
         return $params;
+    }
+
+    /**
+     * 短信模板配置
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-11-18
+     * @desc    description
+     * @param   [string]          $key [模板key]
+     */
+    public static function SmsTemplateValue($key)
+    {
+        // 读取短信配置信息
+        $value = MyC($key);
+
+        // 短信配置读取钩子
+        $hook_name = 'plugins_service_config_sms_template_value';
+        MyEventTrigger($hook_name,
+        [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'key'         => $key,
+            'value'       => &$value,
+        ]);
+
+        return $value;
     }
 }
 ?>

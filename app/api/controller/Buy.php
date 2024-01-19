@@ -62,27 +62,29 @@ class Buy extends Common
         $ret = BuyService::BuyOrderInit($params);
         if(isset($ret['code']) && $ret['code'] == 0)
         {
-            // 订单是否已提交、则直接进入订单支付
-            if(isset($ret['data']['is_order_submit']) && $ret['data']['is_order_submit'] == 1)
-            {
-                return ApiService::ApiDataReturn($ret);
-            }
-
-            // 基础信息
-            $buy_base = $ret['data']['base'];
-            $buy_goods = $ret['data']['goods'];
-
             // 支付方式
             $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 
-            // 数据返回组装
-            $result = [
-                'goods_list'          => $buy_goods,
-                'payment_list'        => $payment_list,
-                'base'                => $buy_base,
-                'common_site_type'    => (int) $buy_base['common_site_type'],
-                'default_payment_id'  => $params['payment_id'],
-            ];
+            // 订单是否已提交、则直接进入订单支付
+            if(isset($ret['data']['is_order_submit']) && $ret['data']['is_order_submit'] == 1)
+            {
+                $result                        = $ret['data'];
+                $result['payment_list']        = $payment_list;
+                $result['default_payment_id']  = $params['payment_id'];
+            } else {
+                // 基础信息
+                $buy_base = $ret['data']['base'];
+                $buy_goods = $ret['data']['goods'];
+
+                // 数据返回组装
+                $result = [
+                    'goods_list'          => $buy_goods,
+                    'payment_list'        => $payment_list,
+                    'base'                => $buy_base,
+                    'common_site_type'    => (int) $buy_base['common_site_type'],
+                    'default_payment_id'  => $params['payment_id'],
+                ];
+            }
             $ret = SystemBaseService::DataReturn($result);
         }
         return ApiService::ApiDataReturn($ret);

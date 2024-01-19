@@ -3,22 +3,30 @@
  */
 .user-address-idcard-images ul li {
     margin: 0;
+    padding: 0;
+    border-radius: var(--border-radius-lg);
 }
+
 @media only screen and (min-width: 641px) {
+
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 20rem;
+        width: 15.6rem !important;
     }
+
     .user-address-idcard-images ul li {
-        height: 13.2rem;
+        height: 13.6rem !important;
     }
 }
+
 @media only screen and (max-width: 640px) {
+
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 12.8rem;
+        width: 12.8rem !important;
     }
+
     .user-address-idcard-images ul li {
-        height: 8.5rem;
+        height: 11.5rem !important;
     }
 }

@@ -197,7 +197,7 @@
     text-align: center;
     margin: 0 2.6rem;
     font-size: 1.4rem;
-    width: 10.8rem;
+    max-width: 10.8rem;
 }
 .category-list-container .zero-item > a {
     width: 5rem;

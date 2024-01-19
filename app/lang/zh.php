@@ -26,6 +26,9 @@ return [
         'operate_params_error'              => '操作参数有误',
         'not_operate_error'                 => '没有相关操作',
         'not_data_error'                    => '没有相关数据',
+        'icon_name'                         => '图标',
+        'title_name'                        => '名称',
+        'status_name'                       => '状态',
         'confirm_name'                      => '确认',
         'cancel_name'                       => '取消',
         'select_reverse_name'               => '反选',
@@ -41,6 +44,9 @@ return [
         'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
         'copy_fail'                         => '复制失败',
         'copy_success'                      => '复制成功',
+        'images_preview_title'              => '图片预览',
+        'video_preview_title'               => '视频预览',
+        'file_preview_title'                => '文件预览',
         // 上传下载
         'get_loading_tips'                  => '正在获取中...',
         'download_loading_tips'             => '正在下载中...',
@@ -49,6 +55,10 @@ return [
         'system_download_loading_tips'      => '系统包正在下载中...',
         'upgrade_download_loading_tips'     => '升级包正在下载中...',
         // 公共common.js
+        'operate_name'                      => '操作',
+        'operate_add_name'                  => '新增',
+        'operate_edit_name'                 => '编辑',
+        'operate_delete_name'               => '删除',
         'select_not_chosen_tips'            => '请选择项',
         'select_chosen_min_tips'            => '至少选择{value}项',
         'select_chosen_max_tips'            => '最多选择{value}项',
@@ -60,9 +70,6 @@ return [
         'form_call_fun_not_exist_tips'      => '表单定义的方法未定义',
         'form_config_main_tips'             => '表单[action或method]参数配置有误',
         'max_input_vars_tips'               => '请求参数数量已超出php.ini限制',
-        'operate_add_name'                  => '新增',
-        'operate_edit_name'                 => '编辑',
-        'operate_delete_name'               => '删除',
         'upload_images_format_tips'         => '图片格式错误，请重新上传',
         'upload_video_format_tips'          => '视频格式错误，请重新上传',
         'ie_browser_tips'                   => 'ie浏览器不可用',
@@ -257,11 +264,18 @@ return [
     'images_format_error_tips'                              => '图片有误，请换一张！',
     'cancel_order_title'                                    => '取消订单',
     'delete_order_title'                                    => '删除订单',
+    'operate_list_tips_button_text'                         => '操作提示',
+    'operate_list_tips_retract_text'                        => '收起提示',
+    'operate_list_tips_msg'                                 => '提示相关设置操作时应注意的要点',
+    'images_preview_title'                                  => '图片预览',
+    'video_preview_title'                                   => '视频预览',
+    'file_preview_title'                                    => '文件预览',
     // 商店绑定
     'store_bind_account_name'                               => '绑定ShopXO商店账户',
     'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
     'store_account_not_bind_tips'                           => '请先绑定应用商店帐号',
     'store_check_update_name'                               => '检查更新',
+    'store_auto_update_name'                                => '自动更新',
     'store_bind_accounts_name'                              => '绑定ShopXO商店账户',
     'store_bind_accounts_tips'                              => '绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新',
     'store_bind_authorized_subject_name'                    => '授权主体',
@@ -302,6 +316,7 @@ return [
     'reverse_select_title'                                  => '反选',
     'reset_title'                                           => '重置',
     'confirm_title'                                         => '确认',
+    'screen_title'                                          => '筛选',
     'cancel_title'                                          => '取消',
     'search_title'                                          => '搜索',
     'query_title'                                           => '查询',
@@ -315,6 +330,7 @@ return [
     'edit_title'                                            => '编辑',
     'modify_title'                                          => '修改',
     'delete_title'                                          => '删除',
+    'delete_all_title'                                      => '删除全部',
     'remove_title'                                          => '移除',
     'moveup_title'                                          => '上移',
     'movedown_title'                                        => '下移',
@@ -336,6 +352,10 @@ return [
     'see_title'                                             => '看看',
     'clear_title'                                           => '清除',
     'clear_all_title'                                       => '清除全部',
+    'close_other_title'                                     => '关闭其他',
+    'close_all_title'                                       => '关闭全部',
+    'notice_title'                                          => '公告',
+    'refresh_title'                                         => '刷新',
     'close_title'                                           => '关闭',
     'open_title'                                            => '打开',
     'number_title'                                          => '数量',
@@ -375,6 +395,7 @@ return [
     'delivery_title'                                        => '发货',
     'take_title'                                            => '取货',
     'copy_title'                                            => '复制',
+    'admin_title'                                           => '管理',
     'user_title'                                            => '用户',
     'revoke_audit_title'                                    => '撤审',
     'reverse_audit_title'                                   => '反审',
@@ -417,6 +438,7 @@ return [
     'transfer_order_title'                                  => '转单',
     'transfer_audit_title'                                  => '转审',
     'divider_title'                                         => '分配',
+    'name_title'                                            => '名称',
     'status_title'                                          => '状态',
     'collection_fee_title'                                  => '收款',
     'complaint_title'                                       => '投诉',
@@ -434,6 +456,7 @@ return [
     'termination_title'                                     => '解除',
     'subordinate_title'                                     => '下级',
     'profit_title'                                          => '收益',
+    'stats_title'                                           => '统计',
     'gender_title'                                          => '性别',
     'birthday_title'                                        => '生日',
     'address_title'                                         => '地址',
@@ -460,6 +483,15 @@ return [
     'lat_title'                                             => '纬度',
     'lang_title'                                            => '语言',
     'color_title'                                           => '颜色',
+    'color_matching_title'                                  => '配色',
+    'blue_title'                                            => '蓝色',
+    'green_title'                                           => '绿色',
+    'red_title'                                             => '红色',
+    'orange_title'                                          => '橙色',
+    'yellow_title'                                          => '黄色',
+    'purple_title'                                          => '紫色',
+    'brown_title'                                           => '棕色',
+    'black_title'                                           => '黑色',
     'share_title'                                           => '分享',
     'template_title'                                        => '模板',
     'recharge_title'                                        => '充值',
@@ -467,6 +499,8 @@ return [
     'log_title'                                             => '明细',
     'continue_scan_title'                                   => '继续扫码',
     'self_pickup_point_title'                               => '自提点',
+    'web_title'                                             => 'WEB端',
+    'app_title'                                             => '手机端',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_stop_sale_title'                                 => '暂停销售',
@@ -996,6 +1030,13 @@ return [
         'fra'  => '法语',
         'swe'  => '瑞典语',
     ],
+    // 商品分类展示层级类型
+    'common_show_goods_category_level_list' => [
+        0 => '分类+商品',
+        1 => '一级分类',
+        2 => '二级分类',
+        3 => '三级分类',
+    ],
     // 图片验证码
     'common_site_images_verify_rules_list' => [
         0 => '彩色背景',
@@ -1008,6 +1049,22 @@ return [
         0 => '兼容模式',
         1 => 'PATHINFO模式',
         2 => 'PATHINFO模式+短地址',
+    ],
+    // 短信日志平台
+    'common_sms_log_platform_list' => [
+        'aliyun' => '阿里云',
+    ],
+    // 短信日志状态
+    'common_sms_log_status_list' => [
+        0 => '未发送',
+        1 => '已发送',
+        2 => '已失败',
+    ],
+    // 邮件日志状态
+    'common_email_log_status_list' => [
+        0 => '未发送',
+        1 => '已发送',
+        2 => '已失败',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1041,6 +1098,19 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 常用功能菜单
+        'shortcutmenu'      => [
+            'form_base_title'                    => '常用功能',
+            'form_item_name'                     => '名称',
+            'form_item_name_message'             => '名称格式1~60个字符',
+            'form_item_icon'                     => '图标',
+            'form_item_icon_message'             => '请上传图标',
+            'form_item_menu_or_url'              => '指向地址',
+            'form_item_menu_or_url_message'      => '请至少选择一个权限菜单或填写url地址',
+            'form_item_menu_select_placeholder'  => '请选择菜单',
+            'form_item_url_placeholder'          => '请输入地址',
+            'form_item_top_tips'                 => '最多选择9项功能，拖动调整排序',
+        ],
         // 权限管理
         'power'             => [
             // 表单
@@ -1054,7 +1124,7 @@ return [
             'form_item_action'                      => '方法名称',
             'form_item_action_message'              => '法名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
             'form_item_url'                         => '自定义url地址',
-            'form_item_url_message'                 => '自定义url地址、以http://或https://开头',
+            'form_item_url_message'                 => '自定义url地址、以http:// 或 https:// 或 / 开头',
             'form_item_icon'                        => '图标class',
             'form_item_icon_message'                => '图标格式最多30个字符',
             'form_item_icon_tips_list'              => [
@@ -1242,6 +1312,7 @@ return [
             'order_data_error_tips'                 => '订单数据有误',
             'order_detail_data_error_tips'          => '订单详情数据有误',
             'order_inventory_dec_type_error_tips'   => '库存扣减操作类型有误',
+            'order_submit_booking_success_tips'     => '订单预约成功、等待管理员审核！',
             'inventory_dec_not_enable_tips'         => '未开启扣除库存',
             'inventory_dec_not_confirm_tips'        => '当前订单状态未操作确认-不扣除库存',
             'inventory_dec_not_pay_tips'            => '当前订单状态未操作支付-不扣除库存',
@@ -1395,7 +1466,7 @@ return [
             'form_item_config_value_placeholder'    => '粘贴商品参数配置信息',
             'form_item_config_template_title'       => '商品参数模板',
             'form_item_config_copy_title'           => '复制配置',
-            'form_item_config_empty_title'          => '复制配置',
+            'form_item_config_empty_title'          => '清空参数',
             'form_item_config_list_content_tips'    => '可直接点中参数行拖拽排序或点击上下移动',
             // 保存
             'save_params_data_empty_tips'           => '请填写参数配置',
@@ -1469,6 +1540,7 @@ return [
             'form_spec_template_message'            => '请选择商品规格模板',
             'form_spec_quick_add_title'             => '批量添加规格',
             'form_spec_quick_generate_title'        => '生成规格',
+            'form_spec_add_column_title'            => '添加规格',
             'form_spec_type_title'                  => '规格名',
             'form_spec_type_message'                => '请填写规格名',
             'form_spec_value_title'                 => '规格值',
@@ -1486,9 +1558,9 @@ return [
             'form_spec_move_type_tips'              => '操作类型配置有误',
             'form_spec_move_top_tips'               => '已到最顶部',
             'form_spec_move_bottom_tips'            => '已到最底部',
-            'form_spec_thead_price_title'           => '售价(元)',
+            'form_spec_thead_price_title'           => '售价',
             'form_spec_thead_price_message'         => '请填写有效的销售金额',
-            'form_spec_thead_original_price_title'  => '原价(元)',
+            'form_spec_thead_original_price_title'  => '原价',
             'form_spec_thead_original_price_message'=> '请填写有效的原价',
             'form_spec_thead_buy_min_number_title'  => '起购数',
             'form_spec_thead_buy_min_number_message'=> '请填写有效的起购数',
@@ -1693,6 +1765,7 @@ return [
                 'order'             => '订单管理',
                 'orderaftersale'    => '订单售后',
                 'goodsfavor'        => '商品收藏',
+                'goodscomments'     => '商品评论',
                 'property'          => '财产中心',
                 'integral'          => '我的积分',
                 'base'              => '资料管理',
@@ -1720,7 +1793,7 @@ return [
             'form_item_number'                      => '商品件数',
             'form_item_number_message'              => '请填写有效的商品件数，最小1、最大{:max}',
             'form_item_price'                       => '退款金额',
-            'form_item_price_message'               => '请输入有效的退款金额，最高{:price}元',
+            'form_item_price_message'               => '请输入有效的退款金额，最高{:price}',
             'form_item_msg'                         => '退款说明',
             'form_item_msg_message'                 => '退款说明最多200个字符',
             'form_item_images'                      => '上传凭证',
@@ -1740,7 +1813,7 @@ return [
             // 基础
             'order_aftersale_overdue_tips'          => '订单已过售后期，请联系客服处理',
             'order_aftersale_have_in_hand_tips'     => '订单售后正在进行中，请勿重复申请',
-            'refund_amount_max_order_price_tips'    => '退款金额大于订单支付金额[ 历史退款{:history_price}元, 订单金额{:order_price}元 ]',
+            'refund_amount_max_order_price_tips'    => '退款金额大于订单支付金额[ 历史退款{:history_price}, 订单金额{:order_price} ]',
             'return_quantity_max_order_number_tips' => '退货数量大于购买数量[ 历史退货数量{:history_number}, 订单商品数量{:buy_number} ]',
             'refund_only_not_can_return_goods_tips' => '该售后订单为仅退款，不能操作退货操作',
             'status_not_can_operate_tips'           => '该售后订单状态不可操作',
@@ -1756,7 +1829,7 @@ return [
             'refund_user_message_title'             => '订单退款',
             'order_aftersale_update_fail_tips'      => '售后订单更新失败',
             'pay_log_trade_empty_tips'              => '平台单号为空，请确认支付日志是否存在',
-            'pay_log_refund_reason'                 => '{:order_no}订单退款{:price}元',
+            'pay_log_refund_reason'                 => '{:order_no}订单退款{:price}',
             'payment_plugins_tetrace_fail_tips'     => '支付插件退款处理有误',
             'wallet_update_fail_tips'               => '钱包更新失败',
             'wallet_log_insert_fail_tips'           => '钱包日志添加失败',
@@ -1820,7 +1893,7 @@ return [
             'pay_params_error_tips'                 => '支付传参有误',
             'pay_price_error_tips'                  => '订单金额有误、请正常发起支付',
             'only_under_line_error_tips'            => '仅线下支付方式处理',
-            'order_pay_user_message_msg'            => '订单支付成功，金额{:price}元',
+            'order_pay_user_message_msg'            => '订单支付成功，金额{:price}',
             'order_update_fail_tips'                => '订单更新失败',
             'user_under_line_pay_history_desc'      => '用户线下支付',
             'order_status_history_insert_fail_tips' => '订单日志添加失败',
@@ -1834,7 +1907,7 @@ return [
             'order_take_status_name'                => '待取货',
             'order_under_line_pay_status_name'      => '待确认',
             'order_under_line_name'                 => '线下支付',
-            'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}元',
+            'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}',
             'order_goods_sales_count_inc_fail_tips' => '订单商品销量增加失败',
             'order_detail_goods_empty_tips'         => '订单有误，没有找到相关商品',
             'pay_have_in_hand_tips'                 => '支付中',
@@ -2171,6 +2244,7 @@ return [
         ],
         // 主题
         'theme'                     => [
+            'form_item_upload_tips'                 => '上传一个zip压缩格式的主题包',
             'view_dir_no_power_tips'                => '视图目录没权限',
             'static_dir_no_power_tips'              => '资源目录没权限',
             'package_invalid_tips'                  => '无效的主题包',
@@ -2315,6 +2389,8 @@ return [
             'goods_inventory_dec_fail_tips'         => '仓库商品库存扣减失败',
             'goods_spec_inventory_inc_fail_tips'    => '仓库商品规格库存回滚失败',
             'goods_inventory_inc_fail_tips'         => '仓库商品库存回滚失败',
+            'goods_goods_spec_default_name'         => '默认规格',
+            'goods_goods_spec_inventory_name'       => '规格库存',
         ],
         // 仓库商品
         'warehouse'                 => [
@@ -2694,6 +2770,12 @@ return [
                 'touser_openid_empty_tips'          => 'openid不能为空',
                 'template_id_empty_tips'            => 'template_id不能为空',
                 'data_empty_tips'                   => 'data不能为空',
+                'not_opened_trade_managed_msg'      => '未开通发货管理',
+                'trade_no_empty_tips'               => 'trade_no不能为空',
+                'buyer_user_empty_tips'             => 'buyer_user不能为空',
+                'goods_title_empty_tips'            => 'goods_title不能为空',
+                'no_match_logistics_company_code'   => '无匹配的物流公司编码',
+                'no_match_logistics_mode'           => '无匹配的物流模式',
             ],
             // 邮件
             'email'         => [
@@ -2837,10 +2919,15 @@ return [
             'name' => '底部统计代码',
             'desc' => '支持html，可用于添加流量统计代码',
         ],
-        'home_site_state'  => [
-            'name' => '站点状态',
+        'home_site_app_state'  => [
+            'name' => '关闭手机端',
+            'desc' => '勾选则关闭',
+            'tips' => '请选择是否关闭手机端',
+        ],
+        'home_site_web_state'  => [
+            'name' => 'web端站点状态',
             'desc' => '可暂时将站点关闭，其他人无法访问，但不影响管理员访问后台',
-            'tips' => '请选择站点状态',
+            'tips' => '请选择web端站点状态',
         ],
         'home_site_close_reason'  => [
             'name' => '关闭原因',
@@ -2935,7 +3022,7 @@ return [
             'desc' => '防止频繁获取验证码，一般在 30~120 秒之间，单位 [秒]',
             'tips' => '请填写获取验证码时间间隔',
         ],
-        'home_sms_user_reg'  => [
+        'home_sms_user_reg_template'  => [
             'name' => '用户注册-短信模板ID',
             'desc' => '验证码code',
             'tips' => '请填写用户注册短信模板内容',
@@ -2950,7 +3037,7 @@ return [
             'desc' => 'Access Key ID',
             'tips' => '请填写Access Key ID',
         ],
-        'home_sms_user_forget_pwd'  => [
+        'home_sms_user_forget_pwd_template'  => [
             'name' => '密码找回-短信模板ID',
             'desc' => '验证码code',
             'tips' => '请填写密码找回短信模板内容',
@@ -3012,15 +3099,15 @@ return [
             'desc' => '前台默认模板',
             'tips' => '请选择默认模板',
         ],
-        'home_email_user_reg'  => [
+        'home_email_user_reg_template'  => [
             'name' => '用户注册-邮件模板',
             'desc' => '验证码变量标识符 [ #code# ]',
         ],
-        'home_email_user_forget_pwd'  => [
+        'home_email_user_forget_pwd_template'  => [
             'name' => '密码找回-邮件模板',
             'desc' => '验证码变量标识符 [ #code# ]',
         ],
-        'home_email_user_email_binding'  => [
+        'home_email_user_email_binding_template'  => [
             'name' => '邮箱绑定-邮件模板',
             'desc' => '验证码变量标识符 [ #code# ]',
         ],
@@ -3028,7 +3115,7 @@ return [
             'name' => 'css/js版本标记',
             'desc' => '用于css/js浏览器缓存版本识别',
         ],
-        'home_sms_user_mobile_binding'  => [
+        'home_sms_user_mobile_binding_template'  => [
             'name' => '手机号码绑定-短信模板ID',
             'desc' => '验证码code',
             'tips' => '请填写手机号码绑定短信模板内容',
@@ -3090,7 +3177,7 @@ return [
         ],
         'home_navigation_main_quick_name'  => [
             'name' => '快捷导航名称',
-            'desc' => '默認 更多入口',
+            'desc' => '默认 更多入口',
             'tips' => '请填写快捷导航名称',
         ],
         'home_index_floor_goods_order_by_rule'  => [
@@ -3181,6 +3268,16 @@ return [
             'name' => '描述',
             'desc' => '',
             'tips' => '请填写描述',
+        ],
+        'common_app_mini_weixin_share_original_id'  => [
+            'name' => '微信小程序原始ID',
+            'desc' => '填写则APP分享到微信使用小程序',
+            'tips' => '请填写微信小程序原始ID',
+        ],
+        'common_app_mini_weixin_upload_shipping_status'  => [
+            'name' => '同步微信发货',
+            'desc' => '默认关闭',
+            'tips' => '请选择是否同步微信发货',
         ],
         'common_app_mini_weixin_privacy_content'  => [
             'name' => '隐私弹窗说明',
@@ -3279,7 +3376,7 @@ return [
         ],
         'home_site_user_forgetpwd_ad3_images'  => [
             'name' => '图片',
-            'desc' => '图片2 [ 建议使用 450*350px ]',
+            'desc' => '图片3 [ 建议使用 450*350px ]',
         ],
         'home_site_user_forgetpwd_ad1_url'  => [
             'name' => 'url地址',
@@ -3544,6 +3641,21 @@ return [
             'desc' => '',
             'tips' => '请填写直播组件版本号',
         ],
+        'admin_logo'  => [
+            'name' => '后台logo',
+            'desc' => '建议322*78px',
+            'tips' => '请上传后台logo',
+        ],
+        'admin_login_logo'  => [
+            'name' => '后台登录logo',
+            'desc' => '建议220*60px',
+            'tips' => '请上传后台登录logo',
+        ],
+        'admin_login_ad_images'  => [
+            'name' => '后台登录广告图片',
+            'desc' => '建议570*480px',
+            'tips' => '请上传后台登录广告图片',
+        ],
         'admin_login_info_bg_images_rand'  => [
             'name' => '后台登录页随机背景图',
             'desc' => '默认启用',
@@ -3556,8 +3668,8 @@ return [
         ],
         'common_show_goods_category_level'  => [
             'name' => '分类展示层级',
-            'desc' => '默认0级',
-            'tips' => '请填写分类展示层级',
+            'desc' => '默认 分类+商品',
+            'tips' => '请选择分类展示层级',
         ],
         'common_cdn_attachment_host'  => [
             'name' => '附件cdn域名',
@@ -3997,6 +4109,21 @@ return [
             'name' => '用户以系统类标识维度',
             'desc' => '默认关闭',
             'tips' => '请选择用户以系统类标识维度',
+        ],
+        'common_regex_mobile'  => [
+            'name' => '手机正则',
+            'desc' => '',
+            'tips' => '请填写手机正则',
+        ],
+        'common_regex_tel'  => [
+            'name' => '座机正则',
+            'desc' => '',
+            'tips' => '请填写座机正则',
+        ],
+        'common_regex_id_card'  => [
+            'name' => '身份证号码正则',
+            'desc' => '',
+            'tips' => '请填写身份证号码正则',
         ],
     ],
 ];

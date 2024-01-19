@@ -2,26 +2,32 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- table nav start -->
-    {{include file="agreement/nav" /}}
-    <!-- table nav end -->
-
     <div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $type,
+            'url'       => 'admin/agreement/index'
+        ])}}
+        <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/agreement/index', ['nav_type'=>$nav_type])}}">
-            <div class="am-form-group">
-                <div class="am-cf">
-                    <label><span class="am-form-group-label-tips am-margin-left-0">{{$data.common_agreement_userlogout.describe}}</span></label>
-                    <a href="{{:MyUrl('index/agreement/index', ['document'=>'userlogout'])}}" target="_blank" class="am-fr">{{:MyLang('agreement.view_detail_name')}}</a>
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$type])}}">
+            <div class="nav-content">
+                <!-- table tips start -->
+                {{include file="agreement/tips" /}}
+                <!-- table tips end -->
+                <div class="am-form-group">
+                    <div class="am-flex am-flex-justify-between am-flex-items-center">
+                        <label><span class="am-form-group-label-tips am-margin-left-0">{{$data.common_agreement_userlogout.describe}}</span></label>
+                        <a href="{{:MyUrl('index/agreement/index', ['document'=>'userlogout'])}}" class="am-btn am-btn-primary-light-plain am-border-0 am-radius am-btn-xs" target="_blank">
+                            <span>{{:MyLang('agreement.view_detail_name')}}</span>
+                        </a>
+                    </div>
+                    <textarea class="am-radius am-validate" name="{{$data.common_agreement_userlogout.only_tag}}" maxlength="105000" id="editor-tag" data-validation-message="{{$data.common_agreement_userlogout.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userlogout.value|raw}}{{/if}}</textarea>
                 </div>
-                <textarea class="am-radius am-validate" name="{{$data.common_agreement_userlogout.only_tag}}" maxlength="105000" id="editor-tag" data-validation-message="{{$data.common_agreement_userlogout.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userlogout.value|raw}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-popup-submit">
-                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userlogout'])}}" class="am-btn am-btn-default am-radius am-btn-xs am-margin-right-lg" target="_blank">
-                    <i class="am-icon-eye"></i>
-                    <span>{{:MyLang('agreement.view_detail_name')}}</span>
-                </a>
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
@@ -35,4 +41,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

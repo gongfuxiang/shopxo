@@ -2,65 +2,70 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <!-- second nav start -->
-    {{include file="site/public/nav" /}}
-    <!-- second nav end -->
-
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}" enctype="multipart/form-data">
-            <!-- 定时脚本配置 -->
-            <div class="am-panel am-panel-default am-radius">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">{{:MyLang('site.base_item_crontab_config_title')}}</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                    <div class="am-alert am-alert-warning am-margin-top-xs" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}" enctype="multipart/form-data">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('site.base_item_crontab_config_title'),
+                        'key'  => 'crontab-config',
+                    ],
+                    [
+                        'name' => MyLang('site.base_item_regex_config_title'),
+                        'key'  => 'regex-config',
+                    ]
+                ]
+            ])}}
+            <div class="nav-content">
+                <!-- 定时脚本配置 -->
+                <div class="item am-active" data-key="crontab-config">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        </div>
                         <p>{{:MyLang('site.extends_crontab_tips')}}</p>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
-                        </div>
-                        <div class="am-alert">
-                            <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
-                        </div>
+                        <input type="number" min="0" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} />
+                        <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_order_success_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_success_limit_time.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
-                        </div>
-                        <div class="am-alert">
-                            <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
-                        </div>
+                        <input type="number" min="0" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} />
+                        <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_pay_log_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_pay_log_order_close_limit_time.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_pay_log_order_close_limit_time.only_tag}}" placeholder="{{$data.common_pay_log_order_close_limit_time.name}}" data-validation-message="{{$data.common_pay_log_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_pay_log_order_close_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
-                        </div>
-                        <div class="am-alert">
-                            <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
-                        </div>
+                        <input type="number" min="0" name="{{$data.common_pay_log_order_close_limit_time.only_tag}}" placeholder="{{$data.common_pay_log_order_close_limit_time.name}}" data-validation-message="{{$data.common_pay_log_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_pay_log_order_close_limit_time.value}}"{{/if}} />
+                        <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_goods_give_integral_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_goods_give_integral_limit_time.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
-                            <span class="am-input-group-label am-radius">{{:MyLang('minute_title')}}</span>
-                        </div>
-                        <div class="am-alert">
-                            <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>
-                        </div>
+                        <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
+                        <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>
+                    </div>
+                </div>
+
+                <!-- 正则 -->
+                <div class="item" data-key="regex-config">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_regex_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_regex_mobile.describe}}</span></label>
+                        <input type="text" name="{{$data.common_regex_mobile.only_tag}}" placeholder="{{$data.common_regex_mobile.name}}" data-validation-message="{{$data.common_regex_mobile.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_regex_mobile.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_regex_tel.name}}<span class="am-form-group-label-tips">{{$data.common_regex_tel.describe}}</span></label>
+                        <input type="text" name="{{$data.common_regex_tel.only_tag}}" placeholder="{{$data.common_regex_tel.name}}" data-validation-message="{{$data.common_regex_tel.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_regex_tel.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_regex_id_card.name}}<span class="am-form-group-label-tips">{{$data.common_regex_id_card.describe}}</span></label>
+                        <input type="text" name="{{$data.common_regex_id_card.only_tag}}" placeholder="{{$data.common_regex_id_card.name}}" data-validation-message="{{$data.common_regex_id_card.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_regex_id_card.value}}"{{/if}} />
                     </div>
                 </div>
             </div>
@@ -80,4 +85,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

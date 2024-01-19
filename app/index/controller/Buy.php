@@ -101,7 +101,7 @@ class Buy extends Common
                     'buy_goods'             => $buy_goods,
                     'buy_data'              => $buy_data,
                     // 浏览器名称
-                    'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('buy.browser_seo_title'), 1),
+                    'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('buy.base_nav_title'), 1),
                     // 公共销售模式
                     'common_site_type'      => $buy_base['common_site_type'],
                     // 支付方式

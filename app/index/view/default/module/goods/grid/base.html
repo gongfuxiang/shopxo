@@ -33,7 +33,7 @@
             am-avg-lg-{{if empty($module_data['lg'])}}5{{else /}}{{$module_data.lg}}{{/if}} ">
             {{foreach $module_data.goods_list as $v}}
                 <li>
-                    <div class="item am-padding-bottom-xs am-radius am-shadow {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}item-type-btn{{/if}}">
+                    <div class="item am-padding-bottom-xs am-radius box-shadow-hover {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}item-type-btn{{/if}}">
                         <!-- 商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">

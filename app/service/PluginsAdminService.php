@@ -732,7 +732,6 @@ $admin_view=<<<php
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 php;
 
 $index_view=<<<php
@@ -766,7 +765,6 @@ $index_view=<<<php
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
 php;
 
 $admin_css=<<<php
@@ -1187,6 +1185,14 @@ php;
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
+                // 读取这个文件
+                $stream = $zip->getStream($file);
+                if($stream === false)
+                {
+                    continue;
+                }
+                $file_content = stream_get_contents($stream);
+
                 // 文件包对应系统所在目录
                 $is_has_find = false;
                 foreach($dir_list as $dir_key=>$dir_value)
@@ -1205,6 +1211,11 @@ php;
                                 {
                                     continue;
                                 }
+                            }
+                        } else {
+                            if(strpos($file_content, 'eval(') !== false)
+                            {
+                                continue;
                             }
                         }
 

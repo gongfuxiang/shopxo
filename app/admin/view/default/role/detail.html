@@ -3,17 +3,32 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
-    
-    <!-- 菜单权限 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('common_service.role.form_item_menu')}}</div>
-        <div class="am-panel-bd">
-            <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-gallery-bordered">
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('common_service.role.form_item_menu'),
+                'key'  => 'form-item-menu',
+            ],
+            [
+                'name' => MyLang('common_service.role.form_item_plugins'),
+                'key'  => 'form-item-plugins',
+            ],
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        {__block__}
+        
+        <!-- 菜单权限 -->
+        <div class="item" data-key="form-item-menu">
+            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-padding-sm">
                 {{if !empty($data['power'])}}
                     {{foreach $data.power as $item}}
-                        <li>
+                        <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
                             <div class="am-gallery-item">{{$item}}</div>
                         </li>
                     {{/foreach}}
@@ -22,16 +37,13 @@
                 {{/if}}
             </ul>
         </div>
-    </div>
 
-    <!-- 插件权限 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('common_service.role.form_item_plugins')}}</div>
-        <div class="am-panel-bd">
-            <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-gallery-bordered">
+        <!-- 插件权限 -->
+        <div class="item" data-key="form-item-plugins">
+            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-padding-sm">
                 {{if !empty($data['power_plugins'])}}
                     {{foreach $data.power_plugins as $item}}
-                        <li>
+                        <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
                             <div class="am-gallery-item">{{$item}}</div>
                         </li>
                     {{/foreach}}
@@ -40,5 +52,6 @@
                 {{/if}}
             </ul>
         </div>
+            
     </div>
 {{/block}}

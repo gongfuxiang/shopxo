@@ -2,32 +2,41 @@
 
 <!-- right content start  -->
 <div class="content-right">
-	<!-- table nav start -->
-	{{include file="sms/nav"" /}}
-	<!-- table nav end -->
 
-	<div class="content">		
-		<!-- form start -->
-		<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'index'])}}">
-			<div class="am-form-group">
-				<label>{{$data.common_sms_apikey.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apikey.describe}}</span></label>
-				<input type="text" name="{{$data.common_sms_apikey.only_tag}}" placeholder="{{$data.common_sms_apikey.name}}" data-validation-message="{{$data.common_sms_apikey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apikey.value}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.common_sms_apisecret.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apisecret.describe}}</span></label>
-				<input type="text" name="{{$data.common_sms_apisecret.only_tag}}" placeholder="{{$data.common_sms_apisecret.name}}" data-validation-message="{{$data.common_sms_apisecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apisecret.value}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.common_sms_sign.name}}<span class="am-form-group-label-tips">{{$data.common_sms_sign.describe}}</span></label>
-				<input type="text" name="{{$data.common_sms_sign.only_tag}}" placeholder="{{$data.common_sms_sign.name}}" data-validation-message="{{$data.common_sms_sign.error_tips}}" class="am-radius" maxlength="16" {{if !empty($data)}}value="{{$data.common_sms_sign.value}}"{{/if}} />
-			</div>
-			<div class="am-form-popup-submit">
+	<div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $type,
+            'url'       => 'admin/sms/index'
+        ])}}
+        <!-- nav end -->		
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'index'])}}">
+            <div class="nav-content">
+                <!-- table tips start -->
+                {{include file="sms/tips"" /}}
+                <!-- table tips end -->
+                <div class="am-form-group">
+                    <label>{{$data.common_sms_apikey.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apikey.describe}}</span></label>
+                    <input type="text" name="{{$data.common_sms_apikey.only_tag}}" placeholder="{{$data.common_sms_apikey.name}}" data-validation-message="{{$data.common_sms_apikey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apikey.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.common_sms_apisecret.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apisecret.describe}}</span></label>
+                    <input type="text" name="{{$data.common_sms_apisecret.only_tag}}" placeholder="{{$data.common_sms_apisecret.name}}" data-validation-message="{{$data.common_sms_apisecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apisecret.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
+                    <label>{{$data.common_sms_sign.name}}<span class="am-form-group-label-tips">{{$data.common_sms_sign.describe}}</span></label>
+                    <input type="text" name="{{$data.common_sms_sign.only_tag}}" placeholder="{{$data.common_sms_sign.name}}" data-validation-message="{{$data.common_sms_sign.error_tips}}" class="am-radius" maxlength="16" {{if !empty($data)}}value="{{$data.common_sms_sign.value}}"{{/if}} />
+                </div>
+            </div>
+            <div class="am-form-popup-submit">
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -35,4 +44,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->

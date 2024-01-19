@@ -3,102 +3,81 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<!-- form start -->
-		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
-			<legend>
-				<span class="am-text-default">{{:MyLang('admin.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
-				<a href="{{:MyUrl('admin/admin/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-			</legend>
-			<div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{/if}}{{if is_array(MyLang('goods.form_item_give_integral_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{if empty($data)}}{{:MyLang('common_service.admin.form_item_username_created_tips')}}{{else /}}{{:MyLang('common_service.admin.form_item_username_edit_tips')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
-						<input type="text" name="username" placeholder="{{:MyLang('common_service.admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
-					</div>
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('admin.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/admin/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{/if}}{{if is_array(MyLang('goods.form_item_give_integral_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{if empty($data)}}{{:MyLang('common_service.admin.form_item_username_created_tips')}}{{else /}}{{:MyLang('common_service.admin.form_item_username_edit_tips')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+                <input type="text" name="username" placeholder="{{:MyLang('common_service.admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.admin.form_item_password')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('common_service.admin.form_item_password_edit_tips')}}</span>{{/if}}</label>
+                <input type="password" name="login_pwd" placeholder="{{:MyLang('common_service.admin.form_item_password')}}" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="{{:MyLang('common_service.admin.form_item_password_message')}}" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.admin.form_item_mobile')}}</label>
+                <input type="text" name="mobile" placeholder="{{:MyLang('common_service.admin.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_mobile_message')}}" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.admin.form_item_email')}}</label>
+                <input type="email" name="email" placeholder="{{:MyLang('common_service.admin.form_item_email')}}" maxlength="60" data-validation-message="{{:MyLang('common_service.admin.form_item_email_message')}}" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+            </div>
+            {{if !isset($data['id']) or $admin['id'] neq $data['id']}}
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.admin.form_item_role')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <select class="am-radius chosen-select" name="role_id" data-validation-message="{{:MyLang('common_service.admin.form_item_role_message')}}" required>
+                        <option value="">{{:MyLang('optional_tips')}}</option>
+                        {{foreach $role_list as $v}}
+                            <option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
                 </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.admin.form_item_password')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('common_service.admin.form_item_password_edit_tips')}}</span>{{/if}}</label>
-						<input type="password" name="login_pwd" placeholder="{{:MyLang('common_service.admin.form_item_password')}}" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="{{:MyLang('common_service.admin.form_item_password_message')}}" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
-					</div>
+            {{/if}}
+            {{include file="lib/gender" /}}
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.admin.form_item_status')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <div class="am-radio-group">
+                    {{foreach :MyConst('common_admin_status_list') as $v}}
+                        <label class="am-radio-inline am-margin-right-sm">
+                            <input type="radio" name="status" value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
                 </div>
             </div>
 
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.admin.form_item_mobile')}}</label>
-						<input type="text" name="mobile" placeholder="{{:MyLang('common_service.admin.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_mobile_message')}}" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
-					</div>
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-		                <label>{{:MyLang('common_service.admin.form_item_email')}}</label>
-		                <input type="email" name="email" placeholder="{{:MyLang('common_service.admin.form_item_email')}}" maxlength="60" data-validation-message="{{:MyLang('common_service.admin.form_item_email_message')}}" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
-		            </div>
-                </div>
-            </div>
-
-            <div class="am-cf">
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	{{include file="lib/gender" /}}
-                </div>
-                <div class="am-u-sm-6 am-padding-horizontal-0">
-                	<div class="am-form-group">
-						<label>{{:MyLang('common_service.admin.form_item_status')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('common_service.admin.form_item_status_message')}}" required>
-							{{foreach :MyConst('common_admin_status_list') as $v}}
-								<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-							{{/foreach}}
-						</select>
-					</div>
-                </div>
-            </div>
-
-			{{if !isset($data['id']) or $admin['id'] neq $data['id']}}
-				<div class="am-form-group">
-					<label>{{:MyLang('common_service.admin.form_item_role')}}<span class="am-form-group-label-tips-must">*</span></label>
-					<select class="am-radius chosen-select" name="role_id" data-validation-message="{{:MyLang('common_service.admin.form_item_role_message')}}" required>
-						<option value="">{{:MyLang('optional_tips')}}</option>
-						{{foreach $role_list as $v}}
-							<option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-						{{/foreach}}
-					</select>
-				</div>
-			{{/if}}
-
-			<!-- 插件扩展数据 start -->
-			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <!-- 插件扩展数据 start -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
                     <span>plugins_view_admin_admin_save</span>
                 </div>
             {{/if}}
-			{{if !empty($plugins_view_admin_admin_save_data) and is_array($plugins_view_admin_admin_save_data)}}
-				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
-					<div>
-						{{foreach $plugins_view_admin_admin_save_data as $hook}}
-		                    {{if is_string($hook) or is_int($hook)}}
-		                        {{$hook|raw}}
-		                    {{/if}}
-		                {{/foreach}}
-					</div>
-				</div>
-			{{/if}}
-			<!-- 插件扩展数据 end -->
-			
-			<div class="am-form-popup-submit">
-				<input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
-				<a href="{{:MyUrl('admin/admin/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
-                    <i class="am-icon-mail-reply"></i>
-                    <span>{{:MyLang('retreat_title')}}</span>
-                </a>
+            {{if !empty($plugins_view_admin_admin_save_data) and is_array($plugins_view_admin_admin_save_data)}}
+                <div class="card-grey">
+                    <label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
+                    <div>
+                        {{foreach $plugins_view_admin_admin_save_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+            <!-- 插件扩展数据 end -->
+            
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
-			</div>
-		</form>
+            </div>
+        </form>
         <!-- form end -->
 	</div>
 </div>
@@ -106,4 +85,3 @@
 
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end -->
