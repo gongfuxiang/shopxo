@@ -86,34 +86,44 @@ class ShortcutMenuService
                 }
 
                 // 是否选择了菜单
-                if(!empty($v['menu']) && !empty($menu['admin_left_menu']))
+                if(!empty($v['menu']))
                 {
-                    foreach($menu['admin_left_menu'] as $mv)
+                    // 是否是插件
+                    if(substr($v['menu'], 0, 8) == 'plugins-')
                     {
-                        if(empty($mv['items']))
+                        $v['url'] = PluginsAdminUrl(substr($v['menu'], 8), 'admin', 'index');
+                    } else {
+                        // 左侧菜单数据
+                        if(!empty($menu['admin_left_menu']))
                         {
-                            if($mv['id'] == $v['menu'])
+                            foreach($menu['admin_left_menu'] as $mv)
                             {
-                                $v['url'] = $mv['url'];
-                                break;
-                            }
-                        } else {
-                            foreach($mv['items'] as $mvs)
-                            {
-                                if(empty($mvs['items']))
+                                if(empty($mv['items']))
                                 {
-                                    if($mvs['id'] == $v['menu'])
+                                    if($mv['id'] == $v['menu'])
                                     {
-                                        $v['url'] = $mvs['url'];
-                                        break 2;
+                                        $v['url'] = $mv['url'];
+                                        break;
                                     }
                                 } else {
-                                    foreach($mvs['items'] as $mvss)
+                                    foreach($mv['items'] as $mvs)
                                     {
-                                        if($mvss['id'] == $v['menu'])
+                                        if(empty($mvs['items']))
                                         {
-                                            $v['url'] = $mvss['url'];
-                                            break 3;
+                                            if($mvs['id'] == $v['menu'])
+                                            {
+                                                $v['url'] = $mvs['url'];
+                                                break 2;
+                                            }
+                                        } else {
+                                            foreach($mvs['items'] as $mvss)
+                                            {
+                                                if($mvss['id'] == $v['menu'])
+                                                {
+                                                    $v['url'] = $mvss['url'];
+                                                    break 3;
+                                                }
+                                            }
                                         }
                                     }
                                 }
