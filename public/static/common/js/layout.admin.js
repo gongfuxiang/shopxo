@@ -2255,7 +2255,7 @@ function ModuleConfigImagesTextItemContentHtml (data) {
                         <input type="hidden" name="content_to_name_`+ index + `" value="` + (data.name || '') + `" />
                         <input type="hidden" name="content_to_value_`+ index + `" value="` + ((data.value || null) == null ? '' : encodeURIComponent(JSON.stringify(data.value))) + `" />
                         <div class="form-view-choice-container-content">
-                            `+ ModuleConfigImagesToContentHtml(name) + `
+                            `+ ModuleConfigImagesToContentHtml(data.name) + `
                         </div>
                     </div>
                 </div>`;
