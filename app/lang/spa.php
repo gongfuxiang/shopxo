@@ -497,6 +497,7 @@ return [
     'recharge_title'                                        => 'Recargar',
     'cash_title'                                            => 'Retiro',
     'log_title'                                             => 'Detalles',
+    'plugins_title'                                         => 'Plugins',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
     'self_pickup_point_title'                               => 'Punto de referencia propio',
     'web_title'                                             => 'Lado web',

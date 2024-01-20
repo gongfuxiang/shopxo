@@ -497,6 +497,7 @@ return [
     'recharge_title'                                        => '充值',
     'cash_title'                                            => '提現',
     'log_title'                                             => '明細',
+    'plugins_title'                                         => '挿件',
     'continue_scan_title'                                   => '繼續掃碼',
     'self_pickup_point_title'                               => '自提點',
     'web_title'                                             => 'WEB端',

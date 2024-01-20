@@ -497,6 +497,7 @@ return [
     'recharge_title'                                        => 'Recharge',
     'cash_title'                                            => 'Cash',
     'log_title'                                             => 'Log',
+    'plugins_title'                                         => 'Plugins',
     'continue_scan_title'                                   => 'ContinueScan',
     'self_pickup_point_title'                               => 'Self Pickup Point',
     'web_title'                                             => 'WEB end',
