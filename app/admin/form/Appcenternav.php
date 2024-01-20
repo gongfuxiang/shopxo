@@ -60,6 +60,7 @@ class AppCenterNav
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
+                    'width'         => 150,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -72,6 +73,7 @@ class AppCenterNav
                     'view_data_key' => 'name',
                     'view_data'     => MyConst('common_platform_type'),
                     'is_sort'       => 1,
+                    'width'         => 165,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -118,16 +120,6 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => $lang['desc'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'desc',
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
                     'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
@@ -135,6 +127,7 @@ class AppCenterNav
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -151,6 +144,7 @@ class AppCenterNav
                     'post_url'      => MyUrl('admin/appcenternav/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -158,6 +152,16 @@ class AppCenterNav
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => $lang['desc'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'desc',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
                     ],
                 ],
                 [

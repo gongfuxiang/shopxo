@@ -85,7 +85,7 @@ function SystemUpgradeRequestHandle (params) {
 function EchartsBaseCount (data) {
     $('.base-user-count').text(data.user_count);
     $('.base-order-count').text(data.order_count);
-    $('.base-order-sale-count').text(data.order_asle_count);
+    $('.base-order-sale-count').text(data.order_sale_count);
     $('.base-order-complete-total').text(data.order_complete_total);
 }
 
@@ -309,7 +309,7 @@ function EchartsGoodsHot (data) {
     var chart = echarts.init(document.getElementById('echarts-goods-hot'), 'macarons');
     var option = {
         title: {
-            subtext: window['lang_goods_hot_tips'] || '仅显示前30条商品',
+            subtext: window['lang_goods_hot_tips'] || '仅显示前13条商品',
             x: 'center',
             bottom: '3%'
         },

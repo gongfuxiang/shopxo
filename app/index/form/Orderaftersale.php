@@ -54,6 +54,7 @@ class OrderAftersale
     public function Run($params = [])
     {
         $lang = MyLang('orderaftersale.form_table');
+        $lang_stats = MyLang('orderaftersale.form_table_stats');
         return [
             // 基础配置
             'base' => [
@@ -265,6 +266,11 @@ class OrderAftersale
                 'is_page'           => 1,
                 'data_params'       => [
                     'is_public' => 0,
+                ],
+                'is_page_stats'     => 1,
+                'page_stats_data'   => [
+                    ['name'=>$lang_stats['price'], 'field'=>'price'],
+                    ['name'=>$lang_stats['number'], 'field'=>'number'],
                 ],
             ],
         ];

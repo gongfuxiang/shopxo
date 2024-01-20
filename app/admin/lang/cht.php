@@ -24,7 +24,7 @@ return [
             'order_transaction_amount_name'     => '訂單成交金額走勢',
             'order_trading_trend_name'          => '訂單交易走勢',
             'goods_hot_name'                    => '熱賣商品',
-            'goods_hot_tips'                    => '僅顯示前30條商品',
+            'goods_hot_tips'                    => '僅顯示前13條商品',
             'payment_name'                      => '支付方式',
             'order_region_name'                 => '訂單地域分佈',
             'order_region_tips'                 => '僅顯示10條數據',
@@ -807,6 +807,14 @@ return [
             'add_time'            => '創建時間',
             'upd_time'            => '更新時間',
         ],
+        // 动态表格统计字段
+        'form_table_stats'                      => [
+            'total_price'        => '訂單總額',
+            'pay_price'          => '支付總額',
+            'buy_number_count'   => '商品總數',
+            'refund_price'       => '退款金額',
+            'returned_quantity'  => '退貨數量',
+        ],
     ],
 
     // 订单售后
@@ -843,6 +851,11 @@ return [
             'audit_time'         => '稽核時間',
             'add_time'           => '創建時間',
             'upd_time'           => '更新時間',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => '退款總額',
+            'number'  => '退貨總數',
         ],
     ],
 

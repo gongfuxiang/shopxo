@@ -129,6 +129,232 @@ class Wechat
     }
 
     /**
+     * 小程序发货信息录入
+     * @author    Shon Wu
+     * @blog      https://github.com/mantoufan/
+     * @version   1.0.0
+     * @date      2023-08-21
+     * @desc      description
+     * @param     [string]    $params['order_model']      [订单模式]
+     * @param     [string]    $params['trade_no']         [支付平台交易号]
+     * @param     [string]    $params['buyer_user']       [支付平台用户账号]
+     * @param     [string]    $params['goods_title']      [商品标题]
+     * @optional  [string]    $params['express_name']     [快递公司名称]
+     * @optional  [string]    $params['express_number']   [快递单号]
+     * @optional  [string]    $params['tel']              [收货联系人手机号]
+     * @return    [array|null]                            [成功原样返回微信小程序接口响应, 失败则空]
+     */
+    public function MiniUploadShippingInfo($params = []) 
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => MyLang('common_extend.base.wechat.trade_no_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'buyer_user',
+                'error_msg'         => MyLang('common_extend.base.wechat.buyer_user_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_title',
+                'error_msg'         => MyLang('common_extend.base.wechat.goods_title_empty_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
+        }
+
+        // 是否已开通发货管理
+        $key = 'wechat_is_trade_managed_'.$this->_appid;
+        $trade_managed = MyCache($key);
+        if(empty($trade_managed))
+        {
+            $url = 'https://api.weixin.qq.com/wxa/sec/order/is_trade_managed?access_token='.$access_token;
+            $trade_managed = $this->HttpRequestPost($url, ['appid'=>$this->_appid], true);
+            MyCache($key, $trade_managed);
+        }
+        if(empty($trade_managed) || !isset($trade_managed['errcode']) || $trade_managed['errcode'] != 0 || !isset($trade_managed['is_trade_managed']) || $trade_managed['is_trade_managed'] != 1)
+        {
+            return DataReturn(MyLang('common_extend.base.common.not_opened_trade_managed_msg'), 0);
+        }
+
+        // 订单模式类型
+        $order_model_list = [
+            // 商城订单模式：销售型（快递 / 快递 + 自提） <-> 微信小程序：实体物流配送采用快递公司进行实体物流配送形式
+            0 => 1,
+            // 商城订单模式：展示型 <-> 微信小程序：终止，不抛出错误
+            1 => null,
+            // 商城订单模式：自提型 <-> 微信小程序：用户自提
+            2 => 4,
+            // 商城订单模式：虚拟销售 <-> 微信小程序：虚拟商品
+            3 => 3,
+        ];
+        $logistics_type = array_key_exists($params['order_model'], $order_model_list) ? $order_model_list[$params['order_model']] : null;
+        // 展示模式表示为无效的订单，不处理
+        if($logistics_type === null)
+        {
+            return DataReturn(MyLang('common_extend.base.wechat.no_match_logistics_mode'), 0);
+        }
+
+        // 商城参数转换为微信小程序参数
+        if(!is_array($params['goods_title']))
+        {
+            $params['goods_title'] = explode(',', $params['goods_title']);
+        }
+        $shipping_list = array_map(function($item)
+        {
+            return ['item_desc'=>$item];
+        }, $params['goods_title']);
+        // 非快递模式物流信息智能为一项
+        if($logistics_type != 1 && count($shipping_list) > 1)
+        {
+            $shipping_list = [$shipping_list[0]];
+        }
+
+        // 请求参数
+        $data = [
+            'order_key'         => [
+                // 使用微信支付单号
+                'order_number_type'  => 2, 
+                // 原支付交易对应的微信订单号
+                'transaction_id'     => $params['trade_no'],
+            ],
+            // 发货模式：1 统一发货，2 分拆发货
+            'delivery_mode'     => (count($shipping_list) == 1) ? 1 : 2,
+            // 物流信息列表
+            'shipping_list'     => $shipping_list,
+            // 分拆发货模式时、是否已全部发货 true | false
+            'is_all_delivered'  => true,
+            // 物流模式，发货方式枚举值：1、实体物流配送采用快递公司进行实体物流配送形式 2、同城配送 3、虚拟商品，虚拟商品，例如话费充值，点卡等，无实体配送形式 4、用户自提
+            'logistics_type'    => $logistics_type,
+            // 支付者，支付者信息
+            'payer'             => ['openid' => $params['buyer_user']],
+            // 上传时间
+            'upload_time'       => date('Y-m-d\TH:i:sP'),
+        ];
+
+        // 物流发货匹配快递信息
+        if($data['logistics_type'] === 1)
+        {
+            // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人和发件人手机号供顺丰使用
+            $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
+            if($express_res['code'] !== 0) 
+            {
+                return $express_res;
+            }
+            $consignor_tel = empty($params['consignor_tel']) ? '' : substr($params['consignor_tel'], 0, 3).'****'.substr($params['consignor_tel'], -4);
+            $receiver_tel = empty($params['receiver_tel']) ? '' : substr($params['receiver_tel'], 0, 3).'****'.substr($params['receiver_tel'], -4);
+            foreach($data['shipping_list'] as &$v)
+            {
+                $v['express_company'] = $express_res['data'];
+                $v['tracking_no'] = $params['express_number'];
+                if(!empty($consignor_tel) || !empty($receiver_tel))
+                {
+                    $v['contact'] = [
+                        'consignor_contact'  => $consignor_tel,
+                        'receiver_contact'   => $receiver_tel,
+                    ];
+                }
+            }
+        }
+
+        // 录入发货信息接口
+        $url = 'https://api.weixin.qq.com/wxa/sec/order/upload_shipping_info?access_token='.$access_token;
+        $res = $this->HttpRequestPost($url, $data, true);
+        $code = isset($res['errcode']) ? $res['errcode'] : '';
+        $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('send_fail');
+        // 支付单不存在 | 支付单已完成发货 | 无法继续发货、支付单已使用重新发货机会 三种情况则视为正常，不影响业务
+        if(in_array($code, [10060001, 10060002, 10060003]) || $code == 0 && $msg == 'ok')
+        {
+            return DataReturn(MyLang('send_success'), 0, $res); 
+        } else {
+            $msg = ($code !== '') ? $code.':'.$msg : $msg;
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
+     * 获取微信小程序中的快递公司编码：根据快递公司名称
+     * @author  Shon Wu
+     * @blog    https://github.com/mantoufan/
+     * @version 1.0.0
+     * @date    2023-08-21
+     * @desc    description
+     * @param   [string]  $express_name      [快递公司名称]
+     * @return  [string|null]                [成功返回快递公司编码, 失败则空]
+     */
+    function GetMiniDeliveryIdByName($express_name)
+    {
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn(MyLang('common_extend.base.common.access_token_request_fail_tips'), -1);
+        }
+
+        // 获取运力id列表接口
+        $url = 'https://api.weixin.qq.com/cgi-bin/express/delivery/open_msg/get_delivery_list?access_token='.$access_token;
+        // 需要 POST {} 给接口
+        $res = $this->HttpRequestPost($url, (object)[], true);
+        $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('get_fail');
+        if(isset($res['errcode']) && $res['errcode'] == 0) 
+        {
+            $delivery_list = $res['delivery_list'];
+            $delivery_names = array_column($delivery_list, 'delivery_name');
+            $delivery_index = array_search($express_name, $delivery_names);
+            if($delivery_index === false)
+            {
+                // 精确匹配失败后，如果公司名称包含快递、物流、速运、速递和邮政，进行模糊匹配。例如：顺丰快递 - 顺丰速运，韵达快递 - 韵达速递 
+                // 关键词的笛卡尔积，例如：顺丰快递未匹配，则依次查找顺丰速运、顺丰速递、顺丰物流、顺丰，直到找到一个匹配编码为止
+                $to_be_replaceds = [ 
+                    '快递' => ['速运', '速递', '物流', ''],
+                    '物流' => ['快递', '速运', '速递', ''],
+                    '速运' => ['快递', '速递', '物流', ''],
+                    '速递' => ['快递', '速运', '物流', ''], // EMS速递 - EMS
+                    '邮政' => ['邮政快递', '国际邮政'], // 邮政包裹 - 邮政快递包裹 / 国际邮政包裹
+                ];
+                foreach($to_be_replaceds as $pattern => $replaceds) 
+                {
+                    if(stripos($express_name, $pattern) !== false) {
+                        foreach($replaceds as $replaced) 
+                        {
+                            $express_name_replaced = str_replace($pattern, $replaced, $express_name);
+                            $delivery_index = array_search($express_name_replaced, $delivery_names);
+                            if($delivery_index !== false)
+                            {
+                                break 2;
+                            }
+                        }
+                        break;
+                    } 
+                }
+            }
+            if($delivery_index !== false)
+            {
+                return DataReturn(MyLang('get_success'), 0, $delivery_list[$delivery_index]['delivery_id']);
+            }
+            // 无匹配物流公司编码
+            $msg = MyLang('common_extend.base.wechat.no_match_logistics_company_code');
+        } else {
+            $msg = isset($res['errcode']) ? $res['errcode'].':'.$msg : $msg;
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
      * 检验数据的真实性，并且获取解密后的明文
      * @author   Devil
      * @blog     http://gong.gg/
@@ -487,7 +713,7 @@ class Wechat
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, JSON_UNESCAPED_UNICODE));
         curl_setopt($curl, CURLOPT_POST, true);
         $res = curl_exec($curl);
         curl_close($curl);

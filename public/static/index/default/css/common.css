@@ -524,7 +524,6 @@ ul.am-dropdown-content>li>a:focus {
         float: left;
         background: transparent;
         top: 4rem;
-        border-bottom: 0.1rem solid #F5F5F5;
     }
 
     .goods-category-s .category-content .all-goods {
@@ -872,7 +871,7 @@ ul.am-dropdown-content>li>a:focus {
 
     .category-content .menu-item {
         left: 17.9rem;
-        height: 47.1rem;
+        height: 47rem;
     }
 
     .category-content .category-list li {

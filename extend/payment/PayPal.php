@@ -129,8 +129,18 @@ class PayPal
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
+                'name'          => 'scanpay_webhook_id',
+                'placeholder'   => '扫码收款WebhookID',
+                'title'         => '扫码收款WebhookID',
+                'is_required'   => 0,
+                'message'       => '请填写扫码收款WebhookID、配置异步通知地址后得到的id',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
                 'name'          => 'app_agreement',
-                'placeholder'   => 'APP协议头、例如：shopxochuyin://',
+                'placeholder'   => 'APP协议头、例如：shopxo://',
                 'title'         => 'APP协议头（APP支付才需要配置）',
                 'is_required'   => 0,
                 'message'       => '请填写APP协议头',
@@ -182,7 +192,7 @@ class PayPal
             ],
             [
                 'element'       => 'message',
-                'message'       => '1. 订单异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />2. 钱包充值异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_wallet_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />3. 会员等级购买异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_membershiplevelvip_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />异步通知类型勾选【Payment capture completed】即可',
+                'message'       => '1. 订单异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />2. 钱包充值异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_wallet_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />3. 会员等级购买异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_membershiplevelvip_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />4. 扫码收款异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_scanpay_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />异步通知类型勾选【Payments & Payouts 下面的 Payment capture completed】即可',
             ],
         ];
 

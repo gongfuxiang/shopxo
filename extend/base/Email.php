@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\EmailLogService;
 use phpmailer\PHPMailer;
 
 /**
@@ -137,9 +138,10 @@ class Email
 		}
 
 		// 验证码替换
-		if(!empty($params['code']))
+		$params_code = empty($params['code']) ? '' : $params['code'];
+		if(!empty($params_code))
 		{
-			$params['content'] = str_replace('#code#', $params['code'], $params['content']);
+			$params['content'] = str_replace('#code#', $params_code, $params['content']);
 		}
 
 		// 邮件初始化
@@ -165,17 +167,31 @@ class Email
 		// 邮件正文不支持HTML的备用显示
 		$this->obj->AltBody = strip_tags($params['content']);
 
+		// 添加短信日志
+        $log = EmailLogService::EmailLogAdd($this->obj->Host, $this->obj->Port, $this->obj->Username, $this->obj->From, $this->obj->FromName, $params['email'], $params['title'], $params['content'], $params_code);
+        if($log['code'] != 0)
+        {
+            $this->error = $log['msg'];
+            return false;
+        }
+
 		// 发送邮件
 		if($this->obj->Send())
 		{
 			// 种session
 			if($this->is_frq == 1)
 			{
-				$this->KindofSession(empty($params['code']) ? '' : $params['code']);
+				$this->KindofSession(empty($params_code) ? '' : $params_code);
 			}
+
+			// 日志回调
+            EmailLogService::EmailLogResponse($log['data']['id'], 1, time()-$log['data']['add_time']);
 			return true;
 		} else {
 			$this->error = $this->obj->ErrorInfo;
+
+			// 日志回调
+        	EmailLogService::EmailLogResponse($log['data']['id'], 2, time()-$log['data']['add_time'], $this->error);
 		}
 		return false;
 	}

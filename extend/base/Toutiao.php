@@ -218,6 +218,43 @@ class Toutiao
     }
 
     /**
+     * 获取client_token
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-02T19:53:42+0800
+     */
+    public function GetMiniClientToken()
+    {
+        // 缓存key
+        $key = $this->config['appid'].'_client_token';
+        $result = MyCache($key);
+        if(!empty($result))
+        {
+            if($result['expires_in'] > time())
+            {
+                return $result['access_token'];
+            }
+        }
+
+        // 网络请求
+        $params = [
+            'client_key'     => $this->config['appid'],
+            'client_secret'  => $this->config['secret'],
+            'grant_type'     => 'client_credential',
+        ];
+        $result = json_decode($this->HttpRequestPost('https://open.douyin.com/oauth/client_token/', $params, true, ['Content-Type: application/json']), true);
+        if(!empty($result['data']) && !empty($result['data']['access_token']))
+        {
+            // 缓存存储
+            $result['data']['expires_in'] += time();
+            MyCache($key, $result['data']);
+            return $result['data']['access_token'];
+        }
+        return false;
+    }
+
+    /**
      * get请求
      * @author   Devil
      * @blog     http://gong.gg/
@@ -251,12 +288,14 @@ class Toutiao
      * @param    [boolean]  $is_json    [是否使用 json 数据发送]
      * @return   [mixed]                [请求返回的数据]
      */
-    private function HttpRequestPost($url, $post, $is_json = false)
+    private function HttpRequestPost($url, $post, $is_json = false, $header = [])
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -265,18 +304,24 @@ class Toutiao
         {
             $data_string = json_encode($post);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            if(empty($header))
+            {
+                $header = [
                     "Content-Type: application/json; charset=utf-8",
                     "Content-Length: " . strlen($data_string)
-                )
-            );
+                ];
+            }
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         } else {
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            if(empty($header))
+            {
+                $header = [
                     "Content-Type: application/x-www-form-urlencoded",
                     "cache-control: no-cache"
-                )
-            );
+                ];
+            }
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
         $result = curl_exec($ch);
         curl_close($ch);

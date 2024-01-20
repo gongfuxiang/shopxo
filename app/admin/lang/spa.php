@@ -24,7 +24,7 @@ return [
             'order_transaction_amount_name'     => 'Evolución de la facturación de pedidos',
             'order_trading_trend_name'          => 'Tendencia de las transacciones de pedidos',
             'goods_hot_name'                    => 'Productos de venta caliente',
-            'goods_hot_tips'                    => 'Solo se muestran los primeros 30 productos',
+            'goods_hot_tips'                    => 'Solo se muestran los primeros 13 productos',
             'payment_name'                      => 'Método de pago',
             'order_region_name'                 => 'Distribución geográfica de los pedidos',
             'order_region_tips'                 => 'Solo se muestran 10 datos',
@@ -807,6 +807,14 @@ return [
             'add_time'            => 'Tiempo de creación',
             'upd_time'            => 'Tiempo de actualización',
         ],
+        // 动态表格统计字段
+        'form_table_stats'                      => [
+            'total_price'        => 'Total de pedidos',
+            'pay_price'          => 'Total de pagos',
+            'buy_number_count'   => 'Total de productos básicos',
+            'refund_price'       => 'Importe del reembolso',
+            'returned_quantity'  => 'Número de devoluciones',
+        ],
     ],
 
     // 订单售后
@@ -843,6 +851,11 @@ return [
             'audit_time'         => 'Tiempo de revisión',
             'add_time'           => 'Tiempo de creación',
             'upd_time'           => 'Tiempo de actualización',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => 'Reembolso total',
+            'number'  => 'Número total de devoluciones',
         ],
     ],
 

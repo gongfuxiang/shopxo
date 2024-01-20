@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\SmsLogService;
+
 /**
  * 短信驱动
  * @author   Devil
@@ -65,10 +67,10 @@ class Sms
      * @desc    description
      * @param   [string]            $mobile        [手机号码，多个以 英文逗号 , 分割]
      * @param   [string|array]      $code          [变量code（单个直接传入 code 即可，多个传入数组）]
-     * @param   [string]            $template_code [模板 id]
+     * @param   [string]            $template_value[模板 id]
      * @param   [boolean]           $sign_name     [自定义签名，默认使用基础配置的签名]
      */
-    public function SendCode($mobile, $code, $template_code, $sign_name = '')
+    public function SendCode($mobile, $code, $template_value, $sign_name = '')
     {
     	// 单个验证码需要校验是否频繁
         if(is_string($code))
@@ -85,7 +87,7 @@ class Sms
         }
 
         // 请求发送
-        $status = $this->SmsRequest($mobile, $template_code, $sign_name, $codes);
+        $status = $this->SmsRequest($mobile, $template_value, $sign_name, $codes);
         if($status)
         {
             // 种session
@@ -105,11 +107,11 @@ class Sms
      * @date    2020-04-02
      * @desc    description
      * @param   [string]            $mobile          [手机号码，多个以 英文逗号 , 分割]
-     * @param   [string]            $template_code   [模板 id]
+     * @param   [string]            $template_value  [模板 id]
      * @param   [boolean]           $sign_name       [自定义签名，默认使用基础配置的签名]
-     * @param   [string|array]      $template_params [变量code（单个直接传入 code 即可，多个传入数组）]
+     * @param   [string|array]      $template_var    [变量code（单个直接传入 code 即可，多个传入数组）]
      */
-    public function SendTemplate($mobile, $template_code, $sign_name = '', $template_params = [])
+    public function SendTemplate($mobile, $template_value, $sign_name = '', $template_var = [])
     {
         // 是否频繁操作
         if($this->is_frq == 1)
@@ -122,7 +124,7 @@ class Sms
         }
 
         // 请求发送
-        $status = $this->SmsRequest($mobile, $template_code, $sign_name, $template_params);
+        $status = $this->SmsRequest($mobile, $template_value, $sign_name, $template_var);
         if($status)
         {
             // 种session
@@ -142,17 +144,41 @@ class Sms
      * @date    2022-03-26
      * @desc    description
      * @param   [string]            $mobile          [手机号码，多个以 英文逗号 , 分割]
-     * @param   [string]            $template_code   [模板 id]
+     * @param   [string]            $template_value  [模板 id]
      * @param   [boolean]           $sign_name       [自定义签名，默认使用基础配置的签名]
-     * @param   [string|array]      $template_params [默认变量code（单个直接传入 code 即可，多个传入数组）]
+     * @param   [string|array]      $template_var    [默认变量code（单个直接传入 code 即可，多个传入数组）]
      */
-    public function SmsRequest($mobile, $template_code, $sign_name = '', $template_params = [])
+    public function SmsRequest($mobile, $template_value, $sign_name = '', $template_var = [])
     {
         // 签名
         $sign_name = empty($sign_name) ? $this->sign_ame : $sign_name;
 
+        // 短信发送钩子
+        $hook_name = 'plugins_extend_sms_send_request_handle';
+        $ret = array_filter(MyEventTrigger($hook_name, [
+            'hook_name'       => $hook_name,
+            'is_backend'      => true,
+            'sign_name'       => $sign_name,
+            'mobile'          => $mobile,
+            'template_value'  => $template_value,
+            'template_var'    => $template_var,
+        ]));
+        // 存在返回值，并且存在code和mag参数，则认为是钩子处理短信的发送
+        if(!empty($ret))
+        {
+            // 处理钩子数据
+            $ret = EventReturnHandle($ret);
+            if($ret['code'] != 0)
+            {
+                $this->error = $ret['msg'];
+                return false;
+            }
+            return true;
+        }
+
         // 请求参数
-        $params = [
+        $request_url = 'http://dysmsapi.aliyuncs.com/';
+        $request_params = [
             'SignName'          => $sign_name,
             'Format'            => 'JSON',
             'Version'           => '2017-05-25',
@@ -162,24 +188,33 @@ class Sms
             'SignatureNonce'    => uniqid(),
             'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
             'Action'            => 'SendSms',
-            'TemplateCode'      => $template_code,
+            'TemplateCode'      => $template_value,
             'PhoneNumbers'      => $mobile,
         ];
         // 携带参数
-        if(!empty($template_params))
+        if(!empty($template_var))
         {
-            if(!is_array($template_params))
+            if(!is_array($template_var))
             {
-                $template_params = ['code'=>$template_params];
+                $template_var = ['code'=>$template_var];
             }
-            $params['TemplateParam'] = json_encode($template_params, JSON_UNESCAPED_UNICODE);
+            $request_params['TemplateParam'] = json_encode($template_var, JSON_UNESCAPED_UNICODE);
         }
         // 签名
-        $params ['Signature'] = $this->ComputeSignature($params, $this->access_key_secret);
+        $request_params['Signature'] = $this->ComputeSignature($request_params, $this->access_key_secret);
+
+        // 添加短信日志
+        $log = SmsLogService::SmsLogAdd('aliyun', $mobile, $sign_name, $template_value, $template_var, $request_url, $request_params);
+        if($log['code'] != 0)
+        {
+            $this->error = $log['msg'];
+            return false;
+        }
+
         // 远程请求
-        $url = 'http://dysmsapi.aliyuncs.com/?' . http_build_query($params);
+        $request_url .= '?' . http_build_query($request_params);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $request_url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -187,12 +222,18 @@ class Sms
         $result = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($result, true);
-        if(isset($result['Code']) && $result['Code'] != 'OK')
+        if(isset($result['Code']) && $result['Code'] == 'OK')
         {
-            $this->error = $this->GetErrorMessage($result['Code']);
-            return false;
+            // 日志回调
+            SmsLogService::SmsLogResponse($log['data']['id'], 1, $result, time()-$log['data']['add_time']);
+            return true;
         }
-        return true;
+
+        // 错误原因
+        $this->error = $this->GetErrorMessage($result['Code']);
+        // 日志回调
+        SmsLogService::SmsLogResponse($log['data']['id'], 2, $result, time()-$log['data']['add_time'], $this->error);
+        return false;
     }
 
     /**

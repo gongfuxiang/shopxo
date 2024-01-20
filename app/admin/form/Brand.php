@@ -65,6 +65,7 @@ class Brand
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
+                    'width'         => 150,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -86,12 +87,13 @@ class Brand
                     'view_type'     => 'images',
                     'view_key'      => 'logo',
                     'images_height' => 25,
+                    'width'         => 100,
                 ],
                 [
                     'label'         => $lang['url'],
                     'view_type'     => 'module',
                     'view_key'      => 'brand/module/url',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'website_url',
@@ -102,6 +104,7 @@ class Brand
                     'label'         => $lang['brand_category_text'],
                     'view_type'     => 'field',
                     'view_key'      => 'brand_category_text',
+                    'width'         => 140,
                     'search_config' => [
                         'form_type'             => 'select',
                         'form_name'             => 'id',
@@ -121,6 +124,7 @@ class Brand
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -135,6 +139,7 @@ class Brand
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],

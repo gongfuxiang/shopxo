@@ -394,7 +394,7 @@ class OceanPayment
                             $html .= '<!--加载Oceanpayment支付页面Div-->
                                 <div id="oceanpayment-element"></div>
                                 <div class="bottom">
-                                    <button type="button" class="pay-button" onclick="pay();">'.(empty($this->config['button_pay_name']) ? '立即支付' : $this->config['button_pay_name']).'</button>
+                                    <button type="button" class="pay-button" onclick="pay();" data-status="0">'.(empty($this->config['button_pay_name']) ? '立即支付' : $this->config['button_pay_name']).'</button>
                                     <a href="'.MyUrl('index/order/index').'" class="my-order">'.(empty($this->config['button_order_name']) ? '进入我的订单' : $this->config['button_order_name']).'</a>
                                 </div>
                             </div>';
@@ -419,6 +419,8 @@ class OceanPayment
                     // 回调处理
                     var oceanpaymentCallBack = function(data) {
                         if(data.msg){
+                            $(".pay-button").attr("data-status", 0);
+                            console.log("pay reset");
                             // 处理卡信息错误
                             alert(data.msg);
                         }else{
@@ -430,6 +432,8 @@ class OceanPayment
                             var obj = {};
                             var response = xml_doc.getElementsByTagName("response")[0];
                             if(response == undefined) {
+                                $(".pay-button").attr("data-status", 0);
+                                console.log("pay reset");
                                 alert("xml error");
                                 return false;
                             }
@@ -439,6 +443,8 @@ class OceanPayment
                             }
                             // 是否需要3d验证
                             if((obj.pay_url || null) != null) {
+                                $(".pay-button").attr("data-status", 0);
+                                console.log("pay reset");
                                 window.location.href = obj.pay_url;
                                 return false;
                             }
@@ -453,6 +459,13 @@ class OceanPayment
 
                     //  调用支付
                     function pay() {
+                        var status = parseInt($(".pay-button").attr("data-status") || 0);
+                        if(status == 1) {
+                            console.log("progress");
+                            return false;
+                        }
+                        console.log("pay...");
+                        $(".pay-button").attr("data-status", 1);
                         // Jquery的serialize()方法
                         var formData = $("#payForm").serializeArray();
                         var obj = {}

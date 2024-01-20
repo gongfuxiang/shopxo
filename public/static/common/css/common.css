@@ -1485,8 +1485,8 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal > .am-table > tfoot > tr > td {
     padding: 1.2rem;
     line-height: 2rem;
-    min-width: 27rem;
-    max-width: 35rem;
+    min-width: 17rem;
+    max-width: 17rem;
     word-break: break-all;
 }
 .am-table-scrollable-horizontal > .am-table .am-nowrap-initial {
@@ -1498,7 +1498,7 @@ button.colorpicker-submit img {
 }
 .am-table-scrollable-horizontal > .am-table > thead > tr th {
     background: #f8f8f8;
-    min-width: 27rem;
+    min-width: 17rem;
     font-weight: 500;
     color: #333;
     position: sticky;

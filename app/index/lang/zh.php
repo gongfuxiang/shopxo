@@ -285,13 +285,12 @@ return [
             'upd_time'              => '更新时间',
         ],
         // 动态表格统计数据
-        'form_table_page_stats'                 => [
+        'form_table_stats'                      => [
             'total_price'           => '订单总额',
             'pay_price'             => '支付总额',
             'buy_number_count'      => '商品总数',
-            'refund_price'          => '退款',
-            'returned_quantity'     => '退货',
-            'price_unit'            => '元',
+            'refund_price'          => '退款金额',
+            'returned_quantity'     => '退货数量',
         ],
     ],
 
@@ -368,6 +367,11 @@ return [
             'audit_time'            => '审核时间',
             'add_time'              => '创建时间',
             'upd_time'              => '更新时间',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => '退款总额',
+            'number'  => '退货总数',
         ],
     ],
 

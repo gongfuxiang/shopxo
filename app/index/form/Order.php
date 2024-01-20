@@ -68,7 +68,7 @@ class Order
 
         // 表单配置
         $lang = MyLang('order.form_table');
-        $lang_page_stats = MyLang('order.form_table_page_stats');
+        $lang_stats = MyLang('order.form_table_stats');
         $form = [
             [
                 'label'         => $lang['goods'],
@@ -435,11 +435,11 @@ class Order
             ],
             'is_page_stats'     => 1,
             'page_stats_data'   => [
-                ['name'=>$lang_page_stats['total_price'], 'field'=>'total_price', 'unit'=>$lang_page_stats['price_unit']],
-                ['name'=>$lang_page_stats['pay_price'], 'field'=>'pay_price', 'unit'=>$lang_page_stats['price_unit']],
-                ['name'=>$lang_page_stats['buy_number_count'], 'field'=>'buy_number_count'],
-                ['name'=>$lang_page_stats['refund_price'], 'field'=>'refund_price', 'unit'=>$lang_page_stats['price_unit']],
-                ['name'=>$lang_page_stats['returned_quantity'], 'field'=>'returned_quantity'],
+                ['name'=>$lang_stats['total_price'], 'field'=>'total_price'],
+                ['name'=>$lang_stats['pay_price'], 'field'=>'pay_price'],
+                ['name'=>$lang_stats['buy_number_count'], 'field'=>'buy_number_count'],
+                ['name'=>$lang_stats['refund_price'], 'field'=>'refund_price'],
+                ['name'=>$lang_stats['returned_quantity'], 'field'=>'returned_quantity'],
             ],
             'data_params'       => [
                 'is_operate'        => 1,

@@ -117,7 +117,7 @@ ul, li, ol {list-style: none;}
 }
 @media only screen and (min-width: 1260px) {
     /*轮播图布局*/	
-    .banner .am-slider, .banner .am-slider .am-slides li{height:47.1rem;}
+    .banner .am-slider, .banner .am-slider .am-slides li{height:47rem;}
 
     /*公告布局*/
     .banner-mixed { width:22rem; top:-45rem; text-align: left; }

@@ -83,6 +83,7 @@ class Design
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -95,6 +96,7 @@ class Design
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -111,6 +113,7 @@ class Design
                     'post_url'      => MyUrl('admin/design/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -127,6 +130,7 @@ class Design
                     'post_url'      => MyUrl('admin/design/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',

@@ -285,13 +285,12 @@ return [
             'upd_time'              => 'Update Time',
         ],
         // 动态表格统计数据
-        'form_table_page_stats'                 => [
+        'form_table_stats'                      => [
             'total_price'           => 'TotalPrice',
             'pay_price'             => 'PaymentPrice',
             'buy_number_count'      => 'GoodsNumber',
             'refund_price'          => 'RefundAmount',
             'returned_quantity'     => 'RefundNumber',
-            'price_unit'            => 'yuan',
         ],
     ],
 
@@ -368,6 +367,11 @@ return [
             'audit_time'            => 'Audit Time',
             'add_time'              => 'Creation Time',
             'upd_time'              => 'Update Time',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => 'Total refund amount',
+            'number'  => 'Total number of returns',
         ],
     ],
 

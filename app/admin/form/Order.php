@@ -41,6 +41,7 @@ class Order
     public function Run($params = [])
     {
         $lang = MyLang('order.form_table');
+        $lang_stats = MyLang('order.form_table_stats');
         return [
             // 基础配置
             'base' => [
@@ -433,11 +434,11 @@ class Order
                 ],
                 'is_page_stats'     => 1,
                 'page_stats_data'   => [
-                    ['name'=>'订单总额', 'field'=>'total_price'],
-                    ['name'=>'支付总额', 'field'=>'pay_price'],
-                    ['name'=>'商品总数', 'field'=>'buy_number_count'],
-                    ['name'=>'退款金额', 'field'=>'refund_price'],
-                    ['name'=>'退货数量', 'field'=>'returned_quantity'],
+                    ['name'=>$lang_stats['total_price'], 'field'=>'total_price'],
+                    ['name'=>$lang_stats['pay_price'], 'field'=>'pay_price'],
+                    ['name'=>$lang_stats['buy_number_count'], 'field'=>'buy_number_count'],
+                    ['name'=>$lang_stats['refund_price'], 'field'=>'refund_price'],
+                    ['name'=>$lang_stats['returned_quantity'], 'field'=>'returned_quantity'],
                 ],
                 'data_params'       => [
                     'is_public' => 0,

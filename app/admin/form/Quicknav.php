@@ -59,6 +59,7 @@ class QuickNav
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
+                    'width'         => 150,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -71,6 +72,7 @@ class QuickNav
                     'view_data_key' => 'name',
                     'view_data'     => MyConst('common_platform_type'),
                     'is_sort'       => 1,
+                    'width'         => 165,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -85,6 +87,7 @@ class QuickNav
                     'view_type'     => 'module',
                     'view_key'      => 'quicknav/module/images',
                     'align'         => 'center',
+                    'width'         => 70,
                 ],
                 [
                     'label'         => $lang['event_type'],
@@ -122,6 +125,7 @@ class QuickNav
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -136,6 +140,7 @@ class QuickNav
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],

@@ -59,7 +59,7 @@ class CustomView
                     'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'customview/module/info',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'sm',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
@@ -75,6 +75,7 @@ class CustomView
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -91,6 +92,7 @@ class CustomView
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -107,6 +109,7 @@ class CustomView
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -123,6 +126,7 @@ class CustomView
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -137,6 +141,7 @@ class CustomView
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],

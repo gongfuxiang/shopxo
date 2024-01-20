@@ -35,6 +35,8 @@ class Common extends BaseController
 
 	// 左边权限菜单
 	protected $left_menu;
+    // 当前管理员可使用的插件
+    protected $admin_plugins;
 
     // 输入参数 post|get|request
     protected $data_post;
@@ -111,9 +113,10 @@ class Common extends BaseController
 		// 管理员信息
 		$this->admin = AdminService::LoginInfo();
 
-		// 权限菜单
+		// 权限菜单、当前管理员可使用的插件
         $menu = AdminPowerService::PowerMenuInit($this->admin);
 		$this->left_menu = $menu['admin_left_menu'];
+        $this->admin_plugins = $menu['admin_plugins'];
 
 		// 视图初始化
 		$this->ViewInit();
@@ -265,6 +268,8 @@ class Common extends BaseController
 
         // 权限菜单
         $assign['left_menu'] = $this->left_menu;
+        // 当前管理员可使用的插件
+        $assign['admin_plugins'] = $this->admin_plugins;
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);

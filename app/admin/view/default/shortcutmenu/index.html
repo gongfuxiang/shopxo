@@ -51,6 +51,12 @@
                                             {{/foreach}}
                                         {{/if}}
                                     {{/foreach}}
+                                    {{if !empty($admin_plugins)}}
+                                        <option disabled>{{:MyLang('plugins_title')}}</option>
+                                        {{foreach $admin_plugins as $k=>$v}}
+                                            <option style="padding-left: 15px;" value="plugins-{{$k}}" data-name="{{$v}}">{{$v}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
                                 {{/if}}
                             </select>
                             <span>{{:MyLang('or_title')}}</span>

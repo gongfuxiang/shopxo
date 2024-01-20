@@ -79,6 +79,7 @@ class GoodsSpecTemplate
                     'view_type'     => 'field',
                     'view_key'      => 'category_id',
                     'view_data'     => $this->goods_category_list,
+                    'width'         => 150,
                     'search_config' => [
                         'form_type'             => 'select',
                         'where_type'            => 'in',
@@ -91,6 +92,7 @@ class GoodsSpecTemplate
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
+                    'width'         => 150,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -104,6 +106,7 @@ class GoodsSpecTemplate
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',

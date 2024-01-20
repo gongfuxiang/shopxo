@@ -57,7 +57,7 @@ class WalletPay
         // 基础信息
         $base = [
             'name'          => '钱包支付',  // 插件名称
-            'version'       => '0.0.4',  // 插件版本
+            'version'       => '0.0.5',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'desc'          => '钱包余额支付',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者

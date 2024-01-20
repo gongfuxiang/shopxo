@@ -84,6 +84,7 @@ class Article
                     'view_type'     => 'field',
                     'view_key'      => 'article_category_name',
                     'is_sort'       => 1,
+                    'width'         => 140,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'article_category_id',
@@ -102,6 +103,7 @@ class Article
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -118,6 +120,7 @@ class Article
                     'post_url'      => MyUrl('admin/article/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -132,6 +135,7 @@ class Article
                     'view_type'     => 'field',
                     'view_key'      => 'images_count',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -141,6 +145,7 @@ class Article
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
+                    'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],

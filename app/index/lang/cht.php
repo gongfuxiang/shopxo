@@ -285,13 +285,12 @@ return [
             'upd_time'              => '更新時間',
         ],
         // 动态表格统计数据
-        'form_table_page_stats'                 => [
+        'form_table_stats'                      => [
             'total_price'           => '訂單總額',
             'pay_price'             => '支付總額',
             'buy_number_count'      => '商品總數',
-            'refund_price'          => '退款',
-            'returned_quantity'     => '退貨',
-            'price_unit'            => '元',
+            'refund_price'          => '退款金額',
+            'returned_quantity'     => '退貨數量',
         ],
     ],
 

@@ -25,3 +25,6 @@
 .shortcut-menu-form {
     background: #F5FBFF;
 }
+.shortcut-menu-form .chosen-container .chosen-results {
+    max-height: 18rem;
+}

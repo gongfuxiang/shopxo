@@ -285,13 +285,12 @@ return [
             'upd_time'              => 'Tiempo de actualización',
         ],
         // 动态表格统计数据
-        'form_table_page_stats'                 => [
+        'form_table_stats'                      => [
             'total_price'           => 'Total de pedidos',
             'pay_price'             => 'Total de pagos',
             'buy_number_count'      => 'Total de productos básicos',
-            'refund_price'          => 'Reembolso',
-            'returned_quantity'     => 'Devolución',
-            'price_unit'            => 'Yuan',
+            'refund_price'          => 'Importe del reembolso',
+            'returned_quantity'     => 'Número de devoluciones',
         ],
     ],
 
@@ -368,6 +367,11 @@ return [
             'audit_time'            => 'Tiempo de revisión',
             'add_time'              => 'Tiempo de creación',
             'upd_time'              => 'Tiempo de actualización',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => 'Reembolso total',
+            'number'  => 'Número total de devoluciones',
         ],
     ],
 

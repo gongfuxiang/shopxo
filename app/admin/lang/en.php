@@ -24,7 +24,7 @@ return [
             'order_transaction_amount_name'     => 'Trend of order transaction amount',
             'order_trading_trend_name'          => 'Order trading trend',
             'goods_hot_name'                    => 'Hot Goods',
-            'goods_hot_tips'                    => 'Show only the first 30 items',
+            'goods_hot_tips'                    => 'Show only the first 13 items',
             'payment_name'                      => 'Payment Method',
             'order_region_name'                 => 'Order geographical distribution',
             'order_region_tips'                 => 'Only 10 pieces of data are displayed',
@@ -822,6 +822,14 @@ return [
             'add_time'            => 'Creation Time',
             'upd_time'            => 'Update Time',
         ],
+        // 动态表格统计字段
+        'form_table_stats'                      => [
+            'total_price'           => 'TotalPrice',
+            'pay_price'             => 'PaymentPrice',
+            'buy_number_count'      => 'GoodsNumber',
+            'refund_price'          => 'RefundAmount',
+            'returned_quantity'     => 'RefundNumber',
+        ],
     ],
 
     // 订单售后
@@ -858,6 +866,11 @@ return [
             'audit_time'         => 'Audit Time',
             'add_time'           => 'Creation Time',
             'upd_time'           => 'Update Time',
+        ],
+        // 动态表格统计字段
+        'form_table_stats'  => [
+            'price'   => 'Total refund amount',
+            'number'  => 'Total number of returns',
         ],
     ],
 
