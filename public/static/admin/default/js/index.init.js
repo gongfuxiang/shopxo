@@ -485,6 +485,9 @@ function EchartsOrderMapWholeCountry (name_arr, data) {
         },
         xAxis: {
             type: 'value',
+            splitArea: { //是否显示echarts背景分隔区域
+                show: false
+            },
             axisLine: {
                 show: true, // 显示坐标线
                 lineStyle: { // 坐标颜色

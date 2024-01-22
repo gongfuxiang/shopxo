@@ -1849,7 +1849,7 @@ function FunSaveWinAdditional (data, type, tag = null) {
                                     // 是否有数据
                                     if ((value || null) != null) {
                                         // 先清空数据、组合上传和显示则不清除
-                                        if(!is_compose) {
+                                        if (!is_compose) {
                                             $tag.empty();
                                         }
                                         // 循环追加
@@ -1882,10 +1882,10 @@ function FunSaveWinAdditional (data, type, tag = null) {
                                                     if (is_delete == 1) {
                                                         html += '<i>x</i>';
                                                     }
-                                                    if(is_eye == 1) {
+                                                    if (is_eye == 1) {
                                                         html += '<i class="iconfont icon-eye"></i>';
                                                     }
-                                                    if(is_compose) {
+                                                    if (is_compose) {
                                                         $tag.find('li.plug-file-upload-submit').html(html);
                                                     } else {
                                                         $tag.append(`<li>` + html + `</li>`);
@@ -1894,7 +1894,7 @@ function FunSaveWinAdditional (data, type, tag = null) {
                                             }
                                         }
                                     } else {
-                                        if(is_compose) {
+                                        if (is_compose) {
                                             $tag.find('li.plug-file-upload-submit').html('<i class="iconfont icon-upload-add"></i>');
                                         } else {
                                             // 没数据则判断是否可以删除、可以就清空则值赋为空
@@ -3340,13 +3340,13 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                     }
 
                     // 是否上传和显示组合模式
-                    if(is_compose) {
+                    if (is_compose) {
                         var html = '<input type="text" name="' + form_name + '" value="' + src + '" />';
                         html += '<img src="' + src + '" />';
                         if (is_delete == 1) {
                             html += '<i>x</i>';
                         }
-                        if(is_eye == 1) {
+                        if (is_eye == 1) {
                             html += '<i class="iconfont icon-eye"></i>';
                         }
                         $tag.find('li.plug-file-upload-submit').html(html);
@@ -3365,7 +3365,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                         if (is_delete == 1) {
                             html += '<i>×</i>';
                         }
-                        if(is_eye == 1) {
+                        if (is_eye == 1) {
                             html += '<i class="iconfont icon-eye"></i>';
                         }
                         html += '</li>';
@@ -3386,13 +3386,13 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                     }
 
                     // 是否上传和显示组合模式
-                    if(is_compose) {
+                    if (is_compose) {
                         var html = '<input type="text" name="' + form_name + '" value="' + src + '" />';
                         html += '<video src="' + src + '" controls>your browser does not support the video tag</video>';
                         if (is_delete == 1) {
                             html += '<i>x</i>';
                         }
-                        if(is_eye == 1) {
+                        if (is_eye == 1) {
                             html += '<i class="iconfont icon-eye"></i>';
                         }
                         $tag.find('li.plug-file-upload-submit').html(html);
@@ -3428,7 +3428,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                     }
 
                     // 是否上传和显示组合模式
-                    if(is_compose) {
+                    if (is_compose) {
                         var html = '<input type="text" name="' + form_name + '[' + index + '][title]" value="' + data[i].title + '" />';
                         html += '<input type="text" name="' + form_name + '[' + index + '][url]" value="' + src + '" />';
                         html += '<a href="' + src + '" target="_blank">' + data[i].title + '</a>';
@@ -4709,7 +4709,7 @@ $(function () {
     // 打开编辑器插件
     $(document).on('click', '.plug-file-upload-submit', function () {
         // 是否查看文件操作、则阻止往下执行
-        if($(this).find('>i.icon-eye').length > 0) {
+        if ($(this).find('>i.icon-eye').length > 0) {
             return false;
         }
 
@@ -4807,7 +4807,7 @@ $(function () {
         var $tag = $(this).parents('ul.plug-file-upload-view');
         // 是否上传和显示组合
         var $compose = $tag.find('li.plug-file-upload-submit');
-        if($compose.length > 0) {
+        if ($compose.length > 0) {
             $compose.html('<i class="iconfont icon-upload-add"></i>');
         } else {
             var $parent = $(this).parent();
@@ -4815,7 +4815,7 @@ $(function () {
             var remove_default_images = $tag.attr('data-remove-default-images');
             if (remove_default_images === undefined) {
                 // 删除数据、延迟10毫秒删除、避免业务层页面有其他操作
-                setTimeout(function() {
+                setTimeout(function () {
                     $parent.remove();
                 }, 10);
 
@@ -4837,29 +4837,29 @@ $(function () {
 
     // 文件预览
     $(document).on('click', '.plug-file-upload-view li', function () {
-        if($(this).find('i.icon-eye').length > 0) {
+        if ($(this).find('i.icon-eye').length > 0) {
             // 容器
             var $tag = $(this).parents('ul.plug-file-upload-view');
             var type = $tag.attr('data-dialog-type') || 'images';
             var title = null;
             var html = null;
             var style = 'max-width:100%; max-height:calc(80vh - 4.5rem); margin: 0 auto;';
-            switch(type) {
-                case 'video' :
+            switch (type) {
+                case 'video':
                     var video = $(this).find('>video').attr('src') || null;
-                        if(video != null) {
-                            title = window['lang_video_preview_title'] || '视频预览';
-                            html = '<video src="'+video+'" style="'+style+'" controls autoplay>your browser does not support the video tag</video>';
-                        }
+                    if (video != null) {
+                        title = window['lang_video_preview_title'] || '视频预览';
+                        html = '<video src="' + video + '" style="' + style + '" controls autoplay>your browser does not support the video tag</video>';
+                    }
                     break;
-                default :
+                default:
                     var img = $(this).find('>img').attr('src') || null;
-                    if(img != null) {
+                    if (img != null) {
                         title = window['lang_images_preview_title'] || '图片预览';
-                        html = '<img src="' + img + '" class="am-block" style="'+style+'" />';
+                        html = '<img src="' + img + '" class="am-block" style="' + style + '" />';
                     }
             }
-            if(html != null) {
+            if (html != null) {
                 AMUI.dialog.alert({
                     title: title,
                     isClose: true,
@@ -5623,10 +5623,16 @@ $(function () {
         var $parent = $(this).parent();
         if ($parent.hasClass('am-close-tips')) {
             $parent.removeClass('am-close-tips');
-            $parent.animate({ height: '100%', width: '100%' }, 500);
+            const tips = document.querySelector('.am-operate-stretch-tips');
+            tips.style.height = 'auto';
+            tips.style.width = '100%';
+            const { height } = tips.getBoundingClientRect();
+            tips.style.height = '35px';
+            tips.style.width = '90px';
+            $parent.animate({ height: height + 'px', width: '100%' }, 300);
         } else {
             $parent.addClass('am-close-tips');
-            $parent.animate({ height: '35px', width: '90px' }, 500);
+            $parent.animate({ height: '35px', width: '90px' }, 300);
         }
     });
 });

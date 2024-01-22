@@ -104,7 +104,6 @@ class Navigation extends Base
 	public function Save()
 	{
         $params = $this->data_request;
-        $params['nav_type'] = $this->nav_type;
         return ApiService::ApiDataReturn(NavigationService::NavSave($params));
 	}
 
