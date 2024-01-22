@@ -1198,3 +1198,19 @@ body[class^="admin-plugins-"] .content-right > .content {
     left: 50%;
     transform: translateX(-50%);
 }
+
+
+/**
+ * 操作可伸缩的提示信息
+ */
+.am-operate-stretch-tips {
+    background-color: var(--color-tips-warm-bg);
+    border-color:var(--color-tips-warm-br);
+}
+.am-operate-stretch-tips.am-close-tips {
+    border-color: var(--color-main);
+    background-color: var(--color-main-light);
+}
+.am-operate-stretch-tips.am-close-tips .title {
+    color: var(--color-main);
+} 

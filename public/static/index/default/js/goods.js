@@ -562,6 +562,55 @@ $(function() {
     // 购物车表单初始化
     FromInit('form.cart-form');
 
+    // 指定规格初始化选中
+    var spec = decodeURIComponent(GetQueryValue('spec') || '');
+    if((spec || null) != null)
+    {
+        spec = spec.split('|');
+        if($('.sku-container').length > 0 && $('.sku-container .sku-items').length > 0 && $('.sku-container .sku-items').length == spec.length && $('.buy-submit-container').length > 0 && ($('.buy-submit-container button.buy-submit').length > 0 || $('.buy-submit-container button.cart-submit').length > 0))
+        {
+            var $other_price = $('.tb-detail-price .price-top-content .items dd b');
+            var $price = $('.tb-detail-price .price-top-content .goods-sale-price .goods-price');
+            // 先清除价格展示信息
+            $other_price.text(__currency_symbol__+'...');
+            $price.text('...');
+            var num = 0;
+            var timer = setInterval(function()
+            {
+                $('.sku-container .sku-items').each(function(k, v)
+                {
+                    // 清除价格展示信息、避免获取价格类型赋值
+                    $other_price.text(__currency_symbol__+'...');
+                    $price.text('...');
+                    // 必须不存在已选择项
+                    if($(this).find('ul li.selected').length <= 0)
+                    {
+                        var temp_spec = spec[k];
+                        var status = false;
+                        $(this).find('ul li').each(function(ks, vs)
+                        {
+                            // 必须是可选和未选
+                            if(!status && !$(this).hasClass('sku-items-disabled') && !$(this).hasClass('sku-dont-choose') && temp_spec == $(this).attr('data-value'))
+                            {
+                                $(this).trigger('click');
+                                status = true;
+                                num++;
+                            }
+                        });
+                    }
+                });
+                if(num >= $('.sku-container .sku-items').length)
+                {
+                    clearInterval(timer);
+                }
+            }, 100);
+            setTimeout(function()
+            {
+                clearInterval(timer);
+            }, 20000);
+        }
+    }
+
     // 商品规格选择
     $('.theme-options').each(function()
     {

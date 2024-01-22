@@ -2591,19 +2591,17 @@ function UrlUseCurrentHostHandle (url) {
  */
 function SelectChosenInit () {
     if ($('select.chosen-select').length > 0) {
-        $('select.chosen-select').each(function () {
-            if ($(this).parent().find('.chosen-container').length > 0) {
-                $('select.chosen-select').trigger('chosen:updated');
-            } else {
-                $('select.chosen-select').chosen({
-                    inherit_select_classes: true,
-                    enable_split_word_search: true,
-                    search_contains: true,
-                    no_results_text: window['lang_chosen_select_no_results_text'],
-                    disable_search_threshold: 10
-                });
-            }
-        })
+        // 已初始化的则更新
+        $('select.chosen-select.chosen-init-success').trigger('chosen:updated');
+
+        // 初始化
+        $('select.chosen-select:not(.chosen-init-success)').chosen({
+            inherit_select_classes: true,
+            enable_split_word_search: true,
+            search_contains: true,
+            no_results_text: window['lang_chosen_select_no_results_text'],
+            disable_search_threshold: 10
+        });
     }
 }
 
@@ -5618,5 +5616,17 @@ $(function () {
         $(this).addClass('am-active').siblings().removeClass('am-active');
         var key = $(this).data('key');
         $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+    });
+
+    // 顶级提示信息
+    $(document).on('click', '.am-operate-stretch-tips .title', function () {
+        var $parent = $(this).parent();
+        if ($parent.hasClass('am-close-tips')) {
+            $parent.removeClass('am-close-tips');
+            $parent.animate({ height: '100%', width: '100%' }, 500);
+        } else {
+            $parent.addClass('am-close-tips');
+            $parent.animate({ height: '35px', width: '90px' }, 500);
+        }
     });
 });

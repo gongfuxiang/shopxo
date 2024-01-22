@@ -3309,8 +3309,8 @@ table.am-table .am-operate-grid .am-btn i {
  * 操作可伸缩的提示信息
  */
 .am-operate-stretch-tips {
-    background-color: var(--color-tips-warm-bg);
-    border: 0.1rem solid var(--color-tips-warm-br);
+    background-color: #f1fcff;
+    border: 0.1rem solid #f1fcff;
     display: block;
     width: 100%;
     height: 100%;
@@ -3321,12 +3321,12 @@ table.am-table .am-operate-grid .am-btn i {
     margin-bottom: 2rem;
 }
 .am-operate-stretch-tips.am-close-tips {
-    border: 0.1rem solid var(--color-main);
-    background-color: var(--color-main-light);
+    border: 0.1rem solid #2a94ff;
+    background-color: #edf4ff;
     border-radius: var(--border-radius);
 }
 .am-operate-stretch-tips.am-close-tips .title {
-    color: var(--color-main);
+    color: #2a94ff;
 } 
 
 .am-operate-stretch-tips.am-close-tips .contract {

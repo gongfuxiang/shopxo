@@ -150,6 +150,9 @@
     background-color: transparent !important;
     border: 0 !important;
 }
+.plugins-data-list>ul>li .operation button.am-btn-danger {
+    color: var(--color-red);   
+}
 
 .plugins-data-list>ul>li .operation a i,
 .plugins-data-list>ul>li .operation button i {

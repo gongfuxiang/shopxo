@@ -517,18 +517,6 @@ $(function () {
         $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
     });
 
-
-    // 后台顶级提示信息
-    $(document).on('click', '.am-operate-stretch-tips .title', function () {
-        if ($(this).parent().hasClass('am-close-tips')) {
-            $(this).parent().removeClass('am-close-tips');
-            $(this).parent().animate({ height: '100%', width: '100%' }, 500);
-        } else {
-            $(this).parent().addClass('am-close-tips');
-            $(this).parent().animate({ height: '35px', width: '84px' }, 500);
-        }
-    });
-
     // 点击页面关闭父级的tab右侧工具弹窗
     $('body').on('click', function () {
         if ((parent.IframeCloseNavTabsRightTools || null) != null) {

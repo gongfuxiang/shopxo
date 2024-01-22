@@ -17,7 +17,6 @@
     transition-property: background-color, border;
     border: 2px solid #ddd;
     background-color: #ddd;
-    background-clip: padding-box;
     cursor: pointer;
     font-family: "iconfont" !important;
     font-style: normal;
@@ -46,7 +45,6 @@
     -webkit-transition-property: -webkit-transform, width, left;
     transition-property: transform, width, left;
     background-color: #fff;
-    background-clip: padding-box;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
     box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
 }
