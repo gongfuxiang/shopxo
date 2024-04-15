@@ -15,13 +15,13 @@
             <div data-tab-panel-0 class="am-tab-panel am-active">
                 <!-- form start -->
                 <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                    <div class="am-form-group am-form-group-refreshing am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-form-input-material">
                         <input type="text" name="accounts" class="am-radius am-form-field" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('user.form_item_username_message')}}" autocomplete="off" data-is-clearout="0" required />
                         <span class="am-material-bar"></span>
                         <label class="am-material-label">{{:MyLang('user.form_item_username')}}</label>
                     </div>
 
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                             <input type="password" name="pwd" class="am-radius am-form-field input-padding-right-max" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="new-password" data-is-clearout="0" required />
                             <span class="am-input-group-btn">
                                 <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
@@ -31,7 +31,7 @@
                     </div>
 
                     {{if MyC('home_user_register_img_verify_state') eq 1}}
-                        <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                        <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                             <input type="text" name="verify" class="am-radius am-form-field" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                             <span class="am-input-group-btn am-position-verify">
                                 <span class="form-verify">
@@ -46,7 +46,7 @@
 
                     {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                         <div class="agreement am-margin-top-main">
-                            <label class="am-checkbox am-success c-p">
+                            <label class="am-checkbox am-success am-cursor-pointer">
                                 <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
                             </label>
                             <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
@@ -67,13 +67,13 @@
             <div data-tab-panel-1 class="am-tab-panel {{if !in_array('username', $home_user_reg_type)}}am-active{{/if}}">
                 <!-- form start -->
                 <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                    <div class="am-form-group am-form-group-refreshing am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-form-input-material">
                         <input type="text" name="accounts" class="am-radius am-form-field" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('user.form_item_mobile_message')}}" autocomplete="off" data-is-clearout="0" required />
                         <span class="am-material-bar"></span>
                         <label class="am-material-label">{{:MyLang('user.form_item_mobile')}}</label>
                     </div>
 
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                         <input type="number" name="verify" class="am-radius am-form-field input-padding-right-max" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                         <span class="am-input-group-btn am-position-verify-sms">
                             <button class="am-btn am-text-sm btn-loading-example user-verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">{{:MyLang('form_verify_button_text')}}</button>
@@ -82,7 +82,7 @@
                         <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
                     </div>
 
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                         <input type="password" name="pwd" class="am-radius am-form-field input-padding-right-max" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="new-password" data-is-clearout="0" required />
                         <span class="am-input-group-btn">
                             <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
@@ -93,7 +93,7 @@
 
                     {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                         <div class="agreement am-margin-top-main">
-                            <label class="am-checkbox am-success c-p">
+                            <label class="am-checkbox am-success am-cursor-pointer">
                                 <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
                             </label>
                             <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
@@ -114,13 +114,13 @@
             <div data-tab-panel-2 class="am-tab-panel {{if !in_array('username', $home_user_reg_type) and !in_array('sms', $home_user_reg_type)}}am-active{{/if}}">
                 <!-- form start -->
                 <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                    <div class="am-form-group am-form-group-refreshing am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-form-input-material">
                         <input type="email" name="accounts" class="am-radius am-form-field" data-validation-message="{{:MyLang('user.form_item_email_message')}}" autocomplete="off" data-is-clearout="0" required />
                         <span class="am-material-bar"></span>
                         <label class="am-material-label">{{:MyLang('user.form_item_email')}}</label>
                     </div>
 
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                         <input type="number" name="verify" class="am-radius am-form-field input-padding-right-max" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
                         <span class="am-input-group-btn am-position-verify-sms">
                             <button class="am-btn am-text-sm btn-loading-example user-verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">{{:MyLang('form_verify_button_text')}}</button>
@@ -129,7 +129,7 @@
                         <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
                     </div>
 
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-input-material">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-main am-form-input-material">
                         <input type="password" name="pwd" class="am-radius am-form-field input-padding-right-max" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="new-password" data-is-clearout="0" required />
                         <span class="am-input-group-btn">
                             <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
@@ -140,7 +140,7 @@
 
                     {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                         <div class="agreement am-margin-top-main">
-                            <label class="am-checkbox am-success c-p">
+                            <label class="am-checkbox am-success am-cursor-pointer">
                                 <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" data-is-clearout="0" required /> {{:MyLang('user.form_item_agreement')}}
                             </label>
                             <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>

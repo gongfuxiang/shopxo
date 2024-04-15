@@ -870,5 +870,278 @@ class ResourcesService
         }
         return $data;
     }
+
+    /**
+     * 页面静态资源地址信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-01-29
+     * @desc    description
+     * @param   [string]          $theme      [当前主题标识]
+     * @param   [string]          $group      [当前模块]
+     * @param   [string]          $controller [控制器]
+     * @param   [string]          $action     [方法]
+     */
+    public static function StaticCssOrJsPathData($theme, $group, $controller, $action)
+    {
+        // 公共css,js
+        $common_css = $group.DS.$theme.DS.'css'.DS.'common.css';
+        if(!file_exists(ROOT_PATH.'static'.DS.$common_css))
+        {
+            $default_common_css = $group.DS.'default'.DS.'css'.DS.'common.css';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_common_css))
+            {
+                $common_css = $default_common_css;
+            } else {
+                $common_css = '';
+            }
+        }
+        $common_js = $group.DS.$theme.DS.'js'.DS.'common.js';
+        if(!file_exists(ROOT_PATH.'static'.DS.$common_js))
+        {
+            $default_common_js = $group.DS.'default'.DS.'js'.DS.'common.js';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_common_js))
+            {
+                $common_js = $default_common_js;
+            } else {
+                $common_js = '';
+            }
+        }
+
+        // 主题指定引入css,js
+        $theme_import_css = [];
+        $theme_import_js = [];
+        $config = APP_PATH.$group.DS.'view'.DS.$theme.DS.'config.json';
+        if(file_exists($config))
+        {
+            $theme_config = json_decode(file_get_contents($config), true);
+            if(!empty($theme_config['import_css']))
+            {
+                if(is_array($theme_config['import_css']))
+                {
+                    foreach($theme_config['import_css'] as $v)
+                    {
+                        if(!empty($v) && !is_array($v))
+                        {
+                            // 前面是否增加了斜杠、则去除
+                            if(substr($v, 0, 1) == DS)
+                            {
+                                $v = substr($v, 1);
+                            }
+                            if(file_exists(ROOT_PATH.'static'.DS.$v))
+                            {
+                                $theme_import_css[] = $v;
+                            }
+                        }
+                    }
+                } else {
+                    // 前面是否增加了斜杠、则去除
+                    if(substr($theme_config['import_css'], 0, 1) == DS)
+                    {
+                        $theme_config['import_css'] = substr($theme_config['import_css'], 1);
+                    }
+                    if(file_exists(ROOT_PATH.'static'.DS.$theme_config['import_css']))
+                    {
+                        $theme_import_css[] = $theme_config['import_css'];
+                    }
+                }
+            }
+            if(!empty($theme_config['import_js']))
+            {
+                if(is_array($theme_config['import_js']))
+                {
+                    foreach($theme_config['import_js'] as $v)
+                    {
+                        if(!empty($v) && !is_array($v))
+                        {
+                            // 前面是否增加了斜杠、则去除
+                            if(substr($v, 0, 1) == DS)
+                            {
+                                $v = substr($v, 1);
+                            }
+                            if(file_exists(ROOT_PATH.'static'.DS.$v))
+                            {
+                                $theme_import_js[] = $v;
+                            }
+                        }
+                    }
+                } else {
+                    // 前面是否增加了斜杠、则去除
+                    if(substr($theme_config['import_js'], 0, 1) == DS)
+                    {
+                        $theme_config['import_js'] = substr($theme_config['import_js'], 1);
+                    }
+                    if(file_exists(ROOT_PATH.'static'.DS.$theme_config['import_js']))
+                    {
+                        $theme_import_js[] = $theme_config['import_js'];
+                    }
+                }
+            }
+        }
+
+        // 主题专属css,js
+        $other_css = $group.DS.$theme.DS.'css'.DS.'other.css';
+        if(!file_exists(ROOT_PATH.'static'.DS.$other_css))
+        {
+            $default_other_css = $group.DS.'default'.DS.'css'.DS.'other.css';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_other_css))
+            {
+                $other_css = $default_other_css;
+            } else {
+                $other_css = '';
+            }
+        }
+        $other_js = $group.DS.$theme.DS.'js'.DS.'other.js';
+        if(!file_exists(ROOT_PATH.'static'.DS.$other_js))
+        {
+            $default_other_js = $group.DS.'default'.DS.'js'.DS.'other.js';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_other_js))
+            {
+                $other_js = $default_other_js;
+            } else {
+                $other_js = '';
+            }
+        }
+
+        // 公共模块css,js
+        $module_css = $group.DS.$theme.DS.'css'.DS.'module.css';
+        if(!file_exists(ROOT_PATH.'static'.DS.$module_css))
+        {
+            $default_module_css = $group.DS.'default'.DS.'css'.DS.'module.css';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_module_css))
+            {
+                $module_css = $default_module_css;
+            } else {
+                $module_css = '';
+            }
+        }
+        $module_js = $group.DS.$theme.DS.'js'.DS.'module.js';
+        if(!file_exists(ROOT_PATH.'static'.DS.$module_js))
+        {
+            $default_module_js = $group.DS.'default'.DS.'js'.DS.'module.js';
+            if(file_exists(ROOT_PATH.'static'.DS.$default_module_js))
+            {
+                $module_js = $default_module_js;
+            } else {
+                $module_js = '';
+            }
+        }
+
+        // 控制器静态文件状态css,js
+        // 页面css
+        $page_css = '';
+        $css = $group.DS.$theme.DS.'css'.DS.$controller;
+        // 对应方法不存在 或 非默认主题则走默认主题的文件
+        if(file_exists(ROOT_PATH.'static'.DS.$css.'.'.$action.'.css') && $theme != 'default')
+        {
+            $page_css = $css.'.'.$action.'.css';
+        } else {
+            $default_css = $group.DS.'default'.DS.'css'.DS.$controller;
+            if(file_exists(ROOT_PATH.'static'.DS.$default_css.'.'.$action.'.css'))
+            {
+                $page_css = $default_css.'.'.$action.'.css';
+            }
+        }
+        if(empty($page_css))
+        {
+            $page_css = $css.'.css';
+            if(!file_exists(ROOT_PATH.'static'.DS.$page_css))
+            {
+                // 不存在则赋空
+                $page_css = '';
+
+                // 非默认主题则走默认主题的文件
+                if($theme != 'default')
+                {
+                    $default_css = $group.DS.'default'.DS.'css'.DS.$controller.'.css';
+                    if(file_exists(ROOT_PATH.'static'.DS.$default_css))
+                    {
+                        $page_css = $default_css;
+                    }
+                }
+            }
+        }
+        // 页面js
+        $page_js = '';
+        $js = $group.DS.$theme.DS.'js'.DS.$controller;
+        // 对应方法不存在 或 非默认主题则走默认主题的文件
+        if(file_exists(ROOT_PATH.'static'.DS.$js.'.'.$action.'.js') && $theme != 'default')
+        {
+            $page_js = $js.'.'.$action.'.js';
+        } else {
+            $default_js = $group.DS.'default'.DS.'js'.DS.$controller;
+            if(file_exists(ROOT_PATH.'static'.DS.$default_js.'.'.$action.'.js'))
+            {
+                $page_js = $default_js.'.'.$action.'.js';
+            }
+        }
+        if(empty($page_js))
+        {
+            $page_js = $js.'.js';
+            if(!file_exists(ROOT_PATH.'static'.DS.$page_js))
+            {
+                // 不存在则赋空
+                $page_js = '';
+
+                // 非默认主题则走默认主题的文件
+                if($theme != 'default')
+                {
+                    $default_js = $group.DS.'default'.DS.'js'.DS.$controller.'.js';
+                    if(file_exists(ROOT_PATH.'static'.DS.$default_js))
+                    {
+                        $page_js = $default_js;
+                    }
+                }
+            }
+        }
+
+        // 是否插件
+        $plugins_css = '';
+        $plugins_js = '';
+        $control = RequestController();
+        $plugins_name = PluginsRequestName();
+        if($control == 'plugins' && !empty($plugins_name))
+        {
+            $plugins_control = PluginsRequestController();
+            $plugins_action = PluginsRequestAction();
+            // 页面css
+            $pcss = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+            $pcss .= file_exists(ROOT_PATH.'static'.DS.$pcss.'.'.$plugins_action.'.css') ? '.'.$plugins_action.'.css' : '.css';
+            $page_css = file_exists(ROOT_PATH.'static'.DS.$pcss) ? $pcss : '';
+
+            // 页面js
+            $pjs = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+            $pjs .= file_exists(ROOT_PATH.'static'.DS.$pjs.'.'.$plugins_action.'.js') ? '.'.$plugins_action.'.js' : '.js';
+            $page_js = file_exists(ROOT_PATH.'static'.DS.$pjs) ? $pjs : '';
+
+            // 应用公共css,js
+            $plugins_css = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
+            $plugins_css = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
+            $plugins_js = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
+            $plugins_js = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
+        }
+
+        return [
+            // 公共
+            'common_css'        => $common_css,
+            'common_js'         => $common_js,
+            // 主题指定
+            'theme_import_css'  => $theme_import_css,
+            'theme_import_js'   => $theme_import_js,
+            // 主题专属
+            'other_css'         => $other_css,
+            'other_js'          => $other_js,
+            // 公共模块
+            'module_css'        => $module_css,
+            'module_js'         => $module_js,
+            // 当前页面
+            'page_css'          => $page_css,
+            'page_js'           => $page_js,
+            // 插件
+            'plugins_css'       => $plugins_css,
+            'plugins_js'        => $plugins_js,
+        ];
+    }
 }
 ?>

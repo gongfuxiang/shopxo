@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -52,7 +52,7 @@
                             {{/if}}
                         </select>
                         <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
-                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: '{{:MyLang('search_title')}}'}">
+                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: '{{:MyLang('search_title')}}'}">
                             <i class="am-icon-search"></i>
                             <span>{{:MyLang('search_title')}}</span>
                         </button>

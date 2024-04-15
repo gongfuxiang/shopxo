@@ -8,13 +8,17 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 边线类型 -->
-                        {{include file="../../../layout/view/public/style/border_style" key="" required="required" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_style', [
+                            'required'   => 'required',
+                        ])}}
 
                         <!-- 边线大小 -->
-                        {{include file="../../../layout/view/public/style/border_width_color" key="" required="required" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_width_color', [
+                            'required'   => 'required',
+                        ])}}
 
                         <!-- 外边距 -->
-                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/margin_4')}}
                     </div>
                 </div>
 

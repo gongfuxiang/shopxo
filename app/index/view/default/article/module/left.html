@@ -1,0 +1,73 @@
+<div class="am-u-md-2 am-u-md-pull-10 article-sidebar am-padding-0 theme-data-edit-event" data-module="article_category">
+    <div class="am-offcanvas" id="article-nav-sidebar">
+        <div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+            <!-- 左侧内部顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_article_detail_left_inside_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_article_detail_left_inside_top_data) and is_array($plugins_view_article_detail_left_inside_top_data)}}
+                {{foreach $plugins_view_article_detail_left_inside_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 左侧内容 -->
+            <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-padding-0" data-am-accordion='{}'>
+                <!-- 分类 -->
+                <div class="am-panel am-panel-default am-panel-group am-margin-bottom-0 am-radius">
+                    <div class="am-panel-hd">
+                        <a href="{{:MyUrl('index/article/category')}}">
+                            <h3 class="am-panel-title am-text-center am-padding-vertical-xs am-text-lg">{{:MyLang('article.article_category_name')}}</h3>
+                        </a>
+                    </div>
+                    <!-- 搜索 -->
+                    <form action="{{:MyUrl('index/article/category')}}" method="POST">
+                        <div class="am-input-group am-padding-vertical-sm am-padding-horizontal-main am-margin-top-sm">
+                            <input type="text" name="awd" class="am-form-field am-radius" placeholder="{{:MyLang('article.article_search_placeholder')}}" value="{{if !empty($params['awd'])}}{{$params.awd}}{{/if}}" data-is-clearout="0" />
+                            {{if isset($action_name) and $action_name eq 'category' and !empty($params['id'])}}
+                                <input type="hidden" name="id" value="{{$params.id}}" />
+                            {{/if}}
+                            <span class="am-input-group-btn">
+                                <button type="submit" class="am-btn am-btn-default am-radius">
+                                    <span class="iconfont icon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- 分类 -->
+                    {{if !empty($module_data['category_list'])}}
+                        <ul class="am-nav category-list">
+                            {{foreach $module_data.category_list as $v}}
+                                <li>
+                                    <a href="{{$v.url}}" {{if (!empty($module_data['article']) and isset($module_data['article']['article_category_id']) and $module_data['article']['article_category_id'] eq $v['id']) or (isset($action_name) and $action_name eq 'category' and isset($params['id']) and $params['id'] eq $v['id'])}}class="am-active"{{/if}}>{{$v.name}}</a>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/if}}
+                </div>
+            </section>
+
+            <!-- 左侧内部底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_article_detail_left_inside_botton</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_article_detail_left_inside_botton_data) and is_array($plugins_view_article_detail_left_inside_botton_data)}}
+                {{foreach $plugins_view_article_detail_left_inside_botton_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="am-icon-btn am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
+    <i class="iconfont icon-table-grid"></i>
+    <span class="am-sr-only">{{:MyLang('article.article_nav_text')}}</span>
+</a>

@@ -88,7 +88,7 @@ class Goods extends Base
 		$data = $this->data_detail;
 		if(!empty($params['id']) && empty($data))
 		{
-			return $this->error(MyLang('no_data'), MyUrl('admin/goods/index'));
+			return ViewError(MyLang('no_data'), MyUrl('admin/goods/index'));
 		}
 
 		// 模板信息

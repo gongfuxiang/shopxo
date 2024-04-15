@@ -67,7 +67,7 @@ class GoodsFavor
                         'form_type'             => 'input',
                         'form_name'             => 'f.user_id',
                         'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereValueUserInfo',
+                        'where_value_custom'    => 'SystemModuleUserWhereHandle',
                         'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
@@ -128,7 +128,7 @@ class GoodsFavor
             // 数据配置
             'data'  => [
                 'table_obj'     => Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id'),
-                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images, g.inventory_unit',
                 'order_by'      => 'f.id desc',
                 'detail_dkey'   => 'f.id',
                 'data_handle'   => 'GoodsFavorService::GoodsFavorListHandle',
@@ -139,29 +139,6 @@ class GoodsFavor
                 ],
             ],
         ];
-    }
-
-    /**
-     * 用户信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-30
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueUserInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取用户 id
-            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
     }
 }
 ?>

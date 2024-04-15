@@ -41,7 +41,7 @@
                             <td class="am-text-middle">
                                 <div class="am-flex am-flex-items-center am-gap-1">
                                     <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" class="am-radius" />
-                                    <i class="am-close quick-title-remove iconfont icon-delete cr-red"></i>
+                                    <i class="am-close quick-title-remove iconfont icon-delete am-text-red"></i>
                                 </div>
                             </td>
                             <td class="spec-quick-td-value am-cf">
@@ -51,7 +51,7 @@
                                             <div class="am-fl value-item">
                                                 <div class="am-flex am-flex-items-center am-gap-1">
                                                     <input type="text" class="am-fl am-radius" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" />
-                                                    <i class="am-close quick-value-remove iconfont icon-delete cr-red"></i>
+                                                    <i class="am-close quick-value-remove iconfont icon-delete am-text-red"></i>
                                                 </div>
                                             </div>
                                         {{/foreach}}
@@ -114,7 +114,7 @@
                                 <th class="table-title table-title-{{$type_v.id}}">
                                     <div class="am-flex am-am-flex-items-center am-gap-1">
                                         <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" class="am-radius" data-is-clearout="0" required />
-                                        <i class="am-close title-nav-remove iconfont icon-delete cr-red" data-index="{{$type_v.id}}"></i>
+                                        <i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="{{$type_v.id}}"></i>
                                     </div>
                                 </th>
                             {{/foreach}}
@@ -184,12 +184,12 @@
                             </td>
                             <td class="am-text-middle">
                                 <input type="hidden" name="specifications_extends[]" class="line-extend-input" />
-                                <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">{{:MyLang('edit_title')}}</a>
+                                <a href="javascript:;" class="am-text-xs am-text-primary line-extend-btn">{{:MyLang('edit_title')}}</a>
                             </td>
                             <td class="am-text-middle">
-                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
-                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
-                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
+                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
                                 <a href="javascript:;" class="am-text-xs am-text-danger line-remove">{{:MyLang('remove_title')}}</a>
                             </td>
                         </tr>
@@ -234,13 +234,13 @@
                                             </td>
                                             <td class="am-text-middle">
                                                 <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
-                                                <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">{{:MyLang('edit_title')}}</a>
+                                                <a href="javascript:;" class="am-text-xs am-text-primary line-extend-btn">{{:MyLang('edit_title')}}</a>
                                             </td>
                                             <td class="am-text-middle">
-                                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
-                                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
-                                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
-                                                <a href="javascript:;" class="am-text-xs am-text-secondary line-remove">{{:MyLang('remove_title')}}</a>
+                                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                                                <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
+                                                <a href="javascript:;" class="am-text-xs am-text-primary line-remove">{{:MyLang('remove_title')}}</a>
                                             </td>
                                         {{/case}}
                                     {{/switch}}
@@ -252,7 +252,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="am-margin-top-sm am-border-bottom-table">
+        <div class="am-margin-top-sm am-border-bottom-f8">
             <span class="business-operations-submit specifications-line-add am-border-0 am-text-sm">
                 <i class="iconfont icon-add"></i>
                 {{:MyLang('common_service.goods.form_spec_row_add_title')}}
@@ -279,7 +279,7 @@
                                             <li>
                                                 <input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images_old}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_images_images_message')}}" required />
                                                 <img src="{{$spec.images}}" />
-                                                <i>×</i>
+                                                <i class="iconfont icon-close"></i>
                                             </li>
                                         </ul>
                                         <div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$type.id}}{{$spec_key}}">+ {{:MyLang('form_upload_images_title')}}</div>
@@ -303,7 +303,7 @@
         </div>
         <div class="am-popup-bd">
             <div class="form-content">
-                <div class="am-tips-card spec-title-container"></div>
+                <div class="am-alert spec-title-container"></div>
                 <div class="am-form-group">
                     <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_price_title')}}</label>
                     <input type="text" placeholder="{{:MyLang('common_service.goods.form_spec_thead_price_title')}}" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_price_message')}}" />
@@ -313,12 +313,20 @@
                     <input type="text" placeholder="{{:MyLang('common_service.goods.form_spec_thead_original_price_title')}}" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_original_price_message')}}" />
                 </div>
                 <div class="am-form-group">
+                    <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}</label>
+                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_title')}}" class="am-radius popup_all_buy_min_number" min="0" max="100000000" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_min_number_message')}}" />
+                </div>
+                <div class="am-form-group">
+                    <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}</label>
+                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_title')}}" class="am-radius popup_all_buy_max_number" min="0" max="100000000" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_buy_max_number_message')}}" />
+                </div>
+                <div class="am-form-group">
                     <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}</label>
-                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" />
+                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_weight_title')}}" class="am-radius popup_all_weight" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_weight_message')}}" />
                 </div>
                 <div class="am-form-group">
                     <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}</label>
-                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius popup_all_volume" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" />
+                    <input type="number" placeholder="{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}" class="am-radius popup_all_volume" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_volume_message')}}" />
                 </div>
                 <div class="am-form-group">
                     <label class="am-block">{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}</label>
@@ -331,8 +339,8 @@
             </div>
             <div class="am-form-popup-submit">
                 <div class="am-flex am-flex-justify-right am-flex-items-center am-gap-2">
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-sm" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
-                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm">{{:MyLang('confirm_title')}}</button>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs spec-all-submit">{{:MyLang('confirm_title')}}</button>
                 </div>
             </div>
         </div>

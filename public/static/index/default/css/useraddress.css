@@ -10,6 +10,14 @@ ul.address-list li .user-base {
     padding: 0 0.5rem;
     color: #ccc;
 }
+ul.address-list li .address-content {
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+    height: 100%;
+}
 @media only screen and (min-width: 641px) {
     ul.address-list {
         overflow: hidden;
@@ -22,7 +30,7 @@ ul.address-list li .user-base {
         height: 15rem;
         float: left;
         margin: 0 1rem 1rem 0;
-        padding: 2rem;
+        padding: 0.4rem;
         position: relative;
         border: 0.1rem solid #eee;
         border-radius: var(--border-radius)
@@ -65,22 +73,26 @@ ul.address-list li .user-base {
     .am-footer {
         padding-bottom: 3rem;
     }
-
+    ul.address-list li .address-content {
+        padding: 1rem 1rem 3rem 1rem;
+    }
     ul.address-list li {
-        margin: 1rem 0;
-        padding: 2rem 1rem;
+        padding: 0.4rem;
         position: relative;
     }
-    ul.address-list li:not(:last-child) {
+    ul.address-list li {
         border-top: 0.1rem solid #eee;
+    }
+    ul.address-list li.address-default {
+        padding: 0 0 0.4rem 0;
     }
     .address-detail .phone {
         float: right;
     }
     .address-operation-btn {
         position: absolute;
-        bottom: 0;
-        right: 0;
+        bottom: 0.5rem;
+        right: 2rem;
         color: #282828;
         text-align: right;
     }
@@ -89,12 +101,8 @@ ul.address-list li .user-base {
     }
 }
 ul.address-list li.address-default {
-    background-image: url(../images/address-peraddressbg.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    border: 0.1rem solid transparent;
+    background: repeating-linear-gradient(-45deg, #ff0000, #ff0000 1rem, #ffffff 1rem, #ffffff 2rem, #4A5BE3 2rem, #4A5BE3 3rem, #ffffff 3rem, #ffffff 4rem);
 }
-
 
 /**
  * 地址添加/编辑
@@ -104,22 +112,34 @@ ul.address-list li.address-default {
 }
 .user-address-idcard-images ul li {
     margin: 0;
+    padding: 0;
+    border-radius: var(--border-radius-lg);
 }
-@media only screen and (min-width: 641px) {
+.user-address-idcard-images .item:first-child li {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+@media only screen and (min-width: 576px) {
+
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 20rem;
+        width: 15.6rem !important;
     }
+
     .user-address-idcard-images ul li {
-        height: 13.2rem;
+        height: 13.6rem !important;
     }
 }
-@media only screen and (max-width: 640px) {
+
+@media only screen and (max-width: 575px) {
+
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 12.8rem;
+        width: 10rem !important;
     }
+
     .user-address-idcard-images ul li {
-        height: 8.5rem;
+        height: 8.5rem !important;
     }
 }

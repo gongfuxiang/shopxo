@@ -1,5 +1,5 @@
 <!-- 侧边栏 - 模块配置 - 图片 -->
-<div id="offcanvas-module-config-images" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/common/images/default-images-mini.png">
+<div id="offcanvas-module-config-images" class="am-offcanvas module-offcanvas-container" data-default-images="{{:StaticAttachmentUrl('default-images-mini.png')}}">
     <div class="am-offcanvas-bar">
         <div class="am-offcanvas-content am-padding-0">
             <form class="am-form form-validation-module-offcanvas-images" request-type="sync" request-value="FormBackModuleConfigImages">
@@ -11,7 +11,7 @@
                             <ul class="plug-file-upload-view am-cf module-images-type-images-view" data-form-name="content_images" data-max-number="1" data-delete="0" data-dialog-type="images">
                                 <li>
                                     <input type="text" name="content_images" data-validation-message="{{:MyLang('form_upload_images_message')}}" value="" required />
-                                    <img src="{{$attachment_host}}/static/common/images/default-images-mini.png" />
+                                    <img src="{{:StaticAttachmentUrl('default-images-mini.png')}}" />
                                 </li>
                             </ul>
                             <div class="plug-file-upload-submit" data-view-tag="ul.module-images-type-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
@@ -35,22 +35,22 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 背景色 -->
-                        {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/background_color')}}
 
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_radius')}}
 
                         <!-- 边线类型 -->
-                        {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_style_4')}}
 
                         <!-- 边线大小 -->
-                        {{include file="../../../layout/view/public/style/border_width_color_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_width_color_4')}}
 
                         <!-- 外边距 -->
-                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/margin_4')}}
 
                         <!-- 内边距 -->
-                        {{include file="../../../layout/view/public/style/padding_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/padding_4')}}
                     </div>
                 </div>
 
@@ -59,10 +59,12 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_images')}}</div>
                     <div class="am-panel-bd">
                         <!-- 媒体样式 -->
-                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/content/media_fixed', [
+                            'key'   => '_media_fixed',
+                        ])}}
 
                         <!-- 鼠标悬停图片放大 -->
-                        {{include file="../../../layout/view/public/style/mouse_hover" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/mouse_hover')}}
                     </div>
                 </div>
 

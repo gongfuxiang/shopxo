@@ -1,11 +1,7 @@
-<div class="am-modal am-page-loading">
+<div class="am-modal am-page-loading" style="--loading-logo:url({{$page_loading_logo}});--loading-logo-border:url({{$page_loading_logo_border}});">
     {{if isset($is_page_loading_images) and $is_page_loading_images eq 1 and !empty($page_loading_images_url)}}
         <img src="{{$page_loading_images_url}}" />
     {{else /}}
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="loading-logo-content"></div>
     {{/if}}
 </div>

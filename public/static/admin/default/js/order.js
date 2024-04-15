@@ -1,40 +1,7 @@
-FromInit('form.form-validation-delivery');
 FromInit('form.form-validation-pay');
 FromInit('form.form-validation-take');
 $(function()
 {
-    // 发货操作
-    var $form_delivery = $('form.form-validation-delivery');
-    $(document).on('click', '.submit-delivery', function()
-    {
-        $form_delivery.find('input[name=id]').val($(this).data('id'));
-        $form_delivery.find('input[name=express_number]').val('');
-        var express_id = parseInt($(this).data('express-id') || 0);
-        var user_id = $(this).data('user-id') || 0;
-        $form_delivery.find('input[name=express_id]').val(express_id);
-        $form_delivery.find('input[name=user_id]').val(user_id);
-        $('ul.express-list li.selected').removeClass('selected');
-        if(express_id != 0) {
-            $('.express-items-'+express_id).addClass('selected').siblings('li').removeClass('selected');
-        }
-    });
-    // 发货操作表单
-    $form_delivery.find(' button[type=submit]').on('click', function()
-    {
-        var id = parseInt($form_delivery.find('input[name=id]').val() || 0);
-        if(id == 0)
-        {
-            Prompt(window['lang_order_id_empty'] || '订单id有误');
-            return false;
-        }
-        var express_id = parseInt($form_delivery.find('input[name=express_id]').val() || 0);
-        if(express_id == 0)
-        {
-            Prompt(window['lang_express_choice_tips'] || '请选择快递方式');
-            return false;
-        }
-    });
-
     // 支付操作
     var $form_pay = $('form.form-validation-pay');
     $(document).on('click', '.submit-pay', function()

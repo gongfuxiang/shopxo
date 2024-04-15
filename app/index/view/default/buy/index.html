@@ -1,16 +1,16 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- search -->
-{{include file="public/nav_search" /}}
+{{:ModuleInclude('public/nav_search')}}
 
 <!-- header nav -->
-{{include file="public/header_nav" /}}
+{{:ModuleInclude('public/header_nav')}}
 
 <!-- goods category -->
-{{include file="public/goods_category" /}}
+{{:ModuleInclude('public/goods_category')}}
 
 <!-- 订单确认页面顶部钩子-开始 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -115,7 +115,7 @@
                             <div class="am-text-center">
                                 {{:ModuleInclude('public/not_data', [
                                     'msg'         => MyLang('buy.no_address_info_tips'),
-                                    'icon'        => $attachment_host.'/static/common/images/no-address.png',
+                                    'icon'        => StaticAttachmentUrl('no-address.png'),
                                 ])}}
                             <button class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-bottom-main address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                         </div>
@@ -163,7 +163,7 @@
                             <div class="am-text-center">
                                 {{:ModuleInclude('public/not_data', [
                                     'msg'         => MyLang('buy.no_address_info_tips'),
-                                    'icon'        => $attachment_host.'/static/common/images/no-address.png',
+                                    'icon'        => StaticAttachmentUrl('no-address.png'),
                                 ])}}
                                 <button type="button" class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-bottom-main" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
                             </div>
@@ -393,7 +393,7 @@
                                                         {{/if}}
                                                         {{php}}
                                                             $hook_name = 'plugins_view_buy_group_goods_base_top';
-                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods]);
                                                             if(!empty($hook_data) && is_array($hook_data))
                                                             {
                                                                 foreach($hook_data as $hook)
@@ -425,20 +425,46 @@
                                                             </div>
                                                         </div>
                                                         <div class="wap-base am-show-sm-only">
-                                                            {{if $goods['original_price'] gt 0}}
-                                                                <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
+                                                            {{if isset($goods['show_field_original_price_status']) and $goods['show_field_original_price_status'] eq 1}}
+                                                                {{if $goods['original_price'] gt 0}}
+                                                                    <span class="original-price">{{$goods.show_original_price_symbol}}{{$goods.original_price}}{{$goods.show_original_price_unit}}</span>
+                                                                {{/if}}
                                                             {{/if}}
-                                                            <strong class="total-price-content">{{$currency_symbol}}{{$goods.price}}</strong>
+
+                                                            {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
+                                                                <strong class="total-price-content">{{$goods.show_price_symbol}}{{$goods.price}}{{$goods.show_price_unit}}</strong>
+                                                            {{/if}}
+                                                            <!-- 分组商品详情基础底部钩子-开始 -->
+                                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                                <div class="plugins-tag">
+                                                                    <span>plugins_view_buy_group_goods_inside_base_price_bottom</span>
+                                                                </div>
+                                                            {{/if}}
+                                                            {{php}}
+                                                                $hook_name = 'plugins_view_buy_group_goods_inside_base_price_bottom';
+                                                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods]);
+                                                                if(!empty($hook_data) && is_array($hook_data))
+                                                                {
+                                                                    foreach($hook_data as $hook)
+                                                                    {
+                                                                        if(is_string($hook) || is_int($hook))
+                                                                        {
+                                                                            echo htmlspecialchars_decode($hook);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            {{/php}}
+                                                            <!-- 分组商品详情基础底部钩子-结束 -->
                                                             <span class="wap-number">x{{$goods.stock}}</span>
                                                         </div>
                                                         <!-- 分组商品详情基础底部钩子-开始 -->
                                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                             <div class="plugins-tag">
-                                                                <span>plugins_view_buy_group_goods_base_bottom</span>
+                                                                <span>plugins_view_buy_group_goods_inside_base_bottom</span>
                                                             </div>
                                                         {{/if}}
                                                         {{php}}
-                                                            $hook_name = 'plugins_view_buy_group_goods_base_bottom';
+                                                            $hook_name = 'plugins_view_buy_group_goods_inside_base_bottom';
                                                             $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
                                                             if(!empty($hook_data) && is_array($hook_data))
                                                             {
@@ -454,29 +480,98 @@
                                                         <!-- 分组商品详情基础底部钩子-结束 -->
                                                     </td>
                                                     <td class="am-hide-sm-only">
-                                                        {{if $goods['original_price'] gt 0}}
-                                                            <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
+                                                        {{if isset($goods['show_field_original_price_status']) and $goods['show_field_original_price_status'] eq 1}}
+                                                            {{if $goods['original_price'] gt 0}}
+                                                                <p class="original-price">{{$goods.show_original_price_symbol}}{{$goods.original_price}}{{$goods.show_original_price_unit}}</p>
+                                                            {{/if}}
                                                         {{/if}}
-                                                        <p>{{$currency_symbol}}{{$goods.price}}</p>
+                                                        {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
+                                                            <p>{{$goods.show_price_symbol}}{{$goods.price}}{{$goods.show_price_unit}}</p>
+                                                        {{/if}}
+                                                        <!-- 分组内商品列表价格钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_goods_inside_price_bottom</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_goods_inside_price_bottom';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组内商品列表价格钩子-结束 -->
                                                     </td>
                                                     <td class="number am-hide-sm-only am-color-grey">
-                                                        {{$goods.stock}} {{$goods.inventory_unit}}
+                                                        <span>{{$goods.stock}} {{$goods.inventory_unit}}</span>
+                                                        <!-- 分组内商品列表数量钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_goods_inside_stock_bottom</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_goods_inside_stock_bottom';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组内商品列表数量钩子-结束 -->
                                                     </td>
-                                                    <td class="total-price am-hide-sm-only am-color-grey-dark am-text-center">
-                                                        <span>{{$currency_symbol}}</span><strong class="line-price total-price-content">{{$goods.total_price}}</strong>
+                                                    <td class="total-price am-hide-sm-only am-color-grey-dark">
+                                                        {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
+                                                            <span>{{$goods.show_price_symbol}}</span><strong class="line-price total-price-content">{{$goods.total_price}}</strong>
+                                                        {{/if}}
+                                                        <!-- 分组内商品列表总价钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_goods_inside_total_price_bottom</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_goods_inside_total_price_bottom';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组内商品列表总价钩子-结束 -->
                                                     </td>
                                                 </tr>
                                             {{/foreach}}
                                             <tr>
                                                 <td colspan="4">
-                                                    <!-- 分组商品底部钩子-开始 -->
+                                                    <!-- 分组商品组扩展顶部钩子-开始 -->
                                                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                         <div class="plugins-tag">
-                                                            <span>plugins_view_buy_group_goods_inside_bottom</span>
+                                                            <span>plugins_view_buy_group_goods_inside_extension_top</span>
                                                         </div>
                                                     {{/if}}
                                                     {{php}}
-                                                        $hook_name = 'plugins_view_buy_group_goods_inside_bottom';
+                                                        $hook_name = 'plugins_view_buy_group_goods_inside_extension_top';
                                                         $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v, 'params'=>$params]);
                                                         if(!empty($hook_data) && is_array($hook_data))
                                                         {
@@ -489,34 +584,76 @@
                                                             }
                                                         }
                                                     {{/php}}
-                                                    <!-- 分组商品底部钩子-结束 -->
+                                                    <!-- 分组商品组扩展顶部钩子-结束 -->
 
                                                     <!-- 扩展展示数据 -->
                                                     {{if !empty($v['order_base']['extension_data'])}}
                                                         <ul class="buy-extension-data">
                                                             {{foreach $v['order_base']['extension_data'] as $ext}}
-                                                                <li class="am-margin-top-xs">
-                                                                    <span class="extension-items-name">{{$ext.name}}:</span>
-                                                                    <span class="extension-items-tips">{{$ext.tips}}</span>
-                                                                </li>
+                                                                {{if !isset($ext['is_buy_show']) or $ext['is_buy_show'] eq 1}}
+                                                                    <li class="am-margin-top-xs">
+                                                                        <span class="extension-items-name">{{$ext.name}}:</span>
+                                                                        <span class="extension-items-tips">{{$ext.tips}}</span>
+                                                                    </li>
+                                                                {{/if}}
                                                             {{/foreach}}
                                                         </ul>
                                                     {{/if}}
+
+                                                    <!-- 分组商品组扩展底部钩子-开始 -->
+                                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                        <div class="plugins-tag">
+                                                            <span>plugins_view_buy_group_goods_inside_extension_bottom</span>
+                                                        </div>
+                                                    {{/if}}
+                                                    {{php}}
+                                                        $hook_name = 'plugins_view_buy_group_goods_inside_extension_bottom';
+                                                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v, 'params'=>$params]);
+                                                        if(!empty($hook_data) && is_array($hook_data))
+                                                        {
+                                                            foreach($hook_data as $hook)
+                                                            {
+                                                                if(is_string($hook) || is_int($hook))
+                                                                {
+                                                                    echo htmlspecialchars_decode($hook);
+                                                                }
+                                                            }
+                                                        }
+                                                    {{/php}}
+                                                    <!-- 分组商品组扩展底部钩子-结束 -->
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4" class="am-text-right am-text-bottom">
                                                     <!-- 含运费小计 -->
                                                     <div class="am-text-right">
-                                                        {{if $v['order_base']['total_price'] neq $v['order_base']['actual_price']}}
-                                                            <span class="original-price am-margin-right-sm">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
-                                                        {{/if}}
-                                                        <span class="buy-point-discharge-sum">
+                                                        <span class="goods-group-summary-total-price">
                                                             <span>{{:MyLang('buy.goods_item_total_name')}}</span>
                                                             <span class="price">
                                                                 <span>{{$currency_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong>
                                                             </span>
                                                         </span>
+                                                        <!-- 分组商品汇总合计底部钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_inside_base_total_bottom</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_inside_base_total_bottom';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v, 'params'=>$params]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组商品汇总合计底部钩子-结束 -->
                                                     </div>
                                                 </td>
                                             </tr>
@@ -533,6 +670,28 @@
                                     {{/foreach}}
                                 </tbody>
                             </table>
+
+                            <!-- 商品组内底部钩子-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_buy_group_goods_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_buy_group_goods_inside_bottom';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$buy_goods, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 商品组内底部钩子-结束 -->
                         </div>
                     </div>
                 </div>
@@ -767,7 +926,7 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
 // 提交订单回调

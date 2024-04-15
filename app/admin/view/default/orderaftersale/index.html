@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 扩展 -->
 {{block name="form_extend"}}
@@ -14,7 +14,7 @@
                 <dl class="dl-content">
                     <dt>{{:MyLang('orderaftersale.form_user_info_title')}}</dt>
                     <dd class="user-info">
-                       <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
+                       <img src="{{:UserDefaultAvatar('sm')}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
                         <div class="user-base">
                             <p class="username">{{:MyLang('user_username_title')}}：<span>...</span></p>
                             <p class="nickname">{{:MyLang('user_nickname_title')}}：<span>...</span></p>
@@ -75,7 +75,7 @@
                 <dl class="dl-content">
                     <dt>{{:MyLang('orderaftersale.form_user_info_title')}}</dt>
                     <dd class="user-info">
-                        <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
+                        <img src="{{:UserDefaultAvatar('sm')}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
                         <div class="user-base">
                             <p class="username">{{:MyLang('user_username_title')}}：<span>...</span></p>
                             <p class="nickname">{{:MyLang('user_nickname_title')}}：<span>...</span></p>
@@ -97,8 +97,8 @@
 
                 <form class="am-form form-validation-refuse am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
-                        <label>{{:MyLang('common_service.orderaftersale.form_item_refuse_reason')}}</label>
-                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="{{:MyLang('common_service.orderaftersale.form_item_refuse_reason_message')}}" data-validation-message="{{:MyLang('common_service.orderaftersale.form_item_refuse_reason_message')}}" minlength="2" maxlength="230" required></textarea>
+                        <label>{{:MyLang('form_refuse_reason')}}</label>
+                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="{{:MyLang('form_refuse_reason_message')}}" data-validation-message="{{:MyLang('form_refuse_reason_message')}}" minlength="1" maxlength="230" required></textarea>
                     </div>
 
                     <div class="am-form-popup-submit">

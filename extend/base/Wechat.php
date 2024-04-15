@@ -218,7 +218,35 @@ class Wechat
         {
             return ['item_desc'=>$item];
         }, $params['goods_title']);
-        // 非快递模式物流信息智能为一项
+
+        // 物流发货匹配快递信息
+        if($logistics_type === 1)
+        {
+            // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人和发件人手机号供顺丰使用
+            $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
+            if($express_res['code'] == 0) 
+            {
+                $consignor_tel = empty($params['consignor_tel']) ? '' : substr($params['consignor_tel'], 0, 3).'****'.substr($params['consignor_tel'], -4);
+                $receiver_tel = empty($params['receiver_tel']) ? '' : substr($params['receiver_tel'], 0, 3).'****'.substr($params['receiver_tel'], -4);
+                foreach($shipping_list as &$v)
+                {
+                    $v['express_company'] = $express_res['data'];
+                    $v['tracking_no'] = $params['express_number'];
+                    if(!empty($consignor_tel) || !empty($receiver_tel))
+                    {
+                        $v['contact'] = [
+                            'consignor_contact'  => $consignor_tel,
+                            'receiver_contact'   => $receiver_tel,
+                        ];
+                    }
+                }
+            } else {
+                // 没有匹配到快递则使用同城类型
+                $logistics_type = 2;
+            }
+        }
+
+        // 非快递模式物流信息只能为一项
         if($logistics_type != 1 && count($shipping_list) > 1)
         {
             $shipping_list = [$shipping_list[0]];
@@ -246,38 +274,18 @@ class Wechat
             'upload_time'       => date('Y-m-d\TH:i:sP'),
         ];
 
-        // 物流发货匹配快递信息
-        if($data['logistics_type'] === 1)
-        {
-            // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人和发件人手机号供顺丰使用
-            $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
-            if($express_res['code'] !== 0) 
-            {
-                return $express_res;
-            }
-            $consignor_tel = empty($params['consignor_tel']) ? '' : substr($params['consignor_tel'], 0, 3).'****'.substr($params['consignor_tel'], -4);
-            $receiver_tel = empty($params['receiver_tel']) ? '' : substr($params['receiver_tel'], 0, 3).'****'.substr($params['receiver_tel'], -4);
-            foreach($data['shipping_list'] as &$v)
-            {
-                $v['express_company'] = $express_res['data'];
-                $v['tracking_no'] = $params['express_number'];
-                if(!empty($consignor_tel) || !empty($receiver_tel))
-                {
-                    $v['contact'] = [
-                        'consignor_contact'  => $consignor_tel,
-                        'receiver_contact'   => $receiver_tel,
-                    ];
-                }
-            }
-        }
-
         // 录入发货信息接口
         $url = 'https://api.weixin.qq.com/wxa/sec/order/upload_shipping_info?access_token='.$access_token;
         $res = $this->HttpRequestPost($url, $data, true);
         $code = isset($res['errcode']) ? $res['errcode'] : '';
         $msg = isset($res['errmsg']) ? $res['errmsg'] : MyLang('send_fail');
-        // 支付单不存在 | 支付单已完成发货 | 无法继续发货、支付单已使用重新发货机会 三种情况则视为正常，不影响业务
-        if(in_array($code, [10060001, 10060002, 10060003]) || $code == 0 && $msg == 'ok')
+        // 这几种情况则视为正常，不影响业务
+        // 10060001 支付单不存在
+        // 10060002 支付单已完成发货
+        // 10060003 无法继续发货
+        // 10060023 发货信息未更新
+        // 10060004 支付单处于不可发货的状态
+        if(in_array($code, [10060001, 10060002, 10060003, 10060023, 10060004]) || $code == 0 && $msg == 'ok')
         {
             return DataReturn(MyLang('send_success'), 0, $res); 
         } else {

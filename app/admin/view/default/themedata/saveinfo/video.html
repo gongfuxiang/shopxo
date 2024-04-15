@@ -1,0 +1,120 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+            {{:ModuleInclude('public/admin_nav', [
+                'title'     => MyLang('themedata.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+                'back_url'  => MyUrl('admin/themedata/index', $params)
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('system_title'),
+                        'key'  => 'system',
+                    ],
+                    [
+                        'name' => MyLang('base_title'),
+                        'key'  => 'base',
+                    ],
+                    [
+                        'name' => MyLang('data_title'),
+                        'key'  => 'data',
+                    ],
+                ]
+            ])}}
+            <!-- nav end -->
+            <div class="nav-content">
+                <!-- 系统 -->
+                <div class="item am-active" data-key="system">
+                    {{:ModuleInclude('themedata/saveinfo/module/base', [
+                        'common_theme_view_list'  => empty($common_theme_view_list) ? [] : $common_theme_view_list,
+                        'theme_list'              => empty($theme_list) ? [] : $theme_list,
+                        'data'                    => empty($data) ? [] : $data,
+                    ])}}
+                </div>
+
+                <!-- 基础 -->
+                <div class="item" data-key="base">
+                    <!-- images -->
+                    <div class="images-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+
+                    <!-- input -->
+                    <div class="text-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/text_input', [
+                            'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                            'data'                                   => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 数据 -->
+                <div class="item" data-key="data">
+                    <div class="am-form-group am-form-file">
+                        <label class="am-block">{{:MyLang('video_title')}}</label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view plug-file-upload-view-video video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.video-view">
+                                    {{if empty($data['data']) or empty($data['data']['video'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="video" value="{{$data.data.video}}" />
+                                        <video src="{{$data.data.video}}" controls>your browser does not support the video tag</video>
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-form-file">
+                        <label class="am-block">{{:MyLang('cover_title')}}</label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view video-cover-view" data-form-name="custom_cover" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.video-cover-view">
+                                    {{if empty($data['data']) or empty($data['data']['custom_cover'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="custom_cover" value="{{$data.data.custom_cover}}" />
+                                        <img src="{{$data.data.custom_cover}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <input type="hidden" name="type" value="2"/>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- url选择弹窗 -->
+{{:ModuleInclude('themedata/saveinfo/public/url_choice_popup')}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

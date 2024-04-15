@@ -1,26 +1,27 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- nav start -->
-{{include file="public/nav" /}}
+{{:ModuleInclude('public/nav')}}
 <!-- nav end -->
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- search -->
-{{include file="public/nav_search" /}}
+{{:ModuleInclude('public/nav_search')}}
 
 <!-- header nav -->
-{{include file="public/header_nav" /}}
+{{:ModuleInclude('public/header_nav')}}
 
 <!-- goods category -->
-{{include file="public/goods_category" /}}
+{{:ModuleInclude('public/goods_category')}}
 
 <!-- content -->
 <div class="cart-content" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
     {{if !empty($cart_list)}}
-        <!-- 商品列表 -->
+        <!-- 商品 -->
         <div class="am-container cart-table am-background-white am-radius am-margin-bottom-main">
+            <!-- 商品列表 -->
             <table class="am-table">
                 <thead>
                     <tr class="am-text-sm">
@@ -76,10 +77,15 @@
                                     </div>
                                 </div>
                                 <div class="wap-base am-show-sm-only">
-                                    {{if $goods['original_price'] gt 0}}
-                                        <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
+                                    {{if isset($goods['show_field_original_price_status']) and $goods['show_field_original_price_status'] eq 1}}
+                                        {{if $goods['original_price'] gt 0}}
+                                            <span class="original-price">{{$goods.show_original_price_symbol}}{{$goods.original_price}}{{$goods.show_original_price_unit}}</span>
+                                        {{/if}}
                                     {{/if}}
-                                    <font class="total-price-content am-color-grey-dark">{{$currency_symbol}}{{$goods.price}}</font>
+
+                                    {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
+                                        <font class="total-price-content am-color-grey-dark">{{$goods.show_price_symbol}}{{$goods.price}}{{$goods.show_price_unit}}</font>
+                                    {{/if}}
                                 </div>
 
                                 <!-- 商品基础后面钩子 开始 -->
@@ -129,10 +135,15 @@
 
                                 <!-- 单价信息 -->
                                 <div class="cart-price">
-                                    {{if $goods['original_price'] gt 0}}
-                                        <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
+                                    {{if isset($goods['show_field_original_price_status']) and $goods['show_field_original_price_status'] eq 1}}
+                                        {{if $goods['original_price'] gt 0}}
+                                            <p class="original-price">{{$goods.show_original_price_symbol}}{{$goods.original_price}}{{$goods.show_original_price_unit}}</p>
+                                        {{/if}}
                                     {{/if}}
-                                    <p class="line-price">{{$currency_symbol}}{{$goods.price}}</p>
+
+                                    {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
+                                        <p class="line-price">{{$goods.show_price_symbol}}{{$goods.price}}{{$goods.show_price_unit}}</p>
+                                    {{/if}}
                                 </div>
 
                                 <!-- 商品单价后面钩子 开始 -->
@@ -301,7 +312,30 @@
                     {{/foreach}}
                 </tbody>
             </table>
+
+            <!-- 购物车列表内底部钩子 开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_cart_list_inside_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_cart_list_inside_bottom';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$cart_list]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 购物车列表内底部钩子 结束 -->
         </div>
+
         <!-- 导航 -->
         <div class="cart-nav">
             <div class="am-container am-background-white am-radius am-nbfc am-padding">
@@ -372,7 +406,7 @@
     {{else /}}
         <!-- 空购物车 -->
         <div class="mixed-tips">
-            <img class="am-fl" src="{{$attachment_host}}/static/index/{{$default_theme}}/images/empty-cart.png" />
+            <img class="am-fl" src="{{:StaticAttachmentUrl('empty-cart.png')}}" />
             <div class="mixed-tips-content am-fl">
                 <h1>{{:MyLang('cart.no_cart_data_tips')}}</h1>
                 <ul>
@@ -391,7 +425,7 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
     // 返回处理

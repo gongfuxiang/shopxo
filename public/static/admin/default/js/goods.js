@@ -89,7 +89,7 @@ $(function () {
         html = '<th class="table-title table-title-' + index + '">';
         html += '<div class="am-flex am-am-flex-items-center am-gap-1">';
         html += '<input type="text" name="specifications_name_' + index + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" data-validation-message="' + $spec_table.data('spec-type-message') + '" data-is-clearout="0" required />';
-        html += '<i class="am-close title-nav-remove iconfont icon-delete cr-red" data-index="' + index + '"></i>';
+        html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="' + index + '"></i>';
         html += '</div>';
         html += '</th>';
         $('.title-start').before(html);
@@ -192,8 +192,8 @@ $(function () {
         html += '<ul class="plug-file-upload-view spec-images-view-' + index + '" data-form-name="spec_images[' + index + ']" data-max-number="1" data-dialog-type="images">';
         html += '<li>';
         html += '<input type="text" name="spec_images[' + index + ']" data-validation-message="' + $spec_table.data('spec-images-message') + '" required />';
-        html += '<img src="' + __attachment_host__ + '/static/admin/default/images/default-images.jpg" />';
-        html += '<i>×</i>';
+        html += '<img src="' + __attachment_host__ + '/static/common/images/default-images.jpg" />';
+        html += '<i class="iconfont icon-close"></i>';
         html += '</li>';
         html += '</ul>';
         html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-' + index + '">+ ' + $spec_table.data('spec-images-name') + '</div>';
@@ -258,8 +258,8 @@ $(function () {
                 html += '<ul class="plug-file-upload-view spec-images-view-' + index + '" data-form-name="spec_images[' + index + ']" data-max-number="1" data-dialog-type="images">';
                 html += '<li>';
                 html += '<input type="text" name="spec_images[' + index + ']" data-validation-message="' + $spec_table.data('spec-images-message') + '" required />';
-                html += '<img src="' + __attachment_host__ + '/static/admin/default/images/default-images.jpg" />';
-                html += '<i>×</i>';
+                html += '<img src="' + __attachment_host__ + '/static/common/images/default-images.jpg" />';
+                html += '<i class="iconfont icon-close"></i>';
                 html += '</li>';
                 html += '</ul>';
                 html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-' + index + '">+ ' + $spec_table.data('spec-images-name') + '</div>';
@@ -383,7 +383,7 @@ $(function () {
     });
 
     // 规格高级批量操作-赋值
-    $spec_popup_all_operation.find('button.am-btn-secondary').on('click', function () {
+    $spec_popup_all_operation.find('button.spec-all-submit').on('click', function () {
         // 获取规格值条件
         var data = [];
         $spec_popup_all_operation.find('.am-popup-bd .spec-title-container select.chosen-select').each(function (k, v) {
@@ -393,6 +393,8 @@ $(function () {
         // 获取基础值
         var price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_price').val() || '';
         var original_price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_original_price').val() || '';
+        var buy_min_number = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_buy_min_number').val() || '';
+        var buy_max_number = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_buy_max_number').val() || '';
         var weight = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_weight').val() || '';
         var volume = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_volume').val() || '';
         var coding = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_coding').val() || '';
@@ -411,10 +413,12 @@ $(function () {
             if (count >= data_length) {
                 $(this).find('td').eq(index).find('input').val(price);
                 $(this).find('td').eq(index + 1).find('input').val(original_price);
-                $(this).find('td').eq(index + 2).find('input').val(weight);
-                $(this).find('td').eq(index + 3).find('input').val(volume);
-                $(this).find('td').eq(index + 4).find('input').val(coding);
-                $(this).find('td').eq(index + 5).find('input').val(barcode);
+                $(this).find('td').eq(index + 2).find('input').val(buy_min_number);
+                $(this).find('td').eq(index + 3).find('input').val(buy_max_number);
+                $(this).find('td').eq(index + 4).find('input').val(weight);
+                $(this).find('td').eq(index + 5).find('input').val(volume);
+                $(this).find('td').eq(index + 6).find('input').val(coding);
+                $(this).find('td').eq(index + 7).find('input').val(barcode);
             }
         });
         $spec_popup_all_operation.modal('close');
@@ -431,7 +435,7 @@ $(function () {
         // html拼接
         var html = '<li><div class="am-flex am-flex-warp am-gap-32">';
         // 左侧
-        html += '<div class="am-form-group content-app-left">';
+        html += '<div class="am-form-group am-form-file content-app-left am-padding-bottom-0">';
         html += '<label class="block">' + $app_content.data('images-title') + '</label>';
         html += '<div class="am-form-file-upload-container">';
         html += '<ul class="plug-file-upload-view goods-content-app-images-view-' + index + '" data-form-name="' + images_name + '_' + index + '" data-max-number="1" data-dialog-type="images" data-is-eye="1">';
@@ -443,14 +447,14 @@ $(function () {
         html += '</div>';
 
         // 右侧
-        html += '<div class="am-form-group content-app-right">';
+        html += '<div class="am-form-group content-app-right am-padding-bottom-0">';
         html += '<label>' + $app_content.data('content-title') + '</label>';
         html += '<textarea rows="3" name="' + content_name + '_' + index + '" class="am-radius" placeholder="' + $app_content.data('content-title') + '"></textarea>';
         html += '</div>';
         html += '</div>';
 
         // 操作按钮
-        html += '<div class="am-flex am-flex-items-center am-gap-32">';
+        html += '<div class="am-flex am-flex-items-center am-gap-32 am-margin-top-sm">';
         html += '<a href="javascript:;" class="am-text-xs am-text-danger content-app-items-rem-sub am-flex am-flex-items-center"><i class="iconfont icon-delete"></i> ' + $app_content.data('delete-title') + '</a>';
         html += ' <a href="javascript:;" class="am-text-xs drag-sort-submit am-flex am-flex-items-center"><i class="iconfont icon-sort"></i> ' + $app_content.data('drag-title') + '</a>';
         html += '</div>';
@@ -497,7 +501,7 @@ $(function () {
         html += '<td class="am-text-middle">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">';
         html += '<input type="text" name="spec_base_title_' + index + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" />';
-        html += '<i class="am-close quick-title-remove iconfont icon-delete cr-red"></i>';
+        html += '<i class="am-close quick-title-remove iconfont icon-delete am-text-red"></i>';
         html += '</div>';
         html += '</td>';
         html += '<td class="spec-quick-td-value am-cf">';
@@ -518,7 +522,7 @@ $(function () {
         var html = '<div class="am-fl value-item">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">'
         html += '<input type="text" class="am-fl am-radius" name="spec_base_value_' + index + '[]" placeholder="' + $spec_table.data('spec-value-name') + '" />';
-        html += '<i class="am-close quick-value-remove iconfont icon-delete cr-red"></i>';
+        html += '<i class="am-close quick-value-remove iconfont icon-delete am-text-red"></i>';
         html += '</div>';
         html += '</div>';
         $(this).parent().before(html);
@@ -580,7 +584,7 @@ $(function () {
                     html = '<th class="table-title table-title-' + index + '">';
                     html += '<div class="am-flex am-flex-items-center am-gap-1">';
                     html += '<input type="text" name="specifications_name_' + index + '" value="' + spec[i]['title'] + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" data-validation-message="' + $spec_table.data('spec-type-message') + '" required />';
-                    html += '<i class="am-close title-nav-remove iconfont icon-delete cr-red" data-index="' + index + '"></i>';
+                    html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="' + index + '"></i>';
                     html += '</div>';
                     html += '</th>';
                     $('.title-start').before(html);

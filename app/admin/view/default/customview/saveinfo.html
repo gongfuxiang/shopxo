@@ -1,0 +1,161 @@
+{{:ModuleInclude('public/header')}}
+
+{{if !empty($data)}}
+    <legend class="page-nav am-padding-horizontal-xs am-padding-bottom-xs am-margin-bottom-0">
+        <img src="{{if empty($data['logo'])}}{{:StaticAttachmentUrl('default-images-mini.png')}}{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
+        <span class="page-top-nav-title">
+            <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
+            <a href="javascript:;" class="am-icon-edit am-text-xs am-margin-left-xs base-edit-submit"></a>
+        </span>
+        <div class="page-operate-container am-fr">
+            <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius window-close-event" data-msg="{{:MyLang('save_close_page_confirm_tips')}}">
+                <i class="am-icon-close"></i>
+                <span>{{:MyLang('close_title')}}</span>
+            </button>
+            <a href="{{:MyUrl('index/customview/index', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm" data-am-popover="{content: '{{:MyLang('customview.save_view_tips')}}', trigger: 'hover focus', theme: 'danger sm'}">
+                <i class="am-icon-eye"></i>
+                <span>{{:MyLang('view_title')}}</span>
+            </a>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-sm page-save-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                <i class="am-icon-save"></i>
+                <span>{{:MyLang('save_title')}}</span>
+            </button>
+        </div>
+    </legend>
+    <!-- 编辑器容器 -->
+	<ace-playground></ace-playground>
+    <!-- 页面编辑-->
+    {{:ModuleInclude('customview/popup_saveinfo')}}
+{{else /}}
+    <div class="table-no">
+        <i class="am-icon-skyatlas am-icon-lg"></i>
+        <p>{{:MyLang('no_data')}}</p>
+    </div>
+{{/if}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+<script type="text/javascript">
+// 基础数据保存回调处理
+function FormBackSaveinfoEdit(e)
+{
+    var $form = $('form.form-validation');
+    if(parseInt($form.attr('data-opt-type') || 0) == 1)
+    {
+        if(e.code == 0)
+        {
+            Prompt(e.msg, 'success');
+        } else {
+            Prompt(e.msg);
+        }
+        setTimeout(function()
+        {
+            $form.find('button[type="submit"]').button('reset');
+            $('.page-save-submit').button('reset');
+        }, 1500);
+    } else {
+        // logo
+        $('.page-top-nav-logo').attr('src', e.logo || "{{:StaticAttachmentUrl('default-images-mini.png')}}");
+        // 名称
+        $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.customview.create_name_default")}}');
+        // 关闭弹窗
+        $('#popup-saveinfo').modal('close');
+    }
+}
+
+// 代码编辑器初始化
+var dom = require('ace/lib/dom');
+// 公共配置
+var ace_editor_config = {
+	// 自动滚动
+    autoScrollEditorIntoView: true,
+    // 编辑器内字体大小
+    fontSize: 14,
+    // 制表符设置为4个空格大小
+    tabSize: 4,
+    // 只读
+    readOnly: false,
+    // 高亮激活线
+    highlightActiveLine: true,
+    // 自动换行
+    wrap: 'free'
+};
+class AcePlayground extends HTMLElement
+{
+    constructor()
+    {
+        super();
+        var shadow = this.attachShadow({mode: 'open'});
+        var dom = require('ace/lib/dom');
+        dom.buildDom(['div', {id: 'host'},
+            ['div', {id: 'html'}],
+            ['div', {id: 'css'}], 
+            ['div', {id: 'js'}], 
+            ['iframe', {id: 'preview'}],
+            ['style', `
+                #host {
+                    display: grid;
+                    grid-template-areas: "html preview" "css preview" "js preview";
+                }
+                #html {
+                    grid-area: html;
+                    height: calc(100vh - 539px);
+                    min-height: 250px;
+                }
+                #css {
+                    grid-area: css;
+                    height: 250px;
+                }
+                #js {
+                    grid-area: js;
+                    height: 250px;
+                }
+                #preview {
+                    grid-area: preview;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    background: #fff;
+                }
+            `]
+        ], shadow);
+
+        this.htmlEditor = ace.edit(shadow.querySelector('#html'), {...ace_editor_config, ...{
+            theme: 'ace/theme/monokai',
+            mode: 'ace/mode/html',
+            value: `{{if empty($data["html_content"])}}<!-- html -->{{else /}}{{$data.html_content|raw}}{{/if}}`,
+        }});
+        this.cssEditor = ace.edit(shadow.querySelector('#css'), {...ace_editor_config, ...{
+            theme: 'ace/theme/tomorrow_night_eighties',
+            mode: 'ace/mode/css',
+            value: `{{if empty($data["css_content"])}}/* css */{{else /}}{{$data.css_content|raw}}{{/if}}`,
+        }});
+        this.jsEditor = ace.edit(shadow.querySelector('#js'), {...ace_editor_config, ...{
+            theme: 'ace/theme/twilight',
+            mode: 'ace/mode/javascript',
+            value: `{{if empty($data["js_content"])}}/* javascript */{{else /}}{{$data.js_content|raw}}{{/if}}`,
+        }});
+        this.preview = shadow.querySelector('#preview');
+        this.htmlEditor.renderer.attachToShadowRoot();
+        this.updatePreview = this.updatePreview.bind(this);
+        this.htmlEditor.on('input', this.updatePreview);
+        this.cssEditor.on('input', this.updatePreview);
+        this.jsEditor.on('input', this.updatePreview);
+        this.updatePreview();
+    }
+    updatePreview() {
+    	// 代码值
+    	var html = this.htmlEditor.getValue();
+    	var css = this.cssEditor.getValue();
+    	var js = this.jsEditor.getValue();
+    	// 实时预览
+        var code = '<style>'+css+'<\/style>'+html+'<script>'+js+'<\/script>';
+        this.preview.src = 'data:text/html,<head><meta charset="utf-8" /></head>' + encodeURIComponent(code);
+        // 同步表单
+        document.getElementById('html_content').value = html;
+        document.getElementById('css_content').value = css;
+        document.getElementById('js_content').value = js;
+    }
+}
+customElements.define('ace-playground', AcePlayground);
+</script>

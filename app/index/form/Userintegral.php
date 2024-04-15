@@ -138,6 +138,7 @@ class UserIntegral
             'data'  => [
                 'table_name'    => 'UserIntegralLog',
                 'data_handle'   => 'IntegralService::IntegralLogListHandle',
+                'detail_where'  => $this->condition_base,
                 'is_page'       => 1,
             ],
         ];

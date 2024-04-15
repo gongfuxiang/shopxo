@@ -1,0 +1,21 @@
+<!-- h5相册模块内容 -->
+{{if !empty($module_data['goods'])}}
+    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+        <ul class="am-slides">
+            {{if !empty($module_data.goods.photo)}}
+                {{foreach $module_data.goods.photo as $photo}}
+                    <li>
+                        <img src="{{$photo.images}}" />
+                    </li>
+                {{/foreach}}
+            {{/if}}
+        </ul>
+    </div>
+
+    <!-- 视频 -->
+    {{if !empty($module_data.goods.video)}}
+        <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+        <i class="goods-video-submit-close none">&times;</i>
+        <div class="goods-video-wap-container goods-video-container none" data-url="{{$module_data.goods.video}}" data-images="{{$module_data.goods.images}}"></div>
+    {{/if}}
+{{/if}}

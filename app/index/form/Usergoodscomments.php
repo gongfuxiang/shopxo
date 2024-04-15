@@ -238,6 +238,7 @@ class UserGoodsComments
             'data'  => [
                 'table_name'    => 'GoodsComments',
                 'data_handle'   => 'GoodsCommentsService::GoodsCommentsListHandle',
+                'detail_where'  => $this->condition_base,
                 'is_page'       => 1,
                 'data_params'   => [
                     'is_goods'      => 1,

@@ -1281,6 +1281,7 @@ class OrderService
             $is_operate = isset($params['is_operate']) ? intval($params['is_operate']) : 0;
             $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
             $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
+            $is_status_history = isset($params['is_status_history']) ? intval($params['is_status_history']) : 0;
             $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
             // 静态数据
@@ -1315,12 +1316,6 @@ class OrderService
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }
 
-            // 快递信息
-            if(in_array('express_id', $keys))
-            {
-                $express_list = ExpressService::ExpressData(array_column($data, 'express_id'));
-            }
-
             // 支付方式名称
             $payment_list = PaymentService::OrderPaymentName($order_ids);
 
@@ -1330,8 +1325,14 @@ class OrderService
             // 订单地址
             $address_data = self::OrderAddressData($order_ids);
 
+            // 订单快递
+            $express_data = self::OrderExpressData($order_ids);
+
             // 订单详情
             $detail = ($is_items == 1) ? self::OrderItemList($data, $is_orderaftersale) : [];
+
+            // 订单日志
+            $status_history_data = ($is_status_history == 1) ? self::OrderStatusHistoryList($order_ids) : [];
 
             // 循环处理数据
             foreach($data as &$v)
@@ -1382,6 +1383,9 @@ class OrderService
                     }
                 }
 
+                // 快递信息
+                $v['express_data'] = (!empty($express_data) && array_key_exists($v['id'], $express_data)) ? $express_data[$v['id']] : null;
+
                 // 用户信息
                 if(isset($v['user_id']))
                 {
@@ -1402,19 +1406,6 @@ class OrderService
 
                 // 支付状态
                 $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? $order_under_line_pay_status_name : $order_pay_status[$v['pay_status']]['name'];
-
-                // 快递公司
-                $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
-                if(empty($express))
-                {
-                    $v['express_name'] = '';
-                    $v['express_icon'] = '';
-                    $v['express_website_url'] = '';
-                } else {
-                    $v['express_name'] = $express['name'];
-                    $v['express_icon'] = $express['icon'];
-                    $v['express_website_url'] = $express['website_url'];
-                }
 
                 // 支付方式
                 $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : null;
@@ -1473,6 +1464,12 @@ class OrderService
                     $v['items'] = $detail[$v['id']];
                     $v['items_count'] = count($v['items']);
                     $v['describe'] = MyLang('common_service.order.order_item_summary_desc', ['buy_number_count'=>$v['buy_number_count'], 'currency_symbol'=>$v['currency_data']['currency_symbol'], 'total_price'=>$v['total_price']]);
+                }
+
+                // 订单日志
+                if($is_status_history == 1)
+                {
+                    $v['status_history_data'] = array_key_exists($v['id'], $status_history_data) ? $status_history_data[$v['id']] : [];
                 }
 
                 // 管理员读取
@@ -1550,7 +1547,7 @@ class OrderService
             {
                 $result['is_confirm']    = ($data['status'] == 0) ? 1 : 0;
                 $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
-                $result['is_delivery']   = ($data['status'] == 2 && (isset($data['order_model']) && in_array($data['order_model'], [0,2,3]))) ? 1 : 0;
+                $result['is_delivery']   = (isset($data['order_model']) && (($data['status'] != 0 && $data['status'] == 2) || ($data['order_model'] == 0 && in_array($data['status'], [2,3]))) && in_array($data['order_model'], [0,2,3])) ? 1 : 0;
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
                 $result['is_cancel']     = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
                 $result['is_delete']     = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
@@ -1589,6 +1586,45 @@ class OrderService
 
             // 状态
             $data['status_text'] = array_key_exists($data['status'], $status_list) ? $status_list[$data['status']]['name'] : '';
+        }
+        return $data;
+    }
+
+    /**
+     * 订单日志数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-02-28
+     * @desc    description
+     * @param   [array|int]          $order_ids [订单id]
+     */
+    public static function OrderStatusHistoryList($order_ids)
+    {
+        $data = Db::name('OrderStatusHistory')->where(['order_id'=>$order_ids])->select()->toArray();
+        if(!empty($data))
+        {
+            $group = [];
+            foreach($data as &$v)
+            {
+                // 添加时间
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+
+                // 订单id是数组则处理分组
+                if(is_array($order_ids))
+                {
+                    if(!array_key_exists($v['order_id'], $group))
+                    {
+                        $group[$v['order_id']] = [];
+                    }
+                    $group[$v['order_id']][] = $v;
+                }
+            }
+            // 如果订单id是数组则赋值分组
+            if(is_array($order_ids) && !empty($group))
+            {
+                $data = $group;
+            }
         }
         return $data;
     }
@@ -1745,6 +1781,60 @@ class OrderService
     }
 
     /**
+     * 订单快递
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [array]          $order_ids    [订单id]
+     */
+    public static function OrderExpressData($order_ids)
+    {
+        $data = [];
+        $temp = Db::name('OrderExpress')->where(['order_id'=>$order_ids])->select()->toArray();
+        if(!empty($temp) && is_array($temp))
+        {
+            $express_list = ExpressService::ExpressData(array_unique(array_filter(array_column($temp, 'express_id'))));
+            foreach($temp as $v)
+            {
+                // 快递信息处理
+                $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
+                if(empty($express))
+                {
+                    $v['express_name'] = '';
+                    $v['express_icon'] = '';
+                    $v['express_website_url'] = '';
+                } else {
+                    $v['express_name'] = $express['name'];
+                    $v['express_icon'] = $express['icon'];
+                    $v['express_website_url'] = $express['website_url'];
+                }
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+
+                // 数据按照订单id分组
+                if(!array_key_exists($v['order_id'], $data))
+                {
+                    $data[$v['order_id']] = [];
+                }
+                $data[$v['order_id']][] = $v;
+            }
+        }
+
+        // 订单快递信息钩子
+        $hook_name = 'plugins_service_order_express_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$data,
+        ]);
+
+        return empty($data) ? [] : $data;
+    }
+
+    /**
      * 订单地址
      * @author  Devil
      * @blog    http://gong.gg/
@@ -1829,10 +1919,19 @@ class OrderService
     public static function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
     {
         // 状态描述
-        $order_status_list = MyConst('common_order_status');
-        $original_status_name = ($original_status != '' && isset($order_status_list[$original_status])) ? $order_status_list[$original_status]['name'] : '';
-        $new_status_name = ($new_status != '' && isset($order_status_list[$new_status])) ? $order_status_list[$new_status]['name'] : '';
-        $msg .= '['.$original_status_name.'-'.$new_status_name.']';
+        $status_list = MyConst('common_order_status');
+        $original_status_name = ($original_status != '' && isset($status_list[$original_status])) ? $status_list[$original_status]['name'] : '';
+        $new_status_name = ($new_status != '' && isset($status_list[$new_status])) ? $status_list[$new_status]['name'] : '';
+        if(!empty($original_status_name) && !empty($new_status_name))
+        {
+            $msg .= '['.$original_status_name.'-'.$new_status_name.']';
+        } else if(!empty($original_status_name))
+        {
+            $msg .= '['.$original_status_name.']';
+        } else if(!empty($new_status_name))
+        {
+            $msg .= '['.$new_status_name.']';
+        }
 
         // 添加
         $data = [
@@ -2024,22 +2123,9 @@ class OrderService
             {
                 // 销售模式- 订单快递信息校验
                 case 0 :
-                    $p = [
-                        [
-                            'checked_type'      => 'empty',
-                            'key_name'          => 'express_id',
-                            'error_msg'         => MyLang('common_service.order.delivery_express_id_message'),
-                        ],
-                        [
-                            'checked_type'      => 'empty',
-                            'key_name'          => 'express_number',
-                            'error_msg'         => MyLang('common_service.order.delivery_express_number_message'),
-                        ],
-                    ];
-                    $ret = ParamsChecked($params, $p);
-                    if($ret !== true)
+                    if((empty($params['express_id']) || empty($params['express_number'])) && empty($params['express_data']))
                     {
-                        throw new \Exception($ret);
+                        throw new \Exception(MyLang('common_service.order.delivery_express_data_message'));
                     }
                     break;
 
@@ -2097,15 +2183,97 @@ class OrderService
     {
         // 订单更新
         $upd_data = [
-            'status'            => 3,
-            'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
-            'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
-            'delivery_time'     => time(),
-            'upd_time'          => time(),
+            'status'         => 3,
+            'delivery_time'  => time(),
+            'upd_time'       => time(),
         ];
-        if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
+        if(Db::name('Order')->where(['id'=>$order['id']])->update($upd_data) === false)
         {
             return DataReturn(MyLang('delivery_fail'), -1);
+        }
+
+        // 发货信息单条模式处理
+        if(!empty($params['express_id']) && !empty($params['express_number']))
+        {
+            $express_data = [
+                'express_id'      => intval($params['express_id']),
+                'express_number'  => $params['express_number'],
+            ];
+            if(empty($params['order_express_id']))
+            {
+                $express_data['order_id']  = $order['id'];
+                $express_data['user_id']   = $order['user_id'];
+                $express_data['add_time']  = time();
+                if(Db::name('OrderExpress')->insertGetId($express_data) <= 0)
+                {
+                    return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
+                }
+            } else {
+                $express_data['upd_time'] = time();
+                if(Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->update($express_data) === false)
+                {
+                    return DataReturn(MyLang('common_service.order.delivery_express_update_fail_tips'), -1);
+                }
+            }
+        } else {
+            // 没有发货信息，但是存在发货数据id则删除发货信息
+            if(!empty($params['order_express_id']))
+            {
+                Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->delete();
+            }
+        }
+        // 发货信息多条模式处理
+        if(!empty($params['express_data']))
+        {
+            if(!is_array($params['express_data']))
+            {
+                $params['express_data'] = json_decode(urldecode($params['express_data']), true);
+            }
+            if(!empty($params['express_data']) && is_array($params['express_data']))
+            {
+                // 原始数据
+                $express_data_old = Db::name('OrderExpress')->where(['order_id'=>$order['id']])->column('*', 'id');
+
+                // 数据处理
+                $express_insert_data = [];
+                foreach($params['express_data'] as $ev)
+                {
+                    if(!empty($ev['express_id']) && !empty($ev['express_number']))
+                    {
+                        $temp = [
+                            'order_id'        => $order['id'],
+                            'user_id'         => $order['user_id'],
+                            'express_id'      => intval($ev['express_id']),
+                            'express_number'  => $ev['express_number'],
+                            'note'            => empty($ev['note']) ? '' : $ev['note'],
+                        ];
+                        if(empty($express_data_old) || empty($ev['id']) || empty($express_data_old[$ev['id']]))
+                        {
+                            $temp['add_time'] = time();
+                            $temp['upd_time'] = 0;
+                        } else {
+                            $temp['add_time'] = $express_data_old[$ev['id']]['add_time'];
+                            $temp['upd_time'] = time();
+                        }
+                        $express_insert_data[] = $temp;
+                    }
+                }
+
+                // 先删除数据
+                if(!empty($express_data_old))
+                {
+                    Db::name('OrderExpress')->where(['id'=>array_column($express_data_old, 'id'), 'order_id'=>$order['id']])->delete();
+                }
+
+                // 数据添加处理
+                if(!empty($express_insert_data))
+                {
+                    if(Db::name('OrderExpress')->insertAll($express_insert_data) < count($express_insert_data))
+                    {
+                        return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
+                    }
+                }
+            }
         }
 
         // 库存扣除
@@ -2157,9 +2325,16 @@ class OrderService
             $order_address = self::OrderAddressData($order['id']);
             $receiver_tel = (!empty($order_address) && !empty($order_address[$order['id']]) && !empty($order_address[$order['id']]['tel'])) ? $order_address[$order['id']]['tel'] : '';
 
+            // 是否存在多条发货信息
+            if(!empty($params['express_data']) && !empty($params['express_data'][0]) && isset($params['express_data'][0]['express_id']) && isset($params['express_data'][0]['express_number']))
+            {
+                $params['express_id'] = $params['express_data'][0]['express_id'];
+                $params['express_number'] = $params['express_data'][0]['express_number'];
+            }
+
             // 发货快递信息
             $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
-            $express_number = isset($params['express_number']) ? intval($params['express_number']) : '';
+            $express_number = isset($params['express_number']) ? $params['express_number'] : '';
 
             // 调用微信发货同步处理
             return OtherHandleService::OrderDeliverySyncWeixinHandle([

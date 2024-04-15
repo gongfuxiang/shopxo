@@ -153,6 +153,7 @@ class Message
             'data'  => [
                 'table_name'    => 'Message',
                 'data_handle'   => 'MessageService::MessageListHandle',
+                'detail_where'  => $this->condition_base,
                 'is_page'       => 1,
             ],
         ];

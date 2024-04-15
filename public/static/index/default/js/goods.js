@@ -240,7 +240,7 @@ function GoodsSpecDetailBackHandle(data)
     var inventory = parseInt(data.spec_base.inventory);
     var $input = $('#text_box');
     var $stock = $('.stock-tips .stock');
-    var $origina_price_value = $('.original-price-value');
+    var $origina_price_value = $('.original-price-value b');
 
     // 起购数
     var min = parseInt($input.data('original-buy-min-number'));
@@ -264,7 +264,7 @@ function GoodsSpecDetailBackHandle(data)
     // 原价
     if(data.spec_base.original_price > 0)
     {
-        $origina_price_value.text(__currency_symbol__+data.spec_base.original_price);
+        $origina_price_value.text(data.spec_base.original_price);
         $origina_price_value.parents('.items').show();
     } else {
         $origina_price_value.parents('.items').hide();
@@ -431,7 +431,7 @@ function GoodsSpecType()
                     {
                         if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
                         {
-                            $(extends_element[i]['element']).prop(extends_element[i]['content']);
+                            $(extends_element[i]['element']).prop('outerHTML', extends_element[i]['content']);
                         }
                     }
                 }
@@ -448,6 +448,21 @@ function GoodsSpecType()
 }
 
 /**
+ * 商品规格选择改变浏览器url地址
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-04-10
+ * @desc    description
+ */
+function GoodsBrowserHistoryUrlChange()
+{
+    var spec = GoodsSelectedSpec();
+    var value = (spec.length == 0) ? null : spec.map(function(v){return v.value;}).join('|');
+    history.pushState({}, '', UrlFieldReplace('spec', value));
+}
+
+/**
  * 商品基础数据恢复
  * @author   Devil
  * @blog    http://gong.gg/
@@ -461,7 +476,7 @@ function GoodsBaseRestore()
     var $stock = $('.stock-tips .stock');
     var $price = $('.goods-price');
     var $price_now = $('.text-info .price-now');
-    var $original_price_value = $('.tb-detail-price .original-price-value');
+    var $original_price_value = $('.tb-detail-panel-base .original-price-value');
     $input.attr('min', $input.data('original-buy-min-number'));
     $input.attr('max', $stock.data('original-max'));
     $stock.text($stock.data('original-inventory'));
@@ -567,12 +582,10 @@ $(function() {
     if((spec || null) != null)
     {
         spec = spec.split('|');
-        if($('.sku-container').length > 0 && $('.sku-container .sku-items').length > 0 && $('.sku-container .sku-items').length == spec.length && $('.buy-submit-container').length > 0 && ($('.buy-submit-container button.buy-submit').length > 0 || $('.buy-submit-container button.cart-submit').length > 0))
+        if($('.sku-container').length > 0 && $('.sku-container .sku-items').length > 0 && $('.sku-container .sku-items').length == spec.length && $('.buy-submit-container').length > 0 && ($('.buy-submit-container button.buy-submit').length > 0 || $('.buy-submit-container button.cart-submit').length > 0) && $('.tb-detail-panel-top-price-content .goods-sale-price').length > 0)
         {
-            var $other_price = $('.tb-detail-price .price-top-content .items dd b');
-            var $price = $('.tb-detail-price .price-top-content .goods-sale-price .goods-price');
+            var $price = $('.tb-detail-panel-base .tb-detail-panel-top-price-content .items.price dd b, .tb-detail-panel-base .tb-detail-panel-top-price-content .goods-sale-price .goods-price');
             // 先清除价格展示信息
-            $other_price.text(__currency_symbol__+'...');
             $price.text('...');
             var num = 0;
             var timer = setInterval(function()
@@ -580,7 +593,6 @@ $(function() {
                 $('.sku-container .sku-items').each(function(k, v)
                 {
                     // 清除价格展示信息、避免获取价格类型赋值
-                    $other_price.text(__currency_symbol__+'...');
                     $price.text('...');
                     // 必须不存在已选择项
                     if($(this).find('ul li.selected').length <= 0)
@@ -677,6 +689,9 @@ $(function() {
                 // 获取规格详情
                 GoodsSpecDetail();
             }
+
+            // 浏览器地址改变
+            GoodsBrowserHistoryUrlChange();
         });
     });
 
@@ -735,53 +750,6 @@ $(function() {
             {
                 BuyCartHandle($(this));
             }
-        }
-    });
-
-    // 收藏
-    $(document).on('click', '.favor-submit', function()
-    {
-        // 是否登录
-        if(__user_id__ != 0)
-        {
-            var $this = $(this);
-
-            // ajax请求
-            $.AMUI.progress.start();
-            $.ajax({
-                url: RequestUrlHandle($(this).data('ajax-url')),
-                type: 'post',
-                dataType: "json",
-                timeout: 10000,
-                data: {"id": $('.system-goods-detail').data('id')},
-                success: function(res)
-                {
-                    $.AMUI.progress.done();
-                    PoptitClose();
-
-                    if(res.code == 0)
-                    {
-                        $this.find('.goods-favor-text').text(res.data.text);
-                        if(res.data.status == 1)
-                        {
-                            $this.addClass('text-active');
-                            $this.find('i').addClass('am-icon-heart').removeClass('am-icon-heart-o');
-                        } else {
-                            $this.removeClass('text-active');
-                            $this.find('i').addClass('am-icon-heart-o').removeClass('am-icon-heart');
-                        }
-                        Prompt(res.msg, 'success');
-                    } else {
-                        Prompt(res.msg);
-                    }
-                },
-                error: function(xhr, type)
-                {
-                    $.AMUI.progress.done();
-                    PoptitClose();
-                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
-                }
-            });
         }
     });
 

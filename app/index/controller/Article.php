@@ -14,6 +14,7 @@ use app\service\SeoService;
 use app\service\ApiService;
 use app\service\ArticleService;
 use app\service\ArticleCategoryService;
+use app\service\BreadcrumbService;
 
 /**
  * 文章详情
@@ -68,7 +69,7 @@ class Article extends Common
 		$ret = ArticleService::ArticleList($params);
 		if(!empty($ret['data'][0]))
 		{
-            $article =  $ret['data'][0];
+            $article = $ret['data'][0];
 
 			// 访问统计
 			ArticleService::ArticleAccessCountInc(['id'=>$id]);
@@ -82,12 +83,16 @@ class Article extends Common
             // 模板数据
             $assign = [
                 // 文章
-                'article'           => $article,
+                'article'                   => $article,
                 // 上一篇、下一篇
-                'last_next_data'    => ArticleService::ArticleLastNextData($id),
+                'last_next_data'            => ArticleService::ArticleLastNextData($id),
+                // 面包屑导航
+                'breadcrumb_data'           => BreadcrumbService::Data('ArticleDetail', ['article'=>$article]),
+                // 推荐文章
+                'recommended_article_list'  => ArticleService::RecommendedArticleList(),
             ];
 
-			// 文章分类
+			// 所有文章分类
 			$article_category = ArticleCategoryService::ArticleCategoryList();
             $assign['category_list'] = $article_category['data'];
 
@@ -125,6 +130,22 @@ class Article extends Common
      */
     public function Category()
     {
+        // post搜索
+        if(IS_POST)
+        {
+            $request_params = [];
+            if(!empty($this->data_post['awd']))
+            {
+                $request_params['awd'] = StrToAscii($this->data_post['awd']);
+            }
+            if(!empty($this->data_post['id']))
+            {
+                $request_params['id'] = intval($this->data_post['id']);
+            }
+            return MyRedirect(MyUrl('index/article/category', $request_params));
+        }
+        $params = $this->data_request;
+
         // 条件
         $where = ArticleService::ArticleWhere($this->data_request);
 
@@ -142,30 +163,41 @@ class Article extends Common
         $page = new \base\Page($page_params);
 
         // 获取列表
-        $data_params = [
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $this->page_size,
-            'where'     => $where,
-        ];
+        $data_params = array_merge($params, [
+            'm'      => $page->GetPageStarNumber(),
+            'n'      => $this->page_size,
+            'where'  => $where,
+        ]);
         $ret = ArticleService::ArticleList($data_params);
 
-        // 模板数据
-        $assign = [
-            'page_html' => $page->GetPageHtml(),
-            'data_list' => $ret['data'],
-            'params'    => $this->data_request,
-        ];
+        // 关键字处理
+        if(!empty($params['awd']))
+        {
+            $params['awd'] = AsciiToStr($params['awd']);
+        }
 
-        // 获取分类
-        $article_category = ArticleCategoryService::ArticleCategoryList();
-        $assign['category_list'] = $article_category['data'];
+        // 所有文章分类
+        $article_category = ArticleCategoryService::ArticleCategoryList($this->data_request);
 
         // 分类信息
         $category_info = ArticleCategoryService::ArticleCategoryInfo($this->data_request, $article_category['data']);
-        $assign['category_info'] = $category_info;
+
+        // 模板数据
+        $assign = [
+            // 列表数据
+            'page_html'        => $page->GetPageHtml(),
+            'data_list'        => $ret['data'],
+            'params'           => $params,
+            // 分类信息
+            'category_info'    => $category_info,
+            // 所有分类
+            'category_list'    => $article_category['data'],
+            // 面包屑导航
+            'breadcrumb_data'  => BreadcrumbService::Data('ArticleCategory', ['category_info'=>$category_info]),
+        ];
 
         // 浏览器名称
-        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? MyLang('article.category_base_nav_title') : $category_info['name'], 1);
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle((empty($params['awd']) ? '' : $params['awd'].' - ').(empty($category_info) ? MyLang('article.category_base_nav_title') : $category_info['name']), 1);
 
         // 数据赋值
         MyViewAssign($assign);
@@ -197,12 +229,6 @@ class Article extends Common
 
             // 分类内容底部钩子
             'plugins_view_article_category_content_botton',
-
-            // 分类左侧内部顶部钩子
-            'plugins_view_article_category_left_inside_top',
-
-            // 分类左侧内部底部钩子
-            'plugins_view_article_category_left_inside_botton',
         ];
         $assign = [];
         foreach($hook_arr as $hook_name)

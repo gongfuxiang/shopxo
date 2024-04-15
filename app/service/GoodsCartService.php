@@ -100,6 +100,7 @@ class GoodsCartService
                 {
                     $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
                     $v['price'] = $goods_base['data']['spec_base']['price'];
+                    $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
                     $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
                     $v['spec_base_id'] = $goods_base['data']['spec_base']['id'];
                     $v['spec_buy_min_number'] = $goods_base['data']['spec_base']['buy_min_number'];
@@ -116,6 +117,7 @@ class GoodsCartService
                 } else {
                     $v['is_invalid'] = 1;
                     $v['inventory'] = 0;
+                    $v['total_price'] = 0;
                     $v['spec_base_id'] = 0;
                     $v['spec_buy_min_number'] = 0;
                     $v['spec_buy_max_number'] = 0;
@@ -126,8 +128,7 @@ class GoodsCartService
                     $v['extends'] = '';
                 }
 
-                // 基础信息
-                $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
+                // 最大限购数量、不能超过库存
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
 
                 // 错误处理

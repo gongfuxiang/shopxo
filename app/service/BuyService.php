@@ -22,6 +22,7 @@ use app\service\ConfigService;
 use app\service\OrderSplitService;
 use app\service\WarehouseGoodsService;
 use app\service\OrderCurrencyService;
+use app\service\OrderService;
 
 /**
  * 购买服务层
@@ -885,7 +886,7 @@ class BuyService
                 // 未指定系统类型则增加默认
                 if(empty($order['system_type']))
                 {
-                    $order['system_type'] = SYSTEM_TYPE;
+                    $order['system_type'] = empty($params['system_type']) ? SYSTEM_TYPE : $params['system_type'];
                 }
                 // 订单添加
                 $order_id = Db::name('Order')->insertGetId($order);
@@ -961,6 +962,11 @@ class BuyService
                         throw new \Exception($ret['msg']);
                     }
                 }
+
+                // 订单状态日志
+                $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+                $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+                OrderService::OrderHistoryAdd($order_id, '', $order['status'], MyLang('created_title'), $creator, $creator_name);
 
                 // 订单添加成功钩子
                 $hook_name = 'plugins_service_buy_order_insert_end';

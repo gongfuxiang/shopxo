@@ -1,12 +1,16 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <a href="{{:MyUrl('admin/customview/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
-        <i class="iconfont icon-btn-add am-show-sm-only"></i>
-        <span class="am-hide-sm-only"></span>{{:MyLang('add_title')}}</span>
-    </a>
+    <!-- 是否有添加编辑页面权限 -->
+    {{if AdminIsPower('customview', 'saveinfo')}}
+        <a href="{{:MyUrl('admin/customview/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
+            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+            <span class="am-hide-sm-only"></span>{{:MyLang('add_title')}}</span>
+        </a>
+    {{/if}}
+
     <!-- 父级内容 -->
     {__block__}
 {{/block}}

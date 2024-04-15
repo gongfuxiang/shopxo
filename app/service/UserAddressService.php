@@ -422,8 +422,8 @@ class UserAddressService
         {
             $data['user_id'] = $params['user']['id'];
             $data['add_time'] = time();
-            $data_id = Db::name('UserAddress')->insertGetId($data);
-            if($data_id > 0)
+            $data['id'] = Db::name('UserAddress')->insertGetId($data);
+            if($data['id'] > 0)
             {
                 $status = true;
             }
@@ -431,7 +431,6 @@ class UserAddressService
             $data['upd_time'] = time();
             if(Db::name('UserAddress')->where($where)->update($data))
             {
-                $data_id = $temp['id'];
                 $status = true;
             }
         }
@@ -450,10 +449,12 @@ class UserAddressService
             'params'        => $params,
             'data'          => $data,
             'user_id'       => $params['user']['id'],
-            'data_id'       => $data_id,
         ]);
-
-        return DataReturn($status ? MyLang('operate_success') : MyLang('operate_fail'), $status ? 0 : -100);
+        if($status)
+        {
+            return DataReturn(MyLang('operate_success'), 0, $data);
+        }
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**

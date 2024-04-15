@@ -766,15 +766,15 @@
         box-sizing:border-box;
     }
     #remote .right {
-        width: 80px;
+        width: 60px;
         position: absolute;
-        bottom: 10px;
+        bottom: 33px;
         right: 10px;
-        height: 80px;
+        height: 60px;
     }
     #remote #preview {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
         margin-top: 0;
     }
     #remote #url {

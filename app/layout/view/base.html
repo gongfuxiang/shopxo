@@ -117,10 +117,20 @@
                     <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
                             {{if count($v['value_arr']) eq 1}}
-                                {{include file="../../../layout/view/public/common/module_admin" /}}
+                                {{:ModuleInclude('../../../layout/view/public/common/module_admin', [
+                                    'k'   => $k,
+                                    'v'   => $v,
+                                    'ks'  => $ks,
+                                    'vs'  => $vs,
+                                ])}}
                             {{else /}}
                                 <div class="am-u-md-{{$v['value_arr'][$ks]}}">
-                                    {{include file="../../../layout/view/public/common/module_admin" /}}
+                                    {{:ModuleInclude('../../../layout/view/public/common/module_admin', [
+                                        'k'   => $k,
+                                        'v'   => $v,
+                                        'ks'  => $ks,
+                                        'vs'  => $vs,
+                                    ])}}
                                 </div>
                             {{/if}}
                         {{/foreach}}
@@ -133,55 +143,55 @@
     {{/if}}
 </div>
 <!-- 侧边栏 - 布局 - 容器设置 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_layout_config" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_layout_config')}}
 
 <!-- 侧边栏 - 模块配置 - 单图 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_images')}}
 
 <!-- 侧边栏 - 模块配置 - 多图 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_many_images" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_many_images')}}
 
 <!-- 侧边栏 - 模块配置 - 图文 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images_text" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_images_text')}}
 
 <!-- 侧边栏 - 模块配置 - 图片魔方 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images_magic_cube" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_images_magic_cube')}}
 
 <!-- 侧边栏 - 模块配置 - 视频 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_video" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_video')}}
 
 <!-- 侧边栏 - 模块配置 - 商品 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_goods" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_goods')}}
 
 <!-- 侧边栏 - 模块配置 - 标题 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_title" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_title')}}
 
 <!-- 侧边栏 - 模块配置 - 自定义html -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_custom" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_custom')}}
 
 <!-- 侧边栏 - 模块配置 - 辅助线 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_border" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_border')}}
 
 <!-- 侧边栏 - 模块配置 - 辅助空白 -->
-{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_height" /}}
+{{:ModuleInclude('../../../layout/view/public/offcanvas/offcanvas_module_config_height')}}
 
 <!-- 滚动设置 -->
-{{include file="../../../layout/view/public/modal/modal_module_rolling_config" /}}
+{{:ModuleInclude('../../../layout/view/public/modal/modal_module_rolling_config')}}
 
 <!-- 列表设置 -->
-{{include file="../../../layout/view/public/modal/modal_module_list_config" /}}
+{{:ModuleInclude('../../../layout/view/public/modal/modal_module_list_config')}}
 
 <!-- 关键字设置 -->
-{{include file="../../../layout/view/public/modal/modal_module_title_keywords" /}}
+{{:ModuleInclude('../../../layout/view/public/modal/modal_module_title_keywords')}}
 
 <!-- 页面选择 -->
-{{include file="../../../layout/view/public/modal/modal_module_pages_select" /}}
+{{:ModuleInclude('../../../layout/view/public/modal/modal_module_pages_select')}}
 
 <!-- 商品选择 -->
-{{include file="../../../layout/view/public/popup/popup_module_goods_select" /}}
+{{:ModuleInclude('../../../layout/view/public/popup/popup_module_goods_select')}}
 
 <!-- 商品搜索 -->
-{{include file="../../../layout/view/public/popup/popup_module_goods_search" /}}
+{{:ModuleInclude('../../../layout/view/public/popup/popup_module_goods_search')}}
 
 <!-- 商品分类选择 -->
-{{include file="../../../layout/view/public/popup/popup_module_goods_category" /}}
+{{:ModuleInclude('../../../layout/view/public/popup/popup_module_goods_category')}}

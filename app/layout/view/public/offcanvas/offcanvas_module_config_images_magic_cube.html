@@ -1,5 +1,5 @@
 <!-- 侧边栏 - 模块配置 - 图文 -->
-<div id="offcanvas-module-config-images-magic-cube" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/common/images/default-images-mini.png">
+<div id="offcanvas-module-config-images-magic-cube" class="am-offcanvas module-offcanvas-container" data-default-images="{{:StaticAttachmentUrl('default-images-mini.png')}}">
     <div class="am-offcanvas-bar">
         <div class="am-offcanvas-content am-padding-0">
             <form class="am-form form-validation-module-offcanvas-images-magic-cube" request-type="sync" request-value="FormBackModuleConfigImagesMagicCube">
@@ -7,7 +7,7 @@
                 <div class="am-panel am-panel-default am-radius">
                     <div class="am-panel-hd">{{:MyLang('layout.view_show_model_title')}}<span class="am-form-group-label-tips-must">*</span></div>
                     <div class="am-panel-bd">
-                        {{include file="../../../layout/view/public/content/images_magic_cube_show_style" /}}
+                        {{:ModuleInclude('../../../layout/view/public/content/images_magic_cube_show_style')}}
                     </div>
                 </div>
 
@@ -25,13 +25,15 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角、元素样式 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="_item" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_radius', [
+                            'key'   => '_item',
+                        ])}}
 
                         <!-- 外边距、js取值使用 -->
-                        {{include file="../../../layout/view/public/style/margin" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/margin')}}
 
                         <!-- 鼠标悬停图片放大 -->
-                        {{include file="../../../layout/view/public/style/mouse_hover" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/mouse_hover')}}
                     </div>
                 </div>
 

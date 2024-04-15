@@ -82,11 +82,11 @@ class Article extends Common
         $start = intval(($this->page-1)*$this->page_size);
 
         // 获取列表
-        $data_params = [
+        $data_params = array_merge($params, [
             'm'         => $start,
             'n'         => $this->page_size,
             'where'     => $where,
-        ];
+        ]);
         $data = ArticleService::ArticleList($data_params);
         
         // 返回数据

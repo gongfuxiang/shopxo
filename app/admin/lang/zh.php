@@ -307,11 +307,14 @@ return [
         'detail_images_title'                   => '详情图片',
         // 动态表格
         'form_table'                            => [
+            'id'                     => '文章ID',
+            'cover'                  => '封面',
             'info'                   => '标题',
-            'jump_url'               => '跳转url地址',
+            'describe'               => '描述',
             'article_category_name'  => '分类',
             'is_enable'              => '是否启用',
             'is_home_recommended'    => '首页推荐',
+            'jump_url'               => '跳转url地址',
             'images_count'           => '图片数量',
             'access_count'           => '访问次数',
             'add_time'               => '创建时间',
@@ -738,7 +741,6 @@ return [
         // 页面公共
         'page_common'           => [
             'order_id_empty'                    => '订单id有误',
-            'express_choice_tips'               => '请选择快递方式',
             'payment_choice_tips'               => '请选择支付方式',
         ],
         // 页面基础
@@ -746,8 +748,12 @@ return [
         'form_payment_title'                    => '支付操作',
         'form_item_take'                        => '取货码',
         'form_item_take_message'                => '请填写4位数取货码',
+        'form_item_express_add_name'            => '添加快递',
+        'form_item_express_choice_win_name'     => '选择快递',
+        'form_item_express_id'                  => '快递方式',
         'form_item_express_number'              => '快递单号',
-        'form_item_express_number_message'      => '请填写快递单号',
+        'form_item_note'                        => '备注信息',
+        'form_item_note_message'                => '备注信息最多200个字符',
         // 地址
         'detail_user_address_title'             => '收货地址',
         'detail_user_address_name'              => '收件人',
@@ -795,8 +801,8 @@ return [
             'payment_name'        => '支付方式',
             'user_note'           => '用户备注',
             'extension'           => '扩展信息',
-            'express_name'        => '快递公司',
-            'express_number'      => '快递单号',
+            'express'             => '快递信息',
+            'express_placeholder' => '请输入快递单号',
             'aftersale'           => '最新售后',
             'is_comments'         => '用户是否评论',
             'confirm_time'        => '确认时间',
@@ -815,6 +821,13 @@ return [
             'buy_number_count'   => '商品总数',
             'refund_price'       => '退款金额',
             'returned_quantity'  => '退货数量',
+        ],
+        // 快递表格
+        'form_table_express'                    => [
+            'name'    => '快递公司',
+            'number'  => '快递单号',
+            'note'    => '快递备注',
+            'time'    => '发货时间',
         ],
     ],
 
@@ -913,7 +926,7 @@ return [
     ],
 
     // 主题管理
-    'theme'                 => [
+    'themeadmin'            => [
         'base_nav_list'                         => [
             ['name' => '当前主题', 'type' => 'index'],
             ['name' => '主题安装', 'type' => 'upload'],
@@ -923,6 +936,26 @@ return [
         'list_author_title'                     => '作者',
         'list_version_title'                    => '适用版本',
         'form_theme_upload_tips'                => '上传一个zip压缩格式的主题安装包',
+    ],
+
+    // 主题数据
+    'themedata'            => [
+        'base_nav_title'                        => '主题数据',
+        'upload_list_tips'                      => [
+            '1. 选择已下载的主题数据zip包',
+            '2. 导入将自动新增一条数据',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'unique'    => '唯一标识',
+            'name'      => '名称',
+            'type'      => '数据类型',
+            'theme'     => '主题',
+            'view'      => '页面',
+            'is_enable' => '是否启用',
+            'add_time'  => '添加时间',
+            'upd_time'  => '更新时间',
+        ],
     ],
 
     // 用户中心导航
@@ -1435,11 +1468,20 @@ return [
                 'link_delete'              => '友情链接删除',
                 'link_statusupdate'        => '友情链接状态更新',
                 'link_detail'              => '友情链接详情',
-                'theme_index'              => '主题管理',
-                'theme_save'               => '主题管理添加/编辑',
-                'theme_upload'             => '主题上传安装',
-                'theme_delete'             => '主题删除',
-                'theme_download'           => '主题下载',
+                'themeadmin_index'         => '主题管理',
+                'themeadmin_save'          => '主题管理添加/编辑',
+                'themeadmin_upload'        => '主题上传安装',
+                'themeadmin_delete'        => '主题删除',
+                'themeadmin_download'      => '主题下载',
+                'themedata_index'          => '主题数据',
+                'themedata_saveinfo'       => '主题数据添加/编辑页面',
+                'themedata_save'           => '主题数据添加/编辑',
+                'themedata_upload'         => '主题数据上传',
+                'themedata_delete'         => '主题数据删除',
+                'themedata_download'       => '主题数据下载',
+                'themedata_detail'         => '主题数据详情',
+                'themedata_goodssearch'    => '主题数据商品搜索',
+                'themedata_articlesearch'  => '主题数据文章搜索',
                 'slide_index'              => '首页轮播',
                 'slide_saveinfo'           => '轮播添加/编辑页面',
                 'slide_save'               => '轮播添加/编辑',

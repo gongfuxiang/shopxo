@@ -1,21 +1,24 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- search -->
-{{include file="public/nav_search" /}}
+{{:ModuleInclude('public/nav_search')}}
 
 <!-- header nav -->
-{{include file="public/header_nav" /}}
+{{:ModuleInclude('public/header_nav')}}
 
 <!-- goods category -->
-{{include file="public/goods_category" /}}
+{{:ModuleInclude('public/goods_category')}}
+
+<!-- 面包屑导航 -->
+{{:ModuleInclude('public/breadcrumb_data')}}
 
 <!-- 文章顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
-	    <span>plugins_view_article_detail_top</span>
+        <span>plugins_view_article_detail_top</span>
     </div>
 {{/if}}
 {{if !empty($plugins_view_article_detail_top_data) and is_array($plugins_view_article_detail_top_data)}}
@@ -27,64 +30,66 @@
 {{/if}}
 
 <!-- content start -->
-<div class="am-container article-content am-padding">
-	<!-- 右侧内容 -->
-	<div class="am-u-md-10 am-u-md-push-2 article-right">
+<div class="am-container article-content">
+    <!-- 右侧内容 -->
+    <div class="am-u-md-10 am-u-md-push-2 article-right">
         <div class="am-background-white am-radius am-padding-lg">
-    		<div class="article-header am-text-center am-padding-0">
-    			<h1 class="am-article-title">{{$article.title}}</h1>
-    			<p class="am-article-meta am-margin-top-sm">
-    				<span>{{:MyLang('article.release_time')}}{{$article.add_time}}</span>
-    				<span>{{:MyLang('article.view_number')}}{{$article.access_count}}</span>
-    			</p>
-    			<hr data-am-widget="divider" class="am-divider am-divider-default" />
-    		</div>
+            <div class="article-data theme-data-edit-event" data-id="{{$article.id}}" data-module="article">
+                <div class="article-header am-text-center am-padding-0">
+                    <h1 class="am-article-title">{{$article.title}}</h1>
+                    <p class="am-article-meta am-margin-top-sm">
+                        <span>{{:MyLang('article.release_time')}}{{$article.add_time}}</span>
+                        <span>{{:MyLang('article.view_number')}}{{$article.access_count}}</span>
+                    </p>
+                    <hr data-am-widget="divider" class="am-divider am-divider-default" />
+                </div>
 
-    		<!-- 文章内容底部钩子 -->
-    		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-    		    <div class="plugins-tag">
-    			    <span>plugins_view_article_detail_content_top</span>
-    		    </div>
-    		{{/if}}
-            {{if !empty($plugins_view_article_detail_content_top_data) and is_array($plugins_view_article_detail_content_top_data)}}
-                {{foreach $plugins_view_article_detail_content_top_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
+                <!-- 文章内容底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_article_detail_content_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_article_detail_content_top_data) and is_array($plugins_view_article_detail_content_top_data)}}
+                    {{foreach $plugins_view_article_detail_content_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
 
-            <!-- 文章内容 -->
-    		<div class="am-article am-scrollable-horizontal richtext">{{$article.content|raw}}</div>
+                <!-- 文章内容 -->
+                <div class="am-article am-scrollable-horizontal richtext">{{$article.content|raw}}</div>
+            </div>
 
-    		<!-- 上一篇、下一篇 -->
+            <!-- 上一篇、下一篇 -->
             <div class="last-next-data am-margin-top-lg am-padding-bottom-sm">
                 <hr class="am-article-divider am-divider-default am-margin-bottom-sm" />
                 <div class="am-nbfc am-padding-horizontal-sm">
-                	{{if !empty($last_next_data['last'])}}
-    	                <div class="am-nbfc">
-    	                    <span class="am-fl">{{:MyLang('article.prev_article')}}</span>
-    	                    <a href="{{$last_next_data.last.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.last.title}}</a>
-    	                    <span class="text-tips am-fr">{{$last_next_data.last.add_time}}</span>
-    	                </div>
+                    {{if !empty($last_next_data['last'])}}
+                        <div class="am-nbfc">
+                            <span class="am-fl am-text-grey">{{:MyLang('article.prev_article')}}</span>
+                            <a href="{{$last_next_data.last.url}}" class="am-text-truncate am-fl am-block">{{$last_next_data.last.title}}</a>
+                            <span class="text-tips am-fr">{{$last_next_data.last.add_time}}</span>
+                        </div>
                     {{/if}}
                     {{if !empty($last_next_data['next'])}}
-    	                <div class="am-nbfc am-margin-top-xs">
-    	                    <span class="am-fl">{{:MyLang('article.next_article')}}</span>
-    	                    <a href="{{$last_next_data.next.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.next.title}}</a>
-    	                    <span class="text-tips am-fr">{{$last_next_data.next.add_time}}</span>
-    	                </div>
+                        <div class="am-nbfc am-margin-top-xs">
+                            <span class="am-fl am-text-grey">{{:MyLang('article.next_article')}}</span>
+                            <a href="{{$last_next_data.next.url}}" class="am-text-truncate am-fl am-block">{{$last_next_data.next.title}}</a>
+                            <span class="text-tips am-fr">{{$last_next_data.next.add_time}}</span>
+                        </div>
                     {{/if}}
                 </div>
             </div>
         </div>
 
-		<!-- 文章内容底部钩子 -->
-		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-		    <div class="plugins-tag">
-			    <span>plugins_view_article_detail_content_botton</span>
-		    </div>
-		{{/if}}
+        <!-- 文章内容底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_article_detail_content_botton</span>
+            </div>
+        {{/if}}
         {{if !empty($plugins_view_article_detail_content_botton_data) and is_array($plugins_view_article_detail_content_botton_data)}}
             {{foreach $plugins_view_article_detail_content_botton_data as $hook}}
                 {{if is_string($hook) or is_int($hook)}}
@@ -92,71 +97,21 @@
                 {{/if}}
             {{/foreach}}
         {{/if}}
-	</div>
+    </div>
 
-	<!-- 左侧内容 -->
-	<div class="am-u-md-2 am-u-md-pull-10 article-sidebar am-padding-0">
-		<div class="am-offcanvas" id="article-nav-sidebar">
-			<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
-				<!-- 左侧内部顶部钩子 -->
-				{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-				    <div class="plugins-tag">
-					    <span>plugins_view_article_detail_left_inside_top</span>
-				    </div>
-				{{/if}}
-		        {{if !empty($plugins_view_article_detail_left_inside_top_data) and is_array($plugins_view_article_detail_left_inside_top_data)}}
-		            {{foreach $plugins_view_article_detail_left_inside_top_data as $hook}}
-		                {{if is_string($hook) or is_int($hook)}}
-		                    {{$hook|raw}}
-		                {{/if}}
-		            {{/foreach}}
-		        {{/if}}
-
-		        <!-- 左侧内容 -->
-				{{if !empty($category_list)}}
-					<section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-padding-0" data-am-accordion='{}'>
-						<!-- 分类 -->
-						<div class="am-panel am-panel-default am-panel-group am-margin-bottom-0 am-radius">
-                            <div class="am-panel-hd">
-                                <h3 class="am-panel-title am-text-center am-padding-vertical-sm am-text-lg">{{:MyLang('article.article_category_name')}}</h3>
-                            </div>
-							<ul class="am-nav category-list">
-								{{foreach $category_list as $v}}
-									<li>
-										<a href="{{$v.url}}" {{if isset($article['article_category_id']) and $article['article_category_id'] eq $v['id']}}class="am-active"{{/if}}>{{$v.name}}</a>
-									</li>
-								{{/foreach}}
-							</ul>
-						</div>
-					</section>
-				{{/if}}
-
-				<!-- 左侧内部底部钩子 -->
-				{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-				    <div class="plugins-tag">
-					    <span>plugins_view_article_detail_left_inside_botton</span>
-				    </div>
-				{{/if}}
-		        {{if !empty($plugins_view_article_detail_left_inside_botton_data) and is_array($plugins_view_article_detail_left_inside_botton_data)}}
-		            {{foreach $plugins_view_article_detail_left_inside_botton_data as $hook}}
-		                {{if is_string($hook) or is_int($hook)}}
-		                    {{$hook|raw}}
-		                {{/if}}
-		            {{/foreach}}
-		        {{/if}}
-			</div>
-		</div>
-	</div>
-	<a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
-		<span class="am-sr-only">{{:MyLang('article.article_nav_text')}}</span>
-	</a>
+    <!-- 左侧内容 -->
+    {{:ModuleInclude('article/module/left', [
+        'article'        => empty($article) ? [] : $article,
+        'category_info'  => empty($category_info) ? [] : $category_info,
+        'category_list'  => empty($category_list) ? [] : $category_list,
+    ])}}
 </div>
 <!-- content end -->
 
 <!-- 文章底部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
-	    <span>plugins_view_article_detail_bottom</span>
+        <span>plugins_view_article_detail_bottom</span>
     </div>
 {{/if}}
 {{if !empty($plugins_view_article_detail_bottom_data) and is_array($plugins_view_article_detail_bottom_data)}}
@@ -168,4 +123,4 @@
 {{/if}}
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

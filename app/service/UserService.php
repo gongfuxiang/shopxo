@@ -145,7 +145,7 @@ class UserService
                     {
                         $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
                     } else {
-                        $v['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                        $v['avatar'] = UserDefaultAvatar();
                     }
                 }
 
@@ -1000,7 +1000,7 @@ class UserService
                 {
                     $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
                 } else {
-                    $user['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+                    $user['avatar'] = UserDefaultAvatar();
                 }
             }
 
@@ -1364,7 +1364,7 @@ class UserService
         {
             $upd_data['nickname'] = $params['nickname'];
         }
-        if((empty($user['avatar']) || stripos($user['avatar'], 'default-user-avatar.jpg') !== false) && !empty($params['avatar']))
+        if((empty($user['avatar']) || stripos($user['avatar'], 'default-user-avatar') !== false) && !empty($params['avatar']))
         {
             $upd_data['avatar'] = $params['avatar'];
         }
@@ -2586,6 +2586,16 @@ class UserService
                 }
             }
 
+            // token读取没有缓存则记录缓存
+            if(!empty($params['where_field']) && !empty($params['where_value']) && $params['where_field'] == 'token')
+            {
+                $user_cache_login_info = self::CacheUserTokenData($params['where_value']);
+                if(empty($user_cache_login_info))
+                {
+                    MyCache(SystemService::CacheKey('shopxo.cache_user_info').$params['where_value'], $params['user']);
+                }
+            }
+
             // 用户信息钩子
             $hook_name = 'plugins_service_user_app_info_handle';
             MyEventTrigger($hook_name, [
@@ -2783,7 +2793,7 @@ class UserService
         // 会员码
         $max = 10;
         $len = strlen($user_id);
-        $number_code = ($len < $max) ? GetNumberCode($max-$len).$user_id : GetNumberCode(1).$user_id;
+        $number_code = '8888'.(($len < $max) ? GetNumberCode($max-$len).$user_id : $user_id);
 
         // 更新数据库
         Db::name('User')->where(['id'=>$user_id])->update(['number_code'=>$number_code]);
@@ -2850,7 +2860,7 @@ class UserService
                         case 'url' :
                             $params[$k] = str_replace(['&amp;'], ['&'], $params[$k]);
                             // 头像如果是默认则置空
-                            if($k == 'avatar' && !empty($params[$k]) && stripos($params[$k], 'default-user-avatar.jpg') !== false)
+                            if($k == 'avatar' && !empty($params[$k]) && stripos($params[$k], 'default-user-avatar') !== false)
                             {
                                 $params[$k] = '';
                             }
@@ -2879,12 +2889,41 @@ class UserService
      */
     public static function AppMobileBind($params = [])
     {
+        return self::AppAccountsBindhHandle('mobile', $params);
+    }
+
+    /**
+     * app用户邮箱绑定
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AppEmailBind($params = [])
+    {
+        return self::AppAccountsBindhHandle('email', $params);
+    }
+
+    /**
+     * app用户手机或邮箱绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-03-11
+     * @desc    description
+     * @param   [string]          $type   [字段每次类型（mobile, email）]
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppAccountsBindhHandle($type, $params = [])
+    {
         // 数据验证
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'mobile',
-                'error_msg'         => MyLang('common_service.user.mobile_empty_tips'),
+                'key_name'          => $type,
+                'error_msg'         => MyLang('common_service.user.'.$type.'_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -2898,8 +2937,8 @@ class UserService
             return DataReturn($ret, -1);
         }
 
-        // 用户手机绑定前校验钩子
-        $hook_name = 'plugins_service_user_app_mobile_bind_begin_check';
+        // 用户手机或邮箱绑定前校验钩子
+        $hook_name = 'plugins_service_user_app_'.$type.'_bind_begin_check';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -2910,15 +2949,16 @@ class UserService
             return $ret;
         }
 
-        // 手机号码格式
-        if(!CheckMobile($params['mobile']))
+        // 格式验证
+        $check_fun = 'Check'.ucfirst($type);
+        if(!$check_fun($params[$type]))
         {
-            return DataReturn(MyLang('mobile_format_error_tips'), -2);
+            return DataReturn(MyLang($type.'_format_error_tips'), -2);
         }
 
         // 验证码校验
         $verify_params = [
-            'key_prefix'    => 'user_bind_'.md5($params['mobile']),
+            'key_prefix'    => 'user_bind_'.md5($params[$type]),
             'expire_time'   => MyC('common_verify_expire_time')
         ];
         $obj = new \base\Sms($verify_params);
@@ -2936,40 +2976,40 @@ class UserService
 
         // 用户更新数据
         $data = [
-            'mobile'    => $params['mobile'],
+            $type    => $params[$type],
         ];
 
         // 是否小程序请求
         $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyConst('common_appmini_type'));
 
-        // 手机号码获取用户信息
+        // 根据绑定账户类型【手机或邮箱】获取用户信息
         $method = self::UserUniqueMethod();
-        $mobile_user = self::$method('mobile', $data['mobile']);
+        $db_user = self::$method($type, $data[$type]);
 
         // 额外信息
-        if(empty($mobile_user))
+        if(empty($db_user))
         {
-            if(empty($mobile_user['nickname']) && !empty($params['nickname']))
+            if(empty($db_user['nickname']) && !empty($params['nickname']))
             {
                 $data['nickname'] = $params['nickname'];
             }
-            if(empty($mobile_user['avatar']) && !empty($params['avatar']))
+            if(empty($db_user['avatar']) && !empty($params['avatar']))
             {
                 $data['avatar'] = $params['avatar'];
             }
-            if(empty($mobile_user['province']) && !empty($params['province']))
+            if(empty($db_user['province']) && !empty($params['province']))
             {
                 $data['province'] = $params['province'];
             }
-            if(empty($mobile_user['city']) && !empty($params['city']))
+            if(empty($db_user['city']) && !empty($params['city']))
             {
                 $data['city'] = $params['city'];
             }
-            if(empty($mobile_user['county']) && !empty($params['county']))
+            if(empty($db_user['county']) && !empty($params['county']))
             {
                 $data['county'] = $params['county'];
             }
-            if(empty($mobile_user) && isset($params['gender']))
+            if(empty($db_user) && isset($params['gender']))
             {
                 $data['gender'] = intval($params['gender']);
             }
@@ -3000,27 +3040,27 @@ class UserService
         if(!empty($current_user))
         {
             // 手机帐号信息是否存在
-            if(!empty($mobile_user))
+            if(!empty($db_user))
             {
                 // id不一致则提示错误
-                if($current_user['id'] != $mobile_user['id'])
+                if($current_user['id'] != $db_user['id'])
                 {
-                    return DataReturn(MyLang('common_service.user.mobile_already_bind_account_tips'), -50);
+                    return DataReturn(MyLang('common_service.user.'.$type.'_already_bind_account_tips'), -50);
                 }
 
                 // 是否与当前帐号的手机号码一致
-                if(!empty($current_user['mobile']) && $current_user['mobile'] == $mobile_user['mobile'])
+                if(!empty($current_user[$type]) && $current_user[$type] == $db_user[$type])
                 {
-                    return DataReturn(MyLang('common_service.user.mobile_current_mobile_identical_tips'), -51);
+                    return DataReturn(MyLang('common_service.user.'.$type.'_current_mobile_identical_tips'), -51);
                 }
             }
 
             // 当前用户赋值手机帐号信息
-            $mobile_user = $current_user;
+            $db_user = $current_user;
         }
 
         // 不存在添加/则更新
-        if(empty($mobile_user))
+        if(empty($db_user))
         {
             // 如果用户不存在则新增用户状态字段
             // 是否需要审核
@@ -3042,7 +3082,7 @@ class UserService
                 $unionid = self::UserUnionidHandle($params);
                 if(!empty($unionid['field']) && !empty($unionid['value']))
                 {
-                    if(empty($mobile_user[$unionid['field']]))
+                    if(empty($db_user[$unionid['field']]))
                     {
                         // unionid放入用户data中
                         $data[$unionid['field']] = $unionid['value'];
@@ -3051,12 +3091,12 @@ class UserService
             }
 
             // 帐号信息更新
-            $ret = self::UserUpdateHandle($data, $mobile_user['id'], $params);
+            $ret = self::UserUpdateHandle($data, $db_user['id'], $params);
             if($ret['code'] != 0)
             {
                 return $ret;
             }
-            $user_id = $mobile_user['id'];
+            $user_id = $db_user['id'];
         }
         if(isset($user_id) && $user_id > 0)
         {
@@ -3088,18 +3128,47 @@ class UserService
      */
     public static function AppMobileBindVerifySend($params = [])
     {
+        return self::AppAccountsBindVerifySendHandle('mobile', $params);
+    }
+
+    /**
+     * app用户邮箱绑定验证码发送
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AppEmailBindVerifySend($params = [])
+    {
+        return self::AppAccountsBindVerifySendHandle('email', $params);
+    }
+
+    /**
+     * app用户手机或邮箱绑定验证码发送处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-03-11
+     * @desc    description
+     * @param   [string]          $type   [字段每次类型（mobile, email）]
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppAccountsBindVerifySendHandle($type, $params = [])
+    {
         // 数据验证
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'mobile',
-                'error_msg'         => MyLang('common_service.user.mobile_empty_tips'),
+                'key_name'          => $type,
+                'error_msg'         => MyLang('common_service.user.'.$type.'_empty_tips'),
             ],
             [
                 'checked_type'      => 'fun',
-                'key_name'          => 'mobile',
-                'checked_data'      => 'CheckMobile',
-                'error_msg'         => MyLang('mobile_format_error_tips'),
+                'key_name'          => $type,
+                'checked_data'      => 'Check'.ucfirst($type),
+                'error_msg'         => MyLang($type.'_format_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -3110,15 +3179,37 @@ class UserService
 
         // 验证码公共基础参数
         $verify_params = [
-            'key_prefix'    => 'user_bind_'.md5($params['mobile']),
+            'key_prefix'    => 'user_bind_'.md5($params[$type]),
             'expire_time'   => MyC('common_verify_expire_time'),
             'interval_time' => MyC('common_verify_interval_time'),
         ];
 
         // 发送验证码
-        $obj = new \base\Sms($verify_params);
         $code = GetNumberCode(4);
-        $status = $obj->SendCode($params['mobile'], $code, ConfigService::SmsTemplateValue('home_sms_user_mobile_binding_template'));
+        switch($type)
+        {
+            // 短信
+            case 'mobile' :
+                $obj = new \base\Sms($verify_params);
+                $status = $obj->SendCode($params[$type], $code, ConfigService::SmsTemplateValue('home_sms_user_mobile_binding_template'));
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                $email_params = [
+                    'email'     =>  $params[$type],
+                    'content'   =>  MyC('home_email_user_email_binding_template'),
+                    'title'     =>  MyC('home_site_name').' - '.MyLang('common_service.safety.send_verify_email_title'),
+                    'code'      =>  $code,
+                ];
+                $status = $obj->SendHtml($email_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
+        }
         if($status)
         {
             return DataReturn(MyLang('send_success'), 0);
@@ -3218,7 +3309,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,province,city,county,gender,add_time', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,gender,birthday,province,city,county,address,integral,locking_integral,add_time', 'id');
             }
 
             // 数据处理

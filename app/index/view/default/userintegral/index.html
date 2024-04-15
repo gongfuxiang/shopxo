@@ -1,11 +1,11 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/user_form" /}}
+{{extend name="../../../module/view/user_form" /}}
 
 <!-- 顶部导航内容 -->
 {{block name="form_navigation"}}
     <div class="am-background-grey-f9 am-radius-lg am-margin-bottom-main am-padding-main am-flex am-flex-items-center am-flex-justify-center">
         <div class="available am-padding-vertical-module am-flex-1 am-flex am-flex-items-center am-flex-justify-center am-divider-dashed-right">
-            <img src="{{$attachment_host}}/static/index/{{$default_theme}}/images/integral.png" alt="" width="50">
+            <img src="{{:StaticAttachmentUrl('integral.png')}}" width="50">
             <div class="am-padding-left-xs">
                 <div>{{:MyLang('userintegral.base_normal_title')}}</div>
                 <div class="am-text-xl am-font-weight">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="locking am-padding-vertical-module am-flex-1 am-flex am-flex-items-center am-flex-justify-center">
-            <img src="{{$attachment_host}}/static/index/{{$default_theme}}/images/lock.png" alt="" width="50">
+            <img src="{{:StaticAttachmentUrl('lock.png')}}" width="50">
             <div class="am-padding-left-xs">
                 <div class="am-color-grey-dark">{{:MyLang('userintegral.base_locking_title')}}</div>
                 <div class="am-text-xl am-font-weight">

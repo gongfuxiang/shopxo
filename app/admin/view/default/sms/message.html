@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -14,17 +14,17 @@
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
             <div class="nav-content">
                 <!-- table tips start -->
-                {{include file="sms/tips"" /}}
+                {{:ModuleInclude('sms/tips')}}
                 <!-- table tips end -->
                 <!-- 后台 -->
 
-                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('sms.base_item_admin_title')}}</p>
+                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('sms.base_item_admin_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.admin_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_sms_login_template.describe}}</span></label>
                     <input type="text" name="{{$data.admin_sms_login_template.only_tag}}" placeholder="{{$data.admin_sms_login_template.name}}" data-validation-message="{{$data.admin_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_sms_login_template.value}}"{{/if}} />
                 </div>
                 <!-- 前端 -->
-                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('sms.base_item_index_title')}}</p>
+                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('sms.base_item_index_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.common_sms_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_sms_currency_template.describe}}</span></label>
                     <input type="text" name="{{$data.common_sms_currency_template.only_tag}}" placeholder="{{$data.common_sms_currency_template.name}}" data-validation-message="{{$data.common_sms_currency_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_currency_template.value}}"{{/if}} />
@@ -59,4 +59,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

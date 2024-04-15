@@ -1,0 +1,59 @@
+{{if !empty($module_data['express_data']) and is_array($module_data['express_data'])}}
+    <div class="spec-inventory-list">
+        <div class="am-nbfc">
+            <span>{{$module_data['express_data'][0]['express_name']}}</span>
+            <span class="am-fr text-copy-submit">{{$module_data['express_data'][0]['express_number']}}</span>
+        </div>
+        {{if count($module_data.express_data) gt 1}}
+            <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#order-express-modal-{{$module_data.id}}', width: 800}">{{:MyLang('view_title')}}({{:count($module_data.express_data)}}) ></a>
+            <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-express-modal-{{$module_data.id}}">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">
+                        <span>{{:MyLang('common_service.order.delivery_express_info')}}</span>
+                        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                    </div>
+                    <div class="am-modal-bd">
+                        <div class="am-scrollable-horizontal">
+                            <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>{{:MyLang('order.form_table_express.name')}}</th>
+                                        <th>{{:MyLang('order.form_table_express.number')}}</th>
+                                        <th>{{:MyLang('order.form_table_express.note')}}</th>
+                                        <th>{{:MyLang('order.form_table_express.time')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{foreach $module_data.express_data as $v}}
+                                        <tr>
+                                            <td>
+                                                {{if empty($v['express_website_url'])}}
+                                                    {{if !empty($v['express_icon'])}}
+                                                        <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                    {{/if}}
+                                                    <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                                {{else /}}
+                                                    <a href="{{$v.express_website_url}}" target="_blank">
+                                                        {{if !empty($v['express_icon'])}}
+                                                            <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                        {{/if}}
+                                                        <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                                    </a>
+                                                {{/if}}
+                                            </td>
+                                            <td>
+                                                <span class="text-copy-submit">{{$v.express_number}}</span>
+                                            </td>
+                                            <td>{{$v.note}}</td>
+                                            <td>{{$v.add_time}}</td>
+                                        </tr>
+                                    {{/foreach}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -7,7 +7,7 @@
             <p><i class="am-icon-info-circle am-icon-lg am-text-xl am-text-warning"></i></p>
             <p class="am-margin-top-xs am-text-sm">{{if isset($msg)}}{{$msg}}{{else /}}{{:MyLang('operate_fail')}}{{/if}}</p>
             <p class="am-margin-top-xl">
-                <a href="javascript:history.go(-1)" class="am-text-primary">{{:MyLang('back_prev_page_name')}}</a>
+                <a href="{{if empty($url)}}javascript:history.go(-1){{else /}}{{$url}}{{/if}}" class="am-text-primary">{{:MyLang('back_prev_page_name')}}</a>
                 <span class="am-margin-left-sm"><span class="wait-time">{{if empty($wait_time)}}5{{else /}}{{$wait_time}}{{/if}}</span>{{:MyLang('back_prev_time_auto_text')}}</span>
             </p>
         </div>
@@ -16,7 +16,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 <script type="text/javascript">
     var interval = setInterval(function()
     {
@@ -24,7 +24,11 @@
         if(time <= 0)
         {
             clearInterval(interval);
-            history.go(-1);
+            {{if empty($url)}}
+                history.go(-1);
+            {{else /}}
+                window.location.href = '{{$url}}';
+            {{/if}}
         } else {
             $('.wait-time').text(time);
         }

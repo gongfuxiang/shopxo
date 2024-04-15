@@ -1,0 +1,10 @@
+<!-- 中间模块基础 -->
+{{if !empty($module_data['goods'])}}
+    <div class="item-inform am-container am-radius theme-data-edit-event" data-id="{{$module_data.goods.id}}" data-module="goods">
+        <!-- 中间模块基础左侧 -->
+        {{:ModuleInclude('goods/module/middle_base/left', ['goods'=>$module_data['goods']])}}
+
+        <!-- 中间模块基础右侧 -->
+        {{:ModuleInclude('goods/module/middle_base/right', ['goods'=>$module_data['goods']])}}
+    </div>
+{{/if}}

@@ -1,0 +1,84 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- header top nav -->
+{{:ModuleInclude('public/header_top_nav')}}
+
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'title'       => MyLang('user.forget_password_nav_title'),
+    'is_go_home'  => '1',
+    'is_sm_hide'  => '0'
+])}}
+
+<!-- conntent start  -->
+<div class="am-g theme-data-edit-event" data-module="user_forget" {{if !empty($user_forgetpwd_left_data['bg_color'])}}style="background-color:{{$user_forgetpwd_left_data.bg_color}};"{{/if}}>
+	<div class="am-container user-forgetpwd-container">
+		<div class="am-hide-sm-only am-u-md-7 am-u-lg-8 am-vertical-align am-text-center user-left-container">
+			{{if !empty($user_forgetpwd_left_data['images'])}}
+                <a {{if empty($user_forgetpwd_left_data['url'])}}href="javascript:;"{{else /}}href="{{$user_forgetpwd_left_data.url}}" target="_blank"{{/if}}>
+                    <img src="{{$user_forgetpwd_left_data.images}}" class="am-vertical-align-middle" />
+                </a>
+            {{/if}}
+		</div>
+
+        <div class="am-u-sm-12 am-u-md-5 am-u-lg-4 user-right-container">
+            <div class="user-form-container am-radius-lg am-background-white">
+                <div class="am-tabs am-margin-0 am-tabs-border user-form-content-container user-forgetpwd-content-container" data-am-tabs="{noSwipe: 1}">
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('user.forget_password_reset_title')}}</a></li>
+                    </ul>
+                    <div class="am-tabs-bd am-border-0">
+                        <div data-tab-panel-0 class="am-tab-panel am-active">
+                            <div class="user-form-container am-radius">
+                                <!-- form start -->
+                                <form class="am-form form-validation am-padding-bottom-sm" method="post" action="{{:MyUrl('index/user/forgetpwd')}}" request-type="ajax-url" request-value="{{:MyUrl('index/user/logininfo')}}">
+                                    <div class="am-form-group am-form-group-refreshing business-form-block am-form-input-material">
+                                        <input type="text" name="accounts" class="am-radius am-form-field" id="accounts" minlength="1" data-validation-message="{{:MyLang('user.form_item_mobile_email_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                        <span class="am-material-bar"></span>
+                                        <label class="am-material-label">{{:MyLang('user.form_item_mobile_email')}}</label>
+                                    </div>
+
+                                    <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-main am-form-input-material">
+                                        <input type="number" name="verify" class="am-radius am-form-field input-padding-right-max" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                        <span class="am-input-group-btn am-position-verify-sms">
+                                            <button class="am-btn am-text-sm btn-loading-example user-verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/forgetpwdverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation">{{:MyLang('form_verify_button_text')}}</button>
+                                        </span>
+                                        <span class="am-material-bar"></span>
+                                        <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
+                                    </div>
+                                    
+                                    <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-main am-form-input-material">
+                                        <input type="password" name="pwd" class="am-radius am-form-field input-padding-right-max" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="new-password" data-is-clearout="0" required />
+                                        <span class="am-input-group-btn">
+                                            <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                                        </span>
+                                        <span class="am-material-bar"></span>
+                                        <label class="am-material-label">{{:MyLang('user.form_item_password')}}</label>
+                                    </div>
+                                    
+                                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-0">
+                                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-block btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+                                    </div>
+                                </form>
+                                <!-- form end -->
+                            </div>
+                        </div>
+                        <div class="am-padding-horizontal-lg am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
+                            <div class="bottom-content am-padding-0">
+                                <span>{{:MyLang('user.forget_password_top_login_tips')}}</span>
+                                <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn-xs am-color-main">{{:MyLang('user.login_ahora_login_title')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- conntent end  -->
+
+<!-- verify win start -->
+{{:ModuleInclude('user/images_verify', ['typs'=>'user_forget'])}}
+<!-- verify win end -->
+
+{{:ModuleInclude('public/footer')}}

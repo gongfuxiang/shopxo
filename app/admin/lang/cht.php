@@ -307,11 +307,14 @@ return [
         'detail_images_title'                   => '詳情圖片',
         // 动态表格
         'form_table'                            => [
+            'id'                     => '檔案ID',
+            'cover'                  => '封面',
             'info'                   => '標題',
-            'jump_url'               => '跳轉url地址',
+            'describe'               => '描述',
             'article_category_name'  => '分類',
             'is_enable'              => '是否啟用',
             'is_home_recommended'    => '首頁推薦',
+            'jump_url'               => '跳轉url地址',
             'images_count'           => '圖片數量',
             'access_count'           => '訪問次數',
             'add_time'               => '創建時間',
@@ -737,7 +740,6 @@ return [
         // 页面公共
         'page_common'           => [
             'order_id_empty'                    => '訂單id有誤',
-            'express_choice_tips'               => '請選擇快遞管道',
             'payment_choice_tips'               => '請選擇支付方式',
         ],
         // 页面基础
@@ -745,8 +747,12 @@ return [
         'form_payment_title'                    => '支付操作',
         'form_item_take'                        => '取貨碼',
         'form_item_take_message'                => '請填寫4位數取貨碼',
+        'form_item_express_add_name'            => '添加快遞',
+        'form_item_express_choice_win_name'     => '選擇快遞',
+        'form_item_express_id'                  => '快遞管道',
         'form_item_express_number'              => '快遞單號',
-        'form_item_express_number_message'      => '請填寫快遞單號',
+        'form_item_note'                        => '備註資訊',
+        'form_item_note_message'                => '備註資訊最多200個字',
         // 地址
         'detail_user_address_title'             => '收貨地址',
         'detail_user_address_name'              => '收件人',
@@ -794,8 +800,8 @@ return [
             'payment_name'        => '支付方式',
             'user_note'           => '用戶備註',
             'extension'           => '擴展資訊',
-            'express_name'        => '快遞公司',
-            'express_number'      => '快遞單號',
+            'express'             => '快遞資訊',
+            'express_placeholder' => '請輸入快遞單號',
             'aftersale'           => '最新售後',
             'is_comments'         => '用戶是否評論',
             'confirm_time'        => '確認時間',
@@ -814,6 +820,13 @@ return [
             'buy_number_count'   => '商品總數',
             'refund_price'       => '退款金額',
             'returned_quantity'  => '退貨數量',
+        ],
+        // 快递表格
+        'form_table_express'                    => [
+            'name'    => '快遞公司',
+            'number'  => '快遞單號',
+            'note'    => '快遞備註',
+            'time'    => '發貨時間',
         ],
     ],
 
@@ -912,7 +925,7 @@ return [
     ],
 
     // 主题管理
-    'theme'                 => [
+    'themeadmin'            => [
         'base_nav_list'                         => [
             ['name' => '當前主題', 'type' => 'index'],
             ['name' => '主題安裝', 'type' => 'upload'],
@@ -922,6 +935,26 @@ return [
         'list_author_title'                     => '作者',
         'list_version_title'                    => '適用版本',
         'form_theme_upload_tips'                => '上傳一個zip壓縮格式的主題安裝包',
+    ],
+
+    // 主题数据
+    'themedata'             => [
+        'base_nav_title'                        => '主題數據',
+        'upload_list_tips'                      => [
+            '1.選擇已下載的主題數據zip包',
+            '2.導入將自動新增一條數據',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'unique'    => '唯一標識',
+            'name'      => '名稱',
+            'type'      => '資料類型',
+            'theme'     => '主題',
+            'view'      => '頁面',
+            'is_enable' => '是否啟用',
+            'add_time'  => '添加時間',
+            'upd_time'  => '更新時間',
+        ],
     ],
 
     // 用户中心导航
@@ -1434,11 +1467,17 @@ return [
                 'link_delete'              => '友情連結删除',
                 'link_statusupdate'        => '友情連結狀態更新',
                 'link_detail'              => '友情連結詳情',
-                'theme_index'              => '主題管理',
-                'theme_save'               => '主題管理添加/編輯',
-                'theme_upload'             => '主題上傳安裝',
-                'theme_delete'             => '主題删除',
-                'theme_download'           => '主題下載',
+                'themeadmin_index'         => '主題管理',
+                'themeadmin_save'          => '主題管理添加/編輯',
+                'themeadmin_upload'        => '主題上傳安裝',
+                'themeadmin_delete'        => '主題删除',
+                'themeadmin_download'      => '主題下載',
+                'themedata_index'          => '主題數據',
+                'themedata_saveinfo'       => '主題數據添加/編輯頁面',
+                'themedata_save'           => '主題數據添加/編輯',
+                'themedata_upload'         => '主題數據上傳',
+                'themedata_delete'         => '主題數據删除',
+                'themedata_download'       => '主題數據下載',
                 'slide_index'              => '首頁輪播',
                 'slide_saveinfo'           => '輪播添加/編輯頁面',
                 'slide_save'               => '輪播添加/編輯',

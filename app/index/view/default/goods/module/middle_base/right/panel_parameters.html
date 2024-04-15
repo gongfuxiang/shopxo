@@ -1,0 +1,11 @@
+<!-- 右侧基础面板基础参数模块 -->
+{{if !empty($module_data['goods']) and !empty($module_data['goods']['parameters']) and !empty($module_data['goods']['parameters']['base'])}}
+    <ul class="parameters-content parameters-base am-margin-top-sm">
+        {{foreach $module_data.goods.parameters.base as $v}}
+            <li class="am-text-truncate">
+                <span>{{$v.name}}:</span>
+                <span>{{$v.value}}</span>
+            </li>
+        {{/foreach}}
+    </ul>
+{{/if}}

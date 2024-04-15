@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -17,11 +17,13 @@
     ])}}
     <div class="detail-content-switch-data-item">
         <!-- 父级内容 -->
-        {__block__}
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
 
         <!-- 商品参数 -->
         <div class="item" data-key="goodsparamstemplate-detail_params_title">
-            {{include file="public/goodsparamstemplate/detail" /}}
+            {{:ModuleInclude('public/goodsparamstemplate/detail')}}
         </div>
     </div>
 {{/block}}

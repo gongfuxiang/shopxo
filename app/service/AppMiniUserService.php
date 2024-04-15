@@ -941,7 +941,7 @@ class AppMiniUserService
         }
         if(empty($mobile))
         {
-            return DataReturn(MyLang('common_service.appminiuser.mobile_empty_tips'), -1);
+            return DataReturn(MyLang('common_service.user.mobile_empty_tips'), -1);
         }
 
         // 用户信息处理

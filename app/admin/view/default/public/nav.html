@@ -1,4 +1,12 @@
 <header class="am-topbar am-topbar-inverse admin-header">
+    <!-- logo/名称信息 -->
+    {{if !empty($admin_logo)}}
+        <a href="{{:MyUrl('admin/index/index')}}" class="nav-logo am-fl am-block am-nbfc am-show-sm-only">
+            <img src="{{$admin_logo}}" class="am-fl" />
+            <span class="admin-site-vice-name am-fl am-margin-left-xs">{{:MyLang('common.admin_browser_title')}}</span>
+        </a>
+    {{/if}}
+
     <div class="header-top">
         <!-- 手机模式下导航按钮 -->
         <button
@@ -12,7 +20,7 @@
             <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-right-list">
                 <!-- 语言切换 -->
                 {{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
-                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                    <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                         <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
                             <i class="iconfont icon-language"></i>
                             <span class="am-show-sm-only">{{:MyLang('lang_title')}}[{{$multilingual_data.default.name}}]</span>
@@ -34,7 +42,7 @@
 
                 <!-- 主题配色切换 -->
                 {{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data['data']) and !empty($theme_color_choice_data['theme']) and !empty($theme_color_choice_data['value'])}}
-                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                    <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                         <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
                             <i class="iconfont icon-theme"></i>
                             <span class="am-show-sm-only">{{:MyLang('color_matching_title')}}[{{$theme_color_choice_data.theme}}]</span>
@@ -80,19 +88,19 @@
 
                 <!-- 后台公告 -->
                 {{if !empty($admin_notice)}}
-                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                    <li class="am-dropdown" data-am-dropdown>
                         <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
                             <i class="iconfont icon-notice"></i>
                             <span class="am-show-sm-only">{{:MyLang('notice_title')}}</span>
                         </a>
-                        <div class="am-dropdown-content am-radius-lg cr-333 notice-width">
+                        <div class="am-dropdown-content am-radius-lg am-color-333 notice-width">
                             <p>{{$admin_notice|raw}}</p>
                         </div>
                     </li>
                 {{/if}}
 
                 <!-- 管理员设置 -->
-                <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                     <a class="am-dropdown-toggle" href="javascript:;">{{$admin.username}}</a>
                     <ul class="am-dropdown-content am-radius-lg">
                         <li>
@@ -124,25 +132,25 @@
             <ul class="am-dropdown-content am-radius-lg">
                 <li>
                     <a href="javascript:;" data-key="nav-refresh">
-                        <i class="iconfont icon-nav-refresh cr-666"></i>
+                        <i class="iconfont icon-nav-refresh am-color-666"></i>
                         <span>{{:MyLang('refresh_title')}}</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:;" data-key="nav-close">
-                        <i class="iconfont icon-nav-close cr-666"></i>
+                        <i class="iconfont icon-nav-close am-color-666"></i>
                         <span>{{:MyLang('close_title')}}</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:;" data-key="nav-close-other">
-                        <i class="iconfont icon-nav-close-other cr-666"></i>
+                        <i class="iconfont icon-nav-close-other am-color-666"></i>
                         <span>{{:MyLang('close_other_title')}}</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:;" data-key="nav-close-all">
-                        <i class="iconfont icon-nav-close-all cr-666"></i>
+                        <i class="iconfont icon-nav-close-all am-color-666"></i>
                         <span>{{:MyLang('close_all_title')}}</span>
                     </a>
                 </li>

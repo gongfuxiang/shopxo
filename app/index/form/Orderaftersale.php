@@ -263,6 +263,7 @@ class OrderAftersale
                 'detail_action'     => [],
                 'table_name'        => 'OrderAftersale',
                 'data_handle'       => 'OrderAftersaleService::OrderAftersaleListHandle',
+                'detail_where'      => $this->condition_base,
                 'is_page'           => 1,
                 'data_params'       => [
                     'is_public' => 0,

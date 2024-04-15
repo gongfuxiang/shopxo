@@ -1,13 +1,13 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- header simple nav -->
 {{:ModuleInclude('public/header_nav_simple')}}
 
 <!-- 面包屑导航 -->
-{{include file="public/breadcrumb_data" /}}
+{{:ModuleInclude('public/breadcrumb_data')}}
 
 <!-- content -->
 <div class="am-container user-main am-margin-top-0 am-background-white am-radius-lg">
@@ -233,17 +233,17 @@
                     </div>
 
                     <!-- 步骤 -->
-                    {{include file="orderaftersale/step" /}}
+                    {{:ModuleInclude('orderaftersale/step')}}
 
                     <!-- 表单 -->
                     <div class="am-panel am-panel-default aftersale-form-panel none">
                         <div class="am-panel-bd">
-                            {{include file="orderaftersale/create" /}}
+                            {{:ModuleInclude('orderaftersale/create')}}
                         </div>
                     </div>
                 {{else /}}
                     <!-- 步骤 -->
-                    {{include file="orderaftersale/step" /}}
+                    {{:ModuleInclude('orderaftersale/step')}}
                 {{/if}}
 
                 <!-- 用户订单售后详情基础信息顶部-开始 -->
@@ -284,7 +284,7 @@
                                                 <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-top submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$new_aftersale_data.id}}" data-view="reload">
                                                     {{:MyLang('orderaftersale.withdraw_title')}}
                                                 </button>
-                                                {{include file="orderaftersale/delivery" /}}
+                                                {{:ModuleInclude('orderaftersale/delivery')}}
                                             {{else /}}
                                                 <h1 class="am-text-xl am-font-weight">{{$new_aftersale_data.tips_msg.title}}</h1>
                                                 <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$new_aftersale_data.tips_msg.desc}}</p>
@@ -357,9 +357,9 @@
                                                 <a href="{{$goods.goods_url}}" target="_blank">
                                                     <img src="{{$goods.images}}" width="80" height="80" class="am-radius am-border-grey">
                                                 </a>
-                                                <div class="am-margin-left am-relative am-text-xs am-width">
+                                                <div class="am-margin-left am-pr am-text-xs am-width">
                                                     <a href="{{$goods.goods_url}}" target="_blank" class="am-text-truncate-2 am-text-sm">{{$goods.title}}</a>
-                                                    <div class="am-absolute am-bottom-0">
+                                                    <div class="am-pa am-bottom-0">
                                                         {{if !empty($goods.spec_text)}}
                                                             <div class="am-text-truncate am-color-grey">{{$goods.spec_text}}</div>
                                                         {{/if}}
@@ -538,4 +538,4 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

@@ -151,6 +151,32 @@ class User extends Common
     }
 
     /**
+     * app用户邮箱绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function AppEmailBind()
+    {
+        return ApiService::ApiDataReturn(UserService::AppEmailBind($this->data_request));
+    }
+
+    /**
+     * app用户邮箱绑定-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function AppEmailBindVerifySend()
+    {
+        return ApiService::ApiDataReturn(UserService::AppEmailBindVerifySend($this->data_request));
+    }
+
+    /**
      * 用户-验证码显示
      * @author  Devil
      * @blog    http://gong.gg/

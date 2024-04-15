@@ -239,7 +239,7 @@ class GoodsFavorService
     public static function GoodsFavorList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? 'f.*, g.title, g.original_price, g.price, g.min_price, g.images' : $params['field'];
+        $field = empty($params['field']) ? 'f.*, g.title, g.original_price, g.price, g.min_price, g.images, g.inventory_unit' : $params['field'];
         $order_by = empty($params['order_by']) ? 'f.id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;

@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -46,7 +46,7 @@
                                     {{else /}}
                                         <input type="text" name="admin_logo" value="{{$data.admin_logo.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.admin_logo.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -91,7 +91,7 @@
                                     {{else /}}
                                         <input type="text" name="admin_login_logo" value="{{$data.admin_login_logo.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.admin_login_logo.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -108,7 +108,7 @@
                                     {{else /}}
                                         <input type="text" name="admin_login_ad_images" value="{{$data.admin_login_ad_images.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.admin_login_ad_images.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -257,4 +257,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

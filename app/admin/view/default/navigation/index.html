@@ -1,17 +1,18 @@
-<!-- content nav start -->
 {{block name="form_content_top"}}
     <!-- nav start -->
-    {{:ModuleInclude('public/nav_switch_tabs', [
-        'nav_data'  => $nav_data,
-        'nav_type'  => $nav_type,
-        'url'       => 'admin/navigation/index'
-    ])}}
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+        {{:ModuleInclude('public/nav_switch_tabs', [
+            'nav_data'  => $nav_data,
+            'nav_type'  => $nav_type,
+            'url'       => 'admin/navigation/index'
+        ])}}
+    {{/if}}
     <!-- nav end -->
 {{/block}}
-<!-- content nav end -->
+
 
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -22,7 +23,7 @@
     			<li>
                     <a href="javascript:;" class="am-text-primary am-text-left submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> 
                         <i class="iconfont icon-btn-add"></i>
-                        {{$v}}
+                        <span>{{$v}}</span>
                     </a>
     			</li>
             {{/foreach}}
@@ -62,9 +63,9 @@
                         <label>{{:MyLang('common_service.navigation.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="url" placeholder="{{:MyLang('common_service.navigation.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.navigation.form_item_url_message')}}" class="am-radius" required />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_show_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_show_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="custom" />
@@ -123,9 +124,9 @@
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_show_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_show_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="article" />
@@ -179,9 +180,9 @@
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_show_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_show_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="customview" />
@@ -244,9 +245,9 @@
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_show_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_show_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="goods_category" />
@@ -299,9 +300,9 @@
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_show_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_show_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="design" />

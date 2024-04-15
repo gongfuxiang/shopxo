@@ -65,6 +65,7 @@ class Index extends Common
 		if(!empty($this->data_request['to_url']))
 		{
 			$to_url = base64_decode(urldecode($this->data_request['to_url']));
+            MyViewAssign('appoint_to_url', 1);
 		}
 		MyViewAssign('to_url', $to_url);
 		return MyView();

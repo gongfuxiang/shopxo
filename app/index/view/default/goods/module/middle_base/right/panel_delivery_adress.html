@@ -1,0 +1,47 @@
+<!-- 右侧基础面板配送地址模块 -->
+{{if !empty($module_data['goods'])}}
+    <!-- v3.0.0计划新增，暂时还没做功能，先隐藏了！ -->
+    <!-- <dl class="buy-addr-info-container am-margin-top-sm am-padding-left-main">
+        <dt><div class="addr-title">配送</div></dt>
+        <dd>
+            <div id="doc-dropdown-justify" class="addr-drop">
+                <div id="doc-dropdown-js" class="am-dropdown" data-am-dropdown="{justify: '#doc-dropdown-justify'}">
+                    <a class="am-dropdown-toggle">杭州至上海浦东新区 <span class="am-icon-caret-down"></span></a>
+                    <div class="am-dropdown-content am-radius addr-content">
+                        <div class="addr-drop-title">
+                            <i class="iconfont icon-time"></i>
+                            <p>选择收货地址</p>
+                            <a>添加地址</a>
+                            <button type="button" class="am-close" id="doc-dropdown-close">&times;</button>
+                        </div>
+                        <div class="addr-drop-content am-padding-top-sm">
+                            <div class="addr-list am-margin-top-sm">
+                                <div class="addr-list-title">
+                                    <span class="addr-default" disabled>默认</span>
+                                    <p class="addr-name">张三</p>
+                                    <p class="addr-phone">18356672443</p>
+                                    <div class="addr-list-addr">上海市黄埔区黄埔街道xx小区1233号</div>
+                                </div>
+                            </div>
+                            <div class="addr-list am-margin-top-sm">
+                                <div class="addr-list-title">
+                                    <span class="addr-default" disabled>默认</span>
+                                    <p class="addr-name">张三</p>
+                                    <p class="addr-phone">18356672443</p>
+                                    <div class="addr-list-addr">上海市黄埔区黄埔街道xx小区1233号</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="addr-drop-content no-address-flex">
+                            {{:ModuleInclude('public/not_data', [
+                                'msg'         => '目前还没有添加地址哦～',
+                                'icon'        => StaticAttachmentUrl('no-address.png'),
+                            ])}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dd>
+        <dd>快递免运费</dd>
+    </dl> -->
+{{/if}}

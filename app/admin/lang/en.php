@@ -302,13 +302,19 @@ return [
 
     // 文章
     'article'               => [
+        'base_nav_title'                        => 'Article',
+        'detail_content_title'                  => 'DetailContent',
+        'detail_images_title'                   => 'DetailImages',
         // 动态表格
         'form_table'                            => [
+            'id'                     => 'ArticleID',
+            'cover'                  => 'Cover',
             'info'                   => 'Title',
-            'jump_url'               => 'Jump Url',
+            'describe'               => 'Describe',
             'article_category_name'  => 'Category',
             'is_enable'              => 'Enable or not',
             'is_home_recommended'    => 'HomePage recommend',
+            'jump_url'               => 'Jump Url',
             'images_count'           => 'Images Count',
             'access_count'           => 'Access Count',
             'add_time'               => 'Creation Time',
@@ -752,7 +758,6 @@ return [
         // 页面公共
         'page_common'           => [
             'order_id_empty'                    => 'Wrong order ID',
-            'express_choice_tips'               => 'Please select express delivery method',
             'payment_choice_tips'               => 'Please select payment method',
         ],
         // 页面基础
@@ -760,8 +765,12 @@ return [
         'form_payment_title'                    => 'Payment Operation',
         'form_item_take'                        => 'Take Code',
         'form_item_take_message'                => 'Please fill in the 4-digit pickup code',
+        'form_item_express_add_name'            => 'Add express delivery',
+        'form_item_express_choice_win_name'     => 'Choose express delivery',
+        'form_item_express_id'                  => 'Express delivery method',
         'form_item_express_number'              => 'Express Number',
-        'form_item_express_number_message'      => 'Please fill in the express bill number',
+        'form_item_note'                        => 'memo',
+        'form_item_note_message'                => 'Note information can be up to 200 characters long',
         // 地址
         'detail_user_address_title'             => 'Shipping Address',
         'detail_user_address_name'              => 'Receiving Name',
@@ -809,8 +818,8 @@ return [
             'payment_name'        => 'Payment Type',
             'user_note'           => 'User Note',
             'extension'           => 'Extendeds Info',
-            'express_name'        => 'Express Name',
-            'express_number'      => 'Express Number',
+            'express'             => 'Express Info',
+            'express_placeholder' => 'Please enter Express Number',
             'aftersale'           => 'New Aftersale',
             'is_comments'         => 'Whether the user comment',
             'confirm_time'        => 'Confirm Time',
@@ -829,6 +838,13 @@ return [
             'buy_number_count'      => 'GoodsNumber',
             'refund_price'          => 'RefundAmount',
             'returned_quantity'     => 'RefundNumber',
+        ],
+        // 快递表格
+        'form_table_express'                    => [
+            'name'    => 'express company',
+            'number'  => 'express number',
+            'note'    => 'express note',
+            'time'    => 'delivery time',
         ],
     ],
 
@@ -927,7 +943,7 @@ return [
     ],
 
     // 主题管理
-    'theme'                 => [
+    'themeadmin'            => [
         'base_nav_list'                         => [
             ['name' => 'Current Theme', 'type' => 'index'],
             ['name' => 'Theme Install', 'type' => 'upload'],
@@ -937,6 +953,26 @@ return [
         'list_author_title'                     => 'Author',
         'list_version_title'                    => 'Applicable Version',
         'form_theme_upload_tips'                => 'Upload a zip compressed theme installation package',
+    ],
+
+    // 主题数据
+    'themedata'             => [
+        'base_nav_title'                        => 'Theme data',
+        'upload_list_tips'                      => [
+            '1. Select the downloaded theme data zip package',
+            '2. Importing will automatically add a new piece of data',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'unique'    => 'Unique',
+            'name'      => 'Name',
+            'type'      => 'Data type',
+            'theme'     => 'Theme',
+            'view'      => 'Page',
+            'is_enable' => 'Enable or not',
+            'add_time'  => 'Add time',
+            'upd_time'  => 'Update time',
+        ],
     ],
 
     // 用户中心导航
@@ -1449,11 +1485,17 @@ return [
                 'link_delete'              => 'Link delete',
                 'link_statusupdate'        => 'Link status update',
                 'link_detail'              => 'Link details',
-                'theme_index'              => 'Theme admin',
-                'theme_save'               => 'Topic admin add/edit',
-                'theme_upload'             => 'Theme upload and installation',
-                'theme_delete'             => 'Subject delete',
-                'theme_download'           => 'Theme download',
+                'themeadmin_index'         => 'Theme admin',
+                'themeadmin_save'          => 'Theme admin add/edit',
+                'themeadmin_upload'        => 'Theme upload and installation',
+                'themeadmin_delete'        => 'Theme delete',
+                'themeadmin_download'      => 'Theme download',
+                'themedata_index'          => 'Theme data',
+                'themedata_saveinfo'       => 'Theme data add/edit page',
+                'themedata_save'           => 'Theme data add/edit',
+                'themedata_upload'         => 'Theme data upload',
+                'themedata_delete'         => 'Theme data delete',
+                'themedata_download'       => 'Theme data download',
                 'slide_index'              => 'HomePage Slide',
                 'slide_saveinfo'           => 'Carousel add/edit page',
                 'slide_save'               => 'Carousel add/edit',

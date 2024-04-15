@@ -1,7 +1,7 @@
-<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}{{if !empty($vs['config']['style_background_images'])}}background-image:url({{$vs.config.style_background_images}});{{/if}}">
+<div class="layout-content-container {{if !empty($module_data['vs']['config']) and !empty($module_data['vs']['config']['frontend_config'])}}{{$module_data.vs.config.frontend_config.ent}}{{/if}}" style="{{if !empty($module_data['vs']['config']) and !empty($module_data['vs']['config']['frontend_config'])}}{{$module_data.vs.config.frontend_config.style}}{{/if}}{{if !empty($module_data['vs']['config']['style_background_images'])}}background-image:url({{$module_data.vs.config.style_background_images}});{{/if}}">
     <div class="layout-content">
-        {{if !empty($vs['children']) and is_array($vs['children'])}}
-            {{foreach $vs.children as $kss=>$vss}}
+        {{if !empty($module_data['vs']['children']) and is_array($module_data['vs']['children'])}}
+            {{foreach $module_data.vs.children as $kss=>$vss}}
                 <div class="module-view">
                     <div class="module-content">
                         {{if !empty($vss['config'])}}

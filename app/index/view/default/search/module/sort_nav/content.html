@@ -1,0 +1,13 @@
+<!-- 搜索排序条件内容模块 -->
+{{if !empty($module_data['map_order_by_list'])}}
+    {{foreach $module_data.map_order_by_list as $k=>$v}}
+        <li class="{{if $v['is_active'] eq 1}}active{{/if}}">
+            <a href="{{$v.url}}">
+                <span>{{$v.name}}</span>
+                {{if $v['type'] neq 'default'}}
+                    <i class="am-icon-long-arrow-{{if $v['value'] eq 'asc' or $v['is_active'] eq 0}}down{{else /}}up{{/if}}"></i>
+                {{/if}}
+            </a>
+        </li>
+    {{/foreach}}
+{{/if}}

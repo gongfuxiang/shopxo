@@ -1,14 +1,14 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 内容顶部 -->
 {{block name="form_content_top"}}
-    {{include file="appmini/nav" /}}
+    {{:ModuleInclude('appmini/nav')}}
 {{/block}}
 
 <!-- 导航 -->
 {{block name="form_navigation"}}
-    {{include file="appmini/base_nav" /}}
+    {{:ModuleInclude('appmini/base_nav')}}
     <!-- 新版本小程序主题提示 -->
     <div class="am-alert am-alert-warning am-radius">
         <p class="am-text-sm">{{:MyLang('appmini.nav_theme_download_tips')}}</p>

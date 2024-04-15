@@ -1,11 +1,11 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- nav start -->
-{{include file="public/nav" /}}
+{{:ModuleInclude('public/nav')}}
 <!-- nav end -->
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- header simple nav -->
 {{:ModuleInclude('public/header_nav_simple', [
@@ -15,7 +15,7 @@
 <!-- content -->
 <div class="am-container user-main user-center">
     <!-- user menu start -->
-    {{include file="public/user_menu" /}}
+    {{:ModuleInclude('public/user_menu')}}
     <!-- user menu end -->
 
     <!-- content start -->
@@ -36,7 +36,7 @@
             {{/if}}
 
             <!-- 基础信息 -->
-            <div class="user-base am-radius">
+            <div class="user-base am-radius" style="--background-image: url({{:StaticAttachmentUrl('user-member-top-bg.png')}})">
                 <div class="user-base-left">
                     <div class="user-avatar">
                         <img src="{{$user.avatar}}" class="avatar" />
@@ -87,14 +87,11 @@
                 <!-- 订单信息 -->
                 <div class="order-nav">
                     <a href="{{:MyUrl('index/order/index')}}">
-                        <span class="nav-name">
-                            <i class="order-icon"></i>
-                            <span>{{:MyLang('user.order_nav_title')}}</span>
-                        </span>
-                        <span class="am-fr icon-tips">
-                            <span>{{:MyLang('user.order_nav_angle_title')}}</span>
-                            <i class="am-icon-angle-right"></i>
-                        </span>
+                        <span class="am-title-left-border">{{:MyLang('user.order_nav_title')}}</span>
+                    </a>
+                    <a href="{{:MyUrl('index/order/index')}}" class="am-fr am-text-grey">
+                        <span>{{:MyLang('user.order_nav_angle_title')}}</span>
+                        <i class="am-icon-angle-right"></i>
                     </a>
                 </div>
                 {{if !empty($user_order_status)}}
@@ -103,6 +100,17 @@
                             {{if in_array($v['status'], [1,2,3])}}
                                 <li>
                                     <a href="{{:MyUrl('index/order/index', [$form_search_order_status_form_key=>$v['status']])}}">
+                                        {{switch $v.status}}
+                                            {{case 1}}
+                                                <i class="iconfont icon-wait-payment"></i>
+                                            {{/case}}
+                                            {{case 2}}
+                                                <i class="iconfont icon-wait-delivery"></i>
+                                            {{/case}}
+                                            {{case 3}}
+                                                <i class="iconfont icon-wait-receive-delivery"></i>
+                                            {{/case}}
+                                        {{/switch}}
                                         <i class="icon-{{$v.status}}"></i>
                                         <p>{{$v.name}}</p>
                                         {{if !empty($v.count)}}
@@ -113,7 +121,7 @@
                             {{elseif in_array($v['status'], [100]) /}}
                                 <li>
                                     <a href="{{:MyUrl('index/order/index', [$form_search_order_status_form_key=>4, $form_search_order_user_is_comments_form_key=>0])}}">
-                                        <i class="icon-{{$v.status}}"></i>
+                                        <i class="iconfont icon-wait-comment"></i>
                                         <p>{{$v.name}}</p>
                                         {{if !empty($v.count)}}
                                             <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
@@ -123,7 +131,7 @@
                             {{elseif in_array($v['status'], [101]) /}}
                                 <li>
                                     <a href="{{:MyUrl('index/orderaftersale/index')}}">
-                                        <i class="icon-{{$v.status}}"></i>
+                                        <i class="iconfont icon-refund-aftersales"></i>
                                         <p>{{$v.name}}</p>
                                         {{if !empty($v.count)}}
                                             <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
@@ -171,7 +179,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_transaction_title')}}</span>
                                 {{if !empty($order_list)}}
-                                    <a class="am-fr more-tips" href="{{:MyUrl('index/order/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/order/index')}}" target="_blank">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="am-icon-angle-right"></span>
                                     </a>
@@ -230,7 +238,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_cart_title')}}</span>
                                 {{if !empty($cart_list)}}
-                                    <a class="am-fr more-tips" href="{{:MyUrl('index/cart/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/cart/index')}}" target="_blank">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="am-icon-angle-right"></span>
                                     </a>
@@ -274,7 +282,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_favor_title')}}</span>
                                 {{if !empty($goods_favor_list)}}
-                                    <a class="am-fr more-tips" href="{{:MyUrl('index/usergoodsfavor/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsfavor/index')}}" target="_blank">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="am-icon-angle-right"></span>
                                     </a>
@@ -313,7 +321,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_browse_title')}}</span>
                                 {{if !empty($goods_browse_list)}}
-                                    <a class="am-fr more-tips" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="am-icon-angle-right"></span>
                                     </a>
@@ -380,4 +388,4 @@
     <!-- content end -->
 </div>
 
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

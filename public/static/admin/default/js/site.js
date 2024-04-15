@@ -154,7 +154,7 @@ $(function () {
             html += '';
             html += '<input type="text" name="logo" value="' + item.logo + '" data-validation-message="' + (window['lang_address_logo_message'] || '请上传logo图片') + '" required />';
             html += '<img src="' + item.logo + '" alt="' + item.name + '" />';
-            html += '<i>×</i>';
+            html += '<i class="iconfont icon-close"></i>';
         } else {
             html += '<i class="iconfont icon-upload-add"></i>';
         }
@@ -292,7 +292,7 @@ $(function () {
         var height = $(window).height();
         if (width >= 630 && height >= 630) {
             var $parent = $(this).parents('.am-popup');
-            if ($parent.hasClass('popup-full')) {
+            if ($parent.hasClass('am-popup-full')) {
                 $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
             } else {
                 $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');

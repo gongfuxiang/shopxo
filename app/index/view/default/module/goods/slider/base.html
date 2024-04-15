@@ -32,7 +32,7 @@
             <div class="am-slider am-slider-default" data-am-flexslider='{"animation":"slide","controlNav":{{if !isset($module_data['is_control_nav']) or $module_data['is_control_nav'] eq 1}}true{{else /}}false{{/if}},"slideshow":{{if isset($module_data['is_auto_play']) and $module_data['is_auto_play'] eq 1}}true{{else /}}false{{/if}},"slideshowSpeed":4000,"animationSpeed":2000,itemWidth: {{if empty($module_data['item_width'])}}212{{else /}}{{$module_data.item_width}}{{/if}}, itemMargin: {{if empty($module_data['item_margin'])}}25{{else /}}{{$module_data.item_margin}}{{/if}}}'>
                 <ul class="am-slides am-gallery-overlay multigraph-discolour">
                     {{foreach $module_data.goods_list as $v}}
-                        <li>
+                        <li class="theme-data-edit-event" data-id="{{$v.id}}" data-module="goods">
                             <!-- 商品信息顶部钩子 -->
                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
@@ -81,9 +81,15 @@
 
                             <div class="item-bottom am-margin-top-xs">
                                 <p class="am-text-truncate price">
-                                    <strong>{{$currency_symbol}}<span class="sales-price">{{$v.min_price}}</span></strong>
-                                    {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
-                                        <span class="original-price am-text-truncate">{{$currency_symbol}}{{$v.min_original_price}}</span>
+                                    {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
+                                        <strong>{{$v.show_price_symbol}}<span class="sales-price">{{$v.min_price}}</span></strong>
+                                        <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                                    {{/if}}
+
+                                    {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
+                                        {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                            <span class="original-price am-text-truncate">{{$v.show_original_price_symbol}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</span>
+                                        {{/if}}
                                     {{/if}}
                                 </p>
                             </div>

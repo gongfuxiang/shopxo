@@ -1,8 +1,8 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
-    <div class="content bk-cr-white am-padding-0">
+    <div class="content bk-am-color-white am-padding-0">
         <!-- form start -->
         <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/shortcutmenu/save')}}" method="POST" request-type="ajax-fun" request-value="ShortCutMenuFormSaveBack" enctype="multipart/form-data">
             <div class="shortcut-menu-sort am-flex-1 am-flex am-flex-col am-flex-warp am-padding">
@@ -13,8 +13,8 @@
                     {{if !empty($data)}}
                         {{foreach $data as $v}}
                             <li class="item" data-id="{{$v.id}}" data-json="{{:urlencode(base64_encode(json_encode($v)))}}">
-                                <div class="am-relative">
-                                    <i class="iconfont icon-close am-relative z-i"></i>
+                                <div class="am-pr">
+                                    <i class="iconfont icon-close am-pr z-i"></i>
                                     <img class="am-radius" src="{{$v.icon}}" width="46" height="46">
                                 </div>
                                 <span>{{$v.name}}</span>
@@ -22,8 +22,8 @@
                         {{/foreach}}
                     {{/if}}
                     <li class="add-menu am-cursor-pointer {{if count($data) egt 9}}am-hide{{/if}}">
-                        <div class="am-relative">
-                            <img class="am-radius" src="{{$attachment_host}}/static/common/images/add-icon.png" width="46" height="46">
+                        <div class="am-pr">
+                            <img class="am-radius" src="{{:StaticAttachmentUrl('add-icon.png')}}" width="46" height="46">
                         </div>
                         <span>{{:MyLang('add_title')}}</span>
                     </li>
@@ -31,7 +31,7 @@
             </div>
             <div class="shortcut-menu-form am-flex-1 am-flex am-flex-col am-flex-justify-between am-padding">
                 <div class="am-flex-1">
-                    <div class="am-font-weight am-text-sm cr-333 am-margin-bottom-lg form-base-title" data-base-title="{{:MyLang('common_service.shortcutmenu.form_base_title')}}" data-add-title="{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('edit_title')}}">{{:MyLang('common_service.shortcutmenu.form_base_title')}}{{:MyLang('add_title')}}</div>
+                    <div class="am-font-weight am-text-sm am-color-333 am-margin-bottom-lg form-base-title" data-base-title="{{:MyLang('common_service.shortcutmenu.form_base_title')}}" data-add-title="{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('edit_title')}}">{{:MyLang('common_service.shortcutmenu.form_base_title')}}{{:MyLang('add_title')}}</div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.shortcutmenu.form_item_menu_or_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <div class="address-group am-flex am-flex-items-center am-gap-1 am-width">
@@ -94,7 +94,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
     // 回调处理

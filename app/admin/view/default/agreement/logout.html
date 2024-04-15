@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -14,7 +14,7 @@
         <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$type])}}">
             <div class="nav-content">
                 <!-- table tips start -->
-                {{include file="agreement/tips" /}}
+                {{:ModuleInclude('agreement/tips')}}
                 <!-- table tips end -->
                 <div class="am-form-group">
                     <div class="am-flex am-flex-justify-between am-flex-items-center">
@@ -40,4 +40,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

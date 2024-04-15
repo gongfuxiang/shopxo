@@ -329,5 +329,64 @@ class BreadcrumbService
         }
         return $result;
     }
+
+    /**
+     * 文章分类
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-07-20
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ArticleCategory($params = [])
+    {
+        $result = [];
+        if(!empty($params['category_info']))
+        {
+            // 当前文章分类名称
+            $result[] = [
+                'type'  => 0,
+                'name'  => $params['category_info']['name'],
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * 文章详情
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-07-20
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ArticleDetail($params = [])
+    {
+        $result = [];
+        if(!empty($params['article']))
+        {
+            // 文章分类
+            if(!empty($params['article']['article_category_id']))
+            {
+                $category_name = Db::name('ArticleCategory')->where(['id'=>$params['article']['article_category_id']])->value('name');
+                if(!empty($category_name))
+                {
+                    $result[] = [
+                        'type'  => 0,
+                        'name'  => $category_name,
+                        'url'   => MyUrl('index/article/category', ['id'=>$params['article']['article_category_id']]),
+                    ];
+                }
+            }
+            // 当前文章名称
+            $result[] = [
+                'type'  => 0,
+                'name'  => $params['article']['title'],
+            ];
+        }
+        return $result;
+    }
 }
 ?>

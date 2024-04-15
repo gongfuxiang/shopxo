@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 扩展 -->
 {{block name="form_extend"}}
@@ -45,60 +45,6 @@
         </div>
     </div>
 
-    <!-- 发货弹窗 -->
-    <div class="am-popup am-radius" id="order-delivery-popup">
-        <div class="am-popup-inner">
-            <div class="am-popup-hd">
-                <h4 class="am-popup-title">{{:MyLang('order.form_delivery_title')}}</h4>
-                <span data-am-modal-close class="am-close">&times;</span>
-            </div>
-            <div class="am-popup-bd">
-                <form class="am-form form-validation-delivery am-form-popup-fixed" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
-                    <div class="business-list business-list-nbfc">
-                        {{if !empty($express_list)}}
-                            <ul class="am-avg-sm-2 am-avg-md-3 express-list" data-type="express">
-                                {{foreach $express_list as $express}}
-                                    {{if $express.is_enable eq 1}}
-                                        <li class="am-padding-sm" data-value="{{$express.id}}">
-                                            <div class="business-item am-nbfc am-padding-sm am-radius">
-                                                {{if !empty($express.icon)}}
-                                                    <img src="{{$express.icon}}" class="am-radius" />
-                                                {{/if}}
-                                                <span>{{$express.name}}</span>
-                                                <i class="iconfont icon-subscript"></i>
-                                            </div>
-                                        </li>
-                                    {{/if}}
-                                {{/foreach}}
-                            </ul>
-                        {{else /}}
-                            {{include file="public/not_data" /}}
-                        {{/if}}
-                    </div>
-
-                    <div class="am-margin-top-sm">
-                        <label>{{:MyLang('order.form_item_express_number')}}</label>
-                        <input type="text" autocomplete="off" name="express_number" placeholder="{{:MyLang('order.form_item_express_number')}}" minlength="1" data-validation-message="{{:MyLang('order.form_item_express_number_message')}}" class="am-radius" required />
-                    </div>
-
-                    <div class="am-form-popup-submit">
-                        <input type="hidden" name="id" value="0" />
-                        <input type="hidden" name="express_id" value="0" />
-                        <input type="hidden" name="user_id" value="0" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
-                            <i class="am-icon-paint-brush"></i>
-                            <span>{{:MyLang('cancel_title')}}</span>
-                        </button>
-                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
-                            <i class="am-icon-check"></i>
-                            <span>{{:MyLang('confirm_title')}}</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- 支付弹窗 -->
     <div class="am-popup am-radius" id="order-pay-popup">
         <div class="am-popup-inner">
@@ -124,7 +70,7 @@
                                 {{/foreach}}
                             </ul>
                         {{else /}}
-                            {{include file="public/not_data" /}}
+                            {{:ModuleInclude('public/not_data')}}
                         {{/if}}
                     </div>
                     <div class="am-form-popup-submit">

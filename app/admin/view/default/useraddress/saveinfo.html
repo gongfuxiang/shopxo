@@ -1,0 +1,146 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('useraddress.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/useraddress/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/useraddress/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/useraddress/index', $params)}}">
+            {{if !empty($data) and !empty($data['user'])}}
+                <div class="am-form-group">
+                    <label>头像</label>
+                    <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="75" height="75" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('user_username_title')}}</label>
+                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['username'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.username}}{{/if}}" disabled />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('user_nickname_title')}}</label>
+                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['nickname'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.nickname}}{{/if}}" disabled />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('user_mobile_title')}}</label>
+                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['mobile'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.mobile}}{{/if}}" disabled />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('user_email_title')}}</label>
+                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['email'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.email}}{{/if}}" disabled />
+                </div>
+            {{/if}}
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_user_id')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="number" name="user_id" placeholder="{{:MyLang('common_service.useraddress.form_item_user_id')}}" min="0" data-validation-message="{{:MyLang('common_service.useraddress.form_item_user_id_message')}}" class="am-radius" {{if !empty($data['user_id'])}} value="{{$data.user_id}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="name" placeholder="{{:MyLang('common_service.useraddress.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_alias')}}</label>
+                <input type="text" name="alias" placeholder="{{:MyLang('common_service.useraddress.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.useraddress.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="tel" placeholder="{{:MyLang('common_service.useraddress.form_item_tel')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_tel_message')}}" class="am-radius" {{if !empty($data['tel'])}} value="{{$data.tel}}"{{/if}} required />
+            </div>
+
+            {{:ModuleInclude('lib/region_linkage')}}
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
+                {{if MyC('home_user_address_map_status') eq 1}}
+                    <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
+                    <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
+                    <div class="am-flex am-flex-items-center">
+                        <input type="text" name="address" id="form-address" data-is-clearout="0" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
+                        <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
+                    </div>
+                    <div id="map" data-level="17" class="am-margin-top-xs"></div>
+                {{else /}}
+                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
+                {{/if}}
+            </div>
+
+            <div class="am-form-group">
+                <label class="am-block">{{:MyLang('form_is_default_title')}}</label>
+                <input name="is_default" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <input type="text" name="idcard_number" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" minlength="0" maxlength="18" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
+            </div>
+            {{if empty($data) or empty($data['user_id'])}}
+                <div class="am-form-group">
+                    <div class="am-tips-card">
+                        <p>{{:MyLang('common_service.useraddress.form_item_idcard_no_user_tips')}}</p>
+                    </div>
+                </div>
+            {{else /}}
+                <div class="am-form-group plug-file-upload-view">
+                    <label>{{:MyLang('common_service.useraddress.form_item_idcard_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.useraddress.form_item_idcard_images_tips')}}</span></label>
+                    <div class="am-nbfc user-address-idcard-images am-flex">
+                        <div class="item am-margin-right-lg">
+                            <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
+                                <li>
+                                    {{if !empty($data['idcard_front_old'])}}
+                                        <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
+                                    {{/if}}
+                                    <img src="{{if empty($data['idcard_front'])}}{{:StaticAttachmentUrl('default-idcard-front.jpg')}}{{else /}}{{$data.idcard_front}}{{/if}}" />
+                                    <i class="iconfont icon-close"></i>
+                                </li>
+                            </ul>
+                            <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_front">+ {{:MyLang('common_service.useraddress.form_item_idcard_front_button_name')}}</div>
+                        </div>
+                        <div class="item">
+                            <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
+                                <li>
+                                    {{if !empty($data['idcard_back_old'])}}
+                                        <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
+                                    {{/if}}
+                                    <img src="{{if empty($data['idcard_back'])}}{{:StaticAttachmentUrl('default-idcard-back.jpg')}}{{else /}}{{$data.idcard_back}}{{/if}}" />
+                                    <i class="iconfont icon-close"></i>
+                                </li>
+                            </ul>
+                            <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_back">+ {{:MyLang('common_service.useraddress.form_item_idcard_back_button_name')}}</div>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+
+<script type="text/javascript">
+$(function()
+{
+    {{if MyC('home_user_address_map_status') eq 1}}
+        // 百度地图初始化
+        MapInit({{if !empty($data['lng'])}}{{$data['lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lat'])}}{{$data['lat']}}{{else /}}39.92556{{/if}});
+    {{/if}}
+});
+</script>

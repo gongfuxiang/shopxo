@@ -1,0 +1,26 @@
+<!-- pc相册模块内容 -->
+{{if !empty($module_data['goods'])}}
+    <div class="tb-booth tb-pic am-radius">
+        {{if !empty($module_data['goods']['photo'][0])}}
+            <img src="{{$module_data['goods']['photo'][0]['images']}}" alt="{{$module_data.goods.title}}" rel="{{$module_data['goods']['photo'][0]['images']}}" class="jqzoom" />
+        {{/if}}
+    </div>
+    <div class="am-slider am-slider-default am-slider-carousel am-margin-0 tb-thumb" data-am-flexslider="{itemWidth: 60, itemMargin: 5, slideshow: false, controlNav: false}">
+        <ul class="am-slides" id="thumblist">
+            {{if !empty($module_data.goods.photo)}}
+                {{foreach $module_data.goods.photo as $photo_key=>$photo}}
+                    <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}} am-radius">
+                        <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{$photo.images}}" class="tb-pic-min" />
+                    </li>
+                {{/foreach}}
+            {{/if}}
+        </ul>
+    </div>
+
+    <!-- 视频 -->
+    {{if !empty($module_data.goods.video)}}
+        <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+        <i class="goods-video-submit-close none">&times;</i>
+        <div class="goods-video-pc-container goods-video-container none" data-url="{{$module_data.goods.video}}" data-images="{{$module_data.goods.images}}"></div>
+    {{/if}}
+{{/if}}

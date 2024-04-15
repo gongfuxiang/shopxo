@@ -707,6 +707,7 @@ class NavigationService
             {
                 $data[] = [
                     'name'      => $multilingual_data['default']['name'],
+                    'type'      => 'multilingual',
                     'is_login'  => 0,
                     'badge'     => null,
                     'icon'      => empty($multilingual_data['default']['icon']) ? 'icon-language-nav-top' : $multilingual_data['default']['icon'],

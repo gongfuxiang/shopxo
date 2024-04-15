@@ -55,6 +55,14 @@ class Payment extends Base
         // 插件列表
         $payment = PaymentService::PluginsPaymentList($this->nav_type);
 
+        // 插件更新信息
+        $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
+        // 是否未绑定商店账号
+        if($upgrade['code'] == -300)
+        {
+            return $this->NotBindStoreAccountTips($upgrade['msg']);
+        }
+
         // 模板数据
         $assign = [
             // 导航类型
@@ -69,11 +77,9 @@ class Payment extends Base
             'common_platform_type'  => MyConst('common_platform_type'),
             // 应用商店
             'store_payment_url'     => StoreService::StorePaymentUrl(),
+            // 支付插件更新信息
+            'upgrade_info'          => $upgrade['data'],
         ];
-
-        // 插件更新信息
-        $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
-        $assign['upgrade_info'] = $upgrade['data'];
 
         // 数据赋值
         MyViewAssign($assign);

@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -9,7 +9,7 @@
                 <p>{{if empty($msg)}}{{:MyLang('no_data')}}{{else /}}{{$msg}}{{/if}}</p>
             </div>
             <div class="am-margin-top-lg">
-                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-btn am-btn-link am-radius am-btn-sm">{{:MyLang('plugins.back_to_plugins_admin')}}</a>
+                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-btn am-btn-link am-radius am-btn-xs">{{:MyLang('plugins.back_to_plugins_admin')}}</a>
             </div>
         </div>
     </div>
@@ -17,4 +17,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

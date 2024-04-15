@@ -150,6 +150,8 @@ class Orderaftersale extends Center
         
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['creator'] = $this->user['id'];
+        $params['creator_name'] = $this->user['username'];
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCreate($params));
     }
 
@@ -172,6 +174,8 @@ class Orderaftersale extends Center
 
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['creator'] = $this->user['id'];
+        $params['creator_name'] = $this->user['username'];
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleDelivery($params));
     }
 
@@ -194,6 +198,8 @@ class Orderaftersale extends Center
 
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['creator'] = $this->user['id'];
+        $params['creator_name'] = $this->user['username'];
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }
 }

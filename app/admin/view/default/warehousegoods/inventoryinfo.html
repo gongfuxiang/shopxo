@@ -1,0 +1,64 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        {{if !empty($data['spec'])}}
+            <!-- form start -->
+            <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/warehousegoods/inventorysave')}}" method="POST" request-type="ajax-reload" request-value="parent">
+                <table class="am-table am-table-striped am-table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{:MyLang('spec_title')}}</th>
+                            <th>
+                                <span>{{:MyLang('inventory_title')}}</span>
+                                <!-- 批量设置 -->
+                                <div class="am-dropdown" id="inventory-dropdown" data-am-dropdown>
+                                    <a href="javascript:;" class="am-dropdown-toggle"><i class="iconfont icon-edit"></i></a>
+                                    <div class="am-dropdown-content am-radius-lg">
+                                        <div class="am-input-group am-input-group-sm">
+                                            <input type="text" class="am-form-field am-radius" placeholder="{{:MyLang('warehousegoods.batch_setup_inventory_placeholder')}}" />
+                                            <span class="am-input-group-btn">
+                                                <button type="button" class="am-btn am-btn-default am-radius inventory-all-submit">{{:MyLang('confirm_title')}}</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{foreach $data.spec as $v}}
+                            <tr>
+                                <td>{{$v.name}}</td>
+                                <td>
+                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="{{:MyLang('inventory_title')}}" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="{{:MyLang('common_service.warehousegoods.form_item_inventory_message')}}" />
+                                    <input type="hidden" name="specifications_md5_key[]" value="{{$v.md5_key}}" />
+                                    <input type="hidden" name="specifications_spec[]" value="{{$v.spec}}" />
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    </tbody>
+                </table>
+                <div class="am-form-popup-submit">
+                    <input type="hidden" name="id" {{if !empty($data['data'])}} value="{{$data.data.id}}"{{/if}} />
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                        <i class="am-icon-save"></i>
+                        <span>{{:MyLang('save_title')}}</span>
+                    </button>
+                </div>
+            </form>
+            <!-- form end -->
+        {{else /}}
+            <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('warehousegoods.no_spec_data_tips')}}</div>
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

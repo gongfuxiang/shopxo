@@ -237,19 +237,32 @@
 
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/admin/{{$default_theme}}/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if !empty($static_path_data['common_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.common_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
+{{if !empty($static_path_data['theme_import_js']) and is_array($static_path_data['theme_import_js'])}}
+    {{foreach $static_path_data.theme_import_js as $v}}
+        <script type='text/javascript' src="{{$public_host}}static/{{$v}}?v={{:MyC('home_static_cache_version')}}"></script>
+    {{/foreach}}
+{{/if}}
+{{if !empty($static_path_data['module_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
+{{if !empty($static_path_data['other_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.other_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
     <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- 应用插件公共js -->
-{{if !empty($plugins_js)}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{if !empty($static_path_data['plugins_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- 当前控制器js -->
-{{if !empty($module_js)}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{if !empty($static_path_data['page_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.page_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- js钩子 -->

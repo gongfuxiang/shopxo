@@ -348,6 +348,11 @@ function EchartsGoodsHot (data) {
                 type: 'pie',
                 radius: ['40%', '70%'],
                 avoidLabelOverlap: false,
+                itemStyle: {
+                  borderRadius: 4,
+                  borderColor: '#fff',
+                  borderWidth: 1
+                },
                 label: {
                     show: false,
                     position: 'center'
@@ -514,7 +519,7 @@ function EchartsOrderMapWholeCountry (name_arr, data) {
             },
             axisLabel: {
                 textStyle: {
-                    color: '#5F9AD6' // 设置颜色为红色
+                    color: '#5F9AD6' // 设置颜色
                 }
             },
             data: name_arr

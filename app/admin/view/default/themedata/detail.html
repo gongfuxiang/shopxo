@@ -1,0 +1,637 @@
+<!-- 继承公共的 form -->
+{{extend name="../../../module/view/detail" /}}
+
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('system_title'),
+                'key'  => 'system',
+            ],
+            [
+                'name'     => MyLang('base_title'),
+                'key'      => 'base',
+                'is_show'  => isset($data['type']) && in_array($data['type'], [1,2,3,4,5,6]) ? 1 : 0,
+            ],
+            [
+                'name'     => MyLang('images_title'),
+                'key'      => 'images',
+                'is_show'  => isset($data['type']) && in_array($data['type'], [0,1]) ? 1 : 0,
+            ],
+            [
+                'name'     => MyLang('text_title'),
+                'key'      => 'text',
+                'is_show'  => isset($data['type']) && in_array($data['type'], [0,1]) ? 1 : 0,
+            ],
+            [
+                'name'     => MyLang('data_title'),
+                'key'      => 'data',
+                'is_show'  => isset($data['type']) && in_array($data['type'], [2,3,4,5,6]) ? 1 : 0,
+            ],
+            [
+                'name'     => MyLang('custom_title'),
+                'key'      => 'custom',
+                'is_show'  => isset($data['type']) && in_array($data['type'], [0]) ? 1 : 0,
+            ],
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <div class="nav-content">
+            <!-- 基础 -->
+            <div class="item am-active" data-key="system">
+                {__block__}
+            </div>
+
+            {{if isset($data['type'])}}
+                <!-- 单图文 -->
+                {{if $data['type'] eq 0}}
+                    <!-- 图片 -->
+                    <div class="item" data-key="images">
+                        {{:ModuleInclude('themedata/detail/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+
+                    <!-- 文本 -->
+                    <div class="item" data-key="text">
+                        {{:ModuleInclude('themedata/detail/text_input', [
+                            'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                            'data'                                   => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+
+                    <!-- 自定义数据 -->
+                    <div class="item" data-key="custom">
+                        {{if !empty($data['data']) and !empty($data['data']['custom_data']) and is_array($data['data']['custom_data'])}}
+                            <table class="am-table">
+                                <thead>
+                                    <tr>
+                                        <th>{{:MyLang('icon_title')}}</th>
+                                        <th>{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}</th>
+                                        <th>{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}</th>
+                                        <th>{{:MyLang('link_title')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{foreach $data.data.custom_data as $k=>$v}}
+                                        <tr>
+                                            <td>
+                                                {{if !empty($v['icon'])}}
+                                                    <a href="javascript:;" class="am-figure am-inline-block am-padding-0 am-margin-right" data-am-widget="figure" data-am-figure="{pureview: 'true'}">
+                                                        <img src="{{$v.icon}}" width="16" height="16" class="am-vertical-align-middle am-img-thumbnail am-radius" />
+                                                    </a>
+                                                {{/if}}
+                                            </td>
+                                            <td>{{if isset($v['name'])}}{{$v.name}}{{/if}}</td>
+                                            <td>{{if isset($v['value'])}}{{$v.value}}{{/if}}</td>
+                                            <td>
+                                                {{if !empty($v['url_data'])}}
+                                                    <div class="am-dropdown" data-am-dropdown>
+                                                        <a href="javascript:;" class="am-text-blue am-inline-block am-dropdown-toggle">
+                                                            {{:MyLang('common_service.themedata.form_item_url_already_choice_text')}}
+                                                        </a>
+                                                        <div class="am-dropdown-content am-radius">
+                                                            {{if !empty($common_platform_type)}}
+                                                                <table class="am-table am-margin-bottom-0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>{{:MyLang('platform_title')}}</th>
+                                                                            <th>{{:MyLang('link_title')}}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {{foreach $common_platform_type as $pv}}
+                                                                            {{if !empty($v['url_data'][$pv['value']])}}
+                                                                                <tr>
+                                                                                    <td>{{$pv.name}}</td>
+                                                                                    <td>
+                                                                                        <span class="text-copy-submit">{{$v['url_data'][$pv['value']]}}</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            {{/if}}
+                                                                        {{/foreach}}
+                                                                    </tbody>
+                                                                </table>
+                                                            {{/if}}
+                                                        </div>
+                                                    </div>
+                                                {{/if}}
+                                            </td>
+                                        </tr>
+                                    {{/foreach}}
+                                </tbody>
+                            </table>
+                        {{else /}}
+                            {{:ModuleInclude('public/not_data')}}
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 基础 -->
+                {{if in_array($data['type'], [1,2,3,4,5,6])}}
+                    <div class="item" data-key="base">
+                        <!-- 图片 -->
+                        {{:ModuleInclude('themedata/detail/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+
+                        <!-- 文本 -->
+                        {{:ModuleInclude('themedata/detail/text_input', [
+                            'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                            'data'                                   => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+                {{/if}}
+
+                <!-- 多图文 -->
+                {{if $data['type'] eq 1}}
+                    <!-- 图片 -->
+                    <div class="item" data-key="images">
+                        {{if !empty($data) and !empty($data['data']) and !empty($data['data']['data']) and is_array($data['data']['data'])}}
+                            <section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+                                {{foreach $data.data.data as $k=>$v}}
+                                    <dl class="am-accordion-item {{if $k eq 0}}am-active{{/if}}">
+                                        <dt class="am-accordion-title">{{:str_replace('{index}', $k+1, MyLang('common_service.themedata.form_item_index_text'))}}</dt>
+                                        <dd class="am-accordion-bd am-collapse {{if $k eq 0}}am-in{{/if}}">
+                                            {{:ModuleInclude('themedata/detail/images', [
+                                                'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                                                'data'                               => ['data'=>$v],
+                                            ])}}
+                                        </dd>
+                                    </dl>
+                                {{/foreach}}
+                            </section>
+                        {{/if}}
+                    </div>
+
+                    <!-- 文本 -->
+                    <div class="item" data-key="text">
+                        {{if !empty($data) and !empty($data['data']) and !empty($data['data']['data']) and is_array($data['data']['data'])}}
+                            <section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+                                {{foreach $data.data.data as $k=>$v}}
+                                    <dl class="am-accordion-item {{if $k eq 0}}am-active{{/if}}">
+                                        <dt class="am-accordion-title">{{:str_replace('{index}', $k+1, MyLang('common_service.themedata.form_item_index_text'))}}</dt>
+                                        <dd class="am-accordion-bd am-collapse {{if $k eq 0}}am-in{{/if}}">
+                                            <!-- input -->
+                                            {{:ModuleInclude('themedata/detail/text_input', [
+                                                'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                                                'data'                                   => ['data'=>$v],
+                                            ])}}
+                                            <!-- textarea -->
+                                            {{:ModuleInclude('themedata/detail/text_textarea', [
+                                                'common_theme_business_text_textarea_list'  => empty($common_theme_business_text_textarea_list) ? [] : $common_theme_business_text_textarea_list,
+                                                'data'                                      => ['data'=>$v],
+                                                'appoint_business_text'                     => ['detail_describe'],
+                                            ])}}
+                                        </dd>
+                                    </dl>
+                                {{/foreach}}
+                            </section>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 视频 -->
+                {{if $data['type'] eq 2}}
+                    <div class="item" data-key="data">
+                        <ul class="am-list">
+                            <li class="am-padding-sm">
+                                <label class="am-block">{{:MyLang('video_title')}}</label>
+                                {{if !empty($data['data']) and !empty($data['data']['video'])}}
+                                    <video src="{{$data.data.video}}" class="am-radius" controls width="300">your browser does not support the video tag</video>
+                                {{else /}}
+                                    <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                {{/if}}
+                            </li>
+                            <li class="am-padding-sm">
+                                <label class="am-block">{{:MyLang('cover_title')}}</label>
+                                {{if !empty($data['data']) and !empty($data['data']['custom_cover'])}}
+                                    <a href="javascript:;" class="am-figure am-inline-block am-padding-0 am-margin-right" data-am-widget="figure" data-am-figure="{pureview: 'true'}">
+                                        <img src="{{$data.data.custom_cover}}" width="300" height="300" class="am-vertical-align-middle am-img-thumbnail am-radius" />
+                                    </a>
+                                {{else /}}
+                                    <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                {{/if}}
+
+                <!-- 商品 -->
+                {{if $data['type'] eq 3}}
+                    <div class="item" data-key="data">
+                        <ul class="am-list">
+                            <li class="am-padding-sm">
+                                <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_data_type')}}</label>
+                                {{foreach $common_theme_goods_type_list as $v}}
+                                    {{if (empty($data['data']) and !isset($data['data']['goods_data_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['goods_data_type']) and $data['data']['goods_data_type'] eq $v['value'])}}
+                                        <p>{{$v.name}}</p>
+                                    {{/if}}
+                                {{/foreach}}
+                            </li>
+                            {{if (empty($data['data']) and !isset($data['data']['goods_data_type'])) or $data['data']['goods_data_type'] eq 0}}
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_brand_ids')}}</label>
+                                    <p>
+                                        {{if !empty($brand_list) and !empty($data['data']) and !empty($data['data']['goods_brand_ids']) and is_array($data['data']['goods_brand_ids'])}}
+                                            {{foreach $brand_list as $v}}
+                                                {{if in_array($v['id'], $data['data']['goods_brand_ids'])}}
+                                                    <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                        {{/if}}
+                                    </p>
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_category_ids')}}</label>
+                                    <p>
+                                        {{if !empty($goods_category_list) and !empty($data['data']) and !empty($data['data']['goods_category_ids']) and is_array($data['data']['goods_category_ids'])}}
+                                            {{foreach $goods_category_list as $v}}
+                                                {{if !empty($data['data']) and !empty($data['data']['goods_category_ids']) and in_array($v['id'], $data['data']['goods_category_ids'])}}
+                                                    <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                {{/if}}
+                                                {{if !empty($v['items'])}}
+                                                    {{foreach $v.items as $vs}}
+                                                        {{if !empty($data['data']) and !empty($data['data']['goods_category_ids']) and in_array($vs['id'], $data['data']['goods_category_ids'])}}
+                                                            <span class="am-margin-right-sm">{{$vs.name}}</span>
+                                                        {{/if}}
+                                                        {{if !empty($vs['items'])}}
+                                                            {{foreach $vs.items as $kss=>$vss}}
+                                                                {{if !empty($data['data']) and !empty($data['data']['goods_category_ids']) and in_array($vss['id'], $data['data']['goods_category_ids'])}}
+                                                                    <span class="am-margin-right-sm">{{$vss.name}}</span>
+                                                                {{/if}}
+                                                            {{/foreach}}
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                        {{/if}}
+                                    </p>
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_number')}}</label>
+                                    <p>
+                                        {{if !empty($data['data']) and !empty($data['data']['goods_number'])}}
+                                            <span>{{$data.data.goods_number}}</span>
+                                        {{else /}}
+                                            <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                        {{/if}}
+                                    </p>
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_order_by_type')}}</label>
+                                    {{foreach $common_goods_order_by_type_list as $k=>$v}}
+                                        {{if (empty($data['data']) and !isset($data['data']['goods_order_by_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['goods_order_by_type']) and $data['data']['goods_order_by_type'] eq $k)}}
+                                            <p>{{$v.name}}</p>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_order_by_rule')}}</label>
+                                    {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                        {{if (empty($data['data']) and !isset($data['data']['goods_order_by_rule']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['goods_order_by_rule']) and $data['data']['goods_order_by_rule'] eq $k)}}
+                                            <p>{{$v.name}}</p>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </li>
+                            {{/if}}
+                        </ul>
+                        {{if !empty($data['data']) and !empty($data['data']['goods_data']) and is_array($data['data']['goods_data'])}}
+                            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-3 am-gallery-bordered am-padding-0">
+                                {{foreach $data.data.goods_data as $v}}
+                                    {{if !empty($v['goods_url'])}}
+                                        <li>
+                                            <div class="am-gallery-item am-radius">
+                                                <a href="{{$v.goods_url}}" target="_blank">
+                                                    <img src="{{if empty($v['custom_cover'])}}{{$v.images}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius" />
+                                                    <h3 class="am-gallery-title">{{$v.title}}</h3>
+                                                    <p>
+                                                        <strong class="am-text-red">{{$v.show_price_symbol}}{{$v.price}}</strong>
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {{/if}}
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 文章 -->
+                {{if $data['type'] eq 4}}
+                    <div class="item" data-key="data">
+                        <ul class="am-list">
+                            <li class="am-padding-sm">
+                                <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_data_type')}}</label>
+                                {{foreach $common_theme_article_type_list as $v}}
+                                    {{if (empty($data['data']) and !isset($data['data']['article_data_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_data_type']) and $data['data']['article_data_type'] eq $v['value'])}}
+                                        <p>{{$v.name}}</p>
+                                    {{/if}}
+                                {{/foreach}}
+                            </li>
+                            {{if (empty($data['data']) and !isset($data['data']['article_data_type'])) or $data['data']['article_data_type'] eq 0}}
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_category_ids')}}</label>
+                                    <p>
+                                        {{if !empty($article_category_list) and !empty($data['data']) and !empty($data['data']['article_category_ids']) and is_array($data['data']['article_category_ids'])}}
+                                            {{foreach $article_category_list as $v}}
+                                                {{if in_array($v['id'], $data['data']['article_category_ids'])}}
+                                                    <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                        {{/if}}
+                                    </p>
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_number')}}</label>
+                                    <p>
+                                        {{if !empty($data['data']) and !empty($data['data']['article_number'])}}
+                                            <span>{{$data.data.article_number}}</span>
+                                        {{else /}}
+                                            <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                        {{/if}}
+                                    </p>
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_type')}}</label>
+                                    {{foreach $common_theme_article_order_by_type_list as $k=>$v}}
+                                        {{if (empty($data['data']) and !isset($data['data']['article_order_by_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_order_by_type']) and $data['data']['article_order_by_type'] eq $k)}}
+                                            <p>{{$v.name}}</p>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </li>
+                                <li class="am-padding-sm">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_rule')}}</label>
+                                    {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                        {{if (empty($data['data']) and !isset($data['data']['article_order_by_rule']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_order_by_rule']) and $data['data']['article_order_by_rule'] eq $k)}}
+                                            <p>{{$v.name}}</p>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </li>
+                            {{/if}}
+                        </ul>
+                        {{if !empty($data['data']) and !empty($data['data']['article_data']) and is_array($data['data']['article_data'])}}
+                            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-gallery-bordered am-padding-0 article-list">
+                                {{foreach $data.data.article_data as $v}}
+                                    {{if !empty($v['url'])}}
+                                        <li>
+                                            <div class="am-gallery-item am-radius">
+                                                <a href="{{$v.url}}" target="_blank">
+                                                    {{if !empty($v['custom_cover']) or !empty($v['cover'])}}
+                                                        <img src="{{if empty($v['custom_cover'])}}{{$v.cover}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius am-fl am-margin-right-xs" />
+                                                    {{/if}}
+                                                    <h3 class="am-gallery-title am-margin-top-0">{{$v.title}}</h3>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {{/if}}
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 商品组 -->
+                {{if $data['type'] eq 5}}
+                    <div class="item" data-key="data">
+                        {{if !empty($data) and !empty($data['data']) and !empty($data['data']['data']) and is_array($data['data']['data'])}}
+                            <section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+                                {{foreach $data.data.data as $dk=>$dv}}
+                                    <dl class="am-accordion-item {{if $dk eq 0}}am-active{{/if}}">
+                                        <dt class="am-accordion-title">{{:str_replace('{index}', $dk+1, MyLang('common_service.themedata.form_item_index_text'))}}</dt>
+                                        <dd class="am-accordion-bd am-collapse {{if $dk eq 0}}am-in{{/if}}">
+                                            <ul class="am-list">
+                                                <!-- images -->
+                                                {{:ModuleInclude('themedata/detail/images', [
+                                                    'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                                                    'data'                               => ['data'=>$dv],
+                                                    'appoint_business_images'            => ['icon', 'active_icon', 'shape', 'background'],
+                                                ])}}
+
+                                                <!-- input -->
+                                                {{:ModuleInclude('themedata/detail/text_input', [
+                                                    'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                                                    'data'                                   => ['data'=>$dv],
+                                                    'appoint_business_text'                  => ['title', 'vice_title', 'more', 'btn', 'describe'],
+                                                ])}}
+
+                                                <li class="am-padding-sm">
+                                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_data_type')}}</label>
+                                                    {{foreach $common_theme_goods_type_list as $v}}
+                                                        {{if (!isset($dv['goods_data_type']) and isset($v['checked'])) or (isset($dv['goods_data_type']) and $dv['goods_data_type'] eq $v['value'])}}
+                                                            <p>{{$v.name}}</p>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </li>
+                                                {{if (!isset($dv['goods_data_type'])) or $dv['goods_data_type'] eq 0}}
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_brand_ids')}}</label>
+                                                        <p>
+                                                            {{if !empty($brand_list) and !empty($dv['goods_brand_ids']) and is_array($dv['goods_brand_ids'])}}
+                                                                {{foreach $brand_list as $v}}
+                                                                    {{if in_array($v['id'], $dv['goods_brand_ids'])}}
+                                                                        <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                                    {{/if}}
+                                                                {{/foreach}}
+                                                            {{else /}}
+                                                                <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                                            {{/if}}
+                                                        </p>
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_category_ids')}}</label>
+                                                        <p>
+                                                            {{if !empty($goods_category_list) and !empty($dv['goods_category_ids']) and is_array($dv['goods_category_ids'])}}
+                                                                {{foreach $goods_category_list as $v}}
+                                                                    {{if !empty($dv['goods_category_ids']) and in_array($v['id'], $dv['goods_category_ids'])}}
+                                                                        <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                                    {{/if}}
+                                                                    {{if !empty($v['items'])}}
+                                                                        {{foreach $v.items as $vs}}
+                                                                            {{if !empty($dv['goods_category_ids']) and in_array($vs['id'], $dv['goods_category_ids'])}}
+                                                                                <span class="am-margin-right-sm">{{$vs.name}}</span>
+                                                                            {{/if}}
+                                                                            {{if !empty($vs['items'])}}
+                                                                                {{foreach $vs.items as $kss=>$vss}}
+                                                                                    {{if !empty($dv['goods_category_ids']) and in_array($vss['id'], $dv['goods_category_ids'])}}
+                                                                                        <span class="am-margin-right-sm">{{$vss.name}}</span>
+                                                                                    {{/if}}
+                                                                                {{/foreach}}
+                                                                            {{/if}}
+                                                                        {{/foreach}}
+                                                                    {{/if}}
+                                                                {{/foreach}}
+                                                            {{else /}}
+                                                                <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                                            {{/if}}
+                                                        </p>
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_number')}}</label>
+                                                        <p>
+                                                            {{if !empty($dv['goods_number'])}}
+                                                                <span>{{$dv.goods_number}}</span>
+                                                            {{else /}}
+                                                                <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                                            {{/if}}
+                                                        </p>
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_order_by_type')}}</label>
+                                                        {{foreach $common_goods_order_by_type_list as $k=>$v}}
+                                                            {{if (!isset($dv['goods_order_by_type']) and isset($v['checked'])) or (isset($dv['goods_order_by_type']) and $dv['goods_order_by_type'] eq $k)}}
+                                                                <p>{{$v.name}}</p>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_goods_order_by_rule')}}</label>
+                                                        {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                                            {{if (!isset($dv['goods_order_by_rule']) and isset($v['checked'])) or (isset($dv['goods_order_by_rule']) and $dv['goods_order_by_rule'] eq $k)}}
+                                                                <p>{{$v.name}}</p>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    </li>
+                                                {{/if}}
+                                            </ul>
+                                            {{if !empty($dv['goods_data']) and is_array($dv['goods_data'])}}
+                                                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-3 am-gallery-bordered am-margin-bottom-xs">
+                                                    {{foreach $dv.goods_data as $v}}
+                                                        {{if !empty($v['goods_url'])}}
+                                                            <li>
+                                                                <div class="am-gallery-item am-radius">
+                                                                    <a href="{{$v.goods_url}}" target="_blank">
+                                                                        <img src="{{if empty($v['custom_cover'])}}{{$v.images}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius" />
+                                                                        <h3 class="am-gallery-title">{{$v.title}}</h3>
+                                                                        <p>
+                                                                            <strong class="am-text-red">{{$v.show_price_symbol}}{{$v.price}}</strong>
+                                                                        </p>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/if}}
+                                        </dd>
+                                    </dl>
+                                {{/foreach}}
+                            </section>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 文章组 -->
+                {{if $data['type'] eq 6}}
+                    <div class="item" data-key="data">
+                        {{if !empty($data) and !empty($data['data']) and !empty($data['data']['data']) and is_array($data['data']['data'])}}
+                            <section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+                                {{foreach $data.data.data as $dk=>$dv}}
+                                    <dl class="am-accordion-item {{if $dk eq 0}}am-active{{/if}}">
+                                        <dt class="am-accordion-title">{{:str_replace('{index}', $dk+1, MyLang('common_service.themedata.form_item_index_text'))}}</dt>
+                                        <dd class="am-accordion-bd am-collapse {{if $dk eq 0}}am-in{{/if}}">
+                                            <ul class="am-list">
+                                                <!-- images -->
+                                                {{:ModuleInclude('themedata/detail/images', [
+                                                    'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                                                    'data'                               => ['data'=>$dv],
+                                                    'appoint_business_images'            => ['icon', 'active_icon', 'shape', 'background'],
+                                                ])}}
+
+                                                <!-- input -->
+                                                {{:ModuleInclude('themedata/detail/text_input', [
+                                                    'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                                                    'data'                                   => ['data'=>$dv],
+                                                    'appoint_business_text'                  => ['title', 'vice_title', 'more', 'btn', 'describe'],
+                                                ])}}
+
+                                                <li class="am-padding-sm">
+                                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_data_type')}}</label>
+                                                    {{foreach $common_theme_article_type_list as $v}}
+                                                        {{if (!isset($dv['article_data_type']) and isset($v['checked'])) or (isset($dv['article_data_type']) and $dv['article_data_type'] eq $v['value'])}}
+                                                            <p>{{$v.name}}</p>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </li>
+                                                {{if (!isset($dv['article_data_type'])) or $dv['article_data_type'] eq 0}}
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_category_ids')}}</label>
+                                                        <p>
+                                                            {{if !empty($article_category_list) and !empty($dv['article_category_ids']) and is_array($dv['article_category_ids'])}}
+                                                                {{foreach $article_category_list as $v}}
+                                                                    {{if !empty($dv['article_category_ids']) and in_array($v['id'], $dv['article_category_ids'])}}
+                                                                        <span class="am-margin-right-sm">{{$v.name}}</span>
+                                                                    {{/if}}
+                                                                {{/foreach}}
+                                                            {{else /}}
+                                                                <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                                            {{/if}}
+                                                        </p>
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_number')}}</label>
+                                                        <p>
+                                                            {{if !empty($dv['article_number'])}}
+                                                                <span>{{$dv.article_number}}</span>
+                                                            {{else /}}
+                                                                <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                                                            {{/if}}
+                                                        </p>
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_type')}}</label>
+                                                        {{foreach $common_theme_article_order_by_type_list as $k=>$v}}
+                                                            {{if (!isset($dv['article_order_by_type']) and isset($v['checked'])) or (isset($dv['article_order_by_type']) and $dv['article_order_by_type'] eq $k)}}
+                                                                <p>{{$v.name}}</p>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    </li>
+                                                    <li class="am-padding-sm">
+                                                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_rule')}}</label>
+                                                        {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                                            {{if (!isset($dv['article_order_by_rule']) and isset($v['checked'])) or (isset($dv['article_order_by_rule']) and $dv['article_order_by_rule'] eq $k)}}
+                                                                <p>{{$v.name}}</p>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    </li>
+                                                {{/if}}
+                                            </ul>
+                                            {{if !empty($dv['article_data']) and is_array($dv['article_data'])}}
+                                                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-3 am-gallery-bordered am-margin-bottom-xs article-list">
+                                                    {{foreach $dv.article_data as $v}}
+                                                        {{if !empty($v['url'])}}
+                                                            <li>
+                                                                <div class="am-gallery-item am-radius">
+                                                                    <a href="{{$v.url}}" target="_blank">
+                                                                        {{if !empty($v['custom_cover']) or !empty($v['cover'])}}
+                                                                            <img src="{{if empty($v['custom_cover'])}}{{$v.cover}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius am-fl am-margin-right-xs" />
+                                                                        {{/if}}
+                                                                        <h3 class="am-gallery-title am-margin-top-0">{{$v.title}}</h3>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/if}}
+                                        </dd>
+                                    </dl>
+                                {{/foreach}}
+                            </section>
+                        {{/if}}
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+    </div>
+{{/block}}

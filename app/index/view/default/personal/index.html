@@ -1,7 +1,7 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- header simple nav -->
 {{:ModuleInclude('public/header_nav_simple', [
@@ -11,7 +11,7 @@
 <!-- content -->
 <div class="am-container user-main">
     <!-- user menu start -->
-    {{include file="public/user_menu" /}}
+    {{:ModuleInclude('public/user_menu')}}
     <!-- user menu end -->
 
     <!-- content start -->
@@ -58,4 +58,4 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

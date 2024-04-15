@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -47,7 +47,7 @@
                                     {{else /}}
                                         <input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -65,7 +65,7 @@
                                     {{else /}}
                                         <input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_wap.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -83,7 +83,7 @@
                                     {{else /}}
                                         <input type="text" name="home_site_logo_app" value="{{$data.home_site_logo_app.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_app.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -101,7 +101,7 @@
                                     {{else /}}
                                         <input type="text" name="home_site_logo_square" value="{{$data.home_site_logo_square.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_square.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -120,19 +120,19 @@
                 </div>
 
                 <!-- 站点状态 -->
-                <div class="am-form-group">
-                    <label class="am-block">{{$data.home_site_app_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_app_state.describe}}</span></label>
-                    <div class="am-checkbox-group am-flex am-gap-12">
-                        {{foreach :MyConst('common_platform_type') as $v}}
-                            {{if !in_array($v['value'], ['pc'])}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.home_site_app_state.only_tag}}" value="{{$v.value}}" {{if !empty($data['home_site_app_state']) and !empty($data['home_site_app_state']['value']) and is_array($data['home_site_app_state']['value']) and in_array($v['value'], $data['home_site_app_state']['value'])}}checked{{/if}} data-validation-message="{{$data.home_site_app_state.error_tips}}" data-am-ucheck /> {{$v.name}}
-                                </label>
-                            {{/if}}
-                        {{/foreach}}
-                    </div>
-                </div>
                 <div class="item" data-key="site-status">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_site_app_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_app_state.describe}}</span></label>
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_platform_type') as $v}}
+                                {{if !in_array($v['value'], ['pc'])}}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.home_site_app_state.only_tag}}" value="{{$v.value}}" {{if !empty($data['home_site_app_state']) and !empty($data['home_site_app_state']['value']) and is_array($data['home_site_app_state']['value']) and in_array($v['value'], $data['home_site_app_state']['value'])}}checked{{/if}} data-validation-message="{{$data.home_site_app_state.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    </label>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
+                    </div>
                     <div class="am-form-group">
                         <label>{{$data.home_site_web_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_web_state.describe}}</span></label>
                         <div class="am-radio-group">
@@ -252,4 +252,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

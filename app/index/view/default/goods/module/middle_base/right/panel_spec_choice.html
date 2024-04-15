@@ -1,0 +1,121 @@
+<!-- 右侧基础面板规格选择模块 -->
+{{if !empty($module_data['goods']) and isset($module_data['goods']['is_shelves']) and isset($module_data['goods']['inventory']) and $module_data['goods']['is_shelves'] == 1 and $module_data['goods']['inventory'] gt 0}}
+    <dl class="buy-spec-info-container">
+        <dt class="buy-event mini-spec-event" data-type="buy">
+            <div class="cart-title">
+                <span class="specpara-title">{{:MyLang('goods.panel_can_choice_spec_name')}}</span>
+                <span class="am-icon-angle-right"></span>
+            </div>
+        </dt>
+        <dd>
+            <!--操作页面-->
+            <div class="theme-popover-mask"></div>
+            <div class="theme-popover">
+                <div class="theme-span"></div>
+                <div class="theme-poptit">
+                    <a href="javascript:;" class="close am-icon-close am-icon-sm"></a>
+                </div>
+                <div class="theme-popbod dform am-background-white">
+                    <form class="theme-signin am-padding-horizontal-sm" action="javascript:;">
+                        <div class="theme-signin-left">
+                            <!-- 商品页面规格顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_base_sku_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_base_sku_top_data) and is_array($plugins_view_goods_detail_base_sku_top_data)}}
+                                {{foreach $plugins_view_goods_detail_base_sku_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                            <!-- 商品规格 -->
+                            <div class="sku-container">
+                                {{if !empty($module_data['goods']['specifications']['choose'])}}
+                                    {{foreach $module_data.goods.specifications.choose as $key=>$spec}}
+                                        {{if !empty($spec['value'])}}
+                                            <div class="theme-options sku-items am-flex am-flex-row am-flex-items-center">
+                                                <div class="cart-title">{{$spec.name}}</div>
+                                                <ul>
+                                                    {{foreach $spec.value as $keys=>$specs}}
+                                                        <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                            {{if !empty($specs['images'])}}
+                                                                <img src="{{$specs.images}}" />
+                                                            {{/if}}
+                                                            <span>{{$specs.name}}</span>
+                                                            <i class="iconfont icon-subscript"></i>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            </div>
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </div>
+
+                            <!-- 商品页面库存数量顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_base_inventory_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_base_inventory_top_data) and is_array($plugins_view_goods_detail_base_inventory_top_data)}}
+                                {{foreach $plugins_view_goods_detail_base_inventory_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+
+                            <!-- 库存数量 -->
+                            <div class="theme-options am-flex am-flex-row am-flex-items-center">
+                                <div class="cart-title number">{{:MyLang('number_title')}}</div>
+                                <dd>
+                                    <div class="am-input-group am-input-group-sm number-tag">
+                                        <button class="am-input-group-label am-radius" id="min" type="button">-</button>
+                                        <input type="number" class="am-form-field" value="{{$module_data.goods.buy_min_number}}" id="text_box" min="{{$module_data.goods.buy_min_number}}" max="{{if empty($module_data['goods']['buy_max_number'])}}{{$module_data.goods.inventory}}{{else /}}{{$module_data.goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$module_data.goods.buy_min_number}}" data-original-buy-max-number="{{$module_data.goods.buy_max_number}}" data-is-clearout="0" />
+                                        <button class="am-input-group-label am-radius" id="add" type="button">+</button>
+                                    </div>
+                                    <span class="tb-hidden stock-tips"><span>({{:MyLang('inventory_title')}}</span><span class="stock" data-original-max="{{if empty($module_data['goods']['buy_max_number'])}}{{$module_data.goods.inventory}}{{else /}}{{$module_data.goods.buy_max_number}}{{/if}}" data-original-inventory="{{$module_data.goods.inventory}}" data-min-limit="{{$module_data.goods.buy_min_number}}" data-max-limit="{{$module_data.goods.buy_max_number}}" data-unit="{{$module_data.goods.inventory_unit}}">{{$module_data.goods.inventory}}</span><span>{{$module_data.goods.inventory_unit}})</span></span>
+                                </dd>
+                            </div>
+
+                            <!-- 商品页面库存数量底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_base_inventory_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_base_inventory_bottom_data) and is_array($plugins_view_goods_detail_base_inventory_bottom_data)}}
+                                {{foreach $plugins_view_goods_detail_base_inventory_bottom_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+
+                            <div class="btn-op am-background-white">
+                                <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">{{:MyLang('confirm_title')}}</span>
+                                <span class="am-radius btn close am-btn am-btn-danger cancel">{{:MyLang('cancel_title')}}</span>
+                            </div>
+                        </div>
+                        <div class="theme-signin-right">
+                            <div class="img-info">
+                                <img src="{{$module_data.goods.images}}" />
+                            </div>
+                            <div class="text-info">
+                                <span class="price-now" data-original-price="{{$module_data.goods.price}}">
+                                    <em>{{$module_data.goods.show_price_symbol}}</em>
+                                    <b>{{$module_data.goods.price}}</b>
+                                    <em class="am-text-grey">{{$module_data.goods.show_price_unit}}</em>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </dd>
+    </dl>
+{{/if}}

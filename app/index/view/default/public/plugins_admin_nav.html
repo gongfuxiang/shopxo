@@ -1,0 +1,20 @@
+{{if !empty($module_data['plugins']) and (!empty($module_data['title']) or (!empty($module_data['nav_data']) and is_array($module_data['nav_data'])))}}
+    <div class="nav-switch-tabs am-pr plugins-admin-nav-container {{$module_data.plugins}}">
+        {{if !empty($module_data['is_back_btn']) and $module_data['is_back_btn'] eq 1}}
+            <a href="{{if empty($module_data['back_url'])}}{{:MyUrl('admin/pluginsadmin/index')}}{{else /}}{{$module_data.back_url}}{{/if}}" class="form-nav-top-right-retreat am-fr am-text-lg">
+                <i class="iconfont icon-back"></i>
+            </a>
+        {{/if}}
+        {{if !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}}
+            <ul>
+                {{foreach $module_data.nav_data as $v}}
+                    <li {{if !empty($module_data['action']) and $module_data['action'] eq $v['control'].$v['action']}}class="am-active"{{/if}}>
+                        <a href="{{:PluginsAdminUrl($module_data['plugins'], $v['control'], $v['action'])}}">{{$v.name}}</a>
+                    </li>
+                {{/foreach}}
+            </ul>
+        {{else /}}
+            <span class="am-text-default">{{$module_data.title}}</span>
+        {{/if}}
+    </div>
+{{/if}}

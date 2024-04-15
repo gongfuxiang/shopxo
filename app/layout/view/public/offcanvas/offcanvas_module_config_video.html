@@ -1,5 +1,5 @@
 <!-- 侧边栏 - 模块配置 - 视频 -->
-<div id="offcanvas-module-config-video" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/common/images/default-images-mini.png">
+<div id="offcanvas-module-config-video" class="am-offcanvas module-offcanvas-container" data-default-images="{{:StaticAttachmentUrl('default-images-mini.png')}}">
     <div class="am-offcanvas-bar">
         <div class="am-offcanvas-content am-padding-0">
             <form class="am-form form-validation-module-offcanvas-video" request-type="sync" request-value="FormBackModuleConfigVideo">
@@ -30,19 +30,19 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_radius')}}
 
                         <!-- 边线类型 -->
-                        {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_style_4')}}
 
                         <!-- 边线大小 -->
-                        {{include file="../../../layout/view/public/style/border_width_color_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_width_color_4')}}
 
                         <!-- 外边距 -->
-                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/margin_4')}}
 
                         <!-- 内边距 -->
-                        {{include file="../../../layout/view/public/style/padding_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/padding_4')}}
                     </div>
                 </div>
 
@@ -50,7 +50,9 @@
                 <div class="am-panel am-panel-default am-radius">
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_content')}}</div>
                     <div class="am-panel-bd">
-                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/content/media_fixed', [
+                            'key'   => '_media_fixed',
+                        ])}}
                     </div>
                 </div>
 

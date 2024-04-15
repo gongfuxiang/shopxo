@@ -1,0 +1,54 @@
+{{if !empty($module_data['common_theme_business_text_input_list']) and is_array($module_data['common_theme_business_text_input_list'])}}
+    {{if !isset($module_data['is_ul']) or $module_data['is_ul'] eq 1}}
+        <ul class="am-list">
+    {{/if}}
+        {{foreach $module_data.common_theme_business_text_input_list as $v}}
+            {{if empty($module_data['appoint_business_text']) or (!empty($module_data['appoint_business_text']) and in_array($v['value'], $module_data['appoint_business_text']))}}
+                <li class="am-padding-sm">
+                    <label class="am-block">{{$v.name}}</label>
+                    {{if !empty($module_data['data']) and !empty($module_data['data']['data']) and !empty($module_data['data']['data']['text_'.$v['value']]) and !empty($module_data['data']['data']['text_'.$v['value']]['value'])}}
+                        <div class="am-scrollable-vertical">{{$module_data.data.data['text_'.$v['value']]['value']}}</div>
+                    {{else /}}
+                        <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                    {{/if}}
+
+                    {{if !empty($module_data['data']) and !empty($module_data['data']['data']) and !empty($module_data['data']['data']['text_'.$v['value']]) and !empty($module_data['data']['data']['text_'.$v['value']]['url_data'])}}
+                        <div class="am-dropdown" data-am-dropdown>
+                            <a href="javascript:;" class="am-text-blue am-inline-block am-dropdown-toggle">
+                                {{:MyLang('common_service.themedata.form_item_url_already_choice_text')}}
+                            </a>
+                            <div class="am-dropdown-content am-radius">
+                                {{if !empty($common_platform_type)}}
+                                    <table class="am-table am-margin-bottom-0">
+                                        <thead>
+                                            <tr>
+                                                <th>{{:MyLang('platform_title')}}</th>
+                                                <th>{{:MyLang('link_title')}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{foreach $common_platform_type as $pv}}
+                                                {{if !empty($module_data['data']['data']['text_'.$v['value']]['url_data'][$pv['value']])}}
+                                                    <tr>
+                                                        <td>{{$pv.name}}</td>
+                                                        <td>
+                                                            <span class="text-copy-submit">{{$module_data['data']['data']['text_'.$v['value']]['url_data'][$pv['value']]}}</span>
+                                                        </td>
+                                                    </tr>
+                                                {{/if}}
+                                            {{/foreach}}
+                                        </tbody>
+                                    </table>
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{else /}}
+                        <span class="am-text-grey am-margin-right">{{:MyLang('no_setup_tips')}}</span>
+                    {{/if}}
+                </li>
+            {{/if}}
+        {{/foreach}}
+    {{if !isset($module_data['is_ul']) or $module_data['is_ul'] eq 1}}
+        </ul>
+    {{/if}}
+{{/if}}

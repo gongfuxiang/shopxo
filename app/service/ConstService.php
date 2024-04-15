@@ -125,6 +125,7 @@ class ConstService
                 '3.0.3' => ['value' => '3.0.3', 'name' => 'v3.0.3'],
                 '4.0.0' => ['value' => '4.0.0', 'name' => 'v4.0.0'],
                 '5.0.0' => ['value' => '5.0.0', 'name' => 'v5.0.0'],
+                '6.0.0' => ['value' => '6.0.0', 'name' => 'v6.0.0'],
             ],
 
             // 搜索排序方式
@@ -379,10 +380,10 @@ class ConstService
                 3 => ['value' => 'g.min_price', 'name' => MyLang('common_goods_order_by_type_list.3')],
                 4 => ['value' => 'g.id', 'name' => MyLang('common_goods_order_by_type_list.4')],
             ],
-            // 商品关联排序规则
-            'common_goods_order_by_rule_list' => [
-                0 => ['value' => 'desc', 'name' => MyLang('common_goods_order_by_rule_list.0'), 'checked' => true],
-                1 => ['value' => 'asc', 'name' => MyLang('common_goods_order_by_rule_list.1')],
+            // 数据排序规则
+            'common_data_order_by_rule_list' => [
+                0 => ['value' => 'desc', 'name' => MyLang('common_data_order_by_rule_list.0'), 'checked' => true],
+                1 => ['value' => 'asc', 'name' => MyLang('common_data_order_by_rule_list.1')],
             ],
             // 首页数据类型
             'common_site_floor_data_type_list' => [
@@ -473,6 +474,73 @@ class ConstService
                 0 => ['value' => 0, 'name' => MyLang('common_email_log_status_list.0')],
                 1 => ['value' => 1, 'name' => MyLang('common_email_log_status_list.1')],
                 2 => ['value' => 2, 'name' => MyLang('common_email_log_status_list.2')],
+            ],
+            // 主题数据类型
+            'common_theme_type_list' => [
+                0 => ['value' => 0, 'type' => 'textimages', 'name' => MyLang('common_theme_type_list.0')],
+                1 => ['value' => 1, 'type' => 'manytextimages', 'name' => MyLang('common_theme_type_list.1')],
+                2 => ['value' => 2, 'type' => 'video', 'name' => MyLang('common_theme_type_list.2')],
+                3 => ['value' => 3, 'type' => 'goods', 'name' => MyLang('common_theme_type_list.3')],
+                4 => ['value' => 4, 'type' => 'article', 'name' => MyLang('common_theme_type_list.4')],
+                5 => ['value' => 5, 'type' => 'goodsgroup', 'name' => MyLang('common_theme_type_list.5')],
+                6 => ['value' => 6, 'type' => 'articlegroup', 'name' => MyLang('common_theme_type_list.6')],
+            ],
+            // 主题数据页面
+            'common_theme_view_list' => [
+                0 => ['value' => 0, 'type' => 'indexindexindex', 'name' => MyLang('common_theme_view_list.0')],
+                1 => ['value' => 1, 'type' => 'indexsearchindex', 'name' => MyLang('common_theme_view_list.1')],
+                2 => ['value' => 2, 'type' => 'indexcategoryindex', 'name' => MyLang('common_theme_view_list.2')],
+                3 => ['value' => 3, 'type' => 'indexgoodsindex', 'name' => MyLang('common_theme_view_list.3')],
+                4 => ['value' => 4, 'type' => 'indexarticlecategory', 'name' => MyLang('common_theme_view_list.4')],
+                5 => ['value' => 5, 'type' => 'indexarticleindex', 'name' => MyLang('common_theme_view_list.5')],
+                6 => ['value' => 6, 'type' => 'indexbuyindex', 'name' => MyLang('common_theme_view_list.6')],
+                7 => ['value' => 7, 'type' => 'indexuserlogininfo', 'name' => MyLang('common_theme_view_list.7')],
+                8 => ['value' => 8, 'type' => 'indexuserreginfo', 'name' => MyLang('common_theme_view_list.8')],
+                9 => ['value' => 9, 'type' => 'indexuserforgetpwdinfo', 'name' => MyLang('common_theme_view_list.9')],
+                10 => ['value' => 10, 'type' => 'indexuserindex', 'name' => MyLang('common_theme_view_list.10')],
+            ],
+            // 主题数据-商品类型
+            'common_theme_goods_type_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_theme_goods_type_list.0'), 'checked' => true],
+                1 => ['value' => 1, 'name' => MyLang('common_theme_goods_type_list.1')],
+            ],
+            // 主题数据-业务数据-图片
+            'common_theme_business_images_list' => [
+                ['value' => 'icon', 'name' => MyLang('common_theme_business_images_list.icon')],
+                ['value' => 'active_icon', 'name' => MyLang('common_theme_business_images_list.active_icon')],
+                ['value' => 'shape', 'name' => MyLang('common_theme_business_images_list.shape')],
+                ['value' => 'cooperate', 'name' => MyLang('common_theme_business_images_list.cooperate')],
+                ['value' => 'title', 'name' => MyLang('common_theme_business_images_list.title')],
+                ['value' => 'background', 'name' => MyLang('common_theme_business_images_list.background')],
+                ['value' => 'detail_icon', 'name' => MyLang('common_theme_business_images_list.detail_icon')],
+                ['value' => 'detail', 'name' => MyLang('common_theme_business_images_list.detail')],
+                ['value' => 'detail_title', 'name' => MyLang('common_theme_business_images_list.detail_title')],
+                ['value' => 'detail_background', 'name' => MyLang('common_theme_business_images_list.detail_background')],
+            ],
+            // 主题数据-业务数据-文本-input
+            'common_theme_business_text_input_list' => [
+                ['value' => 'title', 'name' => MyLang('common_theme_business_text_input_list.title')],
+                ['value' => 'vice_title', 'name' => MyLang('common_theme_business_text_input_list.vice_title')],
+                ['value' => 'date', 'type' => 'date', 'name' => MyLang('common_theme_business_text_input_list.date')],
+                ['value' => 'more', 'name' => MyLang('common_theme_business_text_input_list.more')],
+                ['value' => 'btn', 'name' => MyLang('common_theme_business_text_input_list.btn')],
+                ['value' => 'describe', 'name' => MyLang('common_theme_business_text_input_list.describe')],
+            ],
+            // 主题数据-业务数据-文本-textarea
+            'common_theme_business_text_textarea_list' => [
+                ['value' => 'detail_describe', 'name' => MyLang('common_theme_business_text_textarea_list.detail_describe')],
+                ['value' => 'detail_content', 'name' => MyLang('common_theme_business_text_textarea_list.detail_content')],
+            ],
+            // 主题数据-文章类型
+            'common_theme_article_type_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_theme_article_type_list.0'), 'checked' => true],
+                1 => ['value' => 1, 'name' => MyLang('common_theme_article_type_list.1')],
+            ],
+            // 主题数据-文章排序类型
+            'common_theme_article_order_by_type_list' => [
+                0 => ['value' => 'id', 'name' => MyLang('common_theme_article_order_by_type_list.0'), 'checked' => true],
+                1 => ['value' => 'access_count', 'name' => MyLang('common_theme_article_order_by_type_list.1')],
+                
             ],
 
             // -------------------- 正则 --------------------

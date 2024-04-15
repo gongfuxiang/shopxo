@@ -205,6 +205,8 @@ class Buy extends Common
         if(!empty($params))
         {
             $params['user'] = $this->user;
+            $params['creator'] = $this->user['id'];
+            $params['creator_name'] = $this->user['username'];
             return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
         }
         MyViewAssign('msg', MyLang('illegal_access_tips'));

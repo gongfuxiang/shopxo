@@ -1,0 +1,169 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+            {{:ModuleInclude('public/admin_nav', [
+                'title'     => MyLang('themedata.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+                'back_url'  => MyUrl('admin/themedata/index', $params)
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('system_title'),
+                        'key'  => 'system',
+                    ],
+                    [
+                        'name' => MyLang('base_title'),
+                        'key'  => 'base',
+                    ],
+                    [
+                        'name' => MyLang('data_title'),
+                        'key'  => 'data',
+                    ],
+                ]
+            ])}}
+            <!-- nav end -->
+            <div class="nav-content">
+                <!-- 系统 -->
+                <div class="item am-active" data-key="system">
+                    {{:ModuleInclude('themedata/saveinfo/module/base', [
+                        'common_theme_view_list'  => empty($common_theme_view_list) ? [] : $common_theme_view_list,
+                        'theme_list'              => empty($theme_list) ? [] : $theme_list,
+                        'data'                    => empty($data) ? [] : $data,
+                    ])}}
+                </div>
+
+                <!-- 基础 -->
+                <div class="item" data-key="base">
+                    <!-- images -->
+                    <div class="images-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+
+                    <!-- input -->
+                    <div class="text-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/text_input', [
+                            'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                            'data'                                   => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 内容 -->
+                <div class="item" data-key="data">
+                    <!-- 图文内容 -->
+                    <ul class="manytextimages-content-container"
+                        data-form-item-images-icon="{{:MyLang('common_service.themedata.form_item_images_icon')}}"
+                        data-form-item-images-active-icon="{{:MyLang('common_service.themedata.form_item_images_active_icon')}}"
+                        data-form-item-images-shape="{{:MyLang('common_service.themedata.form_item_images_shape')}}"
+                        data-form-item-images-cooperate="{{:MyLang('common_service.themedata.form_item_images_cooperate')}}"
+                        data-form-item-images-title="{{:MyLang('common_service.themedata.form_item_images_title')}}"
+                        data-form-item-images-background="{{:MyLang('common_service.themedata.form_item_images_background')}}"
+                        data-form-item-images-detail-icon="{{:MyLang('common_service.themedata.form_item_images_detail_icon')}}"
+                        data-form-item-images-detail= "{{:MyLang('common_service.themedata.form_item_images_detail')}}"
+                        data-form-item-images-detail-title="{{:MyLang('common_service.themedata.form_item_images_detail_title')}}"
+                        data-form-item-images-detail-background="{{:MyLang('common_service.themedata.form_item_images_detail_background')}}"
+                        data-form-item-text-title="{{:MyLang('common_service.themedata.form_item_text_title')}}"
+                        data-form-item-text-title-message="{{:MyLang('common_service.themedata.form_item_text_title_message')}}"
+                        data-form-item-text-vice-title="{{:MyLang('common_service.themedata.form_item_text_vice_title')}}"
+                        data-form-item-text-vice-title-message="{{:MyLang('common_service.themedata.form_item_text_vice_title_message')}}"
+                        data-form-item-text-date="{{:MyLang('common_service.themedata.form_item_text_date')}}"
+                        data-form-item-text-date-message="{{:MyLang('common_service.themedata.form_item_text_date_message')}}"
+                        data-form-item-text-more="{{:MyLang('common_service.themedata.form_item_text_more')}}"
+                        data-form-item-text-more-message="{{:MyLang('common_service.themedata.form_item_text_more_message')}}"
+                        data-form-item-text-btn="{{:MyLang('common_service.themedata.form_item_text_btn')}}"
+                        data-form-item-text-btn-message="{{:MyLang('common_service.themedata.form_item_text_btn_message')}}"
+                        data-form-item-text-describe="{{:MyLang('common_service.themedata.form_item_text_describe')}}"
+                        data-form-item-text-describe-message="{{:MyLang('common_service.themedata.form_item_text_describe_message')}}"
+                        data-form-item-text-detail-describe="{{:MyLang('common_service.themedata.form_item_text_detail_describe')}}"
+                        data-form-item-text-detail-describe-message="{{:MyLang('common_service.themedata.form_item_text_detail_describe_message')}}"
+                    >
+                        {{if !empty($data) and !empty($data['data']) and !empty($data['data']['data']) and is_array($data['data']['data'])}}
+                            {{foreach $data.data.data as $k=>$v}}
+                                <li>
+                                    <div class="am-panel am-panel-default am-radius">
+                                        <div class="am-panel-bd am-padding-lg">
+                                            <div class="content-item">
+                                                <div class="images-row-container form-custom-group">
+                                                    <!-- images -->
+                                                    {{:ModuleInclude('themedata/saveinfo/module/images', [
+                                                        'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                                                        'data'                               => ['data'=>$v],
+                                                        'appoint_form_name_first'            => 'data['.$k.']',
+                                                        'index'                              => $k,
+                                                    ])}}
+                                                </div>
+                                                <div class="text-row-container form-custom-group">
+                                                    <!-- input -->
+                                                    {{:ModuleInclude('themedata/saveinfo/module/text_input', [
+                                                        'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                                                        'data'                                   => ['data'=>$v],
+                                                        'appoint_form_name_first'                => 'data['.$k.']',
+                                                        'index'                                  => $k,
+                                                    ])}}
+
+                                                    <!-- textarea -->
+                                                    {{:ModuleInclude('themedata/saveinfo/module/text_textarea', [
+                                                        'common_theme_business_text_textarea_list'  => empty($common_theme_business_text_textarea_list) ? [] : $common_theme_business_text_textarea_list,
+                                                        'data'                                      => ['data'=>$v],
+                                                        'appoint_business_text'                     => ['detail_describe'],
+                                                        'appoint_form_name_first'                   => 'data['.$k.']',
+                                                        'index'                                     => $k,
+                                                    ])}}
+                                                </div>
+                                            </div>
+                                            <div class="am-flex am-flex-items-center am-gap-32 content-item-operate">
+                                                <a href="javascript:;" class="am-text-xs am-text-danger content-item-remove-submit am-flex am-flex-items-center">
+                                                    <i class="iconfont icon-delete"></i>
+                                                    <span>{{:MyLang('delete_title')}}</span>
+                                                </a>
+                                                <a href="javascript:;" class="am-text-xs drag-sort-submit am-flex am-flex-items-center">
+                                                    <i class="iconfont icon-sort"></i>
+                                                    <span>{{:MyLang('sort_title')}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                    <div class="am-nbfc am-padding-bottom-xl">
+                        <span class="business-operations-submit manytextimages-content-add-submit am-border-0 am-text-sm">
+                            <i class="iconfont icon-add"></i>
+                            <span>{{:MyLang('add_data_title')}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <input type="hidden" name="type" value="1"/>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- url选择弹窗 -->
+{{:ModuleInclude('themedata/saveinfo/public/url_choice_popup')}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

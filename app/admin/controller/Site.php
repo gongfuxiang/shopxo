@@ -129,6 +129,9 @@ class Site extends Base
 
                 // 支付方式
                 $assign['payment_list'] = PaymentService::PaymentList(['is_enable'=>1, 'is_open_user'=>1]);
+
+                // 默认首页列表
+                $assign['site_default_index_data_list'] = SystemService::SiteDefaultIndexDataList();
                 break;
         }
 
@@ -182,7 +185,7 @@ class Site extends Base
             'common_sales_count_inc_rules_list'      => MyConst('common_sales_count_inc_rules_list'),
             // 首页商品排序规则
             'common_goods_order_by_type_list'        => MyConst('common_goods_order_by_type_list'),
-            'common_goods_order_by_rule_list'        => MyConst('common_goods_order_by_rule_list'),
+            'common_data_order_by_rule_list'        => MyConst('common_data_order_by_rule_list'),
             // 首页楼层数据类型
             'common_site_floor_data_type_list'       => MyConst('common_site_floor_data_type_list'),
             // 搜索参数类型

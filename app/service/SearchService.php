@@ -183,8 +183,8 @@ class SearchService
             })->group('g.id')->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray();
 
             // 数据处理
-            $params['is_spec'] = true;
-            $params['is_cart'] = true;
+            $params['is_spec'] = 1;
+            $params['is_cart'] = 1;
             $goods = GoodsService::GoodsDataHandle($data, $params);
 
             // 返回数据

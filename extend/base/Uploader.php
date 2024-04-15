@@ -21,6 +21,7 @@ class Uploader
 {
     private $fileField; //文件域名
     private $file; //文件上传对象
+    private $type; //类型
     private $base64; //文件上传对象
     private $config; //配置信息
     private $oriName; //原始文件名

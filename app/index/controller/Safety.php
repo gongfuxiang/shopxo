@@ -108,7 +108,7 @@ class Safety extends Center
 	{
 		if(MySession('safety_sms') == null && !empty($this->user['mobile']))
 		{
-			return $this->error(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/mobileinfo'));
+			return ViewError(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/mobileinfo'));
 		}
 
         // 浏览器名称
@@ -146,7 +146,7 @@ class Safety extends Center
 	{
 		if(MySession('safety_email') == null && !empty($this->user['email']))
 		{
-			return $this->error(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/emailinfo'));
+			return ViewError(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/emailinfo'));
 		}
 
         // 浏览器名称

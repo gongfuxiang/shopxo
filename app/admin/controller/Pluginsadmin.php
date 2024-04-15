@@ -129,7 +129,7 @@ class Pluginsadmin extends Base
             {
                 $assign['verification_msg'] = $ret['msg'];
                 MyViewAssign($assign);
-                return MyView('first_step');
+                return MyView('firststep');
             }
         }
 
@@ -137,7 +137,7 @@ class Pluginsadmin extends Base
         if(empty($params['plugins']) && empty($data['data'][0]))
         {
             MyViewAssign($assign);
-            return MyView('first_step');
+            return MyView('firststep');
         } else {
             // 编辑器文件存放地址
             $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue('plugins_'.$params['plugins']);
@@ -147,7 +147,7 @@ class Pluginsadmin extends Base
 
             //数据赋值
             MyViewAssign($assign);
-            return MyView('save_info');
+            return MyView('saveinfo');
         }
     }
 

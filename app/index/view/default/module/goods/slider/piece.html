@@ -30,7 +30,7 @@
         <div data-am-widget="slider" class="am-slider am-slider-default am-radius am-nbfc" data-am-slider='{"animation":"slide","controlNav":{{if !isset($module_data['is_control_nav']) or $module_data['is_control_nav'] eq 1}}true{{else /}}false{{/if}},"slideshow":{{if isset($module_data['is_auto_play']) and $module_data['is_auto_play'] eq 1}}true{{else /}}false{{/if}},"slideshowSpeed":4000,"animationSpeed":2000,"itemWidth":{{if empty($module_data['item_width'])}}218{{else /}}{{$module_data.item_width}}{{/if}},"itemMargin":{{if empty($module_data['item_margin'])}}12{{else /}}{{$module_data.item_margin}}{{/if}}, "controlNav":false}'>
             <ul class="am-slides">
                 {{foreach $module_data.goods_list as $v}}
-                    <li class="am-radius">
+                    <li class="am-radius theme-data-edit-event" data-id="{{$v.id}}" data-module="goods">
                         <!-- 商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
@@ -78,9 +78,15 @@
                         {{/php}}
 
                         <p class="price">
-                            <strong>{{$currency_symbol}}{{$v.min_price}}</strong>
-                            {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
-                                <span class="original-price">{{$currency_symbol}}{{$v.min_original_price}}</span>
+                            {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
+                                <strong>{{$v.show_price_symbol}}{{$v.min_price}}</strong>
+                                <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                            {{/if}}
+
+                            {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
+                                {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                    <span class="original-price">{{$v.show_original_price_symbol}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</span>
+                                {{/if}}
                             {{/if}}
                         <p>
                         <a href="{{$v.goods_url}}" target="_blank" class="goods-title am-block am-margin-top-xs am-text-truncate-2">{{$v.title}}</a>

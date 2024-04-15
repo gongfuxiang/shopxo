@@ -1,0 +1,8 @@
+{{if !empty($data) and is_array($data)}}
+    {{:ModuleInclude('module/goods/list/base', [
+        'goods_list'  => $data,
+        'type'        => 'category',
+    ])}}
+{{else /}}
+        {{:ModuleInclude('public/not_data')}}
+{{/if}}

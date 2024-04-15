@@ -343,11 +343,11 @@ class User extends Center
     public function UserVerifyEntry()
     {
         $params = [
-                'width'         => 100,
-                'height'        => 24,
-                'key_prefix'    => input('type', 'user_reg'),
-                'expire_time'   => MyC('common_verify_expire_time'),
-            ];
+            'width'        => empty($this->data_request['width']) ? 100 : intval($this->data_request['width']),
+            'height'       => empty($this->data_request['height']) ? 24 : intval($this->data_request['height']),
+            'key_prefix'   => empty($this->data_request['type']) ? 'user_reg' : $this->data_request['type'],
+            'expire_time'  => MyC('common_verify_expire_time'),
+        ];
         $verify = new \base\Verify($params);
         $verify->Entry();
     }

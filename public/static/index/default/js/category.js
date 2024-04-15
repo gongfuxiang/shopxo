@@ -36,6 +36,9 @@ function CategoryGoodsSearchAjax(page = 1, page_size = null) {
                     }
                     // 记录是否首次状态
                     is_loading_first = 0;
+
+                    // 主题数据修改初始化
+                    ThemeDataEditEventInit();
                 } else {
                     $('.zero-right-page').empty();
                 }

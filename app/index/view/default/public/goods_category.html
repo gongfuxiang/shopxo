@@ -8,15 +8,15 @@
                 </div>
             </a>
         {{/if}}
-        <div class="category-content" {{if (isset($common_goods_category_hidden) and $common_goods_category_hidden eq 1)}}style="display:none;"{{/if}}>
+        <div class="category-content theme-data-edit-event" data-module="goods_category" {{if (isset($common_goods_category_hidden) and $common_goods_category_hidden eq 1)}}style="display:none;"{{/if}}>
             <div class="category">
                 <ul class="category-list">
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
                         {{foreach $goods_category_list as $k=>$v}}
                             <li class="first" data-index="{{$k}}">
                                 {{if $category_show_level gt 1}}
-                                    <img class="category-fillet-top am-hide" src="{{$attachment_host}}/static/index/{{$default_theme}}/images/corner_round_top.png" />
-                                    <img class="category-fillet-bottom am-hide" src="{{$attachment_host}}/static/index/{{$default_theme}}/images/corner_round_bottom.png" />
+                                    <img class="category-fillet-top am-hide" src="{{:StaticAttachmentUrl('corner_round_top.png')}}" />
+                                    <img class="category-fillet-bottom am-hide" src="{{:StaticAttachmentUrl('corner_round_bottom.png')}}" />
                                 {{/if}}
                                 <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block">
                                 <div class="category-info">
@@ -75,7 +75,7 @@
                                                 </div>
                                             </div>
                                         {{else /}}
-                                            {{include file="public/not_data" /}}
+                                            {{:ModuleInclude('public/not_data')}}
                                         {{/if}}
                                     </div>
                                 {{/if}}

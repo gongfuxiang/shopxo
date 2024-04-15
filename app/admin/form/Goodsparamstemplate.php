@@ -63,7 +63,6 @@ class GoodsParamsTemplate
                 'is_search'     => 1,
                 'is_delete'     => 1,
                 'is_middle'     => 0,
-                'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
             'form' => [

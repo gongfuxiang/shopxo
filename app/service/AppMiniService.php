@@ -229,7 +229,7 @@ class AppMiniService
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
-        if($resource != true)
+        if($resource !== true)
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
@@ -430,9 +430,9 @@ class AppMiniService
         // 开始下载
         $appmini_type = MyConst('common_appmini_type');
         $application_name = array_key_exists(self::$application_name, $appmini_type) ? $appmini_type[self::$application_name]['name'].'-' : '';
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'_v'.$config['ver'].'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'_v'.$config['ver'].'.zip', true))
         {
-            @unlink($new_dir.'.zip');
+            return DataReturn(MyLang('download_success'), 0);
         } else {
             return DataReturn(MyLang('download_fail'), -100);
         }

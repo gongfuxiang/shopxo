@@ -1,0 +1,228 @@
+/**
+ * url地址容器
+ */
+.url-container > div.am-input-group:not(:first-child) {
+    margin-top: 0.5rem;
+}
+.url-container > .am-input-group > .am-input-group-btn > button {
+    width: 11rem;
+}
+
+/**
+ * 文本、图片行组合
+ */
+.images-row-container .am-form-group.am-form-file {
+    gap: 1rem !important;
+}
+.images-row-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.images-row-container ul.plug-file-upload-view {
+    padding: 0 !important;
+}
+.images-row-container ul.plug-file-upload-view li {
+    margin-right: 0.5rem !important;
+}
+.images-row-container .am-input-group-label {
+    border-left: 0.1rem solid #f0f0f0 !important;
+    border-radius: var(--border-radius) !important;
+}
+
+/**
+ * 组合框背景色
+ */
+.am-input-group .am-input-group-label {
+    background: #fcfcfc;
+    width: 12.2rem;
+}
+.am-input-group-sm > textarea.am-form-field {
+    height: 6rem;
+}
+
+/**
+ * 多图文
+ */
+.manytextimages-content-container .content-item {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0 7rem;
+}
+.manytextimages-content-container .content-item .text-row-container {
+    flex: 1;
+    max-width: 100% !important;
+}
+.manytextimages-content-container > li .content-item-operate i {
+    font-size: 1.4rem;
+    position: relative;
+    margin-right: 0.3rem;
+}
+
+
+/**
+ * 弹窗 - 数据搜索列表
+ */
+.popup-add-container {
+    height: 100%;
+}
+.popup-page-container {
+    height: 4rem;
+}
+.forth-selection-container select.forth-selection-form-category {
+    display: -webkit-inline-box;
+}
+.forth-selection-container .forth-selection-form-category,
+.forth-selection-container .chosen-container,
+.forth-selection-container .forth-selection-form-keywords {
+    width: calc(50% - 4.8rem) !important;
+}
+.forth-selection-container .chosen-container,
+.forth-selection-container .forth-selection-form-keywords {
+    display: -webkit-inline-box !important;
+}
+.forth-selection-container .chosen-single {
+    width: 100%;
+}
+.forth-selection-container .search-submit {
+    width: 8.7rem;
+}
+.forth-selection-list-container {
+    height: calc(100% - 9.2rem);
+    border: 0.1rem solid #eee;
+}
+.forth-selection-list-container .am-gallery-bordered .am-gallery-title {
+    margin-top: 0.5rem;
+}
+.forth-selection-list-container ul li {
+    position: relative;
+    cursor: pointer;
+}
+.forth-selection-list-container ul li:hover .am-gallery-item {
+    -webkit-box-shadow: 0 0 0.6rem var(--color-blue);
+    box-shadow: 0 0 0.6rem var(--color-blue);
+}
+.forth-selection-list-container .icon-submit-container {
+    position: absolute;
+    right: -0.3rem;
+    top: -1rem;
+}
+
+/**
+ * 弹窗文章列表
+ */
+.article-selection-list-container .am-gallery-bordered .am-gallery-item img {
+    width: 3rem;
+    height: 3rem;
+}
+
+
+/**
+ * 手动模式下列表容器
+ */
+.manual-mode-data-container li {
+    position: relative;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.manual-mode-data-container li button.am-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.4rem 2.5rem 1.4rem 1.5rem;
+    color: #ddd;
+}
+.manual-mode-data-container li:hover {
+    background: #F6F6F6;
+}
+.manual-mode-data-container li:hover button.am-close {
+    color: var(--color-main);
+}
+.manual-mode-data-container li a {
+    color: #333;
+    padding: 1rem 1.2rem;
+    transition: all 0.3s ease-in-out;
+    width: calc(100% - 8rem);
+}
+.manual-mode-data-container li:hover a {
+    color: var(--color-main);
+}
+.manual-mode-data-container .plug-file-upload-view > li {
+    min-width: 3.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0.2rem;
+}
+.manual-mode-data-container .plug-file-upload-view > li.plug-file-upload-submit {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.manual-mode-data-container .plug-file-upload-view > li.plug-file-upload-submit i {
+    font-size: 1.4rem;
+}
+.manual-mode-data-container .plug-file-upload-view > li.plug-file-upload-submit i.icon-close {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    right: -0.7rem;
+    top: -0.7rem;
+}
+.manual-mode-data-container .plug-file-upload-view > li.plug-file-upload-submit i.icon-eye {
+    line-height: 250%;
+}
+
+
+/**
+ * 自定义数据
+ */
+.textimages-custom-container > li {
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.textimages-custom-container > li > input {
+    display: -webkit-inline-box !important;
+    margin: 0 1rem;
+}
+.textimages-custom-container > li > input.name {
+    width: 12rem;
+}
+.textimages-custom-container > li > input.value {
+    width: 22rem;
+}
+.textimages-custom-container > li > .url-choice-event {
+    width: 11rem;
+}
+.textimages-custom-container > li > button.am-close {
+    margin-top: -0.2rem;
+    margin-left: 1rem;
+}
+.textimages-custom-container > li > .plug-file-upload-view > li {
+    min-width: 3rem;
+    width: 3rem;
+    height: 3rem;
+    padding: 0.2rem;
+}
+.textimages-custom-container > li > .plug-file-upload-view > li.plug-file-upload-submit {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.textimages-custom-container > li > .plug-file-upload-view > li.plug-file-upload-submit i {
+    font-size: 1.4rem;
+}
+.textimages-custom-container > li > .plug-file-upload-view > li.plug-file-upload-submit i.icon-close {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    right: -0.7rem;
+    top: -0.7rem;
+}
+.textimages-custom-container > li > .plug-file-upload-view > li.plug-file-upload-submit i.icon-eye {
+    line-height: 200%;
+}

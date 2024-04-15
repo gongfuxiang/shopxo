@@ -61,6 +61,8 @@ class Orderaftersale extends Base
     public function Confirm()
     {
         $params = $this->data_request;
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleConfirm($params));
     }
 

@@ -1,0 +1,153 @@
+<!-- 中间模块基础右侧 -->
+{{if !empty($module_data['goods'])}}
+    <div class="clearfix-right">
+        <!-- 商品页右侧内容顶部钩子 开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_goods_detail_right_content_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_goods_detail_right_content_top_data) and is_array($plugins_view_goods_detail_right_content_top_data)}}
+            {{foreach $plugins_view_goods_detail_right_content_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 商品页右侧内容顶部钩子 结束 -->
+
+        <!-- 右侧内容 -->
+        <div class="clearfix-right-content">
+            <!-- 商品页右侧内容内部顶部钩子 开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_right_content_inside_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_right_content_inside_top_data) and is_array($plugins_view_goods_detail_right_content_inside_top_data)}}
+                {{foreach $plugins_view_goods_detail_right_content_inside_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 商品页右侧内容内部顶部钩子 结束 -->
+
+            <!-- 面板规格名称展示-->
+            <div class="tb-detail-hd am-margin-bottom-xs">
+                <h1 class="detail-title" {{if !empty($module_data.goods.title_color)}}style="color:{{$module_data.goods.title_color}};"{{/if}}>
+                    <!-- 公共icon数据 -->
+                    {{if !empty($module_data['goods']['plugins_view_icon_data']) and is_array($module_data['goods']['plugins_view_icon_data'])}}
+                        {{foreach $module_data.goods.plugins_view_icon_data as $v}}
+                            {{if !empty($v) or is_array($v) and !empty($v['name'])}}
+                                <a class="goods-plugins-view-item-icon am-badge am-radius am-vertical-align-middle" href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['bg_color'])}}background: {{$v.bg_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</a>
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                    {{$module_data.goods.title}}
+
+                    <!-- 商品页面基础信息标题里面钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_goods_detail_title</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_goods_detail_title_data) and is_array($plugins_view_goods_detail_title_data)}}
+                        {{foreach $plugins_view_goods_detail_title_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                </h1>
+                {{if !empty($module_data['goods']['simple_desc'])}}
+                    <p class="simple-desc am-margin-top-xs">{{$module_data.goods.simple_desc}}</p>
+                {{/if}}
+            </div>
+            <div class="tb-detail-list">
+                <!-- 商品页面基础信息顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_goods_detail_base_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_goods_detail_base_top_data) and is_array($plugins_view_goods_detail_base_top_data)}}
+                    {{foreach $plugins_view_goods_detail_base_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
+                <!-- 基础面板模块 -->
+                {{:ModuleInclude('goods/module/middle_base/right/panel_base', ['goods'=>$module_data['goods']])}}
+
+                <!-- 公共面板数据 -->
+                {{if !empty($module_data['goods']['plugins_view_panel_data']) and is_array($module_data['goods']['plugins_view_panel_data'])}}
+                    <div class="goods-plugins-view-panel-container am-text-danger am-margin-top-sm">
+                        {{foreach $module_data.goods.plugins_view_panel_data as $v}}
+                            {{if is_string($v) or is_int($v)}}
+                                <p>{{$v}}</p>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                {{/if}}
+
+                <!-- 右侧基础面板基础参数模块 -->
+                {{:ModuleInclude('goods/module/middle_base/right/panel_parameters', ['goods'=>$module_data['goods']])}}
+
+                <!-- 右侧基础面板配送地址模块 -->
+                {{:ModuleInclude('goods/module/middle_base/right/panel_delivery_adress', ['goods'=>$module_data['goods']])}}
+
+                <!-- 右侧基础面板规格选择模块 -->
+                {{:ModuleInclude('goods/module/middle_base/right/panel_spec_choice', ['goods'=>$module_data['goods']])}}
+            </div>
+            <!-- 商品页面购买导航顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_buy_nav_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_buy_nav_top_data) and is_array($plugins_view_goods_detail_buy_nav_top_data)}}
+                {{foreach $plugins_view_goods_detail_buy_nav_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 右侧基础购买导航模块 -->
+            {{:ModuleInclude('goods/module/middle_base/right/buy_nav', ['goods'=>$module_data['goods']])}}
+
+            <!-- 商品页右侧内容内部顶部钩子 开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_right_content_inside_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_right_content_inside_bottom_data) and is_array($plugins_view_goods_detail_right_content_inside_bottom_data)}}
+                {{foreach $plugins_view_goods_detail_right_content_inside_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 商品页右侧内容内部顶部钩子 结束 -->
+        </div>
+
+        <!-- 商品页右侧内容底部钩子 开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_goods_detail_right_content_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_goods_detail_right_content_bottom_data) and is_array($plugins_view_goods_detail_right_content_bottom_data)}}
+            {{foreach $plugins_view_goods_detail_right_content_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 商品页右侧内容底部钩子 结束 -->
+    </div>
+{{/if}}

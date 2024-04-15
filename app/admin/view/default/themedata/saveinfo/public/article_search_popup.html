@@ -1,0 +1,37 @@
+<div class="am-popup am-radius" id="themedata-article-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('common_service.themedata.add_article_title')}}</h4>
+            <span class="am-icon-arrows-alt am-full"></span>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-padding-sm popup-add-container">
+                <!-- 搜索 -->
+                <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/themedata/articlesearch')}}">
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('form_article_category_placeholder')}}" data-validation-message="{{:MyLang('form_article_category_message')}}">
+                        <option value="">{{:MyLang('form_article_category_placeholder')}}</option>
+                        {{if !empty($article_category_list)}}
+                            {{foreach $article_category_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
+                    <input type="text" placeholder="{{:MyLang('article_name')}}" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: ' {{:MyLang('search_title')}}'}">
+                        <i class="am-icon-search"></i>
+                        <span>{{:MyLang('search_title')}}</span>
+                    </button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs am-radius forth-selection-list-container article-selection-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
+                    <ul class="am-gallery am-avg-sm-2 am-gallery-bordered"></ul>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-margin-top-sm am-text-center popup-page-container"></div>
+            </form>
+        </div>
+    </div>
+</div>

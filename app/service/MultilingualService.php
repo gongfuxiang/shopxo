@@ -44,8 +44,13 @@ class MultilingualService
             $multilingual_list = self::MultilingualCanChooseList();
             if(!empty($multilingual_list) && is_array($multilingual_list) && !empty($allow_lang_list) && is_array($allow_lang_list))
             {
+                // 域名绑定语言
+                $domain_multilingual = array_column(MyC('common_domain_multilingual_bind_list', [], true), 'domain', 'lang');
+                // 可使用的语言
                 $allow_lang_list = array_column($allow_lang_list, null, 'code');
+                // 当前语言
                 $user_lang = self::GetUserMultilingualValue();
+                // 默认语言
                 $default_lang = MyConfig('lang.default_lang');
                 $url = self::CurrentViewUrl();
                 foreach($multilingual_list as $k=>$v)
@@ -58,6 +63,13 @@ class MultilingualService
                             'icon'  => $v['icon'],
                             'url'   => $url.$k,
                         ]);
+
+                        // 域名语言
+                        if(!empty($domain_multilingual) && is_array($domain_multilingual) && array_key_exists($k, $domain_multilingual))
+                        {
+                            $temp['url'] = __MY_HTTP__.'://'.$domain_multilingual[$k];
+                        }
+
                         // 可选语言
                         $select[] = $temp;
 

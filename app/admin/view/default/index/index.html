@@ -1,14 +1,14 @@
 
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 <!-- content -->
 <div class="admin">
 	<!-- left menu -->
-	{{include file="public/menu" /}}
+	{{:ModuleInclude('public/menu')}}
 
 	<!-- right content  -->
-	<div id="ifcontent">
+	<div id="ifcontent" {{if isset($appoint_to_url) and $appoint_to_url eq 1}}data-is-appoint-to-url="1"{{/if}}>
         <!-- nav -->
-        {{include file="public/nav" /}}
+        {{:ModuleInclude('public/nav')}}
 		<div class="window-layer">
 	    	<iframe src="{{$to_url}}" width="100%" height="100%"></iframe>
 	    </div>
@@ -17,7 +17,7 @@
 </div>
 
 <!-- navbar -->
-{{include file="public/nav_bar" /}}
+{{:ModuleInclude('public/nav_bar')}}
 
 <!-- footer -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

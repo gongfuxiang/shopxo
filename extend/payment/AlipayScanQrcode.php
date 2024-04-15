@@ -172,7 +172,7 @@ class AlipayScanQrcode
         $result = $res['data'][$key];
 
         // 状态
-        if(isset($result['code']) && $result['code'] == 10000)
+        if(isset($result['code']))
         {
             // 验证签名
             if(!$this->SyncRsaVerify($result, $res['data']['sign']))
@@ -180,14 +180,146 @@ class AlipayScanQrcode
                 return DataReturn('签名验证错误', -1);
             }
 
-            // 成功
-            return DataReturn('支付成功', 0, $this->ReturnData($result));
+            // 支付提示信息
+            $msg = empty($result['sub_msg']) ? (empty($result['msg']) ? '支付失败' : $result['msg']) : $result['sub_msg'];
+
+            // 是否支付成功
+            if($result['code'] == 10000)
+            {
+                return DataReturn('支付成功', 0, $this->ReturnData($result));
+            } else {
+                // 是否需要等待用户处理
+                if($result['code'] == 10003)
+                {
+                    return DataReturn('等待用户支付中...', -9999, [
+                        'is_await'  => 1,
+                        'payment'   => substr(self::class, strrpos(self::class, '\\') + 1),
+                        'order_no'  => $params['order_no'],
+                    ]);
+                }
+            }
+        }
+        $code = empty($result['sub_code']) ? (empty($result['code']) ? 0 : $result['code']) : $result['sub_code'];
+        return DataReturn($msg.'['.$code.']', -1000);
+    }
+
+    /**
+     * 支付查询
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Query($params = [])
+    {
+        // 参数
+        if(empty($params))
+        {
+            return DataReturn('参数不能为空', -1);
+        }
+        // 配置信息
+        if(empty($this->config))
+        {
+            return DataReturn('支付缺少配置', -1);
+        }
+        // 订单号
+        if(empty($params['order_no']))
+        {
+            return DataReturn('订单号为空', -1);
         }
 
-        // 直接返回支付信息
-        $msg = empty($result['sub_msg']) ? (empty($result['msg']) ? '支付失败' : $result['msg']) : $result['sub_msg'];
-        $code = empty($result['sub_code']) ? (empty($result['code']) ? '支付失败' : $result['code']) : $result['sub_code'];
-        return DataReturn($msg.'['.$code.']', -1000);
+        // 支付参数
+        $parameter = array(
+            'app_id'                => $this->config['appid'],
+            'method'                => 'alipay.trade.query',
+            'format'                => 'JSON',
+            'charset'               => 'utf-8',
+            'sign_type'             => 'RSA2',
+            'timestamp'             => date('Y-m-d H:i:s'),
+            'version'               => '1.0',
+        );
+        $biz_content = array(
+            'out_trade_no'  => $params['order_no'],
+        );
+        // 是否撤销操作
+        if(isset($params['is_reverse_pay']) && $params['is_reverse_pay'] == 1)
+        {
+            $parameter['method'] = 'alipay.trade.cancel';
+            // 加入业务参数
+            $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+            // 生成签名参数+签名
+            $sp = $this->GetParamSign($parameter);
+            $parameter['sign'] = $this->MyRsaSign($sp['value']);
+
+            // 执行请求
+            $res = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
+            if($res['code'] != 0)
+            {
+                return $res;
+            }
+            $key = str_replace('.', '_', $parameter['method']).'_response';
+            $result = $res['data'][$key];
+
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $res['data']['sign']))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
+            // 状态
+            if(isset($result['code']) && $result['code'] == 10000)
+            {
+                return DataReturn('撤销成功', -55555, ['is_reverse_pay'=>1]);
+            }
+
+            // 直接返回支付信息
+            $msg = empty($result['sub_msg']) ? (empty($result['msg']) ? '支付失败' : $result['msg']) : $result['sub_msg'];
+            $code = empty($result['sub_code']) ? (empty($result['code']) ? '支付失败' : $result['code']) : $result['sub_code'];
+            return DataReturn($msg, -1);
+        } else {
+            // 加入业务参数
+            $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+            // 生成签名参数+签名
+            $sp = $this->GetParamSign($parameter);
+            $parameter['sign'] = $this->MyRsaSign($sp['value']);
+
+            // 执行请求
+            $res = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
+            if($res['code'] != 0)
+            {
+                return $res;
+            }
+            $key = str_replace('.', '_', $parameter['method']).'_response';
+            $result = $res['data'][$key];
+
+            // 验证签名
+            if(!$this->SyncRsaVerify($result, $res['data']['sign']))
+            {
+                return DataReturn('签名验证错误', -1);
+            }
+
+            // 状态
+            if(isset($result['code']) && $result['code'] == 10000 && isset($result['trade_status']) && $result['trade_status'] == 'TRADE_SUCCESS')
+            {
+                return DataReturn('支付成功', 0, $this->ReturnData($result));
+            }
+
+            // 直接返回支付信息
+            $msg = empty($result['sub_msg']) ? (empty($result['msg']) ? '支付失败' : $result['msg']) : $result['sub_msg'];
+            $code = empty($result['sub_code']) ? (empty($result['code']) ? '支付失败' : $result['code']) : $result['sub_code'];
+            // 是否等待支付中
+            if(isset($result['trade_status']) && $result['trade_status'] == 'WAIT_BUYER_PAY')
+            {
+                $msg = '等待用户支付中...';
+            } else {
+                $msg = $msg.'['.$code.']';
+            }
+            return DataReturn($msg, -1);
+        }
     }
 
     /**

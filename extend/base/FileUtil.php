@@ -221,7 +221,7 @@ class FileUtil
         $aim_url = str_replace('//', '/', $aim_url);
         if(file_exists($aim_url) && is_writable($aim_url))
         {
-            unlink($aim_url);
+            @unlink($aim_url);
             return true;
         } else {
             return false;
@@ -312,13 +312,14 @@ class FileUtil
      * @desc    description
      * @param   [string]          $file_path [文件地址]
      * @param   [string]          $show_name [显示名称]
+     * @param   [boolean]         $is_del    [是否需要删除文件]
      */
-    public static function DownloadFile($file_path, $show_name)
+    public static function DownloadFile($file_path, $show_name, $is_del = false)
     {
         if(is_file($file_path))
         {
             //打开文件
-            $file = fopen($file_path,"r");
+            $file = fopen($file_path, "r");
 
             //返回的文件类型
             Header("Content-type: application/octet-stream");
@@ -353,7 +354,12 @@ class FileUtil
                 //每次向客户端回送1024个字节的数据
                 echo $file_data;
             }
-            return true;
+            // 是否删除文件
+            if($is_del)
+            {
+                self::UnlinkFile($file_path);
+            }
+            die;
         }
         return false;
     }

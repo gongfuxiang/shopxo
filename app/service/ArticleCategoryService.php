@@ -35,7 +35,7 @@ class ArticleCategoryService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
         $data = Db::name('ArticleCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('handle_success'), 0, self::CategoryDataHandle($data));
+        return DataReturn(MyLang('handle_success'), 0, self::CategoryDataHandle($data, $params));
     }
 
     /**
@@ -45,15 +45,26 @@ class ArticleCategoryService
      * @version 1.0.0
      * @date    2021-11-08
      * @desc    description
-     * @param   [array]          $data [分类数据]
+     * @param   [array]          $data   [分类数据]
+     * @param   [array]          $params [输入参数]
      */
-    public static function CategoryDataHandle($data)
+    public static function CategoryDataHandle($data, $params = [])
     {
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['url'] = (APPLICATION == 'web') ? MyUrl('index/article/category', ['id'=>$v['id']]) : '/pages/article-category/article-category?id='.$v['id'];
+                if(APPLICATION == 'web')
+                {
+                    $request_params = ['id'=>$v['id']];
+                    if(!empty($params['awd']))
+                    {
+                        $request_params['awd'] = $params['awd'];
+                    }
+                    $v['url'] = MyUrl('index/article/category', $request_params);
+                } else {
+                    $v['url'] = '/pages/article-category/article-category?id='.$v['id'];
+                }
             }
         }
         return $data;
@@ -143,10 +154,10 @@ class ArticleCategoryService
 
         // 数据
         $data = [
-            'name'                  => $params['name'],
-            'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
-            'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
-            'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'name'       => $params['name'],
+            'pid'        => isset($params['pid']) ? intval($params['pid']) : 0,
+            'sort'       => isset($params['sort']) ? intval($params['sort']) : 0,
+            'is_enable'  => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
 
         // 添加

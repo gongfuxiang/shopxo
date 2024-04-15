@@ -131,10 +131,11 @@ class UserGoodsFavor
             // 数据配置
             'data'  => [
                 'table_obj'     => Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id'),
-                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images, g.inventory_unit',
                 'order_by'      => 'f.id desc',
                 'detail_dkey'   => 'f.id',
                 'data_handle'   => 'GoodsFavorService::GoodsFavorListHandle',
+                'detail_where'  => $this->condition_base,
                 'is_page'       => 1,
             ],
         ];

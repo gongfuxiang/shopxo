@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -17,8 +17,8 @@
                             <label>{{:MyLang('common_service.articlecategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" placeholder="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" class="am-radius" required />
                         </div>
-                        {{include file="lib/sort_row" /}}
-                        {{include file="lib/is_enable_row" /}}
+                        {{:ModuleInclude('lib/sort_row')}}
+                        {{:ModuleInclude('lib/is_enable_row')}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
                             <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
@@ -39,7 +39,7 @@
 
         <!-- list start -->
         <div id="card" data-node-url="{{:MyUrl('admin/articlecategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/articlecategory/delete')}}" data-popup-tag="#data-save-win">
-            {{include file="public/loading" /}}
+            {{:ModuleInclude('public/loading')}}
         </div>
         <!-- list end -->
 	</div>
@@ -47,7 +47,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
 	// 初始化

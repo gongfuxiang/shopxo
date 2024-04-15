@@ -145,7 +145,7 @@ class SystemUpgradeService
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
-        if($resource != true)
+        if($resource !== true)
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
@@ -197,7 +197,7 @@ class SystemUpgradeService
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
-        if($resource != true)
+        if($resource !== true)
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }

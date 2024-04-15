@@ -250,7 +250,7 @@ class GoodsCommentsService
             $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
 
             // 用户默认头像
-            $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+            $default_avatar = UserDefaultAvatar();
 
             // 数据处理
             $username_default = MyLang('common_service.goodscomments.comments_username_default');
@@ -720,13 +720,26 @@ class GoodsCommentsService
             if(!empty($data))
             {
                 $sum = array_sum($data);
+                $temp_rating = null;
+                $temp_portion = 0;
                 foreach($data as $rating=>$count)
                 {
                     if($rating > 0 && $rating <= 5)
                     {
                         $rating_list[$rating]['count'] = $count;
                         $rating_list[$rating]['portion'] = round(($count/$sum)*100);
+                        if($rating_list[$rating]['portion'] > $temp_portion)
+                        {
+                            $temp_rating = $rating;
+                            $temp_portion = $rating_list[$rating]['portion'];
+                        }
                     }
+                }
+                // 合计是否超出%100
+                $sum_portion = array_sum(array_column($rating_list, 'portion'));
+                if($sum_portion > 100 && $temp_rating !== null)
+                {
+                    $rating_list[$temp_rating]['portion'] -= $sum_portion-100;
                 }
             }
             sort($rating_list);

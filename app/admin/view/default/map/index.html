@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- content start  -->
 {{if isset($params['lng']) and isset($params['lat']) and $params['lng'] neq 0 and $params['lat'] neq 0}}
@@ -9,7 +9,7 @@
 <!-- content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 {{if isset($params['lng']) and isset($params['lat']) and $params['lng'] neq 0 and $params['lat'] neq 0}}
     <script type="text/javascript">
     $(function()

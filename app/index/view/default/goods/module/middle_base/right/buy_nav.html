@@ -1,0 +1,106 @@
+<!-- 右侧基础购买导航模块 -->
+{{if !empty($module_data['goods'])}}
+    <div class="buy-nav">
+        <div class="buy-nav-opt buy-nav-opt-number-{{if isset($buy_nav_opt_number)}}{{$buy_nav_opt_number}}{{else /}}2{{/if}}">
+            <!-- 商品页面基础信息购买小导航内部前面钩子 开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_base_buy_nav_min_inside_begin</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data)}}
+                {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_begin_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 商品页面基础信息购买小导航内部前面钩子 结束 -->
+
+            <!-- 首页 -->
+            <a href="{{$home_url}}" class=nav-min-home-submit>
+                <span class="nav-icon nav-icon-home">
+                    <i class="iconfont icon-index"></i>
+                    <em>首页</em>
+                </span>
+            </a>
+
+            <!-- 收藏 -->
+            {{if isset($module_data['goods']['user_is_favor']) and $module_data['goods']['user_is_favor'] eq 1}}
+                <span class="nav-icon nav-icon-favor common-goods-favor-submit-event am-active" data-gid="{{$module_data.goods.id}}">
+                    <i class="iconfont icon-heart" ></i>
+                    <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
+                </span>
+            {{else /}}
+                <span class="nav-icon nav-icon-favor common-goods-favor-submit-event" data-gid="{{$module_data.goods.id}}">
+                    <i class="iconfont icon-heart-o"></i>
+                    <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
+                </span>
+            {{/if}}
+
+            <!-- 商品页面基础信息购买小导航内部后面钩子 开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_base_buy_nav_min_inside</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_data)}}
+                {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 商品页面基础信息购买小导航内部后面钩子 结束 -->
+        </div>
+
+        <!-- 购买容器 -->
+        {{if !empty($buy_button) and !empty($buy_button['count']) and !empty($buy_button['data']) and is_array($buy_button['data'])}}
+            <!-- 购买按钮列表 -->
+            <div class="buy-submit-container buy-submit-container-number-{{$buy_button.count}}">
+                {{foreach $buy_button.data as $v}}
+                    {{if !empty($v['type']) and !empty($v['name'])}}
+                        {{switch $v.type}}
+                            {{case show}}
+                                <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
+                                class="am-radius am-btn am-btn-primary {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
+                                data-type="{{$v.type}}" 
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </a>
+                            {{/case}}
+                            {{default /}}
+                                <button type="button" 
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{$v.type}}-submit {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
+                                data-type="{{$v.type}}" 
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </button>
+                        {{/switch}}
+                    {{/if}}
+                {{/foreach}}
+            </div>
+
+            <!-- 购买表单 -->
+            <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form am-hide">
+                <input type="hidden" name="buy_type" value="goods" />
+                <input type="hidden" name="goods_data" value="" />
+                <button type="submit"></button>
+            </form>
+
+            <!-- 加入购物车表单 -->
+            <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form am-hide" request-type="ajax-fun" request-value="CartSubmitBack">
+                <input type="hidden" name="goods_data" value="" />
+                <button type="submit"></button>
+            </form>
+        {{else /}}
+            <p class="goods-not-buy-tips">{{if empty($buy_button['error'])}}{{:MyLang('goods_stop_sale_title')}}{{else /}}{{$buy_button.error}}{{/if}}</p>
+        {{/if}}
+    </div>
+{{/if}}

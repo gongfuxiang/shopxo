@@ -39,6 +39,20 @@ class Safety extends Common
     }
 
     /**
+     * 登录密码修改
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-28T10:38:23+0800
+     */
+    public function LoginPwdUpdate()
+    {
+        $params = $this->data_request;
+        $params['user'] = $this->user;
+        return ApiService::ApiDataReturn(SafetyService::LoginPwdUpdate($params));
+    }
+
+    /**
      * 账号注销
      * @author   Devil
      * @blog     http://gong.gg/

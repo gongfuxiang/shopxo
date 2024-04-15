@@ -101,7 +101,7 @@ class GoodsService
                         $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
                         // 排序配置
                         $floor_order_by_type_list = MyConst('common_goods_order_by_type_list');
-                        $floor_order_by_rule_list = MyConst('common_goods_order_by_rule_list');
+                        $floor_order_by_rule_list = MyConst('common_data_order_by_rule_list');
                         $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
                         $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
                         // 排序字段名称
@@ -216,8 +216,8 @@ class GoodsService
                     'm'        => 0,
                     'n'        => 0,
                     'field'    => '*',
-                    'is_spec'  => true,
-                    'is_cart'  => true,
+                    'is_spec'  => 1,
+                    'is_cart'  => 1,
                 ]);
                 $goods_list = empty($res['data']) ? [] : array_column($res['data'], null, 'id');
             }
@@ -332,14 +332,20 @@ class GoodsService
             ]);
 
             // 其它额外处理
-            $is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
-            $is_spec = (isset($params['is_spec']) && $params['is_spec'] == true) ? true : false;
-            $is_content_app = (isset($params['is_content_app']) && $params['is_content_app'] == true) ? true : false;
-            $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
-            $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
-            $is_cart = (isset($params['is_cart']) && $params['is_cart'] == true) ? true : false;
+            $is_photo = !isset($params['is_photo']) || (isset($params['is_photo']) && $params['is_photo'] == 1);
+            $is_spec = isset($params['is_spec']) && $params['is_spec'] == 1;
+            $is_content_app = isset($params['is_content_app']) && $params['is_content_app'] == 1;
+            $is_category = isset($params['is_category']) && $params['is_category'] == 1;
+            $is_params = isset($params['is_params']) && $params['is_params'] == 1;
+            $is_cart = isset($params['is_cart']) && $params['is_cart'] == 1;
+            $is_favor = isset($params['is_favor']) && $params['is_favor'] == 1;
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
             $goods_ids = array_filter(array_column($data, $data_key_field));
+            $currency_symbol = ResourcesService::CurrencyDataSymbol();
+            $common_goods_sales_price_status = MyC('common_goods_sales_price_status', 0, true);
+            $common_goods_original_price_status = MyC('common_goods_original_price_status', 0, true);
+            $common_goods_sales_price_unit_status = MyC('common_goods_sales_price_unit_status', 0, true);
+            $common_goods_original_price_unit_status = MyC('common_goods_original_price_unit_status', 0, true);
 
             // 字段列表
             $keys = ArrayKeys($data);
@@ -371,11 +377,55 @@ class GoodsService
             // 获取商品购物车数量
             $user_cart = $is_cart ? self::UserCartGoodsCountData($goods_ids, $params) : [];
 
+            // 获取商品购物车数量
+            $user_favor = $is_favor ? self::UserFavorGoodsCountData($goods_ids, $params) : [];
+
             // 开始处理数据
             foreach($data as &$v)
             {
                 // 数据主键id
                 $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
+
+                // 当前库存单位
+                $inventory_unit = empty($v['inventory_unit']) ? '' : ' / '.$v['inventory_unit'];
+                // 原价基础字段数据
+                // 原价标题名称
+                $v['show_field_original_price_text'] = MyLang('goods_original_price_title');
+                // 售价符号
+                $v['show_original_price_symbol'] = $currency_symbol;
+                // 售价符号
+                $v['show_original_price_unit'] = $common_goods_original_price_unit_status == 1 ? $inventory_unit : '';
+                // 是否展示原价(否0, 是1)
+                $v['show_field_original_price_status'] = $common_goods_original_price_status;
+
+                // 售价基础字段数据
+                // 售价标题名称
+                $v['show_field_price_text'] = MyLang('goods_sales_price_title');
+                // 售价符号
+                $v['show_price_symbol'] = $currency_symbol;
+                // 售价符号
+                $v['show_price_unit'] = $common_goods_sales_price_unit_status == 1 ? $inventory_unit : '';
+                // 是否展示售价(否0, 是1)
+                $v['show_field_price_status'] = $common_goods_sales_price_status;
+
+                // 公共插件数据
+                // 商品详情面板提示数据、一维数组
+                $v['plugins_view_panel_data'] = [];
+
+                // 商品详情icon数据、二维数组
+                // name     必填(建议不超过6个字符)
+                // bg_color 默认(#666)
+                // br_color 默认(#666)
+                // color    默认($fff)
+                // url      默认空(手机端请自行调整url地址)
+                // [
+                //      'name'      => 'icon名称',
+                //      'bg_color'  => '#666',
+                //      'br_color'  => '#666',
+                //      'color'     => '#fff',
+                //      'url'       => 'url地址'
+                // ]
+                $v['plugins_view_icon_data'] = [];
 
                 // 商品价格容器
                 $v['price_container'] = [
@@ -525,31 +575,11 @@ class GoodsService
                     $v['user_cart_count'] = (!empty($user_cart) && array_key_exists($data_id, $user_cart)) ? $user_cart[$data_id] : 0;
                 }
 
-                // 价格字段
-                // 原价
-                // 价格
-                $v['show_field_original_price_text'] = MyLang('goods_original_price_title');
-                $v['show_field_price_text'] = MyLang('goods_sales_price_title');
-
-                // 公共插件数据
-                // 商品详情面板提示数据、一维数组
-                $v['plugins_view_panel_data'] = [];
-
-                // 商品详情icon数据、二维数组
-                // name     必填(建议不超过6个字符)
-                // bg_color 默认(#fff)
-                // br_color 默认(#3bb4f2)
-                // color    默认($3bb4f2)
-                // url      默认空(手机端请自行调整url地址)
-                // [
-                //      'name'      => 'icon名称',
-                //      'bg_color'  => '#fff',
-                //      'br_color'  => '#3bb4f2',
-                //      'color'     => '#3bb4f2',
-                //      'url'       => 'url地址'
-                // ]
-                $v['plugins_view_icon_data'] = [];
-                
+                // 用户收藏
+                if($is_favor && !empty($user_favor))
+                {
+                    $v['user_is_favor'] = (!empty($user_favor) && in_array($data_id, $user_favor)) ? 1 : 0;
+                }
 
                 // 商品处理后钩子
                 $hook_name = 'plugins_service_goods_handle_end';
@@ -704,6 +734,31 @@ class GoodsService
     public static function GoodsPhotoData($goods_id)
     {
         return Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id, 'is_show'=>1])->order('sort asc')->select()->toArray();
+    }
+
+    /**
+     * 获取用户收藏商品数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-20
+     * @desc    description
+     * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
+     */
+    public static function UserFavorGoodsCountData($goods_ids, $params = [])
+    {
+        $result = [];
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
+        {
+            $where = [
+                ['goods_id', 'in', $goods_ids],
+                ['user_id', '=', $user['id']],
+            ];
+            $result = Db::name('GoodsFavor')->where($where)->column('goods_id');
+        }
+        return $result;
     }
 
     /**
@@ -1077,7 +1132,7 @@ class GoodsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
-                'checked_data'      => array_merge(array_column(MyConst('common_site_type_list'), 'value')),
+                'checked_data'      => array_column(MyConst('common_site_type_list'), 'value'),
                 'is_checked'        => 1,
                 'error_msg'         => MyLang('common_service.goods.save_site_type_error_tips'),
             ],
@@ -3057,8 +3112,8 @@ class GoodsService
                     ],
                     'order_by'  => 'sales_count desc',
                     'n'         => 16,
-                    'is_spec'   => true,
-                    'is_cart'   => true,
+                    'is_spec'   => 1,
+                    'is_cart'   => 1,
                 ];
                 $ret = self::CategoryGoodsList($params);
                 $goods_list = empty($ret['data']) ? [] : $ret['data'];

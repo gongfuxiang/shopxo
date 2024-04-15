@@ -1,0 +1,75 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('warehouse.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/warehouse/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="name" placeholder="{{:MyLang('common_service.warehouse.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_alias')}}</label>
+                <input type="text" name="alias" placeholder="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label class="am-block">{{:MyLang('form_is_default_title')}}</label>
+                <input name="is_default" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+            </div>
+            {{:ModuleInclude('lib/is_enable')}}
+            
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_level')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.warehouse.form_item_level_tips')}}</span></label>
+                <input type="number" name="level" placeholder="{{:MyLang('common_service.warehouse.form_item_level')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_level_message')}}" class="am-radius" {{if !empty($data['level'])}} value="{{$data.level}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_contacts_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="contacts_name" placeholder="{{:MyLang('common_service.warehouse.form_item_contacts_name_message')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.warehouse.form_item_contacts_name_message')}}" class="am-radius" {{if !empty($data['contacts_name'])}} value="{{$data.contacts_name}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_contacts_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="contacts_tel" placeholder="{{:MyLang('common_service.warehouse.form_item_contacts_name')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('common_service.warehouse.form_item_contacts_tel_message')}}" class="am-radius" {{if !empty($data['contacts_tel'])}} value="{{$data.contacts_tel}}"{{/if}} required />
+            </div>
+
+            {{:ModuleInclude('lib/region_linkage')}}
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.warehouse.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
+                <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
+                <div class="am-flex am-flex-items-center">
+                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.warehouse.form_item_address_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data)}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
+                    <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
+                </div>
+                <div id="map" data-level="17" class="am-margin-top-xs"></div>
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+
+<script type="text/javascript">
+$(function()
+{
+    // 百度地图初始化
+    MapInit({{if !empty($data['lng'])}}{{$data['lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lat'])}}{{$data['lat']}}{{else /}}39.92556{{/if}});
+});
+</script>

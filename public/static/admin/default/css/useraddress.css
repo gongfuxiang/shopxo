@@ -1,13 +1,19 @@
 /**
  * 地址添加/编辑
  */
-.user-address-idcard-images ul li {
+
+ .user-address-idcard-images ul li {
     margin: 0;
     padding: 0;
     border-radius: var(--border-radius-lg);
 }
 
-@media only screen and (min-width: 641px) {
+.user-address-idcard-images .item:first-child li {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+@media only screen and (min-width: 576px) {
 
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
@@ -19,14 +25,14 @@
     }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 575px) {
 
     .user-address-idcard-images ul li,
     .user-address-idcard-images .plug-file-upload-submit {
-        width: 12.8rem !important;
+        width: 10rem !important;
     }
 
     .user-address-idcard-images ul li {
-        height: 11.5rem !important;
+        height: 8.5rem !important;
     }
 }

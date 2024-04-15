@@ -24,7 +24,7 @@ use app\service\ResourcesService;
 class ArticleService
 {
     /**
-     * 首页展示列表
+     * 推荐文章列表
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -32,7 +32,7 @@ class ArticleService
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public static function HomeArticleList($params = [])
+    public static function RecommendedArticleList($params = [])
     {
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_home_article_list_key').APPLICATION_CLIENT_TYPE;
@@ -68,7 +68,7 @@ class ArticleService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? self::ArticleByOrder($params) : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
@@ -115,6 +115,12 @@ class ArticleService
                 if(isset($v['content']))
                 {
                     $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
+                }
+
+                // 封面图片
+                if(isset($v['cover']))
+                {
+                    $v['cover'] = ResourcesService::AttachmentPathViewHandle($v['cover']);
                 }
 
                 // 图片
@@ -180,7 +186,44 @@ class ArticleService
             $where[] = ['article_category_id', '=', intval($params['id'])];
         }
 
+        // 搜索关键字
+        if(!empty($params['awd']))
+        {
+            // WEB端则处理关键字
+            if(APPLICATION_CLIENT_TYPE == 'pc')
+            {
+                $params['awd'] = AsciiToStr($params['awd']);
+            }
+            $where[] = ['title', 'like', '%'.$params['awd'].'%'];
+        }
+
         return $where;
+    }
+
+    /**
+     * 排序
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ArticleByOrder($params = [])
+    {
+        $order_by = 'id desc';
+        if(!empty($params['order_by_key']) && !empty($params['order_by_val']))
+        {
+            $arr = [
+                'hot'  => 'access_count',
+                'new'  => 'id',
+            ];
+            if(array_key_exists($params['order_by_key'], $arr))
+            {
+                $order_by = $arr[$params['order_by_key']].' '.$params['order_by_val'];
+            }
+        }
+        return $order_by;
     }
 
     /**
@@ -216,6 +259,13 @@ class ArticleService
             ],
             [
                 'checked_type'      => 'length',
+                'key_name'          => 'describe',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.article.form_item_describe_message'),
+            ],
+            [
+                'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '10,105000',
                 'error_msg'         => MyLang('common_service.article.form_item_content_message'),
@@ -248,17 +298,24 @@ class ArticleService
             return DataReturn($ret, -1);
         }
 
+        // 其它附件
+        $attachment = ResourcesService::AttachmentParams($params, ['cover']);
+
         // 编辑器内容
         $content = empty($params['content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add');
 
-        // 数据
+        // 详情图片
         $images = ResourcesService::RichTextMatchContentAttachment($content, 'article');
+
+        // 数据
         $data = [
             'title'                 => $params['title'],
             'title_color'           => empty($params['title_color']) ? '' : $params['title_color'],
             'article_category_id'   => intval($params['article_category_id']),
             'jump_url'              => empty($params['jump_url']) ? '' : $params['jump_url'],
+            'describe'              => empty($params['describe']) ? '' : strip_tags($params['describe']),
             'content'               => $content,
+            'cover'                 => $attachment['data']['cover'],
             'images'                => empty($images) ? '' : json_encode($images),
             'images_count'          => count($images),
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
@@ -285,6 +342,12 @@ class ArticleService
         // 添加或保存
         if(empty($params['id']))
         {
+            // 增加描述为空则截取内容前面部分
+            if(empty($data['describe']) && !empty($content))
+            {
+                $data['describe'] = mb_substr(strip_tags($content), 0, 200, 'utf-8');
+            }
+
             $data['add_time'] = time();
             $article_id = Db::name('Article')->insertGetId($data);
             if($article_id <= 0)

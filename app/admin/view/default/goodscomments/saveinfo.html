@@ -1,0 +1,103 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('goodscomments.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/goodscomments/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/goodscomments/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodscomments/index', $params)}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_goods_info_title')}}</label>
+                <div class="goods-info">
+                    {{if !empty($data['goods'])}}
+                        <div class="base am-nbfc">
+                            <a href="{{$data.goods.goods_url}}" target="_blank">
+                                <img src="{{$data.goods.images}}" alt="{{$data.goods.title}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="57" height="57" />
+                            </a>
+                            <a class="am-text-top am-text-sm am-text-truncate-2" href="{{$data.goods.goods_url}}" target="_blank">{{$data.goods.title}}</a>
+                            <p class="am-text-danger">{{$currency_symbol}}{{$data.goods.price}}</p>
+                        </div>
+                    {{else /}}
+                        {{:MyLang('gods_info_abnormal_tips')}}
+                    {{/if}}
+                </div>
+            </div>
+
+            {{if !empty($data) and !empty($data['user'])}}
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.goodscomments.form_item_user_info_title')}}</label>
+                    {{:ModuleInclude('lib/module/user', [
+                        'user' => $data['user'],
+                    ])}}
+                </div>
+            {{/if}}
+            
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_business_type')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <select name="business_type" class="chosen-select" data-placeholder="{{:MyLang('common_service.goodscomments.form_item_business_type_placeholder')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_business_type_message')}}" required>
+                    {{if !empty($common_goods_comments_business_type_list)}}
+                        {{foreach $common_goods_comments_business_type_list as $v}}
+                            <option value="{{$v.value}}" {{if isset($data['business_type']) and $data['business_type'] eq $v.value}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    {{/if}}
+                </select>
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_rating')}}</label>
+                <select name="rating" class="chosen-select" data-placeholder="{{:MyLang('common_service.goodscomments.form_item_rating_placeholder')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_rating_message')}}" required>
+                    {{if !empty($common_goods_comments_rating_list)}}
+                        {{foreach $common_goods_comments_rating_list as $k=>$v}}
+                            <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    {{/if}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" placeholder="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_reply')}}</label>
+                <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="{{:MyLang('common_service.goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_reply_message')}}">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.goodscomments.form_item_reply_time')}}</label>
+                <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('common_service.goodscomments.form_item_reply_time')}}" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_reply_time_message')}}" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+            </div>
+            <div class="am-form-group">
+                <label class="am-block">{{:MyLang('common_service.goodscomments.form_item_is_reply')}}</label>
+                <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+            </div>
+            
+            <div class="am-form-group">
+                <label class="am-block">{{:MyLang('common_service.goodscomments.form_item_is_anonymous')}}</label>
+                <input name="is_anonymous" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label class="am-block">{{:MyLang('form_is_show_title')}}</label>
+                <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

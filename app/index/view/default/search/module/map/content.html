@@ -1,0 +1,71 @@
+<!-- 搜索条件内容模块 -->
+<ul class="map-item am-list am-list-border am-margin-bottom-0">
+    <!-- 搜索页面筛选条件内前面钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_search_map_inside_begin</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_search_map_inside_begin_data) and is_array($plugins_view_search_map_inside_begin_data)}}
+        {{foreach $plugins_view_search_map_inside_begin_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
+    <!-- 基础数据 -->
+    <li class="am-nbfc">
+        <p class="am-fl">
+            <span>{{:MyLang('search.filter_out_first_text')}}</span>
+            <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
+            <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
+        </p>
+        {{if isset($is_map) and $is_map eq 1}}
+            <a href="{{:MyUrl('index/search/index')}}" class="map-remove-submit am-fr am-margin-right-sm">{{:MyLang('clear_title')}}</a>
+        {{/if}}
+    </li>
+
+    <!-- 搜索页面筛选条件内基础底部钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_search_map_inside_base_bottom</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_search_map_inside_base_bottom_data) and is_array($plugins_view_search_map_inside_base_bottom_data)}}
+        {{foreach $plugins_view_search_map_inside_base_bottom_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
+    <!-- 品牌 -->
+    {{:ModuleInclude('search/module/map/content/brand', empty($module_data) ? [] : $module_data)}}
+
+    <!-- 分类 -->
+    {{:ModuleInclude('search/module/map/content/category', empty($module_data) ? [] : $module_data)}}
+
+    <!-- 价格 -->
+    {{:ModuleInclude('search/module/map/content/screening_price', empty($module_data) ? [] : $module_data)}}
+
+    <!-- 属性 -->
+    {{:ModuleInclude('search/module/map/content/goods_params', empty($module_data) ? [] : $module_data)}}
+
+    <!-- 规格 -->
+    {{:ModuleInclude('search/module/map/content/goods_spec', empty($module_data) ? [] : $module_data)}}
+
+    <!-- 搜索页面筛选条件内尾部钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_search_map_inside_end</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_search_map_inside_end_data) and is_array($plugins_view_search_map_inside_end_data)}}
+        {{foreach $plugins_view_search_map_inside_end_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+</ul>

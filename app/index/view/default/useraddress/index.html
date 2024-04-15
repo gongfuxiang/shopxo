@@ -1,7 +1,7 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- header simple nav -->
 {{:ModuleInclude('public/header_nav_simple', [
@@ -11,14 +11,14 @@
 <!-- content -->
 <div class="am-container user-main">
     <!-- user menu start -->
-    {{include file="public/user_menu" /}}
+    {{:ModuleInclude('public/user_menu')}}
     <!-- user menu end -->
 
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
             <!-- user center title -->
-            {{include file="public/user_center_main_title" /}}
+            {{:ModuleInclude('public/user_center_main_title')}}
             
             <div class="control">
                 <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">
@@ -30,40 +30,42 @@
                 <ul class="address-list">
                     {{foreach $user_address_list as $address}}
                         <li class="{{if isset($address['is_default']) and $address['is_default'] eq 1}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
-                            <div class="address-left">
-                                <div class="user-base">
-                                    {{if !empty($address.alias)}}
-                                        <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
-                                    {{/if}}
-                                    {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                        <span class="am-badge am-badge-success-plain am-radius">{{:MyLang('default_title')}}</span>
-                                    {{/if}}
-                                    <span class="address-detail">   
-                                        <span class="user">{{$address.name}}</span>
-                                        <span class="phone">{{$address.tel}}</span>
-                                    </span>
+                            <div class="address-content am-background-white">
+                                <div class="address-left">
+                                    <div class="user-base">
+                                        {{if !empty($address.alias)}}
+                                            <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
+                                        {{/if}}
+                                        {{if isset($address['is_default']) and $address['is_default'] eq 1}}
+                                            <span class="am-badge am-badge-success-plain am-radius">{{:MyLang('default_title')}}</span>
+                                        {{/if}}
+                                        <span class="address-detail">   
+                                            <span class="user">{{$address.name}}</span>
+                                            <span class="phone">{{$address.tel}}</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="province">{{$address.province_name}}</span>
+                                        <span class="city">{{$address.city_name}}</span>
+                                        <span class="dist">{{$address.county_name}}</span>
+                                        <span class="street">{{$address.address}}</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="province">{{$address.province_name}}</span>
-                                    <span class="city">{{$address.city_name}}</span>
-                                    <span class="dist">{{$address.county_name}}</span>
-                                    <span class="street">{{$address.address}}</span>
-                                </div>
-                            </div>
-                            <div class="address-operation-btn">
-                                {{if isset($address['is_default']) and $address['is_default'] neq 1}}
-                                    <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
+                                <div class="address-operation-btn">
+                                    {{if isset($address['is_default']) and $address['is_default'] neq 1}}
+                                        <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
+                                        <span class="cut">|</span>
+                                    {{/if}}
+                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
                                     <span class="cut">|</span>
-                                {{/if}}
-                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
-                                <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
+                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
+                                </div>
                             </div>
                         </li>
                     {{/foreach}}
                 </ul>
             {{else /}}
-                {{include file="public/not_data" /}}
+                {{:ModuleInclude('public/not_data')}}
             {{/if}}
         </div>
     </div>
@@ -71,4 +73,4 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

@@ -33,7 +33,7 @@
             am-avg-lg-{{if empty($module_data['lg'])}}2{{else /}}{{$module_data.lg}}{{/if}} ">
             {{foreach $module_data.goods_list as $v}}
                 <li>
-                    <div class="item am-padding-main am-radius box-shadow-hover">
+                    <div class="item am-padding-main am-radius box-shadow-hover theme-data-edit-event" data-id="{{$v.id}}" data-module="goods">
                         <!-- 商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
@@ -89,15 +89,23 @@
                                     <p class="detail-content">{{$v.simple_desc}}</p>
                                 {{/if}}
                             </div>
-                            <div class="bottom-content am-text-truncate">
-                                <div class="price-content">
-                                    {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
-                                        <span class="original-price am-text-truncate">{{$currency_symbol}}{{$v.min_original_price}}</span>
-                                    {{/if}}
-                                    <strong class="price">{{$currency_symbol}}{{$v.min_price}}</strong>
+                            {{if (isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1) or (isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1)}}
+                                <div class="bottom-content am-text-truncate">
+                                    <div class="price-content">
+                                        {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
+                                            <strong class="price">{{$v.show_price_symbol}}{{$v.min_price}}</strong>
+                                            <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                                        {{/if}}
+
+                                        {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
+                                            {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                                <span class="original-price am-text-truncate am-margin-left-xl">{{$v.show_original_price_symbol}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</span>
+                                            {{/if}}
+                                        {{/if}}
+                                    </div>
+                                    <i data-gid="{{$v.id}}" data-is-many-spec="{{$v.is_exist_many_spec}}" class="goods-cart iconfont icon-shopping-cart login-event common-goods-cart-submit-event am-color-main am-cursor-pointer"></i>
                                 </div>
-                                <i data-gid="{{$v.id}}" data-is-many-spec="{{$v.is_exist_many_spec}}" class="goods-cart iconfont icon-shopping-cart login-event common-goods-cart-submit-event am-color-main am-cursor-pointer"></i>
-                            </div>
+                            {{/if}}
                         </div>
 
                         <!-- 商品信息底部钩子 -->

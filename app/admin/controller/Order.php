@@ -37,8 +37,6 @@ class Order extends Base
     {
         // 模板数据
         $assign = [
-            // 快递公司
-            'express_list'          => ExpressService::ExpressList(),
             // 默认不加载视频扫码组件
             'is_load_video_scan'    => 1,
         ];
@@ -67,6 +65,21 @@ class Order extends Base
      */
     public function Detail()
     {
+        return MyView();
+    }
+
+    /**
+     * 发货页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function DeliveryInfo()
+    {
+        // 快递公司
+        MyViewAssign('express_list', ExpressService::ExpressList());
         return MyView();
     }
 
@@ -176,6 +189,9 @@ class Order extends Base
     {
         $params = $this->data_request;
         $params['admin'] = $this->admin;
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(OrderService::OrderPaymentUnderLinePay($params));
     }
 }

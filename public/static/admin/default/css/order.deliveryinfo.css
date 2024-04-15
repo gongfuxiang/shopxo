@@ -1,0 +1,13 @@
+/**
+ * 快递
+ */
+.express-list .edit-submit,
+.express-list .delete-submit {
+    cursor: pointer;
+    position: absolute;
+    top: 0.2rem;
+    right: 1rem;
+}
+.express-list .edit-submit {
+    right: 5rem;
+}

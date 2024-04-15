@@ -1,0 +1,38 @@
+<!-- 底部信息左侧模块 -->
+{{if !empty($module_data['goods'])}}
+    <div class="browse">
+        <!-- 商品页面左侧顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_goods_detail_left_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_goods_detail_left_top_data) and is_array($plugins_view_goods_detail_left_top_data)}}
+            {{foreach $plugins_view_goods_detail_left_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 详情/推荐商品-->
+        {{if !empty($left_goods)}}
+            <div class="recommend-goods am-radius"> 
+                <div class="head-title">            
+                    <p>{{:MyLang('goods.recommend_goods_title')}}</p>        
+                </div>
+                {{if !empty($left_goods)}}
+                    <div class="am-padding-vertical-xs am-padding-horizontal-sm">
+                        {{:ModuleInclude('module/goods/grid/base', [
+                            'goods_list'  => $left_goods,
+                            'type'        => 'search',
+                            'class'       => 'am-border-bottom am-radius-bottom-left-0 am-radius-bottom-right-0',
+                            'is_hover'    => 0,
+                            'lg'          => 1,
+                        ])}}
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

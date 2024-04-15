@@ -1,0 +1,48 @@
+<div class="am-popup am-radius" id="url-choice-popup"
+    data-not-choice-text="{{:MyLang('common_service.themedata.form_item_url_not_choice_text')}}"
+    data-already-choice-text="{{:MyLang('common_service.themedata.form_item_url_already_choice_text')}}"
+>
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('common_service.themedata.form_item_url')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form form-validation-url-choice am-form-popup-fixed" request-type="sync" request-value="ThemeDataUrlChoiceBack">
+                <div class="url-container">
+                    {{if !empty($common_platform_type)}}
+                        {{foreach $common_platform_type as $v}}
+                            <div class="am-input-group am-input-group-sm">
+                                <span class="am-input-group-btn">
+                                    <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
+                                </span>
+                                <input type="text" name="{{$v.value}}" placeholder="{{$v.name}}" class="am-form-field am-radius" value="" />
+                            </div>
+                        {{/foreach}}
+                    {{/if}}
+                </div>
+                <div class="am-margin-top">
+                    {{:ModuleInclude('public/event_value_tips')}}
+                </div>
+
+                <div class="am-form-popup-submit">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+// url确认回调
+function ThemeDataUrlChoiceBack(e)
+{
+    ThemeDataUrlChoiceBackHandle(e);
+}
+</script>

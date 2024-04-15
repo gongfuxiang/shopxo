@@ -12,7 +12,6 @@ namespace app\index\form;
 
 use think\facade\Db;
 use app\service\PaymentService;
-use app\service\ExpressService;
 
 /**
  * 订单动态表格
@@ -288,28 +287,17 @@ class Order
                 ],
             ],
             [
-                'label'         => $lang['express_name'],
-                'view_type'     => 'field',
-                'view_key'      => 'express_name',
-                'is_sort'       => 1,
+                'label'         => $lang['express'],
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/express',
+                'grid_size'     => 'sm',
+                'is_detail'     => 0,
                 'search_config' => [
-                    'form_type'         => 'select',
-                    'form_name'         => 'express_id',
-                    'data'              => ExpressService::ExpressList(),
-                    'where_type'        => 'in',
-                    'data_key'          => 'id',
-                    'data_name'         => 'name',
-                    'is_multiple'       => 1,
-                ],
-            ],
-            [
-                'label'         => $lang['express_number'],
-                'view_type'     => 'field',
-                'view_key'      => 'express_number',
-                'is_sort'       => 1,
-                'search_config' => [
-                    'form_type'         => 'input',
-                    'where_type'        => 'like',
+                    'form_type'             => 'input',
+                    'form_name'             => 'id',
+                    'where_type_custom'     => 'in',
+                    'where_value_custom'    => 'WhereExpressInfo',
+                    'placeholder'           => $lang['express_placeholder'],
                 ],
             ],
             [
@@ -348,14 +336,14 @@ class Order
                 ],
             ],
             [
-                'label'         => $lang['delivery_time'],
-                'view_type'     => 'field',
-                'view_key'      => 'delivery_time',
-                'is_sort'       => 1,
-                'search_config' => [
-                    'form_type'         => 'datetime',
+                    'label'         => $lang['delivery_time'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'delivery_time',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
                 ],
-            ],
             [
                 'label'         => $lang['collect_time'],
                 'view_type'     => 'field',
@@ -430,9 +418,7 @@ class Order
         $data = [
             'table_name'        => 'Order',
             'data_handle'       => 'OrderService::OrderListHandle',
-            'detail_where'      => [
-                ['is_delete_time', '=', 0],
-            ],
+            'detail_where'      => $this->condition_base,
             'is_page_stats'     => 1,
             'page_stats_data'   => [
                 ['name'=>$lang_stats['total_price'], 'field'=>'total_price'],
@@ -564,6 +550,28 @@ class Order
                 $ids = Db::name('OrderDetail')->where('title|model', 'like', '%'.$value.'%')->column('order_id');
             }
 
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
+    }
+
+    /**
+     * 快递条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-08
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereExpressInfo($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 订单ID
+            $ids = Db::name('OrderExpress')->where(['express_number'=>$value])->column('order_id');
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;
         }

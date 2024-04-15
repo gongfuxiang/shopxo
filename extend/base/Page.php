@@ -30,6 +30,7 @@ class Page
 	private $html;
 	private $page_join;
 	private $tips_msg;
+	private $is_next_bt;
 
 	/**
 	 * 构造方法
@@ -40,6 +41,7 @@ class Page
 	 * @param [array]  $params['where'] 			[额外条件(键值对)]
 	 * @param [array]  $params['not_fields'] 		[不参与条件拼接的字段]
 	 * @param [string] $params['url'] 				[url地址]
+	 * @param [int]    $params['is_next_bt'] 		[是否展示上/下一页按钮]
 	 */
 	public function __construct($params = [])
 	{
@@ -51,6 +53,7 @@ class Page
 		$this->not_fields = (!empty($params['not_fields']) && is_array($params['not_fields'])) ? $params['not_fields'] : [];
 		$this->url = isset($params['url']) ? $params['url'] : '';
 		$this->tips_msg = empty($params['tips_msg']) ? '' : trim($params['tips_msg']);
+		$this->is_next_bt = (!isset($params['is_next_bt']) || $params['is_next_bt'] == 1) ? 1 : 0;
 		$this->page_total = 1;
 		$this->html = '';
 		// 插件基础参数不参与条件
@@ -132,15 +135,23 @@ class Page
 		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page=1" data-value="1" class="am-icon-angle-double-left"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '<li class="prev-before-page-submit '.$before_disabled.'">';
-		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page-1).'" data-value="'.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
-		$this->html .= '</li>';
+		// 上一页
+		if($this->is_next_bt == 1)
+		{
+			$this->html .= '<li class="prev-before-page-submit '.$before_disabled.'">';
+			$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page-1).'" data-value="'.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
+			$this->html .= '</li>';
+		}
 
 		$this->html .= $this->GetButtonNumberHtml();
 
-		$this->html .= '<li class="next-after-page-submit '.$after_disabled.'">';
-		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page+1).'" data-value="'.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
-		$this->html .= '</li>';
+		// 下一页
+		if($this->is_next_bt == 1)
+		{
+			$this->html .= '<li class="next-after-page-submit '.$after_disabled.'">';
+			$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.($this->page+1).'" data-value="'.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
+			$this->html .= '</li>';
+		}
 
 		$this->html .= '<li class="last-after-page-submit '.$after_disabled.'">';
 		$this->html .= '<a href="javascript:;" data-url="'.$this->url.$this->page_join.'page='.$this->page_total.'" data-value="'.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';

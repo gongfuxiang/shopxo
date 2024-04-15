@@ -1,18 +1,18 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header nav start -->
 {{if isset($is_header) and $is_header eq 1}}
     <!-- header top nav -->
-    {{include file="public/header_top_nav" /}}
+    {{:ModuleInclude('public/header_top_nav')}}
 
     <!-- search -->
-    {{include file="public/nav_search" /}}
+    {{:ModuleInclude('public/nav_search')}}
 
     <!-- header nav -->
-    {{include file="public/header_nav" /}}
+    {{:ModuleInclude('public/header_nav')}}
 
     <!-- goods category -->
-    {{include file="public/goods_category" /}}
+    {{:ModuleInclude('public/goods_category')}}
 {{/if}}
 <!-- header nav end -->
 
@@ -30,9 +30,9 @@
             </div>
         </article>
     {{else /}}
-        {{include file="public/not_data" /}}
+        {{:ModuleInclude('public/not_data')}}
     {{/if}}
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

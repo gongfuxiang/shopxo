@@ -1,0 +1,28 @@
+<!-- 中间模块基础左侧 -->
+{{if !empty($module_data['goods'])}}
+    <!-- pc放大镜 / 左侧 -->
+    <div class="clearfix-left" id="clearcontent">
+        <!-- pc相册模块 -->
+        {{:ModuleInclude('goods/module/middle_base/left/photo_pc', ['goods'=>$module_data['goods']])}}
+
+        <!-- 相册模块底部 -->
+        <div class="photo-bottom am-cf">
+            <!-- 商品页面相册底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_photo_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_photo_bottom_data) and is_array($plugins_view_goods_detail_photo_bottom_data)}}
+                {{foreach $plugins_view_goods_detail_photo_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- pc相册下面收藏模块 -->
+            {{:ModuleInclude('goods/module/middle_base/left/photo_pc_bottom_favor', ['goods'=>$module_data['goods']])}}
+        </div>
+    </div>
+{{/if}}

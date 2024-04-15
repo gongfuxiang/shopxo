@@ -1,0 +1,97 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- nav start -->
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+            {{:ModuleInclude('public/admin_nav', [
+                'title'     => MyLang('brand.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+                'back_url'  => MyUrl('admin/brand/index', $params)
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/brand/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/brand/index', $params)}}{{else /}}parent{{/if}}">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.brand.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="name" placeholder="{{:MyLang('common_service.brand.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.brand.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.brand.form_item_brand_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <select name="brand_category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_brand_category_id_message')}}" required>
+                    {{foreach $brand_category as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['brand_category_ids']) and is_array($data['brand_category_ids']) and in_array($v['id'], $data['brand_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.brand.form_item_website_url')}}</label>
+                <input type="url" placeholder="{{:MyLang('common_service.brand.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('common_service.brand.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
+            </div>
+            
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.brand.form_item_describe')}}</label>
+                <textarea rows="3" name="describe" maxlength="230" class="am-radius" placeholder="{{:MyLang('common_service.brand.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_describe_message')}}">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
+            </div>
+            
+            <div class="am-form-group am-form-file">
+                <label class="am-block">{{:MyLang('common_service.brand.form_item_logo')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.brand.form_item_logo_tips')}}</span></label>
+                <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
+                    <ul class="plug-file-upload-view brand-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                        <li class="plug-file-upload-submit" data-view-tag="ul.brand-logo-images-view">
+                            {{if empty($data['logo'])}}
+                                <i class="iconfont icon-upload-add"></i>
+                            {{else /}}
+                                <input type="text" name="logo" value="{{$data.logo}}" />
+                                <img src="{{$data.logo}}" />
+                                <i class="iconfont icon-close"></i>
+                                <i class="iconfont icon-eye"></i>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            {{:ModuleInclude('lib/sort')}}
+            
+            {{:ModuleInclude('lib/is_enable')}}
+
+            <!-- 插件扩展数据 start -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_brand_save</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_admin_brand_save_data) and is_array($plugins_view_admin_brand_save_data)}}
+                <div class="card-grey">
+                    <label class="am-text-sm">{{:MyLang('plugins_view_region_config_tips')}}</label>
+                    <div>
+                        {{foreach $plugins_view_admin_brand_save_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+            <!-- 插件扩展数据 end -->
+
+            {{:ModuleInclude('lib/seo')}}
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

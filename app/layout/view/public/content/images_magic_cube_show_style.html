@@ -2,7 +2,7 @@
     {{foreach $images_magic_cube_view_list_show_style as $k=>$v}}
         <label class="am-checkbox-inline">
             <input type="radio" name="view_list_show_style" value="{{$k}}" data-am-ucheck />
-            <img src="{{$attachment_host}}/static/common/images/layout/{{$k}}.png" width="17" height="17" />
+            <img src="{{:StaticAttachmentUrl('layout/'.$k.'.png')}}" width="17" height="17" />
         </label>
     {{/foreach}}
     <input type="hidden" name="view_list_show_style_value" value="" />

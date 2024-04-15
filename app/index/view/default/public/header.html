@@ -11,7 +11,6 @@
     <meta name="msapplication-starturl" content="{{$my_url}}" />
     <link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
     <link rel="apple-touch-icon" href="{{:AttachmentPathViewHandle(MyC('home_site_logo_square'))}}">
@@ -24,8 +23,20 @@
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
 
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
-    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
-    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/module.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($static_path_data['common_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.common_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if !empty($static_path_data['theme_import_css']) and is_array($static_path_data['theme_import_css'])}}
+        {{foreach $static_path_data.theme_import_css as $v}}
+            <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$v}}?v={{:MyC('home_static_cache_version')}}" />
+        {{/foreach}}
+    {{/if}}
+    {{if !empty($static_path_data['module_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.module_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if !empty($static_path_data['other_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.other_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
     
     <!-- ckplayer播放器 -->
     {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
@@ -39,8 +50,8 @@
     {{/if}}
 
     <!-- 插件 -->
-    {{if !empty($plugins_css)}}
-        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($static_path_data['plugins_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
 
     <!-- 可视化拖拽 -->
@@ -51,8 +62,8 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
     <!-- 页面样式 -->
-    {{if !empty($module_css)}}
-        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($static_path_data['page_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.page_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
 
     <!-- css钩子 -->
@@ -95,7 +106,7 @@
                     --{{:str_replace('_', '-', $k);}}: {{$v}}{{if $k eq 'html_body_size'}}px{{elseif in_array($k, ['border_radius', 'border_radius_sm', 'border_radius_lg'])}}rem{{/if}};
                 {{/foreach}}
             {{else /}}
-                {{include file="public/header_style_root" /}}
+                {{:ModuleInclude('public/header_style_root')}}
             {{/if}}
         }
     </style>
@@ -125,6 +136,12 @@
         var __goods_stock_url__ = '{{:MyUrl("index/goods/stock")}}';
         var __goods_cart_save_url__ = '{{:MyUrl("index/cart/save")}}';
         var __goods_cart_info_url__ = '{{:MyUrl("index/goods/cartinfo")}}';
+        var __goods_favor_url__ = '{{:MyUrl("index/goods/favor")}}';
+        {{if !empty($theme_data_admin_data) and isset($theme_data_admin_data['status']) and $theme_data_admin_data['status'] eq 1 and !empty($theme_data_admin_data['admin_url_data']) and is_array($theme_data_admin_data['admin_url_data'])}}
+            {{foreach $theme_data_admin_data.admin_url_data as $k=>$v}}
+                var __theme_data_admin_{{$k}}_url__ = '{{$v}}';
+            {{/foreach}}
+        {{/if}}
         // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
         {{if !empty($lang_data)}}
             {{foreach $lang_data as $k=>$v}}
@@ -140,7 +157,7 @@
     <div class="body-content-formal-container">
         <!-- 页面加载层 -->
         {{if isset($is_page_loading) and $is_page_loading eq 1}}
-            {{include file="public/page_loading" /}}
+            {{:ModuleInclude('public/page_loading')}}
         {{/if}}
 
         <!-- css钩子 -->

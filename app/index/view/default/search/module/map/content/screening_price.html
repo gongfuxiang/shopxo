@@ -1,0 +1,19 @@
+<!-- 价格搜索条件模块 -->
+{{if !empty($module_data['screening_price_list'])}}
+    <li class="am-nbfc screening-price-container" data-field="screening_price_values">
+        <div class="map-left am-text-center am-fl">{{:MyLang('price_title')}}</div>
+        <div class="map-right map-text-items am-fr am-nbfc theme-data-edit-event" data-module="screening_price">
+            <ul class="am-nbfc">
+                {{foreach $module_data.screening_price_list as $v}}
+                    <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                        <a href="{{$v.url}}">{{$v.name}}</a>
+                    </li>
+                {{/foreach}}
+            </ul>
+            <div class="map-more-submit am-hide">
+                <span>{{:MyLang('more_title')}}</span>
+                <i class="am-icon-angle-down"></i>
+            </div>
+        </div>
+    </li>
+{{/if}}

@@ -153,69 +153,69 @@
     left: -0.1rem;
 }
 
-.am-input-material {
+.input-compose {
     position: relative;
 }
 
-.am-input-material input.eye,
-.am-input-material input.eye {
+.input-compose input.eye,
+.input-compose input.eye {
     padding-right: 4.5rem;
 }
-.am-input-material input.email {
+.input-compose input.email {
     padding-right: 10rem;
 }
-.am-input-material input.sms {
+.input-compose input.sms {
     padding-right: 10rem;
 }
 
-.am-input-material .am-input-group-btn {
+.input-compose .am-input-group-btn {
     position: absolute;
     top: 0;
 }
 
-.am-input-material .am-input-group-btn.eye {
+.input-compose .am-input-group-btn.eye {
     right: 4rem;
 }
 
-.am-input-material .am-input-group-btn.verify-img {
+.input-compose .am-input-group-btn.verify-img {
     right: 10.5rem;
 }
 
-.am-input-material .am-input-group-btn.verify-sms,
-.am-input-material .am-input-group-btn.verify-email {
+.input-compose .am-input-group-btn.verify-sms,
+.input-compose .am-input-group-btn.verify-email {
     right: 9.5rem;
 }
 
-.am-input-material .am-input-group-btn.eye .am-btn,
-.am-input-material .am-input-group-btn.eye .am-btn:hover,
-.am-input-material .am-input-group-btn.eye .am-btn:focus,
-.am-input-material .am-input-group-btn.eye .am-btn:active,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:hover,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:focus,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:active,
-.am-input-material .am-input-group-btn.verify-sms .am-btn,
-.am-input-material .am-input-group-btn.verify-sms .am-btn:hover,
-.am-input-material .am-input-group-btn.verify-sms .am-btn:focus,
-.am-input-material .am-input-group-btn.verify-sms .am-btn:active,
-.am-input-material .am-input-group-btn.verify-email .am-btn,
-.am-input-material .am-input-group-btn.verify-email .am-btn:hover,
-.am-input-material .am-input-group-btn.verify-email .am-btn:focus,
-.am-input-material .am-input-group-btn.verify-email .am-btn:active {
+.input-compose .am-input-group-btn.eye .am-btn,
+.input-compose .am-input-group-btn.eye .am-btn:hover,
+.input-compose .am-input-group-btn.eye .am-btn:focus,
+.input-compose .am-input-group-btn.eye .am-btn:active,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:hover,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:focus,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:active,
+.input-compose .am-input-group-btn.verify-sms .am-btn,
+.input-compose .am-input-group-btn.verify-sms .am-btn:hover,
+.input-compose .am-input-group-btn.verify-sms .am-btn:focus,
+.input-compose .am-input-group-btn.verify-sms .am-btn:active,
+.input-compose .am-input-group-btn.verify-email .am-btn,
+.input-compose .am-input-group-btn.verify-email .am-btn:hover,
+.input-compose .am-input-group-btn.verify-email .am-btn:focus,
+.input-compose .am-input-group-btn.verify-email .am-btn:active {
     background-color: transparent;
     box-shadow: none;
     border: 0;
 }
 
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:hover,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:focus,
-.am-input-material .am-input-group-btn.verify-img .am-btn.form-verify:active {
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:hover,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:focus,
+.input-compose .am-input-group-btn.verify-img .am-btn.form-verify:active {
     margin-top: 0.5rem;
 }
 
-.am-input-material .am-input-group-btn.verify-sms .am-btn,
-.am-input-material .am-input-group-btn.verify-email .am-btn {
+.input-compose .am-input-group-btn.verify-sms .am-btn,
+.input-compose .am-input-group-btn.verify-email .am-btn {
     color: var(--color-main);
 }
 
@@ -328,15 +328,15 @@
     height: 4rem;
 }
 
-.am-input-material.base {
+.input-compose.base {
     width: 30rem;
     padding: 0 !important;
 }
-.am-input-material.base .am-input-group-btn.verify-img {
+.input-compose.base .am-input-group-btn.verify-img {
     right: 17.5rem;
 }
 
-.am-input-material.base input {
+.input-compose.base input {
     height: 4rem;
     background: #F6F8FB;
     border-radius: var(--border-radius-lg) !important;
@@ -344,15 +344,15 @@
     padding: 0.6rem 1.2rem;
 }
 
-.am-input-material.base input,
-.am-input-material.base input:hover,
-.am-input-material.base input:active,
-.am-input-material.base input:focus {
+.input-compose.base input,
+.input-compose.base input:hover,
+.input-compose.base input:active,
+.input-compose.base input:focus {
     box-shadow: none;
     border: 0.1rem solid #F6F8FB;
 }
 
-.am-input-material.base .verify-img img {
+.input-compose.base .verify-img img {
     margin-top: 0.6rem;
     border: 0;
     background-color: transparent;

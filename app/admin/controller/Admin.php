@@ -105,7 +105,7 @@ class Admin extends Common
 		{
 			if(empty($data))
 			{
-				return $this->error(MyLang('admin.admin_no_data_tips'), MyUrl('admin/index/index'));
+				return ViewError(MyLang('admin.admin_no_data_tips'), MyUrl('admin/index/index'));
 			}
 		}
 

@@ -294,6 +294,13 @@ class ConfigService
                 return $ret;
             }
 
+            // 站点默认首页配置
+            $ret = self::SiteDefaultIndexHandle($params);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             return DataReturn(MyLang('operate_success').'['.$success.']');
         }
         return DataReturn(MyLang('operate_fail'), -100);
@@ -394,6 +401,108 @@ class ConfigService
     }
 
     /**
+     * 站点默认首页配置
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-02-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SiteDefaultIndexHandle($params = [])
+    {
+        if(array_key_exists('common_site_default_index', $params))
+        {
+            // 默认首页配置
+            $dir = APP_PATH.'index'.DS.'config';
+            $home_file = $dir.DS.'home.php';
+            // 是否有权限操作文件
+            if(file_exists($home_file))
+            {
+                if(!is_writable($home_file))
+                {
+                    return DataReturn(MyLang('common_service.config.default_index_config_file_no_power_tips').'['.$home_file.']', -1);
+                }
+            } else {
+                if(!is_writable($dir))
+                {
+                    return DataReturn(MyLang('common_service.config.default_index_config_dir_no_power_tips').'['.$dir.']', -1);
+                }
+            }
+
+            // 是否设置默认首页
+            if(empty($params['common_site_default_index']))
+            {
+                if(file_exists($home_file))
+                {
+                    if(!\base\FileUtil::UnlinkFile($home_file))
+                    {
+                        return DataReturn(MyLang('common_service.config.default_index_deploy_fail').'['.$home_file.']', -1);
+                    }
+                }
+            } else {
+                $arr = explode('|', $params['common_site_default_index']);
+                if(count($arr) == 2)
+                {
+                    // get s参数值
+                    $value = '';
+                    switch($arr[0])
+                    {
+                        // 插件
+                        case 'plugins' :
+                            $value = 'plugins/index/pluginsname/'.$arr[1].'/pluginscontrol/index/pluginsaction/index';
+                            break;
+
+                        // 页面设计
+                        case 'design' :
+                            $value = 'design/index/id/'.$arr[1];
+                            break;
+
+                        // 自定义页面
+                        case 'custom_view' :
+                            $value = 'customview/index/id/'.$arr[1];
+                            break;
+                    }
+
+                    // 站点默认首页处理值钩子
+                    $hook_name = 'plugins_service_config_site_default_index_value';
+                    MyEventTrigger($hook_name,
+                        [
+                            'hook_name'   => $hook_name,
+                            'is_backend'  => true,
+                            'value'       => &$value,
+                        ]);
+
+                    // 空则错误提示
+                    if(empty($value))
+                    {
+                        return DataReturn(MyLang('common_service.config.default_index_type_not_undefined').'['.$arr[0].']', -1);
+                    }
+
+                    // 生成域名配置文件
+                    $ret = @file_put_contents($home_file, "<?php
+// +----------------------------------------------------------------------
+// | ShopXO 国内领先企业级B2C免费开源电商系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2011~2099 http://shopxo.net All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( https://opensource.org/licenses/mit-license.php )
+// +----------------------------------------------------------------------
+// | Author: Devil
+// +----------------------------------------------------------------------
+
+// 默认首页配置文件\nreturn '".$value."';\n?>");
+                    if($ret === false)
+                    {
+                        return DataReturn(MyLang('common_service.config.default_index_deploy_fail').'['.$home_file.']', -1);
+                    }
+                }
+            }
+        }
+        return DataReturn(MyLang('handle_noneed'), 0);
+    }
+
+    /**
      * 路由规则处理
      * @author   Devil
      * @blog     http://gong.gg/
@@ -403,7 +512,7 @@ class ConfigService
      */
     public static function RouteSeparatorHandle($params = [])
     {
-        if(isset($params['home_seo_url_model']))
+        if(array_key_exists('home_seo_url_model', $params))
         {
             $route_file = APP_PATH.'route'.DS.'route.config';
             $route_arr = ['admin', 'index'];

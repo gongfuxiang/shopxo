@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -42,7 +42,7 @@
             </div>
             
             <div class="am-form-popup-submit">
-                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
@@ -55,4 +55,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

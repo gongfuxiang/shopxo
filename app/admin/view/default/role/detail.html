@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -21,7 +21,9 @@
     ])}}
     <div class="detail-content-switch-data-item">
         <!-- 父级内容 -->
-        {__block__}
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
         
         <!-- 菜单权限 -->
         <div class="item" data-key="form-item-menu">
@@ -33,7 +35,7 @@
                         </li>
                     {{/foreach}}
                 {{else /}}
-                    {{include file="public/not_data" /}}
+                    {{:ModuleInclude('public/not_data')}}
                 {{/if}}
             </ul>
         </div>
@@ -48,7 +50,7 @@
                         </li>
                     {{/foreach}}
                 {{else /}}
-                    {{include file="public/not_data" /}}
+                    {{:ModuleInclude('public/not_data')}}
                 {{/if}}
             </ul>
         </div>

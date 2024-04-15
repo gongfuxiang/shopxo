@@ -4,20 +4,23 @@
         {{if !empty($module_data['address_data']['alias'])}}
             <span class="am-badge am-badge-secondary-plain am-radius">{{$module_data.address_data.alias}}</span>
         {{/if}}
-        <span>{{$module_data.address_data.name}}</span>
-        <span class="am-margin-left-sm">{{$module_data.address_data.tel}}</span>
+        <span class="text-copy-submit">{{$module_data.address_data.name}}</span>
+        <span class="am-margin-left-sm text-copy-submit">{{$module_data.address_data.tel}}</span>
     </div>
     <div class="am-margin-top-xs">
         <p>
-            <span>{{$module_data.address_data.province_name}}</span>
-            <span>{{$module_data.address_data.city_name}}</span>
-            <span>{{$module_data.address_data.county_name}}</span>
-            <span>{{$module_data.address_data.address}}</span>
+            <span class="text-copy-submit">{{$module_data.address_data.province_name}}{{$module_data.address_data.city_name}}{{$module_data.address_data.county_name}}{{$module_data.address_data.address}}</span>
+            {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0}}
+                <a href="javascript:;" class="submit-map-popup am-text-blue am-text-xs am-margin-left-sm" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}" data-title="{{:MyLang('map_title')}}">
+                    <i class="iconfont icon-map-position"></i>
+                    <span>{{:MyLang('view_title')}}</span>
+                </a>
+            {{/if}}
         </p>
         {{if !empty($module_data['address_data']['idcard_name']) or !empty($module_data['address_data']['idcard_number']) or !empty($module_data['address_data']['idcard_front']) or !empty($module_data['address_data']['idcard_back'])}}
             <div class="am-alert am-alert-secondary am-margin-vertical-0">
                 <p class="am-margin-bottom-xs"><strong>{{:MyLang('order.detail_user_address_idcard')}}</strong></p>
-                <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed am-margin-vertical-0" />
+                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
                 <div class="am-margin-top-xs">
                     <p>{{:MyLang('order.detail_user_address_idcard_name')}}：{{$module_data.address_data.idcard_name}}</p>
                     <p>{{:MyLang('order.detail_user_address_idcard_number')}}：{{$module_data.address_data.idcard_number}}</p>
@@ -25,11 +28,6 @@
                         <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($module_data['address_data']['idcard_front'])}}<a href="{{$module_data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="35" height="27" src="{{$module_data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($module_data['address_data']['idcard_back'])}}<a href="{{$module_data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="35" height="27" src="{{$module_data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
                     {{/if}}
                 </div>
-            </div>
-        {{/if}}
-        {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0}}
-            <div class="am-margin-top-xs">
-                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</button>
             </div>
         {{/if}}
     </div>

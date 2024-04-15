@@ -5339,7 +5339,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 
-	Dropdown.prototype.close = function() {
+	Dropdown.prototype.close = function(e) {
 	  if (!this.active) {
 	    return;
 	  }
@@ -5349,6 +5349,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var animationName = 'am-dropdown-animation';
 	  var $element = this.$element;
 	  var $dropdown = this.$dropdown;
+	  if(e == 'auto') {
+	  	var config = $element.attr('data-am-dropdown') || null;
+		  if ((config || null) != null && typeof (config) == 'string') {
+			config = eval('(' + config + ')');
+		  }
+	  	if(config != null && config.auto_close == false) {
+	  		return false;
+	  	}
+	  }
 
 	  $element.trigger('close.dropdown.amui');
 
@@ -5445,13 +5454,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   }*/
 
 	  $(document).on('keydown.dropdown.amui', $.proxy(function(e) {
-	    e.keyCode === 27 && this.active && this.close();
+	    e.keyCode === 27 && this.active && this.close('auto');
 	  }, this)).on('click.outer.dropdown.amui', $.proxy(function(e) {
 	    // var $target = $(e.target);
 
 	    if (this.active &&
 	      (this.$element[0] === e.target || !this.$element.find(e.target).length)) {
-	      this.close();
+	      this.close('auto');
 	    }
 	  }, this));
 	};
@@ -8345,7 +8354,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof option == 'string') {
 	      data[option] && data[option](relatedTarget);
 	    } else {
-	      data.toggle(option && option.relatedTarget || undefined);
+	    	if((option || null) == null || typeof option == 'object') {
+	    		data['open'] && data['open'](option);
+	    	} else {
+	    		if(option == 'close') {
+	    			data['close'] && data['close'](relatedTarget);
+	    		}
+	    	}
 	    }
 	  });
 	}

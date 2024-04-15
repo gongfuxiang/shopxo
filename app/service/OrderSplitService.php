@@ -86,12 +86,12 @@ class OrderSplitService
                     $ext = self::ExtensionDataPriceHandle($v['order_base']['extension_data']);
 
                     // 增加/减少
-                    $v['order_base']['increase_price'] = PriceNumberFormat($v['order_base']['increase_price']+$ext['inc']);
-                    $v['order_base']['preferential_price'] = PriceNumberFormat($v['order_base']['preferential_price']+$ext['dec']);
+                    $v['order_base']['increase_price'] = PriceBeautify(PriceNumberFormat($v['order_base']['increase_price']+$ext['inc']));
+                    $v['order_base']['preferential_price'] = PriceBeautify(PriceNumberFormat($v['order_base']['preferential_price']+$ext['dec']));
 
                     // 实际金额/总额处理
-                    $v['order_base']['actual_price'] = PriceNumberFormat(($v['order_base']['actual_price']+$ext['inc'])-$ext['dec']);
-                    $v['order_base']['total_price'] = PriceNumberFormat($v['order_base']['total_price']);
+                    $v['order_base']['actual_price'] = PriceBeautify(PriceNumberFormat(($v['order_base']['actual_price']+$ext['inc'])-$ext['dec']));
+                    $v['order_base']['total_price'] = PriceBeautify(PriceNumberFormat($v['order_base']['total_price']));
 
                     // 防止实际金额负数
                     if($v['order_base']['actual_price'] < 0)
@@ -172,40 +172,46 @@ class OrderSplitService
                 // 订单基础信息
                 $v['order_base'] = [
                     // 总价
-                    'total_price'           => $total_price,
-
+                    'total_price'                       => PriceBeautify($total_price),
+                    
                     // 订单实际支付金额(已减去优惠金额, 已加上增加金额)
-                    'actual_price'          => $total_price,
-
+                    'actual_price'                      => PriceBeautify($total_price),
+                    
                     // 优惠金额
-                    'preferential_price'    => 0.00,
-
+                    'preferential_price'                => 0.00,
+                    
                     // 增加金额
-                    'increase_price'        => 0.00,
-
+                    'increase_price'                    => 0.00,
+                    
                     // 商品总数
-                    'goods_count'           => count($v['goods_items']),
-
+                    'goods_count'                       => count($v['goods_items']),
+                    
                     // 规格重量总计
-                    'spec_weight_total'     => array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $v['goods_items'])),
-
+                    'spec_weight_total'                 => array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $v['goods_items'])),
+                    
                     // 规格体积总计
-                    'spec_volume_total'     => array_sum(array_map(function($v) {return $v['spec_volume']*$v['stock'];}, $v['goods_items'])),
-
+                    'spec_volume_total'                 => array_sum(array_map(function($v) {return $v['spec_volume']*$v['stock'];}, $v['goods_items'])),
+                    
                     // 购买总数
-                    'buy_count'             => array_sum(array_column($v['goods_items'], 'stock')),
-
+                    'buy_count'                         => array_sum(array_column($v['goods_items'], 'stock')),
+                    
                     // 默认地址
-                    'address'               => $params['address'],
-
+                    'address'                           => $params['address'],
+                    
                     // 自提地址列表
-                    'extraction_address'    => $params['extraction_address'],
-
+                    'extraction_address'                => $params['extraction_address'],
+                    
                     // 当前使用的站点模式
-                    'site_model'            => $params['site_model'],
-
+                    'site_model'                        => $params['site_model'],
+                    
                     // 公共站点模式
-                    'common_site_type'      => $params['common_site_type'],
+                    'common_site_type'                  => $params['common_site_type'],
+                    
+                    // 商品售价是否展示
+                    'goods_price_show_status'           => (array_sum(array_filter(array_column($v['goods_items'], 'show_field_price_status'))) > 0) ? 1 : 0,
+
+                    // 商品原价是否展示
+                    'goods_original_price_show_status'  => (array_sum(array_filter(array_column($v['goods_items'], 'show_field_original_price_status'))) > 0) ? 1 : 0,
 
                     // 仓库组扩展展示数据
                     // name 名称
@@ -224,7 +230,7 @@ class OrderSplitService
                         //     'ext'        => null,
                         // ],
                     // ];
-                    'extension_data'        => [],
+                    'extension_data'                    => [],
                 ];
             }
         }
@@ -294,7 +300,7 @@ class OrderSplitService
                         }
 
                         // 总价计算
-                        $temp_v['total_price'] = PriceNumberFormat($temp_v['price']*$temp_v['stock']);
+                        $temp_v['total_price'] = PriceBeautify(PriceNumberFormat($temp_v['price']*$temp_v['stock']));
 
                         // 减除数量
                         $v['stock'] -= $w['inventory'];

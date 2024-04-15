@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -14,17 +14,17 @@
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
             <div class="nav-content rich-text">
                 <!-- table tips start -->
-                {{include file="email/tips"" /}}
+                {{:ModuleInclude('email/tips')}}
                 <!-- table tips end -->
                 <!-- 后台 -->
-                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('email.base_item_admin_title')}}</p>
+                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('email.base_item_admin_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.admin_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_email_login_template.describe}}</span></label>
                     <textarea id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value}}{{/if}}</textarea>
                 </div>
 
                 <!-- 前端 -->
-                <p class="am-margin-bottom-xl am-text-sm cr-333">{{:MyLang('email.base_item_index_title')}}</p>
+                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('email.base_item_index_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
                     <textarea id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value}}{{/if}}</textarea>
@@ -59,4 +59,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

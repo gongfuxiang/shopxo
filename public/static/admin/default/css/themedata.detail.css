@@ -1,0 +1,16 @@
+.detail-content-switch-data-item .am-dropdown-content {
+    min-width: auto;
+    width: calc(100vw - 14rem);
+}
+.detail-content-switch-data-item .am-scrollable-vertical {
+    height: auto;
+    max-height: 10rem;
+}
+.detail-content-switch-data-item video {
+    max-width: 100%;
+    height: 100%;
+}
+.detail-content-switch-data-item .article-list img {
+    width: 2.2rem;
+    height: 2.2rem;
+}

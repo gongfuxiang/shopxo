@@ -1,0 +1,41 @@
+<div class="am-form-group">
+    <label>
+        {{:MyLang('common_service.themedata.form_item_unique')}}
+        {{if is_array(MyLang('common_service.themedata.form_item_unique_tips'))}}
+            <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-xs" title="{{:implode('<br />', MyLang('common_service.themedata.form_item_unique_tips'))}}"></a>
+        {{/if}}
+    </label>
+    <input type="text" name="unique" placeholder="{{:MyLang('common_service.themedata.form_item_unique')}}" class="am-radius" {{if !empty($module_data['data']) and !empty($module_data['data']['unique'])}} value="{{$module_data.data.unique}}" readonly{{/if}} />
+</div>
+<div class="am-form-group">
+    <label class="am-block">{{:MyLang('common_service.themedata.form_item_theme')}}<span class="am-form-group-label-tips-must">*</span></label>
+    <select name="theme" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.themedata.form_item_theme_message')}}" required>
+        {{if !empty($module_data['theme_list'])}}
+            <option value="">{{:MyLang('please_select_tips')}}</option>
+            {{foreach $module_data.theme_list as $v}}
+                <option value="{{$v.theme}}" {{if !empty($module_data['data']) and isset($module_data['data']['theme']) and $module_data['data']['theme'] eq $v['theme']}}selected{{/if}}>{{$v.name}}</option>
+            {{/foreach}}
+        {{/if}}
+    </select>
+</div>
+<div class="am-form-group">
+    <label class="am-block">
+        {{:MyLang('common_service.themedata.form_item_view')}}
+        {{if is_array(MyLang('common_service.themedata.form_item_view_tips'))}}
+            <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-xs" title="{{:implode('<br />', MyLang('common_service.themedata.form_item_view_tips'))}}"></a>
+        {{/if}}
+    </label>
+    <select name="view" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.themedata.form_item_view_message')}}">
+        {{if !empty($module_data['common_theme_view_list'])}}
+            <option value="-1">{{:MyLang('please_select_tips')}}</option>
+            {{foreach $module_data.common_theme_view_list as $v}}
+                <option value="{{$v.value}}" {{if !empty($module_data['data']) and isset($module_data['data']['view']) and $module_data['data']['view'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+            {{/foreach}}
+        {{/if}}
+    </select>
+</div>
+<div class="am-form-group">
+    <label>{{:MyLang('common_service.themedata.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+    <input type="text" name="name" placeholder="{{:MyLang('common_service.themedata.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.themedata.form_item_name_message')}}" class="am-radius" {{if !empty($module_data['data']) and !empty($module_data['data']['name'])}} value="{{$module_data.data.name}}"{{/if}} required />
+</div>
+{{:ModuleInclude('lib/is_enable')}}

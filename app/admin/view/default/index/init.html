@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}">
@@ -100,7 +100,7 @@
                 <div class="am-flex-1 am-flex-width">
                     <div class="block-container shopxo-base">
                         <div class="block-title echarts-title am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
-                            <div class="am-relative">
+                            <div class="am-pr">
                                 <span class="title icon">{{:MyLang('index.base_item_base_stats_title')}}</span>
                             </div>
                             <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="base-count" data-empty-time="1">
@@ -134,7 +134,7 @@
                                         </div>
                                     </div>
                                 {{/if}}
-                                {{include file="/index/stats_where" /}}
+                                {{:ModuleInclude('/index/stats_where')}}
                             </div>
                         </div>
                         <ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
@@ -146,7 +146,7 @@
                                             <p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
-                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
                                             <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$user.today_count}}" data-speed="1500">0</span>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                             <p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
-                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
                                             <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                                             <p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
-                                            <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                            <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
                                             <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                                 <p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
                                             </div>
                                             <div class="item am-flex am-flex-col am-flex-items-end">
-                                                <span class="cr-999">{{:MyLang('index.base_item_today_title')}}</span>
+                                                <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
                                                 <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@
                     <div class="am-flex-1 am-flex-width">
                         <div class="block-container">
                             <div class="block-title echarts-title am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm am-border-bottom">
-                                <div class="am-relative am-flex am-flex-row am-gap-1 echarts-tabs">
+                                <div class="am-pr am-flex am-flex-row am-gap-1 echarts-tabs">
                                     <span class="title am-active am-cursor-pointer" data-key="order-profit">{{:MyLang('index.base_item_order_profit_title')}}</span>
                                     <span class="title am-cursor-pointer" data-key="order-trading">{{:MyLang('index.base_item_order_trading_title')}}</span>
                                 </div>
@@ -314,7 +314,7 @@
                                                     </div>
                                                 </span>
                                             {{/if}}
-                                            {{include file="/index/stats_where" /}}
+                                            {{:ModuleInclude('/index/stats_where')}}
                                         </div>
                                     </div>
                                     <div class="order-trading am-hide">
@@ -345,7 +345,7 @@
                                                     </div>
                                                 </span>
                                             {{/if}}
-                                            {{include file="/index/stats_where" /}}
+                                            {{:ModuleInclude('/index/stats_where')}}
                                         </div>
                                     </div>
                                 </div>
@@ -359,7 +359,7 @@
                 {{/if}}
                 <div class="block-container shortcut-menu">
                     <div class="am-flex am-flex-row am-flex-justify-between am-flex-items-center">
-                        <div class="am-relative block-title">
+                        <div class="am-pr block-title">
                             <span class="title icon">{{:MyLang('common_service.shortcutmenu.form_base_title')}}</span>
                         </div>
                         <div class="more-layout">
@@ -368,13 +368,13 @@
                     </div>
                     <div class="shortcut-menu-list am-margin-top-xl">
                         {{if empty($shortcut_menu_data)}}
-                            {{include file="public/not_data" /}}
+                            {{:ModuleInclude('public/not_data')}}
                         {{else /}}
                             <div class="shortcut-menu-content am-flex am-flex-row am-flex-warp">
                                 {{foreach $shortcut_menu_data as $v}}
                                     <a href="javascript:;" data-url="{{$v.url}}" data-key="{{$v.menu}}" data-id="{{$v.menu}}" data-type="menu" data-name="{{$v.name}}" class="item am-text-center am-radius">
-                                        <img src="{{$v.icon}}" class="am-radius scale-hover" />
-                                        <p class="cr-333">{{$v.name}}</p>
+                                        <img src="{{$v.icon}}" class="am-radius scale-sm" />
+                                        <p class="am-color-333">{{$v.name}}</p>
                                     </a>
                                 {{/foreach}}
                             </div>
@@ -430,7 +430,7 @@
 				<li class="am-flex-1">
 					<!-- 热销商品 -->
 					<div class="block-title echarts-title goods-hot-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
-                        <div class="am-relative">
+                        <div class="am-pr">
                             <span class="title icon">{{:MyLang('index.base_item_hot_sales_goods_title')}}</span>
                         </div>
                         <div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="goods-hot" data-init="1" data-empty-time="1">
@@ -462,7 +462,7 @@
                                     </div>
 						        </span>
 						    {{/if}}
-						    {{include file="/index/stats_where" /}}
+						    {{:ModuleInclude('/index/stats_where')}}
 						</div>
 					</div>
 					<div id="echarts-goods-hot"></div>
@@ -470,7 +470,7 @@
 				<li class="am-flex-1">
 					<!-- 支付方式 -->
 					<div class="block-title echarts-title pay-type-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
-                        <div class="am-relative">
+                        <div class="am-pr">
                             <span class="title icon">{{:MyLang('index.base_item_payment_type_title')}}</span>
                         </div>
 						<div class="right-operate am-flex am-flex-items-center am-gap-1" data-type="pay-type" data-init="1">
@@ -499,7 +499,7 @@
                                     </div>
 						        </span>
 						    {{/if}}
-						    {{include file="/index/stats_where" /}}
+						    {{:ModuleInclude('/index/stats_where')}}
 						</div>
 					</div>
 					<div id="echarts-pay-type"></div>
@@ -524,7 +524,7 @@
 			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1 am-margin-bottom-sm">
 				<li class="am-flex-1">
                     <div class="block-title echarts-title area-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
-                        <div class="am-relative area-select">
+                        <div class="am-pr area-select">
                             <span class="title icon">{{:MyLang('index.base_item_map_whole_country_title')}}</span>
                             <select name="value" data-am-selected="{btnWidth: '80px', btnSize: 'xs'}">
                                 <option value="0" selected>{{:MyLang('index.base_item_map_whole_country_province')}}</option>
@@ -561,14 +561,14 @@
                                     </div>
                                 </span>
                             {{/if}}
-                            {{include file="/index/stats_where" /}}
+                            {{:ModuleInclude('/index/stats_where')}}
                         </div>
                     </div>
                     <div id="echarts-map-whole-country"></div>
                 </li>
 				<li class="am-flex-1">
                     <div class="block-title echarts-title user-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm am-border-bottom">
-                        <div class="am-relative am-flex am-flex-row am-gap-1 echarts-tabs">
+                        <div class="am-pr am-flex am-flex-row am-gap-1 echarts-tabs">
                             <span class="title am-active am-cursor-pointer" data-key="new-user">{{:MyLang('index.base_item_new_user_title')}}</span>
                             <span class="title am-cursor-pointer" data-key="buy-user">{{:MyLang('index.base_item_buy_user_title')}}</span>
                         </div>
@@ -601,7 +601,7 @@
                                             </div>
                                         </span>
                                     {{/if}}
-                                    {{include file="/index/stats_where" /}}
+                                    {{:ModuleInclude('/index/stats_where')}}
                                 </div>
                             </div>
                             <div class="buy-user am-hide">
@@ -632,7 +632,7 @@
                                             </div>
                                         </span>
                                     {{/if}}
-                                    {{include file="/index/stats_where" /}}
+                                    {{:ModuleInclude('/index/stats_where')}}
                                 </div>
                             </div>
                         </div>
@@ -777,7 +777,7 @@
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 <script>
     // 常用功能
     // 关闭弹窗监听回调

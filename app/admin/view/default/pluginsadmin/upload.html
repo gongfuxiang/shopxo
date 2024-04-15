@@ -1,16 +1,16 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
         <!-- form start -->
         <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/pluginsadmin/upload')}}" method="POST" request-type="ajax-reload" request-value="parent" enctype="multipart/form-data">
-            <div class="am-form-group am-form-group-refreshing">
+            <div class="am-form-group am-flex-1">
                 <div class="am-form-file">
-                    <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="iconfont icon-upload-file"></i></button>
+                    <button type="button" class="am-btn am-btn-default am-btn-xl am-radius"><i class="iconfont icon-upload-file"></i></button>
                     <input type="file" name="file" class="file-event" data-tips-tag="#form-file-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" required />
                     <div id="form-file-tips" class="am-margin-top"></div>
-                    <div class="tips am-text-xs cr-ccc am-margin-top-sm">{{:MyLang('common_service.pluginsadmin.form_item_upload_tips')}}</div>
+                    <div class="tips am-text-xs am-color-ccc am-margin-top-sm">{{:MyLang('common_service.pluginsadmin.form_item_upload_tips')}}</div>
                 </div>
             </div>
             <div class="am-form-popup-submit">
@@ -30,4 +30,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

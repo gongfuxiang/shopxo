@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -31,9 +31,9 @@
                         <label>{{:MyLang('common_service.link.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="url" placeholder="{{:MyLang('common_service.link.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.link.form_item_url_message')}}" class="am-radius" required />
                     </div>
-                    {{include file="lib/sort_row" /}}
-                    {{include file="lib/is_new_window_open_row" /}}
-                    {{include file="lib/is_enable_row" /}}
+                    {{:ModuleInclude('lib/sort_row')}}
+                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/is_enable_row')}}
                     <div class="am-form-group row am-form-success">
                         <label class="am-flex-align-self-start">{{:MyLang('common_service.link.form_item_desc')}}</label>
                         <textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="{{:MyLang('common_service.link.form_item_desc_message')}}" data-validation-message="{{:MyLang('common_service.link.form_item_desc_message')}}"></textarea>

@@ -1,10 +1,10 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/config/store')}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-view{{else /}}ajax-reload{{/if}}" request-value="{{if isset($is_theme_data_admin) and $is_theme_data_admin eq 1}}parent{{/if}}">
             <div class="nav-content">
                 <div class="am-form-group">
                     <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>
@@ -19,6 +19,10 @@
                     <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
+                    <label>{{$data.common_customer_store_describe.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_describe.describe}}</span></label>
+                    <input type="text" name="{{$data.common_customer_store_describe.only_tag}}" placeholder="{{$data.common_customer_store_describe.name}}" data-validation-message="{{$data.common_customer_store_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_describe.value}}"{{/if}} />
+                </div>
+                <div class="am-form-group">
                     <label class="am-block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
                     <div class="am-form-file-upload-container">
                         <ul class="plug-file-upload-view common_customer_store_qrcode-images-view" data-form-name="common_customer_store_qrcode" data-max-number="1" data-dialog-type="images" data-is-eye="1">
@@ -28,7 +32,7 @@
                                 {{else /}}
                                     <input type="text" name="common_customer_store_qrcode" value="{{$data.common_customer_store_qrcode.value}}" />
                                     <img src="{{:AttachmentPathViewHandle($data.common_customer_store_qrcode.value)}}" />
-                                    <i>x</i>
+                                    <i class="iconfont icon-close"></i>
                                     <i class="iconfont icon-eye"></i>
                                 {{/if}}
                             </li>
@@ -49,4 +53,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

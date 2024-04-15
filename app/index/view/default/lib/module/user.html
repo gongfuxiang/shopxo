@@ -1,22 +1,22 @@
 {{if !empty($module_data) and ((!empty($module_data['user']) and !empty($module_data['user']['user_name_view'])) || !empty($module_data['user_name_view']))}}
-    <div class="am-flex am-flex-items-center am-gap-1-half am-relative user-info-data-container">
+    <div class="am-flex am-flex-items-center am-gap-1-half am-pr user-info-data-container">
         <figure data-am-widget="figure" class="am-figure am-margin-0 am-inline-block" data-am-figure="{pureview: 'true'}">
             <img src="{{if empty($module_data['user'])}}{{if !empty($module_data['avatar'])}}{{$module_data.avatar}}{{/if}}{{else /}}{{$module_data.user.avatar}}{{/if}}" alt="{{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}" class="am-img-thumbnail am-radius am-block" width="33" height="33" />
         </figure>
         <div class="user-info-dropdown-data-container am-flex-1">
-            <a href="javascript:;" class="am-text-truncate cr-333">
+            <a href="javascript:;" class="am-text-truncate am-color-333">
                 {{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}
-                <i class="iconfont icon-nav-arrow-down"></i>
+                <i class="iconfont icon-angle-down"></i>
             </a>
             <div class="user-info-content">
                 <div class="am-flex am-gap-1">
                     {{if empty($module_data['user'])}}
                         {{if !empty($module_data['username'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-username cr-333 text-copy-submit" data-value="{{$module_data.username}}" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.username}}{{if !empty($module_data['user']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-username am-color-333 text-copy-submit" data-value="{{$module_data.username}}" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.username}}{{if !empty($module_data['user']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['number_code'])}}
                             <div class="am-dropdown am-inline-block text-copy-submit user-number-code" data-value="{{$module_data.number_code}}" data-am-dropdown="{trigger: 'hover'}">
-                                <a href="javascript:;" class="iconfont icon-table-user-numbert-code cr-333 am-dropdown-toggle"></a>
+                                <a href="javascript:;" class="iconfont icon-table-user-numbert-code am-color-333 am-dropdown-toggle"></a>
                                 <div class="am-dropdown-content am-radius am-padding-sm am-text-center">
                                     <a href="javascript:;">
                                         <div class="view-qrcode-init" data-width="70" data-height="70">{{$module_data.number_code}}</div>
@@ -26,21 +26,21 @@
                             </div>
                         {{/if}}
                         {{if !empty($module_data['mobile'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-mobile cr-333 text-copy-submit" data-value="{{$module_data.mobile}}" data-am-popover="{content: '{{$module_data.mobile}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-mobile am-color-333 text-copy-submit" data-value="{{$module_data.mobile}}" data-am-popover="{content: '{{$module_data.mobile}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['email'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-email cr-333 text-copy-submit" data-value="{{$module_data.email}}" data-am-popover="{content: '{{$module_data.email}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-email am-color-333 text-copy-submit" data-value="{{$module_data.email}}" data-am-popover="{content: '{{$module_data.email}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['gender_text'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-gender cr-333 text-copy-submit" data-value="{{$module_data.gender_text}}" data-am-popover="{content: '{{$module_data.gender_text}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-gender am-color-333 text-copy-submit" data-value="{{$module_data.gender_text}}" data-am-popover="{content: '{{$module_data.gender_text}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                     {{else /}}
                         {{if !empty($module_data['user']['username'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-username cr-333 text-copy-submit" data-value="{{$module_data.user.username}}" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.user.username}}{{if !empty($module_data['user']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.user.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-username am-color-333 text-copy-submit" data-value="{{$module_data.user.username}}" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.user.username}}{{if !empty($module_data['user']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.user.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['user']['number_code'])}}
                             <div class="am-dropdown am-inline-block text-copy-submit user-number-code" data-value="{{$module_data.user.number_code}}" data-am-dropdown="{trigger: 'hover'}">
-                                <a href="javascript:;" class="iconfont icon-table-user-number-code cr-333 am-dropdown-toggle"></a>
+                                <a href="javascript:;" class="iconfont icon-table-user-number-code am-color-333 am-dropdown-toggle"></a>
                                 <div class="am-dropdown-content am-radius am-padding-sm am-text-center">
                                     <a href="javascript:;">
                                         <div class="view-qrcode-init" data-width="70" data-height="70">{{$module_data.user.number_code}}</div>
@@ -50,13 +50,13 @@
                             </div>
                         {{/if}}
                         {{if !empty($module_data['user']['mobile'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-mobile cr-333 text-copy-submit" data-value="{{$module_data.user.mobile}}" data-am-popover="{content: '{{$module_data.user.mobile}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-mobile am-color-333 text-copy-submit" data-value="{{$module_data.user.mobile}}" data-am-popover="{content: '{{$module_data.user.mobile}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['user']['email'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-email cr-333 text-copy-submit" data-value="{{$module_data.user.email}}" data-am-popover="{content: '{{$module_data.user.email}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-email am-color-333 text-copy-submit" data-value="{{$module_data.user.email}}" data-am-popover="{content: '{{$module_data.user.email}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                         {{if !empty($module_data['user']['gender_text'])}}
-                            <a href="javascript:;" class="iconfont icon-table-user-gender cr-333 text-copy-submit" data-value="{{$module_data.user.gender_text}}" data-am-popover="{content: '{{$module_data.user.gender_text}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            <a href="javascript:;" class="iconfont icon-table-user-gender am-color-333 text-copy-submit" data-value="{{$module_data.user.gender_text}}" data-am-popover="{content: '{{$module_data.user.gender_text}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         {{/if}}
                     {{/if}}
                 </div>

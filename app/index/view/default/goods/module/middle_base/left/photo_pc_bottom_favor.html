@@ -1,0 +1,14 @@
+<!-- pc相册下面收藏模块 -->
+{{if !empty($module_data['goods'])}}
+    {{if isset($module_data['goods']['user_is_favor']) and $module_data['goods']['user_is_favor'] eq 1}}
+        <span class="nav-icon common-goods-favor-submit-event am-hide-sm-only am-active" data-gid="{{$module_data.goods.id}}">
+            <i class="iconfont icon-heart-o" ></i>
+            <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
+        </span>
+    {{else /}}
+        <span class="nav-icon common-goods-favor-submit-event am-hide-sm-only" data-gid="{{$module_data.goods.id}}">
+            <i class="iconfont icon-heart-o"></i>
+            <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
+        </span>
+    {{/if}}
+{{/if}}

@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 扩展 -->
 {{block name="form_extend"}}
@@ -16,7 +16,7 @@
                     <dd class="goods-info">
                         <div class="base am-nbfc">
                             <a href="javascript:;" target="_blank">
-                                <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-fl" width="60" height="60" />
+                                <img src="{{:UserDefaultAvatar('sm')}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-fl" width="60" height="60" />
                             </a>
                             <a class="am-text-top am-nowrap-initial title" href="javascript:;" target="_blank">...</a>
                         </div>
@@ -25,7 +25,7 @@
 
                     <dt>{{:MyLang('common_service.goodscomments.form_item_user_info_title')}}</dt>
                     <dd class="user-info">
-                        <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
+                        <img src="{{:UserDefaultAvatar('sm')}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                         <div class="user-base">
                             <p class="username">{{:MyLang('user_username_title')}}：<span>...</span></p>
                             <p class="nickname">{{:MyLang('user_nickname_title')}}：<span>...</span></p>

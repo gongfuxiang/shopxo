@@ -1,0 +1,193 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- content start -->
+<div class="account-pages">
+	<div class="wrapper-page {{if empty($admin_login_ad_images)}}not-login-ad-images{{/if}}">
+        <div class="wrapper-page-content am-flex am-flex-justify-between">
+            {{if !empty($admin_login_ad_images)}}
+                <div class="wrapper-page-left am-flex-1 am-flex-width" style="background-image: url({{$admin_login_ad_images}});">
+                    {{if !empty($admin_login_logo)}}
+                        <img src="{{$admin_login_logo}}" width="154" />
+                    {{/if}}
+                </div>
+            {{/if}}
+            <div class="wrapper-page-right admin-login am-flex am-flex-col am-flex-items-center">
+                {{if count($admin_login_type) gt 0}}
+                    {{if count($admin_login_type) eq 1}}
+                        <div class="am-flex am-flex-col am-flex-items-center">
+                            <p class="am-text-xl am-font-weight am-margin-bottom-xs">{{:MyLang('admin.login_welcome_title')}}</p>
+                            <p class="am-text-lg am-color-666">{{:MyLang('common.admin_browser_title')}}</p>
+                        </div>
+                    {{else /}}
+                        <img src="{{$admin_login_logo}}" width="154" class="am-show-sm-only" />
+                    {{/if}}
+
+                    <div data-am-widget="tabs" class="am-tabs am-tabs-border am-margin-bottom-0 am-margin-left-0 am-margin-right-0" data-am-tabs="{noSwipe: 1}">
+                        {{if count($admin_login_type) gt 1}}
+                            <ul class="am-tabs-nav am-nav am-nav-tabs">
+                                {{if in_array('username', $admin_login_type)}}
+                                    <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('admin.login_type_username_title')}}</a></li>
+                                {{/if}}
+                                {{if in_array('sms', $admin_login_type)}}
+                                    <li class="{{if !in_array('username', $admin_login_type) and !in_array('email', $admin_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">{{:MyLang('admin.login_type_mobile_title')}}</a></li>
+                                {{/if}}
+                                {{if in_array('email', $admin_login_type)}}
+                                    <li class="{{if !in_array('username', $admin_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-2]">{{:MyLang('admin.login_type_email_title')}}</a></li>
+                                {{/if}}
+                            </ul>
+                        {{/if}}
+                        <div class="am-tabs-bd">
+                            {{if in_array('username', $admin_login_type)}}
+                                <div data-tab-panel-0 class="am-tab-panel am-active">
+                                    <!-- form start -->
+                                    <form class="am-form form-validation-username" method="post" action="{{:MyUrl('admin/admin/login')}}" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
+                                        <div class="am-form-group am-form-group-refreshing">
+                                            <input type="text" name="accounts" class="am-radius" placeholder="{{:MyLang('common_service.admin.form_item_username_placeholder')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_username_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                        </div>
+    
+                                        <div class="am-form-group am-form-group-refreshing">
+                                            <div class="am-form-group input-compose">
+                                                <input type="password" name="pwd" class="am-radius eye" placeholder="{{:MyLang('common_service.admin.form_item_password_placeholder')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_password_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                                <span class="am-input-group-btn eye">
+                                                    <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+    
+                                        {{if MyC('admin_login_img_verify_state') eq 1}}
+                                            <div class="am-form-group am-form-group-refreshing">
+                                                <div class="am-form-group input-compose">
+                                                    <input type="text" name="verify" class="am-radius" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                                    <span class="am-input-group-btn verify-img">
+                                                        <span class="am-btn am-radius am-padding-0 form-verify">
+                                                            <img src="{{:MyUrl('admin/admin/adminverifyentry')}}" class="am-radius am-cursor-pointer" id="form-verify-img" onClick="this.src=this.src+'&'+Math.random();" />
+                                                            <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('admin/admin/adminverifyentry')}}&'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {{/if}}
+                                        <div class="am-form-group am-form-group-refreshing">
+                                            <input type="hidden" name="type" value="username" />
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-xs am-btn-sub btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('login_title')}}</button>
+                                        </div>
+                                    </form>
+                                    <!-- form end -->
+                                </div>
+                            {{/if}}
+                            {{if in_array('sms', $admin_login_type)}}
+                                <div data-tab-panel-1 class="am-tab-panel {{if !in_array('username', $admin_login_type) and !in_array('email', $admin_login_type)}}am-active{{/if}}">
+                                    <!-- form start -->
+                                    <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('admin/admin/login')}}" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
+                                        <div class="am-form-group am-form-group-refreshing">
+                                            <input type="text" name="accounts" class="am-radius" placeholder="{{:MyLang('common_service.admin.form_item_mobile_placeholder')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_mobile_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                        </div>
+    
+                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                                            <div class="am-form-group input-compose">
+                                                <input type="number" name="verify" class="am-radius sms" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                                <span class="am-input-group-btn verify-sms">
+                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('admin/admin/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">{{:MyLang('form_verify_button_text')}}</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                                            <input type="hidden" name="type" value="sms" />
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-xs am-btn-sub btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('login_title')}}</button>
+                                        </div>
+                                    </form>
+                                    <!-- form end -->
+                                </div>
+                            {{/if}}
+                            {{if in_array('email', $admin_login_type)}}
+                                <div data-tab-panel-2 class="am-tab-panel {{if !in_array('username', $admin_login_type)}}am-active{{/if}}">
+                                    <!-- form start -->
+                                    <form class="am-form form-validation-email" method="post" action="{{:MyUrl('admin/admin/login')}}" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
+                                        <div class="am-form-group am-form-group-refreshing">
+                                            <input type="email" name="accounts" class="am-radius" placeholder="{{:MyLang('common_service.admin.form_item_email_placeholder')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_email_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                        </div>
+    
+                                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                                            <div class="am-form-group input-compose">
+                                                <input type="number" name="verify" class="am-radius email" placeholder="{{:MyLang('form_verify_placeholder')}}" min="0" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" data-is-clearout="0" required />
+                                                <span class="am-input-group-btn verify-email">
+                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('admin/admin/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">{{:MyLang('form_verify_button_text')}}</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                                            <input type="hidden" name="type" value="email" />
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-xs am-btn-sub btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('login_title')}}</button>
+                                        </div>
+                                    </form>
+                                    <!-- form end -->
+                                </div>
+                            {{/if}}
+                            <div class="am-padding-horizontal-lg am-nbfc am-text-right forgot_pwd">
+                                <a href="javascript:;" class="text-muted" data-am-popover="{theme: 'sm', content: '{{:MyLang('admin.form_forget_password_tips')}}', trigger: 'hover focus'}">{{:MyLang('admin.form_forget_password_name')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                {{else /}}
+                    <div class="am-text-center am-padding-vertical-lg register-close">
+                        <i class="am-icon-warning"></i>
+                        <span>{{:MyLang('admin.login_close_tips')}}</span>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+	</div>
+</div>
+<!-- content end -->
+
+{{if MyC('common_img_verify_state') eq 1}}
+    <!-- verify win start -->
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+        <div class="am-modal-dialog am-radius">
+            <div class="am-modal-hd">
+                <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="base am-form-group input-compose">
+                    <input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" />
+                    <div class="am-input-group-btn verify-img">
+                        <img src="{{:MyUrl('admin/admin/adminverifyentry')}}" class="am-radius am-cursor-pointer" id="verify-img" onClick="this.src=this.src+'&'+Math.random();" />
+                        <a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('admin/admin/adminverifyentry')}}&'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- verify win end -->
+{{/if}}
+
+<!-- 随机背景图片 -->
+{{if MyC('admin_login_info_bg_images_rand') eq 1 and !empty($bg_images_list) and is_array($bg_images_list)}}
+    <div class="bg-slides">
+        {{foreach $bg_images_list as $k=>$v}}
+            {{if !empty($v)}}
+                <div class="bg-slides-item" style="background-image:url('{{$v}}');{{if $k neq 0}}display:none;{{/if}}"></div>
+            {{/if}}
+        {{/foreach}}
+    </div>
+{{/if}}
+
+<!-- 插件扩展数据 start -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>plugins_view_admin_login_info</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_admin_login_info_data) and is_array($plugins_view_admin_login_info_data)}}
+    {{foreach $plugins_view_admin_login_info_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+		
+<!-- footer -->
+{{:ModuleInclude('public/footer')}}

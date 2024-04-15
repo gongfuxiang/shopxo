@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -15,7 +15,7 @@
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'index'])}}">
             <div class="nav-content">
                 <!-- table tips start -->
-                {{include file="sms/tips"" /}}
+                {{:ModuleInclude('sms/tips')}}
                 <!-- table tips end -->
                 <div class="am-form-group">
                     <label>{{$data.common_sms_apikey.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apikey.describe}}</span></label>
@@ -43,4 +43,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

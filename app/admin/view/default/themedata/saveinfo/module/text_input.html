@@ -1,0 +1,22 @@
+{{if !empty($module_data['common_theme_business_text_input_list']) and is_array($module_data['common_theme_business_text_input_list'])}}
+    {{foreach $module_data.common_theme_business_text_input_list as $v}}
+        {{if empty($module_data['appoint_business_text']) or (!empty($module_data['appoint_business_text']) and in_array($v['value'], $module_data['appoint_business_text']))}}
+            <div class="am-form-group">
+                <label>{{$v.name}}</label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" name="{{if empty($module_data['appoint_form_name_first'])}}text_{{$v.value}}{{else /}}{{$module_data.appoint_form_name_first}}[text_{{$v.value}}]{{/if}}[value]" class="am-form-field am-radius {{if isset($v['type']) and $v['type'] eq 'date'}}Wdate{{/if}}" placeholder="{{:MyLang('common_service.themedata.form_item_please_enter_text')}}{{$v.name}}" value="{{if !empty($module_data['data']) and !empty($module_data['data']['data']) and !empty($module_data['data']['data']['text_'.$v['value']]) and !empty($module_data['data']['data']['text_'.$v['value']]['value'])}}{{$module_data.data.data['text_'.$v['value']]['value']}}{{/if}}" {{if isset($v['type']) and $v['type'] eq 'date'}}onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})"{{/if}} />
+                    <a href="javascript:;" class="am-input-group-label am-radius am-text-blue url-choice-event">
+                        <input type="hidden" name="{{if empty($module_data['appoint_form_name_first'])}}text_{{$v.value}}{{else /}}{{$module_data.appoint_form_name_first}}[text_{{$v.value}}]{{/if}}[url_data]" value="{{if !empty($module_data['data']) and !empty($module_data['data']['data']) and !empty($module_data['data']['data']['text_'.$v['value']]) and !empty($module_data['data']['data']['text_'.$v['value']]['url_data'])}}{{:urlencode(base64_encode(json_encode($module_data.data.data['text_'.$v['value']]['url_data'])))}}{{/if}}" />
+                        <span>
+                            {{if !empty($module_data['data']) and !empty($module_data['data']['data']) and !empty($module_data['data']['data']['text_'.$v['value']]) and !empty($module_data['data']['data']['text_'.$v['value']]['url_data'])}}
+                                {{:MyLang('common_service.themedata.form_item_url_already_choice_text')}}
+                            {{else /}}
+                                {{:MyLang('common_service.themedata.form_item_url_not_choice_text')}}
+                            {{/if}}
+                        </span>
+                    </a>
+                </div>
+            </div>
+        {{/if}}
+    {{/foreach}}
+{{/if}}

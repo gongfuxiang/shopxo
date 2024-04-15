@@ -6,10 +6,20 @@
                     <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
                             {{if count($v['value_arr']) eq 1}}
-                                {{include file="../../../layout/view/public/common/module_view" /}}
+                                {{:ModuleInclude('../../../layout/view/public/common/module_view', [
+                                    'k'   => $k,
+                                    'v'   => $v,
+                                    'ks'  => $ks,
+                                    'vs'  => $vs,
+                                ])}}
                             {{else /}}
                                 <div class="am-u-md-{{$v['value_arr'][$ks]}}">
-                                    {{include file="../../../layout/view/public/common/module_view" /}}
+                                    {{:ModuleInclude('../../../layout/view/public/common/module_view', [
+                                        'k'   => $k,
+                                        'v'   => $v,
+                                        'ks'  => $ks,
+                                        'vs'  => $vs,
+                                    ])}}
                                 </div>
                             {{/if}}
                         {{/foreach}}

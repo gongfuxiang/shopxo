@@ -56,19 +56,16 @@ class Goods extends Common
                 ['id', '=', $goods_id],
                 ['is_delete_time', '=', 0],
             ],
-            'is_photo'  => true,
-            'is_spec'   => true,
-            'is_params' => true,
+            'is_photo'  => 1,
+            'is_spec'   => 1,
+            'is_params' => 1,
+            'is_favor'  => 1,
         ];
         $ret = GoodsService::GoodsList($params);
         if(!empty($ret['data']) && !empty($ret['data'][0]))
         {
             // 商品信息
             $goods = $ret['data'][0];
-
-            // 当前登录用户是否已收藏
-            $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-            $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
             $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
@@ -156,7 +153,7 @@ class Goods extends Common
                 ['id', '=', $goods_id],
                 ['is_delete_time', '=', 0],
             ],
-            'is_spec'   => true,
+            'is_spec'   => 1,
         ];
         $ret = GoodsService::GoodsList($params);
         if(!empty($ret['data']) && !empty($ret['data'][0]))

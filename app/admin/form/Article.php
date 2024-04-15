@@ -45,7 +45,6 @@ class Article
                 'is_search'     => 1,
                 'is_delete'     => 1,
                 'is_middle'     => 0,
-                'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
             'form' => [
@@ -56,6 +55,26 @@ class Article
                     'not_checked_text'  => MyLang('select_all_title'),
                     'align'             => 'center',
                     'width'             => 80,
+                ],
+                [
+                    'label'         => $lang['id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'id',
+                    'width'         => 110,
+                    'is_copy'       => 1,
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => '=',
+                    ],
+                ],
+                [
+                    'label'         => $lang['cover'],
+                    'view_type'     => 'images',
+                    'view_key'      => 'cover',
+                    'width'         => 70,
+                    'images_width'  => 25,
+                    'images_height' => 25,
                 ],
                 [
                     'label'         => $lang['info'],
@@ -70,10 +89,13 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => $lang['jump_url'],
+                    'label'         => $lang['describe'],
                     'view_type'     => 'field',
-                    'view_key'      => 'jump_url',
+                    'view_key'      => 'describe',
                     'grid_size'     => 'sm',
+                    'text_truncate' => 2,
+                    'is_popover'    => 1,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -128,6 +150,16 @@ class Article
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => $lang['jump_url'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'jump_url',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
                     ],
                 ],
                 [

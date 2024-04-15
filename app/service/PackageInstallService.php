@@ -13,7 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\PluginsAdminService;
 use app\service\PaymentService;
-use app\service\ThemeService;
+use app\service\ThemeAdminService;
 use app\service\AppMiniService;
 use app\service\DesignService;
 
@@ -57,7 +57,7 @@ class PackageInstallService
 
             // 支付插件
             case 'payment' :
-                $url = MyUrl('admin/payment/index');
+                $url = MyUrl('admin/payment/index', ['type'=>1]);
                 break;
 
             // web端主题
@@ -165,7 +165,7 @@ class PackageInstallService
 
             // web主题
             case 'webtheme' :
-                $ret = ThemeService::ThemeUploadHandle($res['url'], $params);
+                $ret = ThemeAdminService::ThemeAdminUploadHandle($res['url'], $params);
                 break;
 
             // 小程序主题

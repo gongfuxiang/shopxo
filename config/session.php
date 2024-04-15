@@ -20,6 +20,8 @@ if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
         'type'       => 'cache',
         'store'      => 'redis',
         'prefix'     => MyFileConfig('common_cache_session_redis_prefix', '', 'shopxo', true),
+        // 过期时间
+        'expire'         => 43200,
     ];
 } else {
     // 默认配置

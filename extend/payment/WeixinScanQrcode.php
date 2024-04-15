@@ -214,7 +214,7 @@ class WeixinScanQrcode
             return DataReturn('订单号为空', -1);
         }
 
-        // 支付参数
+        // 请求参数
         $request_params = [
             'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
@@ -224,24 +224,43 @@ class WeixinScanQrcode
         ];
         $request_params['sign'] = $this->GetSign($request_params);
 
-        // 请求接口处理
-        $request_url = 'https://api.mch.weixin.qq.com/pay/orderquery';
-        $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params)));
-        if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
+        // 是否撤销操作
+        if(isset($params['is_reverse_pay']) && $params['is_reverse_pay'] == 1)
         {
-            if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
+            // 请求接口处理
+            $request_url = 'https://api.mch.weixin.qq.com/secapi/pay/reverse';
+            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params), true));
+            if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
             {
-                if(!empty($result['transaction_id']))
+                if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
                 {
-                    $ret = DataReturn('支付成功', 0, $this->ReturnData($result));
+                    $ret = DataReturn('撤销成功', -55555, ['is_reverse_pay'=>1]);
                 } else {
-                    $ret = DataReturn($result['trade_state_desc'], -1);
+                    $ret = DataReturn($result['err_code_des'].'['.$result['err_code'].']', -1);
                 }
             } else {
-                $ret = DataReturn($result['err_code_des'].'['.$result['err_code'].']', -1);
+                $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
             }
         } else {
-            $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
+            // 请求接口处理
+            $request_url = 'https://api.mch.weixin.qq.com/pay/orderquery';
+            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params)));
+            if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
+            {
+                if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
+                {
+                    if(!empty($result['transaction_id']))
+                    {
+                        $ret = DataReturn('支付成功', 0, $this->ReturnData($result));
+                    } else {
+                        $ret = DataReturn($result['trade_state_desc'], -1);
+                    }
+                } else {
+                    $ret = DataReturn($result['err_code_des'].'['.$result['err_code'].']', -1);
+                }
+            } else {
+                $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
+            }
         }
         return $ret;
     }

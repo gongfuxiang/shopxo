@@ -62,6 +62,7 @@ class User
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
+                    'is_copy'       => 1,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
@@ -72,7 +73,7 @@ class User
                     'label'         => $lang['number_code'],
                     'view_type'     => 'qrcode',
                     'view_key'      => 'number_code',
-                    'width'         => 115,
+                    'width'         => 150,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
@@ -272,7 +273,7 @@ class User
                         'form_type'             => 'input',
                         'form_name'             => 'referrer',
                         'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereValueUserInfo',
+                        'where_value_custom'    => 'SystemModuleUserWhereHandle',
                         'placeholder'           => $lang['referrer_placeholder'],
                     ],
                 ],
@@ -355,29 +356,6 @@ class User
         {
             // 获取用户 id
             $ids = Db::name('UserPlatform')->where('platform', 'in', $value)->column('user_id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
-    }
-
-    /**
-     * 用户信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-08
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueUserInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取用户 id
-            $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

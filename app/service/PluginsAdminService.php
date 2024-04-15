@@ -718,7 +718,7 @@ class Index
 php;
 
 $admin_view=<<<php
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -731,27 +731,27 @@ $admin_view=<<<php
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 php;
 
 $index_view=<<<php
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- nav start -->
-{{include file="public/nav" /}}
+{{:ModuleInclude('public/nav')}}
 <!-- nav end -->
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- search -->
-{{include file="public/nav_search" /}}
+{{:ModuleInclude('public/nav_search')}}
 
 <!-- header nav -->
-{{include file="public/header_nav" /}}
+{{:ModuleInclude('public/header_nav')}}
 
 <!-- goods category -->
-{{include file="public/goods_category" /}}
+{{:ModuleInclude('public/goods_category')}}
 
 <!-- content start -->
 <div class="am-g my-content">
@@ -764,7 +764,7 @@ $index_view=<<<php
 <!-- content end -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 php;
 
 $admin_css=<<<php
@@ -1113,7 +1113,7 @@ php;
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
-        if($resource != true)
+        if($resource !== true)
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
@@ -1324,13 +1324,12 @@ php;
         }
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($ret['data']['file'], $ret['data']['config']['base']['name'].'_v'.$ret['data']['config']['base']['version'].'.zip'))
+        if(\base\FileUtil::DownloadFile($ret['data']['file'], $ret['data']['config']['base']['name'].'_v'.$ret['data']['config']['base']['version'].'.zip', true))
         {
-            // 删除文件
-            @unlink($ret['data']['file']);
-
             // 插件事件回调
             PluginsService::PluginsEventCall($ret['data']['plugins'], 'Download', $params);
+
+            return DataReturn(MyLang('download_success'), 0);
         } else {
             return DataReturn(MyLang('download_fail'), -100);
         }

@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/user_form" /}}
+{{extend name="../../../module/view/user_form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -14,5 +14,5 @@
 <!-- 底部 -->
 {{block name="form_page_bottom"}}
     <!-- 支付弹窗 -->
-    {{include file="order/payment_popup" /}}
+    {{:ModuleInclude('order/payment_popup')}}
 {{/block}}

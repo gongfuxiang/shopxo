@@ -47,6 +47,7 @@ class Common extends BaseController
     // 分页信息
     protected $page;
     protected $page_size;
+    protected $page_start;
 
     // 动态表格
     protected $form_table;
@@ -212,7 +213,8 @@ class Common extends BaseController
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-        $this->page_size = 15;
+        $this->page_size = min(empty($this->data_request['page_size']) ? MyC('common_page_size', 15, true) : intval($this->data_request['page_size']), 1000);
+        $this->page_start = intval(($this->page-1)*$this->page_size);
 	}
 
 	/**

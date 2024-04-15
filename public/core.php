@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v5.0.0');
+define('APPLICATION_VERSION', 'v6.0.0');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION,'7.4.0','<'))
@@ -66,7 +66,7 @@ if(empty($_SERVER['HTTP_HOST']))
         $main_domain = '';
     } else {
         // 判断是否是双后缀
-        $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec)$/';
+        $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz)$/';
         if($len > 2 && preg_match($preg, $main_domain))
         {
             // 双后缀取后3位
@@ -130,6 +130,32 @@ define('IS_POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'
 // 是否ajax
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
 
+// 当前访问脚本名称
+$script_name = '';
+if(empty($_SERVER['SCRIPT_NAME']))
+{
+    if(empty($_SERVER['PHP_SELF']))
+    {
+        if(!empty($_SERVER['SCRIPT_FILENAME']))
+        {
+            $script_name = $_SERVER['SCRIPT_FILENAME'];
+        }
+    } else {
+        $script_name = $_SERVER['PHP_SELF'];
+    }
+} else {
+    $script_name = $_SERVER['SCRIPT_NAME'];
+}
+if(!empty($script_name))
+{
+    $loc = strripos($script_name, '/');
+    if($loc !== false)
+    {
+        $script_name = substr($script_name, $loc+1);
+    } 
+}
+define('SCRIPT_NAME', $script_name);
+
 // 独立域名页面绑定
 if(!IS_AJAX)
 {
@@ -156,6 +182,20 @@ if(!IS_AJAX && substr_count(__MY_HOST__, '.') > 1 && !is_numeric(str_replace('.'
         {
             define('SECOND_DOMAIN', $second_domain);
             $_GET['s'] = $data[$second_domain];
+        }
+    }
+}
+
+// 站点默认首页绑定处理
+if(SCRIPT_NAME == 'index.php' && empty($_GET['s']))
+{
+    $home_file = APP_PATH.'index'.DS.'config'.DS.'home.php';
+    if(file_exists($home_file))
+    {
+        $data = include($home_file);
+        if(!empty($data))
+        {
+            $_GET['s'] = $data;
         }
     }
 }

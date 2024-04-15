@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -13,10 +13,12 @@
                             <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
                         </a>
                     {{/if}}
-                    <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}">
-                        <i class="iconfont icon-upload"></i>
-                        <span>{{:MyLang('pluginsadmin.base_upload_application_name')}}</span>
-                    </button>
+                    {{if AdminIsPower('pluginsadmin', 'upload')}}
+                        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}">
+                            <i class="iconfont icon-upload"></i>
+                            <span>{{:MyLang('pluginsadmin.base_upload_application_name')}}</span>
+                        </button>
+                    {{/if}}
                 </div>
                 <div class="am-flex am-flex-items-center am-gap-24">
                     {{if !empty($data_list['db_data']) or !empty($data_list['dir_data'])}}
@@ -25,10 +27,12 @@
                             <i class="iconfont icon-search search-event"></i>
                         </div>
                     {{/if}}
-                    <a class="am-text-sm am-flex nwarp" href="{{$store_url}}" target="_blank">
-                        <i class="iconfont icon-download-btn"></i> 
-                        <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.base_nav_more_plugins_download_name')}}</span>
-                    </a>
+                    {{if AdminIsPower('packageinstall', 'index') and !empty($store_url)}}
+                        <a class="am-text-sm am-flex nwarp" href="{{$store_url}}" target="_blank">
+                            <i class="iconfont icon-download-btn"></i> 
+                            <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.base_nav_more_plugins_download_name')}}</span>
+                        </a>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -44,18 +48,24 @@
                         <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                     </div>
                     <p>{{:MyLang('pluginsadmin.base_top_tips_one')}}</p>
-                    <p>
-                        <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
-                        <a href="javascript:;" class="am-margin-left iconfont icon-setup submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</a>
-                        <a href="javascript:;" class="am-margin-left iconfont icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</a>
-                        <a href="javascript:;" class="am-margin-left-xs iconfont icon-close-o submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
-                        <a href="javascript:;" class="am-margin-left-lg">
-                            <label class="am-checkbox-inline plugins-batch-update-submit">
-                                <input type="checkbox" value="1" data-am-ucheck {{if !empty($params) and isset($params['is_auto_update']) and $params['is_auto_update'] eq 1}}checked{{/if}} /> {{:MyLang('store_auto_update_name')}}
-                            </label>
-                        </a>
-                    </p>
-                    {{if empty($site_store_info) or empty($site_store_info['user'])}}
+                    {{if AdminIsPower('pluginsadmin', 'setupsave') or AdminIsPower('packageinstall', 'index')}}
+                        <p>
+                            {{if AdminIsPower('pluginsadmin', 'setupsave')}}
+                                <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
+                                <a href="javascript:;" class="am-margin-left iconfont icon-setup submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</a>
+                                <a href="javascript:;" class="am-margin-left iconfont icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</a>
+                                <a href="javascript:;" class="am-margin-left-xs iconfont icon-close-o submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
+                            {{/if}}
+                            {{if AdminIsPower('packageinstall', 'index')}}
+                                <a href="javascript:;" class="am-margin-left-lg">
+                                    <label class="am-checkbox-inline plugins-batch-update-submit">
+                                        <input type="checkbox" value="1" data-am-ucheck {{if !empty($params) and isset($params['is_auto_update']) and $params['is_auto_update'] eq 1}}checked{{/if}} /> {{:MyLang('store_auto_update_name')}}
+                                    </label>
+                                </a>
+                            {{/if}}
+                        </p>
+                    {{/if}}
+                    {{if AdminIsPower('index', 'storeaccountsbind') and (empty($site_store_info) or empty($site_store_info['user']))}}
                         <p>
                             <span>{{:MyLang('store_bind_accounts_tips')}}</span>
                             <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> {{:MyLang('store_bind_accounts_name')}}</button>
@@ -74,10 +84,12 @@
                                 {{/foreach}}
                             {{/if}}
                         </div>
-                        <a href="javascript:;" class="am-text-sm submit-popup am-flex" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-class="plugins-category-save-popup" data-title="{{:MyLang('pluginsadmin.plugins_category_title')}}">
-                            <i class="iconfont icon-type-manage"></i> 
-                            <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.plugins_category_admin_title')}}</span> 
-                        </a>
+                        {{if AdminIsPower('pluginscategory', 'index')}}
+                            <a href="javascript:;" class="am-text-sm submit-popup am-flex" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-class="plugins-category-save-popup" data-title="{{:MyLang('pluginsadmin.plugins_category_title')}}">
+                                <i class="iconfont icon-type-manage"></i> 
+                                <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.plugins_category_admin_title')}}</span> 
+                            </a>
+                        {{/if}}
                     </div>
 
                     <!-- 已安装 -->
@@ -191,7 +203,7 @@
 
                     <!-- 搜索无数据展示 -->
                     <div class="not-data-tips am-hide">
-                        {{include file="public/not_data" /}}
+                        {{:ModuleInclude('public/not_data')}}
                     </div>
                 {{/if}}
 
@@ -296,4 +308,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

@@ -1,0 +1,180 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+            {{:ModuleInclude('public/admin_nav', [
+                'title'     => MyLang('themedata.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+                'back_url'  => MyUrl('admin/themedata/index', $params)
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('system_title'),
+                        'key'  => 'system',
+                    ],
+                    [
+                        'name' => MyLang('base_title'),
+                        'key'  => 'base',
+                    ],
+                    [
+                        'name' => MyLang('data_title'),
+                        'key'  => 'data',
+                    ],
+                ]
+            ])}}
+            <!-- nav end -->
+            <div class="nav-content">
+                <!-- 系统 -->
+                <div class="item am-active" data-key="system">
+                    {{:ModuleInclude('themedata/saveinfo/module/base', [
+                        'common_theme_view_list'  => empty($common_theme_view_list) ? [] : $common_theme_view_list,
+                        'theme_list'              => empty($theme_list) ? [] : $theme_list,
+                        'data'                    => empty($data) ? [] : $data,
+                    ])}}
+                </div>
+
+                <!-- 基础 -->
+                <div class="item" data-key="base">
+                    <!-- images -->
+                    <div class="images-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+
+                    <!-- input -->
+                    <div class="text-row-container form-custom-group">
+                        {{:ModuleInclude('themedata/saveinfo/module/text_input', [
+                            'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                            'data'                                   => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 数据 -->
+                <div class="item" data-key="data">
+                    <div class="am-form-group am-padding-bottom-0">
+                        <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_data_type')}}</label>
+                        <div class="am-radio-group">
+                            {{foreach $common_theme_article_type_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="article_data_type" value="{{$v.value}}"  data-validation-message="{{:MyLang('common_service.themedata.form_item_article_data_type_message')}}" {{if (empty($data['data']) and !isset($data['data']['article_data_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_data_type']) and $data['data']['article_data_type'] eq $v['value'])}}checked{{/if}} data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div class="data-type-container am-margin-top am-padding-bottom-sm">
+                        <!-- 自动读取 -->
+                        <div class="am-panel am-panel-default am-radius data-type-auto-container {{if !empty($data['data']) and isset($data['data']['article_data_type']) and $data['data']['article_data_type'] neq 0}}am-hide{{/if}}">
+                            <div class="am-panel-bd am-padding-bottom-0">
+                                <div class="am-form-group">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_category_ids')}}</label>
+                                    <select name="article_category_ids" class="am-radius chosen-select" multiple data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.themedata.form_item_article_category_ids_message')}}">
+                                        {{if !empty($article_category_list)}}
+                                            {{foreach $article_category_list as $v}}
+                                                <option value="{{$v.id}}" {{if !empty($data['data']) and !empty($data['data']['article_category_ids']) and is_array($data['data']['article_category_ids']) and in_array($v['id'], $data['data']['article_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </select>
+                                </div>
+                                <div class="am-form-group">
+                                    <label>{{:MyLang('common_service.themedata.form_item_article_number')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.themedata.form_item_article_number_tips')}}</span></label>
+                                    <input type="text" placeholder="{{:MyLang('common_service.themedata.form_item_article_number')}}" name="article_number" maxlength="100" data-validation-message="{{:MyLang('common_service.themedata.form_item_article_number_message')}}" class="am-radius" value="{{if !empty($data['data']) and !empty($data['data']['article_number'])}}{{$data.data.article_number}}{{/if}}" />
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_type')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.themedata.form_item_article_order_by_type_tips')}}</span></label>
+                                    <div class="am-radio-group">
+                                        {{foreach $common_theme_article_order_by_type_list as $k=>$v}}
+                                            <label class="am-radio-inline">
+                                                <input type="radio" name="article_order_by_type" value="{{$k}}"  data-validation-message="{{:MyLang('common_service.themedata.form_item_article_order_by_type_message')}}" {{if (empty($data['data']) and !isset($data['data']['article_order_by_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_order_by_type']) and $data['data']['article_order_by_type'] eq $k)}}checked{{/if}} data-am-ucheck> {{$v.name}}
+                                            </label>
+                                        {{/foreach}}
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_rule')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.themedata.form_item_article_order_by_rule_tips')}}</span></label>
+                                    <div class="am-radio-group">
+                                        {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                            <label class="am-radio-inline">
+                                                <input type="radio" name="article_order_by_rule" value="{{$k}}"  data-validation-message="{{:MyLang('common_service.themedata.form_item_article_order_by_rule_message')}}" {{if (empty($data['data']) and !isset($data['data']['article_order_by_rule']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_order_by_rule']) and $data['data']['article_order_by_rule'] eq $k)}}checked{{/if}} data-am-ucheck> {{$v.name}}
+                                            </label>
+                                        {{/foreach}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 指定文章 -->
+                        <div class="am-panel am-panel-default am-radius data-type-appoint-container {{if empty($data['data']) or !isset($data['data']['article_data_type']) or $data['data']['article_data_type'] neq 1}}am-hide{{/if}}">
+                            <div class="am-panel-bd am-padding-bottom-lg">
+                                <ul class="manual-mode-data-container am-nbfc am-radius" data-form-name="article_data">
+                                    {{if isset($data['data']['article_data_type']) and $data['data']['article_data_type'] eq 1 and !empty($data['data']) and !empty($data['data']['article_data']) and is_array($data['data']['article_data'])}}
+                                        {{foreach $data.data.article_data as $v}}
+                                            {{if !empty($v['data_id'])}}
+                                                <li class="am-padding-left-sm manual-mode-data-item-{{$v.data_id}}">
+                                                    <input type="hidden" name="article_data[{{$v.data_id}}][data_id]" value="{{$v.data_id}}">
+                                                    <ul class="plug-file-upload-view data-custom-cover-view-{{$v.data_id}}" data-form-name="article_data[{{$v.data_id}}][custom_cover]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                                        <li class="plug-file-upload-submit" data-view-tag="ul.data-custom-cover-view-{{$v.data_id}}">
+                                                            {{if empty($v['custom_cover'])}}
+                                                                <i class="iconfont icon-upload-add"></i>
+                                                            {{else /}}
+                                                                <input type="text" name="article_data[{{$v.data_id}}][custom_cover]" value="{{$v.custom_cover}}" />
+                                                                <img src="{{$v.custom_cover}}" />
+                                                                <i class="iconfont icon-close"></i>
+                                                                <i class="iconfont icon-eye"></i>
+                                                            {{/if}}
+                                                        </li>
+                                                    </ul>
+                                                    <a href="{{$v.url}}" target="_blank" class="am-text-truncate am-flex am-flex-items-center am-gap-1">
+                                                        {{if !empty($v['cover'])}}
+                                                            <img src="{{$v.cover}}" class="am-border-c am-radius" width="35" height="35">
+                                                        {{/if}}
+                                                        <span class="am-flex-1 am-flex-width">{{$v.title}}</span>
+                                                    </a>
+                                                    <button type="button" class="am-close am-fr">×</button>
+                                                </li>
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                                <div class="am-margin-top">
+                                    <span class="business-operations-submit article-popup-add">+ {{:MyLang('common_service.themedata.add_article_title')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <input type="hidden" name="type" value="4"/>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- 文章添加弹窗 -->
+{{:ModuleInclude('themedata/saveinfo/public/article_search_popup')}}
+
+<!-- url选择弹窗 -->
+{{:ModuleInclude('themedata/saveinfo/public/url_choice_popup')}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

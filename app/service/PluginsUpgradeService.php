@@ -14,7 +14,7 @@ use think\facade\Db;
 use app\service\PluginsAdminService;
 use app\service\PluginsService;
 use app\service\PaymentService;
-use app\service\ThemeService;
+use app\service\ThemeAdminService;
 use app\service\AppMiniService;
 use app\service\StoreService;
 
@@ -110,7 +110,7 @@ class PluginsUpgradeService
 
             // web主题
             case 'webtheme' :
-                $ret = ThemeService::ThemeUploadHandle($res['url'], $params);
+                $ret = ThemeAdminService::ThemeAdminUploadHandle($res['url'], $params);
                 break;
 
             // 小程序主题
@@ -284,7 +284,7 @@ class PluginsUpgradeService
             // web主题
             case 'webtheme' :
                 // 获取配置
-                $config = ThemeService::ThemeConfig(self::$params['plugins_value']);
+                $config = ThemeAdminService::ThemeAdminConfig(self::$params['plugins_value']);
                 if($config['code'] != 0)
                 {
                     return $config;
@@ -293,7 +293,7 @@ class PluginsUpgradeService
                 self::$params['plugins_ver'] = $config['data']['ver'];
                 self::$params['plugins_author'] = $config['data']['author'];
                 // 安全校验
-                $ret = ThemeService::ThemeLegalCheck(self::$params['plugins_value']);
+                $ret = ThemeAdminService::ThemeAdminLegalCheck(self::$params['plugins_value']);
                 if($ret['code'] != 0)
                 {
                     return $ret;

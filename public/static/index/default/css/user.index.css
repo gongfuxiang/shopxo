@@ -5,7 +5,7 @@
     padding: 0 !important;
 }
  .user-base, ul.order-base{overflow: hidden;}
-.user-base{-webkit-animation: changeBg 20s infinite; -moz-animation: changeBg 20s infinite; animation: changeBg 20s infinite; background-color: var(--color-main-light); background-image: url(../images/user-member_top_bg.png); background-size: cover; width: 100%; position: relative; padding: 2rem 1rem;border-bottom-left-radius: 0;border-bottom-right-radius: 0;}
+.user-base{-webkit-animation: changeBg 20s infinite; -moz-animation: changeBg 20s infinite; animation: changeBg 20s infinite; background-color: var(--color-main); background-image: var(--background-image); background-size: cover; width: 100%; position: relative; padding: 2rem 1rem;border-bottom-left-radius: 0;border-bottom-right-radius: 0;}
 .user-base p, .user-base span, .user-base a{color: #fff;}
 .user-base a, .order-base a, .order-nav a{text-decoration: none;}
 .user-avatar{text-align: center;}
@@ -16,18 +16,10 @@
 .user-base-right a:not(:last-child){margin-right: 1.5rem;}
 ul.user-base-icon{background: rgba(0,0,0,0.1); position: absolute;}
 .order-nav{padding: 1.5rem 0.5rem; border-bottom: 0.1rem solid #eee;}
-.order-nav i{width: 2.5rem; height: 2.5rem; background-repeat: no-repeat; background-position: 50% 50%; background-size: 70%; display: inline-block; vertical-align: bottom;}
-.order-nav .nav-name i.order-icon{background-image: url(../images/user-index-nav-order-icon.png);}
-.order-nav .icon-tips, .order-base a{color: #888;}
 .order-nav .icon-tips i{padding-left: 0.5rem;}
 ul.order-base{padding: 3rem 0 2rem 0;}
 ul.order-base li{float: left; width: 20%; text-align: center; position: relative;}
-ul.order-base li i{width: 3rem; height: 3rem; background-repeat: no-repeat; display: inline-block; vertical-align: bottom; opacity: 0.5; background-size: cover; margin-bottom: 0.2rem;}
-ul.order-base i.icon-1{background-image: url(../images/user-index-nav-order-icon-1.png);}
-ul.order-base i.icon-2{background-image: url(../images/user-index-nav-order-icon-2.png);}
-ul.order-base i.icon-3{background-image: url(../images/user-index-nav-order-icon-3.png);}
-ul.order-base i.icon-100{background-image: url(../images/user-index-nav-order-icon-100.png);}
-ul.order-base i.icon-101{background-image: url(../images/user-index-nav-order-icon-101.png);}
+ul.order-base li i{font-size: 3rem;}
 ul.order-base li span.am-badge{position: absolute; top: -0.7rem; left: 55%;}
 
 /**
@@ -71,13 +63,12 @@ ul.order-base li span.am-badge{position: absolute; top: -0.7rem; left: 55%;}
 .various .tips-name{font-size: 1.6rem; font-weight: 500; color: #b9b7b7;}
 .various .tips-msg{color: #ccc;}
 .various .order-list, .various .cart-list{padding: 0 0.5rem;}
-.various .am-panel .more-tips{color: #666;}
 .various .goods-favor-list, .various .goods-browse-list, .various .am-gallery{padding: 0;}
 .various .am-gallery-item{overflow: hidden; text-align: center;}
 .various .line-price{color: var(--color-price); font-weight: 700; font-family: Verdana,Tahoma,arial; }
 .various .goods-browse-list .am-gallery-item img {width: 50%;}
 .various .am-gallery-overlay .am-gallery-desc{display: block; position: absolute; right: 0; top: 0; background-color: var(--color-main); color: #fff; padding: 0 0.5rem;}
-.various .table-no { padding: 3rem 0; }
+.various .table-no { padding: 3rem 0;margin: 0; min-height: 20rem; }
 
 /**
  * PC

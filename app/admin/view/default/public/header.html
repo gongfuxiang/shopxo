@@ -5,15 +5,26 @@
 	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
 	<title>{{$admin_theme_site_name}}{{:MyLang('common.admin_browser_title')}}</title>
-
-    <!-- iconfont -->
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($static_path_data['common_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.common_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if !empty($static_path_data['theme_import_css']) and is_array($static_path_data['theme_import_css'])}}
+        {{foreach $static_path_data.theme_import_css as $v}}
+            <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$v}}?v={{:MyC('home_static_cache_version')}}" />
+        {{/foreach}}
+    {{/if}}
+    {{if !empty($static_path_data['module_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.module_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if !empty($static_path_data['other_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.other_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 
     <!-- ckplayer播放器 -->
     {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
@@ -35,14 +46,14 @@
     {{/if}}
 
     <!-- 插件 -->
-    {{if !empty($plugins_css)}}
-        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($static_path_data['plugins_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
 
     <!-- 页面样式 -->
-	{{if !empty($module_css)}}
-		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
-	{{/if}}
+	{{if !empty($static_path_data['page_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.page_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 
 	<!-- css钩子 -->
     {{if !empty($plugins_admin_css_data) and is_array($plugins_admin_css_data)}}
@@ -84,7 +95,7 @@
                     --{{:str_replace('_', '-', $k);}}: {{$v}};
                 {{/foreach}}
             {{else /}}
-                {{include file="public/header_style_root" /}}
+                {{:ModuleInclude('public/header_style_root')}}
             {{/if}}
         }
     </style>
@@ -121,7 +132,7 @@
 <body class="{{$page_unique_mark}}">
 <!-- 页面加载层 -->
 {{if isset($is_page_loading) and $is_page_loading eq 1}}
-    {{include file="public/page_loading" /}}
+    {{:ModuleInclude('public/page_loading')}}
 {{/if}}
 
 <!-- 公共顶部钩子 -->

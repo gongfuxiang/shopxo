@@ -1,12 +1,12 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{extend name="../../../module/view/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
     <!-- 支付请求日志是否有权限 -->
     {{if AdminIsPower('payrequestlog', 'index')}}
         <a href="{{:MyUrl('admin/payrequestlog/index')}}" class="am-btn am-btn-primary am-radius am-btn-xs">
-            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+            <i class="iconfont icon-notice am-show-sm-only"></i>
             <span class="am-hide-sm-only">{{:MyLang('paylog.pay_request_title')}}</span>
         </a>
     {{/if}}

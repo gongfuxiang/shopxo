@@ -1,0 +1,140 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+            {{:ModuleInclude('public/admin_nav', [
+                'title'     => MyLang('themedata.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+                'back_url'  => MyUrl('admin/themedata/index', $params)
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('system_title'),
+                        'key'  => 'system',
+                    ],
+                    [
+                        'name' => MyLang('images_title'),
+                        'key'  => 'images',
+                    ],
+                    [
+                        'name' => MyLang('text_title'),
+                        'key'  => 'text',
+                    ],
+                    [
+                        'name' => MyLang('custom_title'),
+                        'key'  => 'custom',
+                    ],
+                ]
+            ])}}
+            <!-- nav end -->
+            <div class="nav-content">
+                <!-- 系统 -->
+                <div class="item am-active" data-key="system">
+                    {{:ModuleInclude('themedata/saveinfo/module/base', [
+                        'common_theme_view_list'  => empty($common_theme_view_list) ? [] : $common_theme_view_list,
+                        'theme_list'              => empty($theme_list) ? [] : $theme_list,
+                        'data'                    => empty($data) ? [] : $data,
+                    ])}}
+                </div>
+
+                <!-- 图片 -->
+                <div class="item" data-key="images">
+                    <div class="images-row-container form-custom-group">
+                        <!-- images -->
+                        {{:ModuleInclude('themedata/saveinfo/module/images', [
+                            'common_theme_business_images_list'  => empty($common_theme_business_images_list) ? [] : $common_theme_business_images_list,
+                            'data'                               => empty($data) ? [] : $data,
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 文本 -->
+                <div class="item" data-key="text">
+                    <!-- input -->
+                    {{:ModuleInclude('themedata/saveinfo/module/text_input', [
+                        'common_theme_business_text_input_list'  => empty($common_theme_business_text_input_list) ? [] : $common_theme_business_text_input_list,
+                        'data'                                   => empty($data) ? [] : $data,
+                    ])}}
+
+                    <!-- textarea -->
+                    {{:ModuleInclude('themedata/saveinfo/module/text_textarea', [
+                        'common_theme_business_text_textarea_list'  => empty($common_theme_business_text_textarea_list) ? [] : $common_theme_business_text_textarea_list,
+                        'data'                                      => empty($data) ? [] : $data,
+                    ])}}
+                </div>
+
+                <!-- 自定义 -->
+                <div class="item" data-key="custom">
+                    <ul class="textimages-custom-container"
+                        data-form-name="custom_data"
+                        data-name-text="{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}"
+                        data-value-text="{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}"
+                    >
+                        {{if !empty($data['data']) and !empty($data['data']['custom_data']) and is_array($data['data']['custom_data'])}}
+                            {{foreach $data.data.custom_data as $k=>$v}}
+                                <li>
+                                    <ul class="plug-file-upload-view images-icon-{{$k}}-view" data-form-name="custom_data[{{$k}}][icon]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                        <li class="plug-file-upload-submit" data-view-tag="ul.images-icon-{{$k}}-view">
+                                            {{if !empty($v['icon'])}}
+                                                <input type="text" name="custom_data[{{$k}}][icon]" value="{{$v.icon}}" />
+                                                <img src="{{$v.icon}}" />
+                                                <i class="iconfont icon-close"></i>
+                                                <i class="iconfont icon-eye"></i>
+                                            {{else /}}
+                                                <i class="iconfont icon-upload-add"></i>
+                                            {{/if}}
+                                        </li>
+                                    </ul>
+                                    <input type="text" name="custom_data[{{$k}}][name]" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}" class="name am-radius" value="{{if isset($v['name'])}}{{$v.name}}{{/if}}" />
+                                    <input type="text" name="custom_data[{{$k}}][value]" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}" class="value am-radius" value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" />
+                                    <a href="javascript:;" class="am-text-blue am-block url-choice-event">
+                                        <input type="hidden" name="custom_data[{{$k}}][url_data]" value="{{if !empty($v['url_data'])}}{{:urlencode(base64_encode(json_encode($v.url_data)))}}{{/if}}" />
+                                        <span>
+                                            {{if !empty($v['url_data'])}}
+                                                {{:MyLang('common_service.themedata.form_item_url_already_choice_text')}}
+                                            {{else /}}
+                                                {{:MyLang('common_service.themedata.form_item_url_not_choice_text')}}
+                                            {{/if}}
+                                        </span>
+                                    </a>
+                                    <button type="button" class="am-close">×</button>
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                    <div class="am-nbfc am-padding-bottom-xl">
+                        <span class="business-operations-submit textimages-custom-add-submit am-border-0 am-text-sm">
+                            <i class="iconfont icon-add"></i>
+                            <span>{{:MyLang('add_data_title')}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <input type="hidden" name="type" value="0"/>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- url选择弹窗 -->
+{{:ModuleInclude('themedata/saveinfo/public/url_choice_popup')}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

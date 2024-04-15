@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -25,16 +25,18 @@
     ])}}
     <div class="detail-content-switch-data-item">
         <!-- 父级内容 -->
-        {__block__}
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
         
         <!-- 详情内容 -->
         <div class="item am-padding-sm" data-key="detail-content">
             {{if !empty($data['content'])}}
-                <div class="am-scrollable-vertical am-nowrap-initial">
+                <div class="am-nowrap-initial">
                     {{$data.content|raw}}
                 </div>
             {{else /}}
-                {{include file="public/not_data" /}}
+                {{:ModuleInclude('public/not_data')}}
             {{/if}}
         </div>
 
@@ -60,13 +62,13 @@
                     </ul>
                 </div>
             {{else /}}
-                {{include file="public/not_data" /}}
+                {{:ModuleInclude('public/not_data')}}
             {{/if}}
         </div>
 
         <!-- SEO信息 -->
         <div class="item am-padding-sm" data-key="seo-data">
-            {{include file="lib/seo_data" /}}
+            {{:ModuleInclude('lib/seo_data')}}
         </div>
 
     </div>

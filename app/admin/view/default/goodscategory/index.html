@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -79,17 +79,17 @@
                             <div class="colorpicker-container">
                                 <input type="hidden" name="bg_color" value="" />
                                 <div class="colorpicker-submit" data-color-tag="input[name='bg_color']" data-color-style="background-color"></div>
-                                <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
                             </div>
                         </div>
-                        {{include file="lib/sort_row" /}}
+                        {{:ModuleInclude('lib/sort_row')}}
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_is_home_recommended')}}</label>
                             <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1) or !isset($data['is_home_recommended'])}}checked="true"{{/if}} />
                         </div>
-                        {{include file="lib/is_enable_row" /}}
+                        {{:ModuleInclude('lib/is_enable_row')}}
 
-                        {{include file="lib/seo_row" /}}
+                        {{:ModuleInclude('lib/seo_row')}}
 
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
@@ -112,7 +112,7 @@
 
         <!-- list start -->
         <div id="tree" class="am-margin-top-sm" data-head='[{"name":"ID","field":"id"},{"name":"{{:MyLang("name_title")}}","field":"name","is_arrow":"1","value_style":{"style":"color:#999","value_style_key":"is_enable","value_style_key_status":"0"}},{"name":"{{:MyLang("icon_title")}}","field":"icon","type":"img"},{"name":"{{:MyLang("form_is_enable_title")}}","field":"is_enable","type":"status"},{"name":"{{:MyLang("operate_title")}}","type":"operate"}]' data-additional='[{"field":"is_home_recommended", "value":"0", "type":"input"},{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":".colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon", "value":"", "type":"annex", "tag":"ul.goods-category-icon-images-view", "style":"src"}, {"field":"icon_active", "value":"", "type":"input"}, {"field":"icon_active", "value":"", "type":"annex", "tag":"ul.goods-category-icon-active-images-view", "style":"src"}, {"field":"realistic_images", "value":"", "type":"input"}, {"field":"realistic_images", "value":"", "type":"annex", "tag":"ul.goods-category-realistic_images-images-view", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images", "value":"", "type":"annex", "tag":"ul.goods-category-big_images-images-view", "style":"src"}]' data-node-url="{{:MyUrl('admin/goodscategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/goodscategory/delete')}}" data-popup-tag="#data-save-win" data-status-url="{{:MyUrl('admin/goodscategory/statusupdate')}}" data-rank="3">
-            {{include file="public/loading" /}}
+            {{:ModuleInclude('public/loading')}}
         </div>
         <!-- list end -->
 	</div>
@@ -120,7 +120,7 @@
 <!-- right content end -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
 	// 初始化

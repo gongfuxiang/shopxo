@@ -1,0 +1,105 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- nav start -->
+        {{:ModuleInclude('public/admin_nav', [
+            'title'     => MyLang('user.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/user/index', $params)
+        ])}}
+        <!-- nav end -->
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/user/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/user/index', $params)}}">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_username')}}</label>
+                    <input type="text" name="username" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_username_message')}}" data-validation-message="{{:MyLang('common_service.user.form_item_username_message')}}" value="{{if !empty($data['username'])}}{{$data.username}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_nickname')}}</label>
+                    <input type="text" name="nickname" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_nickname_message')}}" data-validation-message="{{:MyLang('common_service.user.form_item_nickname_message')}}" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_mobile')}}</label>
+                    <input type="text" name="mobile" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.user.form_item_mobile_message')}}" value="{{if !empty($data['mobile'])}}{{$data.mobile}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_email')}}</label>
+                    <input type="email" name="email" class="am-radius" placeholder="{{:MyLang('common_service.user.form_item_email')}}" data-validation-message="{{:MyLang('common_service.user.form_item_email_message')}}" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_province')}}</label>
+                    <input type="text" placeholder="{{:MyLang('common_service.user.form_item_province')}}" name="province" data-validation-message="{{:MyLang('common_service.user.form_item_province_message')}}" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_city')}}</label>
+                    <input type="text" placeholder="{{:MyLang('common_service.user.form_item_city')}}" name="city" data-validation-message="{{:MyLang('common_service.user.form_item_city_message')}}" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_county')}}</label>
+                    <input type="text" placeholder="{{:MyLang('common_service.user.form_item_county')}}" name="county" data-validation-message="{{:MyLang('common_service.user.form_item_county_message')}}" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_address')}}</label>
+                    <input type="text" placeholder="{{:MyLang('common_service.user.form_item_address')}}" name="address" data-validation-message="{{:MyLang('common_service.user.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_integral')}}</label>
+                    <input type="number" placeholder="{{:MyLang('common_service.user.form_item_integral')}}" name="integral" min="0" data-validation-message="{{:MyLang('common_service.user.form_item_integral_message')}}" class="am-radius" value="{{if !empty($data['integral'])}}{{$data.integral}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_locking_integral')}}</label>
+                    <input type="number" placeholder="{{:MyLang('common_service.user.form_item_locking_integral')}}" name="locking_integral" min="0" data-validation-message="{{:MyLang('common_service.user.form_item_locking_integral_message')}}" class="am-radius" value="{{if !empty($data['locking_integral'])}}{{$data.locking_integral}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_birthday')}}</label>
+                    <input type="text" name="birthday" class="am-radius Wdate" placeholder="{{:MyLang('common_service.user.form_item_birthday')}}" pattern="{{:MyConst('common_regex_date')}}" data-validation-message="{{:MyLang('common_service.user.form_item_birthday_message')}}" value="{{if !empty($data['birthday'])}}{{$data.birthday}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_referrer')}}</label>
+                    <input type="number" placeholder="{{:MyLang('common_service.user.form_item_referrer')}}" name="referrer" data-validation-message="{{:MyLang('common_service.user.form_item_referrer_message')}}" min="0" class="am-radius" value="{{if !empty($data['referrer'])}}{{$data.referrer}}{{/if}}" />
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.user.form_item_pwd')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.user.form_item_pwd_tips')}}</span></label>
+                    <input type="text" placeholder="{{:MyLang('common_service.user.form_item_pwd')}}" name="pwd" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.user.form_item_pwd_message')}}" class="am-radius" value="" />
+                </div>
+                {{:ModuleInclude('lib/gender')}}
+                {{:ModuleInclude('lib/user_status')}}
+            </div>
+            
+            <!-- 插件扩展数据 start -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_user_save</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_admin_user_save_data) and is_array($plugins_view_admin_user_save_data)}}
+                <div class="plugins-view-save-container">
+                    <label class="am-text-sm am-text-danger">{{:MyLang('plugins_view_region_config_tips')}}</label>
+                    <div>
+                        {{foreach $plugins_view_admin_user_save_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+            <!-- 插件扩展数据 end -->
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

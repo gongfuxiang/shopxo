@@ -119,6 +119,36 @@ function HomeUserCartSuccessModal(number = null)
     });
 }
 
+/**
+ * 主题数据管理编辑事件初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-04-11
+ * @desc    description
+ */
+function ThemeDataEditEventInit()
+{
+    if($('.theme-data-admin-container').length > 0) {
+        $('.theme-data-edit-event').each(function(k, v) {
+            if($(this).find('.theme-data-edit-container').length == 0) {
+                $(this).append(`<div class="theme-data-edit-container am-radius">
+                        <div class="theme-data-edit-border theme-data-edit-border-top"></div>
+                        <div class="theme-data-edit-border theme-data-edit-border-right"></div>
+                        <div class="theme-data-edit-border theme-data-edit-border-bottom"></div>
+                        <div class="theme-data-edit-border theme-data-edit-border-left"></div>
+                        <div class="theme-data-edit-content">
+                            <button class="am-btn am-btn-default am-btn-sm am-radius theme-data-edit-submit">
+                                <i class="iconfont icon-edit"></i>
+                                <span>`+(window['lang_operate_modify_name'] || '修改')+`</span>
+                            </button>
+                        </div>
+                    </div>`);
+            }
+        });
+    }
+}
+
 $(function()
 {
     // 浏览器窗口实时事件
@@ -366,14 +396,77 @@ $(function()
     {
       FromInit('form.form-validation-user-avatar');
     }
-    
-    // 加入购物车
-    $(document).on('click', '.common-goods-cart-submit-event', function()
+
+    // 公共商品收藏
+    $(document).on('click', '.common-goods-favor-submit-event', function()
     {
-      // 是否登录
+        // 是否登录
         if((__user_id__ || 0) == 0)
         {
-          ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            return false;
+        }
+
+        // 收藏处理
+        var goods_id = $(this).data('gid') || null;
+        if(goods_id != null)
+        {
+            var $this = $(this);
+            $.AMUI.progress.start();
+            $.ajax({
+                url: RequestUrlHandle(__goods_favor_url__),
+                type: 'post',
+                dataType: "json",
+                timeout: 10000,
+                data: {"id": goods_id},
+                success: function(res)
+                {
+                    $.AMUI.progress.done();
+                    if(res.code == 0)
+                    {
+                        if($this.find('.goods-favor-text').length > 0)
+                        {
+                            $this.find('.goods-favor-text').text(res.data.text);
+                        }
+                        if(res.data.status == 1)
+                        {
+                            $this.addClass('am-active');
+                            if($this.find('i').length > 0)
+                            {
+                                $this.find('i').addClass('icon-heart').removeClass('icon-heart-o');
+                            } else if($this.hasClass('icon-heart-o')) {
+                                $this.addClass('icon-heart').removeClass('icon-heart-o');
+                            }
+                        } else {
+                            $this.removeClass('am-active');
+                            if($this.find('i').length > 0)
+                            {
+                                $this.find('i').addClass('icon-heart-o').removeClass('icon-heart');
+                            } else if($this.hasClass('icon-heart')) {
+                                $this.addClass('icon-heart-o').removeClass('icon-heart');
+                            }
+                        }
+                        Prompt(res.msg, 'success');
+                    } else {
+                        Prompt(res.msg);
+                    }
+                },
+                error: function(xhr, type)
+                {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+                }
+            });
+        }
+    });
+    
+    // 公共商品加入购物车
+    $(document).on('click', '.common-goods-cart-submit-event', function()
+    {
+        // 是否登录
+        if((__user_id__ || 0) == 0)
+        {
+            ModalLoad(__modal_login_url__, '', 'common-login-modal');
             return false;
         }
 
@@ -613,24 +706,6 @@ $(function()
         $parent.find('> .bar').css({width: $sub.width(), transform: 'translateX('+width+'px)'});
     });
 
-    // 登录表单验证显示效果
-    $(document).on('blur', '.am-input-material input', function()
-    {
-        var value = $(this).val();
-        if(value === '')
-        {
-            $(this).addClass('am-value-valid-false');
-            $(this).removeClass('am-value-valid-true');
-        } else {
-            $(this).removeClass('am-value-valid-false');
-            $(this).addClass('am-value-valid-true');
-        }
-    })
-    $(document).on('focus', '.am-input-material input', function(){
-        $(this).removeClass('am-value-valid-false');
-        $(this).removeClass('am-value-valid-true');
-    });
-
     // 查看密码
     $(document).on('click', '.eye-submit', function()
     {
@@ -762,5 +837,24 @@ $(function()
             }
             $accounts.focus();
         }
+    });
+
+    // 主题数据修改初始化
+    ThemeDataEditEventInit();
+
+    // 主题数据修改事件
+    $(document).on('click', '.theme-data-edit-container .theme-data-edit-content button.theme-data-edit-submit', function() {
+        var $parent = $(this).parents('.theme-data-edit-event');
+        var id = $parent.data('id') || null;
+        var module = $parent.data('module') || 'themedata';
+        var url = window['__theme_data_admin_'+module+'_url__'] || null;
+        if(url == null) {
+            Prompt((window['lang_themedata_admin_url_error_tips'] || '主题数据管理url地址有误')+'('+module+')');
+            return false;
+        }
+        ModalLoad(UrlFieldReplace('id', id, url), (window['themedata_admin_title'] || '主题数据管理'), '', 1, 1, 'lg', null, function() {
+            // 关闭窗口则刷新页面
+            window.location.reload();
+        });
     });
 });

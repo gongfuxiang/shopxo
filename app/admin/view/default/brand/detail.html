@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -7,5 +7,5 @@
     {__block__}
 
     <!-- SEO信息 -->
-    {{include file="lib/seo_data" /}}
+    {{:ModuleInclude('lib/seo_data')}}
 {{/block}}

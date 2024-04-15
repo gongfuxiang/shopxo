@@ -27,6 +27,7 @@ use app\service\AdminService;
 use app\service\MultilingualService;
 use app\service\BreadcrumbService;
 use app\service\GoodsCartService;
+use app\service\ThemeDataService;
 
 /**
  * 前端公共控制器
@@ -45,6 +46,9 @@ class Common extends BaseController
     // 用户信息
     protected $user;
 
+    // 当前主题
+    protected $default_theme;
+
     // 输入参数 post|get|request
     protected $data_post;
     protected $data_get;
@@ -60,11 +64,13 @@ class Common extends BaseController
     protected $module_name;
     protected $controller_name;
     protected $action_name;
+    protected $mca;
 
     // 当前插件操作名称
     protected $plugins_module_name;
     protected $plugins_controller_name;
     protected $plugins_action_name;
+    protected $plugins_mca;
 
     // 页面唯一标记
     protected $page_unique_mark;
@@ -190,26 +196,6 @@ class Common extends BaseController
     }
 
     /**
-     * 登录校验
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-09T11:43:48+0800
-     */
-    protected function IsLogin()
-    {
-        if(empty($this->user))
-        {
-            if(IS_AJAX)
-            {
-                exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
-            } else {
-                die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('index/user/logininfo').'";}</script>');
-            }
-        }
-    }
-
-    /**
      * 视图初始化
      * @author   Devil
      * @blog     http://gong.gg/
@@ -241,11 +227,12 @@ class Common extends BaseController
         $assign['common_customer_store_tel'] = MyC('common_customer_store_tel');
         $assign['common_customer_store_email'] = MyC('common_customer_store_email');
         $assign['common_customer_store_address'] = MyC('common_customer_store_address');
+        $assign['common_customer_store_describe'] = MyC('common_customer_store_describe');
         $assign['common_customer_store_qrcode'] = AttachmentPathViewHandle(MyC('common_customer_store_qrcode'));
 
         // 主题
-        $default_theme = strtolower(MyC('common_default_theme', 'default', true));
-        $assign['default_theme'] = $default_theme;
+        $this->default_theme = DefaultTheme();
+        $assign['default_theme'] = $this->default_theme;
 
         // 基础表单数据、去除数组和对象列
         $form_back_params = $this->data_request;
@@ -267,11 +254,13 @@ class Common extends BaseController
         $this->module_name = RequestModule();
         $this->controller_name = RequestController();
         $this->action_name = RequestAction();
+        $this->mca = $this->module_name.$this->controller_name.$this->action_name;
 
         // 当前系统操作名称
         $assign['module_name'] = $this->module_name;
         $assign['controller_name'] = $this->controller_name;
         $assign['action_name'] = $this->action_name;
+        $assign['mca'] = $this->mca;
 
         // 当前插件操作名称, 兼容插件模块名称
         if(empty($this->data_request['pluginsname']))
@@ -302,11 +291,13 @@ class Common extends BaseController
             // 页面唯一标记
             $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->plugins_module_name.'-'.$this->plugins_controller_name.'-'.$this->plugins_action_name;
         }
+        $this->plugins_mca = $this->plugins_module_name.$this->plugins_controller_name.$this->plugins_action_name;
 
         // 当前插件操作名称
         $assign['plugins_module_name'] = $this->plugins_module_name;
         $assign['plugins_controller_name'] = $this->plugins_controller_name;
         $assign['plugins_action_name'] = $this->plugins_action_name;
+        $assign['plugins_mca'] = $this->plugins_mca;
 
         // 页面唯一标记
         $assign['page_unique_mark'] = $this->page_unique_mark;
@@ -317,17 +308,13 @@ class Common extends BaseController
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
         $this->page_size = min(empty($this->data_request['page_size']) ? MyC('common_page_size', 10, true) : intval($this->data_request['page_size']), 1000);
+        $this->page_start = intval(($this->page-1)*$this->page_size);
         $assign['page'] = $this->page;
         $assign['page_size'] = $this->page_size;
+        $assign['page_start'] = $this->page_start;
 
-        // 控制器静态文件状态css,js
-        $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
-        $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
-        $assign['module_css'] = file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '';
-
-        $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
-        $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
-        $assign['module_js'] = file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '';
+        // 静态文件状态css,js
+        $assign['static_path_data'] = ResourcesService::StaticCssOrJsPathData($this->default_theme, $this->module_name, $this->controller_name, $this->action_name);
 
         // 导航
         $assign['nav_header'] = $this->nav_header;
@@ -351,8 +338,7 @@ class Common extends BaseController
         $assign['default_price_regex'] = MyConst('common_regex_price');
 
         // 附件host地址
-        $attachment_host = SystemBaseService::AttachmentHost();
-        $assign['attachment_host'] = $attachment_host;
+        $assign['attachment_host'] = SystemBaseService::AttachmentHost();
 
         // css/js引入host地址
         $assign['public_host'] = MyConfig('shopxo.public_host');
@@ -401,7 +387,9 @@ class Common extends BaseController
         // 默认不加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = 0;
         $assign['is_page_loading_images'] = 0;
-        $assign['page_loading_images_url'] = $attachment_host.'/static/common/images/loading.gif';
+        $assign['page_loading_images_url'] = StaticAttachmentUrl('loading.gif');
+        $assign['page_loading_logo'] = AttachmentPathViewHandle(MyC('home_site_logo_square'));
+        $assign['page_loading_logo_border'] = StaticAttachmentUrl('loading-border.svg', 'svg');
 
         // 顶部右侧导航
         $assign['common_nav_top_right_list'] = NavigationService::HomeHavTopRight(['user'=>$this->user]);
@@ -489,13 +477,27 @@ class Common extends BaseController
         $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
         // 主题样式
-        $assign['theme_style_data'] = SystemService::ThemeStyleData();
+        $assign['theme_style_data'] = SystemService::ThemeStyleData(['default_theme'=>$this->default_theme]);
 
         // 面包屑导航
         $assign['breadcrumb_data'] = BreadcrumbService::Data();
 
         // 用户购物车数量
         $assign['user_cart_summary'] = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
+
+        // 主题数据
+        $assign['theme_data'] = ThemeDataService::ThemeData(array_merge($this->data_request, [
+                'module_name'      => $this->module_name,
+                'controller_name'  => $this->controller_name,
+                'action_name'      => $this->action_name,
+                'mca'              => $this->mca,
+                'default_theme'    => $this->default_theme,
+            ]));
+
+        // 主题数据管理
+        $assign['theme_data_admin_data'] = ThemeDataService::ThemeDataAdminData(array_merge($this->data_request, [
+                'default_theme'    => $this->default_theme,
+            ]));
 
         // 模板赋值
         MyViewAssign($assign);
@@ -618,46 +620,6 @@ class Common extends BaseController
                     exit($reason);
                 }
             }
-        }
-    }
-
-    /**
-     * 成功提示
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-07-15
-     * @desc    description
-     * @param   [string]      $msg [提示信息、默认（操作成功）]
-     */
-    public function success($msg)
-    {
-        if(IS_AJAX)
-        {
-            return DataReturn($msg, 0);
-        } else {
-            MyViewAssign('msg', $msg);
-            return MyView('public/jump_success');
-        }
-    }
-
-    /**
-     * 错误提示
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-07-15
-     * @desc    description
-     * @param   [string]      $msg [提示信息、默认（操作失败）]
-     */
-    public function error($msg)
-    {
-        if(IS_AJAX)
-        {
-            return DataReturn($msg, -1);
-        } else {
-            MyViewAssign('msg', $msg);
-            return MyView('public/jump_error');
         }
     }
 

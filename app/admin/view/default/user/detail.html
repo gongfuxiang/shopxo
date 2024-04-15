@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -50,7 +50,7 @@
                     </table>
                 </div>
             {{else /}}
-                {{include file="public/not_data" /}}
+                {{:ModuleInclude('public/not_data')}}
             {{/if}}
         </div>
     </div>

@@ -357,14 +357,12 @@ class DesignService
         \base\FileUtil::UnlinkDir($dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($dir_zip, $data['name'].'_v'.date('YmdHis').'.zip'))
+        if(\base\FileUtil::DownloadFile($dir_zip, $data['name'].'_v'.date('YmdHis').'.zip', true))
         {
-            // 删除文件
-            @unlink($dir_zip);
+            return DataReturn(MyLang('download_success'), 0);
         } else {
             return DataReturn(MyLang('download_fail'), -100);
         }
-        return DataReturn(MyLang('common_service.design.download_success'), 0);
     }
 
     /**
@@ -597,7 +595,7 @@ class DesignService
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
-        if($resource != true)
+        if($resource !== true)
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }

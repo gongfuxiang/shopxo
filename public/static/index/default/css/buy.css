@@ -49,6 +49,7 @@ ul.address-list li.address-default.address-cart {
             #4A5BE3 3rem,
             #ffffff 3rem,
             #ffffff 4rem);
+    box-shadow: none;
 }
 .address-cart .address-content {
     padding: 0.6rem;
@@ -148,14 +149,12 @@ ul.address-list li .user-base .address-detail .user {
         border-radius: 0;
     }
     ul.address-list li .user-base {
-        padding-bottom: 1rem;
-        width: calc(100% - 4rem);
-    }
-    ul.address-list li .user-base.am-border-bottom-grey {
         border: 0;
+        padding: 0;
     }
-    .mobile-address ul.address-list li .user-base.am-border-bottom-grey {
-        border-bottom: 0.1rem solid #EEEEEE;
+    ul.address-list li .user-base,
+    ul.address-list li .region {
+        width: calc(100% - 2rem);
     }
 }
 
@@ -174,7 +173,8 @@ ul.address-list li .user-base .address-detail .user {
     border-radius: 0.4rem;
 }
 @media only screen and (max-width: 1024px) {
-    .buy-message {
+    .buy-message,
+    .buy-nav-footer {
         padding: 0 0.5rem;
     }
 }
@@ -356,15 +356,6 @@ ul.address-list,
         display: block;
         width: calc((100% - 2rem) / 2);
     }
-
-    ul.address-list li.address-default {
-        background-image: url(../images/address-peraddressbg.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        border: 0;
-        box-shadow: none;
-    }
-
     ul.address-list li:nth-child(3n) {
         margin-right: 0;
     }
@@ -418,11 +409,6 @@ ul.address-list,
     .address ul {
         margin-top: 0;
     }
-    .address-default {
-        background: url(../images/buy-peraddress.png) repeat-x;
-        background-position: bottom;
-    }
-
     ul.address-list li {
         padding: 0.5rem;
         min-height: 6rem;
@@ -465,6 +451,13 @@ ul.address-list,
         padding-left: 1rem;
         padding-right: 1rem;
         margin-top: 0;
+    }
+    .user-address-container.mobile-address ul.address-express-delivery {
+        overflow-y: auto;
+        height: calc(100vh - 11rem);
+    }
+    .user-address-container:not(.mobile-address) ul.address-express-delivery li {
+        border: 0;
     }
 }
 
@@ -675,12 +668,7 @@ ul.address-list,
 .link-list .am-badge-default:hover {
     background: #666;
 }
-/**
-* 分组商品
-*/
-.plugins-coupon-buy-container .plugins-coupon-buy-choice {
-    margin-bottom: 1rem;
-}
+
 /* * 
 * 选择支付 
 */

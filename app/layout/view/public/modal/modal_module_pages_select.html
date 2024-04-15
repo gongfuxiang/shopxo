@@ -4,7 +4,7 @@
         <span data-am-modal-close class="am-close am-close-alt">&times;</span>
         {{if !empty($pages_list)}}
             <form class="am-form" action="false">
-                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" data-am-tabs="{noSwipe: 1}">
+                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-radius am-margin-0" data-am-tabs="{noSwipe: 1}">
                     <ul class="am-tabs-nav am-cf">
                         <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('layout.view_pages_tabs_system_title')}}</a></li>
                         <li><a href="[data-tab-panel-1]">{{:MyLang('layout.view_pages_tabs_plugins_title')}}</a></li>
@@ -26,7 +26,7 @@
                         <div data-tab-panel-1 class="am-tab-panel am-padding-0">
                             <div class="content am-scrollable-vertical">
                                 {{if empty($pages_list['plugins']['data'])}}
-                                    {{include file="public/not_data" /}}
+                                    {{:ModuleInclude('public/not_data')}}
                                 {{else /}}
                                     {{foreach $pages_list.plugins.data as $k=>$v}}
                                         <section data-am-widget="accordion" class="am-accordion am-accordion-default" data-am-accordion='{ "multiple": true }'>
@@ -94,7 +94,7 @@
                 </div>
             </form>
         {{else /}}
-            {{include file="public/not_data" /}}
+            {{:ModuleInclude('public/not_data')}}
         {{/if}}
     </div>
 </div>

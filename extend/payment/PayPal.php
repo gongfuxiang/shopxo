@@ -136,16 +136,6 @@ class PayPal
                 'message'       => '请填写扫码收款WebhookID、配置异步通知地址后得到的id',
             ],
             [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'app_agreement',
-                'placeholder'   => 'APP协议头、例如：shopxo://',
-                'title'         => 'APP协议头（APP支付才需要配置）',
-                'is_required'   => 0,
-                'message'       => '请填写APP协议头',
-            ],
-            [
                 'element'       => 'select',
                 'title'         => '货币',
                 'message'       => '请选择货币',
@@ -259,10 +249,8 @@ class PayPal
         }
 
         // 是否存在返回地址
-        if(!empty($params['params']) && !empty($params['params']['respond_url']))
-        {
-            MyCache($this->respond_url_cache_key.$params['order_no'], base64_decode(urldecode($params['params']['respond_url'])), 3600);
-        }
+        $respond_url = (!empty($params['params']) && !empty($params['params']['respond_url'])) ? base64_decode(urldecode($params['params']['respond_url'])) : null;
+        MyCache($this->respond_url_cache_key.$params['order_no'], $respond_url, 3600);
 
         // 订单信息存储缓存
         $key = $this->pay_data_cache_key.$result['data']['id'];
@@ -272,6 +260,26 @@ class PayPal
             'respond'       => $result['data'],
             'client_type'   => APPLICATION_CLIENT_TYPE,
         ], 3600);
+
+        // APP仅返回id
+        if(in_array(APPLICATION_CLIENT_TYPE, ['ios', 'android']))
+        {
+            // 是否沙盒模式
+            $is_dev_env = isset($this->config['is_dev_env']) ? $this->config['is_dev_env'] : 0;
+            // 拼接回调捕获接口
+            $call_back_url = $params['call_back_url'].(stripos($params['call_back_url'], '?') == false ? '?' : '&').'payment_order_id='.$result['data']['id'];
+            // 返回支付数据
+            return DataReturn('success', 0, [
+                'pay_data'      => [
+                    'clientId'     => $this->config['client_id'],
+                    'orderId'      => $result['data']['id'],
+                    'userAction'   => 'paynow',
+                    'currency'     => $this->config['currency_code'],
+                    'environment'  => ($is_dev_env == 1) ? 'sandbox' : 'live',
+                ],
+                'call_back_url' => $call_back_url,
+            ]);
+        }
 
         // 直接返回支付url地址
         return DataReturn('success', 0, $result['data']['links'][1]['href']);
@@ -290,25 +298,6 @@ class PayPal
     {
         // 回调处理
         $ret = $this->RespondHandle($params);
-
-        // 是否APP
-        if(isset($ret['data']['pay_data']['client_type']) && in_array($ret['data']['pay_data']['client_type'], ['ios', 'android']))
-        {
-            die('<html>
-                    <head>
-                        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-                        <title>PayPal安全支付</title>
-                        <meta name="apple-mobile-web-app-capable" content="yes">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
-                        <body style="text-align:center;padding-top:10%;">
-                            <p style="color:'.(($ret['code'] == 0) ? '#4caf50' : '#f00').';">'.$ret['msg'].'</p>
-                            <div style="height:45px;padding-top:10px;"><a href="'.$this->config["app_agreement"].'" style="text-decoration: none;color: #2196f3;border: 1px solid #2196f3;border-radius: 6px;padding: 5px 20px;">点击回到APP<a></div>
-                        </body>
-                    </head>
-                </html>');
-        }
-
-        // 成功
         if($ret['code'] == 0)
         {
             // 是否自定义返回地址
@@ -340,16 +329,16 @@ class PayPal
     public function RespondHandle($params = [])
     {
         // 回调token
-        if(empty($params['token']))
+        $order_id = empty($params['payment_order_id']) ? (empty($params['token']) ? '' : $params['token']) : $params['payment_order_id'];
+        if(empty($order_id))
         {
             return DataReturn('回调token为空', -1);
         }
-        $pay_data = MyCache($this->pay_data_cache_key.$params['token']);
+        $pay_data = MyCache($this->pay_data_cache_key.$order_id);
         if(empty($pay_data))
         {
             return DataReturn('支付数据失效、请重新发起支付', -1);
         }
-        MyCache($this->pay_data_cache_key.$params['token'], null);
 
         // 设置请求token
         $this->access_token = $pay_data['token']['access_token'];
@@ -358,6 +347,7 @@ class PayPal
         $result = $this->HttpRequest($pay_data['respond']['links'][3]['href'], '');
         if($result['code'] != 0)
         {
+            $result['data'] = ['pay_data'=>$pay_data];
             return $result;
         }
 
@@ -400,7 +390,7 @@ class PayPal
 
         // 判断webhookid、默认订单
         $pluginsname = MyInput('pluginsname');
-        $arr = ['wallet'=>'wallet_webhook_id', 'membershiplevelvip'=>'membershiplevelvip_webhook_id'];
+        $arr = ['wallet'=>'wallet_webhook_id', 'membershiplevelvip'=>'membershiplevelvip_webhook_id', 'scanpay'=>'scanpay_webhook_id'];
         $webhook_field = empty($arr[$pluginsname]) ? 'webhook_id' : $arr[$pluginsname];
 
         // 签名验证

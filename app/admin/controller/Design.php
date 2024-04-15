@@ -76,7 +76,7 @@ class Design extends Base
         $goods_category = GoodsCategoryService::GoodsCategoryAll();
 
         // 模板数据
-        $assign = [
+        MyViewAssign([
             // 当前数据
             'layout_data'                               => $layout_data,
             'data'                                      => $data,
@@ -97,14 +97,13 @@ class Design extends Base
             'images_magic_cube_view_list_show_style'    => BaseLayout::ConstData('images_magic_cube_view_list_show_style'),
             // 首页商品排序规则
             'common_goods_order_by_type_list'           => MyConst('common_goods_order_by_type_list'),
-            'common_goods_order_by_rule_list'           => MyConst('common_goods_order_by_rule_list'),
+            'common_data_order_by_rule_list'           => MyConst('common_data_order_by_rule_list'),
             // 加载布局样式+管理
             'is_load_layout'                            => 1,
             'is_load_layout_admin'                      => 1,
             // 编辑器文件存放地址定义
             'editor_path_type'                          => DesignService::AttachmentPathTypeValue($data['id']),
-        ];
-        MyViewAssign($assign);
+        ]);
         return MyView();
     }
 

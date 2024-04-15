@@ -97,10 +97,10 @@
     {{foreach $module_data.items as $item}}
         <div class="am-nbfc">
             <a href="{{$item.goods_url}}" target="_blank">
-                <img src="{{$item.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
+                <img src="{{$item.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="18" height="18" />
             </a>
-            <div class="am-nbfc">
-                <a href="{{$item.goods_url}}" target="_blank" class="am-nowrap-initial">{{$item.title}}</a>
+            <div class="am-text-truncate">
+                <a href="{{$item.goods_url}}" target="_blank">{{$item.title}}</a>
             </div>
         </div>
         {{if !empty($item['spec_text'])}}

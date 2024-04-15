@@ -32,55 +32,68 @@ use app\service\GoodsCartService;
  */
 class Index extends Common
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
+    /**
+     * 构造方法
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
     {
-		// 调用父类前置方法
-		parent::__construct();
-	}
+        // 调用父类前置方法
+        parent::__construct();
+    }
 
-	/**
-	 * [Index 入口]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2018-05-25T11:03:59+0800
-	 */
-	public function Index()
-	{
-		// 数据模式
-        if(MyC('home_index_floor_data_type', 0, true) == 2)
+    /**
+     * 首页
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-25T11:03:59+0800
+     */
+    public function Index()
+    {
+        $key = 'api_index_data_'.APPLICATION_CLIENT_TYPE;
+        $result = MyCache($key);
+        if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
         {
-            $data_list = LayoutService::LayoutConfigData('home');
+            // 数据模式
+            if(MyC('home_index_floor_data_type', 0, true) == 2)
+            {
+                $data_list = LayoutService::LayoutConfigData('home');
+            } else {
+                $data_list = GoodsService::HomeFloorList();
+            }
+
+            // 购物车汇总
+            $cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
+
+            // 未读消息总数
+            $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+            $message_total = MessageService::UserMessageTotal($params);
+
+            // 返回数据
+            $result = SystemBaseService::DataReturn([
+                'navigation'            => AppHomeNavService::AppHomeNav(),
+                'banner_list'           => BannerService::Banner(),
+                'data_list'             => $data_list,
+                'article_list'          => ArticleService::RecommendedArticleList(),
+                'right_icon_list'       => AppService::HomeRightIconList(['message_total'=>$message_total]),
+                'cart_total'            => $cart_total,
+                'message_total'         => $message_total,
+                'plugins_sort_list'     => PluginsService::PluginsSortList(),
+            ]);
+
+            // 缓存数据，购物车数量设置0
+            $cache_result = $result;
+            $cache_result['data']['cart_total'] = ['total_price'=>0, 'buy_number'=>0];
+            $cache_result['data']['message_total'] = 0;
+            MyCache($key, $cache_result, 3600);
         } else {
-        	$data_list = GoodsService::HomeFloorList();
+            $result['data']['is_result_data_cache'] = 1;
         }
-
-        // 购物车汇总
-        $cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
-
-        // 未读消息总数
-        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
-        $message_total = MessageService::UserMessageTotal($params);
-
-		// 返回数据
-		$result = [
-			'navigation'			=> AppHomeNavService::AppHomeNav(),
-			'banner_list'			=> BannerService::Banner(),
-			'data_list'				=> $data_list,
-			'article_list'			=> ArticleService::HomeArticleList(),
-			'right_icon_list'		=> AppService::HomeRightIconList(['message_total'=>$message_total]),
-			'cart_total'			=> $cart_total,
-			'message_total'			=> $message_total,
-			'plugins_sort_list'		=> PluginsService::PluginsSortList(),
-		];
-		return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
-	}
+        return ApiService::ApiDataReturn($result);
+    }
 }
 ?>

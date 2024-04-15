@@ -1,0 +1,268 @@
+<!-- 底部信息右侧模块 -->
+{{if !empty($module_data['goods'])}}
+    <div class="introduce-main">
+        <!-- 商品页面tabs顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_goods_detail_tabs_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_goods_detail_tabs_top_data) and is_array($plugins_view_goods_detail_tabs_top_data)}}
+            {{foreach $plugins_view_goods_detail_tabs_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- tab区块 -->
+        {{if !empty($middle_tabs_nav) and !empty($middle_tabs_nav['nav']) and !empty($middle_tabs_nav['type']) and is_array($middle_tabs_nav['nav']) and is_array($middle_tabs_nav['type'])}}
+            <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
+                <!-- tab导航 -->
+                <ul class="am-avg-sm-{{:count($middle_tabs_nav['nav'])}} am-tabs-nav am-nav am-nav-tabs am-tabs-short-border" data-am-sticky="{animation: 'slide-top'}">
+                    {{if !empty($buy_button) and !empty($buy_button['data'])}}
+                        {{foreach $buy_button.data as $v}}
+                            {{if !empty($v['type']) and !empty($v['name']) and stripos($v['type'], 'cart') nheq false}}
+                                <div class="buy-submit-top">
+                                    <button type="button"
+                                    class="am-btn am-radius {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}am-btn-secondary {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
+                                    data-type="{{$v.type}}" 
+                                    data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                        {{if !empty($v['icon'])}}
+                                            <i class="{{$v.icon}}"></i>
+                                        {{/if}}
+                                        {{$v.name}}
+                                    </button>
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                    {{foreach $middle_tabs_nav.nav as $k=>$v}}
+                        <li class="{{if isset($v['active']) and $v['active'] eq 1}}am-active{{/if}} goods-middle-nav-{{$v.type}}">
+                            <a href="#goods-middle-tabs-nav-{{$v.type}}" data-title="{{$v.name}}" data-type="{{$v.type}}" data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">{{$v.name}}</a>
+                        </li>
+                    {{/foreach}}
+                </ul>
+                <!-- tab内容 -->
+                <div class="am-tabs-bd">
+                    <!-- 详情 -->
+                    {{if in_array('detail', $middle_tabs_nav['type'])}}
+                        <div class="am-tab-panel am-in am-active" id="goods-middle-tabs-nav-detail">
+                            {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
+                                <!-- 商品详情参数 -->
+                                <div class="am-cf tabs-nav-base-container">
+                                    <ul class="parameters-content parameters-detail">
+                                        {{foreach $goods.parameters.detail as $v}}
+                                            <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
+                                                <span>{{$v.name}}:</span>
+                                                <span>{{$v.value}}</span>
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                </div>
+                            {{/if}}
+
+                            <!-- 详情内容 -->
+                            <div class="detail-content am-margin-top-sm">
+                                <!-- 详情内容顶部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_content_top</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_content_top_data) and is_array($plugins_view_goods_detail_content_top_data)}}
+                                    {{foreach $plugins_view_goods_detail_content_top_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+
+                                <!-- 详情相册 -->
+                                {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                    <div class="content-photo">
+                                        {{foreach $goods.photo as $photo}}
+                                            <li>
+                                                <img src="{{$photo.images}}" />
+                                            </li>
+                                        {{/foreach}}
+                                    </div>
+                                {{/if}}
+
+                                <!-- web详情 -->
+                                <div class="content-web am-scrollable-horizontal richtext">{{$goods.content_web|raw}}</div>
+
+                                <!-- 详情内容底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_goods_detail_content_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{if !empty($plugins_view_goods_detail_content_bottom_data) and is_array($plugins_view_goods_detail_content_bottom_data)}}
+                                    {{foreach $plugins_view_goods_detail_content_bottom_data as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    <!-- 评价 -->
+                    {{if in_array('comments', $middle_tabs_nav['type'])}}
+                        <div class="am-tab-panel goods-comment am-pr" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
+                            <!-- 商品页面tabs内评价底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_tabs_comments_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_tabs_comments_top_data) and is_array($plugins_view_goods_detail_tabs_comments_top_data)}}
+                                {{foreach $plugins_view_goods_detail_tabs_comments_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+
+                            <!-- 评价数据 -->
+                            {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                <div class="am-cf tabs-nav-base-container score-container {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}} shifting{{/if}}">
+                                    <div class="score">
+                                        <p class="value">{{$goods_score.avg}}</p>
+                                        <p class="name">{{:MyLang('goods.dynamic_scoring_name')}}</p>
+                                    </div>
+                                    <div class="progress-content">
+                                        <div class="am-progress">
+                                            {{foreach $goods_score.rating as $score}}
+                                                {{if $score.portion gt 0}}
+                                                    <div class="am-progress-bar am-progress-color-deep1
+                                                        {{switch score.rating}}
+                                                            {{case 1}}
+                                                                am-progress-color-deep5
+                                                            {{/case}}
+                                                            {{case 2}}
+                                                                am-progress-color-deep4
+                                                            {{/case}}
+                                                            {{case 3}}
+                                                                am-progress-color-deep3
+                                                            {{/case}}
+                                                            {{case 4}}
+                                                                am-progress-color-deep2
+                                                            {{/case}}
+                                                        {{/switch}}"
+                                                        style="width: {{$score.portion}}%">
+                                                            <span>{{$score.name}}({{$score.portion}}%)</span>
+                                                        </div>
+                                                    {{/if}}
+                                            {{/foreach}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            <div class="goods-comment-content"></div>
+                            <div class="table-no goods-page-no-data none">
+                                <div class=" am-flex am-flex-row am-flex-items-center am-gap-24 am-text-left">
+                                    <img class="no-data-comment" src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{:StaticAttachmentUrl('no-comment.png')}}{{/if}}" />
+                                    <p class="no-data-tips tips-width am-text-truncate">{{:MyLang('goods.no_comments_data_tips')}}</p>
+                                </div>
+                            </div>
+                            {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                <div class="goods-page-container"></div>
+                            {{/if}}
+
+                            <!-- 商品页面tabs内评价底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_tabs_comments_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_tabs_comments_bottom_data) and is_array($plugins_view_goods_detail_tabs_comments_bottom_data)}}
+                                {{foreach $plugins_view_goods_detail_tabs_comments_bottom_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
+                    {{/if}}
+
+                    <!-- 猜你喜欢 -->
+                    {{if in_array('guess_you_like', $middle_tabs_nav['type'])}}
+                        <div class="am-tab-panel" id="goods-middle-tabs-nav-guess_you_like">
+                            <!-- 商品页面tabs内猜你喜欢顶部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_tabs_guess_like_top</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_tabs_guess_like_top_data) and is_array($plugins_view_goods_detail_tabs_guess_like_top_data)}}
+                                {{foreach $plugins_view_goods_detail_tabs_guess_like_top_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+
+                            <!-- 猜你喜欢商品 -->
+                            <div class="like">
+                                {{if !empty($guess_you_like)}}
+                                    {{:ModuleInclude('module/goods/grid/base', [
+                                        'goods_list'  => $guess_you_like,
+                                        'type'        => 'search',
+                                        'class'       => 'like-item',
+                                        'is_border'   => 1,
+                                        'is_hover'    => 0,
+                                        'lg'          => 4,
+                                    ])}}
+                                {{/if}}
+                            </div>
+
+                            <!-- 商品页面tabs内猜你喜欢底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_tabs_guess_like_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_tabs_guess_like_bottom_data) and is_array($plugins_view_goods_detail_tabs_guess_like_bottom_data)}}
+                                {{foreach $plugins_view_goods_detail_tabs_guess_like_bottom_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
+                    {{/if}}
+
+                    <!-- 商品页面tabs内容钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_goods_detail_tabs_content</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_goods_detail_tabs_content_data) and is_array($plugins_view_goods_detail_tabs_content_data)}}
+                        {{foreach $plugins_view_goods_detail_tabs_content_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- 商品页面tabs底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_goods_detail_tabs_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_goods_detail_tabs_bottom_data) and is_array($plugins_view_goods_detail_tabs_bottom_data)}}
+            {{foreach $plugins_view_goods_detail_tabs_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+    </div>
+{{/if}}

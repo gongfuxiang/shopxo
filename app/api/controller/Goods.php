@@ -60,19 +60,18 @@ class Goods extends Common
         {
             $ret = DataReturn(MyLang('params_error_tips'), -1);
         } else {
-            // 商品详情方式
-            $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
-
+            // 是否独立手机端详情
+            $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail', 0, true));
             // 获取商品
             $params = [
-                'where' => [
+                'where'           => [
                     ['id', '=', $goods_id],
                     ['is_delete_time', '=', 0],
                 ],
-                'is_photo'          => true,
-                'is_spec'           => true,
-                'is_params'         => true,
-                'is_content_app'    => ($is_use_mobile_detail == 1),
+                'is_content_app'  => $is_use_mobile_detail,
+                'is_spec'         => 1,
+                'is_params'       => 1,
+                'is_favor'        => 1,
             ];
             $ret = GoodsService::GoodsList($params);
             if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
@@ -90,10 +89,6 @@ class Goods extends Common
                     // 标签处理，兼容小程序rich-text
                     $goods['content_web'] = ResourcesService::ApMiniRichTextContentHandle($goods['content_web']);
                 }
-
-                // 当前登录用户是否已收藏
-                $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-                $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
                 // 商品评价总数
                 $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);

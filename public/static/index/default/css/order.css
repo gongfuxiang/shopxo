@@ -161,13 +161,25 @@ ul.progress-4 li {
 }
 
 /**
+ * 订单快递、多条
+ */
+.order-express table tr th:first-child,
+.order-express table tr td:first-child {
+	padding-left: 0;
+}
+.order-express table tr th:last-child,
+.order-express table tr td:last-child {
+	padding-right: 0;
+}
+
+/**
  * 虚拟销售
  */
-.fictitious-panel-container ul.am-list li {
+.order-virtually ul.am-list li {
 	border: 0 !important;
 	border-bottom: 0.1rem solid #EEE !important;
 }
-.fictitious-panel-container ul.am-list li:last-child {
+.order-virtually ul.am-list li:last-child {
 	border-bottom: 0 !important;
 	margin: 0;
 	padding: 0;
@@ -283,7 +295,7 @@ ul.progress-4 li {
 }
 .order-goods .goods-shop-info-right > a {
 	display: block;
-	height: 4rem;
+	height: 5rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding-right: 10rem;

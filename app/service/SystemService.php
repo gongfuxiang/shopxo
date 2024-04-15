@@ -12,6 +12,10 @@ namespace app\service;
 
 use app\service\UserService;
 use app\service\MultilingualService;
+use app\service\PluginsAdminService;
+use app\service\DesignService;
+use app\service\CustomViewService;
+use app\service\ThemeAdminService;
 
 /**
  * 配置服务层
@@ -245,7 +249,7 @@ class SystemService
         }
 
         // 页面语言读取钩子
-        $hook_name = 'plugins_page_view_lang_data';
+        $hook_name = 'plugins_service_system_page_view_lang_data';
         MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,
@@ -283,7 +287,7 @@ class SystemService
             
             // 主色
             'color_main'                              => '#E22C08',
-            'color_main_light'                        => '#F25232',
+            'color_main_light'                        => '#ffe3de',
             'color_main_hover'                        => '#EA6B52',
             
             // 次色
@@ -471,8 +475,18 @@ class SystemService
         // 默认样式数据
         $data = self::ThemeStyleDefaultData();
 
+        // 主题是否自定义配色
+        if(!empty($params['default_theme']))
+        {
+            $theme_config = ThemeAdminService::ThemeAdminConfig($params['default_theme']);
+            if(!empty($theme_config['data']) && !empty($theme_config['data']['theme_style']) && is_array($theme_config['data']['theme_style']))
+            {
+                $data = array_merge($data, $theme_config['data']['theme_style']);
+            }
+        }
+
         // 主题样式数据钩子
-        $hook_name = 'plugins_view_theme_style_data';
+        $hook_name = 'plugins_service_system_view_theme_style_data';
         MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,
@@ -554,7 +568,7 @@ class SystemService
         ];
 
         // 后台主题配色选择数据钩子
-        $hook_name = 'plugins_admin_theme_style_choice_data';
+        $hook_name = 'plugins_service_system_admin_theme_style_choice_data';
         MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,
@@ -820,12 +834,122 @@ class SystemService
         $data = $list[$value];
 
         // 后台主题样式数据钩子
-        $hook_name = 'plugins_view_admin_theme_style_data';
+        $hook_name = 'plugins_service_system_view_admin_theme_style_data';
         MyEventTrigger($hook_name,
             [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'data'          => &$data,
+                'hook_name'   => $hook_name,
+                'is_backend'  => true,
+                'data'        => &$data,
+            ]);
+
+        return $data;
+    }
+
+    /**
+     * 站点默认首页数据列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-02-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SiteDefaultIndexDataList($params = [])
+    {
+        // 数据容器
+        $data = [];
+
+        // 插件列表
+        $ret = PluginsAdminService::PluginsList();
+        if(!empty($ret['data']) && !empty($ret['data']['db_data']) && is_array($ret['data']['db_data']))
+        {
+            $plugins_list = [];
+            foreach($ret['data']['db_data'] as $v)
+            {
+                // 必须是带首页的插件
+                if(!empty($v['plugins']) && !empty($v['name']) && isset($v['is_home']) && $v['is_home'] == true)
+                {
+                    $plugins_list[] = [
+                        'type'   => 'plugins',
+                        'name'   => $v['name'],
+                        'value'  => $v['plugins'],
+                    ];
+                }
+            }
+            if(!empty($plugins_list))
+            {
+                $data[] = [
+                    'name'  => MyLang('plugins_title'),
+                    'data'  => $plugins_list,
+                ];
+            }
+        }
+
+        // 页面设计
+        $page_size = 30;
+        $ret = DesignService::DesignList([
+            'n'      => $page_size,
+            'field'  => 'id,name',
+            'where'  => [
+                ['is_enable', '=', 1],
+            ],
+        ]);
+        if(!empty($ret['data']) && is_array($ret['data']))
+        {
+            $design_list = [];
+            foreach($ret['data'] as $v)
+            {
+                $design_list[] = [
+                    'type'   => 'design',
+                    'name'   => $v['name'],
+                    'value'  => $v['id'],
+                ];
+            }
+            if(!empty($design_list))
+            {
+                $data[] = [
+                    'name'  => MyLang('common_service.system.design_title').'('.MyLang('new_title').$page_size.')'.MyLang('strip_title'),
+                    'data'  => $design_list,
+                ];
+            }
+        }
+
+        // 自定义页面
+        $page_size = 30;
+        $ret = CustomViewService::CustomViewList([
+            'n'      => $page_size,
+            'field'  => 'id,name',
+            'where'  => [
+                ['is_enable', '=', 1],
+            ],
+        ]);
+        if(!empty($ret['data']) && is_array($ret['data']))
+        {
+            $custom_view_list = [];
+            foreach($ret['data'] as $v)
+            {
+                $custom_view_list[] = [
+                    'type'   => 'custom_view',
+                    'name'   => $v['name'],
+                    'value'  => $v['id'],
+                ];
+            }
+            if(!empty($custom_view_list))
+            {
+                $data[] = [
+                    'name'  => MyLang('common_service.system.custom_view_title').'('.MyLang('new_title').$page_size.')'.MyLang('strip_title'),
+                    'data'  => $custom_view_list,
+                ];
+            }
+        }
+
+        // 站点默认首页数据列表钩子
+        $hook_name = 'plugins_service_system_site_default_index_data_list';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'   => $hook_name,
+                'is_backend'  => true,
+                'data'        => &$data,
             ]);
 
         return $data;

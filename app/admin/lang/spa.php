@@ -307,11 +307,14 @@ return [
         'detail_images_title'                   => 'Detalles de la imagen',
         // 动态表格
         'form_table'                            => [
+            'id'                     => 'ID del artículo',
+            'cover'                  => 'Portada',
             'info'                   => 'Título',
-            'jump_url'               => 'Dirección de la dirección de la dirección de salto',
+            'describe'               => 'Descripción',
             'article_category_name'  => 'Clasificación',
             'is_enable'              => 'Si habilitar',
             'is_home_recommended'    => 'Recomendación de la página de inicio',
+            'jump_url'               => 'Dirección de la dirección de la dirección de salto',
             'images_count'           => 'Número de imágenes',
             'access_count'           => 'Número de visitas',
             'add_time'               => 'Tiempo de creación',
@@ -737,7 +740,6 @@ return [
         // 页面公共
         'page_common'           => [
             'order_id_empty'                    => 'El ID del pedido es incorrecto',
-            'express_choice_tips'               => 'Por favor, elija el método de mensajería.',
             'payment_choice_tips'               => 'Por favor, elija el método de pago.',
         ],
         // 页面基础
@@ -745,8 +747,12 @@ return [
         'form_payment_title'                    => 'Operaciones de pago',
         'form_item_take'                        => 'Código de recogida',
         'form_item_take_message'                => 'Por favor, rellene el Código de recogida de 4 dígitos.',
+        'form_item_express_add_name'            => 'Añadir mensajería',
+        'form_item_express_choice_win_name'     => 'Selección de mensajería',
+        'form_item_express_id'                  => 'Método de mensajería',
         'form_item_express_number'              => 'Número de la lista de mensajería',
-        'form_item_express_number_message'      => 'Por favor, rellene el número de formulario de mensajería.',
+        'form_item_note'                        => 'Nota información',
+        'form_item_note_message'                => 'La información de la nota tiene un máximo de 200 caracteres',
         // 地址
         'detail_user_address_title'             => 'Dirección de recepción',
         'detail_user_address_name'              => 'Destinatarios',
@@ -794,8 +800,8 @@ return [
             'payment_name'        => 'Método de pago',
             'user_note'           => 'Nota del usuario',
             'extension'           => 'Información extendida',
-            'express_name'        => 'Empresa de mensajería',
-            'express_number'      => 'Número de la lista de mensajería',
+            'express'             => 'Información de mensajería',
+            'express_placeholder' => 'Introduzca su Número de la lista de mensajería',
             'aftersale'           => 'Último post - venta',
             'is_comments'         => 'Si el usuario comenta',
             'confirm_time'        => 'Tiempo de confirmación',
@@ -814,6 +820,13 @@ return [
             'buy_number_count'   => 'Total de productos básicos',
             'refund_price'       => 'Importe del reembolso',
             'returned_quantity'  => 'Número de devoluciones',
+        ],
+        // 快递表格
+        'form_table_express'                    => [
+            'name'    => 'Empresa de mensajería',
+            'number'  => 'Número de la lista de mensajería',
+            'note'    => 'Nota de mensajería',
+            'time'    => 'Tiempo de envío',
         ],
     ],
 
@@ -912,7 +925,7 @@ return [
     ],
 
     // 主题管理
-    'theme'                 => [
+    'themeadmin'            => [
         'base_nav_list'                         => [
             ['name' => 'Temas actuales', 'type' => 'index'],
             ['name' => 'Instalación temática', 'type' => 'upload'],
@@ -922,6 +935,26 @@ return [
         'list_author_title'                     => 'Autor',
         'list_version_title'                    => 'Versión aplicable',
         'form_theme_upload_tips'                => 'Cargar un paquete de instalación de temas en formato zip comprimido',
+    ],
+
+    // 主题数据
+    'themedata'             => [
+        'base_nav_title'                        => 'Datos temáticos',
+        'upload_list_tips'                      => [
+            '1. seleccione el paquete zip de datos temáticos descargado',
+            '2. la importación agregará automáticamente un nuevo dato',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'unique'    => 'Identificación única',
+            'name'      => 'Nombre',
+            'type'      => 'Tipo de datos',
+            'theme'     => 'Tema',
+            'view'      => 'Página',
+            'is_enable' => 'Si habilitar',
+            'add_time'  => 'añadir tiempo',
+            'upd_time'  => 'tiempo de actualización',
+        ],
     ],
 
     // 用户中心导航
@@ -1434,11 +1467,17 @@ return [
                 'link_delete'              => 'Eliminar enlaces de amistad',
                 'link_statusupdate'        => 'Actualización del Estado del enlace de amistad',
                 'link_detail'              => 'Detalles del enlace amistoso',
-                'theme_index'              => 'Gestión temática',
-                'theme_save'               => 'Gestión temática añadir / editar',
-                'theme_upload'             => 'Instalación de carga de temas',
-                'theme_delete'             => 'Eliminación del tema',
-                'theme_download'           => 'Descarga del tema',
+                'themeadmin_index'         => 'Gestión temática',
+                'themeadmin_save'          => 'Gestión temática añadir / editar',
+                'themeadmin_upload'        => 'Instalación de carga de temas',
+                'themeadmin_delete'        => 'Eliminación del tema',
+                'themeadmin_download'      => 'Descarga del tema',
+                'themedata_index'          => 'Datos temáticos',
+                'themedata_saveinfo'       => 'Página de adición / edición de datos temáticos',
+                'themedata_save'           => 'Añadir / editar datos temáticos',
+                'themedata_upload'         => 'Carga de datos temáticos',
+                'themedata_delete'         => 'Eliminación de datos temáticos',
+                'themedata_download'       => 'Descarga de datos temáticos',
                 'slide_index'              => 'Rotación de la página de inicio',
                 'slide_saveinfo'           => 'Página de adición / edición de la rotación',
                 'slide_save'               => 'Añadir / editar a la rotación',

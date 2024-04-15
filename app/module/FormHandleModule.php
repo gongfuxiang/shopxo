@@ -13,6 +13,7 @@ namespace app\module;
 use think\facade\Db;
 use app\service\FormTableService;
 use app\service\ResourcesService;
+use app\service\UserService;
 
 /**
  * 动态表格处理
@@ -40,6 +41,8 @@ class FormHandleModule
     public $user_fields;
     // 排序
     public $order_by;
+    // 自定义属性条件
+    public $condition_base_where;
 
     // 当前系统操作名称
     public $module_name;
@@ -58,6 +61,9 @@ class FormHandleModule
     public $page_total;
     public $page_html;
     public $page_url;
+
+    // 数据db
+    public $db;
 
     // 列表数据及详情
     public $data_total;
@@ -121,6 +127,9 @@ class FormHandleModule
 
         // 排序字段处理
         $this->FormOrderByHandle();
+
+        // 数据读取
+        $this->FormDataListQuery();
 
         // 数据列表处理
         $this->FormDataListHandle();
@@ -231,8 +240,8 @@ class FormHandleModule
     public function Init()
     {
         // 排序
-        $this->order_by['key'] = empty($this->out_params['fp_order_by_key']) ? '' : $this->out_params['fp_order_by_key'];
-        $this->order_by['val'] = empty($this->out_params['fp_order_by_val']) ? '' : $this->out_params['fp_order_by_val'];
+        $this->order_by['key'] = empty($this->out_params['fp_order_by_key']) ? (empty($this->out_params['order_by_key']) ? '' : $this->out_params['order_by_key']) : $this->out_params['fp_order_by_key'];
+        $this->order_by['val'] = empty($this->out_params['fp_order_by_val']) ? (empty($this->out_params['order_by_val']) ? '' : $this->out_params['order_by_val']) : $this->out_params['fp_order_by_val'];
         $this->order_by['field'] = '';
         $this->order_by['data'] = '';
 
@@ -307,73 +316,65 @@ class FormHandleModule
 
         // 是否导出excel
         $this->is_export_excel = (isset($this->out_params['form_table_is_export_excel']) && $this->out_params['form_table_is_export_excel'] == 1);
+
+        // 是否定义基础条件属性
+        $this->condition_base_where = (property_exists($this->module_obj, 'condition_base') && is_array($this->module_obj->condition_base)) ? $this->module_obj->condition_base : [];
     }
 
     /**
-     * 数据列表处理
+     * 数据读取
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2022-08-01
      * @desc    description
      */
-    public function FormDataListHandle()
+    public function FormDataListQuery()
     {
         if(!empty($this->form_data['data']))
         {
             $form_data = $this->form_data['data'];
 
-            // 列表和详情
-            $list_action = isset($form_data['list_action']) ? (is_array($form_data['list_action']) ? $form_data['list_action'] : [$form_data['list_action']]) : ['index'];
-            $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo'];
-            if(empty($this->plugins_module_name))
-            {
-                $is_list = in_array($this->action_name, $list_action);
-                $is_detail = in_array($this->action_name, $detail_action);
-            } else {
-                $is_list = in_array($this->plugins_action_name, $list_action);
-                $is_detail = in_array($this->plugins_action_name, $detail_action);
-            }
+            // 基础数据
+            $base = $this->FormDataBase($form_data);
+
             // 非列表和详情则不处理
-            if(!$is_list && !$is_detail)
+            if(!$base['is_list'] && !$base['is_detail'])
             {
                 return false;
             }
 
             // 数据库对象
-            $db = null;
+            $this->db = null;
             if(!empty($form_data['table_obj']) && is_object($form_data['table_obj']))
             {
-                $db = $form_data['table_obj'];
+                $this->db = $form_data['table_obj'];
             } elseif(!empty($form_data['table_name']))
             {
-                $db = Db::name($form_data['table_name']);
+                $this->db = Db::name($form_data['table_name']);
             }
-            if($db === null)
+            if($this->db === null)
             {
                 return false;
             }
 
             // 读取字段
             $select_field = empty($form_data['select_field']) ? '*' : $form_data['select_field'];
-            $db->field($select_field);
-
-            // 是否使用分页、非导出模式下
-            $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
+            $this->db->field($select_field);
 
             // 数据读取
-            if($is_list)
+            if($base['is_list'])
             {
                 // 加入条件
-                $db->where($this->where);
+                $this->db->where($this->where);
 
                 // 总数
                 // 是否去重
                 if(empty($form_data['distinct']))
                 {
-                    $this->data_total = (int) $db->count();
+                    $this->data_total = (int) $this->db->count();
                 } else {
-                    $this->data_total = (int) $db->count('DISTINCT '.$form_data['distinct']);
+                    $this->data_total = (int) $this->db->count('DISTINCT '.$form_data['distinct']);
                 }
                 if($this->data_total > 0)
                 {
@@ -388,241 +389,411 @@ class FormHandleModule
                     $order_by = empty($this->order_by['data']) ? (array_key_exists('order_by', $form_data) ? $form_data['order_by'] : 'id desc') : $this->order_by['data'];
                     if(!empty($order_by))
                     {
-                        $db->order($order_by);
+                        $this->db->order($order_by);
                     }
 
                     // 分组
                     if(!empty($form_data['group']))
                     {
-                        $db->group($form_data['group']);
+                        $this->db->group($form_data['group']);
                     }
 
                     // 增加分页
-                    if($is_page && !$this->is_export_excel)
+                    if($base['is_page'] && !$this->is_export_excel)
                     {
                         $this->page_start = intval(($this->page-1)*$this->page_size);
-                        $db->limit($this->page_start, $this->page_size);
+                        $this->db->limit($this->page_start, $this->page_size);
                     }
                     // 读取数据
-                    $this->data_list = $db->select()->toArray();
+                    $this->data_list = $this->db->select()->toArray();
                 }
             } else {
-                // 默认条件
-                $this->where = empty($this->out_params['detail_where']) ? ((!empty($form_data['detail_where']) && is_array($form_data['detail_where'])) ? $form_data['detail_where'] : []) : $this->out_params['detail_where'];
+                // 详情不走列表的条件模式
+                // 1. 传入外部条件和指定详情条件
+                // 2. 合并指定的属性条件
+                $this->where = array_merge($this->condition_base_where, empty($this->out_params['detail_where']) ? ((!empty($form_data['detail_where']) && is_array($form_data['detail_where'])) ? $form_data['detail_where'] : []) : $this->out_params['detail_where']);
 
                 // 单独处理条件
                 $detail_dkey = empty($this->out_params['detail_dkey']) ? (empty($form_data['detail_dkey']) ? 'id' : $form_data['detail_dkey']) : $this->out_params['detail_dkey'];
                 $detail_pkey = empty($this->out_params['detail_pkey']) ? (empty($form_data['detail_pkey']) ? 'id' : $form_data['detail_pkey']) : $this->out_params['detail_pkey'];
                 $value = empty($this->out_params[$detail_pkey]) ? 0 : $this->out_params[$detail_pkey];
                 $this->where[] = [$detail_dkey, '=', $value];
-                $db->where($this->where);
+                $this->db->where($this->where);
 
                 // 读取数据、仅读取一条
-                $this->data_list = $db->limit(0, 1)->select()->toArray();
+                $this->data_list = $this->db->limit(0, 1)->select()->toArray();
+            }
+        }
+    }
+
+    /**
+     * 数据列表处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     */
+    public function FormDataListHandle()
+    {
+        if(!empty($this->form_data['data']) && !empty($this->data_list))
+        {
+            $form_data = $this->form_data['data'];
+
+            // 基础数据
+            $base = $this->FormDataBase($form_data);
+
+            // 数据处理
+            // 合并数据
+            $data_merge = (!empty($form_data['data_merge']) && is_array($form_data['data_merge'])) ? $form_data['data_merge'] : [];
+
+            // 是否处理用户数据
+            $is_handle_user_field = isset($form_data['is_handle_user_field']) && $form_data['is_handle_user_field'] == 1;
+            $handle_user_data = [];
+            $handle_user_ids = [];
+            if(empty($form_data['handle_user_data']))
+            {
+                $handle_user_data[] = [
+                        'key'    => 'user_id',
+                        'field'  => 'user',
+                    ];
+                $handle_user_ids = array_unique(array_filter(array_column($this->data_list, 'user_id')));
+            } else {
+                if(is_array($form_data['handle_user_data']))
+                {
+                    foreach($form_data['handle_user_data'] as $uv)
+                    {
+                        if(!empty($uv['key']))
+                        {
+                            if(empty($uv['field']))
+                            {
+                                $temp_user_field = (substr($uv['key'], -3) == '_id') ? substr($uv['key'], 0, -3) : $uv['key'].'_user';
+                            } else {
+                                $temp_user_field = $uv['field'];
+                            }
+                            $handle_user_data[] = [
+                                    'key'    => $uv['key'],
+                                    'field'  => $temp_user_field,
+                                ];
+                            $handle_user_ids = array_unique(array_merge($handle_user_ids, array_filter(array_column($this->data_list, $uv['key']))));
+                        }
+                    }
+                }
+            }
+
+            // 时间字段和格式
+            $is_handle_time_field = isset($form_data['is_handle_time_field']) && $form_data['is_handle_time_field'] == 1;
+            $handle_time_format = empty($form_data['handle_time_format']) ? '' : $form_data['handle_time_format'];
+
+            // 固定值名称
+            $is_fixed_name_field = isset($form_data['is_fixed_name_field']) && $form_data['is_fixed_name_field'] == 1;
+            $fixed_name_data = empty($form_data['fixed_name_data']) ? [] : $form_data['fixed_name_data'];
+
+            // 附件字段
+            $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
+            $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+
+            // json数据
+            $is_json_data_handle = isset($form_data['is_json_data_handle']) && $form_data['is_json_data_handle'] == 1;
+            $json_config_data = empty($form_data['json_config_data']) ? [] : $form_data['json_config_data'];
+
+            // 换行数据转数组
+            $is_ln_to_array_handle = isset($form_data['is_ln_to_array_handle']) && $form_data['is_ln_to_array_handle'] == 1;
+            $ln_to_array_fields = empty($form_data['ln_to_array_fields']) ? [] : $form_data['ln_to_array_fields'];
+
+            // 1. 展示字段指定数组转换处理
+            // 2. 状态字段按照搜索列表转换处理
+            $field_show_data = [];
+            $field_status_data = [];
+            foreach($this->form_data['form'] as $fv)
+            {
+                switch($fv['view_type'])
+                {
+                    // 展示字段
+                    case 'field' :
+                        if(!empty($fv['view_data']))
+                        {
+                            $field_show_data[$fv['view_key']] = $fv;
+                        }
+                        break;
+
+                    // 状态字段
+                    case 'status' :
+                        if(!empty($fv['search_config']) && !empty($fv['search_config']['data']))
+                        {
+                            $field_status_data[$fv['view_key']] = $fv;
+                        }
+                        break;
+                }
             }
 
             // 数据处理
-            if(!empty($this->data_list))
+            if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_user_field || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field || $is_json_data_handle || $is_ln_to_array_handle)
             {
-                // 合并数据
-                $data_merge = (!empty($form_data['data_merge']) && is_array($form_data['data_merge'])) ? $form_data['data_merge'] : [];
-
-                // 时间字段和格式
-                $is_handle_time_field = isset($form_data['is_handle_time_field']) && $form_data['is_handle_time_field'] == 1;
-                $handle_time_format = empty($form_data['handle_time_format']) ? '' : $form_data['handle_time_format'];
-
-                // 固定值名称
-                $is_fixed_name_field = isset($form_data['is_fixed_name_field']) && $form_data['is_fixed_name_field'] == 1;
-                $fixed_name_data = empty($form_data['fixed_name_data']) ? [] : $form_data['fixed_name_data'];
-
-                // 附件字段
-                $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
-                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
-
-                // 1. 展示字段指定数组转换处理
-                // 2. 状态字段按照搜索列表转换处理
-                $field_show_data = [];
-                $field_status_data = [];
-                foreach($this->form_data['form'] as $fv)
+                // 获取用户数据
+                $user_data = [];
+                if($is_handle_user_field && !empty($handle_user_ids))
                 {
-                    switch($fv['view_type'])
-                    {
-                        // 展示字段
-                        case 'field' :
-                            if(!empty($fv['view_data']))
-                            {
-                                $field_show_data[$fv['view_key']] = $fv;
-                            }
-                            break;
-
-                        // 状态字段
-                        case 'status' :
-                            if(!empty($fv['search_config']) && !empty($fv['search_config']['data']))
-                            {
-                                $field_status_data[$fv['view_key']] = $fv;
-                            }
-                            break;
-                    }
+                    $user_data = UserService::GetUserViewInfo($handle_user_ids);
                 }
 
-                // 数据处理
-                if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field)
+                // 处理列表数据
+                foreach($this->data_list as &$v)
                 {
-                    foreach($this->data_list as &$v)
+                    if(!empty($v) && is_array($v))
                     {
-                        if(!empty($v) && is_array($v))
+                        // 合并数据
+                        if(!empty($data_merge))
                         {
-                            // 合并数据
-                            if(!empty($data_merge))
+                            $v = array_merge($v, $data_merge);
+                        }
+
+                        // 用户信息处理
+                        if($is_handle_user_field && !empty($handle_user_data))
+                        {
+                            foreach($handle_user_data as $uv)
                             {
-                                $v = array_merge($v, $data_merge);
+                                if(!empty($uv['key']) && !empty($uv['field']))
+                                {
+                                    $v[$uv['field']] = (empty($user_data) || empty($v[$uv['key']]) || !array_key_exists($v[$uv['key']], $user_data)) ? null : $user_data[$v[$uv['key']]];
+                                }
+                            }
+                        }
+
+                        // 其他单独字段数据处理
+                        foreach($v as $ks=>$vs)
+                        {                                
+                            // 时间处理
+                            if($is_handle_time_field && substr($ks, -5) == '_time')
+                            {
+                                $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
+                                $v[$ks] = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
                             }
 
-                            // 其他单独字段数据处理
-                            foreach($v as $ks=>$vs)
+                            // 固定值名称处理
+                            if($is_fixed_name_field && !empty($fixed_name_data) && is_array($fixed_name_data) && array_key_exists($ks, $fixed_name_data) && !empty($fixed_name_data[$ks]['data']))
                             {
-                                // 时间处理
-                                if($is_handle_time_field && substr($ks, -5) == '_time')
-                                {
-                                    $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
-                                    $v[$ks] = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
-                                }
+                                $temp_data = $fixed_name_data[$ks]['data'];
+                                $temp_field = empty($fixed_name_data[$ks]['field']) ? $ks.'_name' : $fixed_name_data[$ks]['field'];
+                                $temp_key = empty($fixed_name_data[$ks]['key']) ? 'name' : $fixed_name_data[$ks]['key'];
+                                $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
+                                $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
+                            }
 
-                                // 固定值名称处理
-                                if($is_fixed_name_field && !empty($fixed_name_data) && is_array($fixed_name_data) && array_key_exists($ks, $fixed_name_data) && !empty($fixed_name_data[$ks]['data']))
-                                {
-                                    $temp_data = $fixed_name_data[$ks]['data'];
-                                    $temp_field = empty($fixed_name_data[$ks]['field']) ? $ks.'_name' : $fixed_name_data[$ks]['field'];
-                                    $temp_key = empty($fixed_name_data[$ks]['key']) ? 'name' : $fixed_name_data[$ks]['key'];
-                                    $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
-                                    $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
-                                }
+                            // 附件字段处理
+                            if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
+                            {
+                                $v[$ks] = ResourcesService::AttachmentPathViewHandle($vs);
+                            }
 
-                                // 附件字段处理
-                                if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
+                            // 展示字段指定数组转换处理、默认增加 _name 后缀
+                            if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
+                            {
+                                $temp = $field_show_data[$ks];
+                                $value = array_key_exists($vs, $temp['view_data']) ? $temp['view_data'][$vs] : null;
+                                $key = $ks.'_name';
+                                if($value === null)
                                 {
-                                    $v[$ks] = ResourcesService::AttachmentPathViewHandle($vs);
-                                }
-
-                                // 展示字段指定数组转换处理、默认增加 _name 后缀
-                                if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
-                                {
-                                    $temp = $field_show_data[$ks];
-                                    $value = array_key_exists($vs, $temp['view_data']) ? $temp['view_data'][$vs] : null;
-                                    $key = $ks.'_name';
-                                    if($value === null)
+                                    $v[$key] = '';
+                                } else {
+                                    if(is_array($value))
                                     {
-                                        $v[$key] = '';
+                                        $v[$key] = (!empty($temp['view_data_key']) && array_key_exists($temp['view_data_key'], $value)) ? $value[$temp['view_data_key']] : '';
                                     } else {
-                                        if(is_array($value))
+                                        $v[$key] = $value;
+                                    }
+                                }
+                            }
+
+                            // 状态字段按照搜索列表转换处理、默认增加 _name 后缀
+                            if(!empty($field_status_data) && array_key_exists($ks, $field_status_data) && !empty($field_status_data[$ks]['search_config']) && !empty($field_status_data[$ks]['search_config']['data']))
+                            {
+                                $temp = $field_status_data[$ks]['search_config'];
+                                $value = array_key_exists($vs, $temp['data']) ? $temp['data'][$vs] : null;
+                                $key = $ks.'_name';
+                                if($value === null)
+                                {
+                                    $v[$key] = '';
+                                } else {
+                                    if(is_array($value))
+                                    {
+                                        $v[$key] = (!empty($temp['data_name']) && array_key_exists($temp['data_name'], $value)) ? $value[$temp['data_name']] : '';
+                                    } else {
+                                        $v[$key] = $value;
+                                    }
+                                }
+                            }
+
+                            // json数据处理
+                            if($is_json_data_handle && !empty($json_config_data) && array_key_exists($ks, $json_config_data) && !empty($vs) && !is_array($vs))
+                            {
+                                $temp_json_data = json_decode($vs, true);
+                                if(!empty($temp_json_data))
+                                {
+                                    // 是否为附件处理地址
+                                    $temm_json_config = $json_config_data[$ks];
+                                    if(!empty($temm_json_config) && isset($temm_json_config['type']) && $temm_json_config['type'] == 'annex')
+                                    {
+                                        foreach($temp_json_data as &$jsonv)
                                         {
-                                            $v[$key] = (!empty($temp['view_data_key']) && array_key_exists($temp['view_data_key'], $value)) ? $value[$temp['view_data_key']] : '';
-                                        } else {
-                                            $v[$key] = $value;
+                                            if(!empty($jsonv))
+                                            {
+                                                // 是否指定多个字段
+                                                if(empty($temm_json_config['key']))
+                                                {
+                                                    if(!is_array($jsonv))
+                                                    {
+                                                        $jsonv = ResourcesService::AttachmentPathViewHandle($jsonv);
+                                                    }
+                                                } else {
+                                                    // 多个字段处理，必须存在值
+                                                    if(is_array($jsonv))
+                                                    {
+                                                        // key是否数组
+                                                        if(is_array($temm_json_config['key']))
+                                                        {
+                                                            foreach($temm_json_config['key'] as $jckv)
+                                                            {
+                                                                if(!empty($jsonv[$jckv]) && !is_array($jsonv[$jckv]))
+                                                                {
+                                                                    $jsonv[$jckv] = ResourcesService::AttachmentPathViewHandle($jsonv[$jckv]);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            // key单个字段
+                                                            if(!empty($jsonv[$temm_json_config['key']]) && !is_array($jsonv[$temm_json_config['key']]))
+                                                            {
+                                                                $jsonv[$temm_json_config['key']] = ResourcesService::AttachmentPathViewHandle($jsonv[$temm_json_config['key']]);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                                $v[$ks] = $temp_json_data;
+                            }
 
-                                // 状态字段按照搜索列表转换处理、默认增加 _name 后缀
-                                if(!empty($field_status_data) && array_key_exists($ks, $field_status_data) && !empty($field_status_data[$ks]['search_config']) && !empty($field_status_data[$ks]['search_config']['data']))
-                                {
-                                    $temp = $field_status_data[$ks]['search_config'];
-                                    $value = array_key_exists($vs, $temp['data']) ? $temp['data'][$vs] : null;
-                                    $key = $ks.'_name';
-                                    if($value === null)
-                                    {
-                                        $v[$key] = '';
-                                    } else {
-                                        if(is_array($value))
-                                        {
-                                            $v[$key] = (!empty($temp['data_name']) && array_key_exists($temp['data_name'], $value)) ? $value[$temp['data_name']] : '';
-                                        } else {
-                                            $v[$key] = $value;
-                                        }
-                                    }
-                                }
+                            // 换行转数组
+                            if($is_ln_to_array_handle && !empty($ln_to_array_fields) && in_array($ks, $ln_to_array_fields))
+                            {
+                                $v[$ks] = empty($vs) ? [] : (is_array($vs) ? $vs : explode("\n", $vs));
                             }
                         }
                     }
                 }
+            }
 
-                // 是否已定义数据处理、必须存在双冒号
-                $m = $this->ServiceActionModule($form_data, 'data_handle');
+            // 是否已定义数据处理、必须存在双冒号
+            $m = $this->ServiceActionModule($form_data, 'data_handle');
+            if(!empty($m))
+            {
+                $module = $m['module'];
+                $action = $m['action'];
+                // 数据请求参数
+                $data_params = empty($form_data['data_params']) ? [] : $form_data['data_params'];
+                $res = $module::$action($this->data_list, $data_params);
+                // 是否按照数据返回格式方法放回的数据
+                if(isset($res['code']) && isset($res['msg']) && isset($res['data']))
+                {
+                    $this->data_list = $res['data'];
+                } else {
+                    $this->data_list = $res;
+                }
+            }
+
+            // 分页处理
+            if($base['is_page'] && $base['is_list'] && !$this->is_export_excel)
+            {
+                // 是否定义分页提示信息
+                $tips_msg = '';
+                $m = $this->ServiceActionModule($form_data, 'page_tips_handle');
                 if(!empty($m))
                 {
                     $module = $m['module'];
                     $action = $m['action'];
-                    // 数据请求参数
-                    $data_params = empty($form_data['data_params']) ? [] : $form_data['data_params'];
-                    $res = $module::$action($this->data_list, $data_params);
-                    // 是否按照数据返回格式方法放回的数据
-                    if(isset($res['code']) && isset($res['msg']) && isset($res['data']))
-                    {
-                        $this->data_list = $res['data'];
-                    } else {
-                        $this->data_list = $res;
-                    }
+                    $tips_msg = $module::$action($this->where);
                 }
 
-                // 分页处理
-                if($is_page && $is_list && !$this->is_export_excel)
+                // 分页统计数据
+                if(isset($form_data['is_page_stats']) && $form_data['is_page_stats'] == 1 && !empty($form_data['page_stats_data']) && is_array($form_data['page_stats_data']))
                 {
-                    // 是否定义分页提示信息
-                    $tips_msg = '';
-                    $m = $this->ServiceActionModule($form_data, 'page_tips_handle');
-                    if(!empty($m))
-                    {
-                        $module = $m['module'];
-                        $action = $m['action'];
-                        $tips_msg = $module::$action($this->where);
-                    }
+                    // 当前数据字段列
+                    $data_item_fields = (empty($this->data_list) || empty($this->data_list[0])) ? [] : array_keys($this->data_list[0]);
 
-                    // 分页统计数据
-                    if(isset($form_data['is_page_stats']) && $form_data['is_page_stats'] == 1 && !empty($form_data['page_stats_data']) && is_array($form_data['page_stats_data']))
+                    // 统计数据集合
+                    $stats_data = [];
+                    foreach($form_data['page_stats_data'] as $pv)
                     {
-                        // 当前数据字段列
-                        $data_item_fields = (empty($this->data_list) || empty($this->data_list[0])) ? [] : array_keys($this->data_list[0]);
-
-                        // 统计数据集合
-                        $stats_data = [];
-                        foreach($form_data['page_stats_data'] as $pv)
+                        if(!empty($pv['name']))
                         {
-                            if(!empty($pv['name']))
-                            {
-                                // 数据字段
-                                $field = empty($pv['field']) ? 'id' : $pv['field'];
-                                $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
-                                $value = $db->$stats_fun($field);
-                                $stats_data[] = $pv['name'].$value.(empty($pv['unit']) ? '' : $pv['unit']);
-                            }
-                        }
-                        if(!empty($stats_data))
-                        {
-                            $tips_msg .= implode('&nbsp;&nbsp;&nbsp;', $stats_data);
+                            // 数据字段
+                            $field = empty($pv['field']) ? 'id' : $pv['field'];
+                            $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
+                            $value = $this->db->$stats_fun($field);
+                            $stats_data[] = $pv['name'].$value.(empty($pv['unit']) ? '' : $pv['unit']);
                         }
                     }
-
-                    // 分页组件
-                    $page_params = [
-                        'number'    => $this->page_size,
-                        'total'     => $this->data_total,
-                        'where'     => $this->out_params,
-                        'page'      => $this->page,
-                        'url'       => $this->page_url,
-                        'tips_msg'  => $tips_msg,
-                    ];
-                    $page = new \base\Page($page_params);
-                    $this->page_html = $page->GetPageHtml();
+                    if(!empty($stats_data))
+                    {
+                        $tips_msg .= implode('&nbsp;&nbsp;&nbsp;', $stats_data);
+                    }
                 }
 
-                // 是否详情页
-                if($is_detail)
-                {
-                    $this->data_detail = $this->data_list[0];
-                    $this->data_list = [];
-                }
+                // 分页组件
+                $page_params = [
+                    'number'    => $this->page_size,
+                    'total'     => $this->data_total,
+                    'where'     => $this->out_params,
+                    'page'      => $this->page,
+                    'url'       => $this->page_url,
+                    'tips_msg'  => $tips_msg,
+                ];
+                $page = new \base\Page($page_params);
+                $this->page_html = $page->GetPageHtml();
+            }
+
+            // 是否详情页
+            if($base['is_detail'])
+            {
+                $this->data_detail = $this->data_list[0];
+                $this->data_list = [];
             }
         }
+    }
+
+    /**
+     * 数据列表基础
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-04-08
+     * @desc    description
+     * @param   [array]          $form_data [表格数据]
+     */
+    public function FormDataBase($form_data)
+    {
+        // 列表和详情
+        $list_action = isset($form_data['list_action']) ? (is_array($form_data['list_action']) ? $form_data['list_action'] : [$form_data['list_action']]) : ['index'];
+        $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo'];
+        if(empty($this->plugins_module_name))
+        {
+            $is_list = in_array($this->action_name, $list_action);
+            $is_detail = in_array($this->action_name, $detail_action);
+        } else {
+            $is_list = in_array($this->plugins_action_name, $list_action);
+            $is_detail = in_array($this->plugins_action_name, $detail_action);
+        }
+
+        // 是否使用分页
+        $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
+
+        return [
+            'is_list'    => $is_list,
+            'is_detail'  => $is_detail,
+            'is_page'    => $is_page,
+        ];
     }
 
     /**
@@ -1017,11 +1188,11 @@ class FormHandleModule
                             // 选择/未选中文本
                             if(empty($v['checked_text']))
                             {
-                                $v['checked_text'] = '反选';
+                                $v['checked_text'] = MyLang('reverse_select_title');
                             }
                             if(empty($v['not_checked_text']))
                             {
-                                $v['not_checked_text'] = '全选';
+                                $v['not_checked_text'] = MyLang('select_all_title');
                             }
 
                             // 是否选中 默认否
@@ -1040,7 +1211,7 @@ class FormHandleModule
                             // 单选标题
                             if(empty($v['label']))
                             {
-                                $v['label'] = '单选';
+                                $v['label'] = MyLang('single_select_title');
                             }
 
                             // view key 默认 form_ids_radio
@@ -1262,7 +1433,7 @@ class FormHandleModule
                                         $value = '%'.$value.'%';
                                     }
 
-                                    // 年月Ym、去掉横岗
+                                    // 年月Ym、去掉横杠
                                     if($v['search_config']['form_type'] == 'ym')
                                     {
                                         $value = str_replace(['-', '/', '|'], '', $value);
@@ -1372,9 +1543,9 @@ class FormHandleModule
                 }
             }
 
-            // 排序key与字段
+            // 排序key与字段、自动拼接的字段 或者 指定的form_key和form_name字段
             $v['sort_key'] = $fk.'o';
-            if($v['sort_key'] == $this->order_by['key'])
+            if($v['sort_key'] == $this->order_by['key'] || $form_name == $this->order_by['key'])
             {
                 $this->order_by['field'] = empty($v['sort_field']) ? $form_name : $v['sort_field'];
             }
@@ -1518,11 +1689,39 @@ class FormHandleModule
      */
     public function WhereValueHandle($value, $action_custom = '', $object_custom = null, $params = [])
     {
-        // 模块是否自定义条件值方法处理条件
-        $obj = is_object($object_custom) ? $object_custom : $this->module_obj;
-        if(!empty($action_custom) && method_exists($obj, $action_custom))
+        // 根据方法名称处理条件
+        switch($action_custom)
         {
-            return $obj->$action_custom($value, $params);
+            // 系统用户条件处理
+            case 'SystemModuleUserWhereHandle' :
+                if(!empty($value))
+                {
+                    // 获取用户id
+                    $ids = Db::name('User')->where('number_code|username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
+                    // 避免空条件造成无效的错觉
+                    return empty($ids) ? [0] : $ids;
+                }
+                break;
+
+            // 系统商品条件处理
+            case 'SystemModuleGoodsWhereHandle' :
+                if(!empty($value))
+                {
+                    // 获取商品id
+                    $ids = Db::name('Goods')->alias('g')->join('goods_spec_base gb', 'g.id=gb.goods_id')->where('g.title|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords|gb.coding|gb.barcode', 'like', '%'.$value.'%')->column('g.id');
+                    // 避免空条件造成无效的错觉
+                    return empty($ids) ? [0] : $ids;
+                }
+                break;
+
+            // 默认走自定义模块处理
+            default :
+                // 模块是否自定义条件值方法处理条件
+                $obj = is_object($object_custom) ? $object_custom : $this->module_obj;
+                if(!empty($action_custom) && method_exists($obj, $action_custom))
+                {
+                    return $obj->$action_custom($value, $params);
+                }
         }
 
         // 默认直接返回值
@@ -1539,11 +1738,7 @@ class FormHandleModule
      */
     public function BaseWhereHandle()
     {
-        // 是否定义基础条件属性
-        if(property_exists($this->module_obj, 'condition_base') && is_array($this->module_obj->condition_base))
-        {
-            $this->where = $this->module_obj->condition_base;
-        }
+        $this->where = $this->condition_base_where;
     }
 
     /**

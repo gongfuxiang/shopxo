@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
                                 <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    {{include file="lib/is_enable" /}}
+                                    {{:ModuleInclude('lib/is_enable')}}
                                 </div>
                             </div>
 
@@ -35,7 +35,7 @@
                                                     {{else /}}
                                                         <input type="text" name="logo" value="{{$data.logo}}" />
                                                         <img src="{{:AttachmentPathViewHandle($data.logo)}}" />
-                                                        <i>x</i>
+                                                        <i class="iconfont icon-close"></i>
                                                         <i class="iconfont icon-eye"></i>
                                                     {{/if}}
                                                 </li>
@@ -44,8 +44,8 @@
                                     </div>
                                 </div>
                                 <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    {{include file="lib/is_header" /}}
-                                    {{include file="lib/is_footer" /}}
+                                    {{:ModuleInclude('lib/is_header')}}
+                                    {{:ModuleInclude('lib/is_footer')}}
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <h3 class="am-panel-title">{{:MyLang('form_seo_data_title')}}</h3>
                         </div>
                         <div class="am-panel-bd am-padding-vertical-xs">
-                            {{include file="lib/seo" /}}
+                            {{:ModuleInclude('lib/seo')}}
                         </div>
                     </div>
                 </div>

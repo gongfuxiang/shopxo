@@ -1,0 +1,40 @@
+<!-- 搜索排序导航模块 -->
+<div class="search-nav">
+    <ul class="sort-nav" data-am-sticky="{animation: 'slide-top'}">
+        <!-- 搜索页面搜索导航条内前面钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_search_nav_inside_begin</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_search_nav_inside_begin_data) and is_array($plugins_view_search_nav_inside_begin_data)}}
+            {{foreach $plugins_view_search_nav_inside_begin_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 排序列表 -->
+        {{:ModuleInclude('search/module/sort_nav/content', empty($module_data) ? [] : $module_data)}}
+
+        <!-- 搜索页面排序导航条内尾部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_search_nav_inside_end</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_search_nav_inside_end_data) and is_array($plugins_view_search_nav_inside_end_data)}}
+            {{foreach $plugins_view_search_nav_inside_end_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <li>
+            <div class="layout-styles" data-value="{{$list_layout_value}}">
+                <i class="iconfont {{if $list_layout_value eq 1}}icon-table-list {{else /}}icon-table-grid{{/if}}"></i>
+            </div>
+        </li>
+    </ul>
+</div>

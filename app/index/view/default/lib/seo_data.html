@@ -13,7 +13,7 @@
                 <dd>{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</dd>
             </dl>
         {{else /}}
-            {{include file="public/not_data" /}}
+            {{:ModuleInclude('public/not_data')}}
         {{/if}}
     </div>
 </div>

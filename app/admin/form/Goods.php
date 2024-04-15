@@ -49,7 +49,6 @@ class Goods
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'detail_title'  => MyLang('form_table_base_detail_title'),
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -67,6 +66,7 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 110,
+                    'is_copy'       => 1,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
@@ -84,7 +84,7 @@ class Goods
                         'form_type'           => 'input',
                         'form_name'           => 'id',
                         'where_type_custom'   => 'in',
-                        'where_value_custom'  => 'WhereValueGoodsInfo',
+                        'where_value_custom'  => 'SystemModuleGoodsWhereHandle',
                         'placeholder'         => $lang['info_placeholder'],
                     ],
                 ],
@@ -301,7 +301,6 @@ class Goods
                 'data_handle'   => 'GoodsService::GoodsDataHandle',
                 'is_page'       => 1,
                 'data_params'   => [
-                    'is_photo'          => 1,
                     'is_content_app'    => 1,
                     'is_category'       => 1,
                 ],
@@ -310,29 +309,6 @@ class Goods
                 ],
             ],
         ];
-    }
-
-    /**
-     * 商品信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-30
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueGoodsInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取商品 id
-            $ids = Db::name('Goods')->alias('g')->join('goods_spec_base gb', 'g.id=gb.goods_id')->where('g.title|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords|gb.coding|gb.barcode', 'like', '%'.$value.'%')->column('g.id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
     }
 
     /**

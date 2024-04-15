@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="public/module/detail" /}}
+{{extend name="../../../module/view/detail" /}}
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
@@ -14,18 +14,27 @@
                 'key'  => 'order-detail-goods',
             ],
             [
-                'name' => $data['order_model'] == 2 ? MyLang('order.detail_take_address_title') : MyLang('order.detail_user_address_title'),
-                'key'  => 'order-detail-user-address',
+                'name'     => MyLang('common_service.order.delivery_express_info'),
+                'key'      => 'order-detail-express',
+                'is_show'  => $data['order_model'] == 0 ? 1 : 0,
             ],
             [
-                'name' => MyLang('order.detail_fictitious_title'),
-                'key'  => 'order-detail-fictitious',
+                'name'     => $data['order_model'] == 2 ? MyLang('order.detail_take_address_title') : MyLang('order.detail_user_address_title'),
+                'key'      => 'order-detail-user-address',
+                'is_show'  => in_array($data['order_model'], [0,2]) ? 1 : 0,
+            ],
+            [
+                'name'     => MyLang('order.detail_fictitious_title'),
+                'key'      => 'order-detail-fictitious',
+                'is_show'  => $data['order_model'] == 3 ? 1 : 0,
             ]
         ]
     ])}}
     <div class="detail-content-switch-data-item">
         <!-- 父级内容 -->
-        {__block__}
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
 
         <!-- 订单商品 -->
         <div class="item" data-key="order-detail-goods">
@@ -33,30 +42,75 @@
                 {{if !empty($data['items'])}}
                     {{:ModuleInclude('order/module/goods', $data)}}
                 {{else /}}
-                    {{include file="public/not_data" /}}
+                    {{:ModuleInclude('public/not_data')}}
                 {{/if}}
             </div>
         </div>
 
-        <!-- 销售订单 - 收货/期货地址 -->
+        <!-- 订单快递信息 -->
+        <div class="item" data-key="order-detail-express">
+            <div class="am-padding-sm">
+                {{if !empty($data['express_data'])}}
+                    <div class="am-scrollable-horizontal">
+                        <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>{{:MyLang('order.form_table_express.name')}}</th>
+                                    <th>{{:MyLang('order.form_table_express.number')}}</th>
+                                    <th>{{:MyLang('order.form_table_express.note')}}</th>
+                                    <th>{{:MyLang('order.form_table_express.time')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{foreach $data.express_data as $v}}
+                                    <tr>
+                                        <td>
+                                            {{if empty($v['express_website_url'])}}
+                                                {{if !empty($v['express_icon'])}}
+                                                    <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                {{/if}}
+                                                <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                            {{else /}}
+                                                <a href="{{$v.express_website_url}}" target="_blank">
+                                                    {{if !empty($v['express_icon'])}}
+                                                        <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                    {{/if}}
+                                                    <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                                </a>
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            <span class="text-copy-submit">{{$v.express_number}}</span>
+                                        </td>
+                                        <td>{{$v.note}}</td>
+                                        <td>{{$v.add_time}}</td>
+                                    </tr>
+                                {{/foreach}}
+                            </tbody>
+                        </table>
+                    </div>
+                {{else /}}
+                    {{:ModuleInclude('public/not_data')}}
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- 销售订单 - 收货/自提地址 -->
         <div class="item" data-key="order-detail-user-address">
             <div class="am-padding-sm">
                 {{if !empty($data['address_data'])}}
                     {{if $data['order_model'] eq 0}}
                         <p>
                             <span>{{:MyLang('order.detail_user_address_name')}}：</span>
-                            <span>{{$data.address_data.name}}</span>
+                            <span class="text-copy-submit">{{$data.address_data.name}}</span>
                         </p>
                         <p>
                             <span>{{:MyLang('order.detail_user_address_tel')}}：</span>
-                            <span>{{$data.address_data.tel}}</span>
+                            <span class="text-copy-submit">{{$data.address_data.tel}}</span>
                         </p>
                         <p>
                             <span>{{:MyLang('order.detail_user_address_value')}}：</span>
-                            <span>{{$data.address_data.province_name}}</span>
-                            <span>{{$data.address_data.city_name}}</span>
-                            <span>{{$data.address_data.county_name}}</span>
-                            <span>{{$data.address_data.address}}</span>
+                            <span class="text-copy-submit">{{$data.address_data.province_name}}{{$data.address_data.city_name}}{{$data.address_data.county_name}}{{$data.address_data.address}}</span>
                         </p>
                         {{if !empty($data['address_data']['idcard_name']) or !empty($data['address_data']['idcard_number']) or !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
                             <div class="am-alert am-alert-secondary">
@@ -82,16 +136,13 @@
                             <div class="am-alert am-alert-warning">
                                 <p>
                                     <span>{{:MyLang('order.detail_take_address_contact')}}：</span>
-                                    <span>{{$data.address_data.name}}</span>
+                                    <span class="text-copy-submit">{{$data.address_data.name}}</span>
                                     <span> / </span>
-                                    <span>{{$data.address_data.tel}}</span>
+                                    <span class="text-copy-submit">{{$data.address_data.tel}}</span>
                                 </p>
                                 <p>
                                     <span>{{:MyLang('order.detail_take_address_value')}}：</span>
-                                    <span>{{$data.address_data.province_name}}</span>
-                                    <span>{{$data.address_data.city_name}}</span>
-                                    <span>{{$data.address_data.county_name}}</span>
-                                    <span>{{$data.address_data.address}}</span>
+                                    <span class="text-copy-submit">{{$data.address_data.province_name}}{{$data.address_data.city_name}}{{$data.address_data.county_name}}{{$data.address_data.address}}</span>
                                 </p>
                                 {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
                                     <div class="am-margin-top-xs">
@@ -104,9 +155,8 @@
                         {{/if}}
                     {{/if}}
                 {{else /}}
-                    {{include file="public/not_data" /}}
+                    {{:ModuleInclude('public/not_data')}}
                 {{/if}}
-                
             </div>
         </div>
 
@@ -131,7 +181,7 @@
                         {{/foreach}}
                     </ul>
                 {{else /}}
-                    {{include file="public/not_data" /}}
+                    {{:ModuleInclude('public/not_data')}}
                 {{/if}}
             </div>
         </div>

@@ -1,0 +1,47 @@
+<!-- 品牌搜索条件模块 -->
+{{if !empty($module_data['brand_list'])}}
+    <li class="am-nbfc map-brand-container" data-field="brand_ids">
+        {{if !empty($module_data['search_map_info']['brand']) and !empty($params['brand'])}}
+            <div class="brand-info">
+                <div class="map-left am-text-center am-fl">{{:MyLang('brand_title')}}</div>
+                <div class="map-right map-images-text-items am-fr am-nbfc theme-data-edit-event" data-id="{{$module_data.search_map_info.brand.id}}" data-module="brand">
+                    <a {{if empty($module_data['search_map_info']['brand']['website_url'])}}href="javascript:;"{{else /}}href="{{$module_data.search_map_info.brand.website_url}}" target="_blank"{{/if}}>
+                        {{if empty($module_data['search_map_info']['brand']['logo'])}}
+                            <p class="info-logo-empty am-fl am-text-center">{{$module_data.search_map_info.brand.name}}</p>
+                        {{else /}}
+                            <img src="{{$module_data.search_map_info.brand.logo}}" alt="{{$module_data.search_map_info.brand.name}}" class="info-logo am-img-thumbnail am-fl" />
+                        {{/if}}
+                    </a>
+                    <div class="am-fr info-right">
+                        <!-- logo为空则不显示名称、无logo会使用名称当做logo展示 -->
+                        {{if !empty($module_data['search_map_info']['brand']['logo'])}}
+                            <p class="info-name am-margin-bottom-xs">{{$module_data.search_map_info.brand.name}}</p>
+                        {{/if}}
+                        <p class="info-desc am-text-truncate-2">{{$module_data.search_map_info.brand.describe}}</p>
+                    </div>
+                </div>
+            </div>
+        {{else /}}
+            <div class="map-left am-text-center am-fl">{{:MyLang('brand_title')}}</div>
+            <div class="map-right map-images-text-items am-fr am-nbfc theme-data-edit-event" data-module="brand_list">
+                <ul class="am-nbfc">
+                    {{foreach $module_data.brand_list as $v}}
+                        <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                            <a href="{{$v.url}}">
+                                {{if empty($v['logo'])}}
+                                    {{$v.name}}
+                                {{else /}}
+                                    <img src="{{$v.logo}}" alt="{{$v.name}}" />
+                                {{/if}}
+                            </a>
+                        </li>
+                    {{/foreach}}
+                </ul>
+                <div class="map-more-submit am-hide">
+                    <span>{{:MyLang('more_title')}}</span>
+                    <i class="am-icon-angle-down"></i>
+                </div>
+            </div>
+        {{/if}}
+    </li>
+{{/if}}

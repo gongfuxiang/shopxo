@@ -5,7 +5,7 @@
         {{if empty($module_data['extraction_data']['code'])}}
             <span class="am-text-danger">{{:MyLang('empty_title')}}</span>
         {{else /}}
-            <span class="am-badge am-badge-success am-radius">{{$module_data.extraction_data.code}}</span>
+            <span class="am-badge am-badge-success am-radius text-copy-submit">{{$module_data.extraction_data.code}}</span>
         {{/if}}
     </p>
     {{if !empty($module_data['extraction_data']['images'])}}

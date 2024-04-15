@@ -33,9 +33,9 @@ function ParametersItemHtmlCreated (type, name, value) {
     html += '<input type="text" name="parameters_value[]" placeholder="' + $parameters_table.data('value-message') + '" value="' + (value || '') + '" maxlength="200" data-validation-message="' + $parameters_table.data('value-message') + '" class="am-radius" data-is-clearout="0" />';
     html += '</td>';
     html += '<td class="am-text-middle">';
-    html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">' + $parameters_table.data('move-top-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">' + $parameters_table.data('move-bottom-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-secondary line-remove">' + $parameters_table.data('remove-name') + '</a>';
+    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">' + $parameters_table.data('move-top-name') + '</a> ';
+    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">' + $parameters_table.data('move-bottom-name') + '</a> ';
+    html += '<a href="javascript:;" class="am-text-xs am-text-primary line-remove">' + $parameters_table.data('remove-name') + '</a>';
     html += '</td>';
     html += '</tr>';
 
@@ -288,6 +288,7 @@ function AdminMenuNavTabsMemoryHandle () {
  * @desc    description
  */
 function AdminMenuNavTabsMemoryView () {
+
     var menu_list = JSON.parse(localStorage.getItem('admin-menu-nav-tabs-memory-data-' + __admin_id__));
     $('.header-menu-open-pages-list ul').empty();
     if (menu_list !== null) {
@@ -303,7 +304,11 @@ function AdminMenuNavTabsMemoryView () {
             }
         });
         $('.tabs-tool').removeClass('am-hide');
-        $('.header-menu-open-pages-list ul li.am-active').trigger('click');
+
+        // 如果当前是指定url则不处理记忆选中
+        if(parseInt($('#ifcontent').data('is-appoint-to-url') || 0) == 0) {
+            $('.header-menu-open-pages-list ul li.am-active').trigger('click');
+        }
     } else {
         $('.common-left-menu li:eq(0)>a').trigger('click');
     }
@@ -509,13 +514,6 @@ $(function () {
     });
     // 动态数据表格高度处理
     FormTableHeightHandle();
-
-    // 后台页面二级导航
-    $(document).on('click', '.nav-switch-btn .item', function () {
-        $(this).addClass('am-active').siblings().removeClass('am-active');
-        var key = $(this).data('key');
-        $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
-    });
 
     // 点击页面关闭父级的tab右侧工具弹窗
     $('body').on('click', function () {

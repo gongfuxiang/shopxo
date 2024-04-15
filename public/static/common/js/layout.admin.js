@@ -2089,7 +2089,7 @@ function ModuleConfigBaseContentHandle (data) {
         var html = `<li>
                 <input type="text" name="style_background_images" value="`+ data.style_background_images + `">
                 <img src="`+ data.style_background_images + `" />
-                <i>×</i>
+                <i class="iconfont icon-close"></i>
             </li>`;
         $ul.html(html);
     }
@@ -2232,9 +2232,9 @@ function ModuleConfigImagesTextItemContentHtml (data) {
     var title_message = $layout.data('images-text-margin-title-message') || '标题外边距最大1000';
     var desc_message = $layout.data('images-text-margin-desc-message') || '描述外边距最大1000';
     var margin_top = $layout.data('images-text-margin-top') || '外上';
-    var margin_right = $layout.data('images-text-margin-top') || '外右';
-    var margin_bottom = $layout.data('images-text-margin-top') || '外下';
-    var margin_left = $layout.data('images-text-margin-top') || '外左';
+    var margin_right = $layout.data('images-text-margin-right') || '外右';
+    var margin_bottom = $layout.data('images-text-margin-bottom') || '外下';
+    var margin_left = $layout.data('images-text-margin-left') || '外左';
     var position_left = $layout.data('images-text-position-left') || '外左';
     var position_center = $layout.data('images-text-position-center') || '外中';
     var position_right = $layout.data('images-text-position-right') || '外右';
@@ -2267,8 +2267,12 @@ function ModuleConfigImagesTextItemContentHtml (data) {
                     <div class="am-input-group am-input-group-sm">
                         <input type="text" placeholder="`+ title + `" name="content_title_` + index + `" value="` + (data.title || '') + `" class="am-form-field" />
                         <input type="hidden" name="content_title_style_color_`+ index + `" value="` + (data.title_style_color || '') + `" />
-                        <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-title-style-color-`+ index + `" data-position="fixed" data-input-tag=".module-style-color-images-text-content-title-style-color-` + index + `" data-color-tag="input[name='content_title_style_color_` + index + `']" data-color-style="background-color|border-color" style="` + title_style_color + `">
-                            <img src="`+ __attachment_host__ + `/static/common/images/colorpicker.png" />
+                        <a href="javascript:;" class="am-input-group-label am-padding-0 am-border-0">
+                            <div class="colorpicker-container colorpicker-simple">
+                                <div class="colorpicker-submit module-style-color-images-text-content-title-style-color-`+ index + `" data-position="fixed" data-input-tag=".module-style-color-images-text-content-title-style-color-` + index + `" data-color-tag="input[name='content_title_style_color_` + index + `']" data-color-style="background-color|border-color" style="` + title_style_color + `" data-color="` + (data.title_style_color || '') + `">
+                                </div>
+                                <img class="imitate-colorpicker-submit" src="`+ __attachment_host__ + `/static/common/images/colorpicker.png" />
+                            </div>
                         </a>
                     </div>`;
 
@@ -2299,8 +2303,12 @@ function ModuleConfigImagesTextItemContentHtml (data) {
                     <div class="am-input-group am-input-group-sm">
                         <input type="text" placeholder="`+ desc + `" name="content_desc_` + index + `" value="` + (data.desc || '') + `" class="am-form-field" />
                         <input type="hidden" name="content_desc_style_color_`+ index + `" value="` + (data.desc_style_color || '') + `" />
-                        <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-desc-style-color-`+ index + `" data-position="fixed" data-input-tag=".module-style-color-images-text-content-desc-style-color-` + index + `" data-color-tag="input[name='content_desc_style_color_` + index + `']" data-color-style="background-color|border-color" style="` + desc_style_color + `">
-                            <img src="`+ __attachment_host__ + `/static/common/images/colorpicker.png" />
+                        <a href="javascript:;" class="am-input-group-label am-padding-0 am-border-0">
+                            <div class="colorpicker-container colorpicker-simple">
+                                <div class="colorpicker-submit module-style-color-images-text-content-desc-style-color-`+ index + `" data-position="fixed" data-input-tag=".module-style-color-images-text-content-desc-style-color-` + index + `" data-color-tag="input[name='content_desc_style_color_` + index + `']" data-color-style="background-color|border-color" style="` + desc_style_color + `" data-color="` + (data.desc_style_color || '') + `">
+                                </div>
+                                <img class="imitate-colorpicker-submit" src="`+ __attachment_host__ + `/static/common/images/colorpicker.png" />
+                            </div>
                         </a>
                     </div>`;
 
@@ -3149,7 +3157,7 @@ $(function () {
                 if ((json.content_images || null) != null) {
                     html += '<li>';
                     html += '<input type="text" name="content_images" value="' + json.content_images + '" /><img src="' + json.content_images + '" />';
-                    html += '<i>×</i>';
+                    html += '<i class="iconfont icon-close"></i>';
                     html += '</li>';
                 }
                 $config.find('.module-video-type-view-images').html(html);
@@ -3225,6 +3233,9 @@ $(function () {
 
         // 背景色组件处理
         ModuleColorpickerHandle($config);
+
+        // 颜色选择器初始化
+        ColorPickerInit();
 
         // 单选框初始化
         $config.find('input[type="checkbox"], input[type="radio"]').uCheck();

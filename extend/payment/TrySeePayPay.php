@@ -26,9 +26,6 @@ class TrySeePayPay
     // url地址
     private $url = 'https://pay.try-see.net';
 
-    // 渠道
-    private $channel = 'PAYPAY_WAP';
-
     /**
      * 构造方法
      * @author   Devil
@@ -58,8 +55,8 @@ class TrySeePayPay
             'name'          => 'TrySeePayPay',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => 'TrySeePayPay，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="https://www.try-see.net/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['pc', 'h5', 'ios', 'android'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'desc'          => 'TrySeePayPay支持（pc/h5/ios/android），即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="https://www.try-see.net/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -137,13 +134,25 @@ class TrySeePayPay
             return DataReturn('金额必须大于1', -1);
         }
 
+        // 基础参数
+        $channel = 'PAYPAY_WAP';
+        $redirect_type = 'WEB_LINK';
+        $url_field = 'pay_url';
+        // 是否APP
+        if(in_array(APPLICATION_CLIENT_TYPE, ['ios', 'android']))
+        {
+            $channel = 'PAYPAY_MPM';
+            $redirect_type = 'APP_DEEP_LINK';
+            $url_field = 'deeplink';
+        }
+
         // 支付参数
         $join = stripos($params['call_back_url'], '?') === false ? '?' : '&';
         $params['call_back_url'] .= $join.'mch_trade_no='.$params['order_no'];
-        $params['name'] = ChinesePinyin($params['name'], true, '-');
+        $params['name'] = 'goods title';
         $parameter = [
             'mch_trade_no'          => $params['order_no'],
-            'channel'               => $this->channel,
+            'channel'               => $channel,
             'pay_amount'            => intval($params['total_price']),
             'currency'              => 'JPY',
             'client_ip'             => GetClientIP(),
@@ -152,7 +161,7 @@ class TrySeePayPay
             'redirect_url'          => $params['call_back_url'],
             'notify_url'            => $params['notify_url'],
             'extra'                 => [
-                'redirect_type' => 'WEB_LINK',
+                'redirect_type' => $redirect_type,
             ]
         ];
 
@@ -160,12 +169,12 @@ class TrySeePayPay
         $ret = $this->HttpRequest('/v2/payment/pay', $parameter);
         if($ret['code'] == 0)
         {
-            if(empty($ret['data']['extra']) || empty($ret['data']['extra']['pay_url']))
+            if(empty($ret['data']['extra']) || empty($ret['data']['extra'][$url_field]))
             {
                 return DataReturn('支付地址获取失败', -1);
             }
             MySession('plugins_trysee_pay_data', ['mch_trade_no'=>$params['order_no']]);
-            return DataReturn('success', 0, $ret['data']['extra']['pay_url']);
+            return DataReturn('success', 0, $ret['data']['extra'][$url_field]);
         }
         return $ret;
     }

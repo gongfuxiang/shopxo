@@ -17,7 +17,7 @@ $(function () {
             html += '<li class="plug-file-upload-submit" data-view-tag="ul.shortcut-menu-icon">';
             html += '<input type="text" name="icon" value="' + json.icon + '">';
             html += '<img src="' + json.icon + '">';
-            html += '<i>x</i>';
+            html += '<i class="iconfont icon-close"></i>';
             html += '</li>';
             $('.shortcut-menu-icon').html(html);
             SelectChosenInit();

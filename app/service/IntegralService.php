@@ -41,7 +41,7 @@ class IntegralService
     {
         $data = [
             'user_id'               => intval($user_id),
-            'original_integral'     => intval($original_integral),
+            'original_integral'     => $original_integral,
             'operation_integral'    => intval($operation_integral),
             'msg'                   => $msg,
             'type'                  => intval($type),

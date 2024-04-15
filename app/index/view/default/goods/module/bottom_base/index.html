@@ -1,0 +1,10 @@
+<!-- 底部信息模块 -->
+{{if !empty($module_data['goods'])}}
+    <div class="introduce am-container am-radius am-margin-top-main">
+        <!-- 底部信息左侧模块 -->
+        {{:ModuleInclude('goods/module/bottom_base/left', ['goods'=>$goods])}}
+
+        <!-- 底部信息右侧模块 -->
+        {{:ModuleInclude('goods/module/bottom_base/right', ['goods'=>$goods])}}
+    </div>
+{{/if}}

@@ -5,7 +5,7 @@
     <b>|</b>
     <p class="footer-icp">
         <a href="https://beian.miit.gov.cn/" target="_blank">
-            <img src="{{$attachment_host}}/static/common/images/beian-icp-icon.png" alt="{{:MyLang('common.footer_icp_filing_text')}}" />
+            <img src="{{:StaticAttachmentUrl('beian-icp-icon.png')}}" alt="{{:MyLang('common.footer_icp_filing_text')}}" />
             {{$home_site_icp}}
         </a>
     </p>
@@ -14,7 +14,7 @@
     <b>|</b>
     <p class="footer-icp">
         <a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
-            <img src="{{$attachment_host}}/static/common/images/beian-gongan-icon.png" alt="{{:MyLang('common.footer_public_security_filing_text')}}" />
+            <img src="{{:StaticAttachmentUrl('beian-gongan-icon.png')}}" alt="{{:MyLang('common.footer_public_security_filing_text')}}" />
             {{$home_site_security_record_name}}
         </a>
     </p>
@@ -23,7 +23,7 @@
     <b>|</b>
     <p class="footer-icp">
         <a href="{{$home_site_company_license}}" target="_blank">
-            <img src="{{$attachment_host}}/static/common/images/beian-company-license-icon.png" alt="{{:MyLang('common.footer_business_license_text')}}" />
+            <img src="{{:StaticAttachmentUrl('beian-company-license-icon.png')}}" alt="{{:MyLang('common.footer_business_license_text')}}" />
             {{:MyLang('common.footer_business_license_text')}}
         </a>
     </p>

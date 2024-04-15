@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -11,18 +11,18 @@
                     <span data-am-modal-close class="am-close">&times;</span>
                 </div>
                 <div class="am-popup-bd">
-                    {{if is_array(MyLang('screeningprice.top_tips_list'))}}
-                        <div class="am-operate-stretch-tips">
-                            <div class="title">
-                                <i class="iconfont icon-tips"></i>
-                                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
-                            </div>
-                            <p>{{:implode('</p><p>', MyLang('screeningprice.top_tips_list'))}}</p>
-                        </div>
-                    {{/if}}
                     <!-- form start -->
                     <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/screeningprice/save')}}" method="POST" request-type="ajax-fun" request-value="CardFormSaveBack">
+                        {{if is_array(MyLang('screeningprice.top_tips_list'))}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{:implode('</p><p>', MyLang('screeningprice.top_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
                         <div class="am-form-group row">
                             <label>{{:MyLang('common_service.screeningprice.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" placeholder="{{:MyLang('common_service.screeningprice.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_name_message')}}" class="am-radius" required />
@@ -35,8 +35,8 @@
                             <label>{{:MyLang('common_service.screeningprice.form_item_max_price')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="number" placeholder="{{:MyLang('common_service.screeningprice.form_item_max_price')}}" name="max_price" maxlength="10" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_max_price_message')}}" class="am-radius" value="0" required />
                         </div>
-                        {{include file="lib/sort_row" /}}
-                        {{include file="lib/is_enable_row" /}}
+                        {{:ModuleInclude('lib/sort_row')}}
+                        {{:ModuleInclude('lib/is_enable_row')}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
                             <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
@@ -57,7 +57,7 @@
 
         <!-- list start -->
         <div id="card" class="tree-first" data-prefix='{"name":"{{$currency_symbol}}"}' data-suffix="" data-additional='[{"field":"min_price", "value":"0", "type":"input"}, {"field":"max_price", "value":"0", "type":"input"}]' data-node-url="{{:MyUrl('admin/screeningprice/getnodeson')}}" data-del-url="{{:MyUrl('admin/screeningprice/delete')}}" data-popup-tag="#data-save-win">
-            {{include file="public/loading" /}}
+            {{:ModuleInclude('public/loading')}}
         </div>
         <!-- list end -->
 	</div>
@@ -65,7 +65,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
 	// 初始化

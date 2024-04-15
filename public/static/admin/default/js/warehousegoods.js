@@ -124,7 +124,7 @@ $(function()
         if(width >= 630 && height >= 630)
         {
             var $parent = e.parents('.am-popup');
-            if($parent.hasClass('popup-full'))
+            if($parent.hasClass('am-popup-full'))
             {
                 $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
             } else {

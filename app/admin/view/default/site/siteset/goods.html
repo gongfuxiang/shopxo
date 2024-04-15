@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -17,6 +17,50 @@
         <!-- form start -->
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
             <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.common_goods_sales_price_status.name}}<span class="am-form-group-label-tips">{{$data.common_goods_sales_price_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_sales_price_status.only_tag}}" data-validation-message="{{$data.common_goods_sales_price_status.error_tips}}" required {{if isset($data['common_goods_sales_price_status']['value']) and $data['common_goods_sales_price_status']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_goods_original_price_status.name}}<span class="am-form-group-label-tips">{{$data.common_goods_original_price_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_original_price_status.only_tag}}" data-validation-message="{{$data.common_goods_original_price_status.error_tips}}" required {{if isset($data['common_goods_original_price_status']['value']) and $data['common_goods_original_price_status']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_goods_sales_price_unit_status.name}}<span class="am-form-group-label-tips">{{$data.common_goods_sales_price_unit_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_sales_price_unit_status.only_tag}}" data-validation-message="{{$data.common_goods_sales_price_unit_status.error_tips}}" required {{if isset($data['common_goods_sales_price_unit_status']['value']) and $data['common_goods_sales_price_unit_status']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_goods_original_price_unit_status.name}}<span class="am-form-group-label-tips">{{$data.common_goods_original_price_unit_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_original_price_unit_status.only_tag}}" data-validation-message="{{$data.common_goods_original_price_unit_status.error_tips}}" required {{if isset($data['common_goods_original_price_unit_status']['value']) and $data['common_goods_original_price_unit_status']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
                 <div class="am-form-group">
                     <label>{{$data.common_is_goods_detail_show_photo.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_photo.describe}}</span></label>
                     <div class="am-radio-group">
@@ -53,11 +97,11 @@
                             <div class="item {{if isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq $v['value']}}am-active{{/if}}" data-key="{{$v.value}}">
                                 <div class="am-flex am-flex-warp">
                                     <div class="am-flex am-flex-col am-gap-1">
-                                        <img class="am-radius-lg" src="{{$attachment_host}}/static/admin/default/images/site/siteset/website/web_level_{{$v.value}}.png" />
+                                        <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/web_level_'.$v['value'].'.png')}}" />
                                         <p>{{:MyLang('web_title')}}</p>
                                     </div>
                                     <div class="am-flex am-flex-col am-gap-1">
-                                        <img class="am-radius-lg" src="{{$attachment_host}}/static/admin/default/images/site/siteset/website/app_level_{{$v.value}}.png" />
+                                        <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/app_level_'.$v['value'].'.png')}}" />
                                         <p>{{:MyLang('app_title')}}</p>
                                     </div>
                                 </div>
@@ -86,4 +130,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

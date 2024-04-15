@@ -1,13 +1,13 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+{{:ModuleInclude('public/header_top_nav')}}
 
 <!-- header simple nav -->
 {{:ModuleInclude('public/header_nav_simple')}}
 
 <!-- 面包屑导航 -->
-{{include file="public/breadcrumb_data" /}}
+{{:ModuleInclude('public/breadcrumb_data')}}
 <!-- content -->
 <div class="am-container user-main am-margin-top-0 am-background-white am-radius-lg">
     <!-- content start -->
@@ -88,27 +88,41 @@
                             <div class="items-detail am-fl">{{$data.order_no}}</div>
                         </div>
 
-                        <!-- 快递信息 -->
-                        {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4])}}
+                        <!-- 快递信息、一条快递信息 -->
+                        {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and !empty($data.express_data) and !empty($data.express_data[0]) and count($data['express_data']) eq 1}}
                             <div class="logistics">
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">{{:MyLang('order.order_base_express_title')}}</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.form_table_express.name')}}</div>
                                     <div class="items-detail am-fl">
-                                        {{if !empty($data.express_name)}}{{$data.express_name}}{{/if}}
+                                        {{if empty($data['express_data'][0]['express_website_url'])}}
+                                            {{if !empty($data['express_data'][0]['express_icon'])}}
+                                                <img src="{{$data['express_data'][0]['express_icon']}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$data['express_data'][0]['express_name']}}" />
+                                            {{/if}}
+                                            <span class="am-vertical-align-middle">{{$data['express_data'][0]['express_name']}}</span>
+                                        {{else /}}
+                                            <a href="{{$data['express_data'][0]['express_website_url']}}" target="_blank">
+                                                {{if !empty($data['express_data'][0]['express_icon'])}}
+                                                    <img src="{{$data['express_data'][0]['express_icon']}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$data['express_data'][0]['express_name']}}" />
+                                                {{/if}}
+                                                <span class="am-vertical-align-middle">{{$data['express_data'][0]['express_name']}}</span>
+                                            </a>
+                                        {{/if}}
                                     </div>
                                 </div>
-                                {{if !empty($data['express_website_url'])}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">{{:MyLang('order.form_table_express.number')}}</div>
+                                    <div class="items-detail am-fl">{{$data['express_data'][0]['express_number']}}</div>
+                                </div>
+                                {{if !empty($data['express_data'][0]['note'])}}
                                     <div class="items am-cf">
-                                        <div class="items-title am-fl">{{:MyLang('order.order_base_express_website_title')}}</div>
-                                        <div class="items-detail am-fl">
-                                            <a href="{{$data.express_website_url}}" target="_blank" class="am-text-primary">{{$data.express_website_url}}</a>
-                                        </div>
+                                        <div class="items-title am-fl">{{:MyLang('order.form_table_express.note')}}</div>
+                                        <div class="items-detail am-fl">{{$data['express_data'][0]['note']}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($data.express_number)}}
+                                {{if !empty($data['express_data'][0]['add_time'])}}
                                     <div class="items am-cf">
-                                        <div class="items-title am-fl">{{:MyLang('order.order_base_express_number_title')}}</div>
-                                        <div class="items-detail am-fl">{{$data.express_number}}</div>
+                                        <div class="items-title am-fl">{{:MyLang('order.form_table_express.time')}}</div>
+                                        <div class="items-detail am-fl">{{$data['express_data'][0]['add_time']}}</div>
                                     </div>
                                 {{/if}}
                             </div>
@@ -248,10 +262,59 @@
                     </div>
                 </div>
             </div>
-            <!-- 收货地址 -->
-            <div class="order-address">
-                <!-- 地址 -->
-                {{if in_array($data['order_model'], [0, 2]) and !empty($data['address_data'])}}
+
+            <!-- 订单快递、多条快递信息 -->
+            {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and count($data['express_data']) gt 1}}
+                <div class="order-express">
+                    <div class="am-panel am-panel-default business-panel">
+                        <div class="am-panel-hd">{{:MyLang('common_service.order.delivery_express_info')}}</div>
+                        <div class="am-panel-bd">
+                            <div class="am-scrollable-horizontal">
+                                <table class="am-table am-text-left am-margin-bottom-0  am-text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>{{:MyLang('order.form_table_express.name')}}</th>
+                                            <th>{{:MyLang('order.form_table_express.number')}}</th>
+                                            <th>{{:MyLang('order.form_table_express.note')}}</th>
+                                            <th>{{:MyLang('order.form_table_express.time')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{foreach $data.express_data as $v}}
+                                            <tr class="am-nbfc am-padding-vertical-sm">
+                                                <td>
+                                                    {{if empty($v['express_website_url'])}}
+                                                        {{if !empty($v['express_icon'])}}
+                                                            <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                        {{/if}}
+                                                        <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                                    {{else /}}
+                                                        <a href="{{$v.express_website_url}}" target="_blank">
+                                                            {{if !empty($v['express_icon'])}}
+                                                                <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
+                                                            {{/if}}
+                                                            <span class="am-vertical-align-middle">{{$v.express_name}}</span>
+                                                        </a>
+                                                    {{/if}}
+                                                </td>
+                                                <td>
+                                                    <span class="text-copy-submit">{{$v.express_number}}</span>
+                                                </td>
+                                                <td>{{$v.note}}</td>
+                                                <td>{{$v.add_time}}</td>
+                                            </tr>
+                                        {{/foreach}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+
+            <!-- 订单地址 -->
+            {{if in_array($data['order_model'], [0, 2]) and !empty($data['address_data'])}}
+                <div class="order-address">
                     <div class="am-panel am-panel-default business-panel">
                         <div class="am-panel-hd">{{if $data.order_model eq 2}}{{:MyLang('order.detail_take_title')}}{{else /}}{{:MyLang('order.detail_shipping_address_title')}}{{/if}}</div>
                         <div class="am-panel-bd">
@@ -283,36 +346,35 @@
                             </div>
                         </div>
                     </div>
-                {{/if}}
-                <!-- 用户订单详情地址信息底部-开始 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_user_order_detail_address_bottom</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_name = 'plugins_view_user_order_detail_address_bottom';
-                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
+
+                    <!-- 用户订单详情地址信息底部-开始 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_user_order_detail_address_bottom</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_user_order_detail_address_bottom';
+                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                        if(!empty($hook_data) && is_array($hook_data))
                         {
-                            if(is_string($hook) || is_int($hook))
+                            foreach($hook_data as $hook)
                             {
-                                echo htmlspecialchars_decode($hook);
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
                             }
                         }
-                    }
-                {{/php}}
-                <!-- 用户订单详情地址信息底部-结束 -->
-                
-            </div>
-
+                    {{/php}}
+                    <!-- 用户订单详情地址信息底部-结束 -->
+                </div>
+            {{/if}}
 
             <!-- 虚拟销售信息 -->
             {{if $data['order_model'] eq 3 and $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
                 <div class="order-virtually">
-                    <div class="am-panel am-panel-default am-radius business-panel fictitious-panel-container">
+                    <div class="am-panel am-panel-default am-radius business-panel">
                         <div class="am-panel-hd">{{$site_fictitious.title}}</div>
                         <div class="am-panel-bd">
                             {{if !empty($site_fictitious['tips'])}}
@@ -469,12 +531,6 @@
                             <div class="items am-cf">
                                 <div class="items-title am-fl">{{:MyLang('order.order_base_pay_time_title')}}</div>
                                 <div class="items-detail am-fl">{{$data.pay_time}}</div>
-                            </div>
-                        {{/if}}
-                        {{if !empty($data.delivery_time)}}
-                            <div class="items am-cf">
-                                <div class="items-title am-fl">{{:MyLang('order.order_base_delivery_time_title')}}</div>
-                                <div class="items-detail am-fl">{{$data.delivery_time}}</div>
                             </div>
                         {{/if}}
                         {{if !empty($data.collect_time)}}
@@ -700,10 +756,10 @@
         </div>
 
         <!-- 支付弹窗 -->
-        {{include file="order/payment_popup" /}}
+        {{:ModuleInclude('order/payment_popup')}}
     </div>
     <!-- content end -->
 </div>
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

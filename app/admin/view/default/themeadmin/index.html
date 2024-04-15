@@ -1,0 +1,78 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if AdminIsPower('themedata', 'upload')}}
+            <div class="am-g am-padding-bottom am-border-bottom-f8 am-margin-bottom">
+                <div class="am-flex am-flex-justify-between am-flex-items-center am-flex-warp am-gap-12">
+                    <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/themeadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('themeadmin.base_upload_theme_name')}}">
+                        <i class="iconfont icon-upload"></i>
+                        <span>{{:MyLang('themeadmin.base_upload_theme_name')}}</span>
+                    </button>
+                    {{if AdminIsPower('packageinstall', 'index') and !empty($store_theme_url)}}
+                        <a class="am-text-sm am-flex nwarp" href="{{$store_theme_url}}" target="_blank">
+                            <i class="iconfont icon-download-btn"></i> 
+                            <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('themeadmin.base_nav_store_theme_name')}}</span>
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- list start -->
+        {{if !empty($data_list)}}
+            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/themeadmin/save')}}">
+                {{foreach $data_list as $v}}
+                    <li id="data-list-{{$v.theme}}">
+                        <div class="am-gallery-item am-radius am-nbfc am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{else/}}theme-no-active{{/if}}">
+                            <i class="iconfont icon-check theme-active-check {{if $v['theme'] neq $theme}}am-hide{{/if}}"></i>
+                            <a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
+                                <img src="{{$v.preview}}" alt="{{$v.name}}" class="am-block" />
+                            </a>
+                            <div class="am-gallery-item-bottom am-padding-sm">
+                                <h3 class="am-gallery-title am-margin-top-0">
+                                    <span>{{$v.name}}</span>
+                                    <div class="am-fr am-text-right">
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and version_compare($upgrade_info[$v['theme']]['version_new'], $v['ver'], '>')}}
+                                            <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="webtheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
+                                        {{/if}}
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                            <a href="{{:MyUrl('admin/themeadmin/download', ['id'=>$v['theme']])}}" class="am-icon-trash-o am-icon-download am-margin-left-sm theme-download-submit {{if $v['theme'] eq $theme}}am-color-ccc{{/if}}" title="{{:MyLang('download_title')}}"></a>
+                                        {{/if}}
+                                        {{if isset($v['is_theme_data_admin']) and $v['is_theme_data_admin'] eq 1}}
+                                            <a href="{{:MyUrl('index/index/index', ['default_theme'=>$v['theme'], 'is_theme_data_admin'=>1, 'admin_url_data'=>urlencode(base64_encode(json_encode($admin_url_data)))])}}" target="_blank" class="am-icon-cog am-margin-left-sm am-color-ccc theme-data-admin-submit {{if $v['theme'] neq $theme}}am-hide{{/if}}" title="{{:MyLang('admin_title')}}"></a>
+                                        {{/if}}
+                                        {{if $v.is_delete eq 1}}
+                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning {{if $v['theme'] eq $theme}}am-hide{{/if}}" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/themeadmin/delete')}}" data-id="{{$v.theme}}"></a>
+                                        {{/if}}
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and !empty($upgrade_info[$v['theme']]['version_main']) and $upgrade_info[$v['theme']]['version_main'] neq $v['ver']}}
+                                            <span class="am-fr am-text-danger am-margin-left-sm">v{{$upgrade_info[$v['theme']]['version_main']}}</span>
+                                        {{/if}}
+                                    </div>
+                                </h3>
+                                <div class="am-gallery-desc">{{:MyLang('themeadmin.list_author_title')}}：
+                                    {{if empty($v['home'])}}
+                                        {{$v.author}}
+                                    {{else /}}
+                                        <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+                                    {{/if}}
+                                </div>
+                                <div class="am-gallery-desc">{{:MyLang('themeadmin.list_version_title')}}：{{$v.ver}}</div>
+                            </div>
+                        </div>
+                    </li>
+                {{/foreach}}
+            <ul>
+        {{else /}}
+            {{:ModuleInclude('public/not_data')}}
+        {{/if}}
+        <!-- list end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

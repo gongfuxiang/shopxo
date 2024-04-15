@@ -243,10 +243,21 @@ class OrderAftersaleService
             return $ret;
         }
 
-        // 数据添加
-        $data_id = Db::name('OrderAftersale')->insertGetId($data);
-        if($data_id > 0)
-        {
+        // 处理数据
+        Db::startTrans();
+        try {
+            // 数据添加
+            $data_id = Db::name('OrderAftersale')->insertGetId($data);
+            if($data_id <= 0)
+            {
+                throw new \Exception(MyLang('apply_fail'));
+            }
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($data_id, $data['status'], '', MyLang('apply_title'), $creator, $creator_name);
+
             // 订单售后添加成功钩子
             $hook_name = 'plugins_service_order_aftersale_insert_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -261,10 +272,12 @@ class OrderAftersaleService
                 return $ret;
             }
 
-            // 返回成功
+            Db::commit();
             return DataReturn(MyLang('apply_success'), 0, $data_id);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn(MyLang('apply_fail'), -100);
     }
 
     /**
@@ -355,9 +368,20 @@ class OrderAftersaleService
             return $ret;
         }
 
-        // 数据更新
-        if(Db::name('OrderAftersale')->where($where)->update($data))
-        {
+        // 处理数据
+        Db::startTrans();
+        try {
+            // 更新数据
+            if(!Db::name('OrderAftersale')->where($where)->update($data))
+            {
+                throw new \Exception(MyLang('operate_fail'));
+            }
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($aftersale['id'], $data['status'], $aftersale['status'], MyLang('retreat_goods_title'), $creator, $creator_name);
+
             // 订单售后退货成功钩子
             $hook_name = 'plugins_service_order_aftersale_delivery_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -369,13 +393,15 @@ class OrderAftersaleService
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
-            // 返回成功
+            Db::commit();
             return DataReturn(MyLang('operate_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -436,6 +462,17 @@ class OrderAftersaleService
                 'data'          => &$data,
             ]);
 
+            // 字段列表
+            $keys = ArrayKeys($data);
+            $order_aftersale_ids = array_column($data, 'id');
+
+            // 其它额外处理
+            $is_status_history = isset($params['is_status_history']) ? intval($params['is_status_history']) : 0;
+
+            // 订单日志
+            $status_history_data = ($is_status_history == 1) ? self::OrderStatusHistoryList($order_aftersale_ids) : [];
+
+            // 静态数据
             $type_list = MyConst('common_order_aftersale_type_list');
             $status_list = MyConst('common_order_aftersale_status_list');
             $refundment_list = MyConst('common_order_aftersale_refundment_list');
@@ -488,6 +525,12 @@ class OrderAftersaleService
                     $v['images'] = $images;
                 } else {
                     $v['images'] = '';
+                }
+
+                // 订单日志
+                if($is_status_history == 1)
+                {
+                    $v['status_history_data'] = array_key_exists($v['id'], $status_history_data) ? $status_history_data[$v['id']] : [];
                 }
 
                 // 申请时间
@@ -653,6 +696,105 @@ class OrderAftersaleService
     }
 
     /**
+     * 订单日志数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-02-28
+     * @desc    description
+     * @param   [array|int]          $order_aftersale_ids [订单售后id]
+     */
+    public static function OrderStatusHistoryList($order_aftersale_ids)
+    {
+        $data = Db::name('OrderAftersaleStatusHistory')->where(['order_aftersale_id'=>$order_aftersale_ids])->select()->toArray();
+        if(!empty($data))
+        {
+            $group = [];
+            foreach($data as &$v)
+            {
+                // 添加时间
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+
+                // 订单id是数组则处理分组
+                if(is_array($order_aftersale_ids))
+                {
+                    if(!array_key_exists($v['order_aftersale_id'], $group))
+                    {
+                        $group[$v['order_aftersale_id']] = [];
+                    }
+                    $group[$v['order_aftersale_id']][] = $v;
+                }
+            }
+            // 如果订单id是数组则赋值分组
+            if(is_array($order_aftersale_ids) && !empty($group))
+            {
+                $data = $group;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 订单售后日志添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [int]          $order_aftersale_id  [订单id]
+     * @param   [int]          $new_status          [更新后的状态]
+     * @param   [int]          $original_status     [原始状态]
+     * @param   [string]       $msg                 [描述]
+     * @param   [int]          $creator             [操作人]
+     * @param   [string]       $creator_name        [操作人名称]
+     * @return  [boolean]                           [成功 true, 失败 false]
+     */
+    public static function OrderAftersaleHistoryAdd($order_aftersale_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
+    {
+        // 状态描述
+        $status_list = MyConst('common_order_aftersale_status_list');
+        $original_status_name = ($original_status != '' && isset($status_list[$original_status])) ? $status_list[$original_status]['name'] : '';
+        $new_status_name = ($new_status != '' && isset($status_list[$new_status])) ? $status_list[$new_status]['name'] : '';
+        if(!empty($original_status_name) && !empty($new_status_name))
+        {
+            $msg .= '['.$original_status_name.'-'.$new_status_name.']';
+        } else if(!empty($original_status_name))
+        {
+            $msg .= '['.$original_status_name.']';
+        } else if(!empty($new_status_name))
+        {
+            $msg .= '['.$new_status_name.']';
+        }
+
+        // 添加
+        $data = [
+            'order_aftersale_id'  => intval($order_aftersale_id),
+            'new_status'          => intval($new_status),
+            'original_status'     => intval($original_status),
+            'msg'                 => htmlentities($msg),
+            'creator'             => intval($creator),
+            'creator_name'        => htmlentities($creator_name),
+            'add_time'            => time(),
+        ];
+
+        // 日志添加
+        if(Db::name('OrderAftersaleStatusHistory')->insertGetId($data) > 0)
+        {
+            // 订单售后状态改变添加日志钩子
+            $hook_name = 'plugins_service_order_aftersale_status_change_history_success_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'           => $hook_name,
+                'is_backend'          => true,
+                'data'                => $data,
+                'order_aftersale_id'  => $data['order_aftersale_id']
+            ]);
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 订单售后取消
      * @author   Devil
      * @blog     http://gong.gg/
@@ -684,7 +826,7 @@ class OrderAftersaleService
 
         // 条件
         $where = [
-            'id'        => intval($params['id']),
+            'id'    => intval($params['id']),
         ];
         if(!empty($params['user']))
         {
@@ -727,9 +869,20 @@ class OrderAftersaleService
             return $ret;
         }
 
-        // 更新数据
-        if(Db::name('OrderAftersale')->where($where)->update($data))
-        {
+        // 处理数据
+        Db::startTrans();
+        try {
+            // 更新数据
+            if(!Db::name('OrderAftersale')->where($where)->update($data))
+            {
+                throw new \Exception(MyLang('cancel_fail'));
+            }
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($aftersale['id'], $data['status'], $aftersale['status'], MyLang('cancel_title'), $creator, $creator_name);
+
             // 订单售后取消成功钩子
             $hook_name = 'plugins_service_order_aftersale_cacnel_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -741,13 +894,15 @@ class OrderAftersaleService
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
-            // 返回成功
+            Db::commit();
             return DataReturn(MyLang('cancel_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn(MyLang('cancel_fail'), -100);
     }
 
     /**
@@ -823,9 +978,20 @@ class OrderAftersaleService
             return $ret;
         }
 
-        // 更新数据
-        if(Db::name('OrderAftersale')->where($where)->update($data))
-        {
+        // 处理数据
+        Db::startTrans();
+        try {
+            // 更新数据
+            if(!Db::name('OrderAftersale')->where($where)->update($data))
+            {
+                throw new \Exception(MyLang('confirm_fail'));
+            }
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($aftersale['id'], $data['status'], $aftersale['status'], MyLang('confirm_title'), $creator, $creator_name);
+
             // 订单售后单确认成功钩子
             $hook_name = 'plugins_service_order_aftersale_confirm_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -837,13 +1003,15 @@ class OrderAftersaleService
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
-            // 返回成功
+            Db::commit();
             return DataReturn(MyLang('confirm_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn(MyLang('confirm_fail'), -100);
     }
 
     /**
@@ -1124,6 +1292,11 @@ class OrderAftersaleService
                 throw new \Exception(MyLang('common_service.orderaftersale.order_aftersale_update_fail_tips'));
             }
 
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($aftersale['id'], $data['status'], $aftersale['status'], MyLang('audit_title'), $creator, $creator_name);
+
             // 订单售后审核处理完毕钩子
             $hook_name = 'plugins_service_order_aftersale_audit_handle_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -1342,7 +1515,7 @@ class OrderAftersaleService
                 'checked_type'      => 'length',
                 'key_name'          => 'refuse_reason',
                 'checked_data'      => '2,230',
-                'error_msg'         => MyLang('common_service.orderaftersale.form_item_refuse_reason_message'),
+                'error_msg'         => MyLang('form_refuse_reason_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1351,8 +1524,13 @@ class OrderAftersaleService
             return DataReturn($ret, -1);
         }
 
+        // 条件
+        $where = [
+            'id'    => intval($params['id']),
+        ];
+
         // 售后订单
-        $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
+        $aftersale = Db::name('OrderAftersale')->where($where)->find();
         if(empty($aftersale))
         {
             return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
@@ -1388,9 +1566,20 @@ class OrderAftersaleService
             return $ret;
         }
 
-        // 更新数据
-        if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->update($data))
-        {
+        // 处理数据
+        Db::startTrans();
+        try {
+            // 更新数据
+            if(!Db::name('OrderAftersale')->where($where)->update($data))
+            {
+                throw new \Exception(MyLang('refuse_fail'));
+            }
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderAftersaleHistoryAdd($aftersale['id'], $data['status'], $aftersale['status'], MyLang('refuse_title'), $creator, $creator_name);
+
             // 订单售后单拒绝成功钩子
             $hook_name = 'plugins_service_order_aftersale_refuse_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -1402,12 +1591,15 @@ class OrderAftersaleService
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
+            Db::commit();
             return DataReturn(MyLang('refuse_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn(MyLang('refuse_fail'), -100);
     }
 
     /**
@@ -1452,6 +1644,9 @@ class OrderAftersaleService
         // 删除操作
         if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->delete())
         {
+            // 删除日志
+            Db::name('OrderAftersaleStatusHistory')->where(['order_aftersale_id' => intval($params['id'])])->delete();
+
             // 订单售后单删除成功钩子
             $hook_name = 'plugins_service_order_aftersale_delete_success';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [

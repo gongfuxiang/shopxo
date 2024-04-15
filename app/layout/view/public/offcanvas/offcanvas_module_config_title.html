@@ -15,7 +15,7 @@
                                 <div class="colorpicker-container colorpicker-simple">
                                     <input type="hidden" name="style_title_color" value="" />
                                     <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title']" data-color-tag="input[name='style_title_color']"></div>
-                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                 <div class="colorpicker-container colorpicker-simple">
                                     <input type="hidden" name="style_title_vice_color" value="" />
                                     <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_vice']" data-color-tag="input[name='style_title_vice_color']"></div>
-                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                 <div class="colorpicker-container colorpicker-simple">
                                     <input type="hidden" name="style_title_more_color" value="" />
                                     <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_more']" data-color-tag="input[name='style_title_more_color']"></div>
-                                    <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="24" height="24" />
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
                                 </div>
                             </div>
                         </div>
@@ -81,22 +81,22 @@
                     <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
                     <div class="am-panel-bd">
                         <!-- 背景色 -->
-                        {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/background_color')}}
 
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_radius')}}
 
                         <!-- 边线类型 -->
-                        {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_style_4')}}
 
                         <!-- 边线大小 -->
-                        {{include file="../../../layout/view/public/style/border_width_color_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/border_width_color_4')}}
 
                         <!-- 外边距 -->
-                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/margin_4')}}
 
                         <!-- 内边距 -->
-                        {{include file="../../../layout/view/public/style/padding_4" key="" /}}
+                        {{:ModuleInclude('../../../layout/view/public/style/padding_4')}}
                     </div>
                 </div>
 

@@ -1,10 +1,10 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-view{{else /}}ajax-reload{{/if}}" request-value="{{if isset($is_theme_data_admin) and $is_theme_data_admin eq 1}}parent{{/if}}">
             <div class="nav-content">
                 <div class="item am-active">
                     <!-- 提示 -->
@@ -70,7 +70,7 @@
                                     {{else /}}
                                         <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_user_register_bg_images.value)}}" />
-                                        <i>x</i>
+                                        <i class="iconfont icon-close"></i>
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -83,7 +83,7 @@
                         <div class="colorpicker-container">
                             <input type="hidden" name="{{$data.home_site_user_register_bg_color.only_tag}}" value="{{$data.home_site_user_register_bg_color.value}}" />
                             <div class="colorpicker-submit" data-color="{{$data.home_site_user_register_bg_color.value}}" data-color-style="background-color" data-color-tag="input[name='{{$data.home_site_user_register_bg_color.only_tag}}']"></div>
-                            <img class="imitate-colorpicker-submit" src="{{$attachment_host}}/static/common/images/colorpicker.png" width="30" height="30" />
+                            <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="30" height="30" />
                         </div>
                     </div>
                 </div>
@@ -103,4 +103,4 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}

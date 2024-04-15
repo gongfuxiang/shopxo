@@ -103,6 +103,7 @@
 .specifications-line-images-auto-add input {
     width: 3rem !important;
     padding: 0.1rem !important;
+    height: 2rem !important;
 }
 
 .specifications-table thead tr>th:nth-last-child(-n+2),
@@ -179,24 +180,18 @@ ul li {
 .content-app-right {
     max-width: 50rem;
 }
-
 .content-app-items > li {
     padding-bottom: 1rem;
     margin-bottom: 2rem;
     overflow: hidden;
 }
-
-.content-app-items > li .content-app-items-rem-sub i {
-    font-size: 1.8rem;
-    position: relative;
-    top: -0.1rem;
-    margin-right: 0.3rem;
-}
-
+.content-app-items > li .content-app-items-rem-sub i,
 .content-app-items > li .drag-sort-submit i {
     font-size: 1.4rem;
+    position: relative;
     margin-right: 0.3rem;
 }
+
 
 /**
  * 规格快捷添加
@@ -265,7 +260,7 @@ ul li {
 }
 
 #specifications-quick-container .chosen-container {
-    min-width: 41.5rem;
+    min-width: 30rem;
 }
 
 #specifications-quick-container select {
@@ -300,7 +295,8 @@ ul li {
  * 商品参数
  */
 .goods-params {
-    width: 41.5rem;
+    max-width: 30rem;
+    width: 100%;
 }
 
 .goods-params .parameters-quick-add {
@@ -312,7 +308,7 @@ ul li {
 }
 
 #parameters-quick-container .am-dropdown-content {
-    width: 41.5rem;
+    width: 100%;
 }
 
 @media only screen and (max-width: 640px) {

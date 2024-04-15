@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -42,8 +42,8 @@
                             <label>{{:MyLang('common_service.region.form_item_letters')}}</label>
                             <input type="text" placeholder="{{:MyLang('common_service.region.form_item_letters')}}" name="letters" data-validation-message="{{:MyLang('common_service.region.form_item_letters_message')}}" class="am-radius" value="" />
                         </div>
-                        {{include file="lib/sort_row" /}}
-                        {{include file="lib/is_enable_row" /}}
+                        {{:ModuleInclude('lib/sort_row')}}
+                        {{:ModuleInclude('lib/is_enable_row')}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" value="0" />
                             <input type="hidden" name="pid" value="0" />
@@ -65,7 +65,7 @@
 
         <!-- list start -->
         <div id="tree" class="am-margin-top-sm" data-head='[{"name":"ID","field":"id"},{"name":"{{:MyLang("name_title")}}","field":"name","is_arrow":"1","value_style":{"style":"color:#999","value_style_key":"is_enable","value_style_key_status":"0"}},{"name":"{{:MyLang("form_is_enable_title")}}","field":"is_enable","type":"status"},{"name":"{{:MyLang("operate_title")}}","type":"operate"}]' data-node-url="{{:MyUrl('admin/region/getnodeson')}}" data-del-url="{{:MyUrl('admin/region/delete')}}" data-popup-tag="#data-save-win" data-status-url="{{:MyUrl('admin/region/statusupdate')}}" data-rank="3">
-            {{include file="public/loading" /}}
+            {{:ModuleInclude('public/loading')}}
         </div>
         <!-- list end -->
 	</div>
@@ -73,7 +73,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
 	// 初始化

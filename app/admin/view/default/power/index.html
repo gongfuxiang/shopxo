@@ -1,4 +1,4 @@
-{{include file="public/header" /}}
+{{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
 <div class="content-right">
@@ -68,8 +68,8 @@
                                 <label>{{:MyLang('common_service.power.form_item_icon')}}{{if is_array(MyLang('common_service.power.form_item_icon_tips_list'))}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.power.form_item_icon_tips_list'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
                                 <input type="text" placeholder="{{:MyLang('common_service.power.form_item_icon_message')}}" name="icon" maxlength="60" data-validation-message="{{:MyLang('common_service.power.form_item_icon_message')}}" class="am-radius" />
                             </div>
-                            {{include file="lib/sort_row" /}}
-                            {{include file="lib/is_show_row" /}}
+                            {{:ModuleInclude('lib/sort_row')}}
+                            {{:ModuleInclude('lib/is_show_row')}}
 
                             <div class="am-form-popup-submit">
                                 <input type="hidden" name="pid" >
@@ -90,7 +90,7 @@
         <!-- save win end -->
         <!-- list start -->
         <div id="tree" class="am-margin-top" data-head='[{"name":"ID","field":"id"},{"name":"权限名称","field":"name","is_arrow":"1","value_style":{"style":"color:#999","value_style_key":"is_show","value_style_key_status":"0"}},{"name":"图标","field":"icon","type":"icon"},{"name":"是否显示","field":"is_show","type":"status"},{"name":"操作","type":"operate"}]' data-node-url="{{:MyUrl('admin/power/getnodeson')}}" data-del-url="{{:MyUrl('admin/power/delete')}}" data-popup-tag="#data-save-win" data-status-url="{{:MyUrl('admin/power/statusupdate')}}" data-rank="3">
-            {{include file="public/loading" /}}
+            {{:ModuleInclude('public/loading')}}
         </div>
         <!-- list end -->
 	</div>
@@ -98,7 +98,7 @@
 <!-- right content end  -->
 
 <!-- footer start -->
-{{include file="public/footer" /}}
+{{:ModuleInclude('public/footer')}}
 <script type="text/javascript">
 	// 初始化
 	Tree(0, $('#tree').data('node-url'), 0, 1);

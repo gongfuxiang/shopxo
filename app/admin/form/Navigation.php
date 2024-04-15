@@ -35,7 +35,13 @@ class Navigation
     public function Run($params = [])
     {
         // 导航类型
-        $nav_type = empty($params['nav_type']) ? 'header' : trim($params['nav_type']);
+        $search_params = ['type' => empty($params['type']) ? 'header' : trim($params['type'])];
+
+        // 是否主题管理
+        if(isset($params['is_theme_data_admin']) && $params['is_theme_data_admin'] == 1)
+        {
+            $search_params['is_theme_data_admin'] = 1;
+        }
 
         // 配置信息
         $lang = MyLang('navigation.form_table');
@@ -45,7 +51,7 @@ class Navigation
                 'key_field'     => 'id',
                 'status_field'  => 'is_show',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/navigation/index', ['nav_type'=>$nav_type]),
+                'search_url'    => MyUrl('admin/navigation/index', $search_params),
                 'is_delete'     => 1,
             ],
             // 表单配置
