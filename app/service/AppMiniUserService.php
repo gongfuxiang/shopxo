@@ -70,28 +70,29 @@ class AppMiniUserService
             // 通过unionid获取
             if(!empty($unionid_field) && !empty($unionid_value))
             {
+                $temp_user_id = 0;
                 $user = UserService::AppUserInfoHandle(['where_field'=>$unionid_field, 'where_value'=>$unionid_value]);
-            }
-            if(empty($user))
-            {
-                $where = [$openid_field=>$openid_value];
-                if(!empty($unionid_field) && !empty($unionid_value))
+                // 不存在则查询其他平台的unionid用户
+                if(empty($user))
                 {
-                    $where[$unionid_field] = $unionid_value;
+                    $temp = Db::name('UserPlatform')->whereOr([$unionid_field=>$unionid_value])->find();
+                    if(!empty($temp))
+                    {
+                        $temp_user_id = $temp['user_id'];
+                    }
+                } else {
+                    $temp_user_id = $user['id'];
                 }
-                // 是否存在其他平台的用户openid或unionid、存在则添加
-                $temp = Db::name('UserPlatform')->whereOr($where)->find();
-                if(!empty($temp))
+                // 存在平台用户则增加对应用户信息
+                if(!empty($temp_user_id))
                 {
+                    // 存在unionid用户则增加对应用户
                     $insert_data = [
-                        'user_id'       => $temp['user_id'],
+                        'user_id'       => $temp_user_id,
                         $openid_field   => $openid_value,
+                        $unionid_field  => $unionid_value,
                         'add_time'      => time(),
                     ];
-                    if(!empty($unionid_field) && !empty($unionid_value))
-                    {
-                        $insert_data[$unionid_field] = $unionid_value;
-                    }
                     if(UserService::UserPlatformInsert($insert_data) > 0)
                     {
                         $user = UserService::AppUserInfoHandle(['where_field'=>$openid_field, 'where_value'=>$openid_value]);
