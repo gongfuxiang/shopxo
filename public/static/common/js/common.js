@@ -4678,16 +4678,16 @@ $(function () {
         $.each(this.files, function () {
             var unit = 'KB';
             var size = 0;
-            if (this.size < 1024) {
+            var kb = this.size / 1024;
+            if (kb < 1024) {
                 unit = 'KB';
-                size = Math.round((this.size / 1024) * 100) / 100;
-            } else if (this.size < 1024 * 1024) {
+                size = Math.round(kb * 100) / 100;
+            } else if (kb < 1024 * 1024) {
                 unit = 'MB';
                 size = Math.round((this.size / (1024 * 1024)) * 100) / 100;
-            } else if (this.size < 1024 * 1024 * 1024) {
+            } else if (kb < 1024 * 1024 * 1024) {
                 unit = 'GB';
                 size = Math.round((this.size / (1024 * 1024 * 1024)) * 100) / 100;
-
             }
             fileNames += '<span class="am-font-weight">' + this.name + '</span> <span class="am-color-999">(' + size + unit + ')</span>';
         });
