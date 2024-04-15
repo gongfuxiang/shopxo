@@ -234,13 +234,13 @@ function BuyCartHandle(e)
 function GoodsSpecDetailBackHandle(data)
 {
     // 售价
-    $('.text-info .price-now').text(__currency_symbol__+data.spec_base.price);
-    $('.goods-price').text(data.spec_base.price);
+    $('.text-info .price-now b').text(data.spec_base.price);
+    $('.goods-sale-price-value').text(data.spec_base.price);
     // 数量处理
     var inventory = parseInt(data.spec_base.inventory);
     var $input = $('#text_box');
     var $stock = $('.stock-tips .stock');
-    var $origina_price_value = $('.original-price-value b');
+    var $origina_price_value = $('.goods-original-price-value b');
 
     // 起购数
     var min = parseInt($input.data('original-buy-min-number'));
@@ -474,9 +474,9 @@ function GoodsBaseRestore()
 {
     var $input = $('#text_box');
     var $stock = $('.stock-tips .stock');
-    var $price = $('.goods-price');
+    var $price = $('.goods-sale-price-value');
     var $price_now = $('.text-info .price-now');
-    var $original_price_value = $('.tb-detail-panel-base .original-price-value');
+    var $original_price_value = $('.tb-detail-panel-base .goods-original-price-value');
     $input.attr('min', $input.data('original-buy-min-number'));
     $input.attr('max', $stock.data('original-max'));
     $stock.text($stock.data('original-inventory'));
@@ -484,7 +484,7 @@ function GoodsBaseRestore()
     $stock.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
 
     // 价格处理
-    $price_now.text(__currency_symbol__+$price_now.data('original-price'));
+    $price_now.find('b').text($price_now.data('original-price'));
     $price.text($price.data('original-price'));
     if($original_price_value.length > 0)
     {
@@ -493,7 +493,7 @@ function GoodsBaseRestore()
             var price = $(this).data('original-price');
             if(price !== undefined)
             {
-                $(this).text(__currency_symbol__+price);
+                $(this).find('b').text(price);
             }
         });
     }
@@ -584,7 +584,7 @@ $(function() {
         spec = spec.split('|');
         if($('.sku-container').length > 0 && $('.sku-container .sku-items').length > 0 && $('.sku-container .sku-items').length == spec.length && $('.buy-submit-container').length > 0 && ($('.buy-submit-container button.buy-submit').length > 0 || $('.buy-submit-container button.cart-submit').length > 0) && $('.tb-detail-panel-top-price-content .goods-sale-price').length > 0)
         {
-            var $price = $('.tb-detail-panel-base .tb-detail-panel-top-price-content .items.price dd b, .tb-detail-panel-base .tb-detail-panel-top-price-content .goods-sale-price .goods-price');
+            var $price = $('.tb-detail-panel-base .tb-detail-panel-top-price-content .items.price dd b, .tb-detail-panel-base .tb-detail-panel-top-price-content .goods-sale-price .goods-sale-price-value');
             // 先清除价格展示信息
             $price.text('...');
             var num = 0;

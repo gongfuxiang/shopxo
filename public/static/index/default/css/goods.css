@@ -614,12 +614,15 @@ i.buy-event {
     position: relative;
 }
 
-.tb-detail-panel-base .original-price-value {
-    text-decoration: line-through;
+.tb-detail-price-content .goods-price b {
     font-size: 1.8rem;
 }
 
-.goods-price {
+.tb-detail-price-content .goods-original-price-value b {
+    text-decoration: line-through;
+}
+
+.tb-detail-price-content .goods-sale-price {
     color: var(--color-price);
 }
 
@@ -688,12 +691,9 @@ i.buy-event {
     width: calc(100% - 8.5rem);
 }
 
-.tb-detail-price-content .goods-sale-price .goods-price {
+.tb-detail-price-content .goods-sale-price .goods-sale-price-value {
     font-weight: bold;
     line-height: 1.6rem;
-}
-
-.tb-detail-price-content .goods-sale-price .goods-price {
     font-size: 2.4rem;
 }
 
@@ -930,10 +930,10 @@ i.buy-event {
         padding: 1.2rem 1.2rem 4rem 1.2rem;
     }
 
-    .tb-detail-panel-base .original-price-value {
+    .tb-detail-price-content .goods-original-price-value {
         font-size: 1.2rem;
     }
-    .tb-detail-price-content .goods-sale-price .goods-price {
+    .tb-detail-price-content .goods-sale-price .goods-sale-price-value {
         font-size: 1.6rem;
     }
     .tb-detail-price-content .goods-sale-price .symbol,
