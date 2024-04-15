@@ -17,27 +17,27 @@ if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
     // redis配置
     // 请确保缓存配置文件cache.php中的stores中已经添加了redis缓存配置
     $config = [
-        'type'       => 'cache',
-        'store'      => 'redis',
-        'prefix'     => MyFileConfig('common_cache_session_redis_prefix', '', 'shopxo', true),
+        'type'    => 'cache',
+        'store'   => 'redis',
+        'prefix'  => MyFileConfig('common_cache_session_redis_prefix', '', 'shopxo', true),
         // 过期时间
-        'expire'         => 43200,
+        'expire'  => 43200,
     ];
 } else {
     // 默认配置
     $config = [
         // session name
-        'name'           => 'PHPSESSID',
+        'name'            => 'PHPSESSID',
         // SESSION_ID的提交变量,解决flash上传跨域
-        'var_session_id' => '',
+        'var_session_id'  => '',
         // 驱动方式 支持file cache
-        'type'           => 'file',
+        'type'            => 'file',
         // 存储连接标识 当type使用cache的时候有效
-        'store'          => null,
+        'store'           => null,
         // 过期时间
-        'expire'         => 43200,
+        'expire'          => 43200,
         // 前缀
-        'prefix'         => 'shopxo',
+        'prefix'          => 'shopxo',
     ];
 }
 return $config;
