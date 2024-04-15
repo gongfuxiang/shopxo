@@ -852,7 +852,13 @@ $(function()
             Prompt((window['lang_themedata_admin_url_error_tips'] || '主题数据管理url地址有误')+'('+module+')');
             return false;
         }
-        ModalLoad(UrlFieldReplace('id', id, url), (window['themedata_admin_title'] || '主题数据管理'), '', 1, 1, 'lg', null, function() {
+        // 存在id则增加id参数
+        if(id !== null) {
+            var join = (url.indexOf('?') == -1) ? '?' : '&';
+            url += join+'id='+id;
+        }
+        // 打开弹窗
+        ModalLoad(url, (window['themedata_admin_title'] || '主题数据管理'), '', 1, 1, 'lg', null, function() {
             // 关闭窗口则刷新页面
             window.location.reload();
         });

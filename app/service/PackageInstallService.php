@@ -62,7 +62,7 @@ class PackageInstallService
 
             // web端主题
             case 'webtheme' :
-                $url = MyUrl('admin/theme/index');
+                $url = MyUrl('admin/themeadmin/index');
                 break;
 
             // 小程序主题

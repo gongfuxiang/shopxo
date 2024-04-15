@@ -604,8 +604,8 @@ class ThemeAdminService
             'link_list'          => MyUrl('admin/link/index', ['is_theme_data_admin' => 1]),
             'navigation_header'  => MyUrl('admin/navigation/index', ['type' => 'header', 'is_theme_data_admin' => 1]),
             'navigation_footer'  => MyUrl('admin/navigation/index', ['type' => 'footer', 'is_theme_data_admin' => 1]),
+            'slide_list'         => MyUrl('admin/slide/index', ['is_theme_data_admin' => 1]),
             'store_config'       => MyUrl('admin/config/store', ['is_theme_data_admin' => 1]),
-            
             'user_login'         => MyUrl('admin/site/index', ['nav_type' => 'login', 'is_theme_data_admin' => 1]),
             'user_register'      => MyUrl('admin/site/index', ['nav_type' => 'register', 'is_theme_data_admin' => 1]),
             'user_forget'        => MyUrl('admin/site/index', ['nav_type' => 'forgetpwd', 'is_theme_data_admin' => 1]),
