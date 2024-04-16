@@ -56,7 +56,7 @@
 
 <!-- 图片验证码  -->
 {{if MyC('common_img_verify_state') eq 1}}
-    {{:ModuleInclude('user/images_verify', ['typs'=>'user_login'])}}
+    {{:ModuleInclude('user/images_verify', ['type'=>'user_login'])}}
 {{/if}}
 
 {{:ModuleInclude('public/footer')}}
