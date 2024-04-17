@@ -126,6 +126,7 @@ function DefaultTheme($theme = null)
         {
             if(session_status() != 2)
             {
+                ini_set('session.cookie_domain', MyFileConfig('common_cookie_domain', '', '', true));
                 session_start();
             }
             if(empty($_SESSION[$key]))
@@ -146,6 +147,7 @@ function DefaultTheme($theme = null)
     {
         if(session_status() != 2)
         {
+            ini_set('session.cookie_domain', MyFileConfig('common_cookie_domain', '', '', true));
             session_start();
         }
         $_SESSION[$key] = empty($theme) ? $params[$key] : $theme;
