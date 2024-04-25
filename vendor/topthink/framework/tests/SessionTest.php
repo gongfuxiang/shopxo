@@ -34,7 +34,7 @@ class SessionTest extends TestCase
         m::close();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->app = m::mock(App::class)->makePartial();
         Container::setInstance($this->app);

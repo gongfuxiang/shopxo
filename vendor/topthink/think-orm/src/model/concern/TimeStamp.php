@@ -1,52 +1,60 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\model\concern;
 
 use DateTime;
+use DateTimeInterface;
+use Stringable;
 
 /**
- * 自动时间戳
+ * 自动时间戳.
  */
 trait TimeStamp
 {
     /**
-     * 是否需要自动写入时间戳 如果设置为字符串 则表示时间字段的类型
+     * 是否需要自动写入时间戳 如果设置为字符串 则表示时间字段的类型.
+     *
      * @var bool|string
      */
     protected $autoWriteTimestamp;
 
     /**
-     * 创建时间字段 false表示关闭
+     * 创建时间字段 false表示关闭.
+     *
      * @var false|string
      */
     protected $createTime = 'create_time';
 
     /**
-     * 更新时间字段 false表示关闭
+     * 更新时间字段 false表示关闭.
+     *
      * @var false|string
      */
     protected $updateTime = 'update_time';
 
     /**
-     * 时间字段显示格式
+     * 时间字段显示格式.
+     *
      * @var string
      */
     protected $dateFormat;
 
     /**
-     * 是否需要自动写入时间字段
-     * @access public
-     * @param  bool|string $auto
+     * 是否需要自动写入时间字段.
+     *
+     * @param bool|string $auto
+     *
      * @return $this
      */
     public function isAutoWriteTimestamp($auto)
@@ -57,9 +65,10 @@ trait TimeStamp
     }
 
     /**
-     * 检测时间字段的实际类型
-     * @access public
-     * @param  bool|string $type
+     * 检测时间字段的实际类型.
+     *
+     * @param bool|string $type
+     *
      * @return mixed
      */
     protected function checkTimeFieldType($type)
@@ -78,10 +87,11 @@ trait TimeStamp
     }
 
     /**
-     * 设置时间字段名称
-     * @access public
-     * @param  string $createTime
-     * @param  string $updateTime
+     * 设置时间字段名称.
+     *
+     * @param string $createTime
+     * @param string $updateTime
+     *
      * @return $this
      */
     public function setTimeField(string $createTime, string $updateTime)
@@ -93,8 +103,8 @@ trait TimeStamp
     }
 
     /**
-     * 获取自动写入时间字段
-     * @access public
+     * 获取自动写入时间字段.
+     *
      * @return bool|string
      */
     public function getAutoWriteTimestamp()
@@ -103,9 +113,10 @@ trait TimeStamp
     }
 
     /**
-     * 设置时间字段格式化
-     * @access public
-     * @param  string|false $format
+     * 设置时间字段格式化.
+     *
+     * @param string|false $format
+     *
      * @return $this
      */
     public function setDateFormat($format)
@@ -116,8 +127,8 @@ trait TimeStamp
     }
 
     /**
-     * 获取自动写入时间字段
-     * @access public
+     * 获取自动写入时间字段.
+     *
      * @return string|false
      */
     public function getDateFormat()
@@ -126,8 +137,8 @@ trait TimeStamp
     }
 
     /**
-     * 自动写入时间戳
-     * @access protected
+     * 自动写入时间戳.
+     *
      * @return mixed
      */
     protected function autoWriteTimestamp()
@@ -140,8 +151,9 @@ trait TimeStamp
 
     /**
      * 获取指定类型的时间字段值
-     * @access protected
-     * @param  string $type 时间字段类型
+     *
+     * @param string $type 时间字段类型
+     *
      * @return mixed
      */
     protected function getTimeTypeValue(string $type)
@@ -155,10 +167,10 @@ trait TimeStamp
                 $value = $this->formatDateTime('Y-m-d H:i:s.u');
                 break;
             default:
-                if (false !== strpos($type, '\\')) {
+                if (str_contains($type, '\\')) {
                     // 对象数据写入
                     $obj = new $type();
-                    if (method_exists($obj, '__toString')) {
+                    if ($obj instanceof Stringable) {
                         // 对象数据写入
                         $value = $obj->__toString();
                     }
@@ -169,11 +181,12 @@ trait TimeStamp
     }
 
     /**
-     * 时间日期字段格式化处理
-     * @access protected
-     * @param  mixed $format    日期格式
-     * @param  mixed $time      时间日期表达式
-     * @param  bool  $timestamp 时间表达式是否为时间戳
+     * 时间日期字段格式化处理.
+     *
+     * @param mixed $format    日期格式
+     * @param mixed $time      时间日期表达式
+     * @param bool  $timestamp 时间表达式是否为时间戳
+     *
      * @return mixed
      */
     protected function formatDateTime($format, $time = 'now', bool $timestamp = false)
@@ -184,15 +197,15 @@ trait TimeStamp
 
         if (false === $format) {
             return $time;
-        } elseif (false !== strpos($format, '\\')) {
+        } elseif (str_contains($format, '\\')) {
             return new $format($time);
         }
 
-        if ($time instanceof DateTime) {
+        if ($time instanceof DateTimeInterface) {
             $dateTime = $time;
         } elseif ($timestamp) {
             $dateTime = new DateTime();
-            $dateTime->setTimestamp((int) $time);
+            $dateTime->setTimestamp(is_numeric($time) ? (int) $time : strtotime($time));
         } else {
             $dateTime = new DateTime($time);
         }
@@ -202,8 +215,9 @@ trait TimeStamp
 
     /**
      * 获取时间字段值
-     * @access protected
-     * @param  mixed   $value
+     *
+     * @param mixed $value
+     *
      * @return mixed
      */
     protected function getTimestampValue($value)

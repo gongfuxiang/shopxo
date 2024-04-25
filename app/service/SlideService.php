@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 
 /**
@@ -49,9 +50,8 @@ class SlideService
                 'error_msg'         => MyLang('common_service.slide.form_item_describe_message'),
             ],
             [
-                'checked_type'      => 'in',
+                'checked_type'      => 'empty',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => MyLang('form_platform_message'),
             ],
             [
@@ -94,7 +94,7 @@ class SlideService
         $data = [
             'name'          => $params['name'],
             'describe'      => empty($params['describe']) ? '' : $params['describe'],
-            'platform'      => $params['platform'],
+            'platform'      => empty($params['platform']) ? '' : json_encode(explode(',', $params['platform'])),
             'event_type'    => (isset($params['event_type']) && $params['event_type'] != '') ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
             'images_url'    => $attachment['data']['images_url'],
@@ -194,6 +194,73 @@ class SlideService
            return DataReturn(MyLang('edit_success'), 0);
         }
         return DataReturn(MyLang('edit_fail'), -100);
+    }
+
+    /**
+     * 轮播列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SlideList($params = [])
+    {
+        // 缓存
+        $key = SystemService::CacheKey('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
+        {
+            // 获取banner数据
+            $field = 'name,describe,images_url,event_value,event_type,platform,bg_color';
+            $order_by = 'sort asc,id asc';
+            $where = [
+                ['is_enable', '=', 1],
+            ];
+            $expire_where = '(`start_time` = 0 OR `start_time` <= '.time().') AND (`end_time` = 0 OR `end_time` >= '.time().')';
+            $list = Db::name('Slide')->field($field)->where($where)->whereRaw($expire_where)->order($order_by)->select()->toArray();
+            if(!empty($list))
+            {
+                $data = [];
+                foreach($list as &$v)
+                {
+                    // 平台
+                    if(!empty($v['platform']))
+                    {
+                        // json数据则必须存在其中，则为字符串等于（老数据）
+                        $platform = json_decode($v['platform'], true);
+                        if((!empty($platform) && is_array($platform) && in_array(APPLICATION_CLIENT_TYPE, $platform)) || ($v['platform'] == APPLICATION_CLIENT_TYPE))
+                        {
+                            // 图片地址
+                            $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
+
+                            // 事件值
+                            if(!empty($v['event_value']))
+                            {
+                                // 地图
+                                if($v['event_type'] == 3)
+                                {
+                                    $v['event_value_data'] = explode('|', $v['event_value']);
+                                }
+                                $v['event_value'] = htmlspecialchars_decode($v['event_value']);
+                            } else {
+                                $v['event_value'] = null;
+                            }
+
+                            // 加入数据
+                            $data[] = $v;
+                        }
+                    }
+                }
+            } else {
+                $data = [];
+            }
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
     }
 }
 ?>

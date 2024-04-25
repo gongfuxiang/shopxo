@@ -13,7 +13,7 @@ namespace app\index\controller;
 use app\layout\service\BaseLayout;
 use app\service\SeoService;
 use app\service\AdminService;
-use app\service\BannerService;
+use app\service\SlideService;
 use app\service\GoodsService;
 use app\service\GoodsCategoryService;
 use app\service\ArticleService;
@@ -83,7 +83,7 @@ class Index extends Common
                 // 是否设计模式
                 'is_design'         => $is_design,
                 // 首页轮播
-                'banner_list'       => BannerService::Banner(),
+                'banner_list'       => SlideService::SlideList(),
                 // 文章
                 'article_list'      => ArticleService::RecommendedArticleList(),
             ]);

@@ -6,33 +6,35 @@
 	<div class="content">
         <!-- form start -->
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
-            {{:ModuleInclude('public/nav_switch_btn', [
-                'nav_data' => [
-                    [
-                        'name' => MyLang('base_config_title'),
-                        'key'  => 'base-config-title',
-                    ],
-                    [
-                        'name' => MyLang('site.base_item_site_status_title'),
-                        'key'  => 'site-status',
-                    ],
-                    [
-                        'name' => MyLang('site.base_item_site_domain_title'),
-                        'key'  => 'site-domain',
-                    ],
-                    [
-                        'name' => MyLang('site.base_item_site_filing_title'),
-                        'key'  => 'site-filing',
-                    ],
-                    [
-                        'name' => MyLang('site.base_item_site_other_title'),
-                        'key'  => 'site-other',
+            {{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}
+                {{:ModuleInclude('public/nav_switch_btn', [
+                    'nav_data' => [
+                        [
+                            'name' => MyLang('base_config_title'),
+                            'key'  => 'site-base',
+                        ],
+                        [
+                            'name' => MyLang('site.base_item_site_status_title'),
+                            'key'  => 'site-status',
+                        ],
+                        [
+                            'name' => MyLang('site.base_item_site_domain_title'),
+                            'key'  => 'site-domain',
+                        ],
+                        [
+                            'name' => MyLang('site.base_item_site_filing_title'),
+                            'key'  => 'site-filing',
+                        ],
+                        [
+                            'name' => MyLang('site.base_item_site_other_title'),
+                            'key'  => 'site-other',
+                        ]
                     ]
-                ]
-            ])}}
+                ])}}
+            {{/if}}
             <div class="nav-content">
                 <!-- 基础配置 -->
-                <div class="item am-active" data-key="base-config-title">
+                <div class="item {{if empty($params['switch']) or $params['switch'] eq 'site-base'}}am-active{{/if}}" data-key="site-base">
                     <div class="am-form-group">
                         <label>{{$data.home_site_name.name}}</label>
                         <input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />
@@ -120,7 +122,7 @@
                 </div>
 
                 <!-- 站点状态 -->
-                <div class="item" data-key="site-status">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'site-status'}}am-active{{/if}}" data-key="site-status">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_site_app_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_app_state.describe}}</span></label>
                         <div class="am-checkbox-group am-flex am-gap-12">
@@ -170,7 +172,7 @@
                 </div>
 
                 <!-- 站点域名地址 -->
-                <div class="item" data-key="site-domain">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'site-domain'}}am-active{{/if}}" data-key="site-domain">
                     {{if is_array(MyLang('site.site_domain_tips_list'))}}
                         <div class="am-operate-stretch-tips">
                             <div class="title">
@@ -196,7 +198,7 @@
                 </div>
 
                 <!-- 备案信息 -->
-                <div class="item" data-key="site-filing">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'site-filing'}}am-active{{/if}}" data-key="site-filing">
                     <div class="am-form-group">
                         <label>{{$data.home_site_icp.name}}<span class="am-form-group-label-tips">{{$data.home_site_icp.describe}}</span></label>
                         <input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_icp.value}}"{{/if}} />
@@ -226,7 +228,7 @@
                 </div>
 
                 <!-- 其它 -->
-                <div class="item" data-key="site-other">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'site-other'}}am-active{{/if}}" data-key="site-other">
                     <div class="am-form-group">
                         <label>{{$data.home_static_cache_version.name}}<span class="am-form-group-label-tips">{{$data.home_static_cache_version.describe}}</span></label>
                         <input type="text" name="{{$data.home_static_cache_version.only_tag}}" placeholder="{{$data.home_static_cache_version.describe}}" data-validation-message="{{$data.home_static_cache_version.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_static_cache_version.value}}"{{/if}} />

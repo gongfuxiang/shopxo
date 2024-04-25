@@ -21,7 +21,7 @@
             {{:ModuleInclude('public/user_center_main_title')}}
             
 			{{foreach $safety_panel_list as $v}}
-				<section class="am-panel am-panel-default am-radius am-panel-{{if (empty($data[$v['type']]) and empty($v['msg'])) or ($v['type'] eq 'logout')}}danger{{else /}}default{{/if}}">
+				<section class="am-panel am-panel-default am-radius am-nbfc am-panel-{{if (empty($data[$v['type']]) and empty($v['msg'])) or ($v['type'] eq 'logout')}}danger{{else /}}default{{/if}}">
 					<header class="am-panel-hd">
 						<h3 class="am-panel-title">{{$v.title}}</h3>
 					</header>

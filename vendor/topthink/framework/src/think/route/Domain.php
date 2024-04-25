@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route;
 
@@ -29,12 +29,17 @@ class Domain extends RuleGroup
      * @param  Route       $router   路由对象
      * @param  string      $name     路由域名
      * @param  mixed       $rule     域名路由
+     * @param  bool        $lazy   延迟解析
      */
-    public function __construct(Route $router, string $name = null, $rule = null)
+    public function __construct(Route $router, string $name = null, $rule = null, bool $lazy = false)
     {
         $this->router = $router;
         $this->domain = $name;
         $this->rule   = $rule;
+
+        if (!$lazy && !is_null($rule)) {
+            $this->parseGroupRule($rule);
+        }
     }
 
     /**
@@ -109,7 +114,7 @@ class Domain extends RuleGroup
 
     protected function parseBindAppendParam(string &$bind): void
     {
-        if (false !== strpos($bind, '?')) {
+        if (str_contains($bind, '?')) {
             [$bind, $query] = explode('?', $bind);
             parse_str($query, $vars);
             $this->append($vars);
@@ -127,7 +132,7 @@ class Domain extends RuleGroup
     protected function bindToClass(Request $request, string $url, string $class): CallbackDispatch
     {
         $array  = explode('|', $url, 2);
-        $action = !empty($array[0]) ? $array[0] : $this->router->config('default_action');
+        $action = !empty($array[0]) ? $array[0] : $this->config('default_action');
         $param  = [];
 
         if (!empty($array[1])) {
@@ -148,8 +153,8 @@ class Domain extends RuleGroup
     protected function bindToNamespace(Request $request, string $url, string $namespace): CallbackDispatch
     {
         $array  = explode('|', $url, 3);
-        $class  = !empty($array[0]) ? $array[0] : $this->router->config('default_controller');
-        $method = !empty($array[1]) ? $array[1] : $this->router->config('default_action');
+        $class  = !empty($array[0]) ? $array[0] : $this->config('default_controller');
+        $method = !empty($array[1]) ? $array[1] : $this->config('default_action');
         $param  = [];
 
         if (!empty($array[2])) {
@@ -170,7 +175,7 @@ class Domain extends RuleGroup
     protected function bindToController(Request $request, string $url, string $controller): ControllerDispatch
     {
         $array  = explode('|', $url, 2);
-        $action = !empty($array[0]) ? $array[0] : $this->router->config('default_action');
+        $action = !empty($array[0]) ? $array[0] : $this->config('default_action');
         $param  = [];
 
         if (!empty($array[1])) {
@@ -179,5 +184,4 @@ class Domain extends RuleGroup
 
         return new ControllerDispatch($request, $this, $controller . '/' . $action, $param);
     }
-
 }

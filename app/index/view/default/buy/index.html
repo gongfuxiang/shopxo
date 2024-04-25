@@ -333,7 +333,7 @@
                                                         <!-- 地理位置 -->
                                                         {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                                             <div class="am-margin-left-sm">
-                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400 am-text-xs am-margin-left-sm" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> {{:MyLang('view_map_title')}}</a>
+                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400 am-text-xs am-margin-left-sm" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}" data-title="{{:MyLang('map_title')}}"> {{:MyLang('view_map_title')}}</a>
                                                             </div>
                                                         {{/if}}
 

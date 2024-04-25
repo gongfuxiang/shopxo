@@ -22,18 +22,19 @@
         }       
     ],
     "require": {
-        "php": ">=7.2.5",
-        "topthink/framework": "^6.0.0",
-        "topthink/think-orm": "^2.0",
-        "topthink/think-multi-app": "^1.0",
-        "topthink/think-view": "^1.0",
-        "phpoffice/phpspreadsheet": "^1.4",
-        "overtrue/pinyin": "^4.0",
-        "picqer/php-barcode-generator": "^2.2"
+        "php": ">=8.0.0",
+        "topthink/framework": "*",
+        "topthink/think-orm": "*",
+        "topthink/think-multi-app": "*",
+        "topthink/think-view": "*",
+        "phpoffice/phpspreadsheet": "*",
+        "overtrue/pinyin": "*",
+        "picqer/php-barcode-generator": "*",
+        "phpmailer/phpmailer": "*"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.2",
-        "topthink/think-trace":"^1.0"
+        "symfony/var-dumper": "*",
+        "topthink/think-trace":"*"
     },
     "autoload": {
         "psr-4": {

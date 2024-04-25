@@ -1,0 +1,78 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/utils.php';
+
+use Overtrue\Pinyin\Pinyin;
+
+$methods = ['sentence','fullSentence','name','passportName','phrase','permalink','polyphones','chars','abbr','nameAbbr'];
+$method = 'sentence';
+$inputOptions = [];
+$methodAsString = implode('/', $methods);
+
+$help = <<<"HELP"
+Usage:
+    ./pinyin [chinese] [method] [options]
+Options:
+    -j, --json               输出 JSON 格式.
+    -c, --compact            不格式化输出 JSON.
+    -m, --method=[method]    转换方式，可选：{$methodAsString}.
+    --no-tone                不使用音调.
+    --tone-style=[style]     音调风格，可选值：symbol/none/number, default: none.
+    -h, --help               显示帮助.
+HELP;
+
+function has_option($option, $alias = null): bool
+{
+    global $inputOptions;
+
+    if ($alias) {
+        return array_key_exists($option, $inputOptions) || array_key_exists($alias, $inputOptions);
+    }
+
+    return array_key_exists($option, $inputOptions);
+}
+
+function get_option($option, $default = null, $alias = null): ?string
+{
+    global $inputOptions;
+
+    if ($alias) {
+        return $inputOptions[$option] ?? $inputOptions[$alias] ?? $default;
+    }
+
+    return $inputOptions[$option] ?? $default;
+}
+
+$inputOptions = parse_options($argv);
+$input = $inputOptions[0] ?? null;
+
+if (empty($input) || has_option('help', 'h')) {
+    echo $help;
+    exit(0);
+}
+
+$method = get_option('method', $method, 'm');
+$toneStyle = has_option('no-tone') ? 'none' : get_option('tone-style', 'none');
+
+if (! in_array($method, $methods)) {
+    echo "Method '{$method}' is not supported.\n";
+    exit(1);
+}
+
+$result = Pinyin::$method($input, $method === 'permalink' ? '-' : $toneStyle);
+
+$toJson = has_option('json', 'j') || in_array($method, ['polyphones']);
+
+if ($toJson) {
+    $options = JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT;
+
+    if (has_option('compact', 'c')) {
+        $options = 0;
+    }
+
+    $result = json_encode($result, $options);
+}
+
+echo $result, "\n";

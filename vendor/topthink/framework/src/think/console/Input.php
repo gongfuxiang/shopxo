@@ -82,7 +82,7 @@ class Input
                 $this->parseArgument($token);
             } elseif ($parseOptions && '--' == $token) {
                 $parseOptions = false;
-            } elseif ($parseOptions && 0 === strpos($token, '--')) {
+            } elseif ($parseOptions && str_starts_with($token, '--')) {
                 $this->parseLongOption($token);
             } elseif ($parseOptions && '-' === $token[0] && '-' !== $token) {
                 $this->parseShortOption($token);
@@ -267,7 +267,7 @@ class Input
 
         foreach ($this->tokens as $token) {
             foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
+                if ($token === $value || str_starts_with($token, $value . '=')) {
                     return true;
                 }
             }
@@ -291,7 +291,7 @@ class Input
             $token = array_shift($tokens);
 
             foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
+                if ($token === $value || str_starts_with($token, $value . '=')) {
                     if (false !== $pos = strpos($token, '=')) {
                         return substr($token, $pos + 1);
                     }
@@ -378,7 +378,7 @@ class Input
      * @param string|int $name 参数名或位置
      * @return bool
      */
-    public function hasArgument($name): bool
+    public function hasArgument(string|int $name): bool
     {
         return $this->definition->hasArgument($name);
     }

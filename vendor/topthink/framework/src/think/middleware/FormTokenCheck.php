@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\middleware;
 
@@ -31,7 +31,7 @@ class FormTokenCheck
      * @param string  $token 表单令牌Token名称
      * @return Response
      */
-    public function handle(Request $request, Closure $next, string $token = null)
+    public function handle(Request $request, Closure $next, string $token = null): Response
     {
         $check = $request->checkToken($token ?: '__token__');
 
@@ -41,5 +41,4 @@ class FormTokenCheck
 
         return $next($request);
     }
-
 }

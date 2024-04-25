@@ -17,12 +17,13 @@
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('form_platform_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <select name="platform" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_platform_message')}}" required>
-                    <option value="">{{:MyLang('optional_tips')}}</option>
-                    {{foreach $common_platform_type as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+                <div class="am-checkbox-group">
+                    {{foreach :MyConst('common_platform_type') as $v}}
+                        <label class="am-checkbox-inline">
+                            <input type="checkbox" value="{{$v.value}}" name="platform" data-am-ucheck {{if (!empty($data['platform']) and is_array($data['platform']) and in_array($v['value'], $data['platform'])) or (empty($data['platform']) and isset($v['checked']) and $v['checked'] eq true)}}checked{{/if}} data-validation-message="{{:MyLang('form_platform_message')}}" required /> {{$v.name}}
+                          </label>
                     {{/foreach}}
-                </select>
+                </div>
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('form_event_type_title')}}</label>

@@ -2,7 +2,7 @@
     <div class="nav-switch-btn plugins-admin-nav-btn-container {{$module_data.plugins}}">
         {{foreach $module_data.nav_data as $k=>$v}}
             {{if !isset($v.is_show) or $v.is_show eq 1}}
-                <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" class="item {{if (isset($params['type']) and isset($v['type']) and $params['type'] eq $v['type']) or (!empty($params['pluginscontrol']) and !empty($v['control']) and $params['pluginscontrol'] eq $v['control']) or (!isset($params['type']) and isset($v['type']) and $k eq 0)}} am-active{{/if}}" data-key="{{if isset($v['type'])}}{{$v.type}}{{/if}}">{{$v.name}}</a>
+                <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" class="item {{if (isset($params['type']) and isset($v['type']) and $params['type'] eq $v['type']) or (!empty($plugins_controller_name) and !empty($v['control']) and $plugins_controller_name eq $v['control']) or (!isset($params['type']) and isset($v['type']) and $k eq 0)}} am-active{{/if}}" data-key="{{if isset($v['type'])}}{{$v.type}}{{/if}}">{{$v.name}}</a>
             {{/if}}
         {{/foreach}}
     </div>

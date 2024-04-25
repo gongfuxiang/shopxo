@@ -26,7 +26,7 @@ class EventTest extends TestCase
         m::close();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->app = m::mock(App::class)->makePartial();
 

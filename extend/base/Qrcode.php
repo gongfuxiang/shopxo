@@ -192,21 +192,18 @@ class Qrcode
             return DataReturn(MyLang('common_extend.base.qrcode.url_empty_tips'), -1);
         }
 
-        // 验证下载地址域名
-        $domain_arr = [
-            GetUrlHost(SystemBaseService::AttachmentHost()),
-            GetUrlHost(__MY_HOST__),
-        ];
-        if(!in_array(GetUrlHost($url), $domain_arr))
+        // 是否存在问号、去掉问号后面的参数
+        $arr = explode('?', $url);
+        if(count($arr) > 0)
         {
-            return DataReturn(MyLang('common_extend.base.qrcode.url_illegal_tips'), -1);
+            $url = $arr[0];
         }
 
-        // 是否存在问号、存在问号则将数据转为整数，希望下载静态文件
-        $arr = explode('?', $url);
-        if(isset($arr[1]))
+        // 文件是否存在
+        $file = ROOT.'public'.ResourcesService::AttachmentPathHandle($url);
+        if(!file_exists($file))
         {
-            $url = $arr[0].'?'.intval($arr[1]);
+            return DataReturn(MyLang('common_extend.base.qrcode.url_illegal_tips'), -1);
         }
 
         // 格式校验，希望仅下载图片文件
@@ -239,7 +236,7 @@ class Qrcode
         header('Content-Disposition: attachment; filename="'.$filename.'"');
         header('Content-Transfer-Encoding: binary');
         header('Connection: close');
-        echo RequestGet($url);
+        echo RequestGet($file);
     }
 
     /**

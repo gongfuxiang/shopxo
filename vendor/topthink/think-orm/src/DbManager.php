@@ -1,8 +1,9 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,6 +13,7 @@ declare (strict_types = 1);
 
 namespace think;
 
+use Closure;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -21,64 +23,64 @@ use think\db\Query;
 use think\db\Raw;
 
 /**
- * Class DbManager
- * @package think
+ * Class DbManager.
+ *
  * @mixin BaseQuery
  * @mixin Query
  */
 class DbManager
 {
     /**
-     * 数据库连接实例
+     * 数据库连接实例.
+     *
      * @var array
      */
     protected $instance = [];
 
     /**
-     * 数据库配置
+     * 数据库配置.
+     *
      * @var array
      */
     protected $config = [];
 
     /**
-     * Event对象或者数组
+     * Event对象或者数组.
+     *
      * @var array|object
      */
     protected $event;
 
     /**
-     * SQL监听
+     * SQL监听.
+     *
      * @var array
      */
     protected $listen = [];
 
     /**
-     * SQL日志
-     * @var array
-     */
-    protected $dbLog = [];
-
-    /**
-     * 查询次数
+     * 查询次数.
+     *
      * @var int
      */
     protected $queryTimes = 0;
 
     /**
      * 查询缓存对象
+     *
      * @var CacheInterface
      */
     protected $cache;
 
     /**
      * 查询日志对象
+     *
      * @var LoggerInterface
      */
     protected $log;
 
     /**
-     * 架构函数
-     * @access public
+     * 架构函数.
      */
     public function __construct()
     {
@@ -87,7 +89,7 @@ class DbManager
 
     /**
      * 注入模型对象
-     * @access public
+     *
      * @return void
      */
     protected function modelMaker()
@@ -116,17 +118,19 @@ class DbManager
     }
 
     /**
-     * 监听SQL
-     * @access protected
+     * 监听SQL.
+     *
      * @return void
      */
     public function triggerSql(): void
-    {}
+    {
+    }
 
     /**
-     * 初始化配置参数
-     * @access public
+     * 初始化配置参数.
+     *
      * @param array $config 连接配置
+     *
      * @return void
      */
     public function setConfig($config): void
@@ -136,8 +140,9 @@ class DbManager
 
     /**
      * 设置缓存对象
-     * @access public
+     *
      * @param CacheInterface $cache 缓存对象
+     *
      * @return void
      */
     public function setCache(CacheInterface $cache): void
@@ -147,52 +152,53 @@ class DbManager
 
     /**
      * 设置日志对象
-     * @access public
-     * @param LoggerInterface $log 日志对象
+     *
+     * @param LoggerInterface|Closure $log 日志对象
+     *
      * @return void
      */
-    public function setLog(LoggerInterface $log): void
+    public function setLog(LoggerInterface | Closure $log): void
     {
         $this->log = $log;
     }
 
     /**
-     * 记录SQL日志
-     * @access protected
+     * 记录SQL日志.
+     *
      * @param string $log  SQL日志信息
      * @param string $type 日志类型
+     *
      * @return void
      */
     public function log(string $log, string $type = 'sql')
     {
         if ($this->log) {
-            $this->log->log($type, $log);
-        } else {
-            $this->dbLog[$type][] = $log;
+            if ($this->log instanceof Closure) {
+                call_user_func_array($this->log, [$type, $log]);
+            } else {
+                $this->log->log($type, $log);
+            }
         }
     }
 
     /**
-     * 获得查询日志（没有设置日志对象使用）
-     * @access public
+     * 获得查询日志（没有设置日志对象使用）.
+     *
+     * @deprecated
      * @param bool $clear 是否清空
      * @return array
      */
     public function getDbLog(bool $clear = false): array
     {
-        $logs = $this->dbLog;
-        if ($clear) {
-            $this->dbLog = [];
-        }
-
-        return $logs;
+        return [];
     }
 
     /**
-     * 获取配置参数
-     * @access public
+     * 获取配置参数.
+     *
      * @param string $name    配置参数
      * @param mixed  $default 默认值
+     *
      * @return mixed
      */
     public function getConfig(string $name = '', $default = null)
@@ -205,10 +211,11 @@ class DbManager
     }
 
     /**
-     * 创建/切换数据库连接查询
-     * @access public
+     * 创建/切换数据库连接查询.
+     *
      * @param string|null $name  连接配置标识
      * @param bool        $force 强制重新连接
+     *
      * @return ConnectionInterface
      */
     public function connect(string $name = null, bool $force = false)
@@ -217,10 +224,11 @@ class DbManager
     }
 
     /**
-     * 创建数据库连接实例
-     * @access protected
+     * 创建数据库连接实例.
+     *
      * @param string|null $name  连接标识
      * @param bool        $force 强制重新连接
+     *
      * @return ConnectionInterface
      */
     protected function instance(string $name = null, bool $force = false): ConnectionInterface
@@ -237,8 +245,10 @@ class DbManager
     }
 
     /**
-     * 获取连接配置
+     * 获取连接配置.
+     *
      * @param string $name
+     *
      * @return array
      */
     protected function getConnectionConfig(string $name): array
@@ -252,8 +262,10 @@ class DbManager
     }
 
     /**
-     * 创建连接
+     * 创建连接.
+     *
      * @param $name
+     *
      * @return ConnectionInterface
      */
     protected function createConnection(string $name): ConnectionInterface
@@ -262,7 +274,7 @@ class DbManager
 
         $type = !empty($config['type']) ? $config['type'] : 'mysql';
 
-        if (false !== strpos($type, '\\')) {
+        if (str_contains($type, '\\')) {
             $class = $type;
         } else {
             $class = '\\think\\db\\connector\\' . ucfirst($type);
@@ -280,9 +292,10 @@ class DbManager
     }
 
     /**
-     * 使用表达式设置数据
-     * @access public
+     * 使用表达式设置数据.
+     *
      * @param string $value 表达式
+     *
      * @return Raw
      */
     public function raw(string $value): Raw
@@ -291,18 +304,17 @@ class DbManager
     }
 
     /**
-     * 更新查询次数
-     * @access public
+     * 更新查询次数.
+     * @deprecated
      * @return void
      */
     public function updateQueryTimes(): void
     {
-        $this->queryTimes++;
     }
 
     /**
-     * 重置查询次数
-     * @access public
+     * 重置查询次数.
+     * @deprecated
      * @return void
      */
     public function clearQueryTimes(): void
@@ -311,9 +323,9 @@ class DbManager
     }
 
     /**
-     * 获得查询次数
-     * @access public
-     * @return integer
+     * 获得查询次数.
+     * @deprecated
+     * @return int
      */
     public function getQueryTimes(): int
     {
@@ -321,9 +333,10 @@ class DbManager
     }
 
     /**
-     * 监听SQL执行
-     * @access public
+     * 监听SQL执行.
+     *
      * @param callable $callback 回调方法
+     *
      * @return void
      */
     public function listen(callable $callback): void
@@ -332,18 +345,18 @@ class DbManager
     }
 
     /**
-     * 获取监听SQL执行
-     * @access public
+     * 获取监听SQL执行.
+     *
      * @return array
      */
     public function getListen(): array
     {
         return $this->listen;
     }
-    
+
     /**
-     * 获取所有连接实列
-     * @access public
+     * 获取所有连接实列.
+     *
      * @return array
      */
     public function getInstance(): array
@@ -352,10 +365,11 @@ class DbManager
     }
 
     /**
-     * 注册回调方法
-     * @access public
+     * 注册回调方法.
+     *
      * @param string   $event    事件名
      * @param callable $callback 回调方法
+     *
      * @return void
      */
     public function event(string $event, callable $callback): void
@@ -364,10 +378,11 @@ class DbManager
     }
 
     /**
-     * 触发事件
-     * @access public
+     * 触发事件.
+     *
      * @param string $event  事件名
      * @param mixed  $params 传入参数
+     *
      * @return mixed
      */
     public function trigger(string $event, $params = null)

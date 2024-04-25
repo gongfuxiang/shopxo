@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\log;
 
@@ -21,13 +21,8 @@ use think\Log;
  */
 class ChannelSet
 {
-    protected $log;
-    protected $channels;
-
-    public function __construct(Log $log, array $channels)
+    public function __construct(protected Log $log, protected array $channels)
     {
-        $this->log      = $log;
-        $this->channels = $channels;
     }
 
     public function __call($method, $arguments)

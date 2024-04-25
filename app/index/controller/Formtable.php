@@ -35,7 +35,7 @@ class FormTable extends Common
         parent::__construct();
 
         // 登录校验
-        $this->IsLogin();
+        IsUserLogin();
     }
     
     /**

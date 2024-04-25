@@ -1,4 +1,5 @@
-/** * 条件
+/**
+ * 条件
  */
 .map-item > li {
 	background: transparent;
@@ -208,7 +209,9 @@
 	.map-item > li {
 		margin-bottom: 1rem;
 	}
-} /** * 条件指定品牌信息
+}
+/**
+ * 条件指定品牌信息
  */
 .brand-info .map-images-text-items {
 	padding: 1.5rem 1.5rem 0 1.5rem;
@@ -237,7 +240,9 @@
 	.brand-info .map-left {
 		line-height: 8.4rem !important;
 	}
-} /** * 条件基础信息
+}
+/**
+ * 条件基础信息
  */
 .map-base-tips {
 	background: #fafafa;
@@ -252,7 +257,9 @@
 	color: #666 !important;
 	background-color: transparent;
 	border-color: #eee;
-} /** * 导航
+}
+/**
+ * 导航
  */
 .search-nav {
 	position: relative;
@@ -283,7 +290,9 @@
 	.search-nav .am-sticky-placeholder .am-sticky {
 		border-width: 0 0.1rem 0.1rem 0;
 	}
-} /** * 排序
+}
+/**
+ * 排序
  */
 .sort-nav {
 	padding: 0px;
@@ -327,12 +336,44 @@
 }
 @media only screen and (max-width: 640px) {
 	.sort-nav li a {
-		padding: 0.6rem 1rem;
+		padding: 0.6rem 0.8rem;
 	}
 }
 
-/** 
-* 分页
+/**
+ * 排序导航里面价格滑条
+ */
+.sort-nav-map-price-content {
+	width: 22rem;
+}
+.sort-nav-map-price-range-slider-input,
+.sort-nav-map-price-bottom-operate {
+	display: none;
+}
+.sort-nav-map-price-content .sort-nav-map-price-input input {
+	width: 8rem;
+}
+.sort-nav-map-price:hover .sort-nav-map-price-content {
+	position: absolute;
+	z-index: 3;
+    background: #fff;
+    border: 0.1rem solid #ededed;
+    box-shadow: var(--box-shadow);
+    top: -0.5rem;
+    padding: 0.5rem 1rem 1rem 1rem;
+}
+.sort-nav-map-price:hover .sort-nav-map-price-range-slider-input,
+.sort-nav-map-price:hover .sort-nav-map-price-bottom-operate {
+	display: block;
+}
+@media only screen and (max-width: 1024px) {
+	.sort-nav-map-price {
+		display: none !important;
+	}
+}
+
+/**
+ * 分页
  */
 @media only screen and (max-width: 1024px) {
 	.search-pages-submit {

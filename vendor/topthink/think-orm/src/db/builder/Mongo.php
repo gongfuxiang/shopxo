@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -6,7 +7,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
+
 namespace think\db\builder;
 
 use MongoDB\BSON\Javascript;
@@ -30,8 +32,8 @@ class Mongo
     protected $exp = ['<>' => 'ne', '=' => 'eq', '>' => 'gt', '>=' => 'gte', '<' => 'lt', '<=' => 'lte', 'in' => 'in', 'not in' => 'nin', 'nin' => 'nin', 'mod' => 'mod', 'exists' => 'exists', 'null' => 'null', 'notnull' => 'not null', 'not null' => 'not null', 'regex' => 'regex', 'type' => 'type', 'all' => 'all', '> time' => '> time', '< time' => '< time', 'between' => 'between', 'not between' => 'not between', 'between time' => 'between time', 'not between time' => 'not between time', 'notbetween time' => 'not between time', 'like' => 'like', 'near' => 'near', 'size' => 'size'];
 
     /**
-     * 架构函数
-     * @access public
+     * 架构函数.
+     *
      * @param Connection $connection 数据库连接对象实例
      */
     public function __construct(Connection $connection)
@@ -40,8 +42,8 @@ class Mongo
     }
 
     /**
-     * 获取当前的连接对象实例
-     * @access public
+     * 获取当前的连接对象实例.
+     *
      * @return Connection
      */
     public function getConnection(): Connection
@@ -50,14 +52,15 @@ class Mongo
     }
 
     /**
-     * key分析
-     * @access protected
+     * key分析.
+     *
      * @param string $key
+     *
      * @return string
      */
     protected function parseKey(Query $query, string $key): string
     {
-        if (0 === strpos($key, '__TABLE__.')) {
+        if (str_starts_with($key, '__TABLE__.')) {
             [$collection, $key] = explode('.', $key, 2);
         }
 
@@ -69,11 +72,12 @@ class Mongo
     }
 
     /**
-     * value分析
-     * @access protected
-     * @param Query     $query 查询对象
-     * @param mixed     $value
-     * @param string    $field
+     * value分析.
+     *
+     * @param Query  $query 查询对象
+     * @param mixed  $value
+     * @param string $field
+     *
      * @return string
      */
     protected function parseValue(Query $query, $value, $field = '')
@@ -90,10 +94,11 @@ class Mongo
     }
 
     /**
-     * insert数据分析
-     * @access protected
+     * insert数据分析.
+     *
      * @param Query $query 查询对象
-     * @param array $data 数据
+     * @param array $data  数据
+     *
      * @return array
      */
     protected function parseData(Query $query, array $data): array
@@ -111,8 +116,6 @@ class Mongo
                 $result[$item] = $val;
             } elseif (isset($val[0]) && 'exp' == $val[0]) {
                 $result[$item] = $val[1];
-            } elseif (is_null($val)) {
-                $result[$item] = 'NULL';
             } else {
                 $result[$item] = $this->parseValue($query, $val, $key);
             }
@@ -122,10 +125,11 @@ class Mongo
     }
 
     /**
-     * Set数据分析
-     * @access protected
+     * Set数据分析.
+     *
      * @param Query $query 查询对象
-     * @param array $data 数据
+     * @param array $data  数据
+     *
      * @return array
      */
     protected function parseSet(Query $query, array $data): array
@@ -139,7 +143,7 @@ class Mongo
         foreach ($data as $key => $val) {
             $item = $this->parseKey($query, $key);
 
-            if (is_array($val) && isset($val[0]) && is_string($val[0]) && 0 === strpos($val[0], '$')) {
+            if (is_array($val) && isset($val[0]) && is_string($val[0]) && str_starts_with($val[0], '$')) {
                 $result[$val[0]][$item] = $this->parseValue($query, $val[1], $key);
             } else {
                 $result['$set'][$item] = $this->parseValue($query, $val, $key);
@@ -150,10 +154,11 @@ class Mongo
     }
 
     /**
-     * 生成查询过滤条件
-     * @access public
+     * 生成查询过滤条件.
+     *
      * @param Query $query 查询对象
      * @param mixed $where
+     *
      * @return array
      */
     public function parseWhere(Query $query, array $where): array
@@ -164,30 +169,30 @@ class Mongo
 
         $filter = [];
         foreach ($where as $logic => $val) {
-            $logic = '$' . strtolower($logic);
+            $logic = '$'.strtolower($logic);
             foreach ($val as $field => $value) {
                 if (is_array($value)) {
                     if (key($value) !== 0) {
-                        throw new Exception('where express error:' . var_export($value, true));
+                        throw new Exception('where express error:'.var_export($value, true));
                     }
                     $field = array_shift($value);
                 } elseif (!($value instanceof \Closure)) {
-                    throw new Exception('where express error:' . var_export($value, true));
+                    throw new Exception('where express error:'.var_export($value, true));
                 }
 
                 if ($value instanceof \Closure) {
                     // 使用闭包查询
                     $query = new Query($this->connection);
-                    call_user_func_array($value, [ & $query]);
+                    call_user_func_array($value, [&$query]);
                     $filter[$logic][] = $this->parseWhere($query, $query->getOptions('where'));
                 } else {
-                    if (strpos($field, '|')) {
+                    if (str_contains($field, '|')) {
                         // 不同字段使用相同查询条件（OR）
                         $array = explode('|', $field);
                         foreach ($array as $k) {
                             $filter['$or'][] = $this->parseWhereItem($query, $k, $value);
                         }
-                    } elseif (strpos($field, '&')) {
+                    } elseif (str_contains($field, '&')) {
                         // 不同字段使用相同查询条件（AND）
                         $array = explode('&', $field);
                         foreach ($array as $k) {
@@ -195,7 +200,7 @@ class Mongo
                         }
                     } else {
                         // 对字段使用表达式查询
-                        $field            = is_string($field) ? $field : '';
+                        $field = is_string($field) ? $field : '';
                         $filter[$logic][] = $this->parseWhereItem($query, $field, $value);
                     }
                 }
@@ -206,7 +211,7 @@ class Mongo
         if (!empty($options['soft_delete'])) {
             // 附加软删除条件
             [$field, $condition] = $options['soft_delete'];
-            $filter['$and'][]    = $this->parseWhereItem($query, $field, $condition);
+            $filter['$and'][] = $this->parseWhereItem($query, $field, $condition);
         }
 
         return $filter;
@@ -226,7 +231,7 @@ class Mongo
         if (is_array($exp)) {
             $data = [];
             foreach ($val as $value) {
-                $exp   = $value[0];
+                $exp = $value[0];
                 $value = $value[1];
                 if (!in_array($exp, $this->exp)) {
                     $exp = strtolower($exp);
@@ -234,17 +239,18 @@ class Mongo
                         $exp = $this->exp[$exp];
                     }
                 }
-                $k        = '$' . $exp;
+                $k = '$'.$exp;
                 $data[$k] = $value;
             }
             $result[$key] = $data;
+
             return $result;
         } elseif (!in_array($exp, $this->exp)) {
             $exp = strtolower($exp);
             if (isset($this->exp[$exp])) {
                 $exp = $this->exp[$exp];
             } else {
-                throw new Exception('where express error:' . $exp);
+                throw new Exception('where express error:'.$exp);
             }
         }
 
@@ -254,7 +260,7 @@ class Mongo
             $result[$key] = $this->parseValue($query, $value, $key);
         } elseif (in_array($exp, ['neq', 'ne', 'gt', 'egt', 'gte', 'lt', 'lte', 'elt', 'mod'])) {
             // 比较运算
-            $k            = '$' . $exp;
+            $k = '$'.$exp;
             $result[$key] = [$k => $this->parseValue($query, $value, $key)];
         } elseif ('null' == $exp) {
             // NULL 查询
@@ -266,11 +272,11 @@ class Mongo
             $result[$key] = ['$all', $this->parseValue($query, $value, $key)];
         } elseif ('between' == $exp) {
             // 区间查询
-            $value        = is_array($value) ? $value : explode(',', $value);
+            $value = is_array($value) ? $value : explode(',', $value);
             $result[$key] = ['$gte' => $this->parseValue($query, $value[0], $key), '$lte' => $this->parseValue($query, $value[1], $key)];
         } elseif ('not between' == $exp) {
             // 范围查询
-            $value        = is_array($value) ? $value : explode(',', $value);
+            $value = is_array($value) ? $value : explode(',', $value);
             $result[$key] = ['$lt' => $this->parseValue($query, $value[0], $key), '$gt' => $this->parseValue($query, $value[1], $key)];
         } elseif ('exists' == $exp) {
             // 字段是否存在
@@ -290,7 +296,7 @@ class Mongo
             foreach ($value as $k => $val) {
                 $value[$k] = $this->parseValue($query, $val, $key);
             }
-            $result[$key] = ['$' . $exp => $value];
+            $result[$key] = ['$'.$exp => $value];
         } elseif ('regex' == $exp) {
             $result[$key] = $value instanceof Regex ? $value : new Regex($value, 'i');
         } elseif ('< time' == $exp) {
@@ -299,11 +305,11 @@ class Mongo
             $result[$key] = ['$gt' => $this->parseDateTime($query, $value, $field)];
         } elseif ('between time' == $exp) {
             // 区间查询
-            $value        = is_array($value) ? $value : explode(',', $value);
+            $value = is_array($value) ? $value : explode(',', $value);
             $result[$key] = ['$gte' => $this->parseDateTime($query, $value[0], $field), '$lte' => $this->parseDateTime($query, $value[1], $field)];
         } elseif ('not between time' == $exp) {
             // 范围查询
-            $value        = is_array($value) ? $value : explode(',', $value);
+            $value = is_array($value) ? $value : explode(',', $value);
             $result[$key] = ['$lt' => $this->parseDateTime($query, $value[0], $field), '$gt' => $this->parseDateTime($query, $value[1], $field)];
         } elseif ('near' == $exp) {
             // 经纬度查询
@@ -320,11 +326,12 @@ class Mongo
     }
 
     /**
-     * 日期时间条件解析
-     * @access protected
-     * @param Query     $query 查询对象
-     * @param string    $value
-     * @param string    $key
+     * 日期时间条件解析.
+     *
+     * @param Query  $query 查询对象
+     * @param string $value
+     * @param string $key
+     *
      * @return string
      */
     protected function parseDateTime(Query $query, $value, $key)
@@ -352,8 +359,8 @@ class Mongo
     }
 
     /**
-     * 获取最后写入的ID 如果是insertAll方法的话 返回所有写入的ID
-     * @access public
+     * 获取最后写入的ID 如果是insertAll方法的话 返回所有写入的ID.
+     *
      * @return mixed
      */
     public function getLastInsID()
@@ -363,8 +370,9 @@ class Mongo
 
     /**
      * 生成insert BulkWrite对象
-     * @access public
-     * @param Query     $query 查询对象
+     *
+     * @param Query $query 查询对象
+     *
      * @return BulkWrite
      */
     public function insert(Query $query): BulkWrite
@@ -374,7 +382,7 @@ class Mongo
 
         $data = $this->parseData($query, $options['data']);
 
-        $bulk = new BulkWrite;
+        $bulk = new BulkWrite();
 
         if ($insertId = $bulk->insert($data)) {
             $this->insertId = $insertId;
@@ -387,14 +395,15 @@ class Mongo
 
     /**
      * 生成insertall BulkWrite对象
-     * @access public
-     * @param Query     $query 查询对象
-     * @param array     $dataSet 数据集
+     *
+     * @param Query $query   查询对象
+     * @param array $dataSet 数据集
+     *
      * @return BulkWrite
      */
     public function insertAll(Query $query, array $dataSet): BulkWrite
     {
-        $bulk    = new BulkWrite;
+        $bulk = new BulkWrite();
         $options = $query->getOptions();
 
         $this->insertId = [];
@@ -413,15 +422,16 @@ class Mongo
 
     /**
      * 生成update BulkWrite对象
-     * @access public
-     * @param Query     $query 查询对象
+     *
+     * @param Query $query 查询对象
+     *
      * @return BulkWrite
      */
     public function update(Query $query): BulkWrite
     {
         $options = $query->getOptions();
 
-        $data  = $this->parseSet($query, $options['data']);
+        $data = $this->parseSet($query, $options['data']);
         $where = $this->parseWhere($query, $options['where']);
 
         if (1 == $options['limit']) {
@@ -430,7 +440,7 @@ class Mongo
             $updateOptions = ['multi' => true];
         }
 
-        $bulk = new BulkWrite;
+        $bulk = new BulkWrite();
 
         $bulk->update($where, $data, $updateOptions);
 
@@ -441,16 +451,17 @@ class Mongo
 
     /**
      * 生成delete BulkWrite对象
-     * @access public
-     * @param Query     $query 查询对象
+     *
+     * @param Query $query 查询对象
+     *
      * @return BulkWrite
      */
     public function delete(Query $query): BulkWrite
     {
         $options = $query->getOptions();
-        $where   = $this->parseWhere($query, $options['where']);
+        $where = $this->parseWhere($query, $options['where']);
 
-        $bulk = new BulkWrite;
+        $bulk = new BulkWrite();
 
         if (1 == $options['limit']) {
             $deleteOptions = ['limit' => 1];
@@ -467,9 +478,10 @@ class Mongo
 
     /**
      * 生成Mongo查询对象
-     * @access public
-     * @param  Query $query 查询对象
-     * @param  bool  $one   是否仅获取一个记录
+     *
+     * @param Query $query 查询对象
+     * @param bool  $one   是否仅获取一个记录
+     *
      * @return MongoQuery
      */
     public function select(Query $query, bool $one = false): MongoQuery
@@ -490,9 +502,10 @@ class Mongo
     }
 
     /**
-     * 生成Count命令
-     * @access public
-     * @param Query     $query 查询对象
+     * 生成Count命令.
+     *
+     * @param Query $query 查询对象
+     *
      * @return Command
      */
     public function count(Query $query): Command
@@ -515,33 +528,34 @@ class Mongo
     }
 
     /**
-     * 聚合查询命令
-     * @access public
-     * @param Query     $query  查询对象
-     * @param array     $extra  指令和字段
+     * 聚合查询命令.
+     *
+     * @param Query $query 查询对象
+     * @param array $extra 指令和字段
+     *
      * @return Command
      */
     public function aggregate(Query $query, array $extra): Command
     {
-        $options       = $query->getOptions();
+        $options = $query->getOptions();
         [$fun, $field] = $extra;
 
         if ('id' == $field && $this->connection->getConfig('pk_convert_id')) {
             $field = '_id';
         }
 
-        $group = isset($options['group']) ? '$' . $options['group'] : null;
+        $group = isset($options['group']) ? '$'.$options['group'] : null;
 
         $pipeline = [
             ['$match' => (object) $this->parseWhere($query, $options['where'])],
-            ['$group' => ['_id' => $group, 'aggregate' => ['$' . $fun => '$' . $field]]],
+            ['$group' => ['_id' => $group, 'aggregate' => ['$'.$fun => '$'.$field]]],
         ];
 
         $cmd = [
             'aggregate'    => $options['table'],
             'allowDiskUse' => true,
             'pipeline'     => $pipeline,
-            'cursor'       => new \stdClass,
+            'cursor'       => new \stdClass(),
         ];
 
         foreach (['explain', 'collation', 'bypassDocumentValidation', 'readConcern'] as $option) {
@@ -558,10 +572,11 @@ class Mongo
     }
 
     /**
-     * 多聚合查询命令, 可以对多个字段进行 group by 操作
+     * 多聚合查询命令, 可以对多个字段进行 group by 操作.
      *
-     * @param Query     $query  查询对象
-     * @param array     $extra 指令和字段
+     * @param Query $query 查询对象
+     * @param array $extra 指令和字段
+     *
      * @return Command
      */
     public function multiAggregate(Query $query, $extra): Command
@@ -573,11 +588,11 @@ class Mongo
         $groups = ['_id' => []];
 
         foreach ($groupBy as $field) {
-            $groups['_id'][$field] = '$' . $field;
+            $groups['_id'][$field] = '$'.$field;
         }
 
         foreach ($aggregate as $fun => $field) {
-            $groups[$field . '_' . $fun] = ['$' . $fun => '$' . $field];
+            $groups[$field.'_'.$fun] = ['$'.$fun => '$'.$field];
         }
 
         $pipeline = [
@@ -589,7 +604,7 @@ class Mongo
             'aggregate'    => $options['table'],
             'allowDiskUse' => true,
             'pipeline'     => $pipeline,
-            'cursor'       => new \stdClass,
+            'cursor'       => new \stdClass(),
         ];
 
         foreach (['explain', 'collation', 'bypassDocumentValidation', 'readConcern'] as $option) {
@@ -605,10 +620,11 @@ class Mongo
     }
 
     /**
-     * 生成distinct命令
-     * @access public
-     * @param Query     $query 查询对象
-     * @param string    $field 字段名
+     * 生成distinct命令.
+     *
+     * @param Query  $query 查询对象
+     * @param string $field 字段名
+     *
      * @return Command
      */
     public function distinct(Query $query, $field): Command
@@ -636,13 +652,13 @@ class Mongo
     }
 
     /**
-     * 查询所有的collection
-     * @access public
+     * 查询所有的collection.
+     *
      * @return Command
      */
     public function listcollections(): Command
     {
-        $cmd     = ['listCollections' => 1];
+        $cmd = ['listCollections' => 1];
         $command = new Command($cmd);
 
         $this->log('cmd', 'listCollections', $cmd);
@@ -651,16 +667,17 @@ class Mongo
     }
 
     /**
-     * 查询数据表的状态信息
-     * @access public
-     * @param Query     $query 查询对象
+     * 查询数据表的状态信息.
+     *
+     * @param Query $query 查询对象
+     *
      * @return Command
      */
     public function collStats(Query $query): Command
     {
         $options = $query->getOptions();
 
-        $cmd     = ['collStats' => $options['table']];
+        $cmd = ['collStats' => $options['table']];
         $command = new Command($cmd);
 
         $this->log('cmd', 'collStats', $cmd);

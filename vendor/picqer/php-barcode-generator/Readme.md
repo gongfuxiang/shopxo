@@ -1,7 +1,9 @@
 # PHP Barcode Generator 
-[![Build Status](https://travis-ci.org/picqer/php-barcode-generator.svg?branch=main)](https://travis-ci.org/picqer/php-barcode-generator) [![Github Actions](https://github.com/picqer/php-barcode-generator/workflows/phpunit/badge.svg)](https://travis-ci.org/picqer/php-barcode-generator) [![Total Downloads](https://poser.pugx.org/picqer/php-barcode-generator/downloads)](https://packagist.org/packages/picqer/php-barcode-generator)
+<a href="https://github.com/picqer/php-barcode-generator/actions"><img src="https://github.com/picqer/php-barcode-generator/workflows/phpunit/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/picqer/php-barcode-generator"><img src="https://img.shields.io/packagist/dt/picqer/php-barcode-generator" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/picqer/php-barcode-generator"><img src="https://img.shields.io/packagist/v/picqer/php-barcode-generator" alt="Latest Stable Version"></a>
 
-This is an easy to use, non-bloated, framework independent, barcode generator in PHP.
+This is an easy to use, non-bloated, framework independent, barcode generator in PHP. It uses zero(!) composer dependencies and is only a handful of files. Probably the reason that this is the most downloaded barcode generator for PHP on Packagist. ;)
 
 It creates SVG, PNG, JPG and HTML images, from the most used 1D barcode standards.
 
@@ -31,6 +33,9 @@ require 'vendor/autoload.php';
 $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
 echo $generator->getBarcode('081231723897', $generator::TYPE_CODE_128);
 ```
+
+Will result in this beauty:<br>
+![Barcode 081231723897 as Code 128](tests/verified-files/081231723897-ean13.svg)
 
 The `getBarcode()` method accepts the following parameters:
 - `$barcode` String needed to encode in the barcode
@@ -84,6 +89,7 @@ Most used types are TYPE_CODE_128 and TYPE_CODE_39. Because of the best scanner 
 - TYPE_EAN_5
 - TYPE_EAN_8
 - TYPE_EAN_13
+- TYPE_ITF14 (Also known as GTIN-14)
 - TYPE_UPC_A
 - TYPE_UPC_E
 - TYPE_MSI

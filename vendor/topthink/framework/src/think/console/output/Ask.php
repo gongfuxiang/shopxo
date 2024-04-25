@@ -169,7 +169,7 @@ class Ask
                 $ofs        = 0;
 
                 foreach ($autocomplete as $value) {
-                    if (0 === strpos($value, $ret) && $i !== strlen($value)) {
+                    if (str_starts_with($value, $ret) && $i !== strlen($value)) {
                         $matches[$numMatches++] = $value;
                     }
                 }

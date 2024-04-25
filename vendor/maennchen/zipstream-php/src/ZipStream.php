@@ -299,7 +299,7 @@ class ZipStream
         $options->defaultTo($this->opt);
 
         $file = new File($this, $name, $options);
-        $file->processStream(new DeflateStream($stream));
+        $file->processStream(new Stream($stream));
     }
 
     /**

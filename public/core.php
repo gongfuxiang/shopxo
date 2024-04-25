@@ -10,14 +10,14 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v6.0.0');
+define('APPLICATION_VERSION', 'v6.1.0');
 
 // 检测PHP环境
-if(version_compare(PHP_VERSION,'7.4.0','<'))
+if(version_compare(PHP_VERSION, '8.0.0','<'))
 {
     header('HTTP/1.1 500 Internal Server Error');
     header('Content-Type:text/html;charset=utf-8');
-    die('<div style="margin-top:15%;text-align:center;font-size:16px;padding:0 10px;"><p><a href="https://shopxo.net/" target="_blank" title="ShopXO电商系统" style="font-size:36px;font-weight:bold;text-decoration:none;"><span style="color:#026ed9;">Shop</span><span style="color:#e6000e;">XO</span></a> <span style="color:#888;">'.APPLICATION_VERSION.'</span></p><p style="color:#f00;margin-top:10px;">需要PHP版本最低 v7.4.0，当前PHP版本 v'.PHP_VERSION.'</p></div>');
+    die('<div style="margin-top:15%;text-align:center;font-size:16px;padding:0 10px;"><p><a href="https://shopxo.net/" target="_blank" title="ShopXO电商系统" style="font-size:36px;font-weight:bold;text-decoration:none;"><span style="color:#026ed9;">Shop</span><span style="color:#f00;">XO</span></a> <span style="color:#888;">'.APPLICATION_VERSION.'</span></p><p style="color:#f00;margin-top:10px;">需要PHP版本最低 v8.0.0，当前PHP版本 v'.PHP_VERSION.'</p></div>');
 }
 
 // 定义系统目录分隔符

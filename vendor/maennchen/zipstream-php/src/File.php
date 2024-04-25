@@ -120,7 +120,7 @@ class File
         } else {
             $this->method = $this->zip->opt->getLargeFileMethod();
 
-            $stream = new DeflateStream(fopen($path, 'rb'));
+            $stream = new Stream(fopen($path, 'rb'));
             $this->processStream($stream);
             $stream->close();
         }
@@ -462,19 +462,6 @@ class File
     {
         $this->readStream($stream, self::COMPUTE);
         $stream->rewind();
-
-        // incremental compression with deflate_add
-        // makes this second read unnecessary
-        // but it is only available from PHP 7.0
-        if (!$this->deflate && $stream instanceof DeflateStream && $this->method->equals(Method::DEFLATE())) {
-            $stream->addDeflateFilter($this->opt);
-            $this->zlen = new Bigint();
-            while (!$stream->eof()) {
-                $data = $stream->read(self::CHUNKED_READ_BLOCK_SIZE);
-                $this->zlen = $this->zlen->add(Bigint::init(strlen($data)));
-            }
-            $stream->rewind();
-        }
 
         $this->addFileHeader();
         $this->readStream($stream, self::SEND);

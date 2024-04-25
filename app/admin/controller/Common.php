@@ -194,28 +194,14 @@ class Common extends BaseController
         $this->system_type = SystemService::SystemTypeValue();
         $assign['system_type'] = $this->system_type;
 
-        // 公共参数
-        $assign['params'] = $this->data_request;
+        // 公共参数（去除多余的参数、避免给页面url地址造成污染）
+        $temp_params = $this->data_request;
+        unset($temp_params['s'], $temp_params['pluginsname'], $temp_params['pluginscontrol'], $temp_params['pluginsaction']);
+        $assign['params'] = $temp_params;
 
 		// 主题
         $this->default_theme = 'default';
         $assign['default_theme'] = $this->default_theme;
-
-        // 基础表单数据、去除数组和对象列
-        $form_back_params = $this->data_request;
-        if(!empty($form_back_params) && is_array($form_back_params))
-        {
-            foreach($form_back_params as $k=>$v)
-            {
-                if(is_array($v) || is_object($v))
-                {
-                    unset($form_back_params[$k]);
-                }
-            }
-            unset($form_back_params['id'], $form_back_params['form_back_control'], $form_back_params['form_back_action']);
-        }
-        $this->form_back_params = $form_back_params;
-        $assign['form_back_params'] = $this->form_back_params;
 
         // 当前系统操作名称
         $this->module_name = RequestModule();
@@ -237,11 +223,6 @@ class Common extends BaseController
             $this->plugins_controller_name = '';
             $this->plugins_action_name = '';
 
-            // 页面表单操作指定返回、方法默认index
-            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->controller_name : $this->data_request['form_back_control'];
-            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
-            $this->form_back_url = MyUrl($this->module_name.'/'.$this->form_back_control.'/'.$this->form_back_action, $this->form_back_params);
-
             // 页面唯一标记
             $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->action_name;
         } else {
@@ -250,15 +231,13 @@ class Common extends BaseController
             $this->plugins_controller_name = empty($this->data_request['pluginscontrol']) ? 'index' : $this->data_request['pluginscontrol'];
             $this->plugins_action_name = empty($this->data_request['pluginsaction']) ? 'index' : $this->data_request['pluginsaction'];
 
-            // 页面表单操作指定返回、方法默认index
-            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->plugins_controller_name : $this->data_request['form_back_control'];
-            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
-            $this->form_back_url = PluginsAdminUrl($this->plugins_module_name, $this->form_back_control, $this->form_back_action, $this->form_back_params);
-
             // 页面唯一标记
             $this->page_unique_mark = $this->module_name.'-'.$this->controller_name.'-'.$this->plugins_module_name.'-'.$this->plugins_controller_name.'-'.$this->plugins_action_name;
         }
         $this->plugins_mca = $this->plugins_module_name.$this->plugins_controller_name.$this->plugins_action_name;
+
+        // 页面唯一标记
+        $assign['page_unique_mark'] = $this->page_unique_mark;
 
         // 当前插件操作名称
         $assign['plugins_module_name'] = $this->plugins_module_name;
@@ -266,19 +245,34 @@ class Common extends BaseController
         $assign['plugins_action_name'] = $this->plugins_action_name;
         $assign['plugins_mca'] = $this->plugins_mca;
 
-        // 页面唯一标记
-        $assign['page_unique_mark'] = $this->page_unique_mark;
-
+        // 基础表单数据、去除数组和对象列
+        $form_back_params = $this->data_request;
+        if(!empty($form_back_params) && is_array($form_back_params))
+        {
+            foreach($form_back_params as $k=>$v)
+            {
+                if(is_array($v) || is_object($v))
+                {
+                    unset($form_back_params[$k]);
+                }
+            }
+            unset($form_back_params['s'], $form_back_params['pluginsname'], $form_back_params['pluginscontrol'], $form_back_params['pluginsaction'], $form_back_params['id'], $form_back_params['form_back_control'], $form_back_params['form_back_action']);
+        }
+        $this->form_back_params = $form_back_params;
+        $assign['form_back_params'] = $this->form_back_params;
+        // 页面表单操作指定返回、方法默认index
+        if(empty($this->plugins_module_name))
+        {
+            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->controller_name : $this->data_request['form_back_control'];
+            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
+            $this->form_back_url = MyUrl($this->module_name.'/'.$this->form_back_control.'/'.$this->form_back_action, $this->form_back_params);
+        } else {
+            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->plugins_controller_name : $this->data_request['form_back_control'];
+            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
+            $this->form_back_url = PluginsHomeUrl($this->plugins_module_name, $this->form_back_control, $this->form_back_action, $this->form_back_params);
+        }
         // 基础表单返回url
         $assign['form_back_url'] = $this->form_back_url;
-
-        // 管理员
-        $assign['admin'] = $this->admin;
-
-        // 权限菜单
-        $assign['left_menu'] = $this->left_menu;
-        // 当前管理员可使用的插件
-        $assign['admin_plugins'] = $this->admin_plugins;
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
@@ -287,6 +281,14 @@ class Common extends BaseController
         $assign['page'] = $this->page;
         $assign['page_size'] = $this->page_size;
         $assign['page_start'] = $this->page_start;
+
+        // 管理员
+        $assign['admin'] = $this->admin;
+
+        // 权限菜单
+        $assign['left_menu'] = $this->left_menu;
+        // 当前管理员可使用的插件
+        $assign['admin_plugins'] = $this->admin_plugins;
 
         // 货币符号
         $assign['currency_symbol'] = ResourcesService::CurrencyDataSymbol();

@@ -8,3 +8,4 @@ Thumbs.db
 /.settings
 /.buildpath
 /.project
+.phpunit.result.cache

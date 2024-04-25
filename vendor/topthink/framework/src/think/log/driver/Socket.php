@@ -22,8 +22,6 @@ use think\contract\LogHandlerInterface;
  */
 class Socket implements LogHandlerInterface
 {
-    protected $app;
-
     protected $config = [
         // socket服务器地址
         'host'                => 'localhost',
@@ -66,10 +64,8 @@ class Socket implements LogHandlerInterface
      * @param App   $app
      * @param array $config 缓存参数
      */
-    public function __construct(App $app, array $config = [])
+    public function __construct(protected App $app, array $config = [])
     {
-        $this->app = $app;
-
         if (!empty($config)) {
             $this->config = array_merge($this->config, $config);
         }

@@ -8,12 +8,9 @@ use Throwable;
 
 class FuncNotFoundException extends RuntimeException implements NotFoundExceptionInterface
 {
-    protected $func;
-
-    public function __construct(string $message, string $func = '', Throwable $previous = null)
+    public function __construct(string $message, protected string $func = '', Throwable $previous = null)
     {
         $this->message = $message;
-        $this->func   = $func;
 
         parent::__construct($message, 0, $previous);
     }

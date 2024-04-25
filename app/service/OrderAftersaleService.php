@@ -1173,10 +1173,10 @@ class OrderAftersaleService
             }
 
             // 是否需要自动退回数量
-            // 仅退款类型、申请退款金额+已退款金额大于等于订单商品详情总额时
+            // 仅退款类型、申请退款金额+已退款金额  大于等于  订单商品详情总额-订单优惠金额时
             // 非已发货和已完成、或虚拟订单模式
             $is_refund_only_number = false;
-            if($aftersale['type'] == 0 && $aftersale['price']+$order['data']['items']['refund_price'] >= $order['data']['items']['total_price'] && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
+            if($aftersale['type'] == 0 && $aftersale['price']+$order['data']['items']['refund_price'] >= $order['data']['items']['total_price']-$order['data']['preferential_price'] && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
             {
                 $is_refund_only_number = true;
                 $aftersale['number'] = $order['data']['items']['buy_number']-$order['data']['items']['returned_quantity'];
@@ -1189,7 +1189,6 @@ class OrderAftersaleService
                 'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
                 'refund_price'      => $refund_price,
                 'returned_quantity' => $returned_quantity,
-                'close_time'        => time(),
                 'upd_time'          => time(),
             ];
 
@@ -1197,6 +1196,7 @@ class OrderAftersaleService
             if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
             {
                 $order_upd_data['status'] = 6;
+                $order_upd_data['close_time'] = time();
             }
             
             // 更新主订单

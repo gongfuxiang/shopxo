@@ -224,6 +224,11 @@
     <script type="text/javascript" src="{{$public_host}}static/common/lib/ace-builds/src-min/ace.js"></script>
 {{/if}}
 
+<!-- 范围滑条 -->
+{{if isset($is_load_jrange) and $is_load_jrange eq 1}}
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/jRange/jquery.range.js"></script>
+{{/if}}
+
 <!-- 隐藏编辑器初始化 -->
 <script type="text/javascript">
     var upload_editor = UE.getEditor("upload-editor-view", {

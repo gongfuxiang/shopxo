@@ -28,7 +28,7 @@ class CacheTest extends TestCase
         m::close();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->app = m::mock(App::class)->makePartial();
 
@@ -70,7 +70,8 @@ class CacheTest extends TestCase
 
         $this->config->shouldReceive('get')->with("cache.default", null)->andReturn('file');
 
-        $this->config->shouldReceive('get')->with("cache.stores.file", null)->andReturn(['type' => 'file', 'path' => $root->url()]);
+        $this->config->shouldReceive('get')->with("cache.stores.file", null)
+            ->andReturn(['type' => 'file', 'path' => $root->url()]);
 
         $this->cache->set('foo', 5);
         $this->cache->inc('foo');
@@ -97,12 +98,16 @@ class CacheTest extends TestCase
         //tags
         $this->cache->tag('foo')->set('bar', 'foobar');
         $this->assertEquals('foobar', $this->cache->get('bar'));
+        $this->cache->tag('foo')->remember('baz', 'foobar');
+        $this->assertEquals('foobar', $this->cache->get('baz'));
         $this->cache->tag('foo')->clear();
         $this->assertFalse($this->cache->has('bar'));
 
         //multiple
         $this->cache->setMultiple(['foo' => ['foobar', 'bar'], 'foobar' => ['foo', 'bar']]);
+        $this->cache->tag('foo')->setMultiple(['foo' => ['foobar', 'bar'], 'foobar' => ['foo', 'bar']]);
         $this->assertEquals(['foo' => ['foobar', 'bar'], 'foobar' => ['foo', 'bar']], $this->cache->getMultiple(['foo', 'foobar']));
+        $this->assertIsInt($this->cache->getWriteTimes());
         $this->assertTrue($this->cache->deleteMultiple(['foo', 'foobar']));
     }
 

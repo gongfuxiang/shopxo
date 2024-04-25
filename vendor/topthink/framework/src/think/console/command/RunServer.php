@@ -56,7 +56,8 @@ class RunServer extends Command
         }
 
         $command = sprintf(
-            'php -S %s:%d -t %s %s',
+            '%s -S %s:%d -t %s %s',
+            PHP_BINARY,
             $host,
             $port,
             escapeshellarg($root),
@@ -68,5 +69,4 @@ class RunServer extends Command
         $output->writeln(sprintf('Document root is: %s', $root));
         passthru($command);
     }
-
 }

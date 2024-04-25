@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -46,18 +46,11 @@ class Cookie
     protected $cookie = [];
 
     /**
-     * 当前Request对象
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * 构造方法
      * @access public
      */
-    public function __construct(Request $request, array $config = [])
+    public function __construct(protected Request $request, array $config = [])
     {
-        $this->request = $request;
         $this->config  = array_merge($this->config, array_change_key_case($config));
     }
 
@@ -215,18 +208,13 @@ class Cookie
      */
     protected function saveCookie(string $name, string $value, int $expire, string $path, string $domain, bool $secure, bool $httponly, string $samesite): void
     {
-        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            setcookie($name, $value, [
-                'expires'  => $expire,
-                'path'     => $path,
-                'domain'   => $domain,
-                'secure'   => $secure,
-                'httponly' => $httponly,
-                'samesite' => $samesite,
-            ]);
-        } else {
-            setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-        }
+        setcookie($name, $value, [
+            'expires'  => $expire,
+            'path'     => $path,
+            'domain'   => $domain,
+            'secure'   => $secure,
+            'httponly' => $httponly,
+            'samesite' => $samesite,
+        ]);
     }
-
 }

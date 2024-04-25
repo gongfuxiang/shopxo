@@ -27,6 +27,21 @@ project. Use following command to add the package to your project's dependencies
 .. code-block:: sh
    composer require maennchen/zipstream-php
 
+If ``composer install`` yields the following error, your installation is missing
+the `mbstring extension <https://www.php.net/manual/en/book.mbstring.php>`_,
+either `install it <https://www.php.net/manual/en/mbstring.installation.php>`_
+or run the follwoing command:
+
+.. code-block::
+    Your requirements could not be resolved to an installable set of packages.
+
+    Problem 1
+        - Root composer.json requires PHP extension ext-mbstring * but it is
+          missing from your system. Install or enable PHP's mbstrings extension.
+
+.. code-block:: sh
+   composer require symfony/polyfill-mbstring
+
 Usage Intro
 ---------------
 

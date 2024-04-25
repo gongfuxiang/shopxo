@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,6 +12,8 @@ declare (strict_types = 1);
 
 namespace think\cache\driver;
 
+use DateInterval;
+use DateTimeInterface;
 use think\cache\Driver;
 
 /**
@@ -64,8 +66,8 @@ class Memcache extends Driver
         foreach ($hosts as $i => $host) {
             $port = $ports[$i] ?? $ports[0];
             $this->options['timeout'] > 0 ?
-            $this->handler->addServer($host, (int) $port, $this->options['persistent'], 1, (int) $this->options['timeout']) :
-            $this->handler->addServer($host, (int) $port, $this->options['persistent'], 1);
+                $this->handler->addServer($host, (int) $port, $this->options['persistent'], 1, (int) $this->options['timeout']) :
+                $this->handler->addServer($host, (int) $port, $this->options['persistent'], 1);
         }
     }
 
@@ -89,10 +91,8 @@ class Memcache extends Driver
      * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name, $default = null)
+    public function get($name, $default = null): mixed
     {
-        $this->readTimes++;
-
         $result = $this->handler->get($this->getCacheKey($name));
 
         return false !== $result ? $this->unserialize($result) : $default;
@@ -101,15 +101,13 @@ class Memcache extends Driver
     /**
      * 写入缓存
      * @access public
-     * @param string        $name   缓存变量名
-     * @param mixed         $value  存储数据
-     * @param int|\DateTime $expire 有效时间（秒）
+     * @param string                             $name   缓存变量名
+     * @param mixed                              $value  存储数据
+     * @param int|DateTimeInterface|DateInterval $expire 有效时间（秒）
      * @return bool
      */
     public function set($name, $value, $expire = null): bool
     {
-        $this->writeTimes++;
-
         if (is_null($expire)) {
             $expire = $this->options['expire'];
         }
@@ -132,10 +130,8 @@ class Memcache extends Driver
      * @param int    $step 步长
      * @return false|int
      */
-    public function inc(string $name, int $step = 1)
+    public function inc($name, $step = 1)
     {
-        $this->writeTimes++;
-
         $key = $this->getCacheKey($name);
 
         if ($this->handler->get($key)) {
@@ -152,10 +148,8 @@ class Memcache extends Driver
      * @param int    $step 步长
      * @return false|int
      */
-    public function dec(string $name, int $step = 1)
+    public function dec($name, $step = 1)
     {
-        $this->writeTimes++;
-
         $key   = $this->getCacheKey($name);
         $value = $this->handler->get($key) - $step;
         $res   = $this->handler->set($key, $value);
@@ -172,13 +166,11 @@ class Memcache extends Driver
      */
     public function delete($name, $ttl = false): bool
     {
-        $this->writeTimes++;
-
         $key = $this->getCacheKey($name);
 
         return false === $ttl ?
-        $this->handler->delete($key) :
-        $this->handler->delete($key, $ttl);
+            $this->handler->delete($key) :
+            $this->handler->delete($key, $ttl);
     }
 
     /**
@@ -188,8 +180,6 @@ class Memcache extends Driver
      */
     public function clear(): bool
     {
-        $this->writeTimes++;
-
         return $this->handler->flush();
     }
 
@@ -199,11 +189,10 @@ class Memcache extends Driver
      * @param array $keys 缓存标识列表
      * @return void
      */
-    public function clearTag(array $keys): void
+    public function clearTag($keys): void
     {
         foreach ($keys as $key) {
             $this->handler->delete($key);
         }
     }
-
 }

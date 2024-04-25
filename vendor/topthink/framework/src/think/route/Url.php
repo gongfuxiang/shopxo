@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route;
 
@@ -20,30 +20,6 @@ use think\Route;
  */
 class Url
 {
-    /**
-     * 应用对象
-     * @var App
-     */
-    protected $app;
-
-    /**
-     * 路由对象
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * URL变量
-     * @var array
-     */
-    protected $vars = [];
-
-    /**
-     * 路由URL
-     * @var string
-     */
-    protected $url;
-
     /**
      * URL 根地址
      * @var string
@@ -71,15 +47,13 @@ class Url
     /**
      * 架构函数
      * @access public
+     * @param  Route  $route URL地址
+     * @param  App    $app App对象
      * @param  string $url URL地址
      * @param  array  $vars 参数
      */
-    public function __construct(Route $route, App $app, string $url = '', array $vars = [])
+    public function __construct(protected Route $route, protected App $app, protected string $url = '', protected array $vars = [])
     {
-        $this->route = $route;
-        $this->app   = $app;
-        $this->url   = $url;
-        $this->vars  = $vars;
     }
 
     /**
@@ -100,7 +74,7 @@ class Url
      * @param  string|bool $suffix URL后缀
      * @return $this
      */
-    public function suffix($suffix)
+    public function suffix(string|bool $suffix)
     {
         $this->suffix = $suffix;
         return $this;
@@ -112,7 +86,7 @@ class Url
      * @param  string|bool $domain URL域名
      * @return $this
      */
-    public function domain($domain)
+    public function domain(string|bool $domain)
     {
         $this->domain = $domain;
         return $this;
@@ -149,7 +123,7 @@ class Url
      * @param  string|true $domain 域名
      * @return string
      */
-    protected function parseDomain(string &$url, $domain): string
+    protected function parseDomain(string &$url, string|bool $domain): string
     {
         if (!$domain) {
             return '';
@@ -166,10 +140,10 @@ class Url
             if (!empty($domains)) {
                 $routeDomain = array_keys($domains);
                 foreach ($routeDomain as $domainPrefix) {
-                    if (0 === strpos($domainPrefix, '*.') && strpos($domain, ltrim($domainPrefix, '*.')) !== false) {
+                    if (str_starts_with($domainPrefix, '*.') && str_contains($domain, ltrim($domainPrefix, '*.')) !== false) {
                         foreach ($domains as $key => $rule) {
                             $rule = is_array($rule) ? $rule[0] : $rule;
-                            if (is_string($rule) && false === strpos($key, '*') && 0 === strpos($url, $rule)) {
+                            if (is_string($rule) && !str_contains($key, '*') && str_starts_with($url, $rule)) {
                                 $url    = ltrim($url, $rule);
                                 $domain = $key;
 
@@ -178,7 +152,7 @@ class Url
                                     $domain .= $rootDomain;
                                 }
                                 break;
-                            } elseif (false !== strpos($key, '*')) {
+                            } elseif (str_contains($key, '*')) {
                                 if (!empty($rootDomain)) {
                                     $domain .= $rootDomain;
                                 }
@@ -189,11 +163,11 @@ class Url
                     }
                 }
             }
-        } elseif (false === strpos($domain, '.') && 0 !== strpos($domain, $rootDomain)) {
+        } elseif (!str_contains($domain, '.') && !str_starts_with($domain, $rootDomain)) {
             $domain .= '.' . $rootDomain;
         }
 
-        if (false !== strpos($domain, '://')) {
+        if (str_contains($domain, '://')) {
             $scheme = '';
         } else {
             $scheme = $this->https || $request->isSsl() ? 'https://' : 'http://';
@@ -208,7 +182,7 @@ class Url
      * @param  string|bool $suffix 后缀
      * @return string
      */
-    protected function parseSuffix($suffix): string
+    protected function parseSuffix(string|bool $suffix): string
     {
         if ($suffix) {
             $suffix = true === $suffix ? $this->route->config('url_html_suffix') : $suffix;
@@ -218,7 +192,7 @@ class Url
             }
         }
 
-        return (empty($suffix) || 0 === strpos($suffix, '.')) ? (string) $suffix : '.' . $suffix;
+        return (empty($suffix) || str_starts_with($suffix, '.')) ? (string) $suffix : '.' . $suffix;
     }
 
     /**
@@ -228,17 +202,17 @@ class Url
      * @param  string|bool $domain Domain
      * @return string
      */
-    protected function parseUrl(string $url, &$domain): string
+    protected function parseUrl(string $url, string | bool &$domain): string
     {
         $request = $this->app->request;
 
-        if (0 === strpos($url, '/')) {
+        if (str_starts_with($url, '/')) {
             // 直接作为路由地址解析
             $url = substr($url, 1);
-        } elseif (false !== strpos($url, '\\')) {
+        } elseif (str_contains($url, '\\')) {
             // 解析到类
             $url = ltrim(str_replace('\\', '/', $url), '/');
-        } elseif (0 === strpos($url, '@')) {
+        } elseif (str_starts_with($url, '@')) {
             // 解析到控制器
             $url = substr($url, 1);
         } elseif ('' === $url) {
@@ -271,7 +245,7 @@ class Url
             foreach ($matches[0] as $name) {
                 $optional = false;
 
-                if (strpos($name, '?')) {
+                if (str_contains($name, '?')) {
                     $name     = substr($name, 1, -2);
                     $optional = true;
                 } else {
@@ -290,13 +264,13 @@ class Url
      * @access protected
      * @param  array $rule 路由规则
      * @param  array $vars 路由变量
-     * @param  mixed $allowDomain 允许域名
+     * @param  string|bool $allowDomain 允许域名
      * @return array
      */
-    protected function getRuleUrl(array $rule, array &$vars = [], $allowDomain = ''): array
+    protected function getRuleUrl(array $rule, array &$vars = [], string|bool $allowDomain = ''): array
     {
         $request = $this->app->request;
-        if (is_string($allowDomain) && false === strpos($allowDomain, '.')) {
+        if (is_string($allowDomain) && !str_contains($allowDomain, '.')) {
             $allowDomain .= '.' . $request->rootDomain();
         }
         $port = $request->port();
@@ -358,7 +332,7 @@ class Url
      * @access public
      * @return string
      */
-    public function build()
+    public function build(): string
     {
         // 解析URL
         $url     = $this->url;
@@ -367,13 +341,13 @@ class Url
         $request = $this->app->request;
         $vars    = $this->vars;
 
-        if (0 === strpos($url, '[') && $pos = strpos($url, ']')) {
+        if (str_starts_with($url, '[') && $pos = strpos($url, ']')) {
             // [name] 表示使用路由命名标识生成URL
             $name = substr($url, 1, $pos - 1);
             $url  = 'name' . substr($url, $pos + 1);
         }
 
-        if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
+        if (!str_contains($url, '://') && !str_starts_with($url, '/')) {
             $info = parse_url($url);
             $url  = !empty($info['path']) ? $info['path'] : '';
 
@@ -381,16 +355,16 @@ class Url
                 // 解析锚点
                 $anchor = $info['fragment'];
 
-                if (false !== strpos($anchor, '?')) {
+                if (str_contains($anchor, '?')) {
                     // 解析参数
                     [$anchor, $info['query']] = explode('?', $anchor, 2);
                 }
 
-                if (false !== strpos($anchor, '@')) {
+                if (str_contains($anchor, '@')) {
                     // 解析域名
                     [$anchor, $domain] = explode('@', $anchor, 2);
                 }
-            } elseif (strpos($url, '@') && false === strpos($url, '\\')) {
+            } elseif (str_contains($url, '@') && !str_contains($url, '\\')) {
                 // 解析域名
                 [$url, $domain] = explode('@', $url, 2);
             }
@@ -428,13 +402,13 @@ class Url
             // 检测URL绑定
             $bind = $this->route->getDomainBind($domain && is_string($domain) ? $domain : null);
 
-            if ($bind && 0 === strpos($url, $bind)) {
+            if ($bind && str_starts_with($url, $bind)) {
                 $url = substr($url, strlen($bind) + 1);
             } else {
                 $binds = $this->route->getBind();
 
                 foreach ($binds as $key => $val) {
-                    if (is_string($val) && 0 === strpos($url, $val) && substr_count($val, '/') > 1) {
+                    if (is_string($val) && str_starts_with($url, $val) && substr_count($val, '/') > 1) {
                         $url    = substr($url, strlen($val) + 1);
                         $domain = $key;
                         break;
@@ -457,14 +431,14 @@ class Url
         $url  = str_replace('/', $depr, $url);
 
         $file = $request->baseFile();
-        if ($file && 0 !== strpos($request->url(), $file)) {
+        if ($file && !str_starts_with($request->url(), $file)) {
             $file = str_replace('\\', '/', dirname($file));
         }
 
         $url = rtrim($file, '/') . '/' . $url;
 
         // URL后缀
-        if ('/' == substr($url, -1) || '' == $url) {
+        if (str_ends_with($url, '/') || '' == $url) {
             $suffix = '';
         } else {
             $suffix = $this->parseSuffix($suffix);

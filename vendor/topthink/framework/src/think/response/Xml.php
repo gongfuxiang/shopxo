@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\response;
 
@@ -53,7 +53,7 @@ class Xml extends Response
     protected function output($data): string
     {
         if (is_string($data)) {
-            if (0 !== strpos($data, '<?xml')) {
+            if (!str_starts_with($data, '<?xml')) {
                 $encoding = $this->options['encoding'];
                 $xml      = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";
                 $data     = $xml . $data;

@@ -43,14 +43,14 @@ class EmailLogService
     {
         $data = [
             'status'          => 0,
-            'smtp_host'       => $smtp_host,
-            'smtp_port'       => $smtp_port,
-            'smtp_name'       => $smtp_name,
-            'smtp_account'    => $smtp_account,
-            'smtp_send_name'  => $smtp_send_name,
+            'smtp_host'       => empty($smtp_host) ? '' : $smtp_host,
+            'smtp_port'       => empty($smtp_port) ? '' : $smtp_port,
+            'smtp_name'       => empty($smtp_name) ? '' : $smtp_name,
+            'smtp_account'    => empty($smtp_account) ? '' : $smtp_account,
+            'smtp_send_name'  => empty($smtp_send_name) ? '' : $smtp_send_name,
             'email'           => is_array($email) ? implode(', ', $email) : $email,
-            'title'           => $title,
-            'template_value'  => $template_value,
+            'title'           => empty($title) ? '' : $title,
+            'template_value'  => empty($template_value) ? '' : $template_value,
             'template_var'    => empty($template_var) ? '' : (is_array($template_var) ? json_encode($template_var, JSON_UNESCAPED_UNICODE) : $template_var),
             'add_time'        => time(),
         ];

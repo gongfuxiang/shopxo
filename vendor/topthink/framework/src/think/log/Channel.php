@@ -2,17 +2,19 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace think\log;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
+use Stringable;
 use think\contract\LogHandlerInterface;
 use think\Event;
 use think\event\LogRecord;
@@ -20,11 +22,8 @@ use think\event\LogWrite;
 
 class Channel implements LoggerInterface
 {
-    protected $name;
-    protected $logger;
-    protected $event;
+    use LoggerTrait;
 
-    protected $lazy = true;
     /**
      * 日志信息
      * @var array
@@ -33,29 +32,18 @@ class Channel implements LoggerInterface
 
     /**
      * 关闭日志
-     * @var array
+     * @var bool
      */
     protected $close = false;
 
-    /**
-     * 允许写入类型
-     * @var array
-     */
-    protected $allow = [];
-
-    public function __construct(string $name, LogHandlerInterface $logger, array $allow, bool $lazy = true, Event $event = null)
+    public function __construct(protected string $name, protected LogHandlerInterface $logger, protected array $allow, protected bool $lazy, protected Event $event)
     {
-        $this->name   = $name;
-        $this->logger = $logger;
-        $this->allow  = $allow;
-        $this->lazy   = $lazy;
-        $this->event  = $event;
     }
 
     /**
      * 关闭通道
      */
-    public function close()
+    public function close(): void
     {
         $this->clear();
         $this->close = true;
@@ -64,7 +52,7 @@ class Channel implements LoggerInterface
     /**
      * 清空日志
      */
-    public function clear()
+    public function clear(): void
     {
         $this->log = [];
     }
@@ -82,6 +70,10 @@ class Channel implements LoggerInterface
     {
         if ($this->close || (!empty($this->allow) && !in_array($type, $this->allow))) {
             return $this;
+        }
+
+        if ($msg instanceof Stringable) {
+            $msg = $msg->__toString();
         }
 
         if (is_string($msg) && !empty($context)) {
@@ -151,130 +143,15 @@ class Channel implements LoggerInterface
     }
 
     /**
-     * System is unusable.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function emergency($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Action must be taken immediately.
-     *
-     * Example: Entire website down, database unavailable, etc. This should
-     * trigger the SMS alerts and wake you up.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function alert($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Critical conditions.
-     *
-     * Example: Application component unavailable, unexpected exception.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function critical($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Runtime errors that do not require immediate action but should typically
-     * be logged and monitored.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function error($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Exceptional occurrences that are not errors.
-     *
-     * Example: Use of deprecated APIs, poor use of an API, undesirable things
-     * that are not necessarily wrong.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function warning($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Normal but significant events.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function notice($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Interesting events.
-     *
-     * Example: User logs in, SQL logs.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function info($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Detailed debug information.
-     *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
-     */
-    public function debug($message, array $context = [])
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level
-     * @param string $message
-     * @param array  $context
+     * @param mixed             $level
+     * @param string|Stringable $message
+     * @param array             $context
      *
      * @return void
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         $this->record($message, $level, $context);
     }

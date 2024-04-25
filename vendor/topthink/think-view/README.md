@@ -1,6 +1,6 @@
 # think-view
 
-ThinkPHP6.0 Think-Template模板引擎驱动
+ThinkPHP8.0 Think-Template模板引擎驱动
 
 
 ## 安装
@@ -11,7 +11,7 @@ composer require topthink/think-view
 
 ## 用法示例
 
-本扩展不能单独使用，依赖ThinkPHP6.0+
+本扩展不能单独使用，依赖ThinkPHP8.0+
 
 首先配置config目录下的template.php配置文件，然后可以按照下面的用法使用。
 

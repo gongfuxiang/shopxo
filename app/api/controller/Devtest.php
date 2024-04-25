@@ -551,7 +551,7 @@ class Devtest extends Common
 
         // 翻译数据 并 生成数据
         $params = [];
-        $vers = get_class_vars(get_class());
+        $vers = get_class_vars(get_class($this));
         foreach($vers as $k=>$v)
         {
             if(property_exists($this, $k))
@@ -662,7 +662,7 @@ class Devtest extends Common
 
         // 翻译数据 并 生成数据
         $params = [];
-        $vers = get_class_vars(get_class());
+        $vers = get_class_vars(get_class($this));
         foreach($vers as $k=>$v)
         {
             if(property_exists($this, $k))
@@ -768,7 +768,7 @@ class Devtest extends Common
 
         // 翻译数据 并 生成数据
         $params = [];
-        $vers = get_class_vars(get_class());
+        $vers = get_class_vars(get_class($this));
         foreach($vers as $k=>$v)
         {
             if(property_exists($this, $k))

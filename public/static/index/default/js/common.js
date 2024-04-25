@@ -471,8 +471,23 @@ $(function()
         }
 
         // 加入购物车处理
-        var goods_id = $(this).data('gid');
-        if(parseInt($(this).data('is-many-spec') || 0) == 0)
+        var $this = $(this);
+        var goods_id = $this.attr('data-gid');
+        var stock = parseInt($this.attr('data-stock') || 0);
+        // 是否强制数量
+        if(parseInt($this.attr('data-is-force-stock') || 0) == 1 && stock == 0)
+        {
+            Prompt(window['lang_goods_stock_empty_tips'] || '请输入购买数量');
+            return false;
+        }
+        // 指定规格、先获取指定原始数据字段
+        var spec = $this.attr('data-original-spec') || $this.attr('data-spec') || '';
+        if(spec !== '')
+        {
+            spec = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(spec)).toString(CryptoJS.enc.Utf8));
+        }
+        // 已确定非多规格 或 存在指定多规格数据则直接加入购物车操作
+        if(parseInt($(this).data('is-many-spec') || 0) == 0 || spec !== '')
         {
             $.AMUI.progress.start();
             $.ajax({
@@ -482,7 +497,8 @@ $(function()
                 timeout: 10000,
                 data: {
                     goods_id: goods_id,
-                    stock: 1
+                    stock: stock || 1,
+                    spec: spec,
                 },
                 success: function(res)
                 {
@@ -491,9 +507,16 @@ $(function()
                     {
                         // 更新公共购物车数量
                         HomeCartNumberTotalUpdate(res.data.buy_number);
-                        
-                        // 提示成功
-                        Prompt(res.msg, 'success');
+
+                        // 是否展示购物车成功提示弹窗
+                        if(parseInt($this.attr('data-is-cart-success-modal') || 0) == 1)
+                        {
+                            // 展示购物车成功提示弹窗
+                            HomeUserCartSuccessModal(res.data.buy_number);
+                        } else {
+                            // 提示成功
+                            Prompt(res.msg, 'success');
+                        }
                     } else {
                         Prompt(res.msg);
                     }

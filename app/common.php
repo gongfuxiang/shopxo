@@ -1795,6 +1795,11 @@ function FormModuleData($params = [])
     } else {
         // 模块地址
         $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.ucfirst($control);
+        // 分组不存在则调用不分组的表单
+        if(!class_exists($module))
+        {
+            $module = '\app\plugins\\'.$plugins.'\form\\'.ucfirst($control);
+        }
         // 模块参数
         $params['pluginsname'] = $plugins;
         $params['pluginscontrol'] = $control;

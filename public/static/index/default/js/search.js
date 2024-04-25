@@ -30,4 +30,42 @@ $(function()
         var value = ($(this).data('value') || 0) == 1 ? 0 : 1;
         window.location.href = UrlFieldReplace('layout', value);
     });
+
+    // 价格滑条初始化
+    var $range_input = $('.sort-nav-map-price-range-slider-input input');
+    $range_input.jRange({
+        from: 0,
+        to: $range_input.attr('data-to'),
+        step: 1,
+        showScale: false,
+        format: '%s',
+        width: 178,
+        showLabels: true,
+        isRange : false,
+        theme: 'theme-main',
+        onstatechange: function(res) {
+            var arr = res.split(',');
+            $('.sort-nav-map-price-input-min').val(arr[0]);
+            $('.sort-nav-map-price-input-max').val(arr[1]);
+        }
+    });
+    // 价格滑条清空
+    $(document).on('click', '.sort-nav-map-price-clear', function()
+    {
+        $('.sort-nav-map-price-input-min,.sort-nav-map-price-input-max').val('');
+        window.location.href = UrlFieldReplace('price', null);
+    });
+    // 价格滑条确认
+    $(document).on('click', '.sort-nav-map-price-submit', function()
+    {
+        var min = FomatFloat($('.sort-nav-map-price-input-min').val() || 0);
+        var max = FomatFloat($('.sort-nav-map-price-input-max').val() || 0);
+        if(min <= 0 && max <= 0)
+        {
+            var url = UrlFieldReplace('price', null);
+        } else {
+            var url = UrlFieldReplace('price', min+'-'+max);
+        }
+        window.location.href = url;
+    });
 });

@@ -40,14 +40,14 @@ class Center extends Common
             if(in_array($this->action_name, ['index']))
             {
                 // 是否登录
-                $this->IsLogin();
+                IsUserLogin();
             }
         } else {
             // 支付同步返回不验证登录状态
             if(!in_array($this->action_name, ['respond']))
             {
                 // 是否登录
-                $this->IsLogin();
+                IsUserLogin();
             }
         }
     }

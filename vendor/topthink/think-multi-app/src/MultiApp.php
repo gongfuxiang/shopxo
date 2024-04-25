@@ -27,29 +27,9 @@ class MultiApp
     /** @var App */
     protected $app;
 
-    /**
-     * 应用名称
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * 应用名称
-     * @var string
-     */
-    protected $appName;
-
-    /**
-     * 应用路径
-     * @var string
-     */
-    protected $path;
-
     public function __construct(App $app)
     {
         $this->app  = $app;
-        $this->name = $this->app->http->getName();
-        $this->path = $this->app->http->getPath();
     }
 
     /**
@@ -90,15 +70,15 @@ class MultiApp
     {
         $scriptName = $this->getScriptName();
         $defaultApp = $this->app->config->get('app.default_app') ?: 'index';
+        $appName    = $this->app->http->getName();
 
-        if ($this->name || ($scriptName && !in_array($scriptName, ['index', 'router', 'think']))) {
-            $appName = $this->name ?: $scriptName;
+        if ($appName || ($scriptName && !in_array($scriptName, ['index', 'router', 'think']))) {
+            $appName = $appName ?: $scriptName;
             $this->app->http->setBind();
         } else {
             // 自动多应用识别
             $this->app->http->setBind(false);
-            $appName       = null;
-            $this->appName = '';
+            $appName    = null;
 
             $bind = $this->app->config->get('app.domain_bind', []);
 
@@ -142,7 +122,7 @@ class MultiApp
                     $appName = $map['*'];
                 } else {
                     $appName = $name ?: $defaultApp;
-                    $appPath = $this->path ?: $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR;
+                    $appPath = $this->app->http->getPath() ?: $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR;
 
                     if (!is_dir($appPath)) {
                         $express = $this->app->config->get('app.app_express', false);
@@ -189,10 +169,9 @@ class MultiApp
      */
     protected function setApp(string $appName): void
     {
-        $this->appName = $appName;
         $this->app->http->name($appName);
 
-        $appPath = $this->path ?: $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR;
+        $appPath = $this->app->http->getPath() ?: $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR;
 
         $this->app->setAppPath($appPath);
         // 设置应用命名空间

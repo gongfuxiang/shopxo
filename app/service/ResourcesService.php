@@ -726,8 +726,9 @@ class ResourcesService
      * @version 1.0.0
      * @date    2020-09-10
      * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public static function CurrencyData()
+    public static function CurrencyData($params = [])
     {
         // 默认从配置文件读取货币信息
         $data = [
@@ -743,6 +744,7 @@ class ResourcesService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'data'          => &$data,
+            'params'        => $params,
         ]);
 
         return $data;
@@ -755,10 +757,11 @@ class ResourcesService
      * @version 1.0.0
      * @date    2020-09-10
      * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public static function CurrencyDataSymbol()
+    public static function CurrencyDataSymbol($params = [])
     {
-        $res = self::CurrencyData();
+        $res = self::CurrencyData($params);
         return empty($res['currency_symbol']) ? MyConfig('shopxo.currency_symbol') : $res['currency_symbol'];
     }
 
@@ -796,7 +799,7 @@ class ResourcesService
      * @version 1.0.0
      * @date    2021-02-02
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入参数]
      */
     public static function ZipExtTypeList($params = [])
     {

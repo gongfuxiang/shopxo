@@ -235,4 +235,20 @@ class TypesTest extends TestCase
 
         $this->assertGreaterThan(100, strlen($result));
     }
+
+    public function test_generator_can_generate_telepen_alpha_barcode()
+    {
+        $generator = new Picqer\Barcode\BarcodeGeneratorSVG();
+        $result = $generator->getBarcode('1234567890ASCD', $generator::TYPE_TELEPEN_ALPHA);
+
+        $this->assertGreaterThan(100, strlen($result));
+    }
+
+    public function test_generator_can_generate_telepen_numeric_barcode()
+    {
+        $generator = new Picqer\Barcode\BarcodeGeneratorSVG();
+        $result = $generator->getBarcode('1234567890', $generator::TYPE_TELEPEN_NUMERIC);
+        
+        $this->assertGreaterThan(100, strlen($result));
+    }
 }

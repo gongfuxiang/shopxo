@@ -1,18 +1,24 @@
-name: phpunit
+name: Unit tests (phpunit)
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-versions: ['7.3', '7.4', '8.0', '8.1', '8.2']
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -24,7 +30,7 @@ jobs:
       run: composer validate
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress --no-interaction
 
     - name: Run test suite
       run: composer run-script test

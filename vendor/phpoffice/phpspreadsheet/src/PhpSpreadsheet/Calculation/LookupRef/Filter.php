@@ -6,14 +6,7 @@ use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class Filter
 {
-    /**
-     * @param mixed $lookupArray
-     * @param mixed $matchArray
-     * @param mixed $ifEmpty
-     *
-     * @return mixed
-     */
-    public static function filter($lookupArray, $matchArray, $ifEmpty = null)
+    public static function filter(array $lookupArray, mixed $matchArray, mixed $ifEmpty = null): mixed
     {
         if (!is_array($matchArray)) {
             return ExcelError::VALUE();
@@ -52,9 +45,7 @@ class Filter
 
         return array_filter(
             array_values($lookupArray),
-            function ($index) use ($matchArray): bool {
-                return (bool) $matchArray[$index];
-            },
+            fn ($index): bool => (bool) $matchArray[$index],
             ARRAY_FILTER_USE_KEY
         );
     }

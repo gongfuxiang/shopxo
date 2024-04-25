@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -14,14 +15,15 @@ use think\db\BaseQuery;
 use think\db\PDOConnection;
 
 /**
- * Oracle数据库驱动
+ * Oracle数据库驱动.
  */
 class Oracle extends PDOConnection
 {
     /**
-     * 解析pdo连接的dsn信息
-     * @access protected
+     * 解析pdo连接的dsn信息.
+     *
      * @param array $config 连接信息
+     *
      * @return string
      */
     protected function parseDsn(array $config): string
@@ -43,16 +45,17 @@ class Oracle extends PDOConnection
     }
 
     /**
-     * 取得数据表的字段信息
-     * @access public
+     * 取得数据表的字段信息.
+     *
      * @param string $tableName
+     *
      * @return array
      */
     public function getFields(string $tableName): array
     {
         [$tableName] = explode(' ', $tableName);
-        $sql         = "select a.column_name,data_type,DECODE (nullable, 'Y', 0, 1) notnull,data_default, DECODE (A .column_name,b.column_name,1,0) pk from all_tab_columns a,(select column_name from all_constraints c, all_cons_columns col where c.constraint_name = col.constraint_name and c.constraint_type = 'P' and c.table_name = '" . $tableName . "' ) b where table_name = '" . $tableName . "' and a.column_name = b.column_name (+)";
 
+        $sql    = "select a.column_name,data_type,DECODE (nullable, 'Y', 0, 1) notnull,data_default, DECODE (A .column_name,b.column_name,1,0) pk from all_tab_columns a,(select column_name from all_constraints c, all_cons_columns col where c.constraint_name = col.constraint_name and c.constraint_type = 'P' and c.table_name = '" . $tableName . "' ) b where table_name = '" . $tableName . "' and a.column_name = b.column_name (+)";
         $pdo    = $this->getPDOStatement($sql);
         $result = $pdo->fetchAll(PDO::FETCH_ASSOC);
         $info   = [];
@@ -76,9 +79,10 @@ class Oracle extends PDOConnection
     }
 
     /**
-     * 取得数据库的表信息（暂时实现取得用户表信息）
-     * @access   public
+     * 取得数据库的表信息（暂时实现取得用户表信息）.
+     *
      * @param string $dbName
+     *
      * @return array
      */
     public function getTables(string $dbName = ''): array
@@ -96,16 +100,17 @@ class Oracle extends PDOConnection
     }
 
     /**
-     * 获取最近插入的ID
-     * @access public
-     * @param BaseQuery $query 查询对象
+     * 获取最近插入的ID.
+     *
+     * @param BaseQuery   $query    查询对象
      * @param string|null $sequence 自增序列名
+     *
      * @return mixed
      */
     public function getLastInsID(BaseQuery $query, string $sequence = null)
     {
-        if(!is_null($sequence)) {
-            $pdo    = $this->linkID->query("select {$sequence}.currval as id from dual");
+        if (!is_null($sequence)) {
+            $pdo = $this->linkID->query("select {$sequence}.currval as id from dual");
             $result = $pdo->fetchColumn();
         }
 

@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route\dispatch;
 
@@ -47,7 +47,7 @@ class Url extends Controller
         if ($bind && preg_match('/^[a-z]/is', $bind)) {
             $bind = str_replace('/', $depr, $bind);
             // 如果有域名绑定
-            $url = $bind . ('.' != substr($bind, -1) ? $depr : '') . ltrim($url, $depr);
+            $url = $bind . (!str_ends_with($bind, '.') ? $depr : '') . ltrim($url, $depr);
         }
 
         $path = $this->rule->parseUrlPath($url);
@@ -114,5 +114,4 @@ class Url extends Controller
 
         return false;
     }
-
 }

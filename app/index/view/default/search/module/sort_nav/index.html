@@ -18,6 +18,24 @@
         <!-- 排序列表 -->
         {{:ModuleInclude('search/module/sort_nav/content', empty($module_data) ? [] : $module_data)}}
 
+        <!-- 价格划条 -->
+        <li class="sort-nav-map-price">
+            <div class="sort-nav-map-price-content am-radius">
+                <div class="am-form-inline sort-nav-map-price-input">
+                    <input type="number" step="0.01" min="0" class="am-form-field am-radius sort-nav-map-price-input-min" value="{{if isset($params['price_min'])}}{{$params.price_min}}{{/if}}" placeholder="{{:MyLang('price_min_title')}}" />
+                    <span class="am-text-grey">-</span>
+                    <input type="number" step="0.01" min="0" class="am-form-field am-radius sort-nav-map-price-input-max" value="{{if isset($params['price_max'])}}{{$params.price_max}}{{/if}}" placeholder="{{:MyLang('price_max_title')}}" />
+                </div>
+                <div class="sort-nav-map-price-range-slider-input am-margin-top-lg am-padding-left-sm">
+                    <input type="hidden" class="range-slider-input" value="{{if isset($params['price_min'])}}{{$params.price_min}}{{else /}}0{{/if}},{{if isset($params['price_max'])}}{{$params.price_max}}{{else /}}0{{/if}}" data-to="{{if empty($range_max_price)}}500{{else /}}{{$range_max_price}}{{/if}}" />
+                </div>
+                <div class="am-text-right am-margin-top am-padding-right-sm sort-nav-map-price-bottom-operate">
+                    <span class="am-text-blue am-margin-right-lg sort-nav-map-price-clear">{{:MyLang('clear_title')}}</span>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs sort-nav-map-price-submit">{{:MyLang('confirm_title')}}</button>
+                </div>
+            </div>
+        </li>
+
         <!-- 搜索页面排序导航条内尾部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">

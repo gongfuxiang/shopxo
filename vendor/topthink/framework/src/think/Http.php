@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -24,12 +24,6 @@ use Throwable;
  */
 class Http
 {
-
-    /**
-     * @var App
-     */
-    protected $app;
-
     /**
      * 应用名称
      * @var string
@@ -54,10 +48,8 @@ class Http
      */
     protected $isBind = false;
 
-    public function __construct(App $app)
+    public function __construct(protected App $app)
     {
-        $this->app = $app;
-
         $this->routePath = $this->app->getRootPath() . 'route' . DIRECTORY_SEPARATOR;
     }
 
@@ -91,7 +83,7 @@ class Http
      */
     public function path(string $path)
     {
-        if (substr($path, -1) != DIRECTORY_SEPARATOR) {
+        if (str_ends_with($path, DIRECTORY_SEPARATOR)) {
             $path .= DIRECTORY_SEPARATOR;
         }
 
@@ -211,7 +203,7 @@ class Http
     {
         $withRoute = $this->app->config->get('app.with_route', true) ? function () {
             $this->loadRoutes();
-        } : null;
+        } : false;
 
         return $this->app->route->dispatch($request, $withRoute);
     }
@@ -284,5 +276,4 @@ class Http
         // 写入日志
         $this->app->log->save();
     }
-
 }

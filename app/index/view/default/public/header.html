@@ -49,6 +49,11 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/print-lock.css" />
     {{/if}}
 
+    <!-- 范围滑条 -->
+    {{if isset($is_load_jrange) and $is_load_jrange eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/jRange/jquery.range.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+
     <!-- 插件 -->
     {{if !empty($static_path_data['plugins_css'])}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.plugins_css}}?v={{:MyC('home_static_cache_version')}}" />

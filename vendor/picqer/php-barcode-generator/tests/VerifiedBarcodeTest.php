@@ -5,7 +5,7 @@ use Picqer\Barcode\BarcodeGenerator;
 
 /*
  * Test all supported barcodes types, with as much different but supported input strings.
- * Verified files can be build with generate-verified-files.php file.
+ * Verified files can be built with generate-verified-files.php file.
  * Only run that file if you added new types or new strings to test.
  *
  * We use SVG because that output is vector and should be the same on every host system.
@@ -24,6 +24,7 @@ class VerifiedBarcodeTest extends TestCase
         ['type' => BarcodeGenerator::TYPE_INTERLEAVED_2_5, 'barcodes' => ['1234567890']],
         ['type' => BarcodeGenerator::TYPE_INTERLEAVED_2_5_CHECKSUM, 'barcodes' => ['1234567890']],
         ['type' => BarcodeGenerator::TYPE_EAN_13, 'barcodes' => ['081231723897', '0049000004632', '004900000463']],
+        ['type' => BarcodeGenerator::TYPE_ITF_14, 'barcodes' => ['00012345600012', '05400141288766']],
         ['type' => BarcodeGenerator::TYPE_CODE_128, 'barcodes' => ['081231723897', '1234567890abcABC-283*33']],
         ['type' => BarcodeGenerator::TYPE_CODE_128_A, 'barcodes' => ['1234567890']],
         ['type' => BarcodeGenerator::TYPE_CODE_128_B, 'barcodes' => ['081231723897', '1234567890abcABC-283*33']],
@@ -43,6 +44,8 @@ class VerifiedBarcodeTest extends TestCase
         ['type' => BarcodeGenerator::TYPE_CODE_11, 'barcodes' => ['123456789']],
         ['type' => BarcodeGenerator::TYPE_PHARMA_CODE, 'barcodes' => ['123456789']],
         ['type' => BarcodeGenerator::TYPE_PHARMA_CODE_TWO_TRACKS, 'barcodes' => ['123456789']],
+        ['type' => BarcodeGenerator::TYPE_TELEPEN_ALPHA, 'barcodes' => ['1234567890ASCD']],
+        ['type' => BarcodeGenerator::TYPE_TELEPEN_NUMERIC, 'barcodes' => ['1234567890']]
     ];
 
     public function testAllSupportedBarcodeTypes()
@@ -62,7 +65,8 @@ class VerifiedBarcodeTest extends TestCase
         }
     }
 
-    protected function getSaveFilename($value) {
+    protected function getSaveFilename($value)
+    {
         return preg_replace('/[^a-zA-Z0-9_ \-+]/s', '-', $value);
     }
 }

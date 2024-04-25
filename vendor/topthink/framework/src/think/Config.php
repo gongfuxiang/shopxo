@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -25,25 +25,11 @@ class Config
     protected $config = [];
 
     /**
-     * 配置文件目录
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * 配置文件后缀
-     * @var string
-     */
-    protected $ext;
-
-    /**
      * 构造方法
      * @access public
      */
-    public function __construct(string $path = null, string $ext = '.php')
+    public function __construct(protected string $path = '', protected string $ext = '.php')
     {
-        $this->path = $path ?: '';
-        $this->ext  = $ext;
     }
 
     public static function __make(App $app)
@@ -87,23 +73,13 @@ class Config
     {
         $type   = pathinfo($file, PATHINFO_EXTENSION);
         $config = [];
-        switch ($type) {
-            case 'php':
-                $config = include $file;
-                break;
-            case 'yml':
-            case 'yaml':
-                if (function_exists('yaml_parse_file')) {
-                    $config = yaml_parse_file($file);
-                }
-                break;
-            case 'ini':
-                $config = parse_ini_file($file, true, INI_SCANNER_TYPED) ?: [];
-                break;
-            case 'json':
-                $config = json_decode(file_get_contents($file), true);
-                break;
-        }
+        $config = match ($type) {
+            'php'           =>  include $file,
+            'yml','yaml'    =>  function_exists('yaml_parse_file') ? yaml_parse_file($file) : [],
+            'ini'           =>  parse_ini_file($file, true, INI_SCANNER_TYPED) ?: [],
+            'json'          =>  json_decode(file_get_contents($file), true),
+            default         =>  [],
+        };
 
         return is_array($config) ? $this->set($config, strtolower($name)) : [];
     }
@@ -116,7 +92,7 @@ class Config
      */
     public function has(string $name): bool
     {
-        if (false === strpos($name, '.') && !isset($this->config[strtolower($name)])) {
+        if (!str_contains($name, '.') && !isset($this->config[strtolower($name)])) {
             return false;
         }
 
@@ -150,7 +126,7 @@ class Config
             return $this->config;
         }
 
-        if (false === strpos($name, '.')) {
+        if (!str_contains($name, '.')) {
             return $this->pull($name);
         }
 
@@ -179,19 +155,19 @@ class Config
      */
     public function set(array $config, string $name = null): array
     {
-        if (!empty($name)) {
-            if (isset($this->config[$name])) {
-                $result = array_merge($this->config[$name], $config);
-            } else {
-                $result = $config;
-            }
-
-            $this->config[$name] = $result;
-        } else {
-            $result = $this->config = array_merge($this->config, array_change_key_case($config));
+        if (empty($name)) {
+            $this->config = array_merge($this->config, array_change_key_case($config));
+            return $this->config;
         }
+
+        if (isset($this->config[$name])) {
+            $result = array_merge($this->config[$name], $config);
+        } else {
+            $result = $config;
+        }
+
+        $this->config[$name] = $result;
 
         return $result;
     }
-
 }

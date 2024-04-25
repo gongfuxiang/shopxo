@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -59,23 +59,15 @@ class TagLib
      */
     protected $valid = false;
 
-    /**
-     * 当前模板对象
-     * @var object
-     * @access protected
-     */
-    protected $tpl;
-
     protected $comparison = [' nheq ' => ' !== ', ' heq ' => ' === ', ' neq ' => ' != ', ' eq ' => ' == ', ' egt ' => ' >= ', ' gt ' => ' > ', ' elt ' => ' <= ', ' lt ' => ' < '];
 
     /**
      * 架构函数
      * @access public
-     * @param  Template $template 模板引擎对象
+     * @param  Template $tpl 模板引擎对象
      */
-    public function __construct(Template $template)
+    public function __construct(protected Template $tpl)
     {
-        $this->tpl = $template;
     }
 
     /**

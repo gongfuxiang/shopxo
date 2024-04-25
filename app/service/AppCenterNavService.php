@@ -43,9 +43,8 @@ class AppCenterNavService
                 'error_msg'         => MyLang('common_service.appcenternav.form_item_name_message'),
             ],
             [
-                'checked_type'      => 'in',
+                'checked_type'      => 'empty',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => MyLang('form_platform_message'),
             ],
             [
@@ -93,7 +92,7 @@ class AppCenterNavService
         // 数据
         $data = [
             'name'          => $params['name'],
-            'platform'      => $params['platform'],
+            'platform'      => empty($params['platform']) ? '' : json_encode(explode(',', $params['platform'])),
             'event_type'    => (isset($params['event_type']) && $params['event_type'] != '') ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
             'images_url'    => $attachment['data']['images_url'],
@@ -209,15 +208,41 @@ class AppCenterNavService
         $data = MyCache($key);
         if(empty($data))
         {
-            $field = 'id,name,images_url,event_value,event_type,desc';
+            $field = 'id,name,images_url,event_value,event_type,desc,platform';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('AppCenterNav')->field($field)->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order($order_by)->select()->toArray();
-            if(!empty($data))
+            $list = Db::name('AppCenterNav')->field($field)->where(['is_enable'=>1])->order($order_by)->select()->toArray();
+            if(!empty($list))
             {
-                foreach($data as &$v)
+                $data = [];
+                foreach($list as &$v)
                 {
-                    $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                    $v['event_value'] = empty($v['event_value']) ? null : htmlspecialchars_decode($v['event_value']);
+                    // 平台
+                    if(!empty($v['platform']))
+                    {
+                        // json数据则必须存在其中，则为字符串等于（老数据）
+                        $platform = json_decode($v['platform'], true);
+                        if((!empty($platform) && is_array($platform) && in_array(APPLICATION_CLIENT_TYPE, $platform)) || ($v['platform'] == APPLICATION_CLIENT_TYPE))
+                        {
+                            // 图片地址
+                            $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
+
+                            // 事件值
+                            if(!empty($v['event_value']))
+                            {
+                                // 地图
+                                if($v['event_type'] == 3)
+                                {
+                                    $v['event_value_data'] = explode('|', $v['event_value']);
+                                }
+                                $v['event_value'] = htmlspecialchars_decode($v['event_value']);
+                            } else {
+                                $v['event_value'] = null;
+                            }
+
+                            // 加入数据
+                            $data[] = $v;
+                        }
+                    }
                 }
             }
             // 存储缓存

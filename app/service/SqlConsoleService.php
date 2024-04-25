@@ -50,10 +50,13 @@ class SqlConsoleService
         $config = MyConfig('database.connections.mysql');
         $sql = str_replace('{PREFIX}', $config['prefix'], $params['sql']);
         $sql = str_replace('{CHARSET}', $config['charset'], $sql);
+        // 引号转换
+        $sql = str_replace(['&#039;', '&quot;'], ["'", '"'], $sql);
 
         // 转为数组
         $sql_all = preg_split("/;[\r\n]+/", $sql);
 
+        // 开始处理
         $success = 0;
         $failure = 0;
         foreach($sql_all as $v)

@@ -6,7 +6,7 @@
         {{foreach $user_left_menu as $k=>$v}}
           {{if $v.is_show eq 1}}
             {{if empty($v['item'])}}
-              <li class="{{if isset($v['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $v['contains']) and isset($v['is_system']) and $v['is_system'] eq 1 and !isset($params['pluginsname'])) or (isset($params['pluginsname']) and isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginsname'].$params['pluginscontrol'].$params['pluginsaction']), $v['contains']) and (!isset($v['is_system']) or $v['is_system'] neq 1)))}} am-active{{/if}}" >
+              <li class="{{if isset($v['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $v['contains']) and isset($v['is_system']) and $v['is_system'] eq 1) or (!empty($plugins_module_name) and !empty($plugins_controller_name) and !empty($plugins_action_name) and in_array(strtolower($plugins_module_name.$plugins_controller_name.$plugins_action_name), $v['contains']) and (!isset($v['is_system']) or $v['is_system'] neq 1)))}} am-active{{/if}}" >
                 <a href="{{$v.url}}">{{if !empty($v['icon'])}}<i class="iconfont {{$v.icon}}"></i>{{/if}} {{$v.name}}</a>
               </li>
             {{else /}}
@@ -15,7 +15,7 @@
                 <ul class="am-list am-collapse user-sidebar-sub am-in" id="collapse-nav-{{$k}}">
                   {{foreach $v.item as $vs}}
                     {{if $vs.is_show eq 1}}
-                      <li class="{{if isset($vs['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $vs['contains']) and isset($vs['is_system']) and $vs['is_system'] eq 1 and !isset($params['pluginsname'])) or (isset($params['pluginsname']) and isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginsname'].$params['pluginscontrol'].$params['pluginsaction']), $vs['contains']) and (!isset($vs['is_system']) or $vs['is_system'] neq 1)))}} am-active{{/if}}">
+                      <li class="{{if isset($vs['contains']) and ((in_array(strtolower($module_name.$controller_name.$action_name), $vs['contains']) and isset($vs['is_system']) and $vs['is_system'] eq 1) or (!empty($plugins_module_name) and !empty($plugins_controller_name) and !empty($plugins_action_name) and in_array(strtolower($plugins_module_name.$plugins_controller_name.$plugins_action_name), $vs['contains']) and (!isset($vs['is_system']) or $vs['is_system'] neq 1)))}} am-active{{/if}}">
                         <a href="{{$vs.url}}" class="am-cf">{{$vs.name}}</a>
                       </li>
                     {{/if}}

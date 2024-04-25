@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -16,7 +16,6 @@ use think\helper\Arr;
 
 class Store
 {
-
     /**
      * Session数据
      * @var array
@@ -30,30 +29,16 @@ class Store
     protected $init = null;
 
     /**
-     * 记录Session name
-     * @var string
-     */
-    protected $name = 'PHPSESSID';
-
-    /**
      * 记录Session Id
      * @var string
      */
     protected $id;
 
-    /**
-     * @var SessionHandlerInterface
-     */
-    protected $handler;
-
     /** @var array */
     protected $serialize = [];
 
-    public function __construct($name, SessionHandlerInterface $handler, array $serialize = null)
+    public function __construct(protected string $name, protected SessionHandlerInterface $handler, array $serialize = null)
     {
-        $this->name    = $name;
-        $this->handler = $handler;
-
         if (!empty($serialize)) {
             $this->serialize = $serialize;
         }
@@ -116,7 +101,7 @@ class Store
      * @param string $id session_id
      * @return void
      */
-    public function setId($id = null): void
+    public function setId(string $id = null): void
     {
         $this->id = is_string($id) && strlen($id) === 32 && ctype_alnum($id) ? $id : md5(microtime(true) . session_create_id());
     }
@@ -336,5 +321,4 @@ class Store
 
         return (array) $unserialize($data);
     }
-
 }

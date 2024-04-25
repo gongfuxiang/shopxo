@@ -1,36 +1,38 @@
-<p class="powered">
-    {{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
-</p>
-{{if !empty($home_site_icp)}}
-    <b>|</b>
-    <p class="footer-icp">
-        <a href="https://beian.miit.gov.cn/" target="_blank">
-            <img src="{{:StaticAttachmentUrl('beian-icp-icon.png')}}" alt="{{:MyLang('common.footer_icp_filing_text')}}" />
-            {{$home_site_icp}}
-        </a>
+<div class="footer-filing-content theme-data-edit-event" data-module="site_filing">
+    <p class="powered">
+        {{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
     </p>
-{{/if}}
-{{if !empty($home_site_security_record_name)}}
-    <b>|</b>
-    <p class="footer-icp">
-        <a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
-            <img src="{{:StaticAttachmentUrl('beian-gongan-icon.png')}}" alt="{{:MyLang('common.footer_public_security_filing_text')}}" />
-            {{$home_site_security_record_name}}
-        </a>
-    </p>
-{{/if}}
-{{if !empty($home_site_company_license)}}
-    <b>|</b>
-    <p class="footer-icp">
-        <a href="{{$home_site_company_license}}" target="_blank">
-            <img src="{{:StaticAttachmentUrl('beian-company-license-icon.png')}}" alt="{{:MyLang('common.footer_business_license_text')}}" />
-            {{:MyLang('common.footer_business_license_text')}}
-        </a>
-    </p>
-{{/if}}
-{{if !empty($home_site_telecom_license)}}
-    <b>|</b>
-    <p class="footer-icp">
-        <a href="javascript:;">{{$home_site_telecom_license}}</a>
-    </p>
-{{/if}}
+    {{if !empty($home_site_icp)}}
+        <b>|</b>
+        <p class="footer-icp">
+            <a href="https://beian.miit.gov.cn/" target="_blank">
+                <img src="{{:StaticAttachmentUrl('beian-icp-icon.png')}}" alt="{{:MyLang('common.footer_icp_filing_text')}}" />
+                {{$home_site_icp}}
+            </a>
+        </p>
+    {{/if}}
+    {{if !empty($home_site_security_record_name)}}
+        <b>|</b>
+        <p class="footer-icp">
+            <a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
+                <img src="{{:StaticAttachmentUrl('beian-gongan-icon.png')}}" alt="{{:MyLang('common.footer_public_security_filing_text')}}" />
+                {{$home_site_security_record_name}}
+            </a>
+        </p>
+    {{/if}}
+    {{if !empty($home_site_company_license)}}
+        <b>|</b>
+        <p class="footer-icp">
+            <a href="{{$home_site_company_license}}" target="_blank">
+                <img src="{{:StaticAttachmentUrl('beian-company-license-icon.png')}}" alt="{{:MyLang('common.footer_business_license_text')}}" />
+                {{:MyLang('common.footer_business_license_text')}}
+            </a>
+        </p>
+    {{/if}}
+    {{if !empty($home_site_telecom_license)}}
+        <b>|</b>
+        <p class="footer-icp">
+            <a href="javascript:;">{{$home_site_telecom_license}}</a>
+        </p>
+    {{/if}}
+</div>

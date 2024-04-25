@@ -106,6 +106,6 @@ class TypeCode11 implements TypeInterface
         }
         $check %= 11;
 
-        return $check;
+        return (string)$check;
     }
 }

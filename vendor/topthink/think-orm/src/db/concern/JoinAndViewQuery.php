@@ -1,35 +1,36 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\db\concern;
 
 use think\db\Raw;
 
 /**
- * JOIN和VIEW查询
+ * JOIN和VIEW查询.
  */
 trait JoinAndViewQuery
 {
-
     /**
-     * 查询SQL组装 join
-     * @access public
-     * @param mixed  $join      关联的表名
+     * 查询SQL组装 join.
+     *
+     * @param array|string|Raw   $join      关联的表名
      * @param mixed  $condition 条件
      * @param string $type      JOIN类型
      * @param array  $bind      参数绑定
+     *
      * @return $this
      */
-    public function join($join, string $condition = null, string $type = 'INNER', array $bind = [])
+    public function join(array|string|Raw $join, string $condition = null, string $type = 'INNER', array $bind = [])
     {
         $table = $this->getJoinTable($join);
 
@@ -43,57 +44,62 @@ trait JoinAndViewQuery
     }
 
     /**
-     * LEFT JOIN
-     * @access public
-     * @param mixed $join      关联的表名
+     * LEFT JOIN.
+     *
+     * @param array|string|Raw  $join      关联的表名
      * @param mixed $condition 条件
      * @param array $bind      参数绑定
+     *
      * @return $this
      */
-    public function leftJoin($join, string $condition = null, array $bind = [])
+    public function leftJoin(array|string|Raw $join, string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'LEFT', $bind);
     }
 
     /**
-     * RIGHT JOIN
-     * @access public
-     * @param mixed $join      关联的表名
+     * RIGHT JOIN.
+     *
+     * @param array|string|Raw  $join      关联的表名
      * @param mixed $condition 条件
      * @param array $bind      参数绑定
+     *
      * @return $this
      */
-    public function rightJoin($join, string $condition = null, array $bind = [])
+    public function rightJoin(array|string|Raw $join, string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'RIGHT', $bind);
     }
 
     /**
-     * FULL JOIN
-     * @access public
-     * @param mixed $join      关联的表名
+     * FULL JOIN.
+     *
+     * @param array|string|Raw  $join      关联的表名
      * @param mixed $condition 条件
      * @param array $bind      参数绑定
+     *
      * @return $this
      */
-    public function fullJoin($join, string $condition = null, array $bind = [])
+    public function fullJoin(array|string|Raw $join, string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'FULL');
     }
 
     /**
      * 获取Join表名及别名 支持
-     * ['prefix_table或者子查询'=>'alias'] 'table alias'
-     * @access protected
+     * ['prefix_table或者子查询'=>'alias'] 'table alias'.
+     *
      * @param array|string|Raw $join  JION表名
      * @param string           $alias 别名
+     *
      * @return string|array
      */
-    protected function getJoinTable($join, &$alias = null)
+    protected function getJoinTable(array|string|Raw $join, string &$alias = null)
     {
         if (is_array($join)) {
             $table = $join;
             $alias = array_shift($join);
+
             return $table;
         } elseif ($join instanceof Raw) {
             return $join;
@@ -101,22 +107,22 @@ trait JoinAndViewQuery
 
         $join = trim($join);
 
-        if (false !== strpos($join, '(')) {
+        if (str_contains($join, '(')) {
             // 使用子查询
             $table = $join;
         } else {
             // 使用别名
-            if (strpos($join, ' ')) {
+            if (str_contains($join, ' ')) {
                 // 使用别名
                 [$table, $alias] = explode(' ', $join);
             } else {
                 $table = $join;
-                if (false === strpos($join, '.')) {
+                if (!str_contains($join, '.')) {
                     $alias = $join;
                 }
             }
 
-            if ($this->prefix && false === strpos($table, '.') && 0 !== strpos($table, $this->prefix)) {
+            if ($this->prefix && !str_contains($table, '.') && !str_starts_with($table, $this->prefix)) {
                 $table = $this->getTable($table);
             }
         }
@@ -129,21 +135,22 @@ trait JoinAndViewQuery
     }
 
     /**
-     * 指定JOIN查询字段
-     * @access public
-     * @param string|array $join  数据表
-     * @param string|array $field 查询字段
+     * 指定JOIN查询字段.
+     *
+     * @param array|string|Raw  $join  数据表
+     * @param string|array|bool $field 查询字段
      * @param string       $on    JOIN条件
      * @param string       $type  JOIN类型
      * @param array        $bind  参数绑定
+     *
      * @return $this
      */
-    public function view($join, $field = true, $on = null, string $type = 'INNER', array $bind = [])
+    public function view(array|string|Raw $join, string|array|bool $field = true, string $on = null, string $type = 'INNER', array $bind = [])
     {
         $this->options['view'] = true;
 
         $fields = [];
-        $table  = $this->getJoinTable($join, $alias);
+        $table = $this->getJoinTable($join, $alias);
 
         if (true === $field) {
             $fields = $alias . '.*';
@@ -183,9 +190,10 @@ trait JoinAndViewQuery
     }
 
     /**
-     * 视图查询处理
-     * @access protected
+     * 视图查询处理.
+     *
      * @param array $options 查询参数
+     *
      * @return void
      */
     protected function parseView(array &$options): void
@@ -207,7 +215,7 @@ trait JoinAndViewQuery
             // 视图查询排序处理
             foreach ($options['order'] as $key => $val) {
                 if (is_numeric($key) && is_string($val)) {
-                    if (strpos($val, ' ')) {
+                    if (str_contains($val, ' ')) {
                         [$field, $sort] = explode(' ', $val);
                         if (array_key_exists($field, $options['map'])) {
                             $options['order'][$options['map'][$field]] = $sort;
@@ -224,5 +232,4 @@ trait JoinAndViewQuery
             }
         }
     }
-
 }

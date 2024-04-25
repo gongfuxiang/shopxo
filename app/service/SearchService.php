@@ -81,8 +81,8 @@ class SearchService
      */
     public static function SearchMapHandle($data, $pid, $did, $params, $ext = [])
     {
-        // 移除分页
-        unset($params['page']);
+        // 移除分页和框架的s模块参数
+        unset($params['page'], $params['s']);
 
         // ascii字段处理
         $is_ascii = isset($ext['is_ascii']) && $ext['is_ascii'] == true;
@@ -335,6 +335,12 @@ class SearchService
                 $map_price[] = implode('-', $temp_price);
             }
         }
+        // 价格滑条
+        if(!empty($params['price']) && stripos($params['price'], '-') !== false)
+        {
+            $map_price[] = $params['price'];
+        }
+        // 处理价格条件
         if(!empty($map_price))
         {
             foreach($map_price as $v)
@@ -801,6 +807,20 @@ class SearchService
             'category'  => empty($category) ? null : $category,
             'brand'     => empty($brand) ? null : $brand,
         ];
+    }
+
+    /**
+     * 搜索商品最大金额
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-04-21
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function SearchGoodsMaxPrice($params = [])
+    {
+        return Db::name('GoodsSpecBase')->max('price');
     }
 }
 ?>

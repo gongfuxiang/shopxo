@@ -1,40 +1,42 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\model;
 
 use think\Model;
 
 /**
- * 多对多中间表模型类
+ * 多对多中间表模型类.
  */
 class Pivot extends Model
 {
-
     /**
-     * 父模型
+     * 父模型.
+     *
      * @var Model
      */
     public $parent;
 
     /**
-     * 是否时间自动写入
+     * 是否时间自动写入.
+     *
      * @var bool
      */
     protected $autoWriteTimestamp = false;
 
     /**
-     * 架构函数
-     * @access public
+     * 架构函数.
+     *
      * @param array      $data   数据
      * @param Model|null $parent 上级模型
      * @param string     $table  中间数据表名
@@ -51,19 +53,20 @@ class Pivot extends Model
     }
 
     /**
-     * 创建新的模型实例
-     * @access public
+     * 创建新的模型实例.
+     *
      * @param array $data    数据
      * @param mixed $where   更新条件
      * @param array $options 参数
+     *
      * @return Model
      */
     public function newInstance(array $data = [], $where = null, array $options = []): Model
     {
         $model = parent::newInstance($data, $where, $options);
 
-        $model->parent = $this->parent;
-        $model->name   = $this->name;
+        $model->parent  = $this->parent;
+        $model->name    = $this->name;
 
         return $model;
     }

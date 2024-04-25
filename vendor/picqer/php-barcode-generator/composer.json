@@ -22,7 +22,8 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.10"
     },
     "suggest": {
         "ext-bcmath": "Barcode IMB (Intelligent Mail Barcode) needs bcmath extension",

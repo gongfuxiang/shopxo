@@ -610,6 +610,8 @@ class ThemeAdminService
             'user_register'      => MyUrl('admin/site/index', ['nav_type' => 'register', 'is_theme_data_admin' => 1]),
             'user_forget'        => MyUrl('admin/site/index', ['nav_type' => 'forgetpwd', 'is_theme_data_admin' => 1]),
             'screening_price'    => MyUrl('admin/screeningprice/index', ['is_theme_data_admin' => 1]),
+            'site_base'          => MyUrl('admin/site/index', ['nav_type'=>'base', 'switch'=>'site-base', 'is_theme_data_admin' => 1]),
+            'site_filing'        => MyUrl('admin/site/index', ['nav_type'=>'base', 'switch'=>'site-filing', 'is_theme_data_admin' => 1]),
         ];
 
         // 主题数据管理url钩子

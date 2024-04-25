@@ -11,7 +11,7 @@
 namespace base;
 
 use app\service\EmailLogService;
-use phpmailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Email驱动
@@ -249,7 +249,7 @@ class Email
         	$data = MyCache($this->key_code);
 			if(!empty($data))
 			{
-				if(empty($code) && isset($_POST['code']))
+				if(empty($code) && !empty($_POST['code']))
 				{
 					$code = trim($_POST['code']);
 				}

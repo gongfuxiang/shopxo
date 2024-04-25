@@ -8,7 +8,7 @@
         {{if !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}}
             <ul>
                 {{foreach $module_data.nav_data as $v}}
-                    <li {{if !empty($params['pluginscontrol']) and $params['pluginscontrol'] eq $v['control']}}class="am-active"{{/if}}>
+                    <li {{if !empty($plugins_controller_name) and $plugins_controller_name eq $v['control']}}class="am-active"{{/if}}>
                         <a href="{{:PluginsAdminUrl($module_data['plugins'], $v['control'], $v['action'])}}">{{$v.name}}</a>
                     </li>
                 {{/foreach}}

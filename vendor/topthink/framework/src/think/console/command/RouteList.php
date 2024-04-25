@@ -56,8 +56,8 @@ class RouteList extends Command
 
     protected function getRouteList(string $dir = null): string
     {
-        $this->app->route->setTestMode(true);
         $this->app->route->clear();
+        $this->app->route->lazy(false);
 
         if ($dir) {
             $path = $this->app->getRootPath() . 'route' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR;
@@ -68,7 +68,7 @@ class RouteList extends Command
         $files = is_dir($path) ? scandir($path) : [];
 
         foreach ($files as $file) {
-            if (strpos($file, '.php')) {
+            if (str_contains($file, '.php')) {
                 include $path . $file;
             }
         }

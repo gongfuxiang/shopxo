@@ -74,17 +74,17 @@ abstract class Make extends Command
 
     protected function getClassName(string $name): string
     {
-        if (strpos($name, '\\') !== false) {
+        if (str_contains($name, '\\')) {
             return $name;
         }
 
-        if (strpos($name, '@')) {
+        if (str_contains($name, '@')) {
             [$app, $name] = explode('@', $name);
         } else {
             $app = '';
         }
 
-        if (strpos($name, '/') !== false) {
+        if (str_contains($name, '/')) {
             $name = str_replace('/', '\\', $name);
         }
 

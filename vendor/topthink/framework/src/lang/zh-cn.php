@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -100,6 +100,10 @@ return [
     ':attribute must be numeric'                                => ':attribute必须是数字',
     ':attribute must be integer'                                => ':attribute必须是整数',
     ':attribute must be float'                                  => ':attribute必须是浮点数',
+    ':attribute must be string'                                 => ':attribute必须是字符串',
+    ':attribute must start with :rule'                          => ':attribute必须以 :rule 开头',
+    ':attribute must end with :rule'                            => ':attribute必须以 :rule 结尾',
+    ':attribute must contain :rule'                             => ':attribute必须包含 :rule',
     ':attribute must be bool'                                   => ':attribute必须是布尔值',
     ':attribute not a valid email address'                      => ':attribute格式不符',
     ':attribute not a valid mobile'                             => ':attribute格式不符',

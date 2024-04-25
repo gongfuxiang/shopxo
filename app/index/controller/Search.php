@@ -93,6 +93,17 @@ class Search extends Common
             $params['wd'] = AsciiToStr($params['wd']);
         }
 
+        // 价格滑条
+        if(!empty($params['price']))
+        {
+            $arr = explode('-', $params['price']);
+            if(count($arr) == 2)
+            {
+                $params['price_min'] = $arr[0];
+                $params['price_max'] = $arr[1];
+            }
+        }
+
         // 模板数据
         $assign = [
             // 基础参数
@@ -107,6 +118,10 @@ class Search extends Common
             'breadcrumb_data'   => $breadcrumb_data,
             // 列表布局类型
             'list_layout_value' => $list_layout_value,
+            // 范围滑条组件
+            'is_load_jrange'    => 1,
+            // 滑条价格最大金额
+            'range_max_price'   => SearchService::SearchGoodsMaxPrice(),
         ];
 
         // 品牌列表

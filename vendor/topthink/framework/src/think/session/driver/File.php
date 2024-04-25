@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\session\driver;
 
@@ -56,7 +56,7 @@ class File implements SessionHandlerInterface
     {
         try {
             !is_dir($this->config['path']) && mkdir($this->config['path'], 0755, true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 写入失败
         }
 
@@ -129,7 +129,7 @@ class File implements SessionHandlerInterface
         if ($auto && !is_dir($dir)) {
             try {
                 mkdir($dir, 0755, true);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // 创建失败
             }
         }
@@ -230,7 +230,7 @@ class File implements SessionHandlerInterface
     {
         try {
             return $this->unlink($this->getFileName($sessID));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -245,5 +245,4 @@ class File implements SessionHandlerInterface
     {
         return is_file($file) && unlink($file);
     }
-
 }

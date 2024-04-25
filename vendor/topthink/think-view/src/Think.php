@@ -21,7 +21,6 @@ class Think
 {
     // 模板引擎实例
     private $template;
-    private $app;
 
     // 模板引擎参数
     protected $config = [
@@ -39,10 +38,8 @@ class Think
         'tpl_cache'     => true,
     ];
 
-    public function __construct(App $app, array $config = [])
+    public function __construct(private App $app, array $config = [])
     {
-        $this->app = $app;
-
         $this->config = array_merge($this->config, (array) $config);
 
         if (empty($this->config['cache_path'])) {
@@ -55,30 +52,15 @@ class Think
             $type  = strtoupper(trim(array_shift($vars)));
             $param = implode('.', $vars);
 
-            switch ($type) {
-                case 'CONST':
-                    $parseStr = strtoupper($param);
-                    break;
-                case 'CONFIG':
-                    $parseStr = 'config(\'' . $param . '\')';
-                    break;
-                case 'LANG':
-                    $parseStr = 'lang(\'' . $param . '\')';
-                    break;
-                case 'NOW':
-                    $parseStr = "date('Y-m-d g:i a',time())";
-                    break;
-                case 'LDELIM':
-                    $parseStr = '\'' . ltrim($this->getConfig('tpl_begin'), '\\') . '\'';
-                    break;
-                case 'RDELIM':
-                    $parseStr = '\'' . ltrim($this->getConfig('tpl_end'), '\\') . '\'';
-                    break;
-                default:
-                    $parseStr = defined($type) ? $type : '\'\'';
-            }
-
-            return $parseStr;
+            return match ($type) {
+                'CONST'     =>  strtoupper($param),
+                'CONFIG'    =>  'config(\'' . $param . '\')',
+                'LANG'      =>  'lang(\'' . $param . '\')',
+                'NOW'       =>  "date('Y-m-d g:i a',time())",
+                'LDELIM'    =>  '\'' . ltrim($this->getConfig('tpl_begin'), '\\') . '\'',
+                'RDELIM'    =>  '\'' . ltrim($this->getConfig('tpl_end'), '\\') . '\'',
+                default     =>  defined($type) ? $type : '\'\'',
+            };
         });
 
         $this->template->extend('$Request', function (array $vars) {

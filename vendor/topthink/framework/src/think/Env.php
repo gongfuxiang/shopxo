@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -89,10 +89,8 @@ class Env implements ArrayAccess
             return $default;
         }
 
-        if ('false' === $result) {
-            $result = false;
-        } elseif ('true' === $result) {
-            $result = true;
+        if (isset($this->convert[$result])) {
+            $result = $this->convert[$result];
         }
 
         if (!isset($this->data[$name])) {
@@ -175,26 +173,22 @@ class Env implements ArrayAccess
     }
 
     // ArrayAccess
-    #[\ReturnTypeWillChange]
-    public function offsetSet($name, $value): void
+    public function offsetSet(mixed $name, mixed $value): void
     {
         $this->set($name, $value);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetExists($name): bool
+    public function offsetExists(mixed $name): bool
     {
         return $this->__isset($name);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($name): void
+    public function offsetUnset(mixed $name): void
     {
         throw new Exception('not support: unset');
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetGet($name)
+    public function offsetGet(mixed $name): mixed
     {
         return $this->get($name);
     }

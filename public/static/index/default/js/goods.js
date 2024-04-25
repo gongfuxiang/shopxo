@@ -458,8 +458,8 @@ function GoodsSpecType()
 function GoodsBrowserHistoryUrlChange()
 {
     var spec = GoodsSelectedSpec();
-    var value = (spec.length == 0) ? null : spec.map(function(v){return v.value;}).join('|');
-    history.pushState({}, '', UrlFieldReplace('spec', value));
+    var value = (spec.length == 0) ? (GetQueryValue('spec') || null) : spec.map(function(v){return v.value;}).join('|');
+   history.pushState({}, '', UrlFieldReplace('spec', value));
 }
 
 /**

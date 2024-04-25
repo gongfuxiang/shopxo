@@ -17,8 +17,7 @@ abstract class GammaBase
 
     private const MAX_ITERATIONS = 256;
 
-    /** @return float|string */
-    protected static function calculateDistribution(float $value, float $a, float $b, bool $cumulative)
+    protected static function calculateDistribution(float $value, float $a, float $b, bool $cumulative): float
     {
         if ($cumulative) {
             return self::incompleteGamma($a, $value / $b) / self::gammaValue($a);
@@ -129,7 +128,7 @@ abstract class GammaBase
         return exp(0 - $tmp + log(self::SQRT2PI * $summer / $x));
     }
 
-    private const  LG_D1 = -0.5772156649015328605195174;
+    private const LG_D1 = -0.5772156649015328605195174;
 
     private const LG_D2 = 0.4227843350984671393993777;
 
@@ -217,11 +216,10 @@ abstract class GammaBase
     private const PNT68 = 0.6796875;
 
     // Function cache for logGamma
-    /** @var float */
-    private static $logGammaCacheResult = 0.0;
 
-    /** @var float */
-    private static $logGammaCacheX = 0.0;
+    private static float $logGammaCacheResult = 0.0;
+
+    private static float $logGammaCacheX = 0.0;
 
     /**
      * logGamma function.

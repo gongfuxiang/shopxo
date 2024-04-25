@@ -39,7 +39,7 @@ class AppTest extends TestCase
     /** @var App */
     protected $app;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->app = new App();
     }
@@ -51,10 +51,6 @@ class AppTest extends TestCase
 
     public function testService()
     {
-        $this->app->register(stdClass::class);
-
-        $this->assertInstanceOf(stdClass::class, $this->app->getService(stdClass::class));
-
         $service = m::mock(SomeService::class);
 
         $service->shouldReceive('register')->once();
@@ -99,11 +95,6 @@ class AppTest extends TestCase
         $this->app->setNamespace($namespace);
 
         $this->assertEquals($namespace, $this->app->getNamespace());
-    }
-
-    public function testVersion()
-    {
-        $this->assertEquals(App::VERSION, $this->app->version());
     }
 
     public function testPath()

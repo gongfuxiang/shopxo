@@ -1,43 +1,47 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\db\builder;
 
 use think\db\Builder;
-use think\db\Query;
+use think\db\BaseQuery as Query;
 use think\db\Raw;
 
 /**
- * Pgsql数据库驱动
+ * Pgsql数据库驱动.
  */
 class Pgsql extends Builder
 {
     /**
-     * INSERT SQL表达式
+     * INSERT SQL表达式.
+     *
      * @var string
      */
     protected $insertSql = 'INSERT INTO %TABLE% (%FIELD%) VALUES (%DATA%) %COMMENT%';
 
     /**
-     * INSERT ALL SQL表达式
+     * INSERT ALL SQL表达式.
+     *
      * @var string
      */
     protected $insertAllSql = 'INSERT INTO %TABLE% (%FIELD%) %DATA% %COMMENT%';
 
     /**
-     * limit分析
-     * @access protected
-     * @param  Query     $query        查询对象
-     * @param  mixed     $limit
+     * limit分析.
+     *
+     * @param Query $query 查询对象
+     * @param mixed $limit
+     *
      * @return string
      */
     public function parseLimit(Query $query, string $limit): string
@@ -57,14 +61,15 @@ class Pgsql extends Builder
     }
 
     /**
-     * 字段和表名处理
-     * @access public
-     * @param  Query     $query     查询对象
-     * @param  mixed     $key       字段名
-     * @param  bool      $strict   严格检测
+     * 字段和表名处理.
+     *
+     * @param Query $query  查询对象
+     * @param string|int|Raw $key    字段名
+     * @param bool  $strict 严格检测
+     *
      * @return string
      */
-    public function parseKey(Query $query, $key, bool $strict = false): string
+    public function parseKey(Query $query, string|int|Raw $key, bool $strict = false): string
     {
         if (is_int($key)) {
             return (string) $key;
@@ -74,11 +79,11 @@ class Pgsql extends Builder
 
         $key = trim($key);
 
-        if (strpos($key, '->') && false === strpos($key, '(')) {
+        if (str_contains($key, '->') && !str_contains($key, '(')) {
             // JSON字段支持
             [$field, $name] = explode('->', $key);
-            $key            = '"' . $field . '"' . '->>\'' . $name . '\'';
-        } elseif (strpos($key, '.')) {
+            $key = '"' . $field . '"' . '->>\'' . $name . '\'';
+        } elseif (str_contains($key, '.')) {
             [$table, $key] = explode('.', $key, 2);
 
             $alias = $query->getOptions('alias');
@@ -105,14 +110,14 @@ class Pgsql extends Builder
     }
 
     /**
-     * 随机排序
-     * @access protected
-     * @param  Query     $query        查询对象
+     * 随机排序.
+     *
+     * @param Query $query 查询对象
+     *
      * @return string
      */
     protected function parseRand(Query $query): string
     {
         return 'RANDOM()';
     }
-
 }

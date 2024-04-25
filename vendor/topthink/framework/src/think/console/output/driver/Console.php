@@ -75,7 +75,7 @@ class Console
         $this->formatter->setDecorated($decorated);
 
         do {
-            $title = sprintf('  [%s]  ', get_class($e));
+            $title = sprintf('  [%s]  ', $e::class);
 
             $len = $this->stringWidth($title);
 

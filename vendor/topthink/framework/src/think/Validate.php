@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -65,6 +65,7 @@ class Validate
         'number'      => ':attribute must be numeric',
         'integer'     => ':attribute must be integer',
         'float'       => ':attribute must be float',
+        'string'      => ':attribute must be string',
         'boolean'     => ':attribute must be bool',
         'email'       => ':attribute not a valid email address',
         'mobile'      => ':attribute not a valid mobile',
@@ -110,6 +111,9 @@ class Validate
         'fileSize'    => 'filesize not match',
         'fileExt'     => 'extensions to upload is not allowed',
         'fileMime'    => 'mimetype to upload is not allowed',
+        'startWith'   => ':attribute must start with :rule',
+        'endWith'     => ':attribute must end with :rule',
+        'contain'     => ':attribute must contain :rule',
     ];
 
     /**
@@ -126,10 +130,10 @@ class Validate
         'alpha'       => '/^[A-Za-z]+$/',
         'alphaNum'    => '/^[A-Za-z0-9]+$/',
         'alphaDash'   => '/^[A-Za-z0-9\-\_]+$/',
-        'chs'         => '/^[\x{4e00}-\x{9fa5}\x{9fa6}-\x{9fef}\x{3400}-\x{4db5}\x{20000}-\x{2ebe0}]+$/u',
-        'chsAlpha'    => '/^[\x{4e00}-\x{9fa5}\x{9fa6}-\x{9fef}\x{3400}-\x{4db5}\x{20000}-\x{2ebe0}a-zA-Z]+$/u',
-        'chsAlphaNum' => '/^[\x{4e00}-\x{9fa5}\x{9fa6}-\x{9fef}\x{3400}-\x{4db5}\x{20000}-\x{2ebe0}a-zA-Z0-9]+$/u',
-        'chsDash'     => '/^[\x{4e00}-\x{9fa5}\x{9fa6}-\x{9fef}\x{3400}-\x{4db5}\x{20000}-\x{2ebe0}a-zA-Z0-9\_\-]+$/u',
+        'chs'         => '/^[\p{Han}]+$/u',
+        'chsAlpha'    => '/^[\p{Han}a-zA-Z]+$/u',
+        'chsAlphaNum' => '/^[\p{Han}a-zA-Z0-9]+$/u',
+        'chsDash'     => '/^[\p{Han}a-zA-Z0-9\_\-]+$/u',
         'mobile'      => '/^1[3-9]\d{9}$/',
         'idCard'      => '/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/',
         'zip'         => '/\d{6}/',
@@ -283,7 +287,7 @@ class Validate
      * @param mixed        $rule 验证规则或者字段描述信息
      * @return $this
      */
-    public function rule($name, $rule = '')
+    public function rule(string|array $name, $rule = '')
     {
         if (is_array($name)) {
             $this->rule = $name + $this->rule;
@@ -323,7 +327,7 @@ class Validate
      * @param string       $msg  验证提示信息
      * @return void
      */
-    public function setTypeMsg($type, string $msg = null): void
+    public function setTypeMsg(string|array $type, string $msg = null): void
     {
         if (is_array($type)) {
             $this->typeMsg = array_merge($this->typeMsg, $type);
@@ -416,7 +420,7 @@ class Validate
      * @param mixed        $rule  验证规则 true 移除所有规则
      * @return $this
      */
-    public function remove($field, $rule = null)
+    public function remove(string|array $field, $rule = null)
     {
         if (is_array($field)) {
             foreach ($field as $key => $rule) {
@@ -444,7 +448,7 @@ class Validate
      * @param mixed        $rule  验证规则
      * @return $this
      */
-    public function append($field, $rule = null)
+    public function append(string|array $field, $rule = null)
     {
         if (is_array($field)) {
             foreach ($field as $key => $rule) {
@@ -490,7 +494,7 @@ class Validate
 
         foreach ($rules as $key => $rule) {
             // field => 'rule1|rule2...' field => ['rule1','rule2',...]
-            if (strpos($key, '|')) {
+            if (str_contains($key, '|')) {
                 // 字段|描述 用于指定属性名称
                 [$key, $title] = explode('|', $key);
             } else {
@@ -631,7 +635,7 @@ class Validate
 
                 if (isset($this->type[$type])) {
                     $result = call_user_func_array($this->type[$type], [$value, $rule, $data, $field, $title]);
-                } elseif ('must' == $info || 0 === strpos($info, 'require') || (!is_null($value) && '' !== $value)) {
+                } elseif ('must' == $info || str_starts_with($info, 'require') || (!is_null($value) && '' !== $value)) {
                     $result = call_user_func_array([$this, $type], [$value, $rule, $data, $field, $title]);
                 } else {
                     $result = true;
@@ -642,7 +646,7 @@ class Validate
                 // 验证失败 返回错误信息
                 if (!empty($msg[$i])) {
                     $message = $msg[$i];
-                    if (is_string($message) && strpos($message, '{%') === 0) {
+                    if (is_string($message) && str_starts_with($message, '{%')) {
                         $message = $this->lang->get(substr($message, 2, -1));
                     }
                 } else {
@@ -652,10 +656,10 @@ class Validate
                 return $message;
             } elseif (true !== $result) {
                 // 返回自定义错误信息
-                if (is_string($result) && false !== strpos($result, ':')) {
+                if (is_string($result) && str_contains($result, ':')) {
                     $result = str_replace(':attribute', $title, $result);
 
-                    if (strpos($result, ':rule') && is_scalar($rule)) {
+                    if (str_contains($result, ':rule') && is_scalar($rule)) {
                         $result = str_replace(':rule', (string) $rule, $result);
                     }
                 }
@@ -686,7 +690,7 @@ class Validate
             return [$key, $rule, $key];
         }
 
-        if (strpos($rule, ':')) {
+        if (str_contains($rule, ':')) {
             [$type, $rule] = explode(':', $rule, 2);
             if (isset($this->alias[$type])) {
                 // 判断别名
@@ -717,7 +721,7 @@ class Validate
     public function confirm($value, $rule, array $data = [], string $field = ''): bool
     {
         if ('' == $rule) {
-            if (strpos($field, '_confirm')) {
+            if (str_contains($field, '_confirm')) {
                 $rule = strstr($field, '_confirm', true);
             } else {
                 $rule = $field . '_confirm';
@@ -826,65 +830,39 @@ class Validate
      */
     public function is($value, string $rule, array $data = []): bool
     {
-        switch (Str::camel($rule)) {
-            case 'require':
-                // 必须
-                $result = !empty($value) || '0' == $value;
-                break;
-            case 'accepted':
-                // 接受
-                $result = in_array($value, ['1', 'on', 'yes']);
-                break;
-            case 'date':
-                // 是否是一个有效日期
-                $result = false !== strtotime($value);
-                break;
-            case 'activeUrl':
-                // 是否为有效的网址
-                $result = checkdnsrr($value);
-                break;
-            case 'boolean':
-            case 'bool':
-                // 是否为布尔值
-                $result = in_array($value, [true, false, 0, 1, '0', '1'], true);
-                break;
-            case 'number':
-                $result = ctype_digit((string) $value);
-                break;
-            case 'alphaNum':
-                $result = ctype_alnum($value);
-                break;
-            case 'array':
-                // 是否为数组
-                $result = is_array($value);
-                break;
-            case 'file':
-                $result = $value instanceof File;
-                break;
-            case 'image':
-                $result = $value instanceof File && in_array($this->getImageType($value->getRealPath()), [1, 2, 3, 6]);
-                break;
-            case 'token':
-                $result = $this->token($value, '__token__', $data);
-                break;
-            default:
-                if (isset($this->type[$rule])) {
-                    // 注册的验证规则
-                    $result = call_user_func_array($this->type[$rule], [$value]);
-                } elseif (function_exists('ctype_' . $rule)) {
-                    // ctype验证规则
-                    $ctypeFun = 'ctype_' . $rule;
-                    $result   = $ctypeFun($value);
-                } elseif (isset($this->filter[$rule])) {
-                    // Filter_var验证规则
-                    $result = $this->filter($value, $this->filter[$rule]);
-                } else {
-                    // 正则验证
-                    $result = $this->regex($value, $rule);
-                }
-        }
+        $call = function ($value, $rule) {
+            if (isset($this->type[$rule])) {
+                // 注册的验证规则
+                $result = call_user_func_array($this->type[$rule], [$value]);
+            } elseif (function_exists('ctype_' . $rule)) {
+                // ctype验证规则
+                $ctypeFun = 'ctype_' . $rule;
+                $result   = $ctypeFun($value);
+            } elseif (isset($this->filter[$rule])) {
+                // Filter_var验证规则
+                $result = $this->filter($value, $this->filter[$rule]);
+            } else {
+                // 正则验证
+                $result = $this->regex($value, $rule);
+            }
+            return $result;
+        };
 
-        return $result;
+        return match (Str::camel($rule)) {
+            'require'   =>  !empty($value) || '0' == $value, // 必须
+            'accepted'  =>  in_array($value, ['1', 'on', 'yes']), // 接受
+            'date'      =>  false !== strtotime($value),                // 是否是一个有效日期
+            'activeUrl' =>  checkdnsrr($value), // 是否为有效的网址
+            'boolean','bool'    =>  in_array($value, [true, false, 0, 1, '0', '1'], true),                // 是否为布尔值
+            'number'    =>  ctype_digit((string) $value),
+            'alphaNum'  =>  ctype_alnum($value),
+            'array'     =>  is_array($value),                // 是否为数组
+            'string'    =>  is_string($value),
+            'file'      =>  $value instanceof File,
+            'image'     =>  $value instanceof File && in_array($this->getImageType($value->getRealPath()), [1, 2, 3, 6]),
+            'token'     =>  $this->token($value, '__token__', $data),
+            default     =>  $call($value, $rule),
+        };
     }
 
     // 判断图像类型
@@ -946,6 +924,42 @@ class Validate
         }
 
         return $this->filter($value, [FILTER_VALIDATE_IP, 'ipv6' == $rule ? FILTER_FLAG_IPV6 : FILTER_FLAG_IPV4]);
+    }
+
+    /**
+     * 检测是否以某个字符串开头
+     * @access public
+     * @param mixed $value 字段值
+     * @param string $rule  验证规则
+     * @return bool
+     */
+    public function startWith($value, string $rule): bool
+    {
+        return is_string($value) && str_starts_with($value, $rule);
+    }
+
+    /**
+     * 检测是否以某个字符串结尾
+     * @access public
+     * @param mixed $value 字段值
+     * @param string $rule  验证规则
+     * @return bool
+     */
+    public function endWith($value, string $rule): bool
+    {
+        return is_string($value) && str_ends_with($value, $rule);
+    }
+
+    /**
+     * 检测是否以包含某个字符串
+     * @access public
+     * @param mixed $value 字段值
+     * @param string $rule  验证规则
+     * @return bool
+     */
+    public function contain($value, string $rule): bool
+    {
+        return is_string($value) && str_contains($value, $rule);
     }
 
     /**
@@ -1127,7 +1141,7 @@ class Validate
             $rule = explode(',', $rule);
         }
 
-        if (false !== strpos($rule[0], '\\')) {
+        if (str_contains($rule[0], '\\')) {
             // 指定模型类
             $db = new $rule[0];
         } else {
@@ -1137,7 +1151,7 @@ class Validate
         $key = $rule[1] ?? $field;
         $map = [];
 
-        if (strpos($key, '^')) {
+        if (str_contains($key, '^')) {
             // 支持多个字段验证
             $fields = explode('^', $key);
             foreach ($fields as $key) {
@@ -1177,7 +1191,7 @@ class Validate
      */
     public function filter($value, $rule): bool
     {
-        if (is_string($rule) && strpos($rule, ',')) {
+        if (is_string($rule) && str_contains($rule, ',')) {
             [$rule, $param] = explode(',', $rule);
         } elseif (is_array($rule)) {
             $param = $rule[1] ?? 0;
@@ -1340,7 +1354,7 @@ class Validate
             $length = mb_strlen((string) $value);
         }
 
-        if (is_string($rule) && strpos($rule, ',')) {
+        if (is_string($rule) && str_contains($rule, ',')) {
             // 长度区间
             [$min, $max] = explode(',', $rule);
             return $length >= $min && $length <= $max;
@@ -1509,7 +1523,7 @@ class Validate
             $rule = $this->defaultRegex[$rule];
         }
 
-        if (is_string($rule) && 0 !== strpos($rule, '/') && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
+        if (is_string($rule) && !str_starts_with($rule, '/') && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
             // 不是正则表达式则两端补上/
             $rule = '/^' . $rule . '$/';
         }
@@ -1537,7 +1551,7 @@ class Validate
     {
         if (is_numeric($key)) {
             $value = $key;
-        } elseif (is_string($key) && strpos($key, '.')) {
+        } elseif (is_string($key) && str_contains($key, '.')) {
             // 支持多维数组验证
             foreach (explode('.', $key) as $key) {
                 if (!isset($data[$key])) {
@@ -1572,7 +1586,7 @@ class Validate
             $msg = $this->message[$attribute];
         } elseif (isset($this->typeMsg[$type])) {
             $msg = $this->typeMsg[$type];
-        } elseif (0 === strpos($type, 'require')) {
+        } elseif (str_starts_with($type, 'require')) {
             $msg = $this->typeMsg['require'];
         } else {
             $msg = $title . $this->lang->get('not conform to the rules');
@@ -1595,7 +1609,7 @@ class Validate
      */
     protected function parseErrorMsg(string $msg, $rule, string $title)
     {
-        if (0 === strpos($msg, '{%')) {
+        if (str_starts_with($msg, '{%')) {
             $msg = $this->lang->get(substr($msg, 2, -1));
         } elseif ($this->lang->has($msg)) {
             $msg = $this->lang->get($msg);
@@ -1610,9 +1624,9 @@ class Validate
             $rule = implode(',', $rule);
         }
 
-        if (is_scalar($rule) && false !== strpos($msg, ':')) {
+        if (is_scalar($rule) && str_contains($msg, ':')) {
             // 变量替换
-            if (is_string($rule) && strpos($rule, ',')) {
+            if (is_string($rule) && str_contains($rule, ',')) {
                 $array = array_pad(explode(',', $rule), 3, '');
             } else {
                 $array = array_pad([], 3, '');
@@ -1624,7 +1638,7 @@ class Validate
                 $msg
             );
 
-            if (strpos($msg, ':rule')) {
+            if (str_contains($msg, ':rule')) {
                 $msg = str_replace(':rule', (string) $rule, $msg);
             }
         }

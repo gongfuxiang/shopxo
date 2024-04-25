@@ -186,7 +186,7 @@ class ContainerTest extends TestCase
         $taylor = $container->make(Taylor::class);
 
         $this->assertInstanceOf(Taylor::class, $taylor);
-        $this->assertAttributeSame('Taylor', 'name', $taylor);
+        $this->assertSame('Taylor', $taylor->name);
     }
 
     public function testGetAndSetInstance()

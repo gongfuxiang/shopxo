@@ -1,126 +1,149 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\db;
 
+use Closure;
+use Psr\SimpleCache\CacheInterface;
 use think\Collection;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException as Exception;
 use think\db\exception\ModelNotFoundException;
 use think\helper\Str;
-use think\Model;
 use think\Paginator;
 
 /**
- * 数据查询基础类
+ * 数据查询基础类.
  */
 abstract class BaseQuery
 {
     use concern\TimeFieldQuery;
     use concern\AggregateQuery;
     use concern\ModelRelationQuery;
+    use concern\ParamsBind;
     use concern\ResultOperation;
     use concern\Transaction;
     use concern\WhereQuery;
 
     /**
      * 当前数据库连接对象
+     *
      * @var Connection
      */
     protected $connection;
 
     /**
-     * 当前数据表名称（不含前缀）
+     * 当前数据表名称（不含前缀）.
+     *
      * @var string
      */
     protected $name = '';
 
     /**
-     * 当前数据表主键
+     * 当前数据表主键.
+     *
      * @var string|array
      */
     protected $pk;
 
     /**
-     * 当前数据表自增主键
+     * 当前数据表自增主键.
+     *
      * @var string
      */
     protected $autoinc;
 
     /**
      * 当前数据表前缀
+     *
      * @var string
      */
     protected $prefix = '';
 
     /**
-     * 当前查询参数
+     * 当前查询参数.
+     *
      * @var array
      */
     protected $options = [];
 
     /**
-     * 架构函数
-     * @access public
+     * 架构函数.
+     *
      * @param ConnectionInterface $connection 数据库连接对象
      */
     public function __construct(ConnectionInterface $connection)
     {
-        $this->connection = $connection;
-
-        $this->prefix = $this->connection->getConfig('prefix');
+        $this->connection   = $connection;
+        $this->prefix       = $this->connection->getConfig('prefix');
     }
 
     /**
-     * 利用__call方法实现一些特殊的Model方法
-     * @access public
+     * 利用__call方法实现一些特殊的Model方法.
+     *
      * @param string $method 方法名称
      * @param array  $args   调用参数
-     * @return mixed
+     *
      * @throws Exception
+     *
+     * @return mixed
      */
     public function __call(string $method, array $args)
     {
         if (strtolower(substr($method, 0, 5)) == 'getby') {
             // 根据某个字段获取记录
             $field = Str::snake(substr($method, 5));
+
             return $this->where($field, '=', $args[0])->find();
-        } elseif (strtolower(substr($method, 0, 10)) == 'getfieldby') {
+        }
+
+        if (strtolower(substr($method, 0, 10)) == 'getfieldby') {
             // 根据某个字段获取记录的某个值
             $name = Str::snake(substr($method, 10));
+
             return $this->where($name, '=', $args[0])->value($args[1]);
-        } elseif (strtolower(substr($method, 0, 7)) == 'whereor') {
+        }
+
+        if (strtolower(substr($method, 0, 7)) == 'whereor') {
             $name = Str::snake(substr($method, 7));
             array_unshift($args, $name);
+
             return call_user_func_array([$this, 'whereOr'], $args);
-        } elseif (strtolower(substr($method, 0, 5)) == 'where') {
+        }
+
+        if (strtolower(substr($method, 0, 5)) == 'where') {
             $name = Str::snake(substr($method, 5));
             array_unshift($args, $name);
+
             return call_user_func_array([$this, 'where'], $args);
-        } elseif ($this->model && method_exists($this->model, 'scope' . $method)) {
+        }
+
+        if ($this->model && method_exists($this->model, 'scope' . $method)) {
             // 动态调用命名范围
             $method = 'scope' . $method;
             array_unshift($args, $this);
 
             call_user_func_array([$this->model, $method], $args);
+
             return $this;
-        } else {
-            throw new Exception('method not exist:' . static::class . '->' . $method);
         }
+
+        throw new Exception('method not exist:' . static::class . '->' . $method);
     }
 
     /**
      * 创建一个新的查询对象
-     * @access public
+     *
      * @return BaseQuery
      */
     public function newQuery(): BaseQuery
@@ -145,12 +168,16 @@ abstract class BaseQuery
             $query->setFieldType($this->options['field_type']);
         }
 
+        if (isset($this->options['lazy_fields'])) {
+            $query->lazyFields($this->options['lazy_fields']);
+        }
+
         return $query;
     }
 
     /**
      * 获取当前的数据库Connection对象
-     * @access public
+     *
      * @return ConnectionInterface
      */
     public function getConnection()
@@ -159,20 +186,22 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定当前数据表名（不含前缀）
-     * @access public
+     * 指定当前数据表名（不含前缀）.
+     *
      * @param string $name 不含前缀的数据表名字
+     *
      * @return $this
      */
     public function name(string $name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * 获取当前的数据表名称
-     * @access public
+     * 获取当前的数据表名称.
+     *
      * @return string
      */
     public function getName(): string
@@ -181,9 +210,45 @@ abstract class BaseQuery
     }
 
     /**
-     * 获取数据库的配置参数
-     * @access public
+     * 设置主键值.
+     *
+     * @param mixed $key 主键值
+     *
+     * @return $this
+     */
+    public function setKey($key)
+    {
+        $this->options['key'] = $key;
+
+        return $this;
+    }
+
+    /**
+     * 获取主键值.
+     * @param array $data 数据
+     *
+     * @return mixed
+     */
+    public function getKey(array $data = [])
+    {
+        if (!empty($data)) {
+            $pk = $this->getPk();
+            if (is_string($pk) && isset($data[$pk])) {
+                $id = $data[$pk];
+            } else {
+                $id = null;
+            }
+            return $id;
+        }
+
+        return $this->getOptions('key');
+    }
+
+    /**
+     * 获取数据库的配置参数.
+     *
      * @param string $name 参数名称
+     *
      * @return mixed
      */
     public function getConfig(string $name = '')
@@ -192,9 +257,10 @@ abstract class BaseQuery
     }
 
     /**
-     * 得到当前或者指定名称的数据表
-     * @access public
+     * 得到当前或者指定名称的数据表.
+     *
      * @param string $name 不含前缀的数据表名字
+     *
      * @return mixed
      */
     public function getTable(string $name = '')
@@ -209,20 +275,22 @@ abstract class BaseQuery
     }
 
     /**
-     * 设置字段类型信息
-     * @access public
+     * 设置字段类型信息.
+     *
      * @param array $type 字段类型信息
+     *
      * @return $this
      */
     public function setFieldType(array $type)
     {
         $this->options['field_type'] = $type;
+
         return $this;
     }
 
     /**
-     * 获取最近一次查询的sql语句
-     * @access public
+     * 获取最近一次查询的sql语句.
+     *
      * @return string
      */
     public function getLastSql(): string
@@ -231,9 +299,9 @@ abstract class BaseQuery
     }
 
     /**
-     * 获取返回或者影响的记录数
-     * @access public
-     * @return integer
+     * 获取返回或者影响的记录数.
+     *
+     * @return int
      */
     public function getNumRows(): int
     {
@@ -241,9 +309,10 @@ abstract class BaseQuery
     }
 
     /**
-     * 获取最近插入的ID
-     * @access public
+     * 获取最近插入的ID.
+     *
      * @param string $sequence 自增序列名
+     *
      * @return mixed
      */
     public function getLastInsID(string $sequence = null)
@@ -253,9 +322,10 @@ abstract class BaseQuery
 
     /**
      * 得到某个字段的值
-     * @access public
+     *
      * @param string $field   字段名
      * @param mixed  $default 默认值
+     *
      * @return mixed
      */
     public function value(string $field, $default = null)
@@ -269,13 +339,14 @@ abstract class BaseQuery
     }
 
     /**
-     * 得到某个列的数组
-     * @access public
+     * 得到某个列的数组.
+     *
      * @param string|array $field 字段名 多个字段用逗号分隔
      * @param string       $key   索引
+     *
      * @return array
      */
-    public function column($field, string $key = ''): array
+    public function column(string|array $field, string $key = ''): array
     {
         $result = $this->connection->column($this, $field, $key);
 
@@ -287,13 +358,14 @@ abstract class BaseQuery
     }
 
     /**
-     * 查询SQL组装 union
-     * @access public
-     * @param mixed   $union UNION
-     * @param boolean $all   是否适用UNION ALL
+     * 查询SQL组装 union.
+     *
+     * @param string|array|Closure $union UNION
+     * @param bool                 $all   是否适用UNION ALL
+     *
      * @return $this
      */
-    public function union($union, bool $all = false)
+    public function union(string|array|Closure $union, bool $all = false)
     {
         $this->options['union']['type'] = $all ? 'UNION ALL' : 'UNION';
 
@@ -307,28 +379,31 @@ abstract class BaseQuery
     }
 
     /**
-     * 查询SQL组装 union all
-     * @access public
+     * 查询SQL组装 union all.
+     *
      * @param mixed $union UNION数据
+     *
      * @return $this
      */
-    public function unionAll($union)
+    public function unionAll(string|array|Closure $union)
     {
         return $this->union($union, true);
     }
 
     /**
-     * 指定查询字段
-     * @access public
-     * @param mixed $field 字段信息
+     * 指定查询字段.
+     *
+     * @param string|array|Raw|true $field 字段信息
+     *
      * @return $this
      */
-    public function field($field)
+    public function field(string|array|Raw|bool $field)
     {
         if (empty($field)) {
             return $this;
         } elseif ($field instanceof Raw) {
             $this->options['field'][] = $field;
+
             return $this;
         }
 
@@ -356,12 +431,13 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定要排除的查询字段
-     * @access public
+     * 指定要排除的查询字段.
+     *
      * @param array|string $field 要排除的字段
+     *
      * @return $this
      */
-    public function withoutField($field)
+    public function withoutField(array|string $field)
     {
         if (empty($field)) {
             return $this;
@@ -385,15 +461,16 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定其它数据表的查询字段
-     * @access public
-     * @param mixed   $field     字段信息
-     * @param string  $tableName 数据表名
-     * @param string  $prefix    字段前缀
-     * @param string  $alias     别名前缀
+     * 指定其它数据表的查询字段.
+     *
+     * @param string|array|true  $field     字段信息
+     * @param string $tableName 数据表名
+     * @param string $prefix    字段前缀
+     * @param string $alias     别名前缀
+     *
      * @return $this
      */
-    public function tableField($field, string $tableName, string $prefix = '', string $alias = '')
+    public function tableField(string|array|bool $field, string $tableName, string $prefix = '', string $alias = '')
     {
         if (empty($field)) {
             return $this;
@@ -430,9 +507,10 @@ abstract class BaseQuery
     }
 
     /**
-     * 设置数据
-     * @access public
+     * 设置数据.
+     *
      * @param array $data 数据
+     *
      * @return $this
      */
     public function data(array $data)
@@ -443,16 +521,17 @@ abstract class BaseQuery
     }
 
     /**
-     * 去除查询参数
-     * @access public
+     * 去除查询参数.
+     *
      * @param string $option 参数名 留空去除所有参数
+     *
      * @return $this
      */
     public function removeOption(string $option = '')
     {
         if ('' === $option) {
-            $this->options = [];
-            $this->bind    = [];
+            $this->options  = [];
+            $this->bind     = [];
         } elseif (isset($this->options[$option])) {
             unset($this->options[$option]);
         }
@@ -461,10 +540,11 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定查询数量
-     * @access public
+     * 指定查询数量.
+     *
      * @param int $offset 起始位置
      * @param int $length 查询数量
+     *
      * @return $this
      */
     public function limit(int $offset, int $length = null)
@@ -475,10 +555,11 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定分页
-     * @access public
+     * 指定分页.
+     *
      * @param int $page     页数
      * @param int $listRows 每页数量
+     *
      * @return $this
      */
     public function page(int $page, int $listRows = null)
@@ -489,70 +570,97 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定当前操作的数据表
-     * @access public
-     * @param mixed $table 表名
+     * 指定当前操作的数据表.
+     *
+     * @param string|array|Raw $table 表名
+     *
      * @return $this
      */
-    public function table($table)
+    public function table(string|array|Raw $table)
     {
-        if (is_string($table)) {
-            if (strpos($table, ')')) {
-                // 子查询
-            } elseif (false === strpos($table, ',')) {
-                if (strpos($table, ' ')) {
-                    [$item, $alias] = explode(' ', $table);
-                    $table          = [];
-                    $this->alias([$item => $alias]);
-                    $table[$item] = $alias;
-                }
-            } else {
-                $tables = explode(',', $table);
-                $table  = [];
-
-                foreach ($tables as $item) {
-                    $item = trim($item);
-                    if (strpos($item, ' ')) {
-                        [$item, $alias] = explode(' ', $item);
-                        $this->alias([$item => $alias]);
-                        $table[$item] = $alias;
-                    } else {
-                        $table[] = $item;
-                    }
-                }
-            }
+        if (is_string($table) && !str_contains($table, ')')) {
+            $table = $this->tableStr($table);
         } elseif (is_array($table)) {
-            $tables = $table;
-            $table  = [];
-
-            foreach ($tables as $key => $val) {
-                if (is_numeric($key)) {
-                    $table[] = $val;
-                } else {
-                    $this->alias([$key => $val]);
-                    $table[$key] = $val;
-                }
-            }
+            $table = $this->tableArr($table);
         }
 
         $this->options['table'] = $table;
-
         return $this;
     }
 
     /**
-     * 指定排序 order('id','desc') 或者 order(['id'=>'desc','create_time'=>'desc'])
-     * @access public
+     * 指定数据表（字符串）.
+     *
+     * @param string $table 表名
+     *
+     * @return array|string
+     */
+    protected function tableStr(string $table): array|string
+    {
+        if (!str_contains($table, ',')) {
+            // 单表
+            if (str_contains($table, ' ')) {
+                [$item, $alias] = explode(' ', $table);
+                $table = [];
+                $this->alias([$item => $alias]);
+                $table[$item] = $alias;
+            }
+        } else {
+            // 多表
+            $tables = explode(',', $table);
+            $table = [];
+
+            foreach ($tables as $item) {
+                $item = trim($item);
+                if (str_contains($item, ' ')) {
+                    [$item, $alias] = explode(' ', $item);
+                    $this->alias([$item => $alias]);
+                    $table[$item] = $alias;
+                } else {
+                    $table[] = $item;
+                }
+            }
+        }
+        return $table;
+    }
+
+    /**
+     * 指定多个数据表（数组格式）.
+     *
+     * @param array $tables 表名列表
+     *
+     * @return array
+     */
+    protected function tableArr(array $tables): array
+    {
+        $table = [];
+        foreach ($tables as $key => $val) {
+            if (is_numeric($key)) {
+                $table[] = $val;
+            } else {
+                $this->alias([$key => $val]);
+                $table[$key] = $val;
+            }
+        }
+
+        return $table;
+    }
+
+    /**
+     * 指定排序 order('id','desc') 或者 order(['id'=>'desc','create_time'=>'desc']).
+     *
      * @param string|array|Raw $field 排序字段
      * @param string           $order 排序
+     *
      * @return $this
      */
-    public function order($field, string $order = '')
+    public function order(string|array|Raw $field, string $order = '')
     {
         if (empty($field)) {
             return $this;
         } elseif ($field instanceof Raw) {
             $this->options['order'][] = $field;
+
             return $this;
         }
 
@@ -560,7 +668,7 @@ abstract class BaseQuery
             if (!empty($this->options['via'])) {
                 $field = $this->options['via'] . '.' . $field;
             }
-            if (strpos($field, ',')) {
+            if (str_contains($field, ',')) {
                 $field = array_map('trim', explode(',', $field));
             } else {
                 $field = empty($order) ? $field : [$field => $order];
@@ -590,14 +698,16 @@ abstract class BaseQuery
     }
 
     /**
-     * 分页查询
-     * @access public
+     * 分页查询.
+     *
      * @param int|array $listRows 每页数量 数组表示配置参数
      * @param int|bool  $simple   是否简洁模式或者总记录数
-     * @return Paginator
+     *
      * @throws Exception
+     *
+     * @return Paginator
      */
-    public function paginate($listRows = null, $simple = false): Paginator
+    public function paginate(int|array $listRows = null, int|bool $simple = false): Paginator
     {
         if (is_int($simple)) {
             $total  = $simple;
@@ -612,17 +722,15 @@ abstract class BaseQuery
         ];
 
         if (is_array($listRows)) {
-            $config   = array_merge($defaultConfig, $listRows);
-            $listRows = intval($config['list_rows']);
+            $config     = array_merge($defaultConfig, $listRows);
+            $listRows   = intval($config['list_rows']);
         } else {
-            $config   = $defaultConfig;
-            $listRows = intval($listRows ?: $config['list_rows']);
+            $config     = $defaultConfig;
+            $listRows   = intval($listRows ?: $config['list_rows']);
         }
 
-        $page = isset($config['page']) ? (int) $config['page'] : Paginator::getCurrentPage($config['var_page']);
-
-        $page = $page < 1 ? 1 : $page;
-
+        $page           = isset($config['page']) ? (int) $config['page'] : Paginator::getCurrentPage($config['var_page']);
+        $page           = max($page, 1);
         $config['path'] = $config['path'] ?? Paginator::getCurrentPath();
 
         if (!isset($total) && !$simple) {
@@ -630,8 +738,8 @@ abstract class BaseQuery
 
             unset($this->options['order'], $this->options['cache'], $this->options['limit'], $this->options['page'], $this->options['field']);
 
-            $bind  = $this->bind;
-            $total = $this->count();
+            $bind   = $this->bind;
+            $total  = $this->count();
             if ($total > 0) {
                 $results = $this->options($options)->bind($bind)->page($page, $listRows)->select();
             } else {
@@ -642,10 +750,10 @@ abstract class BaseQuery
                 }
             }
         } elseif ($simple) {
-            $results = $this->limit(($page - 1) * $listRows, $listRows + 1)->select();
-            $total   = null;
+            $results    = $this->limit(($page - 1) * $listRows, $listRows + 1)->select();
+            $total      = null;
         } else {
-            $results = $this->page($page, $listRows)->select();
+            $results    = $this->page($page, $listRows)->select();
         }
 
         $this->removeOption('limit');
@@ -655,15 +763,17 @@ abstract class BaseQuery
     }
 
     /**
-     * 根据数字类型字段进行分页查询（大数据）
-     * @access public
+     * 根据数字类型字段进行分页查询（大数据）.
+     *
      * @param int|array $listRows 每页数量或者分页配置
      * @param string    $key      分页索引键
      * @param string    $sort     索引键排序 asc|desc
-     * @return Paginator
+     *
      * @throws Exception
+     *
+     * @return Paginator
      */
-    public function paginateX($listRows = null, string $key = null, string $sort = null): Paginator
+    public function paginateX(int|array $listRows = null, string $key = null, string $sort = null): Paginator
     {
         $defaultConfig = [
             'query'     => [], //url额外参数
@@ -672,15 +782,15 @@ abstract class BaseQuery
             'list_rows' => 15, //每页数量
         ];
 
-        $config   = is_array($listRows) ? array_merge($defaultConfig, $listRows) : $defaultConfig;
-        $listRows = is_int($listRows) ? $listRows : (int) $config['list_rows'];
-        $page     = isset($config['page']) ? (int) $config['page'] : Paginator::getCurrentPage($config['var_page']);
-        $page     = $page < 1 ? 1 : $page;
+        $config     = is_array($listRows) ? array_merge($defaultConfig, $listRows) : $defaultConfig;
+        $listRows   = is_int($listRows) ? $listRows : (int) $config['list_rows'];
+        $page       = isset($config['page']) ? (int) $config['page'] : Paginator::getCurrentPage($config['var_page']);
+        $page       = max($page, 1);
 
         $config['path'] = $config['path'] ?? Paginator::getCurrentPath();
 
-        $key     = $key ?: $this->getPk();
-        $options = $this->getOptions();
+        $key        = $key ?: $this->getPk();
+        $options    = $this->getOptions();
 
         if (is_null($sort)) {
             $order = $options['order'] ?? '';
@@ -725,16 +835,18 @@ abstract class BaseQuery
     }
 
     /**
-     * 根据最后ID查询更多N个数据
-     * @access public
+     * 根据最后ID查询更多N个数据.
+     *
      * @param int        $limit  LIMIT
      * @param int|string $lastId LastId
      * @param string     $key    分页索引键 默认为主键
      * @param string     $sort   索引键排序 asc|desc
-     * @return array
+     *
      * @throws Exception
+     *
+     * @return array
      */
-    public function more(int $limit, $lastId = null, string $key = null, string $sort = null): array
+    public function more(int $limit, int|string $lastId = null, string $key = null, string $sort = null): array
     {
         $key = $key ?: $this->getPk();
 
@@ -765,17 +877,27 @@ abstract class BaseQuery
     }
 
     /**
-     * 查询缓存 数据为空不缓存
-     * @access public
-     * @param mixed             $key    缓存key
-     * @param integer|\DateTime $expire 缓存有效期
-     * @param string|array      $tag    缓存标签
-     * @param bool              $always 始终缓存
+     * 获取当前的缓存对象
+     *
+     * @return CacheInterface|null
+     */
+    public function getCache()
+    {
+        return $this->getConnection()->getCache();
+    }
+
+    /**
+     * 查询缓存 数据为空不缓存.
+     *
+     * @param mixed         $key    缓存key
+     * @param int|\DateTime $expire 缓存有效期
+     * @param string|array  $tag    缓存标签
+     *
      * @return $this
      */
-    public function cache($key = true, $expire = null, $tag = null, bool $always = false)
+    public function cache($key = true, $expire = null, $tag = null)
     {
-        if (false === $key || !$this->getConnection()->getCache()) {
+        if (false === $key || !$this->getCache()) {
             return $this;
         }
 
@@ -784,32 +906,49 @@ abstract class BaseQuery
             $key    = true;
         }
 
-        $this->options['cache']        = [$key, $expire, $tag];
-        $this->options['cache_always'] = $always;
-
+        $this->options['cache']     = [$key, $expire, $tag ?: $this->getTable()];
         return $this;
     }
 
     /**
-     * 查询缓存 允许缓存空数据
-     * @access public
-     * @param mixed             $key    缓存key
-     * @param integer|\DateTime $expire 缓存有效期
-     * @param string|array      $tag    缓存标签
+     * 查询缓存 允许缓存空数据.
+     *
+     * @param mixed         $key    缓存key
+     * @param int|\DateTime $expire 缓存有效期
+     * @param string|array  $tag    缓存标签
+     *
      * @return $this
      */
     public function cacheAlways($key = true, $expire = null, $tag = null)
     {
-        return $this->cache($key, $expire, $tag, true);
+        $this->options['cache_always']  = true;
+        return $this->cache($key, $expire, $tag);
     }
 
     /**
-     * 指定查询lock
-     * @access public
-     * @param bool|string $lock 是否lock
+     * 强制更新缓存
+     *
+     * @param mixed         $key    缓存key
+     * @param int|\DateTime $expire 缓存有效期
+     * @param string|array  $tag    缓存标签
+     *
      * @return $this
      */
-    public function lock($lock = false)
+    public function cacheForce($key = true, $expire = null, $tag = null)
+    {
+        $this->options['force_cache']  = true;
+
+        return $this->cache($key, $expire, $tag);
+    }
+
+    /**
+     * 指定查询lock.
+     *
+     * @param bool|string $lock 是否lock
+     *
+     * @return $this
+     */
+    public function lock(bool|string $lock = false)
     {
         $this->options['lock'] = $lock;
 
@@ -821,12 +960,13 @@ abstract class BaseQuery
     }
 
     /**
-     * 指定数据表别名
-     * @access public
+     * 指定数据表别名.
+     *
      * @param array|string $alias 数据表别名
+     *
      * @return $this
      */
-    public function alias($alias)
+    public function alias(array|string $alias)
     {
         if (is_array($alias)) {
             $this->options['alias'] = $alias;
@@ -840,84 +980,110 @@ abstract class BaseQuery
     }
 
     /**
-     * 设置从主服务器读取数据
-     * @access public
+     * 设置从主服务器读取数据.
+     *
      * @param bool $readMaster 是否从主服务器读取
+     *
      * @return $this
      */
     public function master(bool $readMaster = true)
     {
         $this->options['master'] = $readMaster;
+
         return $this;
     }
 
     /**
-     * 设置是否严格检查字段名
-     * @access public
+     * 设置是否严格检查字段名.
+     *
      * @param bool $strict 是否严格检查字段
+     *
      * @return $this
      */
     public function strict(bool $strict = true)
     {
         $this->options['strict'] = $strict;
+
         return $this;
     }
 
     /**
-     * 设置自增序列名
-     * @access public
+     * 设置自增序列名.
+     *
      * @param string $sequence 自增序列名
+     *
      * @return $this
      */
     public function sequence(string $sequence = null)
     {
         $this->options['sequence'] = $sequence;
+
         return $this;
     }
 
     /**
-     * 设置JSON字段信息
-     * @access public
+     * 设置JSON字段信息.
+     *
      * @param array $json  JSON字段
      * @param bool  $assoc 是否取出数组
+     *
      * @return $this
      */
     public function json(array $json = [], bool $assoc = false)
     {
-        $this->options['json']       = $json;
-        $this->options['json_assoc'] = $assoc;
+        $this->options['json']          = $json;
+        $this->options['json_assoc']    = $assoc;
 
         return $this;
     }
 
     /**
-     * 指定数据表主键
-     * @access public
-     * @param string|array $pk 主键
+     * 设置延迟写入字段 用于实时获取缓存数据
+     *
+     * @param array $fields 延迟写入字段
+     *
      * @return $this
      */
-    public function pk($pk)
+    public function lazyFields(array $fields)
+    {
+        $this->options['lazy_fields'] = $fields;
+
+        return $this;
+    }
+
+    /**
+     * 指定数据表主键.
+     *
+     * @param string|array|bool $pk 主键
+     *
+     * @return $this
+     */
+    public function pk(string|array|bool $pk)
     {
         $this->pk = $pk;
+
         return $this;
     }
 
     /**
      * 查询参数批量赋值
-     * @access protected
+     *
      * @param array $options 表达式参数
+     *
      * @return $this
      */
     protected function options(array $options)
     {
         $this->options = $options;
+
         return $this;
     }
 
     /**
-     * 获取当前的查询参数
-     * @access public
+     * 获取当前的查询参数.
+     *
      * @param string $name 参数名
+     *
      * @return mixed
      */
     public function getOptions(string $name = '')
@@ -930,22 +1096,25 @@ abstract class BaseQuery
     }
 
     /**
-     * 设置当前的查询参数
-     * @access public
+     * 设置当前的查询参数.
+     *
      * @param string $option 参数名
      * @param mixed  $value  参数值
+     *
      * @return $this
      */
     public function setOption(string $option, $value)
     {
         $this->options[$option] = $value;
+
         return $this;
     }
 
     /**
-     * 设置当前字段添加的表别名
-     * @access public
+     * 设置当前字段添加的表别名.
+     *
      * @param string $via 临时表别名
+     *
      * @return $this
      */
     public function via(string $via = '')
@@ -956,11 +1125,12 @@ abstract class BaseQuery
     }
 
     /**
-     * 保存记录 自动判断insert或者update
-     * @access public
+     * 保存记录 自动判断insert或者update.
+     *
      * @param array $data        数据
      * @param bool  $forceInsert 是否强制insert
-     * @return integer
+     *
+     * @return int
      */
     public function save(array $data = [], bool $forceInsert = false)
     {
@@ -980,11 +1150,12 @@ abstract class BaseQuery
     }
 
     /**
-     * 插入记录
-     * @access public
-     * @param array   $data         数据
-     * @param boolean $getLastInsID 返回自增主键
-     * @return integer|string
+     * 插入记录.
+     *
+     * @param array $data         数据
+     * @param bool  $getLastInsID 返回自增主键
+     *
+     * @return int|string
      */
     public function insert(array $data = [], bool $getLastInsID = false)
     {
@@ -996,10 +1167,11 @@ abstract class BaseQuery
     }
 
     /**
-     * 插入记录并获取自增ID
-     * @access public
+     * 插入记录并获取自增ID.
+     *
      * @param array $data 数据
-     * @return integer|string
+     *
+     * @return int|string
      */
     public function insertGetId(array $data)
     {
@@ -1007,11 +1179,12 @@ abstract class BaseQuery
     }
 
     /**
-     * 批量插入记录
-     * @access public
-     * @param array   $dataSet 数据集
-     * @param integer $limit   每次写入数据限制
-     * @return integer
+     * 批量插入记录.
+     *
+     * @param array $dataSet 数据集
+     * @param int   $limit   每次写入数据限制
+     *
+     * @return int
      */
     public function insertAll(array $dataSet = [], int $limit = 0): int
     {
@@ -1019,19 +1192,37 @@ abstract class BaseQuery
             $dataSet = $this->options['data'] ?? [];
         }
 
-        if (empty($limit) && !empty($this->options['limit']) && is_numeric($this->options['limit'])) {
-            $limit = (int) $this->options['limit'];
+        if ($limit) {
+            $this->limit($limit);
         }
 
-        return $this->connection->insertAll($this, $dataSet, $limit);
+        return $this->connection->insertAll($this, $dataSet);
     }
 
     /**
-     * 通过Select方式插入记录
+     * 批量插入记录
      * @access public
+     * @param array   $keys 键值
+     * @param array   $values 数据
+     * @param integer $limit   每次写入数据限制
+     * @return integer
+     */
+    public function insertAllByKeys(array $keys, array $values, int $limit = 0): int
+    {
+        if ($limit) {
+            $this->limit($limit);
+        }
+
+        return $this->connection->insertAllByKeys($this, $keys, $values);
+    }
+
+    /**
+     * 通过Select方式插入记录.
+     *
      * @param array  $fields 要插入的数据表字段名
      * @param string $table  要插入的数据表名
-     * @return integer
+     *
+     * @return int
      */
     public function selectInsert(array $fields, string $table): int
     {
@@ -1039,11 +1230,13 @@ abstract class BaseQuery
     }
 
     /**
-     * 更新记录
-     * @access public
-     * @param mixed $data 数据
-     * @return integer
+     * 更新记录.
+     *
+     * @param array $data 数据
+     *
      * @throws Exception
+     *
+     * @return int
      */
     public function update(array $data = []): int
     {
@@ -1068,11 +1261,13 @@ abstract class BaseQuery
     }
 
     /**
-     * 删除记录
-     * @access public
+     * 删除记录.
+     *
      * @param mixed $data 表达式 true 表示强制删除
-     * @return int
+     *
      * @throws Exception
+     *
+     * @return int
      */
     public function delete($data = null): int
     {
@@ -1107,17 +1302,19 @@ abstract class BaseQuery
     }
 
     /**
-     * 查找记录
-     * @access public
-     * @param mixed $data 数据
-     * @return Collection|array|static[]
+     * 查找记录.
+     *
+     * @param array $data 主键数据
+     *
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
+     *
+     * @return Collection|array|static[]
      */
-    public function select($data = null): Collection
+    public function select(array $data = []): Collection
     {
-        if (!is_null($data)) {
+        if (!empty($data)) {
             // 主键条件分析
             $this->parsePkWhere($data);
         }
@@ -1141,13 +1338,15 @@ abstract class BaseQuery
     }
 
     /**
-     * 查找单条记录
-     * @access public
-     * @param mixed $data 查询数据
-     * @return array|Model|null|static|mixed
+     * 查找单条记录.
+     *
+     * @param mixed $data 主键数据
+     *
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
+     *
+     * @return mixed
      */
     public function find($data = null)
     {
@@ -1178,8 +1377,8 @@ abstract class BaseQuery
     }
 
     /**
-     * 分析表达式（可用于查询或者写入操作）
-     * @access public
+     * 分析表达式（可用于查询或者写入操作）.
+     *
      * @return array
      */
     public function parseOptions(): array
@@ -1223,10 +1422,12 @@ abstract class BaseQuery
         if (isset($options['page'])) {
             // 根据页数计算limit
             [$page, $listRows] = $options['page'];
-            $page              = $page > 0 ? $page : 1;
-            $listRows          = $listRows ?: (is_numeric($options['limit']) ? $options['limit'] : 20);
-            $offset            = $listRows * ($page - 1);
-            $options['limit']  = $offset . ',' . $listRows;
+
+            $page       = $page > 0 ? $page : 1;
+            $listRows   = $listRows ?: (is_numeric($options['limit']) ? $options['limit'] : 20);
+            $offset     = $listRows * ($page - 1);
+
+            $options['limit'] = $offset . ',' . $listRows;
         }
 
         $this->options = $options;
@@ -1235,15 +1436,17 @@ abstract class BaseQuery
     }
 
     /**
-     * 分析数据是否存在更新条件
-     * @access public
+     * 分析数据是否存在更新条件.
+     *
      * @param array $data 数据
-     * @return bool
+     *
      * @throws Exception
+     *
+     * @return bool
      */
-    public function parseUpdateData(&$data): bool
+    public function parseUpdateData(array &$data): bool
     {
-        $pk       = $this->getPk();
+        $pk = $this->getPk();
         $isUpdate = false;
         // 如果存在主键数据 则自动作为更新条件
         if (is_string($pk) && isset($data[$pk])) {
@@ -1268,42 +1471,46 @@ abstract class BaseQuery
     }
 
     /**
-     * 把主键值转换为查询条件 支持复合主键
-     * @access public
-     * @param array|string $data 主键数据
-     * @return void
+     * 把主键值转换为查询条件 支持复合主键.
+     *
+     * @param mixed $data 主键数据
+     *
      * @throws Exception
+     *
+     * @return void
      */
     public function parsePkWhere($data): void
     {
         $pk = $this->getPk();
 
-        if (is_string($pk)) {
-            // 获取数据表
-            if (empty($this->options['table'])) {
-                $this->options['table'] = $this->getTable();
-            }
+        if (!is_string($pk)) {
+            return;
+        }
 
-            $table = is_array($this->options['table']) ? key($this->options['table']) : $this->options['table'];
+        // 获取数据表
+        if (empty($this->options['table'])) {
+            $this->options['table'] = $this->getTable();
+        }
 
-            if (!empty($this->options['alias'][$table])) {
-                $alias = $this->options['alias'][$table];
-            }
+        $table = is_array($this->options['table']) ? key($this->options['table']) : $this->options['table'];
 
-            $key = isset($alias) ? $alias . '.' . $pk : $pk;
-            // 根据主键查询
-            if (is_array($data)) {
-                $this->where($key, 'in', $data);
-            } else {
-                $this->where($key, '=', $data);
-                $this->options['key'] = $data;
-            }
+        if (!empty($this->options['alias'][$table])) {
+            $alias = $this->options['alias'][$table];
+        }
+
+        $key = isset($alias) ? $alias . '.' . $pk : $pk;
+        // 根据主键查询
+        if (is_array($data)) {
+            $this->where($key, 'in', $data);
+        } else {
+            $this->where($key, '=', $data);
+            $this->options['key'] = $data;
         }
     }
 
     /**
-     * 获取模型的更新条件
-     * @access protected
+     * 获取模型的更新条件.
+     *
      * @param array $options 查询参数
      */
     protected function getModelUpdateCondition(array $options)

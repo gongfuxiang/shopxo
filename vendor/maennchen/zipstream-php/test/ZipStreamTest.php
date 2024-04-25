@@ -23,9 +23,6 @@ use ZipStream\ZipStream;
  */
 class ZipStreamTest extends TestCase
 {
-    public const OSX_ARCHIVE_UTILITY =
-        '/System/Library/CoreServices/Applications/Archive Utility.app/Contents/MacOS/Archive Utility';
-
     public function testFileNotFoundException(): void
     {
         $this->expectException(\ZipStream\Exception\FileNotFoundException::class);
@@ -220,34 +217,6 @@ class ZipStreamTest extends TestCase
         $this->assertSame($sample12['comp_method'], Method::DEFLATE);
 
         $zipArch->close();
-    }
-
-    public function testDecompressFileWithMacUnarchiver(): void
-    {
-        if (!file_exists(self::OSX_ARCHIVE_UTILITY)) {
-            $this->markTestSkipped('The Mac OSX Archive Utility is not available.');
-        }
-
-        [$tmp, $stream] = $this->getTmpFileStream();
-
-        $options = new ArchiveOptions();
-        $options->setOutputStream($stream);
-
-        $zip = new ZipStream(null, $options);
-
-        $folder = uniqid('', true);
-
-        $zip->addFile($folder . '/sample.txt', 'Sample Data');
-        $zip->finish();
-        fclose($stream);
-
-        exec(escapeshellarg(self::OSX_ARCHIVE_UTILITY) . ' ' . escapeshellarg($tmp), $output, $returnStatus);
-
-        $this->assertSame(0, $returnStatus);
-        $this->assertCount(0, $output);
-
-        $this->assertFileExists(dirname($tmp) . '/' . $folder . '/sample.txt');
-        $this->assertStringEqualsFile(dirname($tmp) . '/' . $folder . '/sample.txt', 'Sample Data');
     }
 
     public function testAddFileFromPath(): void

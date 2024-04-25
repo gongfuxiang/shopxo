@@ -1,39 +1,44 @@
-![](https://box.kancloud.cn/5a0aaa69a5ff42657b5c4715f3d49221) 
+![](https://www.thinkphp.cn/uploads/images/20230630/300c856765af4d8ae758c503185f8739.png)
 
-ThinkPHP 6.1
+ThinkPHP 8.0
 ===============
 
-[![Build Status](https://travis-ci.org/top-think/framework.svg?branch=6.0)](https://travis-ci.org/top-think/framework)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/top-think/framework/badges/quality-score.png?b=6.0)](https://scrutinizer-ci.com/g/top-think/framework/?branch=6.0)
-[![Code Coverage](https://scrutinizer-ci.com/g/top-think/framework/badges/coverage.png?b=6.0)](https://scrutinizer-ci.com/g/top-think/framework/?branch=6.0)
+[![build](https://github.com/top-think/framework/actions/workflows/build.yml/badge.svg?branch=8.0)](https://github.com/top-think/framework/actions)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/top-think/framework/badges/quality-score.png?b=8.0)](https://scrutinizer-ci.com/g/top-think/framework/?branch=8.0)
+[![Code Coverage](https://scrutinizer-ci.com/g/top-think/framework/badges/coverage.png?b=8.0)](https://scrutinizer-ci.com/g/top-think/framework/?branch=8.0)
 [![Total Downloads](https://poser.pugx.org/topthink/framework/downloads)](https://packagist.org/packages/topthink/framework)
 [![Latest Stable Version](https://poser.pugx.org/topthink/framework/v/stable)](https://packagist.org/packages/topthink/framework)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D7.1-8892BF.svg)](http://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.0-8892BF.svg)](http://www.php.net/)
 [![License](https://poser.pugx.org/topthink/framework/license)](https://packagist.org/packages/topthink/framework)
 
+## 主要特性
 
-[官方服务](https://www.topthink.com) | [`ThinkAPI`——官方统一API](https://doc.topthink.com/think-api)
-
-## 主要新特性
-
-* 采用`PHP7`强类型（严格模式）
-* 支持更多的`PSR`规范
-* 原生多应用支持
-* 系统服务注入支持
-* ORM作为独立组件使用
-* 全新的事件系统
-* 模板引擎分离出核心
-* 内部功能中间件化
-* SESSION机制改进
-* 日志多通道支持
-* 规范扩展接口
-* 更强大的控制台
-* 对Swoole以及协程支持改进
-* 对IDE更加友好
-* 统一和精简大量用法
+* 基于PHP`8.0+`重构
+* 升级`PSR`依赖
+* 依赖`think-orm`3.0版本
+* `6.0`/`6.1`无缝升级
 
 
-> ThinkPHP6.1的运行环境要求PHP7.2.5+，最高兼容PHP8.2
+> ThinkPHP8.0的运行环境要求PHP8.0.0+
+
+现在开始，你可以使用官方提供的[ThinkChat](https://chat.topthink.com/)，让你在学习ThinkPHP的旅途中享受私人AI助理服务！
+
+[![](https://www.topthink.com/uploads/assistant/20230630/4d1a3f0ad2958b49bb8189b7ef824cb0.png)](https://chat.topthink.com/)
+
+ThinkPHP生态服务由[顶想云](https://www.topthink.com)（TOPThink Cloud）提供，为生态提供专业的开发者服务和价值之选。
+
+## 文档
+
+[完全开发手册](https://doc.thinkphp.cn)
+
+
+## 赞助商
+
+全新的[赞助计划](https://www.thinkphp.cn/sponsor)可以让你通过我们的网站、手册、欢迎页及GIT仓库获得巨大曝光，同时提升企业的品牌声誉，也更好保障ThinkPHP的可持续发展。
+
+[![](https://www.thinkphp.cn/sponsor/special.svg)](https://www.thinkphp.cn/sponsor/special)
+
+[![](https://www.thinkphp.cn/sponsor.svg)](https://www.thinkphp.cn/sponsor)
 
 ## 安装
 
@@ -59,13 +64,9 @@ http://localhost:8000
 composer update topthink/framework
 ~~~
 
-## 文档
-
-[完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
-
 ## 命名规范
 
-`ThinkPHP6`遵循PSR-2命名规范和PSR-4自动加载规范。
+`ThinkPHP`遵循PSR-2命名规范和PSR-4自动加载规范。
 
 ## 参与开发
 
@@ -77,7 +78,7 @@ ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
 
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
-版权所有Copyright © 2006-2021 by ThinkPHP (http://thinkphp.cn) All rights reserved。
+版权所有Copyright © 2006-2023 by ThinkPHP (http://thinkphp.cn) All rights reserved。
 
 ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
 

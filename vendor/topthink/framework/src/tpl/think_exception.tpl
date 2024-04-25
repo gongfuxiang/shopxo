@@ -397,7 +397,7 @@ if (!function_exists('echo_value')) {
         <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
         <span>V<?php echo \think\facade\App::version(); ?></span> 
         <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
-        <span>- <a title="官方手册" href="https://www.kancloud.cn/manual/thinkphp6_0/content">官方手册</a></span>
+        <span>- <a title="官方手册" href="https://doc.thinkphp.cn">官方手册</a></span>
     </div>
     <?php if (\think\facade\App::isDebug()) { ?>
     <script>

@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -21,6 +21,7 @@ use IteratorAggregate;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionNamedType;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
@@ -94,7 +95,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param Closure|null   $callback
      * @return void
      */
-    public function resolving($abstract, Closure $callback = null): void
+    public function resolving(string|Closure $abstract, Closure $callback = null): void
     {
         if ($abstract instanceof Closure) {
             $this->invokeCallback['*'][] = $abstract;
@@ -125,7 +126,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param string|class-string<T> $abstract 类名或者标识
      * @return T|object
      */
-    public function get($abstract)
+    public function get(string $abstract)
     {
         if ($this->has($abstract)) {
             return $this->make($abstract);
@@ -141,7 +142,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param mixed        $concrete 要绑定的类、闭包或者实例
      * @return $this
      */
-    public function bind($abstract, $concrete = null)
+    public function bind(string|array $abstract, $concrete = null)
     {
         if (is_array($abstract)) {
             foreach ($abstract as $key => $val) {
@@ -212,7 +213,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param string $name 类名或者标识
      * @return bool
      */
-    public function has($name): bool
+    public function has(string $name): bool
     {
         return $this->bound($name);
     }
@@ -265,7 +266,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param string $name 类名或者标识
      * @return void
      */
-    public function delete($name)
+    public function delete(string $name)
     {
         $name = $this->getAlias($name);
 
@@ -281,7 +282,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      * @param array          $vars     参数
      * @return mixed
      */
-    public function invokeFunction($function, array $vars = [])
+    public function invokeFunction(string|Closure $function, array $vars = [])
     {
         try {
             $reflect = new ReflectionFunction($function);
@@ -316,7 +317,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
         try {
             $reflect = new ReflectionMethod($class, $method);
         } catch (ReflectionException $e) {
-            $class = is_object($class) ? get_class($class) : $class;
+            $class = is_object($class) ? $class::class : $class;
             throw new FuncNotFoundException('method not exists: ' . $class . '::' . $method . '()', "{$class}::{$method}", $e);
         }
 
@@ -356,7 +357,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
     {
         if ($callable instanceof Closure) {
             return $this->invokeFunction($callable, $vars);
-        } elseif (is_string($callable) && false === strpos($callable, '::')) {
+        } elseif (is_string($callable) && !str_contains($callable, '::')) {
             return $this->invokeFunction($callable, $vars);
         } else {
             return $this->invokeMethod($callable, $vars, $accessible);
@@ -447,7 +448,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
 
             if ($param->isVariadic()) {
                 return array_merge($args, array_values($vars));
-            } elseif ($reflectionType && $reflectionType instanceof \ReflectionNamedType && $reflectionType->isBuiltin() === false) {
+            } elseif ($reflectionType && $reflectionType instanceof ReflectionNamedType && $reflectionType->isBuiltin() === false) {
                 $args[] = $this->getObjectParam($reflectionType->getName(), $vars);
             } elseif (1 == $type && !empty($vars)) {
                 $args[] = array_shift($vars);
@@ -476,7 +477,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
      */
     public static function factory(string $name, string $namespace = '', ...$args)
     {
-        $class = false !== strpos($name, '\\') ? $name : $namespace . ucwords($name);
+        $class = str_contains($name, '\\') ? $name : $namespace . ucwords($name);
 
         return Container::getInstance()->invokeClass($class, $args);
     }
@@ -523,26 +524,22 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
         $this->delete($name);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetExists($key): bool
+    public function offsetExists(mixed $key): bool
     {
         return $this->exists($key);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetGet($key)
+    public function offsetGet(mixed $key): mixed
     {
         return $this->make($key);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($key, $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->bind($key, $value);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($key)
+    public function offsetUnset(mixed $key): void
     {
         $this->delete($key);
     }

@@ -12,6 +12,7 @@ declare (strict_types = 1);
 
 namespace think\console\command;
 
+use Composer\InstalledVersions;
 use think\console\Command;
 use think\console\Input;
 use think\console\Output;
@@ -27,7 +28,8 @@ class Version extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $output->writeln('v' . $this->app->version());
+        $version = InstalledVersions::getPrettyVersion('topthink/framework');
+        $output->writeln($version);
     }
 
 }

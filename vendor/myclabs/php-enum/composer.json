@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "MyCLabs\\Enum\\": "src/"
-        }
+        },
+        "classmap": [
+            "stubs/Stringable.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

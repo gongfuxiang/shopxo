@@ -41,11 +41,11 @@ class SmsLogService
     {
         $data = [
             'status'            => 0,
-            'platform'          => $platform,
-            'mobile'            => $mobile,
-            'sign_name'         => $sign_name,
-            'request_url'       => $request_url,
-            'template_value'    => $template_value,
+            'platform'          => empty($platform) ? '' : $platform,
+            'mobile'            => empty($mobile) ? '' : $mobile,
+            'sign_name'         => empty($sign_name) ? '' : $sign_name,
+            'request_url'       => empty($request_url) ? '' : $request_url,
+            'template_value'    => empty($template_value) ? '' : $template_value,
             'template_var'      => empty($template_var) ? '' : (is_array($template_var) ? json_encode($template_var, JSON_UNESCAPED_UNICODE) : $template_var),
             'request_params'    => empty($request_params) ? '' : (is_array($request_params) ? json_encode($request_params, JSON_UNESCAPED_UNICODE) : $request_params),
             'add_time'          => time(),

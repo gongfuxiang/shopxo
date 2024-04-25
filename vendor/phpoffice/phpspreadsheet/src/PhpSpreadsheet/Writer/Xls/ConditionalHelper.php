@@ -9,40 +9,23 @@ class ConditionalHelper
 {
     /**
      * Formula parser.
-     *
-     * @var Parser
      */
-    protected $parser;
+    protected Parser $parser;
 
-    /**
-     * @var mixed
-     */
-    protected $condition;
+    protected mixed $condition;
 
-    /**
-     * @var string
-     */
-    protected $cellRange;
+    protected string $cellRange;
 
-    /**
-     * @var null|string
-     */
-    protected $tokens;
+    protected ?string $tokens = null;
 
-    /**
-     * @var int
-     */
-    protected $size;
+    protected int $size;
 
     public function __construct(Parser $parser)
     {
         $this->parser = $parser;
     }
 
-    /**
-     * @param mixed $condition
-     */
-    public function processCondition($condition, string $cellRange): void
+    public function processCondition(mixed $condition, string $cellRange): void
     {
         $this->condition = $condition;
         $this->cellRange = $cellRange;
@@ -56,7 +39,7 @@ class ConditionalHelper
                 $this->parser->parse($formula);
                 $this->tokens = $this->parser->toReversePolish();
                 $this->size = strlen($this->tokens ?? '');
-            } catch (PhpSpreadsheetException $e) {
+            } catch (PhpSpreadsheetException) {
                 // In the event of a parser error with a formula value, we set the expression to ptgInt + 0
                 $this->tokens = pack('Cv', 0x1E, 0);
                 $this->size = 3;

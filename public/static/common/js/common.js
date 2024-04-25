@@ -1546,7 +1546,7 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
     if (url.indexOf('?') >= 0) {
         var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__));
         var ext = url.substr(url.lastIndexOf('.' + __seo_url_suffix__));
-        if (str.indexOf(field) >= 0) {
+        if (str.indexOf(field+'/') >= 0) {
             var first = str.substr(0, str.lastIndexOf(field));
             var last = str.substr(str.lastIndexOf(field));
             last = last.replace(new RegExp(field + '/', 'g'), '');
@@ -1600,8 +1600,26 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
             }
         }
     } else {
-        if (value !== null) {
-            url += '?' + field + '=' + value;
+        if(url.indexOf(field+'/') != -1)
+        {
+            var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__));
+            var ext = url.substr(url.lastIndexOf('.' + __seo_url_suffix__));
+            var first = str.substr(0, str.lastIndexOf(field));
+            var last = str.substr(str.lastIndexOf(field));
+            last = last.replace(new RegExp(field + '/', 'g'), '');
+            last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
+            if (value === null) {
+                if (first.substr(-1) == '/') {
+                    first = first.substr(0, first.length - 1);
+                }
+                url = first + last + ext;
+            } else {
+                url = first + field + '/' + value + last + ext;
+            }
+        } else {
+            if (value !== null) {
+                url += '?' + field + '=' + value;
+            }
         }
     }
 
@@ -3722,7 +3740,42 @@ function VoiceNotice (mp3) {
     $('body').append('<audio class="common-voice-container" src="' + mp3 + '" controls autoplay></audio>');
 }
 
-
+/**
+ * 附件预览
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-04-19
+ * @desc    description
+ * @param   {[string]}        type  [文件类型（video 视频， images 默认图片）]
+ * @param   {[string]}        value [附件地址]
+ */
+function AnnexView(type, value) {
+    if((value || null) != null) {
+        var title = null;
+        var html = null;
+        var style = 'max-width:100%; max-height:calc(80vh - 4.5rem); margin: 0 auto;';
+        switch (type) {
+            case 'video':
+                title = window['lang_video_preview_title'] || '视频预览';
+                html = '<video src="' + value + '" style="' + style + '" controls autoplay>your browser does not support the video tag</video>';
+                break;
+            default:
+                title = window['lang_images_preview_title'] || '图片预览';
+                html = '<img src="' + value + '" class="am-block" style="' + style + '" />';
+        }
+        if (html != null) {
+            AMUI.dialog.alert({
+                title: title,
+                isClose: true,
+                config: {},
+                style: 'max-width: 80%; max-height: 80%; left: auto; min-width: 12rem;',
+                content_style: 'padding: 0; border-bottom: 0;',
+                content: html,
+            });
+        }
+    }
+}
 
 
 
@@ -4875,41 +4928,22 @@ $(function () {
         return false;
     });
 
-    // 文件预览
+    // 上传文件组件预览
     $(document).on('click', '.plug-file-upload-view li', function () {
         if ($(this).find('i.icon-eye').length > 0) {
             // 容器
             var $tag = $(this).parents('ul.plug-file-upload-view');
             var type = $tag.attr('data-dialog-type') || 'images';
-            var title = null;
-            var html = null;
-            var style = 'max-width:100%; max-height:calc(80vh - 4.5rem); margin: 0 auto;';
-            switch (type) {
-                case 'video':
-                    var video = $(this).find('>video').attr('src') || null;
-                    if (video != null) {
-                        title = window['lang_video_preview_title'] || '视频预览';
-                        html = '<video src="' + video + '" style="' + style + '" controls autoplay>your browser does not support the video tag</video>';
-                    }
-                    break;
-                default:
-                    var img = $(this).find('>img').attr('src') || null;
-                    if (img != null) {
-                        title = window['lang_images_preview_title'] || '图片预览';
-                        html = '<img src="' + img + '" class="am-block" style="' + style + '" />';
-                    }
-            }
-            if (html != null) {
-                AMUI.dialog.alert({
-                    title: title,
-                    isClose: true,
-                    config: {},
-                    style: 'max-width: 80%; max-height: 80%; left: auto; min-width: 12rem;',
-                    content_style: 'padding: 0; border-bottom: 0;',
-                    content: html,
-                });
-            }
+            var value = (type == 'video') ? $(this).find('>video').attr('src') : $(this).find('>img').attr('src');
+            AnnexView(type, value);
         }
+    });
+
+    // 公共文件预览
+    $(document).on('click', '.common-annex-view-event', function() {
+        var type = $(this).attr('data-type') || 'images';
+        var value = $(this).attr('data-value') || null;
+        AnnexView(type, value);
     });
 
     /* 搜索切换 */

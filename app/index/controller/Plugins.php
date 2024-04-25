@@ -111,7 +111,7 @@ class Plugins extends Common
     public function GetClassVars()
     {
         $data = [];
-        $vers = get_class_vars(get_class());
+        $vers = get_class_vars(get_class($this));
         foreach($vers as $k=>$v)
         {
             if(property_exists($this, $k))

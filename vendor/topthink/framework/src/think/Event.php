@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -187,7 +187,7 @@ class Event
 
         foreach ($methods as $method) {
             $name = $method->getName();
-            if (0 === strpos($name, 'on')) {
+            if (str_starts_with($name, 'on')) {
                 $this->listen($prefix . substr($name, 2), [$observer, $name]);
             }
         }
@@ -207,7 +207,7 @@ class Event
     {
         if (is_object($event)) {
             $params = $event;
-            $event  = get_class($event);
+            $event  = $event::class;
         }
 
         if (isset($this->bind[$event])) {
@@ -217,7 +217,7 @@ class Event
         $result    = [];
         $listeners = $this->listener[$event] ?? [];
 
-        if (strpos($event, '.')) {
+        if (str_contains($event, '.')) {
             [$prefix, $event] = explode('.', $event, 2);
             if (isset($this->listener[$prefix . '.*'])) {
                 $listeners = array_merge($listeners, $this->listener[$prefix . '.*']);
@@ -259,7 +259,7 @@ class Event
     {
         if (!is_string($event)) {
             $call = $event;
-        } elseif (strpos($event, '::')) {
+        } elseif (str_contains($event, '::')) {
             $call = $event;
         } else {
             $obj  = $this->app->make($event);
@@ -268,5 +268,4 @@ class Event
 
         return $this->app->invoke($call, [$params]);
     }
-
 }

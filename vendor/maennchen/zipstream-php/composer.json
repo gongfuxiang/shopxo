@@ -22,8 +22,8 @@
     }
   ],
   "require": {
-    "php": "^7.4 || ^8.0",
-    "symfony/polyfill-mbstring": "^1.0",
+    "php": "^8.0",
+    "ext-mbstring": "*",
     "psr/http-message": "^1.0",
     "myclabs/php-enum": "^1.5"
   },
@@ -32,17 +32,17 @@
     "guzzlehttp/guzzle": "^6.5.3 || ^7.2.0",
     "ext-zip": "*",
     "mikey179/vfsstream": "^1.6",
-    "vimeo/psalm": "^4.1",
+    "vimeo/psalm": "^5.0",
     "php-coveralls/php-coveralls": "^2.4",
     "friendsofphp/php-cs-fixer": "^3.9"
   },
   "scripts": {
-    "format": "php-cs-fixer fix",
+    "format": "PHP_CS_FIXER_IGNORE_ENV=true php-cs-fixer fix",
     "test": "composer run test:unit && composer run test:formatted && composer run test:lint",
-    "test:unit": "phpunit --coverage-clover=coverage.clover.xml",
+    "test:unit": "phpunit --coverage-clover=coverage.clover.xml --coverage-html cov",
     "test:formatted": "composer run format -- --dry-run --stop-on-violation --using-cache=no",
     "test:lint": "psalm --stats --show-info --find-unused-psalm-suppress",
-    "coverage:report": "php-coveralls --coverage_clover=coverage.clover.xml --json_path=coveralls-upload.json -v",
+    "coverage:report": "php-coveralls --coverage_clover=coverage.clover.xml --json_path=coveralls-upload.json --insecure",
     "install:tools": "phive install --trust-gpg-keys 0x67F861C3D889C656",
     "docs:generate": "tools/phpdocumentor --sourcecode"
   },

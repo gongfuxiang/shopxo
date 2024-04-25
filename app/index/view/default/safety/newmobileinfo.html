@@ -25,10 +25,6 @@
             ])}}
 			<!-- form start -->
 			<form class="am-form form-validation" action="{{:MyUrl('index/safety/accountsupdate')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/safety/index')}}">
-				<legend>
-					<span class="am-text-default">{{:MyLang('safety.mobile_new_title')}}</span>
-					<a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-				</legend>
 				<div class="am-form-group">
 					<label>{{:MyLang('common_service.safety.form_item_mobile')}}</label>
 					<input type="text" name="accounts" class="am-form-field am-radius" id="accounts" placeholder="{{:MyLang('common_service.safety.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_mobile_message')}}" required />

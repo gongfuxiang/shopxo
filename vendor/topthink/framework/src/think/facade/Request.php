@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\facade;
 
@@ -52,29 +52,29 @@ use think\route\Rule;
  * @method static bool isOptions() 是否为OPTIONS请求
  * @method static bool isCli() 是否为cli
  * @method static bool isCgi() 是否为cgi
- * @method static mixed param(string|array $name = '', mixed $default = null, string|array $filter = '') 获取当前请求的参数
+ * @method static mixed param(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取当前请求的参数
  * @method static \think\Request setRule(Rule $rule) 设置路由变量
  * @method static Rule|null rule() 获取当前路由对象
  * @method static \think\Request setRoute(array $route) 设置路由变量
- * @method static mixed route(string|array $name = '', mixed $default = null, string|array $filter = '') 获取路由参数
- * @method static mixed get(string|array $name = '', mixed $default = null, string|array $filter = '') 获取GET参数
+ * @method static mixed route(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取路由参数
+ * @method static mixed get(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取GET参数
  * @method static mixed middleware(mixed $name, mixed $default = null) 获取中间件传递的参数
- * @method static mixed post(string|array $name = '', mixed $default = null, string|array $filter = '') 获取POST参数
- * @method static mixed put(string|array $name = '', mixed $default = null, string|array $filter = '') 获取PUT参数
- * @method static mixed delete(mixed $name = '', mixed $default = null, string|array $filter = '') 设置获取DELETE参数
- * @method static mixed patch(mixed $name = '', mixed $default = null, string|array $filter = '') 设置获取PATCH参数
- * @method static mixed request(string|array $name = '', mixed $default = null, string|array $filter = '') 获取request变量
+ * @method static mixed post(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取POST参数
+ * @method static mixed put(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取PUT参数
+ * @method static mixed delete(mixed $name = '', mixed $default = null, string|array|null $filter = '') 设置获取DELETE参数
+ * @method static mixed patch(mixed $name = '', mixed $default = null, string|array|null $filter = '') 设置获取PATCH参数
+ * @method static mixed request(string|array $name = '', mixed $default = null, string|array|null $filter = '') 获取request变量
  * @method static mixed env(string $name = '', string $default = null) 获取环境变量
  * @method static mixed session(string $name = '', string $default = null) 获取session数据
- * @method static mixed cookie(mixed $name = '', string $default = null, string|array $filter = '') 获取cookie参数
+ * @method static mixed cookie(mixed $name = '', string $default = null, string|array|null $filter = '') 获取cookie参数
  * @method static mixed server(string $name = '', string $default = '') 获取server参数
  * @method static null|array|UploadedFile file(string $name = '') 获取上传的文件信息
  * @method static string|array header(string $name = '', string $default = null) 设置或者获取当前的Header
- * @method static mixed input(array $data = [], string|false $name = '', mixed $default = null, string|array $filter = '') 获取变量 支持过滤和默认值
+ * @method static mixed input(array $data = [], string|false $name = '', mixed $default = null, string|array|null $filter = '') 获取变量 支持过滤和默认值
  * @method static mixed filter(mixed $filter = null) 设置或获取当前的过滤规则
  * @method static mixed filterValue(mixed &$value, mixed $key, array $filters) 递归过滤给定的值
  * @method static bool has(string $name, string $type = 'param', bool $checkEmpty = false) 是否存在某个请求参数
- * @method static array only(array $name, mixed $data = 'param', string|array $filter = '') 获取指定的参数
+ * @method static array only(array $name, mixed $data = 'param', string|array|null $filter = '') 获取指定的参数
  * @method static mixed except(array $name, string $type = 'param') 排除指定参数获取
  * @method static bool isSsl() 当前是否ssl
  * @method static bool isJson() 当前是否JSON请求
@@ -115,10 +115,10 @@ use think\route\Rule;
  * @method static mixed __set(string $name, mixed $value) 设置中间传递数据
  * @method static mixed __get(string $name) 获取中间传递数据的值
  * @method static boolean __isset(string $name) 检测中间传递数据的值
- * @method static bool offsetExists($name)
- * @method static mixed offsetGet($name)
- * @method static mixed offsetSet($name, $value)
- * @method static mixed offsetUnset($name)
+ * @method static bool offsetExists(mixed $name)
+ * @method static mixed offsetGet(mixed $name)
+ * @method static mixed offsetSet(mixed $name, $value)
+ * @method static mixed offsetUnset(mixed $name)
  */
 class Request extends Facade
 {

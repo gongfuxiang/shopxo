@@ -31,6 +31,7 @@ class Sms
     // 签名
     private $sign_ame = '';
 
+    private $interval_time;
     private $expire_time;
 	private $key_code;
     private $is_frq;
@@ -270,10 +271,13 @@ class Sms
      */
     private function PercentEncode($string)
     {
-        $string = urlencode($string);
-        $string = preg_replace('/\+/', '%20', $string);
-        $string = preg_replace('/\*/', '%2A', $string);
-        $string = preg_replace('/%7E/', '~', $string);
+        if(!empty($string))
+        {
+            $string = urlencode($string);
+            $string = preg_replace('/\+/', '%20', $string);
+            $string = preg_replace('/\*/', '%2A', $string);
+            $string = preg_replace('/%7E/', '~', $string);
+        }
         return $string;
     }
 
@@ -379,7 +383,7 @@ class Sms
             $data = MyCache($this->key_code);
             if(!empty($data))
             {
-                if(empty($code) && isset($_POST['code']))
+                if(empty($code) && !empty($_POST['code']))
                 {
                     $code = trim($_POST['code']);
                 }

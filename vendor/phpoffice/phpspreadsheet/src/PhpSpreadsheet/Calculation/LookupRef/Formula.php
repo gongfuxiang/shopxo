@@ -12,11 +12,9 @@ class Formula
      * FORMULATEXT.
      *
      * @param mixed $cellReference The cell to check
-     * @param Cell $cell The current cell (containing this formula)
-     *
-     * @return string
+     * @param ?Cell $cell The current cell (containing this formula)
      */
-    public static function text($cellReference = '', ?Cell $cell = null)
+    public static function text(mixed $cellReference = '', ?Cell $cell = null): string
     {
         if ($cell === null) {
             return ExcelError::REF();
@@ -31,9 +29,9 @@ class Formula
             : $cell->getWorksheet();
 
         if (
-            $worksheet === null ||
-            !$worksheet->cellExists($cellReference) ||
-            !$worksheet->getCell($cellReference)->isFormula()
+            $worksheet === null
+            || !$worksheet->cellExists($cellReference)
+            || !$worksheet->getCell($cellReference)->isFormula()
         ) {
             return ExcelError::NA();
         }

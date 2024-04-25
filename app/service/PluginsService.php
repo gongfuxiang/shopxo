@@ -365,6 +365,11 @@ class PluginsService
         if(!empty($params) && isset($params['data_request']))
         {
             $params = $params['data_request'];
+            // 去除多余的参数、避免给页面url地址造成污染
+            if(is_array($params))
+            {
+                unset($params['s'], $params['pluginsname'], $params['pluginscontrol'], $params['pluginsaction']);
+            }
         }
 
         // 安全判断

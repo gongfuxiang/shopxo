@@ -41,7 +41,7 @@ class Buy extends Common
         parent::__construct();
 
         // 是否登录
-        $this->IsLogin();
+        IsUserLogin();
     }
     
     /**

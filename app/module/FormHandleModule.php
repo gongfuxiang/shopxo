@@ -436,9 +436,10 @@ class FormHandleModule
      */
     public function FormDataListHandle()
     {
-        if(!empty($this->form_data['data']) && !empty($this->data_list))
+        if(!empty($this->data_list))
         {
-            $form_data = $this->form_data['data'];
+            // 表单配置数据
+            $form_data = empty($this->form_data['data']) ? [] : $this->form_data['data'];
 
             // 基础数据
             $base = $this->FormDataBase($form_data);
@@ -561,69 +562,8 @@ class FormHandleModule
                         }
 
                         // 其他单独字段数据处理
-                        foreach($v as $ks=>$vs)
-                        {                                
-                            // 时间处理
-                            if($is_handle_time_field && substr($ks, -5) == '_time')
-                            {
-                                $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
-                                $v[$ks] = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
-                            }
-
-                            // 固定值名称处理
-                            if($is_fixed_name_field && !empty($fixed_name_data) && is_array($fixed_name_data) && array_key_exists($ks, $fixed_name_data) && !empty($fixed_name_data[$ks]['data']))
-                            {
-                                $temp_data = $fixed_name_data[$ks]['data'];
-                                $temp_field = empty($fixed_name_data[$ks]['field']) ? $ks.'_name' : $fixed_name_data[$ks]['field'];
-                                $temp_key = empty($fixed_name_data[$ks]['key']) ? 'name' : $fixed_name_data[$ks]['key'];
-                                $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
-                                $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
-                            }
-
-                            // 附件字段处理
-                            if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
-                            {
-                                $v[$ks] = ResourcesService::AttachmentPathViewHandle($vs);
-                            }
-
-                            // 展示字段指定数组转换处理、默认增加 _name 后缀
-                            if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
-                            {
-                                $temp = $field_show_data[$ks];
-                                $value = array_key_exists($vs, $temp['view_data']) ? $temp['view_data'][$vs] : null;
-                                $key = $ks.'_name';
-                                if($value === null)
-                                {
-                                    $v[$key] = '';
-                                } else {
-                                    if(is_array($value))
-                                    {
-                                        $v[$key] = (!empty($temp['view_data_key']) && array_key_exists($temp['view_data_key'], $value)) ? $value[$temp['view_data_key']] : '';
-                                    } else {
-                                        $v[$key] = $value;
-                                    }
-                                }
-                            }
-
-                            // 状态字段按照搜索列表转换处理、默认增加 _name 后缀
-                            if(!empty($field_status_data) && array_key_exists($ks, $field_status_data) && !empty($field_status_data[$ks]['search_config']) && !empty($field_status_data[$ks]['search_config']['data']))
-                            {
-                                $temp = $field_status_data[$ks]['search_config'];
-                                $value = array_key_exists($vs, $temp['data']) ? $temp['data'][$vs] : null;
-                                $key = $ks.'_name';
-                                if($value === null)
-                                {
-                                    $v[$key] = '';
-                                } else {
-                                    if(is_array($value))
-                                    {
-                                        $v[$key] = (!empty($temp['data_name']) && array_key_exists($temp['data_name'], $value)) ? $value[$temp['data_name']] : '';
-                                    } else {
-                                        $v[$key] = $value;
-                                    }
-                                }
-                            }
-
+                        foreach($v as $ks=>&$vs)
+                        {
                             // json数据处理
                             if($is_json_data_handle && !empty($json_config_data) && array_key_exists($ks, $json_config_data) && !empty($vs) && !is_array($vs))
                             {
@@ -672,13 +612,97 @@ class FormHandleModule
                                         }
                                     }
                                 }
-                                $v[$ks] = $temp_json_data;
+                                $vs = $temp_json_data;
+                            }
+
+                            // 时间处理
+                            if($is_handle_time_field && substr($ks, -5) == '_time')
+                            {
+                                $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
+                                $vs = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
+                            }
+
+                            // 固定值名称处理
+                            if($is_fixed_name_field && !empty($fixed_name_data) && is_array($fixed_name_data) && array_key_exists($ks, $fixed_name_data) && !empty($fixed_name_data[$ks]['data']))
+                            {
+                                $temp_data = $fixed_name_data[$ks]['data'];
+                                $temp_field = empty($fixed_name_data[$ks]['field']) ? $ks.'_name' : $fixed_name_data[$ks]['field'];
+                                $temp_key = empty($fixed_name_data[$ks]['key']) ? 'name' : $fixed_name_data[$ks]['key'];
+                                // 是否数组
+                                if(is_array($vs))
+                                {
+                                    $temp_arr = [];
+                                    foreach($vs as $fixed_v)
+                                    {
+                                        if(!is_array($fixed_v) && array_key_exists($fixed_v, $temp_data))
+                                        {
+                                            $temp = $temp_data[$fixed_v];
+                                            if(is_array($temp))
+                                            {
+                                                if(isset($temp[$temp_key]))
+                                                {
+                                                    $temp_arr[] = $temp[$temp_key];
+                                                }
+                                            } else {
+                                                $temp_arr[] = $temp;
+                                            }
+                                        }
+                                    }
+                                    $v[$temp_field] = empty($temp_arr) ? '' : implode(', ', $temp_arr);
+                                } else {
+                                    $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
+                                    $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
+                                }
+                            }
+
+                            // 附件字段处理
+                            if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
+                            {
+                                $vs = ResourcesService::AttachmentPathViewHandle($vs);
+                            }
+
+                            // 展示字段指定数组转换处理、默认增加 _name 后缀
+                            if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
+                            {
+                                $temp = $field_show_data[$ks];
+                                $value = array_key_exists($vs, $temp['view_data']) ? $temp['view_data'][$vs] : null;
+                                $key = $ks.'_name';
+                                if($value === null)
+                                {
+                                    $v[$key] = '';
+                                } else {
+                                    if(is_array($value))
+                                    {
+                                        $v[$key] = (!empty($temp['view_data_key']) && array_key_exists($temp['view_data_key'], $value)) ? $value[$temp['view_data_key']] : '';
+                                    } else {
+                                        $v[$key] = $value;
+                                    }
+                                }
+                            }
+
+                            // 状态字段按照搜索列表转换处理、默认增加 _name 后缀
+                            if(!empty($field_status_data) && array_key_exists($ks, $field_status_data) && !empty($field_status_data[$ks]['search_config']) && !empty($field_status_data[$ks]['search_config']['data']))
+                            {
+                                $temp = $field_status_data[$ks]['search_config'];
+                                $value = array_key_exists($vs, $temp['data']) ? $temp['data'][$vs] : null;
+                                $key = $ks.'_name';
+                                if($value === null)
+                                {
+                                    $v[$key] = '';
+                                } else {
+                                    if(is_array($value))
+                                    {
+                                        $v[$key] = (!empty($temp['data_name']) && array_key_exists($temp['data_name'], $value)) ? $value[$temp['data_name']] : '';
+                                    } else {
+                                        $v[$key] = $value;
+                                    }
+                                }
                             }
 
                             // 换行转数组
                             if($is_ln_to_array_handle && !empty($ln_to_array_fields) && in_array($ks, $ln_to_array_fields))
                             {
-                                $v[$ks] = empty($vs) ? [] : (is_array($vs) ? $vs : explode("\n", $vs));
+                                $vs = empty($vs) ? [] : (is_array($vs) ? $vs : explode("\n", $vs));
                             }
                         }
                     }
@@ -1751,16 +1775,17 @@ class FormHandleModule
      * @param   [array]           $data       [数据列表]
      * @param   [array]           $params     [参数数据]
      */
-    public function FormTableDataListHandle($data, $params)
+    public function FormTableDataListHandle($data, $params = [])
     {
-        // 空或非数组则不处理
-        if(empty($data) || !is_array($data) || empty($params) || !is_array($params))
+        // 数据为空则不处理
+        if(empty($data) || !is_array($data))
         {
             return $data;
         }
+        $this->data_list = $data;
 
         // 获取表格模型处理表格列表数据
-        $module = FormModulePath($params);
+        $module = FormModulePath(input());
         if(empty($module))
         {
             return $data;
@@ -1773,34 +1798,11 @@ class FormHandleModule
             return $data;
         }
 
-        // 获取表单配置数据处理
-        $form = array_column($this->form_data['form'], null, 'view_key');
-        foreach($data as $k=>&$v)
-        {
-            if(empty($v) || !is_array($v))
-            {
-                continue;
-            }
-            foreach($v as $ks=>$vs)
-            {
-                // view_type为field
-                // 必须存在view_data数据
-                if(!array_key_exists($ks, $form) || empty($form[$ks]['view_data']) || !is_array($form[$ks]['view_data']))
-                {
-                    continue;
-                }
+        // 数据处理
+        $this->FormDataListHandle();
 
-                // 是否指定view_data_key配置、指定则view_data为二维数组
-                $key = $ks.'_name';
-                if(empty($form[$ks]['view_data_key']))
-                {
-                    $v[$key] = isset($form[$ks]['view_data'][$vs]) ? $form[$ks]['view_data'][$vs] : '';
-                } else {
-                    $v[$key] = (isset($form[$ks]['view_data'][$vs]) && isset($form[$ks]['view_data'][$vs][$form[$ks]['view_data_key']])) ? $form[$ks]['view_data'][$vs][$form[$ks]['view_data_key']] : '';
-                }
-            }
-        }
-        return $data;
+        // 返回处理的数据
+        return $this->data_list;
     }
 }
 ?>

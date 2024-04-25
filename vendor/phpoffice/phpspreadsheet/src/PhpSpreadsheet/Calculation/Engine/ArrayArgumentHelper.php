@@ -6,30 +6,15 @@ use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 
 class ArrayArgumentHelper
 {
-    /**
-     * @var int
-     */
-    protected $indexStart = 0;
+    protected int $indexStart = 0;
 
-    /**
-     * @var array
-     */
-    protected $arguments;
+    protected array $arguments;
 
-    /**
-     * @var int
-     */
-    protected $argumentCount;
+    protected int $argumentCount;
 
-    /**
-     * @var array
-     */
-    protected $rows;
+    protected array $rows;
 
-    /**
-     * @var array
-     */
-    protected $columns;
+    protected array $columns;
 
     public function initialise(array $arguments): void
     {
@@ -152,9 +137,7 @@ class ArrayArgumentHelper
     private function rows(array $arguments): array
     {
         return array_map(
-            function ($argument) {
-                return is_countable($argument) ? count($argument) : 1;
-            },
+            fn ($argument): int => is_countable($argument) ? count($argument) : 1,
             $arguments
         );
     }
@@ -162,7 +145,7 @@ class ArrayArgumentHelper
     private function columns(array $arguments): array
     {
         return array_map(
-            function ($argument) {
+            function (mixed $argument): int {
                 return is_array($argument) && is_array($argument[array_keys($argument)[0]])
                     ? count($argument[array_keys($argument)[0]])
                     : 1;
@@ -201,9 +184,7 @@ class ArrayArgumentHelper
     {
         return array_filter(
             $array,
-            function ($value) {
-                return $value > 1;
-            }
+            fn ($value): bool => $value > 1
         );
     }
 }

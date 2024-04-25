@@ -233,7 +233,7 @@
                                                 <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('common_service.goods.form_spec_thead_barcode_message')}}" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" data-is-clearout="0" />
                                             </td>
                                             <td class="am-text-middle">
-                                                <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
+                                                <input type="hidden" name="specifications_extends[]" value="{{if !empty($v['data']['extends'])}}{{$v.data.extends}}{{/if}}" class="line-extend-input" />
                                                 <a href="javascript:;" class="am-text-xs am-text-primary line-extend-btn">{{:MyLang('edit_title')}}</a>
                                             </td>
                                             <td class="am-text-middle">

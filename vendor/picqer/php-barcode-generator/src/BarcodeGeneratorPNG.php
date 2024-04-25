@@ -11,6 +11,9 @@ class BarcodeGeneratorPNG extends BarcodeGenerator
 {
     protected $useImagick = true;
 
+    /**
+     * @throws BarcodeException
+     */
     public function __construct()
     {
         // Auto switch between GD and Imagick based on what is installed
@@ -43,13 +46,13 @@ class BarcodeGeneratorPNG extends BarcodeGenerator
      * Return a PNG image representation of barcode (requires GD or Imagick library).
      *
      * @param string $barcode code to print
-     * @param string $type type of barcode:
+     * @param BarcodeGenerator::TYPE_* $type (string) type of barcode
      * @param int $widthFactor Width of a single bar element in pixels.
      * @param int $height Height of a single bar element in pixels.
      * @param array $foregroundColor RGB (0-255) foreground color for bar elements (background is transparent).
      * @return string image data or false in case of error.
      */
-    public function getBarcode($barcode, $type, int $widthFactor = 2, int $height = 30, array $foregroundColor = [0, 0, 0])
+    public function getBarcode(string $barcode, $type, int $widthFactor = 2, int $height = 30, array $foregroundColor = [0, 0, 0]): string
     {
         $barcodeData = $this->getBarcodeData($barcode, $type);
         $width = round($barcodeData->getWidth() * $widthFactor);
@@ -73,7 +76,7 @@ class BarcodeGeneratorPNG extends BarcodeGenerator
                 $barHeight = round(($bar->getHeight() * $height / $barcodeData->getHeight()), 3);
 
                 // draw a vertical bar
-                if ($this->useImagick && isset($imagickBarsShape)) {
+                if ($this->useImagick) {
                     $imagickBarsShape->rectangle($positionHorizontal, $y, ($positionHorizontal + $barWidth - 1), ($y + $barHeight));
                 } else {
                     imagefilledrectangle($image, $positionHorizontal, $y, ($positionHorizontal + $barWidth - 1), ($y + $barHeight), $gdForegroundColor);
@@ -82,7 +85,7 @@ class BarcodeGeneratorPNG extends BarcodeGenerator
             $positionHorizontal += $barWidth;
         }
 
-        if ($this->useImagick && isset($imagickBarsShape)) {
+        if ($this->useImagick) {
             $image = $this->createImagickImageObject($width, $height);
             $image->drawImage($imagickBarsShape);
             return $image->getImageBlob();

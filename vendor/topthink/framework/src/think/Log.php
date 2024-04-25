@@ -2,18 +2,20 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
+use Stringable;
 use think\event\LogWrite;
 use think\helper\Arr;
 use think\log\Channel;
@@ -26,15 +28,16 @@ use think\log\ChannelSet;
  */
 class Log extends Manager implements LoggerInterface
 {
+    use LoggerTrait;
     const EMERGENCY = 'emergency';
-    const ALERT     = 'alert';
-    const CRITICAL  = 'critical';
-    const ERROR     = 'error';
-    const WARNING   = 'warning';
-    const NOTICE    = 'notice';
-    const INFO      = 'info';
-    const DEBUG     = 'debug';
-    const SQL       = 'sql';
+    const ALERT = 'alert';
+    const CRITICAL = 'critical';
+    const ERROR = 'error';
+    const WARNING = 'warning';
+    const NOTICE = 'notice';
+    const INFO = 'info';
+    const DEBUG = 'debug';
+    const SQL = 'sql';
 
     protected $namespace = '\\think\\log\\driver\\';
 
@@ -42,7 +45,7 @@ class Log extends Manager implements LoggerInterface
      * 默认驱动
      * @return string|null
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): ?string
     {
         return $this->getConfig('default');
     }
@@ -66,11 +69,11 @@ class Log extends Manager implements LoggerInterface
     /**
      * 获取渠道配置
      * @param string $channel
-     * @param null   $name
-     * @param null   $default
+     * @param string $name
+     * @param mixed  $default
      * @return array
      */
-    public function getChannelConfig($channel, $name = null, $default = null)
+    public function getChannelConfig(string $channel, string $name = null, $default = null)
     {
         if ($config = $this->getConfig("channels.{$channel}")) {
             return Arr::get($config, $name, $default);
@@ -84,7 +87,7 @@ class Log extends Manager implements LoggerInterface
      * @param string|array $name 渠道名
      * @return Channel|ChannelSet
      */
-    public function channel($name = null)
+    public function channel(string|array $name = null)
     {
         if (is_array($name)) {
             return new ChannelSet($this, $name);
@@ -102,7 +105,7 @@ class Log extends Manager implements LoggerInterface
     {
         $driver = parent::createDriver($name);
 
-        $lazy  = !$this->getChannelConfig($name, "realtime_write", false) && !$this->app->runningInConsole();
+        $lazy = !$this->getChannelConfig($name, "realtime_write", false) && !$this->app->runningInConsole();
         $allow = array_merge($this->getConfig("level", []), $this->getChannelConfig($name, "level", []));
 
         return new Channel($name, $driver, $allow, $lazy, $this->app->event);
@@ -119,7 +122,7 @@ class Log extends Manager implements LoggerInterface
      * @param string|array $channel 日志通道名
      * @return $this
      */
-    public function clear($channel = '*')
+    public function clear(string|array $channel = '*')
     {
         if ('*' == $channel) {
             $channel = array_keys($this->drivers);
@@ -136,7 +139,7 @@ class Log extends Manager implements LoggerInterface
      * @param string|array $channel 日志通道名
      * @return $this
      */
-    public function close($channel = '*')
+    public function close(string|array $channel = '*')
     {
         if ('*' == $channel) {
             $channel = array_keys($this->drivers);
@@ -217,8 +220,8 @@ class Log extends Manager implements LoggerInterface
     /**
      * 记录日志信息
      * @access public
-     * @param string $level   日志级别
-     * @param mixed  $message 日志信息
+     * @param mixed $level   日志级别
+     * @param string|Stringable   $message 日志信息
      * @param array  $context 替换内容
      * @return void
      */
@@ -228,105 +231,9 @@ class Log extends Manager implements LoggerInterface
     }
 
     /**
-     * 记录emergency信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function emergency($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录警报信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function alert($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录紧急情况
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function critical($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录错误信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function error($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录warning信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function warning($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录notice信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function notice($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录一般信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function info($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * 记录调试信息
-     * @access public
-     * @param mixed $message 日志信息
-     * @param array $context 替换内容
-     * @return void
-     */
-    public function debug($message, array $context = []): void
-    {
-        $this->log(__FUNCTION__, $message, $context);
-    }
-
-    /**
      * 记录sql信息
      * @access public
-     * @param mixed $message 日志信息
+     * @param string|Stringable  $message 日志信息
      * @param array $context 替换内容
      * @return void
      */

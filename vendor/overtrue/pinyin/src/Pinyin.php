@@ -1,341 +1,106 @@
 <?php
 
-/*
- * This file is part of the overtrue/pinyin.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Overtrue\Pinyin;
 
 use InvalidArgumentException;
 
+/**
+ * @method static Converter surname()
+ * @method static Converter noWords()
+ * @method static Converter onlyHans()
+ * @method static Converter noAlpha()
+ * @method static Converter noNumber()
+ * @method static Converter noCleanup()
+ * @method static Converter noPunctuation()
+ * @method static Converter noTone()
+ * @method static Converter useNumberTone()
+ * @method static Converter yuToV()
+ * @method static Converter yuToU()
+ * @method static Converter polyphonic(bool $asList = false)
+ * @method static Converter withToneStyle(string $toneStyle = 'symbol')
+ * @method static Collection convert(string $string, callable $beforeSplit = null)
+ */
 class Pinyin
 {
-    /**
-     * Dict loader.
-     *
-     * @var \Overtrue\Pinyin\DictLoaderInterface
-     */
-    protected $loader;
-
-    /**
-     * Punctuations map.
-     *
-     * @var array
-     */
-    protected $punctuations = [
-        '，' => ',',
-        '。' => '.',
-        '！' => '!',
-        '？' => '?',
-        '：' => ':',
-        '“' => '"',
-        '”' => '"',
-        '‘' => "'",
-        '’' => "'",
-        '_' => '_',
-    ];
-
-    /**
-     * Constructor.
-     *
-     * @param string $loaderName
-     */
-    public function __construct($loaderName = null)
+    public static function name(string $name, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
     {
-        $this->loader = $loaderName ?: 'Overtrue\\Pinyin\\FileDictLoader';
+        return self::surname()->withToneStyle($toneStyle)->convert($name);
     }
 
-    /**
-     * Convert string to pinyin.
-     *
-     * @param string $string
-     * @param int    $option
-     *
-     * @return array
-     */
-    public function convert($string, $option = PINYIN_DEFAULT)
+    public static function passportName(string $name, string $toneStyle = Converter::TONE_STYLE_NONE): Collection
     {
-        $pinyin = $this->romanize($string, $option);
-
-        return $this->splitWords($pinyin, $option);
+        return self::surname()->yuToYu()->withToneStyle($toneStyle)->convert($name);
     }
 
-    /**
-     * Convert string (person name) to pinyin.
-     *
-     * @param string $stringName
-     * @param int    $option
-     *
-     * @return array
-     */
-    public function name($stringName, $option = PINYIN_NAME)
+    public static function phrase(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
     {
-        $option = $option | PINYIN_NAME;
-
-        $pinyin = $this->romanize($stringName, $option);
-
-        return $this->splitWords($pinyin, $option);
+        return self::noPunctuation()->withToneStyle($toneStyle)->convert($string);
     }
 
-    /**
-     * Return a pinyin permalink from string.
-     *
-     * @param string $string
-     * @param string $delimiter
-     * @param int    $option
-     *
-     * @return string
-     */
-    public function permalink($string, $delimiter = '-', $option = PINYIN_DEFAULT)
+    public static function sentence(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
     {
-        if (\is_int($delimiter)) {
-            list($option, $delimiter) = [$delimiter, '-'];
-        }
+        return self::withToneStyle($toneStyle)->convert($string);
+    }
 
-        if (!in_array($delimiter, ['_', '-', '.', ''], true)) {
+    public static function fullSentence(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
+    {
+        return self::noCleanup()->withToneStyle($toneStyle)->convert($string);
+    }
+
+    public static function polyphones(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL, bool $asList = false): Collection
+    {
+        return self::polyphonic($asList)->withToneStyle($toneStyle)->convert($string);
+    }
+
+    public static function polyphonesAsArray(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
+    {
+        return self::polyphones($string, $toneStyle, true);
+    }
+
+    public static function chars(string $string, string $toneStyle = Converter::TONE_STYLE_SYMBOL): Collection
+    {
+        return self::onlyHans()->noWords()->withToneStyle($toneStyle)->convert($string);
+    }
+
+    public static function permalink(string $string, string $delimiter = '-'): string
+    {
+        if (! in_array($delimiter, ['_', '-', '.', ''], true)) {
             throw new InvalidArgumentException("Delimiter must be one of: '_', '-', '', '.'.");
         }
 
-        return implode($delimiter, $this->convert($string, $option | \PINYIN_KEEP_NUMBER | \PINYIN_KEEP_ENGLISH));
+        return self::noPunctuation()->noTone()->convert($string)->join($delimiter);
     }
 
-    /**
-     * Return first letters.
-     *
-     * @param string $string
-     * @param string $delimiter
-     * @param int    $option
-     *
-     * @return string
-     */
-    public function abbr($string, $delimiter = '', $option = PINYIN_DEFAULT)
+    public static function nameAbbr(string $string): Collection
     {
-        if (\is_int($delimiter)) {
-            list($option, $delimiter) = [$delimiter, ''];
-        }
-
-        return implode($delimiter, array_map(function ($pinyin) {
-            return \is_numeric($pinyin) || preg_match('/\d+/', $pinyin) ? $pinyin : mb_substr($pinyin, 0, 1);
-        }, $this->convert($string, $option | PINYIN_NO_TONE)));
+        return self::abbr($string, true);
     }
 
-    /**
-     * Chinese phrase to pinyin.
-     *
-     * @param string $string
-     * @param string $delimiter
-     * @param int    $option
-     *
-     * @return string
-     */
-    public function phrase($string, $delimiter = ' ', $option = PINYIN_DEFAULT)
+    public static function abbr(string $string, bool $asName = false, bool $preserveEnglishWords = false): Collection
     {
-        if (\is_int($delimiter)) {
-            list($option, $delimiter) = [$delimiter, ' '];
-        }
-
-        return implode($delimiter, $this->convert($string, $option));
-    }
-
-    /**
-     * Chinese to pinyin sentence.
-     *
-     * @param string $string
-     * @param string $delimiter
-     * @param int    $option
-     *
-     * @return string
-     */
-    public function sentence($string, $delimiter = ' ', $option = \PINYIN_NO_TONE)
-    {
-        if (\is_int($delimiter)) {
-            list($option, $delimiter) = [$delimiter, ' '];
-        }
-
-        return implode($delimiter, $this->convert($string, $option | \PINYIN_KEEP_PUNCTUATION | \PINYIN_KEEP_ENGLISH | \PINYIN_KEEP_NUMBER));
-    }
-
-    /**
-     * Loader setter.
-     *
-     * @param \Overtrue\Pinyin\DictLoaderInterface $loader
-     *
-     * @return $this
-     */
-    public function setLoader(DictLoaderInterface $loader)
-    {
-        $this->loader = $loader;
-
-        return $this;
-    }
-
-    /**
-     * Return dict loader,.
-     *
-     * @return \Overtrue\Pinyin\DictLoaderInterface
-     */
-    public function getLoader()
-    {
-        if (!($this->loader instanceof DictLoaderInterface)) {
-            $dataDir = dirname(__DIR__) . '/data/';
-
-            $loaderName = $this->loader;
-            $this->loader = new $loaderName($dataDir);
-        }
-
-        return $this->loader;
-    }
-
-    /**
-     * Convert Chinese to pinyin.
-     *
-     * @param string $string
-     * @param int    $option
-     *
-     * @return string
-     */
-    protected function romanize($string, $option = \PINYIN_DEFAULT)
-    {
-        $string = $this->prepare($string, $option);
-
-        $dictLoader = $this->getLoader();
-
-        if ($this->hasOption($option, \PINYIN_NAME)) {
-            $string = $this->convertSurname($string, $dictLoader);
-        }
-
-        $dictLoader->map(function ($dictionary) use (&$string) {
-            $string = strtr($string, $dictionary);
-        });
-
-        return $string;
-    }
-
-    /**
-     * Convert Chinese Surname to pinyin.
-     *
-     * @param string                               $string
-     * @param \Overtrue\Pinyin\DictLoaderInterface $dictLoader
-     *
-     * @return string
-     */
-    protected function convertSurname($string, $dictLoader)
-    {
-        $dictLoader->mapSurname(function ($dictionary) use (&$string) {
-            foreach ($dictionary as $surname => $pinyin) {
-                if (0 === strpos($string, $surname)) {
-                    $string = $pinyin . mb_substr($string, mb_strlen($surname, 'UTF-8'), mb_strlen($string, 'UTF-8') - 1, 'UTF-8');
-
-                    break;
-                }
-            }
-        });
-
-        return $string;
-    }
-
-    /**
-     * Split pinyin string to words.
-     *
-     * @param string $pinyin
-     * @param string $option
-     *
-     * @return array
-     */
-    protected function splitWords($pinyin, $option)
-    {
-        $split = array_filter(preg_split('/\s+/i', $pinyin));
-
-        if (!$this->hasOption($option, PINYIN_TONE)) {
-            foreach ($split as $index => $pinyin) {
-                $split[$index] = $this->formatTone($pinyin, $option);
-            }
-        }
-
-        return array_values($split);
-    }
-
-    /**
-     * @param int $option
-     * @param int $check
-     *
-     * @return bool
-     */
-    public function hasOption($option, $check)
-    {
-        return ($option & $check) === $check;
-    }
-
-    /**
-     * Pre-process.
-     *
-     * @param string $string
-     * @param int    $option
-     *
-     * @return string
-     */
-    protected function prepare($string, $option = \PINYIN_DEFAULT)
-    {
-        $string = preg_replace_callback('~[a-z0-9_-]+~i', function ($matches) {
-            return "\t" . $matches[0];
-        }, $string);
-
-        $regex = ['\p{Han}', '\p{Z}', '\p{M}', "\t"];
-
-        if ($this->hasOption($option, \PINYIN_KEEP_NUMBER)) {
-            \array_push($regex, '0-9');
-        }
-
-        if ($this->hasOption($option, \PINYIN_KEEP_ENGLISH)) {
-            \array_push($regex, 'a-zA-Z');
-        }
-
-        if ($this->hasOption($option, \PINYIN_KEEP_PUNCTUATION)) {
-            $punctuations = array_merge($this->punctuations, ["\t" => ' ', '  ' => ' ']);
-            $string = trim(str_replace(array_keys($punctuations), $punctuations, $string));
-
-            \array_push($regex, preg_quote(implode(array_merge(array_keys($this->punctuations), $this->punctuations)), '~'));
-        }
-
-        return preg_replace(\sprintf('~[^%s]~u', implode($regex)), '', $string);
-    }
-
-    /**
-     * Format.
-     *
-     * @param string $pinyin
-     * @param int    $option
-     *
-     * @return string
-     */
-    protected function formatTone($pinyin, $option = \PINYIN_NO_TONE)
-    {
-        $replacements = [
-            'üē' => ['ue', 1], 'üé' => ['ue', 2], 'üě' => ['ue', 3], 'üè' => ['ue', 4],
-            'ā' => ['a', 1], 'ē' => ['e', 1], 'ī' => ['i', 1], 'ō' => ['o', 1], 'ū' => ['u', 1], 'ǖ' => ['yu', 1],
-            'á' => ['a', 2], 'é' => ['e', 2], 'í' => ['i', 2], 'ó' => ['o', 2], 'ú' => ['u', 2], 'ǘ' => ['yu', 2],
-            'ǎ' => ['a', 3], 'ě' => ['e', 3], 'ǐ' => ['i', 3], 'ǒ' => ['o', 3], 'ǔ' => ['u', 3], 'ǚ' => ['yu', 3],
-            'à' => ['a', 4], 'è' => ['e', 4], 'ì' => ['i', 4], 'ò' => ['o', 4], 'ù' => ['u', 4], 'ǜ' => ['yu', 4],
-        ];
-
-        foreach ($replacements as $unicode => $replacement) {
-            if (false !== strpos($pinyin, $unicode)) {
-                $umlaut = $replacement[0];
-
-                // https://zh.wikipedia.org/wiki/%C3%9C
-                if ($this->hasOption($option, \PINYIN_UMLAUT_V) && 'yu' == $umlaut) {
-                    $umlaut = 'v';
+        return self::noTone()
+            ->noPunctuation()
+            ->when($asName, fn ($c) => $c->surname())
+            ->convert($string)
+            ->map(function ($pinyin) use ($string, $preserveEnglishWords) {
+                // 如果内容在原字符串中，则直接返回
+                if ($preserveEnglishWords && str_contains($string, $pinyin)) {
+                    return $pinyin;
                 }
 
-                $pinyin = str_replace($unicode, $umlaut, $pinyin) . ($this->hasOption($option, PINYIN_ASCII_TONE) ? $replacement[1] : '');
-            }
+                // 常用于电影名称入库索引处理，例如：《晚娘2012》-> WN2012
+                return \is_numeric($pinyin) || preg_match('/\d{2,}/', $pinyin) ? $pinyin : \mb_substr($pinyin, 0, 1);
+            });
+    }
+
+    public static function __callStatic(string $name, array $arguments)
+    {
+        $converter = Converter::make();
+
+        if (\method_exists($converter, $name)) {
+            return $converter->$name(...$arguments);
         }
 
-        return $pinyin;
+        throw new InvalidArgumentException("Method {$name} does not exist.");
     }
 }

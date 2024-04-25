@@ -1,14 +1,15 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\model\concern;
 
@@ -16,27 +17,29 @@ use think\db\exception\ModelEventException;
 use think\helper\Str;
 
 /**
- * 模型事件处理
+ * 模型事件处理.
  */
 trait ModelEvent
 {
-
     /**
      * Event对象
+     *
      * @var object
      */
     protected static $event;
 
     /**
-     * 是否需要事件响应
+     * 是否需要事件响应.
+     *
      * @var bool
      */
     protected $withEvent = true;
 
     /**
      * 设置Event对象
-     * @access public
+     *
      * @param object $event Event对象
+     *
      * @return void
      */
     public static function setEvent($event)
@@ -45,21 +48,24 @@ trait ModelEvent
     }
 
     /**
-     * 当前操作的事件响应
-     * @access protected
-     * @param  bool $event  是否需要事件响应
+     * 当前操作的事件响应.
+     *
+     * @param bool $event 是否需要事件响应
+     *
      * @return $this
      */
     public function withEvent(bool $event)
     {
         $this->withEvent = $event;
+
         return $this;
     }
 
     /**
-     * 触发事件
-     * @access protected
-     * @param  string $event 事件名
+     * 触发事件.
+     *
+     * @param string $event 事件名
+     *
      * @return bool
      */
     protected function trigger(string $event): bool
@@ -80,7 +86,7 @@ trait ModelEvent
                 $result = true;
             }
 
-            return false === $result ? false : true;
+            return !(false === $result);
         } catch (ModelEventException $e) {
             return false;
         }

@@ -24,9 +24,13 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class DumpServer
 {
-    private $host;
-    private $socket;
+    private string $host;
     private $logger;
+
+    /**
+     * @var resource|null
+     */
+    private $socket;
 
     public function __construct(string $host, LoggerInterface $logger = null)
     {
@@ -52,6 +56,10 @@ class DumpServer
         }
 
         foreach ($this->getMessages() as $clientId => $message) {
+            if ($this->logger) {
+                $this->logger->info('Received a payload from client {clientId}', ['clientId' => $clientId]);
+            }
+
             $payload = @unserialize(base64_decode($message), ['allowed_classes' => [Data::class, Stub::class]]);
 
             // Impossible to decode the message, give up.

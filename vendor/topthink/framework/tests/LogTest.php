@@ -22,7 +22,7 @@ class LogTest extends TestCase
         m::close();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->prepareApp();
 
@@ -64,7 +64,8 @@ class LogTest extends TestCase
 
         $this->config->shouldReceive('get')->with("log.default", null)->andReturn('file');
 
-        $this->config->shouldReceive('get')->with("log.channels.file", null)->andReturn(['type' => 'file', 'path' => $root->url()]);
+        $this->config->shouldReceive('get')->with("log.channels.file", null)
+            ->andReturn(['type' => 'file', 'path' => $root->url()]);
 
         $this->log->info('foo');
 
@@ -118,7 +119,8 @@ class LogTest extends TestCase
 
         $this->config->shouldReceive('get')->with("log.default", null)->andReturn('file');
 
-        $this->config->shouldReceive('get')->with("log.channels.file", null)->andReturn(['type' => 'file', 'path' => $root->url()]);
+        $this->config->shouldReceive('get')->with("log.channels.file", null)
+            ->andReturn(['type' => 'file', 'path' => $root->url()]);
 
         $this->log->info('foo');
 

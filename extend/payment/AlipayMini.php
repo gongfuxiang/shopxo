@@ -49,11 +49,11 @@ class AlipayMini
     {
         // 基础信息
         $base = [
-            'name'          => '支付宝',  // 插件名称
-            'version'       => '1.1.2',  // 插件版本
+            'name'          => '支付宝小程序',  // 插件名称
+            'version'       => '1.1.3',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['alipay'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '适用支付宝小程序，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'desc'          => '适用支付宝小程序、JSAPI，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -96,6 +96,17 @@ class AlipayMini
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写支付宝公钥',
+            ],
+            [
+                'element'       => 'select',
+                'title'         => '是否JSAPI',
+                'message'       => '请选择是否JSAPI',
+                'name'          => 'is_jsapi',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>0, 'name'=>'否'],
+                    ['value'=>1, 'name'=>'是'],
+                ],
             ],
         ];
 
@@ -146,6 +157,14 @@ class AlipayMini
             'buyer_id'              => $params['user']['alipay_openid'],
             'timeout_express'       => $this->OrderAutoCloseTime(),
         );
+
+        // 是否jsapi
+        if(isset($this->config['is_jsapi']) && $this->config['is_jsapi'] == 1)
+        {
+            $biz_content['product_code']  = 'JSAPI_PAY';
+            $biz_content['op_app_id']     = $this->config['appid'];
+        }
+
         // 商品详情
         if(isset($params['business_type']) && $params['business_type'] == 'system-order' && !empty($params['business_data']) && is_array($params['business_data']))
         {
@@ -538,6 +557,5 @@ class AlipayMini
         $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
         return $this->OutRsaVerify($string, $data['sign']);
     }
-
 }
 ?>

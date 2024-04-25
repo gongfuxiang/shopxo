@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route;
 
@@ -26,40 +26,12 @@ abstract class Dispatch
 {
     /**
      * 应用对象
-     * @var \think\App
+     * @var App
      */
     protected $app;
 
-    /**
-     * 请求对象
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * 路由规则
-     * @var Rule
-     */
-    protected $rule;
-
-    /**
-     * 调度信息
-     * @var mixed
-     */
-    protected $dispatch;
-
-    /**
-     * 路由变量
-     * @var array
-     */
-    protected $param;
-
-    public function __construct(Request $request, Rule $rule, $dispatch, array $param = [])
+    public function __construct(protected Request $request, protected Rule $rule, protected $dispatch, protected array $param = [])
     {
-        $this->request  = $request;
-        $this->rule     = $rule;
-        $this->dispatch = $dispatch;
-        $this->param    = $param;
     }
 
     public function init(App $app)
@@ -73,20 +45,10 @@ abstract class Dispatch
     /**
      * 执行路由调度
      * @access public
-     * @return mixed
+     * @return Response
      */
     public function run(): Response
     {
-        if ($this->rule instanceof RuleItem && $this->request->method() == 'OPTIONS' && $this->rule->isAutoOptions()) {
-            $rules = $this->rule->getRouter()->getRule($this->rule->getRule());
-            $allow = [];
-            foreach ($rules as $item) {
-                $allow[] = strtoupper($item->getMethod());
-            }
-
-            return Response::create('', 'html', 204)->header(['Allow' => implode(', ', $allow)]);
-        }
-
         $data = $this->exec();
         return $this->autoResponse($data);
     }
@@ -192,7 +154,7 @@ abstract class Dispatch
 
             if (!empty($result)) {
                 // 注入容器
-                $this->app->instance(get_class($result), $result);
+                $this->app->instance($result::class, $result);
             }
         }
     }
@@ -214,7 +176,7 @@ abstract class Dispatch
             $v->rule($validate);
         } else {
             // 调用验证器
-            $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+            $class = str_contains($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
 
             $v = new $class();
 

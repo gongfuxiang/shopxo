@@ -12,60 +12,46 @@ class Column
 {
     /**
      * Table Column Index.
-     *
-     * @var string
      */
-    private $columnIndex = '';
+    private string $columnIndex;
 
     /**
      * Show Filter Button.
-     *
-     * @var bool
      */
-    private $showFilterButton = true;
+    private bool $showFilterButton = true;
 
     /**
      * Total Row Label.
-     *
-     * @var string
      */
-    private $totalsRowLabel;
+    private ?string $totalsRowLabel = null;
 
     /**
      * Total Row Function.
-     *
-     * @var string
      */
-    private $totalsRowFunction;
+    private ?string $totalsRowFunction = null;
 
     /**
      * Total Row Formula.
-     *
-     * @var string
      */
-    private $totalsRowFormula;
+    private ?string $totalsRowFormula = null;
 
     /**
      * Column Formula.
-     *
-     * @var string
      */
-    private $columnFormula;
+    private ?string $columnFormula = null;
 
     /**
      * Table.
-     *
-     * @var null|Table
      */
-    private $table;
+    private ?Table $table;
 
     /**
      * Create a new Column.
      *
      * @param string $column Column (e.g. A)
-     * @param Table $table Table for this column
+     * @param ?Table $table Table for this column
      */
-    public function __construct($column, ?Table $table = null)
+    public function __construct(string $column, ?Table $table = null)
     {
         $this->columnIndex = $column;
         $this->table = $table;
@@ -84,7 +70,7 @@ class Column
      *
      * @param string $column Column (e.g. A)
      */
-    public function setColumnIndex($column): self
+    public function setColumnIndex(string $column): self
     {
         // Uppercase coordinate
         $column = strtoupper($column);
@@ -225,7 +211,7 @@ class Column
 
     private static function updateStructuredReferencesInCells(Worksheet $worksheet, string $oldTitle, string $newTitle): void
     {
-        $pattern = '/\[(@?)' . preg_quote($oldTitle) . '\]/mui';
+        $pattern = '/\[(@?)' . preg_quote($oldTitle, '/') . '\]/mui';
 
         foreach ($worksheet->getCoordinates(false) as $coordinate) {
             $cell = $worksheet->getCell($coordinate);
@@ -241,7 +227,7 @@ class Column
 
     private static function updateStructuredReferencesInNamedFormulae(Spreadsheet $spreadsheet, string $oldTitle, string $newTitle): void
     {
-        $pattern = '/\[(@?)' . preg_quote($oldTitle) . '\]/mui';
+        $pattern = '/\[(@?)' . preg_quote($oldTitle, '/') . '\]/mui';
 
         foreach ($spreadsheet->getNamedFormulae() as $namedFormula) {
             $formula = $namedFormula->getValue();

@@ -13,7 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
-use app\service\BannerService;
+use app\service\SlideService;
 use app\service\AppHomeNavService;
 use app\service\BuyService;
 use app\service\LayoutService;
@@ -76,7 +76,7 @@ class Index extends Common
             // 返回数据
             $result = SystemBaseService::DataReturn([
                 'navigation'            => AppHomeNavService::AppHomeNav(),
-                'banner_list'           => BannerService::Banner(),
+                'banner_list'           => SlideService::SlideList(),
                 'data_list'             => $data_list,
                 'article_list'          => ArticleService::RecommendedArticleList(),
                 'right_icon_list'       => AppService::HomeRightIconList(['message_total'=>$message_total]),

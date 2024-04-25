@@ -6,11 +6,15 @@ These are examples of supported barcodes with this library.
 
 ### C39
 
-![Barcode 1234567890abcABC as C39](tests/verified-files/C39-1234567890abcABC.svg)
+![Barcode 1234567890ABC as C39](tests/verified-files/C39-1234567890ABC.svg)
 
 ### C39+
 
-![Barcode 1234567890abcABC as C39+](tests/verified-files/C39+-1234567890abcABC.svg)
+![Barcode 1234567890ABC as C39+](tests/verified-files/C39+-1234567890ABC.svg)
+
+### C39E
+
+![Barcode 1234567890abcABC as C39E](tests/verified-files/C39E-1234567890abcABC.svg)
 
 ### C39E+
 
@@ -43,6 +47,12 @@ These are examples of supported barcodes with this library.
 ![Barcode 0049000004632 as EAN13](tests/verified-files/EAN13-0049000004632.svg)
 
 ![Barcode 004900000463 as EAN13](tests/verified-files/EAN13-004900000463.svg)
+
+### ITF14
+
+![Barcode 00012345600012 as ITF14](tests/verified-files/ITF14-00012345600012.svg)
+
+![Barcode 05400141288766 as ITF14](tests/verified-files/ITF14-05400141288766.svg)
 
 ### C128
 

@@ -26,9 +26,6 @@ use Throwable;
  */
 class Handle
 {
-    /** @var App */
-    protected $app;
-
     protected $ignoreReport = [
         HttpException::class,
         HttpResponseException::class,
@@ -39,9 +36,8 @@ class Handle
 
     protected $isJson = false;
 
-    public function __construct(App $app)
+    public function __construct(protected App $app)
     {
-        $this->app = $app;
     }
 
     /**
@@ -100,7 +96,7 @@ class Handle
      * @param Throwable $e
      * @return Response
      */
-    public function render($request, Throwable $e): Response
+    public function render(Request $request, Throwable $e): Response
     {
         $this->isJson = $request->isJson();
         if ($e instanceof HttpResponseException) {
@@ -156,7 +152,7 @@ class Handle
             $nextException = $exception;
             do {
                 $traces[] = [
-                    'name'    => get_class($nextException),
+                    'name'    => $nextException::class,
                     'file'    => $nextException->getFile(),
                     'line'    => $nextException->getLine(),
                     'code'    => $this->getCode($nextException),
@@ -261,10 +257,10 @@ class Handle
 
         $lang = $this->app->lang;
 
-        if (strpos($message, ':')) {
+        if (str_contains($message, ':')) {
             $name    = strstr($message, ':', true);
             $message = $lang->has($name) ? $lang->get($name) . strstr($message, ':') : $message;
-        } elseif (strpos($message, ',')) {
+        } elseif (str_contains($message, ',')) {
             $name    = strstr($message, ',', true);
             $message = $lang->has($name) ? $lang->get($name) . ':' . substr(strstr($message, ','), 1) : $message;
         } elseif ($lang->has($message)) {

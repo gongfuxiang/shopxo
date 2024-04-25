@@ -13,24 +13,18 @@ class PolynomialBestFit extends BestFit
     /**
      * Algorithm type to use for best-fit
      * (Name of this Trend class).
-     *
-     * @var string
      */
-    protected $bestFitType = 'polynomial';
+    protected string $bestFitType = 'polynomial';
 
     /**
      * Polynomial order.
-     *
-     * @var int
      */
-    protected $order = 0;
+    protected int $order = 0;
 
     /**
      * Return the order of this polynomial.
-     *
-     * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -42,7 +36,7 @@ class PolynomialBestFit extends BestFit
      *
      * @return float Y-Value
      */
-    public function getValueOfYForX($xValue)
+    public function getValueOfYForX(float $xValue): float
     {
         $retVal = $this->getIntersect();
         $slope = $this->getSlope();
@@ -64,7 +58,7 @@ class PolynomialBestFit extends BestFit
      *
      * @return float X-Value
      */
-    public function getValueOfXForY($yValue)
+    public function getValueOfXForY(float $yValue): float
     {
         return ($yValue - $this->getIntersect()) / $this->getSlope();
     }
@@ -73,10 +67,8 @@ class PolynomialBestFit extends BestFit
      * Return the Equation of the best-fit line.
      *
      * @param int $dp Number of places of decimal precision to display
-     *
-     * @return string
      */
-    public function getEquation($dp = 0)
+    public function getEquation(int $dp = 0): string
     {
         $slope = $this->getSlope($dp);
         $intersect = $this->getIntersect($dp);
@@ -100,14 +92,11 @@ class PolynomialBestFit extends BestFit
      * Return the Slope of the line.
      *
      * @param int $dp Number of places of decimal precision to display
-     *
-     * @return float
      */
-    public function getSlope($dp = 0)
+    public function getSlope(int $dp = 0): float
     {
         if ($dp != 0) {
             $coefficients = [];
-            // Scrutinizer is correct - $this->slope is float, not array.
             //* @phpstan-ignore-next-line
             foreach ($this->slope as $coefficient) {
                 $coefficients[] = round($coefficient, $dp);
@@ -120,12 +109,7 @@ class PolynomialBestFit extends BestFit
         return $this->slope;
     }
 
-    /**
-     * @param int $dp
-     *
-     * @return array
-     */
-    public function getCoefficients($dp = 0)
+    public function getCoefficients(int $dp = 0): array
     {
         // Phpstan and Scrutinizer are both correct - getSlope returns float, not array.
         // @phpstan-ignore-next-line
@@ -139,7 +123,7 @@ class PolynomialBestFit extends BestFit
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
      */
-    private function polynomialRegression($order, $yValues, $xValues): void
+    private function polynomialRegression(int $order, array $yValues, array $xValues): void
     {
         // calculate sums
         $x_sum = array_sum($xValues);
@@ -182,7 +166,7 @@ class PolynomialBestFit extends BestFit
         }
 
         $this->intersect = array_shift($coefficients);
-        // Phpstan (and maybe Scrutinizer) are correct
+        // Phpstan is correct
         //* @phpstan-ignore-next-line
         $this->slope = $coefficients;
 
@@ -199,7 +183,7 @@ class PolynomialBestFit extends BestFit
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
      */
-    public function __construct($order, $yValues, $xValues = [])
+    public function __construct(int $order, array $yValues, array $xValues = [])
     {
         parent::__construct($yValues, $xValues);
 

@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route;
 
@@ -78,32 +78,11 @@ class RuleItem extends Rule
     }
 
     /**
-     * 设置当前路由为自动注册OPTIONS
-     * @access public
-     * @return $this
-     */
-    public function setAutoOptions()
-    {
-        $this->autoOption = true;
-        return $this;
-    }
-
-    /**
-     * 判断当前路由规则是否为自动注册的OPTIONS路由
-     * @access public
-     * @return bool
-     */
-    public function isAutoOptions(): bool
-    {
-        return $this->autoOption;
-    }
-
-    /**
      * 获取当前路由的URL后缀
      * @access public
      * @return string|null
      */
-    public function getSuffix()
+    public function getSuffix(): ?string
     {
         if (isset($this->option['ext'])) {
             $suffix = $this->option['ext'];
@@ -124,7 +103,7 @@ class RuleItem extends Rule
      */
     public function setRule(string $rule): void
     {
-        if ('$' == substr($rule, -1, 1)) {
+        if (str_ends_with($rule, '$')) {
             // 是否完整匹配
             $rule = substr($rule, 0, -1);
 
@@ -137,7 +116,7 @@ class RuleItem extends Rule
             $rule = $prefix . ($rule ? '/' . ltrim($rule, '/') : '');
         }
 
-        if (false !== strpos($rule, ':')) {
+        if (str_contains($rule, ':')) {
             $this->rule = preg_replace(['/\[\:(\w+)\]/', '/\:(\w+)/'], ['<\1?>', '<\1>'], $rule);
         } else {
             $this->rule = $rule;
@@ -183,7 +162,7 @@ class RuleItem extends Rule
      * @param  bool         $completeMatch   路由是否完全匹配
      * @return Dispatch|false
      */
-    public function checkRule(Request $request, string $url, $match = null, bool $completeMatch = false)
+    public function checkRule(Request $request, string $url, array $match = null, bool $completeMatch = false)
     {
         // 检查参数有效性
         if (!$this->checkOption($this->option, $request)) {
@@ -258,10 +237,15 @@ class RuleItem extends Rule
             $completeMatch = $option['complete_match'];
         }
 
-        $depr = $this->router->config('pathinfo_depr');
+        $depr = $this->config('pathinfo_depr');
+        if (isset($option['case_sensitive'])) {
+            $case = $option['case_sensitive'];
+        } else {
+            $case = $this->config('url_case_sensitive');
+        }
 
         // 检查完整规则定义
-        if (isset($pattern['__url__']) && !preg_match(0 === strpos($pattern['__url__'], '/') ? $pattern['__url__'] : '/^' . $pattern['__url__'] . ($completeMatch ? '$' : '') . '/', str_replace('|', $depr, $url))) {
+        if (isset($pattern['__url__']) && !preg_match(str_starts_with($pattern['__url__'], '/') ? $pattern['__url__'] : '/^' . $pattern['__url__'] . ($completeMatch ? '$' : '') . '/', str_replace('|', $depr, $url))) {
             return false;
         }
 
@@ -273,8 +257,10 @@ class RuleItem extends Rule
             return false;
         }
 
-        if (false === strpos($rule, '<')) {
-            if (0 === strcasecmp($rule, $url) || (!$completeMatch && 0 === strncasecmp($rule . $depr, $url . $depr, strlen($rule . $depr)))) {
+        if (!str_contains($rule, '<')) {
+            if ($case && (0 === strcmp($rule, $url) || (!$completeMatch && 0 === strncmp($rule . $depr, $url . $depr, strlen($rule . $depr))))) {
+                return $var;
+            } elseif (!$case && (0 === strcasecmp($rule, $url) || (!$completeMatch && 0 === strncasecmp($rule . $depr, $url . $depr, strlen($rule . $depr))))) {
                 return $var;
             }
             return false;
@@ -292,7 +278,7 @@ class RuleItem extends Rule
             $regex = $this->buildRuleRegex($rule, $matches[0], $pattern, $option, $completeMatch);
 
             try {
-                if (!preg_match('~^' . $regex . '~u', $url, $match)) {
+                if (!preg_match('~^' . $regex . '~u' . ($case ? '' : 'i'), $url, $match)) {
                     return false;
                 }
             } catch (\Exception $e) {

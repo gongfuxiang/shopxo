@@ -1,93 +1,103 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\model;
 
 use Closure;
-use ReflectionFunction;
 use think\db\BaseQuery as Query;
 use think\db\exception\DbException as Exception;
 use think\Model;
 
 /**
- * 模型关联基础类
- * @package think\model
+ * 模型关联基础类.
+ *
  * @mixin Query
  */
 abstract class Relation
 {
     /**
      * 父模型对象
+     *
      * @var Model
      */
     protected $parent;
 
     /**
-     * 当前关联的模型类名
+     * 当前关联的模型类名.
+     *
      * @var string
      */
     protected $model;
 
     /**
      * 关联模型查询对象
+     *
      * @var Query
      */
     protected $query;
 
     /**
-     * 关联表外键
+     * 关联表外键.
+     *
      * @var string
      */
     protected $foreignKey;
 
     /**
-     * 关联表主键
+     * 关联表主键.
+     *
      * @var string
      */
     protected $localKey;
 
     /**
-     * 是否执行关联基础查询
+     * 是否执行关联基础查询.
+     *
      * @var bool
      */
     protected $baseQuery;
 
     /**
-     * 是否为自关联
+     * 是否为自关联.
+     *
      * @var bool
      */
     protected $selfRelation = false;
 
     /**
-     * 关联数据字段限制
+     * 关联数据字段限制.
+     *
      * @var array
      */
     protected $withField;
 
     /**
-     * 排除关联数据字段
+     * 排除关联数据字段.
+     *
      * @var array
      */
     protected $withoutField;
 
     /**
-     * 默认数据
+     * 默认数据.
+     *
      * @var mixed
      */
     protected $default;
 
     /**
-     * 获取关联的所属模型
-     * @access public
+     * 获取关联的所属模型.
+     *
      * @return Model
      */
     public function getParent(): Model
@@ -96,8 +106,8 @@ abstract class Relation
     }
 
     /**
-     * 获取当前的关联模型类的Query实例
-     * @access public
+     * 获取当前的关联模型类的Query实例.
+     *
      * @return Query
      */
     public function getQuery()
@@ -106,28 +116,28 @@ abstract class Relation
     }
 
     /**
-     * 获取关联表外键
-     * @access public
+     * 获取关联表外键.
+     *
      * @return string
      */
-    public function getForeignKey()
+    public function getForeignKey(): string
     {
         return $this->foreignKey;
     }
 
     /**
-     * 获取关联表主键
-     * @access public
+     * 获取关联表主键.
+     *
      * @return string
      */
-    public function getLocalKey()
+    public function getLocalKey(): string
     {
         return $this->localKey;
     }
 
     /**
-     * 获取当前的关联模型类的实例
-     * @access public
+     * 获取当前的关联模型类的实例.
+     *
      * @return Model
      */
     public function getModel(): Model
@@ -136,8 +146,8 @@ abstract class Relation
     }
 
     /**
-     * 当前关联是否为自关联
-     * @access public
+     * 当前关联是否为自关联.
+     *
      * @return bool
      */
     public function isSelfRelation(): bool
@@ -146,20 +156,22 @@ abstract class Relation
     }
 
     /**
-     * 封装关联数据集
-     * @access public
-     * @param  array $resultSet 数据集
-     * @param  Model $parent 父模型
+     * 封装关联数据集.
+     *
+     * @param array $resultSet 数据集
+     * @param Model $parent    父模型
+     *
      * @return mixed
      */
     protected function resultSetBuild(array $resultSet, Model $parent = null)
     {
-        return (new $this->model)->toCollection($resultSet)->setParent($parent);
+        return (new $this->model())->toCollection($resultSet)->setParent($parent);
     }
 
     protected function getQueryFields(string $model)
     {
         $fields = $this->query->getOptions('field');
+
         return $this->getRelationQueryFields($fields, $model);
     }
 
@@ -174,7 +186,7 @@ abstract class Relation
         }
 
         foreach ($fields as &$field) {
-            if (false === strpos($field, '.')) {
+            if (!str_contains($field, '.')) {
                 $field = $model . '.' . $field;
             }
         }
@@ -186,116 +198,43 @@ abstract class Relation
     {
         foreach ($where as $key => &$val) {
             if (is_string($key)) {
-                $where[] = [false === strpos($key, '.') ? $relation . '.' . $key : $key, '=', $val];
+                $where[] = [!str_contains($key, '.') ? $relation . '.' . $key : $key, '=', $val];
                 unset($where[$key]);
-            } elseif (isset($val[0]) && false === strpos($val[0], '.')) {
+            } elseif (isset($val[0]) && !str_contains($val[0], '.')) {
                 $val[0] = $relation . '.' . $val[0];
             }
         }
     }
 
     /**
-     * 限制关联数据的字段
-     * @access public
-     * @param  array|string $field 关联字段限制
-     * @return $this
-     */
-    public function withField($field)
-    {
-        if (is_string($field)) {
-            $field = array_map('trim', explode(',', $field));
-        }
-
-        $this->withField = $field;
-        return $this;
-    }
-
-    /**
-     * 排除关联数据的字段
-     * @access public
-     * @param  array|string $field 关联字段限制
-     * @return $this
-     */
-    public function withoutField($field)
-    {
-        if (is_string($field)) {
-            $field = array_map('trim', explode(',', $field));
-        }
-
-        $this->withoutField = $field;
-        return $this;
-    }
-
-    /**
-     * 限制关联数据的数量
-     * @access public
-     * @param  int $limit 关联数量限制
-     * @return $this
-     */
-    public function withLimit(int $limit)
-    {
-        $this->query->limit($limit);
-        return $this;
-    }
-
-    /**
-     * 设置关联数据不存在的时候默认值
-     * @access public
-     * @param  mixed $data 默认值
-     * @return $this
-     */
-    public function withDefault($data = null)
-    {
-        $this->default = $data;
-        return $this;
-    }
-
-    /**
      * 获取关联数据默认值
-     * @access protected
+     *
+     * @param mixed $data 模型数据
+     *
      * @return mixed
      */
-    protected function getDefaultModel()
+    protected function getDefaultModel($data)
     {
-        if (is_array($this->default)) {
-            $model = (new $this->model)->data($this->default);
-        } elseif ($this->default instanceof Closure) {
-            $closure = $this->default;
-            $model   = new $this->model;
-            $closure($model);
+        if (is_array($data)) {
+            $model = (new $this->model())->data($data);
+        } elseif ($data instanceof Closure) {
+            $model = new $this->model();
+            $data($model);
         } else {
-            $model = $this->default;
+            $model = $data;
         }
 
         return $model;
     }
 
     /**
-     * 判断闭包的参数类型
-     * @access protected
-     * @return mixed
-     */
-    protected function getClosureType(Closure $closure, $query = null)
-    {
-        $reflect = new ReflectionFunction($closure);
-        $params  = $reflect->getParameters();
-
-        if (!empty($params)) {
-            $type  = $params[0]->getType();
-            $query = $query ?: $this->query;
-            return is_null($type) || Relation::class == $type->getName() ? $this : $query;
-        }
-
-        return $this;
-    }
-
-    /**
-     * 执行基础查询（仅执行一次）
-     * @access protected
+     * 执行基础查询（仅执行一次）.
+     *
      * @return void
      */
     protected function baseQuery(): void
-    {}
+    {
+    }
 
     public function __call($method, $args)
     {

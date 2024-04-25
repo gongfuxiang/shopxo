@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -6,27 +7,28 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\db\builder;
 
 use think\db\Builder;
-use think\db\Query;
 use think\db\exception\DbException as Exception;
+use think\db\BaseQuery as Query;
 use think\db\Raw;
 
 /**
- * Oracle数据库驱动
+ * Oracle数据库驱动.
  */
 class Oracle extends Builder
 {
     protected $selectSql = 'SELECT * FROM (SELECT thinkphp.*, rownum AS numrow FROM (SELECT  %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%) thinkphp ) %LIMIT%%COMMENT%';
 
     /**
-     * limit分析
-     * @access protected
-     * @param  Query $query 查询对象
-     * @param  mixed $limit
+     * limit分析.
+     *
+     * @param Query $query 查询对象
+     * @param mixed $limit
+     *
      * @return string
      */
     protected function parseLimit(Query $query, string $limit): string
@@ -37,24 +39,24 @@ class Oracle extends Builder
             $limit = explode(',', $limit);
 
             if (count($limit) > 1) {
-                $limitStr = "(numrow>" . $limit[0] . ") AND (numrow<=" . ($limit[0] + $limit[1]) . ")";
+                $limitStr = '(numrow>' . $limit[0] . ') AND (numrow<=' . ($limit[0] + $limit[1]) . ')';
             } else {
-                $limitStr = "(numrow>0 AND numrow<=" . $limit[0] . ")";
+                $limitStr = '(numrow>0 AND numrow<=' . $limit[0] . ')';
             }
-
         }
 
         return $limitStr ? ' WHERE ' . $limitStr : '';
     }
 
     /**
-     * 设置锁机制
-     * @access protected
-     * @param  Query      $query 查询对象
-     * @param  bool|false $lock
+     * 设置锁机制.
+     *
+     * @param Query      $query 查询对象
+     * @param bool|string $lock
+     *
      * @return string
      */
-    protected function parseLock(Query $query, $lock = false): string
+    protected function parseLock(Query $query, bool|string $lock = false): string
     {
         if (!$lock) {
             return '';
@@ -64,15 +66,17 @@ class Oracle extends Builder
     }
 
     /**
-     * 字段和表名处理
-     * @access public
-     * @param Query $query 查询对象
-     * @param string $key
-     * @param bool $strict
-     * @return string
+     * 字段和表名处理.
+     *
+     * @param Query  $query  查询对象
+     * @param string|int|Raw $key
+     * @param bool   $strict
+     *
      * @throws Exception
+     *
+     * @return string
      */
-    public function parseKey(Query $query, $key, bool $strict = false): string
+    public function parseKey(Query $query, string|int|Raw $key, bool $strict = false): string
     {
         if (is_int($key)) {
             return (string) $key;
@@ -82,11 +86,11 @@ class Oracle extends Builder
 
         $key = trim($key);
 
-        if (strpos($key, '->') && false === strpos($key, '(')) {
+        if (str_contains($key, '->') && !str_contains($key, '(')) {
             // JSON字段支持
             [$field, $name] = explode($key, '->');
-            $key            = $field . '."' . $name . '"';
-        } elseif (strpos($key, '.') && !preg_match('/[,\'\"\(\)\[\s]/', $key)) {
+            $key = $field . '."' . $name . '"';
+        } elseif (str_contains($key, '.') && !preg_match('/[,\'\"\(\)\[\s]/', $key)) {
             [$table, $key] = explode('.', $key, 2);
 
             $alias = $query->getOptions('alias');
@@ -117,9 +121,10 @@ class Oracle extends Builder
     }
 
     /**
-     * 随机排序
-     * @access protected
-     * @param  Query $query 查询对象
+     * 随机排序.
+     *
+     * @param Query $query 查询对象
+     *
      * @return string
      */
     protected function parseRand(Query $query): string

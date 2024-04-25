@@ -378,11 +378,11 @@ class TypeIntelligentMailBarcode implements TypeInterface
         // convert codewords to characters
         $characters = [];
         $bitmask = 512;
-        foreach ($codewords as $k => $val) {
+        foreach ($codewords as $val) {
             if ($val <= 1286) {
-                $chrcode = $table5of13[$val];
+                $chrcode = (int)$table5of13[$val];
             } else {
-                $chrcode = $table2of13[($val - 1287)];
+                $chrcode = (int)$table2of13[($val - 1287)];
             }
             if (($fcs & $bitmask) > 0) {
                 // bitwise invert
@@ -517,7 +517,7 @@ class TypeIntelligentMailBarcode implements TypeInterface
      * @return array requested table
      * @protected
      */
-    protected function imb_tables($n, $size)
+    protected function imb_tables(int $n, int $size): array
     {
         $table = [];
         $lli = 0; // LUT lower index

@@ -24,7 +24,7 @@ class MiddlewareTest extends TestCase
         m::close();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->prepareApp();
 
@@ -47,7 +47,8 @@ class MiddlewareTest extends TestCase
         $this->assertEquals(2, count($this->middleware->all()));
         $this->assertEquals([['BazMiddleware', 'handle'], 'baz'], $this->middleware->all()[0]);
 
-        $this->config->shouldReceive('get')->with('middleware.alias', [])->andReturn(['foo' => ['FooMiddleware', 'FarMiddleware']]);
+        $this->config->shouldReceive('get')->with('middleware.alias', [])
+            ->andReturn(['foo' => ['FooMiddleware', 'FarMiddleware']]);
 
         $this->middleware->add('foo');
         $this->assertEquals(3, count($this->middleware->all()));
@@ -84,7 +85,8 @@ class MiddlewareTest extends TestCase
 
         $this->app->shouldReceive('make')->with(Handle::class)->andReturn($handle);
 
-        $this->config->shouldReceive('get')->once()->with('middleware.priority', [])->andReturn(['FooMiddleware', 'BarMiddleware']);
+        $this->config->shouldReceive('get')->once()->with('middleware.priority', [])
+            ->andReturn(['FooMiddleware', 'BarMiddleware']);
 
         $this->middleware->import([function ($request, $next) {
             return $next($request);

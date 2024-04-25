@@ -9,67 +9,49 @@ class Csv extends BaseWriter
 {
     /**
      * PhpSpreadsheet object.
-     *
-     * @var Spreadsheet
      */
-    private $spreadsheet;
+    private Spreadsheet $spreadsheet;
 
     /**
      * Delimiter.
-     *
-     * @var string
      */
-    private $delimiter = ',';
+    private string $delimiter = ',';
 
     /**
      * Enclosure.
-     *
-     * @var string
      */
-    private $enclosure = '"';
+    private string $enclosure = '"';
 
     /**
      * Line ending.
-     *
-     * @var string
      */
-    private $lineEnding = PHP_EOL;
+    private string $lineEnding = PHP_EOL;
 
     /**
      * Sheet index to write.
-     *
-     * @var int
      */
-    private $sheetIndex = 0;
+    private int $sheetIndex = 0;
 
     /**
      * Whether to write a UTF8 BOM.
-     *
-     * @var bool
      */
-    private $useBOM = false;
+    private bool $useBOM = false;
 
     /**
      * Whether to write a Separator line as the first line of the file
      *     sep=x.
-     *
-     * @var bool
      */
-    private $includeSeparatorLine = false;
+    private bool $includeSeparatorLine = false;
 
     /**
      * Whether to write a fully Excel compatible CSV file.
-     *
-     * @var bool
      */
-    private $excelCompatibility = false;
+    private bool $excelCompatibility = false;
 
     /**
      * Output encoding.
-     *
-     * @var string
      */
-    private $outputEncoding = '';
+    private string $outputEncoding = '';
 
     /**
      * Create a new CSV.
@@ -251,8 +233,7 @@ class Csv extends BaseWriter
         return $this;
     }
 
-    /** @var bool */
-    private $enclosureRequired = true;
+    private bool $enclosureRequired = true;
 
     public function setEnclosureRequired(bool $value): self
     {
@@ -268,10 +249,8 @@ class Csv extends BaseWriter
 
     /**
      * Convert boolean to TRUE/FALSE; otherwise return element cast to string.
-     *
-     * @param mixed $element
      */
-    private static function elementToString($element): string
+    private static function elementToString(mixed $element): string
     {
         if (is_bool($element)) {
             return $element ? 'TRUE' : 'FALSE';
@@ -321,6 +300,6 @@ class Csv extends BaseWriter
         if ($this->outputEncoding != '') {
             $line = mb_convert_encoding($line, $this->outputEncoding);
         }
-        fwrite($fileHandle, /** @scrutinizer ignore-type */ $line);
+        fwrite($fileHandle, $line);
     }
 }

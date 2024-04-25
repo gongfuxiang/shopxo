@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -186,33 +186,15 @@ class Lang
      */
     protected function parse(string $file): array
     {
-        $type = pathinfo($file, PATHINFO_EXTENSION);
+        $type   = pathinfo($file, PATHINFO_EXTENSION);
+        $result = match ($type) {
+            'php'       =>  include $file,
+            'yml','yaml'=>  function_exists('yaml_parse_file') ? yaml_parse_file($file) : [],
+            'json'      =>  json_decode(file_get_contents($file), true),
+            default     =>  [],
+        };
 
-        switch ($type) {
-            case 'php':
-                $result = include $file;
-                break;
-            case 'yml':
-            case 'yaml':
-                if (function_exists('yaml_parse_file')) {
-                    $result = yaml_parse_file($file);
-                }
-                break;
-            case 'json':
-                $data = file_get_contents($file);
-
-                if (false !== $data) {
-                    $data = json_decode($data, true);
-
-                    if (json_last_error() === JSON_ERROR_NONE) {
-                        $result = $data;
-                    }
-                }
-
-                break;
-        }
-
-        return isset($result) && is_array($result) ? $result : [];
+        return is_array($result) ? $result : [];
     }
 
     /**
@@ -226,7 +208,7 @@ class Lang
     {
         $range = $range ?: $this->range;
 
-        if ($this->config['allow_group'] && strpos($name, '.')) {
+        if ($this->config['allow_group'] && str_contains($name, '.')) {
             [$name1, $name2] = explode('.', $name, 2);
             return isset($this->lang[$range][strtolower($name1)][$name2]);
         }
@@ -255,7 +237,7 @@ class Lang
             return $this->lang[$range] ?? [];
         }
 
-        if ($this->config['allow_group'] && strpos($name, '.')) {
+        if ($this->config['allow_group'] && str_contains($name, '.')) {
             [$name1, $name2] = explode('.', $name, 2);
 
             $value = $this->lang[$range][strtolower($name1)][$name2] ?? $name;
@@ -286,5 +268,4 @@ class Lang
 
         return $value;
     }
-
 }

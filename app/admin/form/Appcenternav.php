@@ -67,23 +67,6 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => $lang['platform'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'platform',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_platform_type'),
-                    'is_sort'       => 1,
-                    'width'         => 165,
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => MyConst('common_platform_type'),
-                        'data_key'          => 'value',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
                     'label'         => $lang['images_url'],
                     'view_type'     => 'images',
                     'view_key'      => 'images_url',
@@ -94,9 +77,7 @@ class AppCenterNav
                 [
                     'label'         => $lang['event_type'],
                     'view_type'     => 'field',
-                    'view_key'      => 'event_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_app_event_type'),
+                    'view_key'      => 'event_type_name',
                     'grid_size'     => 'sm',
                     'is_sort'       => 1,
                     'search_config' => [
@@ -155,6 +136,21 @@ class AppCenterNav
                     ],
                 ],
                 [
+                    'label'         => $lang['platform'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'platform_text',
+                    'grid_size'     => 'lg',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'platform',
+                        'where_type'        => 'like',
+                        'data'              => MyConst('common_platform_type'),
+                        'data_key'          => 'value',
+                        'data_name'         => 'name',
+                        'is_seat_select'    => 1,
+                    ],
+                ],
+                [
                     'label'         => $lang['desc'],
                     'view_type'     => 'field',
                     'view_key'      => 'desc',
@@ -206,6 +202,20 @@ class AppCenterNav
                 'order_by'              => 'sort asc,id asc',
                 'is_handle_time_field'  => 1,
                 'is_handle_annex_field' => 1,
+                'is_json_data_handle'   => 1,
+                'json_config_data'      => [
+                    'platform'  => [],
+                ],
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'platform'  => [
+                        'data'  => MyConst('common_platform_type'),
+                        'field' => 'platform_text',
+                    ],
+                    'event_type'  => [
+                        'data'  => MyConst('common_app_event_type'),
+                    ],
+                ],
             ],
         ];
     }

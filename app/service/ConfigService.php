@@ -685,9 +685,10 @@ class ConfigService
         // 提示信息
         $tips =  MyC('common_site_fictitious_return_tips', null, true);
 
+        // 返回数据
         $result = [
-            'title'     => $title,
-            'tips'      => str_replace("\n", '<br />', $tips),
+            'title'  => $title,
+            'tips'   => empty($tips) ? '' : str_replace("\n", '<br />', $tips),
         ];
         return DataReturn(MyLang('operate_success'), 0, $result);
     }
