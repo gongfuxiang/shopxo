@@ -2844,7 +2844,7 @@ function UrlParamJoin($param)
  * @param   [boolean]   $mandatory     [是否强制校验值,默认false]
  * @return  [mixed]                    [配置信息值,没找到返回null]
  */
-function MyC($key, $default = null, $mandatory = false)
+function MyC($key, $default = '', $mandatory = false)
 {
     // 从缓存读取配置
     $value = MyCache($key);
