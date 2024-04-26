@@ -326,7 +326,7 @@ function ArrayFieldContrastHandle($arr1, $arr2)
  */
 function ChinesePinyin($string, $is_string = false, $join = '')
 {
-    $value = (new \Overtrue\Pinyin\Pinyin())->convert($string);
+    $value = (new \Overtrue\Pinyin\Pinyin())->sentence($string, 'none');
     return ($is_string && is_array($value)) ? implode($join, $value) : $value;
 }
 
