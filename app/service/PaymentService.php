@@ -429,11 +429,11 @@ class PaymentService
         }
 
         // 安全判断
-        $ret = self::PaymentLegalCheck($info['payment']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
+        // $ret = self::PaymentLegalCheck($info['payment']);
+        // if($ret['code'] != 0)
+        // {
+        //     return $ret;
+        // }
 
         // 附件
         $data_fields = ['logo'];

@@ -25,44 +25,6 @@
 					<p>{{$site_store_info.base.site_top_notice|raw}}</p>
 				</div>
 			{{/if}}
-
-			<!-- 顶部基础信息 -->
-			<div class="block-container base-content-top am-nbfc">
-				<div class="am-fl am-nbfc left-content">
-					<!-- 帐号信息 -->
-					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
-                        <i class="iconfont icon-admin-store-user am-vertical-align-middle"></i>
-						<span class="am-vertical-align-middle">{{$site_store_info.user.user_name_view}}</span>
-						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('modify_title')}}">{{:MyLang('modify_title')}}</a>
-					{{else /}}
-						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('store_bind_accounts_name')}}">{{:MyLang('store_bind_accounts_name')}}</a>
-						<!-- 连接商店错误信息 -->
-						{{if !empty($site_store_error)}}
-							<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm am-vertical-align-middle" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
-						{{/if}}
-					{{/if}}
-
-					<!-- 广告 -->
-					{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
-						<a class="am-margin-left-sm am-text-danger am-vertical-align-middle ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
-					{{/if}}
-				</div>
-				<div class="am-fr am-nbfc right-content">
-					<!-- VIP授权信息 -->
-					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-						<a class="vip am-radius {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}>
-                            <i class="iconfont icon-admin-store-vip"></i>
-                            <span class="am-margin-left-xs">{{$site_store_info.vip.auth_view}}</span>
-                        </a>
-					{{/if}}
-
-					<!-- 右侧版本信息及更新检查 -->
-					<span class="right-base">
-						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
-						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">{{:MyLang('store_check_update_name')}}{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
-					</span>
-				</div>
-			</div>
 		{{/if}}
 
 		<!-- 公告顶部钩子 -->

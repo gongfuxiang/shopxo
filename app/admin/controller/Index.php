@@ -91,7 +91,7 @@ class Index extends Common
 			'mysql_ver'		=>	isset($mysql_ver[0]['ver']) ? $mysql_ver[0]['ver'] : '',
 			'os_ver'		=>	PHP_OS,
 			'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
-			'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
+			'ver'			=>	'Freeb'.' '.APPLICATION_VERSION,
 		];
 		$assign['data'] = $data;
 
