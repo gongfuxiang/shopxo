@@ -9,3 +9,5 @@
 *.htaccess
 *payment_*_respond.php
 *payment_*_notify.php
+chart/*.yaml
+chart/*.yml
