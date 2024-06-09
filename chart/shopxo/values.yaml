@@ -1,0 +1,96 @@
+# Default values for shopxo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: registry.freeb.vip/freeb/shopxo
+  pullPolicy: Always #IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: shop.freeb.vip
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: shop-freeb-vip-tls-secret
+      hosts:
+        - shop.freeb.vip
+mariadb:
+  enabled: true
+  architecture: standalone
+  initdbScriptsConfigMap: "shopxo-initdb"
+  auth:
+    database: shopxo
+    username: shopxo
+    password: shopxo@123
+    rootPassword: shopxo@root123
+  primary:
+    persistence:
+      enabled: true
+      # storageClass: ""
+  external:
+    hostname: "127.0.0.1"
+    hostport: "3306"
+    database: shopxo
+    username: shopxo
+    password: shopxo@123
+    rootPassword: shopxo@root123
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClass: ""
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

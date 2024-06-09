@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shopxo-initdb
+  labels:
+  {{- include "shopxo.labels" . | nindent 4 }}
+data:
+  initdb.sql: |-
+{{ .Files.Get "shopxo.sql" | indent 4 }}

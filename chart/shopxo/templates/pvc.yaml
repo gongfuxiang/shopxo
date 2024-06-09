@@ -1,0 +1,22 @@
+{{- if .Values.persistence.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "shopxo.fullname" . }}
+  labels:
+{{- include "shopxo.labels" . | nindent 4 }}
+spec:
+  persistentVolumeReclaimPolicy: Retain
+  accessModes: 
+    - {{ .Values.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  {{- if .Values.persistence.storageClass }}
+    {{- if eq "-" .Values.persistence.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ .Values.persistence.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}

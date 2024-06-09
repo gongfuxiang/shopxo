@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "shopxo.fullname" . }}
+  labels:
+  {{- include "shopxo.labels" . | nindent 4 }}
+data:
+  database.php: |
+    <?php
+    return [
+        'default'         => 'mysql',
+        'time_query_rule' => [],
+        'auto_timestamp'  => true,
+        'datetime_format' => 'Y-m-d H:i:s',
+        'connections'     => [
+            'mysql' => [
+                'type'            => 'mysql',
+                {{- if .Values.mariadb.enabled }}
+                'hostname'        => '{{ include "shopxo.mariadb.host" . }}',
+                'database'        => '{{ .Values.mariadb.auth.database }}',
+                'username'        => '{{ .Values.mariadb.auth.username }}',
+                'password'        => '{{ .Values.mariadb.auth.password }}',
+                'hostport'        => '3306',
+                {{- else }}
+                'hostname'        => '{{ .Values.mariadb.external.hostname }}',
+                'database'        => '{{ .Values.mariadb.external.database }}',
+                'username'        => '{{ .Values.mariadb.external.username }}',
+                'password'        => '{{ .Values.mariadb.external.password }}',
+                'hostport'        => '{{ .Values.mariadb.external.hostport }}',
+                {{- end }}
+                'params'          => [
+                    \PDO::ATTR_CASE => \PDO::CASE_LOWER,
+                    \PDO::ATTR_EMULATE_PREPARES => true,
+                ],
+                'charset'         => 'utf8mb4',
+                'prefix'          => 'sxo_',
+                'deploy'          => 0,
+                'rw_separate'     => false,
+                'master_num'      => 1,
+                'slave_no'        => '',
+                'fields_strict'   => true,
+                'break_reconnect' => false,
+                'trigger_sql'     => false,
+                'fields_cache'    => false,
+            ]
+        ]
+    ];
+    ?>
