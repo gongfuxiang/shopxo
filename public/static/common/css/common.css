@@ -14,19 +14,24 @@ body{ background: var(--body-bg-color); color: #333333; }
 /**
  * 常用颜色
  */
-.am-color-333 {
+.am-color-333,
+.am-color-black {
     color: #333;
 }
-.am-color-666 {
+.am-color-666,
+.am-color-grey-dark {
     color: #666;
 }
-.am-color-999 {
+.am-color-999,
+.am-color-grey {
     color: #999;
 }
-.am-color-ccc {
+.am-color-ccc,
+.am-color-grey-light {
     color: #ccc;
 }
-.am-color-ddd {
+.am-color-ddd,
+.am-color-grey-d {
     color: #ddd;
 }
 .am-color-eee {
@@ -47,11 +52,487 @@ body{ background: var(--body-bg-color); color: #333333; }
 .am-color-yellow {
     color: var(--color-yellow) !important;
 }
-/**
- * 主字体颜色
- */
+.am-color-main {
+    color: var(--color-main);
+}
+.am-color-main:hover {
+    color: var(--color-main-hover);
+}
 .am-text-primary {
     color: var(--color-main) !important;
+}
+
+/**
+ * 公共背景颜色
+ */
+.am-background-main {
+    background: var(--color-main);
+}
+.am-background-red {
+    background: var(--color-red);
+}
+.am-background-yellow {
+    background: var(--color-yellow);
+}
+.am-background-blue {
+    background: var(--color-blue);
+}
+.am-background-green {
+    background: var(--color-green);
+}
+.am-background-grey-dark {
+    background: #666666;
+}
+.am-background-grey-f5 {
+    background: #f5f5f5;
+}
+.am-background-grey-f9 {
+    background: #f9f9f9;
+}
+.am-background-white {
+    background: #FFFFFF;
+}
+.am-background-grey {
+    background: #999999;
+}
+.am-background-grey-light {
+    background: #CCCCCC;
+}
+
+/**
+ * 公共外边距 
+ */
+/**
+ * 布局 外边距 
+ */
+.am-margin-auto {
+    margin: 0 auto;
+}
+.am-margin-top-main {
+    margin-top: 2rem;
+}
+.am-margin-right-main {
+    margin-right: 2rem;
+}
+.am-margin-bottom-main {
+    margin-bottom: 2rem;
+}
+.am-margin-left-main {
+    margin-left: 2rem;
+}
+.am-margin-main {
+    margin: 2rem;
+}
+.am-margin-horizontal-main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+.am-margin-vertical-main {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+/* 取消多余margin间距 */
+@media only screen and (min-width:1025px) {
+    .am-margin-lr-clear {
+        width: calc(100% + 1.2rem);
+        margin-left: -0.6rem;
+        margin-right: -0.6rem;
+    }
+}
+
+/**
+ * 模块外边距 
+ */
+.am-margin-top-module {
+    margin-top: 1.2rem;
+}
+.am-margin-right-module {
+    margin-right: 1.2rem;
+}
+.am-margin-bottom-module {
+    margin-bottom: 1.2rem;
+}
+.am-margin-left-module {
+    margin-left: 1.2rem;
+}
+.am-margin-module {
+    margin: 1.2rem;
+}
+.am-margin-horizontal-module {
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+}
+.am-margin-vertical-module {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+/**
+* 模块外边距 一半
+*/
+.am-margin-top-module-half {
+    margin-top: 0.6rem;
+}
+.am-margin-right-module-half {
+    margin-right: 0.6rem;
+}
+.am-margin-bottom-module-half {
+    margin-bottom: 0.6rem;
+}
+.am-margin-left-module-half {
+    margin-left: 0.6rem;
+}
+.am-margin-module-half {
+    margin: 0.6rem;
+}
+.am-margin-horizontal-module-half {
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+}
+.am-margin-vertical-module-half {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+/**
+ * 公共内边距
+ */
+/**
+ * 布局内边距
+ */
+.am-padding-top-main {
+    padding-top: 2rem;
+}
+.am-padding-right-main {
+    padding-right: 2rem;
+}
+.am-padding-bottom-main {
+    padding-bottom: 2rem;
+}
+.am-padding-left-main {
+    padding-left: 2rem;
+}
+.am-padding-main {
+    padding: 2rem;
+}
+.am-padding-horizontal-main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.am-padding-vertical-main {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/**
+ * 模块内边距
+ */
+.am-padding-top-module {
+    padding-top: 1.2rem;
+}
+.am-padding-right-module {
+    padding-right: 1.2rem;
+}
+.am-padding-bottom-module {
+    padding-bottom: 1.2rem;
+}
+.am-padding-left-module {
+    padding-left: 1.2rem;
+}
+.am-padding-module {
+    padding: 1.2rem;
+}
+.am-padding-horizontal-module {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+}
+.am-padding-vertical-module {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+
+/**
+ * 模块内边距 一半
+ */
+.am-padding-top-module-half {
+    padding-top: 0.6rem;
+}
+.am-padding-right-module-half {
+    padding-right: 0.6rem;
+}
+.am-padding-bottom-module-half {
+    padding-bottom: 0.6rem;
+}
+.am-padding-left-module-half {
+    padding-left: 0.6rem;
+}
+.am-padding-module-half {
+    padding: 0.6rem;
+}
+.am-padding-horizontal-module-half {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+}
+.am-padding-vertical-module-half {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
+/**
+ * 公共主色边线
+ */
+.am-border-main {
+    border: 0.1rem solid var(--color-main);
+}
+.am-border-top-main {
+    border-top: 0.1rem solid var(--color-main);
+}
+.am-border-right-main {
+    border-right: 0.1rem solid var(--color-main);
+}
+.am-border-bottom-main {
+    border-bottom: 0.1rem solid var(--color-main);
+}
+.am-border-left-main {
+    border-left: 0.1rem solid var(--color-main);
+}
+.am-border-left-main {
+    border-left: 0.1rem solid var(--color-main);
+}
+
+/**
+ * 公共灰色边线
+ */
+.am-border-grey {
+    border: 0.1rem solid #EEEEEE;
+}
+.am-border-top-grey {
+    border-top: 0.1rem solid #EEEEEE;
+}
+.am-border-right-grey {
+    border-right: 0.1rem solid #EEEEEE;
+}
+.am-border-bottom-grey {
+    border-bottom: 0.1rem solid #EEEEEE;
+}
+.am-border-left-grey {
+    border-left: 0.1rem solid #EEEEEE;
+}
+.am-border-grey-light {
+    border: 0.1rem solid #F5F5F5;
+}
+.am-border-top-grey-light {
+    border-top: 0.1rem solid #F5F5F5;
+}
+.am-border-right-grey-light {
+    border-right: 0.1rem solid #F5F5F5;
+}
+.am-border-bottom-grey-light {
+    border-bottom: 0.1rem solid #F5F5F5;
+}
+.am-border-left-grey-light {
+    border-left: 0.1rem solid #F5F5F5;
+}
+.am-border-grey-dark {
+    border: 0.1rem solid #666666;
+}
+.am-border-top-grey-dark {
+    border-top: 0.1rem solid #666666;
+}
+.am-border-right-grey-dark {
+    border-right: 0.1rem solid #666666;
+}
+.am-border-bottom-grey-dark {
+    border-bottom: 0.1rem solid #666666;
+}
+.am-border-left-grey-dark {
+    border-left: 0.1rem solid #666666;
+}
+.am-border-d6 {
+    border: 0.1rem solid #D6D6D6;
+}
+.am-border-top-d6 {
+    border-top: 0.1rem solid #D6D6D6;
+}
+.am-border-right-d6 {
+    border-right: 0.1rem solid #D6D6D6;
+}
+.am-border-bottom-d6 {
+    border-bottom: 0.1rem solid #D6D6D6;
+}
+.am-border-left-d6 {
+    border-left: 0.1rem solid #D6D6D6;
+}
+.am-border-d {
+    border: 0.1rem solid #ddd;
+}
+.am-border-top-d {
+    border-top: 0.1rem solid #ddd;
+}
+.am-border-right-d {
+    border-right: 0.1rem solid #ddd;
+}
+.am-border-bottom-d {
+    border-bottom: 0.1rem solid #ddd;
+}
+.am-border-left-d {
+    border-left: 0.1rem solid #ddd;
+}
+
+/**
+ * 行高
+ */
+.am-line-height-xs {
+    line-height: 1.2rem;
+}
+.am-line-height-sm {
+    line-height: 1.4rem;
+}
+.am-line-height-md {
+    line-height: 1.6rem;
+}
+.am-line-height-lg {
+    line-height: 1.8rem;
+}
+.am-line-height-xl {
+    line-height: 2.4rem;
+}
+.am-line-height-xxl {
+    line-height: 3.2rem;
+}
+.am-line-height-xxxl {
+    line-height: 4.2rem;
+}
+
+/**
+ * 圆角
+ */
+.am-radius-top-left {
+    border-top-left-radius: var(--border-radius);
+}
+.am-radius-top-right {
+    border-top-right-radius: var(--border-radius);
+}
+.am-radius-bottom-left {
+    border-bottom-left-radius: var(--border-radius);
+}
+.am-radius-bottom-right {
+    border-bottom-right-radius: var(--border-radius);
+}
+.am-radius-sm,
+.am-btn.am-radius-sm,
+.am-img-thumbnail.am-radius-sm {
+    border-radius: var(--border-radius-sm);
+}
+.am-radius-sm-top-left {
+    border-top-left-radius: var(--border-radius-sm);
+}
+.am-radius-sm-top-right {
+    border-top-right-radius: var(--border-radius-sm);
+}
+.am-radius-sm-bottom-left {
+    border-bottom-left-radius: var(--border-radius-sm);
+}
+.am-radius-sm-bottom-right {
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+.am-radius-lg,
+.am-btn.am-radius-lg,
+.am-img-thumbnail.am-radius-lg {
+    border-radius: var(--border-radius-lg);
+}
+.am-radius-lg-top-left {
+    border-top-left-radius: var(--border-radius-lg);
+}
+.am-radius-lg-top-right {
+    border-top-right-radius: var(--border-radius-lg);
+}
+.am-radius-lg-bottom-left {
+    border-bottom-left-radius: var(--border-radius-lg);
+}
+.am-radius-lg-bottom-right {
+    border-bottom-right-radius: var(--border-radius-lg);
+}
+.am-radius-0 {
+    border-radius: 0;
+}
+.am-radius-top-left-0 {
+    border-top-left-radius: 0;
+}
+.am-radius-top-right-0 {
+    border-top-right-radius: 0;
+}
+.am-radius-bottom-left-0 {
+    border-bottom-left-radius: 0;
+}
+.am-radius-bottom-right-0 {
+    border-bottom-right-radius: 0;
+}
+
+/**
+ * 分割线
+ */
+.am-divider-dashed-top {
+    border-top: 0.1rem dashed #E5E5E5;
+}
+.am-divider-dashed-bottom {
+    border-bottom: 0.1rem dashed #E5E5E5;
+}
+.am-divider-dashed-right {
+    border-right: 0.1rem dashed #E5E5E5;
+}
+.am-divider-dashed-left {
+    border-left: 0.1rem dashed #E5E5E5;
+}
+.am-divider-solid-top {
+    border-top: 0.1rem solid #E5E5E5;
+}
+.am-divider-solid-bottom {
+    border-bottom: 0.1rem solid #E5E5E5;
+}
+.am-divider-solid-right {
+    border-right: 0.1rem solid #E5E5E5;
+}
+.am-divider-solid-left {
+    border-left: 0.1rem solid #E5E5E5;
+}
+
+/**
+ * 阴影线
+ */
+.am-hr-shadow {
+    height: 0.2rem;
+    width: 100%;
+    box-shadow: 0rem 0.5rem 2rem 0rem rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: -0.2rem;
+}
+
+/**
+ * 闪光
+ */
+.flash {
+    position: relative;
+}
+.flash:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2.6rem;
+    background: url('../images/flash.gif') no-repeat center;
+    background-size: cover;
+    opacity: 0.3;
+}
+
+/**
+ * 不允许换行
+ */
+.nwarp,
+.am-white-space {
+    white-space: nowrap;
 }
 
 /**
@@ -62,14 +543,6 @@ body{ background: var(--body-bg-color); color: #333333; }
 }
 .z-i-deep {
     z-index: 2;
-}
-
-
-/**
- * z-index
-*/
-.nwarp {
-    white-space: nowrap;
 }
 
 /**
@@ -150,7 +623,7 @@ select.chosen-select {
     color: #b9b9b9;
 }
 .data-avg-text-list li .data-avg-text-list-content {
-    margin-top: 0.2rem;
+    padding-top: 0.2rem;
 }
 .data-avg-text-list li:hover .data-avg-text-list-content {
     color: #000;
@@ -298,258 +771,11 @@ form.am-form .am-form-group.am-form-icon {
     padding: 0 !important;
 }
 
-/**
- * 水平表单
- */
-.am-form-horizontal .am-form-horizontal-title,
-.am-form-horizontal .am-form-horizontal-content {
-    display: inline-block;
-    vertical-align: middle;
-}
-.am-form-horizontal .am-form-group-label-tips-must,
-.am-form-horizontal .am-form-group-label-tips-icon {
-    margin-left: 0.2rem !important;
-}
-.am-form-horizontal .am-form-horizontal-title {
-    text-align: right;
-}
-
-.am-form-horizontal .am-form-horizontal-title,
-.am-form-horizontal-4 .am-form-horizontal-title {
-    width: 7rem;
-}
-.am-form-horizontal .am-form-horizontal-content,
-.am-form-horizontal-4 .am-form-horizontal-content {
-    width: calc(100% - 7.5rem);
-}
-.am-form-horizontal.tips-must .am-form-horizontal-content,
-.am-form-horizontal-4.tips-must .am-form-horizontal-content {
-    width: calc(100% - 9rem);
-}
-.am-form-horizontal.tips-icon .am-form-horizontal-content,
-.am-form-horizontal-4.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 9.3rem);
-}
-.am-form-horizontal.tips-must.tips-icon .am-form-horizontal-content,
-.am-form-horizontal-4.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 10.5rem);
-}
-
-.am-form-horizontal-2 .am-form-horizontal-title {
-    width: 4.5rem;
-}
-.am-form-horizontal-2 .am-form-horizontal-content {
-    width: calc(100% - 5rem);
-}
-.am-form-horizontal-2.tips-must .am-form-horizontal-content {
-    width: calc(100% - 6.5rem);
-}
-.am-form-horizontal-2.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 6.8rem);
-}
-.am-form-horizontal-2.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 8rem);
-}
-
-.am-form-horizontal-3 .am-form-horizontal-title {
-    width: 5.8rem;
-}
-.am-form-horizontal-3 .am-form-horizontal-content {
-    width: calc(100% - 6.3rem);
-}
-.am-form-horizontal-3.tips-must .am-form-horizontal-content {
-    width: calc(100% - 7.7rem);
-}
-.am-form-horizontal-3.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 8rem);
-}
-.am-form-horizontal-3.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 9.3rem);
-}
-
-.am-form-horizontal-5 .am-form-horizontal-title {
-    width: 8.2rem;
-}
-.am-form-horizontal-5 .am-form-horizontal-content {
-    width: calc(100% - 8.7rem);
-}
-.am-form-horizontal-5.tips-must .am-form-horizontal-content {
-    width: calc(100% - 8.2rem);
-}
-.am-form-horizontal-5.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 10.5rem);
-}
-.am-form-horizontal-5.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 11.7rem);
-}
-
-.am-form-horizontal-6 .am-form-horizontal-title {
-    width: 9.4rem;
-}
-.am-form-horizontal-6 .am-form-horizontal-content {
-    width: calc(100% - 9.9rem);
-}
-.am-form-horizontal-6.tips-must .am-form-horizontal-content {
-    width: calc(100% - 11.4rem);
-}
-.am-form-horizontal-6.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 11.7rem);
-}
-.am-form-horizontal-6.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 12.9rem);
-}
-
-.am-form-horizontal-7 .am-form-horizontal-title {
-    width: 10.6rem;
-}
-.am-form-horizontal-7 .am-form-horizontal-content {
-    width: calc(100% - 11.1rem);
-}
-.am-form-horizontal-7.tips-must .am-form-horizontal-content {
-    width: calc(100% - 12.6rem);
-}
-.am-form-horizontal-7.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 12.9rem);
-}
-.am-form-horizontal-7.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 14.1rem);
-}
-
-.am-form-horizontal-8 .am-form-horizontal-title {
-    width: 11.8rem;
-}
-.am-form-horizontal-8 .am-form-horizontal-content {
-    width: calc(100% - 12.3rem);
-}
-.am-form-horizontal-8.tips-must .am-form-horizontal-content {
-    width: calc(100% - 13.8rem);
-}
-.am-form-horizontal-8.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 14.1rem);
-}
-.am-form-horizontal-8.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 15.3rem);
-}
-
-.am-form-horizontal-9 .am-form-horizontal-title {
-    width: 13rem;
-}
-.am-form-horizontal-9 .am-form-horizontal-content {
-    width: calc(100% - 13.5rem);
-}
-.am-form-horizontal-9.tips-must .am-form-horizontal-content {
-    width: calc(100% - 15rem);
-}
-.am-form-horizontal-9.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 15.3rem);
-}
-.am-form-horizontal-9.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 16.5rem);
-}
-
-.am-form-horizontal-10 .am-form-horizontal-title {
-    width: 14.2rem;
-}
-.am-form-horizontal-10 .am-form-horizontal-content {
-    width: calc(100% - 14.7rem);
-}
-.am-form-horizontal-10.tips-must .am-form-horizontal-content {
-    width: calc(100% - 16.2rem);
-}
-.am-form-horizontal-10.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 16.5rem);
-}
-.am-form-horizontal-10.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 17.7rem);
-}
-
-.am-form-horizontal-11 .am-form-horizontal-title {
-    width: 15.4rem;
-}
-.am-form-horizontal-11 .am-form-horizontal-content {
-    width: calc(100% - 15.9rem);
-}
-.am-form-horizontal-11.tips-must .am-form-horizontal-content {
-    width: calc(100% - 17.4);
-}
-.am-form-horizontal-11.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 17.7rem);
-}
-.am-form-horizontal-11.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 18.9rem);
-}
-
-.am-form-horizontal-12 .am-form-horizontal-title {
-    width: 16.6rem;
-}
-.am-form-horizontal-12 .am-form-horizontal-content {
-    width: calc(100% - 17.1rem);
-}
-.am-form-horizontal-12.tips-must .am-form-horizontal-content {
-    width: calc(100% - 18.6);
-}
-.am-form-horizontal-12.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 18.9rem);
-}
-.am-form-horizontal-12.tips-must.tips-icon .am-form-horizontal-content {
-    width: calc(100% - 20.1rem);
-}
-
-/**
- * 水平多个表单组合
- */
-.am-form-horizontal-compose-2 .am-form-horizontal-item,
-.am-form-horizontal-compose-3 .am-form-horizontal-item,
-.am-form-horizontal-compose-4 .am-form-horizontal-item,
-.am-form-horizontal-compose-5 .am-form-horizontal-item,
-.am-form-horizontal-compose-6 .am-form-horizontal-item,
-.am-form-horizontal-compose-7 .am-form-horizontal-item,
-.am-form-horizontal-compose-8 .am-form-horizontal-item,
-.am-form-horizontal-compose-9 .am-form-horizontal-item,
-.am-form-horizontal-compose-10 .am-form-horizontal-item,
-.am-form-horizontal-compose-11 .am-form-horizontal-item,
-.am-form-horizontal-compose-12 .am-form-horizontal-item {
-    display: inline-block;
-    vertical-align: middle;
-}
-.am-form-horizontal-compose-2 .am-form-horizontal-item {
-    width: calc(50% - 0.25rem);
-}
-.am-form-horizontal-compose-3 .am-form-horizontal-item {
-    width: calc(33.33% - 0.33rem);
-}
-.am-form-horizontal-compose-4 .am-form-horizontal-item {
-    width: calc(25% - 0.35rem);
-}
-.am-form-horizontal-compose-5 .am-form-horizontal-item {
-    width: calc(20% - 0.39rem);
-}
-.am-form-horizontal-compose-6 .am-form-horizontal-item {
-    width: calc(16.66% - 0.4rem);
-}
-.am-form-horizontal-compose-7 .am-form-horizontal-item {
-    width: calc(14.28% - 0.41rem);
-}
-.am-form-horizontal-compose-8 .am-form-horizontal-item {
-    width: calc(12.5% - 0.42rem);
-}
-.am-form-horizontal-compose-9 .am-form-horizontal-item {
-    width: calc(11.11% - 0.43rem);
-}
-.am-form-horizontal-compose-10 .am-form-horizontal-item {
-    width: calc(10% - 0.43rem);
-}
-.am-form-horizontal-compose-11 .am-form-horizontal-item {
-    width: calc(9.09% - 0.43rem);
-}
-.am-form-horizontal-compose-12 .am-form-horizontal-item {
-    width: calc(8.33% - 0.43rem);
-}
-
 
 /**
  * 插件
  */
+.am-btn.am-btn-xs, .am-selected-btn {height: 3.1rem;line-height: 3.1rem;padding-top: 0;padding-bottom: 0;}
 .chosen-container { width: 100% !important; }
 .am-tagsinput { display: block; padding: 0.3rem 0.5rem; border-radius: var(--border-radius-sm); min-height: 3.1rem; }
 .am-tagsinput input[type="text"] { border: 0 !important; height: auto; }
@@ -574,7 +800,44 @@ form.am-form .am-form-group.am-form-icon {
     border-radius: var(--border-radius);
     border: 0;
 }
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close { top: 0; right: 0; padding: 0.4rem 0.4rem 0.4rem 0.7rem; background: #f4f4f4; width: auto; height: auto; color: #2c2c2c;}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top: 0;
+    right: 0;
+    padding: 0.4rem 0.4rem 0.4rem 0.7rem;
+    background: #f4f4f4;
+    width: auto;
+    height: auto; color: #2c2c2c;
+}
+.chosen-container-single .chosen-single div:before {
+    content: "\f107";
+}
+.chosen-container-active.chosen-with-drop .chosen-single div:before {
+    content: "\f106";
+}
+.chosen-container .chosen-results li.highlighted {
+    background-color: var(--color-main-light);
+    color: var(--color-main);
+}
+.chosen-container-active .chosen-single {
+    border-color: var(--color-main);
+}
+.am-tagsinput {
+    max-width: 45rem;
+    border-radius: var(--border-radius);
+    border: 0.1rem solid #D8D9DC;
+}
+.am-tagsinput .tag {
+    background: #F3F3F3;
+    color: #333;
+    border-radius: var(--border-radius);
+    padding: 0.1rem 0.6rem;
+    font-weight: normal !important;
+}
+.am-tagsinput .tag.am-badge-primary {
+    background: #F3F3F3;
+    color: #333;
+    border: 0.1rem solid #F3F3F3;
+}
 
 /**
  * 公共提示信息
@@ -837,8 +1100,8 @@ iframe { border: 0; }
 .data-error-tips { text-align: center; }
 .mini-tips-text { font-size: 1.2rem; color: #999; }
 .business-operations-submit {
-    display: inline-block;
-    padding: 0.5rem 1rem;
+    display: inline-table;
+    padding: 0 1rem;
     color: #888;
     border: 0.1rem solid #ccc;
     background: #fff;
@@ -846,6 +1109,8 @@ iframe { border: 0; }
     vertical-align: middle;
     border-radius: var(--border-radius);
     width: max-content;
+    height: 3.1rem;
+    line-height: 2.8rem;
 }
 .business-operations-submit:hover {
     color: #146BE6;
@@ -1178,16 +1443,14 @@ ul.plug-file-upload-view-file li {
     border-top-right-radius: 0.2rem;
 }
 .am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
-    padding-left: 2rem;
+    padding-left: 2.2rem;
     min-width: 1.4rem;
-    min-height: 1.4rem;
+    min-height: 2.2rem;
+    font-size: 1.4rem;
     
 }
 .am-ucheck-icons {
-    line-height: 1.8rem;
-}
-.am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-unchecked, .am-radio .am-icon-unchecked, .am-checkbox-inline .am-icon-unchecked, .am-radio-inline .am-icon-unchecked {
-    font-size: 1.6rem;
+    line-height: 2.2rem;
 }
 .am-dropdown-content {
     -webkit-box-shadow: 0 0.2rem 1rem rgb(136 136 136 / 40%);
@@ -1200,6 +1463,17 @@ input[type="checkbox"] {
     position: absolute;
     left: 0.5rem;
     top: 0.5rem;
+}
+.am-tabs-default .am-tabs-nav > .am-active a {
+    background-color: var(--color-main-light);
+    color: var(--color-main);
+}
+.am-tabs-d2 .am-tabs-nav > .am-active a {
+    color: var(--color-main);
+}
+.am-tabs-d2 .am-tabs-nav > .am-active,
+.am-tabs-d2 .am-tabs-nav > .am-active:after {
+    border-bottom-color: var(--color-main);
 }
 
 /**
@@ -1662,9 +1936,6 @@ button.colorpicker-submit img {
     top: calc(50% - 0.3rem);
     transform: rotate(90deg);
 }
-.am-table-scrollable-horizontal > .am-table tr .am-operate-grid-more-list .am-dropdown-content .am-badge:not(:last-child) {
-    margin-right: 0.5rem;
-}
 
 /**
  * 表格头部美化
@@ -1705,12 +1976,11 @@ button.colorpicker-submit img {
     padding: 1rem;
     text-align: right;
 }
-.form-detail-nav-operate > .am-btn {
-    -webkit-box-shadow: 0 0 0.8rem rgb(154 154 154 / 40%);
-    box-shadow: 0 0 0.8rem rgb(154 154 154 / 40%);
-}
 .form-detail-nav-operate > .am-btn:not(:last-child) {
     margin-right: 1rem;
+}
+.iframe-popup-page .form-detail-nav-operate {
+    width: 100%;
 }
 
 /**
@@ -2218,27 +2488,6 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * 表单内部底部操作导航
- */
-.form-bottom-nav-fixed {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background: #fff;
-    z-index: 10;
-    border-top: 0.1rem solid #e5e5e5;
-    padding: 1rem;
-    text-align: right;
-}
-.form-bottom-nav-fixed button {
-    border: 0;
-}
-.form-bottom-nav-fixed .am-badge:not(:first-child) {
-    margin-left: 1rem;
-}
-
-/**
  * 表单公共底部浮动
  */
 .am-form-popup-fixed {
@@ -2250,14 +2499,36 @@ form.am-form-popup-sticky .am-form-popup-submit {
     bottom: 0;
     width: 100%;
     min-height: 6rem;
-    padding: 1.5rem;
-    border-top: 0.1rem solid #f5f5f5;
+    padding: 1.5rem 0;
     z-index: 100;
-    text-align: right;
+    text-align: left;
     background: #FFFFFF;
+    border: 0;
+}
+
+.am-form-popup-fixed .am-form-popup-submit.am-border-top,
+form.am-form-popup-sticky .am-form-popup-submit.am-border-top {
+    border-top: 0.1rem solid #F5F5F5;;
+}
+
+.am-form-popup-fixed .am-form-popup-submit .am-btn,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn {
+    margin-right: 1.5rem;
+}
+
+.am-form-popup-fixed .am-form-popup-submit .am-btn:last-child,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn:last-child {
+    margin-right: 0;
+}
+
+form.am-form-popup-sticky .am-form-popup-submit.am-text-right {
+    text-align: right;
 }
 .am-form-popup-fixed .am-form-popup-submit {
     position: fixed;
+    text-align: right;
+    border-top: 0.1rem solid #f5f5f5;
+    padding: 1.5rem;
 }
 .am-popup.popup-not-title .am-form-popup-fixed .am-form-popup-submit {
     width: calc(100% - 5rem);
@@ -2278,6 +2549,35 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn>i,
 .am-form-popup-fixed .am-form-popup-submit .am-btn>span.am-icon-circle-o-notch,
 form.am-form-popup-sticky .am-form-popup-submit .am-btn>span.am-icon-circle-o-notch {
     display: none;
+}
+
+/**
+ * 表单公共底部浮动
+ */
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning {
+    border: 1px solid #DCDFE6;
+    background-color: transparent;
+    color: #666;
+}
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:hover,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:focus,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:active,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:hover,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:focus,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:active {
+    border: 1px solid var(--color-main-hover);
+    background-color: transparent;
+    color: var(--color-main-hover);
+}
+
+/**
+* 复选框，单选框的默认颜色修改
+*/
+.am-ucheck-checkbox:checked + .am-ucheck-icons, .am-ucheck-radio:checked + .am-ucheck-icons,
+.am-ucheck-checkbox:hover:not(.am-nohover):not(:disabled) + .am-ucheck-icons, 
+.am-ucheck-radio:hover:not(.am-nohover):not(:disabled) + .am-ucheck-icons {
+    color: #2A94FF;
 }
 
 /**
@@ -2337,6 +2637,8 @@ a.input-clearout-submit {
     z-index: 2;
     display: none !important;
     text-decoration: none !important;
+    background-color: #fff;
+    border-radius: 1.2rem;
 }
 a.input-clearout-submit > i {
     margin: 0 !important;
@@ -2347,10 +2649,6 @@ a.input-clearout-submit > i {
     padding: 0 0.237rem 0.1rem 0.237rem;
     font-size: 1.2rem;
     color: #cccccc;
-}
-.input-clearout-element {
-    padding-right: 2.5rem !important;
-    box-sizing: border-box;
 }
 a.input-clearout-submit:hover,
 .chosen-container-single > .chosen-single:hover + a.input-clearout-submit,
@@ -2570,7 +2868,7 @@ body ::-webkit-scrollbar-track:vertical {
     background-color: #fff;
 }
 body ::-webkit-scrollbar-track-piece {
-    background-color: #f9f9f9;
+    background-color: #fafafa;
 }
 body ::-webkit-scrollbar-track-piece {
     border-top: 0.1rem solid rgba(0,0,0,.01);
@@ -2578,7 +2876,7 @@ body ::-webkit-scrollbar-track-piece {
 body ::-webkit-scrollbar-thumb,
 body ::-webkit-scrollbar-thumb:vertical {
     margin-right: 1rem;
-    background-color: #e5e5e5;
+    background-color: #f0f0f0;
     border-radius: 10rem;
 }
 body ::-webkit-scrollbar-thumb:hover,
@@ -2692,7 +2990,8 @@ body ::-webkit-scrollbar-resizer:vertical {
     border-color: #eee;
 }
 .am-pagination-container>.am-active>a,
-.am-pagination-container>.am-active>a:hover {
+.am-pagination-container>.am-active>a:hover,
+.am-pagination-container>.am-active>a:focus {
     background-color: var(--color-main);
     border-color: var(--color-main);
     color: #FFFFFF;
@@ -2729,12 +3028,15 @@ body ::-webkit-scrollbar-resizer:vertical {
     margin: 0;
     font-size: inherit;
 }
-table.am-table .am-operate-grid {
-    padding: 0.7rem 1.2rem !important;
+table.am-table > thead > tr > th {
+    padding: 0.9rem 1.2rem 1.2rem 1.2rem !important;
+}
+table.am-table td.am-operate-grid {
+    padding: 0.2rem 1.2rem !important;
 }
 table.am-table .am-operate-grid .am-btn {
     float: left;
-    padding: 0.3rem 0;
+    padding: 0;
 }
 table.am-table .am-operate-grid .am-btn {
     color: var(--color-blue);
@@ -2746,14 +3048,14 @@ table.am-table .am-operate-grid .am-btn-secondary.am-active,
 table.am-table .am-operate-grid .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
     background-color: #fff;
     border-color: #fff;
-    color: #2A94FF;
+    color: var(--color-main);
 }
 table.am-table .am-operate-grid .am-btn:hover,
 table.am-table .am-operate-grid .am-btn:focus,
 table.am-table .am-operate-grid .am-btn:active {
     background-color: transparent !important;
     box-shadow: none;
-    color: #146BE6 !important;
+    color: var(--color-main) !important;
 }
 table.am-table .am-operate-grid .am-btn i {
     display: none;
@@ -2769,7 +3071,7 @@ table.am-table .am-operate-grid .am-btn i {
     font-size: 1.2rem;
     line-height: 1.7rem;
     width: 100%;
-    max-width: 41.5rem;
+    max-width: 29rem;
 }
 .am-cascader .am-cascader-suffix .am-input-inner {
     background-color: #fff !important;
@@ -2946,7 +3248,8 @@ table.am-table .am-operate-grid .am-btn i {
 .region-linkage .region-linkage-code button {
     background-color: #333;
     color: #fff;
-    border: 1px solid #333;
+    border: 0.1rem solid #333;
+    margin-left: 0 !important;
 }
 .region-linkage .region-linkage-code button:hover,
 .region-linkage .region-linkage-code button:active,
@@ -3068,7 +3371,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 .am-flex-width-half {
-    width: 50%;
+    width: 50% !important;
 }
 
 /* 沾满空间 */
@@ -3116,6 +3419,11 @@ table.am-table .am-operate-grid .am-btn i {
 .am-gap-col-32 {
     column-gap: 3.2rem;
 }
+
+.am-gap-row-32 {
+    row-gap: 3.2rem;
+}
+
 .am-gap-row-1 {
     row-gap: 1rem;
 }
@@ -3142,7 +3450,7 @@ table.am-table .am-operate-grid .am-btn i {
     position: fixed;
 }
 .am-pa-mid {
-    position: absolute;
+    position: absolute !important;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -3191,8 +3499,8 @@ table.am-table .am-operate-grid .am-btn i {
  * 操作可伸缩的提示信息
  */
 .am-operate-stretch-tips {
-    background-color: #f1fcff;
-    border: 0.1rem solid #f1fcff;
+    background-color: var(--color-tips-warm-bg);
+    border: 0.1rem solid var(--color-tips-warm-br);
     display: block;
     width: 100%;
     height: 100%;
@@ -3333,6 +3641,36 @@ table.am-table .am-operate-grid .am-btn i {
     color: var(--color-main);
     border-bottom: 0.2rem solid var(--color-main);
 }
+.nav-switch-tabs .more-text {
+    position: absolute;
+    right: 0;
+    top: 0.5rem;
+    font-size: 1.4rem;
+    display: flex;
+}
+
+/* 灰色背景卡片 */
+.card-grey {
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    padding: 1.6rem;
+    display: flex;
+    flex-flow: column;
+    gap: 2rem;
+}
+.card-grey.am-radius-lg {
+    border-radius: var(--border-radius-lg);
+}
+
+/* 局部提示 */
+.am-tips-card {
+    font-size: 1.2rem;
+    color: #999999;
+}
+.am-tips-card p {
+    line-height: 2rem;
+}
+
 
 /**
 * 后台页面二级导航
@@ -3381,7 +3719,6 @@ table.am-table .am-operate-grid .am-btn i {
     right: 0;
     padding: 1.5rem 0;
     background: #fff;
-    border-top: 0.1rem solid #f5f5f5;
 }
 .am-btn-bottom-fixed-container {
     padding-bottom: 6rem;
@@ -3705,8 +4042,8 @@ table.am-table .am-operate-grid .am-btn i {
     color: #666666;
 }
 .am-form-input-material .am-position-verify {
-    right: 8.5rem;
-    top: 2.6rem;
+    right: 12.2rem;
+    top: 2rem;
 }
 .am-form-input-material .am-position-verify-sms {
     right: 7rem;
@@ -3714,8 +4051,8 @@ table.am-table .am-operate-grid .am-btn i {
 }
 .am-form-input-material .am-position-verify img {
     border: 1px solid #F5F5F5;
-    width: 8.8rem;
-    height: 2.4rem;
+    width: 12.2rem;
+    height: 3.1rem;
 }
 .am-form-input-material .am-position-verify-sms button {
     padding: 0;
@@ -3731,21 +4068,47 @@ table.am-table .am-operate-grid .am-btn i {
     .scale-sm:hover {
         transform: scale(1.04);
     }
-    /* 放大再缩小 */
-    .scaleanimation {
+    /* 鼠标悬停放大 */
+    .scale-xs {
+        transition: all .3s ease-in-out;
+    }
+    .scale-xs:hover {
+        transform: scale(1.01);
+    }
+        
+    /* 放大再缩小--快速 */
+    .scaleanimation,
+    .scaleanimation-xs {
         position: relative;
     }
     .scaleanimation:hover {
-        animation: scaleanimation .5s ease-in;
+        animation: scaleanimation 0.5s ease-in;
+    }
+    .scaleanimation-xs:hover {
+        animation: scaleanimation-xs 0.5s ease-in;
     }
     @keyframes scaleanimation {
         0% {
-            -webkit-transform: scale(0);
-            transform: scale(0)
+            -webkit-transform: scale(1);
+            transform: scale(1)
         }
-        80% {
+        50% {
             -webkit-transform: scale(1.2);
             transform: scale(1.2)
+        }
+        to {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+    }
+    @keyframes scaleanimation-xs {
+        0% {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+        50% {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1)
         }
         to {
             -webkit-transform: scale(1);
@@ -3998,4 +4361,299 @@ table.am-table .am-operate-grid .am-btn i {
             transform: translateX(-10%);
         }
     }
+}
+
+/**
+ * 平台组url地址容器
+ */
+.platform-group-url-container > div.am-input-group:not(:first-child) {
+    margin-top: 0.5rem;
+}
+.platform-group-url-container > .am-input-group > .am-input-group-btn > button {
+    width: 11rem;
+    cursor: auto;
+}
+
+
+/**
+ * 上传文件弹窗样式---内部只有一个上传按钮
+ */
+ .am-upload-file  .am-form-file {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.am-upload-file .am-form-file .am-btn {
+    width: 14rem;
+    height: 14rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7rem;
+    color: #2A94FF;
+    background: #E1F0FF;
+    border-radius: var(--border-radius-sm);
+    border: 0.1rem dashed #2A94FF;
+}
+.am-upload-file .am-form-file input[type="file"] {
+    width: 14rem !important;
+    height: 14rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/**
+ * form表单页面布局 start
+ */
+.detail-container,
+.content-right,
+.content-right .content,
+.content-right .content form {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+.detail-container,
+.content-right .content,
+.content-right .content form {
+    flex-grow: 1;
+}
+.content-right > .content {
+    margin: 1rem;
+    background-color: #fff;
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+}
+form .am-radio-group > .am-radio-inline,
+form .am-checkbox-group > .am-checkbox-inline,
+form .am-form-group > label {
+    margin: 0
+}
+form .am-form-group.row,
+form .am-form-group:not(:has(.am-radio-inline, .am-checkbox-inline)) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+form .am-form-group.am-form-file:not(.row) {
+    gap: 0.3rem;
+}
+form .am-form-group:not(.row) > .am-radio-group,
+form .am-form-group:not(.row) > .am-checkbox-group,
+form .am-form-group:not(.row):has(.am-radio-inline, .am-checkbox-inline) > label:not(:first-child) {
+    margin-top: 1rem;
+}
+form .am-form-group:not(.row):has(.am-radio-inline, .am-checkbox-inline) > .am-tips-card {
+    margin-top: 1rem;
+}
+form .am-form-group > .am-radio-inline:not(:last-child),
+form .am-form-group > .am-checkbox-inline:not(:last-child) {
+    margin-right: 2rem;
+}
+form .am-form-group.row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+}
+form .am-radio-group,
+form .am-checkbox-group {
+    display: flex;
+    gap: 1rem 2rem;
+    flex-wrap: wrap;
+}
+form .am-form-group.row > label {
+    min-width: 10rem;
+    text-align: right;
+}
+form .am-form-group.row > label.am-flex-align-self-start {
+    margin-top: 0.5rem;
+}
+form .am-form-group.row > label.row-w-xs,
+form.am-form-group-row-xs .am-form-group.row > label {
+    min-width: 5rem;
+}
+form .am-form-group.row > label.row-w-sm,
+form.am-form-group-row-sm .am-form-group.row > label {
+    min-width: 8rem;
+}
+form .am-form-group.row > label.row-w-lg,
+form.am-form-group-row-lg .am-form-group.row > label {
+    min-width: 14rem;
+}
+
+form .form-custom-group,
+form .form-multiple-where-input,
+form .am-input-group,
+form input,
+form:not(.form-validation-search) .chosen-select,
+form textarea {
+    max-width: 45rem;
+}
+.am-form-popup-container form .form-multiple-where-input,
+.am-form-popup-container form .am-input-group,
+.am-form-popup-container form input,
+.am-form-popup-container form:not(.form-validation-search) .chosen-select,
+.am-form-popup-container form textarea,
+.am-popup form .form-multiple-where-input,
+.am-popup form .am-input-group,
+.am-popup form input,
+.am-popup form:not(.form-validation-search) .chosen-select,
+.am-popup form textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+form.am-form .am-form-group {
+    padding: 0 0 3rem 0;
+    margin-bottom: 0;
+}
+form.am-form .am-form-group.am-padding-0 {
+    padding: 0 !important;
+}
+form.am-form .am-form-group.am-form-last-padding {
+    padding-bottom: 0 !important;
+    padding-top: 0.5rem !important;
+}
+.am-icon-question-circle {
+    color: var(--color-yellow) !important;
+}
+
+form .am-input-group-label,
+form .am-input-group-label {
+    background-color: #f5f5f5;
+    padding: 0 2.2rem;
+}
+form .am-form-group>label,
+form .am-form-group>label {
+    font-weight: 400;
+}
+
+@media only screen and (max-width: 640px) {
+    form .form-multiple-where-input,
+    form .am-input-group,
+    form:not(.form-validation-search) .chosen-select,
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="datetime"],
+    form input[type="datetime-local"],
+    form input[type="date"],
+    form input[type="month"],
+    form input[type="time"],
+    form input[type="week"],
+    form input[type="number"],
+    form input[type="email"],
+    form input[type="url"],
+    form input[type="search"],
+    form input[type="tel"],
+    form input[type="color"],
+    form textarea {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+/**
+ * 新增编辑带返回的头部显示
+ */
+legend {
+    margin-bottom: 1rem !important;
+    padding: 0 !important;
+    border-bottom: 0.1rem solid transparent !important;
+}
+legend a i {
+    color: #666;
+}
+legend a i:hover {
+    color: var(--color-blue);
+}
+
+/* 角色权限树结构 */
+.tree-list li {
+    list-style-type: none;
+}
+
+.tree-list>li {
+    background: #F0F9FF;
+}
+.tree-list>li>div>label {
+    font-size: 1.4rem;
+}
+
+.tree-list li label,
+.tree-list li label input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0;
+}
+
+.list-find {
+    background-color: #fbfeff;
+    padding-left: 3rem;
+}
+
+.list-find>li {
+    border-bottom: 0.1rem solid #EBF4FA;
+}
+
+.list-find>li label span {
+    font-weight: normal;
+}
+.bk-am-color-white {background-color: #fff;}
+/**
+ * form表单页面布局 end
+ */
+
+
+/**
+ * 打印组件
+ */
+.hiprint-template-container {
+    min-width: 125rem;
+}
+.hiprint-template-container [class*="am-u-"] {
+    overflow: auto;
+    height: calc(100vh - 11rem);
+}
+.hiprint-template-container .hiprint-drag-list li {
+    padding: 0;
+    min-height: auto;
+}
+.hiprint-template-container .hiprint-drag-list li .item {
+    height: 5rem;
+    line-height: 5rem;
+}
+.hiprint-template-container .hiprint-drag-list li .item a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+.hiprint-template-container .hiprint-drag-size-input {
+    display: -webkit-inline-box;
+    vertical-align: middle;
+}
+.hiprint-template-container .hiprint-drag-size-input input {
+    width: 5.5rem !important;
+}
+.hiprint-template-container .hiprint-drag-size-input input:first-child {
+    border-right: 0;
+}
+.hiprint-template-container .hiprint-drag-size-input .am-input-group-btn {
+    width: auto;
+}
+.hiprint-template-container .hiprint-right-option-setting {
+    background: rgb(255 255 255 / 70%);
+    border: 0.1rem solid rgba(0,0,0,.09);
+}
+.hiprint-template-container .hiprint-element-option-setting .msg-tips {
+    color: #999;
+    font-size: 1.2rem;
+}
+#hiprint-preview-popup .hiprint-printPaper {
+    margin: 0 auto;
+    border: 0.1rem dashed rgba(0,0,0,.06);
 }

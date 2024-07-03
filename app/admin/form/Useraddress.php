@@ -141,6 +141,15 @@ class UserAddress
                     ],
                 ],
                 [
+                    'label'         => $lang['address_last_code'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_last_code',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                    ],
+                ],
+                [
                     'label'         => $lang['position'],
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/position',

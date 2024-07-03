@@ -44,10 +44,10 @@
                     <!-- 站点类型 -->
                     <div class="platform-list-value-container">
                         <label class="am-block am-margin-bottom-sm">{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
-                        <div class="am-flex am-flex-warp am-gap-12 payment-list-width">
-                            {{foreach $common_platform_type as $v}}
-                                <div class="am-form-group am-flex-shrink">
-                                    <label>{{$v.name}}</label>
+                        <div class="site-type-list">
+                            {{foreach $common_platform_type as $k=>$v}}
+                                <div class="am-flex am-flex-row am-flex-items-center am-gap-1 {{if $k gt 0}}am-margin-top-sm{{/if}}">
+                                    <span class="am-text-right">{{$v.name}}</span>
                                     <select name="{{$data.common_site_type.only_tag}}[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
                                         {{if !empty($common_site_type_list)}}
                                             {{foreach $common_site_type_list as $site}}
@@ -138,7 +138,7 @@
                         <div class="am-form-group row am-form-file">
                             <label class="am-block">
                                 {{:MyLang('site.form_take_address_logo')}}
-                                <a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('site.form_take_address_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                                <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('site.form_take_address_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             </label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view sitetype-logo" data-form-name="logo" data-max-number="1" data-dialog-type="images">
@@ -161,7 +161,7 @@
                             <input type="text" name="tel" placeholder="{{:MyLang('site.form_take_address_tel')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('site.form_take_address_tel_message')}}" class="am-radius" required />
                         </div>
         
-                        {{:ModuleInclude('lib/region_linkage_row')}}
+                        {{:ModuleInclude('lib/region_linkage', ['is_row'=>1])}}
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('site.form_take_address_address')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <div class="am-flex am-flex-items-center am-width am-pr">
@@ -173,7 +173,7 @@
                         </div>
                         <div id="map" data-level="17" class="am-radius-lg"></div>
                         <div class="am-form-popup-submit">
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>

@@ -18,7 +18,7 @@
 	<div class="user-content">
 		<div class="user-content-body">
             <!-- user center title -->
-            {{:ModuleInclude('public/user_center_main_title', [\
+            {{:ModuleInclude('public/user_center_main_title', [
                 'operate_url'   => MyUrl('index/safety/index'),
                 'operate_name'  => MyLang('retreat_title'),
                 'operate_icon'  => 'am-icon-mail-reply'
@@ -38,9 +38,9 @@
 						</span>
 					</div>
 				</div>
-				<div class="am-form-group am-form-group-refreshing">
+				<div>
 					<input type="hidden" name="type" value="email" />
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
 				</div>
 			</form>
 			<!-- form end -->

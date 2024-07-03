@@ -22,8 +22,10 @@ class Mean
      *        GEOMEAN(value1[,value2[, ...]])
      *
      * @param mixed ...$args Data values
+     *
+     * @return float|string
      */
-    public static function geometric(mixed ...$args): float|int|string
+    public static function geometric(...$args)
     {
         $aArgs = Functions::flattenArray($args);
 
@@ -48,8 +50,10 @@ class Mean
      *        HARMEAN(value1[,value2[, ...]])
      *
      * @param mixed ...$args Data values
+     *
+     * @return float|string
      */
-    public static function harmonic(mixed ...$args): string|float|int
+    public static function harmonic(...$args)
     {
         // Loop through arguments
         $aArgs = Functions::flattenArray($args);
@@ -89,8 +93,10 @@ class Mean
      *        TRIMEAN(value1[,value2[, ...]], $discard)
      *
      * @param mixed $args Data values
+     *
+     * @return float|string
      */
-    public static function trim(mixed ...$args): float|string
+    public static function trim(...$args)
     {
         $aArgs = Functions::flattenArray($args);
 

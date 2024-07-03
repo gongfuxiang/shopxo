@@ -30,8 +30,8 @@ abstract class IOFactory
     public const WRITER_CSV = 'Csv';
     public const WRITER_HTML = 'Html';
 
-    /** @var array<string, class-string<IReader>> */
-    private static array $readers = [
+    /** @var string[] */
+    private static $readers = [
         self::READER_XLSX => Reader\Xlsx::class,
         self::READER_XLS => Reader\Xls::class,
         self::READER_XML => Reader\Xml::class,
@@ -42,8 +42,8 @@ abstract class IOFactory
         self::READER_CSV => Reader\Csv::class,
     ];
 
-    /** @var array<string, class-string<IWriter>> */
-    private static array $writers = [
+    /** @var string[] */
+    private static $writers = [
         self::WRITER_XLS => Writer\Xls::class,
         self::WRITER_XLSX => Writer\Xlsx::class,
         self::WRITER_ODS => Writer\Ods::class,
@@ -64,6 +64,7 @@ abstract class IOFactory
         }
 
         // Instantiate writer
+        /** @var IWriter */
         $className = self::$writers[$writerType];
 
         return new $className($spreadsheet);
@@ -79,6 +80,7 @@ abstract class IOFactory
         }
 
         // Instantiate reader
+        /** @var IReader */
         $className = self::$readers[$readerType];
 
         return new $className();
@@ -112,7 +114,7 @@ abstract class IOFactory
     public static function identify(string $filename, ?array $readers = null): string
     {
         $reader = self::createReaderForFile($filename, $readers);
-        $className = $reader::class;
+        $className = get_class($reader);
         $classType = explode('\\', $className);
         unset($reader);
 
@@ -137,7 +139,9 @@ abstract class IOFactory
             $readers = array_map('strtoupper', $readers);
             $testReaders = array_filter(
                 self::$readers,
-                fn (string $readerType): bool => in_array(strtoupper($readerType), $readers, true),
+                function (string $readerType) use ($readers) {
+                    return in_array(strtoupper($readerType), $readers, true);
+                },
                 ARRAY_FILTER_USE_KEY
             );
         }
@@ -178,40 +182,39 @@ abstract class IOFactory
             return null;
         }
 
-        return match (strtolower($pathinfo['extension'])) {
-            // Excel (OfficeOpenXML) Spreadsheet
-            'xlsx',
-            // Excel (OfficeOpenXML) Macro Spreadsheet (macros will be discarded)
-            'xlsm',
-            // Excel (OfficeOpenXML) Template
-            'xltx',
-            // Excel (OfficeOpenXML) Macro Template (macros will be discarded)
-            'xltm' => 'Xlsx',
-            // Excel (BIFF) Spreadsheet
-            'xls',
-            // Excel (BIFF) Template
-            'xlt' => 'Xls',
-            // Open/Libre Offic Calc
-            'ods',
-            // Open/Libre Offic Calc Template
-            'ots' => 'Ods',
-            'slk' => 'Slk',
-            // Excel 2003 SpreadSheetML
-            'xml' => 'Xml',
-            'gnumeric' => 'Gnumeric',
-            'htm', 'html' => 'Html',
-            // Do nothing
-            // We must not try to use CSV reader since it loads
-            // all files including Excel files etc.
-            'csv' => null,
-            default => null,
-        };
+        switch (strtolower($pathinfo['extension'])) {
+            case 'xlsx': // Excel (OfficeOpenXML) Spreadsheet
+            case 'xlsm': // Excel (OfficeOpenXML) Macro Spreadsheet (macros will be discarded)
+            case 'xltx': // Excel (OfficeOpenXML) Template
+            case 'xltm': // Excel (OfficeOpenXML) Macro Template (macros will be discarded)
+                return 'Xlsx';
+            case 'xls': // Excel (BIFF) Spreadsheet
+            case 'xlt': // Excel (BIFF) Template
+                return 'Xls';
+            case 'ods': // Open/Libre Offic Calc
+            case 'ots': // Open/Libre Offic Calc Template
+                return 'Ods';
+            case 'slk':
+                return 'Slk';
+            case 'xml': // Excel 2003 SpreadSheetML
+                return 'Xml';
+            case 'gnumeric':
+                return 'Gnumeric';
+            case 'htm':
+            case 'html':
+                return 'Html';
+            case 'csv':
+                // Do nothing
+                // We must not try to use CSV reader since it loads
+                // all files including Excel files etc.
+                return null;
+            default:
+                return null;
+        }
     }
 
     /**
      * Register a writer with its type and class name.
-     *
-     * @param class-string<IWriter> $writerClass
      */
     public static function registerWriter(string $writerType, string $writerClass): void
     {

@@ -12,10 +12,11 @@ namespace app\service;
 
 use app\service\UserService;
 use app\service\MultilingualService;
-use app\service\PluginsAdminService;
+use app\service\PluginsService;
 use app\service\DesignService;
 use app\service\CustomViewService;
 use app\service\ThemeAdminService;
+use app\service\PluginsAdminService;
 
 /**
  * 配置服务层
@@ -303,6 +304,10 @@ class SystemService
             'box_shadow_sm'                           => '0 2px 8px rgba(50,55,58,0.1)',
             'box_shadow_lg'                           => '0 8px 34px rgba(50,55,58,0.1)',
             
+            // 顶部公共温馨提示
+            'color_tips_warm_bg'                      =>  '#F1FCFF',
+            'color_tips_warm_br'                      =>  '#F1FCFF',
+            
             // 默认基础色 - 按钮
             'color_button_default'                    => '#EEEEEE',
             'color_button_default_hover'              => '#dddddd',
@@ -355,18 +360,18 @@ class SystemService
             'color_button_secondary_disabled_text'    => '#E2300D',
             
             // 成功 - 按钮
-            'color_button_success'                    => '#a8e6a8',
-            'color_button_success_hover'              => '#97ee97',
-            'color_button_success_focus'              => '#5eb95e',
-            'color_button_success_active'             => '#85c085',
-            'color_button_success_disabled'           => '#85c085',
+            'color_button_success'                    => '#62C584',
+            'color_button_success_hover'              => '#3bdb74',
+            'color_button_success_focus'              => '#3bdb74',
+            'color_button_success_active'             => '#59bc59',
+            'color_button_success_disabled'           => '#59bc59',
             'color_button_success_border'             => '#7fe27f',
             'color_button_success_hover_border'       => '#97ee97',
             'color_button_success_focus_border'       => '#5eb95e',
-            'color_button_success_active_border'      => '#85c085',
-            'color_button_success_disabled_border'    => '#85c085',
-            'color_button_success_text'               => '#258f25',
-            'color_button_success_hover_text'         => '#239b23',
+            'color_button_success_active_border'      => '#59bc59',
+            'color_button_success_disabled_border'    => '#59bc59',
+            'color_button_success_text'               => '#FFFFFF',
+            'color_button_success_hover_text'         => '#FFFFFF',
             'color_button_success_focus_text'         => '#FFFFFF',
             'color_button_success_active_text'        => '#bffbbf',
             'color_button_success_disabled_text'      => '#bffbbf',
@@ -404,7 +409,7 @@ class SystemService
             'color_button_danger_focus_text'          => '#E12C08',
             'color_button_danger_active_text'         => '#C72100',
             'color_button_danger_disabled_text'       => '#FFC3B7',
-
+            
             // 辅助 - 按钮
             'color_button_assist'                     => '#f7e7e7',
             'color_button_assist_hover'               => '#f2bab0',
@@ -482,6 +487,27 @@ class SystemService
             if(!empty($theme_config['data']) && !empty($theme_config['data']['theme_style']) && is_array($theme_config['data']['theme_style']))
             {
                 $data = array_merge($data, $theme_config['data']['theme_style']);
+            }
+        }
+
+        // 插件是否自定义配色
+        if(RequestController() == 'plugins')
+        {
+            $plugins = PluginsRequestName();
+            if(!empty($plugins))
+            {
+                $group = RequestModule();
+                $plugins_config = PluginsAdminService::GetPluginsConfig($plugins);
+                if(!empty($plugins_config) && is_array($plugins_config) && !empty($plugins_config['extend']) && is_array($plugins_config['extend']))
+                {
+                    if(!empty($plugins_config['extend'][$group]) && !empty($plugins_config['extend'][$group]['theme_style']) && is_array($plugins_config['extend'][$group]['theme_style']))
+                    {
+                        $data = array_merge($data, $plugins_config['extend'][$group]['theme_style']);
+                    } else if(!empty($plugins_config['extend']['theme_style']) && is_array($plugins_config['extend']['theme_style']))
+                    {
+                        $data = array_merge($data, $plugins_config['extend']['theme_style']);
+                    }
+                }
             }
         }
 
@@ -860,29 +886,13 @@ class SystemService
         $data = [];
 
         // 插件列表
-        $ret = PluginsAdminService::PluginsList();
-        if(!empty($ret['data']) && !empty($ret['data']['db_data']) && is_array($ret['data']['db_data']))
+        $plugins_list = PluginsService::PluginsHomeDataList();
+        if(!empty($plugins_list))
         {
-            $plugins_list = [];
-            foreach($ret['data']['db_data'] as $v)
-            {
-                // 必须是带首页的插件
-                if(!empty($v['plugins']) && !empty($v['name']) && isset($v['is_home']) && $v['is_home'] == true)
-                {
-                    $plugins_list[] = [
-                        'type'   => 'plugins',
-                        'name'   => $v['name'],
-                        'value'  => $v['plugins'],
-                    ];
-                }
-            }
-            if(!empty($plugins_list))
-            {
-                $data[] = [
-                    'name'  => MyLang('plugins_title'),
-                    'data'  => $plugins_list,
-                ];
-            }
+            $data[] = [
+                'name'  => MyLang('plugins_title'),
+                'data'  => $plugins_list,
+            ];
         }
 
         // 页面设计

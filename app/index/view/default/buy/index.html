@@ -69,7 +69,7 @@
                             <button type="button" class="am-close am-fr mobile-address-close-submit">&times;</button>
                         </h3>
                         {{if !empty($user_address_list)}}
-                            <button class="am-btn address-submit-save am-text-xs am-background-white am-color-main am-border-main am-radius" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
+                            <button type="button" class="am-btn am-btn-primary-plain am-text-xs am-border-main am-radius address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-title="{{:MyLang('address_title')}}{{:MyLang('add_title')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                             {{/if}}
                     </div>
                     {{if !empty($user_address_list)}}
@@ -83,7 +83,7 @@
                                                     <span class="address-alias am-text-truncate am-badge am-badge-secondary-plain am-radius am-margin-right-xs">{{$address.alias}}</span>
                                                 {{/if}}
                                                 {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                                    <span class="address-alias am-badge am-radius am-margin-right-sm am-background-white am-border-grey-dark am-color-grey-dark">{{:MyLang('default_title')}}</span>
+                                                    <span class="address-alias am-badge am-radius am-badge-plain am-margin-right-sm">{{:MyLang('default_title')}}</span>
                                                 {{/if}}
                                                 <span class="address-detail">   
                                                     <span class="user am-text-truncate am-margin-right-sm">{{$address.name}}</span>
@@ -98,13 +98,13 @@
                                             </div>
                                         </div>
                                         <div class="address-right">
-                                            <span class="am-icon-angle-right am-icon-md"></span>
+                                            <span class="iconfont icon-angle-right am-icon-md"></span>
                                         </div>
                                         <div class="address-operation-btn">
                                             {{if isset($address['is_default']) and $address['is_default'] neq 1}}
                                                 <a href="javascript:;" class="address-default-submit am-padding-left-sm" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
                                             {{/if}}
-                                            <a href="javascript:;" class="address-submit-save am-padding-left-sm" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
+                                            <a href="javascript:;" class="am-padding-left-sm address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-title="{{:MyLang('address_title')}}{{:MyLang('edit_title')}}"> {{:MyLang('edit_title')}}</a>
                                             <a href="javascript:;" class="address-submit-delete am-padding-left-sm" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
                                         </div>
                                     </div>
@@ -112,12 +112,12 @@
                             {{/foreach}}
                         </ul>
                     {{else /}}
-                            <div class="am-text-center">
-                                {{:ModuleInclude('public/not_data', [
-                                    'msg'         => MyLang('buy.no_address_info_tips'),
-                                    'icon'        => StaticAttachmentUrl('no-address.png'),
-                                ])}}
-                            <button class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-bottom-main address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
+                        <div class="am-text-center">
+                            {{:ModuleInclude('public/not_data', [
+                                'msg'         => MyLang('buy.no_address_info_tips'),
+                                'icon'        => StaticAttachmentUrl('no-address.png'),
+                            ])}}
+                            <button type="button" class="am-btn am-btn-primary-plain am-text-xs am-border-main am-radius am-margin-bottom-main address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-title="{{:MyLang('address_title')}}{{:MyLang('add_title')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                         </div>
                     {{/if}}
                 </div>
@@ -151,11 +151,11 @@
                                             </p>
                                         </div>
                                         {{if !empty($base['address'])}}
-                                            <button type="button" class="am-btn am-radius extraction-address-content-right am-border-main am-color-main am-text-xs am-background-white" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
+                                            <button type="button" class="am-btn am-btn-primary-plain am-radius am-border-main am-text-xs extraction-address-content-right" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
                                         {{/if}}
                                     </div>
                                     <div class="address-right address-position-top">
-                                        <span class="am-icon-angle-right am-icon-md"></span>
+                                        <span class="iconfont icon-angle-right am-icon-md"></span>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                                     'msg'         => MyLang('buy.no_address_info_tips'),
                                     'icon'        => StaticAttachmentUrl('no-address.png'),
                                 ])}}
-                                <button type="button" class="am-btn am-text-xs am-background-white am-color-main am-border-main am-radius am-margin-bottom-main" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
+                                <button type="button" class="am-btn am-btn-primary-plain am-text-xs am-border-main am-radius am-margin-bottom-main" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
                             </div>
                         {{/if}}
 

@@ -1,0 +1,281 @@
+{{switch $t.view_type}}
+    {{case many_text}}
+        {{if !empty($form_table_data_detail[$t['view_key']])}}
+            {{if is_array($form_table_data_detail[$t['view_key']])}}
+                {{if isset($form_table_data_detail[$t['view_key']][0]) and !is_array($form_table_data_detail[$t['view_key']][0])}}
+                    <p class="am-text-truncate">{{$form_table_data_detail[$t['view_key']][0]}}</p>
+                {{/if}}                                            
+            {{else /}}
+                <p class="am-text-truncate">{{$form_table_data_detail[$t['view_key']]}}</p>
+            {{/if}}
+            <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#form-table-item-content-{{$t.view_key}}', width: 420}">{{:MyLang('view_title')}}{{if is_array($form_table_data_detail[$t['view_key']])}}({{:count($form_table_data_detail[$t['view_key']])}}){{/if}} ></a>
+            <div class="am-modal am-modal-no-btn" tabindex="-1" id="form-table-item-content-{{$t.view_key}}">
+                <div class="am-modal-dialog am-radius">
+                    <div class="am-modal-hd">
+                        <span>{{$t.label}}</span>
+                        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                    </div>
+                    <div class="am-modal-bd am-text-left">
+                        <ul class="am-padding-top-sm am-padding-horizontal-xs">
+                            {{if is_array($form_table_data_detail[$t['view_key']])}}
+                                {{foreach $form_table_data_detail[$t['view_key']] as $tlv}}
+                                    {{if !is_array($tlv)}}
+                                        <li class="am-nbfc am-padding-xs">{{$tlv}}</li>
+                                    {{/if}}
+                                {{/foreach}}
+                            {{else /}}
+                                <li class="am-nbfc am-padding-xs">{{$form_table_data_detail[$t['view_key']]}}</li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    {{/case}}
+    {{case many_images}}
+        {{if !empty($form_table_data_detail[$t['view_key']]) and is_array($form_table_data_detail[$t['view_key']])}}
+            <div class="am-nbfc">
+                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-10 am-avg-md-10 am-avg-lg-10 am-gallery-default am-padding-0" data-am-gallery="{pureview: true}">
+                    {{foreach $form_table_data_detail[$t['view_key']] as $mik=>$miv}}
+                        {{if !empty($miv)}}
+                            {{if empty($t['view_data_key'])}}
+                                {{if !is_array($miv)}}
+                                    <li class="am-padding-xs am-padding-0">
+                                        <div class="am-gallery-item am-nbfc am-padding-right-xs am-padding-bottom-xs">
+                                            <img src="{{$miv}}" class="am-block am-radius" />
+                                        </div>
+                                    </li>
+                                {{/if}}
+                            {{else /}}
+                                {{if is_array($miv) and !empty($miv[$t['view_data_key']])}}
+                                    <li class="am-padding-xs am-padding-0">
+                                        <div class="am-gallery-item am-nbfc am-padding-right-xs am-padding-bottom-xs">
+                                            <img src="{{$miv[$t['view_data_key']]}}" class="am-block am-radius" />
+                                        </div>
+                                    </li>
+                                {{/if}}
+                            {{/if}}
+                        {{/if}}
+                    {{/foreach}}
+                </ul>
+            </div>
+        {{/if}}
+    {{/case}}
+    {{case images}}
+        {{if !empty($form_table_data_detail[$t['view_key']])}}
+            <figure data-am-widget="figure" class="am-figure am-inline-block" data-am-figure="{pureview: 'true'}">
+                <img src="{{$form_table_data_detail[$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
+            </figure>
+        {{/if}}
+    {{/case}}
+    {{case qrcode}}
+        {{if !empty($form_table_data_detail[$t['view_key']])}}
+            {{if isset($t['qrcode_type']) and $t['qrcode_type'] eq 1}}
+                <a href="javascript:;" class="text-copy-submit" data-value="{{$form_table_data_detail[$t['view_key']]}}">
+                    <div class="view-qrcode-init {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" data-width="{{if empty($t['images_width'])}}45{{else /}}{{$t.images_width}}{{/if}}" data-height="{{if empty($t['images_height'])}}45{{else /}}{{$t.images_height}}{{/if}}">{{$form_table_data_detail[$t['view_key']]}}</div>
+                    {{if isset($t['is_qrcode_text']) and $t['is_qrcode_text'] eq 1}}
+                        <p>{{$form_table_data_detail[$t['view_key']]}}</p>
+                    {{/if}}
+                </a>
+            {{else /}}
+                <div class="am-dropdown am-inline-block text-copy-submit" data-value="{{$form_table_data_detail[$t['view_key']]}}" data-am-dropdown="{trigger: 'hover'}">
+                    <a href="javascript:;" class="am-icon-qrcode am-dropdown-toggle"> {{$form_table_data_detail[$t['view_key']]}}</a>
+                    <div class="am-dropdown-content am-radius am-padding-sm am-text-center">
+                        <div class="view-qrcode-init" data-width="130" data-height="130">{{$form_table_data_detail[$t['view_key']]}}</div>
+                    </div>
+                </div>
+            {{/if}}
+        {{/if}}
+    {{/case}}
+    {{case progress}}
+        {{if (!empty($t['view_key']) and isset($form_table_data_detail[$t['view_key']])) or (!empty($t['progress_data_key']) and isset($form_table_data_detail[$t['progress_data_key']]))}}
+            <div class="data-progress {{if !empty($t['progress_text_key'])}} data-progress-view-text{{/if}}">
+                <div class="am-progress am-margin-bottom-0 am-inline-block am-vertical-align-middle {{if isset($t['is_striped']) and $t['is_striped'] eq 1}} am-progress-striped{{/if}} {{if !empty($t['progress_size'])}} am-progress-{{$t.progress_size}}{{/if}} {{if isset($t['is_radius']) and $t['is_radius'] eq 1}} am-radius{{/if}} {{if isset($t['is_active']) and $t['is_active'] eq 1}} am-active{{/if}}">
+                    <div class="am-progress-bar {{if !empty($t['color_style'])}} am-progress-bar-{{$t.color_style}}{{/if}}"  style="width: {{if !empty($t['progress_data_key']) and isset($form_table_data_detail[$t['progress_data_key']])}}{{$form_table_data_detail[$t['progress_data_key']]}}{{else /}}{{$form_table_data_detail[$t['view_key']]}}{{/if}}%"></div>
+                </div>
+                {{if !empty($t['progress_text_key'])}}
+                    <span class="am-text-grey am-margin-left-xs am-vertical-align-middle">{{if isset($form_table_data_detail[$t['progress_text_key']])}}{{$form_table_data_detail[$t['progress_text_key']]}}{{/if}}{{if isset($t['progress_text_unit'])}}{{$t.progress_text_unit}}{{/if}}</span>
+                {{/if}}
+            </div>
+        {{/if}}
+    {{/case}}
+    {{case star}}
+        {{php}}
+            $temp_star_data_key_field = (!empty($t['view_key']) and isset($form_table_data_detail[$t['view_key']])) ? 'view_key' : 'star_data_key';
+        {{/php}}
+        {{if !empty($temp_star_data_key_field) and isset($form_table_data_detail[$t[$temp_star_data_key_field]])}}
+            <div class="am-text-grey am-inline-block am-vertical-align-middle">
+                {{for start="1" end="empty($t['star_max']) ? 5 : $t['star_max']" comparison="elt" name="star_i"}}
+                    {{if $star_i gt $form_table_data_detail[$t[$temp_star_data_key_field]]}}
+                        <i class="am-icon-star-o"></i>
+                    {{else /}}
+                        <i class="am-icon-star {{if !empty($t['color_style'])}} am-text-{{$t.color_style}}{{/if}}" {{if !empty($t['color_value'])}} style="color:{{$t.color_value}}"{{/if}}></i>
+                    {{/if}}
+                {{/for}}
+            </div>
+            {{if !empty($t['star_text_key'])}}
+                <span class="am-text-grey am-margin-left-xs am-vertical-align-middle">{{if isset($form_table_data_detail[$t['star_text_key']])}}{{$form_table_data_detail[$t['star_text_key']]}}{{/if}}{{if isset($t['star_text_unit'])}}{{$t.star_text_unit}}{{/if}}</span>
+            {{/if}}
+        {{/if}}
+    {{/case}}
+    {{case field}}
+        <p class="
+            {{if isset($t['is_badge']) and $t['is_badge'] eq 1}}
+                am-badge {{if !empty($t['badge_key']) and !empty($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) neq '#'}}am-badge-{{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}} {{/if}} 
+                {{if !empty($t['badge_shape'])}}am-{{$t.badge_shape}} {{/if}} 
+            {{/if}} 
+            {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) neq '#'}}am-text-{{$t['color_style'][$form_table_data_detail[$t['color_key']]]}}{{/if}} 
+            {{if !empty($t['text_truncate']) and (!isset($t['is_truncate_detail']) or $t['is_truncate_detail'] eq 1)}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}} 
+            {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}submit-popup{{/if}} 
+            {{if isset($t['is_modal']) and $t['is_modal'] eq 1 and (!empty($t['modal_url']) or (!empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])))}}submit-modal{{/if}}" 
+            style="
+            {{if isset($t['is_badge']) and $t['is_badge'] eq 1 and !empty($t['badge_key']) and !empty($t['badge_style']) and is_array($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) eq '#'}}background: {{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}};{{/if}} 
+            {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}" 
+            {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_detail[$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}} 
+            {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}
+                data-url="{{if !empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])}}{{$form_table_data_detail[$t['popup_url_key']]}}{{else /}}{{if !empty($t['popup_url'])}}{{$t.popup_url}}{{/if}}{{/if}}" 
+                {{if !empty($t['popup_title'])}}
+                    data-title="{{$t.popup_title}}" 
+                {{/if}}
+                {{if !empty($t['popup_class'])}}
+                    data-class="{{$t.popup_class}}" 
+                {{/if}}
+                {{if isset($t['popup_full'])}}
+                    data-full="{{$t.popup_full}}" 
+                {{/if}}
+                {{if isset($t['popup_full_max'])}}
+                    data-full-max="{{$t.popup_full_max}}" 
+                {{/if}}
+                {{if !empty($t['popup_full_max_size'])}}
+                    data-full-max="1" 
+                    data-full-max-size="{{$t.popup_full_max_size}}" 
+                {{/if}}
+                {{if !empty($t['popup_offcanvas'])}}
+                    data-offcanvas="{{$t.popup_offcanvas}}" 
+                {{/if}}
+            {{/if}} 
+            {{if isset($t['is_modal']) and $t['is_modal'] eq 1 and (!empty($t['modal_url']) or (!empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])))}}
+                data-url="{{if !empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])}}{{$form_table_data_detail[$t['modal_url_key']]}}{{else /}}{{if !empty($t['modal_url'])}}{{$t.modal_url}}{{/if}}{{/if}}" 
+                {{if !empty($t['modal_width'])}}
+                    data-width="{{$t.modal_width}}" 
+                {{/if}}
+                {{if !empty($t['modal_height'])}}
+                    data-height="{{$t.modal_height}}" 
+                {{/if}}
+            {{/if}} 
+        >
+            <!-- 图标+提示 -->
+            {{if isset($t['is_first_tips']) and $t['is_first_tips'] eq 1 and ((!empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])) or (!empty($t['first_tips_data'])))}}
+                <a href="javascript:;" class="am-margin-right-xs {{if !empty($t['first_tips_style'])}}am-text-{{$t.first_tips_style}}{{/if}} am-icon-{{if empty($t['first_tips_icon'])}}exclamation-circle{{else /}}{{$t.first_tips_icon}}{{/if}}" data-am-popover="{content: '{{if !empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])}}{{:PopoverContentHandle($form_table_data_detail[$t['first_tips_key']])}}{{else /}}{{:PopoverContentHandle($t.first_tips_data)}}{{/if}}', trigger: 'hover focus', theme: '{{if !empty($t['first_tips_style'])}}{{$t.first_tips_style}}{{/if}} sm'}"></a>
+            {{/if}}
+
+            <!-- 连接+提示 -->
+            {{if isset($t['is_first_link']) and $t['is_first_link'] eq 1 and ((!empty($t['first_link_key']) and !empty($form_table_data_detail[$t['first_link_key']])) or (!empty($t['first_link_data'])))}}
+                <a href="{{if !empty($t['first_link_key']) and !empty($form_table_data_detail[$t['first_link_key']])}}{{$form_table_data_detail[$t['first_link_key']]}}{{else /}}{{$t.first_link_data}}{{/if}}" class="am-margin-right-xs {{if !empty($t['first_link_style'])}}am-text-{{$t.first_link_style}}{{/if}} am-icon-{{if empty($t['first_link_icon'])}}external-link{{else /}}{{$t.first_link_icon}}{{/if}}" target="_blank" {{if !empty($t['first_link_popover'])}}data-am-popover="{content: '{{:PopoverContentHandle($t.first_link_popover)}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}></a>
+            {{/if}}
+
+            <!-- 圆点 -->
+            {{if isset($t['is_round_point']) and $t['is_round_point'] eq 1}}
+                <i class="am-icon-circle am-margin-right-xs {{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_detail[$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]], 0, 1) neq '#'}}am-text-{{$t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]}}{{/if}}" 
+                style="{{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_detail[$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]], 0, 1) eq '#'}}color: {{$t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]}};{{/if}}"></i>
+            {{/if}}
+
+            <!-- 前后固定拼接的值 前面 -->
+            {{if isset($t['view_join_first'])}}
+                <span>{{$t.view_join_first}}</span>
+            {{/if}}
+
+            <!-- 如果字段为数组则处理多个字段拼接数据 -->
+            {{if is_array($t['view_key'])}}
+                {{foreach $t['view_key'] as $fk=>$fv}}
+                    {{if isset($form_table_data_detail[$fv])}}
+                        {{$form_table_data_detail[$fv]}}
+                        <!-- 多个字段拼接数据的的拼接字符 -->
+                        {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
+                            {{$t.view_key_join|raw}}
+                        {{/if}}
+                    {{/if}}
+                {{/foreach}}
+            {{else /}}
+                <!-- 是否存在数据 key -->
+                {{if isset($form_table_data_detail[$t['view_key']])}}
+                    <!-- 是否指定数据转换 -->
+                    {{if !empty($t['view_data']) and is_array($t['view_data'])}}
+                        <!-- 不存在数组中则不显示 -->
+                        {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]])}}
+                            <!-- 是否指定二维数组key取值 -->
+                            {{if !empty($t['view_data_key'])}}
+                                {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']])}}
+                                    <span>{{$t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']]}}</span>
+                                    {{if isset($t['is_copy']) and $t['is_copy'] eq 1 and !empty($t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']])}}
+                                        <i class="iconfont icon-copy am-margin-left-xs am-color-grey text-copy-submit" data-value="{{$t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']]}}"></i>
+                                    {{/if}}
+                                {{/if}}
+                            {{else /}}
+                                <span>{{$t['view_data'][$form_table_data_detail[$t['view_key']]]}}</span>
+                                {{if isset($t['is_copy']) and $t['is_copy'] eq 1 and !empty($t['view_data'][$form_table_data_detail[$t['view_key']]])}}
+                                    <i class="iconfont icon-copy am-margin-left-xs am-color-grey text-copy-submit" data-value="{{$t['view_data'][$form_table_data_detail[$t['view_key']]]}}"></i>
+                                {{/if}}
+                            {{/if}}
+                        {{/if}}
+
+                    <!-- 直接展示数据 -->
+                    {{else /}}
+                        <span>{{$form_table_data_detail[$t['view_key']]|raw}}</span>
+                        {{if isset($t['is_copy']) and $t['is_copy'] eq 1 and !empty($form_table_data_detail[$t['view_key']])}}
+                            <i class="iconfont icon-copy am-margin-left-xs am-color-grey text-copy-submit" data-value="{{$form_table_data_detail[$t['view_key']]|raw}}"></i>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+            <!-- 前后固定拼接的值 后面 -->
+            {{if isset($t['view_join_last'])}}
+                <span>{{$t.view_join_last}}</span>
+            {{/if}}
+        </p>
+    {{/case}}
+    {{case module}}
+        <!-- 从模块加载自定义模块数据 -->
+        {{:ModuleInclude($t['view_key'], $form_table_data_detail, ['form_request_type'=>'detail'])}}
+    {{/case}}
+    {{case status}}
+        <!-- 数据状态操作按钮组件 -->
+        {{if !empty($t['key_field']) and !empty($t['post_url'])}}
+            <a href="javascript:;"
+                class="am-icon-btn submit-state {{if isset($form_table_data_detail[$t['view_key']]) and $form_table_data_detail[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                data-url="{{$t.post_url}}"
+                data-id="{{if isset($form_table_data_detail[$t['key_field']])}}{{$form_table_data_detail[$t['key_field']]}}{{/if}}"
+                data-state="{{if isset($form_table_data_detail[$t['view_key']])}}{{$form_table_data_detail[$t['view_key']]}}{{/if}}"
+                data-field="{{$t.view_key}}"
+                data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
+            ><i class="iconfont icon-enable top-md"></i></a>
+        {{/if}}
+    {{/case}}
+{{/switch}}
+
+<!-- 列表格子钩子 -->
+{{if !empty($t['unique_key']) and $t['view_type'] neq 'operate'}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_form_grid}}_{{$t.unique_key}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_form_grid.'_'.$t['unique_key'], [
+            'hook_name'     => $hook_name_form_grid.'_'.$t['unique_key'],
+            'is_backend'    => true,
+            'id'            => isset($form_table_data_detail[$form_table['base']['key_field']]) ? $form_table_data_detail[$form_table['base']['key_field']] : 0,
+            'data'          => $form_table_data_detail,
+        ]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+{{/if}}

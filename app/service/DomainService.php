@@ -38,13 +38,13 @@ class DomainService
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'inc_domain',
-                'is_backend'        => 1,
+                'is_checked'        => 1,
                 'error_msg'         => MyLang('common_service.domain.form_item_inc_domain_message'),
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'dec_domain',
-                'is_backend'        => 1,
+                'is_checked'        => 1,
                 'error_msg'         => MyLang('common_service.domain.form_item_dec_domain_message'),
             ],
         ];

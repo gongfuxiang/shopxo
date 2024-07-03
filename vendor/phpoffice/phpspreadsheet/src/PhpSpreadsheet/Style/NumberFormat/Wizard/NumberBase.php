@@ -5,9 +5,8 @@ namespace PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard;
 use NumberFormatter;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Stringable;
 
-abstract class NumberBase implements Stringable
+abstract class NumberBase
 {
     protected const MAX_DECIMALS = 30;
 

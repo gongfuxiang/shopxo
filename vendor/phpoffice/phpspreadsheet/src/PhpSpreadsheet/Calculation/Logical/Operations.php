@@ -31,9 +31,11 @@ class Operations
      *
      * @return bool|string the logical AND of the arguments
      */
-    public static function logicalAnd(mixed ...$args)
+    public static function logicalAnd(...$args)
     {
-        return self::countTrueValues($args, fn (int $trueValueCount, int $count): bool => $trueValueCount === $count);
+        return self::countTrueValues($args, function (int $trueValueCount, int $count): bool {
+            return $trueValueCount === $count;
+        });
     }
 
     /**
@@ -56,9 +58,11 @@ class Operations
      *
      * @return bool|string the logical OR of the arguments
      */
-    public static function logicalOr(mixed ...$args)
+    public static function logicalOr(...$args)
     {
-        return self::countTrueValues($args, fn (int $trueValueCount): bool => $trueValueCount > 0);
+        return self::countTrueValues($args, function (int $trueValueCount): bool {
+            return $trueValueCount > 0;
+        });
     }
 
     /**
@@ -83,9 +87,11 @@ class Operations
      *
      * @return bool|string the logical XOR of the arguments
      */
-    public static function logicalXor(mixed ...$args)
+    public static function logicalXor(...$args)
     {
-        return self::countTrueValues($args, fn (int $trueValueCount): bool => $trueValueCount % 2 === 1);
+        return self::countTrueValues($args, function (int $trueValueCount): bool {
+            return $trueValueCount % 2 === 1;
+        });
     }
 
     /**
@@ -110,7 +116,7 @@ class Operations
      *         If an array of values is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function NOT(mixed $logical = false): array|bool|string
+    public static function NOT($logical = false)
     {
         if (is_array($logical)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $logical);
@@ -130,7 +136,10 @@ class Operations
         return !$logical;
     }
 
-    private static function countTrueValues(array $args, callable $func): bool|string
+    /**
+     * @return bool|string
+     */
+    private static function countTrueValues(array $args, callable $func)
     {
         $trueValueCount = 0;
         $count = 0;

@@ -1,9 +1,12 @@
 <!-- 商品选择 -->
-<div class="am-popup popup-not-title" id="popup-module-goods-select">
+<div class="am-popup am-radius" id="popup-module-goods-select">
     <div class="am-popup-inner">
-        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('layout.view_offcanvas_module_goods_tabs_goods_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
         <div class="am-popup-bd am-padding-0">
-            <form class="am-form layout-forth-selection-container" action="false">
+            <form class="am-form am-form-popup-fixed layout-forth-selection-container" action="false">
                 <!-- 搜索 -->
                 <div class="forth-selection-container am-padding-sm" data-search-url="{{:MyUrl('index/layout/goodssearch')}}" data-data-url="{{:MyUrl('index/layout/goodsdata')}}">
                     <input type="hidden" name="category_field" value="{{if empty($layout_goods_category_field)}}gci.category_id{{else /}}{{$layout_goods_category_field}}{{/if}}">
@@ -32,11 +35,14 @@
                         {{/if}}
                     </select>
                     <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
-                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> {{:MyLang('search_title')}}</button>
+                    <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs btn-loading-example search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: ' {{:MyLang('search_title')}}'}">
+                        <i class="iconfont icon-search"></i>
+                        <span>{{:MyLang('search_title')}}</span>
+                    </button>
                 </div>
 
                 <!-- 商品列表 -->
-                <div class="am-scrollable-vertical am-margin-horizontal-sm goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
+                <div class="am-scrollable-vertical am-margin-horizontal-sm goods-list-container am-radius am-padding-sm" data-loading-msg="{{:MyLang('searching_tips')}}">
                     <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
                         <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('layout.view_popup_goods_search_choice_init_tips')}}</div>
                     </ul>
@@ -46,9 +52,15 @@
                 <div class="am-margin-top-sm am-text-center goods-page-container"></div>
 
                 <!-- 操作 -->
-                <div class="am-text-center am-padding-sm goods-bottom-operate-container">
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-sm" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
-                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-sm confirm-submit" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>   
+                <div class="am-form-popup-submit goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example confirm-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
                 </div>
             </form>
         </div>

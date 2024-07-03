@@ -81,7 +81,7 @@ $(function()
                     var $stock = self.parents('.stock-tag');
                     $stock.attr('data-price', res.data.price);
                     $stock.find('input').val(res.data.stock);
-                    self.parents('tr').find('.line-price').text(__currency_symbol__+res.data.price);
+                    self.parents('tr').find('.line-price').text(res.data.show_price_symbol+res.data.price+res.data.show_price_unit);
                     self.parents('tr').find('.total-price-content').text(__currency_symbol__+res.data.total_price);
 
                     Prompt(res.msg, 'success');

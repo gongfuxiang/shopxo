@@ -13,81 +13,99 @@ class Font extends Supervisor
     const UNDERLINE_SINGLE = 'single';
     const UNDERLINE_SINGLEACCOUNTING = 'singleAccounting';
 
-    const CAP_ALL = 'all';
-    const CAP_SMALL = 'small';
-    const CAP_NONE = 'none';
-    private const VALID_CAPS = [self::CAP_ALL, self::CAP_SMALL, self::CAP_NONE];
-
-    protected ?string $cap = null;
-
     /**
      * Font Name.
+     *
+     * @var null|string
      */
-    protected ?string $name = 'Calibri';
+    protected $name = 'Calibri';
 
     /**
      * The following 7 are used only for chart titles, I think.
+     *
+     *@var string
      */
-    private string $latin = '';
+    private $latin = '';
 
-    private string $eastAsian = '';
+    /** @var string */
+    private $eastAsian = '';
 
-    private string $complexScript = '';
+    /** @var string */
+    private $complexScript = '';
 
-    private int $baseLine = 0;
+    /** @var int */
+    private $baseLine = 0;
 
-    private string $strikeType = '';
+    /** @var string */
+    private $strikeType = '';
 
     /** @var ?ChartColor */
-    private ?ChartColor $underlineColor = null;
+    private $underlineColor;
 
     /** @var ?ChartColor */
-    private ?ChartColor $chartColor = null;
+    private $chartColor;
     // end of chart title items
 
     /**
      * Font Size.
+     *
+     * @var null|float
      */
-    protected ?float $size = 11;
+    protected $size = 11;
 
     /**
      * Bold.
+     *
+     * @var null|bool
      */
-    protected ?bool $bold = false;
+    protected $bold = false;
 
     /**
      * Italic.
+     *
+     * @var null|bool
      */
-    protected ?bool $italic = false;
+    protected $italic = false;
 
     /**
      * Superscript.
+     *
+     * @var null|bool
      */
-    protected ?bool $superscript = false;
+    protected $superscript = false;
 
     /**
      * Subscript.
+     *
+     * @var null|bool
      */
-    protected ?bool $subscript = false;
+    protected $subscript = false;
 
     /**
      * Underline.
+     *
+     * @var null|string
      */
-    protected ?string $underline = self::UNDERLINE_NONE;
+    protected $underline = self::UNDERLINE_NONE;
 
     /**
      * Strikethrough.
+     *
+     * @var null|bool
      */
-    protected ?bool $strikethrough = false;
+    protected $strikethrough = false;
 
     /**
      * Foreground color.
+     *
+     * @var Color
      */
-    protected Color $color;
+    protected $color;
 
-    public ?int $colorIndex = null;
-
-    protected string $scheme = '';
+    /**
+     * @var null|int
+     */
+    public $colorIndex;
 
     /**
      * Create a new Font.
@@ -99,7 +117,7 @@ class Font extends Supervisor
      *                                    Leave this value at default unless you understand exactly what
      *                                        its ramifications are
      */
-    public function __construct(bool $isSupervisor = false, bool $isConditional = false)
+    public function __construct($isSupervisor = false, $isConditional = false)
     {
         // Supervisor?
         parent::__construct($isSupervisor);
@@ -127,10 +145,12 @@ class Font extends Supervisor
     /**
      * Get the shared style component for the currently active cell in currently active sheet.
      * Only used for style supervisor.
+     *
+     * @return Font
      */
-    public function getSharedComponent(): self
+    public function getSharedComponent()
     {
-        /** @var Style $parent */
+        /** @var Style */
         $parent = $this->parent;
 
         return $parent->getSharedComponent()->getFont();
@@ -138,8 +158,12 @@ class Font extends Supervisor
 
     /**
      * Build style array from subcomponents.
+     *
+     * @param array $array
+     *
+     * @return array
      */
-    public function getStyleArray(array $array): array
+    public function getStyleArray($array)
     {
         return ['font' => $array];
     }
@@ -166,7 +190,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function applyFromArray(array $styleArray): static
+    public function applyFromArray(array $styleArray)
     {
         if ($this->isSupervisor) {
             $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($styleArray));
@@ -207,15 +231,6 @@ class Font extends Supervisor
             if (isset($styleArray['size'])) {
                 $this->setSize($styleArray['size']);
             }
-            if (isset($styleArray['chartColor'])) {
-                $this->chartColor = $styleArray['chartColor'];
-            }
-            if (isset($styleArray['scheme'])) {
-                $this->setScheme($styleArray['scheme']);
-            }
-            if (isset($styleArray['cap'])) {
-                $this->setCap($styleArray['cap']);
-            }
         }
 
         return $this;
@@ -223,8 +238,10 @@ class Font extends Supervisor
 
     /**
      * Get Name.
+     *
+     * @return null|string
      */
-    public function getName(): ?string
+    public function getName()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getName();
@@ -261,9 +278,13 @@ class Font extends Supervisor
     }
 
     /**
-     * Set Name and turn off Scheme.
+     * Set Name.
+     *
+     * @param string $fontname
+     *
+     * @return $this
      */
-    public function setName(string $fontname): self
+    public function setName($fontname)
     {
         if ($fontname == '') {
             $fontname = 'Calibri';
@@ -275,7 +296,7 @@ class Font extends Supervisor
             $this->name = $fontname;
         }
 
-        return $this->setScheme('');
+        return $this;
     }
 
     public function setLatin(string $fontname): self
@@ -334,8 +355,10 @@ class Font extends Supervisor
 
     /**
      * Get Size.
+     *
+     * @return null|float
      */
-    public function getSize(): ?float
+    public function getSize()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getSize();
@@ -351,7 +374,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function setSize(mixed $sizeInPoints, bool $nullOk = false): static
+    public function setSize($sizeInPoints, bool $nullOk = false)
     {
         if (is_string($sizeInPoints) || is_int($sizeInPoints)) {
             $sizeInPoints = (float) $sizeInPoints; // $pValue = 0 if given string is not numeric
@@ -377,8 +400,10 @@ class Font extends Supervisor
 
     /**
      * Get Bold.
+     *
+     * @return null|bool
      */
-    public function getBold(): ?bool
+    public function getBold()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getBold();
@@ -390,9 +415,11 @@ class Font extends Supervisor
     /**
      * Set Bold.
      *
+     * @param bool $bold
+     *
      * @return $this
      */
-    public function setBold(bool $bold): static
+    public function setBold($bold)
     {
         if ($bold == '') {
             $bold = false;
@@ -409,8 +436,10 @@ class Font extends Supervisor
 
     /**
      * Get Italic.
+     *
+     * @return null|bool
      */
-    public function getItalic(): ?bool
+    public function getItalic()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getItalic();
@@ -422,9 +451,11 @@ class Font extends Supervisor
     /**
      * Set Italic.
      *
+     * @param bool $italic
+     *
      * @return $this
      */
-    public function setItalic(bool $italic): static
+    public function setItalic($italic)
     {
         if ($italic == '') {
             $italic = false;
@@ -441,8 +472,10 @@ class Font extends Supervisor
 
     /**
      * Get Superscript.
+     *
+     * @return null|bool
      */
-    public function getSuperscript(): ?bool
+    public function getSuperscript()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getSuperscript();
@@ -456,7 +489,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function setSuperscript(bool $superscript): static
+    public function setSuperscript(bool $superscript)
     {
         if ($this->isSupervisor) {
             $styleArray = $this->getStyleArray(['superscript' => $superscript]);
@@ -473,8 +506,10 @@ class Font extends Supervisor
 
     /**
      * Get Subscript.
+     *
+     * @return null|bool
      */
-    public function getSubscript(): ?bool
+    public function getSubscript()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getSubscript();
@@ -488,7 +523,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function setSubscript(bool $subscript): static
+    public function setSubscript(bool $subscript)
     {
         if ($this->isSupervisor) {
             $styleArray = $this->getStyleArray(['subscript' => $subscript]);
@@ -599,17 +634,12 @@ class Font extends Supervisor
         return $this;
     }
 
-    public function setChartColorFromObject(?ChartColor $chartColor): self
-    {
-        $this->chartColor = $chartColor;
-
-        return $this;
-    }
-
     /**
      * Get Underline.
+     *
+     * @return null|string
      */
-    public function getUnderline(): ?string
+    public function getUnderline()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getUnderline();
@@ -627,7 +657,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function setUnderline($underlineStyle): static
+    public function setUnderline($underlineStyle)
     {
         if (is_bool($underlineStyle)) {
             $underlineStyle = ($underlineStyle) ? self::UNDERLINE_SINGLE : self::UNDERLINE_NONE;
@@ -646,8 +676,10 @@ class Font extends Supervisor
 
     /**
      * Get Strikethrough.
+     *
+     * @return null|bool
      */
-    public function getStrikethrough(): ?bool
+    public function getStrikethrough()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getStrikethrough();
@@ -659,9 +691,11 @@ class Font extends Supervisor
     /**
      * Set Strikethrough.
      *
+     * @param bool $strikethru
+     *
      * @return $this
      */
-    public function setStrikethrough(bool $strikethru): static
+    public function setStrikethrough($strikethru)
     {
         if ($strikethru == '') {
             $strikethru = false;
@@ -679,8 +713,10 @@ class Font extends Supervisor
 
     /**
      * Get Color.
+     *
+     * @return Color
      */
-    public function getColor(): Color
+    public function getColor()
     {
         return $this->color;
     }
@@ -690,7 +726,7 @@ class Font extends Supervisor
      *
      * @return $this
      */
-    public function setColor(Color $color): static
+    public function setColor(Color $color)
     {
         // make sure parameter is a real color and not a supervisor
         $color = $color->getIsSupervisor() ? $color->getSharedComponent() : $color;
@@ -722,24 +758,23 @@ class Font extends Supervisor
      *
      * @return string Hash code
      */
-    public function getHashCode(): string
+    public function getHashCode()
     {
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getHashCode();
         }
 
         return md5(
-            $this->name
-            . $this->size
-            . ($this->bold ? 't' : 'f')
-            . ($this->italic ? 't' : 'f')
-            . ($this->superscript ? 't' : 'f')
-            . ($this->subscript ? 't' : 'f')
-            . $this->underline
-            . ($this->strikethrough ? 't' : 'f')
-            . $this->color->getHashCode()
-            . $this->scheme
-            . implode(
+            $this->name .
+            $this->size .
+            ($this->bold ? 't' : 'f') .
+            ($this->italic ? 't' : 'f') .
+            ($this->superscript ? 't' : 'f') .
+            ($this->subscript ? 't' : 'f') .
+            $this->underline .
+            ($this->strikethrough ? 't' : 'f') .
+            $this->color->getHashCode() .
+            implode(
                 '*',
                 [
                     $this->latin,
@@ -749,10 +784,9 @@ class Font extends Supervisor
                     $this->hashChartColor($this->chartColor),
                     $this->hashChartColor($this->underlineColor),
                     (string) $this->baseLine,
-                    (string) $this->cap,
                 ]
-            )
-            . __CLASS__
+            ) .
+            __CLASS__
         );
     }
 
@@ -761,7 +795,6 @@ class Font extends Supervisor
         $exportedArray = [];
         $this->exportArray2($exportedArray, 'baseLine', $this->getBaseLine());
         $this->exportArray2($exportedArray, 'bold', $this->getBold());
-        $this->exportArray2($exportedArray, 'cap', $this->getCap());
         $this->exportArray2($exportedArray, 'chartColor', $this->getChartColor());
         $this->exportArray2($exportedArray, 'color', $this->getColor());
         $this->exportArray2($exportedArray, 'complexScript', $this->getComplexScript());
@@ -769,7 +802,6 @@ class Font extends Supervisor
         $this->exportArray2($exportedArray, 'italic', $this->getItalic());
         $this->exportArray2($exportedArray, 'latin', $this->getLatin());
         $this->exportArray2($exportedArray, 'name', $this->getName());
-        $this->exportArray2($exportedArray, 'scheme', $this->getScheme());
         $this->exportArray2($exportedArray, 'size', $this->getSize());
         $this->exportArray2($exportedArray, 'strikethrough', $this->getStrikethrough());
         $this->exportArray2($exportedArray, 'strikeType', $this->getStrikeType());
@@ -779,57 +811,5 @@ class Font extends Supervisor
         $this->exportArray2($exportedArray, 'underlineColor', $this->getUnderlineColor());
 
         return $exportedArray;
-    }
-
-    public function getScheme(): string
-    {
-        if ($this->isSupervisor) {
-            return $this->getSharedComponent()->getScheme();
-        }
-
-        return $this->scheme;
-    }
-
-    public function setScheme(string $scheme): self
-    {
-        if ($scheme === '' || $scheme === 'major' || $scheme === 'minor') {
-            if ($this->isSupervisor) {
-                $styleArray = $this->getStyleArray(['scheme' => $scheme]);
-                $this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
-            } else {
-                $this->scheme = $scheme;
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set capitalization attribute. If not one of the permitted
-     * values (all, small, or none), set it to null.
-     * This will be honored only for the font for chart titles.
-     * None is distinguished from null because null will inherit
-     * the current value, whereas 'none' will override it.
-     */
-    public function setCap(string $cap): self
-    {
-        $this->cap = in_array($cap, self::VALID_CAPS, true) ? $cap : null;
-
-        return $this;
-    }
-
-    public function getCap(): ?string
-    {
-        return $this->cap;
-    }
-
-    /**
-     * Implement PHP __clone to create a deep clone, not just a shallow copy.
-     */
-    public function __clone()
-    {
-        $this->color = clone $this->color;
-        $this->chartColor = ($this->chartColor === null) ? null : clone $this->chartColor;
-        $this->underlineColor = ($this->underlineColor === null) ? null : clone $this->underlineColor;
     }
 }

@@ -8,7 +8,7 @@
                 {{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}
                 <i class="iconfont icon-angle-down"></i>
             </a>
-            <div class="user-info-content">
+            <div class="user-info-content" style="display: none;">
                 <div class="am-flex am-gap-1">
                     {{if empty($module_data['user'])}}
                         {{if !empty($module_data['username'])}}

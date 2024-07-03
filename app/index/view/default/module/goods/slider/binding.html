@@ -20,7 +20,7 @@
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="am-icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -63,7 +63,7 @@
                                     <img src="{{$v.images}}" class="am-radius" width="100" />
                                 </a>
                                 <a href="{{$v.goods_url}}" target="_blank" class="am-block content-item-title">
-                                    <p class="am-text-truncate-2">{{$v.title}}</p>
+                                    <p class="am-text-truncate-2">{{$v.title|raw}}</p>
                                 </a>
 
                                 <!-- 商品信息售价顶部钩子 -->
@@ -96,7 +96,7 @@
                                         {{/if}}
                                         <p class="price am-text-truncate am-fl">
                                             <strong class="price">{{$v.show_price_symbol}}{{$v.price}}</strong>
-                                            <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                                            <span class="am-text-grey unit">{{$v.show_price_unit}}</span>
                                         </p>
                                     </div>
                                 {{/if}}

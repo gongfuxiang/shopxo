@@ -348,6 +348,7 @@ $(function () {
     // 双击为独立窗口
     $(document).on('dblclick', '.header-menu-open-pages-list ul li', function () {
         var key = $(this).data('key') || null;
+        // 判断是否为首页
         if (key != '-') {
             // 增加独立窗口类
             $('.iframe-item-key-' + key).addClass('window-layer-alone-layer').show();

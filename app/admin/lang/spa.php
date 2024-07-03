@@ -132,6 +132,7 @@ return [
             'city_name'         => 'Ciudad a la que pertenece',
             'county_name'       => 'Distrito / condado al que pertenece',
             'address'           => 'Dirección detallada',
+            'address_last_code' => 'El último nivel de Codificación de la dirección',
             'position'          => 'Longitud y latitud',
             'idcard_info'       => 'Información de la tarjeta de identificación',
             'is_default'        => 'Si predeterminado',
@@ -472,6 +473,7 @@ return [
             ['name' => 'Configuración básica', 'type' => 'index'],
             ['name' => 'APP / applet', 'type' => 'app'],
         ],
+        'online_service_title'                  => 'Servicio al cliente en línea',
         'user_base_popup_title'                 => 'Consejos de ventana emergente de información básica del usuario',
         'user_onekey_bind_mobile_tips_list'     => [
             '1. Obtenga la cuenta actual de la Plataforma de applets o el número de teléfono móvil de esta máquina para iniciar sesión con un solo clic, y actualmente solo admite [applet de wechat, applet de baidu, applet de titulares]',
@@ -485,6 +487,10 @@ return [
         ],
         'user_base_popup_top_tips_list'         => [
             '1. En la actualidad, solo la Plataforma de applets de Wechat autoriza automáticamente el inicio de sesión sin apodos de usuario e información de avatar.',
+        ],
+        'online_service_top_tips_list'          => [
+            '1. el Protocolo https de servicio al cliente personalizado se abre en webview',
+            '2. orden de prioridad del servicio al cliente [sistema de servicio al cliente - > Servicio al cliente personalizado - > Servicio al cliente de Wechat corporativo (solo la aplicación + H5 + applet de Wechat está en vigor) - > Servicio al cliente de cada plataforma final - > Servicio al cliente telefónico]',
         ],
     ],
 
@@ -722,6 +728,7 @@ return [
             'customview'        => 'Página personalizada',
             'goods_category'    => 'Clasificación de mercancías',
             'design'            => 'Diseño de página',
+            'plugins'           => 'Plug - in de página de inicio',
         ],
         // 动态表格
         'form_table'                            => [
@@ -1088,6 +1095,8 @@ return [
         'data_list_author_title'                => 'Autor',
         'data_list_author_url_title'            => 'Página principal',
         'data_list_version_title'               => 'Versión',
+        'data_list_second_domain_title'         => 'Nombre de dominio secundario',
+        'data_list_second_domain_tips'          => 'Por favor, configure el nombre de dominio principal válido de la Cookie en segundo plano [sistema - > configuración del sistema - > seguridad]',
         'uninstall_confirm_tips'                => '¿¿ desinstalar puede perder los datos de configuración básicos del plug - in que no se pueden restaurar y confirmar?',
         'not_install_divide_title'              => 'Los siguientes plug - ins no están instalados',
         'delete_plugins_text'                   => '1. eliminar solo la aplicación',

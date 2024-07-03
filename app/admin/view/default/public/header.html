@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
-	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
-	<title>{{$admin_theme_site_name}}{{:MyLang('common.admin_browser_title')}}</title>
+    <meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
+    <title>{{$admin_theme_site_name}}{{:MyLang('common.admin_browser_title')}}</title>
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
+
+    <!-- 轮播插件 -->
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/swiper/swiper.min.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/swiper/swiper-bundle.min.css?v={{:MyC('home_static_cache_version')}}" />
+
+    <!-- 公共css -->
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+
+    <!-- 模块公共css -->
     {{if !empty($static_path_data['common_css'])}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.common_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}

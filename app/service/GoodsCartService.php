@@ -192,10 +192,10 @@ class GoodsCartService
                     $v['spec'] = json_decode($v['spec'], true);
                     if(!empty($v['spec']) && is_array($v['spec']))
                     {
-                        $v['spec_text'] = implode('，', array_map(function($spec)
+                        $v['spec_text'] = implode('，', array_filter(array_map(function($spec)
                         {
-                            return $spec['type'].':'.$spec['value'];
-                        }, $v['spec']));
+                            return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
+                        }, $v['spec'])));
                     }
                 } else {
                     $v['spec'] = null;
@@ -386,10 +386,15 @@ class GoodsCartService
                 return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));
             }
         } else {
-            // 购物车数量是否已经到达最大库存数量、是否达到最大限购数量
-            if($temp['stock'] >= $goods['inventory'] || ($goods['buy_max_number'] > 0 && $temp['stock'] >= $goods['buy_max_number']))
+            // 购物车数量是否已经到达最大库存数量
+            if($temp['stock'] >= $goods['inventory'])
             {
-                return DataReturn(MyLang('common_service.goodscart.save_buy_max_error_tips'), -1);
+                return DataReturn(MyLang('common_service.goodscart.save_buy_max_error_tips').'('.$temp['stock'].'>'.$goods['inventory'].')', -1);
+            }
+            // 是否达到最大限购数量
+            if($goods['buy_max_number'] > 0 && $temp['stock'] >= $goods['buy_max_number'])
+            {
+                return DataReturn(MyLang('common_service.goodscart.save_buy_max_error_tips').'('.$temp['stock'].'>'.$goods['buy_max_number'].')', -1);
             }
             // 加入数量、避免超过最大库存
             $data['stock'] += $temp['stock'];

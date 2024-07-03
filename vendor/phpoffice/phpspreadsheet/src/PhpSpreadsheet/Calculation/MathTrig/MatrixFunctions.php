@@ -16,7 +16,7 @@ class MatrixFunctions
      *
      * @param mixed $matrixValues A matrix of values
      */
-    private static function getMatrix(mixed $matrixValues): Matrix
+    private static function getMatrix($matrixValues): Matrix
     {
         $matrixData = [];
         if (!is_array($matrixValues)) {
@@ -57,7 +57,7 @@ class MatrixFunctions
      *
      * @return array|string The resulting array, or a string containing an error
      */
-    public static function sequence(mixed $rows = 1, mixed $columns = 1, mixed $start = 1, mixed $step = 1): string|array
+    public static function sequence($rows = 1, $columns = 1, $start = 1, $step = 1)
     {
         try {
             $rows = (int) Helpers::validateNumericNullSubstitution($rows, 1);
@@ -95,13 +95,13 @@ class MatrixFunctions
      *
      * @return float|string The result, or a string containing an error
      */
-    public static function determinant(mixed $matrixValues)
+    public static function determinant($matrixValues)
     {
         try {
             $matrix = self::getMatrix($matrixValues);
 
             return $matrix->determinant();
-        } catch (MatrixException) {
+        } catch (MatrixException $ex) {
             return ExcelError::VALUE();
         } catch (Exception $e) {
             return $e->getMessage();
@@ -120,15 +120,15 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function inverse(mixed $matrixValues): array|string
+    public static function inverse($matrixValues)
     {
         try {
             $matrix = self::getMatrix($matrixValues);
 
             return $matrix->inverse()->toArray();
-        } catch (MatrixDiv0Exception) {
+        } catch (MatrixDiv0Exception $e) {
             return ExcelError::NAN();
-        } catch (MatrixException) {
+        } catch (MatrixException $e) {
             return ExcelError::VALUE();
         } catch (Exception $e) {
             return $e->getMessage();
@@ -143,14 +143,14 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function multiply(mixed $matrixData1, mixed $matrixData2): array|string
+    public static function multiply($matrixData1, $matrixData2)
     {
         try {
             $matrixA = self::getMatrix($matrixData1);
             $matrixB = self::getMatrix($matrixData2);
 
             return $matrixA->multiply($matrixB)->toArray();
-        } catch (MatrixException) {
+        } catch (MatrixException $ex) {
             return ExcelError::VALUE();
         } catch (Exception $e) {
             return $e->getMessage();
@@ -164,7 +164,7 @@ class MatrixFunctions
      *
      * @return array|string The result, or a string containing an error
      */
-    public static function identity(mixed $dimension)
+    public static function identity($dimension)
     {
         try {
             $dimension = (int) Helpers::validateNumericNullBool($dimension);

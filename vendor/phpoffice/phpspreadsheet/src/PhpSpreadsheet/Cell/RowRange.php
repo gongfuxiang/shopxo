@@ -3,28 +3,28 @@
 namespace PhpOffice\PhpSpreadsheet\Cell;
 
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Stringable;
 
-/**
- * @implements AddressRange<int>
- */
-class RowRange implements AddressRange, Stringable
+class RowRange implements AddressRange
 {
-    protected ?Worksheet $worksheet;
+    /**
+     * @var ?Worksheet
+     */
+    protected $worksheet;
 
-    protected int $from;
+    /**
+     * @var int
+     */
+    protected $from;
 
-    protected int $to;
+    /**
+     * @var int
+     */
+    protected $to;
 
     public function __construct(int $from, ?int $to = null, ?Worksheet $worksheet = null)
     {
         $this->validateFromTo($from, $to ?? $from);
         $this->worksheet = $worksheet;
-    }
-
-    public function __destruct()
-    {
-        $this->worksheet = null;
     }
 
     public static function fromArray(array $array, ?Worksheet $worksheet = null): self

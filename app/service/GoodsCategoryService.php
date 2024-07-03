@@ -303,6 +303,24 @@ class GoodsCategoryService
     }
 
     /**
+     * 获取商品关联的所有分类id
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]         $goods_ids [商品id]
+     */
+    public static function GoodsJoinCategoryIds($goods_ids = [])
+    {
+        if(!is_array($goods_ids))
+        {
+            $goods_ids = explode(',', $goods_ids);
+        }
+        return array_unique(Db::name('GoodsCategoryJoin')->where(['goods_id' => $goods_ids])->column('category_id'));
+    }
+
+    /**
      * 商品分类数据处理
      * @author   Devil
      * @blog    http://gong.gg/

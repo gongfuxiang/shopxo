@@ -1,0 +1,56 @@
+{{if !isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1}}
+    <div class="am-popup am-radius" id="form-table-fields-popup">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">{{:MyLang('setup_title')}}</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <form class="am-form am-form-full-screen am-form-popup-fixed">
+                    <div class="form-table-fields-select-container">
+                        <div class="form-table-fields-list-container">
+                            {{if !empty($form_user_fields)}}
+                                <div class="form-table-fields-list-top-tips">
+                                    <p>{{:MyLang('form_table_column_sort_tips')}}</p>
+                                </div>
+                                <ul class="am-flex am-flex-col am-padding-xs form-table-fields-content-container">
+                                    {{foreach $form_user_fields as $v}}
+                                        <li class="am-padding-vertical-sm">
+                                            <label class="am-checkbox-inline">
+                                                <input type="checkbox" name="form_field_checkbox_value" value="{{$v.key}}" data-original-name="{{$v.label}}" data-am-ucheck {{if isset($v['checked']) and $v['checked'] eq 1}}checked{{/if}} />
+                                                <span>{{$v.label}}</span>
+                                            </label>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            {{else /}}
+                                {{:ModuleInclude('public/not_data')}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="am-form-popup-submit">
+                        <label class="am-checkbox-inline am-fl">
+                            <input type="checkbox" class="form-table-field-checkbox-submit" data-value="{{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}1{{else /}}0{{/if}}"  
+                            data-checked-text="{{:MyLang('reverse_select_title')}}" data-not-checked-text="{{:MyLang('select_all_title')}}" 
+                            value="{{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}1{{else /}}0{{/if}}" data-am-ucheck {{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}checked{{/if}} />
+                            <span class="checkbox-name">{{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}{{:MyLang('reverse_select_title')}}{{else /}}{{:MyLang('select_all_title')}}{{/if}}</span>
+                        </label>
+
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                            <i class="am-icon-paint-brush"></i>
+                            <span>{{:MyLang('cancel_title')}}</span>
+                        </button>
+                        <button type="button" class="am-btn am-btn-primary-plain am-radius am-btn-xs btn-loading-example am-margin-right-lg submit-ajax" data-url="{{:MyUrl($module_name.'/formtable/fieldsselectreset')}}" data-id="{{$form_md5_key}}" data-key="md5_key" data-view="reload" data-is-confirm="0" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('reset_title')}}'}">
+                            <i class="am-icon-filter"></i>
+                            <span>{{:MyLang('reset_title')}}</span>
+                        </button>
+                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example form-table-field-confirm-submit" data-url="{{:MyUrl($module_name.'/formtable/fieldsselectsave')}}" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                            <i class="am-icon-check"></i>
+                            <span>{{:MyLang('confirm_title')}}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/if}}

@@ -123,20 +123,21 @@ return [
         'detail_user_address_idcard_pic'        => '照片',
         // 动态表格
         'form_table'                            => [
-            'user'              => '用户信息',
-            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
-            'alias'             => '别名',
-            'name'              => '联系人',
-            'tel'               => '联系电话',
-            'province_name'     => '所属省',
-            'city_name'         => '所属市',
-            'county_name'       => '所属区/县',
-            'address'           => '详细地址',
-            'position'          => '经纬度',
-            'idcard_info'       => '身份证信息',
-            'is_default'        => '是否默认',
-            'add_time'          => '创建时间',
-            'upd_time'          => '更新时间',
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'alias'              => '别名',
+            'name'               => '联系人',
+            'tel'                => '联系电话',
+            'province_name'      => '所属省',
+            'city_name'          => '所属市',
+            'county_name'        => '所属区/县',
+            'address'            => '详细地址',
+            'address_last_code'  => '地址最后一级编码',
+            'position'           => '经纬度',
+            'idcard_info'        => '身份证信息',
+            'is_default'         => '是否默认',
+            'add_time'           => '创建时间',
+            'upd_time'           => '更新时间',
         ],
     ],
 
@@ -473,6 +474,7 @@ return [
             ['name' => '基础配置', 'type' => 'index'],
             ['name' => 'APP/小程序', 'type' => 'app'],
         ],
+        'online_service_title'                  => '在线客服',
         'user_base_popup_title'                 => '用户基础信息弹窗提示',
         'user_onekey_bind_mobile_tips_list'     => [
             '1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定，目前仅支持【微信小程序、百度小程序、头条小程序】',
@@ -486,6 +488,10 @@ return [
         ],
         'user_base_popup_top_tips_list'         => [
             '1. 目前仅微信小程序平台自动授权登录后无用户昵称和头像信息',
+        ],
+        'online_service_top_tips_list'          => [
+            '1. 自定义客服http协议采用webview方式打开',
+            '2. 客服优先级顺序【 客服系统 -> 自定义客服 -> 企业微信客服(仅app+h5+微信小程序生效) -> 各端平台客服 -> 电话客服 】',
         ],
     ],
 
@@ -723,6 +729,7 @@ return [
             'customview'        => '自定义页面',
             'goods_category'    => '商品分类',
             'design'            => '页面设计',
+            'plugins'           => '插件首页',
         ],
         // 动态表格
         'form_table'                            => [
@@ -1089,6 +1096,8 @@ return [
         'data_list_author_title'                => '作者',
         'data_list_author_url_title'            => '主页',
         'data_list_version_title'               => '版本',
+        'data_list_second_domain_title'         => '二级域名',
+        'data_list_second_domain_tips'          => '请在后台[ 系统 -> 系统配置 -> 安全 ]中配置好Cookie有效域名主域名',
         'uninstall_confirm_tips'                => '卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？',
         'not_install_divide_title'              => '以下插件未安装',
         'delete_plugins_text'                   => '1. 仅删除应用',

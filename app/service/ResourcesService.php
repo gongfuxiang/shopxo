@@ -526,6 +526,7 @@ class ResourcesService
 
         // 获取附件数据
         $data = DB::name('Attachment')->where(['url'=>$url])->select()->toArray();
+        $path = substr(ROOT_PATH, 0, -1);
         if(!empty($data))
         {
             // 删除数据库数据
@@ -535,10 +536,19 @@ class ResourcesService
             }
 
             // 删除磁盘文件
-            $path = substr(ROOT_PATH, 0, -1);
             foreach($data as $v)
             {
                 $file = $path.$v['url'];
+                if(file_exists($file) && is_writable($file))
+                {
+                    \base\FileUtil::UnlinkFile($file);
+                }
+            }
+        } else {
+            // 不存在数据库，但是存在硬盘中则也删除
+            foreach($url as $uv)
+            {
+                $file = $path.$uv;
                 if(file_exists($file) && is_writable($file))
                 {
                     \base\FileUtil::UnlinkFile($file);
@@ -1108,21 +1118,50 @@ class ResourcesService
         {
             $plugins_control = PluginsRequestController();
             $plugins_action = PluginsRequestAction();
+
+            // 新版本插件目录
             // 页面css
-            $pcss = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+            $pcss = $control.DS.$plugins_name.DS.'css'.DS.$group.DS.$plugins_control;
             $pcss .= file_exists(ROOT_PATH.'static'.DS.$pcss.'.'.$plugins_action.'.css') ? '.'.$plugins_action.'.css' : '.css';
             $page_css = file_exists(ROOT_PATH.'static'.DS.$pcss) ? $pcss : '';
+            if(empty($page_css))
+            {
+                // 页面css - 老版本
+                $pcss = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+                $pcss .= file_exists(ROOT_PATH.'static'.DS.$pcss.'.'.$plugins_action.'.css') ? '.'.$plugins_action.'.css' : '.css';
+                $page_css = file_exists(ROOT_PATH.'static'.DS.$pcss) ? $pcss : '';
+            }
 
             // 页面js
-            $pjs = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+            $pjs = $control.DS.$plugins_name.DS.'js'.DS.$group.DS.$plugins_control;
             $pjs .= file_exists(ROOT_PATH.'static'.DS.$pjs.'.'.$plugins_action.'.js') ? '.'.$plugins_action.'.js' : '.js';
             $page_js = file_exists(ROOT_PATH.'static'.DS.$pjs) ? $pjs : '';
+            if(empty($page_js))
+            {
+                // 页面js - 老版本
+                $pjs = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.$plugins_control;
+                $pjs .= file_exists(ROOT_PATH.'static'.DS.$pjs.'.'.$plugins_action.'.js') ? '.'.$plugins_action.'.js' : '.js';
+                $page_js = file_exists(ROOT_PATH.'static'.DS.$pjs) ? $pjs : '';
+            }
 
-            // 应用公共css,js
-            $plugins_css = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
+            // 应用公共css
+            $plugins_css = $control.DS.$plugins_name.DS.'css'.DS.$group.DS.'common.css';
             $plugins_css = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
-            $plugins_js = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
+            if(empty($plugins_css))
+            {
+                // 应用公共css - 老版本
+                $plugins_css = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
+                $plugins_css = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
+            }
+            // 应用公共js
+            $plugins_js = $control.DS.$plugins_name.DS.'js'.DS.$group.DS.'common.js';
             $plugins_js = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
+            if(empty($plugins_js))
+            {
+                // 应用公共js - 老版本
+                $plugins_js = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
+                $plugins_js = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
+            }
         }
 
         return [

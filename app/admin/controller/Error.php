@@ -55,8 +55,7 @@ class Error extends Common
     public function Tips()
     {
         $msg = empty($this->data_request['msg']) ? MyLang('error') : urldecode(base64_decode($this->data_request['msg']));
-        MyViewAssign('msg', $msg);
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>$msg]);
     }
 }
 ?>

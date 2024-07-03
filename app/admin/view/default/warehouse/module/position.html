@@ -1,6 +1,6 @@
 <!--  经纬度 -->
 {{if isset($module_data['lng']) and isset($module_data['lat']) and $module_data['lng'] neq 0 and $module_data['lat'] neq 0}}
-    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs am-fr submit-map-popup" data-lng="{{$module_data.lng}}" data-lat="{{$module_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_title')}}</button>
+    <a href="javascript:;" class="am-icon-map-marker am-color-blue am-fr submit-map-popup" data-lng="{{$module_data.lng}}" data-lat="{{$module_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_title')}}</a>
     {{if !empty($module_data['lng'])}}
         <p><span>{{:MyLang('lan_title')}}：</span>{{$module_data.lng}}</p>
     {{/if}}

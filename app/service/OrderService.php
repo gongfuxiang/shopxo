@@ -1067,11 +1067,22 @@ class OrderService
             $keywords_status = false;
 
             // 订单表查询
-            $oids = Db::name('Order')->where([['order_no|express_number', '=', $params['keywords']]])->column('id');
+            $oids = Db::name('Order')->where([['order_no', '=', $params['keywords']]])->column('id');
             if(!empty($oids))
             {
                 $where[] = ['id', 'in', $oids];
                 $keywords_status = true;
+            }
+
+            // 快递单号查询
+            if($keywords_status === false)
+            {
+                $oid = Db::name('OrderExpress')->where(['express_number'=>$params['keywords']])->value('order_id');
+                if(!empty($oid))
+                {
+                    $where[] = ['id', '=', $oid];
+                    $keywords_status = true;
+                }
             }
 
             // 取货码查询
@@ -1446,10 +1457,6 @@ class OrderService
                 $v['user_is_comments_time'] = ($v['user_is_comments'] == 0) ? null : date('Y-m-d H:i:s', $v['user_is_comments']);
 
                 // 空字段数据处理
-                if(empty($v['express_number']))
-                {
-                    $v['express_number'] = null;
-                }
                 if(empty($v['user_note']))
                 {
                     $v['user_note'] = null;
@@ -1545,19 +1552,30 @@ class OrderService
             // 管理员
             if($user_type == 'admin')
             {
+                // 确认
                 $result['is_confirm']    = ($data['status'] == 0) ? 1 : 0;
+                // 支付
                 $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
-                $result['is_delivery']   = (isset($data['order_model']) && (($data['status'] != 0 && $data['status'] == 2) || ($data['order_model'] == 0 && in_array($data['status'], [2,3]))) && in_array($data['order_model'], [0,2,3])) ? 1 : 0;
+                // 发货、取货
+                $result['is_delivery']   = isset($data['order_model']) && (($data['order_model'] == 0 && in_array($data['status'], [2,3])) || ($data['order_model'] == 2 && $data['status'] == 2)) ? 1 : 0;
+                // 收货
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
+                // 取消
                 $result['is_cancel']     = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
+                // 删除
                 $result['is_delete']     = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
 
             // 用户
             } else {
+                // 支付
                 $result['is_pay']        = ($data['status'] == 1) ? 1 : 0;
+                // 收货
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
+                // 取消
                 $result['is_cancel']     = (in_array($data['status'], [0,1]) || $data['status'] == 2 && $data['pay_status'] == 0) ? 1 : 0;
+                // 评价
                 $result['is_comments']   = ($data['status'] == 4 && isset($data['user_is_comments']) && $data['user_is_comments'] == 0) ? 1 : 0;
+                // 删除
                 $result['is_delete']     = (in_array($data['status'], [4,5,6]) && isset($data['user_is_delete_time']) && $data['user_is_delete_time'] == 0) ? 1 : 0;
             }
         }
@@ -2221,14 +2239,16 @@ class OrderService
             {
                 Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->delete();
             }
-        }
-        // 发货信息多条模式处理
-        if(!empty($params['express_data']))
-        {
-            if(!is_array($params['express_data']))
+
+            // 发货信息多条模式处理
+            if(!empty($params['express_data']))
             {
-                $params['express_data'] = json_decode(urldecode($params['express_data']), true);
+                if(!is_array($params['express_data']))
+                {
+                    $params['express_data'] = json_decode(urldecode($params['express_data']), true);
+                }
             }
+            // 没有发货信息则删除全部
             if(!empty($params['express_data']) && is_array($params['express_data']))
             {
                 // 原始数据
@@ -2273,6 +2293,8 @@ class OrderService
                         return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
                     }
                 }
+            } else {
+                Db::name('OrderExpress')->where(['order_id'=>$order['id']])->delete();
             }
         }
 

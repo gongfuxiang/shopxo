@@ -13,7 +13,7 @@ class RelsRibbon extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeRibbonRelationships(Spreadsheet $spreadsheet): string
+    public function writeRibbonRelationships(Spreadsheet $spreadsheet)
     {
         // Create XML writer
         $objWriter = null;

@@ -20,7 +20,7 @@
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="am-icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -60,7 +60,7 @@
                         </a>
                         <div class="goods-base-right am-fr">
                             <a href="{{$v.goods_url}}" target="_blank">
-                                <p class="am-text-truncate">{{$v.title}}</p>
+                                <p class="am-text-truncate">{{$v.title|raw}}</p>
                             </a>
 
                             <!-- 商品信息售价顶部钩子 -->
@@ -87,7 +87,7 @@
                             {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
                                 <p class="am-text-truncate price">
                                     <strong>{{$v.show_price_symbol}}{{$v.price}}</strong>
-                                    <span class="am-text-grey am-text-xs">{{$v.show_price_unit}}</span>
+                                    <span class="am-text-grey am-text-xs unit">{{$v.show_price_unit}}</span>
                                 </p>
                             {{/if}}
 

@@ -7,8 +7,10 @@ class LogarithmicBestFit extends BestFit
     /**
      * Algorithm type to use for best-fit
      * (Name of this Trend class).
+     *
+     * @var string
      */
-    protected string $bestFitType = 'logarithmic';
+    protected $bestFitType = 'logarithmic';
 
     /**
      * Return the Y-Value for a specified value of X.
@@ -17,7 +19,7 @@ class LogarithmicBestFit extends BestFit
      *
      * @return float Y-Value
      */
-    public function getValueOfYForX(float $xValue): float
+    public function getValueOfYForX($xValue)
     {
         return $this->getIntersect() + $this->getSlope() * log($xValue - $this->xOffset);
     }
@@ -29,7 +31,7 @@ class LogarithmicBestFit extends BestFit
      *
      * @return float X-Value
      */
-    public function getValueOfXForY(float $yValue): float
+    public function getValueOfXForY($yValue)
     {
         return exp(($yValue - $this->getIntersect()) / $this->getSlope());
     }
@@ -38,8 +40,10 @@ class LogarithmicBestFit extends BestFit
      * Return the Equation of the best-fit line.
      *
      * @param int $dp Number of places of decimal precision to display
+     *
+     * @return string
      */
-    public function getEquation(int $dp = 0): string
+    public function getEquation($dp = 0)
     {
         $slope = $this->getSlope($dp);
         $intersect = $this->getIntersect($dp);
@@ -56,7 +60,9 @@ class LogarithmicBestFit extends BestFit
     private function logarithmicRegression(array $yValues, array $xValues, bool $const): void
     {
         $adjustedYValues = array_map(
-            fn ($value): float => ($value < 0.0) ? 0 - log(abs($value)) : log($value),
+            function ($value) {
+                return ($value < 0.0) ? 0 - log(abs($value)) : log($value);
+            },
             $yValues
         );
 
@@ -68,8 +74,9 @@ class LogarithmicBestFit extends BestFit
      *
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
+     * @param bool $const
      */
-    public function __construct(array $yValues, array $xValues = [], bool $const = true)
+    public function __construct($yValues, $xValues = [], $const = true)
     {
         parent::__construct($yValues, $xValues);
 

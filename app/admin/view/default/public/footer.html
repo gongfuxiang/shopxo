@@ -11,16 +11,16 @@
             <div class="am-padding-sm am-margin-bottom">
                 <!-- form start -->
                 <form class="am-form form-validation-store-accounts" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
-                    <div class="am-form-group row am-form-group-refreshing business-form-block">
+                    <div class="am-form-group">
                         <label>{{:MyLang('store_bind_form_accounts')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="text" name="common_store_accounts" placeholder="{{:MyLang('store_bind_form_accounts_placeholder')}}" data-validation-message="{{:MyLang('store_bind_form_accounts_message')}}" class="am-radius" value="" autocomplete="off" required />
                     </div>
-                    <div class="am-form-group row am-form-group-refreshing business-form-block">
+                    <div class="am-form-group">
                         <label>{{:MyLang('store_bind_form_password')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="password" name="common_store_password" placeholder="{{:MyLang('store_bind_form_password_placeholder')}}" data-validation-message="{{:MyLang('store_bind_form_password_message')}}" class="am-radius" value="" autocomplete="off" required />
                     </div>
                     
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-sm">
+                    <div class="am-form-group am-margin-top-sm">
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-block" data-am-loading="{loadingText:'{{:MyLang('bind_tips')}}'}">{{:MyLang('bind_title')}}</button>
                     </div>
                     <div class="am-margin-top-xr am-text-right am-padding-right-xs">
@@ -129,6 +129,10 @@
 <script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.js?v={{:MyC('home_static_cache_version')}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-dialog/amazeui.dialog.js?v={{:MyC('home_static_cache_version')}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+
+<!-- 轮播插件 -->
+<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper-bundle.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/My97DatePicker/WdatePicker.js?v={{:MyC('home_static_cache_version')}}"></script>

@@ -10,7 +10,7 @@
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <a href="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-right-sm">
                             <i class="iconfont icon-btn-add am-show-sm-only"></i>
-                            <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+                            <span>{{:MyLang('add_title')}}</span>
                         </a>
                     {{/if}}
                     {{if AdminIsPower('pluginsadmin', 'upload')}}
@@ -54,7 +54,7 @@
                                 <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
                                 <a href="javascript:;" class="am-margin-left iconfont icon-setup submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</a>
                                 <a href="javascript:;" class="am-margin-left iconfont icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</a>
-                                <a href="javascript:;" class="am-margin-left-xs iconfont icon-close-o submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
+                                <a href="javascript:;" class="am-margin-left-sm iconfont icon-close-o submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
                             {{/if}}
                             {{if AdminIsPower('packageinstall', 'index')}}
                                 <a href="javascript:;" class="am-margin-left-lg">
@@ -100,13 +100,14 @@
                                     <div class="item {{if $v['is_enable'] eq 0}}am-active{{/if}}" id="data-list-{{$v.plugins}}">
                                         <!-- 拖拽排序 -->
                                         <div class="submit-move"></div>
+                                        <!-- 插件内容 -->
                                         <img src="{{$v.logo}}" class="icon" />
                                         <div class="base">
                                             <h3 class="name">{{$v.name}}</h3>
                                             <div class="am-flex am-flex-items-center am-gap-1">
-                                                <p>{{:MyLang('pluginsadmin.data_list_author_title')}}：{{$v.author}}</p>
-                                                <p>/</p>
                                                 {{if empty($site_store_info) or empty($site_store_info['vip']) or !isset($site_store_info['vip']['status']) or $site_store_info['vip']['status'] eq 0}}
+                                                    <p>{{:MyLang('pluginsadmin.data_list_author_title')}}：{{$v.author}}</p>
+                                                    <p>/</p>
                                                     <p class="am-hide-sm-only">{{:MyLang('pluginsadmin.data_list_author_url_title')}}：<a href="{{$v.author_url}}" class="am-pr z-i iconfont icon-home" target="_blank"></a></p>
                                                     <p class="am-hide-sm-only">/</p>
                                                 {{/if}}
@@ -140,8 +141,8 @@
                                                 {{/if}}
                                             {{/if}}
 
-                                            {{if isset($v['is_home']) and $v['is_home'] eq true}}
-                                                <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius" target="_blank">
+                                            {{if isset($v['is_home']) and $v['is_home'] eq true and !empty($v['home_url'])}}
+                                                <a href="{{$v.home_url}}" class="am-btn am-btn-default am-btn-xs am-radius" target="_blank">
                                                     <i class="iconfont icon-application-home"></i>
                                                     <span>{{:MyLang('home_title')}}</span>
                                                 </a>
@@ -160,20 +161,20 @@
                                             </button>
 
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius">
-                                                    <i class="iconfont icon-application-download"></i>
-                                                    <span>{{:MyLang('download_title')}}</span>
-                                                </a>
-                                            {{/if}}
-
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}">
                                                     <i class="iconfont icon-application-upload"></i>
                                                     <span>{{:MyLang('upload_title')}}</span>
                                                 </button>
                                             {{/if}}
+
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius">
+                                                    <i class="iconfont icon-application-download"></i>
+                                                    <span>{{:MyLang('download_title')}}</span>
+                                                </a>
+                                            {{/if}}
                                         </div>
-                                        <div class="plugins-right-top-container am-hide">
+                                        <div class="plugins-setup-container am-padding-main am-hide">
                                             {{if !empty($left_menu)}}
                                                 <div class="am-inline-block chosen-select-item">
                                                     <select class="am-radius chosen-select" name="plugins_menu_control" data-placeholder="{{:MyLang('pluginsadmin.plugins_menu_control_title')}}">
@@ -194,6 +195,13 @@
                                                     </select>
                                                 </div>
                                             {{/if}}
+                                            {{if isset($v['is_home']) and $v['is_home'] eq true}}
+                                                <div class="am-inline-block chosen-select-item am-background-white second-domain">
+                                                    <label class="am-checkbox-inline" title="{{:MyLang('pluginsadmin.data_list_second_domain_tips')}}">
+                                                        <input type="checkbox" name="plugins_is_second_domain" value="1" data-am-ucheck {{if isset($v['plugins_is_second_domain']) and $v['plugins_is_second_domain'] eq 1}}checked="true"{{/if}} /> {{:MyLang('pluginsadmin.data_list_second_domain_title')}}
+                                                    </label>
+                                                </div>
+                                            {{/if}}
                                         </div>
                                     </div>
                                 </li>
@@ -210,7 +218,7 @@
                 {{if !empty($data_list['dir_data'])}}
                     <!-- 未安装 -->
                     <div class="am-margin-top-lg am-margin-bottom-xs am-nav-left">
-                            <span class="am-text-sm am-font-weight">{{:MyLang('pluginsadmin.not_install_divide_title')}}</span>
+                        <span class="am-text-sm am-font-weight">{{:MyLang('pluginsadmin.not_install_divide_title')}}</span>
                     </div>
                     <ul class="not-install am-nbfc" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
                         {{foreach $data_list['dir_data'] as $v}}
@@ -269,7 +277,7 @@
                             <div class="am-modal-hd">
                                 <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
                             </div>
-                            <div class="am-modal-bd am-margin-top-sm">
+                            <div class="am-modal-bd">
                                 <div class="am-alert  am-text-left" data-am-alert>
                                     <p>{{:MyLang('pluginsadmin.delete_plugins_text')}}<span class="am-text-warning">{{:MyLang('pluginsadmin.delete_plugins_text_tips')}}</span></p>
                                     <p>{{:MyLang('pluginsadmin.delete_plugins_data_text')}}<span class="am-text-warning">{{:MyLang('pluginsadmin.delete_plugins_data_text_tips')}}</span></p>

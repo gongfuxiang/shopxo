@@ -262,7 +262,7 @@ function AdminTopNavIframeAddHandle (url, name, key, type = 'nav', is_reload = f
  * @desc    description
  */
 function AdminMenuNavTabsMemoryHandle () {
-    var key = 'admin-menu-nav-tabs-memory-data-' + __admin_id__;
+    var key = AdminMenuNavTabsMemoryKey();
     localStorage.removeItem(key);
     var menu_list = [];
     $('.header-menu-open-pages-list ul li').each((index, item) => {
@@ -280,6 +280,18 @@ function AdminMenuNavTabsMemoryHandle () {
 }
 
 /**
+ * tab缓存key
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-07-03
+ * @desc    description
+ */
+function AdminMenuNavTabsMemoryKey() {
+    return __my_host__.replace(/\./g, '')+'-admin-menu-nav-tabs-memory-data-' + __admin_id__; 
+}
+
+/**
  * 获取菜单tabs标签数据记忆展示
  * @author  kevin
  * @blog    http://gong.gg/
@@ -289,7 +301,7 @@ function AdminMenuNavTabsMemoryHandle () {
  */
 function AdminMenuNavTabsMemoryView () {
 
-    var menu_list = JSON.parse(localStorage.getItem('admin-menu-nav-tabs-memory-data-' + __admin_id__));
+    var menu_list = JSON.parse(localStorage.getItem(AdminMenuNavTabsMemoryKey()));
     $('.header-menu-open-pages-list ul').empty();
     if (menu_list !== null) {
         menu_list.forEach(item => {

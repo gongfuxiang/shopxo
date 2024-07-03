@@ -28,8 +28,7 @@ class Accounting extends Currency
         bool $thousandsSeparator = true,
         bool $currencySymbolPosition = self::LEADING_SYMBOL,
         bool $currencySymbolSpacing = self::SYMBOL_WITHOUT_SPACING,
-        ?string $locale = null,
-        bool $stripLeadingRLM = self::DEFAULT_STRIP_LEADING_RLM
+        ?string $locale = null
     ) {
         $this->setCurrencyCode($currencyCode);
         $this->setThousandsSeparator($thousandsSeparator);
@@ -37,7 +36,6 @@ class Accounting extends Currency
         $this->setCurrencySymbolPosition($currencySymbolPosition);
         $this->setCurrencySymbolSpacing($currencySymbolSpacing);
         $this->setLocale($locale);
-        $this->stripLeadingRLM = $stripLeadingRLM;
     }
 
     /**
@@ -45,15 +43,17 @@ class Accounting extends Currency
      */
     protected function getLocaleFormat(): string
     {
-        if (self::icuVersion() < 53.0) {
-            // @codeCoverageIgnoreStart
+        if (version_compare(PHP_VERSION, '7.4.1', '<')) {
+            throw new Exception('The Intl extension does not support Accounting Formats below PHP 7.4.1');
+        }
+
+        if ($this->icuVersion() < 53.0) {
             throw new Exception('The Intl extension does not support Accounting Formats without ICU 53');
-            // @codeCoverageIgnoreEnd
         }
 
         // Scrutinizer does not recognize CURRENCY_ACCOUNTING
         $formatter = new Locale($this->fullLocale, NumberFormatter::CURRENCY_ACCOUNTING);
-        $mask = $formatter->format($this->stripLeadingRLM);
+        $mask = $formatter->format();
         if ($this->decimals === 0) {
             $mask = (string) preg_replace('/\.0+/miu', '', $mask);
         }
@@ -61,7 +61,7 @@ class Accounting extends Currency
         return str_replace('¤', $this->formatCurrencyCode(), $mask);
     }
 
-    public static function icuVersion(): float
+    private function icuVersion(): float
     {
         [$major, $minor] = explode('.', INTL_ICU_VERSION);
 
@@ -87,15 +87,15 @@ class Accounting extends Currency
             '_-%s%s%s0%s%s%s_-',
             $this->currencySymbolPosition === self::LEADING_SYMBOL ? $this->formatCurrencyCode() : null,
             (
-                $this->currencySymbolPosition === self::LEADING_SYMBOL
-                && $this->currencySymbolSpacing === self::SYMBOL_WITH_SPACING
-            ) ? "\u{a0}" : '',
+                $this->currencySymbolPosition === self::LEADING_SYMBOL &&
+                $this->currencySymbolSpacing === self::SYMBOL_WITH_SPACING
+            ) ? ' ' : '',
             $this->thousandsSeparator ? '#,##' : null,
             $this->decimals > 0 ? '.' . str_repeat('0', $this->decimals) : null,
             (
-                $this->currencySymbolPosition === self::TRAILING_SYMBOL
-                && $this->currencySymbolSpacing === self::SYMBOL_WITH_SPACING
-            ) ? "\u{a0}" : '',
+                $this->currencySymbolPosition === self::TRAILING_SYMBOL &&
+                $this->currencySymbolSpacing === self::SYMBOL_WITH_SPACING
+            ) ? ' ' : '',
             $this->currencySymbolPosition === self::TRAILING_SYMBOL ? $this->formatCurrencyCode() : null
         );
     }

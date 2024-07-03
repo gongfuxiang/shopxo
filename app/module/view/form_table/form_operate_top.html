@@ -1,0 +1,94 @@
+<!-- 公共操作 -->
+<!-- 钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_form_top_operate}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_form_top_operate, ['hook_name'=>$hook_name_form_top_operate, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+
+<!-- 是否开启数据打印操作 -->
+{{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+    <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-data-print-submit">
+        <i class="iconfont icon-data-print am-show-sm-only"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_print_name')}}</span>
+    </button>
+{{/if}}
+
+<!-- 是否开启数据导出pdf操作 -->
+{{if isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1}}
+    <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-data-print-submit" data-is-pdf="1">
+        <i class="iconfont icon-pdf am-show-sm-only"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_export_pdf_name')}}</span>
+    </button>
+{{/if}}
+
+<!-- 是否开启数据导出excel操作 -->
+{{if isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1}}
+    <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-export-excel-submit">
+        <i class="iconfont icon-excel am-show-sm-only"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_export_excel_name')}}</span>
+    </button>
+{{/if}}
+
+<!-- 是否开启删除操作 -->
+{{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
+    <button
+        type="button"
+        class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-delete-submit"
+        data-url="{{if isset($form_table['base']['delete_url'])}}{{$form_table.base.delete_url}}{{/if}}"
+        data-form="{{if isset($form_table['base']['delete_form'])}}{{$form_table.base.delete_form}}{{/if}}"
+        data-key="{{if isset($form_table['base']['delete_key'])}}{{$form_table.base.delete_key}}{{/if}}"
+        data-confirm-title="{{if isset($form_table['base']['confirm_title'])}}{{$form_table.base.confirm_title}}{{/if}}"
+        data-confirm-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
+        data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
+    >
+        <i class="iconfont icon-delete am-show-sm-only"></i>
+        <span>{{:MyLang('delete_title')}}</span>
+    </button>
+{{/if}}
+
+<!-- 右侧操作 -->
+{{if (((!empty($admin) and $module_name eq 'admin') or (!empty($user) and $module_name eq 'index')) and (!isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1)) or (isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1)}}
+    <div class="am-fr am-nbfc operate-right">
+        <div class="am-flex am-gap-12">
+            <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
+            {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+                <!-- 搜索 -->
+                <button type="submit" class="am-btn am-radius btn-loading-example form-table-operate-top-search-submit" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}"  data-am-popover="{content: '{{:MyLang('search_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                    <i class="iconfont icon-search"></i>
+                </button>
+                <!-- 重置 -->
+                <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-radius form-table-operate-top-reset-submit" data-am-popover="{content: '{{:MyLang('clear_search_where')}}', trigger: 'hover focus', theme: 'sm'}">
+                    <i class="iconfont icon-refresh"></i>
+                </a>
+                <!-- 排序数据字段 -->
+                <input type="hidden" name="fp_order_by_key" value="{{if !empty($form_order_by) and !empty($form_order_by['key'])}}{{$form_order_by.key}}{{/if}}" />
+                <input type="hidden" name="fp_order_by_val" value="{{if !empty($form_order_by) and !empty($form_order_by['val'])}}{{$form_order_by.val}}{{/if}}" />
+
+                <!-- 分页数据字段 -->
+                <input type="hidden" name="page" value="{{if !empty($page)}}{{$page}}{{/if}}" />
+                <input type="hidden" name="page_size" value="{{if !empty($page_size)}}{{$page_size}}{{/if}}" />
+            {{/if}}
+
+            <!-- 字段选择 -->
+            {{if ((!empty($admin) and $module_name eq 'admin') or (!empty($user) and $module_name eq 'index')) and (!isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1)}}
+                <button type="button" class="am-btn am-radius" data-am-modal="{target: '#form-table-fields-popup'}" data-am-popover="{content: '{{:MyLang('setup_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                    <i class="iconfont icon-cog"></i>
+                </button>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}

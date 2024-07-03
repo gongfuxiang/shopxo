@@ -5351,10 +5351,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var $dropdown = this.$dropdown;
 	  if(e == 'auto') {
 	  	var config = $element.attr('data-am-dropdown') || null;
-		  if ((config || null) != null && typeof (config) == 'string') {
+		if ((config || null) != null && typeof (config) == 'string') {
 			config = eval('(' + config + ')');
-		  }
-	  	if(config != null && config.auto_close == false) {
+		}
+
+		 // 是否不自动关闭
+	  	if(config != null && config.auto_close === false) {
 	  		return false;
 	  	}
 	  }
@@ -5433,25 +5435,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var $toggle = this.$toggle;
 
 	  $toggle.on('click.' + eventNS, $.proxy(function(e) {
+	  	var config = this.$element.attr('data-am-dropdown') || null;
+		if ((config || null) != null && typeof (config) == 'string') {
+			config = eval('(' + config + ')');
+		}
+		// 开启hover则禁用点击事件
+	  	if($(window).width() >= 641 && config != null && config.trigger == 'hover') {
+	  		return false;
+	  	}
+
 	    e.preventDefault();
 	    this.toggle();
 	  }, this));
-
-	  /*for (var i = triggers.length; i--;) {
-	   var trigger = triggers[i];
-
-	   if (trigger === 'click') {
-	   $toggle.on('click.' + eventNS, $.proxy(this.toggle, this))
-	   }
-
-	   if (trigger === 'focus' || trigger === 'hover') {
-	   var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focusin';
-	   var eventOut = trigger == 'hover' ? 'mouseleave' : 'focusout';
-
-	   this.$element.on(eventIn + '.' + eventNS, $.proxy(this.open, this))
-	   .on(eventOut + '.' + eventNS, $.proxy(this.close, this));
-	   }
-	   }*/
 
 	  $(document).on('keydown.dropdown.amui', $.proxy(function(e) {
 	    e.keyCode === 27 && this.active && this.close('auto');

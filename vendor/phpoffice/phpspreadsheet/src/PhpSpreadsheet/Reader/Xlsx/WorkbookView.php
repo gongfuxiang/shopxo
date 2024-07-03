@@ -7,15 +7,24 @@ use SimpleXMLElement;
 
 class WorkbookView
 {
-    private Spreadsheet $spreadsheet;
+    /**
+     * @var Spreadsheet
+     */
+    private $spreadsheet;
 
     public function __construct(Spreadsheet $spreadsheet)
     {
         $this->spreadsheet = $spreadsheet;
     }
 
-    public function viewSettings(SimpleXMLElement $xmlWorkbook, string $mainNS, array $mapSheetId, bool $readDataOnly): void
+    /**
+     * @param mixed $mainNS
+     */
+    public function viewSettings(SimpleXMLElement $xmlWorkbook, $mainNS, array $mapSheetId, bool $readDataOnly): void
     {
+        if ($this->spreadsheet->getSheetCount() == 0) {
+            $this->spreadsheet->createSheet();
+        }
         // Default active sheet index to the first loaded worksheet from the file
         $this->spreadsheet->setActiveSheetIndex(0);
 
@@ -40,7 +49,10 @@ class WorkbookView
         }
     }
 
-    public static function testSimpleXml(mixed $value): SimpleXMLElement
+    /**
+     * @param mixed $value
+     */
+    public static function testSimpleXml($value): SimpleXMLElement
     {
         return ($value instanceof SimpleXMLElement)
             ? $value

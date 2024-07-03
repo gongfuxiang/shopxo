@@ -5,39 +5,54 @@ namespace PhpOffice\PhpSpreadsheet\Reader;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
-use PhpOffice\PhpSpreadsheet\ReferenceHelper;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class Slk extends BaseReader
 {
     /**
-     * Sheet index to read.
+     * Input encoding.
+     *
+     * @var string
      */
-    private int $sheetIndex = 0;
+    private $inputEncoding = 'ANSI';
+
+    /**
+     * Sheet index to read.
+     *
+     * @var int
+     */
+    private $sheetIndex = 0;
 
     /**
      * Formats.
+     *
+     * @var array
      */
-    private array $formats = [];
+    private $formats = [];
 
     /**
      * Format Count.
+     *
+     * @var int
      */
-    private int $format = 0;
+    private $format = 0;
 
     /**
      * Fonts.
+     *
+     * @var array
      */
-    private array $fonts = [];
+    private $fonts = [];
 
     /**
      * Font Count.
+     *
+     * @var int
      */
-    private int $fontcount = 0;
+    private $fontcount = 0;
 
     /**
      * Create a new SYLK Reader instance.
@@ -54,7 +69,7 @@ class Slk extends BaseReader
     {
         try {
             $this->openFile($filename);
-        } catch (ReaderException) {
+        } catch (ReaderException $e) {
             return false;
         }
 
@@ -67,7 +82,7 @@ class Slk extends BaseReader
 
         // Analyze first line looking for ID; signature
         $lines = explode("\n", $data);
-        $hasId = str_starts_with($lines[0], 'ID;P');
+        $hasId = substr($lines[0], 0, 4) === 'ID;P';
 
         fclose($this->fileHandle);
 
@@ -83,9 +98,45 @@ class Slk extends BaseReader
     }
 
     /**
-     * Return worksheet info (Name, Last Column Letter, Last Column Index, Total Rows, Total Columns).
+     * Set input encoding.
+     *
+     * @deprecated no use is made of this property
+     *
+     * @param string $inputEncoding Input encoding, eg: 'ANSI'
+     *
+     * @return $this
+     *
+     * @codeCoverageIgnore
      */
-    public function listWorksheetInfo(string $filename): array
+    public function setInputEncoding($inputEncoding)
+    {
+        $this->inputEncoding = $inputEncoding;
+
+        return $this;
+    }
+
+    /**
+     * Get input encoding.
+     *
+     * @deprecated no use is made of this property
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getInputEncoding()
+    {
+        return $this->inputEncoding;
+    }
+
+    /**
+     * Return worksheet info (Name, Last Column Letter, Last Column Index, Total Rows, Total Columns).
+     *
+     * @param string $filename
+     *
+     * @return array
+     */
+    public function listWorksheetInfo($filename)
     {
         // Open file
         $this->canReadOrBust($filename);
@@ -117,7 +168,7 @@ class Slk extends BaseReader
 
                             break;
                         case 'Y':
-                            $rowIndex = (int) substr($rowDatum, 1);
+                            $rowIndex = substr($rowDatum, 1);
 
                             break;
                     }
@@ -219,23 +270,21 @@ class Slk extends BaseReader
     {
         //    Read cell value data
         $hasCalculatedValue = false;
-        $tryNumeric = false;
         $cellDataFormula = $cellData = '';
-        $sharedColumn = $sharedRow = -1;
-        $sharedFormula = false;
         foreach ($rowData as $rowDatum) {
             switch ($rowDatum[0]) {
+                case 'C':
                 case 'X':
                     $column = substr($rowDatum, 1);
 
                     break;
+                case 'R':
                 case 'Y':
                     $row = substr($rowDatum, 1);
 
                     break;
                 case 'K':
                     $cellData = substr($rowDatum, 1);
-                    $tryNumeric = is_numeric($cellData);
 
                     break;
                 case 'E':
@@ -251,49 +300,22 @@ class Slk extends BaseReader
                         ->createText($comment);
 
                     break;
-                case 'C':
-                    $sharedColumn = (int) substr($rowDatum, 1);
-
-                    break;
-                case 'R':
-                    $sharedRow = (int) substr($rowDatum, 1);
-
-                    break;
-                case 'S':
-                    $sharedFormula = true;
-
-                    break;
             }
-        }
-        if ($sharedFormula === true && $sharedRow >= 0 && $sharedColumn >= 0) {
-            $thisCoordinate = Coordinate::stringFromColumnIndex((int) $column) . $row;
-            $sharedCoordinate = Coordinate::stringFromColumnIndex($sharedColumn) . $sharedRow;
-            $formula = $spreadsheet->getActiveSheet()->getCell($sharedCoordinate)->getValue();
-            $spreadsheet->getActiveSheet()->getCell($thisCoordinate)->setValue($formula);
-            $referenceHelper = ReferenceHelper::getInstance();
-            $newFormula = $referenceHelper->updateFormulaReferences($formula, 'A1', (int) $column - $sharedColumn, (int) $row - $sharedRow, '', true, false);
-            $spreadsheet->getActiveSheet()->getCell($thisCoordinate)->setValue($newFormula);
-            //$calc = $spreadsheet->getActiveSheet()->getCell($thisCoordinate)->getCalculatedValue();
-            //$spreadsheet->getActiveSheet()->getCell($thisCoordinate)->setCalculatedValue($calc);
-            $cellData = Calculation::unwrapResult($cellData);
-            $spreadsheet->getActiveSheet()->getCell($thisCoordinate)->setCalculatedValue($cellData, $tryNumeric);
-
-            return;
         }
         $columnLetter = Coordinate::stringFromColumnIndex((int) $column);
         $cellData = Calculation::unwrapResult($cellData);
 
         // Set cell value
-        $this->processCFinal($spreadsheet, $hasCalculatedValue, $cellDataFormula, $cellData, "$columnLetter$row", $tryNumeric);
+        $this->processCFinal($spreadsheet, $hasCalculatedValue, $cellDataFormula, $cellData, "$columnLetter$row");
     }
 
-    private function processCFinal(Spreadsheet &$spreadsheet, bool $hasCalculatedValue, string $cellDataFormula, string $cellData, string $coordinate, bool $tryNumeric): void
+    private function processCFinal(Spreadsheet &$spreadsheet, bool $hasCalculatedValue, string $cellDataFormula, string $cellData, string $coordinate): void
     {
         // Set cell value
         $spreadsheet->getActiveSheet()->getCell($coordinate)->setValue(($hasCalculatedValue) ? $cellDataFormula : $cellData);
         if ($hasCalculatedValue) {
             $cellData = Calculation::unwrapResult($cellData);
-            $spreadsheet->getActiveSheet()->getCell($coordinate)->setCalculatedValue($cellData, $tryNumeric);
+            $spreadsheet->getActiveSheet()->getCell($coordinate)->setCalculatedValue($cellData);
         }
     }
 
@@ -356,7 +378,7 @@ class Slk extends BaseReader
             } elseif (array_key_exists($char, self::STYLE_SETTINGS_BORDER)) {
                 $styleData['borders'][self::STYLE_SETTINGS_BORDER[$char]]['borderStyle'] = Border::BORDER_THIN;
             } elseif ($char == 'S') {
-                $styleData['fill']['fillType'] = Fill::FILL_PATTERN_GRAY125;
+                $styleData['fill']['fillType'] = \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_GRAY125;
             } elseif ($char == 'M') {
                 if (preg_match('/M([1-9]\\d*)/', $styleSettings, $matches)) {
                     $fontStyle = $matches[1];
@@ -479,8 +501,12 @@ class Slk extends BaseReader
 
     /**
      * Loads PhpSpreadsheet from file into PhpSpreadsheet instance.
+     *
+     * @param string $filename
+     *
+     * @return Spreadsheet
      */
-    public function loadIntoExisting(string $filename, Spreadsheet $spreadsheet): Spreadsheet
+    public function loadIntoExisting($filename, Spreadsheet $spreadsheet)
     {
         // Open file
         $this->canReadOrBust($filename);
@@ -542,8 +568,10 @@ class Slk extends BaseReader
 
     /**
      * Get sheet index.
+     *
+     * @return int
      */
-    public function getSheetIndex(): int
+    public function getSheetIndex()
     {
         return $this->sheetIndex;
     }
@@ -555,7 +583,7 @@ class Slk extends BaseReader
      *
      * @return $this
      */
-    public function setSheetIndex(int $sheetIndex): static
+    public function setSheetIndex($sheetIndex)
     {
         $this->sheetIndex = $sheetIndex;
 

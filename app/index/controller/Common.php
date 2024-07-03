@@ -11,7 +11,7 @@
 namespace app\index\controller;
 
 use app\BaseController;
-use app\module\FormHandleModule;
+use app\module\FormTableHandleModule;
 use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\StoreService;
@@ -523,7 +523,7 @@ class Common extends BaseController
             $assign = [];
             $params = $this->data_request;
             $params['system_user'] = $this->user;
-            $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
+            $ret = (new FormTableHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
                 // 表格数据

@@ -19,8 +19,10 @@ class InterestRate
      *
      * @param mixed $nominalRate Nominal interest rate as a float
      * @param mixed $periodsPerYear Integer number of compounding payments per year
+     *
+     * @return float|string
      */
-    public static function effective(mixed $nominalRate = 0, mixed $periodsPerYear = 0): string|float
+    public static function effective($nominalRate = 0, $periodsPerYear = 0)
     {
         $nominalRate = Functions::flattenSingleValue($nominalRate);
         $periodsPerYear = Functions::flattenSingleValue($periodsPerYear);
@@ -49,7 +51,7 @@ class InterestRate
      *
      * @return float|string Result, or a string containing an error
      */
-    public static function nominal(mixed $effectiveRate = 0, mixed $periodsPerYear = 0): string|float
+    public static function nominal($effectiveRate = 0, $periodsPerYear = 0)
     {
         $effectiveRate = Functions::flattenSingleValue($effectiveRate);
         $periodsPerYear = Functions::flattenSingleValue($periodsPerYear);

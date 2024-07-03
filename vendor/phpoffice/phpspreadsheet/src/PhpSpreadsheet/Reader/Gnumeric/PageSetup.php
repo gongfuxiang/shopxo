@@ -10,7 +10,10 @@ use SimpleXMLElement;
 
 class PageSetup
 {
-    private Spreadsheet $spreadsheet;
+    /**
+     * @var Spreadsheet
+     */
+    private $spreadsheet;
 
     public function __construct(Spreadsheet $spreadsheet)
     {

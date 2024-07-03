@@ -1,19 +1,14 @@
-<div class="am-panel am-panel-default am-radius">
-    <div class="am-panel-hd">{{:MyLang('form_seo_data_title')}}</div>
-    <div class="am-panel-bd">
-        {{if !empty($data)}}
-            <dl class="dl-content">
-                <dt>{{:MyLang('form_seo_title_title')}}</dt>
-                <dd>{{if !empty($data['seo_title'])}}{{$data.seo_title}}{{/if}}</dd>
+{{if !empty($data)}}
+    <dl class="dl-content">
+        <dt>{{:MyLang('form_seo_title_title')}}</dt>
+        <dd>{{if !empty($data['seo_title'])}}{{$data.seo_title}}{{/if}}</dd>
 
-                <dt>{{:MyLang('form_seo_keywords_title')}}</dt>
-                <dd>{{if !empty($data['seo_keywords'])}}{{$data.seo_keywords}}{{/if}}</dd>
+        <dt>{{:MyLang('form_seo_keywords_title')}}</dt>
+        <dd>{{if !empty($data['seo_keywords'])}}{{$data.seo_keywords}}{{/if}}</dd>
 
-                <dt>{{:MyLang('form_seo_desc_title')}}</dt>
-                <dd>{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</dd>
-            </dl>
-        {{else /}}
-            {{:ModuleInclude('public/not_data')}}
-        {{/if}}
-    </div>
-</div>
+        <dt>{{:MyLang('form_seo_desc_title')}}</dt>
+        <dd>{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</dd>
+    </dl>
+{{else /}}
+    {{:ModuleInclude('public/not_data')}}
+{{/if}}

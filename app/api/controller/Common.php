@@ -15,7 +15,7 @@ use app\service\ApiService;
 use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\UserService;
-use app\module\FormHandleModule;
+use app\module\FormTableHandleModule;
 
 /**
  * 接口公共控制器
@@ -167,7 +167,7 @@ class Common extends BaseController
         {
             // 调用表格处理
             $params = $this->data_request;
-            $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
+            $ret = (new FormTableHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
                 $this->form_table = $ret['data']['table'];

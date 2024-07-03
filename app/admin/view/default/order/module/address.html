@@ -11,7 +11,7 @@
         <p>
             <span class="text-copy-submit">{{$module_data.address_data.province_name}}{{$module_data.address_data.city_name}}{{$module_data.address_data.county_name}}{{$module_data.address_data.address}}</span>
             {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0}}
-                <a href="javascript:;" class="submit-map-popup am-text-blue am-text-xs am-margin-left-sm" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}" data-title="{{:MyLang('map_title')}}">
+                <a href="javascript:;" class="submit-map-popup am-color-blue am-margin-left-xs" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}" data-title="{{:MyLang('map_title')}}">
                     <i class="iconfont icon-map-position"></i>
                     <span>{{:MyLang('view_title')}}</span>
                 </a>

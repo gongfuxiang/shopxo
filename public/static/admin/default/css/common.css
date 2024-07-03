@@ -35,18 +35,7 @@ textarea.am-scrollable-vertical {
     height: auto;
     max-height: 16rem;
 }
-.am-icon-trash-o:before {width:1.2rem !important;}
-legend {
-    margin-bottom: 1rem;
-    padding: 0 0 1rem 0;
-    border-bottom: 0.1rem solid transparent;
-}
-legend a i {
-    color: #666;
-}
-legend a i:hover {
-    color: var(--color-blue);
-}
+.icon-delete:before {width:1.2rem !important;}
 .am-popup-bd {background:#fff;}
 .am-form select,.am-form textarea,.am-form input[type="text"],.am-form input[type="password"],.am-form input[type="datetime"],.am-form input[type="datetime-local"],.am-form input[type="date"],.am-form input[type="month"],.am-form input[type="time"],.am-form input[type="week"],.am-form input[type="number"],.am-form input[type="email"],.am-form input[type="url"],.am-form input[type="search"],.am-form input[type="tel"],.am-form input[type="color"],.am-form-field {font-size:1.2rem !important;}
 select {height:2.8rem !important;}
@@ -147,12 +136,11 @@ header .admin-header-right-list .notice-width {
   .admin-sidebar .am-offcanvas-bar { width: 20rem; }
   .admin {padding-top:4.6rem !important;}
 }
-.common-nav-bar {position:fixed;z-index:10;bottom:3rem;right:2rem;box-shadow: 0 0 0.5rem 0.2rem #e8e8e8;opacity: 0.8;background: #fff;}
+.common-nav-bar {position:fixed;z-index:10;bottom:3rem;right:2rem;box-shadow: 0 0 0.5rem 0.2rem #e8e8e8;opacity: 0.8;background: #fff;z-index: 101;}
 .common-nav-bar.am-icon-btn:hover, .common-nav-bar.am-icon-btn:focus { color: #fff; background: var(--color-main); }
 .admin {width:100%;height:100%;display:flex;display:-webkit-flex;padding-top:7.9rem;}
 .admin .am-g {padding-left:0;padding-right:0;}
 /*---right Content---*/
-.content-right > .content {padding:1rem 1rem 0 1rem;}
 .admin-sidebar-list li a {padding: 1rem 0.5rem 1rem 1.7rem; }
 .common-left-menu a:not(.common-left-menu-active):hover { background:rgba(118, 119, 120, 0.45); }
 .common-left-menu-active {color:#fff !important;}
@@ -162,20 +150,6 @@ header .admin-header-right-list .notice-width {
 @media only screen and (max-width:640px) {
     .common-left-menu-active {background:var(--color-main) !important;color:#fff !important;}
     .admin-offcanvas-bar, .admin-offcanvas-bar .am-list > li { background: var(--color-left-menu-bg); }
-}
-/**
- * 覆盖框架
- */
-.am-selected-list li.am-checked .am-icon-check {
-    color: var(--color-main);
-}
-.chosen-container .chosen-results li.highlighted {
-    background-color: var(--color-main-light);
-    color: var(--color-main);
-}
-.am-switch.am-active, .am-switch-default.am-active {
-    border-color: var(--color-blue);
-    background-color: var(--color-blue);
 }
 
 /**
@@ -207,69 +181,8 @@ header .admin-header-right-list .notice-width {
  * 两行、超出字符省略
  */
 .am-text-truncate-2,
-.am-text-truncate-2-sm{
+.am-text-truncate-2-sm {
     font-size: 1.2rem;
-}
-
-/**
- * 列表按钮美化
- */
-table.am-table tbody .am-btn {
-    padding: 0.4em 1em;
-}
-table.am-table tbody .am-btn-default {
-    border: 0.1rem solid #444;
-    background: #fff;
-    color: #444;
-}
-table.am-table tbody .am-btn-default:hover {
-    background: #444 !important;
-    color: #fff;
-}
-table.am-table tbody .am-btn-primary {
-    border: 0.1rem solid #0c79b1;
-    background: #fff;
-    color: #0c79b1;
-}
-table.am-table tbody .am-btn-primary:hover {
-    background: #0c79b1 !important;
-    color: #fff;
-}
-table.am-table tbody .am-btn-secondary {
-    border: 0.1rem solid #3bb4f2;
-    background: #fff;
-    color: #3bb4f2;
-}
-table.am-table tbody .am-btn-secondary:hover {
-    background: #3bb4f2 !important;
-    color: #fff;
-}
-table.am-table tbody .am-btn-success {
-    border: 0.1rem solid #5eb95e;
-    background: #fff;
-    color: #5eb95e;
-}
-table.am-table tbody .am-btn-success:hover {
-    background: #5eb95e !important;
-    color: #fff;
-}
-table.am-table tbody .am-btn-warning {
-    border: 0.1rem solid #F37B1D;
-    background: #fff;
-    color: #F37B1D;
-}
-table.am-table tbody .am-btn-warning:hover {
-    background: #F37B1D !important;
-    color: #fff;
-}
-table.am-table tbody .am-btn-danger {
-    border: 0.1rem solid #dd514c;
-    background: #fff;
-    color: #dd514c;
-}
-table.am-table tbody .am-btn-danger:hover {
-    background: #dd514c !important;
-    color: #fff;
 }
 
 /**
@@ -453,7 +366,7 @@ a.am-badge-danger-plain:focus {
  */
 .am-btn-default-plain {
     border: 0.1rem solid #DCDFE6;
-    background: #fff;
+    background: transparent;
     color: #666;
 }
 
@@ -475,7 +388,7 @@ a.am-badge-danger-plain:focus {
 
 .am-btn-primary-plain {
     border: 0.1rem solid var(--color-main);
-    background: #fff;
+    background: transparent;
     color: var(--color-main);
 }
 
@@ -497,7 +410,7 @@ a.am-badge-danger-plain:focus {
 
 .am-btn-secondary-plain {
     border: 0.1rem solid #e91e63;
-    background: #fff;
+    background: transparent;
     color: #e91e63;
 }
 
@@ -519,7 +432,7 @@ a.am-badge-danger-plain:focus {
 
 .am-btn-success-plain {
     border: 0.1rem solid #5eb95e;
-    background: #fff;
+    background: transparent;
     color: #5eb95e;
 }
 
@@ -542,7 +455,7 @@ a.am-badge-danger-plain:focus {
 .am-btn-warning-plain {
     border: 0.1rem solid #F37B1D;
     color: #F37B1D;
-    background: #fff;
+    background: transparent;
 }
 
 .am-btn-warning-plain:focus,
@@ -584,203 +497,15 @@ a.am-badge-danger-plain:focus {
 }
 
 /**
-* 后台页面布局
-*/
-.detail-container,
-.content-right,
-.content-right .content,
-.content-right .content form {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-}
-.detail-container,
-.content-right .content,
-.content-right .content form {
-    flex-grow: 1;
-}
-.content-right > .content {
-    margin: 1rem;
-    background-color: #fff;
-    border-radius: var(--border-radius-lg);
-    padding: 2rem;
-}
-.content-right .content form .am-radio-group > .am-radio-inline,
-.content-right .content form .am-checkbox-group > .am-checkbox-inline,
-.content-right .content form .am-form-group > label {
-    margin: 0
-}
-.content-right .content form .am-form-group:not(:has(.am-radio-inline, .am-checkbox-inline)) {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.content-right .content form .am-form-group.am-form-file:not(.row) {
-    gap: 0.3rem;
-}
-.content-right .content form .am-form-group > .am-radio-group,
-.content-right .content form .am-form-group > .am-checkbox-group,
-.content-right .content form .am-form-group:has(.am-radio-inline, .am-checkbox-inline) > label:not(:first-child) {
-    margin-top: 1rem;
-}
-.content-right .content form .am-form-group:has(.am-radio-inline, .am-checkbox-inline) > .am-tips-card {
-    margin-top: 1rem;
-}
-.content-right .content form .am-form-group > .am-radio-inline:not(:last-child),
-.content-right .content form .am-form-group > .am-checkbox-inline:not(:last-child) {
-    margin-right: 2rem;
-}
-.content-right .content form .am-form-group.row {
-    flex-direction: row !important;
-    align-items: center;
-}
-.content-right .content form .am-radio-group,
-.content-right .content form .am-checkbox-group {
-    display: flex;
-    gap: 1rem 2rem;
-    flex-wrap: wrap;
-}
-.content-right .content form .am-form-group.row > label {
-    min-width: 10rem;
-    text-align: right;
-}
-.content-right .content form.am-form-group-row-xs .am-form-group.row > label {
-    min-width: 5rem;
-}
-.content-right .content form.am-form-group-row-sm .am-form-group.row > label {
-    min-width: 8rem;
-}
-.content-right .content form.am-form-group-row-lg .am-form-group.row > label {
-    min-width: 14rem;
-}
-.content-right > .content form .form-custom-group,
-.content-right > .content form .form-multiple-where-input,
-.content-right > .content form .am-input-group,
-.content-right > .content form input,
-.content-right > .content form:not(.form-validation-search) .chosen-select,
-.content-right > .content form textarea {
-    max-width: 45rem;
-}
-.chosen-container-single .chosen-single div:before {
-    content: "\f107";
-}
-.chosen-container-active.chosen-with-drop .chosen-single div:before {
-    content: "\f106";
-}
-.am-tabs-default .am-tabs-nav > .am-active a {
-    background-color: var(--color-main-light);
-    color: var(--color-main);
-}
-@media only screen and (max-width: 640px) {
-    .content-right > .content form .form-multiple-where-input,
-    .content-right > .content form .am-input-group,
-    .content-right > .content form input,
-    .content-right > .content form:not(.form-validation-search) .chosen-select,
-    .content-right > .content form textarea {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-
-.content-right > .content form.am-form .am-form-group {
-    padding: 0 0 3rem 0;
-    margin-bottom: 0;
-}
-.content-right > .content form.am-form .am-form-group > label > a.am-icon-question-circle {
-    color: var(--color-blue);
-}
-.plugins-view-save-container {
-    background-color: #f8f8f8;
-    padding: 2.3rem 2.8rem 0 2.8rem;
-    border-radius: var(--border-radius-lg);
-}
-.am-form-group .am-tagsinput {
-    border-radius: var(--border-radius);
-    display: flex;
-    flex-flow: row wrap;
-    gap: 0.5rem;
-}
-.am-tagsinput .tag {
-    font-size: 1.2rem;
-}
-.am-tagsinput .tag [data-role="remove"] {
-    font-family: "iconfont" !important;
-    font-size: 1rem !important;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    color: #999;
-}
-.am-tagsinput .tag [data-role="remove"]:after {
-    content: '\e729';
-    padding: 0;
-}
-.am-tagsinput .tag.am-badge-primary {
-    background: #F3F3F3;
-    color: #333;
-    border: 0.1rem solid #F3F3F3;
-}
-
-.more-download {
-    position: absolute;
-    right: 0;
-    top: 0.5rem;
-    font-size: 1.4rem;
-    display: flex;
-}
-
-/* 灰色背景卡片 */
-.card-grey {
-    background-color: #f9f9f9;
-    border-radius: var(--border-radius);
-    padding: 1.6rem;
-    display: flex;
-    flex-flow: column;
-    gap: 2rem;
-}
-
-/* 局部提示 */
-.am-tips-card {
-    font-size: 12px;
-    color: #999999;
-    line-height: 17px;
-}
-
-/* 公共表单底部浮动导航 */
-form.am-form-popup-sticky .am-form-popup-submit {
-    text-align: left;
-    padding: 1.5rem 0;
-    border: 0;
-    margin-top: -1.5rem;
-}
-
-/**
-* 复选框，单选框的默认颜色修改
-*/
-.am-ucheck-checkbox:checked + .am-ucheck-icons, .am-ucheck-radio:checked + .am-ucheck-icons,
-.am-ucheck-checkbox:hover:not(.am-nohover):not(:disabled) + .am-ucheck-icons, 
-.am-ucheck-radio:hover:not(.am-nohover):not(:disabled) + .am-ucheck-icons {
-    color: #1677FF;
-}
-
-
-/**
- * 表单公共底部浮动
+ * 单选、复选
  */
-.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning {
-    border: 1px solid #DCDFE6;
-    background-color: transparent;
-    color: #666;
+.am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
+    padding-left: 2.2rem;
+    font-size: 1.2rem;
+    
 }
-.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:hover,
-.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:focus,
-.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:active,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:hover,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:focus,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:active {
-    border: 1px solid var(--color-main-hover);
-    background-color: transparent;
-    color: var(--color-main-hover);
+.am-ucheck-icons {
+    line-height: 1.8rem;
 }
 
 /**
@@ -801,7 +526,7 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:active {
 }
 
 /**
- * 插件基础配置样式
+ * 插件基础配置样式 - 基础配置
  */
 body[class^="admin-plugins-"] .content-right [class*="-content-base"] .items {
     border: 0.1rem dashed #eee;
@@ -834,7 +559,7 @@ body[class^="admin-plugins-"] .content-right [class*="-content"] .am-panel .am-p
 }
 
 /**
- * 插件基础配置样式 - 管理
+ * 插件基础配置样式 - 管理导航
  */
 body[class^="admin-plugins-"] .content-right [class*="-content"] .card-nav-content .am-panel-bd {
     padding: 1rem 0 0 0;
@@ -864,39 +589,6 @@ body[class^="admin-plugins-"] .content-right > .content {
     background: #fff;
     margin: 1rem;
     border-radius: var(--border-radius-lg);
-}
-
-/**
- * 上传应用弹窗
- */
-.am-upload-file  .am-form-file {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.am-upload-file .am-form-file .am-btn {
-    width: 14rem;
-    height: 14rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 7rem;
-    color: #2A94FF;
-    background: #E1F0FF;
-    border-radius: var(--border-radius-sm);
-    border: 0.1rem dashed #2A94FF;
-}
-.am-upload-file .am-form-file input[type="file"] {
-    width: 14rem !important;
-    height: 14rem;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 

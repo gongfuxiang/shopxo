@@ -720,22 +720,27 @@ i.buy-event {
     text-decoration: none !important;
 }
 
-/* 二维码 */
-.goods-qrcode {
-    position: absolute;
-    bottom: 1rem;
-    right: 1.5rem;
-    padding-right: 2rem;
-}
-
-.goods-qrcode::before {
+/**
+ * 面板销量
+ */
+.sales-volume::before {
     content: '';
     position: absolute;
     width: 0.1rem;
     height: 1.2rem;
     background-color: #999999;
-    left: -1.5rem;
+    right: -1.5rem;
     top: 0.5rem;
+}
+
+/**
+ * 面板二维码
+ */
+.goods-qrcode {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.5rem;
+    padding-right: 2rem;
 }
 
 .goods-qrcode i {
@@ -866,7 +871,7 @@ i.buy-event {
     float: left;
 }
 
-.buy-event .cart-title .am-icon-angle-right {
+.buy-event .cart-title .icon-angle-right {
     float: right;
     color: #999;
 }
@@ -881,8 +886,8 @@ i.buy-event {
     margin-left: 0.5rem;
 }
 
-#min,
-#add {
+.operate-number-container .operate-number-dec,
+.operate-number-container .operate-number-inc {
     width: 3.5rem;
     height: 3rem;
     outline: none;
@@ -891,7 +896,7 @@ i.buy-event {
     cursor: pointer;
 }
 
-#text_box {
+.operate-number-container .operate-number-input {
     width: 6rem;
     height: 3rem;
     text-align: center;
@@ -909,9 +914,17 @@ i.buy-event {
 }
 
 @media only screen and (max-width:640px) {
-    header,
-    .header-top {
+    .shop-navigation {
         display: none;
+    }
+    .header-top .top-nav-left {
+        display: block !important;
+    }
+    .header-top .top-nav-left .menu-hd .logout {
+        display: inline-block !important;
+    }
+    .header-top .top-nav-left-site-logo {
+        display: none !important;
     }
 
     .theme-signin-left {
@@ -1470,7 +1483,7 @@ i.buy-event {
         padding: 1rem 0px 1rem 2.3rem;
     }
 
-    .buy-event .cart-title .am-icon-angle-right {
+    .buy-event .cart-title .icon-angle-right {
         position: absolute;
         right: -0;
     }
@@ -1763,7 +1776,7 @@ i.buy-event {
         width: calc(100% - 2.8rem);
     }
 
-    .browse .recommend-goods li .item a {
+    .browse .recommend-goods li .item a.goods-info {
         padding: 0;
     }
 

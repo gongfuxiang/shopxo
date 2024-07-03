@@ -122,11 +122,12 @@ function GoodsSelectedSpec()
 function BuyCartCheck(e)
 {
     // 参数
-    var stock = parseInt($('#text_box').val()) || 1;
+    var $number_tag = $('.operate-number-container');
+    var stock = parseInt($('.operate-number-input').val() || 1);
     var inventory = parseInt($('.stock-tips .stock').text());
-    var min = $('.stock-tips .stock').attr('data-min-limit') || 1;
-    var max = $('.stock-tips .stock').attr('data-max-limit') || 0;
-    var unit = $('.stock-tips .stock').data('unit') || '';
+    var min = parseInt($number_tag.attr('data-min-limit') || 1);
+    var max = parseInt($number_tag.attr('data-max-limit') || 0);
+    var unit = $number_tag.data('unit') || '';
     if(stock < min)
     {
         Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
@@ -238,7 +239,8 @@ function GoodsSpecDetailBackHandle(data)
     $('.goods-sale-price-value').text(data.spec_base.price);
     // 数量处理
     var inventory = parseInt(data.spec_base.inventory);
-    var $input = $('#text_box');
+    var $number_tag = $('.operate-number-container');
+    var $input = $('.operate-number-input');
     var $stock = $('.stock-tips .stock');
     var $origina_price_value = $('.goods-original-price-value b');
 
@@ -302,11 +304,11 @@ function GoodsSpecDetailBackHandle(data)
     // 起购/限购
     if(min > 0)
     {
-        $stock.attr('data-min-limit', min);
+        $number_tag.attr('data-min-limit', min);
     }
     if(max > 0)
     {
-        $stock.attr('data-max-limit', max);
+        $number_tag.attr('data-max-limit', max);
     }
 }
 
@@ -332,7 +334,7 @@ function GoodsSpecDetail()
     var spec = GoodsSelectedSpec();
 
     // 已填写数量
-    var stock = parseInt($('#text_box').val()) || 1;
+    var stock = parseInt($('.operate-number-input').val()) || 1;
 
     // 开启进度条
     $.AMUI.progress.start();
@@ -457,9 +459,7 @@ function GoodsSpecType()
  */
 function GoodsBrowserHistoryUrlChange()
 {
-    var spec = GoodsSelectedSpec();
-    var value = (spec.length == 0) ? (GetQueryValue('spec') || null) : spec.map(function(v){return v.value;}).join('|');
-   history.pushState({}, '', UrlFieldReplace('spec', value));
+   history.pushState({}, '', UrlFieldReplace('spec', null));
 }
 
 /**
@@ -472,16 +472,17 @@ function GoodsBrowserHistoryUrlChange()
  */
 function GoodsBaseRestore()
 {
-    var $input = $('#text_box');
+    var $number_tag = $('.operate-number-container');
+    var $input = $('.operate-number-input');
     var $stock = $('.stock-tips .stock');
     var $price = $('.goods-sale-price-value');
     var $price_now = $('.text-info .price-now');
     var $original_price_value = $('.tb-detail-panel-base .goods-original-price-value');
     $input.attr('min', $input.data('original-buy-min-number'));
-    $input.attr('max', $stock.data('original-max'));
-    $stock.text($stock.data('original-inventory'));
-    $stock.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
-    $stock.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
+    $input.attr('max', $number_tag.data('original-max'));
+    $stock.text($number_tag.data('original-inventory'));
+    $number_tag.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
+    $number_tag.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
 
     // 价格处理
     $price_now.find('b').text($price_now.data('original-price'));
@@ -509,7 +510,7 @@ function GoodsBaseRestore()
  */
 function GoodsNumberChange()
 {
-    var stock = parseInt($('#text_box').val()) || 1;
+    var stock = parseInt($('.operate-number-input').val()) || 1;
     var spec = [];
     var sku_count = $('.sku-items').length;
     if(sku_count > 0)
@@ -784,17 +785,17 @@ $(function() {
     });
 
     //获得文本框对象
-    var $input = $('#text_box');
-    var $stock_tips = $('.stock-tips .stock');
-    var unit = $stock_tips.data('unit') || '';
+    var $number_tag = $('.operate-number-container');
+    var $input = $('.operate-number-input');
+    var unit = $number_tag.data('unit') || '';
 
     // 手动输入
     $input.on('blur', function()
     {
-        var min = parseInt($stock_tips.attr('data-min-limit')) || 1;
-        var max = parseInt($stock_tips.attr('data-max-limit')) || 0;
+        var min = parseInt($number_tag.attr('data-min-limit') || 1);
+        var max = parseInt($number_tag.attr('data-max-limit') || 0);
         var stock = parseInt($(this).val());
-        var inventory = parseInt($stock_tips.text());
+        var inventory = parseInt($number_tag.attr('data-original-max') || 0);
         if(isNaN(stock))
         {
             stock = min;
@@ -818,10 +819,10 @@ $(function() {
     });
 
     //数量增加操作
-    $(document).on('click', '#add', function()
+    $(document).on('click', '.operate-number-inc', function()
     {
-        var max = parseInt($stock_tips.attr('data-max-limit')) || 0;
-        var inventory = parseInt($stock_tips.text());
+        var max = parseInt($number_tag.attr('data-max-limit') || 0);
+        var inventory = parseInt($number_tag.attr('data-original-max') || 0);
         var stock = parseInt($input.val())+1;
         if(max > 0 && stock > max)
         {
@@ -841,9 +842,9 @@ $(function() {
         GoodsNumberChange();
     });
     //数量减少操作
-    $(document).on('click', '#min', function()
+    $(document).on('click', '.operate-number-dec', function()
     {
-        var min = parseInt($stock_tips.attr('data-min-limit')) || 1;
+        var min = parseInt($number_tag.attr('data-min-limit') || 1);
         var value = parseInt($input.val())-1;
         if(value < min)
         {

@@ -1,0 +1,100 @@
+<!-- hiprint content start  -->
+<div class="am-padding-sm am-background-white hiprint-template-container">
+    <!-- 左侧拖拽列表 -->
+    <div class="am-text-center am-padding-sm">
+        <div class="am-btn-group am-btn-group-xs">
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('A3')">A3</button>
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('A4')">A4</button>
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('A5')">A5</button>
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('B3')">B3</button>
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('B4')">B4</button>
+            <button type="button" class="am-btn am-btn-default-plain am-radius" onclick="setPaper('B5')">B5</button>
+        </div>
+        <div class="am-input-group am-input-group-sm am-margin-left-xs hiprint-drag-size-input">
+            <input type="text" class="am-form-field am-radius hiprint-custom-paper-width-value" placeholder="{{:MyLang('data_print.form_panel_width')}}/mm" />
+            <input type="text" class="am-form-field am-radius custom-paper-height-value" placeholder="{{:MyLang('data_print.form_panel_height')}}/mm" />
+            <span class="am-input-group-btn" onclick="setPaper(parseInt($('.hiprint-custom-paper-width-value').val()), parseInt($('.custom-paper-height-value').val()))">
+                <button class="am-btn am-btn-default am-radius" type="button">{{:MyLang('data_print.form_panel_custom')}}</button>
+            </span>
+        </div>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-refresh" onclick="rotatePaper()"> {{:MyLang('data_print.form_panel_rotate')}}</button>
+        <button type="button" class="am-btn am-btn-danger-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-clear" onclick="clearTemplate()"> {{:MyLang('data_print.form_panel_clear')}}</button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-eye-circle hiprint-preview-submit"> {{:MyLang('preview_title')}}</button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-data-print hiprint-print-submit"> {{:MyLang('print_title')}}</button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-pdf hiprint-export-pdf-submit"> {{:MyLang('data_print.form_panel_export_pdf')}}</button>
+    </div>
+    <!-- 中间打印布局和右侧配置 -->
+    <div class="am-cf">
+        <div class="am-u-sm-2 am-padding-right-sm am-padding-left-0">
+            <ul>
+                {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['common'])}}
+                    <li>
+                        <p class="am-margin-bottom-xs"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_public')}}</strong></p>
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                            {{foreach $module_data.type_data.common as $v}}
+                                <li>
+                                    <div class="item">
+                                        <a href="javascript:;" class="ep-draggable-item am-block am-text-center" tid="{{$v.tid}}">{{if empty($v['title'])}}{{$v.data}}{{else /}}{{$v.title}}{{/if}}</a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </li>
+                {{/if}}
+                {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['business'])}}
+                    <li>
+                        <p class="am-margin-bottom-xs am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_business')}}</strong></p>
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                            {{foreach $module_data.type_data.business as $v}}
+                                <li>
+                                    <div class="item">
+                                        <a href="javascript:;" class="ep-draggable-item am-block am-text-center" tid="{{$v.tid}}">{{if empty($v['title'])}}{{$v.data}}{{else /}}{{$v.title}}{{/if}}</a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </li>
+                {{/if}}
+                {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['assist'])}}
+                    <li>
+                        <p class="am-margin-bottom-xs am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_assist')}}</strong></p>
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                            {{foreach $module_data.type_data.assist as $v}}
+                                <li>
+                                    <div class="item">
+                                        <a href="javascript:;" class="ep-draggable-item am-block am-text-center" tid="{{$v.tid}}">{{if empty($v['title'])}}{{$v.data}}{{else /}}{{$v.title}}{{/if}}</a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+        <div class="am-u-sm-8 am-padding-horizontal am-padding-xl">
+            <div class="print-template"></div>
+        </div>
+        <div class="am-u-sm-2 am-padding-left-sm am-padding-right-0 hiprint-right-option-setting">
+            <div class="hiprint-element-option-setting">
+                <p class="am-padding-vertical-xl am-margin-vertical-xl am-text-center msg-tips">{{:MyLang('data_print.form_panel_setting_tips')}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 打印预览弹窗  -->
+<div class="am-popup am-radius am-popup-full am-popup-full-max-lg" id="hiprint-preview-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+        <h4 class="am-popup-title">{{:MyLang('data_print.form_panel_print_preview')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <div class="am-text-right am-margin-bottom-sm">
+                <button class="am-btn am-btn-primary am-radius am-btn-xs am-icon-print hiprint-print-submit"> {{:MyLang('data_print.form_panel_direct_print')}}</button>
+            </div>
+            <div class="preview-content"></div>
+        </div>
+    </div>
+</div>
+<!-- hiprint content end  -->

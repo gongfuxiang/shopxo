@@ -281,7 +281,7 @@ class GoodsService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? 'g.*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'g.id desc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'g.sort_level desc, g.id desc' : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
@@ -346,6 +346,8 @@ class GoodsService
             $common_goods_original_price_status = MyC('common_goods_original_price_status', 0, true);
             $common_goods_sales_price_unit_status = MyC('common_goods_sales_price_unit_status', 0, true);
             $common_goods_original_price_unit_status = MyC('common_goods_original_price_unit_status', 0, true);
+            $common_goods_sales_number_status = MyC('common_goods_sales_number_status', 0, true);
+            $common_goods_inventory_status = MyC('common_goods_inventory_status', 0, true);
 
             // 字段列表
             $keys = ArrayKeys($data);
@@ -407,6 +409,10 @@ class GoodsService
                 $v['show_price_unit'] = $common_goods_sales_price_unit_status == 1 ? $inventory_unit : '';
                 // 是否展示售价(否0, 是1)
                 $v['show_field_price_status'] = $common_goods_sales_price_status;
+
+                // 是否展示销量和库存
+                $v['show_sales_number_status'] = $common_goods_sales_number_status;
+                $v['show_inventory_status'] = $common_goods_inventory_status;
 
                 // 公共插件数据
                 // 商品详情面板提示数据、一维数组
@@ -495,6 +501,11 @@ class GoodsService
                 if(isset($v['content_web']))
                 {
                     $v['content_web'] = ResourcesService::ContentStaticReplace($v['content_web'], 'get');
+                    // 手机端富文本处理
+                    if(APPLICATION == 'app')
+                    {
+                        $v['content_web'] = ResourcesService::ApMiniRichTextContentHandle($v['content_web']);
+                    }
                 }
 
                 // 虚拟商品展示数据
@@ -2419,16 +2430,6 @@ class GoodsService
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
-            }
-
-            // 价格处理
-            if(array_key_exists('price', $data['spec_base']))
-            {
-                $data['spec_base']['price'] = PriceNumberFormat($data['spec_base']['price']);
-            }
-            if(array_key_exists('original_price', $data['spec_base']))
-            {
-                $data['spec_base']['original_price'] = PriceNumberFormat($data['spec_base']['original_price']);
             }
 
             return DataReturn(MyLang('operate_success'), 0, $data);

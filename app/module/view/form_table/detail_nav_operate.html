@@ -1,0 +1,29 @@
+{{if isset($form_table['base']['is_detail_nav_operate']) and $form_table['base']['is_detail_nav_operate'] eq 1}}
+    <div class="form-detail-nav-operate am-cf">
+        <!-- 是否开启数据打印操作 -->
+        {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-icon-print form-table-operate-top-data-print-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_print_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_print_name')}}</button>
+        {{/if}}
+
+        <!-- 是否开启数据导出pdf操作 -->
+        {{if isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1}}
+            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-file-pdf-o form-table-operate-top-data-print-submit" data-is-pdf="1" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_export_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_export_pdf_name')}}</button>
+        {{/if}}
+
+        <!-- 是否开启数据导出excel操作 -->
+        {{if isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1}}
+            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-file-excel-o form-table-operate-top-export-excel-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_export_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_export_excel_name')}}</button>
+        {{/if}}
+    </div>
+    <!-- 是否开启数据打印操作 -->
+    {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+        <script type="text/javascript">
+            // 定义打印配置
+            var print_is_list_choice = 0;
+            // 模板打印数据
+            var print_data = {{if empty($form_table_data_detail)}}''{{else /}}{{:json_encode($form_table_data_detail, JSON_UNESCAPED_UNICODE)}}{{/if}};
+            // 打印模板
+            var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
+        </script>
+    {{/if}}
+{{/if}}

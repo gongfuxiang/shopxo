@@ -67,6 +67,8 @@ return [
         'operate_remove_name'               => 'Eliminar',
         'operate_sort_name'                 => 'Ordenar',
         'operate_modify_name'               => 'Modificación',
+        'operate_download_name'             => 'Descargar',
+        'operate_download_fail_tips'        => 'Falló la descarga',
         'select_not_chosen_tips'            => 'Por favor, seleccione el elemento',
         'select_chosen_min_tips'            => 'Seleccione al menos el elemento (valor).',
         'select_chosen_max_tips'            => 'Seleccione como máximo el elemento (valor).',
@@ -459,6 +461,11 @@ return [
     'refund_title'                                          => 'Reembolso',
     'receive_title'                                         => 'Recibir',
     'express_title'                                         => 'Expreso',
+    'logistics_title'                                       => 'Logística',
+    'time_title'                                            => 'Tiempo',
+    'tel_title'                                             => 'Teléfono',
+    'mobile_title'                                          => 'Teléfono móvil',
+    'email_title'                                           => 'Buzón',
     'verification_title'                                    => 'Verificación',
     'service_title'                                         => 'Servicios',
     'print_title'                                           => 'Imprimir',
@@ -489,6 +496,7 @@ return [
     'birthday_title'                                        => 'Cumpleaños',
     'address_title'                                         => 'Dirección',
     'bind_title'                                            => 'Vinculación',
+    'unbind_title'                                          => 'Desatar',
     'brand_title'                                           => 'Marca',
     'category_title'                                        => 'Clasificación',
     'attr_title'                                            => 'Atributos',
@@ -525,7 +533,7 @@ return [
     'template_title'                                        => 'Plantilla',
     'recharge_title'                                        => 'Recargar',
     'cash_title'                                            => 'Retiro',
-    'log_title'                                             => 'Detalles',
+    'log_title'                                             => 'Diario',
     'plugins_title'                                         => 'Plugins',
     'valid_title'                                           => 'Efectivo',
     'suspend_title'                                         => 'Suspensión',
@@ -759,6 +767,52 @@ return [
             ]
         ]
     ],
+    // 自定义跳转地址提示说明
+    'custom_to_value_tips'              => [
+        [
+            'type'  => 'web',
+            'name'  => 'Lado web',
+            'item'  => [
+                '1. comienza con https',
+                '2. si se utiliza la página web en un pequeño programa, es necesario agregar una lista blanca en el Fondo del pequeño programa.',
+            ]
+        ],
+        [
+            'type'  => 'mini',
+            'name'  => 'Página interna (dirección interna del applet / app)',
+            'item'  => [
+                '1. el applet comienza con / páginas',
+                '2. ejemplo: / pages / user / user',
+                '¿3. ¿ soporte con parámetros? X = XX',
+            ],
+            'tips'  => 'Instrucciones de configuración de la dirección de la página del applet',
+        ],
+        [
+            'type'  => 'out-mini',
+            'name'  => 'Abrir un applet externo',
+            'item'  => [
+                '1. comienza con appid: / /',
+                '2. por ejemplo: appid://wx88888888',
+            ]
+        ],
+        [
+            'type'  => 'tel',
+            'name'  => 'Llamar',
+            'item'  => [
+                '1. comienza con tel: / /',
+                '2. por ejemplo: tel://wx13222222222',
+            ]
+        ],
+        [
+            'type'  => 'map',
+            'name'  => 'Saltar al mapa nativo para ver la ubicación especificada',
+            'item'  => [
+                '1. comienza con el mapa: / /',
+                '2. ejemplo: mapa: / / nombre | dirección | longitud | latitud',
+                '3. ejemplo: map://ShopXO No. xxx, zhangjiang High - Tech park, Pudong New area, Shanghai | 121.626444 | 31.20843',
+            ]
+        ],
+    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data'      => [
         'goodsfavor'   => 'Mi colección',
@@ -938,6 +992,8 @@ return [
         'article'         => 'Artículo',
         'customview'      => 'Página personalizada',
         'goods_category'  => 'Clasificación de mercancías',
+        'design'          => 'Diseño de página',
+        'plugins'         => 'Plug - in de página de inicio',
     ],
     // 搜索框下热门关键字类型
     'common_search_keywords_type_list' => [
@@ -1655,6 +1711,11 @@ return [
             ],
             'form_item_give_integral_placeholder'   => 'Comprar puntos de regalo',
             'form_item_give_integral_message'       => 'Comprar números con una proporción de puntos regalados de 0 a 100',
+            'form_item_sort_level'                  => 'Peso de clasificación',
+            'form_item_sort_level_tips'             => [
+                'Cuanto mayor sea el valor del peso, mayor será el peso y más adelante.',
+            ],
+            'form_item_sort_level_message'          => 'Rellene el peso de clasificación correcto',
             'form_item_site_type'                   => 'Tipo de mercancía',
             'form_item_site_type_tips'              => [
                 '1. el tipo de sitio configurado actualmente por el sistema es (tipo de sitio)',
@@ -1822,6 +1883,9 @@ return [
             'lock_integral_dec_fail_tips'           => 'El usuario bloqueó la deducción de puntos y falló',
             'integral_log_dec_fail_tips'            => 'Falló la deducción de puntos de registro',
             'integral_log_close_fail_tips'          => 'Falló el cierre de los puntos de registro',
+            'integral_inc_fail_tips'                => 'Falló el aumento de puntos de usuario',
+            'integral_dec_fail_tips'                => 'Falló la reducción de puntos del usuario',
+            'integral_log_add_fail_tips'            => 'Falló la adición del registro de puntos del usuario',
         ],
         // 布局
         'layout'                => [
@@ -1858,6 +1922,7 @@ return [
             'form_item_value_customview_message'    => 'Selección incorrecta de la página personalizada',
             'form_item_value_goods_category_message'=> 'Elección incorrecta de la clasificación de productos básicos',
             'form_item_value_design_message'        => 'Elección incorrecta del diseño de la página',
+            'form_item_value_plugins_message'       => 'La selección del plug - in en la página de inicio es incorrecta',
             // 右侧导航
             'header_top_nav_right'                  => [
                 'user_center'           => 'Centro personal',
@@ -2197,10 +2262,7 @@ return [
             'app_name_exclude_tips'                 => 'No se puede usar el nombre de la restricción',
             // 操作权限
             'app_dir_no_power_tips'                 => 'El catálogo de aplicaciones no tiene permisos operativos',
-            'app_view_dir_no_power_tips'            => 'El catálogo de vistas de aplicaciones no tiene permisos operativos',
-            'app_css_dir_no_power_tips'             => 'La aplicación del catálogo css no tiene permisos operativos',
-            'app_js_dir_no_power_tips'              => 'La aplicación del catálogo js no tiene permisos operativos',
-            'app_images_dir_no_power_tips'          => 'Aplicar el catálogo de imágenes no tiene permisos operativos',
+            'app_static_dir_no_power_tips'          => 'La aplicación del catálogo estático no tiene permisos operativos',
             'app_upload_dir_no_power_tips'          => 'Aplicar el catálogo de carga no tiene permisos operativos',
             // 基础
             'file_no_power_tips'                    => 'El archivo no tiene permisos',
@@ -2215,8 +2277,7 @@ return [
             'plugins_package_invalid_tips'          => 'Paquete plug - in no válido',
             'plugins_identification_error_tips'     => 'La identificación del plug - in es incorrecta',
             'plugins_identification_empty_tips'     => 'La identificación del plug - in está vacía',
-            'plugins_copy_control_fail_tips'        => 'Controlador',
-            'plugins_copy_view_fail_tips'           => 'Vista',
+            'plugins_copy_main_fail_tips'           => 'Paquete principal',
             'plugins_new_config_error_tips'         => 'El nuevo perfil es incorrecto',
             'plugins_new_config_update_fail_tips'   => 'Falló la actualización del perfil de la nueva aplicación',
             'app_update_no_exist_tips'              => 'La aplicación no existe ({:plugins}), por favor instale primero',
@@ -2499,7 +2560,9 @@ return [
             'form_item_idcard_images'               => 'Foto de la tarjeta de identificación',
             'form_item_idcard_images_tips'          => 'Por favor, use la tarjeta de identificación original para tomar la foto, la imagen debe ser clara.',
             'form_item_idcard_front_button_name'    => 'Subir imágenes de retratos',
+            'form_item_idcard_front_message'        => 'Por favor, envíe una imagen de persona a persona.',
             'form_item_idcard_back_button_name'     => 'Sube la imagen de Guowei',
+            'form_item_idcard_back_message'         => 'Por favor, suba la imagen de guowei.',
             'form_item_idcard_no_user_tips'         => 'Asociar al usuario antes de cargar la imagen de la tarjeta de identificación',
             // 基础
             'address_id_empty_tips'                 => 'El ID de la dirección no puede estar vacío',
@@ -2751,51 +2814,6 @@ return [
         'view_pages_tabs_system_title'                       => 'Página del sistema',
         'view_pages_tabs_plugins_title'                      => 'Módulo de expansión',
         'view_pages_tabs_custom_title'                       => 'Enlaces personalizados',
-        'view_pages_tabs_custom_tips'                        => [
-            [
-                'type'  => 'web',
-                'name'  => 'Lado web',
-                'item'  => [
-                    '1. comienza con https',
-                    '2. si se utiliza la página web en un pequeño programa, es necesario agregar una lista blanca en el Fondo del pequeño programa.',
-                ]
-            ],
-            [
-                'type'  => 'mini',
-                'name'  => 'Página interna (dirección interna del applet / app)',
-                'item'  => [
-                    '1. el applet comienza con / páginas',
-                    '2. ejemplo: / pages / user / user',
-                    '¿3. ¿ soporte con parámetros? X = XX',
-                ],
-                'tips'  => 'Instrucciones de configuración de la dirección de la página del applet',
-            ],
-            [
-                'type'  => 'out-mini',
-                'name'  => 'Abrir un applet externo',
-                'item'  => [
-                    '1. comienza con appid: / /',
-                    '2. por ejemplo: appid://wx88888888',
-                ]
-            ],
-            [
-                'type'  => 'tel',
-                'name'  => 'Llamar',
-                'item'  => [
-                    '1. comienza con tel: / /',
-                    '2. por ejemplo: tel://wx13222222222',
-                ]
-            ],
-            [
-                'type'  => 'map',
-                'name'  => 'Saltar al mapa nativo para ver la ubicación especificada',
-                'item'  => [
-                    '1. comienza con el mapa: / /',
-                    '2. ejemplo: mapa: / / nombre | dirección | longitud | latitud',
-                    '3. ejemplo: map://ShopXO No. xxx, zhangjiang High - Tech park, Pudong New area, Shanghai | 121.626444 | 31.20843',
-                ]
-            ],
-        ],
         // 滚动配置
         'view_module_rolling_config_item_width'                      => 'Ancho del elemento de datos',
         'view_module_rolling_config_item_width_tips'                 => 'Predeterminado 200',
@@ -2940,6 +2958,33 @@ return [
         'view_base_layout_del_title'                                 => 'Eliminación de diseño',
         'view_base_layout_set_title'                                 => 'Configuración del diseño',
         'view_base_layout_content_set_tips'                          => 'Configuración del contenedor',
+    ],
+
+    // -------------------- 数据打印 --------------------
+    'data_print'     => [
+        // 表单
+        'form_panel_width'                        => 'Ancho',
+        'form_panel_height'                       => 'Alto',
+        'form_panel_custom'                       => 'Personalizado',
+        'form_panel_rotate'                       => 'Rotación',
+        'form_panel_clear'                        => 'Vaciado',
+        'form_panel_export_pdf'                   => 'Exportar PDF',
+        'form_panel_public'                       => 'Público',
+        'form_panel_business'                     => 'Negocios',
+        'form_panel_assist'                       => 'Auxiliares',
+        'form_panel_print_preview'                => 'Previsualización de impresión',
+        'form_panel_direct_print'                 => 'Impresión directa',
+        'form_panel_setting_tips'                 => 'Configuración de diseño de componentes seleccionables',
+        // 服务层
+        'template_assist_style_hline'             => 'Línea transversal',
+        'template_assist_style_vline'             => 'Línea vertical',
+        'template_assist_style_rect'              => 'Rectángulos',
+        'template_assist_style_oval'              => 'Circular',
+        'template_assist_style_custom_text'       => 'Texto personalizado',
+        'template_assist_style_custom_long_text'  => 'Texto multilínea personalizado',
+        'template_assist_style_custom_image'      => 'Imagen personalizada',
+        'template_table_extends_field'            => 'Campos extendidos',
+        'template_table_config_error_tips'        => 'Configuración incorrecta de la tabla',
     ],
 
     // -------------------- 扩展模块 --------------------
@@ -3336,15 +3381,20 @@ return [
             'desc' => 'Código de verificación',
             'tips' => 'Por favor, rellene el número de teléfono móvil para vincular el contenido de la plantilla de SMS',
         ],
+        'home_search_keywords_type'  => [
+            'name' => 'Tipo de palabra clave de búsqueda',
+            'desc' => 'La personalización requiere configurar las siguientes palabras clave',
+            'tips' => 'Por favor, elija el tipo de palabra clave',
+        ],
         'home_search_keywords'  => [
             'name' => 'Palabras clave de búsqueda',
             'desc' => 'Palabras clave populares bajo el cuadro de búsqueda (introduzca la devolución de llamada)',
             'tips' => 'Por favor, rellene la palabra clave',
         ],
-        'home_search_keywords_type'  => [
-            'name' => 'Tipo de palabra clave de búsqueda',
-            'desc' => 'La personalización requiere configurar las siguientes palabras clave',
-            'tips' => 'Por favor, elija el tipo de palabra clave',
+        'home_search_prohibit_user_agent'  => [
+            'name' => 'La búsqueda prohíbe al usergagent',
+            'desc' => 'Identificación prohibida (introduzca la devolución)',
+            'tips' => 'Por favor, rellene la búsqueda para prohibir el agente de usuario',
         ],
         'common_order_is_booking'  => [
             'name' => 'Modo de reserva de pedidos',
@@ -3361,8 +3411,18 @@ return [
         ],
         'common_app_customer_service_tel'  => [
             'name' => 'Teléfono de servicio al cliente',
-            'desc' => 'Vacío sin mostrar',
             'tips' => 'Por favor, rellene el teléfono de servicio al cliente',
+        ],
+        'common_app_customer_service_custom'  => [
+            'name' => 'Servicio al cliente personalizado',
+        ],
+        'common_app_customer_service_company_weixin_corpid'  => [
+            'name' => 'Identificación del servicio al cliente de Wechat corporativo',
+            'tips' => 'Por favor, rellene el ID de servicio al cliente de Wechat de la empresa.',
+        ],
+        'common_app_customer_service_company_weixin_url'  => [
+            'name' => 'Enterprise Wechat Service URL',
+            'tips' => 'Por favor, rellene la dirección de servicio al cliente de Wechat de la empresa.',
         ],
         'common_app_mini_alipay_appid'  => [
             'name' => 'AppID',
@@ -3848,6 +3908,14 @@ return [
             'desc' => 'Unidades de productos básicos valoradas',
             'tips' => 'Por favor, elija si muestra la unidad de precio original del producto.',
         ],
+        'common_goods_sales_number_status'  => [
+            'name' => 'Muestra las ventas de bienes',
+            'tips' => 'Por favor, elija si muestra las ventas de productos.',
+        ],
+        'common_goods_inventory_status'  => [
+            'name' => 'Muestra el inventario de productos básicos',
+            'tips' => 'Por favor, elija si muestra el inventario de productos.',
+        ],
         'common_is_mobile_concise_model'  => [
             'name' => 'Modo simple del teléfono móvil',
             'desc' => 'Predeterminado No',
@@ -4064,6 +4132,10 @@ return [
             'name' => 'Buscar varias palabras clave y relaciones',
             'desc' => 'No predeterminado, o relación',
             'tips' => 'Por favor, elija buscar varias palabras clave y relaciones',
+        ],
+        'home_search_is_login_required'  => [
+            'name' => 'La búsqueda requiere iniciar sesión',
+            'tips' => 'Por favor, elija si la búsqueda requiere iniciar sesión',
         ],
         'common_is_https_connect_store'  => [
             'name' => 'La tienda conectada utiliza https',

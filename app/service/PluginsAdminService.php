@@ -18,6 +18,7 @@ use app\service\SqlConsoleService;
 use app\service\AdminPowerService;
 use app\service\AdminService;
 use app\service\StoreService;
+use app\service\DomainService;
 
 /**
  * 应用管理服务层
@@ -106,25 +107,31 @@ class PluginsAdminService
 
                             // 数据组装
                             $db_config = array_key_exists($base['plugins'], $temp_data) ? $temp_data[$base['plugins']] : [];
+                            // 首页
+                            $is_home = isset($base['is_home']) ? $base['is_home'] : false;
+                            $home_url = self::PluginsSecondDomainUrl($base['plugins'], $is_home, isset($db_config['plugins_is_second_domain']) ? $db_config['plugins_is_second_domain'] : 0);
+                            // 组装插件数据
                             $dir_data[$base['plugins']] = [
-                                'id'                   => empty($db_config['id']) ? 0 : $db_config['id'],
-                                'plugins'              => $base['plugins'],
-                                'plugins_category_id'  => isset($db_config['plugins_category_id']) ? $db_config['plugins_category_id'] : 0,
-                                'plugins_menu_control'  => isset($db_config['plugins_menu_control']) ? $db_config['plugins_menu_control'] : '',
-                                'is_enable'            => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
-                                'is_install'           => empty($db_config) ? 0 : 1,
-                                'logo_old'             => $base['logo'],
-                                'logo'                 => ResourcesService::AttachmentPathViewHandle($base['logo']),
-                                'is_home'              => isset($base['is_home']) ? $base['is_home'] : false,
-                                'name'                 => isset($base['name']) ? $base['name'] : '',
-                                'author'               => isset($base['author']) ? $base['author'] : '',
-                                'author_url'           => isset($base['author_url']) ? $base['author_url'] : '',
-                                'version'              => isset($base['version']) ? $base['version'] : '',
-                                'desc'                 => isset($base['desc']) ? $base['desc'] : '',
-                                'apply_version'        => isset($base['apply_version']) ? $base['apply_version'] : [],
-                                'apply_terminal'      => isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
-                                'add_time_time'        => isset($db_config['add_time']) ? date('Y-m-d H:i:s', $db_config['add_time']) : '',
-                                'add_time_date'        => isset($db_config['add_time']) ? date('Y-m-d', $db_config['add_time']) : '',
+                                'id'                        => empty($db_config['id']) ? 0 : $db_config['id'],
+                                'plugins'                   => $base['plugins'],
+                                'plugins_category_id'       => isset($db_config['plugins_category_id']) ? $db_config['plugins_category_id'] : 0,
+                                'plugins_menu_control'      => isset($db_config['plugins_menu_control']) ? $db_config['plugins_menu_control'] : '',
+                                'plugins_is_second_domain'  => isset($db_config['plugins_is_second_domain']) ? $db_config['plugins_is_second_domain'] : 0,
+                                'is_enable'                 => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
+                                'is_install'                => empty($db_config) ? 0 : 1,
+                                'logo_old'                  => $base['logo'],
+                                'logo'                      => ResourcesService::AttachmentPathViewHandle($base['logo']),
+                                'is_home'                   => $is_home,
+                                'home_url'                  => $home_url,
+                                'name'                      => isset($base['name']) ? $base['name'] : '',
+                                'author'                    => isset($base['author']) ? $base['author'] : '',
+                                'author_url'                => isset($base['author_url']) ? $base['author_url'] : '',
+                                'version'                   => isset($base['version']) ? $base['version'] : '',
+                                'desc'                      => isset($base['desc']) ? $base['desc'] : '',
+                                'apply_version'             => isset($base['apply_version']) ? $base['apply_version'] : [],
+                                'apply_terminal'            => isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
+                                'add_time_time'             => isset($db_config['add_time']) ? date('Y-m-d H:i:s', $db_config['add_time']) : '',
+                                'add_time_date'             => isset($db_config['add_time']) ? date('Y-m-d', $db_config['add_time']) : '',
                             ];
                         }
                     }
@@ -151,6 +158,51 @@ class PluginsAdminService
             'dir_data'  => array_values($dir_data),
         ];
         return DataReturn(MyLang('handle_success'), 0, $data);
+    }
+
+    /**
+     * 获取插件二级域名地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-06-16
+     * @desc    description
+     * @param   [string]         $plugins          [插件标识]
+     * @param   [mixed]          $is_home          [是否首页]
+     * @param   [mixed]          $is_second_domain [是否指定二级域名状态]
+     */
+    public static function PluginsSecondDomainUrl($plugins, $is_home = null, $is_second_domain = null)
+    {
+        if(!empty($plugins))
+        {
+            // 是否指定是否首页状态，则读取
+            if($is_home === null)
+            {
+                $config = self::GetPluginsConfig($plugins);
+                if(!empty($config) && !empty($config['base']) && isset($config['base']['is_home']))
+                {
+                    $is_home = $config['base']['is_home'];
+                }
+            }
+            if($is_home !== null)
+            {
+                // 是否指定二级域名状态
+                if($is_second_domain === null)
+                {
+                    $is_second_domain = (int) Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins_is_second_domain');
+                }
+                // 取cookie设置为主域名
+                $main_domain = MyC('common_cookie_domain');
+                // 是否二级域名和主域名都正确
+                if($is_second_domain === 1 && !empty($main_domain))
+                {
+                    return __MY_HTTP__.'://'.$plugins.'.'.$main_domain.'/';
+                } else {
+                    return PluginsHomeUrl($plugins, 'index', 'index');
+                }
+            }
+        }
+        return '';
     }
 
     /**
@@ -240,6 +292,9 @@ class PluginsAdminService
             {
                 // 提交事务
                 Db::commit();
+
+                // 二级域名移除
+                self::PluginsSecondDomainUpdate($plugins, 0);
 
                 // 插件事件回调
                 PluginsService::PluginsEventCall($plugins, 'Uninstall', $params);
@@ -517,10 +572,7 @@ class PluginsAdminService
     private static function PluginsResourcesDelete($plugins, $is_delete_data = false)
     {
         \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.$plugins);
-        \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins);
+        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.$plugins);
 
         // 是否需要删除应用数据
         if($is_delete_data === true)
@@ -627,11 +679,14 @@ class PluginsAdminService
             return $ret;
         }
 
-        // 应用主文件生成
-        $ret = self::PluginsApplicationCreated($params, $app_dir);
-        if($ret['code'] != 0)
+        // 新增应用主文件生成
+        if(empty($params['id']))
         {
-            return $ret;
+            $ret = self::PluginsApplicationCreated($params, $app_dir);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
         }
 
         return DataReturn(MyLang('operate_success'), 0);
@@ -711,7 +766,7 @@ class Index
         // 数组组装
         MyViewAssign('data', ['hello', 'world!']);
         MyViewAssign('msg', 'hello world! index');
-        return MyView('../../../plugins/view/$plugins/index/index/index');
+        return MyView('../../../plugins/$plugins/view/index/index/index');
     }
 }
 ?>
@@ -786,13 +841,13 @@ h1 {
     color: #4CAF50;
 }
 php;
-        // 静态文件目录
-        $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.trim($params['plugins']);
+        // 静态css文件目录
+        $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.trim($params['plugins']).DS.'css';
         if(!is_dir($app_static_css_dir) && \base\FileUtil::CreateDir($app_static_css_dir) !== true)
         {
             return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_create_fail_tips').'[css]', -10);
         } else {
-            // 后端css目录创建
+            // 后端静态目录创建
             if(!is_dir($app_static_css_dir.DS.'admin') && \base\FileUtil::CreateDir($app_static_css_dir.DS.'admin') !== true)
             {
                 return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_create_fail_tips').'[css/admin]', -10);
@@ -816,7 +871,7 @@ php;
         }
 
         // 应用后台视图目录不存在则创建
-        $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin'.DS.'admin';
+        $app_view_admin_dir = APP_PATH.'plugins'.DS.trim($params['plugins']).DS.'view'.DS.'admin'.DS.'admin';
         if(!is_dir($app_view_admin_dir) && \base\FileUtil::CreateDir($app_view_admin_dir) !== true)
         {
             return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_create_fail_tips').'[admin]', -10);
@@ -826,7 +881,7 @@ php;
             return DataReturn(MyLang('common_service.pluginsadmin.app_view_file_create_fail_tips').'[admin-view]', -11);
         }
 
-        // css创建
+        // admin css创建
         if(!file_exists($app_static_css_dir.DS.'admin'.DS.'admin.css') && @file_put_contents($app_static_css_dir.DS.'admin'.DS.'admin.css', $admin_css) === false)
         {
             return DataReturn(MyLang('common_service.pluginsadmin.app_static_file_create_fail_tips').'[admin-css]', -11);
@@ -848,7 +903,7 @@ php;
             }
 
             // 应用前端视图目录不存在则创建
-            $app_view_index_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index'.DS.'index';
+            $app_view_index_dir = APP_PATH.'plugins'.DS.trim($params['plugins']).DS.'view'.DS.'index'.DS.'index';
             if(!is_dir($app_view_index_dir) && \base\FileUtil::CreateDir($app_view_index_dir) !== true)
             {
                 return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_create_fail_tips').'[index]', -10);
@@ -896,7 +951,7 @@ php;
         // 配置信息组装
         $data = [
             // 基础信息
-            'base'  => [
+            'base'      => [
                 'plugins'           => $plugins,
                 'name'              => $params['name'],
                 'logo'              => ResourcesService::AttachmentPathHandle($params['logo']),
@@ -909,8 +964,11 @@ php;
                 'is_home'           => (isset($params['is_home']) && $params['is_home'] == 1) ? true : false,
             ],
 
+            // 扩展
+            'extend'    => empty($config['extend']) ? '' : $config['extend'],
+
             // 钩子配置
-            'hook'  => (object) $hook,
+            'hook'      => (object) $hook,
         ];
 
         // 文件是否存在、存在判断权限、则创建
@@ -980,32 +1038,11 @@ php;
             return DataReturn(MyLang('common_service.pluginsadmin.app_dir_no_power_tips').'['.$app_dir.']', -3);
         }
 
-        // 应用视图目录
-        $app_view_dir = APP_PATH.'plugins'.DS.'view';
-        if(!is_writable($app_view_dir))
+        // 应用静态目录
+        $app_stati_dir = ROOT.'public'.DS.'static'.DS.'plugins';
+        if(!is_writable($app_stati_dir))
         {
-            return DataReturn(MyLang('common_service.pluginsadmin.app_view_dir_no_power_tips').'['.$app_view_dir.']', -3);
-        }
-
-        // 应用css目录
-        $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css';
-        if(!is_writable($app_static_css_dir))
-        {
-            return DataReturn(MyLang('common_service.pluginsadmin.app_css_dir_no_power_tips').'['.$app_static_css_dir.']', -3);
-        }
-
-        // 应用js目录
-        $app_static_js_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js';
-        if(!is_writable($app_static_js_dir))
-        {
-            return DataReturn(MyLang('common_service.pluginsadmin.app_js_dir_no_power_tips').'['.$app_static_js_dir.']', -3);
-        }
-
-        // 应用images目录
-        $app_static_images_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images';
-        if(!is_writable($app_static_images_dir))
-        {
-            return DataReturn(MyLang('common_service.pluginsadmin.app_images_dir_no_power_tips').'['.$app_static_images_dir.']', -3);
+            return DataReturn(MyLang('common_service.pluginsadmin.app_static_dir_no_power_tips').'['.$app_stati_dir.']', -3);
         }
 
         // 应用upload目录
@@ -1200,7 +1237,7 @@ php;
                     if(strpos($file, $dir_key) !== false)
                     {
                         // 仅控制器模块支持php文件
-                        if($dir_key != '_controller_')
+                        if($dir_key != '_main_')
                         {
                             // 排除后缀文件
                             $pos = strripos($file, '.');
@@ -1280,14 +1317,11 @@ php;
     public static function PluginsDirStructureMapping()
     {
         return [
-            '_controller_'      => APP_PATH.'plugins'.DS,
-            '_view_'            => APP_PATH.'plugins'.DS.'view'.DS,
-            '_css_'             => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS,
-            '_js_'              => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS,
-            '_images_'          => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS,
-            '_uploadfile_'      => ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS,
-            '_uploadimages_'    => ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS,
-            '_uploadvideo_'     => ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS,
+            '_main_'          => APP_PATH.'plugins'.DS,
+            '_static_'        => ROOT.'public'.DS.'static'.DS.'plugins'.DS,
+            '_uploadfile_'    => ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS,
+            '_uploadimages_'  => ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS,
+            '_uploadvideo_'   => ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS,
         ];
     }
 
@@ -1441,53 +1475,23 @@ php;
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
         \base\FileUtil::CreateDir($new_dir);
 
-        // 复制包目录 - 控制器
+        // 复制包目录 - 主包
         $old_dir = APP_PATH.'plugins'.DS.$plugins;
         if(is_dir($old_dir))
         {
-            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_controller_'.DS.$plugins) != true)
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_main_'.DS.$plugins) != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.pluginsadmin.plugins_copy_control_fail_tips').']', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.pluginsadmin.plugins_copy_main_fail_tips').']', -2);
             }
         }
 
-        // 复制包目录 - 视图
-        $old_dir = APP_PATH.'plugins'.DS.'view'.DS.$plugins;
+        // 复制包目录 - 静态文件(css,js,images)
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.$plugins;
         if(is_dir($old_dir))
         {
-            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_view_'.DS.$plugins) != true)
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_static_'.DS.$plugins) != true)
             {
-                return DataReturn(MyLang('project_copy_fail_tips').'['.MyLang('common_service.pluginsadmin.plugins_copy_view_fail_tips').']', -2);
-            }
-        }
-
-        // 复制包目录 - css
-        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.$plugins;
-        if(is_dir($old_dir))
-        {
-            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_css_'.DS.$plugins) != true)
-            {
-                return DataReturn(MyLang('project_copy_fail_tips').'[css]', -2);
-            }
-        }
-
-        // 复制包目录 - js
-        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS.$plugins;
-        if(is_dir($old_dir))
-        {
-            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_js_'.DS.$plugins) != true)
-            {
-                return DataReturn(MyLang('project_copy_fail_tips').'[js]', -2);
-            }
-        }
-
-        // 复制包目录 - images
-        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins;
-        if(is_dir($old_dir))
-        {
-            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_images_'.DS.$plugins) != true)
-            {
-                return DataReturn(MyLang('project_copy_fail_tips').'[images]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[static]', -2);
             }
         }
 
@@ -1522,7 +1526,7 @@ php;
         }
 
         // 配置文件历史信息更新
-        $new_config_file = $new_dir.DS.'_controller_'.DS.$plugins.DS.'config.json';
+        $new_config_file = $new_dir.DS.'_main_'.DS.$plugins.DS.'config.json';
         if(!file_exists($new_config_file))
         {
             return DataReturn(MyLang('common_service.pluginsadmin.plugins_new_config_error_tips'), -10);
@@ -1659,24 +1663,33 @@ php;
         $data = is_array($params['data']) ? $params['data'] : json_decode($params['data'], true);
         if(!empty($data) && is_array($data))
         {
-            // 启动事务
-            Db::startTrans();
+            // 获取插件数据
+            $list = Db::name('Plugins')->where(['id'=>array_filter(array_column($data, 'id'))])->column('*', 'id');
 
             // 捕获异常
+            Db::startTrans();
             try {
                 foreach($data as $v)
                 {
-                    if(!empty($v['id']))
+                    if(!empty($v['id']) && !empty($list) && array_key_exists($v['id'], $list))
                     {
                         $upd_data = [
-                            'sort'                  => empty($v['sort']) ? 0 : intval($v['sort']),
-                            'plugins_category_id'   => empty($v['category_id']) ? 0 : intval($v['category_id']),
-                            'plugins_menu_control'  => empty($v['menu_control']) ? '' : strtolower($v['menu_control']),
-                            'upd_time'              => time(),
+                            'sort'                      => empty($v['sort']) ? 0 : intval($v['sort']),
+                            'plugins_category_id'       => empty($v['category_id']) ? 0 : intval($v['category_id']),
+                            'plugins_menu_control'      => empty($v['menu_control']) ? '' : strtolower($v['menu_control']),
+                            'plugins_is_second_domain'  => empty($v['is_second_domain']) ? 0 : intval($v['is_second_domain']),
+                            'upd_time'                  => time(),
                         ];
                         if(Db::name('Plugins')->where(['id'=>intval($v['id'])])->update($upd_data) === false)
                         {
                             throw new \Exception(MyLang('operate_fail'));
+                        }
+
+                        // 二级域名部署
+                        $ret = self::PluginsSecondDomainUpdate($list[$v['id']]['plugins'], $upd_data['plugins_is_second_domain']);
+                        if($ret['code'] != 0)
+                        {
+                            throw new \Exception($ret['msg']);
                         }
                     }
                 }
@@ -1697,6 +1710,24 @@ php;
             }
         }
         return DataReturn(MyLang('common_service.pluginsadmin.setup_save_data_error_tips'), -1);
+    }
+
+    /**
+     * 插件二级域名部署
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-06-16
+     * @desc    description
+     * @param   [string]      $plugins [插件标识]
+     * @param   [int]         $type    [部署类型（0移除, 1增加）]
+     */
+    public static function PluginsSecondDomainUpdate($plugins, $type = 0)
+    {
+        // 是否支持二级域名
+        $domain = [$plugins => 'plugins/index/pluginsname/'.$plugins.'/pluginscontrol/index/pluginsaction/index'];
+        // 更新二级域名文件
+        return ($type == 1) ? DomainService::DomainUpdate(['inc_domain' => $domain]) : DomainService::DomainUpdate(['dec_domain' => $domain]);
     }
 }
 ?>

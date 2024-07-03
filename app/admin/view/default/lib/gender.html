@@ -1,5 +1,5 @@
 <!-- 性别 开始 -->
-<div class="am-form-group">
+<div class="am-form-group {{if !empty($module_data) and isset($module_data['is_row']) and $module_data['is_row'] eq 1}}row{{/if}}">
 	<label class="am-block">{{:MyLang('form_gender_title')}}<span class="am-form-group-label-tips-must">*</span></label>
 	<div class="am-radio-group">
 		{{foreach :MyConst('common_gender_list') as $v}}

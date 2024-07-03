@@ -10,8 +10,10 @@ abstract class Supervisor implements IComparable
 {
     /**
      * Supervisor?
+     *
+     * @var bool
      */
-    protected bool $isSupervisor;
+    protected $isSupervisor;
 
     /**
      * Parent. Only used for supervisor.
@@ -22,8 +24,10 @@ abstract class Supervisor implements IComparable
 
     /**
      * Parent property name.
+     *
+     * @var null|string
      */
-    protected ?string $parentPropertyName = null;
+    protected $parentPropertyName;
 
     /**
      * Create a new Supervisor.
@@ -32,7 +36,7 @@ abstract class Supervisor implements IComparable
      *                                    Leave this value at default unless you understand exactly what
      *                                        its ramifications are
      */
-    public function __construct(bool $isSupervisor = false)
+    public function __construct($isSupervisor = false)
     {
         // Supervisor?
         $this->isSupervisor = $isSupervisor;
@@ -41,9 +45,12 @@ abstract class Supervisor implements IComparable
     /**
      * Bind parent. Only used for supervisor.
      *
+     * @param Spreadsheet|Supervisor $parent
+     * @param null|string $parentPropertyName
+     *
      * @return $this
      */
-    public function bindParent(Spreadsheet|self $parent, ?string $parentPropertyName = null)
+    public function bindParent($parent, $parentPropertyName = null)
     {
         $this->parent = $parent;
         $this->parentPropertyName = $parentPropertyName;
@@ -53,16 +60,20 @@ abstract class Supervisor implements IComparable
 
     /**
      * Is this a supervisor or a cell style component?
+     *
+     * @return bool
      */
-    public function getIsSupervisor(): bool
+    public function getIsSupervisor()
     {
         return $this->isSupervisor;
     }
 
     /**
      * Get the currently active sheet. Only used for supervisor.
+     *
+     * @return Worksheet
      */
-    public function getActiveSheet(): Worksheet
+    public function getActiveSheet()
     {
         return $this->parent->getActiveSheet();
     }
@@ -73,7 +84,7 @@ abstract class Supervisor implements IComparable
      *
      * @return string E.g. 'A1'
      */
-    public function getSelectedCells(): string
+    public function getSelectedCells()
     {
         return $this->getActiveSheet()->getSelectedCells();
     }
@@ -84,7 +95,7 @@ abstract class Supervisor implements IComparable
      *
      * @return string E.g. 'A1'
      */
-    public function getActiveCell(): string
+    public function getActiveCell()
     {
         return $this->getActiveSheet()->getActiveCell();
     }
@@ -133,8 +144,10 @@ abstract class Supervisor implements IComparable
      * The parameter objOrValue is either a primitive type,
      * which is the value added to the array,
      * or a Style object to be recursively added via exportArray.
+     *
+     * @param mixed $objOrValue
      */
-    final protected function exportArray2(array &$exportedArray, string $index, mixed $objOrValue): void
+    final protected function exportArray2(array &$exportedArray, string $index, $objOrValue): void
     {
         if ($objOrValue instanceof self) {
             $exportedArray[$index] = $objOrValue->exportArray();
@@ -146,11 +159,17 @@ abstract class Supervisor implements IComparable
     /**
      * Get the shared style component for the currently active cell in currently active sheet.
      * Only used for style supervisor.
+     *
+     * @return mixed
      */
-    abstract public function getSharedComponent(): mixed;
+    abstract public function getSharedComponent();
 
     /**
      * Build style array from subcomponents.
+     *
+     * @param array $array
+     *
+     * @return array
      */
-    abstract public function getStyleArray(array $array): array;
+    abstract public function getStyleArray($array);
 }

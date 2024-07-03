@@ -11,7 +11,7 @@
 namespace app\admin\controller;
 
 use app\BaseController;
-use app\module\FormHandleModule;
+use app\module\FormTableHandleModule;
 use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\AdminService;
@@ -377,7 +377,7 @@ class Common extends BaseController
         $site_store_info = StoreService::SiteStoreInfo();
         if(empty($site_store_info))
         {
-            $ret = StoreService::SiteStoreAccountsBindHandle();
+            $ret = StoreService::SiteStoreAccountsBindHandle('', '', 'auto');
             if($ret['code'] == 0)
             {
                 $site_store_info = StoreService::SiteStoreInfo();
@@ -444,7 +444,7 @@ class Common extends BaseController
             $assign = [];
             $params = $this->data_request;
             $params['system_admin'] = $this->admin;
-            $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
+            $ret = (new FormTableHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
                 // 表格数据

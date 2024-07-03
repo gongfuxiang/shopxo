@@ -6,13 +6,17 @@ class Hyperlink
 {
     /**
      * URL to link the cell to.
+     *
+     * @var string
      */
-    private string $url;
+    private $url;
 
     /**
      * Tooltip to display on the hyperlink.
+     *
+     * @var string
      */
-    private string $tooltip;
+    private $tooltip;
 
     /**
      * Create a new Hyperlink.
@@ -20,7 +24,7 @@ class Hyperlink
      * @param string $url Url to link the cell to
      * @param string $tooltip Tooltip to display on the hyperlink
      */
-    public function __construct(string $url = '', string $tooltip = '')
+    public function __construct($url = '', $tooltip = '')
     {
         // Initialise member variables
         $this->url = $url;
@@ -29,8 +33,10 @@ class Hyperlink
 
     /**
      * Get URL.
+     *
+     * @return string
      */
-    public function getUrl(): string
+    public function getUrl()
     {
         return $this->url;
     }
@@ -38,9 +44,11 @@ class Hyperlink
     /**
      * Set URL.
      *
+     * @param string $url
+     *
      * @return $this
      */
-    public function setUrl(string $url): static
+    public function setUrl($url)
     {
         $this->url = $url;
 
@@ -49,8 +57,10 @@ class Hyperlink
 
     /**
      * Get tooltip.
+     *
+     * @return string
      */
-    public function getTooltip(): string
+    public function getTooltip()
     {
         return $this->tooltip;
     }
@@ -58,9 +68,11 @@ class Hyperlink
     /**
      * Set tooltip.
      *
+     * @param string $tooltip
+     *
      * @return $this
      */
-    public function setTooltip(string $tooltip): static
+    public function setTooltip($tooltip)
     {
         $this->tooltip = $tooltip;
 
@@ -69,13 +81,18 @@ class Hyperlink
 
     /**
      * Is this hyperlink internal? (to another worksheet).
+     *
+     * @return bool
      */
-    public function isInternal(): bool
+    public function isInternal()
     {
-        return str_contains($this->url, 'sheet://');
+        return strpos($this->url, 'sheet://') !== false;
     }
 
-    public function getTypeHyperlink(): string
+    /**
+     * @return string
+     */
+    public function getTypeHyperlink()
     {
         return $this->isInternal() ? '' : 'External';
     }
@@ -85,12 +102,12 @@ class Hyperlink
      *
      * @return string Hash code
      */
-    public function getHashCode(): string
+    public function getHashCode()
     {
         return md5(
-            $this->url
-            . $this->tooltip
-            . __CLASS__
+            $this->url .
+            $this->tooltip .
+            __CLASS__
         );
     }
 }

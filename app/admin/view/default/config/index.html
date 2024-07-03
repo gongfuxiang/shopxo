@@ -157,7 +157,7 @@
                 <!-- 地图 -->
                 <div class="item" data-key="map">
                     <div class="am-form-group">
-                        <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <select name="{{$data.common_map_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_map_type.error_tips}}" required>
                             {{foreach :MyConst('common_map_type_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_map_type']['value']) and $data['common_map_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>

@@ -353,6 +353,12 @@ class PluginsService
             return DataReturn(MyLang('common_service.plugins.plugins_call_control_undefined_tips').'['.$control.']', -1);
         }
 
+        // 调用方法仅传递请求参数，去除多余的参数、避免给页面url地址造成污染
+        if(!empty($params['data_request']) && is_array($params['data_request']))
+        {
+            unset($params['data_request']['s'], $params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
+        }
+
         // 调用方法
         $action = ucfirst($action);
         $obj = new $plugins_class($params);
@@ -361,15 +367,10 @@ class PluginsService
             return DataReturn(MyLang('common_service.plugins.plugins_call_action_undefined_tips').'['.$action.']', -1);
         }
 
-        // 调用方法仅传递请求参数
-        if(!empty($params) && isset($params['data_request']))
+        // 调用方法仅传递请求参数，重新赋值参数数据
+        if(isset($params['data_request']))
         {
             $params = $params['data_request'];
-            // 去除多余的参数、避免给页面url地址造成污染
-            if(is_array($params))
-            {
-                unset($params['s'], $params['pluginsname'], $params['pluginscontrol'], $params['pluginsaction']);
-            }
         }
 
         // 安全判断
@@ -616,6 +617,37 @@ class PluginsService
     {
         $data = Db::name('Plugins')->field('id,name,plugins')->where(['is_enable'=>1])->order(PluginsAdminService::$plugins_order_by)->select()->toArray();
         return empty($data) ? [] : $data;
+    }
+
+    /**
+     * 所有带首页的插件列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-02-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PluginsHomeDataList($params = [])
+    {
+        $plugins_list = [];
+        $ret = PluginsAdminService::PluginsList();
+        if(!empty($ret['data']) && !empty($ret['data']['db_data']) && is_array($ret['data']['db_data']))
+        {
+            foreach($ret['data']['db_data'] as $v)
+            {
+                // 必须是带首页的插件
+                if(!empty($v['plugins']) && !empty($v['name']) && isset($v['is_home']) && $v['is_home'] == true)
+                {
+                    $plugins_list[] = [
+                        'type'   => 'plugins',
+                        'name'   => $v['name'],
+                        'value'  => $v['plugins'],
+                    ];
+                }
+            }
+        }
+        return $plugins_list;
     }
 
     /**

@@ -24,7 +24,51 @@ use app\service\UserService;
 class IntegralService
 {
     /**
-     * [UserIntegralLogAdd 用户积分日志添加]
+     * 用户积分更新
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-18T16:51:12+0800
+     * @param    [int]                   $user_id           [用户id]
+     * @param    [int]                   $original_integral [原始积分]
+     * @param    [int]                   $operation_integral[操作积分]
+     * @param    [string]                $msg               [操作原因]
+     * @param    [int]                   $type              [操作类型（0减少, 1增加）]
+     * @param    [int]                   $operation_id      [操作人员id]
+     * @return   [boolean]                                  [成功true, 失败false]
+     */
+    public static function UserIntegralUpdate($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
+    {
+        // 是否传递了原始积分
+        if($original_integral === null)
+        {
+            $original_integral = Db::name('User')->where(['id'=>$user_id])->value('integral');
+        }
+
+        // 用户积分更新
+        if($type == 1)
+        {
+            if(!Db::name('User')->where(['id'=>$user_id])->inc('integral', $operation_integral)->update())
+            {
+                return DataReturn(MyLang('common_service.integral.integral_inc_fail_tips'), -1);
+            }
+        } else {
+            if(!Db::name('User')->where(['id'=>$user_id])->dec('integral', $operation_integral)->update())
+            {
+                return DataReturn(MyLang('common_service.integral.integral_dec_fail_tips'), -1);
+            }
+        }
+
+        // 积分日志
+        if(self::UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg, $type, $operation_id))
+        {
+            return DataReturn('success', 0);
+        }
+        return DataReturn(MyLang('common_service.integral.integral_log_add_fail_tips'), -1);
+    }
+
+    /**
+     * 用户积分日志添加
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -39,6 +83,7 @@ class IntegralService
      */
     public static function UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
     {
+        // 积分日志数据
         $data = [
             'user_id'               => intval($user_id),
             'original_integral'     => $original_integral,

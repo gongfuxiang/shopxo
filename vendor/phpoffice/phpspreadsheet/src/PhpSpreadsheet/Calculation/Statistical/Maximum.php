@@ -17,8 +17,10 @@ class Maximum extends MaxMinBase
      *        MAX(value1[,value2[, ...]])
      *
      * @param mixed ...$args Data values
+     *
+     * @return float
      */
-    public static function max(mixed ...$args): float|int|string
+    public static function max(...$args)
     {
         $returnValue = null;
 
@@ -54,8 +56,10 @@ class Maximum extends MaxMinBase
      *        MAXA(value1[,value2[, ...]])
      *
      * @param mixed ...$args Data values
+     *
+     * @return float
      */
-    public static function maxA(mixed ...$args): float|int|string
+    public static function maxA(...$args)
     {
         $returnValue = null;
 

@@ -16,7 +16,7 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeRelationships(Spreadsheet $spreadsheet): string
+    public function writeRelationships(Spreadsheet $spreadsheet)
     {
         // Create XML writer
         $objWriter = null;
@@ -88,7 +88,7 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeWorkbookRelationships(Spreadsheet $spreadsheet): string
+    public function writeWorkbookRelationships(Spreadsheet $spreadsheet)
     {
         // Create XML writer
         $objWriter = null;
@@ -163,12 +163,13 @@ class Rels extends WriterPart
      *     rId1                 - Drawings
      *  rId_hyperlink_x     - Hyperlinks
      *
+     * @param int $worksheetId
      * @param bool $includeCharts Flag indicating if we should write charts
      * @param int $tableRef Table ID
      *
      * @return string XML Output
      */
-    public function writeWorksheetRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet, int $worksheetId = 1, bool $includeCharts = false, int $tableRef = 1, array &$zipContent = []): string
+    public function writeWorksheetRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet, $worksheetId = 1, $includeCharts = false, $tableRef = 1)
     {
         // Create XML writer
         $objWriter = null;
@@ -218,20 +219,6 @@ class Rels extends WriterPart
                 Namespaces::RELATIONSHIPS_DRAWING,
                 $relPath
             );
-        }
-
-        $backgroundImage = $worksheet->getBackgroundImage();
-        if ($backgroundImage !== '') {
-            $rId = 'Bg';
-            $uniqueName = md5(mt_rand(0, 9999) . time() . mt_rand(0, 9999));
-            $relPath = "../media/$uniqueName." . $worksheet->getBackgroundExtension();
-            $this->writeRelationship(
-                $objWriter,
-                $rId,
-                Namespaces::IMAGE,
-                $relPath
-            );
-            $zipContent["xl/media/$uniqueName." . $worksheet->getBackgroundExtension()] = $backgroundImage;
         }
 
         // Write hyperlink relationships?
@@ -309,7 +296,7 @@ class Rels extends WriterPart
         }
 
         foreach ($unparsedLoadedData['sheets'][$worksheet->getCodeName()][$relationship] as $rId => $value) {
-            if (!str_starts_with($rId, '_headerfooter_vml')) {
+            if (substr($rId, 0, 17) !== '_headerfooter_vml') {
                 $this->writeRelationship(
                     $objWriter,
                     $rId,
@@ -328,7 +315,7 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeDrawingRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet, int &$chartRef, bool $includeCharts = false): string
+    public function writeDrawingRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet, &$chartRef, $includeCharts = false)
     {
         // Create XML writer
         $objWriter = null;
@@ -394,7 +381,7 @@ class Rels extends WriterPart
      *
      * @return string XML Output
      */
-    public function writeHeaderFooterDrawingRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet): string
+    public function writeHeaderFooterDrawingRelationships(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $worksheet)
     {
         // Create XML writer
         $objWriter = null;
@@ -472,7 +459,7 @@ class Rels extends WriterPart
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
      */
-    private function writeRelationship(XMLWriter $objWriter, $id, string $type, string $target, string $targetMode = ''): void
+    private function writeRelationship(XMLWriter $objWriter, $id, $type, $target, $targetMode = ''): void
     {
         if ($type != '' && $target != '') {
             // Write relationship

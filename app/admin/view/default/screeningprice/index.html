@@ -35,11 +35,11 @@
                             <label>{{:MyLang('common_service.screeningprice.form_item_max_price')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="number" placeholder="{{:MyLang('common_service.screeningprice.form_item_max_price')}}" name="max_price" maxlength="10" data-validation-message="{{:MyLang('common_service.screeningprice.form_item_max_price_message')}}" class="am-radius" value="0" required />
                         </div>
-                        {{:ModuleInclude('lib/sort_row')}}
-                        {{:ModuleInclude('lib/is_enable_row')}}
+                        {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                        {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>

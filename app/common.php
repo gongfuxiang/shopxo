@@ -21,6 +21,87 @@ use app\service\MultilingualService;
 use app\service\UserService;
 
 /**
+ * 金额转换成大写人民币
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-06-05
+ * @desc    description
+ * @param   [float|number]          $price [金额]
+ */
+function PriceToRmb($price)
+{
+    // 人民币大写对应值
+    $c1 = '零壹贰叁肆伍陆柒捌玖';
+    $c2 = '分角元拾佰仟万拾佰仟亿';
+    // 精确到分后面就不要了，所以只留两个小数位
+    $price = round($price, 2);
+    if($price <= 0)
+    {
+        return '';
+    }
+    // 将数字转化为整数
+    $price = $price * 100;
+    if(strlen($price) > 10)
+    {
+        return '金额太大，请检查！';
+    }
+    $i = 0;
+    $c = '';
+    while(true)
+    {
+        if($i == 0)
+        {
+            // 获取最后一位数字
+            $n = substr($price, strlen($price)-1, 1);
+        } else {
+            $n = $price % 10;
+        }
+        // 每次将最后一位数字转化为中文
+        $p1 = substr($c1, 3 * $n, 3);
+        $p2 = substr($c2, 3 * $i, 3);
+        if($n != '0' || ($n == '0' && ($p2 == '亿' || $p2 == '万' || $p2 == '元')))
+        {
+            $c = $p1 . $p2 . $c;
+        } else {
+            $c = $p1 . $c;
+        }
+        $i = $i + 1;
+        // 去掉数字最后一位了
+        $price = intval($price / 10);
+        // 结束循环
+        if($price == 0)
+        {
+            break;
+        }
+    }
+    $j = 0;
+    $slen = strlen($c);
+    while($j < $slen)
+    {
+        // utf8一个汉字相当3个字符
+        $m = substr($c, $j, 6);
+        // 处理数字中很多0的情况,每次循环去掉一个汉字“零”
+        if($m == '零元' || $m == '零万' || $m == '零亿' || $m == '零零')
+        {
+            $left = substr($c, 0, $j);
+            $right = substr($c, $j + 3);
+            $c = $left . $right;
+            $j = $j-3;
+            $slen = $slen-3;
+        } 
+        $j = $j + 3;
+    }
+    // 这个是为了去掉类似23.0中最后一个“零”字
+    if(substr($c, strlen($c)-3, 3) == '零')
+    {
+        $c = substr($c, 0, strlen($c)-3);
+    }
+    // 将处理的汉字加上“整”
+    return empty($c) ? '零元整' : $c . '整';
+}
+
+/**
  * 成功提示
  * @author  Devil
  * @blog    http://gong.gg/
@@ -171,10 +252,15 @@ function DefaultTheme($theme = null)
  * @date    2024-01-30
  * @desc    description
  * @param   [string]    $value [文件名称、含后缀]
- * @param   [string]    $type [类型（图片images, 文件file, 视频video, svg文件svg）]
+ * @param   [string]    $type  [类型（图片images, 文件file, 视频video, svg文件svg）]
  */
 function StaticAttachmentUrl($value, $type = 'images')
 {
+    // 是否前面增加了斜杠
+    if(substr($value, 0, 1) != DS)
+    {
+        $value = DS.$value;
+    }
     // url结果
     $result = '';
     // 当前组
@@ -185,23 +271,40 @@ function StaticAttachmentUrl($value, $type = 'images')
     if(!empty($plugins_name))
     {
         // 文件路径、对应模块
-        $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.DS.$group.DS.$value;
+        $file = DS.'static'.DS.'plugins'.DS.$plugins_name.DS.$type.DS.$group.$value;
         if(file_exists(ROOT.'public'.$file))
         {
             $result = $file;
         } else {
             // 文件路径
-            $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.DS.$value;
+            $file = DS.'static'.DS.'plugins'.DS.$plugins_name.DS.$type.$value;
             if(file_exists(ROOT.'public'.$file))
             {
                 $result = $file;
+            }
+        }
+        // 老版本插件
+        if(empty($result))
+        {
+            // 文件路径、对应模块
+            $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.DS.$group.$value;
+            if(file_exists(ROOT.'public'.$file))
+            {
+                $result = $file;
+            } else {
+                // 文件路径
+                $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.$value;
+                if(file_exists(ROOT.'public'.$file))
+                {
+                    $result = $file;
+                }
             }
         }
     } else {
         // 当前主题
         $theme = DefaultTheme();
         // 文件路径
-        $file = DS.'static'.DS.$group.DS.$theme.DS.$type.DS.$value;
+        $file = DS.'static'.DS.$group.DS.$theme.DS.$type.$value;
         // 验证文件路径
         if(file_exists(ROOT.'public'.$file))
         {
@@ -210,7 +313,7 @@ function StaticAttachmentUrl($value, $type = 'images')
             // 非默认主题则走默认主题
             if($theme != 'default')
             {
-                $file = DS.'static'.DS.$group.DS.'default'.DS.$type.DS.$value;
+                $file = DS.'static'.DS.$group.DS.'default'.DS.$type.$value;
                 if(file_exists(ROOT.'public'.$file))
                 {
                     $result = $file;
@@ -222,7 +325,7 @@ function StaticAttachmentUrl($value, $type = 'images')
     // 不存在则走公共
     if(empty($result))
     {
-        $file = DS.'static'.DS.'common'.DS.$type.DS.$value;
+        $file = DS.'static'.DS.'common'.DS.$type.$value;
         if(file_exists(ROOT.'public'.$file))
         {
             $result = $file;
@@ -342,7 +445,7 @@ function ChinesePinyin($string, $is_string = false, $join = '')
 function ChineseLetter($string)
 {
     $value = (new \Overtrue\Pinyin\Pinyin())->abbr($string);
-    return empty($value) ? '' : $value;
+    return empty($value) ? '' : $value->join('');
 }
 
 /**
@@ -367,7 +470,7 @@ function PopoverContentHandle($content)
  * @date    2021-10-30
  * @desc    description
  */
-function UUId()  
+function UUId()
 {  
     $chars = md5(uniqid(mt_rand(), true));
     $uuid = substr($chars, 0, 8) . '-'
@@ -405,6 +508,12 @@ function MyConst($key = '', $default = null)
  */
 function MySession($name = '', $value = '')
 {
+    // 接口不记录session
+    if(APPLICATION == 'app' && $value !== '')
+    {
+        return true;
+    }
+
     // 调用框架session统一方法
     $res = session($name, $value);
 
@@ -519,11 +628,20 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             {
                 // 非默认语言则读取默认语言
                 $default_lang = MyConfig('lang.default_lang');
-                if($default_lang != $lang)
+                if($default_lang != $current_lang)
                 {
                     $value = MyLang($key, $vars, $default_lang, $plugins_name);
-                } else {
-                    $value = $key;
+                }
+
+                // 未找到对应语言、则取zh语言
+                if($value == '')
+                {
+                    $value = MyLang($key, $vars, 'zh', $plugins_name);
+                    // 没有语言则赋值key
+                    if($value == '')
+                    {
+                        $value = $key;
+                    }
                 }
             } else {
                 $value = $key;
@@ -604,6 +722,12 @@ function PluginsNameBacktrace()
  */
 function MyCookie($name = '', $value = '', $is_encryption = true)
 {
+    // 接口不记录cookie
+    if(APPLICATION == 'app' && $value !== '')
+    {
+        return true;
+    }
+
     // 非空则转换数据
     if($value !== null && $value !== '' && $is_encryption)
     {
@@ -1124,7 +1248,7 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
                     $temp = file_get_contents($file);
                     if(!empty($temp))
                     {
-                        $value = unserialize($temp);
+                        $value = json_decode($temp, true);
                     }
                 }
                 if($mandatory === true)
@@ -1154,7 +1278,7 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
             }
 
             // 存储内容
-            if(file_put_contents($file, serialize($value)) !== false)
+            if(file_put_contents($file, json_encode($value, JSON_UNESCAPED_UNICODE)) !== false)
             {
                 $object_file_cache_config[$key] = $value;
                 return true;
@@ -1673,7 +1797,7 @@ function FormModulePath($params = [])
             $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
             $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
 
-            // 是否定义模块组、是否存在控制住+方法的form文件
+            // 是否定义模块组、是否存在控制器+方法的form文件
             $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller.$action);
             if(!class_exists($path))
             {
@@ -1731,9 +1855,9 @@ function FormModulePath($params = [])
  *          order_by_key    排序字段
  *          order_by_val    排序类型（desc, asc）
  *          # 指定详情参数
- *          id              数据id（存在该参数则走详情读取模式）
- *          detail_dkey     详情数据key
- *          detail_where    详情额外默认条件
+ *          detail_pkey     详情参数数据条件key字段（默认id）
+ *          detail_dkey     详情数据库数据条件key字段（默认id）
+ *          detail_where    详情额外条件（二维数组形式传递）
  *          # 其他
  *          字段_min         最小条件
  *          字段_max         最大条件
@@ -1783,23 +1907,40 @@ function FormModuleData($params = [])
         $plugins = strtolower($params['plugins']);
     }
 
+    // 独立控制器+方法独立表格
+    $alone_control_action = ucfirst($control.$action);
+
     // 是否插件、设定模块及参数
     if(empty($plugins))
     {
-        // 模块地址
-        $module = '\app\\'.$group.'\form\\'.ucfirst($control);
+        // 是否存在控制住+方法的form文件
+        $module = '\app\\'.$group.'\form\\'.$alone_control_action;
+        if(!class_exists($module))
+        {
+            $module = '\app\\'.$group.'\form\\'.ucfirst($control);
+        }
+
         // 模块参数
         $params['module_name'] = $group;
         $params['controller_name'] = $control;
         $params['action_name'] = $action;
     } else {
-        // 模块地址
-        $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.ucfirst($control);
-        // 分组不存在则调用不分组的表单
+        $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.$alone_control_action;
         if(!class_exists($module))
         {
-            $module = '\app\plugins\\'.$plugins.'\form\\'.ucfirst($control);
+            // 是否定义模块组、是否存在控制器+方法的form文件
+            $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.ucfirst($control);
+            // 分组不存在则调用不分组的表单
+            if(!class_exists($module))
+            {
+                $module = '\app\plugins\\'.$plugins.'\form\\'.$alone_control_action;
+                if(!class_exists($module))
+                {
+                    $module = '\app\plugins\\'.$plugins.'\form\\'.ucfirst($control);
+                }
+            }
         }
+
         // 模块参数
         $params['pluginsname'] = $plugins;
         $params['pluginscontrol'] = $control;
@@ -1811,14 +1952,14 @@ function FormModuleData($params = [])
 
     // 调用模块获取数据
     $data = null;
-    $ret = (new app\module\FormHandleModule())->Run($module, $run, $params);
+    $ret = (new app\module\FormTableHandleModule())->Run($module, $run, $params);
     if($ret['code'] == 0 && !empty($ret['data']) && is_array($ret['data']))
     {
         // 返回数据格式
         if(empty($params['data_type']))
         {
-            // 方法为index则默认返回分页结构体、则详情单条数据
-            $data_type = ($action == 'index') ? 'page_struct' : 'data_detail';
+            // 方法为【index 或 控制器+方法是独立表格】则默认返回分页结构体，则详情单条数据
+            $data_type = ($action == 'index' || substr($module, -strlen($alone_control_action)) == $alone_control_action) ? 'page_struct' : 'data_detail';
         } else {
             $data_type = $params['data_type'];
         }
@@ -1846,9 +1987,9 @@ function FormModuleData($params = [])
                 // 默认
                 default :
                     if(array_key_exists($data_type, $ret['data']))
-                {
-                    $data = $ret['data'][$data_type];
-                }
+                    {
+                        $data = $ret['data'][$data_type];
+                    }
             }
         }
     }
@@ -2278,7 +2419,7 @@ function GetDocumentRoot()
  */
 function RandomString($length = 6)
 {
-    $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+    $pattern = '345789abcdefghjklmnpqrstuvwxyzABCDEFHJKLMNPQRSTUVWXY';
     $pattern_length = strlen($pattern)-1;
     $output = '';
     for($i=0; $i<$length; $i++)   
@@ -3402,7 +3543,7 @@ function IsExistRemoteImage($url)
 function GetNumberCode($length = 6)
 {
     $code = '';
-    for($i=0; $i<intval($length); $i++) $code .= rand(0, 9);
+    for($i=0; $i<intval($length); $i++) $code .= rand(1, 9);
     return $code;
 }
 

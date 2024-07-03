@@ -2,8 +2,6 @@
 
 namespace PhpOffice\PhpSpreadsheet\Reader;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-
 interface IReader
 {
     public const LOAD_WITH_CHARTS = 1;
@@ -13,6 +11,9 @@ interface IReader
     public const SKIP_EMPTY_CELLS = 4;
     public const IGNORE_EMPTY_CELLS = 4;
 
+    /**
+     * IReader constructor.
+     */
     public function __construct();
 
     /**
@@ -25,8 +26,10 @@ interface IReader
      *        If this is true, then the Reader will only read data values for cells, it will not read any formatting
      *           or structural information (like merges).
      *        If false (the default) it will read data and formatting.
+     *
+     * @return bool
      */
-    public function getReadDataOnly(): bool;
+    public function getReadDataOnly();
 
     /**
      * Set read data only
@@ -34,33 +37,41 @@ interface IReader
      *            or structural information (like merges).
      *        Set to false (the default) to advise the Reader to read both data and formatting for cells.
      *
-     * @return $this
+     * @param bool $readDataOnly
+     *
+     * @return IReader
      */
-    public function setReadDataOnly(bool $readDataOnly): self;
+    public function setReadDataOnly($readDataOnly);
 
     /**
      * Read empty cells?
      *        If this is true (the default), then the Reader will read data values for all cells, irrespective of value.
      *        If false it will not read data for cells containing a null value or an empty string.
+     *
+     * @return bool
      */
-    public function getReadEmptyCells(): bool;
+    public function getReadEmptyCells();
 
     /**
      * Set read empty cells
      *        Set to true (the default) to advise the Reader read data values for all cells, irrespective of value.
      *        Set to false to advise the Reader to ignore cells containing a null value or an empty string.
      *
-     * @return $this
+     * @param bool $readEmptyCells
+     *
+     * @return IReader
      */
-    public function setReadEmptyCells(bool $readEmptyCells): self;
+    public function setReadEmptyCells($readEmptyCells);
 
     /**
      * Read charts in workbook?
      *      If this is true, then the Reader will include any charts that exist in the workbook.
      *         Note that a ReadDataOnly value of false overrides, and charts won't be read regardless of the IncludeCharts value.
      *      If false (the default) it will ignore any charts defined in the workbook file.
+     *
+     * @return bool
      */
-    public function getIncludeCharts(): bool;
+    public function getIncludeCharts();
 
     /**
      * Set read charts in workbook
@@ -68,47 +79,53 @@ interface IReader
      *         Note that a ReadDataOnly value of false overrides, and charts won't be read regardless of the IncludeCharts value.
      *     Set to false (the default) to discard charts.
      *
-     * @return $this
+     * @param bool $includeCharts
+     *
+     * @return IReader
      */
-    public function setIncludeCharts(bool $includeCharts): self;
+    public function setIncludeCharts($includeCharts);
 
     /**
      * Get which sheets to load
      * Returns either an array of worksheet names (the list of worksheets that should be loaded), or a null
      *        indicating that all worksheets in the workbook should be loaded.
+     *
+     * @return mixed
      */
-    public function getLoadSheetsOnly(): ?array;
+    public function getLoadSheetsOnly();
 
     /**
      * Set which sheets to load.
      *
-     * @param null|array|string $value This should be either an array of worksheet names to be loaded,
-     *          or a string containing a single worksheet name. If NULL, then it tells the Reader to
-     *          read all worksheets in the workbook
+     * @param mixed $value
+     *        This should be either an array of worksheet names to be loaded, or a string containing a single worksheet name.
+     *        If NULL, then it tells the Reader to read all worksheets in the workbook
      *
-     * @return $this
+     * @return IReader
      */
-    public function setLoadSheetsOnly(string|array|null $value): self;
+    public function setLoadSheetsOnly($value);
 
     /**
      * Set all sheets to load
      *        Tells the Reader to load all worksheets from the workbook.
      *
-     * @return $this
+     * @return IReader
      */
-    public function setLoadAllSheets(): self;
+    public function setLoadAllSheets();
 
     /**
      * Read filter.
+     *
+     * @return IReadFilter
      */
-    public function getReadFilter(): IReadFilter;
+    public function getReadFilter();
 
     /**
      * Set read filter.
      *
-     * @return $this
+     * @return IReader
      */
-    public function setReadFilter(IReadFilter $readFilter): self;
+    public function setReadFilter(IReadFilter $readFilter);
 
     /**
      * Loads PhpSpreadsheet from file.
@@ -119,6 +136,8 @@ interface IReader
      *            self::READ_DATA_ONLY      Read only data, not style or structure information, from the file
      *            self::SKIP_EMPTY_CELLS    Don't read empty cells (cells that contain a null value,
      *                                      empty string, or a string containing only whitespace characters)
+     *
+     * @return \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
-    public function load(string $filename, int $flags = 0): Spreadsheet;
+    public function load(string $filename, int $flags = 0);
 }

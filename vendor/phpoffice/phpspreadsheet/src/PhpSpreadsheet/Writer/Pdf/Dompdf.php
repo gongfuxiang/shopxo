@@ -9,15 +9,17 @@ class Dompdf extends Pdf
 {
     /**
      * embed images, or link to images.
+     *
+     * @var bool
      */
-    protected bool $embedImages = true;
+    protected $embedImages = true;
 
     /**
      * Gets the implementation of external PDF library that should be used.
      *
      * @return \Dompdf\Dompdf implementation
      */
-    protected function createExternalWriterInstance(): \Dompdf\Dompdf
+    protected function createExternalWriterInstance()
     {
         return new \Dompdf\Dompdf();
     }

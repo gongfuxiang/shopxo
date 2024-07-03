@@ -87,7 +87,8 @@
     box-shadow: 0 -0.5rem 1rem rgb(0 0 0 / 20%);
 }
 .layout-view .layout-submit {
-    padding: 0.2rem 0.5rem;
+    height: 2rem;
+    line-height: normal;
 }
 .layout-view .drag-submit .am-switch-handle-on,
 .layout-view .drag-submit .am-switch-handle-off,
@@ -180,6 +181,8 @@
     position: absolute;
     left: calc(50% - 0.8rem);
     top: -1.3rem;
+    font-size: 1.2rem;
+    z-index: 1;
 }
 
 /**
@@ -431,7 +434,7 @@
 }
 #modal-module-pages-select .am-scrollable-vertical a {
     text-decoration: none;
-    padding-right: 3rem;
+    padding: 1rem 3rem 1rem 2rem;
 }
 #modal-module-pages-select .am-accordion-default {
     margin: 0 0 1.5rem 0;
@@ -455,7 +458,7 @@
     border-top: 0;
 }
 #modal-module-pages-select .am-tabs-bd ul li.active a {
-    background: #d2354c;
+    background: var(--color-main);
     color: #fff;
 }
 #modal-module-pages-select .am-tabs-bd ul li.active a i {
@@ -466,7 +469,7 @@
     right: 1rem;
 }
 #modal-module-pages-select .am-tabs-bd .content {
-    height: 30.8rem;
+    height: 29rem;
 }
 
 
@@ -492,7 +495,7 @@
     width: 8.7rem;
 }
 .layout-forth-selection-container .goods-list-container {
-    height: calc(100% - 15.7rem);
+    height: calc(100% - 10rem);
     border: 0.1rem solid #eee;
 }
 .layout-forth-selection-container .goods-list-container .am-gallery-bordered .am-gallery-title {
@@ -514,23 +517,10 @@
 .layout-forth-selection-container .goods-page-container {
     height: 4rem;
 }
-.layout-forth-selection-container .goods-bottom-operate-container {
-    background: #f5f5f5;
-    border-top: 0.1rem solid #dedede;
-    position: fixed;
-    left: 0;
-    bottom: 2.5rem;
-    width: calc(100% - 5rem);
-    margin: 0 2.5rem;
-}
 
 /**
  * 商品分类选择
  */
-.layout-category-choice .goods-category-choice-content {
-    background: #f8f8f8;
-    border: 0.1rem solid #eee;
-}
 .layout-category-choice .goods-category-choice-content ul {
     width: calc(33% - 1.5rem);
     margin-bottom: 0;
@@ -550,7 +540,7 @@
     text-decoration: none;
 }
 .layout-category-choice .goods-category-choice-content ul li.active a {
-    background: #d2354c;
+    background: var(--color-main);
     color: #fff;
 }
 .layout-category-choice .goods-category-choice .already-select-tips {
@@ -562,8 +552,7 @@
     color: #ed7f5a;
 }
 .layout-category-choice .form-container-category .goods-category-choice-content {
-    padding: 1.5rem;
-    background: #fcfcfc;
+    padding: 1rem;
 }
 .layout-category-choice .form-container-brand .goods-category-choice-content {
     border: 0px;
@@ -595,9 +584,7 @@
     height: 3rem;
     vertical-align: middle;
 }
-.layout-operate-container {
-    margin-right: 1rem;
-}
 .layout-operate-container .am-btn {
-    padding: 0.4rem 1rem;
+    height: 2.4rem;
+    line-height: 2.4rem;
 }

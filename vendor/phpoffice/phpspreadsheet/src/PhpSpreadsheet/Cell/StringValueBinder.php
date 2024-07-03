@@ -3,20 +3,30 @@
 namespace PhpOffice\PhpSpreadsheet\Cell;
 
 use DateTimeInterface;
-use PhpOffice\PhpSpreadsheet\Exception as SpreadsheetException;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
-use Stringable;
 
 class StringValueBinder implements IValueBinder
 {
-    protected bool $convertNull = true;
+    /**
+     * @var bool
+     */
+    protected $convertNull = true;
 
-    protected bool $convertBoolean = true;
+    /**
+     * @var bool
+     */
+    protected $convertBoolean = true;
 
-    protected bool $convertNumeric = true;
+    /**
+     * @var bool
+     */
+    protected $convertNumeric = true;
 
-    protected bool $convertFormula = true;
+    /**
+     * @var bool
+     */
+    protected $convertFormula = true;
 
     public function setNullConversion(bool $suppressConversion = false): self
     {
@@ -67,13 +77,10 @@ class StringValueBinder implements IValueBinder
      * @param Cell $cell Cell to bind value to
      * @param mixed $value Value to bind in cell
      */
-    public function bindValue(Cell $cell, mixed $value): bool
+    public function bindValue(Cell $cell, $value)
     {
         if (is_object($value)) {
             return $this->bindObjectValue($cell, $value);
-        }
-        if ($value !== null && !is_scalar($value)) {
-            throw new SpreadsheetException('Unable to bind unstringable ' . gettype($value));
         }
 
         // sanitize UTF-8 strings
@@ -104,14 +111,13 @@ class StringValueBinder implements IValueBinder
         // Handle any objects that might be injected
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('Y-m-d H:i:s');
-            $cell->setValueExplicit($value, DataType::TYPE_STRING);
         } elseif ($value instanceof RichText) {
             $cell->setValueExplicit($value, DataType::TYPE_INLINE);
-        } elseif ($value instanceof Stringable) {
-            $cell->setValueExplicit((string) $value, DataType::TYPE_STRING);
-        } else {
-            throw new SpreadsheetException('Unable to bind unstringable object of type ' . get_class($value));
+
+            return true;
         }
+
+        $cell->setValueExplicit((string) $value, DataType::TYPE_STRING); // @phpstan-ignore-line
 
         return true;
     }

@@ -9,7 +9,7 @@ class CellDataValidation
     /**
      * @var array<string, int>
      */
-    protected static array $validationTypeMap = [
+    protected static $validationTypeMap = [
         DataValidation::TYPE_NONE => 0x00,
         DataValidation::TYPE_WHOLE => 0x01,
         DataValidation::TYPE_DECIMAL => 0x02,
@@ -23,7 +23,7 @@ class CellDataValidation
     /**
      * @var array<string, int>
      */
-    protected static array $errorStyleMap = [
+    protected static $errorStyleMap = [
         DataValidation::STYLE_STOP => 0x00,
         DataValidation::STYLE_WARNING => 0x01,
         DataValidation::STYLE_INFORMATION => 0x02,
@@ -32,7 +32,7 @@ class CellDataValidation
     /**
      * @var array<string, int>
      */
-    protected static array $operatorMap = [
+    protected static $operatorMap = [
         DataValidation::OPERATOR_BETWEEN => 0x00,
         DataValidation::OPERATOR_NOTBETWEEN => 0x01,
         DataValidation::OPERATOR_EQUAL => 0x02,

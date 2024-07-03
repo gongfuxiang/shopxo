@@ -403,7 +403,11 @@ $(function()
         // 是否登录
         if((__user_id__ || 0) == 0)
         {
-            ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            // 是否已指定登录class事件
+            if(!$(this).hasClass('login-event'))
+            {
+                ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            }
             return false;
         }
 
@@ -466,7 +470,11 @@ $(function()
         // 是否登录
         if((__user_id__ || 0) == 0)
         {
-            ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            // 是否已指定登录class事件
+            if(!$(this).hasClass('login-event'))
+            {
+                ModalLoad(__modal_login_url__, '', 'common-login-modal');
+            }
             return false;
         }
 

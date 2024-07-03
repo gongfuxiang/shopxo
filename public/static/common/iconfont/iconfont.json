@@ -6,6 +6,258 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40900664",
+      "name": "商家中心",
+      "font_class": "shop-menu-center",
+      "unicode": "e7a6",
+      "unicode_decimal": 59302
+    },
+    {
+      "icon_id": "40900663",
+      "name": "导航管理",
+      "font_class": "shop-menu-navicon",
+      "unicode": "e7a7",
+      "unicode_decimal": 59303
+    },
+    {
+      "icon_id": "40900662",
+      "name": "店铺管理",
+      "font_class": "shop-menu-admin",
+      "unicode": "e7a8",
+      "unicode_decimal": 59304
+    },
+    {
+      "icon_id": "40900661",
+      "name": "首页推荐",
+      "font_class": "shop-menu-recommend",
+      "unicode": "e7a9",
+      "unicode_decimal": 59305
+    },
+    {
+      "icon_id": "40900658",
+      "name": "页面设计",
+      "font_class": "shop-menu-design",
+      "unicode": "e7aa",
+      "unicode_decimal": 59306
+    },
+    {
+      "icon_id": "40900660",
+      "name": "轮播管理",
+      "font_class": "shop-menu-slider",
+      "unicode": "e7ab",
+      "unicode_decimal": 59307
+    },
+    {
+      "icon_id": "40900659",
+      "name": "订单管理",
+      "font_class": "shop-menu-order",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
+    },
+    {
+      "icon_id": "40900655",
+      "name": "扩展模块",
+      "font_class": "shop-menu-extend",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "40900657",
+      "name": "商品管理",
+      "font_class": "shop-menu-goods",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    },
+    {
+      "icon_id": "40900656",
+      "name": "商品分类",
+      "font_class": "shop-menu-goodscategory",
+      "unicode": "e7af",
+      "unicode_decimal": 59311
+    },
+    {
+      "icon_id": "40876097",
+      "name": "二级域名确认",
+      "font_class": "domain-confirm",
+      "unicode": "e798",
+      "unicode_decimal": 59288
+    },
+    {
+      "icon_id": "40802663",
+      "name": "首页-空心线条",
+      "font_class": "home-fine",
+      "unicode": "e7a5",
+      "unicode_decimal": 59301
+    },
+    {
+      "icon_id": "40800018",
+      "name": "excel",
+      "font_class": "excel",
+      "unicode": "e7a4",
+      "unicode_decimal": 59300
+    },
+    {
+      "icon_id": "40795174",
+      "name": "导入excel",
+      "font_class": "import-excel",
+      "unicode": "e7a3",
+      "unicode_decimal": 59299
+    },
+    {
+      "icon_id": "40795077",
+      "name": "批量发货",
+      "font_class": "batch-delivery",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
+      "icon_id": "40795076",
+      "name": "标签打印",
+      "font_class": "label-print",
+      "unicode": "e79f",
+      "unicode_decimal": 59295
+    },
+    {
+      "icon_id": "40795075",
+      "name": "运单打印",
+      "font_class": "waybill-print",
+      "unicode": "e7a0",
+      "unicode_decimal": 59296
+    },
+    {
+      "icon_id": "40795074",
+      "name": "导出excel",
+      "font_class": "export-excel",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "40795073",
+      "name": "数据打印",
+      "font_class": "data-print",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
+      "icon_id": "40795079",
+      "name": "推到商城",
+      "font_class": "push-shop",
+      "unicode": "e79c",
+      "unicode_decimal": 59292
+    },
+    {
+      "icon_id": "40795078",
+      "name": "商城导入",
+      "font_class": "shop-import",
+      "unicode": "e79d",
+      "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "40673296",
+      "name": "邮箱登录",
+      "font_class": "email-login",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "40673295",
+      "name": "账号密码",
+      "font_class": "account-password",
+      "unicode": "e79a",
+      "unicode_decimal": 59290
+    },
+    {
+      "icon_id": "40673294",
+      "name": "手机登录",
+      "font_class": "mobile-login",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "40435431",
+      "name": "资金账单",
+      "font_class": "price-bill",
+      "unicode": "e760",
+      "unicode_decimal": 59232
+    },
+    {
+      "icon_id": "40435432",
+      "name": "系统配置",
+      "font_class": "sys-config",
+      "unicode": "e761",
+      "unicode_decimal": 59233
+    },
+    {
+      "icon_id": "40435433",
+      "name": "销售管理",
+      "font_class": "sales-manage",
+      "unicode": "e763",
+      "unicode_decimal": 59235
+    },
+    {
+      "icon_id": "40435434",
+      "name": "采购管理",
+      "font_class": "purchase-manage",
+      "unicode": "e764",
+      "unicode_decimal": 59236
+    },
+    {
+      "icon_id": "40435435",
+      "name": "库存管理",
+      "font_class": "inventroy-manage",
+      "unicode": "e765",
+      "unicode_decimal": 59237
+    },
+    {
+      "icon_id": "40435436",
+      "name": "商城订单",
+      "font_class": "shop-order",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    },
+    {
+      "icon_id": "40435437",
+      "name": "基础数据",
+      "font_class": "base-data",
+      "unicode": "e796",
+      "unicode_decimal": 59286
+    },
+    {
+      "icon_id": "40435438",
+      "name": "客商管理",
+      "font_class": "company-manage",
+      "unicode": "e797",
+      "unicode_decimal": 59287
+    },
+    {
+      "icon_id": "10056794",
+      "name": "放大",
+      "font_class": "enlarge",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "9874481",
+      "name": "放大-边线",
+      "font_class": "enlarge-border",
+      "unicode": "e75f",
+      "unicode_decimal": 59231
+    },
+    {
+      "icon_id": "35646054",
+      "name": "放大-四角",
+      "font_class": "enlarge-four",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "40003793",
+      "name": "打印-打印机",
+      "font_class": "dayin-dayinji",
+      "unicode": "e75e",
+      "unicode_decimal": 59230
+    },
+    {
       "icon_id": "39905994",
       "name": "底部商店简介",
       "font_class": "footer-describe",
@@ -189,8 +441,8 @@
     },
     {
       "icon_id": "39563266",
-      "name": "摄像摄像-商城三",
-      "font_class": "shexiangshexiang-shangchengsan",
+      "name": "摄像机",
+      "font_class": "camera",
       "unicode": "e77f",
       "unicode_decimal": 59263
     },
@@ -777,8 +1029,8 @@
     },
     {
       "icon_id": "38631149",
-      "name": "clear",
-      "font_class": "clear",
+      "name": "剪切",
+      "font_class": "shear",
       "unicode": "e722",
       "unicode_decimal": 59170
     },
@@ -826,8 +1078,8 @@
     },
     {
       "icon_id": "38587558",
-      "name": "qj-qk",
-      "font_class": "qj-qk",
+      "name": "清扫-粗",
+      "font_class": "clear-crude",
       "unicode": "e712",
       "unicode_decimal": 59154
     },
@@ -861,17 +1113,10 @@
     },
     {
       "icon_id": "38587553",
-      "name": "qj-fahuo",
-      "font_class": "qj-fahuo",
+      "name": "发货",
+      "font_class": "send-delivery",
       "unicode": "e717",
       "unicode_decimal": 59159
-    },
-    {
-      "icon_id": "38587551",
-      "name": "excel",
-      "font_class": "excel",
-      "unicode": "e718",
-      "unicode_decimal": 59160
     },
     {
       "icon_id": "38587552",
@@ -903,8 +1148,8 @@
     },
     {
       "icon_id": "38587547",
-      "name": "qj-souhuo",
-      "font_class": "qj-souhuo",
+      "name": "收货",
+      "font_class": "take-delivery",
       "unicode": "e71d",
       "unicode_decimal": 59165
     },
@@ -1162,8 +1407,8 @@
     },
     {
       "icon_id": "38408007",
-      "name": "clear-session",
-      "font_class": "clear-session",
+      "name": "清扫",
+      "font_class": "clear",
       "unicode": "e6f7",
       "unicode_decimal": 59127
     },

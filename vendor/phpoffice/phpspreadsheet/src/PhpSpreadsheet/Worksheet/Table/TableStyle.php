@@ -70,33 +70,45 @@ class TableStyle
 
     /**
      * Theme.
+     *
+     * @var string
      */
-    private string $theme;
+    private $theme;
 
     /**
      * Show First Column.
+     *
+     * @var bool
      */
-    private bool $showFirstColumn = false;
+    private $showFirstColumn = false;
 
     /**
      * Show Last Column.
+     *
+     * @var bool
      */
-    private bool $showLastColumn = false;
+    private $showLastColumn = false;
 
     /**
      * Show Row Stripes.
+     *
+     * @var bool
      */
-    private bool $showRowStripes = false;
+    private $showRowStripes = false;
 
     /**
      * Show Column Stripes.
+     *
+     * @var bool
      */
-    private bool $showColumnStripes = false;
+    private $showColumnStripes = false;
 
     /**
      * Table.
+     *
+     * @var null|Table
      */
-    private ?Table $table = null;
+    private $table;
 
     /**
      * Create a new Table Style.

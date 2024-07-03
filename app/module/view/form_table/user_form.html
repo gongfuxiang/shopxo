@@ -1,0 +1,170 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- header top nav -->
+{{:ModuleInclude('public/header_top_nav')}}
+
+<!-- header simple nav -->
+{{:ModuleInclude('public/header_nav_simple', [
+    'search' => '1',
+])}}
+
+<!-- content -->
+<div class="am-form-table-data-container am-container user-main">
+
+    <!-- user menu start -->
+    {{:ModuleInclude('public/user_menu')}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <!-- user center title -->
+            {{:ModuleInclude('public/user_center_main_title')}}
+
+            <!-- content top hook -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>{{$hook_name_content_top}}</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_data = MyEventTrigger($hook_name_content_top, ['hook_name'=>$hook_name_content_top, 'is_backend'=>true]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+
+            <!-- content top start -->
+            <div class="form-table-content-top am-cf">
+                {{block name="form_content_top"}}{{/block}}
+            </div>
+            <!-- content top end -->
+
+            <!-- content start  -->
+            <div class="form-table-content">
+                <!-- content inside top hook -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>{{$hook_name_content_inside_top}}</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_data = MyEventTrigger($hook_name_content_inside_top, ['hook_name'=>$hook_name_content_inside_top, 'is_backend'=>true]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+
+                <!-- form -->
+                {{if !empty($form_table) and !empty($form_table['base']) and !empty($form_table['form']) and is_array($form_table['base']) and is_array($form_table['form'])}}
+                    <form class="am-form form-validation-search" method="post" action="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" request-type="jump" request-value="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}">
+                        <!-- nav start -->
+                        <div class="form-table-navigation am-cf">
+                            {{block name="form_navigation"}}{{/block}}
+                        </div>
+                        <!-- nav end -->
+
+                        <!-- top operate start -->
+                        <div class="form-table-operate-top am-cf">
+                            {{block name="form_operate_top"}}
+                               {{include file="../../../module/view/form_table/form_operate_top" /}}
+                            {{/block}}
+                        </div>
+                        <!-- top operate end -->
+
+                        <!-- form table start -->
+                        {{include file="../../../module/view/form_table/form_table" /}}
+                        <!-- form table end -->
+
+                        <!-- bottom operate start -->
+                        <div class="form-table-operate-bottom am-cf am-margin-top">
+                            {{block name="form_operate_bottom"}}
+                                {{include file="../../../module/view/form_table/form_operate_bottom" /}}
+                            {{/block}}
+                        </div>
+                        <!-- bottom operate end -->
+                    </form>
+
+                    <!-- 字段选择 -->
+                    {{include file="../../../module/view/form_table/form_fields_select" /}}
+                {{else /}}
+                    <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}{{:MyLang('form_table_config_error_tips')}}{{else /}}{{$form_error}}{{/if}}</div>
+                {{/if}}
+
+                <!-- page start -->
+                <div class="form-table-operate-page am-cf">
+                    {{block name="form_page"}}
+                        {{include file="../../../module/view/form_table/form_table_page" /}}
+                    {{/block}}
+                </div>
+                <!-- page end -->
+
+                <!-- extend start -->
+                {{block name="form_extend"}}{{/block}}
+                <!-- extend end -->
+
+                <!-- content inside top hook -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>{{$hook_name_content_inside_bottom}}</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_data = MyEventTrigger($hook_name_content_inside_bottom, ['hook_name'=>$hook_name_content_inside_bottom, 'is_backend'=>true]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+            </div>
+            <!-- content end  -->
+
+            <!-- content bottom hook -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>{{$hook_name_content_bottom}}</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_data = MyEventTrigger($hook_name_content_bottom, ['hook_name'=>$hook_name_content_bottom, 'is_backend'=>true]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+
+<!-- page buttom -->
+{{block name="form_page_bottom"}}{{/block}}

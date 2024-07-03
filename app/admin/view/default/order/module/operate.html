@@ -43,7 +43,7 @@
     {{/if}}
     {{if $module_data['operate_data']['is_delete'] eq 1}}
         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="delete" data-msg="{{:MyLang('delete_confirm_tips')}}">
-            <i class="am-icon-trash-o"></i>
+            <i class="iconfont icon-delete"></i>
             <span>{{:MyLang('delete_title')}}</span>
         </button>
     {{/if}}

@@ -1,5 +1,5 @@
 <!-- 是否新窗口打开 开始 -->
-<div class="am-form-group">
+<div class="am-form-group {{if !empty($module_data) and isset($module_data['is_row']) and $module_data['is_row'] eq 1}}row{{/if}}">
     <label class="am-block">{{:MyLang('form_is_new_window_open_title')}}</label>
     <input name="is_new_window_open" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1) or !isset($data['is_new_window_open'])}}checked="true"{{/if}} />
 </div>

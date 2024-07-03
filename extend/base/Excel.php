@@ -130,7 +130,7 @@ class Excel
 			$index = 0;
 			foreach($this->title as $tk=>$tv)
 			{
-				$temp .= ($index == 0 ? '' : ',').((array_key_exists($tk, $v) && !is_array($v[$tk])) ? str_replace([',', "\n"], [ '，', ''], $v[$tk]) : '')."\t";
+				$temp .= ($index == 0 ? '' : ',').((array_key_exists($tk, $v) && !is_array($v[$tk]) && !empty($v[$tk])) ? str_replace([',', "\n"], [ '，', ''], $v[$tk]) : '')."\t";
 				$index++;
 			}
 			$csv_content .= (($excel_charset == 0) ? $temp : mb_convert_encoding($temp, $charset, 'utf-8'))."\n";

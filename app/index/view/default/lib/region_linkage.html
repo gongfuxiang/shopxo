@@ -1,4 +1,4 @@
-<div class="am-form-group region-linkage" data-url="{{:MyUrl('index/region/index')}}" data-code-url="{{:MyUrl('index/region/codedata')}}">
+<div class="am-form-group region-linkage {{if !empty($module_data) and isset($module_data['is_row']) and $module_data['is_row'] eq 1}}row{{/if}}" data-url="{{:MyUrl('index/region/index')}}" data-code-url="{{:MyUrl('index/region/codedata')}}">
     <label class="am-block">
         <span>
             {{:MyLang('form_region_title')}}
@@ -10,7 +10,7 @@
             <div class="am-cascader-suffix">
                 <div class="am-input-inner input-model"></div>
                 <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="请选择省市区"
-                value="{{if isset($data['province_name'])}}{{$data.province_name}}-{{/if}}{{if isset($data['city_name'])}}{{$data.city_name}}-{{/if}}{{if isset($data['county_name'])}}{{$data.county_name}}{{/if}}"
+                value="{{if !empty($data['province_name'])}}{{$data.province_name}}{{/if}}{{if !empty($data['city_name'])}}-{{$data.city_name}}{{/if}}{{if !empty($data['county_name'])}}-{{$data.county_name}}{{/if}}"
                 class="am-input-inner" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
                 <input type="hidden" name="province" value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}">
                 <input type="hidden" name="city" value="{{if isset($data['city'])}}{{$data.city}}{{else /}}0{{/if}}">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="am-input-group am-input-group-sm region-linkage-code">
-            <input type="text" class="am-form-field am-radius" placeholder="{{:MyLang('form_region_code_placeholder')}}" />
+            <input type="text" class="am-form-field am-radius" placeholder="{{:MyLang('form_region_code_placeholder')}}" value="{{if !empty($data['address_last_code'])}}{{$data.address_last_code}}{{/if}}" />
             <span class="am-input-group-btn">
                 <button type="button" class="am-btn am-btn-xs am-radius">{{:MyLang('form_region_code_button_name')}}</button>
             </span>

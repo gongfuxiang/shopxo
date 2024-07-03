@@ -132,6 +132,7 @@ return [
             'city_name'         => '所屬市',
             'county_name'       => '所屬區/縣',
             'address'           => '詳細地址',
+            'address_last_code' => '地址最後一級編碼',
             'position'          => '經緯度',
             'idcard_info'       => '身份證資訊',
             'is_default'        => '是否默認',
@@ -472,6 +473,7 @@ return [
             ['name' => '基礎配寘', 'type' => 'index'],
             ['name' => 'APP/小程式', 'type' => 'app'],
         ],
+        'online_service_title'                  => '線上客服',
         'user_base_popup_title'                 => '用戶基礎資訊彈窗提示',
         'user_onekey_bind_mobile_tips_list'     => [
             '1. 獲取當前小程式平臺帳戶或者本本機的手機號碼一鍵登入綁定，現時僅支持【微信小程式、百度小程式、頭條小程式】',
@@ -485,6 +487,10 @@ return [
         ],
         'user_base_popup_top_tips_list'         => [
             '1. 現時僅微信小程式平臺自動授權登入後無用戶昵稱和頭像資訊',
+        ],
+        'online_service_top_tips_list'          => [
+            '1.自定義客服http協定採用webview管道打開',
+            '2.客服優先順序順序【客服系統->自定義客服->企業微信客服（僅app+h5+微信小程式生效）->各端平臺客服->電話客服】',
         ],
     ],
 
@@ -722,6 +728,7 @@ return [
             'customview'        => '自定義頁面',
             'goods_category'    => '商品分類',
             'design'            => '頁面設計',
+            'plugins'           => '挿件首頁',
         ],
         // 动态表格
         'form_table'                            => [
@@ -1088,6 +1095,8 @@ return [
         'data_list_author_title'                => '作者',
         'data_list_author_url_title'            => '主頁',
         'data_list_version_title'               => '版本',
+        'data_list_second_domain_title'         => '二級功能變數名稱',
+        'data_list_second_domain_tips'          => '請在後臺[系統->系統配寘->安全]中配寘好Cookie有效功能變數名稱主功能變數名稱',
         'uninstall_confirm_tips'                => '卸載可能會遺失挿件基礎配寘數據不可恢復、確認操作嗎？',
         'not_install_divide_title'              => '以下挿件未安裝',
         'delete_plugins_text'                   => '1.僅删除應用',

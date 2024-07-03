@@ -116,7 +116,7 @@ class SiteService
         {
             // 基础参数
             $field = 'g.id,g.title,g.images';
-            $order_by = 'g.id desc';
+            $order_by = 'g.sort_level desc, g.id desc';
 
             // 分页计算
             $m = intval(($result['page']-1)*$result['page_size']);

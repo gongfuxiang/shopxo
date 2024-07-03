@@ -19,7 +19,7 @@
         <div class="am-g">
             <button class="am-btn am-btn-primary am-radius am-btn-xs tree-submit-add" data-am-modal="{target: '#data-save-win'}">
                 <i class="iconfont icon-btn-add am-show-sm-only"></i>
-                <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+                <span>{{:MyLang('add_title')}}</span>
             </button>
         </div>
         <!-- operation end -->
@@ -65,11 +65,11 @@
                                 <input type="text" name="url" placeholder="{{:MyLang('common_service.power.form_item_url_message')}}" data-validation-message="{{:MyLang('common_service.power.form_item_url_message')}}" class="am-radius" />
                             </div>
                             <div class="am-form-group row">
-                                <label>{{:MyLang('common_service.power.form_item_icon')}}{{if is_array(MyLang('common_service.power.form_item_icon_tips_list'))}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.power.form_item_icon_tips_list'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+                                <label>{{:MyLang('common_service.power.form_item_icon')}}{{if is_array(MyLang('common_service.power.form_item_icon_tips_list'))}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.power.form_item_icon_tips_list'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
                                 <input type="text" placeholder="{{:MyLang('common_service.power.form_item_icon_message')}}" name="icon" maxlength="60" data-validation-message="{{:MyLang('common_service.power.form_item_icon_message')}}" class="am-radius" />
                             </div>
-                            {{:ModuleInclude('lib/sort_row')}}
-                            {{:ModuleInclude('lib/is_show_row')}}
+                            {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                            {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
 
                             <div class="am-form-popup-submit">
                                 <input type="hidden" name="pid" >

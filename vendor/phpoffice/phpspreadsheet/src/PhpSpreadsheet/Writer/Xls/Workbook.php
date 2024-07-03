@@ -49,99 +49,134 @@ class Workbook extends BIFFwriter
 {
     /**
      * Formula parser.
+     *
+     * @var \PhpOffice\PhpSpreadsheet\Writer\Xls\Parser
      */
-    private Parser $parser;
+    private $parser;
 
     /**
      * The BIFF file size for the workbook. Not currently used.
      *
+     * @var int
+     *
      * @see calcSheetOffsets()
      */
-    private int $biffSize; // @phpstan-ignore-line
+    private $biffSize; // @phpstan-ignore-line
 
     /**
      * XF Writers.
      *
-     * @var Xf[]
+     * @var \PhpOffice\PhpSpreadsheet\Writer\Xls\Xf[]
      */
-    private array $xfWriters = [];
+    private $xfWriters = [];
 
     /**
      * Array containing the colour palette.
+     *
+     * @var array
      */
-    private array $palette;
+    private $palette;
 
     /**
      * The codepage indicates the text encoding used for strings.
+     *
+     * @var int
      */
-    private int $codepage;
+    private $codepage;
 
     /**
      * The country code used for localization.
+     *
+     * @var int
      */
-    private int $countryCode;
+    private $countryCode;
 
     /**
      * Workbook.
+     *
+     * @var Spreadsheet
      */
-    private Spreadsheet $spreadsheet;
+    private $spreadsheet;
 
     /**
      * Fonts writers.
      *
      * @var Font[]
      */
-    private array $fontWriters = [];
+    private $fontWriters = [];
 
     /**
      * Added fonts. Maps from font's hash => index in workbook.
+     *
+     * @var array
      */
-    private array $addedFonts = [];
+    private $addedFonts = [];
 
     /**
      * Shared number formats.
+     *
+     * @var array
      */
-    private array $numberFormats = [];
+    private $numberFormats = [];
 
     /**
      * Added number formats. Maps from numberFormat's hash => index in workbook.
+     *
+     * @var array
      */
-    private array $addedNumberFormats = [];
+    private $addedNumberFormats = [];
 
     /**
      * Sizes of the binary worksheet streams.
+     *
+     * @var array
      */
-    private array $worksheetSizes = [];
+    private $worksheetSizes = [];
 
     /**
      * Offsets of the binary worksheet streams relative to the start of the global workbook stream.
+     *
+     * @var array
      */
-    private array $worksheetOffsets = [];
+    private $worksheetOffsets = [];
 
     /**
      * Total number of shared strings in workbook.
+     *
+     * @var int
      */
-    private int $stringTotal;
+    private $stringTotal;
 
     /**
      * Number of unique shared strings in workbook.
+     *
+     * @var int
      */
-    private int $stringUnique;
+    private $stringUnique;
 
     /**
      * Array of unique shared strings in workbook.
+     *
+     * @var array
      */
-    private array $stringTable;
+    private $stringTable;
 
     /**
      * Color cache.
+     *
+     * @var array
      */
-    private array $colors;
+    private $colors;
 
     /**
      * Escher object corresponding to MSODRAWINGGROUP.
+     *
+     * @var null|\PhpOffice\PhpSpreadsheet\Shared\Escher
      */
-    private ?\PhpOffice\PhpSpreadsheet\Shared\Escher $escher = null;
+    private $escher;
+
+    /** @var mixed */
+    private static $scrutinizerFalse = false;
 
     /**
      * Class constructor.
@@ -153,7 +188,7 @@ class Workbook extends BIFFwriter
      * @param array $colors Colour Table
      * @param Parser $parser The formula parser created for the Workbook
      */
-    public function __construct(Spreadsheet $spreadsheet, int &$str_total, int &$str_unique, array &$str_table, array &$colors, Parser $parser)
+    public function __construct(Spreadsheet $spreadsheet, &$str_total, &$str_unique, &$str_table, &$colors, Parser $parser)
     {
         // It needs to call its parent's constructor explicitly
         parent::__construct();
@@ -198,7 +233,7 @@ class Workbook extends BIFFwriter
      *
      * @return int Index to XF record
      */
-    public function addXfWriter(Style $style, bool $isStyleXf = false): int
+    public function addXfWriter(Style $style, $isStyleXf = false)
     {
         $xfWriter = new Xf($style);
         $xfWriter->setIsStyleXf($isStyleXf);
@@ -219,7 +254,7 @@ class Workbook extends BIFFwriter
         $xfWriter->setDiagColor($this->addColor($style->getBorders()->getDiagonal()->getColor()->getRGB()));
 
         // Add the number format if it is not a built-in one and not already added
-        if ($style->getNumberFormat()->getBuiltInFormatCode() === false) {
+        if ($style->getNumberFormat()->getBuiltInFormatCode() === self::$scrutinizerFalse) {
             $numberFormatHashCode = $style->getNumberFormat()->getHashCode();
 
             if (isset($this->addedNumberFormats[$numberFormatHashCode])) {
@@ -246,7 +281,7 @@ class Workbook extends BIFFwriter
      *
      * @return int Index to FONT record
      */
-    public function addFont(\PhpOffice\PhpSpreadsheet\Style\Font $font): int
+    public function addFont(\PhpOffice\PhpSpreadsheet\Style\Font $font)
     {
         $fontHashCode = $font->getHashCode();
         if (isset($this->addedFonts[$fontHashCode])) {
@@ -272,11 +307,11 @@ class Workbook extends BIFFwriter
      *
      * @return int Color index
      */
-    private function addColor(string $rgb): int
+    private function addColor($rgb)
     {
         if (!isset($this->colors[$rgb])) {
-            $color
-                = [
+            $color =
+                [
                     hexdec(substr($rgb, 0, 2)),
                     hexdec(substr($rgb, 2, 2)),
                     hexdec(substr($rgb, 4)),
@@ -316,51 +351,51 @@ class Workbook extends BIFFwriter
     {
         $this->palette = [
             0x08 => [0x00, 0x00, 0x00, 0x00],
-            0x09 => [0xFF, 0xFF, 0xFF, 0x00],
-            0x0A => [0xFF, 0x00, 0x00, 0x00],
-            0x0B => [0x00, 0xFF, 0x00, 0x00],
-            0x0C => [0x00, 0x00, 0xFF, 0x00],
-            0x0D => [0xFF, 0xFF, 0x00, 0x00],
-            0x0E => [0xFF, 0x00, 0xFF, 0x00],
-            0x0F => [0x00, 0xFF, 0xFF, 0x00],
+            0x09 => [0xff, 0xff, 0xff, 0x00],
+            0x0A => [0xff, 0x00, 0x00, 0x00],
+            0x0B => [0x00, 0xff, 0x00, 0x00],
+            0x0C => [0x00, 0x00, 0xff, 0x00],
+            0x0D => [0xff, 0xff, 0x00, 0x00],
+            0x0E => [0xff, 0x00, 0xff, 0x00],
+            0x0F => [0x00, 0xff, 0xff, 0x00],
             0x10 => [0x80, 0x00, 0x00, 0x00],
             0x11 => [0x00, 0x80, 0x00, 0x00],
             0x12 => [0x00, 0x00, 0x80, 0x00],
             0x13 => [0x80, 0x80, 0x00, 0x00],
             0x14 => [0x80, 0x00, 0x80, 0x00],
             0x15 => [0x00, 0x80, 0x80, 0x00],
-            0x16 => [0xC0, 0xC0, 0xC0, 0x00],
+            0x16 => [0xc0, 0xc0, 0xc0, 0x00],
             0x17 => [0x80, 0x80, 0x80, 0x00],
-            0x18 => [0x99, 0x99, 0xFF, 0x00],
+            0x18 => [0x99, 0x99, 0xff, 0x00],
             0x19 => [0x99, 0x33, 0x66, 0x00],
-            0x1A => [0xFF, 0xFF, 0xCC, 0x00],
-            0x1B => [0xCC, 0xFF, 0xFF, 0x00],
+            0x1A => [0xff, 0xff, 0xcc, 0x00],
+            0x1B => [0xcc, 0xff, 0xff, 0x00],
             0x1C => [0x66, 0x00, 0x66, 0x00],
-            0x1D => [0xFF, 0x80, 0x80, 0x00],
-            0x1E => [0x00, 0x66, 0xCC, 0x00],
-            0x1F => [0xCC, 0xCC, 0xFF, 0x00],
+            0x1D => [0xff, 0x80, 0x80, 0x00],
+            0x1E => [0x00, 0x66, 0xcc, 0x00],
+            0x1F => [0xcc, 0xcc, 0xff, 0x00],
             0x20 => [0x00, 0x00, 0x80, 0x00],
-            0x21 => [0xFF, 0x00, 0xFF, 0x00],
-            0x22 => [0xFF, 0xFF, 0x00, 0x00],
-            0x23 => [0x00, 0xFF, 0xFF, 0x00],
+            0x21 => [0xff, 0x00, 0xff, 0x00],
+            0x22 => [0xff, 0xff, 0x00, 0x00],
+            0x23 => [0x00, 0xff, 0xff, 0x00],
             0x24 => [0x80, 0x00, 0x80, 0x00],
             0x25 => [0x80, 0x00, 0x00, 0x00],
             0x26 => [0x00, 0x80, 0x80, 0x00],
-            0x27 => [0x00, 0x00, 0xFF, 0x00],
-            0x28 => [0x00, 0xCC, 0xFF, 0x00],
-            0x29 => [0xCC, 0xFF, 0xFF, 0x00],
-            0x2A => [0xCC, 0xFF, 0xCC, 0x00],
-            0x2B => [0xFF, 0xFF, 0x99, 0x00],
-            0x2C => [0x99, 0xCC, 0xFF, 0x00],
-            0x2D => [0xFF, 0x99, 0xCC, 0x00],
-            0x2E => [0xCC, 0x99, 0xFF, 0x00],
-            0x2F => [0xFF, 0xCC, 0x99, 0x00],
-            0x30 => [0x33, 0x66, 0xFF, 0x00],
-            0x31 => [0x33, 0xCC, 0xCC, 0x00],
-            0x32 => [0x99, 0xCC, 0x00, 0x00],
-            0x33 => [0xFF, 0xCC, 0x00, 0x00],
-            0x34 => [0xFF, 0x99, 0x00, 0x00],
-            0x35 => [0xFF, 0x66, 0x00, 0x00],
+            0x27 => [0x00, 0x00, 0xff, 0x00],
+            0x28 => [0x00, 0xcc, 0xff, 0x00],
+            0x29 => [0xcc, 0xff, 0xff, 0x00],
+            0x2A => [0xcc, 0xff, 0xcc, 0x00],
+            0x2B => [0xff, 0xff, 0x99, 0x00],
+            0x2C => [0x99, 0xcc, 0xff, 0x00],
+            0x2D => [0xff, 0x99, 0xcc, 0x00],
+            0x2E => [0xcc, 0x99, 0xff, 0x00],
+            0x2F => [0xff, 0xcc, 0x99, 0x00],
+            0x30 => [0x33, 0x66, 0xff, 0x00],
+            0x31 => [0x33, 0xcc, 0xcc, 0x00],
+            0x32 => [0x99, 0xcc, 0x00, 0x00],
+            0x33 => [0xff, 0xcc, 0x00, 0x00],
+            0x34 => [0xff, 0x99, 0x00, 0x00],
+            0x35 => [0xff, 0x66, 0x00, 0x00],
             0x36 => [0x66, 0x66, 0x99, 0x00],
             0x37 => [0x96, 0x96, 0x96, 0x00],
             0x38 => [0x00, 0x33, 0x66, 0x00],
@@ -382,7 +417,7 @@ class Workbook extends BIFFwriter
      *
      * @return string Binary data for workbook stream
      */
-    public function writeWorkbook(array $worksheetSizes): string
+    public function writeWorkbook(array $worksheetSizes)
     {
         $this->worksheetSizes = $worksheetSizes;
 
@@ -578,7 +613,7 @@ class Workbook extends BIFFwriter
                         $scope = 0;
                     }
                     $chunk .= $this->writeData($this->writeDefinedNameBiff8($definedName->getName(), $formulaData, $scope, false));
-                } catch (PhpSpreadsheetException) {
+                } catch (PhpSpreadsheetException $e) {
                     // do nothing
                 }
             }
@@ -608,8 +643,9 @@ class Workbook extends BIFFwriter
 
                 // store the DEFINEDNAME record
                 $chunk .= $this->writeData($this->writeDefinedNameBiff8(pack('C', 0x07), $formulaData, $i + 1, true));
+
+            // (exclusive) either repeatColumns or repeatRows
             } elseif ($sheetSetup->isColumnsToRepeatAtLeftSet() || $sheetSetup->isRowsToRepeatAtTopSet()) {
-                // (exclusive) either repeatColumns or repeatRows.
                 // Columns to repeat
                 if ($sheetSetup->isColumnsToRepeatAtLeftSet()) {
                     $repeat = $sheetSetup->getColumnsToRepeatAtLeft();
@@ -696,7 +732,7 @@ class Workbook extends BIFFwriter
      *
      * @return string Complete binary record data
      */
-    private function writeDefinedNameBiff8(string $name, string $formulaData, int $sheetIndex = 0, bool $isBuiltIn = false): string
+    private function writeDefinedNameBiff8($name, $formulaData, $sheetIndex = 0, $isBuiltIn = false)
     {
         $record = 0x0018;
 
@@ -725,12 +761,14 @@ class Workbook extends BIFFwriter
     /**
      * Write a short NAME record.
      *
+     * @param string $name
      * @param int $sheetIndex 1-based sheet index the defined name applies to. 0 = global
      * @param int[][] $rangeBounds range boundaries
+     * @param bool $isHidden
      *
      * @return string Complete binary record data
      * */
-    private function writeShortNameBiff8(string $name, int $sheetIndex, array $rangeBounds, bool $isHidden = false): string
+    private function writeShortNameBiff8($name, $sheetIndex, $rangeBounds, $isHidden = false)
     {
         $record = 0x0018;
 
@@ -809,16 +847,30 @@ class Workbook extends BIFFwriter
      *
      * @param int $offset Location of worksheet BOF
      */
-    private function writeBoundSheet(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, int $offset): void
+    private function writeBoundSheet(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, $offset): void
     {
         $sheetname = $sheet->getTitle();
         $record = 0x0085; // Record identifier
-        $ss = match ($sheet->getSheetState()) {
-            \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_VISIBLE => 0x00,
-            \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN => 0x01,
-            \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_VERYHIDDEN => 0x02,
-            default => 0x00,
-        };
+
+        // sheet state
+        switch ($sheet->getSheetState()) {
+            case \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_VISIBLE:
+                $ss = 0x00;
+
+                break;
+            case \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN:
+                $ss = 0x01;
+
+                break;
+            case \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_VERYHIDDEN:
+                $ss = 0x02;
+
+                break;
+            default:
+                $ss = 0x00;
+
+                break;
+        }
 
         // sheet type
         $st = 0x00;
@@ -877,7 +929,7 @@ class Workbook extends BIFFwriter
 
         $ixfe = 0x8000; // Index to cell style XF
         $BuiltIn = 0x00; // Built-in style
-        $iLevel = 0xFF; // Outline style level
+        $iLevel = 0xff; // Outline style level
 
         $header = pack('vv', $record, $length);
         $data = pack('vCC', $ixfe, $BuiltIn, $iLevel);
@@ -890,7 +942,7 @@ class Workbook extends BIFFwriter
      * @param string $format Custom format string
      * @param int $ifmt Format index code
      */
-    private function writeNumberFormat(string $format, int $ifmt): void
+    private function writeNumberFormat($format, $ifmt): void
     {
         $record = 0x041E; // Record identifier
 
@@ -921,8 +973,10 @@ class Workbook extends BIFFwriter
 
     /**
      * Stores the COUNTRY record for localization.
+     *
+     * @return string
      */
-    private function writeCountry(): string
+    private function writeCountry()
     {
         $record = 0x008C; // Record identifier
         $length = 4; // Number of bytes to follow
@@ -936,8 +990,10 @@ class Workbook extends BIFFwriter
 
     /**
      * Write the RECALCID record.
+     *
+     * @return string
      */
-    private function writeRecalcId(): string
+    private function writeRecalcId()
     {
         $record = 0x01C1; // Record identifier
         $length = 8; // Number of bytes to follow
@@ -987,7 +1043,7 @@ class Workbook extends BIFFwriter
      *
      * @return string Binary data
      */
-    private function writeSharedStringsTable(): string
+    private function writeSharedStringsTable()
     {
         // maximum size of record data (excluding record header)
         $continue_limit = 8224;
@@ -1046,15 +1102,16 @@ class Workbook extends BIFFwriter
                     // 2. space remaining is greater than or equal to minimum space needed
                     //        here we write as much as we can in the current block, then move to next record data block
 
+                    // 1. space remaining is less than minimum space needed
                     if ($space_remaining < $min_space_needed) {
-                        // 1. space remaining is less than minimum space needed.
                         // we close the block, store the block data
                         $recordDatas[] = $recordData;
 
                         // and start new record data block where we start writing the string
                         $recordData = '';
+
+                    // 2. space remaining is greater than or equal to minimum space needed
                     } else {
-                        // 2. space remaining is greater than or equal to minimum space needed.
                         // initialize effective remaining space, for Unicode strings this may need to be reduced by 1, see below
                         $effective_space_remaining = $space_remaining;
 
@@ -1078,7 +1135,7 @@ class Workbook extends BIFFwriter
 
         // Store the last record data block unless it is empty
         // if there was no need for any continue records, this will be the for SST record data block itself
-        if ($recordData !== '') {
+        if (strlen($recordData) > 0) {
             $recordDatas[] = $recordData;
         }
 

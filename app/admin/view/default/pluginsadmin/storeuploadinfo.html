@@ -15,7 +15,7 @@
                 <div class="am-form-group row">
                     <label class="am-block">
                         {{:MyLang('common_service.pluginsadmin.form_item_version')}}
-                        <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.pluginsadmin.form_item_version_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                        <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.pluginsadmin.form_item_version_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
                     </label>
                     <input type="text" name="version_new" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_version')}}" minlength="5" maxlength="18" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_version_message')}}" pattern="{{:MyConst('common_regex_version')}}" class="am-radius" {{if !empty($data['version'])}} value="{{$data.version}}"{{/if}} required readonly />
                 </div>
@@ -38,7 +38,7 @@
 
                 <div class="am-form-popup-submit">
                     <input type="hidden" name="plugins" value="{{$data.plugins}}" />
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>

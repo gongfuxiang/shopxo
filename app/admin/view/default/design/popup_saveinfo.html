@@ -1,64 +1,57 @@
 <!-- 基础数据编辑 -->
-<div class="am-popup popup-not-title" id="popup-saveinfo">
-    <div class="am-popup-inner am-radius">
-        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
-        <div class="am-popup-bd am-padding-0">
+<div class="am-popup am-radius" id="popup-saveinfo">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('form_base_data_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
             <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" request-type="sync" request-value="FormBackSaveinfoEdit">
-                <div class="am-padding-horizontal-sm">
+                {{:ModuleInclude('public/nav_switch_btn', [
+                    'nav_data'  => [
+                        [
+                            'name'  => MyLang('form_base_data_title'),
+                            'key'   => 'base',
+                        ],
+                        [
+                            'name'  => MyLang('form_seo_data_title'),
+                            'key'   => 'seo',
+                        ]
+                    ]
+                ])}}
+                <div class="nav-content">
                     <!-- 基础信息 -->
-                    <div class="am-panel am-panel-default am-margin-top-sm">
-                        <div class="am-panel-hd">
-                            <h3 class="am-panel-title">{{:MyLang('form_base_data_title')}}</h3>
+                    <div data-key="base" class="item am-active">
+                        <div class="am-form-group row">
+                            <label>{{:MyLang('common_service.design.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" name="name" placeholder="{{:MyLang('common_service.design.form_item_name_message')}}" maxlength="60" data-validation-message="{{:MyLang('common_service.design.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                         </div>
-                        <div class="am-panel-bd am-padding-vertical-xs">
-                            <div class="am-cf">
-                                <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    <div class="am-form-group">
-                                        <label>{{:MyLang('common_service.design.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                        <input type="text" name="name" placeholder="{{:MyLang('common_service.design.form_item_name_message')}}" maxlength="60" data-validation-message="{{:MyLang('common_service.design.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
-                                    </div>
-                                </div>
-                                <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    {{:ModuleInclude('lib/is_enable')}}
-                                </div>
-                            </div>
 
-                            <div class="am-cf">
-                                <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    <div class="am-form-group am-form-file">
-                                        <label class="am-block">{{:MyLang('common_service.design.form_logo_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.design.form_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                                        <div class="am-form-file-upload-container">
-                                            <ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
-                                                <li class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">
-                                                    {{if empty($data['logo'])}}
-                                                        <i class="iconfont icon-upload-add"></i>
-                                                    {{else /}}
-                                                        <input type="text" name="logo" value="{{$data.logo}}" />
-                                                        <img src="{{:AttachmentPathViewHandle($data.logo)}}" />
-                                                        <i class="iconfont icon-close"></i>
-                                                        <i class="iconfont icon-eye"></i>
-                                                    {{/if}}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="am-u-sm-6 am-padding-horizontal-0">
-                                    {{:ModuleInclude('lib/is_header')}}
-                                    {{:ModuleInclude('lib/is_footer')}}
-                                </div>
+                        <div class="am-form-group am-form-file row">
+                            <label class="am-block">{{:MyLang('common_service.design.form_logo_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.design.form_logo_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <div class="am-form-file-upload-container">
+                                <ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+                                    <li class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">
+                                        {{if empty($data['logo'])}}
+                                            <i class="iconfont icon-upload-add"></i>
+                                        {{else /}}
+                                            <input type="text" name="logo" value="{{$data.logo}}" />
+                                            <img src="{{:AttachmentPathViewHandle($data.logo)}}" />
+                                            <i class="iconfont icon-close"></i>
+                                            <i class="iconfont icon-eye"></i>
+                                        {{/if}}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                        {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
+                        {{:ModuleInclude('lib/is_header', ['is_row'=>1])}}
+                        {{:ModuleInclude('lib/is_footer', ['is_row'=>1])}}
                     </div>
                     
                     <!-- SEO -->
-                    <div class="am-panel am-panel-default am-radius">
-                        <div class="am-panel-hd">
-                            <h3 class="am-panel-title">{{:MyLang('form_seo_data_title')}}</h3>
-                        </div>
-                        <div class="am-panel-bd am-padding-vertical-xs">
-                            {{:ModuleInclude('lib/seo')}}
-                        </div>
+                    <div data-key="seo" class="item">
+                        {{:ModuleInclude('lib/seo', ['is_row'=>1])}}
                     </div>
                 </div>
 

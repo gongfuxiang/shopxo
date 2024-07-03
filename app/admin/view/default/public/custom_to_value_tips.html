@@ -1,0 +1,21 @@
+{{if is_array(MyLang('custom_to_value_tips'))}}
+    <div class="am-tips-card">
+        {{foreach :MyLang('custom_to_value_tips') as $k=>$v}}
+            <div {{if $k gt 0}}class="am-margin-top-xs"{{/if}}>
+                <p><strong>{{$v.name}}</strong></p>
+                {{if !empty($v['item'])}}
+                    <div class="am-padding-left-lg">
+                        {{foreach $v.item as $vs}}
+                            <p>{{$vs}}</p>
+                        {{/foreach}}
+                        {{if !empty($v['tips']) and $v['type'] eq 'mini' and !empty($site_store_links) and !empty($site_store_links['app_mini_pages'])}}
+                            <p>
+                                <a href="{{$site_store_links.app_mini_pages}}" target="_blank">{{$v.tips}} <i class="am-icon-external-link"></i></a>
+                            </p>
+                        {{/if}}
+                    </div>
+                {{/if}}
+            </div>
+        {{/foreach}}
+    </div>
+{{/if}}

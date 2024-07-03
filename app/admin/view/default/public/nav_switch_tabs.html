@@ -16,8 +16,8 @@
             {{/foreach}}
         </ul>
         {{if !empty($module_data['other']) and !empty($module_data['other_url'])}}
-            <a class="more-download" href="{{$module_data.other_url}}" target="_blank">
-                <i class="iconfont icon-download-btn"></i> 
+            <a class="more-text" href="{{$module_data.other_url}}" target="_blank">
+                <i class="iconfont {{if empty($module_data['other_icon'])}}icon-download-btn{{else /}}{{$module_data.other_icon}}{{/if}}"></i> 
                 <span class="am-hide-sm-only am-margin-left-xs">{{$module_data.other_name}} </span>
             </a>
         {{/if}}

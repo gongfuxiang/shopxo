@@ -111,6 +111,12 @@ $(function () {
         MapInit();
         // 地区初始化
         RegionLinkageInit();
+
+        // logo
+        var html = '<li class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">';
+            html += '<i class="iconfont icon-upload-add"></i>';
+            html += '</li>';
+        $popup_address.find('.sitetype-logo').html(html);
     });
 
     // 地址移除
@@ -313,7 +319,7 @@ $(function () {
         }
         var form_name = $(this).data('form-name');
         var index = parseInt(Math.random() * 1000001);
-        var html = `<li class="am-flex am-flex-row am-flex-items-center am-gap-2">
+        var html = `<li class="am-flex am-flex-row am-flex-items-center am-gap-1">
                         <input type="text" name="`+ form_name + `[` + index + `][domain]" placeholder="` + ($(this).data('domain-placeholder') || '域名') + `" data-validation-message="` + ($(this).data('domain-message') || '请填写域名') + `" class="am-radius am-inline-block item-domain-input" value="" />
                         <div class="am-inline-block item-multilingual-choice">
                             <select name="`+ form_name + `[` + index + `][lang]" class="am-radius chosen-select" data-placeholder="` + please_select_tip + `" data-validation-message="` + ($(this).data('select-message') || '请选择域名对应语言') + `">

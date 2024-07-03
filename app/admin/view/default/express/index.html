@@ -31,11 +31,11 @@
                             <label>{{:MyLang('common_service.express.form_item_website_url')}}</label>
                             <input type="url" placeholder="{{:MyLang('common_service.express.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('common_service.express.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
                         </div>
-                        {{:ModuleInclude('lib/sort_row')}}
-                        {{:ModuleInclude('lib/is_enable_row')}}
+                        {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                        {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>

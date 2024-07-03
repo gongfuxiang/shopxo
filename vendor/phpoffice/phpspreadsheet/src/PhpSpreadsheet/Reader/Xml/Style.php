@@ -2,15 +2,16 @@
 
 namespace PhpOffice\PhpSpreadsheet\Reader\Xml;
 
-use PhpOffice\PhpSpreadsheet\Style\Protection;
 use SimpleXMLElement;
 
 class Style
 {
     /**
      * Formats.
+     *
+     * @var array
      */
-    protected array $styles = [];
+    protected $styles = [];
 
     public function parseStyles(SimpleXMLElement $xml, array $namespaces): array
     {
@@ -29,7 +30,7 @@ class Style
             $styleID = (string) $style_ss['ID'];
             $this->styles[$styleID] = $this->styles['Default'] ?? [];
 
-            $alignment = $border = $font = $fill = $numberFormat = $protection = [];
+            $alignment = $border = $font = $fill = $numberFormat = [];
 
             foreach ($style as $styleType => $styleDatax) {
                 $styleData = self::getSxml($styleDatax);
@@ -64,30 +65,10 @@ class Style
                         }
 
                         break;
-                    case 'Protection':
-                        $locked = $hidden = null;
-                        $styleAttributesP = $styleData->attributes($namespaces['x']);
-                        if (isset($styleAttributes['Protected'])) {
-                            $locked = ((bool) (string) $styleAttributes['Protected']) ? Protection::PROTECTION_PROTECTED : Protection::PROTECTION_UNPROTECTED;
-                        }
-                        if (isset($styleAttributesP['HideFormula'])) {
-                            $hidden = ((bool) (string) $styleAttributesP['HideFormula']) ? Protection::PROTECTION_PROTECTED : Protection::PROTECTION_UNPROTECTED;
-                        }
-                        if ($locked !== null || $hidden !== null) {
-                            $protection['protection'] = [];
-                            if ($locked !== null) {
-                                $protection['protection']['locked'] = $locked;
-                            }
-                            if ($hidden !== null) {
-                                $protection['protection']['hidden'] = $hidden;
-                            }
-                        }
-
-                        break;
                 }
             }
 
-            $this->styles[$styleID] = array_merge($alignment, $border, $font, $fill, $numberFormat, $protection);
+            $this->styles[$styleID] = array_merge($alignment, $border, $font, $fill, $numberFormat);
         }
 
         return $this->styles;

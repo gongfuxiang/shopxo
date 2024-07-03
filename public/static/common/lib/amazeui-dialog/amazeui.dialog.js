@@ -108,7 +108,6 @@ dialog.confirm = function(options) {
     }
   }).on('closed.modal.amui', function() {
     var $this = $(this);
-    console.log(2);
       setTimeout(function()
       {
         $this.remove();

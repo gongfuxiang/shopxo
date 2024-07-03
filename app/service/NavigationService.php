@@ -211,6 +211,11 @@ class NavigationService
                     case 'design':
                         $v['url'] = MyUrl('index/design/index', ['id'=>$v['value']]);
                         break;
+
+                    // 插件首页
+                    case 'plugins':
+                        $v['url'] = PluginsHomeUrl($v['value'], 'index', 'index');
+                        break;
                 }
                 $data[$k] = $v;
             }
@@ -341,12 +346,6 @@ class NavigationService
         $p = [
             [
                 'checked_type'      => 'length',
-                'key_name'          => 'name',
-                'checked_data'      => '1,60',
-                'error_msg'         => MyLang('common_service.navigation.form_item_name_message'),
-            ],
-            [
-                'checked_type'      => 'length',
                 'key_name'          => 'sort',
                 'checked_data'      => '4',
                 'error_msg'         => MyLang('form_sort_message'),
@@ -370,6 +369,16 @@ class NavigationService
                 'error_msg'         => MyLang('data_type_error_tips'),
             ],
         ];
+        // 仅自定义必填名称
+        if($params['data_type'] == 'custom')
+        {
+            $p[] = [
+                    'checked_type'      => 'length',
+                    'key_name'          => 'name',
+                    'checked_data'      => '1,60',
+                    'error_msg'         => MyLang('common_service.navigation.form_item_name_message'),
+                ];
+        }
         switch($params['data_type'])
         {
             // 自定义导航
@@ -418,6 +427,15 @@ class NavigationService
                     ];
                 break;
 
+            // 插件首页
+            case 'plugins':
+                $p[] = [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'value',
+                        'error_msg'         => MyLang('common_service.navigation.form_item_value_plugins_message'),
+                    ];
+                break;
+
             // 没找到
             default :
                 return DataReturn(MyLang('operate_type_error_tips'), -1);
@@ -452,24 +470,29 @@ class NavigationService
         {
             switch($params['data_type'])
             {
-                // 文章分类导航
+                // 文章分类
                 case 'article':
                     $temp_name = Db::name('Article')->where(['id'=>$params['value']])->value('title');
                     break;
 
-                // 自定义页面导航
+                // 自定义页面
                 case 'customview':
                     $temp_name = Db::name('CustomView')->where(['id'=>$params['value']])->value('name');
                     break;
 
-                // 商品分类导航
+                // 商品分类
                 case 'goods_category':
                     $temp_name = Db::name('GoodsCategory')->where(['id'=>$params['value']])->value('name');
                     break;
 
-                // 页面设计导航
+                // 页面设计
                 case 'design':
                     $temp_name = Db::name('Design')->where(['id'=>$params['value']])->value('name');
+                    break;
+
+                // 插件首页
+                case 'plugins':
+                    $temp_name = Db::name('Plugins')->where(['plugins'=>$params['value']])->value('name');
                     break;
             }
             // 只截取16个字符
@@ -479,7 +502,7 @@ class NavigationService
         // 数据
         $data = [
             'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
-            'value'                 => isset($params['value']) ? intval($params['value']) : 0,
+            'value'                 => isset($params['value']) ? trim($params['value']) : '',
             'name'                  => $params['name'],
             'url'                   => isset($params['url']) ? $params['url'] : '',
             'nav_type'              => $params['nav_type'],

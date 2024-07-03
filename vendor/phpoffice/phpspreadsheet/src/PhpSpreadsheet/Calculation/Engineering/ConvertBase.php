@@ -11,7 +11,8 @@ abstract class ConvertBase
 {
     use ArrayEnabled;
 
-    protected static function validateValue(mixed $value): string
+    /** @param mixed $value */
+    protected static function validateValue($value): string
     {
         if (is_bool($value)) {
             if (Functions::getCompatibilityMode() !== Functions::COMPATIBILITY_OPENOFFICE) {
@@ -29,7 +30,8 @@ abstract class ConvertBase
         return strtoupper((string) $value);
     }
 
-    protected static function validatePlaces(mixed $places = null): ?int
+    /** @param mixed $places */
+    protected static function validatePlaces($places = null): ?int
     {
         if ($places === null) {
             return $places;

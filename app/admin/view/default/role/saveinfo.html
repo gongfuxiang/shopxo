@@ -47,10 +47,10 @@
                                                 {{foreach $v.item as $vs}}
                                                     <li class="am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp">
                                                         <div class="item-content am-padding-sm">
-                                                        <label class="am-checkbox-inline">
-                                                            <input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
-                                                            <span class="{{if $vs['is_show'] eq 0}}am-color-999{{/if}}">{{$vs.name}}</span>
-                                                        </label>
+                                                            <label class="am-checkbox-inline">
+                                                                <input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                                <span class="{{if $vs['is_show'] eq 0}}am-color-999{{/if}}">{{$vs.name}}</span>
+                                                            </label>
                                                         </div>
                                                         {{if !empty($vs['item'])}}
                                                             <div class="am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">

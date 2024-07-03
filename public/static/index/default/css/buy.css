@@ -67,6 +67,7 @@ ul.address-list li .user-base {
     padding-bottom: 1rem;
     display: flex;
     align-items: center;
+    min-height: 3.3rem;
 }
 ul.address-list li .user-base .address-alias {
     max-width: 8rem;
@@ -262,9 +263,9 @@ ul.address-list,
 }
 .address ul.address-express-delivery {
     display: flex;
-    align-items: center;
     flex-flow: row wrap;
     gap: 2rem;
+    align-content: flex-start;
     overflow: unset;
 }
 @media only screen and (min-width: 641px) {
@@ -371,7 +372,7 @@ ul.address-list,
     .address-operation-btn {
         display: block;
     }
-    .address-right .am-icon-angle-right,
+    .address-right .icon-angle-right,
     .mobile-address-close-submit {
         display: none;
     }
@@ -415,7 +416,7 @@ ul.address-list,
         overflow: hidden;
     }
 
-    ul.address-list .am-icon-angle-right {
+    ul.address-list .icon-angle-right {
         color: #999;
     }
     .business-item ul li {

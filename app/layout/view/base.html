@@ -112,7 +112,7 @@
                     <div class="layout-content-submit drag-submit">
                         <input type="checkbox" data-am-switch class="switch-checkbox am-switch-mini" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="{{:MyLang('close_title')}}" data-on-text="{{:MyLang('open_title')}}" {{if isset($v['status']) and $v['status'] eq 1}}checked="true"{{/if}} />
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> {{:MyLang('layout.view_base_layout_set_title')}}</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> {{:MyLang('layout.view_base_layout_del_title')}}</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs iconfont icon-delete layout-submit layout-submit-del"> {{:MyLang('layout.view_base_layout_del_title')}}</button>
                     </div>
                     <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}

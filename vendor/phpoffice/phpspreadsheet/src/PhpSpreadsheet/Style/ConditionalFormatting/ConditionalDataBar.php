@@ -4,22 +4,39 @@ namespace PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting;
 
 class ConditionalDataBar
 {
-    private ?bool $showValue = null;
+    /** <dataBar> attribute  */
 
-    private ?ConditionalFormatValueObject $minimumConditionalFormatValueObject = null;
+    /** @var null|bool */
+    private $showValue;
 
-    private ?ConditionalFormatValueObject $maximumConditionalFormatValueObject = null;
+    /** <dataBar> children */
 
-    private string $color = '';
+    /** @var ?ConditionalFormatValueObject */
+    private $minimumConditionalFormatValueObject;
 
-    private ?ConditionalFormattingRuleExtension $conditionalFormattingRuleExt = null;
+    /** @var ?ConditionalFormatValueObject */
+    private $maximumConditionalFormatValueObject;
 
-    public function getShowValue(): ?bool
+    /** @var string */
+    private $color;
+
+    /** <extLst> */
+
+    /** @var ?ConditionalFormattingRuleExtension */
+    private $conditionalFormattingRuleExt;
+
+    /**
+     * @return null|bool
+     */
+    public function getShowValue()
     {
         return $this->showValue;
     }
 
-    public function setShowValue(bool $showValue): self
+    /**
+     * @param bool $showValue
+     */
+    public function setShowValue($showValue): self
     {
         $this->showValue = $showValue;
 

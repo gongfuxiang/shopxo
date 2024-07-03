@@ -20,7 +20,7 @@
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="am-icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -85,7 +85,7 @@
                         {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}
                             <div class="type-btn">
                                 <p class="am-text-truncate-2 goods-title am-padding-horizontal-sm">
-                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title}}</a>
+                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title|raw}}</a>
                                 </p>
                                 {{if (isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1) or (isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1)}}
                                     <div class="item-bottom am-flex am-flex-justify-between am-gap-1 am-flex-items-end am-padding-sm">
@@ -114,7 +114,7 @@
                                                     {{else/}}
                                                         {{$v.min_price}}
                                                     {{/if}}
-                                                    <span class="am-text-grey">
+                                                    <span class="am-text-grey unit">
                                                         {{if !empty($module_data['price_unit'])}}
                                                             {{$module_data['price_unit']}}
                                                         {{else /}}
@@ -141,7 +141,7 @@
                                 <p class="price am-text-truncate">
                                     {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
                                         <strong>{{$v.show_price_symbol}}{{$v.min_price}}</strong>
-                                        <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                                        <span class="am-text-grey unit">{{$v.show_price_unit}}</span>
                                     {{/if}}
 
                                     {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
@@ -151,7 +151,7 @@
                                     {{/if}}
                                 </p>
                                 <p class="am-text-truncate-2-md goods-title">
-                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title}}</a>
+                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title|raw}}</a>
                                 </p>
                             </div>
                         {{/if}}

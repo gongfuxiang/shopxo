@@ -180,33 +180,14 @@
     width: 22rem;
 }
 
-/* 自动 + 手动 */
-.am-form-group .am-tagsinput {
-    max-width: 41.5rem;
-    border-radius: var(--border-radius);
-    border: 0.1rem solid #D8D9DC;
-}
-
-.am-form-group .am-tagsinput .tag {
-    background: #F3F3F3;
-    color: #333;
-    border-radius: var(--border-radius);
-    padding: 0.1rem 0.6rem;
-    font-weight: normal !important;
-}
-
-/* 订单 */
-.payment-list-width {
-    max-width: 90rem;
-}
-
-.payment-list-width .am-form-group {
-    width: calc(50% - 1.2rem);
+/* 站点类型 */
+.site-type-list span {
+    min-width: 8rem;
 }
 
 /* 扩展-多语言 */
 .multilingual-content {
-    padding: 3.6rem 1.6rem;
+    padding: 1rem;
     background: #F9F9F9;
     border-radius: var(--border-radius);
 }

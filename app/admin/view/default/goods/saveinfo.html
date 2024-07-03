@@ -60,7 +60,7 @@
                 <div id="goods-nav-base" class="item am-active" data-key="base">
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <div class="am-flex am-flex-items-center am-gap-1">
+                        <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
                             <input type="text" name="title" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
                             <div class="colorpicker-container colorpicker-simple">
                                 <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
@@ -127,16 +127,25 @@
                         <label>
                             {{:MyLang('common_service.goods.form_item_give_integral')}}
                             {{if is_array(MyLang('common_service.goods.form_item_give_integral_tips'))}}
-                                <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_give_integral_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                                <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_give_integral_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             {{/if}}
                         </label>
                         <input type="number" name="give_integral" placeholder="{{:MyLang('common_service.goods.form_item_give_integral_placeholder')}}(%)" min="0" max="100" data-validation-message="{{:MyLang('common_service.goods.form_item_give_integral_message')}}" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>
+                            {{:MyLang('common_service.goods.form_item_sort_level')}}
+                            {{if is_array(MyLang('common_service.goods.form_item_sort_level_tips'))}}
+                                <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_sort_level_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            {{/if}}
+                        </label>
+                        <input type="number" name="sort_level" placeholder="{{:MyLang('common_service.goods.form_item_sort_level')}}" min="0" data-validation-message="{{:MyLang('common_service.goods.form_item_sort_level_message')}}" class="am-form-field am-radius" {{if !empty($data['sort_level'])}} value="{{$data.sort_level}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>
                             {{:MyLang('common_service.goods.form_item_site_type')}}
                             {{if is_array(MyLang('common_service.goods.form_item_site_type_tips'))}}
-                                <a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:implode('</p><p>', MyLang('common_service.goods.form_item_site_type_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                                <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('</p><p>', MyLang('common_service.goods.form_item_site_type_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             {{/if}}
                         </label>
                         <select name="site_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_site_type_message')}}">
@@ -149,7 +158,7 @@
                         </select>
                     </div>
                     <div class="am-form-group am-form-file">
-                        <label class="am-block">{{:MyLang('common_service.goods.form_item_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_images')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">
@@ -166,11 +175,11 @@
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_deduction_inventory')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_deduction_inventory_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_deduction_inventory')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_deduction_inventory_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
                     </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_shelves')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_shelves_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_is_shelves')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_item_is_shelves_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input name="is_shelves" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
                     </div>
                 </div>
@@ -198,7 +207,7 @@
                 <!-- 商品参数 -->
                 <div id="goods-nav-parameters" class="item" data-key="parameters">
                     <div class="am-form-group">
-                        <label>选择参数<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_params_list_content_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>选择参数<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_params_list_content_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <div class="am-flex am-flex-items-center am-gap-2">
                             <!-- 通过配置生成商品参数 -->
                             <div class="am-dropdown goods-params" id="parameters-quick-container" data-am-dropdown>
@@ -228,7 +237,7 @@
                             </span>
                             <!-- 清空操作 -->
                             <span class="business-operations-submit parameters-quick-remove">
-                                <i class="iconfont icon-clear"></i>
+                                <i class="iconfont icon-shear"></i>
                                 <span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>
                             </span>
                         </div>
@@ -244,7 +253,7 @@
                 <!-- 相册/视频 -->
                 <div class="item" data-key="photo-video">
                     <div id="goods-nav-photo" class="am-form-group am-form-file">
-                        <label>{{$goods_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span><a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_photo_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                        <label>{{$goods_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_photo_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         </label>
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="30" data-dialog-type="images" data-is-eye="1">
@@ -266,7 +275,7 @@
                     </div>
                     <!-- 视频 -->
                     <div id="goods-nav-video" class="am-form-group am-form-file">
-                        <label>{{$goods_nav_list.video.name}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goods.form_video_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                        <label>{{$goods_nav_list.video.name}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_video_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
                         </label>
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
@@ -371,7 +380,7 @@
                 <!-- 扩展数据 -->
                 <div id="goods-nav-extends" class="item" data-key="extends">
                     <div class="am-form-group">
-                        <label>{{$goods_nav_list.extends.name}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('plugins_view_region_config_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{$goods_nav_list.extends.name}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('plugins_view_region_config_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <div class="am-flex am-flex-col am-gap-32">
                             <!-- 插件扩展数据 start -->
                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

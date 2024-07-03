@@ -157,17 +157,10 @@ body {
 }
 
 .right-operate .echarts-where-submit {
-    border: 0.1rem solid var(--color-main);
-    background-color: transparent;
-    color: var(--color-main);
     font-size: 1.2rem;
-    padding: 0.3rem 0.5rem;
-}
-
-.right-operate .echarts-where-submit:hover {
-    color: #fff;
-    background-color: var(--color-main);
-    border-color: var(--color-main);
+    padding: 0.26rem 0.5rem;
+    height: auto;
+    line-height: normal;
 }
 
 .right-operate .echarts-where-submit i {
@@ -528,7 +521,6 @@ body {
 }
 
 @media only screen and (min-width:1160px) and (max-width:1320px) {
-
     .inventory,
     .shortcut-menu {
         max-width: 23rem !important;

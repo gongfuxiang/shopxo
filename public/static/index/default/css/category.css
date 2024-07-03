@@ -411,4 +411,7 @@
         width: 9rem;
         height: 8.3rem;
     }
+    .zero-search-right  .module-goods-list-base .item .item-content .bottom-content .price-content>span {
+        display: none;
+    }
 }

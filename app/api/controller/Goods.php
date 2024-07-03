@@ -85,9 +85,6 @@ class Goods extends Common
                 if($is_use_mobile_detail == 1)
                 {
                     unset($goods['content_web']);
-                } else {
-                    // 标签处理，兼容小程序rich-text
-                    $goods['content_web'] = ResourcesService::ApMiniRichTextContentHandle($goods['content_web']);
                 }
 
                 // 商品评价总数

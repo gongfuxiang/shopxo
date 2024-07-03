@@ -19,16 +19,18 @@
                     {{/if}}
                 </ul>
                 <input type="hidden" name="express_data" value="{{if !empty($data['express_data'])}}{{:urlencode(json_encode($data.express_data))}}{{/if}}" />
-                <button type="button" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs am-margin-top-sm express-submit-add"> 
-                    <i class="iconfont icon-add"></i>
-                    <span>{{:MyLang('order.form_item_express_add_name')}}</span>
-                </button>
+                <div>
+                    <button type="button" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs am-margin-top-sm express-submit-add"> 
+                        <i class="iconfont icon-add"></i>
+                        <span>{{:MyLang('order.form_item_express_add_name')}}</span>
+                    </button>
+                </div>
             </div>
 
             <div class="am-form-popup-submit">
                 <input type="hidden" name="id" value="{{$data.id}}"/>
                 <input type="hidden" name="user_id" value="{{$data.user_id}}"/>
-                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                     <i class="am-icon-paint-brush"></i>
                     <span>{{:MyLang('cancel_title')}}</span>
                 </button>

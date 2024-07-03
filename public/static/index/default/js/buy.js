@@ -44,10 +44,17 @@ $(function()
     });
 
     // 手机模式下选择地址
-    $(document).on('click', '.address ul.address-list li', function()
+    $(document).on('click', '.address.mobile-address ul.address-list li', function()
     {
-        var anchor = $(this).parents('.address').attr('id') || '';
-        window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
+        var default_address_id = $('.address ul.address-list li.address-default').data('value');
+        var address_id = $(this).data('value');
+        if(default_address_id == address_id)
+        {
+            $('.mobile-address-close-submit').trigger('click');
+        } else {
+            var anchor = $(this).parents('.address').attr('id') || '';
+            window.location.href = UrlFieldReplace('address_id', address_id, null, anchor);
+        }
     });
 
     // 手机模式下关闭地址选中
@@ -80,7 +87,7 @@ $(function()
     // 弹出地址选择
     $(document).on('click', '.address-submit-save', function(e)
     {
-        ModalLoad($(this).data('url'), $(this).data('popup-title'), 'common-address-modal');
+        ModalLoad($(this).data('url'), $(this).data('title'), 'common-address-modal');
 
         // 阻止事件冒泡
         e.stopPropagation();

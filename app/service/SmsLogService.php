@@ -42,7 +42,7 @@ class SmsLogService
         $data = [
             'status'            => 0,
             'platform'          => empty($platform) ? '' : $platform,
-            'mobile'            => empty($mobile) ? '' : $mobile,
+            'mobile'            => empty($mobile) ? '' : (is_array($mobile) ? implode(', ', $mobile) : $mobile),
             'sign_name'         => empty($sign_name) ? '' : $sign_name,
             'request_url'       => empty($request_url) ? '' : $request_url,
             'template_value'    => empty($template_value) ? '' : $template_value,

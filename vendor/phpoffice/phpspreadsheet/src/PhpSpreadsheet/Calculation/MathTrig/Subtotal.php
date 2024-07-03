@@ -9,7 +9,11 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 
 class Subtotal
 {
-    protected static function filterHiddenArgs(mixed $cellReference, mixed $args): array
+    /**
+     * @param mixed $cellReference
+     * @param mixed $args
+     */
+    protected static function filterHiddenArgs($cellReference, $args): array
     {
         return array_filter(
             $args,
@@ -26,11 +30,15 @@ class Subtotal
         );
     }
 
-    protected static function filterFormulaArgs(mixed $cellReference, mixed $args): array
+    /**
+     * @param mixed $cellReference
+     * @param mixed $args
+     */
+    protected static function filterFormulaArgs($cellReference, $args): array
     {
         return array_filter(
             $args,
-            function ($index) use ($cellReference): bool {
+            function ($index) use ($cellReference) {
                 $explodeArray = explode('.', $index);
                 $row = $explodeArray[1] ?? '';
                 $column = $explodeArray[2] ?? '';
@@ -52,9 +60,6 @@ class Subtotal
         );
     }
 
-    /**
-     * @var array<int, callable>
-     */
     private const CALL_FUNCTIONS = [
         1 => [Statistical\Averages::class, 'average'], // 1 and 101
         [Statistical\Counts::class, 'COUNT'], // 2 and 102
@@ -82,8 +87,10 @@ class Subtotal
      *                    but ignore any values in the range that are
      *                    in hidden rows
      * @param mixed[] $args A mixed data series of values
+     *
+     * @return float|string
      */
-    public static function evaluate(mixed $functionType, ...$args): float|int|string
+    public static function evaluate($functionType, ...$args)
     {
         $cellReference = array_pop($args);
         $bArgs = Functions::flattenArrayIndexed($args);
@@ -117,6 +124,7 @@ class Subtotal
 
         $aArgs = self::filterFormulaArgs($cellReference, $aArgs);
         if (array_key_exists($subtotal, self::CALL_FUNCTIONS)) {
+            /** @var callable */
             $call = self::CALL_FUNCTIONS[$subtotal];
 
             return call_user_func_array($call, $aArgs);

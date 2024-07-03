@@ -12,7 +12,7 @@
 
 
 <!-- 继承公共的 form -->
-{{extend name="../../../module/view/form" /}}
+{{extend name="../../../module/view/form_table/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -63,14 +63,14 @@
                         <label>{{:MyLang('common_service.navigation.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="url" placeholder="{{:MyLang('common_service.navigation.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.navigation.form_item_url_message')}}" class="am-radius" required />
                     </div>
-                    {{:ModuleInclude('lib/sort_row')}}
-                    {{:ModuleInclude('lib/is_show_row')}}
-                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="custom" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>
@@ -121,17 +121,17 @@
                         </select>
                     </div>
                     <div class="am-form-group row">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{:ModuleInclude('lib/sort_row')}}
-                    {{:ModuleInclude('lib/is_show_row')}}
-                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="article" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>
@@ -177,17 +177,17 @@
                         </select>
                     </div>
                     <div class="am-form-group row">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{:ModuleInclude('lib/sort_row')}}
-                    {{:ModuleInclude('lib/is_show_row')}}
-                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="customview" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>
@@ -242,17 +242,17 @@
                         </select>
                     </div>
                     <div class="am-form-group row">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{:ModuleInclude('lib/sort_row')}}
-                    {{:ModuleInclude('lib/is_show_row')}}
-                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="goods_category" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>
@@ -297,17 +297,17 @@
                         </select>
                     </div>
                     <div class="am-form-group row">
-                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    {{:ModuleInclude('lib/sort_row')}}
-                    {{:ModuleInclude('lib/is_show_row')}}
-                    {{:ModuleInclude('lib/is_new_window_open_row')}}
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="design" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>
@@ -322,4 +322,59 @@
         </div>
     </div>
     <!-- design save win end -->
+
+    <!-- plugins save win start -->
+    <div class="am-popup am-radius" id="nav-plugins-save-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.plugins}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.plugins}}{{:MyLang('edit_title')}}">{{$add_type_list.plugins}}{{:MyLang('add_title')}}</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <!-- form start -->
+                <form class="am-form form-validation-plugins am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}</option>
+                            {{foreach $nav_header_pid_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group row">
+                        <label>{{$add_type_list.plugins}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_plugins_message')}}" required>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
+                            {{foreach $plugins_list as $v}}
+                                <option value="{{$v.value}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group row">
+                        <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['plugins']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                    </div>
+                    {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
+                    <div class="am-form-popup-submit">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="data_type" value="plugins" />
+                        <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                            <i class="am-icon-paint-brush"></i>
+                            <span>{{:MyLang('cancel_title')}}</span>
+                        </button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                            <i class="am-icon-save"></i>
+                            <span>{{:MyLang('save_title')}}</span>
+                        </button>
+                    </div>
+                </form>
+                    <!-- form end -->
+            </div>
+        </div>
+    </div>
+    <!-- plugins save win end -->
 {{/block}}

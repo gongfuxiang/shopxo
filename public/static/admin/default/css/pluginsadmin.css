@@ -103,6 +103,11 @@
     z-index: 2;
 }
 
+.plugins-data-list>ul>li.setup .operation {
+    z-index: 0;
+}
+
+
 .plugins-data-list>ul .item .operation .am-btn {
     position: relative;
     padding: 0.5em 2em;
@@ -149,6 +154,8 @@
     color: #666;
     background-color: transparent !important;
     border: 0 !important;
+    height: auto;
+    line-height: normal;
 }
 .plugins-data-list>ul>li .operation button.am-btn-danger {
     color: var(--color-red);   
@@ -340,20 +347,36 @@
 }
 
 /**
- * 右上角选择
+ * 插件设置容器
  */
-.plugins-data-list .plugins-right-top-container {
+.plugins-data-list .plugins-setup-container {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-bottom-left-radius: 0.7rem;
+    border-bottom-right-radius: 0.7rem;
+    -webkit-box-shadow: 0 -0.5rem 0.5rem rgb(50 55 58 / 6%);
+    box-shadow: 0 -0.5rem 0.5rem rgb(50 55 58 / 6%);
+    background: #f9f9f9;
 }
 
-.plugins-data-list .plugins-right-top-container .chosen-select-item {
-    width: 12rem;
+.plugins-data-list .plugins-setup-container .chosen-select-item {
+    width: 10rem;
+    vertical-align: middle;
 }
-.plugins-data-list .plugins-right-top-container .chosen-select-item .chosen-single {
+
+.plugins-data-list .plugins-setup-container .chosen-select-item.second-domain {
+    border: 0.1rem solid #f0f0f0;
+    border-radius: var(--border-radius);
+    padding: 0.48rem 0.8rem;
+    height: 3.1rem;
+}
+
+.plugins-data-list .plugins-setup-container .chosen-select-item.second-domain,
+.plugins-data-list .plugins-setup-container .chosen-select-item .chosen-single {
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 

@@ -67,6 +67,8 @@ return [
         'operate_remove_name'               => 'Remove',
         'operate_sort_name'                 => 'Sort',
         'operate_modify_name'               => 'Modify',
+        'operate_download_name'             => 'Download',
+        'operate_download_fail_tips'        => 'Download failed',
         'select_not_chosen_tips'            => 'Please select an item',
         'select_chosen_min_tips'            => 'Select at least {value} items',
         'select_chosen_max_tips'            => 'Select at most {value} items',
@@ -459,6 +461,11 @@ return [
     'refund_title'                                          => 'Refund',
     'receive_title'                                         => 'Receive',
     'express_title'                                         => 'Express',
+    'logistics_title'                                       => 'logistics',
+    'time_title'                                            => 'time',
+    'tel_title'                                             => 'Telephone',
+    'mobile_title'                                          => 'mobile phone',
+    'email_title'                                           => 'mailbox',
     'verification_title'                                    => 'Verification',
     'service_title'                                         => 'Service',
     'print_title'                                           => 'Print',
@@ -489,6 +496,7 @@ return [
     'birthday_title'                                        => 'Birthday',
     'address_title'                                         => 'Address',
     'bind_title'                                            => 'Bind',
+    'unbind_title'                                          => 'Unbind',
     'brand_title'                                           => 'Brand',
     'category_title'                                        => 'Category',
     'attr_title'                                            => 'Attribute',
@@ -759,6 +767,52 @@ return [
             ]
         ]
     ],
+    // 自定义跳转地址提示说明
+    'custom_to_value_tips'              => [
+        [
+            'type'  => 'web',
+            'name'  => 'WEB terminal',
+            'item'  => [
+                '1. Start with http',
+                '2. If a web page is used in an applet, it is necessary to add a whitelist in the background of the applet',
+            ]
+        ],
+        [
+            'type'  => 'mini',
+            'name'  => 'Internal page (applet/APP internal address)',
+            'item'  => [
+                '1. The applet starts with /pages',
+                '2. For example: /pages/user/user',
+                '3. Support with parameters ?x=xx',
+            ],
+            'tips'  => 'Applet page address configuration instructions',
+        ],
+        [
+            'type'  => 'out-mini',
+            'name'  => 'Open external applet',
+            'item'  => [
+                '1. Starts with appid://',
+                '2. For example: appid://wx88888888',
+            ]
+        ],
+        [
+            'type'  => 'tel',
+            'name'  => 'Making phone calls',
+            'item'  => [
+                '1. Starts with tel://',
+                '2. For example: tel://wx13222222222',
+            ]
+        ],
+        [
+            'type'  => 'map',
+            'name'  => 'Jump to the native map to view the specified location',
+            'item'  => [
+                '1. Start with map://',
+                '2. For example: map://name|address|longitude|latitude',
+                '3. Example: map://ShopXO|No. XXX, Zhangjiang High tech Park, Pudong New Area, Shanghai|121.626444|31.20843',
+            ]
+        ],
+    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data'      => [
         'goodsfavor'   => 'My Favor',
@@ -938,6 +992,8 @@ return [
         'article'         => 'article',
         'customview'      => 'Custom page',
         'goods_category'  => 'Commodity classification',
+        'design'          => 'Page design',
+        'plugins'         => 'Plugin homepage',
     ],
     // 搜索框下热门关键字类型
     'common_search_keywords_type_list' => [
@@ -1651,7 +1707,11 @@ return [
             ],
             'form_item_give_integral_placeholder'   => 'Purchase free points',
             'form_item_give_integral_message'       => 'Purchase a number with a percentage of 0 to 100 points',
-            'form_item_buy_max_number_message'      => 'The maximum number of single purchase ranges from 1 to 100000000',
+            'form_item_sort_level'                  => 'Sort weights',
+            'form_item_sort_level_tips'             => [
+                'The larger the weight value, the higher and higher the weight',
+            ],
+            'form_item_sort_level_message'          => 'Please fill in the correct sorting weight',
             'form_item_site_type'                   => 'Goods Type',
             'form_item_site_type_tips'              => [
                 '1. The currently configured site type is ( 站点类型 )',
@@ -1819,6 +1879,9 @@ return [
             'lock_integral_dec_fail_tips'           => 'User failed to lock point deduction',
             'integral_log_dec_fail_tips'            => 'Log point deduction failed',
             'integral_log_close_fail_tips'          => 'Failed to close log points',
+            'integral_inc_fail_tips'                => 'User point increase failed',
+            'integral_dec_fail_tips'                => 'User points reduction failed',
+            'integral_log_add_fail_tips'            => 'User points log addition failed',
         ],
         // 布局
         'layout'                => [
@@ -1855,6 +1918,7 @@ return [
             'form_item_value_customview_message'    => 'Incorrect selection of custom page',
             'form_item_value_goods_category_message'=> 'Wrong selection of goods classification',
             'form_item_value_design_message'        => 'Incorrect selection of page design',
+            'form_item_value_plugins_message'       => 'Incorrect selection of plugin homepage',
             // 前端顶部小导航-右侧
             'header_top_nav_right'                  => [
                 'user_center'           => 'Personal Center',
@@ -2193,10 +2257,7 @@ return [
             'app_name_exclude_tips'                 => 'Cannot use restricted name',
             // 操作权限
             'app_dir_no_power_tips'                 => 'The application directory does not have operation permissions',
-            'app_view_dir_no_power_tips'            => 'The application view directory does not have operation permissions',
-            'app_css_dir_no_power_tips'             => 'The application css directory does not have operation permissions',
-            'app_js_dir_no_power_tips'              => 'The application js directory does not have operation permissions',
-            'app_images_dir_no_power_tips'          => 'The application images directory does not have operation permissions',
+            'app_static_dir_no_power_tips'          => 'Application static directory does not have operation permissions',
             'app_upload_dir_no_power_tips'          => 'The application upload directory does not have operation permissions',
             // 基础
             'file_no_power_tips'                    => 'File does not have permission',
@@ -2211,8 +2272,7 @@ return [
             'plugins_package_invalid_tips'          => 'Invalid plug-in package',
             'plugins_identification_error_tips'     => 'Wrong plug-in identification',
             'plugins_identification_empty_tips'     => 'Plug-in ID is empty',
-            'plugins_copy_control_fail_tips'        => 'controller',
-            'plugins_copy_view_fail_tips'           => 'view',
+            'plugins_copy_main_fail_tips'           => 'Main package',
             'plugins_new_config_error_tips'         => 'The new configuration file is incorrect',
             'plugins_new_config_update_fail_tips'   => 'Failed to update the new app profile',
             'app_update_no_exist_tips'              => 'The application does not exist [{:plugins}]. Please install it first',
@@ -2495,7 +2555,9 @@ return [
             'form_item_idcard_images'               => 'ID Card Photo',
             'form_item_idcard_images_tips'          => 'Please use the original ID card to shoot, and the picture should be clear',
             'form_item_idcard_front_button_name'    => 'Upload IDCard Front Pictures',
+            'form_item_idcard_front_message'        => 'Please upload the portrait image of the person',
             'form_item_idcard_back_button_name'     => 'Upload IDCard Back Pictures',
+            'form_item_idcard_back_message'         => 'Please upload pictures of National Microelectronics',
             'form_item_idcard_no_user_tips'         => 'Associate users before uploading ID card images',
             // 基础
             'address_id_empty_tips'                 => 'Address ID cannot be empty',
@@ -2747,51 +2809,6 @@ return [
         'view_pages_tabs_system_title'                       => 'System page',
         'view_pages_tabs_plugins_title'                      => 'Expansion module',
         'view_pages_tabs_custom_title'                       => 'Custom Links',
-        'view_pages_tabs_custom_tips'                        => [
-            [
-                'type'  => 'web',
-                'name'  => 'WEB terminal',
-                'item'  => [
-                    '1. Start with http',
-                    '2. If a web page is used in an applet, it is necessary to add a whitelist in the background of the applet',
-                ]
-            ],
-            [
-                'type'  => 'mini',
-                'name'  => 'Internal page (applet/APP internal address)',
-                'item'  => [
-                    '1. The applet starts with /pages',
-                    '2. For example: /pages/user/user',
-                    '3. Support with parameters ?x=xx',
-                ],
-                'tips'  => 'Applet page address configuration instructions',
-            ],
-            [
-                'type'  => 'out-mini',
-                'name'  => 'Open external applet',
-                'item'  => [
-                    '1. Starts with appid://',
-                    '2. For example: appid://wx88888888',
-                ]
-            ],
-            [
-                'type'  => 'tel',
-                'name'  => 'Making phone calls',
-                'item'  => [
-                    '1. Starts with tel://',
-                    '2. For example: tel://wx13222222222',
-                ]
-            ],
-            [
-                'type'  => 'map',
-                'name'  => 'Jump to the native map to view the specified location',
-                'item'  => [
-                    '1. Start with map://',
-                    '2. For example: map://name|address|longitude|latitude',
-                    '3. Example: map://ShopXO|No. XXX, Zhangjiang High tech Park, Pudong New Area, Shanghai|121.626444|31.20843',
-                ]
-            ],
-        ],
         // 滚动配置
         'view_module_rolling_config_item_width'                      => 'Data item width',
         'view_module_rolling_config_item_width_tips'                 => 'Default 200',
@@ -2936,6 +2953,33 @@ return [
         'view_base_layout_del_title'                                 => 'Layout Removal',
         'view_base_layout_set_title'                                 => 'Layout Settings',
         'view_base_layout_content_set_tips'                          => 'Container Settings',
+    ],
+
+    // -------------------- 数据打印 --------------------
+    'data_print'     => [
+        // 表单
+        'form_panel_width'                        => 'width',
+        'form_panel_height'                       => 'height',
+        'form_panel_custom'                       => 'custom',
+        'form_panel_rotate'                       => 'rotate',
+        'form_panel_clear'                        => 'empty',
+        'form_panel_export_pdf'                   => 'Export PDF',
+        'form_panel_public'                       => 'public',
+        'form_panel_business'                     => 'business',
+        'form_panel_assist'                       => 'auxiliary',
+        'form_panel_print_preview'                => 'Print Preview',
+        'form_panel_direct_print'                 => 'Direct printing',
+        'form_panel_setting_tips'                 => 'Selectable component design configuration',
+        // 服务层
+        'template_assist_style_hline'             => 'Horizontal line',
+        'template_assist_style_vline'             => 'Vertical line',
+        'template_assist_style_rect'              => 'rectangle',
+        'template_assist_style_oval'              => 'rotundity',
+        'template_assist_style_custom_text'       => 'Custom Text',
+        'template_assist_style_custom_long_text'  => 'Custom Multiline Text',
+        'template_assist_style_custom_image'      => 'Custom images',
+        'template_table_extends_field'            => 'Extended Fields',
+        'template_table_config_error_tips'        => 'Table configuration error',
     ],
 
     // -------------------- 扩展模块 --------------------
@@ -3345,15 +3389,20 @@ return [
             'desc' => 'Verification code',
             'tips' => 'Please fill in the content of mobile phone number binding SMS template',
         ],
+        'home_search_keywords_type'  => [
+            'name' => 'Search keyword type',
+            'desc' => 'The following keywords need to be configured for customization',
+            'tips' => 'Please select keyword type',
+        ],
         'home_search_keywords'  => [
             'name' => 'Search keywords',
             'desc' => 'Popular keywords under the search box (enter)',
             'tips' => 'Please fill in the keyword',
         ],
-        'home_search_keywords_type'  => [
-            'name' => 'Search keyword type',
-            'desc' => 'The following keywords need to be configured for customization',
-            'tips' => 'Please select keyword type',
+        'home_search_prohibit_user_agent'  => [
+            'name' => 'Search Prohibit UserAgent',
+            'desc' => 'Prohibited signs (enter enter)',
+            'tips' => 'Please fill in the search to prohibit UserAgent',
         ],
         'common_order_is_booking'  => [
             'name' => 'Order reservation mode',
@@ -3370,8 +3419,18 @@ return [
         ],
         'common_app_customer_service_tel'  => [
             'name' => 'customer service telephone numbers',
-            'desc' => 'If it is blank, it will not be displayed',
             'tips' => 'Please fill in the customer service telephone',
+        ],
+        'common_app_customer_service_custom'  => [
+            'name' => 'Customized customer service',
+        ],
+        'common_app_customer_service_company_weixin_corpid'  => [
+            'name' => 'Enterprise WeChat customer service ID',
+            'tips' => 'Please fill in the enterprise WeChat customer service ID',
+        ],
+        'common_app_customer_service_company_weixin_url'  => [
+            'name' => 'Enterprise WeChat customer service URL',
+            'tips' => 'Please fill in the enterprise WeChat customer service URL',
         ],
         'common_app_mini_alipay_appid'  => [
             'name' => 'AppID',
@@ -3880,6 +3939,14 @@ return [
             'desc' => 'Value of product unit',
             'tips' => 'Please choose whether to display the original price unit of the product',
         ],
+        'common_goods_sales_number_status'  => [
+            'name' => 'Display product sales volume',
+            'tips' => 'Please choose whether to display product sales volume',
+        ],
+        'common_goods_inventory_status'  => [
+            'name' => 'Display product inventory',
+            'tips' => 'Please choose whether to display product inventory',
+        ],
         'common_is_mobile_concise_model'  => [
             'name' => 'Mobile phone simple mode',
             'desc' => 'Default no',
@@ -4098,6 +4165,10 @@ return [
             'name' => 'Search for multiple keywords and relationships',
             'desc' => 'Default No, or Relationship',
             'tips' => 'Please select to search multiple keywords and relationships',
+        ],
+        'home_search_is_login_required'  => [
+            'name' => 'Search requires login',
+            'tips' => 'Please select whether to search for login required',
         ],
         'common_is_https_connect_store'  => [
             'name' => 'Connect to the store using HTTPS',

@@ -40,7 +40,7 @@
 }
 
 .specifications-table th.extend-btn {
-    min-width: 4.5rem;
+    min-width: 5.5rem;
 }
 
 #goods-nav-operations {
@@ -214,7 +214,7 @@ ul li {
     padding-bottom: 0;
 }
 
-.spec-quick table td i {
+.spec-quick table td i.icon-delete {
     font-size: 1.6rem;
 }
 

@@ -1,7 +1,7 @@
 {{if !empty($breadcrumb_data) and MyC('home_main_breadcrumb_header_status', 1) eq 1}}
     <div class="breadcrumb-data am-hide-sm-only">
         <div class="am-container">
-            <ol class="am-breadcrumb am-margin-bottom-0">
+            <ul class="am-breadcrumb am-margin-bottom-0">
                 {{foreach $breadcrumb_data as $v}}
                     {{if !empty($v['name'])}}
                         {{switch $v.type}}
@@ -18,7 +18,7 @@
                                         <a href="javascript:;">
                                             <div class="am-dropdown" data-am-dropdown>
                                                 <span class="am-dropdown-toggle" data-am-dropdown-toggle>{{$v.name}} <i class="am-icon-angle-down"></i></span>
-                                                <ul class="am-dropdown-content">
+                                                <ul class="am-dropdown-content am-radius">
                                                     {{foreach $v.data as $vs}}
                                                         {{if !empty($vs['name']) and !empty($vs['url'])}}
                                                             <li><a href="{{$vs.url}}">{{$vs.name}}</a></li>
@@ -33,7 +33,7 @@
                         {{/switch}}
                     {{/if}}      
                 {{/foreach}}
-            </ol>
+            </ul>
         </div>
     </div>
 {{/if}}

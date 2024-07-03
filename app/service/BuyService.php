@@ -349,7 +349,7 @@ class BuyService
             // 订单拆分处理
             return self::OrderSplitHandle($model['site_model'], $model['common_site_type'], $address, $extraction_address, $goods['data'], $params);
         }
-        return $ret;
+        return $goods;
     }
 
     /**

@@ -20,7 +20,7 @@
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="am-icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -80,7 +80,7 @@
                         <p class="price">
                             {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
                                 <strong>{{$v.show_price_symbol}}{{$v.min_price}}</strong>
-                                <span class="am-text-grey">{{$v.show_price_unit}}</span>
+                                <span class="am-text-grey unit">{{$v.show_price_unit}}</span>
                             {{/if}}
 
                             {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
@@ -89,7 +89,7 @@
                                 {{/if}}
                             {{/if}}
                         <p>
-                        <a href="{{$v.goods_url}}" target="_blank" class="goods-title am-block am-margin-top-xs am-text-truncate-2">{{$v.title}}</a>
+                        <a href="{{$v.goods_url}}" target="_blank" class="goods-title am-block am-margin-top-xs am-text-truncate-2">{{$v.title|raw}}</a>
 
                         <!-- 商品信息底部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

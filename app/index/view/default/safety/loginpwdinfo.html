@@ -37,9 +37,7 @@
 					<label>{{:MyLang('common_service.safety.form_item_confirm_password')}}</label>
 					<input type="password" name="confirm_new_pwd" placeholder="{{:MyLang('common_service.safety.form_item_confirm_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_confirm_password_message')}}" class="am-radius" data-equal-to="#new-loginpwd" autocomplete="off" required />
 				</div>
-				<div class="am-form-group am-form-group-refreshing">
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
-				</div>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
 			</form>
 			<!-- form end -->
 		</div>

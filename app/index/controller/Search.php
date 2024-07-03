@@ -45,6 +45,19 @@ class Search extends Common
      */
     public function Index()
     {
+        // 是否需要登录
+        if(MyC('home_search_is_login_required', 0) == 1)
+        {
+            IsUserLogin();
+        }
+
+        // 是否禁止搜索
+        $ret = SearchService::SearchProhibitUserAgentCheck();
+        if($ret['code'] != 0)
+        {
+            return MyView('public/tips_error', ['msg' => $ret['msg']]);
+        }
+
         // post搜索
         if(!empty($this->data_post['wd']))
         {

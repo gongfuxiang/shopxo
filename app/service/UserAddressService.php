@@ -170,7 +170,7 @@ class UserAddressService
         $where['is_delete_time'] = 0;
 
         // 获取用户地址
-        $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
+        $field = 'id,alias,name,tel,province,city,county,address,address_last_code,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
         $data = self::UserAddressListHandle(Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select()->toArray());
         if(!empty($data))
         {
@@ -354,18 +354,33 @@ class UserAddressService
         {
             return $attachment;
         }
+
+        // 地址最后一级编码
+        $address_last_code = '';
+        foreach(['county', 'city', 'province'] as $field)
+        {
+            if(!empty($params[$field]))
+            {
+                $address_last_code = Db::name('Region')->where(['id'=>$params[$field]])->value('code');
+                if(!empty($address_last_code))
+                {
+                    break;
+                }
+            }
+        }
         
         // 操作数据
         $is_default = isset($params['is_default']) ? intval($params['is_default']) : 0;
         $data = [
-            'alias'             => empty($params['alias']) ? '' : $params['alias'],
-            'name'              => $params['name'],
-            'tel'               => $params['tel'],
-            'province'          => intval($params['province']),
-            'city'              => intval($params['city']),
-            'county'            => isset($params['county']) ? intval($params['county']) : 0,
-            'address'           => $params['address'],
-            'is_default'        => $is_default,
+            'alias'              => empty($params['alias']) ? '' : $params['alias'],
+            'name'               => $params['name'],
+            'tel'                => $params['tel'],
+            'province'           => intval($params['province']),
+            'city'               => intval($params['city']),
+            'county'             => isset($params['county']) ? intval($params['county']) : 0,
+            'address'            => $params['address'],
+            'address_last_code'  => $address_last_code,
+            'is_default'         => $is_default,
         ];
         // 坐标
         if(array_key_exists('lng', $params))
@@ -509,6 +524,33 @@ class UserAddressService
                 'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
+
+        // 是否需要上传身份证
+        if(RequestModule() != 'admin' && MyC('home_user_address_idcard_status') == 1)
+        {
+            $p = array_merge($p, [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'idcard_name',
+                    'error_msg'         => MyLang('common_service.useraddress.form_item_idcard_name_message'),
+                ],
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'idcard_number',
+                    'error_msg'         => MyLang('common_service.useraddress.form_item_idcard_number_message'),
+                ],
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'idcard_front',
+                    'error_msg'         => MyLang('common_service.useraddress.form_item_idcard_front_message'),
+                ],
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'idcard_back',
+                    'error_msg'         => MyLang('common_service.useraddress.form_item_idcard_back_message'),
+                ],
+            ]);
+        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {

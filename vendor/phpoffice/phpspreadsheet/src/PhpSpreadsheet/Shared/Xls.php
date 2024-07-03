@@ -18,7 +18,7 @@ class Xls
      *
      * @return int The width in pixels
      */
-    public static function sizeCol(Worksheet $worksheet, string $col = 'A'): int
+    public static function sizeCol(Worksheet $worksheet, $col = 'A')
     {
         // default font of the workbook
         $font = $worksheet->getParentOrThrow()->getDefaultStyle()->getFont();
@@ -61,7 +61,7 @@ class Xls
      *
      * @return int The width in pixels
      */
-    public static function sizeRow(Worksheet $worksheet, int $row = 1): int
+    public static function sizeRow(Worksheet $worksheet, $row = 1)
     {
         // default font of the workbook
         $font = $worksheet->getParentOrThrow()->getDefaultStyle()->getFont();
@@ -98,12 +98,14 @@ class Xls
      * Get the horizontal distance in pixels between two anchors
      * The distanceX is found as sum of all the spanning columns widths minus correction for the two offsets.
      *
-     * @param float|int $startOffsetX Offset within start cell measured in 1/1024 of the cell width
-     * @param float|int $endOffsetX Offset within end cell measured in 1/1024 of the cell width
+     * @param string $startColumn
+     * @param int $startOffsetX Offset within start cell measured in 1/1024 of the cell width
+     * @param string $endColumn
+     * @param int $endOffsetX Offset within end cell measured in 1/1024 of the cell width
      *
      * @return int Horizontal measured in pixels
      */
-    public static function getDistanceX(Worksheet $worksheet, string $startColumn = 'A', float|int $startOffsetX = 0, string $endColumn = 'A', float|int $endOffsetX = 0): int
+    public static function getDistanceX(Worksheet $worksheet, $startColumn = 'A', $startOffsetX = 0, $endColumn = 'A', $endOffsetX = 0)
     {
         $distanceX = 0;
 
@@ -128,13 +130,13 @@ class Xls
      * The distanceY is found as sum of all the spanning rows minus two offsets.
      *
      * @param int $startRow (1-based)
-     * @param float|int $startOffsetY Offset within start cell measured in 1/256 of the cell height
+     * @param int $startOffsetY Offset within start cell measured in 1/256 of the cell height
      * @param int $endRow (1-based)
-     * @param float|int $endOffsetY Offset within end cell measured in 1/256 of the cell height
+     * @param int $endOffsetY Offset within end cell measured in 1/256 of the cell height
      *
      * @return int Vertical distance measured in pixels
      */
-    public static function getDistanceY(Worksheet $worksheet, int $startRow = 1, float|int $startOffsetY = 0, int $endRow = 1, float|int $endOffsetY = 0): int
+    public static function getDistanceY(Worksheet $worksheet, $startRow = 1, $startOffsetY = 0, $endRow = 1, $endOffsetY = 0)
     {
         $distanceY = 0;
 
@@ -201,8 +203,10 @@ class Xls
      * @param int $offsetY Vertical offset in pixels
      * @param int $width Width in pixels
      * @param int $height Height in pixels
+     *
+     * @return null|array
      */
-    public static function oneAnchor2twoAnchor(Worksheet $worksheet, string $coordinates, int $offsetX, int $offsetY, int $width, int $height): ?array
+    public static function oneAnchor2twoAnchor(Worksheet $worksheet, $coordinates, $offsetX, $offsetY, $width, $height)
     {
         [$col_start, $row] = Coordinate::indexesFromString($coordinates);
         $row_start = $row - 1;

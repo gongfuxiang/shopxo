@@ -1,15 +1,15 @@
 {{if !empty($module_data['plugins']) and (!empty($module_data['title']) or (!empty($module_data['nav_data']) and is_array($module_data['nav_data'])))}}
     <div class="nav-switch-tabs am-pr plugins-admin-nav-container {{$module_data.plugins}}">
         {{if !empty($module_data['is_back_btn']) and $module_data['is_back_btn'] eq 1}}
-            <a href="{{if empty($module_data['back_url'])}}{{:MyUrl('admin/pluginsadmin/index')}}{{else /}}{{$module_data.back_url}}{{/if}}" class="form-nav-top-right-retreat am-fr am-text-lg">
+            <a href="{{if empty($module_data['back_url'])}}{{:MyUrl('index/index/index')}}{{else /}}{{$module_data.back_url}}{{/if}}" class="form-nav-top-right-retreat am-fr am-text-lg">
                 <i class="iconfont icon-back"></i>
             </a>
         {{/if}}
         {{if !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}}
             <ul>
                 {{foreach $module_data.nav_data as $v}}
-                    <li {{if !empty($module_data['action']) and $module_data['action'] eq $v['control'].$v['action']}}class="am-active"{{/if}}>
-                        <a href="{{:PluginsAdminUrl($module_data['plugins'], $v['control'], $v['action'])}}">{{$v.name}}</a>
+                    <li {{if (isset($v['is_active']) and $v['is_active'] eq 1) or (!isset($v['is_active']) and !empty($plugins_controller_name) and !empty($plugins_action_name) and $plugins_controller_name.$plugins_action_name eq $v['control'].$v['action'])}}class="am-active"{{/if}}>
+                        <a href="{{:PluginsHomeUrl(empty($v['plugins']) ? $module_data['plugins'] : $v['plugins'], $v['control'], $v['action'], empty($v['params']) ? [] : $v['params'])}}">{{$v.name}}</a>
                     </li>
                 {{/foreach}}
             </ul>

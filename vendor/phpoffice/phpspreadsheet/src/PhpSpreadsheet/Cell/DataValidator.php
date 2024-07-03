@@ -15,10 +15,12 @@ class DataValidator
      * Does this cell contain valid value?
      *
      * @param Cell $cell Cell to check the value
+     *
+     * @return bool
      */
-    public function isValid(Cell $cell): bool
+    public function isValid(Cell $cell)
     {
-        if (!$cell->hasDataValidation() || $cell->getDataValidation()->getType() === DataValidation::TYPE_NONE) {
+        if (!$cell->hasDataValidation()) {
             return true;
         }
 
@@ -29,62 +31,23 @@ class DataValidator
             return false;
         }
 
-        $returnValue = false;
-        $type = $dataValidation->getType();
-        if ($type === DataValidation::TYPE_LIST) {
-            $returnValue = $this->isValueInList($cell);
-        } elseif ($type === DataValidation::TYPE_WHOLE) {
-            if (!is_numeric($cellValue) || fmod((float) $cellValue, 1) != 0) {
-                $returnValue = false;
-            } else {
-                $returnValue = $this->numericOperator($dataValidation, (int) $cellValue);
-            }
-        } elseif ($type === DataValidation::TYPE_DECIMAL || $type === DataValidation::TYPE_DATE || $type === DataValidation::TYPE_TIME) {
-            if (!is_numeric($cellValue)) {
-                $returnValue = false;
-            } else {
-                $returnValue = $this->numericOperator($dataValidation, (float) $cellValue);
-            }
-        } elseif ($type === DataValidation::TYPE_TEXTLENGTH) {
-            $returnValue = $this->numericOperator($dataValidation, mb_strlen((string) $cellValue));
+        // TODO: write check on all cases
+        switch ($dataValidation->getType()) {
+            case DataValidation::TYPE_LIST:
+                return $this->isValueInList($cell);
         }
 
-        return $returnValue;
-    }
-
-    private function numericOperator(DataValidation $dataValidation, int|float $cellValue): bool
-    {
-        $operator = $dataValidation->getOperator();
-        $formula1 = $dataValidation->getFormula1();
-        $formula2 = $dataValidation->getFormula2();
-        $returnValue = false;
-        if ($operator === DataValidation::OPERATOR_BETWEEN) {
-            $returnValue = $cellValue >= $formula1 && $cellValue <= $formula2;
-        } elseif ($operator === DataValidation::OPERATOR_NOTBETWEEN) {
-            $returnValue = $cellValue < $formula1 || $cellValue > $formula2;
-        } elseif ($operator === DataValidation::OPERATOR_EQUAL) {
-            $returnValue = $cellValue == $formula1;
-        } elseif ($operator === DataValidation::OPERATOR_NOTEQUAL) {
-            $returnValue = $cellValue != $formula1;
-        } elseif ($operator === DataValidation::OPERATOR_LESSTHAN) {
-            $returnValue = $cellValue < $formula1;
-        } elseif ($operator === DataValidation::OPERATOR_LESSTHANOREQUAL) {
-            $returnValue = $cellValue <= $formula1;
-        } elseif ($operator === DataValidation::OPERATOR_GREATERTHAN) {
-            $returnValue = $cellValue > $formula1;
-        } elseif ($operator === DataValidation::OPERATOR_GREATERTHANOREQUAL) {
-            $returnValue = $cellValue >= $formula1;
-        }
-
-        return $returnValue;
+        return false;
     }
 
     /**
      * Does this cell contain valid value, based on list?
      *
      * @param Cell $cell Cell to check the value
+     *
+     * @return bool
      */
-    private function isValueInList(Cell $cell): bool
+    private function isValueInList(Cell $cell)
     {
         $cellValue = $cell->getValue();
         $dataValidation = $cell->getDataValidation();
@@ -106,7 +69,7 @@ class DataValidator
                     }
 
                     return $result !== ExcelError::NA();
-                } catch (Exception) {
+                } catch (Exception $ex) {
                     return false;
                 }
             }

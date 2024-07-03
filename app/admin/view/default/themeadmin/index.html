@@ -40,13 +40,13 @@
                                             <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="webtheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
                                         {{/if}}
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <a href="{{:MyUrl('admin/themeadmin/download', ['id'=>$v['theme']])}}" class="am-icon-trash-o am-icon-download am-margin-left-sm theme-download-submit {{if $v['theme'] eq $theme}}am-color-ccc{{/if}}" title="{{:MyLang('download_title')}}"></a>
+                                            <a href="{{:MyUrl('admin/themeadmin/download', ['id'=>$v['theme']])}}" class="iconfont icon-delete am-icon-download am-margin-left-sm theme-download-submit {{if $v['theme'] eq $theme}}am-color-ccc{{/if}}" title="{{:MyLang('download_title')}}"></a>
                                         {{/if}}
                                         {{if isset($v['is_theme_data_admin']) and $v['is_theme_data_admin'] eq 1}}
                                             <a href="{{:MyUrl('index/index/index', ['default_theme'=>$v['theme'], 'is_theme_data_admin'=>1, 'admin_url_data'=>urlencode(base64_encode(json_encode($admin_url_data)))])}}" target="_blank" class="am-icon-cog am-margin-left-sm am-color-ccc theme-data-admin-submit {{if $v['theme'] neq $theme}}am-hide{{/if}}" title="{{:MyLang('admin_title')}}"></a>
                                         {{/if}}
                                         {{if $v.is_delete eq 1}}
-                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning {{if $v['theme'] eq $theme}}am-hide{{/if}}" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/themeadmin/delete')}}" data-id="{{$v.theme}}"></a>
+                                            <a href="javascript:;" class="iconfont icon-delete submit-delete am-margin-left-sm am-text-warning {{if $v['theme'] eq $theme}}am-hide{{/if}}" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/themeadmin/delete')}}" data-id="{{$v.theme}}"></a>
                                         {{/if}}
                                         {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and !empty($upgrade_info[$v['theme']]['version_main']) and $upgrade_info[$v['theme']]['version_main'] neq $v['ver']}}
                                             <span class="am-fr am-text-danger am-margin-left-sm">v{{$upgrade_info[$v['theme']]['version_main']}}</span>

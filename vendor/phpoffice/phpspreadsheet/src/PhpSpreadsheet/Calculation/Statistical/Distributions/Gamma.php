@@ -22,7 +22,7 @@ class Gamma extends GammaBase
      *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function gamma(mixed $value): array|string|float
+    public static function gamma($value)
     {
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);
@@ -55,10 +55,11 @@ class Gamma extends GammaBase
      * @param mixed $cumulative Boolean value indicating if we want the cdf (true) or the pdf (false)
      *                      Or can be an array of values
      *
-     * @return array|float|string If an array of numbers is passed as an argument, then the returned result will also be an array
+     * @return array|float|string
+     *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function distribution(mixed $value, mixed $a, mixed $b, mixed $cumulative)
+    public static function distribution($value, $a, $b, $cumulative)
     {
         if (is_array($value) || is_array($a) || is_array($b) || is_array($cumulative)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $value, $a, $b, $cumulative);
@@ -92,10 +93,11 @@ class Gamma extends GammaBase
      * @param mixed $beta Parameter to the distribution as a float
      *                      Or can be an array of values
      *
-     * @return array|float|string If an array of numbers is passed as an argument, then the returned result will also be an array
+     * @return array|float|string
+     *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function inverse(mixed $probability, mixed $alpha, mixed $beta)
+    public static function inverse($probability, $alpha, $beta)
     {
         if (is_array($probability) || is_array($alpha) || is_array($beta)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $probability, $alpha, $beta);
@@ -124,10 +126,11 @@ class Gamma extends GammaBase
      * @param mixed $value Float Value at which you want to evaluate the distribution
      *                      Or can be an array of values
      *
-     * @return array|float|string If an array of numbers is passed as an argument, then the returned result will also be an array
+     * @return array|float|string
+     *         If an array of numbers is passed as an argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function ln(mixed $value): array|string|float
+    public static function ln($value)
     {
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);

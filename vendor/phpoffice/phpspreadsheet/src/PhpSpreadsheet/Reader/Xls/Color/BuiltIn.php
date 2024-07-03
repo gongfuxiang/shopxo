@@ -21,8 +21,10 @@ class BuiltIn
      * Map built-in color to RGB value.
      *
      * @param int $color Indexed color
+     *
+     * @return array
      */
-    public static function lookup(int $color): array
+    public static function lookup($color)
     {
         return ['rgb' => self::BUILTIN_COLOR_MAP[$color] ?? '000000'];
     }

@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="../../../module/view/form" /}}
+{{extend name="../../../module/view/form_table/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -7,14 +7,14 @@
     {{if AdminIsPower('design', 'saveinfo')}}
         <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
             <i class="iconfont icon-btn-add am-show-sm-only"></i>
-            <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+            <span>{{:MyLang('add_title')}}</span>
         </a>
     {{/if}}
     <!-- 导入 -->
     {{if AdminIsPower('design', 'upload')}}
         <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius" data-am-modal="{target: '#popup-design-upload'}">
             <i class="iconfont icon-upload am-show-sm-only"></i>
-            <span class="am-hide-sm-only">{{:MyLang('import_title')}}</span>
+            <span>{{:MyLang('import_title')}}</span>
         </button>
     {{/if}}
     <!-- 父级内容 -->
@@ -41,15 +41,15 @@
                             <button type="button" class="am-btn am-btn-default am-btn-xl am-radius"><i class="iconfont icon-upload-file"></i></button>
                             <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
                             <div id="form-payment-tips" class="am-margin-top-xs"></div>
-                            <div class="tips am-text-xs am-color-ccc am-margin-top-sm">
-                                {{if is_array(MyLang('design.upload_list_tips'))}}
+                            {{if is_array(MyLang('design.upload_list_tips'))}}
+                                <div class="tips am-text-xs am-color-ccc am-margin-top-sm">
                                     <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
-                                {{/if}}
-                            </div>
+                                </div>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="am-form-popup-submit">
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>

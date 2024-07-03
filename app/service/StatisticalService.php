@@ -182,54 +182,64 @@ class StatisticalService
         // 统计时间配置列表
         return [
             '3-day' => [
-                'name'  => MyLang('common_service.statistical.time_section_day_3_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$three_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$three_time_end),
+                'key'    => '3-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_3_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$three_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$three_time_end),
             ],
             '7-day' => [
-                'name'  => MyLang('common_service.statistical.time_section_day_7_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$seven_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$seven_time_end),
+                'key'    => '7-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_7_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$seven_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$seven_time_end),
             ],
-            '15-day'    => [
-                'name'  => MyLang('common_service.statistical.time_section_day_15_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_end),
+            '15-day' => [
+                'key'    => '15-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_15_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$fifteen_time_end),
             ],
-            '30-day'    => [
-                'name'  => MyLang('common_service.statistical.time_section_day_30_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$thirty_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$thirty_time_end),
+            '30-day' => [
+                'key'    => '30-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_30_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$thirty_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$thirty_time_end),
             ],
-            '180-day'    => [
-                'name'  => MyLang('common_service.statistical.time_section_day_180_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$half_year_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$half_year_time_end),
+            '180-day' => [
+                'key'    => '180-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_180_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$half_year_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$half_year_time_end),
             ],
-            '365-day'    => [
-                'name'  => MyLang('common_service.statistical.time_section_day_365_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$year_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$year_time_end),
+            '365-day' => [
+                'key'    => '365-day',
+                'name'   => MyLang('common_service.statistical.time_section_day_365_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$year_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$year_time_end),
             ],
-            'this-month'    => [
-                'name'  => MyLang('common_service.statistical.time_section_this_month_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$this_month_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$this_month_time_end),
+            'this-month' => [
+                'key'    => 'this-month',
+                'name'   => MyLang('common_service.statistical.time_section_this_month_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$this_month_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$this_month_time_end),
             ],
-            'last-month'    => [
-                'name'  => MyLang('common_service.statistical.time_section_last_month_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$last_month_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$last_month_time_end),
+            'last-month' => [
+                'key'    => 'last-month',
+                'name'   => MyLang('common_service.statistical.time_section_last_month_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$last_month_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$last_month_time_end),
             ],
             'this-year' => [
-                'name'  => MyLang('common_service.statistical.time_section_this_year_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$this_year_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$this_year_time_end),
+                'key'    => 'this-year',
+                'name'   => MyLang('common_service.statistical.time_section_this_year_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$this_year_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$this_year_time_end),
             ],
             'last-year' => [
-                'name'  => MyLang('common_service.statistical.time_section_last_year_name'),
-                'start' => date('Y-m-d H:i:s', StatisticalService::$last_year_time_start),
-                'end'   => date('Y-m-d H:i:s', StatisticalService::$last_year_time_end),
+                'key'    => 'last-year',
+                'name'   => MyLang('common_service.statistical.time_section_last_year_name'),
+                'start'  => date('Y-m-d H:i:s', StatisticalService::$last_year_time_start),
+                'end'    => date('Y-m-d H:i:s', StatisticalService::$last_year_time_end),
             ],
         ];
     }

@@ -1,11 +1,11 @@
 <!-- 继承公共的 form -->
-{{extend name="../../../module/view/user_form" /}}
+{{extend name="../../../module/view/form_table/user_form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
     <!-- 是否开启批量支付 -->
     {{if MyC('home_is_enable_order_bulk_pay') eq 1}}
-        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-paypal batch-pay-submit" data-url="{{:MyUrl('index/order/pay')}}"> {{:MyLang('order.batch_payment_name')}}</button>
+        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-icon-paypal batch-pay-submit" data-url="{{:MyUrl('index/order/pay')}}"> {{:MyLang('order.batch_payment_name')}}</button>
     {{/if}}
     <!-- 父级内容 -->
     {__block__}

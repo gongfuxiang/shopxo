@@ -8,26 +8,34 @@ class Blip
 {
     /**
      * The parent BSE.
+     *
+     * @var BSE
      */
-    private BSE $parent;
+    private $parent;
 
     /**
      * Raw image data.
+     *
+     * @var string
      */
-    private string $data;
+    private $data;
 
     /**
      * Get the raw image data.
+     *
+     * @return string
      */
-    public function getData(): string
+    public function getData()
     {
         return $this->data;
     }
 
     /**
      * Set the raw image data.
+     *
+     * @param string $data
      */
-    public function setData(string $data): void
+    public function setData($data): void
     {
         $this->data = $data;
     }

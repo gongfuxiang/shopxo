@@ -1,33 +1,3 @@
-.tree-list li {
-    list-style-type: none;
-}
-
-.tree-list>li {
-    background: #F0F9FF;
-}
-.tree-list>li>div>label {
-    font-size: 1.4rem;
-}
-
-.tree-list li label,
-.tree-list li label input[type="checkbox"] {
-    cursor: pointer;
-    margin: 0;
-}
-
-.list-find {
-    background-color: #fbfeff;
-    padding-left: 3rem;
-}
-
-.list-find>li {
-    border-bottom: 0.1rem solid #EBF4FA;
-}
-
-.list-find>li label span {
-    font-weight: normal;
-}
-
 /* 插件权限 */
 .tree-plugins {
     background: transparent;

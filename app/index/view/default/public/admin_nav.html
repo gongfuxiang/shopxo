@@ -1,6 +1,11 @@
 {{if !empty($module_data['title']) and !empty($module_data['back_url'])}}
-    <legend>
-        <span class="am-text-sm am-font-weight">{{$module_data.title}}</span>
+    <legend class="am-flex am-flex-justify-between am-flex-items-center">
+        <div class="am-flex am-gap-1">
+            <span class="am-text-sm am-font-weight">{{$module_data.title}}</span>
+            {{if !empty($module_data['btn_text']) and !empty($module_data['btn_popup'])}}
+                <a href="javascript:;" class="am-text-primary am-padding-left-sm am-divider-solid-left am-text-sm" data-am-modal="{target: '{{$module_data.btn_popup}}'{{if !empty($module_data['btn_popup_width'])}},width: {{$module_data.btn_popup_width}}{{/if}}}">{{$module_data.btn_text}}</a>
+            {{/if}}
+        </div>
         <a href="{{$module_data.back_url}}" class="am-fr am-text-lg">
             <i class="iconfont icon-back"></i>
         </a>

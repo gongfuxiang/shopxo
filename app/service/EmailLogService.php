@@ -48,7 +48,7 @@ class EmailLogService
             'smtp_name'       => empty($smtp_name) ? '' : $smtp_name,
             'smtp_account'    => empty($smtp_account) ? '' : $smtp_account,
             'smtp_send_name'  => empty($smtp_send_name) ? '' : $smtp_send_name,
-            'email'           => is_array($email) ? implode(', ', $email) : $email,
+            'email'           => empty($email) ? '' : (is_array($email) ? implode(', ', $email) : $email),
             'title'           => empty($title) ? '' : $title,
             'template_value'  => empty($template_value) ? '' : $template_value,
             'template_var'    => empty($template_var) ? '' : (is_array($template_var) ? json_encode($template_var, JSON_UNESCAPED_UNICODE) : $template_var),

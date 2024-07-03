@@ -24,7 +24,7 @@ class Helpers
      *
      * @return int|string Result, or a string containing an error
      */
-    public static function daysPerYear($year, $basis = 0): string|int
+    public static function daysPerYear($year, $basis = 0)
     {
         if (!is_numeric($basis)) {
             return ExcelError::NAN();

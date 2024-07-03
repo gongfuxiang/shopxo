@@ -9,7 +9,7 @@
         </div>
         <div class="am-popup-bd">
             <form class="am-form form-validation-url-choice am-form-popup-fixed" request-type="sync" request-value="ThemeDataUrlChoiceBack">
-                <div class="url-container">
+                <div class="platform-group-url-container">
                     {{if !empty($common_platform_type)}}
                         {{foreach $common_platform_type as $v}}
                             <div class="am-input-group am-input-group-sm">
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="am-form-popup-submit">
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>

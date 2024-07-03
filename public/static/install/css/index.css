@@ -194,14 +194,3 @@ em {
         padding: 0.5rem;
     }
 }
-
-/**
- * 表单
- */
-form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block {
-    border-bottom: 0;
-    padding: 1.5rem 1rem;
-}
-form.am-form .am-form-group label {
-    font-weight: inherit;
-}

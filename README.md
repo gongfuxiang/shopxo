@@ -53,7 +53,7 @@
 | Gitee | [https://gitee.com/zongzhige/shopxo](https://gitee.com/zongzhige/shopxo) |
 | GitHub | [https://github.com/gongfuxiang/shopxo](https://github.com/gongfuxiang/shopxo) |
 | Coding | [https://zongzhige.coding.net/public/shopxo/shopxo/git](https://zongzhige.coding.net/public/shopxo/shopxo/git) |
-| GitCode | [https://gitcode.net/zongzhige/shopxo](https://gitcode.net/zongzhige/shopxo) |
+| GitCode | [https://gitcode.com/zongzhige/shopxo](https://gitcode.com/zongzhige/shopxo) |
 
 ### uniapp端源代码平台
 | 平台 | 地址 |
@@ -61,7 +61,7 @@
 | Gitee | [https://gitee.com/zongzhige/shopxo-uniapp](https://gitee.com/zongzhige/shopxo-uniapp) |
 | GitHub | [https://github.com/gongfuxiang/shopxo-uniapp](https://github.com/gongfuxiang/shopxo-uniapp) |
 | Coding | [https://zongzhige.coding.net/public/shopxo/uniapp/git](https://zongzhige.coding.net/public/shopxo/uniapp/git) |
-| GitCode | [https://gitcode.net/zongzhige/shopxo-uniapp](https://gitcode.net/zongzhige/shopxo-uniapp) |
+| GitCode | [https://gitcode.com/zongzhige/shopxo-uniapp](https://gitcode.com/zongzhige/shopxo-uniapp) |
 | uni-app | [https://ext.dcloud.net.cn/plugin?id=6380](https://ext.dcloud.net.cn/plugin?id=6380) |
 
 ### 部分功能特性
@@ -81,6 +81,7 @@
 | 客服 | 统一多端在线客服系统、支持（表情/图片/视频/快捷消息）、好友上下线实时通知、实时输入状态、支持网页及小程序直接发起即时咨询、客服离线（短信+邮件实时通知）、支持商品卡片、可打包工作台客服APP |
 | 进销存ERP | 采购(入库/退货)、销售(发货/退货)、自定义模板打印+导出Excel+PDF、产品excel批量导入+多单位+多仓库仓位、仓库盘点+调拨、其他出入库、客商+会员等级、采销收付款、商城商品与产品双向同步、商城订单自动同步批量发货|
 | 组合搭配 | 多个商品组合打包一口价或折扣销售、商品套餐组合搭配用户可选2件起下单、商品关联营销、捆绑销售提高成交率，支持多商户 |
+| 配送员 | 同城自建物流团队配送系统，骑手管理、调度中心（地图方圆画圈批量派单及打印、实时观察订单及骑手位置）、配送员微信小程序端实时定位 |
 * 更多查看应用商店 ( https://store.shopxo.net/ )
 
 ### 系统特性
@@ -126,5 +127,5 @@
 非常欢迎您对ShopXO的开发作出贡献！你可以选择以下方式向ShopXO贡献：
 - [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
 - [Gitee - 发布issue进行问题反馈和建议](https://gitee.com/zongzhige/shopxo/pulls)
-- [Gitcode - 发布issue进行问题反馈和建议](https://gitcode.net/zongzhige/shopxo/merge_requests)
+- [Gitcode - 发布issue进行问题反馈和建议](https://gitcode.com/zongzhige/shopxo/merge_requests)
 > 通过Pull Request提交修复、完善我们的文档和例子

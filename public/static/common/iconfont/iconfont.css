@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4094254 */
-  src: url('iconfont.woff2?t=1712815996906') format('woff2'),
-       url('iconfont.woff?t=1712815996906') format('woff'),
-       url('iconfont.ttf?t=1712815996906') format('truetype');
+  src: url('iconfont.woff2?t=1719884755193') format('woff2'),
+       url('iconfont.woff?t=1719884755193') format('woff'),
+       url('iconfont.ttf?t=1719884755193') format('truetype');
 }
 
 .iconfont {
@@ -10,6 +10,150 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shop-menu-center:before {
+  content: "\e7a6";
+}
+
+.icon-shop-menu-navicon:before {
+  content: "\e7a7";
+}
+
+.icon-shop-menu-admin:before {
+  content: "\e7a8";
+}
+
+.icon-shop-menu-recommend:before {
+  content: "\e7a9";
+}
+
+.icon-shop-menu-design:before {
+  content: "\e7aa";
+}
+
+.icon-shop-menu-slider:before {
+  content: "\e7ab";
+}
+
+.icon-shop-menu-order:before {
+  content: "\e7ac";
+}
+
+.icon-shop-menu-extend:before {
+  content: "\e7ad";
+}
+
+.icon-shop-menu-goods:before {
+  content: "\e7ae";
+}
+
+.icon-shop-menu-goodscategory:before {
+  content: "\e7af";
+}
+
+.icon-domain-confirm:before {
+  content: "\e798";
+}
+
+.icon-home-fine:before {
+  content: "\e7a5";
+}
+
+.icon-excel:before {
+  content: "\e7a4";
+}
+
+.icon-import-excel:before {
+  content: "\e7a3";
+}
+
+.icon-batch-delivery:before {
+  content: "\e79e";
+}
+
+.icon-label-print:before {
+  content: "\e79f";
+}
+
+.icon-waybill-print:before {
+  content: "\e7a0";
+}
+
+.icon-export-excel:before {
+  content: "\e7a1";
+}
+
+.icon-data-print:before {
+  content: "\e7a2";
+}
+
+.icon-push-shop:before {
+  content: "\e79c";
+}
+
+.icon-shop-import:before {
+  content: "\e79d";
+}
+
+.icon-email-login:before {
+  content: "\e799";
+}
+
+.icon-account-password:before {
+  content: "\e79a";
+}
+
+.icon-mobile-login:before {
+  content: "\e79b";
+}
+
+.icon-price-bill:before {
+  content: "\e760";
+}
+
+.icon-sys-config:before {
+  content: "\e761";
+}
+
+.icon-sales-manage:before {
+  content: "\e763";
+}
+
+.icon-purchase-manage:before {
+  content: "\e764";
+}
+
+.icon-inventroy-manage:before {
+  content: "\e765";
+}
+
+.icon-shop-order:before {
+  content: "\e795";
+}
+
+.icon-base-data:before {
+  content: "\e796";
+}
+
+.icon-company-manage:before {
+  content: "\e797";
+}
+
+.icon-enlarge:before {
+  content: "\e60e";
+}
+
+.icon-enlarge-border:before {
+  content: "\e75f";
+}
+
+.icon-enlarge-four:before {
+  content: "\e602";
+}
+
+.icon-dayin-dayinji:before {
+  content: "\e75e";
 }
 
 .icon-footer-describe:before {
@@ -116,7 +260,7 @@
   content: "\e77e";
 }
 
-.icon-shexiangshexiang-shangchengsan:before {
+.icon-camera:before {
   content: "\e77f";
 }
 
@@ -452,7 +596,7 @@
   content: "\e724";
 }
 
-.icon-clear:before {
+.icon-shear:before {
   content: "\e722";
 }
 
@@ -480,7 +624,7 @@
   content: "\e71e";
 }
 
-.icon-qj-qk:before {
+.icon-clear-crude:before {
   content: "\e712";
 }
 
@@ -500,12 +644,8 @@
   content: "\e716";
 }
 
-.icon-qj-fahuo:before {
+.icon-send-delivery:before {
   content: "\e717";
-}
-
-.icon-excel:before {
-  content: "\e718";
 }
 
 .icon-print:before {
@@ -524,7 +664,7 @@
   content: "\e71c";
 }
 
-.icon-qj-souhuo:before {
+.icon-take-delivery:before {
   content: "\e71d";
 }
 
@@ -672,7 +812,7 @@
   content: "\e6f6";
 }
 
-.icon-clear-session:before {
+.icon-clear:before {
   content: "\e6f7";
 }
 

@@ -94,25 +94,28 @@ $(function () {
         $('.submit-move-setup-open').addClass('am-hide');
         $('.submit-move-setup-save').removeClass('am-hide');
         $('.submit-move-setup-cancel').removeClass('am-hide');
-        $('.plugins-data-list > ul > li .plugins-right-top-container').removeClass('am-hide');
+        $('.plugins-data-list > ul > li').addClass('setup');
+        $('.plugins-data-list > ul > li .plugins-setup-container').removeClass('am-hide');
     });
     $(document).on('click', '.submit-move-setup-cancel', function () {
         $('.submit-move-setup-open').removeClass('am-hide');
         $('.submit-move-setup-save').addClass('am-hide');
         $('.submit-move-setup-cancel').addClass('am-hide');
-        $('.plugins-data-list > ul > li .plugins-right-top-container').addClass('am-hide');
+        $('.plugins-data-list > ul > li').removeClass('setup');
+        $('.plugins-data-list > ul > li .plugins-setup-container').addClass('am-hide');
     });
     $(document).on('click', '.submit-move-setup-save', function () {
         var json = {};
         $('.plugins-data-list > ul > li').each(function (k, v) {
             var id = parseInt($(this).data('id')) || 0;
             if (id > 0) {
-                var $right = $(this).find('.plugins-right-top-container');
+                var $right = $(this).find('.plugins-setup-container');
                 json[k] = {
                     sort: k,
                     id: id,
                     category_id: $right.find('select[name="plugins_category_id"]').val() || 0,
                     menu_control: $right.find('select[name="plugins_menu_control"]').val() || '',
+                    is_second_domain: $right.find('input[name="plugins_is_second_domain"]:checked').val() || 0,
                 };
             }
         });
@@ -146,7 +149,8 @@ $(function () {
                     $('.submit-move-setup-open').removeClass('am-hide');
                     $('.submit-move-setup-save').addClass('am-hide');
                     $('.submit-move-setup-cancel').addClass('am-hide');
-                    $('.plugins-data-list > ul > li .plugins-right-top-container').addClass('am-hide');
+                    $('.plugins-data-list > ul > li').removeClass('setup');
+                    $('.plugins-data-list > ul > li .plugins-setup-container').addClass('am-hide');
                 } else {
                     Prompt(result.msg);
                 }

@@ -127,6 +127,7 @@ class ConstService
                 '5.0.0' => ['value' => '5.0.0', 'name' => 'v5.0.0'],
                 '6.0.0' => ['value' => '6.0.0', 'name' => 'v6.0.0'],
                 '6.1.0' => ['value' => '6.1.0', 'name' => 'v6.1.0'],
+                '6.2.0' => ['value' => '6.2.0', 'name' => 'v6.2.0'],
             ],
 
             // 搜索排序方式
@@ -283,6 +284,8 @@ class ConstService
                 'article'         => ['value' => 'article', 'name' => MyLang('common_nav_type_list.article')],
                 'customview'      => ['value' => 'customview', 'name' => MyLang('common_nav_type_list.customview')],
                 'goods_category'  => ['value' => 'goods_category', 'name' => MyLang('common_nav_type_list.goods_category')],
+                'design'          => ['value' => 'design', 'name' => MyLang('common_nav_type_list.design')],
+                'plugins'         => ['value' => 'plugins', 'name' => MyLang('common_nav_type_list.plugins')],
             ],
             // 搜索框下热门关键字类型
             'common_search_keywords_type_list' => [

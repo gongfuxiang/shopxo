@@ -969,8 +969,7 @@ $(function () {
 
     // 快捷时间
     $(document).on('click', '.quick-time a', function () {
-        if ($(this).hasClass('more-btn')) {
-        } else {
+        if (!$(this).hasClass('more-btn')) {
             if ($(this).hasClass('time')) {
                 $(this).parent().parent().find('a').removeClass('am-active');
                 $(this).addClass('am-active');

@@ -8,19 +8,29 @@ use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class SecurityValidations extends FinancialValidations
 {
-    public static function validateIssueDate(mixed $issue): float
+    /**
+     * @param mixed $issue
+     */
+    public static function validateIssueDate($issue): float
     {
         return self::validateDate($issue);
     }
 
-    public static function validateSecurityPeriod(mixed $settlement, mixed $maturity): void
+    /**
+     * @param mixed $settlement
+     * @param mixed $maturity
+     */
+    public static function validateSecurityPeriod($settlement, $maturity): void
     {
         if ($settlement >= $maturity) {
             throw new Exception(ExcelError::NAN());
         }
     }
 
-    public static function validateRedemption(mixed $redemption): float
+    /**
+     * @param mixed $redemption
+     */
+    public static function validateRedemption($redemption): float
     {
         $redemption = self::validateFloat($redemption);
         if ($redemption <= 0.0) {

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use app\service\ConfigService;
+use app\service\AdminService;
 
 /**
  * 应用商店服务层
@@ -157,7 +158,7 @@ class StoreService
         }
 
         // 绑定处理
-        return self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password']);
+        return self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password'], 'bind');
     }
 
     /**
@@ -194,9 +195,20 @@ class StoreService
      * @desc    description
      * @param   [string]          $accounts [帐号]
      * @param   [string]          $password [密码]
+     * @param   [string]          $type     [类型 bind 主动绑定、auto 自动获取绑定信息]
      */
-    public static function SiteStoreAccountsBindHandle($accounts = '', $password = '')
+    public static function SiteStoreAccountsBindHandle($accounts = '', $password = '', $type = 'bind')
     {
+        // 是否存在失败缓存记录
+        if($type == 'auto')
+        {
+            $fail = MyCache(self::$site_store_info_key.'_fail');
+            if(!empty($fail))
+            {
+                return DataReturn($fail, -1);
+            }
+        }
+
         // 帐号信息、站点初始化信息接口、帐号信息可以为空
         if(empty($accounts) || empty($password))
         {
@@ -215,6 +227,10 @@ class StoreService
 
             return DataReturn(MyLang('bind_success'), 0);
         }
+
+        // 失败记录，自动执行则缓存时间期间不再次请求
+        MyCache(self::$site_store_info_key.'_fail', $res['msg'], 3600);
+
         return $res;
     }
 
@@ -312,6 +328,13 @@ class StoreService
      */
     public static function RemoteStoreData($accounts, $password, $url, $params = [], $data_type = 0)
     {
+        // 未登录则不执行
+        $admin = AdminService::LoginInfo();
+        if(empty($admin))
+        {
+            return DataReturn(MyLang('user_no_login_tips'), -1);
+        }
+
         // http状态验证
         $key = 'cache_store_url_http_code';
         $time = 600;

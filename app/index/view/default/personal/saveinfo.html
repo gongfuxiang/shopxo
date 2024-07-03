@@ -26,49 +26,29 @@
             <!-- form start -->
             <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/personal/index')}}">
                 <div class="am-form-popup-content">
-                    <div class="am-cf">
-                        <div class="am-u-sm-6 am-padding-horizontal-0">
-                            <div class="am-form-group">
-                                <label>{{:MyLang('personal.form_item_nickname')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="nickname" placeholder="{{:MyLang('personal.form_item_nickname')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('personal.form_item_nickname_message')}}" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}"required />
-                            </div>
-                        </div>
-                        <div class="am-u-sm-6 am-padding-horizontal-0">
-                            <div class="am-form-group">
-                                <label>{{:MyLang('personal.form_item_birthday')}}</label>
-                                <input type="text" name="birthday" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('personal.form_item_birthday')}}" data-validation-message="{{:MyLang('personal.form_item_birthday_message')}}" value="{{if !empty($data['birthday'])}}{{$data.birthday}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
-                            </div>
-                        </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_nickname')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="text" name="nickname" placeholder="{{:MyLang('personal.form_item_nickname')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('personal.form_item_nickname_message')}}" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}"required />
                     </div>
-                    <div class="am-cf">
-                        <div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
-                            <div class="am-cf">
-                                <div class="am-u-sm-4 am-padding-horizontal-0">
-                                    <div class="am-form-group">
-                                        <label>{{:MyLang('personal.form_item_province')}}</label>
-                                        <input type="text" placeholder="{{:MyLang('personal.form_item_province')}}" name="province" data-validation-message="{{:MyLang('personal.form_item_province_message')}}" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
-                                    </div>
-                                </div>
-                                <div class="am-u-sm-4 am-padding-horizontal-0">
-                                    <div class="am-form-group">
-                                        <label>{{:MyLang('personal.form_item_city')}}</label>
-                                        <input type="text" placeholder="{{:MyLang('personal.form_item_city')}}" name="city" data-validation-message="{{:MyLang('personal.form_item_city_message')}}" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
-                                    </div>
-                                </div>
-                                <div class="am-u-sm-4 am-padding-horizontal-0">
-                                    <div class="am-form-group">
-                                        <label>{{:MyLang('personal.form_item_county')}}</label>
-                                        <input type="text" placeholder="{{:MyLang('personal.form_item_county')}}" name="county" data-validation-message="{{:MyLang('personal.form_item_county_message')}}" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
-                            <div class="am-form-group">
-                                <label>{{:MyLang('personal.form_item_address')}}</label>
-                                <input type="text" placeholder="{{:MyLang('personal.form_item_address')}}" name="address" maxlength="80" data-validation-message="{{:MyLang('personal.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
-                            </div>
-                        </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_birthday')}}</label>
+                        <input type="text" name="birthday" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('personal.form_item_birthday')}}" data-validation-message="{{:MyLang('personal.form_item_birthday_message')}}" value="{{if !empty($data['birthday'])}}{{$data.birthday}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_province')}}</label>
+                        <input type="text" placeholder="{{:MyLang('personal.form_item_province')}}" name="province" data-validation-message="{{:MyLang('personal.form_item_province_message')}}" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_city')}}</label>
+                        <input type="text" placeholder="{{:MyLang('personal.form_item_city')}}" name="city" data-validation-message="{{:MyLang('personal.form_item_city_message')}}" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_county')}}</label>
+                        <input type="text" placeholder="{{:MyLang('personal.form_item_county')}}" name="county" data-validation-message="{{:MyLang('personal.form_item_county_message')}}" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('personal.form_item_address')}}</label>
+                        <input type="text" placeholder="{{:MyLang('personal.form_item_address')}}" name="address" maxlength="80" data-validation-message="{{:MyLang('personal.form_item_address_message')}}" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
                     </div>
                     {{:ModuleInclude('lib/gender')}}
                 </div>

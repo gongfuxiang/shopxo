@@ -8,7 +8,10 @@ use SimpleXMLElement;
 
 class Properties
 {
-    protected Spreadsheet $spreadsheet;
+    /**
+     * @var Spreadsheet
+     */
+    protected $spreadsheet;
 
     public function __construct(Spreadsheet $spreadsheet)
     {

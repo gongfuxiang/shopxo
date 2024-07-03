@@ -10,7 +10,7 @@
         {{/if}}
         <div class="category-content theme-data-edit-event" data-module="goods_category" {{if (isset($common_goods_category_hidden) and $common_goods_category_hidden eq 1)}}style="display:none;"{{/if}}>
             <div class="category">
-                <ul class="category-list">
+                <ul class="category-list category-row-{{if !empty($goods_category_list) and is_array($goods_category_list)}}{{:count($goods_category_list)}}{{/if}}">
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
                         {{foreach $goods_category_list as $k=>$v}}
                             <li class="first" data-index="{{$k}}">
@@ -27,7 +27,7 @@
                                         {{/if}}
                                         <span class="bd-name">{{$v.name}}</span>
                                     </h3>
-                                    <i class="am-icon-angle-right"></i>
+                                    <i class="iconfont icon-angle-right"></i>
                                 </div>
                                 </a>
                                 {{if $category_show_level gt 1}}

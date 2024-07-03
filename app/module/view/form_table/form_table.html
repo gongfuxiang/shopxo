@@ -1,0 +1,88 @@
+<div class="am-form-table-data-list-container am-scrollable-horizontal am-table-scrollable-horizontal am-radius" data-md5-key="{{$form_md5_key}}">
+    {{php}}$form_table_data_list = empty($form_table_data_list) ? (empty($data_list) ? [] : $data_list) : $form_table_data_list;{{/php}}
+    <table class="am-table am-table-striped am-table-hover am-text-nowrap form-table-data-list">
+        <thead>
+            <!-- title -->
+            <tr class="form-table-search">
+                {{if !empty($params['page_size'])}}
+                    <input type="hidden" name="page_size" value="{{$params.page_size}}" />
+                {{/if}}
+                {{foreach $form_table['form'] as $t}}
+                    {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
+                        <!-- 1. 上下居中 -->
+                        <!-- 2. 格子大小 -->
+                        <!-- 3. 内容位置居（左|中|右） -->
+                        <!-- 4. 格子是否固定（left|right 左|右） -->
+                        <th class="form-table-search-item-head-title-{{$t.unique_key}} 
+                            form-table-search-item-head-value-{{$t.unique_key}}
+                            am-text-top
+                            {{if !empty($t['grid_size'])}} am-grid-{{$t.grid_size}} {{/if}}
+                            {{if !empty($t['align'])}} am-text-{{$t.align}} {{/if}}
+                            {{if !empty($t['fixed'])}} am-grid-fixed-{{$t.fixed}} {{/if}}
+                            {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}} am-operate-grid {{/if}}
+                        "
+                        style="
+                            {{if !empty($t['width'])}}
+                                min-width: {{$t.width}}px;
+                                max-width: {{$t.width}}px;
+                            {{/if}}
+                        "
+                        >
+                            <div class="am-flex am-flex-col am-gap-1-half">
+                                <div class="am-pr am-flex {{if $t.view_type eq 'checkbox'}}am-flex-justify-center{{/if}}">
+                                    {{switch $t.view_type}}
+                                        {{case checkbox}}
+                                            <label class="am-checkbox am-checkbox-inline">
+                                                <input type="checkbox" class="form-table-operate-checkbox-submit" value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" {{if empty($form_table_data_list)}}disabled{{/if}} data-am-ucheck>
+                                            </label>
+                                        {{/case}}
+                                        {{default /}}
+                                        {{if isset($t['label'])}}
+                                            <div class="am-text-left">{{$t.label}}</div>
+                                            {{/if}}
+                                    {{/switch}}
+
+                                    <!-- 排序操作 -->
+                                    {{if isset($t['is_sort']) and $t['is_sort'] eq 1 and !empty($t['sort_key'])}}
+                                        <div class="form-sort-container am-nbfc am-inline-block">
+                                            <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="asc" class="sort-icon am-icon-caret-up {{if !empty($form_order_by) and !empty($form_order_by['key']) and ($form_order_by['key'] eq $t['sort_key'] or $form_order_by['key'] eq $t['view_key'] or (!empty($t['search_config']) and !empty($t['search_config']['form_name']) and $t['search_config']['form_name'] eq $form_order_by['key'])) and !empty($form_order_by['val']) and $form_order_by['val'] eq 'asc'}}sort-active{{/if}}"></a>
+                                            <a href="javascript:;" data-key="{{$t.sort_key}}" data-val="desc" class="sort-icon am-icon-caret-down {{if !empty($form_order_by) and !empty($form_order_by['key']) and ($form_order_by['key'] eq $t['sort_key'] or $form_order_by['key'] eq $t['view_key'] or (!empty($t['search_config']) and !empty($t['search_config']['form_name']) and $t['search_config']['form_name'] eq $form_order_by['key'])) and !empty($form_order_by['val']) and $form_order_by['val'] eq 'desc'}}sort-active{{/if}}"></a>
+                                        </div>
+                                    {{/if}}
+                                </div>
+
+                                <!-- search -->
+                                {{include file="../../../module/view/form_table/form_table_search" /}}
+
+                            </div>
+                        </th>
+                    {{/if}}
+                {{/foreach}}
+            </tr>
+        </thead>
+        <tbody>
+            <!-- content -->
+            {{include file="../../../module/view/form_table/form_table_content" /}}
+        </tbody>
+    </table>
+    <!-- 是否开启数据打印操作 -->
+    {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+        <script type="text/javascript">
+            // 定义打印配置
+            var print_is_list_choice = 1;
+            // 模板打印数据
+            var print_data = {{if empty($form_table_data_list)}}''{{else /}}{{:json_encode($form_table_data_list, JSON_UNESCAPED_UNICODE)}}{{/if}};
+            // 打印模板
+            var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
+        </script>
+    {{/if}}
+
+    <!-- 无数据 -->
+    <div class="form-table-no-data">
+        {{if empty($form_table_data_list)}}
+            <!-- form_table_no_data_start -->
+            {{:ModuleInclude('public/not_data')}}
+            <!-- form_table_no_data_end -->
+        {{/if}}
+    </div>
+</div>

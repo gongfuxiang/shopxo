@@ -52,7 +52,7 @@ function ExpressModalHandle(data)
             $('.express-list ul').find('li').eq(form_index).replaceWith(html);
         }
         $popup_express.modal('close');
-        $('input[name="express_data"]').val(encodeURIComponent(JSON.stringify(value)));
+        $('input[name="express_data"]').val(encodeURIComponent(value.length == 0 ? '' : JSON.stringify(value)));
     });
 }
 
@@ -98,7 +98,7 @@ $(function()
                 onConfirm: function(options)
                 {
                     value.splice(index, 1);
-                    $('input[name="express_data"]').val(encodeURIComponent(JSON.stringify(value)));
+                    $('input[name="express_data"]').val(encodeURIComponent(value.length == 0 ? '' : JSON.stringify(value)));
                     $('.express-list ul').find('li').eq(index).remove();
                 },
                 onCancel: function(){}

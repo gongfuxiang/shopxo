@@ -6,33 +6,45 @@ class PageMargins
 {
     /**
      * Left.
+     *
+     * @var float
      */
-    private float $left = 0.7;
+    private $left = 0.7;
 
     /**
      * Right.
+     *
+     * @var float
      */
-    private float $right = 0.7;
+    private $right = 0.7;
 
     /**
      * Top.
+     *
+     * @var float
      */
-    private float $top = 0.75;
+    private $top = 0.75;
 
     /**
      * Bottom.
+     *
+     * @var float
      */
-    private float $bottom = 0.75;
+    private $bottom = 0.75;
 
     /**
      * Header.
+     *
+     * @var float
      */
-    private float $header = 0.3;
+    private $header = 0.3;
 
     /**
      * Footer.
+     *
+     * @var float
      */
-    private float $footer = 0.3;
+    private $footer = 0.3;
 
     /**
      * Create a new PageMargins.
@@ -43,8 +55,10 @@ class PageMargins
 
     /**
      * Get Left.
+     *
+     * @return float
      */
-    public function getLeft(): float
+    public function getLeft()
     {
         return $this->left;
     }
@@ -52,9 +66,11 @@ class PageMargins
     /**
      * Set Left.
      *
+     * @param float $left
+     *
      * @return $this
      */
-    public function setLeft(float $left): static
+    public function setLeft($left)
     {
         $this->left = $left;
 
@@ -63,8 +79,10 @@ class PageMargins
 
     /**
      * Get Right.
+     *
+     * @return float
      */
-    public function getRight(): float
+    public function getRight()
     {
         return $this->right;
     }
@@ -72,9 +90,11 @@ class PageMargins
     /**
      * Set Right.
      *
+     * @param float $right
+     *
      * @return $this
      */
-    public function setRight(float $right): static
+    public function setRight($right)
     {
         $this->right = $right;
 
@@ -83,8 +103,10 @@ class PageMargins
 
     /**
      * Get Top.
+     *
+     * @return float
      */
-    public function getTop(): float
+    public function getTop()
     {
         return $this->top;
     }
@@ -92,9 +114,11 @@ class PageMargins
     /**
      * Set Top.
      *
+     * @param float $top
+     *
      * @return $this
      */
-    public function setTop(float $top): static
+    public function setTop($top)
     {
         $this->top = $top;
 
@@ -103,8 +127,10 @@ class PageMargins
 
     /**
      * Get Bottom.
+     *
+     * @return float
      */
-    public function getBottom(): float
+    public function getBottom()
     {
         return $this->bottom;
     }
@@ -112,9 +138,11 @@ class PageMargins
     /**
      * Set Bottom.
      *
+     * @param float $bottom
+     *
      * @return $this
      */
-    public function setBottom(float $bottom): static
+    public function setBottom($bottom)
     {
         $this->bottom = $bottom;
 
@@ -123,8 +151,10 @@ class PageMargins
 
     /**
      * Get Header.
+     *
+     * @return float
      */
-    public function getHeader(): float
+    public function getHeader()
     {
         return $this->header;
     }
@@ -132,9 +162,11 @@ class PageMargins
     /**
      * Set Header.
      *
+     * @param float $header
+     *
      * @return $this
      */
-    public function setHeader(float $header): static
+    public function setHeader($header)
     {
         $this->header = $header;
 
@@ -143,8 +175,10 @@ class PageMargins
 
     /**
      * Get Footer.
+     *
+     * @return float
      */
-    public function getFooter(): float
+    public function getFooter()
     {
         return $this->footer;
     }
@@ -152,13 +186,30 @@ class PageMargins
     /**
      * Set Footer.
      *
+     * @param float $footer
+     *
      * @return $this
      */
-    public function setFooter(float $footer): static
+    public function setFooter($footer)
     {
         $this->footer = $footer;
 
         return $this;
+    }
+
+    /**
+     * Implement PHP __clone to create a deep clone, not just a shallow copy.
+     */
+    public function __clone()
+    {
+        $vars = get_object_vars($this);
+        foreach ($vars as $key => $value) {
+            if (is_object($value)) {
+                $this->$key = clone $value;
+            } else {
+                $this->$key = $value;
+            }
+        }
     }
 
     public static function fromCentimeters(float $value): float

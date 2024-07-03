@@ -16,7 +16,7 @@ allow you to read and write various spreadsheet file formats such as Excel and L
 LTS: Support for PHP versions will only be maintained for a period of six months beyond the
 [end of life](https://www.php.net/supported-versions) of that PHP version.
 
-Currently the required PHP minimum version is PHP __8.0__, and we [will support that version](https://www.php.net/eol.php) until May 2024.
+Currently the required PHP minimum version is PHP __7.4__, and we [will support that version](https://www.php.net/eol.php) until 28th June 2023.
 
 See the `composer.json` for other requirements.
 
@@ -32,11 +32,11 @@ If you are building your installation on a development machine that is on a diff
 ```json
 {
     "require": {
-        "phpoffice/phpspreadsheet": "^1.28"
+        "phpoffice/phpspreadsheet": "^1.23"
     },
     "config": {
         "platform": {
-            "php": "8.0"
+            "php": "7.4"
         }
     }
 }
@@ -74,20 +74,16 @@ or the appropriate PDF Writer wrapper for the library that you have chosen to in
 For Chart export, we support following packages, which you will also need to install yourself using `composer require`
  - [jpgraph/jpgraph](https://packagist.org/packages/jpgraph/jpgraph) (this package was abandoned at version 4.0. 
    You can manually download the latest version that supports PHP 8 and above from [jpgraph.net](https://jpgraph.net/))
- - [mitoteam/jpgraph](https://packagist.org/packages/mitoteam/jpgraph) - up to date fork with modern PHP versions support and some bugs fixed.
+ - [mitoteam/jpgraph](https://packagist.org/packages/mitoteam/jpgraph) (fork with php 8.1 support)
 
 and then configure PhpSpreadsheet using:
 ```php
-// to use jpgraph/jpgraph
-Settings::setChartRenderer(\PhpOffice\PhpSpreadsheet\Chart\Renderer\JpGraph::class);
+Settings::setChartRenderer(\PhpOffice\PhpSpreadsheet\Chart\Renderer\JpGraph::class); // to use jpgraph/jpgraph
 //or
-// to use mitoteam/jpgraph
-Settings::setChartRenderer(\PhpOffice\PhpSpreadsheet\Chart\Renderer\MtJpGraphRenderer::class);
+Settings::setChartRenderer(\PhpOffice\PhpSpreadsheet\Chart\Renderer\MtJpGraphRenderer::class); // to use mitoteam/jpgraph
 ```
 
-One or the other of these libraries is necessary if you want to generate HTML or PDF files that include charts; or to render a Chart to an Image format from within your code.
-They are not necessary to define charts for writing to `Xlsx` files.
-Other file formats don't support writing Charts.
+One or the other of these libraries is necessary if you want to generate HTML or PDF files that include charts.
 
 ## Documentation
 
@@ -107,14 +103,9 @@ Posts already available to Patreon supporters:
 - Looping the Loop
     - Advice on Iterating through the rows and cells in a worksheet.
 
-And for Patrons at levels actively using PhpSpreadsheet:
+The next post (currently being written) will be:
  - Behind the Mask
    - A look at Number Format Masks.
-
-The Next Article (currently Work in Progress):
- - Formula for Success
-   - How to debug formulae that don't produce the expected result.
-
 
 My aim is to post at least one article each month, taking a detailed look at some feature of MS Excel and how to use that feature in PhpSpreadsheet, or on how to perform different activities in PhpSpreadsheet.
 
@@ -125,9 +116,8 @@ Planned posts for the future include topics like:
  - Array Formulae
  - Conditional Formatting
  - Data Validation
+ - Formula Debugging
  - Value Binders
- - Images
- - Charts
 
 After a period of six months exclusive to Patreon supporters, articles will be incorporated into the public documentation for the library.
 

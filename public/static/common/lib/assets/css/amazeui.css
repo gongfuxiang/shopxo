@@ -1717,9 +1717,8 @@ pre {
   word-break: break-all;
   word-wrap: break-word;
   color: #555555;
-  background-color: #f8f8f8;
+  background-color: #fbfbfb;
   border: 0.1rem solid rgba(0,0,0,.02);
-  border-radius: 0;
 }
 pre code {
   padding: 0;
@@ -2159,14 +2158,14 @@ th {
   padding: 0.7rem;
   line-height: 1.6;
   vertical-align: top;
-  border-top: 0.1rem solid rgba(0,0,0,.02);
+  border-bottom: 0.1rem solid rgba(0,0,0,.02);
 }
 .am-table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 0.1rem solid rgba(0,0,0,.02);
   font-weight: 400;
 }
-.am-table > caption + thead > tr:first-child > th,
+/*.am-table > caption + thead > tr:first-child > th,
 .am-table > colgroup + thead > tr:first-child > th,
 .am-table > thead:first-child > tr:first-child > th,
 .am-table > caption + thead > tr:first-child > td,
@@ -2175,16 +2174,13 @@ th {
 .am-table > thead > tr > td,
 .am-table > tbody > tr:first-child > td {
   border-top: 0;
-}
+}*/
 .am-table > tbody + tbody tr:first-child td {
   border-top: 0.2rem solid rgba(0,0,0,.06);
 }
 /* Bordered version */
 .am-table-bordered {
   border: 0.1rem solid rgba(0,0,0,.02);
-}
-table.am-table-bordered {
-  border-left: none;
 }
 .am-table-bordered > thead > tr > th,
 .am-table-bordered > tbody > tr > th,
@@ -2194,16 +2190,9 @@ table.am-table-bordered {
 .am-table-bordered > tfoot > tr > td {
   border-left: 0.1rem solid rgba(0,0,0,.02);
 }
-.am-table-bordered > tbody > tr:first-child > th,
-.am-table-bordered > tbody > tr:first-child > td {
-  border-top: none;
-}
-.am-table-bordered > thead + tbody > tr:first-child > th,
-.am-table-bordered > thead + tbody > tr:first-child > td {
-  border-top: 0.1rem solid rgba(0,0,0,.02);
-}
-.am-table-bordered > thead + tbody > tr:last-child td {
-    border-bottom: 0.1rem solid rgb(123 123 123 / 3%);
+.am-table-bordered > tbody > tr:last-child > th,
+.am-table-bordered > tbody > tr:last-child > td {
+  border-bottom: none;
 }
 /* Border-radius version */
 .am-table-radius {
@@ -2948,7 +2937,8 @@ fieldset[disabled] .am-checkbox-inline {
 .am-form-icon .am-form-field {
   padding-left: 2em !important;
 }
-.am-form-icon [class*='am-icon-'] {
+.am-form-icon [class*='am-icon-'],
+.am-form-icon .iconfont[class*='icon-'] {
   position: absolute;
   left: 0.5em;
   top: 50%;
@@ -2958,7 +2948,8 @@ fieldset[disabled] .am-checkbox-inline {
   z-index: 2;
   color: #888;
 }
-.am-form-icon label ~ [class*='am-icon-'] {
+.am-form-icon label ~ [class*='am-icon-'],
+.am-form-icon label ~ .iconfont[class*='icon-'] {
   top: 70%;
 }
 /* Feedback Icon */
@@ -2969,11 +2960,13 @@ fieldset[disabled] .am-checkbox-inline {
   padding-left: 0.5em !important;
   padding-right: 1.75em !important;
 }
-.am-form-feedback [class*='am-icon-'] {
+.am-form-feedback [class*='am-icon-'],
+.am-form-feedback .iconfont[class*='icon-'] {
   right: 0.5em;
   left: auto;
 }
-.am-form-horizontal .am-form-feedback [class*='am-icon-'] {
+.am-form-horizontal .am-form-feedback [class*='am-icon-'],
+.am-form-horizontal .am-form-feedback .iconfont[class*='icon-'] {
   right: 1.6em;
 }
 /* Form set */
@@ -9000,7 +8993,8 @@ TODO:
 .am-tabs-bd {
   position: relative;
   overflow: hidden;
-  border: 0.1rem solid rgba(0,0,0,.06);
+  border: 0.1rem solid rgba(0,0,0,.04);
+  border-top: none;
   z-index: 100;
   -webkit-transition: height .3s;
   transition: height .3s;

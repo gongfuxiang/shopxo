@@ -52,13 +52,11 @@ class AppConfig extends Base
 	{
         $assign = [
             // 配置数据
-            'data'                               => ConfigService::ConfigList(),
+            'data'      => ConfigService::ConfigList(),
             // 管理导航
-            'nav_data'                           => MyLang('appconfig.base_nav_list'),
+            'nav_data'  => MyLang('appconfig.base_nav_list'),
             // 页面导航
-            'nav_type'                           => $this->nav_type,
-            // 时区
-            'common_user_base_popup_pages_list'  => MyConst('common_user_base_popup_pages_list'),
+            'nav_type'  => $this->nav_type,
         ];
         MyViewAssign($assign);
         return MyView($this->nav_type);

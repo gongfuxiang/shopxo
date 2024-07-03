@@ -29,6 +29,9 @@ class Index extends Common
     // 安装日志上报
     private $behavior_obj;
 
+    // 记录管理后台入口文件key
+    private $admin_run_key = 'cache_install_system_admin_run_key';
+
     /**
      * 构造方法
      * @author   Devil
@@ -145,7 +148,11 @@ class Index extends Common
      */
     public function Successful()
     {
+        // 安装验证
         SystemService::SystemInstallCheck();
+
+        // 管理入口地址
+        MyViewAssign('admin_run', MySession($this->admin_run_key));
         return MyView();
     }
 
@@ -242,7 +249,9 @@ class Index extends Common
             $ret['msg'] = '安装成功';
             $this->behavior_obj->ReportInstallLog(['msg'=>'安装成功']);
         }
-        return $ret;
+
+        // 管理入口文件处理
+        return $this->AdminRunFileHandle();
     }
 
     /**
@@ -270,6 +279,34 @@ class Index extends Common
             }
         }
         return $params;
+    }
+
+    /**
+     * 管理入口文件处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-28
+     * @desc    description
+     * @param   [array]          $params    [输入参数]
+     */
+    private function AdminRunFileHandle($params = [])
+    {
+        // 处理文件名称修改
+        $admin_filename_new = 'admin'.strtolower(RandomString(6)).'.php';
+        $arr = [ROOT, ROOT.'public'.DS];
+        foreach($arr as $v)
+        {
+            if(file_exists($v.'admin.php'))
+            {
+                \base\FileUtil::MoveFile($v.'admin.php', $v.$admin_filename_new);
+            }
+        }
+
+        // 记录管理地址
+        MySession($this->admin_run_key, __MY_URL__.$admin_filename_new);
+
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**

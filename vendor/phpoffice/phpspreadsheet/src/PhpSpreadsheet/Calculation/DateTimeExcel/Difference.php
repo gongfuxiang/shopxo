@@ -22,13 +22,14 @@ class Difference
      * @param mixed $endDate Excel date serial value, PHP date/time stamp, PHP DateTime object
      *                                    or a standard date string
      *                         Or can be an array of date values
-     * @param array|string $unit Or can be an array of unit values
+     * @param array|string $unit
+     *                         Or can be an array of unit values
      *
      * @return array|int|string Interval between the dates
      *         If an array of values is passed for the $startDate or $endDays,arguments, then the returned result
      *            will also be an array with matching dimensions
      */
-    public static function interval(mixed $startDate, mixed $endDate, array|string $unit = 'D')
+    public static function interval($startDate, $endDate, $unit = 'D')
     {
         if (is_array($startDate) || is_array($endDate) || is_array($unit)) {
             return self::evaluateArrayArguments([self::class, __FUNCTION__], $startDate, $endDate, $unit);
@@ -79,8 +80,12 @@ class Difference
 
     /**
      * Decide whether it's time to set retVal.
+     *
+     * @param bool|int $retVal
+     *
+     * @return null|bool|int
      */
-    private static function replaceRetValue(bool|int $retVal, string $unit, string $compare): null|bool|int
+    private static function replaceRetValue($retVal, string $unit, string $compare)
     {
         if ($retVal !== false || $unit !== $compare) {
             return $retVal;

@@ -12,7 +12,7 @@
 {{/if}}
 {{if $module_data['id'] neq 1 and $module_data['id'] neq $admin['id']}}
     <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
-        <i class="am-icon-trash-o"></i>
+        <i class="iconfont icon-delete"></i>
         <span>{{:MyLang('delete_title')}}</span>
     </button>
 {{/if}}

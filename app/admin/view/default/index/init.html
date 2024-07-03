@@ -33,12 +33,12 @@
 					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
                         <i class="iconfont icon-admin-store-user am-vertical-align-middle"></i>
 						<span class="am-vertical-align-middle">{{$site_store_info.user.user_name_view}}</span>
-						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('modify_title')}}">{{:MyLang('modify_title')}}</a>
+						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event">{{:MyLang('modify_title')}}</a>
 					{{else /}}
 						<a href="javascript:;" class="am-margin-left-xs am-vertical-align-middle store-accounts-event" data-title="{{:MyLang('store_bind_accounts_name')}}">{{:MyLang('store_bind_accounts_name')}}</a>
 						<!-- 连接商店错误信息 -->
 						{{if !empty($site_store_error)}}
-							<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm am-vertical-align-middle" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
+							<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs am-vertical-align-middle" data-am-popover="{content: '{{$site_store_error}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						{{/if}}
 					{{/if}}
 
@@ -107,8 +107,8 @@
                                 {{if !empty($time_data)}}
                                     <div class="quick-time am-flex am-flex-items-center">
                                         {{foreach :array_values($time_data) as $k=>$v}}
-                                            {{if !in_array($k, ['this-month', 'last-month'])}}
-                                                {{if $k lt 4}}
+                                            {{if !in_array($v['key'], ['this-month', 'last-month'])}}
+                                                {{if $k lt 3}}
                                                     <a href="javascript:;" class="{{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
                                                 {{/if}}
                                             {{/if}}
@@ -119,10 +119,12 @@
                                                 <div class="am-dropdown-content am-radius-lg">
                                                     <div class="am-flex am-flex-warp am-gap-1">
                                                         {{foreach :array_values($time_data) as $k=>$v}}
-                                                            {{if $k gt 3}}
-                                                                <div class="item">
-                                                                    <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-                                                                </div>
+                                                            {{if !in_array($v['key'], ['this-month', 'last-month'])}}
+                                                                {{if $k gt 2}}
+                                                                    <div class="item">
+                                                                        <a href="javascript:;" class="am-inline-block time {{if !empty($default_day) and isset($time_data[$default_day]) and isset($time_data[$default_day]['start']) and isset($time_data[$default_day]['end']) and $time_data[$default_day]['start'] eq $v['start'] and $time_data[$default_day]['end'] eq $v['end']}} am-active{{/if}}" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+                                                                    </div>
+                                                                {{/if}}
                                                             {{/if}}
                                                         {{/foreach}}
                                                         <div class="item">
@@ -762,7 +764,7 @@
             <form class="am-form am-form-popup-fixed">
             	<div class="upgrade-content"></div>
                 <div class="am-form-popup-submit">
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>

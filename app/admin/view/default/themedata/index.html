@@ -1,5 +1,5 @@
 <!-- 继承公共的 form -->
-{{extend name="../../../module/view/form" /}}
+{{extend name="../../../module/view/form_table/form" /}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
@@ -23,14 +23,14 @@
     {{if AdminIsPower('themedata', 'upload')}}
         <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius" data-am-modal="{target: '#popup-themedata-upload'}">
             <i class="iconfont icon-upload am-show-sm-only"></i>
-            <span class="am-hide-sm-only">{{:MyLang('import_title')}}</span>
+            <span>{{:MyLang('import_title')}}</span>
         </button>
     {{/if}}
     <!-- 下载 -->
     {{if AdminIsPower('themedata', 'download')}}
         <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius themedata-download-submit-all" data-url="{{:MyUrl('admin/themedata/download')}}">
             <i class="iconfont icon-download am-show-sm-only"></i>
-            <span class="am-hide-sm-only">{{:MyLang('download_title')}}</span>
+            <span>{{:MyLang('download_title')}}</span>
         </button>
     {{/if}}
 
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="am-form-popup-submit">
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                             <i class="am-icon-paint-brush"></i>
                             <span>{{:MyLang('cancel_title')}}</span>
                         </button>

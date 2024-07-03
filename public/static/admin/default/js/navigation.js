@@ -6,6 +6,7 @@ $(function()
 	FromInit('form.form-validation-customview');
 	FromInit('form.form-validation-goods_category');
 	FromInit('form.form-validation-design');
+	FromInit('form.form-validation-plugins');
 
 	/**
 	 * 添加

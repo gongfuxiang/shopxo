@@ -14,7 +14,7 @@
                     <!-- form start -->
                     <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/brandcategory/save')}}" method="POST" request-type="ajax-fun" request-value="CardFormSaveBack">
                         <div class="am-form-group row am-form-file">
-                            <label class="am-block">{{:MyLang('common_service.brandcategory.form_item_icon')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.brandcategory.form_item_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label class="am-block">{{:MyLang('common_service.brandcategory.form_item_icon')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.brandcategory.form_item_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view brand-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.brand-category-icon-images-view">
@@ -27,11 +27,11 @@
                             <label>{{:MyLang('common_service.brandcategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" placeholder="{{:MyLang('common_service.brandcategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.brandcategory.form_item_name_message')}}" class="am-radius" required />
                         </div>
-                        {{:ModuleInclude('lib/sort_row')}}
-                        {{:ModuleInclude('lib/is_enable_row')}}
+                        {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                        {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>

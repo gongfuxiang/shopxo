@@ -20,10 +20,10 @@
                                             <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="minitheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-terminal="{{$nav_type}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
                                         {{/if}}
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <a href="{{:MyUrl('admin/appmini/themedownload', ['id'=>$v['theme'], 'nav_type'=>$nav_type])}}" class="am-icon-trash-o am-icon-download am-margin-left-sm" title="{{:MyLang('download_title')}}"></a>
+                                            <a href="{{:MyUrl('admin/appmini/themedownload', ['id'=>$v['theme'], 'nav_type'=>$nav_type])}}" class="iconfont icon-delete am-icon-download am-margin-left-sm" title="{{:MyLang('download_title')}}"></a>
                                         {{/if}}
                                         {{if $v.is_delete eq 1}}
-                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/appmini/themedelete', ['nav_type'=>$nav_type])}}" data-id="{{$v.theme}}"></a>
+                                            <a href="javascript:;" class="iconfont icon-delete submit-delete am-margin-left-sm am-text-warning" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/appmini/themedelete', ['nav_type'=>$nav_type])}}" data-id="{{$v.theme}}"></a>
                                         {{/if}}
                                     </div>
                                 </h3>

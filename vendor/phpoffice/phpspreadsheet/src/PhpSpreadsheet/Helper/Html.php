@@ -533,67 +533,76 @@ class Html
     ];
 
     /** @var ?string */
-    private ?string $face = null;
+    private $face;
 
     /** @var ?string */
-    private ?string $size = null;
+    private $size;
 
     /** @var ?string */
-    private ?string $color = null;
+    private $color;
 
-    private bool $bold = false;
+    /** @var bool */
+    private $bold = false;
 
-    private bool $italic = false;
+    /** @var bool */
+    private $italic = false;
 
-    private bool $underline = false;
+    /** @var bool */
+    private $underline = false;
 
-    private bool $superscript = false;
+    /** @var bool */
+    private $superscript = false;
 
-    private bool $subscript = false;
+    /** @var bool */
+    private $subscript = false;
 
-    private bool $strikethrough = false;
+    /** @var bool */
+    private $strikethrough = false;
 
-    /** @var callable[] */
-    private array $startTagCallbacks = [
-        'font' => [self::class, 'startFontTag'],
-        'b' => [self::class, 'startBoldTag'],
-        'strong' => [self::class, 'startBoldTag'],
-        'i' => [self::class, 'startItalicTag'],
-        'em' => [self::class, 'startItalicTag'],
-        'u' => [self::class, 'startUnderlineTag'],
-        'ins' => [self::class, 'startUnderlineTag'],
-        'del' => [self::class, 'startStrikethruTag'],
-        'sup' => [self::class, 'startSuperscriptTag'],
-        'sub' => [self::class, 'startSubscriptTag'],
+    private const START_TAG_CALLBACKS = [
+        'font' => 'startFontTag',
+        'b' => 'startBoldTag',
+        'strong' => 'startBoldTag',
+        'i' => 'startItalicTag',
+        'em' => 'startItalicTag',
+        'u' => 'startUnderlineTag',
+        'ins' => 'startUnderlineTag',
+        'del' => 'startStrikethruTag',
+        'sup' => 'startSuperscriptTag',
+        'sub' => 'startSubscriptTag',
     ];
 
-    /** @var callable[] */
-    private array $endTagCallbacks = [
-        'font' => [self::class, 'endFontTag'],
-        'b' => [self::class, 'endBoldTag'],
-        'strong' => [self::class, 'endBoldTag'],
-        'i' => [self::class, 'endItalicTag'],
-        'em' => [self::class, 'endItalicTag'],
-        'u' => [self::class, 'endUnderlineTag'],
-        'ins' => [self::class, 'endUnderlineTag'],
-        'del' => [self::class, 'endStrikethruTag'],
-        'sup' => [self::class, 'endSuperscriptTag'],
-        'sub' => [self::class, 'endSubscriptTag'],
-        'br' => [self::class, 'breakTag'],
-        'p' => [self::class, 'breakTag'],
-        'h1' => [self::class, 'breakTag'],
-        'h2' => [self::class, 'breakTag'],
-        'h3' => [self::class, 'breakTag'],
-        'h4' => [self::class, 'breakTag'],
-        'h5' => [self::class, 'breakTag'],
-        'h6' => [self::class, 'breakTag'],
+    private const END_TAG_CALLBACKS = [
+        'font' => 'endFontTag',
+        'b' => 'endBoldTag',
+        'strong' => 'endBoldTag',
+        'i' => 'endItalicTag',
+        'em' => 'endItalicTag',
+        'u' => 'endUnderlineTag',
+        'ins' => 'endUnderlineTag',
+        'del' => 'endStrikethruTag',
+        'sup' => 'endSuperscriptTag',
+        'sub' => 'endSubscriptTag',
+        'br' => 'breakTag',
+        'p' => 'breakTag',
+        'h1' => 'breakTag',
+        'h2' => 'breakTag',
+        'h3' => 'breakTag',
+        'h4' => 'breakTag',
+        'h5' => 'breakTag',
+        'h6' => 'breakTag',
     ];
 
-    private array $stack = [];
+    /** @var array */
+    private $stack = [];
 
-    public string $stringData = '';
+    /** @var string */
+    private $stringData = '';
 
-    private RichText $richTextObject;
+    /**
+     * @var RichText
+     */
+    private $richTextObject;
 
     private function initialise(): void
     {
@@ -607,8 +616,12 @@ class Html
 
     /**
      * Parse HTML formatting and return the resulting RichText.
+     *
+     * @param string $html
+     *
+     * @return RichText
      */
-    public function toRichTextObject(string $html): RichText
+    public function toRichTextObject($html)
     {
         $this->initialise();
 
@@ -617,6 +630,7 @@ class Html
         //    Load the HTML file into the DOM object
         //  Note the use of error suppression, because typically this will be an html fragment, so not fully valid markup
         $prefix = '<?xml encoding="UTF-8">';
+        /** @scrutinizer ignore-unhandled */
         @$dom->loadHTML($prefix . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         //    Discard excess white space
         $dom->preserveWhiteSpace = false;
@@ -700,7 +714,7 @@ class Html
         return self::COLOUR_MAP[$colorName] ?? '';
     }
 
-    protected function startFontTag(DOMElement $tag): void
+    private function startFontTag(DOMElement $tag): void
     {
         $attrs = $tag->attributes;
         if ($attrs !== null) {
@@ -711,7 +725,7 @@ class Html
                 if ($attributeName == 'color') {
                     if (preg_match('/rgb\s*\(/', $attributeValue)) {
                         $this->$attributeName = $this->rgbToColour($attributeValue);
-                    } elseif (str_starts_with(trim($attributeValue), '#')) {
+                    } elseif (strpos(trim($attributeValue), '#') === 0) {
                         $this->$attributeName = ltrim($attributeValue, '#');
                     } else {
                         $this->$attributeName = static::colourNameLookup($attributeValue);
@@ -723,72 +737,72 @@ class Html
         }
     }
 
-    protected function endFontTag(): void
+    private function endFontTag(): void
     {
         $this->face = $this->size = $this->color = null;
     }
 
-    protected function startBoldTag(): void
+    private function startBoldTag(): void
     {
         $this->bold = true;
     }
 
-    protected function endBoldTag(): void
+    private function endBoldTag(): void
     {
         $this->bold = false;
     }
 
-    protected function startItalicTag(): void
+    private function startItalicTag(): void
     {
         $this->italic = true;
     }
 
-    protected function endItalicTag(): void
+    private function endItalicTag(): void
     {
         $this->italic = false;
     }
 
-    protected function startUnderlineTag(): void
+    private function startUnderlineTag(): void
     {
         $this->underline = true;
     }
 
-    protected function endUnderlineTag(): void
+    private function endUnderlineTag(): void
     {
         $this->underline = false;
     }
 
-    protected function startSubscriptTag(): void
+    private function startSubscriptTag(): void
     {
         $this->subscript = true;
     }
 
-    protected function endSubscriptTag(): void
+    private function endSubscriptTag(): void
     {
         $this->subscript = false;
     }
 
-    protected function startSuperscriptTag(): void
+    private function startSuperscriptTag(): void
     {
         $this->superscript = true;
     }
 
-    protected function endSuperscriptTag(): void
+    private function endSuperscriptTag(): void
     {
         $this->superscript = false;
     }
 
-    protected function startStrikethruTag(): void
+    private function startStrikethruTag(): void
     {
         $this->strikethrough = true;
     }
 
-    protected function endStrikethruTag(): void
+    private function endStrikethruTag(): void
     {
         $this->strikethrough = false;
     }
 
-    public function breakTag(): void
+    private function breakTag(): void
     {
         $this->stringData .= "\n";
     }
@@ -804,23 +818,16 @@ class Html
         $this->buildTextRun();
     }
 
-    public function addStartTagCallback(string $tag, callable $callback): void
-    {
-        $this->startTagCallbacks[$tag] = $callback;
-    }
-
-    public function addEndTagCallback(string $tag, callable $callback): void
-    {
-        $this->endTagCallbacks[$tag] = $callback;
-    }
-
-    /** @param callable[] $callbacks */
-    private function handleCallback(DOMElement $element, string $callbackTag, array $callbacks): void
+    /**
+     * @param string $callbackTag
+     */
+    private function handleCallback(DOMElement $element, $callbackTag, array $callbacks): void
     {
         if (isset($callbacks[$callbackTag])) {
             $elementHandler = $callbacks[$callbackTag];
-            if (is_callable($elementHandler)) {
-                call_user_func($elementHandler, $element, $this);
+            if (method_exists($this, $elementHandler)) {
+                /** @phpstan-ignore-next-line */
+                call_user_func([$this, $elementHandler], $element);
             }
         }
     }
@@ -830,12 +837,12 @@ class Html
         $callbackTag = strtolower($element->nodeName);
         $this->stack[] = $callbackTag;
 
-        $this->handleCallback($element, $callbackTag, $this->startTagCallbacks);
+        $this->handleCallback($element, $callbackTag, self::START_TAG_CALLBACKS);
 
         $this->parseElements($element);
         array_pop($this->stack);
 
-        $this->handleCallback($element, $callbackTag, $this->endTagCallbacks);
+        $this->handleCallback($element, $callbackTag, self::END_TAG_CALLBACKS);
     }
 
     private function parseElements(DOMNode $element): void

@@ -1007,7 +1007,7 @@ function VideoFileUploadShow (class_name, show_video, default_video) {
  * @param   {[string]}  title 		  [标题]
  * @param   {[string]}  class_tag 	  [指定class]
  * @param   {[int]}     full 		  [是否满屏（0否, 1是）]
- * @param   {[int]}     full_max	  [满屏最大限制（max-width:1200px）（0否, 1是）]
+ * @param   {[int]}     full_max	  [满屏最大限制（max-width:1400px）（0否, 1是）]
  * @param   {[string]}  full_max_size [满屏最大限制指定（默认空 最大1200、lg 1000, 有效值 md 800, sm 500, xs 400）]
  * @param   {[string]}  on_open	      [开启监听方法]
  * @param   {[string]}  on_close	  [关闭监听方法]
@@ -1095,7 +1095,7 @@ function IframeSubpageStyleHandle (iframe_id, style_class) {
 
     // 初始先执行
     var iframe_doc = iframe.contentDocument || iframe.contentWindow.document || null;
-    if (iframe_doc != null) {
+    if (iframe_doc != null && iframe_doc.body != null) {
         iframe_doc.body.classList.add(style_class);
     }
 
@@ -1405,6 +1405,9 @@ function AjaxRequest (e) {
                 if (is_loading == 1) {
                     AMUI.dialog.loading('close');
                 }
+                if (is_example) {
+                    e.button('reset');
+                }
                 Prompt(result.msg);
             }
         },
@@ -1451,7 +1454,7 @@ function ConfirmNetworkAjax (e) {
  * @desc    description
  */
 function FullscreenOpen () {
-    var elem = document.body;
+    var elem = document.documentElement;
     if (elem.webkitRequestFullScreen) {
         elem.webkitRequestFullScreen();
     } else if (elem.mozRequestFullScreen) {
@@ -2344,7 +2347,8 @@ function FormTableContainerOperateGridMoreListInit (e, is_prompt = true) {
             // 隐藏的元素无法获取宽度，使用一个浮动元素临时存放按钮获取宽度
             var key = 'temp-operate-more-item-width-container';
             $('body').append('<div class="' + key + '" style="position:fixed;left:-9999999999px;bottom:-9999999999px;"></div>');
-            var width = (length * 10) + 20;
+            // 初始宽度设置误差6
+            var width = 6;
             $parent.find('.am-dropdown-content .am-badge').each(function (k, v) {
                 width += $('.' + key).html($(this).prop('outerHTML')).outerWidth(true);
             });
@@ -2770,7 +2774,7 @@ function DataPrintHandle (is_pdf = 0) {
         var field = window['print_data_list_key'] || 'id';
         print_data = JsonStringToJsonObject(print_data);
         for (var i in print_data) {
-            if ((print_data[i][field] || null) != null && values.indexOf(print_data[i][field]) != -1) {
+            if ((print_data[i][field] || null) != null && (values.indexOf(print_data[i][field]) != -1 ||  values.indexOf(print_data[i][field].toString()) != -1)) {
                 result.push(print_data[i]);
             }
         }
@@ -3749,12 +3753,13 @@ function VoiceNotice (mp3) {
  * @desc    description
  * @param   {[string]}        type  [文件类型（video 视频， images 默认图片）]
  * @param   {[string]}        value [附件地址]
+ * @param   {[object]}        obj   [元素对象]
  */
-function AnnexView(type, value) {
+function AnnexView(type, value, obj) {
     if((value || null) != null) {
         var title = null;
         var html = null;
-        var style = 'max-width:100%; max-height:calc(80vh - 4.5rem); margin: 0 auto;';
+        var style = 'max-width:100%; max-height:calc(90vh - 4.5rem); margin: 0 auto;';
         switch (type) {
             case 'video':
                 title = window['lang_video_preview_title'] || '视频预览';
@@ -3764,18 +3769,27 @@ function AnnexView(type, value) {
                 title = window['lang_images_preview_title'] || '图片预览';
                 html = '<img src="' + value + '" class="am-block" style="' + style + '" />';
         }
+        // 是否存在元素对象
+        if(typeof (obj) == 'object') {
+            // 是否开启下载
+            if(parseInt(obj.attr('data-is-download') || 0) == 1) {
+                var name = window['lang_operate_download_name'] || '下载';
+                html += '<button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-animation-slide-bottom btn-loading-example common-annex-download-event" data-value="'+value+'" data-name="'+(obj.attr('data-download-name') || '')+'" data-am-loading="{spinner: \'circle-o-notch\', loadingText:\''+name+'\'}" style="position: absolute;left: calc(50% - 2.5rem);bottom: 2rem;"><i class="am-icon-download"></i> <span>'+name+'</span></button>';
+            }
+        }
         if (html != null) {
             AMUI.dialog.alert({
                 title: title,
                 isClose: true,
                 config: {},
-                style: 'max-width: 80%; max-height: 80%; left: auto; min-width: 12rem;',
+                style: 'max-width: 80%; max-height: 90%; left: auto; min-width: 12rem;',
                 content_style: 'padding: 0; border-bottom: 0;',
                 content: html,
             });
         }
     }
 }
+
 
 
 
@@ -4607,8 +4621,8 @@ $(function () {
                     $parent.find('input[name="province"]').val(result.data.province.id);
                     $parent.find('input[name="city"]').val(result.data.city.id);
                     $parent.find('input[name="county"]').val(result.data.county.id);
-                    var address = result.data.province.name + result.data.city.name + result.data.county.name;
-                    $parent.find('.am-cascader .am-cascader-suffix input:eq(0)').val(address);
+                    var address = result.data.province.name + ((result.data.city.name || null) == null ? '' : '-' + result.data.city.name) + ((result.data.county.name || null) == null ? '' : '-' + result.data.county.name);
+                    $parent.find('input[name="province_city_county"]').val(address);
                     // 地址初始化
                     RegionLinkageInit();
                     $parent.find('.am-cascader-dropdown').removeClass('am-active');
@@ -4643,27 +4657,16 @@ $(function () {
 
     // 根据字符串地址获取坐标位置
     $('#map-location-submit').on('click', function () {
-        var region = ["province", "city", "county"];
-        var province = '';
-        var address = '';
-        for (var i in region) {
-            var $temp_obj = $('.region-linkage select[name=' + region[i] + ']');
-            var v = $temp_obj.find('option:selected').val() || null;
-            if (v != null) {
-                if (i == 0) {
-                    province = $temp_obj.find('option:selected').text() || '';
-                }
-                temp_value = $temp_obj.find('option:selected').text() || '';
-                if (address.indexOf(temp_value) == -1) {
-                    address += temp_value;
-                }
-            }
-        }
-        address += $('#form-address').val();
-        if (province.length <= 0 && address.length <= 0) {
+        // 地址信息
+        var region = $('.region-linkage  input[name="province_city_county"]').val();
+        var detail = $('#form-address').val();
+        if (region.length <= 0 || detail.length <= 0) {
             Prompt(window['lang_address_data_empty_tips'] || '地址为空');
             return false;
         }
+        var arr = region.split('-');
+        var province = arr[0];
+        var address = arr.join('')+detail;
 
         // 地图类型
         switch (__load_map_type__) {
@@ -4935,15 +4938,63 @@ $(function () {
             var $tag = $(this).parents('ul.plug-file-upload-view');
             var type = $tag.attr('data-dialog-type') || 'images';
             var value = (type == 'video') ? $(this).find('>video').attr('src') : $(this).find('>img').attr('src');
-            AnnexView(type, value);
+            AnnexView(type, value, $(this));
         }
     });
 
     // 公共文件预览
     $(document).on('click', '.common-annex-view-event', function() {
         var type = $(this).attr('data-type') || 'images';
+        var value = $(this).attr('data-value') || $(this).attr('src') || null;
+        AnnexView(type, value, $(this));
+    });
+
+    // 文件下载
+    $(document).on('click', '.common-annex-download-event', function() {
+        // 文件信息
         var value = $(this).attr('data-value') || null;
-        AnnexView(type, value);
+        if(value == null) {
+            Prompt(window['lang_data_error'] || '数据有误');
+            return false;
+        }
+        // 名称及后缀、没有指定则获取最后一次出现的斜杠后面的的内容作为文件名称
+        var name = $(this).attr('data-name') || null;
+        if(name == null) {
+            var last = value.lastIndexOf('/');
+            name = (last == -1) ? value : value.substr(last+1);
+        }
+
+        var $this = $(this);
+        $this.button('loading');
+
+        // 异步
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', value, true);
+        // blob 类型
+        xhr.responseType = 'blob'; 
+        xhr.onload = function() {
+            if (xhr.status != 200) {
+                Prompt(window['lang_operate_download_fail_tips'] || '下载失败！');
+                $this.button('reset');
+                return false;
+            }
+
+            if (window.navigator.msSaveOrOpenBlob) {
+                // IE
+                navigator.msSaveBlob(xhr.response, filename);
+            } else {
+                var url = window.URL.createObjectURL(xhr.response);
+                var a = document.createElement('a');
+                a.setAttribute('href', url);
+                a.setAttribute('target', '_blank');
+                a.setAttribute('download', name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+            $this.button('reset');
+        };
+        xhr.send();
     });
 
     /* 搜索切换 */
@@ -5006,6 +5057,9 @@ $(function () {
         if (height > 0) {
             config['height'] = height;
         }
+        // 是否点击遮罩层时关闭
+        var is_close_via_dimmer = $(this).attr('data-close-via-dimmer');
+        config['closeViaDimmer'] = (is_close_via_dimmer == undefined || is_close_via_dimmer == 1);
 
         // 监听方法
         var on_open = $(this).attr('data-on-open') || '';
@@ -5132,7 +5186,9 @@ $(function () {
     });
 
     // dropdown组件hover显示
+    var dropdown_timer = null;
     $(document).on('mouseenter', '.am-dropdown .am-dropdown-toggle', function () {
+        clearTimeout(dropdown_timer);
         if ($(window).width() >= 641) {
             $('body .am-dropdown').each(function (k, v) {
                 var config = JsonStringToJsonObject($(this).attr('data-am-dropdown')) || null;
@@ -5150,21 +5206,49 @@ $(function () {
             }
         }
     });
+    $(document).on('mousemove', '.am-dropdown .am-dropdown-toggle', function () {
+        clearTimeout(dropdown_timer);
+        if ($(window).width() >= 641) {
+            var $parent = $(this).parent();
+            var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+            if (config != null && (config.trigger || null) == 'hover') {
+                if ($parent.find('.am-dropdown-content').css('display') != 'block') {
+                    $parent.find('.am-dropdown-content').attr('data-is-stay', 1);
+                    $parent.dropdown('open');
+                }
+            }
+        }
+    });
+    $(document).on('click', '.am-dropdown .am-dropdown-toggle', function () {
+        clearTimeout(dropdown_timer);
+        if ($(window).width() >= 641) {
+            var $parent = $(this).parent();
+            var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+            if (config != null && (config.trigger || null) == 'hover') {
+                if ($parent.find('.am-dropdown-content').css('display') != 'block') {
+                    $parent.find('.am-dropdown-content').attr('data-is-stay', 1);
+                    $parent.dropdown('open');
+                }
+            }
+        }
+    });
     $(document).on('mouseleave', '.am-dropdown .am-dropdown-toggle', function () {
+        clearTimeout(dropdown_timer);
         if ($(window).width() >= 641) {
             var $parent = $(this).parent();
             var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
             if (config != null && (config.trigger || null) == 'hover') {
                 $parent.find('.am-dropdown-content').attr('data-is-stay', 0);
-                setTimeout(function () {
+                dropdown_timer = setTimeout(function () {
                     if ((parseInt($parent.find('.am-dropdown-content').attr('data-is-stay') || 0)) == 0) {
                         $parent.dropdown('close');
                     }
-                }, 1000);
+                }, 500);
             }
         }
     });
     $(document).on('mouseenter', '.am-dropdown .am-dropdown-content', function () {
+        clearTimeout(dropdown_timer);
         if ($(window).width() >= 641) {
             var $parent = $(this).parent();
             var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
@@ -5174,6 +5258,7 @@ $(function () {
         }
     });
     $(document).on('mouseleave', '.am-dropdown .am-dropdown-content', function () {
+        clearTimeout(dropdown_timer);
         if ($(window).width() >= 641) {
             var $parent = $(this).parent();
             var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
@@ -5603,7 +5688,7 @@ $(function () {
                 RegionNodeData($(this).data('value'), 'province', 'city');
             } else {
                 parents_menu.next().removeClass('am-active');
-                parents_menu.parents('.am-cascader').find('input:eq(0)').val(level_1_name);
+                parents_menu.parents('.am-cascader').find('input[name="province_city_county"]').val(level_1_name);
                 $('input[name="province"]').val(level_1);
                 $('input[name="city"]').val('');
                 $('input[name="county"]').val('');
@@ -5620,7 +5705,7 @@ $(function () {
                 RegionNodeData($(this).data('value'), 'city', 'county');
             } else {
                 parents_menu.next().removeClass('am-active');
-                parents_menu.parents('.am-cascader').find('input:eq(0)').val(level_1_name + ' ' + level_2_name);
+                parents_menu.parents('.am-cascader').find('input[name="province_city_county"]').val(level_1_name + '-' + level_2_name);
                 $('input[name="province"]').val(level_1);
                 $('input[name="city"]').val(level_2);
                 $('input[name="county"]').val('');
@@ -5634,7 +5719,7 @@ $(function () {
             level_1_name = $(this).parents('.am-cascader-panel').find('.province li.am-active').data('name');
             level_2_name = $(this).parents('.am-cascader-panel').find('.city li.am-active').data('name');
             level_3_name = $(this).data('name');
-            parents_menu.parents('.am-cascader').find('input:eq(0)').val(level_1_name + ' ' + level_2_name + ' ' + level_3_name);
+            parents_menu.parents('.am-cascader').find('input[name="province_city_county"]').val(level_1_name + '-' + level_2_name + '-' + level_3_name);
             $('input[name="province"]').val(level_1);
             $('input[name="city"]').val(level_2);
             $('input[name="county"]').val(level_3);

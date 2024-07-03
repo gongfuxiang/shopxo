@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    // 打印处理
+    var hiprint_obj;
+    $(document).ready(function()
+    {
+        // 模板打印数据
+        var print_data = JsonStringToJsonObject({{if empty($module_data['business_data'])}}{}{{else /}}{{:json_encode($module_data['business_data'], JSON_UNESCAPED_UNICODE)}}{{/if}});
+
+        //初始化打印插件
+        hiprint.init({
+            providers: [{
+                addElementTypes: function (context) {
+                    context.addPrintElementTypes(
+                        "config_module",
+                        [
+                            new hiprint.PrintElementTypeGroup('common', JsonStringToJsonObject({{if empty($module_data['type_data']) or empty($module_data['type_data']['common'])}}[]{{else /}}{{:json_encode($module_data.type_data.common, JSON_UNESCAPED_UNICODE)}}{{/if}})),
+                            new hiprint.PrintElementTypeGroup('business', JsonStringToJsonObject({{if empty($module_data['type_data']) or empty($module_data['type_data']['business'])}}[]{{else /}}{{:json_encode($module_data.type_data.business, JSON_UNESCAPED_UNICODE)}}{{/if}})),
+                            new hiprint.PrintElementTypeGroup('assist', JsonStringToJsonObject({{if empty($module_data['type_data']) or empty($module_data['type_data']['assist'])}}[]{{else /}}{{:json_encode($module_data.type_data.assist, JSON_UNESCAPED_UNICODE)}}{{/if}}))
+                        ]
+                    );
+                }
+            }]
+        });
+
+        //设置左侧拖拽事件
+        hiprint.PrintElementTypeManager.buildByHtml($('.ep-draggable-item'));
+
+        // 初始化模板
+        hiprint_obj = new hiprint.PrintTemplate({
+            // 初始模板
+            template: {{if empty($module_data['config'])}}{ "panels": [{"index": 0, "paperType": "A4", "height": 297, "width": 210, "paperHeader": 43.5, "paperFooter": 801, "printElements": [], "paperNumberLeft": 565, "paperNumberTop": 819 }]}{{else /}}{{$module_data.config|raw}}{{/if}},
+            // 右侧编辑容器
+            settingContainer: '.hiprint-element-option-setting'
+        });
+        //打印设计
+        hiprint_obj.design('.print-template');
+
+        // 打印预览
+        var $preview_popup = $('#hiprint-preview-popup');
+        $('.hiprint-preview-submit').on('click', function()
+        {
+            $preview_popup.find('.am-popup-bd .preview-content').html(hiprint_obj.getHtml(print_data));
+            $preview_popup.modal('open');
+        });
+        // 打印
+        $('.hiprint-print-submit').on('click', function()
+        {
+            hiprint_obj.print(print_data, {});
+        });
+        // 打印成功回调
+        hiprint_obj.on('printSuccess', function(data)
+        {
+            $preview_popup.modal('close');
+        });
+        hiprint_obj.on('printError', function(data)
+        {
+            console.log('print error', data);
+        });
+        // 直接打印
+        $('.hiprint-direct-print-submit').on('click', function()
+        {
+            hiprint_obj.print2(print_data, { printer: $('#printerlist select').val(),title:'TestPrint' });
+        });
+        // 导出pdf
+        $('.hiprint-export-pdf-submit').on('click', function()
+        {
+            hiprint_obj.toPdf(print_data, 'TestExportPDF');
+        });
+    });
+
+    // 调整纸张、类型或尺寸大小
+    var setPaper = function(paper_type_or_width, height)
+    {
+        hiprint_obj.setPaper(paper_type_or_width, height);
+    }
+
+    // 纸张旋转
+    var rotatePaper = function()
+    {
+        hiprint_obj.rotatePaper();
+    }
+
+    // 清空配置
+    var clearTemplate = function()
+    {
+        hiprint_obj.clear();
+    }
+
+    // 打开编辑框
+    $(document).on('click', '.hiprint-data-save-submit', function()
+    {
+        var form_name = '{{if empty($module_data["form_name"])}}config{{else /}}{{$module_data.form_name}}{{/if}}';
+        $('[name="'+form_name+'"]').val(JSON.stringify(hiprint_obj.getJson()));
+    });
+</script>

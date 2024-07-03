@@ -21,8 +21,8 @@
             {{:ModuleInclude('public/user_center_main_title')}}
             
             <div class="control">
-                <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">
-                    <i class="am-icon-plus"></i>
+                <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-title="{{:MyLang('address_title')}}{{:MyLang('add_title')}}">
+                    <i class="iconfont icon-btn-add am-show-sm-only"></i>
                     <span>{{:MyLang('add_title')}}</span>
                 </button>
             </div>
@@ -56,9 +56,9 @@
                                         <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
                                         <span class="cut">|</span>
                                     {{/if}}
-                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
+                                    <a href="javascript:;" class="am-icon-edit submit-popup" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-title="{{:MyLang('address_title')}}{{:MyLang('edit_title')}}"> {{:MyLang('edit_title')}}</a>
                                     <span class="cut">|</span>
-                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
+                                    <a href="javascript:;" class="iconfont icon-delete address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
                                 </div>
                             </div>
                         </li>

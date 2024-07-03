@@ -1,14 +1,4 @@
 /**
- * url地址容器
- */
-.url-container > div.am-input-group:not(:first-child) {
-    margin-top: 0.5rem;
-}
-.url-container > .am-input-group > .am-input-group-btn > button {
-    width: 11rem;
-}
-
-/**
  * 文本、图片行组合
  */
 .images-row-container .am-form-group.am-form-file {

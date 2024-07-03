@@ -4,15 +4,30 @@ namespace PhpOffice\PhpSpreadsheet\Helper;
 
 class TextGrid
 {
-    private bool $isCli;
+    /**
+     * @var bool
+     */
+    private $isCli = true;
 
-    protected array $matrix;
+    /**
+     * @var array
+     */
+    protected $matrix;
 
-    protected array $rows;
+    /**
+     * @var array
+     */
+    protected $rows;
 
-    protected array $columns;
+    /**
+     * @var array
+     */
+    protected $columns;
 
-    private string $gridDisplay;
+    /**
+     * @var string
+     */
+    private $gridDisplay;
 
     public function __construct(array $matrix, bool $isCli = true)
     {
@@ -33,17 +48,17 @@ class TextGrid
 
     public function render(): string
     {
-        $this->gridDisplay = $this->isCli ? '' : '<pre>';
+        $this->gridDisplay = $this->isCli ? '' : '<code>';
 
         $maxRow = max($this->rows);
-        $maxRowLength = mb_strlen((string) $maxRow) + 1;
+        $maxRowLength = strlen((string) $maxRow) + 1;
         $columnWidths = $this->getColumnWidths();
 
         $this->renderColumnHeader($maxRowLength, $columnWidths);
         $this->renderRows($maxRowLength, $columnWidths);
         $this->renderFooter($maxRowLength, $columnWidths);
 
-        $this->gridDisplay .= $this->isCli ? '' : '</pre>';
+        $this->gridDisplay .= $this->isCli ? '' : '</code>';
 
         return $this->gridDisplay;
     }
@@ -60,9 +75,9 @@ class TextGrid
     private function renderCells(array $rowData, array $columnWidths): void
     {
         foreach ($rowData as $column => $cell) {
-            $displayCell = ($this->isCli) ? (string) $cell : htmlentities((string) $cell);
+            $cell = ($this->isCli) ? (string) $cell : htmlentities((string) $cell);
             $this->gridDisplay .= '| ';
-            $this->gridDisplay .= $displayCell . str_repeat(' ', $columnWidths[$column] - mb_strlen($cell ?? '') + 1);
+            $this->gridDisplay .= str_pad($cell, $columnWidths[$column] + 1, ' ');
         }
     }
 
@@ -111,12 +126,12 @@ class TextGrid
 
         foreach ($columnData as $columnValue) {
             if (is_string($columnValue)) {
-                $columnWidth = max($columnWidth, mb_strlen($columnValue));
+                $columnWidth = max($columnWidth, strlen($columnValue));
             } elseif (is_bool($columnValue)) {
-                $columnWidth = max($columnWidth, mb_strlen($columnValue ? 'TRUE' : 'FALSE'));
+                $columnWidth = max($columnWidth, strlen($columnValue ? 'TRUE' : 'FALSE'));
             }
 
-            $columnWidth = max($columnWidth, mb_strlen((string) $columnWidth));
+            $columnWidth = max($columnWidth, strlen((string) $columnWidth));
         }
 
         return $columnWidth;

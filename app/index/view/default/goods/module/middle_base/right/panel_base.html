@@ -82,7 +82,10 @@
             </div>
 
             <!-- 销量 -->
-            <div class="tm-indcon sales-volume"><span class="tm-count">{{$module_data.goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>  
+            {{if isset($module_data['goods']['show_sales_number_status']) and $module_data['goods']['show_sales_number_status'] eq 1}}
+                <div class="tm-indcon sales-volume"><span class="tm-count">{{$module_data.goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
+            {{/if}}
+
             <!-- 二维码 -->
             <div class="goods-qrcode">
                 <div class="am-dropdown" data-am-dropdown>

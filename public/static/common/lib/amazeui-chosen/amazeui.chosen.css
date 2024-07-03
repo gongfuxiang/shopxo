@@ -149,7 +149,7 @@
     border: 0.1rem solid #f0f0f0;
     font-size: 1rem;
     line-height: normal;
-    border-radius: 0.2rem
+    border-radius: 0.4rem
 }
 .chosen-container-single .chosen-drop {
     margin-top: -0.1rem;
@@ -195,9 +195,6 @@
     color: #888;
     display: list-item;
     background: #f4f4f4
-}
-.chosen-container .chosen-results li.no-results button {
-    color: #fff !important;
 }
 .chosen-container .chosen-results li.group-result {
     display: list-item;

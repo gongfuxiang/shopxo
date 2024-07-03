@@ -281,45 +281,8 @@
 /**
  * 表单
  */
- .aftersale-form-panel form.am-form .am-form-group-label-tips {
-    font-size: 1.4rem;
- }
-.aftersale-form-panel form.am-form .am-form-group {
-	padding: 0 0 2.4rem 0;
-	max-width: 60rem;
-}
-.aftersale-form-panel form.am-form .am-form-group label {
-	margin-bottom: 0.8rem;
-}
 form.form-validation .number-container .am-input-group-label {
 	cursor: pointer;
-}
-.user-content .plug-file-upload-submit {
-	width: 10rem;
-	height: 10rem;
-	vertical-align: middle;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	border: 0.1rem solid #EEEEEE;
-	background: #F5F5F5;
-	border-radius: var(--border-radius);
-}
-.user-content ul.plug-file-upload-view {
-	padding: 0;
-	margin-bottom: 0;
-}
-.user-content ul.plug-file-upload-view li {
-	border: 0.1rem solid #EEEEEE;
-	padding: 0 1.2rem 0 0;
-	margin-bottom: 1.2rem;
-	border-radius: var(--border-radius);
-}
-.user-content .am-file-upload-content {
-	display: flex;
-	flex-wrap: wrap;
-	margin-top: 0.6rem;
 }
 .aftersale-form-panel form.am-form .am-form-popup-submit button {
 	padding: 1rem 6.3rem;

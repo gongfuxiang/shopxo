@@ -7,7 +7,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class EngineeringValidations
 {
-    public static function validateFloat(mixed $value): float
+    /**
+     * @param mixed $value
+     */
+    public static function validateFloat($value): float
     {
         if (!is_numeric($value)) {
             throw new Exception(ExcelError::VALUE());
@@ -16,7 +19,10 @@ class EngineeringValidations
         return (float) $value;
     }
 
-    public static function validateInt(mixed $value): int
+    /**
+     * @param mixed $value
+     */
+    public static function validateInt($value): int
     {
         if (!is_numeric($value)) {
             throw new Exception(ExcelError::VALUE());

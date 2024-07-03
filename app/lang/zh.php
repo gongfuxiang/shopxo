@@ -67,6 +67,8 @@ return [
         'operate_remove_name'               => '移除',
         'operate_sort_name'                 => '排序',
         'operate_modify_name'               => '修改',
+        'operate_download_name'             => '下载',
+        'operate_download_fail_tips'        => '下载失败',
         'select_not_chosen_tips'            => '请选择项',
         'select_chosen_min_tips'            => '至少选择{value}项',
         'select_chosen_max_tips'            => '最多选择{value}项',
@@ -459,6 +461,11 @@ return [
     'refund_title'                                          => '退款',
     'receive_title'                                         => '接收',
     'express_title'                                         => '快递',
+    'logistics_title'                                       => '物流',
+    'time_title'                                            => '时间',
+    'tel_title'                                             => '电话',
+    'mobile_title'                                          => '手机',
+    'email_title'                                           => '邮箱',
     'verification_title'                                    => '核验',
     'service_title'                                         => '服务',
     'print_title'                                           => '打印',
@@ -489,6 +496,7 @@ return [
     'birthday_title'                                        => '生日',
     'address_title'                                         => '地址',
     'bind_title'                                            => '绑定',
+    'unbind_title'                                          => '解绑',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分类',
     'attr_title'                                            => '属性',
@@ -525,7 +533,7 @@ return [
     'template_title'                                        => '模板',
     'recharge_title'                                        => '充值',
     'cash_title'                                            => '提现',
-    'log_title'                                             => '明细',
+    'log_title'                                             => '日志',
     'plugins_title'                                         => '插件',
     'valid_title'                                           => '有效',
     'suspend_title'                                         => '暂停',
@@ -759,6 +767,52 @@ return [
             ]
         ]
     ],
+    // 自定义跳转地址提示说明
+    'custom_to_value_tips'              => [
+        [
+            'type'  => 'web',
+            'name'  => 'WEB端',
+            'item'  => [
+                '1. 以http开头',
+                '2. 如小程序中使用WEB页面、需要在小程序后台加入白名单',
+            ]
+        ],
+        [
+            'type'  => 'mini',
+            'name'  => '内部页面(小程序/APP内部地址)',
+            'item'  => [
+                '1. 小程序以/pages开始',
+                '2. 例如：/pages/user/user',
+                '3. 支持带参数 ?x=xx',
+            ],
+            'tips'  => '小程序页面地址配置说明',
+        ],
+        [
+            'type'  => 'out-mini',
+            'name'  => '打开外部小程序',
+            'item'  => [
+                '1. 以appid://开头',
+                '2. 例如：appid://wx88888888',
+            ]
+        ],
+        [
+            'type'  => 'tel',
+            'name'  => '拨打电话',
+            'item'  => [
+                '1. 以tel://开头',
+                '2. 例如：tel://wx13222222222',
+            ]
+        ],
+        [
+            'type'  => 'map',
+            'name'  => '跳转原生地图查看指定位置',
+            'item'  => [
+                '1. 以map://开头',
+                '2. 例如：map://名称|地址|经度|纬度',
+                '3. 示例：map://ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843',
+            ]
+        ],
+    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data' => [
         'goodsfavor'   => '我的收藏',
@@ -938,6 +992,8 @@ return [
         'article'         => '文章',
         'customview'      => '自定义页面',
         'goods_category'  => '商品分类',
+        'design'          => '页面设计',
+        'plugins'         => '插件首页',
     ],
     // 搜索框下热门关键字类型
     'common_search_keywords_type_list' => [
@@ -1657,6 +1713,11 @@ return [
             ],
             'form_item_give_integral_placeholder'   => '购买赠送积分',
             'form_item_give_integral_message'       => '购买赠送积分比例0~100的数字',
+            'form_item_sort_level'                  => '排序权重',
+            'form_item_sort_level_tips'             => [
+                '权重数值越大代表权重越高、越靠前',
+            ],
+            'form_item_sort_level_message'          => '请填写正确的排序权重',
             'form_item_site_type'                   => '商品类型',
             'form_item_site_type_tips'              => [
                 '1. 当前系统配置的站点类型为( 站点类型 )',
@@ -1824,6 +1885,9 @@ return [
             'lock_integral_dec_fail_tips'           => '用户锁定积分扣减失败',
             'integral_log_dec_fail_tips'            => '日志积分扣减失败',
             'integral_log_close_fail_tips'          => '日志积分关闭失败',
+            'integral_inc_fail_tips'                => '用户积分增加失败',
+            'integral_dec_fail_tips'                => '用户积分减少失败',
+            'integral_log_add_fail_tips'            => '用户积分日志添加失败',
         ],
         // 布局
         'layout'                => [
@@ -1860,6 +1924,7 @@ return [
             'form_item_value_customview_message'    => '自定义页面选择有误',
             'form_item_value_goods_category_message'=> '商品分类选择有误',
             'form_item_value_design_message'        => '页面设计选择有误',
+            'form_item_value_plugins_message'       => '插件首页选择有误',
             // 右侧导航
             'header_top_nav_right'                  => [
                 'user_center'           => '个人中心',
@@ -2199,10 +2264,7 @@ return [
             'app_name_exclude_tips'                 => '不能使用限制的名称',
             // 操作权限
             'app_dir_no_power_tips'                 => '应用目录没有操作权限',
-            'app_view_dir_no_power_tips'            => '应用视图目录没有操作权限',
-            'app_css_dir_no_power_tips'             => '应用css目录没有操作权限',
-            'app_js_dir_no_power_tips'              => '应用js目录没有操作权限',
-            'app_images_dir_no_power_tips'          => '应用images目录没有操作权限',
+            'app_static_dir_no_power_tips'          => '应用静态目录没有操作权限',
             'app_upload_dir_no_power_tips'          => '应用upload目录没有操作权限',
             // 基础
             'file_no_power_tips'                    => '文件没有权限',
@@ -2217,8 +2279,7 @@ return [
             'plugins_package_invalid_tips'          => '无效的插件包',
             'plugins_identification_error_tips'     => '插件标识有误',
             'plugins_identification_empty_tips'     => '插件标识为空',
-            'plugins_copy_control_fail_tips'        => '控制器',
-            'plugins_copy_view_fail_tips'           => '视图',
+            'plugins_copy_main_fail_tips'           => '主包',
             'plugins_new_config_error_tips'         => '新配置文件有误',
             'plugins_new_config_update_fail_tips'   => '新应用配置文件更新失败',
             'app_update_no_exist_tips'              => '应用不存在[{:plugins}]、请先安装',
@@ -2529,7 +2590,9 @@ return [
             'form_item_idcard_images'               => '身份证照片',
             'form_item_idcard_images_tips'          => '请使用身份证原件拍摄，图片要清晰',
             'form_item_idcard_front_button_name'    => '上传人像面图片',
+            'form_item_idcard_front_message'        => '请上传人像面图片',
             'form_item_idcard_back_button_name'     => '上传国微面图片',
+            'form_item_idcard_back_message'         => '请上传国微面图片',
             'form_item_idcard_no_user_tips'         => '先关联用户后再上传身份证图片',
             // 基础
             'address_id_empty_tips'                 => '地址id不能为空',
@@ -2781,51 +2844,6 @@ return [
         'view_pages_tabs_system_title'                       => '系统页面',
         'view_pages_tabs_plugins_title'                      => '扩展模块',
         'view_pages_tabs_custom_title'                       => '自定义链接',
-        'view_pages_tabs_custom_tips'                        => [
-            [
-                'type'  => 'web',
-                'name'  => 'WEB端',
-                'item'  => [
-                    '1. 以http开头',
-                    '2. 如小程序中使用WEB页面、需要在小程序后台加入白名单',
-                ]
-            ],
-            [
-                'type'  => 'mini',
-                'name'  => '内部页面(小程序/APP内部地址)',
-                'item'  => [
-                    '1. 小程序以/pages开始',
-                    '2. 例如：/pages/user/user',
-                    '3. 支持带参数 ?x=xx',
-                ],
-                'tips'  => '小程序页面地址配置说明',
-            ],
-            [
-                'type'  => 'out-mini',
-                'name'  => '打开外部小程序',
-                'item'  => [
-                    '1. 以appid://开头',
-                    '2. 例如：appid://wx88888888',
-                ]
-            ],
-            [
-                'type'  => 'tel',
-                'name'  => '拨打电话',
-                'item'  => [
-                    '1. 以tel://开头',
-                    '2. 例如：tel://wx13222222222',
-                ]
-            ],
-            [
-                'type'  => 'map',
-                'name'  => '跳转原生地图查看指定位置',
-                'item'  => [
-                    '1. 以map://开头',
-                    '2. 例如：map://名称|地址|经度|纬度',
-                    '3. 示例：map://ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843',
-                ]
-            ],
-        ],
         // 滚动配置
         'view_module_rolling_config_item_width'                      => '数据项宽度',
         'view_module_rolling_config_item_width_tips'                 => '默认200',
@@ -2970,6 +2988,33 @@ return [
         'view_base_layout_del_title'                                 => '布局移除',
         'view_base_layout_set_title'                                 => '布局设置',
         'view_base_layout_content_set_tips'                          => '容器设置',
+    ],
+
+    // -------------------- 数据打印 --------------------
+    'data_print'     => [
+        // 表单
+        'form_panel_width'                        => '宽',
+        'form_panel_height'                       => '高',
+        'form_panel_custom'                       => '自定义',
+        'form_panel_rotate'                       => '旋转',
+        'form_panel_clear'                        => '清空',
+        'form_panel_export_pdf'                   => '导出PDF',
+        'form_panel_public'                       => '公共',
+        'form_panel_business'                     => '业务',
+        'form_panel_assist'                       => '辅助',
+        'form_panel_print_preview'                => '打印预览',
+        'form_panel_direct_print'                 => '直接打印',
+        'form_panel_setting_tips'                 => '可选中组件设计配置',
+        // 服务层
+        'template_assist_style_hline'             => '横线',
+        'template_assist_style_vline'             => '竖线',
+        'template_assist_style_rect'              => '矩形',
+        'template_assist_style_oval'              => '圆形',
+        'template_assist_style_custom_text'       => '自定义文本',
+        'template_assist_style_custom_long_text'  => '自定义多行文本',
+        'template_assist_style_custom_image'      => '自定义图片',
+        'template_table_extends_field'            => '扩展字段',
+        'template_table_config_error_tips'        => '表格配置有误',
     ],
 
     // -------------------- 扩展模块 --------------------
@@ -3371,15 +3416,20 @@ return [
             'desc' => '搜索框下热门关键字（输入回车）',
             'tips' => '请填写关键字',
         ],
-        'home_search_keywords_type'  => [
-            'name' => '搜索关键字类型',
-            'desc' => '自定义需要配置以下关键字',
-            'tips' => '请选择关键字类型',
-        ],
         'common_order_is_booking'  => [
             'name' => '订单预约模式',
             'desc' => '开启后用户提交订单需要管理员确认',
             'tips' => '请选择是否开启预约模式',
+        ],
+        'home_search_prohibit_user_agent'  => [
+            'name' => '搜索禁止UserAgent',
+            'desc' => '禁止的标识（输入回车）',
+            'tips' => '请填写搜索禁止UserAgent',
+        ],
+        'home_search_keywords_type'  => [
+            'name' => '搜索关键字类型',
+            'desc' => '自定义需要配置以下关键字',
+            'tips' => '请选择关键字类型',
         ],
         'common_app_mini_alipay_title'  => [
             'name' => '名称',
@@ -3391,8 +3441,18 @@ return [
         ],
         'common_app_customer_service_tel'  => [
             'name' => '客服电话',
-            'desc' => '空则不显示',
             'tips' => '请填写客服电话',
+        ],
+        'common_app_customer_service_custom'  => [
+            'name' => '自定义客服',
+        ],
+        'common_app_customer_service_company_weixin_corpid'  => [
+            'name' => '企业微信客服id',
+            'tips' => '请填写企业微信客服id',
+        ],
+        'common_app_customer_service_company_weixin_url'  => [
+            'name' => '企业微信客服url',
+            'tips' => '请填写企业微信客服url',
         ],
         'common_app_mini_alipay_appid'  => [
             'name' => 'AppID',
@@ -3878,6 +3938,14 @@ return [
             'desc' => '取值商品单位',
             'tips' => '请选择是否显示商品原价单位',
         ],
+        'common_goods_sales_number_status'  => [
+            'name' => '显示商品销量',
+            'tips' => '请选择是否显示商品销量',
+        ],
+        'common_goods_inventory_status'  => [
+            'name' => '显示商品库存',
+            'tips' => '请选择是否显示商品库存',
+        ],
         'common_is_mobile_concise_model'  => [
             'name' => '手机简洁模式',
             'desc' => '默认否',
@@ -4094,6 +4162,10 @@ return [
             'name' => '搜索多个关键字并且关系',
             'desc' => '默认否、或关系',
             'tips' => '请选择搜索多个关键字并且关系',
+        ],
+        'home_search_is_login_required'  => [
+            'name' => '搜索需要登录',
+            'tips' => '请选择是否搜索需要登录',
         ],
         'common_is_https_connect_store'  => [
             'name' => '连接商店采用https',

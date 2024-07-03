@@ -1,0 +1,127 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- content top hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_top}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_detail_top, ['hook_name'=>$hook_name_detail_top, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+
+<!-- content start  -->
+<div class="am-form-table-data-container am-form-table-data-detail am-min-height bk-am-color-white {{if isset($form_table['base']['is_detail_nav_operate']) and $form_table['base']['is_detail_nav_operate'] eq 1}}form-navigation-present-operate{{/if}}">
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_top}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_detail_inside_top, ['hook_name'=>$hook_name_detail_inside_top, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+
+    <!-- data -->
+    {{php}}$form_table_data_detail = empty($form_table_data_detail) ? (empty($data) ? [] : $data) : $form_table_data_detail;{{/php}}
+    {{if !empty($form_table_data_detail)}}
+        {{block name="detail_data"}}
+            {{if !empty($form_table) and !empty($form_table['form']) and is_array($form_table['form'])}}
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
+                    <div class="am-panel-bd">
+                {{/if}}
+                <dl class="dl-content am-padding-sm">
+                    {{foreach $form_table.form as $t}}
+                        {{if isset($t['label']) and isset($t['view_type']) and !in_array($t['view_type'], ['operate', 'radio', 'checkbox']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
+                            <dt class="am-text-truncate"><strong>{{$t.label}}</strong></dt>
+                            <dd>
+                                {{include file="../../../module/view/form_table/detail_content" /}}
+                            </dd>
+                        {{/if}}
+                    {{/foreach}}
+                </dl>
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    </div>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{/block}}
+    {{else /}}
+        {{block name="detail_not_data"}}
+            {{:ModuleInclude('public/not_data')}}
+        {{/block}}
+    {{/if}}
+
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_bottom}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_detail_inside_bottom, ['hook_name'=>$hook_name_detail_inside_bottom, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+</div>
+<!-- content end  -->
+
+<!-- detail nav operate start -->
+{{include file="../../../module/view/form_table/detail_nav_operate" /}}
+<!-- detail nav operate end -->
+
+<!-- content bottom hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_bottom}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_detail_bottom, ['hook_name'=>$hook_name_detail_bottom, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+        
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+
+<!-- page buttom -->
+{{block name="form_page_bottom"}}{{/block}}

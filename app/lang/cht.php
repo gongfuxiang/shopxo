@@ -67,6 +67,8 @@ return [
         'operate_remove_name'               => '移除',
         'operate_sort_name'                 => '排序',
         'operate_modify_name'               => '修改',
+        'operate_download_name'             => '下載',
+        'operate_download_fail_tips'        => '下載失敗',
         'select_not_chosen_tips'            => '請選擇項',
         'select_chosen_min_tips'            => '至少選擇{value}項',
         'select_chosen_max_tips'            => '最多選擇{value}項',
@@ -459,6 +461,11 @@ return [
     'refund_title'                                          => '退款',
     'receive_title'                                         => '接收',
     'express_title'                                         => '快遞',
+    'logistics_title'                                       => '物流',
+    'time_title'                                            => '時間',
+    'tel_title'                                             => '電話',
+    'mobile_title'                                          => '手機',
+    'email_title'                                           => '郵箱',
     'verification_title'                                    => '核驗',
     'service_title'                                         => '服務',
     'print_title'                                           => '列印',
@@ -489,6 +496,7 @@ return [
     'birthday_title'                                        => '生日',
     'address_title'                                         => '地址',
     'bind_title'                                            => '綁定',
+    'unbind_title'                                          => '解綁',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分類',
     'attr_title'                                            => '內容',
@@ -525,7 +533,7 @@ return [
     'template_title'                                        => '範本',
     'recharge_title'                                        => '充值',
     'cash_title'                                            => '提現',
-    'log_title'                                             => '明細',
+    'log_title'                                             => '日誌',
     'plugins_title'                                         => '挿件',
     'valid_title'                                           => '有效',
     'suspend_title'                                         => '暫停',
@@ -759,6 +767,52 @@ return [
             ]
         ]
     ],
+    // 自定义跳转地址提示说明
+    'custom_to_value_tips'              => [
+        [
+            'type'  => 'web',
+            'name'  => 'WEB端',
+            'item'  => [
+                '1.以http開頭',
+                '2.如小程式中使用WEB頁面、需要在小程式後臺加入白名單',
+            ]
+        ],
+        [
+            'type'  => 'mini',
+            'name'  => '內部頁面（小程式/APP內部地址）',
+            'item'  => [
+                '1.小程式以/pages開始',
+                '2.例如：/pages/user/user',
+                '3.支持帶參數？ x=xx',
+            ],
+            'tips'  => '小程式頁面地址配置說明',
+        ],
+        [
+            'type'  => 'out-mini',
+            'name'  => '打開外部小程式',
+            'item'  => [
+                '1.以appid://開頭',
+                '2.例如： appid://wx88888888',
+            ]
+        ],
+        [
+            'type'  => 'tel',
+            'name'  => '撥打電話',
+            'item'  => [
+                '1.以tel://開頭',
+                '2.例如： tel://wx13222222222',
+            ]
+        ],
+        [
+            'type'  => 'map',
+            'name'  => '跳轉原生地圖查看指定位置',
+            'item'  => [
+                '1.以map://開頭',
+                '2.例如：map://名稱|地址|經度|緯度',
+                '3.示例： map://ShopXO |上海浦東新區張江高科技園區XXX號|121.626444|31.20843',
+            ]
+        ],
+    ],
     // 商品详情页面更多导航 - 手机端
     'app_goods_nav_more_list_data'      => [
         'goodsfavor'   => '我的收藏',
@@ -938,6 +992,8 @@ return [
         'article'         => '文章',
         'customview'      => '自定義頁面',
         'goods_category'  => '商品分類',
+        'design'          => '頁面設計',
+        'plugins'         => '挿件首頁',
     ],
     // 搜索框下热门关键字类型
     'common_search_keywords_type_list' => [
@@ -1654,6 +1710,11 @@ return [
             ],
             'form_item_give_integral_placeholder'   => '購買贈送積分',
             'form_item_give_integral_message'       => '購買贈送積分比例0~100的數位',
+            'form_item_sort_level'                  => '排序權重',
+            'form_item_sort_level_tips'             => [
+                '權重數值越大代表權重越高、越靠前',
+            ],
+            'form_item_sort_level_message'          => '請填寫正確的排序權重',
             'form_item_site_type'                   => '商品類型',
             'form_item_site_type_tips'              => [
                 '1.當前系統配寘的網站類型為（網站類型）',
@@ -1821,6 +1882,9 @@ return [
             'lock_integral_dec_fail_tips'           => '用戶鎖定積分扣减失敗',
             'integral_log_dec_fail_tips'            => '日誌積分扣减失敗',
             'integral_log_close_fail_tips'          => '日誌積分關閉失敗',
+            'integral_inc_fail_tips'                => '用戶積分新增失敗',
+            'integral_dec_fail_tips'                => '用戶積分减少失敗',
+            'integral_log_add_fail_tips'            => '用戶積分日誌添加失敗',
         ],
         // 布局
         'layout'                => [
@@ -1857,6 +1921,7 @@ return [
             'form_item_value_customview_message'    => '自定義頁面選擇有誤',
             'form_item_value_goods_category_message'=> '商品分類選擇有誤',
             'form_item_value_design_message'        => '頁面設計選擇有誤',
+            'form_item_value_plugins_message'       => '挿件首頁選擇有誤',
             // 右侧导航
             'header_top_nav_right'                  => [
                 'user_center'           => '個人中心',
@@ -2202,10 +2267,7 @@ return [
             'app_name_exclude_tips'                 => '不能使用限制的名稱',
             // 操作权限
             'app_dir_no_power_tips'                 => '應用目錄沒有操作許可權',
-            'app_view_dir_no_power_tips'            => '應用視圖目錄沒有操作許可權',
-            'app_css_dir_no_power_tips'             => '應用css目錄沒有操作許可權',
-            'app_js_dir_no_power_tips'              => '應用js目錄沒有操作許可權',
-            'app_images_dir_no_power_tips'          => '應用images目錄沒有操作許可權',
+            'app_static_dir_no_power_tips'          => '應用靜態目錄沒有操作許可權',
             'app_upload_dir_no_power_tips'          => '應用upload目錄沒有操作許可權',
             // 基础
             'file_no_power_tips'                    => '檔案沒有許可權',
@@ -2220,8 +2282,7 @@ return [
             'plugins_package_invalid_tips'          => '無效的外掛程式包',
             'plugins_identification_error_tips'     => '挿件標識有誤',
             'plugins_identification_empty_tips'     => '挿件標識為空',
-            'plugins_copy_control_fail_tips'        => '控制器',
-            'plugins_copy_view_fail_tips'           => '視圖',
+            'plugins_copy_main_fail_tips'           => '主包',
             'plugins_new_config_error_tips'         => '新設定檔有誤',
             'plugins_new_config_update_fail_tips'   => '新應用設定檔更新失敗',
             'app_update_no_exist_tips'              => '應用不存在[{:plugins}]、請先安裝',
@@ -2498,7 +2559,9 @@ return [
             'form_item_idcard_images'               => '身份證照片',
             'form_item_idcard_images_tips'          => '請使用身份證原件拍攝，圖片要清晰',
             'form_item_idcard_front_button_name'    => '上傳人像面圖片',
+            'form_item_idcard_front_message'        => '請上傳人像面圖片',
             'form_item_idcard_back_button_name'     => '上傳國微面圖片',
+            'form_item_idcard_back_message'         => '請上傳國微面圖片',
             'form_item_idcard_no_user_tips'         => '先關聯用戶後再上傳身份證圖片',
             // 基础
             'address_id_empty_tips'                 => '地址id不能為空',
@@ -2750,51 +2813,6 @@ return [
         'view_pages_tabs_system_title'                       => '系統頁面',
         'view_pages_tabs_plugins_title'                      => '擴展模組',
         'view_pages_tabs_custom_title'                       => '自定義連結',
-        'view_pages_tabs_custom_tips'                        => [
-            [
-                'type'  => 'web',
-                'name'  => 'WEB端',
-                'item'  => [
-                    '1.以http開頭',
-                    '2.如小程式中使用WEB頁面、需要在小程式後臺加入白名單',
-                ]
-            ],
-            [
-                'type'  => 'mini',
-                'name'  => '內部頁面（小程式/APP內部地址）',
-                'item'  => [
-                    '1.小程式以/pages開始',
-                    '2.例如：/pages/user/user',
-                    '3.支持帶參數？ x=xx',
-                ],
-                'tips'  => '小程式頁面地址配置說明',
-            ],
-            [
-                'type'  => 'out-mini',
-                'name'  => '打開外部小程式',
-                'item'  => [
-                    '1.以appid://開頭',
-                    '2.例如： appid://wx88888888',
-                ]
-            ],
-            [
-                'type'  => 'tel',
-                'name'  => '撥打電話',
-                'item'  => [
-                    '1.以tel://開頭',
-                    '2.例如： tel://wx13222222222',
-                ]
-            ],
-            [
-                'type'  => 'map',
-                'name'  => '跳轉原生地圖查看指定位置',
-                'item'  => [
-                    '1.以map://開頭',
-                    '2.例如：map://名稱|地址|經度|緯度',
-                    '3.示例： map://ShopXO |上海浦東新區張江高科技園區XXX號|121.626444|31.20843',
-                ]
-            ],
-        ],
         // 滚动配置
         'view_module_rolling_config_item_width'                      => '資料項目寬度',
         'view_module_rolling_config_item_width_tips'                 => '默認200',
@@ -2939,6 +2957,33 @@ return [
         'view_base_layout_del_title'                                 => '佈局移除',
         'view_base_layout_set_title'                                 => '佈局設定',
         'view_base_layout_content_set_tips'                          => '容器設定',
+    ],
+
+    // -------------------- 数据打印 --------------------
+    'data_print'     => [
+        // 表单
+        'form_panel_width'                        => '寬',
+        'form_panel_height'                       => '高',
+        'form_panel_custom'                       => '自定義',
+        'form_panel_rotate'                       => '旋轉',
+        'form_panel_clear'                        => '清空',
+        'form_panel_export_pdf'                   => '匯出PDF',
+        'form_panel_public'                       => '公共',
+        'form_panel_business'                     => '業務',
+        'form_panel_assist'                       => '輔助',
+        'form_panel_print_preview'                => '預覽列印',
+        'form_panel_direct_print'                 => '直接列印',
+        'form_panel_setting_tips'                 => '可選中組件設計配寘',
+        // 服务层
+        'template_assist_style_hline'             => '橫線',
+        'template_assist_style_vline'             => '分隔號',
+        'template_assist_style_rect'              => '矩形',
+        'template_assist_style_oval'              => '圓形',
+        'template_assist_style_custom_text'       => '自定義文字',
+        'template_assist_style_custom_long_text'  => '自定義多行文字',
+        'template_assist_style_custom_image'      => '自定義圖片',
+        'template_table_extends_field'            => '擴展欄位',
+        'template_table_config_error_tips'        => '表格配寘有誤',
     ],
 
     // -------------------- 扩展模块 --------------------
@@ -3335,15 +3380,20 @@ return [
             'desc' => '驗證碼code',
             'tips' => '請填寫手機號碼綁定簡訊範本內容',
         ],
+        'home_search_keywords_type'  => [
+            'name' => '蒐索關鍵字類型',
+            'desc' => '自定義需要配寘以下關鍵字',
+            'tips' => '請選擇關鍵字類型',
+        ],
         'home_search_keywords'  => [
             'name' => '蒐索關鍵字',
             'desc' => '蒐索框下熱門關鍵字（輸入回車）',
             'tips' => '請填寫關鍵字',
         ],
-        'home_search_keywords_type'  => [
-            'name' => '蒐索關鍵字類型',
-            'desc' => '自定義需要配寘以下關鍵字',
-            'tips' => '請選擇關鍵字類型',
+        'home_search_prohibit_user_agent'  => [
+            'name' => '蒐索禁止UserAgent',
+            'desc' => '禁止的標識（輸入回車）',
+            'tips' => '請填寫蒐索禁止UserAgent',
         ],
         'common_order_is_booking'  => [
             'name' => '訂單預約模式',
@@ -3360,8 +3410,18 @@ return [
         ],
         'common_app_customer_service_tel'  => [
             'name' => '客服電話',
-            'desc' => '空則不顯示',
             'tips' => '請填寫客服電話',
+        ],
+        'common_app_customer_service_custom'  => [
+            'name' => '自定義客服',
+        ],
+        'common_app_customer_service_company_weixin_corpid'  => [
+            'name' => '企業微信客服id',
+            'tips' => '請填寫企業微信客服id',
+        ],
+        'common_app_customer_service_company_weixin_url'  => [
+            'name' => '企業微信客服url',
+            'tips' => '請填寫企業微信客服url',
         ],
         'common_app_mini_alipay_appid'  => [
             'name' => 'AppID',
@@ -3847,6 +3907,14 @@ return [
             'desc' => '取值商品組織',
             'tips' => '請選擇是否顯示商品原價組織',
         ],
+        'common_goods_sales_number_status'  => [
+            'name' => '顯示商品銷量',
+            'tips' => '請選擇是否顯示商品銷量',
+        ],
+        'common_goods_inventory_status'  => [
+            'name' => '顯示商品庫存',
+            'tips' => '請選擇是否顯示商品庫存',
+        ],
         'common_is_mobile_concise_model'  => [
             'name' => '手機簡潔模式',
             'desc' => '默認否',
@@ -4063,6 +4131,10 @@ return [
             'name' => '蒐索多個關鍵字並且關係',
             'desc' => '默認否、或關係',
             'tips' => '請選擇蒐索多個關鍵字並且關係',
+        ],
+        'home_search_is_login_required'  => [
+            'name' => '蒐索需要登入',
+            'tips' => '請選擇是否蒐索需要登入',
         ],
         'common_is_https_connect_store'  => [
             'name' => '連接商店採用https',

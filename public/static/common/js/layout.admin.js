@@ -1800,7 +1800,7 @@ function FormBackModuleConfigTitleHandle (data) {
         html += '<div class="more-content">';
         html += '<a href="javascript:ModuleToPrompt(\'' + (data.content_to_name || '') + '\');" style="' + style_title_more + '">';
         html += '<span>' + data.content_title_more + '</span> ';
-        html += '<i class="am-icon-angle-right"></i>';
+        html += '<i class="iconfont icon-angle-right"></i>';
         html += '</a>';
         html += '</div>';
     }
@@ -2638,7 +2638,7 @@ function OffcanvasConfigPagesChoice (obj, event) {
     // 开启页面选择弹窗
     $modal_pages_select.modal({
         width: 380,
-        height: 400,
+        height: 475,
         closeViaDimmer: false
     });
 }
@@ -3297,16 +3297,17 @@ $(function () {
         switch (value) {
             // 单一商品
             case 'goods':
-                // 初始化搜索数据
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> ' + ($layout.data('search-goods-tips') || '请搜索商品') + '</div>');
-                $('.goods-page-container').html(PageLibrary());
-
                 // 弹窗数据设置并打开
                 var goods_ids = (json == null || (json.id || null) == null) ? '' : json.id;
                 $popup_goods_select.attr('data-goods-ids', goods_ids);
                 $popup_goods_select.attr('data-type', 'single-goods');
                 $popup_goods_select.attr('data-is-single-choice', 1);
                 $popup_goods_select.modal({ closeViaDimmer: false });
+                // 弹窗没有商品内容则触发搜索
+                if($popup_goods_select.find('.goods-list-container ul li').length == 0)
+                {
+                    $popup_goods_select.find('.forth-selection-container .search-submit').trigger('click');
+                }
                 break;
 
             // 搜索页面
@@ -3456,16 +3457,17 @@ $(function () {
         switch (value) {
             // 商品
             case 'goods':
-                // 初始化搜索数据
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> ' + ($layout.data('search-goods-tips') || '请搜索商品') + '</div>');
-                $('.goods-page-container').html(PageLibrary());
-
                 // 弹窗数据设置并打开
                 var goods_ids = OffcanvasModuleConfigGoodsIds();
                 $popup_goods_select.attr('data-goods-ids', goods_ids);
                 $popup_goods_select.attr('data-type', 'list-goods');
                 $popup_goods_select.attr('data-is-single-choice', 0);
                 $popup_goods_select.modal({ closeViaDimmer: false });
+                // 弹窗没有商品内容则触发搜索
+                if($popup_goods_select.find('.goods-list-container ul li').length == 0)
+                {
+                    $popup_goods_select.find('.forth-selection-container .search-submit').trigger('click');
+                }
                 break;
 
             // 商品分类
@@ -3578,7 +3580,9 @@ $(function () {
         var goods_ids = $popup_goods_select.attr('data-goods-ids') || '';
 
         var $this = $(this);
-        $this.button('loading');
+        if ($this.hasClass('search-submit')) {
+            $this.button('loading');
+        }
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> ' + ($('.goods-list-container').data('loading-msg')) + '</div>');
         $.ajax({
             url: RequestUrlHandle(url),
@@ -3692,7 +3696,7 @@ $(function () {
                                 var goods_ids = data.map(function (e) { return e.id; }).join(',');
                                 $offcanvas_config_goods.find('input[name="goods_ids"]').val(goods_ids);
 
-                                // html 接
+                                // html 拼接
                                 $offcanvas_config_goods.find('.config-goods-list').html(ModuleConfigGoodsItemContentHtml(data));
                                 break;
                         }
@@ -3752,7 +3756,7 @@ $(function () {
                 html += '<span class="data-name">' + data[i]['name'] + '</span>';
                 html += '<span class="data-json am-hide">' + json + '</span>';
                 if ((data[i]['items'] || null) != null && data[i]['items'].length > 0) {
-                    html += '<i class="am-icon-angle-double-right am-fr"></i>';
+                    html += '<i class="iconfont icon-angle-right am-fr"></i>';
                 }
                 html += '</a></li>';
             }

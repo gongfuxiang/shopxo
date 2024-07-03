@@ -222,7 +222,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_multilingual_default_value.name}}<span class="am-form-group-label-tips">{{$data.common_multilingual_default_value.describe}}</span></label>
                         <select name="{{$data.common_multilingual_default_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_multilingual_default_value.error_tips}}">
-                            <option value="0">{{:MyLang('please_select_tips')}}</option>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $common_multilingual_list as $k=>$v}}
                                 <option value="{{$k}}" {{if isset($data['common_multilingual_default_value']['value']) and $data['common_multilingual_default_value']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
                             {{/foreach}}
@@ -238,36 +238,38 @@
                             {{/foreach}}
                         </div>
                     </div>
-                    <div class="am-form-group domain-multilingual-list">
+                    <div class="am-form-group">
                         <label>{{$data.common_domain_multilingual_bind_list.name}}</label>
-                        <ul class="am-flex am-flex-col am-gap-2">
-                            {{if !empty($data['common_domain_multilingual_bind_list']['value']) and is_array($data['common_domain_multilingual_bind_list']['value'])}}
-                                {{foreach $data.common_domain_multilingual_bind_list.value as $k=>$v}}
-                                    <li class="am-flex am-flex-row am-flex-items-center am-gap-2">
-                                        <input type="text" name="{{$data.common_domain_multilingual_bind_list.only_tag}}[{{$k}}][domain]" placeholder="{{:MyLang('site.form_domain_multilingual_domain_name')}}" data-validation-message="{{:MyLang('site.form_domain_multilingual_domain_message')}}" class="am-radius am-inline-block item-domain-input" value="{{$v.domain}}" />
-                                        <div class="am-inline-block item-multilingual-choice">
-                                            <select name="{{$data.common_domain_multilingual_bind_list.only_tag}}[{{$k}}][lang]" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('site.form_domain_multilingual_select_message')}}">
-                                                <option value="0">{{:MyLang('please_select_tips')}}</option>
-                                                {{foreach $common_multilingual_list as $lk=>$lv}}
-                                                    <option value="{{$lk}}" {{if isset($v['lang']) and $v['lang'] eq $lk}}selected{{/if}}>{{$lv}}</option>
-                                                {{/foreach}}
-                                            </select>
-                                        </div>
-                                        <div class="am-flex am-flex-items-center">
-                                            <a href="javascript:;" class="am-btn am-btn-primary-plain am-radius delete-submit delete-btn">
-                                                <i class="iconfont icon-btn-del am-text-xs"></i>
-                                                {{:MyLang('remove_title')}}
-                                            </a>
-                                        </div>
-                                    </li>
-                                {{/foreach}}
-                            {{/if}}
-                        </ul>
-                        <div class="am-margin-top-sm">
-                            <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs domain-submit-add" data-json="{{if !empty($common_multilingual_list)}}{{:urlencode(base64_encode(json_encode($common_multilingual_list)))}}{{/if}}" data-please-select-tips="{{:MyLang('please_select_tips')}}" domain-placeholder="{{:MyLang('site.form_domain_multilingual_domain_name')}}" domain-message="{{:MyLang('site.form_domain_multilingual_domain_message')}}" data-select-message="{{:MyLang('site.form_domain_multilingual_select_message')}}" data-remove-title="{{:MyLang('remove_title')}}" data-form-name="{{$data.common_domain_multilingual_bind_list.only_tag}}">
-                                <i class="iconfont icon-btn-add am-text-xs"></i>
-                                {{:MyLang('site.form_domain_multilingual_add_title')}}
-                            </button>
+                        <div class="domain-multilingual-list">
+                            <ul class="am-flex am-flex-col am-gap-1-half">
+                                {{if !empty($data['common_domain_multilingual_bind_list']['value']) and is_array($data['common_domain_multilingual_bind_list']['value'])}}
+                                    {{foreach $data.common_domain_multilingual_bind_list.value as $k=>$v}}
+                                        <li class="am-flex am-flex-row am-flex-items-center am-gap-1">
+                                            <input type="text" name="{{$data.common_domain_multilingual_bind_list.only_tag}}[{{$k}}][domain]" placeholder="{{:MyLang('site.form_domain_multilingual_domain_name')}}" data-validation-message="{{:MyLang('site.form_domain_multilingual_domain_message')}}" class="am-radius am-inline-block item-domain-input" value="{{$v.domain}}" />
+                                            <div class="am-inline-block item-multilingual-choice">
+                                                <select name="{{$data.common_domain_multilingual_bind_list.only_tag}}[{{$k}}][lang]" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('site.form_domain_multilingual_select_message')}}">
+                                                    <option value="0">{{:MyLang('please_select_tips')}}</option>
+                                                    {{foreach $common_multilingual_list as $lk=>$lv}}
+                                                        <option value="{{$lk}}" {{if isset($v['lang']) and $v['lang'] eq $lk}}selected{{/if}}>{{$lv}}</option>
+                                                    {{/foreach}}
+                                                </select>
+                                            </div>
+                                            <div class="am-flex am-flex-items-center">
+                                                <a href="javascript:;" class="am-btn am-btn-primary-plain am-radius delete-submit delete-btn">
+                                                    <i class="iconfont icon-btn-del am-text-xs"></i>
+                                                    {{:MyLang('remove_title')}}
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {{/foreach}}
+                                {{/if}}
+                            </ul>
+                            <div class="am-margin-top-sm">
+                                <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs domain-submit-add" data-json="{{if !empty($common_multilingual_list)}}{{:urlencode(base64_encode(json_encode($common_multilingual_list)))}}{{/if}}" data-please-select-tips="{{:MyLang('please_select_tips')}}" domain-placeholder="{{:MyLang('site.form_domain_multilingual_domain_name')}}" domain-message="{{:MyLang('site.form_domain_multilingual_domain_message')}}" data-select-message="{{:MyLang('site.form_domain_multilingual_select_message')}}" data-remove-title="{{:MyLang('remove_title')}}" data-form-name="{{$data.common_domain_multilingual_bind_list.only_tag}}">
+                                    <i class="iconfont icon-btn-add am-text-xs"></i>
+                                    {{:MyLang('site.form_domain_multilingual_add_title')}}
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="am-form-group">

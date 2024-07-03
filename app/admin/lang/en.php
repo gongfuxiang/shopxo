@@ -132,6 +132,7 @@ return [
             'city_name'         => 'City',
             'county_name'       => 'County/County',
             'address'           => 'Detail Address',
+            'address_last_code' => 'Address Last Level Encoding',
             'position'          => 'Position',
             'idcard_info'       => 'Idcard Info',
             'is_default'        => 'Default or not',
@@ -476,6 +477,7 @@ return [
             ['name' => 'BaseConfig', 'type' => 'index'],
             ['name' => 'APP/Applet', 'type' => 'app'],
         ],
+        'online_service_title'                  => 'Online Service',
         'user_base_popup_title'                 => 'Pop up prompt for user basic information',
         'user_onekey_bind_mobile_tips_list'     => [
             '1. One click login binding for obtaining the current mini program platform account or mobile phone number of this device. Currently, only WeChat mini programs, Baidu mini programs, and Headline mini programs are supported',
@@ -489,6 +491,10 @@ return [
         ],
         'user_base_popup_top_tips_list'         => [
             '1. Currently, only the WeChat mini program platform automatically authorizes login without user nickname and avatar information',
+        ],
+        'online_service_top_tips_list'          => [
+            '1. Customize customer service HTTP protocol to open in webview mode',
+            '2. Customer service priority order: [Customer service system ->Custom customer service ->Enterprise WeChat customer service (only effective for app+h5+WeChat mini program) ->Customer service on various platforms ->Telephone customer service]',
         ],
     ],
 
@@ -726,6 +732,7 @@ return [
             'customview'        => 'Custom Page',
             'goods_category'    => 'Goods Category',
             'design'            => 'Page Design',
+            'plugins'           => 'Plugins Home',
         ],
         // 表单
         'form_item_pid'                         => 'Navigation Level',
@@ -1106,6 +1113,8 @@ return [
         'data_list_author_title'                => 'Author',
         'data_list_author_url_title'            => 'HomePage',
         'data_list_version_title'               => 'Version',
+        'data_list_second_domain_title'         => 'Secondary domain name',
+        'data_list_second_domain_tips'          => 'Please configure the valid domain name and primary domain name of the cookie in the backend [System ->System Configuration ->Security]',
         'uninstall_confirm_tips'                => 'Uninstallation may lose the basic configuration data of the plug-in. Is it unrecoverable and confirm the operation?',
         'not_install_divide_title'              => 'The following plugins are not installed',
         'delete_plugins_text'                   => '1. Delete apps only',

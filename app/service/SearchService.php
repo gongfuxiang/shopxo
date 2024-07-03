@@ -37,6 +37,10 @@ class SearchService
      */
     public static function SearchMapOrderByList($params = [])
     {
+        // 移除分页和框架的s模块参数
+        unset($params['page'], $params['s']);
+
+        // 处理排序参数
         $ov = empty($params['ov']) ? ['default'] : explode('-', $params['ov']);
         $data = MyConst('common_search_order_by_list');
         foreach($data as &$v)
@@ -190,6 +194,8 @@ class SearchService
             // 返回数据
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
+        } else {
+            return DataReturn(MyLang('no_data'), -1, $result);
         }
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -420,7 +426,7 @@ class SearchService
         }
 
         // 排序
-        $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
+        $order_by = 'g.sort_level desc, g.access_count desc, g.sales_count desc, g.id desc';
         if(!empty($params['ov']))
         {
             // 数据库字段映射关系
@@ -816,11 +822,41 @@ class SearchService
      * @version 1.0.0
      * @date    2024-04-21
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入参数]
      */
     public static function SearchGoodsMaxPrice($params = [])
     {
         return Db::name('GoodsSpecBase')->max('price');
+    }
+
+    /**
+     * 搜索页用户Agent验证是否通过
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-06-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchProhibitUserAgentCheck($params = [])
+    {
+        if(!empty($_SERVER) && !empty($_SERVER['HTTP_USER_AGENT']))
+        {
+            $prohibit = MyC('home_search_prohibit_user_agent', '', true);
+            if(!empty($prohibit))
+            {
+                $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+                $prohibit = explode(',', strtolower($prohibit));
+                foreach($prohibit as $v)
+                {
+                    if(stripos($user_agent, $v) !== false)
+                    {
+                        return DataReturn(MyLang('illegal_access_tips'), -1);
+                    }
+                }
+            }
+        }
+        return DataReturn('success', 0);
     }
 }
 ?>

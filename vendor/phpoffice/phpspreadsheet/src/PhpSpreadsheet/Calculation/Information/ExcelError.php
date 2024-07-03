@@ -30,7 +30,21 @@ class ExcelError
         'calculation' => '#CALC!', //14
     ];
 
-    public static function throwError(mixed $value): string
+    /**
+     * List of error codes. Replaced by constant;
+     * previously it was public and updateable, allowing
+     * user to make inappropriate alterations.
+     *
+     * @deprecated 1.25.0 Use ERROR_CODES constant instead.
+     *
+     * @var array<string, string>
+     */
+    public static $errorCodes = self::ERROR_CODES;
+
+    /**
+     * @param mixed $value
+     */
+    public static function throwError($value): string
     {
         return in_array($value, self::ERROR_CODES, true) ? $value : self::ERROR_CODES['value'];
     }
@@ -39,8 +53,10 @@ class ExcelError
      * ERROR_TYPE.
      *
      * @param mixed $value Value to check
+     *
+     * @return array|int|string
      */
-    public static function type(mixed $value = ''): array|int|string
+    public static function type($value = '')
     {
         if (is_array($value)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $value);

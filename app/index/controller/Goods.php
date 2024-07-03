@@ -275,7 +275,11 @@ class Goods extends Common
                 'where'     => $where,
                 'is_public' => 1,
             ];
-            $data = GoodsCommentsService::GoodsCommentsList($data_params);
+            $ret = GoodsCommentsService::GoodsCommentsList($data_params);
+            if(!empty($ret['data']))
+            {
+                $data = $ret['data'];
+            }
         }
 
         // 返回数据
@@ -283,7 +287,7 @@ class Goods extends Common
             'number'            => $this->page_size,
             'total'             => $total,
             'page_total'        => $page_total,
-            'data'              => MyView('', ['data'=>$data['data']]),
+            'data'              => MyView('', ['data'=>$data]),
         ];
         return ApiService::ApiDataReturn(DataReturn('success', 0, $result));
     }

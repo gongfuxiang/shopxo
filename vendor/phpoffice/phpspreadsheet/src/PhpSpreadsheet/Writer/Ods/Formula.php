@@ -7,7 +7,8 @@ use PhpOffice\PhpSpreadsheet\DefinedName;
 
 class Formula
 {
-    private array $definedNames = [];
+    /** @var array */
+    private $definedNames = [];
 
     /**
      * @param DefinedName[] $definedNames
@@ -24,7 +25,7 @@ class Formula
         $formula = $this->convertCellReferences($formula, $worksheetName);
         $formula = $this->convertDefinedNames($formula);
 
-        if (!str_starts_with($formula, '=')) {
+        if (substr($formula, 0, 1) !== '=') {
             $formula = '=' . $formula;
         }
 

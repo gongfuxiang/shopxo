@@ -44,7 +44,7 @@ return [
             // 密码
             'password'  => MyFileConfig('common_cache_data_redis_password', '', '', true),
             // 全局缓存有效期（0为永久有效）
-            'expire'    => MyFileConfig('common_cache_data_redis_expire', '', 0, true), 
+            'expire'    => intval(MyFileConfig('common_cache_data_redis_expire', '', 0, true)),
             // 缓存前缀
             'prefix'    => MyFileConfig('common_cache_data_redis_prefix', '', 'redis_shopxo', true),
         ], 

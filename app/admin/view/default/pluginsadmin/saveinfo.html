@@ -53,7 +53,7 @@
 
             <div class="am-form-group">
                 <label class="am-block">{{:MyLang('common_service.pluginsadmin.form_item_desc')}}</label>
-                <textarea rows="2" name="desc" class="am-radius am-field-valid" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
+                <textarea rows="2" name="desc" class="am-radius am-field-valid" placeholder="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}" minlength="2" maxlength="255" data-validation-message="{{:MyLang('common_service.pluginsadmin.form_item_desc_message')}}">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
@@ -84,6 +84,7 @@
             </div>
 
             <div class="am-form-popup-submit">
+                <input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
                 <a href="{{:MyUrl('admin/pluginsadmin/index', $params)}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg">
                     <i class="am-icon-mail-reply"></i>
                     <span>{{:MyLang('retreat_title')}}</span>

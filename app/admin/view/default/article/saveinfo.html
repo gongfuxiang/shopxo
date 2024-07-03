@@ -16,7 +16,7 @@
         <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/article/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/article/index', $params)}}{{else /}}parent{{/if}}">
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.article.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <div class="am-flex am-flex-items-center am-gap-1">
+                <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
                     <input type="text" name="title" placeholder="{{:MyLang('common_service.article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
                     <div class="colorpicker-container colorpicker-simple">
                         <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
@@ -36,12 +36,12 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.article.form_item_jump_url_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.article.form_item_jump_url_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <label>{{:MyLang('common_service.article.form_item_jump_url_title')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.article.form_item_jump_url_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                 <input type="url" name="jump_url" placeholder="{{:MyLang('common_service.article.form_item_jump_url_title')}}" data-validation-message="{{:MyLang('common_service.article.form_item_jump_url_message')}}" class="am-radius" {{if !empty($data['jump_url'])}} value="{{$data.jump_url}}"{{/if}} />
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="am-block">{{:MyLang('common_service.article.form_item_cover')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.article.form_item_cover_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <label class="am-block">{{:MyLang('common_service.article.form_item_cover')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.article.form_item_cover_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                 <div class="am-form-file-upload-container">
                     <ul class="plug-file-upload-view article-cover-view" data-form-name="cover" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                         <li class="plug-file-upload-submit" data-view-tag="ul.article-cover-view">

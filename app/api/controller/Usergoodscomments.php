@@ -67,13 +67,13 @@ class UserGoodsComments extends Common
             'where'     => $where,
             'is_goods'  => 1,
         ];
-        $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        $ret = GoodsCommentsService::GoodsCommentsList($data_params);
 
         // 返回数据
         $result = [
             'total'         => $total,
             'page_total'    => $page_total,
-            'data'          => $data['data'],
+            'data'          => $ret['data'],
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }

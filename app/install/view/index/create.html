@@ -27,59 +27,43 @@
                 <h2 class="am-margin-0">数据库配置信息</h2>
             </div>
             <div class="am-panel-bd">
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库类型</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm" readonly data-validation-message="请选择数据库类型" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库类型<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm" readonly data-validation-message="请选择数据库类型" required />
                 </div>
-                <div class="am-form-group am-form-select">
-                    <label class="am-u-sm-2 am-form-label">数据库编码</label>
-                    <div class="am-u-sm-10">
-                        <select class="am-input-sm am-radius chosen-select" name="DB_CHARSET" data-validation-message="请选择数据编码" required>
-                            {{if !empty($charset_type_list)}}
-                                {{foreach $charset_type_list as $v}}
-                                    <option value="{{$v.charset}}">{{$v.charset}} - {{$v.collate}} （mysql版本>={{$v.version}}）</option>
-                                {{/foreach}}
-                            {{/if}}
-                        </select>
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库编码<span class="am-form-group-label-tips-must">*</span></label>
+                    <select class="am-input-sm am-radius chosen-select" name="DB_CHARSET" data-validation-message="请选择数据编码" required>
+                        {{if !empty($charset_type_list)}}
+                            {{foreach $charset_type_list as $v}}
+                                <option value="{{$v.charset}}">{{$v.charset}} - {{$v.collate}} （mysql版本>={{$v.version}}）</option>
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库服务器</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_HOST" placeholder="数据库服务器" value="127.0.0.1" class="am-radius am-input-sm" data-validation-message="请填写数据库服务器地址" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库服务器<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_HOST" placeholder="数据库服务器" value="127.0.0.1" class="am-radius am-input-sm" data-validation-message="请填写数据库服务器地址" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库端口</label>
-                    <div class="am-u-sm-10">
-                        <input type="number" name="DB_PORT" placeholder="数据库端口" value="3306" class="am-radius am-input-sm" data-validation-message="请填写数据库端口" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库端口<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="number" name="DB_PORT" placeholder="数据库端口" value="3306" class="am-radius am-input-sm" data-validation-message="请填写数据库端口" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库名</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_NAME" placeholder="数据库名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库名" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库名<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_NAME" placeholder="数据库名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库名" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库用户名</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_USER" placeholder="数据库用户名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库用户名" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库用户名<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_USER" placeholder="数据库用户名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库用户名" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据库密码</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_PWD" placeholder="数据库密码" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库密码" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据库密码<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_PWD" placeholder="数据库密码" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库密码" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">数据表前缀</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="DB_PREFIX" placeholder="数据表前缀" value="sxo_" class="am-radius am-input-sm" data-validation-message="请填写数据表前缀、格式最多6个字符" maxlength="6" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>数据表前缀<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="DB_PREFIX" placeholder="数据表前缀" value="sxo_" class="am-radius am-input-sm" data-validation-message="请填写数据表前缀、格式最多6个字符" maxlength="6" required />
                 </div>
             </div>
         </div>
@@ -89,17 +73,13 @@
                 <h2 class="am-margin-0">管理员账号信息</h2>
             </div>
             <div class="am-panel-bd">
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">管理员账号</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="ADMIN_USERNAME" placeholder="账号格式2~18个字符之间" value="admin" minlength="2" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员账号、格式2~18个字符之间" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>管理员账号<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="ADMIN_USERNAME" placeholder="账号格式2~18个字符之间" value="admin" minlength="2" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员账号、格式2~18个字符之间" required />
                 </div>
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label">管理员密码</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" name="ADMIN_PWD" placeholder="密码格式6~18个字符之间" value="" minlength="6" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员密码、格式6~18个字符之间" required />
-                    </div>
+                <div class="am-form-group row">
+                    <label>管理员密码<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="ADMIN_PWD" placeholder="密码格式6~18个字符之间" value="" minlength="6" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员密码、格式6~18个字符之间" required />
                 </div>
             </div>
         </div>

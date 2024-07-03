@@ -9,7 +9,7 @@ class BstoreContainer
      *
      * @var BstoreContainer\BSE[]
      */
-    private array $BSECollection = [];
+    private $BSECollection = [];
 
     /**
      * Add a BLIP Store Entry.
@@ -25,7 +25,7 @@ class BstoreContainer
      *
      * @return BstoreContainer\BSE[]
      */
-    public function getBSECollection(): array
+    public function getBSECollection()
     {
         return $this->BSECollection;
     }

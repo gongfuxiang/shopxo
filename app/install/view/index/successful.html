@@ -8,8 +8,17 @@
     <i class="am-icon-btn am-success am-icon-sm am-icon-check"></i>
     <h2>恭喜您安装成功</h2>
     <div class="box">
-        <a href="{{$Think.__MY_URL__}}admin.php" target="_blank">点击访问后台管理 >></a><br />
-        <p class="tips-sweet am-radius">默认后台地址入口文件为 admin.php 可在站点根目录和public目录下更改相应的文件名称，避免后台管理入口被非法入侵。</p>
+        {{if !empty($admin_run)}}
+            <a href="{{$admin_run}}" target="_blank">点击访问后台管理 >></a><br />
+            <p class="am-margin-vertical-sm">
+                <span class="text-copy-submit" data-value="{{$admin_run}}">
+                    <span>后台管理地址: </span>
+                    <strong>{{$admin_run}}</strong>
+                    <i class="am-icon-copy"></i>
+                </span>
+            </p>
+        {{/if}}
+        <p class="tips-sweet am-radius">默认后台地址入口文件在站点根目录和public目录下，默认以 admin 开头 .php 结尾的文件名称。</p>
         <br /><br />
         <a href="{{$Think.__MY_URL__}}" target="_blank">点击访问首页 >></a>
         <p class="tips-sweet am-radius">请尽快修改管理员密码，以防被非法入侵。<br />并删除 ./app 目录下的 install 目录。</p>

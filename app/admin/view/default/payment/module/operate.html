@@ -7,7 +7,7 @@
 
     {{if !in_array($module_data['payment'], $cannot_deleted_list)}}
         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/payment/delete')}}" data-id="{{$module_data.payment}}">
-            <i class="am-icon-trash-o"></i>
+            <i class="iconfont icon-delete"></i>
             <span>{{:MyLang('delete_title')}}</span>
         </button>
     {{/if}}

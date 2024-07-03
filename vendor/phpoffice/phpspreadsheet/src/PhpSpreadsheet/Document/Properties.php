@@ -25,69 +25,87 @@ class Properties
 
     /**
      * Creator.
+     *
+     * @var string
      */
-    private string $creator = 'Unknown Creator';
+    private $creator = 'Unknown Creator';
 
     /**
      * LastModifiedBy.
+     *
+     * @var string
      */
-    private string $lastModifiedBy;
+    private $lastModifiedBy;
 
     /**
      * Created.
+     *
+     * @var float|int
      */
-    private float|int $created;
+    private $created;
 
     /**
      * Modified.
+     *
+     * @var float|int
      */
-    private float|int $modified;
+    private $modified;
 
     /**
      * Title.
+     *
+     * @var string
      */
-    private string $title = 'Untitled Spreadsheet';
+    private $title = 'Untitled Spreadsheet';
 
     /**
      * Description.
+     *
+     * @var string
      */
-    private string $description = '';
+    private $description = '';
 
     /**
      * Subject.
+     *
+     * @var string
      */
-    private string $subject = '';
+    private $subject = '';
 
     /**
      * Keywords.
+     *
+     * @var string
      */
-    private string $keywords = '';
+    private $keywords = '';
 
     /**
      * Category.
+     *
+     * @var string
      */
-    private string $category = '';
+    private $category = '';
 
     /**
      * Manager.
+     *
+     * @var string
      */
-    private string $manager = '';
+    private $manager = '';
 
     /**
      * Company.
+     *
+     * @var string
      */
-    private string $company = '';
+    private $company = '';
 
     /**
      * Custom Properties.
      *
-     * @var array{value: null|bool|float|int|string, type: string}[]
+     * @var array{value: mixed, type: string}[]
      */
-    private array $customProperties = [];
-
-    private string $hyperlinkBase = '';
-
-    private string $viewport = '';
+    private $customProperties = [];
 
     /**
      * Create a new Document Properties instance.
@@ -140,7 +158,12 @@ class Properties
         return $this;
     }
 
-    private static function intOrFloatTimestamp(null|float|int|string $timestamp): float|int
+    /**
+     * @param null|float|int|string $timestamp
+     *
+     * @return float|int
+     */
+    private static function intOrFloatTimestamp($timestamp)
     {
         if ($timestamp === null) {
             $timestamp = (float) (new DateTime())->format('U');
@@ -160,8 +183,10 @@ class Properties
 
     /**
      * Get Created.
+     *
+     * @return float|int
      */
-    public function getCreated(): float|int
+    public function getCreated()
     {
         return $this->created;
     }
@@ -169,9 +194,11 @@ class Properties
     /**
      * Set Created.
      *
+     * @param null|float|int|string $timestamp
+     *
      * @return $this
      */
-    public function setCreated(null|float|int|string $timestamp): self
+    public function setCreated($timestamp): self
     {
         $this->created = self::intOrFloatTimestamp($timestamp);
 
@@ -180,8 +207,10 @@ class Properties
 
     /**
      * Get Modified.
+     *
+     * @return float|int
      */
-    public function getModified(): float|int
+    public function getModified()
     {
         return $this->modified;
     }
@@ -189,9 +218,11 @@ class Properties
     /**
      * Set Modified.
      *
+     * @param null|float|int|string $timestamp
+     *
      * @return $this
      */
-    public function setModified(null|float|int|string $timestamp): self
+    public function setModified($timestamp): self
     {
         $this->modified = self::intOrFloatTimestamp($timestamp);
 
@@ -358,8 +389,10 @@ class Properties
 
     /**
      * Get a Custom Property Value.
+     *
+     * @return mixed
      */
-    public function getCustomPropertyValue(string $propertyName): bool|int|float|string|null
+    public function getCustomPropertyValue(string $propertyName)
     {
         if (isset($this->customProperties[$propertyName])) {
             return $this->customProperties[$propertyName]['value'];
@@ -370,13 +403,18 @@ class Properties
 
     /**
      * Get a Custom Property Type.
+     *
+     * @return null|string
      */
-    public function getCustomPropertyType(string $propertyName): ?string
+    public function getCustomPropertyType(string $propertyName)
     {
         return $this->customProperties[$propertyName]['type'] ?? null;
     }
 
-    private function identifyPropertyType(bool|int|float|string|null $propertyValue): string
+    /**
+     * @param mixed $propertyValue
+     */
+    private function identifyPropertyType($propertyValue): string
     {
         if (is_float($propertyValue)) {
             return self::PROPERTY_TYPE_FLOAT;
@@ -394,20 +432,28 @@ class Properties
     /**
      * Set a Custom Property.
      *
-     * @param ?string $propertyType see `self::VALID_PROPERTY_TYPE_LIST`
+     * @param mixed $propertyValue
+     * @param string $propertyType
+     *      'i'    : Integer
+     *   'f' : Floating Point
+     *   's' : String
+     *   'd' : Date/Time
+     *   'b' : Boolean
      *
      * @return $this
      */
-    public function setCustomProperty(string $propertyName, bool|int|float|string|null $propertyValue = '', ?string $propertyType = null): self
+    public function setCustomProperty(string $propertyName, $propertyValue = '', $propertyType = null): self
     {
         if (($propertyType === null) || (!in_array($propertyType, self::VALID_PROPERTY_TYPE_LIST))) {
             $propertyType = $this->identifyPropertyType($propertyValue);
         }
 
-        $this->customProperties[$propertyName] = [
-            'value' => self::convertProperty($propertyValue, $propertyType),
-            'type' => $propertyType,
-        ];
+        if (!is_object($propertyValue)) {
+            $this->customProperties[$propertyName] = [
+                'value' => self::convertProperty($propertyValue, $propertyType),
+                'type' => $propertyType,
+            ];
+        }
 
         return $this;
     }
@@ -448,16 +494,24 @@ class Properties
 
     /**
      * Convert property to form desired by Excel.
+     *
+     * @param mixed $propertyValue
+     *
+     * @return mixed
      */
-    public static function convertProperty(bool|int|float|string|null $propertyValue, string $propertyType): bool|int|float|string|null
+    public static function convertProperty($propertyValue, string $propertyType)
     {
         return self::SPECIAL_TYPES[$propertyType] ?? self::convertProperty2($propertyValue, $propertyType);
     }
 
     /**
      * Convert property to form desired by Excel.
+     *
+     * @param mixed $propertyValue
+     *
+     * @return mixed
      */
-    private static function convertProperty2(bool|int|float|string|null $propertyValue, string $type): bool|int|float|string|null
+    private static function convertProperty2($propertyValue, string $type)
     {
         $propertyType = self::convertPropertyType($type);
         switch ($propertyType) {
@@ -468,7 +522,7 @@ class Properties
             case self::PROPERTY_TYPE_FLOAT:
                 return (float) $propertyValue;
             case self::PROPERTY_TYPE_DATE:
-                return self::intOrFloatTimestamp($propertyValue); // @phpstan-ignore-line
+                return self::intOrFloatTimestamp($propertyValue);
             case self::PROPERTY_TYPE_BOOLEAN:
                 return is_bool($propertyValue) ? $propertyValue : ($propertyValue === 'true');
             default: // includes string
@@ -479,31 +533,5 @@ class Properties
     public static function convertPropertyType(string $propertyType): string
     {
         return self::PROPERTY_TYPE_ARRAY[$propertyType] ?? self::PROPERTY_TYPE_UNKNOWN;
-    }
-
-    public function getHyperlinkBase(): string
-    {
-        return $this->hyperlinkBase;
-    }
-
-    public function setHyperlinkBase(string $hyperlinkBase): self
-    {
-        $this->hyperlinkBase = $hyperlinkBase;
-
-        return $this;
-    }
-
-    public function getViewport(): string
-    {
-        return $this->viewport;
-    }
-
-    public const SUGGESTED_VIEWPORT = 'width=device-width, initial-scale=1';
-
-    public function setViewport(string $viewport): self
-    {
-        $this->viewport = $viewport;
-
-        return $this;
     }
 }

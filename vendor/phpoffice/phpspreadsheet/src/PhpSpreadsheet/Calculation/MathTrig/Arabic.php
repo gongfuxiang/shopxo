@@ -22,8 +22,13 @@ class Arabic
 
     /**
      * Recursively calculate the arabic value of a roman numeral.
+     *
+     * @param int $sum
+     * @param int $subtract
+     *
+     * @return int
      */
-    private static function calculateArabic(array $roman, int &$sum = 0, int $subtract = 0): int
+    private static function calculateArabic(array $roman, &$sum = 0, $subtract = 0)
     {
         $numeral = array_shift($roman);
         if (!isset(self::ROMAN_LOOKUP[$numeral])) {
@@ -46,6 +51,21 @@ class Arabic
     }
 
     /**
+     * @param mixed $value
+     */
+    private static function mollifyScrutinizer($value): array
+    {
+        return is_array($value) ? $value : [];
+    }
+
+    private static function strSplit(string $roman): array
+    {
+        $rslt = str_split($roman);
+
+        return self::mollifyScrutinizer($rslt);
+    }
+
+    /**
      * ARABIC.
      *
      * Converts a Roman numeral to an Arabic numeral.
@@ -59,7 +79,7 @@ class Arabic
      *         If an array of numbers is passed as the argument, then the returned result will also be an array
      *            with the same dimensions
      */
-    public static function evaluate(mixed $roman): array|int|string
+    public static function evaluate($roman)
     {
         if (is_array($roman)) {
             return self::evaluateSingleArgumentArray([self::class, __FUNCTION__], $roman);
@@ -78,8 +98,8 @@ class Arabic
         }
 
         try {
-            $arabic = self::calculateArabic(str_split($roman));
-        } catch (Exception) {
+            $arabic = self::calculateArabic(self::strSplit($roman));
+        } catch (Exception $e) {
             return ExcelError::VALUE(); // Invalid character detected
         }
 

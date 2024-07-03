@@ -9,7 +9,7 @@
                     <div class="module-view-submit-container" data-value="{{$vss.value}}" data-index="{{$module_data.k}}{{$module_data.ks}}{{$kss}}" data-doc=".module-content-index-{{$vss.value}}-{{$module_data.k}}{{$module_data.ks}}{{$kss}}">
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-reorder layout-submit module-view-submit-drag" data-am-popover="{content: '{{:MyLang('layout.view_base_module_drag_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-folder-open-o layout-submit module-view-submit-set" data-am-popover="{content: '{{:MyLang('layout.view_base_module_set_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit module-view-submit-del" data-am-popover="{content: '{{:MyLang('layout.view_base_module_del_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs iconfont icon-delete layout-submit module-view-submit-del" data-am-popover="{content: '{{:MyLang('layout.view_base_module_del_title')}}', trigger: 'hover focus', theme: 'sm'}"></button>
                     </div>
                     <div class="module-content module-content-type-{{$vss.value}} module-content-index-{{$vss.value}}-{{$module_data.k}}{{$module_data.ks}}{{$kss}}" data-json="{{if !empty($vss['config'])}}{{:urlencode(base64_encode(json_encode($vss['config'])))}}{{/if}}">
                         {{if !empty($vss['config'])}}
@@ -557,7 +557,7 @@
                                                 <div class="more-content">
                                                     <a href="javascript:ModuleToPrompt('{{$vss.config.content_to_name}}');" style="{{$vss.config.frontend_config.style_title_more}}">
                                                         <span>{{$vss.config.content_title_more}}</span>
-                                                        <i class="am-icon-angle-right"></i>
+                                                        <i class="iconfont icon-angle-right"></i>
                                                     </a>
                                                 </div>
                                             {{/if}}

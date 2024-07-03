@@ -13,7 +13,7 @@
                 <label class="am-block">
                     {{:MyLang('common_service.goodsspectemplate.form_item_category_id')}}
                     <span class="am-form-group-label-tips-must">*</span>
-                    <a href="javascript:;" class="am-icon-question-circle am-text-primary" data-am-popover="{content: '{{:MyLang('common_service.goodsspectemplate.form_item_category_id_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                    <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goodsspectemplate.form_item_category_id_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
                 </label>
                 <select name="category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_category_id_message')}}" required>
                     {{if !empty($goods_category_list)}}
@@ -31,7 +31,7 @@
                     <input type="text" name="content" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_content_placeholder')}}" minlength="1" maxlength="1000" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_content_message')}}" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
                 </div>
 			</div>
-            {{:ModuleInclude('lib/is_enable_row')}}
+            {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
 
 			<!-- 插件扩展数据 start -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -55,7 +55,7 @@
 
 			<div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                     <i class="am-icon-paint-brush"></i>
                     <span>{{:MyLang('cancel_title')}}</span>
                 </button>

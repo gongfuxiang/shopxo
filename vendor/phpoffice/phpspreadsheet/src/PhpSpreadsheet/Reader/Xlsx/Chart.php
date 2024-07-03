@@ -4,7 +4,6 @@ namespace PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 use PhpOffice\PhpSpreadsheet\Chart\Axis;
-use PhpOffice\PhpSpreadsheet\Chart\AxisText;
 use PhpOffice\PhpSpreadsheet\Chart\ChartColor;
 use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
 use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
@@ -22,9 +21,11 @@ use SimpleXMLElement;
 
 class Chart
 {
-    private string $cNamespace;
+    /** @var string */
+    private $cNamespace;
 
-    private string $aNamespace;
+    /** @var string */
+    private $aNamespace;
 
     public function __construct(string $cNamespace = Namespaces::CHART, string $aNamespace = Namespaces::DRAWINGML)
     {
@@ -32,88 +33,64 @@ class Chart
         $this->aNamespace = $aNamespace;
     }
 
-    private static function getAttributeString(SimpleXMLElement $component, string $name): string|null
+    /**
+     * @param string $name
+     * @param string $format
+     *
+     * @return null|bool|float|int|string
+     */
+    private static function getAttribute(SimpleXMLElement $component, $name, $format)
     {
         $attributes = $component->attributes();
         if (@isset($attributes[$name])) {
-            return (string) $attributes[$name];
-        }
+            if ($format == 'string') {
+                return (string) $attributes[$name];
+            } elseif ($format == 'integer') {
+                return (int) $attributes[$name];
+            } elseif ($format == 'boolean') {
+                $value = (string) $attributes[$name];
 
-        return null;
-    }
+                return $value === 'true' || $value === '1';
+            }
 
-    private static function getAttributeInteger(SimpleXMLElement $component, string $name): int|null
-    {
-        $attributes = $component->attributes();
-        if (@isset($attributes[$name])) {
-            return (int) $attributes[$name];
-        }
-
-        return null;
-    }
-
-    private static function getAttributeBoolean(SimpleXMLElement $component, string $name): bool|null
-    {
-        $attributes = $component->attributes();
-        if (@isset($attributes[$name])) {
-            $value = (string) $attributes[$name];
-
-            return $value === 'true' || $value === '1';
-        }
-
-        return null;
-    }
-
-    private static function getAttributeFloat(SimpleXMLElement $component, string $name): float|null
-    {
-        $attributes = $component->attributes();
-        if (@isset($attributes[$name])) {
             return (float) $attributes[$name];
         }
 
         return null;
     }
 
-    public function readChart(SimpleXMLElement $chartElements, string $chartName): \PhpOffice\PhpSpreadsheet\Chart\Chart
+    /**
+     * @param string $chartName
+     *
+     * @return \PhpOffice\PhpSpreadsheet\Chart\Chart
+     */
+    public function readChart(SimpleXMLElement $chartElements, $chartName)
     {
         $chartElementsC = $chartElements->children($this->cNamespace);
 
         $XaxisLabel = $YaxisLabel = $legend = $title = null;
-        $dispBlanksAs = null;
-        $plotVisOnly = false;
+        $dispBlanksAs = $plotVisOnly = null;
         $plotArea = null;
         $rotX = $rotY = $rAngAx = $perspective = null;
         $xAxis = new Axis();
         $yAxis = new Axis();
         $autoTitleDeleted = null;
         $chartNoFill = false;
-        $chartBorderLines = null;
-        $chartFillColor = null;
         $gradientArray = [];
         $gradientLin = null;
         $roundedCorners = false;
-        $gapWidth = null;
-        $useUpBars = null;
-        $useDownBars = null;
         foreach ($chartElementsC as $chartElementKey => $chartElement) {
             switch ($chartElementKey) {
                 case 'spPr':
-                    $children = $chartElementsC->spPr->children($this->aNamespace);
-                    if (isset($children->noFill)) {
+                    $possibleNoFill = $chartElementsC->spPr->children($this->aNamespace);
+                    if (isset($possibleNoFill->noFill)) {
                         $chartNoFill = true;
-                    }
-                    if (isset($children->solidFill)) {
-                        $chartFillColor = $this->readColor($children->solidFill);
-                    }
-                    if (isset($children->ln)) {
-                        $chartBorderLines = new GridLines();
-                        $this->readLineStyle($chartElementsC, $chartBorderLines);
                     }
 
                     break;
                 case 'roundedCorners':
-                    /** @var bool $roundedCorners */
-                    $roundedCorners = self::getAttributeBoolean($chartElementsC->roundedCorners, 'val');
+                    /** @var bool */
+                    $roundedCorners = self::getAttribute($chartElementsC->roundedCorners, 'val', 'boolean');
 
                     break;
                 case 'chart':
@@ -121,15 +98,15 @@ class Chart
                         $chartDetails = Xlsx::testSimpleXml($chartDetails);
                         switch ($chartDetailsKey) {
                             case 'autoTitleDeleted':
-                                /** @var bool $autoTitleDeleted */
-                                $autoTitleDeleted = self::getAttributeBoolean($chartElementsC->chart->autoTitleDeleted, 'val');
+                                /** @var bool */
+                                $autoTitleDeleted = self::getAttribute($chartElementsC->chart->autoTitleDeleted, 'val', 'boolean');
 
                                 break;
                             case 'view3D':
-                                $rotX = self::getAttributeInteger($chartDetails->rotX, 'val');
-                                $rotY = self::getAttributeInteger($chartDetails->rotY, 'val');
-                                $rAngAx = self::getAttributeInteger($chartDetails->rAngAx, 'val');
-                                $perspective = self::getAttributeInteger($chartDetails->perspective, 'val');
+                                $rotX = self::getAttribute($chartDetails->rotX, 'val', 'integer');
+                                $rotY = self::getAttribute($chartDetails->rotY, 'val', 'integer');
+                                $rAngAx = self::getAttribute($chartDetails->rAngAx, 'val', 'integer');
+                                $perspective = self::getAttribute($chartDetails->perspective, 'val', 'integer');
 
                                 break;
                             case 'plotArea':
@@ -148,8 +125,8 @@ class Chart
                                             if (isset($possibleNoFill->gradFill->gsLst)) {
                                                 foreach ($possibleNoFill->gradFill->gsLst->gs as $gradient) {
                                                     $gradient = Xlsx::testSimpleXml($gradient);
-                                                    /** @var float $pos */
-                                                    $pos = self::getAttributeFloat($gradient, 'pos');
+                                                    /** @var float */
+                                                    $pos = self::getAttribute($gradient, 'pos', 'float');
                                                     $gradientArray[] = [
                                                         $pos / ChartProperties::PERCENTAGE_MULTIPLIER,
                                                         new ChartColor($this->readColor($gradient)),
@@ -157,7 +134,7 @@ class Chart
                                                 }
                                             }
                                             if (isset($possibleNoFill->gradFill->lin)) {
-                                                $gradientLin = ChartProperties::XmlToAngle((string) self::getAttributeString($possibleNoFill->gradFill->lin, 'ang'));
+                                                $gradientLin = ChartProperties::XmlToAngle((string) self::getAttribute($possibleNoFill->gradFill->lin, 'ang', 'string'));
                                             }
 
                                             break;
@@ -179,9 +156,6 @@ class Chart
                                                 if (isset($sppr->solidFill)) {
                                                     $axisColorArray = $this->readColor($sppr->solidFill);
                                                     $xAxis->setFillParameters($axisColorArray['value'], $axisColorArray['alpha'], $axisColorArray['type']);
-                                                }
-                                                if (isset($chartDetail->spPr->ln->noFill)) {
-                                                    $xAxis->setNoFill(true);
                                                 }
                                             }
                                             if (isset($chartDetail->majorGridlines)) {
@@ -208,7 +182,7 @@ class Chart
                                             $whichAxis = null;
                                             $axPos = null;
                                             if (isset($chartDetail->axPos)) {
-                                                $axPos = self::getAttributeString($chartDetail->axPos, 'val');
+                                                $axPos = self::getAttribute($chartDetail->axPos, 'val', 'string');
                                             }
                                             if ($catAxRead) {
                                                 $whichAxis = $yAxis;
@@ -253,9 +227,6 @@ class Chart
                                                     $axisColorArray = $this->readColor($sppr->solidFill);
                                                     $whichAxis->setFillParameters($axisColorArray['value'], $axisColorArray['alpha'], $axisColorArray['type']);
                                                 }
-                                                if (isset($sppr->ln->noFill)) {
-                                                    $whichAxis->setNoFill(true);
-                                                }
                                             }
                                             if ($whichAxis !== null && isset($chartDetail->majorGridlines)) {
                                                 $majorGridlines = new GridLines();
@@ -279,7 +250,7 @@ class Chart
                                             break;
                                         case 'barChart':
                                         case 'bar3DChart':
-                                            $barDirection = self::getAttributeString($chartDetail->barDir, 'val');
+                                            $barDirection = self::getAttribute($chartDetail->barDir, 'val', 'string');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotDirection("$barDirection");
                                             $plotSeries[] = $plotSer;
@@ -301,7 +272,7 @@ class Chart
                                         case 'doughnutChart':
                                         case 'pieChart':
                                         case 'pie3DChart':
-                                            $explosion = self::getAttributeString($chartDetail->ser->explosion, 'val');
+                                            $explosion = self::getAttribute($chartDetail->ser->explosion, 'val', 'string');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotStyle("$explosion");
                                             $plotSeries[] = $plotSer;
@@ -309,8 +280,8 @@ class Chart
 
                                             break;
                                         case 'scatterChart':
-                                            /** @var string $scatterStyle */
-                                            $scatterStyle = self::getAttributeString($chartDetail->scatterStyle, 'val');
+                                            /** @var string */
+                                            $scatterStyle = self::getAttribute($chartDetail->scatterStyle, 'val', 'string');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotStyle($scatterStyle);
                                             $plotSeries[] = $plotSer;
@@ -318,7 +289,7 @@ class Chart
 
                                             break;
                                         case 'bubbleChart':
-                                            $bubbleScale = self::getAttributeInteger($chartDetail->bubbleScale, 'val');
+                                            $bubbleScale = self::getAttribute($chartDetail->bubbleScale, 'val', 'integer');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotStyle("$bubbleScale");
                                             $plotSeries[] = $plotSer;
@@ -326,8 +297,8 @@ class Chart
 
                                             break;
                                         case 'radarChart':
-                                            /** @var string $radarStyle */
-                                            $radarStyle = self::getAttributeString($chartDetail->radarStyle, 'val');
+                                            /** @var string */
+                                            $radarStyle = self::getAttribute($chartDetail->radarStyle, 'val', 'string');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotStyle($radarStyle);
                                             $plotSeries[] = $plotSer;
@@ -336,7 +307,7 @@ class Chart
                                             break;
                                         case 'surfaceChart':
                                         case 'surface3DChart':
-                                            $wireFrame = self::getAttributeBoolean($chartDetail->wireframe, 'val');
+                                            $wireFrame = self::getAttribute($chartDetail->wireframe, 'val', 'boolean');
                                             $plotSer = $this->chartDataSeries($chartDetail, $chartDetailKey);
                                             $plotSer->setPlotStyle("$wireFrame");
                                             $plotSeries[] = $plotSer;
@@ -345,15 +316,6 @@ class Chart
                                             break;
                                         case 'stockChart':
                                             $plotSeries[] = $this->chartDataSeries($chartDetail, $chartDetailKey);
-                                            if (isset($chartDetail->upDownBars->gapWidth)) {
-                                                $gapWidth = self::getAttributeInteger($chartDetail->upDownBars->gapWidth, 'val');
-                                            }
-                                            if (isset($chartDetail->upDownBars->upBars)) {
-                                                $useUpBars = true;
-                                            }
-                                            if (isset($chartDetail->upDownBars->downBars)) {
-                                                $useDownBars = true;
-                                            }
                                             $plotAttributes = $this->readChartAttributes($chartDetail);
 
                                             break;
@@ -370,23 +332,14 @@ class Chart
                                 if (!empty($gradientArray)) {
                                     $plotArea->setGradientFillProperties($gradientArray, $gradientLin);
                                 }
-                                if (is_int($gapWidth)) {
-                                    $plotArea->setGapWidth($gapWidth);
-                                }
-                                if ($useUpBars === true) {
-                                    $plotArea->setUseUpBars(true);
-                                }
-                                if ($useDownBars === true) {
-                                    $plotArea->setUseDownBars(true);
-                                }
 
                                 break;
                             case 'plotVisOnly':
-                                $plotVisOnly = (bool) self::getAttributeString($chartDetails, 'val');
+                                $plotVisOnly = self::getAttribute($chartDetails, 'val', 'string');
 
                                 break;
                             case 'dispBlanksAs':
-                                $dispBlanksAs = self::getAttributeString($chartDetails, 'val');
+                                $dispBlanksAs = self::getAttribute($chartDetails, 'val', 'string');
 
                                 break;
                             case 'title':
@@ -397,63 +350,24 @@ class Chart
                                 $legendPos = 'r';
                                 $legendLayout = null;
                                 $legendOverlay = false;
-                                $legendBorderLines = null;
-                                $legendFillColor = null;
-                                $legendText = null;
-                                $addLegendText = false;
                                 foreach ($chartDetails as $chartDetailKey => $chartDetail) {
                                     $chartDetail = Xlsx::testSimpleXml($chartDetail);
                                     switch ($chartDetailKey) {
                                         case 'legendPos':
-                                            $legendPos = self::getAttributeString($chartDetail, 'val');
+                                            $legendPos = self::getAttribute($chartDetail, 'val', 'string');
 
                                             break;
                                         case 'overlay':
-                                            $legendOverlay = self::getAttributeBoolean($chartDetail, 'val');
+                                            $legendOverlay = self::getAttribute($chartDetail, 'val', 'boolean');
 
                                             break;
                                         case 'layout':
                                             $legendLayout = $this->chartLayoutDetails($chartDetail);
 
                                             break;
-                                        case 'spPr':
-                                            $children = $chartDetails->spPr->children($this->aNamespace);
-                                            if (isset($children->solidFill)) {
-                                                $legendFillColor = $this->readColor($children->solidFill);
-                                            }
-                                            if (isset($children->ln)) {
-                                                $legendBorderLines = new GridLines();
-                                                $this->readLineStyle($chartDetails, $legendBorderLines);
-                                            }
-
-                                            break;
-                                        case 'txPr':
-                                            $children = $chartDetails->txPr->children($this->aNamespace);
-                                            $addLegendText = false;
-                                            $legendText = new AxisText();
-                                            if (isset($children->p->pPr->defRPr->solidFill)) {
-                                                $colorArray = $this->readColor($children->p->pPr->defRPr->solidFill);
-                                                $legendText->getFillColorObject()->setColorPropertiesArray($colorArray);
-                                                $addLegendText = true;
-                                            }
-                                            if (isset($children->p->pPr->defRPr->effectLst)) {
-                                                $this->readEffects($children->p->pPr->defRPr, $legendText, false);
-                                                $addLegendText = true;
-                                            }
-
-                                            break;
                                     }
                                 }
                                 $legend = new Legend("$legendPos", $legendLayout, (bool) $legendOverlay);
-                                if ($legendFillColor !== null) {
-                                    $legend->getFillColor()->setColorPropertiesArray($legendFillColor);
-                                }
-                                if ($legendBorderLines !== null) {
-                                    $legend->setBorderLines($legendBorderLines);
-                                }
-                                if ($addLegendText) {
-                                    $legend->setLegendText($legendText);
-                                }
 
                                 break;
                         }
@@ -463,12 +377,6 @@ class Chart
         $chart = new \PhpOffice\PhpSpreadsheet\Chart\Chart($chartName, $title, $legend, $plotArea, $plotVisOnly, (string) $dispBlanksAs, $XaxisLabel, $YaxisLabel, $xAxis, $yAxis);
         if ($chartNoFill) {
             $chart->setNoFill(true);
-        }
-        if ($chartFillColor !== null) {
-            $chart->getFillColor()->setColorPropertiesArray($chartFillColor);
-        }
-        if ($chartBorderLines !== null) {
-            $chart->setBorderLines($chartBorderLines);
         }
         $chart->setRoundedCorners($roundedCorners);
         if (is_bool($autoTitleDeleted)) {
@@ -492,16 +400,13 @@ class Chart
 
     private function chartTitle(SimpleXMLElement $titleDetails): Title
     {
-        $caption = '';
+        $caption = [];
         $titleLayout = null;
         $titleOverlay = false;
-        $titleFormula = null;
-        $titleFont = null;
         foreach ($titleDetails as $titleDetailKey => $chartDetail) {
             $chartDetail = Xlsx::testSimpleXml($chartDetail);
             switch ($titleDetailKey) {
                 case 'tx':
-                    $caption = [];
                     if (isset($chartDetail->rich)) {
                         $titleDetails = $chartDetail->rich->children($this->aNamespace);
                         foreach ($titleDetails as $titleKey => $titleDetail) {
@@ -518,37 +423,21 @@ class Chart
                                 $caption[] = (string) $pt->v;
                             }
                         }
-                        if (isset($chartDetail->strRef->f)) {
-                            $titleFormula = (string) $chartDetail->strRef->f;
-                        }
                     }
 
                     break;
                 case 'overlay':
-                    $titleOverlay = self::getAttributeBoolean($chartDetail, 'val');
+                    $titleOverlay = self::getAttribute($chartDetail, 'val', 'boolean');
 
                     break;
                 case 'layout':
                     $titleLayout = $this->chartLayoutDetails($chartDetail);
 
                     break;
-                case 'txPr':
-                    if (isset($chartDetail->children($this->aNamespace)->p)) {
-                        $titleFont = $this->parseFont($chartDetail->children($this->aNamespace)->p);
-                    }
-
-                    break;
             }
         }
-        $title = new Title($caption, $titleLayout, (bool) $titleOverlay);
-        if (!empty($titleFormula)) {
-            $title->setCellReference($titleFormula);
-        }
-        if ($titleFont !== null) {
-            $title->setFont($titleFont);
-        }
 
-        return $title;
+        return new Title($caption, $titleLayout, (bool) $titleOverlay);
     }
 
     private function chartLayoutDetails(SimpleXMLElement $chartDetail): ?Layout
@@ -563,7 +452,7 @@ class Chart
         $layout = [];
         foreach ($details as $detailKey => $detail) {
             $detail = Xlsx::testSimpleXml($detail);
-            $layout[$detailKey] = self::getAttributeString($detail, 'val');
+            $layout[$detailKey] = self::getAttribute($detail, 'val', 'string');
         }
 
         return new Layout($layout);
@@ -579,7 +468,7 @@ class Chart
         foreach ($seriesDetailSet as $seriesDetailKey => $seriesDetails) {
             switch ($seriesDetailKey) {
                 case 'grouping':
-                    $multiSeriesType = self::getAttributeString($chartDetail->grouping, 'val');
+                    $multiSeriesType = self::getAttribute($chartDetail->grouping, 'val', 'string');
 
                     break;
                 case 'ser':
@@ -599,11 +488,11 @@ class Chart
                         $seriesDetail = Xlsx::testSimpleXml($seriesDetail);
                         switch ($seriesKey) {
                             case 'idx':
-                                $seriesIndex = self::getAttributeInteger($seriesDetail, 'val');
+                                $seriesIndex = self::getAttribute($seriesDetail, 'val', 'integer');
 
                                 break;
                             case 'order':
-                                $seriesOrder = self::getAttributeInteger($seriesDetail, 'val');
+                                $seriesOrder = self::getAttribute($seriesDetail, 'val', 'integer');
                                 $plotOrder[$seriesIndex] = $seriesOrder;
 
                                 break;
@@ -633,7 +522,7 @@ class Chart
 
                                 break;
                             case 'dPt':
-                                $dptIdx = (int) self::getAttributeString($seriesDetail->idx, 'val');
+                                $dptIdx = (int) self::getAttribute($seriesDetail->idx, 'val', 'string');
                                 if (isset($seriesDetail->spPr)) {
                                     $children = $seriesDetail->spPr->children($this->aNamespace);
                                     if (isset($children->solidFill)) {
@@ -646,14 +535,23 @@ class Chart
                             case 'trendline':
                                 $trendLine = new TrendLine();
                                 $this->readLineStyle($seriesDetail, $trendLine);
-                                $trendLineType = self::getAttributeString($seriesDetail->trendlineType, 'val');
-                                $dispRSqr = self::getAttributeBoolean($seriesDetail->dispRSqr, 'val');
-                                $dispEq = self::getAttributeBoolean($seriesDetail->dispEq, 'val');
-                                $order = self::getAttributeInteger($seriesDetail->order, 'val');
-                                $period = self::getAttributeInteger($seriesDetail->period, 'val');
-                                $forward = self::getAttributeFloat($seriesDetail->forward, 'val');
-                                $backward = self::getAttributeFloat($seriesDetail->backward, 'val');
-                                $intercept = self::getAttributeFloat($seriesDetail->intercept, 'val');
+                                /** @var ?string */
+                                $trendLineType = self::getAttribute($seriesDetail->trendlineType, 'val', 'string');
+                                /** @var ?bool */
+                                $dispRSqr = self::getAttribute($seriesDetail->dispRSqr, 'val', 'boolean');
+                                /** @var ?bool */
+                                $dispEq = self::getAttribute($seriesDetail->dispEq, 'val', 'boolean');
+                                /** @var ?int */
+                                $order = self::getAttribute($seriesDetail->order, 'val', 'integer');
+                                /** @var ?int */
+                                $period = self::getAttribute($seriesDetail->period, 'val', 'integer');
+                                /** @var ?float */
+                                $forward = self::getAttribute($seriesDetail->forward, 'val', 'float');
+                                /** @var ?float */
+                                $backward = self::getAttribute($seriesDetail->backward, 'val', 'float');
+                                /** @var ?float */
+                                $intercept = self::getAttribute($seriesDetail->intercept, 'val', 'float');
+                                /** @var ?string */
                                 $name = (string) $seriesDetail->name;
                                 $trendLine->setTrendLineProperties(
                                     $trendLineType,
@@ -670,8 +568,8 @@ class Chart
 
                                 break;
                             case 'marker':
-                                $marker = self::getAttributeString($seriesDetail->symbol, 'val');
-                                $pointSize = self::getAttributeString($seriesDetail->size, 'val');
+                                $marker = self::getAttribute($seriesDetail->symbol, 'val', 'string');
+                                $pointSize = self::getAttribute($seriesDetail->size, 'val', 'string');
                                 $pointSize = is_numeric($pointSize) ? ((int) $pointSize) : null;
                                 if (isset($seriesDetail->spPr)) {
                                     $children = $seriesDetail->spPr->children($this->aNamespace);
@@ -685,7 +583,7 @@ class Chart
 
                                 break;
                             case 'smooth':
-                                $smoothLine = self::getAttributeBoolean($seriesDetail, 'val');
+                                $smoothLine = self::getAttribute($seriesDetail, 'val', 'boolean');
 
                                 break;
                             case 'cat':
@@ -709,7 +607,7 @@ class Chart
 
                                 break;
                             case 'bubble3D':
-                                $bubble3D = self::getAttributeBoolean($seriesDetail, 'val');
+                                $bubble3D = self::getAttribute($seriesDetail, 'val', 'boolean');
 
                                 break;
                             case 'dLbls':
@@ -821,13 +719,15 @@ class Chart
         }
         /** @phpstan-ignore-next-line */
         $series = new DataSeries($plotType, $multiSeriesType, $plotOrder, $seriesLabel, $seriesCategory, $seriesValues, $smoothLine);
-        /** @phpstan-ignore-next-line */
         $series->setPlotBubbleSizes($seriesBubbles);
 
         return $series;
     }
 
-    private function chartDataSeriesValueSet(SimpleXMLElement $seriesDetail, ?string $marker = null, ?ChartColor $fillColor = null, ?string $pointSize = null): ?DataSeriesValues
+    /**
+     * @return mixed
+     */
+    private function chartDataSeriesValueSet(SimpleXMLElement $seriesDetail, ?string $marker = null, ?ChartColor $fillColor = null, ?string $pointSize = null)
     {
         if (isset($seriesDetail->strRef)) {
             $seriesSource = (string) $seriesDetail->strRef->f;
@@ -901,7 +801,7 @@ class Chart
             $seriesValue = Xlsx::testSimpleXml($seriesValue);
             switch ($seriesValueIdx) {
                 case 'ptCount':
-                    $pointCount = self::getAttributeInteger($seriesValue, 'val');
+                    $pointCount = self::getAttribute($seriesValue, 'val', 'integer');
 
                     break;
                 case 'formatCode':
@@ -909,7 +809,7 @@ class Chart
 
                     break;
                 case 'pt':
-                    $pointVal = self::getAttributeInteger($seriesValue, 'idx');
+                    $pointVal = self::getAttribute($seriesValue, 'idx', 'integer');
                     if ($dataType == 's') {
                         $seriesVal[$pointVal] = (string) $seriesValue->v;
                     } elseif ((string) $seriesValue->v === ExcelError::NA()) {
@@ -940,7 +840,7 @@ class Chart
                 $seriesValue = Xlsx::testSimpleXml($seriesValue);
                 switch ($seriesValueIdx) {
                     case 'ptCount':
-                        $pointCount = self::getAttributeInteger($seriesValue, 'val');
+                        $pointCount = self::getAttribute($seriesValue, 'val', 'integer');
 
                         break;
                     case 'formatCode':
@@ -948,7 +848,7 @@ class Chart
 
                         break;
                     case 'pt':
-                        $pointVal = self::getAttributeInteger($seriesValue, 'idx');
+                        $pointVal = self::getAttribute($seriesValue, 'idx', 'integer');
                         if ($dataType == 's') {
                             $seriesVal[$pointVal][] = (string) $seriesValue->v;
                         } elseif ((string) $seriesValue->v === ExcelError::NA()) {
@@ -984,23 +884,32 @@ class Chart
         $defaultComplexScript = null;
         $defaultFontColor = null;
         if (isset($titleDetailPart->pPr->defRPr)) {
-            $defaultFontSize = self::getAttributeInteger($titleDetailPart->pPr->defRPr, 'sz');
-            $defaultBold = self::getAttributeBoolean($titleDetailPart->pPr->defRPr, 'b');
-            $defaultItalic = self::getAttributeBoolean($titleDetailPart->pPr->defRPr, 'i');
-            $defaultUnderscore = self::getAttributeString($titleDetailPart->pPr->defRPr, 'u');
-            $defaultStrikethrough = self::getAttributeString($titleDetailPart->pPr->defRPr, 'strike');
-            $defaultBaseline = self::getAttributeInteger($titleDetailPart->pPr->defRPr, 'baseline');
+            /** @var ?int */
+            $defaultFontSize = self::getAttribute($titleDetailPart->pPr->defRPr, 'sz', 'integer');
+            /** @var ?bool */
+            $defaultBold = self::getAttribute($titleDetailPart->pPr->defRPr, 'b', 'boolean');
+            /** @var ?bool */
+            $defaultItalic = self::getAttribute($titleDetailPart->pPr->defRPr, 'i', 'boolean');
+            /** @var ?string */
+            $defaultUnderscore = self::getAttribute($titleDetailPart->pPr->defRPr, 'u', 'string');
+            /** @var ?string */
+            $defaultStrikethrough = self::getAttribute($titleDetailPart->pPr->defRPr, 'strike', 'string');
+            /** @var ?int */
+            $defaultBaseline = self::getAttribute($titleDetailPart->pPr->defRPr, 'baseline', 'integer');
             if (isset($titleDetailPart->defRPr->rFont['val'])) {
                 $defaultFontName = (string) $titleDetailPart->defRPr->rFont['val'];
             }
             if (isset($titleDetailPart->pPr->defRPr->latin)) {
-                $defaultLatin = self::getAttributeString($titleDetailPart->pPr->defRPr->latin, 'typeface');
+                /** @var ?string */
+                $defaultLatin = self::getAttribute($titleDetailPart->pPr->defRPr->latin, 'typeface', 'string');
             }
             if (isset($titleDetailPart->pPr->defRPr->ea)) {
-                $defaultEastAsian = self::getAttributeString($titleDetailPart->pPr->defRPr->ea, 'typeface');
+                /** @var ?string */
+                $defaultEastAsian = self::getAttribute($titleDetailPart->pPr->defRPr->ea, 'typeface', 'string');
             }
             if (isset($titleDetailPart->pPr->defRPr->cs)) {
-                $defaultComplexScript = self::getAttributeString($titleDetailPart->pPr->defRPr->cs, 'typeface');
+                /** @var ?string */
+                $defaultComplexScript = self::getAttribute($titleDetailPart->pPr->defRPr->cs, 'typeface', 'string');
             }
             if (isset($titleDetailPart->pPr->defRPr->solidFill)) {
                 $defaultFontColor = $this->readColor($titleDetailPart->pPr->defRPr->solidFill);
@@ -1039,30 +948,42 @@ class Chart
                     // @codeCoverageIgnoreEnd
                 }
                 if (isset($titleDetailElement->rPr->latin)) {
-                    $latinName = self::getAttributeString($titleDetailElement->rPr->latin, 'typeface');
+                    /** @var ?string */
+                    $latinName = self::getAttribute($titleDetailElement->rPr->latin, 'typeface', 'string');
                 }
                 if (isset($titleDetailElement->rPr->ea)) {
-                    $eastAsian = self::getAttributeString($titleDetailElement->rPr->ea, 'typeface');
+                    /** @var ?string */
+                    $eastAsian = self::getAttribute($titleDetailElement->rPr->ea, 'typeface', 'string');
                 }
                 if (isset($titleDetailElement->rPr->cs)) {
-                    $complexScript = self::getAttributeString($titleDetailElement->rPr->cs, 'typeface');
+                    /** @var ?string */
+                    $complexScript = self::getAttribute($titleDetailElement->rPr->cs, 'typeface', 'string');
                 }
-                $fontSize = self::getAttributeInteger($titleDetailElement->rPr, 'sz');
+                /** @var ?int */
+                $fontSize = self::getAttribute($titleDetailElement->rPr, 'sz', 'integer');
 
                 // not used now, not sure it ever was, grandfathering
                 if (isset($titleDetailElement->rPr->solidFill)) {
                     $fontColor = $this->readColor($titleDetailElement->rPr->solidFill);
                 }
 
-                $bold = self::getAttributeBoolean($titleDetailElement->rPr, 'b');
-                $italic = self::getAttributeBoolean($titleDetailElement->rPr, 'i');
-                $baseline = self::getAttributeInteger($titleDetailElement->rPr, 'baseline');
-                $underscore = self::getAttributeString($titleDetailElement->rPr, 'u');
+                /** @var ?bool */
+                $bold = self::getAttribute($titleDetailElement->rPr, 'b', 'boolean');
+
+                /** @var ?bool */
+                $italic = self::getAttribute($titleDetailElement->rPr, 'i', 'boolean');
+
+                /** @var ?int */
+                $baseline = self::getAttribute($titleDetailElement->rPr, 'baseline', 'integer');
+
+                /** @var ?string */
+                $underscore = self::getAttribute($titleDetailElement->rPr, 'u', 'string');
                 if (isset($titleDetailElement->rPr->uFill->solidFill)) {
                     $underlineColor = $this->readColor($titleDetailElement->rPr->uFill->solidFill);
                 }
 
-                $strikethrough = self::getAttributeString($titleDetailElement->rPr, 'strike');
+                /** @var ?string */
+                $strikethrough = self::getAttribute($titleDetailElement->rPr, 'strike', 'string');
             }
 
             $fontFound = false;
@@ -1161,69 +1082,40 @@ class Chart
         return $value;
     }
 
-    private function parseFont(SimpleXMLElement $titleDetailPart): ?Font
-    {
-        if (!isset($titleDetailPart->pPr->defRPr)) {
-            return null;
-        }
-        $fontArray = [];
-        $fontArray['size'] = self::getAttributeInteger($titleDetailPart->pPr->defRPr, 'sz');
-        $fontArray['bold'] = self::getAttributeBoolean($titleDetailPart->pPr->defRPr, 'b');
-        $fontArray['italic'] = self::getAttributeBoolean($titleDetailPart->pPr->defRPr, 'i');
-        $fontArray['underscore'] = self::getAttributeString($titleDetailPart->pPr->defRPr, 'u');
-        $fontArray['strikethrough'] = self::getAttributeString($titleDetailPart->pPr->defRPr, 'strike');
-        $fontArray['cap'] = self::getAttributeString($titleDetailPart->pPr->defRPr, 'cap');
-
-        if (isset($titleDetailPart->pPr->defRPr->latin)) {
-            $fontArray['latin'] = self::getAttributeString($titleDetailPart->pPr->defRPr->latin, 'typeface');
-        }
-        if (isset($titleDetailPart->pPr->defRPr->ea)) {
-            $fontArray['eastAsian'] = self::getAttributeString($titleDetailPart->pPr->defRPr->ea, 'typeface');
-        }
-        if (isset($titleDetailPart->pPr->defRPr->cs)) {
-            $fontArray['complexScript'] = self::getAttributeString($titleDetailPart->pPr->defRPr->cs, 'typeface');
-        }
-        if (isset($titleDetailPart->pPr->defRPr->solidFill)) {
-            $fontArray['chartColor'] = new ChartColor($this->readColor($titleDetailPart->pPr->defRPr->solidFill));
-        }
-        $font = new Font();
-        $font->setSize(null, true);
-        $font->applyFromArray($fontArray);
-
-        return $font;
-    }
-
-    private function readChartAttributes(?SimpleXMLElement $chartDetail): array
+    /**
+     * @param ?SimpleXMLElement $chartDetail
+     */
+    private function readChartAttributes($chartDetail): array
     {
         $plotAttributes = [];
         if (isset($chartDetail->dLbls)) {
             if (isset($chartDetail->dLbls->dLblPos)) {
-                $plotAttributes['dLblPos'] = self::getAttributeString($chartDetail->dLbls->dLblPos, 'val');
+                $plotAttributes['dLblPos'] = self::getAttribute($chartDetail->dLbls->dLblPos, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->numFmt)) {
-                $plotAttributes['numFmtCode'] = self::getAttributeString($chartDetail->dLbls->numFmt, 'formatCode');
-                $plotAttributes['numFmtLinked'] = self::getAttributeBoolean($chartDetail->dLbls->numFmt, 'sourceLinked');
+                $plotAttributes['numFmtCode'] = self::getAttribute($chartDetail->dLbls->numFmt, 'formatCode', 'string');
+                $plotAttributes['numFmtLinked'] = self::getAttribute($chartDetail->dLbls->numFmt, 'sourceLinked', 'boolean');
             }
             if (isset($chartDetail->dLbls->showLegendKey)) {
-                $plotAttributes['showLegendKey'] = self::getAttributeString($chartDetail->dLbls->showLegendKey, 'val');
+                $plotAttributes['showLegendKey'] = self::getAttribute($chartDetail->dLbls->showLegendKey, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showVal)) {
-                $plotAttributes['showVal'] = self::getAttributeString($chartDetail->dLbls->showVal, 'val');
+                $plotAttributes['showVal'] = self::getAttribute($chartDetail->dLbls->showVal, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showCatName)) {
-                $plotAttributes['showCatName'] = self::getAttributeString($chartDetail->dLbls->showCatName, 'val');
+                $plotAttributes['showCatName'] = self::getAttribute($chartDetail->dLbls->showCatName, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showSerName)) {
-                $plotAttributes['showSerName'] = self::getAttributeString($chartDetail->dLbls->showSerName, 'val');
+                $plotAttributes['showSerName'] = self::getAttribute($chartDetail->dLbls->showSerName, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showPercent)) {
-                $plotAttributes['showPercent'] = self::getAttributeString($chartDetail->dLbls->showPercent, 'val');
+                $plotAttributes['showPercent'] = self::getAttribute($chartDetail->dLbls->showPercent, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showBubbleSize)) {
-                $plotAttributes['showBubbleSize'] = self::getAttributeString($chartDetail->dLbls->showBubbleSize, 'val');
+                $plotAttributes['showBubbleSize'] = self::getAttribute($chartDetail->dLbls->showBubbleSize, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->showLeaderLines)) {
-                $plotAttributes['showLeaderLines'] = self::getAttributeString($chartDetail->dLbls->showLeaderLines, 'val');
+                $plotAttributes['showLeaderLines'] = self::getAttribute($chartDetail->dLbls->showLeaderLines, 'val', 'string');
             }
             if (isset($chartDetail->dLbls->spPr)) {
                 $sppr = $chartDetail->dLbls->spPr->children($this->aNamespace);
@@ -1236,13 +1128,8 @@ class Chart
             }
             if (isset($chartDetail->dLbls->txPr)) {
                 $txpr = $chartDetail->dLbls->txPr->children($this->aNamespace);
-                if (isset($txpr->p)) {
-                    $plotAttributes['labelFont'] = $this->parseFont($txpr->p);
-                    if (isset($txpr->p->pPr->defRPr->effectLst)) {
-                        $labelEffects = new GridLines();
-                        $this->readEffects($txpr->p->pPr->defRPr, $labelEffects, false);
-                        $plotAttributes['labelEffects'] = $labelEffects;
-                    }
+                if (isset($txpr->p->pPr->defRPr->solidFill)) {
+                    $plotAttributes['labelFontColor'] = new ChartColor($this->readColor($txpr->p->pPr->defRPr->solidFill));
                 }
             }
         }
@@ -1250,7 +1137,10 @@ class Chart
         return $plotAttributes;
     }
 
-    private function setChartAttributes(Layout $plotArea, array $plotAttributes): void
+    /**
+     * @param mixed $plotAttributes
+     */
+    private function setChartAttributes(Layout $plotArea, $plotAttributes): void
     {
         foreach ($plotAttributes as $plotAttributeKey => $plotAttributeValue) {
             switch ($plotAttributeKey) {
@@ -1286,21 +1176,15 @@ class Chart
         }
     }
 
-    private function readEffects(SimpleXMLElement $chartDetail, ?ChartProperties $chartObject, bool $getSppr = true): void
+    private function readEffects(SimpleXMLElement $chartDetail, ?ChartProperties $chartObject): void
     {
-        if (!isset($chartObject)) {
+        if (!isset($chartObject, $chartDetail->spPr)) {
             return;
         }
-        if ($getSppr) {
-            if (!isset($chartDetail->spPr)) {
-                return;
-            }
-            $sppr = $chartDetail->spPr->children($this->aNamespace);
-        } else {
-            $sppr = $chartDetail;
-        }
+        $sppr = $chartDetail->spPr->children($this->aNamespace);
+
         if (isset($sppr->effectLst->glow)) {
-            $axisGlowSize = (float) self::getAttributeInteger($sppr->effectLst->glow, 'rad') / ChartProperties::POINTS_WIDTH_MULTIPLIER;
+            $axisGlowSize = (float) self::getAttribute($sppr->effectLst->glow, 'rad', 'integer') / ChartProperties::POINTS_WIDTH_MULTIPLIER;
             if ($axisGlowSize != 0.0) {
                 $colorArray = $this->readColor($sppr->effectLst->glow);
                 $chartObject->setGlowProperties($axisGlowSize, $colorArray['value'], $colorArray['alpha'], $colorArray['type']);
@@ -1308,7 +1192,8 @@ class Chart
         }
 
         if (isset($sppr->effectLst->softEdge)) {
-            $softEdgeSize = self::getAttributeString($sppr->effectLst->softEdge, 'rad');
+            /** @var string */
+            $softEdgeSize = self::getAttribute($sppr->effectLst->softEdge, 'rad', 'string');
             if (is_numeric($softEdgeSize)) {
                 $chartObject->setSoftEdges((float) ChartProperties::xmlToPoints($softEdgeSize));
             }
@@ -1323,17 +1208,20 @@ class Chart
             }
         }
         if ($type !== '') {
-            $blur = self::getAttributeString($sppr->effectLst->$type, 'blurRad');
+            /** @var string */
+            $blur = self::getAttribute($sppr->effectLst->$type, 'blurRad', 'string');
             $blur = is_numeric($blur) ? ChartProperties::xmlToPoints($blur) : null;
-            $dist = self::getAttributeString($sppr->effectLst->$type, 'dist');
+            /** @var string */
+            $dist = self::getAttribute($sppr->effectLst->$type, 'dist', 'string');
             $dist = is_numeric($dist) ? ChartProperties::xmlToPoints($dist) : null;
-            $direction = self::getAttributeString($sppr->effectLst->$type, 'dir');
+            /** @var string */
+            $direction = self::getAttribute($sppr->effectLst->$type, 'dir', 'string');
             $direction = is_numeric($direction) ? ChartProperties::xmlToAngle($direction) : null;
-            $algn = self::getAttributeString($sppr->effectLst->$type, 'algn');
-            $rot = self::getAttributeString($sppr->effectLst->$type, 'rotWithShape');
+            $algn = self::getAttribute($sppr->effectLst->$type, 'algn', 'string');
+            $rot = self::getAttribute($sppr->effectLst->$type, 'rotWithShape', 'string');
             $size = [];
             foreach (['sx', 'sy'] as $sizeType) {
-                $sizeValue = self::getAttributeString($sppr->effectLst->$type, $sizeType);
+                $sizeValue = self::getAttribute($sppr->effectLst->$type, $sizeType, 'string');
                 if (is_numeric($sizeValue)) {
                     $size[$sizeType] = ChartProperties::xmlToTenthOfPercent((string) $sizeValue);
                 } else {
@@ -1341,7 +1229,7 @@ class Chart
                 }
             }
             foreach (['kx', 'ky'] as $sizeType) {
-                $sizeValue = self::getAttributeString($sppr->effectLst->$type, $sizeType);
+                $sizeValue = self::getAttribute($sppr->effectLst->$type, $sizeType, 'string');
                 if (is_numeric($sizeValue)) {
                     $size[$sizeType] = ChartProperties::xmlToAngle((string) $sizeValue);
                 } else {
@@ -1377,15 +1265,17 @@ class Chart
         foreach (ChartColor::EXCEL_COLOR_TYPES as $type) {
             if (isset($colorXml->$type)) {
                 $result['type'] = $type;
-                $result['value'] = self::getAttributeString($colorXml->$type, 'val');
+                $result['value'] = self::getAttribute($colorXml->$type, 'val', 'string');
                 if (isset($colorXml->$type->alpha)) {
-                    $alpha = self::getAttributeString($colorXml->$type->alpha, 'val');
+                    /** @var string */
+                    $alpha = self::getAttribute($colorXml->$type->alpha, 'val', 'string');
                     if (is_numeric($alpha)) {
                         $result['alpha'] = ChartColor::alphaFromXml($alpha);
                     }
                 }
                 if (isset($colorXml->$type->lumMod)) {
-                    $brightness = self::getAttributeString($colorXml->$type->lumMod, 'val');
+                    /** @var string */
+                    $brightness = self::getAttribute($colorXml->$type->lumMod, 'val', 'string');
                     if (is_numeric($brightness)) {
                         $result['brightness'] = ChartColor::alphaFromXml($brightness);
                     }
@@ -1409,16 +1299,17 @@ class Chart
             return;
         }
         $lineWidth = null;
-        $lineWidthTemp = self::getAttributeString($sppr->ln, 'w');
+        /** @var string */
+        $lineWidthTemp = self::getAttribute($sppr->ln, 'w', 'string');
         if (is_numeric($lineWidthTemp)) {
             $lineWidth = ChartProperties::xmlToPoints($lineWidthTemp);
         }
-        /** @var string $compoundType */
-        $compoundType = self::getAttributeString($sppr->ln, 'cmpd');
-        /** @var string $dashType */
-        $dashType = self::getAttributeString($sppr->ln->prstDash, 'val');
-        /** @var string $capType */
-        $capType = self::getAttributeString($sppr->ln, 'cap');
+        /** @var string */
+        $compoundType = self::getAttribute($sppr->ln, 'cmpd', 'string');
+        /** @var string */
+        $dashType = self::getAttribute($sppr->ln->prstDash, 'val', 'string');
+        /** @var string */
+        $capType = self::getAttribute($sppr->ln, 'cap', 'string');
         if (isset($sppr->ln->miter)) {
             $joinType = ChartProperties::LINE_STYLE_JOIN_MITER;
         } elseif (isset($sppr->ln->bevel)) {
@@ -1426,14 +1317,20 @@ class Chart
         } else {
             $joinType = '';
         }
-        $headArrowSize = 0;
-        $endArrowSize = 0;
-        $headArrowType = self::getAttributeString($sppr->ln->headEnd, 'type');
-        $headArrowWidth = self::getAttributeString($sppr->ln->headEnd, 'w');
-        $headArrowLength = self::getAttributeString($sppr->ln->headEnd, 'len');
-        $endArrowType = self::getAttributeString($sppr->ln->tailEnd, 'type');
-        $endArrowWidth = self::getAttributeString($sppr->ln->tailEnd, 'w');
-        $endArrowLength = self::getAttributeString($sppr->ln->tailEnd, 'len');
+        $headArrowSize = '';
+        $endArrowSize = '';
+        /** @var string */
+        $headArrowType = self::getAttribute($sppr->ln->headEnd, 'type', 'string');
+        /** @var string */
+        $headArrowWidth = self::getAttribute($sppr->ln->headEnd, 'w', 'string');
+        /** @var string */
+        $headArrowLength = self::getAttribute($sppr->ln->headEnd, 'len', 'string');
+        /** @var string */
+        $endArrowType = self::getAttribute($sppr->ln->tailEnd, 'type', 'string');
+        /** @var string */
+        $endArrowWidth = self::getAttribute($sppr->ln->tailEnd, 'w', 'string');
+        /** @var string */
+        $endArrowLength = self::getAttribute($sppr->ln->tailEnd, 'len', 'string');
         $chartObject->setLineStyleProperties(
             $lineWidth,
             $compoundType,
@@ -1459,94 +1356,68 @@ class Chart
             return;
         }
         if (isset($chartDetail->delete)) {
-            $whichAxis->setAxisOption('hidden', (string) self::getAttributeString($chartDetail->delete, 'val'));
+            $whichAxis->setAxisOption('hidden', (string) self::getAttribute($chartDetail->delete, 'val', 'string'));
         }
         if (isset($chartDetail->numFmt)) {
             $whichAxis->setAxisNumberProperties(
-                (string) self::getAttributeString($chartDetail->numFmt, 'formatCode'),
+                (string) self::getAttribute($chartDetail->numFmt, 'formatCode', 'string'),
                 null,
-                (int) self::getAttributeInteger($chartDetail->numFmt, 'sourceLinked')
+                (int) self::getAttribute($chartDetail->numFmt, 'sourceLinked', 'int')
             );
         }
         if (isset($chartDetail->crossBetween)) {
-            $whichAxis->setCrossBetween((string) self::getAttributeString($chartDetail->crossBetween, 'val'));
-        }
-        if (isset($chartDetail->dispUnits, $chartDetail->dispUnits->builtInUnit)) {
-            $whichAxis->setAxisOption('dispUnitsBuiltIn', (string) self::getAttributeString($chartDetail->dispUnits->builtInUnit, 'val'));
-            if (isset($chartDetail->dispUnits->dispUnitsLbl)) {
-                $whichAxis->setDispUnitsTitle(new Title());
-                // TODO parse title elements
-            }
+            $whichAxis->setCrossBetween((string) self::getAttribute($chartDetail->crossBetween, 'val', 'string'));
         }
         if (isset($chartDetail->majorTickMark)) {
-            $whichAxis->setAxisOption('major_tick_mark', (string) self::getAttributeString($chartDetail->majorTickMark, 'val'));
+            $whichAxis->setAxisOption('major_tick_mark', (string) self::getAttribute($chartDetail->majorTickMark, 'val', 'string'));
         }
         if (isset($chartDetail->minorTickMark)) {
-            $whichAxis->setAxisOption('minor_tick_mark', (string) self::getAttributeString($chartDetail->minorTickMark, 'val'));
+            $whichAxis->setAxisOption('minor_tick_mark', (string) self::getAttribute($chartDetail->minorTickMark, 'val', 'string'));
         }
         if (isset($chartDetail->tickLblPos)) {
-            $whichAxis->setAxisOption('axis_labels', (string) self::getAttributeString($chartDetail->tickLblPos, 'val'));
+            $whichAxis->setAxisOption('axis_labels', (string) self::getAttribute($chartDetail->tickLblPos, 'val', 'string'));
         }
         if (isset($chartDetail->crosses)) {
-            $whichAxis->setAxisOption('horizontal_crosses', (string) self::getAttributeString($chartDetail->crosses, 'val'));
+            $whichAxis->setAxisOption('horizontal_crosses', (string) self::getAttribute($chartDetail->crosses, 'val', 'string'));
         }
         if (isset($chartDetail->crossesAt)) {
-            $whichAxis->setAxisOption('horizontal_crosses_value', (string) self::getAttributeString($chartDetail->crossesAt, 'val'));
-        }
-        if (isset($chartDetail->scaling->logBase)) {
-            $whichAxis->setAxisOption('logBase', (string) self::getAttributeString($chartDetail->scaling->logBase, 'val'));
+            $whichAxis->setAxisOption('horizontal_crosses_value', (string) self::getAttribute($chartDetail->crossesAt, 'val', 'string'));
         }
         if (isset($chartDetail->scaling->orientation)) {
-            $whichAxis->setAxisOption('orientation', (string) self::getAttributeString($chartDetail->scaling->orientation, 'val'));
+            $whichAxis->setAxisOption('orientation', (string) self::getAttribute($chartDetail->scaling->orientation, 'val', 'string'));
         }
         if (isset($chartDetail->scaling->max)) {
-            $whichAxis->setAxisOption('maximum', (string) self::getAttributeString($chartDetail->scaling->max, 'val'));
+            $whichAxis->setAxisOption('maximum', (string) self::getAttribute($chartDetail->scaling->max, 'val', 'string'));
         }
         if (isset($chartDetail->scaling->min)) {
-            $whichAxis->setAxisOption('minimum', (string) self::getAttributeString($chartDetail->scaling->min, 'val'));
+            $whichAxis->setAxisOption('minimum', (string) self::getAttribute($chartDetail->scaling->min, 'val', 'string'));
         }
         if (isset($chartDetail->scaling->min)) {
-            $whichAxis->setAxisOption('minimum', (string) self::getAttributeString($chartDetail->scaling->min, 'val'));
+            $whichAxis->setAxisOption('minimum', (string) self::getAttribute($chartDetail->scaling->min, 'val', 'string'));
         }
         if (isset($chartDetail->majorUnit)) {
-            $whichAxis->setAxisOption('major_unit', (string) self::getAttributeString($chartDetail->majorUnit, 'val'));
+            $whichAxis->setAxisOption('major_unit', (string) self::getAttribute($chartDetail->majorUnit, 'val', 'string'));
         }
         if (isset($chartDetail->minorUnit)) {
-            $whichAxis->setAxisOption('minor_unit', (string) self::getAttributeString($chartDetail->minorUnit, 'val'));
+            $whichAxis->setAxisOption('minor_unit', (string) self::getAttribute($chartDetail->minorUnit, 'val', 'string'));
         }
         if (isset($chartDetail->baseTimeUnit)) {
-            $whichAxis->setAxisOption('baseTimeUnit', (string) self::getAttributeString($chartDetail->baseTimeUnit, 'val'));
+            $whichAxis->setAxisOption('baseTimeUnit', (string) self::getAttribute($chartDetail->baseTimeUnit, 'val', 'string'));
         }
         if (isset($chartDetail->majorTimeUnit)) {
-            $whichAxis->setAxisOption('majorTimeUnit', (string) self::getAttributeString($chartDetail->majorTimeUnit, 'val'));
+            $whichAxis->setAxisOption('majorTimeUnit', (string) self::getAttribute($chartDetail->majorTimeUnit, 'val', 'string'));
         }
         if (isset($chartDetail->minorTimeUnit)) {
-            $whichAxis->setAxisOption('minorTimeUnit', (string) self::getAttributeString($chartDetail->minorTimeUnit, 'val'));
+            $whichAxis->setAxisOption('minorTimeUnit', (string) self::getAttribute($chartDetail->minorTimeUnit, 'val', 'string'));
         }
         if (isset($chartDetail->txPr)) {
             $children = $chartDetail->txPr->children($this->aNamespace);
-            $addAxisText = false;
-            $axisText = new AxisText();
             if (isset($children->bodyPr)) {
-                $textRotation = self::getAttributeString($children->bodyPr, 'rot');
+                /** @var string */
+                $textRotation = self::getAttribute($children->bodyPr, 'rot', 'string');
                 if (is_numeric($textRotation)) {
-                    $axisText->setRotation((int) ChartProperties::xmlToAngle($textRotation));
-                    $addAxisText = true;
+                    $whichAxis->setAxisOption('textRotation', (string) ChartProperties::xmlToAngle($textRotation));
                 }
-            }
-            if (isset($children->p->pPr->defRPr)) {
-                $font = $this->parseFont($children->p);
-                if ($font !== null) {
-                    $axisText->setFont($font);
-                    $addAxisText = true;
-                }
-            }
-            if (isset($children->p->pPr->defRPr->effectLst)) {
-                $this->readEffects($children->p->pPr->defRPr, $axisText, false);
-                $addAxisText = true;
-            }
-            if ($addAxisText) {
-                $whichAxis->setAxisText($axisText);
             }
         }
     }

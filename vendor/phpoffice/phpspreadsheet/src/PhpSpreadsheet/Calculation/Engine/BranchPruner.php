@@ -6,50 +6,69 @@ use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 
 class BranchPruner
 {
-    protected bool $branchPruningEnabled;
+    /**
+     * @var bool
+     */
+    protected $branchPruningEnabled = true;
 
     /**
      * Used to generate unique store keys.
+     *
+     * @var int
      */
-    private int $branchStoreKeyCounter = 0;
+    private $branchStoreKeyCounter = 0;
 
     /**
      * currently pending storeKey (last item of the storeKeysStack.
+     *
+     * @var ?string
      */
-    protected ?string $pendingStoreKey = null;
+    protected $pendingStoreKey;
 
     /**
      * @var string[]
      */
-    protected array $storeKeysStack = [];
+    protected $storeKeysStack = [];
 
     /**
      * @var bool[]
      */
-    protected array $conditionMap = [];
+    protected $conditionMap = [];
 
     /**
      * @var bool[]
      */
-    protected array $thenMap = [];
+    protected $thenMap = [];
 
     /**
      * @var bool[]
      */
-    protected array $elseMap = [];
+    protected $elseMap = [];
 
     /**
      * @var int[]
      */
-    protected array $braceDepthMap = [];
+    protected $braceDepthMap = [];
 
-    protected ?string $currentCondition = null;
+    /**
+     * @var null|string
+     */
+    protected $currentCondition;
 
-    protected ?string $currentOnlyIf = null;
+    /**
+     * @var null|string
+     */
+    protected $currentOnlyIf;
 
-    protected ?string $currentOnlyIfNot = null;
+    /**
+     * @var null|string
+     */
+    protected $currentOnlyIfNot;
 
-    protected ?string $previousStoreKey = null;
+    /**
+     * @var null|string
+     */
+    protected $previousStoreKey;
 
     public function __construct(bool $branchPruningEnabled)
     {
@@ -156,7 +175,10 @@ class BranchPruner
         }
     }
 
-    public function closingBrace(mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    public function closingBrace($value): void
     {
         if (!empty($this->pendingStoreKey) && $this->braceDepthMap[$this->pendingStoreKey] === -1) {
             // we are closing an IF(

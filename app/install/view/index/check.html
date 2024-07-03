@@ -262,6 +262,24 @@
                 <?php endif ?>
             </td>
         </tr>
+        <tr class="<?php if(is_writable(ROOT.'public/static/plugins')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./public/static/plugins</td>
+            <td>可写</td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
+                    可写
+                <?php else: ?>
+                    不可写
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
+                    √
+                <?php else: ?>
+                    ×
+                <?php endif ?>
+            </td>
+        </tr>
         <tr class="<?php if(is_writable(ROOT.'public/download')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>./public/download</td>
             <td>可写</td>
@@ -292,60 +310,6 @@
             </td>
             <td>
                 <?php if (is_writable(ROOT.'extend/payment')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/plugins/css')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/plugins/css</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/css')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/css')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/plugins/js')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/plugins/js</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/js')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/js')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/plugins/images')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/plugins/images</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/images')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins/images')): ?>
                     √
                 <?php else: ?>
                     ×

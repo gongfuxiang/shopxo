@@ -7,7 +7,7 @@
         <div class="am-flex am-flex-justify-between am-flex-items-center am-gap-2">
             <button class="am-btn am-btn-primary am-radius am-btn-xs tree-submit-add" data-am-modal="{target: '#data-save-win'}">
                 <i class="iconfont icon-btn-add am-show-sm-only"></i>
-                <span class="am-hide-sm-only">{{:MyLang('add_title')}}</span>
+                <span>{{:MyLang('add_title')}}</span>
             </button>
         </div>
         <!-- operation end -->
@@ -23,7 +23,7 @@
                     <!-- form start -->
                     <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
                         <div class="am-form-group row am-form-file">
-                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="am-form-group row am-form-file">
-                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon_active')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_active_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_icon_active')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_icon_active_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view goods-category-icon-active-images-view" data-form-name="icon_active" data-max-number="1" data-dialog-type="images">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-active-images-view">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="am-form-group row am-form-file">
-                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_realistic_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_realistic_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_realistic_images')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_realistic_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view goods-category-realistic_images-images-view" data-form-name="realistic_images" data-max-number="1" data-dialog-type="images">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.goods-category-realistic_images-images-view">
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="am-form-group row am-form-file">
-                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_big_images')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_big_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_big_images')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goodscategory.form_item_big_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">
@@ -82,19 +82,19 @@
                                 <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
                             </div>
                         </div>
-                        {{:ModuleInclude('lib/sort_row')}}
+                        {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('common_service.goodscategory.form_item_is_home_recommended')}}</label>
                             <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1) or !isset($data['is_home_recommended'])}}checked="true"{{/if}} />
                         </div>
-                        {{:ModuleInclude('lib/is_enable_row')}}
+                        {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
 
-                        {{:ModuleInclude('lib/seo_row')}}
+                        {{:ModuleInclude('lib/seo', ['is_row'=>1])}}
 
                         <div class="am-form-popup-submit">
                             <input type="hidden" name="id" />
                             <input type="hidden" name="pid" value="0" />
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs btn-loading-example am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>

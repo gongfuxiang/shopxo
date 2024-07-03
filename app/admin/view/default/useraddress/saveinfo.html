@@ -59,7 +59,7 @@
                     <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
                     <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
                     <div class="am-flex am-flex-items-center">
-                        <input type="text" name="address" id="form-address" data-is-clearout="0" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
+                        <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
                         <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
                     </div>
                     <div id="map" data-level="17" class="am-margin-top-xs"></div>
@@ -74,11 +74,11 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                 <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
             </div>
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<a href="javascript:;" class="am-icon-question-circle am-text-primary am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                 <input type="text" name="idcard_number" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" minlength="0" maxlength="18" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
             </div>
             {{if empty($data) or empty($data['user_id'])}}
@@ -94,8 +94,8 @@
                         <div class="item am-margin-right-lg">
                             <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
                                 <li>
-                                    {{if !empty($data['idcard_front_old'])}}
-                                        <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
+                                    {{if !empty($data['idcard_front'])}}
+                                        <input type="text" name="idcard_front" value="{{$data.idcard_front}}" />
                                     {{/if}}
                                     <img src="{{if empty($data['idcard_front'])}}{{:StaticAttachmentUrl('default-idcard-front.jpg')}}{{else /}}{{$data.idcard_front}}{{/if}}" />
                                     <i class="iconfont icon-close"></i>
@@ -106,8 +106,8 @@
                         <div class="item">
                             <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
                                 <li>
-                                    {{if !empty($data['idcard_back_old'])}}
-                                        <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
+                                    {{if !empty($data['idcard_back'])}}
+                                        <input type="text" name="idcard_back" value="{{$data.idcard_back}}" />
                                     {{/if}}
                                     <img src="{{if empty($data['idcard_back'])}}{{:StaticAttachmentUrl('default-idcard-back.jpg')}}{{else /}}{{$data.idcard_back}}{{/if}}" />
                                     <i class="iconfont icon-close"></i>

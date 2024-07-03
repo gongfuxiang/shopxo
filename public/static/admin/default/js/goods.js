@@ -167,13 +167,6 @@ $(function () {
 
         // 移除操作
         $(this).parents('tr').remove();
-
-        // 规格列判断
-        if ($('.specifications-table tbody tr').length <= 1) {
-            $('.specifications-table th.table-title').remove();
-            $('.specifications-table td.table-value').remove();
-            $('.spec-images-list ul.spec-images-content').html('');
-        }
     });
 
     // 添加规格图片
@@ -632,7 +625,7 @@ $(function () {
     }
 
     // 规格选中状态
-    $(document).on('click', '.specifications-table tr', function () {
+    $(document).on('click', '.specifications-table tbody > tr', function () {
         $('.specifications-table tr').removeClass('am-primary');
         $(this).addClass('am-primary');
     });

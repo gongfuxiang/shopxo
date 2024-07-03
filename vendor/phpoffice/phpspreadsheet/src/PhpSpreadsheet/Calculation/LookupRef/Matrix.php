@@ -23,16 +23,18 @@ class Matrix
      */
     public static function isRowVector(array $values): bool
     {
-        return count($values, COUNT_RECURSIVE) > 1
-            && (count($values, COUNT_NORMAL) === 1 || count($values, COUNT_RECURSIVE) === count($values, COUNT_NORMAL));
+        return count($values, COUNT_RECURSIVE) > 1 &&
+            (count($values, COUNT_NORMAL) === 1 || count($values, COUNT_RECURSIVE) === count($values, COUNT_NORMAL));
     }
 
     /**
      * TRANSPOSE.
      *
      * @param array|mixed $matrixData A matrix of values
+     *
+     * @return array
      */
-    public static function transpose($matrixData): array
+    public static function transpose($matrixData)
     {
         $returnMatrix = [];
         if (!is_array($matrixData)) {
@@ -74,7 +76,7 @@ class Matrix
      *         If an array of values is passed as the $rowNum and/or $columnNum arguments, then the returned result
      *            will also be an array with the same dimensions
      */
-    public static function index(mixed $matrix, mixed $rowNum = 0, mixed $columnNum = null): mixed
+    public static function index($matrix, $rowNum = 0, $columnNum = null)
     {
         if (is_array($rowNum) || is_array($columnNum)) {
             return self::evaluateArrayArgumentsSubsetFrom([self::class, __FUNCTION__], 1, $matrix, $rowNum, $columnNum);
@@ -112,7 +114,9 @@ class Matrix
         $columnNum = $columnKeys[--$columnNum];
         if ($rowNum === 0) {
             return array_map(
-                fn ($value): array => [$value],
+                function ($value) {
+                    return [$value];
+                },
                 array_column($matrix, $columnNum)
             );
         }
@@ -121,7 +125,8 @@ class Matrix
         return $matrix[$rowNum][$columnNum];
     }
 
-    private static function extractRowValue(array $matrix, array $rowKeys, int $rowNum): mixed
+    /** @return mixed */
+    private static function extractRowValue(array $matrix, array $rowKeys, int $rowNum)
     {
         if ($rowNum === 0) {
             return $matrix;

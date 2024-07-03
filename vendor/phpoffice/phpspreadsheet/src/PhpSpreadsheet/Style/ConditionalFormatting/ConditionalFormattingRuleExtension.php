@@ -9,15 +9,21 @@ class ConditionalFormattingRuleExtension
 {
     const CONDITION_EXTENSION_DATABAR = 'dataBar';
 
-    private string $id;
+    /** <conditionalFormatting> attributes */
+
+    /** @var string */
+    private $id;
 
     /** @var string Conditional Formatting Rule */
-    private string $cfRule;
+    private $cfRule;
 
-    private ConditionalDataBarExtension $dataBar;
+    /** <conditionalFormatting> children */
+
+    /** @var ConditionalDataBarExtension */
+    private $dataBar;
 
     /** @var string Sequence of References */
-    private string $sqref = '';
+    private $sqref;
 
     /**
      * ConditionalFormattingRuleExtension constructor.
@@ -44,7 +50,7 @@ class ConditionalFormattingRuleExtension
             }
         }
 
-        return implode('', $chars);
+        return implode('', /** @scrutinizer ignore-type */ $chars);
     }
 
     public static function parseExtLstXml(?SimpleXMLElement $extLstXml): array
@@ -118,7 +124,8 @@ class ConditionalFormattingRuleExtension
         }
     }
 
-    private static function parseExtDataBarElementChildrenFromXml(ConditionalDataBarExtension $extDataBarObj, SimpleXMLElement $dataBarXml, array $ns): void
+    /** @param array|SimpleXMLElement $ns */
+    private static function parseExtDataBarElementChildrenFromXml(ConditionalDataBarExtension $extDataBarObj, SimpleXMLElement $dataBarXml, $ns): void
     {
         if ($dataBarXml->borderColor) {
             $attributes = $dataBarXml->borderColor->attributes();
@@ -146,7 +153,8 @@ class ConditionalFormattingRuleExtension
         }
         $cfvoIndex = 0;
         foreach ($dataBarXml->cfvo as $cfvo) {
-            $f = (string) $cfvo->children($ns['xm'])->f;
+            $f = (string) $cfvo->/** @scrutinizer ignore-call */ children($ns['xm'])->f;
+            /** @scrutinizer ignore-call */
             $attributes = $cfvo->attributes();
             if (!($attributes)) {
                 continue;
@@ -162,12 +170,18 @@ class ConditionalFormattingRuleExtension
         }
     }
 
-    public function getId(): string
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function setId(string $id): self
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): self
     {
         $this->id = $id;
 

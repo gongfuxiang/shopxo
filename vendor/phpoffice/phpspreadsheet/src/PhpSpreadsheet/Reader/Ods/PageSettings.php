@@ -8,30 +8,43 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class PageSettings
 {
-    private string $officeNs = '';
+    /**
+     * @var string
+     */
+    private $officeNs;
 
-    private string $stylesNs = '';
+    /**
+     * @var string
+     */
+    private $stylesNs;
 
-    private string $stylesFo = '';
+    /**
+     * @var string
+     */
+    private $stylesFo;
 
-    private string $tableNs = '';
+    /**
+     * @var string
+     */
+    private $tableNs;
 
     /**
      * @var string[]
      */
-    private array $tableStylesCrossReference = [];
+    private $tableStylesCrossReference = [];
 
-    private array $pageLayoutStyles = [];
-
-    /**
-     * @var string[]
-     */
-    private array $masterStylesCrossReference = [];
+    /** @var array */
+    private $pageLayoutStyles = [];
 
     /**
      * @var string[]
      */
-    private array $masterPrintStylesCrossReference = [];
+    private $masterStylesCrossReference = [];
+
+    /**
+     * @var string[]
+     */
+    private $masterPrintStylesCrossReference = [];
 
     public function __construct(DOMDocument $styleDom)
     {
@@ -42,10 +55,10 @@ class PageSettings
 
     private function setDomNameSpaces(DOMDocument $styleDom): void
     {
-        $this->officeNs = (string) $styleDom->lookupNamespaceUri('office');
-        $this->stylesNs = (string) $styleDom->lookupNamespaceUri('style');
-        $this->stylesFo = (string) $styleDom->lookupNamespaceUri('fo');
-        $this->tableNs = (string) $styleDom->lookupNamespaceUri('table');
+        $this->officeNs = $styleDom->lookupNamespaceUri('office');
+        $this->stylesNs = $styleDom->lookupNamespaceUri('style');
+        $this->stylesFo = $styleDom->lookupNamespaceUri('fo');
+        $this->tableNs = $styleDom->lookupNamespaceUri('table');
     }
 
     private function readPageSettingStyles(DOMDocument $styleDom): void

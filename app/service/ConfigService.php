@@ -56,6 +56,7 @@ class ConfigService
         'common_regex_mobile',
         'common_regex_tel',
         'common_regex_id_card',
+        'common_app_customer_service_custom',
     ];
 
     // 附件字段列表
@@ -97,6 +98,7 @@ class ConfigService
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
+        'common_app_customer_service_custom',
     ];
 
     // 二维数组附件字段
@@ -264,11 +266,18 @@ class ConfigService
         // 开始更新数据
         foreach($params as $k=>$v)
         {
-            if(in_array($k, self::$rich_text_list))
+            // 数据是数组则转为json字符串
+            if(is_array($v))
             {
-                $v = ResourcesService::ContentStaticReplace($v, 'add');
+                $v = empty($v) ? '' : json_encode($v, JSON_UNESCAPED_UNICODE);
             } else {
-                $v = htmlentities($v);
+                // 富文本处理
+                if(in_array($k, self::$rich_text_list))
+                {
+                    $v = ResourcesService::ContentStaticReplace($v, 'add');
+                } else {
+                    $v = htmlentities($v);
+                }
             }
             if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
             {
