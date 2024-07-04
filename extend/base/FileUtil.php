@@ -55,10 +55,13 @@ class FileUtil
         $result = true;
         foreach($arr as $str)
         {
-            $aim_dir .= $str . '/';
-            if($aim_dir != '/' && !is_dir($aim_dir))
+            if(stripos($str, ':') === false)
             {
-                $result = mkdir($aim_dir);
+                $aim_dir .= $str . '/';
+                if($aim_dir != '/' && !is_dir($aim_dir))
+                {
+                    $result = mkdir($aim_dir);
+                }
             }
         }
         return $result;
@@ -85,7 +88,10 @@ class FileUtil
             self::UnlinkFile($aim_url);
         }
         $aim_dir = dirname($aim_url);
-        self::CreateDir($aim_dir);
+        if(!empty($aim_dir) && $aim_dir != '.')
+        {
+            self::CreateDir($aim_dir.'/');
+        }
         touch($aim_url);
         return true;
     }
@@ -164,7 +170,10 @@ class FileUtil
             self::UnlinkFile($aim_url);
         }
         $aim_dir = dirname($aim_url);
-        self::CreateDir($aim_dir);
+        if(!empty($aim_dir) && $aim_dir != '.')
+        {
+            self::CreateDir($aim_dir.'/');
+        }
         rename($file_url, $aim_url);
         return true;
     }
@@ -298,7 +307,10 @@ class FileUtil
             self::UnlinkFile($aim_url);
         }
         $aim_dir = dirname($aim_url);
-        self::CreateDir($aim_dir);
+        if(!empty($aim_dir) && $aim_dir != '.')
+        {
+            self::CreateDir($aim_dir.'/');
+        }
         copy($file_url, $aim_url);
         return true;
     }
