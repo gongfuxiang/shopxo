@@ -1464,6 +1464,13 @@ class FormTableHandleModule
                                         $value = str_replace(['-', '/', '|'], '', $value);
                                     }
 
+                                    // id字段则判断数据值是否包含半角逗号，则条件类型强制为in
+                                    if(!is_array($value) && ($where_name == 'id' || stripos($where_name, '.id') !== false) && stripos($value, ',') !== false)
+                                    {
+                                        $where_symbol = 'in';
+                                        $value = explode(',', $value);
+                                    }
+
                                     // 条件
                                     $this->where[] = [$where_name, $where_symbol, $value];
                                 }

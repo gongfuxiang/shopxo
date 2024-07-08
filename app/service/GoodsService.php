@@ -1240,6 +1240,7 @@ class GoodsService
             'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data'], JSON_UNESCAPED_UNICODE),
             'fictitious_goods_value'    => $fictitious_goods_value,
             'site_type'                 => (isset($params['site_type']) && $params['site_type'] != '') ? $params['site_type'] : -1,
+            'sort_level'                => empty($params['sort_level']) ? 0 : intval($params['sort_level']),
         ];
 
         // 是否存在赠送积分

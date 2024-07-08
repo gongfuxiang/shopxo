@@ -1557,7 +1557,7 @@ class OrderService
                 // 支付
                 $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
                 // 发货、取货
-                $result['is_delivery']   = isset($data['order_model']) && (($data['order_model'] == 0 && in_array($data['status'], [2,3])) || ($data['order_model'] == 2 && $data['status'] == 2)) ? 1 : 0;
+                $result['is_delivery']   = isset($data['order_model']) && (($data['order_model'] == 0 && in_array($data['status'], [2,3])) || (in_array($data['order_model'], [2,3]) && $data['status'] == 2)) ? 1 : 0;
                 // 收货
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
                 // 取消

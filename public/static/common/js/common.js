@@ -3920,7 +3920,7 @@ $(function () {
     });
 
     // 表格公共搜索操作
-    $('.form-table-operate-top-search-submit').on('click', function () {
+    $(document).on('click', '.form-table-operate-top-search-submit', function () {
         // 表单数据
         var element = 'form.form-validation-search';
         var $form = $(element);
@@ -3994,7 +3994,7 @@ $(function () {
     });
 
     // 表格公共删除操作
-    $('.form-table-operate-top-delete-submit').on('click', function () {
+    $(document).on('click', '.form-table-operate-top-delete-submit', function () {
         // 请求 url
         var url = $(this).data('url') || null;
         if (url == null) {
@@ -4065,30 +4065,43 @@ $(function () {
     });
 
     // 表格公共excel导出操作
-    $('.form-table-operate-top-export-excel-submit').on('click', function () {
+    $(document).on('click', '.form-table-operate-top-export-excel-submit', function () {
         // 表单基础
         var form_name = 'form.form-validation-search';
         var $form = $(form_name);
-        var request_value = $form.attr('request-value') || null;
-        if (request_value == null) {
-            // 不存在表单则直接使用当前地址
-            request_value = window.open(UrlFieldReplace('form_table_is_export_excel', 1));
-        } else {
-            // 拼接参数
-            var params = GetFormVal(form_name, true);
-            var pv = 'form_table_is_export_excel=1&';
-            for (var i in params) {
-                if (params[i] != undefined && params[i] != '') {
-                    pv += i + '=' + encodeURIComponent(params[i]) + '&';
+        var request_value = $form.attr('request-value') || window.location.href;
+            request_value = UrlFieldReplace('form_table_is_export_excel', null, request_value);
+
+        // 拼接条件
+        var pv = 'form_table_is_export_excel=1&';
+
+        // 是否存在数据选择（复选框列+id数据列）
+        var id_form_name = null;
+        if($form.find('.form-table-search-item-head-value-form_checkbox_value').length > 0 && $form.find('.form-table-search-item-head-value-id').length > 0) {
+            // 是否有选择的数据
+            var values = FromTableCheckedValues('form_checkbox_value', '.am-table-scrollable-horizontal');
+            if(values.length > 0) {
+                id_form_name = $form.find('.form-table-search-item-head-value-id input').attr('name') || null;
+                if(id_form_name != null) {
+                    pv += id_form_name + '=' + encodeURIComponent(values.join(',')) + '&';
                 }
             }
-            var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
-            request_value += join + pv.substr(0, pv.length - 1);
         }
+
+        // 拼接参数
+        var params = GetFormVal(form_name, true);
+        for (var i in params) {
+            if (params[i] != undefined && params[i] != '' && i != id_form_name) {
+                pv += i + '=' + encodeURIComponent(params[i]) + '&';
+            }
+        }
+        var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
+        request_value += join + pv.substr(0, pv.length - 1);
+
         window.open(request_value);
     });
 
-    // 表格公共excel导出操作
+    // 表格公共pdf导出和打印操作
     $(document).on('click', '.form-table-operate-top-data-print-submit,.common-print-submit', function () {
         DataPrintHandle($(this).data('is-pdf'));
     });
