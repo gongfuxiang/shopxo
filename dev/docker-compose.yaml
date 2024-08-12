@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mariadb:
+    image: registry.freeb.vip/docker/bitnami/mariadb:11.4.2-debian-12-r2
+    restart: unless-stopped
+    environment:
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev@123123
+      MARIADB_ROOT_PASSWORD: root@123123
+      MARIADB_DATABASE: freeb
+    ports:
+        - "3306:3306"
+    volumes:
+        - "../config/shopxo.sql:/docker-entrypoint-initdb.d/1.sql"
+        - "db-mariadb:/var/lib/mysql:rw"
+  shopxo:
+    image: registry.freeb.vip/freeb/shopxo:latest
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - "../app:/var/www/html/app"
+      - "../vendor:/var/www/html/vendor"
+      - "../public:/var/www/html/public"
+      - "./database.php:/var/www/html/config/database.php"
+volumes:
+  db-mariadb:
