@@ -1,4 +1,4 @@
-FROM registry.freeb.vip/freeb/php:8.3.8-apache
+FROM registry.freeb.vip/freeb/php:apache
 
 ENV COMPOSER_ALLOW_SUPERUSER=1;
 

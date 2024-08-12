@@ -1,4 +1,4 @@
-FROM docker.io/library/php:8.3.8-apache
+FROM registry.freeb.vip/docker/library/php:8.3.8-apache
 
 ###打包适用的php环境
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \

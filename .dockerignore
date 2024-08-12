@@ -1,0 +1,7 @@
+.git
+*.md
+Dockerfile*
+example.env
+chart
+install.php
+dev

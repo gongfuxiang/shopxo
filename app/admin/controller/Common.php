@@ -522,22 +522,6 @@ class Common extends BaseController
 	}
 
     /**
-     * 商店账号未绑定提示
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-07-15
-     * @desc    description
-     * @param   [string]      $msg [提示信息]
-     */
-    public function NotBindStoreAccountTips($msg)
-    {
-        MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> '.MyLang('store_bind_account_name').'</button></p><p class="am-text-warning am-margin-top-xl">'.MyLang('store_bind_account_tips').'</p>');
-        MyViewAssign('msg', $msg);
-        return MyView('public/tips_error');
-    }
-
-    /**
      * 空方法响应
      * @author   Devil
      * @blog    http://gong.gg/

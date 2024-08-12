@@ -54,14 +54,6 @@ class ThemeAdmin extends Base
         // 获取主题列表
         $data_list = ThemeAdminService::ThemeAdminList();
 
-        // 插件更新信息
-        $upgrade = ThemeAdminService::ThemeAdminUpgradeInfo($data_list);
-        // 是否未绑定商店账号
-        if($upgrade['code'] == -300)
-        {
-            return $this->NotBindStoreAccountTips($upgrade['msg']);
-        }
-
 		// 模板数据
 		MyViewAssign([
             // 导航参数

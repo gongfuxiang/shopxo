@@ -56,7 +56,7 @@ ingress:
         - shop.freeb.vip
 mariadb:
   enabled: true
-  architecture: standalone
+  architecture: standalone #standalone replication
   initdbScriptsConfigMap: "shopxo-initdb"
   auth:
     database: shopxo
@@ -66,6 +66,11 @@ mariadb:
   primary:
     persistence:
       enabled: true
+      size: 10Gi
+  secondary:
+    persistence:
+      enabled: true
+      size: 10Gi
       # storageClass: ""
   external:
     hostname: "127.0.0.1"

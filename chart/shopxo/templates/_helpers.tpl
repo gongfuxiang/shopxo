@@ -62,6 +62,10 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "shopxo.mariadb.host" -}}
+{{- if eq .Values.mariadb.architecture "replication" }}
+{{- printf "%s-mariadb-primary" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else }}
 {{- printf "%s-mariadb" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end }}
 {{- end -}}
 

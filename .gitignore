@@ -11,3 +11,5 @@
 *payment_*_notify.php
 chart/*.yaml
 chart/*.yml
+chart/shopxo/charts
+chart/shopxo/values-*
