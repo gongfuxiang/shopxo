@@ -185,6 +185,7 @@ class NumberFormatter extends BaseFormatter
         return self::pregReplace(self::NUMBER_REGEX, $value, $format);
     }
 
+    /** @param float|int|numeric-string $value value to be formatted */
     public static function format(mixed $value, string $format): string
     {
         // The "_" in this string has already been stripped out,
@@ -265,8 +266,12 @@ class NumberFormatter extends BaseFormatter
 
     public static function padValue(string $value, string $baseFormat): string
     {
-        /** @phpstan-ignore-next-line */
-        [$preDecimal, $postDecimal] = preg_split('/\.(?=(?:[^"]*"[^"]*")*[^"]*\Z)/miu', $baseFormat . '.?');
+        $preDecimal = $postDecimal = '';
+        $pregArray = preg_split('/\.(?=(?:[^"]*"[^"]*")*[^"]*\Z)/miu', $baseFormat . '.?');
+        if (is_array($pregArray)) {
+            $preDecimal = $pregArray[0] ?? '';
+            $postDecimal = $pregArray[1] ?? '';
+        }
 
         $length = strlen($value);
         if (str_contains($postDecimal, '?')) {

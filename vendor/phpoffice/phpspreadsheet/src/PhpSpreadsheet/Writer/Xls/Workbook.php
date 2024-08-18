@@ -52,12 +52,12 @@ class Workbook extends BIFFwriter
      */
     private Parser $parser;
 
-    /**
+    /*
      * The BIFF file size for the workbook. Not currently used.
      *
      * @see calcSheetOffsets()
      */
-    private int $biffSize; // @phpstan-ignore-line
+    //private int $biffSize;
 
     /**
      * XF Writers.
@@ -159,7 +159,7 @@ class Workbook extends BIFFwriter
         parent::__construct();
 
         $this->parser = $parser;
-        $this->biffSize = 0;
+        //$this->biffSize = 0;
         $this->palette = [];
         $this->countryCode = -1;
 
@@ -272,7 +272,7 @@ class Workbook extends BIFFwriter
      *
      * @return int Color index
      */
-    private function addColor(string $rgb): int
+    public function addColor(string $rgb, int $default = 0): int
     {
         if (!isset($this->colors[$rgb])) {
             $color
@@ -298,7 +298,7 @@ class Workbook extends BIFFwriter
                     $this->colors[$rgb] = $colorIndex;
                 } else {
                     // no room for more custom colors, just map to black
-                    $colorIndex = 0;
+                    $colorIndex = $default;
                 }
             }
         } else {
@@ -452,7 +452,7 @@ class Workbook extends BIFFwriter
             $this->worksheetOffsets[$i] = $offset;
             $offset += $this->worksheetSizes[$i];
         }
-        $this->biffSize = $offset;
+        //$this->biffSize = $offset;
     }
 
     /**
@@ -910,9 +910,9 @@ class Workbook extends BIFFwriter
         $record = 0x0022; // Record identifier
         $length = 0x0002; // Bytes to follow
 
-        $f1904 = (Date::getExcelCalendar() === Date::CALENDAR_MAC_1904)
-            ? 1
-            : 0; // Flag for 1904 date system
+        $f1904 = ($this->spreadsheet->getExcelCalendar() === Date::CALENDAR_MAC_1904)
+            ? 1  // Flag for 1904 date system
+            : 0; // Flag for 1900 date system
 
         $header = pack('vv', $record, $length);
         $data = pack('v', $f1904);

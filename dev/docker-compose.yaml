@@ -22,6 +22,9 @@ services:
       - "../app:/var/www/html/app"
       - "../vendor:/var/www/html/vendor"
       - "../public:/var/www/html/public"
+      - "../config:/var/www/html/config"
+      - "../composer.json:/var/www/html/composer.json"
+      - "./.env:/var/www/html/.env"
       - "./database.php:/var/www/html/config/database.php"
 volumes:
   db-mariadb:

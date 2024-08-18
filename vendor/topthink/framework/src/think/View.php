@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace think;
 
+use think\contract\TemplateHandlerInterface;
 use think\helper\Arr;
 
 /**
@@ -39,7 +40,7 @@ class View extends Manager
      * 获取模板引擎
      * @access public
      * @param string $type 模板引擎类型
-     * @return $this
+     * @return TemplateHandlerInterface
      */
     public function engine(string $type = null)
     {

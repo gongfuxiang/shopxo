@@ -1068,6 +1068,9 @@ class Template
                 switch (strtolower($fun)) {
                     case 'raw':
                         break;
+                    case 'htmlentities':
+                        $name = 'htmlentities((string) ' . $name . ')';
+                        break;
                     case 'date':
                         $name = 'date(' . $args[1] . ',!is_numeric(' . $name . ')? strtotime(' . $name . ') : ' . $name . ')';
                         break;

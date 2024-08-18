@@ -298,9 +298,9 @@ class DbManager
      *
      * @return Raw
      */
-    public function raw(string $value): Raw
+    public function raw(string $value, array $bind = []): Raw
     {
-        return new Raw($value);
+        return new Raw($value, $bind);
     }
 
     /**

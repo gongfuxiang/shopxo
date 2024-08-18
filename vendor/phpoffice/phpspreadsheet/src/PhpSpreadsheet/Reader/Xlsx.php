@@ -5,6 +5,7 @@ namespace PhpOffice\PhpSpreadsheet\Reader;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
+use PhpOffice\PhpSpreadsheet\Comment;
 use PhpOffice\PhpSpreadsheet\DefinedName;
 use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx\AutoFilter;
@@ -101,7 +102,7 @@ class Xlsx extends BaseReader
     }
 
     // Phpstan thinks, correctly, that xpath can return false.
-    private static function xpathNoFalse(SimpleXmlElement $sxml, string $path): array
+    private static function xpathNoFalse(SimpleXMLElement $sxml, string $path): array
     {
         return self::falseToArray($sxml->xpath($path));
     }
@@ -570,7 +571,9 @@ class Xlsx extends BaseReader
                     if ($xpath === null) {
                         $xmlStyles = self::testSimpleXml(null);
                     } else {
-                        $xmlStyles = $this->loadZip("$dir/$xpath[Target]", $mainNS);
+                        $stylesTarget = (string) $xpath['Target'];
+                        $stylesTarget = str_starts_with($stylesTarget, '/') ? substr($stylesTarget, 1) : "$dir/$stylesTarget";
+                        $xmlStyles = $this->loadZip($stylesTarget, $mainNS);
                     }
 
                     $palette = self::extractPalette($xmlStyles);
@@ -689,13 +692,17 @@ class Xlsx extends BaseReader
                     $xpath = self::getArrayItem($relsWorkbook->xpath($relType));
 
                     if ($xpath) {
-                        $xmlStrings = $this->loadZip("$dir/$xpath[Target]", $mainNS);
+                        $sharedStringsTarget = (string) $xpath['Target'];
+                        $sharedStringsTarget = str_starts_with($sharedStringsTarget, '/') ? substr($sharedStringsTarget, 1) : "$dir/$sharedStringsTarget";
+                        $xmlStrings = $this->loadZip($sharedStringsTarget, $mainNS);
                         if (isset($xmlStrings->si)) {
                             foreach ($xmlStrings->si as $val) {
                                 if (isset($val->t)) {
                                     $sharedStrings[] = StringHelper::controlCharacterOOXML2PHP((string) $val->t);
                                 } elseif (isset($val->r)) {
                                     $sharedStrings[] = $this->parseRichText($val);
+                                } else {
+                                    $sharedStrings[] = '';
                                 }
                             }
                         }
@@ -705,12 +712,14 @@ class Xlsx extends BaseReader
                     $xmlWorkbookNS = $this->loadZip($relTarget, $mainNS);
 
                     // Set base date
+                    $excel->setExcelCalendar(Date::CALENDAR_WINDOWS_1900);
                     if ($xmlWorkbookNS->workbookPr) {
                         Date::setExcelCalendar(Date::CALENDAR_WINDOWS_1900);
                         $attrs1904 = self::getAttributes($xmlWorkbookNS->workbookPr);
                         if (isset($attrs1904['date1904'])) {
                             if (self::boolean((string) $attrs1904['date1904'])) {
                                 Date::setExcelCalendar(Date::CALENDAR_MAC_1904);
+                                $excel->setExcelCalendar(Date::CALENDAR_MAC_1904);
                             }
                         }
                     }
@@ -792,10 +801,10 @@ class Xlsx extends BaseReader
                                 }
 
                                 $sheetViewOptions = new SheetViewOptions($docSheet, $xmlSheetNS);
-                                $sheetViewOptions->load($this->getReadDataOnly(), $this->styleReader);
+                                $sheetViewOptions->load($this->readDataOnly, $this->styleReader);
 
                                 (new ColumnAndRowAttributes($docSheet, $xmlSheetNS))
-                                    ->load($this->getReadFilter(), $this->getReadDataOnly());
+                                    ->load($this->getReadFilter(), $this->readDataOnly, $this->ignoreRowsWithNoCells);
                             }
 
                             $holdSelectedCells = $docSheet->getSelectedCells();
@@ -852,7 +861,7 @@ class Xlsx extends BaseReader
                                                         $value = self::castToBoolean($c);
                                                     } else {
                                                         $value = null;
-                                                        $cellDataType = DATATYPE::TYPE_NULL;
+                                                        $cellDataType = DataType::TYPE_NULL;
                                                     }
                                                 } else {
                                                     // Formula
@@ -1002,6 +1011,7 @@ class Xlsx extends BaseReader
                                         if (isset($item->formula1)) {
                                             $childNode = $node->addChild('formula1');
                                             if ($childNode !== null) { // null should never happen
+                                                // see https://github.com/phpstan/phpstan/issues/8236
                                                 $childNode[0] = (string) $item->formula1->children(Namespaces::DATA_VALIDATIONS2)->f; // @phpstan-ignore-line
                                             }
                                         }
@@ -1127,10 +1137,19 @@ class Xlsx extends BaseReader
                                             $fillColor = strtoupper(substr((string) $shape['fillcolor'], 1));
                                             $column = null;
                                             $row = null;
+                                            $textHAlign = null;
                                             $fillImageRelId = null;
                                             $fillImageTitle = '';
 
                                             $clientData = $shape->xpath('.//x:ClientData');
+                                            $textboxDirection = '';
+                                            $textboxPath = $shape->xpath('.//v:textbox');
+                                            $textbox = (string) ($textboxPath[0]['style'] ?? '');
+                                            if (preg_match('/rtl/i', $textbox) === 1) {
+                                                $textboxDirection = Comment::TEXTBOX_DIRECTION_RTL;
+                                            } elseif (preg_match('/ltr/i', $textbox) === 1) {
+                                                $textboxDirection = Comment::TEXTBOX_DIRECTION_LTR;
+                                            }
                                             if (is_array($clientData) && !empty($clientData)) {
                                                 $clientData = $clientData[0];
 
@@ -1144,7 +1163,19 @@ class Xlsx extends BaseReader
                                                     if (is_array($temp)) {
                                                         $column = $temp[0];
                                                     }
+                                                    $temp = $clientData->xpath('.//x:TextHAlign');
+                                                    if (!empty($temp)) {
+                                                        $textHAlign = strtolower($temp[0]);
+                                                    }
                                                 }
+                                            }
+                                            $rowx = (string) $row;
+                                            $colx = (string) $column;
+                                            if (is_numeric($rowx) && is_numeric($colx) && $textHAlign !== null) {
+                                                $docSheet->getComment([1 + (int) $colx, 1 + (int) $rowx], false)->setAlignment((string) $textHAlign);
+                                            }
+                                            if (is_numeric($rowx) && is_numeric($colx) && $textboxDirection !== '') {
+                                                $docSheet->getComment([1 + (int) $colx, 1 + (int) $rowx], false)->setTextboxDirection($textboxDirection);
                                             }
 
                                             $fillImageRelNode = $shape->xpath('.//v:fill/@o:relid');
@@ -2054,7 +2085,7 @@ class Xlsx extends BaseReader
         }
     }
 
-    private static function getLockValue(SimpleXmlElement $protection, string $key): ?bool
+    private static function getLockValue(SimpleXMLElement $protection, string $key): ?bool
     {
         $returnValue = null;
         $protectKey = $protection[$key];
@@ -2170,7 +2201,7 @@ class Xlsx extends BaseReader
 
         if ($xmlSheet->protectedRanges->protectedRange) {
             foreach ($xmlSheet->protectedRanges->protectedRange as $protectedRange) {
-                $docSheet->protectCells((string) $protectedRange['sqref'], (string) $protectedRange['password'], true);
+                $docSheet->protectCells((string) $protectedRange['sqref'], (string) $protectedRange['password'], true, (string) $protectedRange['name'], (string) $protectedRange['securityDescriptor']);
             }
         }
     }

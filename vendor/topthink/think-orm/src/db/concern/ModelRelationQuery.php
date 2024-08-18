@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db\concern;
 
@@ -58,12 +58,13 @@ trait ModelRelationQuery
      * 设置需要隐藏的输出属性.
      *
      * @param array $hidden 属性列表
+     * @param bool $merge 是否合并
      *
      * @return $this
      */
-    public function hidden(array $hidden = [])
+    public function hidden(array $hidden = [], bool $merge = false)
     {
-        $this->options['hidden'] = $hidden;
+        $this->options['hidden'] = $merge ? array_merge($this->options['hidden'], $hidden) : $hidden;
 
         return $this;
     }
@@ -71,13 +72,14 @@ trait ModelRelationQuery
     /**
      * 设置需要输出的属性.
      *
-     * @param array $visible
+     * @param array $visible 属性列表
+     * @param bool  $merge 是否合并
      *
      * @return $this
      */
-    public function visible(array $visible = [])
+    public function visible(array $visible = [], bool $merge = false)
     {
-        $this->options['visible'] = $visible;
+        $this->options['visible'] = $merge ? array_merge($this->options['visible'], $visible) : $visible;
 
         return $this;
     }
@@ -86,12 +88,13 @@ trait ModelRelationQuery
      * 设置需要附加的输出属性.
      *
      * @param array $append 属性列表
+     * @param bool  $merge  是否合并
      *
      * @return $this
      */
-    public function append(array $append = [])
+    public function append(array $append = [], bool $merge = false)
     {
-        $this->options['append'] = $append;
+        $this->options['append'] = $merge ? array_merge($this->options['append'], $append) : $append;
 
         return $this;
     }
@@ -110,23 +113,61 @@ trait ModelRelationQuery
         array_unshift($args, $this);
 
         if ($scope instanceof Closure) {
-            call_user_func_array($scope, $args);
-
+            $this->options['scope'][] = [$scope, $args];
             return $this;
         }
 
-        if (is_string($scope)) {
-            $scope = explode(',', $scope);
-        }
-
         if ($this->model) {
+            if (is_string($scope)) {
+                $scope = explode(',', $scope);
+            }
+
             // 检查模型类的查询范围方法
             foreach ($scope as $name) {
                 $method = 'scope' . trim($name);
-
                 if (method_exists($this->model, $method)) {
-                    call_user_func_array([$this->model, $method], $args);
+                    $this->options['scope'][$name] = [[$this->model, $method], $args];
                 }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * 执行查询范围查询.
+     *
+     * @return $this
+     */
+    protected function scopeQuery()
+    {
+        if (!empty($this->options['scope'])) {
+            foreach ($this->options['scope'] as $name => $val) {
+                [$call, $args] = $val;
+                call_user_func_array($call, $args);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * 指定不使用的查询范围.
+     *
+     * @param array $scope 查询范围
+     *
+     * @return $this
+     */
+    public function withoutScope(array $scope = [])
+    {
+        if (empty($scope)) {
+            $this->options['scope'] = [];
+            return $this;
+        }
+
+        foreach ($scope as $name) {
+            if (isset($this->options['scope'][$name])) {
+                unset($this->options['scope'][$name]);
             }
         }
 
@@ -156,11 +197,11 @@ trait ModelRelationQuery
      *
      * @param string|array $fields 搜索字段
      * @param mixed        $data   搜索数据
-     * @param string       $prefix 字段前缀标识
+     * @param bool         $strict 是否严格检查数据
      *
      * @return $this
      */
-    public function withSearch($fields, $data = [], string $prefix = '')
+    public function withSearch($fields, $data = [], bool $strict = true)
     {
         if (is_string($fields)) {
             $fields = explode(',', $fields);
@@ -170,14 +211,17 @@ trait ModelRelationQuery
 
         foreach ($fields as $key => $field) {
             if ($field instanceof Closure) {
-                $field($this, $data[$key] ?? null, $data, $prefix);
+                $field($this, $data[$key] ?? null, $data);
             } elseif ($this->model) {
-                // 检测搜索器
-                $fieldName = is_numeric($key) ? $field : $key;
-                $method = 'search' . Str::studly($fieldName) . 'Attr';
+                // 检查字段是否有数据
+                if ($strict && (!isset($data[$field]) || empty($data[$field]))) {
+                    continue;
+                }
 
+                $fieldName = is_numeric($key) ? $field : $key;
+                $method    = 'search' . Str::studly($fieldName) . 'Attr';
                 if (method_exists($this->model, $method)) {
-                    $this->model->$method($this, $data[$field] ?? null, $data, $prefix);
+                    $this->model->$method($this, $data[$field], $data);
                 } elseif (isset($data[$field])) {
                     $this->where($fieldName, in_array($fieldName, $likeFields) ? 'like' : '=', in_array($fieldName, $likeFields) ? '%' . $data[$field] . '%' : $data[$field]);
                 }
@@ -237,7 +281,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withAttr(string|array $name, callable $callback = null)
+    public function withAttr(string | array $name, callable $callback = null)
     {
         if (is_array($name)) {
             foreach ($name as $key => $val) {
@@ -269,7 +313,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function with(array|string $with)
+    public function with(array | string $with)
     {
         if (empty($this->model) || empty($with)) {
             return $this;
@@ -288,25 +332,25 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withJoin(array|string $with, string $joinType = '')
+    public function withJoin(array | string $with, string $joinType = '')
     {
         if (empty($this->model) || empty($with)) {
             return $this;
         }
 
-        $with = (array) $with;
+        $with  = (array) $with;
         $first = true;
 
         foreach ($with as $key => $relation) {
             $closure = null;
-            $field = true;
+            $field   = true;
 
             if ($relation instanceof Closure) {
                 // 支持闭包查询过滤关联条件
-                $closure = $relation;
+                $closure  = $relation;
                 $relation = $key;
             } elseif (is_array($relation)) {
-                $field = $relation;
+                $field    = $relation;
                 $relation = $key;
             } elseif (is_string($relation) && str_contains($relation, '.')) {
                 $relation = strstr($relation, '.', true);
@@ -337,7 +381,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    protected function withAggregate(string|array $relations, string $aggregate = 'count', $field = '*', bool $subQuery = true)
+    protected function withAggregate(string | array $relations, string $aggregate = 'count', $field = '*', bool $subQuery = true)
     {
         if (empty($this->model)) {
             return $this;
@@ -368,7 +412,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withCache(string|array|bool $relation = true, $key = true, $expire = null, string $tag = null)
+    public function withCache(string | array | bool $relation = true, $key = true, $expire = null, string $tag = null)
     {
         if (empty($this->model)) {
             return $this;
@@ -378,9 +422,9 @@ trait ModelRelationQuery
             return $this;
         }
 
-        if ($key instanceof \DateTimeInterface || $key instanceof \DateInterval || (is_int($key) && is_null($expire))) {
+        if ($key instanceof \DateTimeInterface  || $key instanceof \DateInterval  || (is_int($key) && is_null($expire))) {
             $expire = $key;
-            $key = true;
+            $key    = true;
         }
 
         if (true === $relation || is_numeric($relation)) {
@@ -409,7 +453,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withCount(string|array $relation, bool $subQuery = true)
+    public function withCount(string | array $relation, bool $subQuery = true)
     {
         return $this->withAggregate($relation, 'count', '*', $subQuery);
     }
@@ -423,7 +467,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withSum(string|array $relation, string $field, bool $subQuery = true)
+    public function withSum(string | array $relation, string $field, bool $subQuery = true)
     {
         return $this->withAggregate($relation, 'sum', $field, $subQuery);
     }
@@ -437,7 +481,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withMax(string|array $relation, string $field, bool $subQuery = true)
+    public function withMax(string | array $relation, string $field, bool $subQuery = true)
     {
         return $this->withAggregate($relation, 'max', $field, $subQuery);
     }
@@ -451,7 +495,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withMin(string|array $relation, string $field, bool $subQuery = true)
+    public function withMin(string | array $relation, string $field, bool $subQuery = true)
     {
         return $this->withAggregate($relation, 'min', $field, $subQuery);
     }
@@ -465,7 +509,7 @@ trait ModelRelationQuery
      *
      * @return $this
      */
-    public function withAvg(string|array $relation, string $field, bool $subQuery = true)
+    public function withAvg(string | array $relation, string $field, bool $subQuery = true)
     {
         return $this->withAggregate($relation, 'avg', $field, $subQuery);
     }
@@ -517,6 +561,9 @@ trait ModelRelationQuery
             }
 
             $jsonData = json_decode($result[$name], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                continue;
+            }
 
             if (isset($withAttr[$name])) {
                 foreach ($withAttr[$name] as $key => $closure) {
@@ -583,7 +630,9 @@ trait ModelRelationQuery
         if (!empty($this->options['lazy_fields'])) {
             $id = $this->getKey($result);
             foreach ($this->options['lazy_fields'] as $field) {
-                $result[$field] += $this->getLazyFieldValue($field, $id);
+                if (isset($result[$field])) {
+                    $result[$field] += $this->getLazyFieldValue($field, $id);
+                }
             }
         }
 

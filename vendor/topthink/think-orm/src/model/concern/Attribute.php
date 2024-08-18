@@ -18,6 +18,8 @@ use InvalidArgumentException;
 use Stringable;
 use think\db\Raw;
 use think\helper\Str;
+use think\Model;
+use think\model\contracts\FieldTypeTransform;
 use think\model\Relation;
 
 /**
@@ -31,6 +33,13 @@ trait Attribute
      * @var string|array
      */
     protected $pk = 'id';
+
+    /**
+     * 数据表主键自增.
+     *
+     * @var bool|null|string
+     */
+    protected $autoInc;
 
     /**
      * 数据表字段信息 留空则自动获取.
@@ -234,7 +243,7 @@ trait Attribute
         } elseif (is_object($data)) {
             $data = get_object_vars($data);
         }
-                
+
         // 清空数据
         $this->data = [];
 
@@ -443,7 +452,7 @@ trait Attribute
      */
     protected function writeTransform($value, string|array $type)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return;
         }
 
@@ -457,6 +466,18 @@ trait Attribute
             [$type, $param] = explode(':', $type, 2);
         }
 
+        $typeTransform = static function (string $type, $value, $model) {
+            if (str_contains($type, '\\') && class_exists($type)) {
+                if (is_subclass_of($type, FieldTypeTransform::class)) {
+                    $value = $type::set($value, $model);
+                } elseif ($value instanceof Stringable) {
+                    $value = $value->__toString();
+                }
+            }
+
+            return $value;
+        };
+
         return match ($type) {
             'integer'   =>  (int) $value,
             'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
@@ -467,7 +488,7 @@ trait Attribute
             'array'     =>  json_encode((array) $value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
             'json'      =>  json_encode($value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
             'serialize' =>  serialize($value),
-            default     =>  $value instanceof Stringable && str_contains($type, '\\') ? $value->__toString() : $value,
+            default     =>  $typeTransform($type, $value, $this),
         };
     }
 
@@ -617,6 +638,19 @@ trait Attribute
             return $value;
         };
 
+        $typeTransform = static function (string $type, $value, $model) {
+            if (str_contains($type, '\\') && class_exists($type)) {
+                if (is_subclass_of($type, FieldTypeTransform::class)) {
+                    $value = $type::get($value, $model);
+                } else {
+                    // 对象类型
+                    $value = new $type($value);
+                }
+            }
+
+            return $value;
+        };
+
         return match ($type) {
             'integer'   =>  (int) $value,
             'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
@@ -627,7 +661,7 @@ trait Attribute
             'array'     =>  empty($value) ? [] : json_decode($value, true),
             'object'    =>  empty($value) ? new \stdClass() : json_decode($value),
             'serialize' =>  $call($value),
-            default     =>  str_contains($type, '\\') ? new $type($value) : $value,
+            default     =>  $typeTransform($type, $value, $this),
         };
     }
 

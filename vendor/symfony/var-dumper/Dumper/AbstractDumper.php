@@ -26,14 +26,17 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     public const DUMP_COMMA_SEPARATOR = 4;
     public const DUMP_TRAILING_COMMA = 8;
 
+    /** @var callable|resource|string|null */
     public static $defaultOutput = 'php://output';
 
-    protected $line = '';
+    protected string $line = '';
+    /** @var callable|null */
     protected $lineDumper;
+    /** @var resource|null */
     protected $outputStream;
-    protected $decimalPoint = '.';
-    protected $indentPad = '  ';
-    protected $flags;
+    protected string $decimalPoint = '.';
+    protected string $indentPad = '  ';
+    protected int $flags;
 
     private string $charset = '';
 
@@ -42,7 +45,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      * @param string|null                   $charset The default character encoding to use for non-UTF8 strings
      * @param int                           $flags   A bit field of static::DUMP_* constants to fine tune dumps representation
      */
-    public function __construct($output = null, string $charset = null, int $flags = 0)
+    public function __construct($output = null, ?string $charset = null, int $flags = 0)
     {
         $this->flags = $flags;
         $this->setCharset($charset ?: \ini_get('php.output_encoding') ?: \ini_get('default_charset') ?: 'UTF-8');
@@ -55,9 +58,9 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     /**
      * Sets the output destination of the dumps.
      *
-     * @param callable|resource|string $output A line dumper callable, an opened stream or an output path
+     * @param callable|resource|string|null $output A line dumper callable, an opened stream or an output path
      *
-     * @return callable|resource|string The previous output destination
+     * @return callable|resource|string|null The previous output destination
      */
     public function setOutput($output)
     {
@@ -71,7 +74,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
                 $output = fopen($output, 'w');
             }
             $this->outputStream = $output;
-            $this->lineDumper = [$this, 'echoLine'];
+            $this->lineDumper = $this->echoLine(...);
         }
 
         return $prev;
@@ -87,7 +90,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         $prev = $this->charset;
 
         $charset = strtoupper($charset);
-        $charset = null === $charset || 'UTF-8' === $charset || 'UTF8' === $charset ? 'CP1252' : $charset;
+        $charset = 'UTF-8' === $charset || 'UTF8' === $charset ? 'CP1252' : $charset;
 
         $this->charset = $charset;
 
@@ -156,7 +159,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      * @param int $depth The recursive depth in the dumped structure for the line being dumped,
      *                   or -1 to signal the end-of-dump to the line dumper callable
      */
-    protected function dumpLine(int $depth)
+    protected function dumpLine(int $depth): void
     {
         ($this->lineDumper)($this->line, $depth, $this->indentPad);
         $this->line = '';
@@ -165,7 +168,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     /**
      * Generic line dumper callback.
      */
-    protected function echoLine(string $line, int $depth, string $indentPad)
+    protected function echoLine(string $line, int $depth, string $indentPad): void
     {
         if (-1 !== $depth) {
             fwrite($this->outputStream, str_repeat($indentPad, $depth).$line."\n");

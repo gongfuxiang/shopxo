@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Comment;
 use PhpOffice\PhpSpreadsheet\Document\Properties;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\RichText\Run;
@@ -28,13 +29,27 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use voku\helper\AntiXSS;
 
 class Html extends BaseWriter
 {
     private const DEFAULT_CELL_WIDTH_POINTS = 42;
 
     private const DEFAULT_CELL_WIDTH_PIXELS = 56;
+
+    /**
+     * Migration aid to tell if html tags will be treated as plaintext in comments.
+     *     if (
+     *         defined(
+     *             \PhpOffice\PhpSpreadsheet\Writer\Html::class
+     *             . '::COMMENT_HTML_TAGS_PLAINTEXT'
+     *         )
+     *     ) {
+     *         new logic with styling in TextRun elements
+     *     } else {
+     *         old logic with styling via Html tags
+     *     }.
+     */
+    public const COMMENT_HTML_TAGS_PLAINTEXT = true;
 
     /**
      * Spreadsheet object.
@@ -103,6 +118,8 @@ class Html extends BaseWriter
 
     /**
      * Is the current writer creating mPDF?
+     *
+     * @deprecated 2.0.1 use instanceof Mpdf instead
      */
     protected bool $isMPdf = false;
 
@@ -225,8 +242,9 @@ class Html extends BaseWriter
         return Alignment::HORIZONTAL_ALIGNMENT_FOR_HTML[$hAlign] ?? '';
     }
 
+    const BORDER_NONE = 'none';
     const BORDER_ARR = [
-        Border::BORDER_NONE => 'none',
+        Border::BORDER_NONE => self::BORDER_NONE,
         Border::BORDER_DASHDOT => '1px dashed',
         Border::BORDER_DASHDOTDOT => '1px dotted',
         Border::BORDER_DASHED => '1px dashed',
@@ -247,7 +265,7 @@ class Html extends BaseWriter
      */
     private function mapBorderStyle($borderStyle): string
     {
-        return array_key_exists($borderStyle, self::BORDER_ARR) ? self::BORDER_ARR[$borderStyle] : '1px solid';
+        return self::BORDER_ARR[$borderStyle] ?? '1px solid';
     }
 
     /**
@@ -337,7 +355,11 @@ class Html extends BaseWriter
         $html .= '  <head>' . PHP_EOL;
         $html .= '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . PHP_EOL;
         $html .= '      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />' . PHP_EOL;
-        $html .= '      <title>' . htmlspecialchars($properties->getTitle(), Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
+        $title = $properties->getTitle();
+        if ($title === '') {
+            $title = $this->spreadsheet->getActiveSheet()->getTitle();
+        }
+        $html .= '      <title>' . htmlspecialchars($title, Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
         $html .= self::generateMeta($properties->getCreator(), 'author');
         $html .= self::generateMeta($properties->getTitle(), 'title');
         $html .= self::generateMeta($properties->getDescription(), 'description');
@@ -454,7 +476,7 @@ class Html extends BaseWriter
 
             // Get worksheet dimension
             [$min, $max] = explode(':', $sheet->calculateWorksheetDataDimension());
-            [$minCol, $minRow] = Coordinate::indexesFromString($min);
+            [$minCol, $minRow, $minColString] = Coordinate::indexesFromString($min);
             [$maxCol, $maxRow] = Coordinate::indexesFromString($max);
             $this->extendRowsAndColumns($sheet, $maxCol, $maxRow);
 
@@ -467,16 +489,20 @@ class Html extends BaseWriter
                 $html .= $startTag;
 
                 // Write row if there are HTML table cells in it
-                $mpdfInvisible = $this->isMPdf && !$sheet->isRowVisible($row);
-                if (!$mpdfInvisible && !isset($this->isSpannedRow[$sheet->getParent()->getIndex($sheet)][$row])) {
+                if ($this->shouldGenerateRow($sheet, $row) && !isset($this->isSpannedRow[$sheet->getParent()->getIndex($sheet)][$row])) {
                     // Start a new rowData
                     $rowData = [];
                     // Loop through columns
                     $column = $minCol;
+                    $colStr = $minColString;
                     while ($column <= $maxCol) {
                         // Cell exists?
                         $cellAddress = Coordinate::stringFromColumnIndex($column) . $row;
-                        $rowData[$column++] = ($sheet->getCellCollection()->has($cellAddress)) ? $cellAddress : '';
+                        if ($this->shouldGenerateColumn($sheet, $colStr)) {
+                            $rowData[$column] = ($sheet->getCellCollection()->has($cellAddress)) ? $cellAddress : '';
+                        }
+                        ++$column;
+                        ++$colStr;
                     }
                     $html .= $this->generateRow($sheet, $rowData, $row - 1, $cellType);
                 }
@@ -610,7 +636,7 @@ class Html extends BaseWriter
                 $filename = htmlspecialchars($filename, Settings::htmlEntityFlags());
 
                 $html .= PHP_EOL;
-                $imageData = self::winFileToUrl($filename, $this->isMPdf);
+                $imageData = self::winFileToUrl($filename, $this instanceof Pdf\Mpdf);
 
                 if ($this->embedImages || str_starts_with($imageData, 'zip://')) {
                     $picture = @file_get_contents($filename);
@@ -822,9 +848,13 @@ class Html extends BaseWriter
         // col elements, initialize
         $highestColumnIndex = Coordinate::columnIndexFromString($sheet->getHighestColumn()) - 1;
         $column = -1;
+        $colStr = 'A';
         while ($column++ < $highestColumnIndex) {
             $this->columnWidths[$sheetIndex][$column] = self::DEFAULT_CELL_WIDTH_POINTS; // approximation
-            $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = self::DEFAULT_CELL_WIDTH_POINTS . 'pt';
+            if ($this->shouldGenerateColumn($sheet, $colStr)) {
+                $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = self::DEFAULT_CELL_WIDTH_POINTS . 'pt';
+            }
+            ++$colStr;
         }
 
         // col elements, loop through columnDimensions and set width
@@ -834,6 +864,9 @@ class Html extends BaseWriter
             $width = SharedDrawing::pixelsToPoints($width);
             if ($columnDimension->getVisible() === false) {
                 $css['table.sheet' . $sheetIndex . ' .column' . $column]['display'] = 'none';
+                // This would be better but Firefox has an 11-year-old bug.
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=819045
+                //$css['table.sheet' . $sheetIndex . ' col.col' . $column]['visibility'] = 'collapse';
             }
             if ($width >= 0) {
                 $this->columnWidths[$sheetIndex][$column] = $width;
@@ -991,7 +1024,7 @@ class Html extends BaseWriter
         }
         $rotation = $alignment->getTextRotation();
         if ($rotation !== 0 && $rotation !== Alignment::TEXTROTATION_STACK_PHPSPREADSHEET) {
-            if ($this->isMPdf) {
+            if ($this instanceof Pdf\Mpdf) {
                 $css['text-rotate'] = "$rotation";
             } else {
                 $css['transform'] = "rotate({$rotation}deg)";
@@ -1025,7 +1058,7 @@ class Html extends BaseWriter
         }
 
         $css['color'] = '#' . $font->getColor()->getRGB();
-        $css['font-family'] = '\'' . $font->getName() . '\'';
+        $css['font-family'] = '\'' . htmlspecialchars((string) $font->getName(), ENT_QUOTES) . '\'';
         $css['font-size'] = $font->getSize() . 'pt';
 
         return $css;
@@ -1042,10 +1075,26 @@ class Html extends BaseWriter
         $css = [];
 
         // Create CSS
-        $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
-        $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
-        $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
-        $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+        if (!($this instanceof Pdf\Mpdf)) {
+            $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
+            $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
+            $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
+            $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+        } else {
+            // Mpdf doesn't process !important, so omit unimportant border none
+            if ($borders->getBottom()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
+            }
+            if ($borders->getTop()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
+            }
+            if ($borders->getLeft()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
+            }
+            if ($borders->getRight()->getBorderStyle() !== Border::BORDER_NONE) {
+                $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
+            }
+        }
 
         return $css;
     }
@@ -1060,7 +1109,7 @@ class Html extends BaseWriter
         //    Create CSS - add !important to non-none border styles for merged cells
         $borderStyle = $this->mapBorderStyle($border->getBorderStyle());
 
-        return $borderStyle . ' #' . $border->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
+        return $borderStyle . ' #' . $border->getColor()->getRGB() . (($borderStyle === self::BORDER_NONE) ? '' : ' !important');
     }
 
     /**
@@ -1237,10 +1286,11 @@ class Html extends BaseWriter
         return [$cell, $cssClass, $coordinate];
     }
 
-    private function generateRowCellDataValueRich(Cell $cell, string &$cellData): void
+    private function generateRowCellDataValueRich(RichText $richText): string
     {
+        $cellData = '';
         // Loop through rich text elements
-        $elements = $cell->getValue()->getRichTextElements();
+        $elements = $richText->getRichTextElements();
         foreach ($elements as $element) {
             // Rich text start?
             if ($element instanceof Run) {
@@ -1255,6 +1305,8 @@ class Html extends BaseWriter
                         $cellData .= '<sub>';
                         $cellEnd = '</sub>';
                     }
+                } else {
+                    $cellData .= '<span>';
                 }
 
                 // Convert UTF8 data to PCDATA
@@ -1270,18 +1322,21 @@ class Html extends BaseWriter
                 $cellData .= htmlspecialchars($cellText, Settings::htmlEntityFlags());
             }
         }
+
+        return nl2br($cellData);
     }
 
     private function generateRowCellDataValue(Worksheet $worksheet, Cell $cell, string &$cellData): void
     {
         if ($cell->getValue() instanceof RichText) {
-            $this->generateRowCellDataValueRich($cell, $cellData);
+            $cellData .= $this->generateRowCellDataValueRich($cell->getValue());
         } else {
             $origData = $this->preCalculateFormulas ? $cell->getCalculatedValue() : $cell->getValue();
+            $origData2 = $this->preCalculateFormulas ? $cell->getCalculatedValueString() : $cell->getValueString();
             $formatCode = $worksheet->getParentOrThrow()->getCellXfByIndex($cell->getXfIndex())->getNumberFormat()->getFormatCode();
 
             $cellData = NumberFormat::toFormattedString(
-                $origData ?? '',
+                $origData2,
                 $formatCode ?? NumberFormat::FORMAT_GENERAL,
                 [$this, 'formatColor']
             );
@@ -1411,11 +1466,21 @@ class Html extends BaseWriter
                 $xcssClass['height'] = $height;
             }
             //** end of redundant code **
+            if ($this->useInlineCss) {
+                foreach (['border-top', 'border-bottom', 'border-right', 'border-left'] as $borderType) {
+                    if (($xcssClass[$borderType] ?? '') === 'none #000000') {
+                        unset($xcssClass[$borderType]);
+                    }
+                }
+            }
 
             if ($htmlx) {
                 $xcssClass['position'] = 'relative';
             }
             $html .= ' style="' . $this->assembleCSS($xcssClass) . '"';
+            if ($this->useInlineCss) {
+                $html .= ' class="gridlines gridlinesp"';
+            }
         }
         $html = $this->generateRowSpans($html, $rowSpan, $colSpan);
 
@@ -1474,6 +1539,14 @@ class Html extends BaseWriter
                 $endCellCoord = Coordinate::stringFromColumnIndex($colNum + $colSpan) . ($row + $rowSpan);
                 if (!$this->useInlineCss) {
                     $cssClass .= ' style' . $worksheet->getCell($endCellCoord)->getXfIndex();
+                } else {
+                    $endBorders = $this->spreadsheet->getCellXfByIndex($worksheet->getCell($endCellCoord)->getXfIndex())->getBorders();
+                    $altBorders = $this->createCSSStyleBorders($endBorders);
+                    foreach ($altBorders as $altKey => $altValue) {
+                        if (str_contains($altValue, '!important')) {
+                            $cssClass[$altKey] = $altValue;
+                        }
+                    }
                 }
             }
 
@@ -1703,11 +1776,16 @@ class Html extends BaseWriter
     {
         $result = '';
         if (!$this->isPdf && isset($worksheet->getComments()[$coordinate])) {
-            $sanitizer = new AntiXSS();
-            $sanitizedString = $sanitizer->xss_clean($worksheet->getComment($coordinate)->getText()->getPlainText());
+            $sanitizedString = $this->generateRowCellDataValueRich($worksheet->getComment($coordinate)->getText());
+            $dir = ($worksheet->getComment($coordinate)->getTextboxDirection() === Comment::TEXTBOX_DIRECTION_RTL) ? ' dir="rtl"' : '';
+            $align = strtolower($worksheet->getComment($coordinate)->getAlignment());
+            $alignment = Alignment::HORIZONTAL_ALIGNMENT_FOR_HTML[$align] ?? '';
+            if ($alignment !== '') {
+                $alignment = " style=\"text-align:$alignment\"";
+            }
             if ($sanitizedString !== '') {
                 $result .= '<a class="comment-indicator"></a>';
-                $result .= '<div class="comment">' . nl2br($sanitizedString) . '</div>';
+                $result .= "<div class=\"comment\"$dir$alignment>" . $sanitizedString . '</div>';
                 $result .= PHP_EOL;
             }
         }
@@ -1781,5 +1859,26 @@ class Html extends BaseWriter
         $htmlPage .= $generateSurroundingHTML ? ('</style>' . PHP_EOL) : '';
 
         return $htmlPage;
+    }
+
+    private function shouldGenerateRow(Worksheet $sheet, int $row): bool
+    {
+        if (!($this instanceof Pdf\Mpdf || $this instanceof Pdf\Tcpdf)) {
+            return true;
+        }
+
+        return $sheet->isRowVisible($row);
+    }
+
+    private function shouldGenerateColumn(Worksheet $sheet, string $colStr): bool
+    {
+        if (!($this instanceof Pdf\Mpdf || $this instanceof Pdf\Tcpdf)) {
+            return true;
+        }
+        if (!$sheet->columnDimensionExists($colStr)) {
+            return true;
+        }
+
+        return $sheet->getColumnDimension($colStr)->getVisible();
     }
 }

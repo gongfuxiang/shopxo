@@ -188,10 +188,10 @@ class ConditionalStyles
             $conditionalStyles = $this->readStyleRules($cfRules, $xmlExtLst);
 
             // Extract all cell references in $cellRangeReference
-            $cellBlocks = explode(' ', str_replace('$', '', strtoupper($cellRangeReference)));
-            foreach ($cellBlocks as $cellBlock) {
-                $worksheet->getStyle($cellBlock)->setConditionalStyles($conditionalStyles);
-            }
+            // N.B. In Excel UI, intersection is space and union is comma.
+            // But in Xml, intersection is comma and union is space.
+            $cellRangeReference = str_replace(['$', ' ', ',', '^'], ['', '^', ' ', ','], strtoupper($cellRangeReference));
+            $worksheet->getStyle($cellRangeReference)->setConditionalStyles($conditionalStyles);
         }
     }
 
@@ -262,7 +262,7 @@ class ConditionalStyles
         //conditionalFormatValueObjects
         $cfvoXml = $cfRule->dataBar->cfvo;
         $cfvoIndex = 0;
-        foreach ((count($cfvoXml) > 1 ? $cfvoXml : [$cfvoXml]) as $cfvo) {
+        foreach ((count($cfvoXml) > 1 ? $cfvoXml : [$cfvoXml]) as $cfvo) { //* @phpstan-ignore-line
             if ($cfvoIndex === 0) {
                 $dataBar->setMinimumConditionalFormatValueObject(new ConditionalFormatValueObject((string) $cfvo['type'], (string) $cfvo['val']));
             }
@@ -282,32 +282,37 @@ class ConditionalStyles
         return $dataBar;
     }
 
-    private function readColorScale(simpleXMLElement|stdClass $cfRule): ConditionalColorScale
+    private function readColorScale(SimpleXMLElement|stdClass $cfRule): ConditionalColorScale
     {
         $colorScale = new ConditionalColorScale();
-        $types = [];
+        $count = count($cfRule->colorScale->cfvo);
+        $idx = 0;
         foreach ($cfRule->colorScale->cfvo as $cfvoXml) {
             $attr = $cfvoXml->attributes() ?? [];
             $type = (string) ($attr['type'] ?? '');
-            $types[] = $type;
             $val = $attr['val'] ?? null;
-            if ($type === 'min') {
-                $colorScale->setMinimumConditionalFormatValueObject(new ConditionalFormatValueObject($type, $val));
-            } elseif ($type === 'percentile') {
-                $colorScale->setMidpointConditionalFormatValueObject(new ConditionalFormatValueObject($type, $val));
-            } elseif ($type === 'max') {
-                $colorScale->setMaximumConditionalFormatValueObject(new ConditionalFormatValueObject($type, $val));
+            if ($idx === 0) {
+                $method = 'setMinimumConditionalFormatValueObject';
+            } elseif ($idx === 1 && $count === 3) {
+                $method = 'setMidpointConditionalFormatValueObject';
+            } else {
+                $method = 'setMaximumConditionalFormatValueObject';
             }
+            if ($type !== 'formula') {
+                $colorScale->$method(new ConditionalFormatValueObject($type, $val));
+            } else {
+                $colorScale->$method(new ConditionalFormatValueObject($type, null, $val));
+            }
+            ++$idx;
         }
         $idx = 0;
         foreach ($cfRule->colorScale->color as $color) {
-            $type = $types[$idx];
             $rgb = $this->styleReader->readColor($color);
-            if ($type === 'min') {
+            if ($idx === 0) {
                 $colorScale->setMinimumColor(new Color($rgb));
-            } elseif ($type === 'percentile') {
+            } elseif ($idx === 1 && $count === 3) {
                 $colorScale->setMidpointColor(new Color($rgb));
-            } elseif ($type === 'max') {
+            } else {
                 $colorScale->setMaximumColor(new Color($rgb));
             }
             ++$idx;
@@ -320,7 +325,7 @@ class ConditionalStyles
     {
         if (isset($cfRule->extLst)) {
             $ns = $cfRule->extLst->getNamespaces(true);
-            foreach ((count($cfRule->extLst) > 0 ? $cfRule->extLst->ext : [$cfRule->extLst->ext]) as $ext) {
+            foreach ((count($cfRule->extLst) > 0 ? $cfRule->extLst->ext : [$cfRule->extLst->ext]) as $ext) { //* @phpstan-ignore-line
                 $extId = (string) $ext->children($ns['x14'])->id;
                 if (isset($conditionalFormattingRuleExtensions[$extId]) && (string) $ext['uri'] === '{B025F937-C7B1-47D3-B67F-A62EFF666E3E}') {
                     $dataBar->setConditionalFormattingRuleExt($conditionalFormattingRuleExtensions[$extId]);

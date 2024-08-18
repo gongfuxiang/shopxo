@@ -26,7 +26,7 @@ $config = new Config();
 return $config->setRules([
         '@PER' => true,
         '@PER:risky' => true,
-        '@PHP81Migration' => true,
+        '@PHP82Migration' => true,
         '@PHPUnit84Migration:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'class_attributes_separation' => true,

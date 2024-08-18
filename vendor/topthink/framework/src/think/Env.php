@@ -115,7 +115,11 @@ class Env implements ArrayAccess
             foreach ($env as $key => $val) {
                 if (is_array($val)) {
                     foreach ($val as $k => $v) {
-                        $this->data[$key . '_' . strtoupper($k)] = $v;
+                        if (is_string($k)) {
+                            $this->data[$key . '_' . strtoupper($k)] = $v;
+                        } else {
+                            $this->data[$key][$k] = $v;
+                        }
                     }
                 } else {
                     $this->data[$key] = $val;

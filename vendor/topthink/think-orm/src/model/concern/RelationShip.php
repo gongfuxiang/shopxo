@@ -384,7 +384,7 @@ trait RelationShip
                 throw new Exception('bind attr has exists:' . $key);
             }
 
-            $this->set($key, $relation ? $relation->$attr : null);
+            $this->set($key, $relation ? $relation->getAttr($attr) : null);
         }
 
         return $this;

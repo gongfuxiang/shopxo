@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Document\Properties;
 use PhpOffice\PhpSpreadsheet\Document\Security;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Shared\File;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 use PhpOffice\PhpSpreadsheet\Style\Style;
@@ -30,6 +31,8 @@ class Spreadsheet implements JsonSerializable
         self::VISIBILITY_HIDDEN,
         self::VISIBILITY_VERY_HIDDEN,
     ];
+
+    protected int $excelCalendar = Date::CALENDAR_WINDOWS_1900;
 
     /**
      * Unique ID.
@@ -253,7 +256,7 @@ class Spreadsheet implements JsonSerializable
      */
     public function setRibbonXMLData(mixed $target, mixed $xmlData): void
     {
-        if ($target !== null && $xmlData !== null) {
+        if (is_string($target) && is_string($xmlData)) {
             $this->ribbonXMLData = ['target' => $target, 'data' => $xmlData];
         } else {
             $this->ribbonXMLData = null;
@@ -410,10 +413,10 @@ class Spreadsheet implements JsonSerializable
         $this->activeSheetIndex = 0;
 
         // Create document properties
-        $this->properties = new Document\Properties();
+        $this->properties = new Properties();
 
         // Create document security
-        $this->security = new Document\Security();
+        $this->security = new Security();
 
         // Set defined names
         $this->definedNames = [];
@@ -463,7 +466,7 @@ class Spreadsheet implements JsonSerializable
     /**
      * Get properties.
      */
-    public function getProperties(): Document\Properties
+    public function getProperties(): Properties
     {
         return $this->properties;
     }
@@ -471,7 +474,7 @@ class Spreadsheet implements JsonSerializable
     /**
      * Set properties.
      */
-    public function setProperties(Document\Properties $documentProperties): void
+    public function setProperties(Properties $documentProperties): void
     {
         $this->properties = $documentProperties;
     }
@@ -479,7 +482,7 @@ class Spreadsheet implements JsonSerializable
     /**
      * Get security.
      */
-    public function getSecurity(): Document\Security
+    public function getSecurity(): Security
     {
         return $this->security;
     }
@@ -487,7 +490,7 @@ class Spreadsheet implements JsonSerializable
     /**
      * Set security.
      */
-    public function setSecurity(Document\Security $documentSecurity): void
+    public function setSecurity(Security $documentSecurity): void
     {
         $this->security = $documentSecurity;
     }
@@ -554,6 +557,9 @@ class Spreadsheet implements JsonSerializable
             // Adjust active sheet index if necessary
             if ($this->activeSheetIndex >= $sheetIndex) {
                 ++$this->activeSheetIndex;
+            }
+            if ($this->activeSheetIndex < 0) {
+                $this->activeSheetIndex = 0;
             }
         }
 
@@ -1552,5 +1558,27 @@ class Spreadsheet implements JsonSerializable
         }
 
         return $table;
+    }
+
+    /**
+     * @return bool Success or failure
+     */
+    public function setExcelCalendar(int $baseYear): bool
+    {
+        if (($baseYear === Date::CALENDAR_WINDOWS_1900) || ($baseYear === Date::CALENDAR_MAC_1904)) {
+            $this->excelCalendar = $baseYear;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return int Excel base date (1900 or 1904)
+     */
+    public function getExcelCalendar(): int
+    {
+        return $this->excelCalendar;
     }
 }

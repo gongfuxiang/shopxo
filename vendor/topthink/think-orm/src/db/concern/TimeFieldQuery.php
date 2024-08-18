@@ -100,6 +100,10 @@ trait TimeFieldQuery
     public function whereMonth(string $field, string $month = 'this month', int $step = 1, string $logic = 'AND')
     {
         if (in_array($month, ['this month', 'last month'])) {
+            if($month === 'last month') {
+                $month = $this->timeRule['last month'][0];
+            }
+
             $month = date('Y-m', strtotime($month));
         }
 

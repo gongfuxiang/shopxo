@@ -18,6 +18,8 @@ use app\service\ResourcesService;
 use app\service\SystemBaseService;
 use app\service\ConfigService;
 use app\service\ApiService;
+use Jumbojett\OpenIDConnectClient;
+use think\facade\Config;
 
 /**
  * 用户服务层
@@ -3480,6 +3482,76 @@ class UserService
             }
         }
         return $referer_url;
+    }
+        /**
+     * OPENID登录注册
+     * @author  hongchunhua
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-17
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserOpenIdLogin($params = [])
+    {
+        $useInfo = null;
+        $userconfig = 'openid.user';
+        if (Config::has($userconfig)) {
+            $oidc = new OpenIDConnectClient(
+                Config::get($userconfig .'.provider_url'),
+                Config::get($userconfig .'.client_id'),
+                Config::get($userconfig .'.client_secret')
+            );
+            if (Config::has($userconfig .'.redirect_url')) {
+                $redirect = sprintf("%s%s", UserService::getRedirectURL(), Config::get($userconfig .'.redirect_url'));
+                $oidc->setRedirectURL($redirect);
+            }else {
+                $redirect = sprintf("%s%s", UserService::getRedirectURL(), '?s=user/loginInfo.html');
+                $oidc->setRedirectURL($redirect);
+            }
+            $oidc->authenticate();
+            $useInfo = $oidc->requestUserInfo();
+            return $useInfo;
+        }
+        
+        return $useInfo;
+    }
+    public static function getRedirectURL(): string
+    {
+       if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+        } elseif (isset($_SERVER['REQUEST_SCHEME'])) {
+            $protocol = $_SERVER['REQUEST_SCHEME'];
+        } elseif (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $protocol = 'https';
+        } else {
+            $protocol = 'http';
+        }
+	    dump($protocol);
+        if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+            $port = (int)$_SERVER['HTTP_X_FORWARDED_PORT'];
+        } elseif (isset($_SERVER['SERVER_PORT'])) {
+            $port = $_SERVER['SERVER_PORT'];
+        } elseif ($protocol === 'https') {
+            $port = 443;
+        } else {
+            $port = 80;
+        }
+
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $host = explode(':', $_SERVER['HTTP_HOST'])[0];
+        } elseif (isset($_SERVER['SERVER_NAME'])) {
+            $host = $_SERVER['SERVER_NAME'];
+        } elseif (isset($_SERVER['SERVER_ADDR'])) {
+            $host = $_SERVER['SERVER_ADDR'];
+        } else {
+            return 'http:///';
+        }
+
+        $port = (443 === $port) || (80 === $port) ? '' : ':' . $port;
+	    
+        $explodedRequestUri = isset($_SERVER['REQUEST_URI']) ? explode('?', $_SERVER['REQUEST_URI']) : [];
+        return sprintf('%s://%s%s/%s', $protocol, $host, $port, trim(reset($explodedRequestUri), '/'));
     }
 }
 ?>

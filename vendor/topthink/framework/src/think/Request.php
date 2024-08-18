@@ -374,6 +374,17 @@ class Request implements ArrayAccess
     }
 
     /**
+     * 设置根域名
+     * @param string $domain
+     * @return $this
+     */
+    public function setRootDomain(string $domain)
+    {
+        $this->rootDomain = $domain;
+        return $this;
+    }
+
+    /**
      * 获取当前根域名
      * @access public
      * @return string

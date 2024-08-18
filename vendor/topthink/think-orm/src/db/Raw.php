@@ -45,7 +45,7 @@ class Raw
     /**
      * 获取参数绑定.
      *
-     * @return string
+     * @return array
      */
     public function getBind(): array
     {

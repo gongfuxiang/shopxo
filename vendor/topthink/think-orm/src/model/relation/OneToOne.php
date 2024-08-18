@@ -232,7 +232,7 @@ abstract class OneToOne extends Relation
         // 保存关联表数据
         $data[$this->foreignKey] = $this->parent->{$this->localKey};
 
-        return new $this->model($data);
+        return (new $this->model($data))->setSuffix($this->getModel()->getSuffix());
     }
 
     /**
@@ -322,7 +322,7 @@ abstract class OneToOne extends Relation
                 throw new Exception('bind attr has exists:' . $key);
             }
 
-            $result->setAttr($key, $model?->$attr);
+            $result->setAttr($key, $model?->getAttr($attr));
         }
     }
 

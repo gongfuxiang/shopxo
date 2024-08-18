@@ -30,7 +30,8 @@
         "phpoffice/phpspreadsheet": "*",
         "overtrue/pinyin": "*",
         "picqer/php-barcode-generator": "*",
-        "phpmailer/phpmailer": "*"
+        "phpmailer/phpmailer": "*",
+        "jumbojett/openid-connect-php": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "*",

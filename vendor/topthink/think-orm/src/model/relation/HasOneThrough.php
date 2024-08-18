@@ -159,13 +159,9 @@ class HasOneThrough extends HasManyThrough
             ->select();
 
         // 组装模型数据
-        $data = [];
-        $keys = array_flip($keys);
-
-        foreach ($list as $set) {
-            $data[$keys[$set->{$this->throughKey}]] = $set;
-        }
-
-        return $data;
+        return array_map(function ($key) use ($list) {
+            $set = $list->where($this->throughKey, '=', $key)->first();
+            return $set ? clone $set : null;
+        }, $keys);
     }
 }

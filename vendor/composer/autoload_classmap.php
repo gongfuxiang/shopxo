@@ -7,6 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
-    'Stringable' => $vendorDir . '/myclabs/php-enum/stubs/Stringable.php',
+    'Jumbojett\\OpenIDConnectClient' => $vendorDir . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
+    'Jumbojett\\OpenIDConnectClientException' => $vendorDir . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
 );

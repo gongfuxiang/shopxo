@@ -105,7 +105,6 @@ abstract class Properties
 
     protected bool $objectState = false; // used only for minor gridlines
 
-    /** @var ?float */
     protected ?float $glowSize = null;
 
     protected ChartColor $glowColor;
@@ -647,8 +646,16 @@ abstract class Properties
                 'alpha' => $this->shadowColor->getAlpha(),
             ];
         }
+        $retVal = $this->getArrayElementsValue($this->shadowProperties, $elements);
+        if (is_scalar($retVal)) {
+            $retVal = (string) $retVal;
+        } elseif ($retVal !== null && !is_array($retVal)) {
+            // @codeCoverageIgnoreStart
+            throw new Exception('Unexpected value for shadowProperty');
+            // @codeCoverageIgnoreEnd
+        }
 
-        return $this->getArrayElementsValue($this->shadowProperties, $elements);
+        return $retVal;
     }
 
     public function getShadowArray(): array
@@ -825,7 +832,16 @@ abstract class Properties
      */
     public function getLineStyleProperty(array|string $elements): ?string
     {
-        return $this->getArrayElementsValue($this->lineStyleProperties, $elements);
+        $retVal = $this->getArrayElementsValue($this->lineStyleProperties, $elements);
+        if (is_scalar($retVal)) {
+            $retVal = (string) $retVal;
+        } elseif ($retVal !== null) {
+            // @codeCoverageIgnoreStart
+            throw new Exception('Unexpected value for lineStyleProperty');
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $retVal;
     }
 
     protected const ARROW_SIZES = [

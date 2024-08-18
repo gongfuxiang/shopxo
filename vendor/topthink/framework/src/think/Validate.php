@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
@@ -287,7 +287,7 @@ class Validate
      * @param mixed        $rule 验证规则或者字段描述信息
      * @return $this
      */
-    public function rule(string|array $name, $rule = '')
+    public function rule(string | array $name, $rule = '')
     {
         if (is_array($name)) {
             $this->rule = $name + $this->rule;
@@ -327,7 +327,7 @@ class Validate
      * @param string       $msg  验证提示信息
      * @return void
      */
-    public function setTypeMsg(string|array $type, string $msg = null): void
+    public function setTypeMsg(string | array $type, string $msg = null): void
     {
         if (is_array($type)) {
             $this->typeMsg = array_merge($this->typeMsg, $type);
@@ -420,7 +420,7 @@ class Validate
      * @param mixed        $rule  验证规则 true 移除所有规则
      * @return $this
      */
-    public function remove(string|array $field, $rule = null)
+    public function remove(string | array $field, $rule = null)
     {
         if (is_array($field)) {
             foreach ($field as $key => $rule) {
@@ -448,7 +448,7 @@ class Validate
      * @param mixed        $rule  验证规则
      * @return $this
      */
-    public function append(string|array $field, $rule = null)
+    public function append(string | array $field, $rule = null)
     {
         if (is_array($field)) {
             foreach ($field as $key => $rule) {
@@ -849,19 +849,19 @@ class Validate
         };
 
         return match (Str::camel($rule)) {
-            'require'   =>  !empty($value) || '0' == $value, // 必须
-            'accepted'  =>  in_array($value, ['1', 'on', 'yes']), // 接受
-            'date'      =>  false !== strtotime($value),                // 是否是一个有效日期
-            'activeUrl' =>  checkdnsrr($value), // 是否为有效的网址
-            'boolean','bool'    =>  in_array($value, [true, false, 0, 1, '0', '1'], true),                // 是否为布尔值
-            'number'    =>  ctype_digit((string) $value),
-            'alphaNum'  =>  ctype_alnum($value),
-            'array'     =>  is_array($value),                // 是否为数组
-            'string'    =>  is_string($value),
-            'file'      =>  $value instanceof File,
-            'image'     =>  $value instanceof File && in_array($this->getImageType($value->getRealPath()), [1, 2, 3, 6]),
-            'token'     =>  $this->token($value, '__token__', $data),
-            default     =>  $call($value, $rule),
+            'require' => !empty($value) || '0' == $value, // 必须
+            'accepted' => in_array($value, ['1', 'on', 'yes']), // 接受
+            'date'   => false !== strtotime($value), // 是否是一个有效日期
+            'activeUrl' => checkdnsrr($value), // 是否为有效的网址
+            'boolean', 'bool' => in_array($value, [true, false, 0, 1, '0', '1'], true), // 是否为布尔值
+            'number' => ctype_digit((string) $value),
+            'alphaNum' => ctype_alnum($value),
+            'array'    => is_array($value), // 是否为数组
+            'string' => is_string($value),
+            'file'     => $value instanceof File,
+            'image'    => $value instanceof File && in_array($this->getImageType($value->getRealPath()), [1, 2, 3, 6]),
+            'token'    => $this->token($value, '__token__', $data),
+            default    => $call($value, $rule),
         };
     }
 
@@ -1159,10 +1159,14 @@ class Validate
                     $map[] = [$key, '=', $data[$key]];
                 }
             }
+        } elseif (strpos($key, '=')) {
+            // 支持复杂验证
+            parse_str($key, $array);
+            foreach ($array as $k => $val) {
+                $map[] = [$k, '=', $data[$k] ?? $val];
+            }
         } elseif (isset($data[$field])) {
             $map[] = [$key, '=', $data[$field]];
-        } else {
-            $map = [];
         }
 
         $pk = !empty($rule[3]) ? $rule[3] : $db->getPk();
@@ -1213,7 +1217,8 @@ class Validate
      */
     public function requireIf($value, $rule, array $data = []): bool
     {
-        [$field, $val] = explode(',', $rule);
+
+        [$field, $val] = is_string($rule) ? explode(',', $rule) : $rule;
 
         if ($this->getDataValue($data, $field) == $val) {
             return !empty($value) || '0' == $value;
@@ -1225,14 +1230,15 @@ class Validate
     /**
      * 通过回调方法验证某个字段是否必须
      * @access public
-     * @param mixed $value 字段值
-     * @param mixed $rule  验证规则
-     * @param array $data  数据
+     * @param mixed        $value 字段值
+     * @param string|array $rule  验证规则
+     * @param array        $data  数据
      * @return bool
      */
-    public function requireCallback($value, $rule, array $data = []): bool
+    public function requireCallback($value, string | array $rule, array $data = []): bool
     {
-        $result = call_user_func_array([$this, $rule], [$value, $data]);
+        $callback = is_array($rule) ? $rule : [$this, $rule];
+        $result   = call_user_func_array($callback, [$value, $data]);
 
         if ($result) {
             return !empty($value) || '0' == $value;
@@ -1312,10 +1318,7 @@ class Validate
      */
     public function between($value, $rule): bool
     {
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
-        [$min, $max] = $rule;
+        [$min, $max] = is_string($rule) ? explode(',', $rule) : $rule;
 
         return $value >= $min && $value <= $max;
     }
@@ -1329,10 +1332,7 @@ class Validate
      */
     public function notBetween($value, $rule): bool
     {
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
-        [$min, $max] = $rule;
+        [$min, $max] = is_string($rule) ? explode(',', $rule) : $rule;
 
         return $value < $min || $value > $max;
     }
@@ -1467,11 +1467,7 @@ class Validate
      */
     public function expire($value, $rule): bool
     {
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
-
-        [$start, $end] = $rule;
+        [$start, $end] = is_string($rule) ? explode(',', $rule) : $rule;
 
         if (!is_numeric($start)) {
             $start = strtotime($start);

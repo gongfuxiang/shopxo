@@ -3,6 +3,7 @@
 namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
 use PhpOffice\PhpSpreadsheet\Cell\AddressRange;
+use PhpOffice\PhpSpreadsheet\Cell\CellAddress;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
@@ -63,7 +64,7 @@ class Table implements Stringable
     /**
      * Create a new Table.
      *
-     * @param AddressRange|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
+     * @param AddressRange<CellAddress>|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
      *            A simple string containing a Cell range like 'A1:E10' is permitted
      *              or passing in an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 8]),
      *              or an AddressRange object.
@@ -178,7 +179,7 @@ class Table implements Stringable
         foreach ($worksheet->getCoordinates(false) as $coordinate) {
             $cell = $worksheet->getCell($coordinate);
             if ($cell->getDataType() === DataType::TYPE_FORMULA) {
-                $formula = $cell->getValue();
+                $formula = $cell->getValueString();
                 if (preg_match($pattern, $formula) === 1) {
                     $formula = preg_replace($pattern, "{$newName}[", $formula);
                     $cell->setValueExplicit($formula, DataType::TYPE_FORMULA);
@@ -194,8 +195,8 @@ class Table implements Stringable
         foreach ($spreadsheet->getNamedFormulae() as $namedFormula) {
             $formula = $namedFormula->getValue();
             if (preg_match($pattern, $formula) === 1) {
-                $formula = preg_replace($pattern, "{$newName}[", $formula);
-                $namedFormula->setValue($formula); // @phpstan-ignore-line
+                $formula = preg_replace($pattern, "{$newName}[", $formula) ?? '';
+                $namedFormula->setValue($formula);
             }
         }
     }
@@ -267,7 +268,7 @@ class Table implements Stringable
     /**
      * Set Table Cell Range.
      *
-     * @param AddressRange|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
+     * @param AddressRange<CellAddress>|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
      *            A simple string containing a Cell range like 'A1:E10' is permitted
      *              or passing in an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 8]),
      *              or an AddressRange object.
@@ -506,7 +507,7 @@ class Table implements Stringable
     /**
      * Get table Style.
      */
-    public function getStyle(): Table\TableStyle
+    public function getStyle(): TableStyle
     {
         return $this->style;
     }

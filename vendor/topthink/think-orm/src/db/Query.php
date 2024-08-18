@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db;
 
@@ -392,12 +392,12 @@ class Query extends BaseQuery
      * 字段值增长（支持延迟写入）
      *
      * @param string    $field 字段名
-     * @param int       $step  步进值
+     * @param float     $step  步进值
      * @param int       $lazyTime 延迟时间（秒）
      *
      * @return int|false
      */
-    public function setInc(string $field, int $step = 1, $lazyTime = 0)
+    public function setInc(string $field, float $step = 1, int $lazyTime = 0)
     {
         if (empty($this->options['where']) && $this->model) {
             $this->where($this->model->getWhere());
@@ -423,12 +423,12 @@ class Query extends BaseQuery
      * 字段值减少（支持延迟写入）
      *
      * @param string    $field 字段名
-     * @param int       $step  步进值
+     * @param float     $step  步进值
      * @param int       $lazyTime 延迟时间（秒）
      *
      * @return int|false
      */
-    public function setDec(string $field, int $step = 1, int $lazyTime = 0)
+    public function setDec(string $field, float $step = 1, int $lazyTime = 0)
     {
         if (empty($this->options['where']) && $this->model) {
             $this->where($this->model->getWhere());
@@ -457,11 +457,11 @@ class Query extends BaseQuery
      * @access protected
      * @param  string  $type     自增或者自减
      * @param  string  $guid     写入标识
-     * @param  int     $step     写入步进值
+     * @param  float   $step     写入步进值
      * @param  int     $lazyTime 延时时间(s)
      * @return false|integer
      */
-    protected function lazyWrite(string $type, string $guid, int $step, int $lazyTime)
+    protected function lazyWrite(string $type, string $guid, float $step, int $lazyTime)
     {
         $cache = $this->getCache();
         if (!$cache->has($guid . '_time')) {
@@ -517,7 +517,12 @@ class Query extends BaseQuery
      */
     public function getQueryGuid($data = null): string
     {
-        return md5($this->getConfig('database') . serialize(var_export($data ?: $this->options, true)) . serialize($this->getBind(false)));
+        if (null === $data) {
+            $data = $this->options;
+            unset($data['scope'], $data['default_model']);
+        }
+
+        return md5($this->getConfig('database') . serialize(var_export($data, true)) . serialize($this->getBind(false)));
     }
 
     /**
@@ -554,19 +559,19 @@ class Query extends BaseQuery
     /**
      * 分批数据返回处理.
      *
-     * @param int          $count    每次处理的数据数量
-     * @param callable     $callback 处理回调方法
-     * @param string|array $column   分批处理的字段名
-     * @param string       $order    字段排序
+     * @param int               $count    每次处理的数据数量
+     * @param callable          $callback 处理回调方法
+     * @param string|array|null $column   分批处理的字段名
+     * @param string            $order    字段排序
      *
      * @throws Exception
      *
      * @return bool
      */
-    public function chunk(int $count, callable $callback, string|array $column = null, string $order = 'asc'): bool
+    public function chunk(int $count, callable $callback, string | array $column = null, string $order = 'asc'): bool
     {
         $options = $this->getOptions();
-        $column = $column ?: $this->getPk();
+        $column  = $column ?: $this->getPk();
 
         if (isset($options['order'])) {
             unset($options['order']);
@@ -598,7 +603,7 @@ class Query extends BaseQuery
                 $times++;
                 $query = $this->options($options)->page($times, $count);
             } else {
-                $end = $resultSet->pop();
+                $end    = $resultSet->pop();
                 $lastId = is_array($end) ? $end[$key] : $end->getData($key);
 
                 $query = $this->options($options)

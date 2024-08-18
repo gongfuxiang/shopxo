@@ -2,6 +2,7 @@
 
 namespace PhpOffice\PhpSpreadsheet\Helper;
 
+use DOMAttr;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
@@ -532,13 +533,10 @@ class Html
         'yellowgreen' => '9acd32',
     ];
 
-    /** @var ?string */
     private ?string $face = null;
 
-    /** @var ?string */
     private ?string $size = null;
 
-    /** @var ?string */
     private ?string $color = null;
 
     private bool $bold = false;
@@ -595,6 +593,8 @@ class Html
 
     private RichText $richTextObject;
 
+    private bool $preserveWhiteSpace = false;
+
     private function initialise(): void
     {
         $this->face = $this->size = $this->color = null;
@@ -608,7 +608,7 @@ class Html
     /**
      * Parse HTML formatting and return the resulting RichText.
      */
-    public function toRichTextObject(string $html): RichText
+    public function toRichTextObject(string $html, bool $preserveWhiteSpace = false): RichText
     {
         $this->initialise();
 
@@ -622,7 +622,9 @@ class Html
         $dom->preserveWhiteSpace = false;
 
         $this->richTextObject = new RichText();
+        $this->preserveWhiteSpace = $preserveWhiteSpace;
         $this->parseElements($dom);
+        $this->preserveWhiteSpace = false;
 
         // Clean any further spurious whitespace
         $this->cleanWhitespace();
@@ -689,7 +691,7 @@ class Html
     {
         preg_match_all('/\d+/', $rgbValue, $values);
         foreach ($values[0] as &$value) {
-            $value = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $value = str_pad(dechex((int) $value), 2, '0', STR_PAD_LEFT);
         }
 
         return implode('', $values[0]);
@@ -704,8 +706,10 @@ class Html
     {
         $attrs = $tag->attributes;
         if ($attrs !== null) {
+            /** @var DOMAttr $attribute */
             foreach ($attrs as $attribute) {
                 $attributeName = strtolower($attribute->name);
+                $attributeName = preg_replace('/^html:/', '', $attributeName) ?? $attributeName; // in case from Xml spreadsheet
                 $attributeValue = $attribute->value;
 
                 if ($attributeName == 'color') {
@@ -795,11 +799,15 @@ class Html
 
     private function parseTextNode(DOMText $textNode): void
     {
-        $domText = (string) preg_replace(
-            '/\s+/u',
-            ' ',
-            str_replace(["\r", "\n"], ' ', $textNode->nodeValue ?? '')
-        );
+        if ($this->preserveWhiteSpace) {
+            $domText = $textNode->nodeValue ?? '';
+        } else {
+            $domText = (string) preg_replace(
+                '/\s+/u',
+                ' ',
+                str_replace(["\r", "\n"], ' ', $textNode->nodeValue ?? '')
+            );
+        }
         $this->stringData .= $domText;
         $this->buildTextRun();
     }

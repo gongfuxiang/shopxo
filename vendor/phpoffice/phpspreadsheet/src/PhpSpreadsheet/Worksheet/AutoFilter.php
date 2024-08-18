@@ -8,6 +8,8 @@ use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
 use PhpOffice\PhpSpreadsheet\Calculation\Internal\WildcardMatch;
 use PhpOffice\PhpSpreadsheet\Cell\AddressRange;
+use PhpOffice\PhpSpreadsheet\Cell\CellAddress;
+use PhpOffice\PhpSpreadsheet\Cell\CellRange;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -48,7 +50,7 @@ class AutoFilter implements Stringable
     /**
      * Create a new AutoFilter.
      *
-     * @param AddressRange|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
+     * @param AddressRange<CellAddress>|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
      *            A simple string containing a Cell range like 'A1:E10' is permitted
      *              or passing in an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 8]),
      *              or an AddressRange object.
@@ -100,7 +102,7 @@ class AutoFilter implements Stringable
     /**
      * Set AutoFilter Cell Range.
      *
-     * @param AddressRange|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
+     * @param AddressRange<CellRange>|array{0: int, 1: int, 2: int, 3: int}|array{0: int, 1: int}|string $range
      *            A simple string containing a Cell range like 'A1:E10' or a Cell address like 'A1' is permitted
      *              or passing in an array of [$fromColumnIndex, $fromRow, $toColumnIndex, $toRow] (e.g. [3, 5, 6, 8]),
      *              or an AddressRange object.
@@ -309,7 +311,7 @@ class AutoFilter implements Stringable
     /**
      * Test if cell value is in the defined set of values.
      *
-     * @param mixed[] $dataSet
+     * @param array{blanks: bool, filterValues: array<string,array<string,string>>} $dataSet
      */
     protected static function filterTestInSimpleDataSet(mixed $cellValue, array $dataSet): bool
     {
@@ -325,7 +327,7 @@ class AutoFilter implements Stringable
     /**
      * Test if cell value is in the defined set of Excel date values.
      *
-     * @param mixed[] $dataSet
+     * @param array{blanks: bool, filterValues: array<string,array<string,string>>} $dataSet
      */
     protected static function filterTestInDateGroupSet(mixed $cellValue, array $dataSet): bool
     {
@@ -763,9 +765,13 @@ class AutoFilter implements Stringable
                 sort($dataValues);
             }
 
-            $slice = array_slice($dataValues, 0, $ruleValue);
-
-            $retVal = array_pop($slice);
+            if (is_numeric($ruleValue)) {
+                $ruleValue = (int) $ruleValue;
+            }
+            if ($ruleValue === null || is_int($ruleValue)) {
+                $slice = array_slice($dataValues, 0, $ruleValue);
+                $retVal = array_pop($slice);
+            }
         }
 
         return $retVal;
@@ -810,7 +816,7 @@ class AutoFilter implements Stringable
                             'method' => 'filterTestInSimpleDataSet',
                             'arguments' => ['filterValues' => $ruleDataSet, 'blanks' => $blanks],
                         ];
-                    } else {
+                    } elseif ($ruleType !== null) {
                         //    Filter on date group values
                         $arguments = [
                             'date' => [],
@@ -968,7 +974,7 @@ class AutoFilter implements Stringable
                         $ruleOperator = $rule->getOperator();
                     }
                     if (is_numeric($ruleValue) && $ruleOperator === Rule::AUTOFILTER_COLUMN_RULE_TOPTEN_PERCENT) {
-                        $ruleValue = floor((float) $ruleValue * ($dataRowCount / 100));
+                        $ruleValue = (int) floor((float) $ruleValue * ($dataRowCount / 100));
                     }
                     if (!is_array($ruleValue) && $ruleValue < 1) {
                         $ruleValue = 1;
@@ -977,6 +983,7 @@ class AutoFilter implements Stringable
                         $ruleValue = 500;
                     }
 
+                    /** @var float|int|string */
                     $maxVal = $this->calculateTopTenValue($columnID, $rangeStart[1] + 1, (int) $rangeEnd[1], $toptenRuleType, $ruleValue);
 
                     $operator = ($toptenRuleType == Rule::AUTOFILTER_COLUMN_RULE_TOPTEN_TOP)
@@ -1001,9 +1008,11 @@ class AutoFilter implements Stringable
             foreach ($columnFilterTests as $columnID => $columnFilterTest) {
                 $cellValue = $this->workSheet->getCell($columnID . $row)->getCalculatedValue();
                 //    Execute the filter test
+                /** @var callable */
+                $temp = [self::class, $columnFilterTest['method']];
+                /** @var bool */
                 $result // $result && // phpstan says $result is always true here
-                    // @phpstan-ignore-next-line
-                    = call_user_func_array([self::class, $columnFilterTest['method']], [$cellValue, $columnFilterTest['arguments']]);
+                    = call_user_func_array($temp, [$cellValue, $columnFilterTest['arguments']]);
                 //    If filter test has resulted in FALSE, exit the loop straightaway rather than running any more tests
                 if (!$result) {
                     break;

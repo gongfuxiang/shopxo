@@ -16,12 +16,8 @@ namespace Symfony\Component\VarDumper\Cloner;
  */
 class VarCloner extends AbstractCloner
 {
-    private static string $gid;
     private static array $arrayCache = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function doClone(mixed $var): array
     {
         $len = 1;                       // Length of $queue
@@ -44,10 +40,8 @@ class VarCloner extends AbstractCloner
         $stub = null;                   // Stub capturing the main properties of an original item value
                                         // or null if the original value is used directly
 
-        $gid = self::$gid ??= md5(random_bytes(6)); // Unique string used to detect the special $GLOBALS variable
         $arrayStub = new Stub();
         $arrayStub->type = Stub::TYPE_ARRAY;
-        $fromObjCast = false;
 
         for ($i = 0; $i < $len; ++$i) {
             // Detect when we move on to the next tree depth
@@ -121,53 +115,15 @@ class VarCloner extends AbstractCloner
                         }
                         $stub = $arrayStub;
 
-                        if (\PHP_VERSION_ID >= 80100) {
-                            $stub->class = array_is_list($v) ? Stub::ARRAY_INDEXED : Stub::ARRAY_ASSOC;
-                            $a = $v;
-                            break;
-                        }
-
-                        $stub->class = Stub::ARRAY_INDEXED;
-
-                        $j = -1;
-                        foreach ($v as $gk => $gv) {
-                            if ($gk !== ++$j) {
-                                $stub->class = Stub::ARRAY_ASSOC;
-                                $a = $v;
-                                $a[$gid] = true;
-                                break;
-                            }
-                        }
-
-                        // Copies of $GLOBALS have very strange behavior,
-                        // let's detect them with some black magic
-                        if (isset($v[$gid])) {
-                            unset($v[$gid]);
-                            $a = [];
-                            foreach ($v as $gk => &$gv) {
-                                if ($v === $gv && !isset($hardRefs[\ReflectionReference::fromArrayElement($v, $gk)->getId()])) {
-                                    unset($v);
-                                    $v = new Stub();
-                                    $v->value = [$v->cut = \count($gv), Stub::TYPE_ARRAY => 0];
-                                    $v->handle = -1;
-                                    $gv = &$a[$gk];
-                                    $hardRefs[\ReflectionReference::fromArrayElement($a, $gk)->getId()] = &$gv;
-                                    $gv = $v;
-                                }
-
-                                $a[$gk] = &$gv;
-                            }
-                            unset($gv);
-                        } else {
-                            $a = $v;
-                        }
+                        $stub->class = array_is_list($v) ? Stub::ARRAY_INDEXED : Stub::ARRAY_ASSOC;
+                        $a = $v;
                         break;
 
                     case \is_object($v):
                         if (empty($objRefs[$h = spl_object_id($v)])) {
                             $stub = new Stub();
                             $stub->type = Stub::TYPE_OBJECT;
-                            $stub->class = \get_class($v);
+                            $stub->class = $v::class;
                             $stub->value = $v;
                             $stub->handle = $h;
                             $a = $this->castObject($stub, 0 < $i);
@@ -253,24 +209,6 @@ class VarCloner extends AbstractCloner
                     $vals[$k] = $stub;
                 } else {
                     $hardRefs[$zvalRef]->value = $stub;
-                }
-            }
-
-            if ($fromObjCast) {
-                $fromObjCast = false;
-                $refs = $vals;
-                $vals = [];
-                $j = -1;
-                foreach ($queue[$i] as $k => $v) {
-                    foreach ([$k => true] as $gk => $gv) {
-                    }
-                    if ($gk !== $k) {
-                        $vals = (object) $vals;
-                        $vals->{$k} = $refs[++$j];
-                        $vals = (array) $vals;
-                    } else {
-                        $vals[$k] = $refs[++$j];
-                    }
                 }
             }
 

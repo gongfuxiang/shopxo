@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db;
 
@@ -282,7 +282,7 @@ abstract class Connection implements ConnectionInterface
         }
 
         $runtime = number_format((microtime(true) - $this->queryStartTime), 6);
-        $sql = $sql ?: $this->getLastsql();
+        $sql     = $sql ?: $this->getLastsql();
 
         if (empty($this->config['deploy'])) {
             $master = null;
@@ -378,7 +378,7 @@ abstract class Connection implements ConnectionInterface
     {
         foreach ($bind as $key => $val) {
             $value = strval(is_array($val) ? $val[0] : $val);
-            $type = is_array($val) ? $val[1] : self::PARAM_STR;
+            $type  = is_array($val) ? $val[1] : self::PARAM_STR;
 
             if (self::PARAM_FLOAT == $type || self::PARAM_STR == $type) {
                 $value = '\'' . addslashes($value) . '\'';
@@ -388,8 +388,8 @@ abstract class Connection implements ConnectionInterface
 
             // 判断占位符
             $sql = is_numeric($key) ?
-                substr_replace($sql, $value, strpos($sql, '?'), 1) :
-                substr_replace($sql, $value, strpos($sql, ':' . $key), strlen(':' . $key));
+            substr_replace($sql, $value, strpos($sql, '?'), 1) :
+            substr_replace($sql, $value, strpos($sql, ':' . $key), strlen(':' . $key));
         }
 
         return rtrim($sql);

@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\route;
 
@@ -170,9 +170,7 @@ class RuleGroup extends Rule
             }
         }
 
-        if (!empty($option['dispatcher'])) {
-            $result = $this->parseRule($request, '', $option['dispatcher'], $url, $option);
-        } elseif ($miss = $this->getMissRule($method)) {
+        if ($miss = $this->getMissRule($method)) {
             // 未匹配所有路由的路由规则处理
             $result = $miss->parseRule($request, '', $miss->getRoute(), $url, $miss->getOption());
         } else {
@@ -355,11 +353,11 @@ class RuleGroup extends Rule
      * @param  string         $method 请求类型
      * @return RuleItem
      */
-    public function miss(string|Closure $route, string $method = '*'): RuleItem
+    public function miss(string | Closure $route, string $method = '*'): RuleItem
     {
         // 创建路由规则实例
-        $method     =   strtolower($method);
-        $ruleItem   =   new RuleItem($this->router, $this, null, '', $route, $method);
+        $method   = strtolower($method);
+        $ruleItem = new RuleItem($this->router, $this, null, '', $route, $method);
 
         $this->miss[$method] = $ruleItem->setMiss();
 

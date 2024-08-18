@@ -243,18 +243,20 @@ class MorphTo extends Relation
             foreach ($range as $key => $val) {
                 // 多态类型映射
                 $model = $this->parseModel($key);
-                $obj = new $model();
-                if (!is_null($closure)) {
-                    $obj = $closure($obj);
-                }
-                $pk = $obj->getPk();
-                $list = $obj->with($subRelation)
-                    ->cache($cache[0] ?? false, $cache[1] ?? null, $cache[2] ?? null)
-                    ->select($val);
                 $data = [];
+                if (class_exists($model)) {
+                    $obj = new $model();
+                    if (!is_null($closure)) {
+                        $obj = $closure($obj);
+                    }
+                    $pk = $obj->getPk();
+                    $list = $obj->with($subRelation)
+                        ->cache($cache[0] ?? false, $cache[1] ?? null, $cache[2] ?? null)
+                        ->select($val);
 
-                foreach ($list as $k => $vo) {
-                    $data[$vo->$pk] = $vo;
+                    foreach ($list as $k => $vo) {
+                        $data[$vo->$pk] = $vo;
+                    }
                 }
 
                 foreach ($resultSet as $result) {

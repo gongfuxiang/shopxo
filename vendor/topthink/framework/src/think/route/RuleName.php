@@ -115,6 +115,7 @@ class RuleName
     {
         $this->item = [];
         $this->rule = [];
+        $this->group = [];
     }
 
     /**

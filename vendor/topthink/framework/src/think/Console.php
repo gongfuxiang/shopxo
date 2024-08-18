@@ -93,6 +93,12 @@ class Console
         //加载指令
         $this->loadCommands();
 
+        // 设置执行用户
+        $user = $this->app->config->get('console.user');
+        if (!empty($user)) {
+            $this->setUser($user);
+        }
+
         $this->start();
     }
 

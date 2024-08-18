@@ -325,7 +325,7 @@ class MorphMany extends Relation
         $data[$this->morphKey]  = $this->parent->$pk;
         $data[$this->morphType] = $this->type;
 
-        return new $this->model($data);
+        return (new $this->model($data))->setSuffix($this->getModel()->getSuffix());
     }
 
     /**

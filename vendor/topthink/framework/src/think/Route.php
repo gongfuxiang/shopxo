@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
@@ -285,7 +285,7 @@ class Route
      * @param mixed        $rule 路由规则
      * @return Domain
      */
-    public function domain(string|array $name, $rule = null): Domain
+    public function domain(string | array $name, $rule = null): Domain
     {
         // 支持多个域名使用相同路由规则
         $domainName = is_array($name) ? array_shift($name) : $name;
@@ -513,7 +513,7 @@ class Route
      * @param mixed           $route 分组路由
      * @return RuleGroup
      */
-    public function group(string|Closure $name, $route = null): RuleGroup
+    public function group(string | Closure $name, $route = null): RuleGroup
     {
         if ($name instanceof Closure) {
             $route = $name;
@@ -688,7 +688,7 @@ class Route
      * @param array|bool   $resource 资源
      * @return $this
      */
-    public function rest(string|array $name, array|bool $resource = [])
+    public function rest(string | array $name, array | bool $resource = [])
     {
         if (is_array($name)) {
             $this->rest = $resource ? $name : array_merge($this->rest, $name);
@@ -721,7 +721,7 @@ class Route
      * @param string         $method 请求类型
      * @return RuleItem
      */
-    public function miss(string|Closure $route, string $method = '*'): RuleItem
+    public function miss(string | Closure $route, string $method = '*'): RuleItem
     {
         return $this->group->miss($route, $method);
     }
@@ -732,7 +732,7 @@ class Route
      * @param Closure|bool $withRoute
      * @return Response
      */
-    public function dispatch(Request $request, Closure|bool $withRoute = true)
+    public function dispatch(Request $request, Closure | bool $withRoute = true)
     {
         $this->request = $request;
         $this->host    = $this->request->host(true);
