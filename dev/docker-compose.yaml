@@ -6,13 +6,26 @@ services:
     environment:
       MARIADB_USER: dev
       MARIADB_PASSWORD: dev@123123
-      MARIADB_ROOT_PASSWORD: root@123123
+      MARIADB_ROOT_PASSWORD: password
       MARIADB_DATABASE: freeb
     ports:
         - "3306:3306"
     volumes:
         - "../config/shopxo.sql:/docker-entrypoint-initdb.d/1.sql"
         - "db-mariadb:/var/lib/mysql:rw"
+  postgres:
+    image: docker.io/postgres:latest
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: freeb
+    ports:
+        - "5432:5432"
+    volumes:
+        - "./pg.sql:/docker-entrypoint-initdb.d/init.sql"
+        - "db-pg:/var/lib/postgresql:rw"
   shopxo:
     image: registry.freeb.vip/freeb/shopxo:latest
     restart: always
@@ -28,3 +41,4 @@ services:
       - "./database.php:/var/www/html/config/database.php"
 volumes:
   db-mariadb:
+  db-pg:
