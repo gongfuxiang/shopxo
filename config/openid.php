@@ -17,7 +17,6 @@ return [
     'user'  => [
         //  $provider_url = null, string $client_id = null, string $client_secret = null
         'provider_url' => 'https://sso.freeb.vip/realms/test/',
-        // redis缓存
         'client_id'   =>  'shopxo',
         'client_secret'   =>  'FXO9XrWD4EYjPtw299slqLF9M7rMnmjz',
         'redirect_url'   =>  '?s=user/loginInfo.html',
