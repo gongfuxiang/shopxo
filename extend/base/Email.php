@@ -12,6 +12,7 @@ namespace base;
 
 use app\service\EmailLogService;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 /**
  * Email驱动
@@ -58,10 +59,12 @@ class Email
 	private function EmailInit()
 	{
 		// 建立邮件发送类  
-		$this->obj = new PHPMailer();
+		$this->obj = new PHPMailer(false);
+
+		//$this->obj->SMTPDebug = SMTP::DEBUG_LOWLEVEL;
 
 		// 使用smtp方式发送
-		$this->obj->IsSMTP();
+		$this->obj->isSMTP();
 
 		// 服务器host地址
 		$this->obj->Host = MyC('common_email_smtp_host');
@@ -75,20 +78,17 @@ class Email
 		// SSL方式加密
 		if(MyC('common_email_is_use_ssl', 0, true) == 1)
 		{
-			$this->obj->SMTPSecure = 'ssl';
+			$this->obj->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 		}
 
 		// 邮箱用户名
 		$this->obj->Username =  MyC('common_email_smtp_name');
 
 		// 邮箱密码
-		$this->obj->Password = MyC('common_email_smtp_pwd');
+		$this->obj->Password = htmlspecialchars_decode(MyC('common_email_smtp_pwd'));
 
-		// 发件人
-		$this->obj->From = MyC('common_email_smtp_account');
-
-		// 发件人姓名
-		$this->obj->FromName = MyC('common_email_smtp_send_name');
+		// 发件人 // 发件人姓名
+		$this->obj->setFrom(MyC('common_email_smtp_account'), MyC('common_email_smtp_send_name'), true);
 
 		// 是否开启html格式
 		$this->obj->isHTML(true);
@@ -128,7 +128,7 @@ class Email
 		}
 
 		// 是否频繁操作
-		if($this->is_frq == 1)
+		if($this->is_frq == 2)
 		{
 			if(!$this->IntervalTimeCheck())
 			{
