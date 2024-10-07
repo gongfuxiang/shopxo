@@ -27,7 +27,7 @@
         "topthink/think-orm": "*",
         "topthink/think-multi-app": "*",
         "topthink/think-view": "*",
-        "phpoffice/phpspreadsheet": "^1.4",
+        "phpoffice/phpspreadsheet": "^2.1",
         "overtrue/pinyin": "*",
         "picqer/php-barcode-generator": "*",
         "phpmailer/phpmailer": "*"
