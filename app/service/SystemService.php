@@ -128,8 +128,13 @@ class SystemService
     {
         if(!file_exists(ROOT.'config/database.php'))
         {
-            MyRedirect(__MY_URL__.'install.php?s=index/index', true);
+            if(!isset($params['is_redirect']) || $params['is_redirect'] != 0)
+            {
+                MyRedirect(__MY_URL__.'install.php?s=index/index', true);
+            }
+            return false;
         }
+        return true;
     }
 
     /**

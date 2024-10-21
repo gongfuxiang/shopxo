@@ -3149,7 +3149,12 @@ function MyC($key, $default = '', $mandatory = false)
     static $cache_config_data = false;
     if($cache_config_data === false)
     {
-        $cache_config_data = ConfigService::ConfigInit();
+        // 检测是否是新安装
+        if(SystemService::SystemInstallCheck(['is_redirect'=>0]))
+        {
+            // 获取配置数据
+            $cache_config_data = ConfigService::ConfigInit();
+        }
     }
 
     // 1. 强制校验值
