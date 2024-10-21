@@ -165,7 +165,7 @@ class Common extends BaseController
 	{
 		if(empty($this->admin))
 		{
-			if(IS_AJAX || IS_POST)
+			if(IS_AJAX)
 			{
 				exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400, [
                     'login'   => MyUrl('admin/admin/logininfo'),
@@ -530,7 +530,7 @@ class Common extends BaseController
         if(!AdminIsPower(null, null, $unwanted_power))
         {
             $msg = MyLang('no_power_tips');
-            if(IS_AJAX || IS_POST)
+            if(IS_AJAX)
             {
                 exit(json_encode(DataReturn($msg, -1000)));
             } else {
