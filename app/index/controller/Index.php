@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 use app\service\SeoService;
 use app\service\AdminService;
 use app\service\SlideService;
@@ -105,7 +105,7 @@ class Index extends Common
                 $assign['layout_data'] = LayoutService::LayoutConfigAdminData('home');
 
                 // 页面列表
-                $assign['pages_list'] = BaseLayout::PagesList();
+                $assign['pages_list'] = LayoutModule::PagesList();
 
                 // 商品分类
                 $assign['goods_category_list'] = $goods_category;
@@ -118,11 +118,11 @@ class Index extends Common
                 $assign['brand_list'] = BrandService::CategoryBrand();
 
                 // 静态数据
-                $assign['border_style_type_list'] = BaseLayout::ConstData('border_style_type_list');
-                $assign['goods_view_list_show_style'] = BaseLayout::ConstData('goods_view_list_show_style');
-                $assign['many_images_view_list_show_style'] = BaseLayout::ConstData('many_images_view_list_show_style');
-                $assign['images_text_view_list_show_style'] = BaseLayout::ConstData('images_text_view_list_show_style');
-                $assign['images_magic_cube_view_list_show_style'] = BaseLayout::ConstData('images_magic_cube_view_list_show_style');
+                $assign['border_style_type_list'] = LayoutModule::ConstData('border_style_type_list');
+                $assign['goods_view_list_show_style'] = LayoutModule::ConstData('goods_view_list_show_style');
+                $assign['many_images_view_list_show_style'] = LayoutModule::ConstData('many_images_view_list_show_style');
+                $assign['images_text_view_list_show_style'] = LayoutModule::ConstData('images_text_view_list_show_style');
+                $assign['images_magic_cube_view_list_show_style'] = LayoutModule::ConstData('images_magic_cube_view_list_show_style');
 
                 // 首页商品排序规则
                 $assign['common_goods_order_by_type_list'] = MyConst('common_goods_order_by_type_list');

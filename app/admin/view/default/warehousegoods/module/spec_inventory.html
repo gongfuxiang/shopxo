@@ -5,7 +5,7 @@
             <strong class="am-fr">{{$module_data.spec[0]['inventory']}}</strong>
         </div>
         {{if count($module_data.spec) gt 1}}
-            <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#warehousegoods-spec-inventory-modal-{{$module_data.id}}', width: 300}">{{:MyLang('view_title')}}({{:count($module_data.spec)}}) ></a>
+            <a href="javascript:;" class="am-color-blue" data-am-modal="{target: '#warehousegoods-spec-inventory-modal-{{$module_data.id}}', width: 300}">{{:MyLang('view_title')}}({{:count($module_data.spec)}}) ></a>
             <div class="am-modal am-modal-no-btn" tabindex="-1" id="warehousegoods-spec-inventory-modal-{{$module_data.id}}">
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">

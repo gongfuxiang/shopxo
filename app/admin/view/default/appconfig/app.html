@@ -32,6 +32,45 @@
                 <!-- 基础配置 -->
                 <div class="item am-active" data-key="base-config-title">
                     <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_index_data_diy_mode.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_index_data_diy_mode.describe}}</span></label>
+                        <div class="am-radio-group">
+                            <div>
+                                {{foreach :MyConst('common_is_text_list') as $v}}
+                                    <label class="am-radio-inline">
+                                        <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_index_data_diy_mode.only_tag}}" data-validation-message="{{$data.common_app_is_index_data_diy_mode.error_tips}}" required {{if isset($data['common_app_is_index_data_diy_mode']['value']) and $data['common_app_is_index_data_diy_mode']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                    </label>
+                                {{/foreach}}
+                                <div class="diy-list-select am-inline-block am-margin-left-sm">
+                                    <select name="{{$data.common_app_index_data_diy_mode_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_app_index_data_diy_mode_value.error_tips}}">
+                                        <option value="">{{:MyLang('please_select_tips')}}</option>
+                                        {{if !empty($diy_list)}}
+                                            {{foreach $diy_list as $v}}
+                                                <option value="{{$v.id}}" {{if !empty($data['common_app_index_data_diy_mode_value']['value']) and $data['common_app_index_data_diy_mode_value']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="am-inline-block">
+                        <select name="{{$data.common_app_index_data_diy_mode_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_app_index_data_diy_mode_value.error_tips}}">
+                        <option value="">{{:MyLang('please_select_tips')}}</option>
+                            {{if !empty($site_default_index_data_list)}}
+                                {{foreach $site_default_index_data_list as $v}}
+                                    {{if !empty($v['data']) and is_array($v['data']) and !empty($v['name'])}}
+                                        <optgroup label="{{$v.name}}" class="am-color-ccc">
+                                            {{foreach $v.data as $vs}}
+                                                <option value="{{$vs.type}}|{{$vs.value}}" {{if !empty($data['common_app_index_data_diy_mode_value']['value']) and $data['common_app_index_data_diy_mode_value']['value'] eq $vs['type'].'|'.$vs['value']}}selected{{/if}}>{{$vs.name}}</option>
+                                            {{/foreach}}
+                                        </optgroup>
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div> -->
+
+                    <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
                         <div class="am-radio-group">
                             {{foreach :MyConst('common_is_text_list') as $v}}

@@ -10,6 +10,178 @@
     var uploadFile,
         onlineFile;
 
+    // 顶部附件分类改变监听事件 - 重新初始化上传组件
+    var selectElement = document.querySelector('#choice-category-container select');
+    selectElement.addEventListener('change', function(event) {
+        var id = '';
+        var tabs = $G('tabhead').children;
+        for (var i = 0; i < tabs.length; i++) {
+            if (domUtils.hasClass(tabs[i], 'focus')) {
+                id = tabs[i].getAttribute('data-content-id');
+                break;
+            }
+        }
+        switch(id) {
+            case 'scan' :
+                scanQrcodeInit();
+                break;
+
+            case 'upload' :
+                uploadFile = new UploadFile('queueList');
+                break;
+        }
+    });
+
+    // 搜索关键字回车事件
+    document.addEventListener('DOMContentLoaded', function() {
+        var input = document.getElementById('search-input');
+        input.addEventListener('keydown', function(event) {
+            if(event.key === 'Enter') {
+                // 模拟点击搜索按钮
+                var element = document.getElementById('search-submit');
+                if(element) {
+                    element.click();
+                }
+            }
+        });
+    });
+    // 搜索关键字placeholder设置
+    document.getElementById('search-input').setAttribute('placeholder', lang.searchPlaceholder);
+
+    // 左侧分类菜单事件初始化
+    function leftCategoryEventInit() {
+        document.querySelectorAll('#leftCategory li').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                if(!domUtils.hasClass(this, 'disabled')) {
+                    // 取消同级所有li并选中当前li
+                    document.querySelectorAll('#leftCategory li').forEach(function(li) {
+                        domUtils.removeClasses(li, 'active');
+                    });
+                    domUtils.addClass(this, 'active');
+
+                    // 模拟点击搜索按钮
+                    var element = document.getElementById('search-submit');
+                    if(element) {
+                        element.click();
+                    }
+                }
+            });
+        });
+    };
+    // 分类事件
+    leftCategoryEventInit();
+
+    // 分类搜索-按钮确认
+    $(document).on('click', '#leftCategory .category-search-submit', function() {
+        var $parent = $(this).parent();
+        var keywords = $parent.find('.category-search-input').val();
+        if(keywords == '') {
+            $parent.find('ul li').removeClass('none');
+        } else {
+            $parent.find('ul li').each(function() {
+                if($(this).text().indexOf(keywords) == -1) {
+                    $(this).addClass('none');
+                } else {
+                    $(this).removeClass('none');
+                }
+            });
+        }
+    });
+    // 分类搜索-输入框回车
+    $(document).on('keydown', '#leftCategory .category-search-input', function (event) {
+        if(event.keyCode == 13) {
+            $(this).parent().find('.category-search-submit').trigger('click');
+            return false;
+        }
+    });
+    // 搜索关键字placeholder设置
+    document.querySelector('#leftCategory .category-search-input').setAttribute('placeholder', lang.CategoryInputPlaceholder);
+
+    // 扫码初始化
+    var scan_key = parseInt(Math.random() * 10000000001);
+    var scan_timer = null;
+    function scanQrcodeInit() {
+        // 上传二维码和链接
+        var select = editor.getChoiceCategoryPathTypeValue(document.querySelector('#choice-category-container select'));
+        var location = window.location;
+        var url = location.protocol+'//'+location.host+'?s=ueditor/scanupload/key/'+scan_key+'/cid/'+select.category_id+'/type/uploadfile';
+        $('#scan .qrcode-content').empty().qrcode({
+            text: url,
+            width: ($(window).width() <= 641) ? 100 : 150,
+            height: ($(window).width() <= 641) ? 100 : 150
+        });
+        $('#scan .qrcode-url .url-vlaue').text(url);
+        $('#scan .qrcode-url .text-copy-submit').attr('data-value', url);
+
+        // 定时请求数据
+        if(scan_timer === null) {
+            scan_timer = setInterval(function() {
+                var url = editor.getOpt("serverUrl");
+                var join = (url.indexOf('?') == -1) ? '?' : '&';
+                var $list = $('#scan .qrcode-images-list table tbody');
+                var $no_data = $('#scan .qrcode-images-list .no-data');
+                $.post(url + join+"action=scandata", { key: scan_key }, function(response) {
+                    if(response.code == 0 && (response.data || null) != null && response.data.length > 0)
+                    {
+                        response.data.forEach(function(item) {
+                            if($list.find('tr.item-'+item.id).length == 0) {
+                                var $tr = $(`<tr class="item-`+item.id+`">
+                                    <td>
+                                        <span>`+item.original+`</span>
+                                    </td>
+                                    <td>`+editor.AnnexSizeToUnit(item.size)+`</td>
+                                    <td>
+                                        <span class="delete" data-value="`+item.id+`">`+lang.uploadDelete+`</span>
+                                    </td>
+                                </tr>`);
+                                $tr.on('click', '.delete', function() {
+                                    if(!confirm(lang.deleteConfirmTips)) return;
+                                    var $this = $(this);
+                                    var id = $this.data('value');
+                                    $.post(url + join+"action=deletefile", { id: $(this).data('value'), key: scan_key, upload_source: 'scanupload' }, function(response) {
+                                        if (response.code == 0)
+                                        {
+                                            $this.parents('tr').remove();
+                                            if($list.find('tr').length == 0) {
+                                                $no_data.removeClass('none');
+                                            }
+                                        } else {
+                                            alert(response.msg);
+                                        }
+                                    });
+                                });
+                                $list.append($tr);
+                            }
+                        });
+                    }
+                    if($list.find('tr').length > 0) {
+                        $no_data.addClass('none');
+                    } else {
+                        $no_data.removeClass('none');
+                    }
+                });
+            }, 3000);
+        }
+    }
+
+    // 扫码上传链接复制
+    if ($('.text-copy-submit').length > 0) {
+        var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
+            {
+                text: function (e) {
+                    return $(e).attr('data-value') || $(e).text().trim();
+                }
+            });
+        text_copy_clipboard.on('success', function (e) {
+            alert(lang.copySuccessText, 'success');
+        });
+        text_copy_clipboard.on('error', function (e) {
+            alert(lang.copyFailText);
+        });
+    }
+
+
+    // 初始化
     window.onload = function () {
         initTabs();
         initAlign();
@@ -25,8 +197,19 @@
                 setTabFocus(target.getAttribute('data-content-id'));
             });
         }
-
         setTabFocus('upload');
+
+        // 获取附件分类
+        editor.getCategoryDataInit(document.querySelector('#choice-category-container select'), document.querySelector('#leftCategory ul'), function() {
+            // 左侧分类事件绑定
+            leftCategoryEventInit();
+
+            // 重新初始化上传组件
+            uploadFile = new UploadFile('queueList');
+
+            // 扫码初始化
+            scanQrcodeInit();
+        });
     }
 
     /* 初始化tabbody */
@@ -44,9 +227,14 @@
             }
         }
 
+        document.getElementById('choice-category-container').setAttribute('class', 'none');
         document.getElementById('search-container').setAttribute('class', 'none');
         switch (id) {
+            case 'scan':
+                document.getElementById('choice-category-container').setAttribute('class', '');
+                break;
             case 'upload':
+                document.getElementById('choice-category-container').setAttribute('class', '');
                 uploadFile = uploadFile || new UploadFile('queueList');
                 break;
             case 'online':
@@ -166,6 +354,12 @@
                 return;
             }
 
+            // 当前选中的分类
+            var select = editor.getChoiceCategoryPathTypeValue(document.querySelector('#choice-category-container select'));
+            if((select.path_type || null) != null) {
+                actionUrl = editor.actionUrlPathTypeReplace(actionUrl, select.path_type);
+            }
+
             uploader = _this.uploader = WebUploader.create({
                 pick: {
                     id: '#filePickerReady',
@@ -173,6 +367,13 @@
                 },
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
+                formData: {category_id: select.category_id},
+                // 粘贴事件
+                paste: '#queueList',
+                // 开启拖入
+                dnd: '#queueList',
+                // 屏蔽拖拽区域外的响应
+                disableGlobalDnd:true,
                 fileVal: editor.getOpt('fileFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
@@ -694,12 +895,26 @@
 
             if(!_this.listEnd && !this.isLoadingData) {
                 this.isLoadingData = true;
-                ajax.request(editor.getActionUrl(editor.getOpt('fileManagerActionName')), {
+                var url = editor.getActionUrl(editor.getOpt('fileManagerActionName'));
+                // 分类选中数据
+                var active = editor.getLeftCategoryChoiceData(document.querySelector('#leftCategory li.active'));
+                // 当前选中的分类标识
+                if((active.path_type || null) != null) {
+                    url = editor.actionUrlPathTypeReplace(url, active.path_type);
+                }
+                // 加载提示
+                var loading = document.getElementById('loading');
+                if(_this.listIndex == 0) {
+                    loading.innerHTML = lang.loadingMsg;
+                    domUtils.removeClasses(loading, 'none');
+                }
+                ajax.request(url, {
                     timeout: 100000,
                     data: utils.extend({
-                            start: this.listIndex,
-                            size: this.listSize,
-                            keywords: document.getElementById('search-input').value
+                            start: _this.listIndex,
+                            size: _this.listSize,
+                            keywords: document.getElementById('search-input').value,
+                            category_id: active.category_id
                         }, editor.queryCommandValue('serverparam')),
                     method: 'get',
                     onsuccess: function (r) {
@@ -711,20 +926,37 @@
                                 if(_this.listIndex >= json.data.total) {
                                     _this.listEnd = true;
                                 }
-                                _this.isLoadingData = false;
+                                loading.innerHTML = '';
+                                domUtils.addClass(loading, 'none');
+                            } else {
+                                if(_this.listIndex == 0) {
+                                    loading.innerHTML = json.msg;
+                                    domUtils.removeClasses(loading, 'none');
+                                }
                             }
+                            _this.isLoadingData = false;
+
+                            // 分页数据
+                            document.querySelector('#pagination .page').innerHTML = json.data.page;
+                            document.querySelector('#pagination .size').innerHTML = json.data.size;
+                            document.querySelector('#pagination .page-total').innerHTML = json.data.page_total;
+                            document.querySelector('#pagination .total').innerHTML = json.data.total;
                         } catch (e) {
                             if(r.responseText.indexOf('ue_separate_ue') != -1) {
                                 var list = r.responseText.split(r.responseText);
                                 _this.pushData(list);
                                 _this.listIndex = parseInt(list.length);
                                 _this.listEnd = true;
-                                _this.isLoadingData = false;
                             }
+                            _this.isLoadingData = false;
                         }
                     },
                     onerror: function () {
                         _this.isLoadingData = false;
+                        if(_this.listIndex == 0) {
+                            loading.innerHTML = lang.errorServerUpload;
+                            domUtils.removeClasses(loading, 'none');
+                        }
                     }
                 });
             }
@@ -751,12 +983,10 @@
                     } else {
                         var ic = document.createElement('i'),
                             textSpan = document.createElement('span');
-                        textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
                         preview = document.createElement('div');
                         preview.appendChild(ic);
                         preview.appendChild(textSpan);
                         domUtils.addClass(preview, 'file-wrapper');
-                        domUtils.addClass(textSpan, 'file-title');
                         domUtils.addClass(ic, 'file-type-' + filetype);
                         domUtils.addClass(ic, 'file-preview');
                     }
@@ -785,7 +1015,7 @@
                     // 选择计数 end
 
                     // 文件添加删除功能 start
-                    item.appendChild($("<span class='delbtn' data-id='" + list[i].id + "'>x</span>").click(function() {
+                    item.appendChild($("<span class='delbtn' data-id='" + list[i].id + "'>✕</span>").click(function() {
                         var del = $(this);
                         try{
                             window.event.cancelBubble = true; //停止冒泡

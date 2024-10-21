@@ -1,0 +1,11 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>{{:MyLang('layout.view_media_fixed_border_style_title')}}</label>
+    {{if !empty($border_style_type_list)}}
+        <select name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_style" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('layout.view_media_fixed_border_style_message')}}" {{if !empty($module_data['required'])}}required{{/if}}>
+            <option value="">{{:MyLang('please_select_tips')}}</option>
+            {{foreach $border_style_type_list as $k=>$v}}
+                <option value="{{$k}}">{{$v}}</option>
+            {{/foreach}}
+        </select>
+    {{/if}}
+</div>

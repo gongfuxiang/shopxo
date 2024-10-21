@@ -15,18 +15,16 @@
                             {{case 1}}
                                 {{if !empty($v['data']) and is_array($v['data'])}}
                                     <li>
-                                        <a href="javascript:;">
-                                            <div class="am-dropdown" data-am-dropdown>
-                                                <span class="am-dropdown-toggle" data-am-dropdown-toggle>{{$v.name}} <i class="am-icon-angle-down"></i></span>
-                                                <ul class="am-dropdown-content am-radius">
-                                                    {{foreach $v.data as $vs}}
-                                                        {{if !empty($vs['name']) and !empty($vs['url'])}}
-                                                            <li><a href="{{$vs.url}}">{{$vs.name}}</a></li>
-                                                        {{/if}}
-                                                    {{/foreach}}
-                                                </ul>
-                                            </div>
-                                        </a>
+                                        <div class="am-dropdown am-cursor-pointer" data-am-dropdown>
+                                            <span class="am-dropdown-toggle" data-am-dropdown-toggle>{{$v.name}} <i class="am-icon-angle-down"></i></span>
+                                            <ul class="am-dropdown-content am-radius">
+                                                {{foreach $v.data as $vs}}
+                                                    {{if !empty($vs['name']) and !empty($vs['url'])}}
+                                                        <li><a href="{{$vs.url}}">{{$vs.name}}</a></li>
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            </ul>
+                                        </div>
                                     </li>
                                 {{/if}}
                             {{/case}}

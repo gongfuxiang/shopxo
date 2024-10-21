@@ -14,11 +14,10 @@
 <!-- 公共代码 -->
 {{block name="form_page_bottom"}}
     <!-- 商品添加弹窗 -->
-    <div class="am-popup am-radius" id="warehouse-goods-popup">
+    <div class="am-popup am-radius am-popup-full-max-lg" id="warehouse-goods-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">{{:MyLang('warehousegoods.add_goods_title')}}</h4>
-                <span class="am-icon-arrows-alt am-full"></span>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd am-padding-0">
@@ -59,8 +58,8 @@
                     </div>
 
                     <!-- 商品列表 -->
-                    <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}" data-add-url="{{:MyUrl('admin/warehousegoods/goodsadd')}}" data-del-url="{{:MyUrl('admin/warehousegoods/goodsdel')}}">
-                        <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered"></ul>
+                    <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs am-radius goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}" data-add-url="{{:MyUrl('admin/warehousegoods/goodsadd')}}" data-del-url="{{:MyUrl('admin/warehousegoods/goodsdel')}}">
+                        <ul class="am-gallery am-avg-sm-2 am-avg-md-6 am-avg-lg-8 am-gallery-bordered"></ul>
                     </div>
 
                     <!-- 分页 -->

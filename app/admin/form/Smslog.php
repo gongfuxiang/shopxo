@@ -188,6 +188,7 @@ class SmsLog
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
+                        'is_point'          => 1,
                     ],
                 ],
                 [

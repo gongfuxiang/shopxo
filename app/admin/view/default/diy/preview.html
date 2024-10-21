@@ -1,0 +1,21 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- content start  -->
+<div class="content-right">
+    {{if $data.code eq 0}}
+        <iframe src="{{$data.data}}" class="mobile-iframe am-radius"></iframe>
+        <div class="qrcode-content am-background-white am-radius am-padding-main">
+            <div class="view-qrcode-init" data-value="{{$data.data}}" data-width="140" data-height="140"></div>
+            <div class="am-margin-top-sm am-text-center">
+                <span class="am-color-grey">{{:MyLang('common_service.diy.preview_scan_tips')}}</span>
+                <span class="text-copy-submit am-color-blue am-margin-left-sm" data-value="{{$data.data}}">{{:MyLang('common_service.diy.preview_url_copy_name')}}</span>
+            </div>
+        </div>
+    {{else /}}
+        {{:ModuleInclude('public/not_data', ['msg'=>$data['msg']])}}
+    {{/if}}
+</div>
+<!-- content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

@@ -77,11 +77,11 @@
                         <div class="item-content am-text-center am-margin-lg">
                             <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block">
                                 {{if !empty($v['realistic_images'])}}
-                                    <img src="{{$v.realistic_images}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale" />
+                                    <img src="{{$v.realistic_images}}" alt="{{$v.name}}" class="category-icon am-block am-radius scale-sm" />
                                 {{elseif !empty($v['icon']) /}}
-                                    <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale am-margin-bottom-xs category-img" />
+                                    <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-radius scale-sm am-margin-bottom-xs category-img" />
                                     {{if !empty($v['icon_active'])}}
-                                        <img src="{{$v.icon_active}}" alt="{{$v.name}}" class="category-icon am-block am-radius am-images-scale am-margin-bottom-xs category-img-active am-hide" />
+                                        <img src="{{$v.icon_active}}" alt="{{$v.name}}" class="category-icon am-block am-radius scale-sm am-margin-bottom-xs category-img-active am-hide" />
                                     {{/if}}
                                 {{/if}}
                                 <p>{{$v.name}}</p>

@@ -281,23 +281,23 @@ class Uploader
      */
     private function saveRemote()
     {
-        $imgUrl = htmlspecialchars($this->fileField);
-        $imgUrl = str_replace('&amp;', '&', $imgUrl);
+        $remoteUrl = htmlspecialchars($this->fileField);
+        $remoteUrl = str_replace('&amp;', '&', $remoteUrl);
 
         //检查是否不允许的文件格式
-        $ext = explode('?', strtolower(strrchr($imgUrl, '.')));
+        $ext = explode('?', strtolower(strrchr($remoteUrl, '.')));
         if (!$this->checkType($ext[0])) {
             $this->stateInfo = $this->getStateErrorInfo('error_type_not_allowed');
             return;
         }
 
         //http开头验证
-        if (strpos($imgUrl, 'http') !== 0) {
+        if (strpos($remoteUrl, 'http') !== 0) {
             $this->stateInfo = $this->getStateErrorInfo('error_http_link');
             return;
         }
 
-        preg_match('/(^https*:\/\/[^:\/]+)/', $imgUrl, $matches);
+        preg_match('/(^https*:\/\/[^:\/]+)/', $remoteUrl, $matches);
         $host_with_protocol = count($matches) > 1 ? $matches[1] : '';
 
         // 判断是否是合法 url
@@ -305,7 +305,6 @@ class Uploader
             $this->stateInfo = $this->getStateErrorInfo('invalid_url');
             return;
         }
-
         preg_match('/^https*:\/\/(.+)/', $host_with_protocol, $matches);
         $host_without_protocol = count($matches) > 1 ? $matches[1] : '';
 
@@ -317,16 +316,16 @@ class Uploader
             return;
         }
 
-        //打开输出缓冲区并获取远程图片
-        $img = RequestGet($imgUrl);
-        if(empty($img)) {
+        //打开输出缓冲区并获取远程文件
+        $reponse = RequestGet($remoteUrl);
+        if(empty($reponse)) {
             $this->stateInfo = $this->getStateErrorInfo('error_dead_link');
             return;
         }
-        preg_match('/[\/]([^\/]*)[\.]?[^\.\/]*$/', $imgUrl, $m);
+        preg_match('/[\/]([^\/]*)[\.]?[^\.\/]*$/', $remoteUrl, $m);
 
         $this->oriName = $m ? $m[1]:"";
-        $this->fileSize = strlen($img);
+        $this->fileSize = strlen($reponse);
         $this->fileType = $this->getFileExt();
         $this->fullName = $this->getFullName();
         $this->filePath = $this->getFilePath();
@@ -334,7 +333,7 @@ class Uploader
         $dirname = dirname($this->filePath);
 
         // 验证一句话木马（如果是加密的无法判断）
-        if(preg_match('#<\?php#i', $img))
+        if(preg_match('#<\?php#i', $reponse))
         {
             $this->stateInfo = $this->getStateErrorInfo('invalid_file');
             return;
@@ -356,7 +355,7 @@ class Uploader
         }
 
         //移动文件
-        if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) {
+        if (!(file_put_contents($this->filePath, $reponse) && file_exists($this->filePath))) {
             $this->stateInfo = $this->getStateErrorInfo('error_write_conent');
         } else {
             $this->stateInfo = 'SUCCESS';
@@ -463,7 +462,7 @@ class Uploader
             'original'  => $this->oriName,
             'ext'       => $this->fileType,
             'size'      => $this->fileSize,
-            'hash'      => file_exists($this->filePath) ? hash_file('sha256', $this->filePath, false) : '',
+            'hash'      => (!empty($this->filePath) && file_exists($this->filePath)) ? hash_file('sha256', $this->filePath, false) : '',
         ];
     }
 

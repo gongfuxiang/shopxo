@@ -149,6 +149,9 @@ class Search extends Common
         // 筛选价格区间
         $assign['screening_price_list'] = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
 
+        // 商品产地
+        $assign['goods_place_origin_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsPlaceOriginList($map, $this->data_request), 'poid', 'id', $this->data_request);
+
         // 商品参数
         $assign['goods_params_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
 

@@ -17,7 +17,7 @@ ul, li, ol {list-style: none;}
 .banner-mixed{position: relative;border-top:0.1rem solid #F5F5F5 ;border-bottom: 0.1rem #f5f5f5 solid;overflow: hidden;}
 .banner-news-title{position: relative;left:1.2rem;padding-right:1.2rem;}
 .banner-news li,#banner-news li a{height: 3rem;line-height:3rem; }
-.banner-news{max-width:120rem; margin:0px auto; overflow:hidden; height:3.5rem;width:100%; text-align:left;}
+.banner-news{max-width:120rem; margin:0px auto; overflow:hidden; height:3.5rem;width:100%; text-align:left;border-top: 0.1rem solid #f9f9f9;}
 .news-category-name { line-height: 1.1rem; max-width: 5rem; position: relative;top:0.1rem;}
 .banner-news li {padding:0 1rem 0 8rem;font-size: 1.2rem;}
 .mod-vip{display: none;}
@@ -50,9 +50,8 @@ ul, li, ol {list-style: none;}
 }
 @media only screen and (min-width: 641px) {
     .home-floor{width:100%;overflow:visible;}
-
-     /*改写的公告*/
-    .banner-mixed{height:auto; background:#FFFFFF; opacity:0.8; -webkit-transition: opacity .2s; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in;text-align: center; }
+    /*改写的公告*/
+    .banner-mixed{height:auto; background:#fff;}
     .banner-news-title{font-size: 1.4rem;border-right:none ;color:#666666 ;font-size: 1.4rem;font-weight: 600;left: 4px;padding: 0rem 1rem 0 0.7rem;}
     .banner-news-title::before {
         content: '';
@@ -82,23 +81,34 @@ ul, li, ol {list-style: none;}
 
     /*轮播*/	
     .banner {margin: 0 auto; }
-    .banner .am-slider, .banner .am-slider .am-slides li {height:40rem;}
+    .banner .am-slider, .banner .am-slider .am-slides li{height:47rem;}
     /*分类*/
     .category-content .category-list.navTwo li { height:3.6rem;}
     .category-content .category-list.navTwo .b-category-name {line-height: 2.8rem;}
     .category-content .category-list.navTwo .category-name i img {width: 2.2rem; height: 2.2rem;border-radius: 2.2rem;}
 
-    .today-brands a {display: inline-block;vertical-align: middle;margin:0px 0.5rem;}
+    /*公告*/
+    .banner-mixed{ position: absolute; right: 0px; top:-45rem;width:26rem; z-index: 11;border:none;}
+    .banner-mixed .banner-news li {float: none;width: 100%;padding:0px 0.3rem;border:none ;height: 2.8rem;line-height: 2.8rem;}
 
-     /*改写的公告*/
-    .banner-mixed{ position: absolute; right: 0px; top:-38rem;width:17rem; background:rgba(255,255,255,0.6); z-index: 11;border:none; opacity: 0.8; }
-    .banner-mixed .banner-news li {float: none;width: 100%;padding:0px 0.3rem;border:none ;height: 2.8rem;line-height:3.2rem ;}
-    .banner-mixed:hover { opacity: 1; }
+    /*公告布局*/
+    .mod-vip{ display: block; padding: 1.2rem 1rem;background: linear-gradient(0deg, rgba(255,255,255) 0%, rgba(255,255,255,0.6) 100%); }
+    .m-baseinfo{position: relative;margin-bottom: 1rem;}
+    .m-baseinfo img.user-avatar {display: block;width: 5.4rem;height: 5.4rem;border-radius: 5.4rem;}
+    .m-baseinfo em span {position: absolute;top:1.5rem;left:6rem;font-size: 1.2rem;color: #000000;width: 14rem;}
+    .member-login .btn{width:48%;height: 2.5rem;display: inline-block;line-height: 2.5rem;text-align: center;}
+    .member-login .btn:hover { color: #FFFFFF !important; text-decoration: none; }
+    .member-login{overflow: hidden;height:2.5rem;text-align: center;}
+    .member-logout { font-size: 1.2rem; color: var(--color-main); }
+    .member-center { overflow: hidden; }
+    .member-center a {float: left;margin-left: -0.1rem;width:25%;text-align: center;font-size: 1.2rem; text-decoration: none; }
+    .member-center a strong {display: block;font-size: 1.4rem;color: var(--color-main);}
 
     /*楼层*/	
     .floor .goods-list { padding-left: 1.2rem;}
     .outer-con .title {line-height:2.2rem ;color:#666666 ;}
     .floor {position: relative;border: none;}
+    .today-brands a {display: inline-block;vertical-align: middle;margin:0px 0.5rem;}
 
     /*楼层左侧*/
     .aggregation .word{ padding: 0.5rem 1rem; position: absolute;bottom: 0;}
@@ -116,28 +126,6 @@ ul, li, ol {list-style: none;}
     #floor10 .aggregation .triangle-topright{width: 0;height: 0;border-top: 3rem solid #f768e8;position: absolute;bottom:0px;border-left: 3rem solid #FFFFFF}
 }
 @media only screen and (min-width: 1260px) {
-    /*轮播图布局*/	
-    .banner .am-slider, .banner .am-slider .am-slides li{height:47rem;}
-
-    /*公告布局*/
-    .banner-mixed { width:22rem; top:-45rem; text-align: left; }
-    .banner-news{padding-top: 0px;}
-    .banner-news li {height: 2.6rem;line-height: 2.6rem;}
-    .banner-news-title{display: block;padding: 1rem 1rem 0 0.7rem;}
-    .banner-news-title::before {
-        top: 1.5rem;
-    }
-    .mod-vip{ display: block; padding: 1.2rem 1rem;background: linear-gradient(0deg, rgba(255,255,255) 0%, rgba(255,255,255,0.6) 100%); }
-    .m-baseinfo{position: relative;margin-bottom: 1rem;}
-    .m-baseinfo img.user-avatar {display: block;width: 5.4rem;height: 5.4rem;border-radius: 5.4rem;}
-    .m-baseinfo em span {position: absolute;top:1.5rem;left:6rem;font-size: 1.2rem;color: #000000;width: 14rem;}
-    .member-login .btn{width:48%;height: 2.5rem;display: inline-block;line-height: 2.5rem;text-align: center;}
-    .member-login .btn:hover { color: #FFFFFF !important; text-decoration: none; }
-    .member-login{overflow: hidden;height:2.5rem;text-align: center;}
-    .member-logout { font-size: 1.2rem; color: var(--color-main); }
-    .member-center { overflow: hidden; }
-    .member-center a {float: left;margin-left: -0.1rem;width:5rem;text-align: center;font-size: 1.2rem; text-decoration: none; }
-    .member-center a strong {display: block;font-size: 1.4rem;color: var(--color-main);}
     /*楼层*/
     .floor .aggregation-container { width: 22.2rem; min-height: 1rem;}
     .floor .goods-list {width:calc(100% - 22.2rem);float: right;}
@@ -162,6 +150,9 @@ ul, li, ol {list-style: none;}
     }
     .slideall {
         margin-top: 1.2rem;
+    }
+    .banner-news {
+        border: 0;
     }
     .banner-news-title {
         left: 0rem;
@@ -210,7 +201,6 @@ ul, li, ol {list-style: none;}
     .floor .aggregation .category-bg-images { filter: blur(3rem); object-fit: cover; position: absolute; left: 0; top: -50%; width: 100%; z-index: -1; }
 }
 @media only screen and (min-width: 641px) {
-    .category-content .category{background: rgba(238,238,238,.32); }
     /*楼层左侧*/
     .aggregation .word{ padding: 0.5rem 1rem; position: absolute;bottom: 0; }
 }

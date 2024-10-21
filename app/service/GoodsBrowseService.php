@@ -131,7 +131,7 @@ class GoodsBrowseService
     public static function GoodsBrowseList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? 'b.*, g.title, g.original_price, g.price, g.min_price, g.images, g.inventory_unit' : $params['field'];
+        $field = empty($params['field']) ? 'b.*, g.title, g.original_price, g.price, g.min_price, g.images, g.inventory_unit, g.is_delete_time, g.is_shelves, g.inventory, g.site_type' : $params['field'];
         $order_by = empty($params['order_by']) ? 'b.id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
@@ -156,7 +156,7 @@ class GoodsBrowseService
         if(!empty($data))
         {
             // 商品数据处理
-            $ret = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $ret = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id', 'is_spec'=>1, 'is_cart'=>1]);
             $data = $ret['data'];
 
             // 是否公共读取

@@ -143,7 +143,12 @@ class TrySeePayPay
         {
             $channel = 'PAYPAY_MPM';
             $redirect_type = 'APP_DEEP_LINK';
-            $url_field = 'deeplink';
+
+            // app下 ios调起失败，仅android使用
+            if(APPLICATION_CLIENT_TYPE == 'android')
+            {
+                $url_field = 'deeplink';
+            }
         }
 
         // 支付参数

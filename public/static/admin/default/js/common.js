@@ -76,6 +76,163 @@ function FormTableHeightHandle () {
 }
 
 /**
+ * 软件安装异步请求步骤
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-22
+ * @desc    description
+ * @desc    description
+ * @param   {[string]}        url                   [url地址]
+ * @param   {[string]}        type                  [操作类型（plugins、payment、webtheme、minitheme、design、diy）]
+ * @param   {[string]}        id                    [插件商店id]
+ * @param   {[string]}        opt                   [操作类型（url 获取下载地址， download 下载插件包， install 安装插件包）]
+ * @param   {[string]}        key                   [操作key（仅download和install需要）]
+ * @param   {[string]}        terminal              [小程序需要的指定端值]
+ * @param   {[string]}        msg                   [提示信息]
+ * @param   {[string]}        back_fun              [成功回调方法]
+ * @param   {[string]}        back_url              [成功回调跳转地址]
+ * @param   {[string]}        back_url_field        [成功回调参数替换字段]
+ * @param   {[string]}        back_url_is_new_win   [成功回调参数替换字段]
+ * @param   {[string]}        back_win_refresh_type [成功刷新页面类型（空当前页面，parent父级，none不刷新）]
+ */
+function PackageInstallRequestHandle(params)
+{
+    // 参数处理
+    if ((params || null) == null) {
+        Prompt('操作参数有误');
+        return false;
+    }
+    var id = params.id || null;
+    var type = params.type || null;
+    var terminal = params.terminal || '';
+    var url = params.url || null;
+    var key = params.key || '';
+    var opt = params.opt || 'url';
+    var msg = params.msg || window['lang_get_loading_tips'] || '正在获取中...';
+    if(id == null || type == null || url == null)
+    {
+        Prompt(window['lang_operate_params_error'] || '请求参数有误');
+        return false;
+    }
+    // 回调方法
+    var back_fun = params.back_fun || null;
+    // 回调地址
+    var back_url = params.back_url || null;
+    // 回调地址替换参数字段
+    var back_url_field = params.back_url_field || null;
+    // 是否新标签打开
+    var back_url_is_new_win = params.back_url_is_new_win || 0;
+    // 新标签跳转后刷新原来列表的数据
+    var back_url_is_new_win_refresh = params.back_url_is_new_win_refresh || 0;
+    // 新标签跳转后重新查询原来列表的数据
+    var back_url_is_new_win_data_list_query = params.back_url_is_new_win_data_list_query || 0;
+    // 刷新类型（空当前页面，parent父级，none不刷新）
+    var back_win_refresh_type = params.back_win_refresh_type || null;
+
+    // 加载提示
+    AMUI.dialog.loading({ title: msg });
+
+    // ajax
+    $.ajax({
+        url: RequestUrlHandle(url),
+        type: 'POST',
+        dataType: 'json',
+        timeout: 305000,
+        data: {"id":id, "type":type, "opt":opt, "key":key, "terminal":terminal},
+        success: function(result)
+        {
+            if((result || null) != null && result.code == 0)
+            {
+                switch(opt)
+                {
+                    // 获取下载地址
+                    case 'url' :
+                        params['key'] = result.data;
+                        params['opt'] = 'download';
+                        params['msg'] = window['lang_download_loading_tips'] || '正在下载中...';
+                        PackageInstallRequestHandle(params);
+                        break;
+
+                    // 下载插件包
+                    case 'download' :
+                        params['key'] = result.data;
+                        params['opt'] = 'install';
+                        params['msg'] = window['lang_install_loading_tips'] || '正在安装中...';
+                        PackageInstallRequestHandle(params);
+                        break;
+
+                    // 安装完成
+                    case 'install' :
+                        Prompt(result.msg, 'success');
+                        setTimeout(function () {
+                            if (back_fun != null)
+                            {
+                                if(IsExitsFunction(back_fun))
+                                {
+                                    window[back_fun](result.data);
+                                } else {
+                                    Prompt((window['lang_config_fun_not_exist_tips'] || '配置方法未定义') + '[' + value + ']');
+                                }
+                            } else if(back_url != null)
+                            {
+                                if(back_url_field != null)
+                                {
+                                    back_url = UrlFieldReplace(back_url_field, result.data, back_url);
+                                }
+                                if(back_url_is_new_win == 1)
+                                {
+                                    window.open(back_url, '_blank');
+                                    if(back_url_is_new_win_refresh == 1)
+                                    {
+                                        if(back_win_refresh_type != 'none')
+                                        {
+                                            setTimeout(function () {
+                                                if (back_win_refresh_type == 'parent') {
+                                                    parent.location.reload();
+                                                } else {
+                                                    window.location.reload();
+                                                }
+                                            }, 50);
+                                        }
+                                    } else {
+                                        if(back_url_is_new_win_data_list_query == 1)
+                                        {
+                                            $('.form-table-operate-top-search-submit').trigger('click');
+                                        }
+                                    }
+                                } else {
+                                    window.location.href = back_url;
+                                }
+                            } else {
+                                if(back_win_refresh_type != 'none')
+                                {
+                                    if (back_win_refresh_type == 'parent') {
+                                        parent.location.reload();
+                                    } else {
+                                        window.location.reload();
+                                    }
+                                }
+                            }
+
+                            AMUI.dialog.loading('close');
+                        }, 1500);
+                        break;
+                }
+            } else {
+                AMUI.dialog.loading('close');
+                Prompt(((result || null) == null) ? (window['lang_error_text'] || '异常错误') : (result.msg || (window['lang_error_text'] || '异常错误')));
+            }
+        },
+        error: function(xhr, type)
+        {
+            AMUI.dialog.loading('close');
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
+        }
+    });
+}
+
+/**
  * 软件更新异步请求步骤
  * @author  Devil
  * @blog    http://gong.gg/
@@ -83,7 +240,7 @@ function FormTableHeightHandle () {
  * @date    2021-02-22
  * @desc    description
  * @param   {[string]}        url       [url地址]
- * @param   {[string]}        type      [操作类型（plugins、payment、webtheme、minitheme、design）]
+ * @param   {[string]}        type      [操作类型（plugins、payment、webtheme、minitheme）]
  * @param   {[string]}        value     [操作标识值]
  * @param   {[string]}        opt       [操作类型（url 获取下载地址， download 下载插件包， upgrade 安装插件包）]
  * @param   {[string]}        key       [操作key（仅download和install需要）]
@@ -356,6 +513,110 @@ $(function () {
         });
     });
 
+    // 包安装搜索
+    var $package = $('.package-install-list-container');
+    var $package_list = $package.find('.package-data-list-container');
+    var $package_data_list = $package_list.find('> ul');
+    var $package_btn = $package.find('.forth-selection-container .search-submit');
+    var $package_is_already_buy = $package.find('input[type="checkbox"].is-already-buy');
+    $(document).on('click', '.package-install-list-container .forth-selection-container .search-submit, .package-data-page-container .pagelibrary li a', function()
+    {
+        // 分页处理
+        var is_active = $(this).data('is-active') || 0;
+        if(is_active == 1)
+        {
+            return false;
+        }
+        var page = $(this).data('page') || 1;
+
+        // 请求参数
+        var url = $package.find('.forth-selection-container').data('search-url');
+        var keywords = $package.find('.forth-selection-form-keywords').val();
+        var is_already_buy = $package_is_already_buy.is(':checked') ? 1 : 0;
+
+        // 获取数据
+        $package_btn.button('loading');
+        $package_is_already_buy.uCheck('disable');
+        $package_data_list.html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($package_list.data('loading-msg'))+'</div>');
+        $.ajax({
+            url: RequestUrlHandle(url),
+            type: 'post',
+            data: {page: page, keywords: keywords, is_already_buy: is_already_buy},
+            dataType: 'json',
+            success:function(res)
+            {
+                $package_btn.button('reset');
+                $package_is_already_buy.uCheck('enable');
+                if(res.code == 0)
+                {
+                    $package_list.attr('data-is-init', 0);
+                    $package_data_list.html(res.data.data_list);
+                } else {
+                    $package_data_list.html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
+                }
+                $('.package-data-page-container').html(PageLibrary(res.data.data_total, res.data.page_size, res.data.page, 4));
+
+                // title组件初始化
+                ViewDocumentTitleInit();
+
+                // 下拉组件初始化
+                DropdownInit();
+            },
+            error: function(xhr, type)
+            {
+                $package_btn.button('reset');
+                $package_is_already_buy.uCheck('enable');
+                var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
+                $package_data_list.html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
+            }
+        });
+    });
+    // 包数据初始化
+    if(($package_data_list.html() || null) == null)
+    {
+        $package.find('.forth-selection-container .search-submit').trigger('click');
+    }
+    // 关键字输入搜索回车事件
+    $(document).on('keydown', '.package-install-list-container .forth-selection-container .forth-selection-form-keywords', function(event)
+    {
+        if(event.keyCode == 13)
+        {
+            $package.find('.forth-selection-container .search-submit').trigger('click');
+            return false;
+        }
+    });
+    // 我已购买事件
+    $(document).on('change', '.package-install-list-container input[type="checkbox"].is-already-buy', function()
+    {
+        $package.find('.forth-selection-container .search-submit').trigger('click');
+    });
+    // 包安装操作事件
+    $(document).on('click', '.package-install-list-container .package-install-submit', function()
+    {
+        var $package = $('.package-install-list-container');
+        var url = $package.data('url');
+        var back_url = $package.data('back-url') || null;
+        var back_url_field = $package.data('back-url-field') || null;
+        var back_url_is_new_win = $package.data('back-url-is-new-win') || 0;
+        var back_url_is_new_win_refresh = $package.data('back-url-is-new-win-refresh') || 0;
+        var back_url_is_new_win_data_list_query = $package.data('back-url-is-new-win-data-list-query') || 0;
+        var back_win_refresh_type = $package.data('back-win-refresh-type') || '';
+        var back_fun = $package.data('back-fun') || null;
+        var type = $package.data('type') || null;
+        var id = $(this).data('id') || null;
+        PackageInstallRequestHandle({type: type,
+            id: id,
+            url: url,
+            back_url: back_url,
+            back_url_field: back_url_field,
+            back_url_is_new_win: back_url_is_new_win,
+            back_url_is_new_win_refresh: back_url_is_new_win_refresh,
+            back_url_is_new_win_data_list_query: back_url_is_new_win_data_list_query,
+            back_win_refresh_type: back_win_refresh_type,
+            back_fun: back_fun
+        });
+    });
+
     // 插件更新操作确认
     $(document).on('click', '.package-upgrade-submit', function () {
         // 基础配置、url、插件类型、标识值、小程序终端类型
@@ -373,8 +634,7 @@ $(function () {
 
     // 商店帐号绑定事件
     $(document).on('click', '.store-accounts-event', function () {
-        var title = $(this).data('title');
-        StoreAccountsPopupOpen(title);
+        StoreAccountsPopupOpen($(this).data('title'));
     });
 
     // 商品规格和参数拖拽排序

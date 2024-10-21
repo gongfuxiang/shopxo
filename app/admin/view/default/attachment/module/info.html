@@ -1,0 +1,13 @@
+{{if !empty($module_data['type']) and !empty($module_data['url'])}}
+    {{switch $module_data.type}}
+        {{case image|scrawl|remote}}
+            <img src="{{$module_data.url}}" data-is-download="1" data-download-name="{{if isset($module_data['original'])}}{{$module_data.original}}{{/if}}" class="am-radius am-block common-annex-view-event" width="40" height="40" />
+        {{/case}}
+        {{case file}}
+            <span class="am-color-blue common-annex-download-event" data-value="{{$module_data.url}}" data-name="{{if isset($module_data['original'])}}{{$module_data.original}}{{/if}}" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('download_title')}}'}">{{:MyLang('download_title')}}</span>
+        {{/case}}
+        {{case video}}
+            <video src="{{$module_data.url}}" data-is-download="1" data-download-name="{{if isset($module_data['original'])}}{{$module_data.original}}{{/if}}" class="am-radius am-block common-annex-view-event" data-type="video" width="40" height="40"></video>
+        {{/case}}
+    {{/switch}}
+{{/if}}

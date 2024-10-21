@@ -297,7 +297,7 @@ class WarehouseGoodsService
         // 返回数据
         $result = [
             'page_total'    => 0,
-            'page_size'     => 20,
+            'page_size'     => 32,
             'page'          => max(1, isset($params['page']) ? intval($params['page']) : 1),
             'total'         => 0,
             'data'          => [],
@@ -658,15 +658,13 @@ class WarehouseGoodsService
             }
         }
 
-        // 启动事务
-        Db::startTrans();
         // 捕获异常
+        Db::startTrans();
         try {
-        
             // 删除原始数据
             $where = [
-                'warehouse_id'          => $warehouse_goods['warehouse_id'],
-                'goods_id'              => $warehouse_goods['goods_id'],
+                'warehouse_id'  => $warehouse_goods['warehouse_id'],
+                'goods_id'      => $warehouse_goods['goods_id'],
             ];
             Db::name('WarehouseGoodsSpec')->where($where)->delete();
 
@@ -742,12 +740,13 @@ class WarehouseGoodsService
                         'goods_id'      => $wg['goods_id'],
                         'md5_key'       => $md5_key,
                     ])->value('inventory');
+                    $spec = self::GoodsSpecMuster($v['value'], $res['title']);
                     $data[] = [
                         'warehouse_goods_id'    => $wg['id'],
                         'warehouse_id'          => $wg['warehouse_id'],
                         'goods_id'              => $wg['goods_id'],
                         'md5_key'               => $md5_key,
-                        'spec'                  => json_encode(self::GoodsSpecMuster($v['value'], $res['title']), JSON_UNESCAPED_UNICODE),
+                        'spec'                  => empty($spec) ? 'default' : json_encode($spec, JSON_UNESCAPED_UNICODE),
                         'inventory'             => $inventory,
                         'add_time'              => time(),
                     ];

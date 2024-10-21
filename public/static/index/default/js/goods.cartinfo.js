@@ -195,7 +195,7 @@ function GoodsNumberChange()
 function GoodsCartInfoSpecDetailBackHandle(data)
 {
     // 售价
-    $cart_info_goods_spec.find('.price').text(__currency_symbol__+data.spec_base.price);
+    $cart_info_goods_spec.find('.price').html(__currency_symbol__+data.spec_base.price);
     // 数量处理
     var inventory = parseInt(data.spec_base.inventory);
     var $input = $cart_info_goods_spec.find('.number-operate input[type="number"]');
@@ -224,7 +224,7 @@ function GoodsCartInfoSpecDetailBackHandle(data)
     // 原价
     if(data.spec_base.original_price > 0)
     {
-        $origina_price.text(__currency_symbol__+data.spec_base.original_price);
+        $origina_price.html(__currency_symbol__+data.spec_base.original_price);
         $origina_price.parents('.items').show();
     } else {
         $origina_price.parents('.items').hide();
@@ -276,10 +276,10 @@ function GoodsCartInfoBaseRestore()
     $stock.text($stock.data('original-inventory'));
     $stock.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
     $stock.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
-    $price.text(__currency_symbol__+$price.data('default-price'));
+    $price.html(__currency_symbol__+$price.data('default-price'));
     if($original_price.length > 0)
     {
-        $original_price.text(__currency_symbol__+$original_price.data('default-price'));
+        $original_price.html(__currency_symbol__+$original_price.data('default-price'));
     }
 }
 

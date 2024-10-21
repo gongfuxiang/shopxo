@@ -52,38 +52,45 @@ class Payment extends Base
      */
 	public function Index()
 	{
-        // 插件列表
-        $payment = PaymentService::PluginsPaymentList($this->nav_type);
-
-        // 插件更新信息
-        $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
-        // 是否未绑定商店账号
-        if($upgrade['code'] == -300)
-        {
-            return $this->NotBindStoreAccountTips($upgrade['msg']);
-        }
-
         // 模板数据
         $assign = [
-            // 导航类型
-            'nav_type'              => $this->nav_type,
-            // 支付插件列表
-            'data_list'             => empty($payment['data']) ? [] : $payment['data'],
-            // 不能删除的支付方式
-            'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
-            // 管理导航
-            'nav_data'              => MyLang('payment.base_nav_list'),
-            // 适用平台
-            'common_platform_type'  => MyConst('common_platform_type'),
             // 应用商店
-            'store_payment_url'     => StoreService::StorePaymentUrl(),
-            // 支付插件更新信息
-            'upgrade_info'          => $upgrade['data'],
+            'store_payment_url' => StoreService::StorePaymentUrl(),
         ];
 
-        // 数据赋值
+        // 页面类型
+        $view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
+        if($view_type == 'index')
+        {
+            // 插件列表
+            $payment = PaymentService::PluginsPaymentList($this->nav_type);
+
+            // 插件更新信息
+            $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
+            // 是否未绑定商店账号
+            if($upgrade['code'] == -300)
+            {
+                return $this->NotBindStoreAccountTips($upgrade['msg']);
+            }
+
+            // 模板数据
+            $assign = array_merge($assign, [
+                // 导航类型
+                'nav_type'              => $this->nav_type,
+                // 支付插件列表
+                'data_list'             => empty($payment['data']) ? [] : $payment['data'],
+                // 不能删除的支付方式
+                'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
+                // 管理导航
+                'nav_data'              => MyLang('payment.base_nav_list'),
+                // 适用平台
+                'common_platform_type'  => MyConst('common_platform_type'),
+                // 支付插件更新信息
+                'upgrade_info'          => $upgrade['data'],
+            ]);
+        }
         MyViewAssign($assign);
-        return MyView();
+        return MyView($view_type);
 	}
 
     /**
@@ -196,6 +203,24 @@ class Payment extends Base
     public function Upload()
     {
         return ApiService::ApiDataReturn(PaymentService::Upload($this->data_request));
+    }
+
+    /**
+     * 应用市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     */
+    public function Market()
+    {
+        $ret = PaymentService::PaymentMarket($this->data_request);
+        if($ret['code'] == 0 && isset($ret['data']['data_list']))
+        {
+            $ret['data']['data_list'] = MyView('public/market/list', ['data_list'=>$ret['data']['data_list']]);
+        }
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

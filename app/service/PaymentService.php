@@ -1273,5 +1273,20 @@ php;
         }
         return $payment_id;
     }
+
+    /**
+     * 应用市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PaymentMarket($params = [])
+    {
+        $params['type'] = 'payment';
+        return StoreService::PackageDataList($params);
+    }
 }
 ?>

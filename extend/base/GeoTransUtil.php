@@ -46,11 +46,11 @@ class GeoTransUtil
      * @return   [int|float]                      [返回千米或公里值]
      */
     public static function GetDistance($lng1, $lat1, $lng2, $lat2, $len_type = 1, $decimal = 2) 
-    { 
-        $radLat1 = $lat1 * self::$pi / 180.0;
-        $radLat2 = $lat2 * self::$pi / 180.0;
+    {
+        $radLat1 = (float) $lat1 * self::$pi / 180.0;
+        $radLat2 = (float) $lat2 * self::$pi / 180.0;
         $a = $radLat1 - $radLat2;
-        $b = ($lng1 * self::$pi / 180.0) - ($lng2 * self::$pi / 180.0);
+        $b = ((float) $lng1 * self::$pi / 180.0) - ((float) $lng2 * self::$pi / 180.0);
         $s = 2 * asin(sqrt(pow(sin($a/2),2) + cos($radLat1) * cos($radLat2) * pow(sin($b/2),2)));
         $s = $s * self::$earth_radius;
         if($len_type == 1)

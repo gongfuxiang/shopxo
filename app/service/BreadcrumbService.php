@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\NavigationService;
+use app\service\RegionService;
 
 /**
  * 面包屑导航服务层
@@ -231,20 +232,30 @@ class BreadcrumbService
         $bid = empty($params['bid']) ? (empty($params['brand']) ? 0 : intval($params['brand'])) : intval($params['bid']);
         if(!empty($bid))
         {
-            $brand = Db::name('Brand')->where(['id'=>$bid])->field('id,name')->find();
-            if(!empty($brand))
+            $brand = Db::name('Brand')->where(['id'=>$bid])->value('name');
+            if(!empty($name))
             {
-                $temp_name[] = $brand['name'];
+                $temp_name[] = $name;
             }
         }
 
         // 价格区间
         if(!empty($params['peid']))
         {
-            $price = Db::name('ScreeningPrice')->where(['id'=>intval($params['peid'])])->field('id,name')->find();
-            if(!empty($price))
+            $name = Db::name('ScreeningPrice')->where(['id'=>intval($params['peid'])])->value('name');
+            if(!empty($name))
             {
-                $temp_name[] = $price['name'];
+                $temp_name[] = $name;
+            }
+        }
+
+        // 商品产地
+        if(!empty($params['poid']))
+        {
+            $name = RegionService::RegionName(intval($params['poid']));
+            if(!empty($name))
+            {
+                $temp_name[] = $name;
             }
         }
 

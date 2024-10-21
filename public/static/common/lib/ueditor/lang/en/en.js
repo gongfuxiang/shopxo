@@ -278,7 +278,21 @@ UE.I18N['en'] = {
             'leftAlign':{'title':'Left Float'},
             'rightAlign':{'title':'Right Float'},
             'centerAlign':{'title':'Center In A Line'},
-            'lang_input_search':'Search'
+            'lang_input_search':'Search',
+            'lang_draging_msg': 'Drag files/folders into this area and release the mouse',
+            'lang_page_current_page': 'Current position',
+            'lang_page_page_text': 'page',
+            'lang_page_page_two_text': 'page',
+            'lang_page_strip_text': 'strip',
+            'lang_page_general_text': 'common',
+            'lang_page_strip_data_text': 'Article data',
+            'lang_tab_scan': 'ScanUpload',
+            'lang_copy_text': 'copy',
+            'lang_table_name': 'name',
+            'lang_table_size': 'size',
+            'lang_table_operate': 'operate',
+            'lang_no_upload_data_tips': 'No data has been uploaded yet',
+            'lang_category_input_search': 'Search'
         },
         'uploadSelectFile':'Select File',
         'uploadAddFile':'Add File',
@@ -307,10 +321,14 @@ UE.I18N['en'] = {
         'numError':"Please enter the correct Num. e.g 123,400",
         'imageUrlError':"The image format may be wrong!",
         'imageLoadError':"Error,please check the network or URL！",
-        'searchRemind':"Enter the search keyword!",
         'searchLoading':"Image is loading,please wait...",
         'searchRetry':" Sorry,can't find the image,please try again!",
-        'deleteConfirmTips': 'Are you sure you want to delete?'
+        'deleteConfirmTips': 'Are you sure you want to delete?',
+        'loadingMsg': 'Loading...',
+        'searchPlaceholder':'Enter the search keyword!',
+        'copySuccessText':'Copy successful',
+        'copyFailText':'copy failed',
+        'CategoryInputPlaceholder':'keyword'
     },
     'attachment':{
         'static':{
@@ -318,7 +336,21 @@ UE.I18N['en'] = {
             'lang_tab_online': 'Online',
             'lang_start_upload':"Start upload",
             'lang_drop_remind':"You can drop files here, a single maximum of 300 files",
-            'lang_input_search':'Search'
+            'lang_input_search':'Search',
+            'lang_draging_msg': 'Drag files/folders into this area and release the mouse',
+            'lang_page_current_page': 'Current position',
+            'lang_page_page_text': 'page',
+            'lang_page_page_two_text': 'page',
+            'lang_page_strip_text': 'strip',
+            'lang_page_general_text': 'common',
+            'lang_page_strip_data_text': 'Article data',
+            'lang_tab_scan': 'ScanUpload',
+            'lang_copy_text': 'copy',
+            'lang_table_name': 'name',
+            'lang_table_size': 'size',
+            'lang_table_operate': 'operate',
+            'lang_no_upload_data_tips': 'No data has been uploaded yet',
+            'lang_category_input_search': 'Search'
         },
         'uploadSelectFile':'Select File',
         'uploadAddFile':'Add File',
@@ -342,7 +374,12 @@ UE.I18N['en'] = {
         'errorUploadRetry':'Upload Error, Please Retry.',
         'errorHttp':'Http Error',
         'errorServerUpload':'Server Result Error.',
-        'deleteConfirmTips': 'Are you sure you want to delete?'
+        'deleteConfirmTips': 'Are you sure you want to delete?',
+        'loadingMsg': 'Loading...',
+        'searchPlaceholder':'Enter the search keyword!',
+        'copySuccessText':'Copy successful',
+        'copyFailText':'copy failed',
+        'CategoryInputPlaceholder':'keyword'
     },
 
     'insertvideo':{
@@ -369,7 +406,21 @@ UE.I18N['en'] = {
             'lang_upload_height':"Height",
             'lang_upload_alignment':"Alignment",
             'lang_format_advice':"Recommends mp4 format.",
-            'lang_input_search':'Search'
+            'lang_input_search':'Search',
+            'lang_draging_msg': 'Drag files/folders into this area and release the mouse',
+            'lang_page_current_page': 'Current position',
+            'lang_page_page_text': 'page',
+            'lang_page_page_two_text': 'page',
+            'lang_page_strip_text': 'strip',
+            'lang_page_general_text': 'common',
+            'lang_page_strip_data_text': 'Article data',
+            'lang_tab_scan': 'ScanUpload',
+            'lang_copy_text': 'copy',
+            'lang_table_name': 'name',
+            'lang_table_size': 'size',
+            'lang_table_operate': 'operate',
+            'lang_no_upload_data_tips': 'No data has been uploaded yet',
+            'lang_category_input_search': 'Search'
         },
         'numError':"Please enter the correct Num. e.g 123,400",
         'floatLeft':"Float left",
@@ -431,7 +482,12 @@ UE.I18N['en'] = {
         'errorUploadRetry':'Upload Error, Please Retry.',
         'errorHttp':'Http Error',
         'errorServerUpload':'Server Result Error.',
-        'deleteConfirmTips': 'Are you sure you want to delete?'
+        'deleteConfirmTips': 'Are you sure you want to delete?',
+        'loadingMsg': 'Loading...',
+        'searchPlaceholder':'Enter the search keyword!',
+        'copySuccessText':'Copy successful',
+        'copyFailText':'copy failed',
+        'CategoryInputPlaceholder':'keyword'
     },
     'webapp':{
         'tip1':"This function provided by Baidu APP,please apply for baidu APPKey webmaster first!",
@@ -497,10 +553,10 @@ UE.I18N['en'] = {
             'lang_chart_y_title': 'Y-axis title:',
             'lang_chart_tip': 'Prompt',
             'lang_cahrt_tip_prefix': 'prefix:',
-            'lang_cahrt_tip_description': '仅饼图有效， 当鼠标移动到饼图中相应的块上时，提示框内的文字的前缀',
+            'lang_cahrt_tip_description': 'Only pie charts are valid. When the mouse moves over the corresponding block in the pie chart, the prefix of the text in the prompt box is displayed',
             'lang_chart_data_unit': 'Unit',
             'lang_chart_data_unit_title': 'unit:',
-            'lang_chart_data_unit_description': '显示在每个数据点上的数据的单位， 比如： 温度的单位 ℃',
+            'lang_chart_data_unit_description': 'The unit of data displayed on each data point, such as the unit of temperature ℃',
             'lang_chart_type': 'Chart type:',
             'lang_prev_btn': 'Previous',
             'lang_next_btn': 'Next'
@@ -632,7 +688,9 @@ UE.I18N['en'] = {
             'lang_autoSizePage':'Page width adaptive',
             'lang_example':'Example',
             'lang_borderStyle':'Table Border',
-            'lang_color':'Color:'
+            'lang_color':'Color:',
+            'lang_paddingStyle':'PaddingStyle',
+            'lang_padding':'Padding:'
         },
         captionName:'Caption',
         titleName:'Title',

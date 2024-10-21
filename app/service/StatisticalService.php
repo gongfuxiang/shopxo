@@ -977,6 +977,28 @@ class StatisticalService
         // 根据类型处理数据
         switch($params['type'])
         {
+            // 全部
+            case 'all' :
+                $base_count = self::BaseTotalCount($params);
+                $order_profit = self::OrderProfitTotal($params);
+                $order_trading = self::OrderTradingTotal($params);
+                $goods_hot = self::GoodsHotTotal($params);
+                $pay_type = self::PayTypeTotal($params);
+                $order_whole_country = self::OrderWholeCountryTotal($params);
+                $renew_usert = self::NewUserTotal($params);
+                $buy_user = self::BuyUserTotal($params);
+                $ret = DataReturn('success', 0, [
+                    'base_count'           => $base_count['data'],
+                    'order_profit'         => $order_profit['data'],
+                    'order_trading'        => $order_trading['data'],
+                    'goods_hot'            => $goods_hot['data'],
+                    'pay_type'             => $pay_type['data'],
+                    'order_whole_country'  => $order_whole_country['data'],
+                    'renew_usert'          => $renew_usert['data'],
+                    'buy_user'             => $buy_user['data'],
+                ]);
+                break;
+
             // 基础配置
             case 'base-count' :
                 $ret = self::BaseTotalCount($params);

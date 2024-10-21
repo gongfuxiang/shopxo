@@ -15,6 +15,7 @@ use app\service\ResourcesService;
 use app\service\QuickNavService;
 use app\service\PluginsService;
 use app\service\AppMiniUserService;
+use app\service\AppTabbarService;
 
 /**
  * 系统基础公共信息服务层
@@ -225,16 +226,14 @@ class SystemBaseService
         $data = [
             // 全局状态值(1接口执行成功,用于前端校验接口请求完成状态,以后再加入其它状态)
             'status'            => 1,
-
             // 配置信息
             'config'            => $config,
-
+            // 底部菜单
+            'app_tabber'        => AppTabbarService::AppTabbarConfigData('home'),
             // 货币符号
             'currency_symbol'   => ResourcesService::CurrencyDataSymbol(),
-
             // 快捷入口信息
             'quick_nav'         => QuickNavService::QuickNav($params),
-
             // 插件配置信息
             'plugins_base'      => PluginsService::PluginsBaseList($params),
         ];
@@ -580,7 +579,12 @@ class SystemBaseService
      */
     public static function AttachmentHost()
     {
-        return MyConfig('shopxo.attachment_host');
+        static $site_attachment_host_static_data = null;
+        if($site_attachment_host_static_data === null)
+        {
+            $site_attachment_host_static_data = MyConfig('shopxo.attachment_host');
+        }
+        return $site_attachment_host_static_data;
     }
 }
 ?>

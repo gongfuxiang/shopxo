@@ -110,6 +110,9 @@ class Goods extends Common
                 // 导航更多列表
                 $nav_more_list = AppService::GoodsNavMoreList(['page'=>'goods']);
 
+                // 商品底部导航左侧小导航
+                $buy_left_nav = GoodsService::GoodsBuyLeftNavList($goods);
+
                 // 商品购买按钮列表
                 $buy_button = GoodsService::GoodsBuyButtonList($goods);
 
@@ -118,12 +121,13 @@ class Goods extends Common
 
                 // 数据返回
                 $result = [
-                    'goods'             => $goods,
-                    'cart_total'        => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
-                    'buy_button'        => $buy_button,
-                    'middle_tabs_nav'   => $middle_tabs_nav,
-                    'nav_more_list'     => $nav_more_list,
-                    'guess_you_like'    => $guess_you_like,
+                    'goods'            => $goods,
+                    'cart_total'       => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
+                    'buy_left_nav'     => $buy_left_nav,
+                    'buy_button'       => $buy_button,
+                    'middle_tabs_nav'  => $middle_tabs_nav,
+                    'nav_more_list'    => $nav_more_list,
+                    'guess_you_like'   => $guess_you_like,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             }

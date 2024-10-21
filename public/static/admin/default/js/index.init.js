@@ -752,7 +752,7 @@ function EchartsBuyUser (name_arr, data) {
 
 
 /**
- * 图表更新
+ * 统计数据查询
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -762,7 +762,7 @@ function EchartsBuyUser (name_arr, data) {
  */
 var window_is_toolbox = $(window).width() > 900;
 var chart_object = [];
-function EchartsInit (e) {
+function EchartsQuery (e) {
     // 类型
     var type = e.parents('.right-operate').data('type');
     var value = e.parents('.echarts-title').find('select[name="value"]').val() || '';
@@ -842,6 +842,87 @@ function EchartsInit (e) {
         },
         error: function (xhr, type) {
             e.button('reset');
+            $.AMUI.progress.done();
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+        }
+    });
+}
+
+/**
+ * 统计数据初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-08-12
+ * @desc    description
+ */
+function EchartsInit () {
+    var start = $('input[name="time_start"]').val();
+    var end = $('input[name="time_end"]').val();
+    var value = $('.content-right .echarts-title select[name="value"]').val() || '';
+    $.ajax({
+        url: RequestUrlHandle($('.content-right').data('url')),
+        type: 'POST',
+        dataType: 'json',
+        timeout: 30000,
+        data: { type: 'all', start: start, end: end, value: value },
+        success: function (res) {
+            $.AMUI.progress.done();
+            if (res.code == 0) {
+                for(var i in res.data) {
+                    var data = res.data[i];
+                    var chart = null;
+                    switch (i) {
+                        // 基础数据总数
+                        case 'base_count':
+                            EchartsBaseCount(data);
+                            break;
+
+                        // 订单成交金额走势
+                        case 'order_profit':
+                            var chart = EchartsOrderProfit(data.title_arr, data.name_arr, data.data);
+                            break;
+
+                        // 订单交易走势
+                        case 'order_trading':
+                            var chart = EchartsOrderTrading(data.title_arr, data.name_arr, data.data);
+                            break;
+
+                        // 热销商品
+                        case 'goods_hot':
+                            var chart = EchartsGoodsHot(data.data);
+                            break;
+
+                        // 支付方式
+                        case 'pay_type':
+                            var chart = EchartsPayType(data.title_arr, data.name_arr, data.data);
+                            break;
+
+                        // 订单地域分布
+                        case 'order_whole_country':
+                            var chart = EchartsOrderMapWholeCountry(data.name_arr, data.data);
+                            break;
+
+                        // 新增用户
+                        case 'new_user':
+                            var chart = EchartsNewUser(data.name_arr, data.data);
+                            break;
+
+                        // 下单用户
+                        case 'buy_user':
+                            var chart = EchartsBuyUser(data.name_arr, data.data);
+                            break;
+                    }
+                }
+                // 图表对象存储
+                if (chart !== null) {
+                    chart_object.push(chart);
+                }
+            } else {
+                Prompt(res.msg);
+            }
+        },
+        error: function (xhr, type) {
             $.AMUI.progress.done();
             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
@@ -935,12 +1016,8 @@ $(function () {
         SystemUpgradeRequestHandle({ "url": $(this).data('url') });
     });
 
-    // 初始化
-    $('.content-right .echarts-where-submit').each(function (k, v) {
-        if (parseInt($(this).parents('.right-operate').data('init')) == 1) {
-            EchartsInit($(this));
-        }
-    });
+    // 统计数据初始化
+    EchartsInit();
 
     // 基础条件值改变事件
     $(document).on('change', '.echarts-title select[name="value"]', function () {
@@ -964,7 +1041,7 @@ $(function () {
                 }
             }
         })
-        EchartsInit($(this));
+        EchartsQuery($(this));
     });
 
     // 快捷时间

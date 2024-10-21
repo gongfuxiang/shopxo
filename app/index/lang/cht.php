@@ -572,5 +572,10 @@ return [
         'mobile_new_title'                      => '新手機號碼校驗',
         'login_password_title'                  => '登入密碼修改',
     ],
+
+    // 上传组件
+    'ueditor' => [
+        'base_nav_title'                        => '掃碼上傳'
+    ],
 ];
 ?>

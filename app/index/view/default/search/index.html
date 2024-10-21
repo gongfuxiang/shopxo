@@ -72,12 +72,13 @@
 
         <!-- 搜索条件内容、侧边栏内容 -->
         {{:ModuleInclude('search/module/map/index', [
-            'search_map_info'       => empty($search_map_info) ? [] : $search_map_info,
-            'brand_list'            => empty($brand_list) ? [] : $brand_list,
-            'category_list'         => empty($category_list) ? [] : $category_list,
-            'screening_price_list'  => empty($screening_price_list) ? [] : $screening_price_list,
-            'goods_params_list'     => empty($goods_params_list) ? [] : $goods_params_list,
-            'goods_spec_list'       => empty($goods_spec_list) ? [] : $goods_spec_list,
+            'search_map_info'          => empty($search_map_info) ? [] : $search_map_info,
+            'brand_list'               => empty($brand_list) ? [] : $brand_list,
+            'category_list'            => empty($category_list) ? [] : $category_list,
+            'screening_price_list'     => empty($screening_price_list) ? [] : $screening_price_list,
+            'goods_place_origin_list'  => empty($goods_place_origin_list) ? [] : $goods_place_origin_list,
+            'goods_params_list'        => empty($goods_params_list) ? [] : $goods_params_list,
+            'goods_spec_list'          => empty($goods_spec_list) ? [] : $goods_spec_list,
         ])}}
 
         <!-- 搜索页面搜索导航条顶部钩子 -->

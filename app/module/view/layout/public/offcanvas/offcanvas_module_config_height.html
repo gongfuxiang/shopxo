@@ -1,0 +1,27 @@
+<!-- 侧边栏 - 模块配置 - 辅助空白 -->
+<div id="offcanvas-module-config-height" class="am-offcanvas module-offcanvas-container">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-height" request-type="sync" request-value="FormBackModuleConfigHeight">
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 背景色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/background_color')}}
+
+                        <!-- 高度 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/height')}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

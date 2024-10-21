@@ -89,7 +89,7 @@
                         </div>
 
                         <!-- 快递信息、一条快递信息 -->
-                        {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and !empty($data.express_data) and !empty($data.express_data[0]) and count($data['express_data']) eq 1}}
+                        {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and !empty($data.express_data) and is_array($data.express_data) and !empty($data.express_data[0]) and count($data['express_data']) eq 1}}
                             <div class="logistics">
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">{{:MyLang('order.form_table_express.name')}}</div>
@@ -264,7 +264,7 @@
             </div>
 
             <!-- 订单快递、多条快递信息 -->
-            {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and count($data['express_data']) gt 1}}
+            {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and !empty($data.express_data) and is_array($data.express_data) and count($data['express_data']) gt 1}}
                 <div class="order-express">
                     <div class="am-panel am-panel-default business-panel">
                         <div class="am-panel-hd">{{:MyLang('common_service.order.delivery_express_info')}}</div>
@@ -338,7 +338,7 @@
                                     {{/if}}
                                     <span>{{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
                                     {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                                        <button type="button" class="am-btn am-view-map submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}">
+                                        <button type="button" class="am-btn am-view-map submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('view_map_title')}}">
                                             {{:MyLang('view_map_title')}}
                                         </button>
                                     {{/if}}

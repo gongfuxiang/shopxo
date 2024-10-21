@@ -576,5 +576,10 @@ return [
         'mobile_new_title'                      => 'Verificación del nuevo número de teléfono móvil',
         'login_password_title'                  => 'Modificación de la contraseña de inicio de sesión',
     ],
+
+    // 上传组件
+    'ueditor' => [
+        'base_nav_title'                        => 'Escanear el Código para cargar'
+    ],
 ];
 ?>

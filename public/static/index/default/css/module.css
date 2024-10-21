@@ -22,13 +22,9 @@
 
 .module-goods-container .base-nav .base-nav-more {
     position: absolute;
-    right: -0.5rem;
+    right: -0.2rem;
     top: 0.83rem;
     overflow: hidden;
-}
-
-.module-goods-container .base-nav .base-nav-more a i {
-    margin-left: 0.5rem;
 }
 
 @media only screen and (min-width: 1025px) {

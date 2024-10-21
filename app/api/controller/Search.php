@@ -66,19 +66,21 @@ class Search extends Common
         // 返回数据
         $result = [
             // 指定数据
-            'search_map_info'       => SearchService::SearchMapInfo($this->data_request),
+            'search_map_info'          => SearchService::SearchMapInfo($this->data_request),
             // 品牌列表
-            'brand_list'            => SearchService::CategoryBrandList($map, $this->data_request),
+            'brand_list'               => SearchService::CategoryBrandList($map, $this->data_request),
             // 商品分类
-            'category_list'         => SearchService::GoodsCategoryList($this->data_request),
+            'category_list'            => SearchService::GoodsCategoryList($this->data_request),
             // 筛选价格区间
-            'screening_price_list'  => SearchService::ScreeningPriceList($this->data_request),
+            'screening_price_list'     => SearchService::ScreeningPriceList($this->data_request),
+            // 商品产地
+            'goods_place_origin_list'  => SearchService::SearchGoodsPlaceOriginList($map, $this->data_request),
             // 商品参数
-            'goods_params_list'     => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
+            'goods_params_list'        => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
             // 商品规格
-            'goods_spec_list'       => SearchService::SearchGoodsSpecValueList($map, $this->data_request),
+            'goods_spec_list'          => SearchService::SearchGoodsSpecValueList($map, $this->data_request),
             // 购物车汇总
-            'cart_total'            => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
+            'cart_total'               => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
@@ -119,6 +121,19 @@ class Search extends Common
 
         // 返回数据
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($ret['data'], $ret['msg'], $ret['code']));
+    }
+
+    /**
+     * 搜索开始
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-12
+     * @desc    description
+     */
+    public function Start()
+    {
+        return ApiService::ApiDataReturn(SearchService::SearchStartData($this->data_request));
     }
 }
 ?>

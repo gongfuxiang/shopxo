@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\FormTableService;
 use app\service\ResourcesService;
 use app\service\UserService;
+use app\service\GoodsService;
 
 /**
  * 动态表格处理
@@ -483,6 +484,40 @@ class FormTableHandleModule
                 }
             }
 
+            // 是否处理商品数据
+            $is_handle_goods_field = isset($form_data['is_handle_goods_field']) && $form_data['is_handle_goods_field'] == 1;
+            $handle_goods_data = [];
+            $handle_goods_ids = [];
+            if(empty($form_data['handle_goods_data']))
+            {
+                $handle_goods_data[] = [
+                        'key'    => 'goods_id',
+                        'field'  => 'goods',
+                    ];
+                $handle_goods_ids = array_unique(array_filter(array_column($this->data_list, 'goods_id')));
+            } else {
+                if(is_array($form_data['handle_goods_data']))
+                {
+                    foreach($form_data['handle_goods_data'] as $uv)
+                    {
+                        if(!empty($uv['key']))
+                        {
+                            if(empty($uv['field']))
+                            {
+                                $temp_goods_field = (substr($uv['key'], -3) == '_id') ? substr($uv['key'], 0, -3) : $uv['key'].'_goods';
+                            } else {
+                                $temp_goods_field = $uv['field'];
+                            }
+                            $handle_goods_data[] = [
+                                    'key'    => $uv['key'],
+                                    'field'  => $temp_goods_field,
+                                ];
+                            $handle_goods_ids = array_unique(array_merge($handle_goods_ids, array_filter(array_column($this->data_list, $uv['key']))));
+                        }
+                    }
+                }
+            }
+
             // 时间字段和格式
             $is_handle_time_field = isset($form_data['is_handle_time_field']) && $form_data['is_handle_time_field'] == 1;
             $handle_time_format = empty($form_data['handle_time_format']) ? '' : $form_data['handle_time_format'];
@@ -493,7 +528,11 @@ class FormTableHandleModule
 
             // 附件字段
             $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
-            $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+            $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['cover', 'logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+
+            // 附件字节转单位
+            $is_handle_annex_size_unit = isset($form_data['is_handle_annex_size_unit']) && $form_data['is_handle_annex_size_unit'] == 1;
+            $handle_annex_size_unit_fields = empty($form_data['handle_annex_size_unit_fields']) ? ['size', 'file_size', 'images_size', 'image_size', 'video_size'] : (is_array($form_data['handle_annex_size_unit_fields']) ? $form_data['handle_annex_size_unit_fields'] : explode(',', $form_data['handle_annex_size_unit_fields']));
 
             // json数据
             $is_json_data_handle = isset($form_data['is_json_data_handle']) && $form_data['is_json_data_handle'] == 1;
@@ -530,13 +569,29 @@ class FormTableHandleModule
             }
 
             // 数据处理
-            if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_user_field || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field || $is_json_data_handle || $is_ln_to_array_handle)
+            if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_user_field || $is_handle_goods_field || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field || $is_handle_annex_size_unit || $is_json_data_handle || $is_ln_to_array_handle)
             {
                 // 获取用户数据
                 $user_data = [];
                 if($is_handle_user_field && !empty($handle_user_ids))
                 {
                     $user_data = UserService::GetUserViewInfo($handle_user_ids);
+                }
+
+                // 获取商品数据
+                $goods_data = [];
+                if($is_handle_goods_field && !empty($handle_goods_ids))
+                {
+                    $goods_data = Db::name('Goods')->where(['id'=>$handle_goods_ids])->column('id,title,images,price,min_price,max_price,original_price,min_original_price,max_original_price,inventory,inventory_unit', 'id');
+                    if(!empty($goods_data))
+                    {
+                        $goods_data = array_map(function($item)
+                        {
+                            $item['goods_url'] = GoodsService::GoodsUrlCreate($item['id']);
+                            $item['images'] = ResourcesService::AttachmentPathViewHandle($item['images']);
+                            return $item;
+                        }, $goods_data);
+                    }
                 }
 
                 // 处理列表数据
@@ -558,6 +613,18 @@ class FormTableHandleModule
                                 if(!empty($uv['key']) && !empty($uv['field']))
                                 {
                                     $v[$uv['field']] = (empty($user_data) || empty($v[$uv['key']]) || !array_key_exists($v[$uv['key']], $user_data)) ? null : $user_data[$v[$uv['key']]];
+                                }
+                            }
+                        }
+
+                        // 商品信息处理
+                        if($is_handle_goods_field && !empty($handle_goods_data))
+                        {
+                            foreach($handle_goods_data as $uv)
+                            {
+                                if(!empty($uv['key']) && !empty($uv['field']))
+                                {
+                                    $v[$uv['field']] = (empty($goods_data) || empty($v[$uv['key']]) || !array_key_exists($v[$uv['key']], $goods_data)) ? null : $goods_data[$v[$uv['key']]];
                                 }
                             }
                         }
@@ -662,6 +729,12 @@ class FormTableHandleModule
                                 $vs = ResourcesService::AttachmentPathViewHandle($vs);
                             }
 
+                            // 附件字节转单位
+                            if($is_handle_annex_size_unit && !empty($handle_annex_size_unit_fields) && in_array($ks, $handle_annex_size_unit_fields) && !empty($vs))
+                            {
+                                $vs = AnnexSizeToUnit($vs);
+                            }
+
                             // 展示字段指定数组转换处理、默认增加 _name 后缀
                             if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
                             {
@@ -717,7 +790,13 @@ class FormTableHandleModule
                 $module = $m['module'];
                 $action = $m['action'];
                 // 数据请求参数
-                $data_params = empty($form_data['data_params']) ? [] : $form_data['data_params'];
+                $data_params = (!empty($form_data['data_params']) && is_array($form_data['data_params'])) ? $form_data['data_params'] : [];
+                // 列表和详情自定义参数合并
+                $data_params_field = $base['is_detail'] ? 'detail_params' : 'list_params';
+                if(!empty($form_data[$data_params_field]))
+                {
+                    $data_params = array_merge($data_params, $form_data[$data_params_field]);
+                }
                 $res = $module::$action($this->data_list, $data_params);
                 // 是否按照数据返回格式方法放回的数据
                 if(isset($res['code']) && isset($res['msg']) && isset($res['data']))
@@ -1194,7 +1273,6 @@ class FormTableHandleModule
             {
                 switch($v['view_type'])
                 {
-
                     // 状态操作
                     // 复选框
                     // 单选框
@@ -1482,7 +1560,11 @@ class FormTableHandleModule
                             if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
                             {
                                 // 参数值
-                                $value = urldecode($this->out_params[$form_key]);
+                                $value = $this->out_params[$form_key];
+                                if(!empty($value) && !is_array($value))
+                                {
+                                    $value = urldecode($value);
+                                }
                                 if(!is_array($value))
                                 {
                                     $value = explode(',', $value);

@@ -256,7 +256,7 @@ $(function () {
         $parent.remove();
         $('#ifcontent .iframe-item-key-' + key).remove();
         // 当tabs没有了时，工具箱隐藏
-        if ($('.header-menu-open-pages-list ul li').length === 0) {
+        if ($('.header-menu-open-pages-list ul li').length == 0) {
             $('.tabs-tool').addClass('am-hide')
         }
         // 当前没有选中的导航则模拟点击最后一个选中
@@ -278,7 +278,7 @@ $(function () {
         var $nav_list = $(this).parents('.tabs-list').find('.header-menu-open-pages-list ul li');
         // 获取当前点击的key
         var key = $(this).data('key');
-        if (key === 'nav-refresh') {
+        if (key == 'nav-refresh') {
             // 刷新
             var nav_key = null;
             $nav_list.each((k, v) => {
@@ -288,25 +288,25 @@ $(function () {
             });
             if (nav_key) {
                 $('#ifcontent .window-layer').each((k, v) => {
-                    if ($(v).data('key') === nav_key) {
+                    if ($(v).data('key') == nav_key) {
                         if ($(v).find('iframe').attr('src', $(v).find('iframe').attr('src')));
                     }
                 });
             }
             $(this).parents('.tabs-tool').dropdown('close');
-        } else if (key === 'nav-close') {
+        } else if (key == 'nav-close') {
             // 关闭
             $nav_list.each((k, v) => {
                 if ($(v).hasClass('am-active')) {
                     $(v).find('a').click();
                 }
             });
-            if ($('.header-menu-open-pages-list ul li').length === 0) {
+            if ($('.header-menu-open-pages-list ul li').length == 0) {
                 $('.menu-list').find('a').removeClass('common-left-menu-active');
                 $('.menu-home').addClass('common-left-menu-active');
                 CloseMenu();
             }
-        } else if (key === 'nav-close-other') {
+        } else if (key == 'nav-close-other') {
             // 关闭其他
             $nav_list.each((k, v) => {
                 if (!$(v).hasClass('am-active')) {
@@ -314,7 +314,7 @@ $(function () {
                 }
             });
             $(this).parents('.tabs-tool').dropdown('close');
-        } else if (key === 'nav-close-all') {
+        } else if (key == 'nav-close-all') {
             // 关闭所有
             $nav_list.each((k, v) => {
                 $(v).find('a').click();
@@ -332,7 +332,7 @@ $(function () {
         tabs_lsit.each((i, item) => {
             if ($(item).hasClass('am-active') && $(item).data('key') == '-') {
                 self.find('ul li').each((c, child) => {
-                    if ($(child).find('a').data('key') === 'nav-close' || $(child).find('a').data('key') === 'nav-close-all') {
+                    if ($(child).find('a').data('key') == 'nav-close' || $(child).find('a').data('key') == 'nav-close-all') {
                         $(child).addClass('am-hide');
                     } else {
                         $(child).removeClass('am-hide');

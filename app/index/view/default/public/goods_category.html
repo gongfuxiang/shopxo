@@ -14,7 +14,7 @@
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
                         {{foreach $goods_category_list as $k=>$v}}
                             <li class="first" data-index="{{$k}}">
-                                {{if $category_show_level gt 1}}
+                                {{if $category_show_level neq 1}}
                                     <img class="category-fillet-top am-hide" src="{{:StaticAttachmentUrl('corner_round_top.png')}}" />
                                     <img class="category-fillet-bottom am-hide" src="{{:StaticAttachmentUrl('corner_round_bottom.png')}}" />
                                 {{/if}}
@@ -30,13 +30,13 @@
                                     <i class="iconfont icon-angle-right"></i>
                                 </div>
                                 </a>
-                                {{if $category_show_level gt 1}}
+                                {{if $category_show_level neq 1}}
                                     <div class="menu-item menu-in top">
                                         {{if !empty($v['items'])}}
                                             <div class="area-in">
                                                 <div class="area-bg">
                                                     <div class="menu-srot">
-                                                        <div class="sort-side {{if $category_show_level eq 2}}am-flex-row{{elseif $category_show_level eq 3}}am-flex-col{{/if}}">
+                                                        <div class="sort-side {{if $category_show_level eq 2}}am-flex-row{{elseif in_array($category_show_level, [0,3])}}am-flex-col{{/if}}">
                                                             {{foreach $v.items as $vs}}
                                                                 {{if $category_show_level eq 2}}
                                                                     <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
@@ -49,7 +49,7 @@
                                                                             </a>
                                                                         </dd>
                                                                     </dl>
-                                                                {{elseif $category_show_level eq 3}}
+                                                                {{elseif in_array($category_show_level, [0,3])}}
                                                                     <div class="category-show-level3">
                                                                         <div class="category-show-level3-title">
                                                                             <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}">

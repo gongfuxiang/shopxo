@@ -16,7 +16,6 @@ use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\AdminService;
 use app\service\AdminPowerService;
-use app\service\ConfigService;
 use app\service\ResourcesService;
 use app\service\StoreService;
 use app\service\MultilingualService;
@@ -104,11 +103,6 @@ class Common extends BaseController
         // 检测是否是新安装
         SystemService::SystemInstallCheck();
 
-        // 输入参数
-        $this->data_post = input('post.');
-        $this->data_get = input('get.');
-        $this->data_request = input();
-
 		// 系统初始化
         $this->SystemInit();
 
@@ -154,8 +148,10 @@ class Common extends BaseController
      */
     private function SystemInit()
     {
-    	// 配置信息初始化
-        ConfigService::ConfigInit();
+    	// 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
     }
 
 	/**
@@ -169,9 +165,12 @@ class Common extends BaseController
 	{
 		if(empty($this->admin))
 		{
-			if(IS_AJAX)
+			if(IS_AJAX || IS_POST)
 			{
-				exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
+				exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400, [
+                    'login'   => MyUrl('admin/admin/logininfo'),
+                    'logout'  => MyUrl('admin/admin/logout'),
+                ])));
 			} else {
 				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('admin/admin/logininfo').'";}</script>');
 			}
@@ -188,7 +187,17 @@ class Common extends BaseController
 	public function ViewInit()
 	{
         // 模板数据
-        $assign = [];
+        $assign = [
+            // 静态文件缓存版本号
+            'static_cache_version'   => MyC('home_static_cache_version'),
+            // logo
+            'home_site_logo'         => AttachmentPathViewHandle(MyC('home_site_logo')),
+            'home_site_logo_wap'     => AttachmentPathViewHandle(MyC('home_site_logo_wap')),
+            'home_site_logo_app'     => AttachmentPathViewHandle(MyC('home_site_logo_app')),
+            'home_site_logo_square'  => AttachmentPathViewHandle(MyC('home_site_logo_square')),
+            // 站点名称
+            'home_site_name'         => MyC('home_site_name'),
+        ];
 
         // 系统类型
         $this->system_type = SystemService::SystemTypeValue();
@@ -314,8 +323,11 @@ class Common extends BaseController
         // 当前url地址
         $assign['my_domain'] = __MY_DOMAIN__;
 
-        // 当前完整url地址
+        // 当前站点url地址
         $assign['my_url'] = __MY_URL__;
+
+        // 当前完整url地址
+        $assign['my_view_url'] = __MY_VIEW_URL__;
 
         // 项目public目录URL地址
         $assign['my_public_url'] = __MY_PUBLIC_URL__;
@@ -332,8 +344,8 @@ class Common extends BaseController
         // 加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = ($this->module_name.$this->controller_name.$this->action_name == 'adminindexindex') ? 0 : 1;
         $assign['is_page_loading_images'] = 0;
+        $assign['page_loading_logo'] = $assign['home_site_logo_square'];
         $assign['page_loading_images_url'] = StaticAttachmentUrl('loading.gif');
-        $assign['page_loading_logo'] = AttachmentPathViewHandle(MyC('home_site_logo_square'));
         $assign['page_loading_logo_border'] = StaticAttachmentUrl('loading-border.svg', 'svg');
 
         // 是否加载附件组件
@@ -369,13 +381,16 @@ class Common extends BaseController
         // 默认不加载代码编辑器
         $assign['is_load_ace_builds'] = 0;
 
+        // 是否加载webuploader
+        $assign['is_load_webuploader'] = 0;
+
         // 站点名称
         $assign['admin_theme_site_name'] = MyC('admin_theme_site_name', 'ShopXO', true);
 
         // 站点商店信息
         $site_store_error = '';
         $site_store_info = StoreService::SiteStoreInfo();
-        if(empty($site_store_info))
+        if(empty($site_store_info) && !empty($this->admin))
         {
             $ret = StoreService::SiteStoreAccountsBindHandle('', '', 'auto');
             if($ret['code'] == 0)
@@ -395,6 +410,9 @@ class Common extends BaseController
         // 系统基础信息
         $is_system_show_base = (empty($site_store_info) || empty($site_store_info['vip']) || !isset($site_store_info['vip']['status']) || $site_store_info['vip']['status'] == 0 || ($site_store_info['vip']['status'] == 1 && (AdminIsPower('index', 'storeaccountsbind') || AdminIsPower('index', 'inspectupgrade')))) ? 1 : 0;
         $assign['is_system_show_base'] = $is_system_show_base;
+        // 是否已绑定商店账户
+        $is_not_bind_accounts = AdminIsPower('index', 'storeaccountsbind') && (empty($site_store_info) || empty($site_store_info['user'])) ? 1 : 0;
+        $assign['is_not_bind_accounts'] = $is_not_bind_accounts;
 
         // 后台公告
         $admin_notice = MyC('admin_notice');
@@ -512,7 +530,7 @@ class Common extends BaseController
         if(!AdminIsPower(null, null, $unwanted_power))
         {
             $msg = MyLang('no_power_tips');
-            if(IS_AJAX)
+            if(IS_AJAX || IS_POST)
             {
                 exit(json_encode(DataReturn($msg, -1000)));
             } else {
@@ -532,7 +550,7 @@ class Common extends BaseController
      */
     public function NotBindStoreAccountTips($msg)
     {
-        MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> '.MyLang('store_bind_account_name').'</button></p><p class="am-text-warning am-margin-top-xl">'.MyLang('store_bind_account_tips').'</p>');
+        MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> '.MyLang('store_bind_accounts_name').'</button></p><p class="am-text-warning am-margin-top-xl">'.MyLang('store_already_bind_accounts_tips').'</p>');
         MyViewAssign('msg', $msg);
         return MyView('public/tips_error');
     }

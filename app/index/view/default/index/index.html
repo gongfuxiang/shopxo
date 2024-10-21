@@ -38,7 +38,7 @@
                                 <em>{{$user.user_name_view}}</em>
                             {{else /}}
                                 <em>{{:MyLang('index.banner_right_not_login_first')}}</em>
-                                <em>{{:MyC('home_site_name')}}</em>
+                                <em>{{$home_site_name}}</em>
                             {{/if}}
                         </span>
                         {{if !empty($user)}}
@@ -78,7 +78,7 @@
                     <ul>
                         {{foreach $article_list as $article}}
                             <li class="am-text-truncate">
-                                <a href="{{$article.url}}" target="_blank" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}><strong class="am-padding-right-xs">·</strong>{{$article.title}}</a>
+                                <a href="{{$article.url}}" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}><strong class="am-padding-right-xs">·</strong>{{$article.title}}</a>
                             </li>
                         {{/foreach}}
                     </ul>
@@ -134,10 +134,10 @@
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
             </div>
-            {{:ModuleInclude('../../../layout/view/base')}}
+            {{:ModuleInclude('../../../module/view/layout/base')}}
         </div>
     {{else /}}
-        {{:ModuleInclude('../../../layout/view/view')}}
+        {{:ModuleInclude('../../../module/view/layout/view')}}
     {{/if}}
 {{else /}}
     <div class="home-floor">
@@ -319,5 +319,5 @@
 
 {{if isset($is_design) and $is_design eq 1}}
     <!-- layout formback -->
-    {{:ModuleInclude('../../../layout/view/form_back')}}
+    {{:ModuleInclude('../../../module/view/layout/form_back')}}
 {{/if}}

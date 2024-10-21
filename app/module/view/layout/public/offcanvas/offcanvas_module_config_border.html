@@ -1,0 +1,31 @@
+<!-- 侧边栏 - 模块配置 - 辅助线 -->
+<div id="offcanvas-module-config-border" class="am-offcanvas module-offcanvas-container">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-border" request-type="sync" request-value="FormBackModuleConfigBorder">
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style', [
+                            'required'   => 'required',
+                        ])}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_color', [
+                            'required'   => 'required',
+                        ])}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

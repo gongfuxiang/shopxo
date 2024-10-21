@@ -7,11 +7,11 @@
     <i class="am-icon-edit"></i>
     <span>{{:MyLang('edit_title')}}</span>
 </a>
-<a class="am-btn am-btn-success am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$module_data['id'], 'is_copy'=>1]))}}">
+<button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-url" data-url="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$module_data['id'], 'is_copy'=>1]))}}" data-msg="{{:MyLang('copy_goods_confirm_tips')}}">
     <i class="am-icon-copy"></i>
     <span>{{:MyLang('copy_title')}}</span>
-</a>
-<div class="am-dropdown am-dropdown-down am-btn am-btn-danger am-btn-xs am-radius am-btn-block" data-am-dropdown>
+</button>
+<div class="am-dropdown am-dropdown-left am-btn am-btn-danger am-btn-xs am-radius am-btn-block" data-am-dropdown>
     <div class="am-dropdown-toggle">
         <i class="iconfont icon-delete"></i>
         <span>{{:MyLang('delete_title')}}</span>

@@ -14,11 +14,13 @@ use think\facade\Db;
 use app\service\SystemService;
 use app\service\PluginsService;
 use app\service\ResourcesService;
+use app\service\AttachmentService;
 use app\service\SqlConsoleService;
 use app\service\AdminPowerService;
 use app\service\AdminService;
 use app\service\StoreService;
 use app\service\DomainService;
+use app\service\PluginsDataConfigService;
 
 /**
  * 应用管理服务层
@@ -67,7 +69,7 @@ class PluginsAdminService
                     $admin = AdminService::LoginInfo();
                     if(!empty($admin))
                     {
-                        if($admin['id'] != 1)
+                        if($admin['id'] == 1)
                         {
                             // 超级管理员id等于1则不处理权限
                             $is_power = false;
@@ -189,7 +191,7 @@ class PluginsAdminService
                 // 是否指定二级域名状态
                 if($is_second_domain === null)
                 {
-                    $is_second_domain = (int) Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins_is_second_domain');
+                    $is_second_domain = PluginsService::PluginsField($plugins, 'plugins_is_second_domain');
                 }
                 // 取cookie设置为主域名
                 $main_domain = MyC('common_cookie_domain');
@@ -248,7 +250,7 @@ class PluginsAdminService
             if(Db::name('Plugins')->insertGetId($data) > 0)
             {
                 // 附件同步到数据库
-                ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);
+                AttachmentService::AttachmentDiskFilesToDb('plugins_'.$plugins);
 
                 // 插件事件回调
                 PluginsService::PluginsEventCall($plugins, 'Install', $params);
@@ -548,7 +550,10 @@ class PluginsAdminService
             if($is_delete_data === true)
             {
                 // 删除数据库附件
-                ResourcesService::AttachmentPathTypeDelete('plugins_'.$plugins);
+                AttachmentService::AttachmentPathTypeDelete('plugins_'.$plugins);
+
+                // 删除插件数据配置
+                PluginsDataConfigService::DataConfigDelete($plugins);
             }
 
             // 插件事件回调
@@ -718,7 +723,7 @@ class Admin
         // 数组组装
         MyViewAssign('data', ['hello', 'world!']);
         MyViewAssign('msg', 'hello world! admin');
-        return MyView('../../../plugins/view/$plugins/admin/admin/index');
+        return MyView('../../../plugins/$plugins/view/admin/admin/index');
     }
 }
 ?>
@@ -1113,7 +1118,7 @@ php;
         AdminPowerService::PowerMenuInit(null, true);
 
         // 附件同步到数据库
-        ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);
+        AttachmentService::AttachmentDiskFilesToDb('plugins_'.$plugins);
 
         // sql运行
         $install_sql = APP_PATH.'plugins'.DS.$plugins.DS.'install.sql';
@@ -1155,61 +1160,69 @@ php;
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
-        // 文件第一个目录为当前插件名称
-        $entry = $zip->statIndex(0);
-        $file = $entry['name'];
-        //根据第一个文件是目录，还是包含namespace payment，判断插件类型
-        if(str_ends_with($file, '/'))
+        // 配置信息
+        for($i=0; $i<$zip->numFiles; $i++)
         {
-            //获取plugins
-            $plugins = substr($file, 0, strpos($file, '/'));
-
-            // 业务类型处理
-            switch($type)
+            $file = $zip->getNameIndex($i);
+            if(stripos($file, 'config.json') !== false)
             {
-                // 上传安装
-                case 0 :
-                    // 应用不存在则添加
-                    $ret = self::PluginsVerification($plugins);
-                    if($ret['code'] != 0)
-                    {
-                        return $ret;
-                    }
-
-                    // 应用是否存在
-                    if(self::PluginsExist($plugins))
-                    {
-                        return DataReturn(MyLang('common_service.pluginsadmin.app_name_exist_tips').'['.$plugins.']', -1);
-                    }
-                    break;
-
-                // 更新
-                case 1 :
-                    // 应用是否存在
-                    if($plugins != $plugins_old)
-                    {
-                        return DataReturn(MyLang('common_service.pluginsadmin.app_name_appoint_error_tips').'['.$plugins.'<>'.$plugins_old.']', -1);
-                    }
-                    break;
-            }
-        } else {
-            // 应用名称为空、则校验是否为支付插件
-            $stream = $zip->getStream($file);
-            if($stream !== false)
-            {
-                $file_content = stream_get_contents($stream);
-                if($file_content !== false)
+                // 打开文件资源
+                $stream = $zip->getStream($file);
+                if($stream === false)
                 {
-                    if(stripos($file_content, 'namespace payment') !== false)
-                    {
-                        return DataReturn(MyLang('common_service.pluginsadmin.plugins_package_error_tips'), -1);
-                    }
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.pluginsadmin.plugins_config_file_get_fail_tips'), -1);
                 }
-                fclose($stream);
-            }
 
-            // 不是支付插件则提示插件包错误
-            return DataReturn(MyLang('common_service.pluginsadmin.plugins_package_empty_tips'), -30);
+                // 获取配置信息并解析
+                $file_content = stream_get_contents($stream);
+                $config = empty($file_content) ? [] : json_decode($file_content, true);
+                if(empty($config))
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.pluginsadmin.plugins_config_error_tips'), -1);
+                }
+
+                // 获取plugins
+                $plugins = substr($file, 0, strpos($file, '/'));
+
+                // 业务类型处理
+                switch($type)
+                {
+                    // 上传安装
+                    case 0 :
+                        // 应用不存在则添加
+                        $ret = self::PluginsVerification($plugins);
+                        if($ret['code'] != 0)
+                        {
+                            return $ret;
+                        }
+
+                        // 应用是否存在
+                        if(self::PluginsExist($plugins))
+                        {
+                            return DataReturn(MyLang('common_service.pluginsadmin.app_name_exist_tips').'['.$plugins.']', -1);
+                        }
+                        break;
+
+                    // 更新
+                    case 1 :
+                        // 应用是否存在
+                        if($plugins != $plugins_old)
+                        {
+                            return DataReturn(MyLang('common_service.pluginsadmin.app_name_appoint_error_tips').'['.$plugins.'<>'.$plugins_old.']', -1);
+                        }
+                        break;
+                }
+
+                // 安全验证
+                $ret = PluginsService::PluginsLegalCheck($plugins, $config);
+                if($ret['code'] != 0)
+                {
+                    $zip->close();
+                    return $ret;
+                }
+            }
         }
 
         // 应用文件处理
@@ -1465,7 +1478,7 @@ php;
         }
 
         // 安全判断
-        $ret = PluginsService::PluginsLegalCheck($plugins);
+        $ret = PluginsService::PluginsLegalCheck($plugins, $config);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -1728,6 +1741,21 @@ php;
         $domain = [$plugins => 'plugins/index/pluginsname/'.$plugins.'/pluginscontrol/index/pluginsaction/index'];
         // 更新二级域名文件
         return ($type == 1) ? DomainService::DomainUpdate(['inc_domain' => $domain]) : DomainService::DomainUpdate(['dec_domain' => $domain]);
+    }
+
+    /**
+     * 应用市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PluginsAdminMarket($params = [])
+    {
+        $params['type'] = 'plugins';
+        return StoreService::PackageDataList($params);
     }
 }
 ?>

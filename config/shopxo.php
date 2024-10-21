@@ -103,6 +103,9 @@ return [
     // 搜索热门关键字
     'cache_search_keywords_key'             => 'cache_search_keywords_data',
 
+    // 搜索开始排行数据缓存
+    'cache_search_start_ranking_key'        => 'cache_search_start_ranking_data',
+
     // 首页展示的文章列表数据
     'cache_home_article_list_key'           => 'cache_home_article_list_data',
 
@@ -127,6 +130,7 @@ return [
     'store_url'                             => $store_http.'store.shopxo.net/',
     'store_payment_url'                     => $store_http.'store.shopxo.net/',
     'store_design_url'                      => $store_http.'store.shopxo.net/',
+    'store_diy_url'                         => $store_http.'store.shopxo.net/',
     'store_theme_url'                       => $store_http.'store.shopxo.net/',
     'store_regster_url'                     => $store_http.'store.shopxo.net/regster.html',
 
@@ -153,6 +157,9 @@ return [
 
     // 插件上传到远程商店店铺
     'store_plugins_upload_url'              => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupload',
+
+    // 远程拍数据列表
+    'store_package_data_list_url'           => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=packagedatalist',
 
 
     // 支付业务类型,支付插件根据业务类型自动生成支付入口文件

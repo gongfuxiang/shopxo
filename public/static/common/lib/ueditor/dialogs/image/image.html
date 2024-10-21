@@ -12,25 +12,32 @@
     <script src="../../third-party/webuploader/webuploader.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css">
 
+    <!-- amazeui,clipboard -->
+    <script type="text/javascript" src="../../../assets/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="../../../clipboard/clipboard.min.js"></script>
+
     <!-- image dialog -->
     <link rel="stylesheet" href="image.css" type="text/css" />
 </head>
 <body>
-
     <div class="wrapper">
         <div id="tabhead" class="tabhead">
             <span class="tab" data-content-id="remote"><var id="lang_tab_remote"></var></span>
+            <span class="tab" data-content-id="scan"><var id="lang_tab_scan"></var></span>
             <span class="tab focus" data-content-id="upload"><var id="lang_tab_upload"></var></span>
             <span class="tab" data-content-id="online"><var id="lang_tab_online"></var></span>
         </div>
         <div class="alignBar">
+            <div id="choice-category-container" class="none">
+                <select></select>
+            </div>
             <div id="search-container" class="none">
-                <input type="text" name="keywords" id="search-input" placeholder="" />
+                <input type="text" name="keywords" id="search-input"  placeholder="" />
                 <button type="button" id="search-submit"><var id="lang_input_search"></var></button>
             </div>
         </div>
         <div id="tabbody" class="tabbody">
-            <!-- 远程图片 -->
+            <!-- 远程 -->
             <div id="remote" class="panel">
                 <div class="top">
                     <div class="row">
@@ -63,9 +70,32 @@
                 </div>
             </div>
 
-            <!-- 上传图片 -->
+            <!-- 扫码 -->
+            <div id="scan" class="panel">
+                <div class="qrcode-content"></div>
+                <div class="qrcode-url">
+                    <span class="url-vlaue"></span>
+                    <span class="text-copy-submit" data-value=""><var id="lang_copy_text"></var></span>
+                </div>
+                <div class="qrcode-images-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><var id="lang_table_name"></var></th>
+                                <th><var id="lang_table_size"></var></th>
+                                <th><var id="lang_table_operate"></var></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <p class="no-data"><var id="lang_no_upload_data_tips"></var></p>
+                </div>
+            </div>
+
+            <!-- 上传 -->
             <div id="upload" class="panel focus">
                 <div id="queueList" class="queueList">
+                    <div class="draging"><var id="lang_draging_msg"></var></div>
                     <div class="statusBar element-invisible">
                         <div class="progress">
                             <span class="text">0%</span>
@@ -89,7 +119,27 @@
 
             <!-- 在线图片 -->
             <div id="online" class="panel">
+                <div id="leftCategory">
+                    <input type="text" class="category-search-input" placeholder="" />
+                    <button type="button" class="category-search-submit"><var id="lang_category_input_search"></var></button>
+                    <ul></ul>
+                </div>
                 <div id="imageList"><var id="lang_imgLoading"></var></div>
+                <div id="loading" class="none"></div>
+                <div id="pagination">
+                    <span><var id="lang_page_current_page"></var></span>
+                    <span class="page">1</span>
+                    <span><var id="lang_page_page_text"></var></span>
+                    <span>/</span>
+                    <span class="size">0</span>
+                    <span><var id="lang_page_strip_text"></var></span>
+                    <span class="page-total-first"><var id="lang_page_general_text"></var></span>
+                    <span class="total">0</span>
+                    <span><var id="lang_page_strip_data_text"></var></span>
+                    <span>/</span>
+                    <span class="page-total">0</span>
+                    <span><var id="lang_page_page_two_text"></var></span>
+                </div>
             </div>
         </div>
     </div>

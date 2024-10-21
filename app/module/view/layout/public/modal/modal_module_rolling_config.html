@@ -1,0 +1,33 @@
+<!-- 滚动配置 -->
+<div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-rolling-config">
+    <div class="am-modal-dialog">
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <form class="am-form am-padding-sm am-text-left form-validation-module-modal-rolling-config" request-type="sync" request-value="FormBackModuleModalRollingConfig">
+            <div class="am-form-group am-form-group-refreshing">
+                <label>{{:MyLang('layout.view_module_rolling_config_item_width')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_module_rolling_config_item_width_tips')}}</span></label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_module_rolling_config_item_width')}}" name="item_width" min="0" max="600" data-validation-message="{{:MyLang('layout.view_module_rolling_config_item_width_message')}}" value="200" class="am-form-field" />
+                    <span class="am-input-group-label">px</span>
+                </div>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <label>{{:MyLang('layout.view_module_rolling_config_item_margin')}}</label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_module_rolling_config_item_margin')}}" name="item_margin" min="0" max="100" data-validation-message="{{:MyLang('layout.view_module_rolling_config_item_margin_message')}}" value="" class="am-form-field" />
+                    <span class="am-input-group-label">px</span>
+                </div>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <label class="am-block">{{:MyLang('layout.view_module_rolling_config_is_auto_play')}}</label>
+                <input name="is_auto_play" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <label class="am-block">{{:MyLang('layout.view_module_rolling_config_is_nav_dot')}}</label>
+                <input name="is_nav_dot" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+            </div>
+            <div class="am-margin-top-sm">
+                <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">{{:MyLang('confirm_title')}}</button>
+            </div>
+        </form>
+    </div>
+</div>

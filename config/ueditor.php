@@ -125,7 +125,7 @@ return [
       'videoMaxSize'          =>  MyFileConfig('home_max_limit_video', '', 102400000, true),
 
       // 上传视频格式显示
-      'videoAllowFiles'       =>  ['.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'], 
+      'videoAllowFiles'       =>  ['.swf', '.ogg', '.ogv', '.mp4', '.mov', '.webm', '.mp3'], 
 
 
       // 上传文件配置
@@ -145,7 +145,7 @@ return [
       'fileMaxSize'           =>  MyFileConfig('home_max_limit_file', '', 51200000, true),
 
       // 上传文件格式显示
-      'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd'],
+      'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
 
 
       // 列出指定目录下的图片
@@ -156,7 +156,7 @@ return [
       'imageManagerListPath'  =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$config_path_type.'/',
 
       // 每次列出文件数量
-      'imageManagerListSize'  =>  20,
+      'imageManagerListSize'  =>  30,
 
       // 图片访问路径前缀
       'imageManagerUrlPrefix' =>  '',
@@ -179,10 +179,10 @@ return [
       'fileManagerUrlPrefix'  =>  '',
 
       // 每次列出文件数量
-      'fileManagerListSize'   =>  20,
+      'fileManagerListSize'   =>  30,
 
       // 列出的文件类型
-      'fileManagerAllowFiles' =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd'],
+      'fileManagerAllowFiles' =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.mov', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
 
       // 执行视频管理的action名称
       'videoManagerActionName' =>  'listvideo',
@@ -194,9 +194,9 @@ return [
       'videoManagerUrlPrefix'  =>  '',
 
       // 每次列出文件数量
-      'videoManagerListSize'   =>  20,
+      'videoManagerListSize'   =>  30,
 
       // 列出的文件类型
-      'videoManagerAllowFiles' =>  ['.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'], 
+      'videoManagerAllowFiles' =>  ['.swf', '.ogg', '.ogv', '.mp4', '.mov', '.webm', '.mp3'], 
 ];
 ?>

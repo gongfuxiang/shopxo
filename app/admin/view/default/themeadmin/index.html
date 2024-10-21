@@ -7,11 +7,13 @@
         {{if AdminIsPower('themedata', 'upload')}}
             <div class="am-g am-padding-bottom am-border-bottom-f8 am-margin-bottom">
                 <div class="am-flex am-flex-justify-between am-flex-items-center am-flex-warp am-gap-12">
-                    <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/themeadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('themeadmin.base_upload_theme_name')}}">
-                        <i class="iconfont icon-upload"></i>
-                        <span>{{:MyLang('themeadmin.base_upload_theme_name')}}</span>
-                    </button>
-                    {{if AdminIsPower('packageinstall', 'index') and !empty($store_theme_url)}}
+                    {{if AdminIsPower('themeadmin', 'upload')}}
+                        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/themeadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('themeadmin.base_upload_theme_name')}}" data-full-max="1" data-full-max-size="xl">
+                            <i class="iconfont icon-upload"></i>
+                            <span>{{:MyLang('themeadmin.base_upload_theme_name')}}</span>
+                        </button>
+                    {{/if}}
+                    {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_theme_url)}}
                         <a class="am-text-sm am-flex nwarp" href="{{$store_theme_url}}" target="_blank">
                             <i class="iconfont icon-download-btn"></i> 
                             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('themeadmin.base_nav_store_theme_name')}}</span>

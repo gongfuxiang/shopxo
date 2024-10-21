@@ -8033,6 +8033,179 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             } else {
                 return '';
             }
+        },
+
+        /**
+         * 获取配置url存储路径值
+         * @author  Devil
+         * @blog    http://gong.gg/
+         * @version 1.0.0
+         * @date    2024-07-15
+         * @desc    description
+         * @return  {[string]}        [路径标识]
+         */
+        getConfigUrlPathTypeValue: function() {
+            var path_type = 'common';
+            var arr = this.getActionUrl().split('path_type');
+            if((arr[1] || null) != null) {
+                var temp = arr[1].substr(1);
+                path_type = ((temp.indexOf('.') != -1) ? temp.split('.')[0] : ((temp.indexOf('?') != -1) ? temp.split('?')[0] : ((temp.indexOf('&') != -1) ? temp.split('&')[0] : ''))) || 'common';
+            }
+            return path_type;
+        },
+
+        /**
+         * 获取选中的附件分类路径值
+         * @author  Devil
+         * @blog    http://gong.gg/
+         * @version 1.0.0
+         * @date    2024-07-15
+         * @desc    description
+         * @param   {[object]}        select [select对象]
+         * @return  {[string]}               [路径标识和分类id]
+         */
+        getChoiceCategoryPathTypeValue: function(select) {
+            var path_type = '';
+            var category_id = '';
+            if(select && select.options && select.options.length > 0) {
+                var option = select.options[select.selectedIndex];
+                path_type = option.getAttribute('data-key') || '';
+                category_id = option.getAttribute('value') || '';
+            }
+            return {
+                path_type: path_type,
+                category_id: category_id
+            };
+        },
+
+        /**
+         * 获取选中的附件分类路径值
+         * @author  Devil
+         * @blog    http://gong.gg/
+         * @version 1.0.0
+         * @date    2024-07-15
+         * @desc    description
+         * @param   {[object]}        active [选中的active对象]
+         * @return  {[string]}               [路径标识和分类id]
+         */
+        getLeftCategoryChoiceData: function(active) {
+            var path_type = '';
+            var category_id = '';
+            if(active) {
+                path_type = active.getAttribute('data-key') || '';
+                category_id = active.getAttribute('data-value') || '';
+            }
+            return {
+                path_type: path_type,
+                category_id: category_id
+            };
+        },
+
+        /**
+         * 请求url理解标识替换
+         * @author  Devil
+         * @blog    http://gong.gg/
+         * @version 1.0.0
+         * @date    2024-07-15
+         * @desc    description
+         * @param   {[string]}        url   [url地址]
+         * @param   {[string]}        value [路径标识]
+         * @return  {[string]}              [处理后的url地址]
+         */
+        actionUrlPathTypeReplace: function (url, value) {
+            if(url.indexOf('path_type') != -1) {
+                var arr = url.split('path_type');
+                var ds = arr[1].substr(0, 1);
+                var temp = arr[1].substr(1);
+                var last = '';
+                var loc = temp.indexOf('.');
+                if(loc == -1) {
+                    loc = temp.indexOf('?');
+                    if(loc == -1) {
+                        loc = temp.indexOf('&');
+                    }
+                }
+                if(loc != -1) {
+                    last = temp.substr(loc);
+                }
+                url = arr[0]+'path_type'+ds+value+last;
+            }
+            return url;
+        },
+
+        // 分类数据获取
+        getCategoryDataInit: function(select, left, back = null) {
+            var me = this;
+            var url = me.getOpt("serverUrl");
+            var join = (url.indexOf('?') == -1) ? '?' : '&';
+            $.post(url + join+"action=categorylist", {}, function(response) {
+                if (response.code == 0)
+                {
+                    var path_type = me.getConfigUrlPathTypeValue();
+                    // 内容赋值
+                    var choice_html = '';
+                    var left_html = '';
+                    if((response.data || null) != null && response.data.length > 0) {
+                        response.data.forEach(function(item, index) {
+                            if((item.items || null) != null && item.items.length > 0) {
+                                choice_html += '<optgroup label="'+item.name+'">';
+                                left_html += `<li class="disabled">`+item.name+`</li>`;
+                                item.items.forEach(function(items, indexs) {
+                                    choice_html += `<option value="`+items.id+`" data-key="`+items.path+`" `+(path_type == items.path ? 'selected' : '')+`>`+items.name+`</option>`;
+                                    left_html += `<li data-value="`+items.id+`" data-key="`+items.path+`" `+(path_type == items.path ? 'class="active"' : '')+` style="margin-left:10px;">`+items.name+`</li>`;
+                                });
+                                choice_html += '</optgroup>';
+                            } else {
+                                choice_html += `<option value="`+item.id+`" data-key="`+item.path+`" `+(path_type == item.path ? 'selected' : '')+`>`+item.name+`</option>`;
+                                left_html += `<li data-value="`+item.id+`" data-key="`+item.path+`" `+(path_type == item.path ? 'class="active"' : '')+`>`+item.name+`</li>`;
+                            }
+                        });
+                    }
+                    // 顶部选择分类赋值
+                    if(choice_html.indexOf('selected') == -1) {
+                        choice_html = '<option value="" data-key="'+path_type+'">'+path_type+'</option>'+choice_html;
+                    }
+                    select.innerHTML = choice_html;
+                    // 左侧分类赋值
+                    if(left_html.indexOf('active') == -1) {
+                        left_html = '<li data-key="'+path_type+'" class="active">'+path_type+'</li>'+left_html;
+                    }
+                    left.innerHTML = left_html;
+
+                    // 回调
+                    if((back || null) != null) {
+                        back();
+                    }
+                } else {
+                    alert(response.msg);
+                }
+            });
+        },
+
+        /**
+         * 附件字节大小转换为单位
+         * @author  Devil
+         * @blog    http://gong.gg/
+         * @version 1.0.0
+         * @date    2024-07-21
+         * @desc    description
+         * @param   {int}        size [文件大小]
+         */
+        AnnexSizeToUnit: function(size = 0) {
+            var unit = 'KB';
+            size = parseInt(size || 0);
+            var kb = size / 1024;
+            if (kb < 1024) {
+                unit = 'KB';
+                size = Math.round(kb * 100) / 100;
+            } else if (kb < 1024 * 1024) {
+                unit = 'MB';
+                size = Math.round((size / (1024 * 1024)) * 100) / 100;
+            } else if (kb < 1024 * 1024 * 1024) {
+                unit = 'GB';
+                size = Math.round((size / (1024 * 1024 * 1024)) * 100) / 100;
+            }
+            return size + unit
         }
     };
     utils.inherits(Editor, EventBase);
@@ -12393,8 +12566,13 @@ UE.plugins['blockquote'] = function(){
 
                 }
 
-
                 node = range.document.createElement( 'blockquote' );
+                // 增加样式
+                node.style.margin = '0.5rem 0';
+                node.style.padding = '0.5rem 1rem';
+                node.style.background = '#ecf8ff';
+                node.style.borderLeft = '5px solid #50bfff';
+                node.style.borderRadius = '2px';
                 domUtils.setAttributes( node, attrs );
                 node.appendChild( tmpRange.extractContents() );
                 tmpRange.insertNode( node );
@@ -13175,7 +13353,7 @@ UE.plugins['lineheight'] = function(){
 UE.plugins['insertcode'] = function() {
     var me = this;
     me.ready(function(){
-        utils.cssRule('pre','pre{margin:.5em 0;padding:.4em .6em;border-radius:8px;background:#f8f8f8;}',
+        utils.cssRule('pre','pre{margin:0.5rem 0;padding:.4rem .6rem;border-radius:2px;background:#f8f8f8;border: 0.1rem solid rgba(0, 0, 0, .02);}',
             me.document)
     });
     me.setOpt('insertcode',{
@@ -17650,8 +17828,17 @@ UE.plugins['video'] = function (){
         align = utils.unhtml(align);
         classname = utils.unhtml(classname);
 
-        width = parseInt(width, 10) || 0;
-        height = parseInt(height, 10) || 0;
+        var style = "";
+        if((width || null) != null && /^[1-9]+[.]?\d*$/g.test( width )) {
+            style += "width: "+width+"px;";
+        } else {
+            style += "width:"+((width || null) == null ? "100%" : width)+";";
+        }
+        if((height || null) != null && /^[1-9]+[.]?\d*$/g.test( height )) {
+            style += "height: "+height+"px;";
+        } else {
+            style += "height:"+((height || null) == null ? "50vw" : height)+";";
+        }
 
         var str;
         var ext = url.substr(url.lastIndexOf('.') + 1);
@@ -17660,19 +17847,18 @@ UE.plugins['video'] = function (){
         }
         switch (type){
             case 'image':
-                str = '<img ' + (id ? 'id="' + id+'"' : '') + ' width="'+ width +'" height="' + height + '" _url="'+url+'" class="' + classname.replace(/\bvideo-js\b/, '') + '"'  +
-                    ' src="' + me.options.UEDITOR_HOME_URL+'themes/default/images/spacer.gif" style="background:url('+me.options.UEDITOR_HOME_URL+'themes/default/images/videologo.gif) no-repeat center center; border:1px solid gray;'+(align ? 'float:' + align + ';': '')+'" />'
+                str = '<img ' + (id ? 'id="' + id+'"' : '') + ' _url="'+url+'" class="' + classname.replace(/\bvideo-js\b/, '') + '"'  +
+                    ' src="' + me.options.UEDITOR_HOME_URL+'themes/default/images/spacer.gif" style="background:url('+me.options.UEDITOR_HOME_URL+'themes/default/images/videologo.gif) no-repeat center center; border:1px solid gray;'+(align ? 'float:' + align + ';': '')+style+'" />'
                 break;
             // 视频格式全部合并到video
             case 'embed':
                 str = '<embed type="application/x-shockwave-flash" class="' + classname + '" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
-                    ' src="' +  utils.html(url) + '" width="' + width  + '" height="' + height  + '"'  + (align ? ' style="float:' + align + '"': '') +
+                    ' src="' +  utils.html(url) + '" style="'  + (align ? 'float:' + align + ';': '')+style+'"' +
                     ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >';
                 break;
             case 'video':
                 if(ext == 'ogv') ext = 'ogg';
-                str = '<video' + (id ? ' id="' + id + '"' : '') + ' class="' + classname + ' video-js" ' + (align ? ' style="float:' + align + '"': '') +
-                    ' controls preload="none" width="' + width + '" height="' + height + '" src="' + url + '" data-setup="{}">' +
+                str = '<video' + (id ? ' id="' + id + '"' : '') + ' class="' + classname + ' video-js" style="'  + (align ? 'float:' + align + ';': '')+style+'" controls preload src="' + url + '" data-setup="{}">' +
                     '<source src="' + url + '" type="video/' + ext + '" /></video>';
                 break;
         }
@@ -17774,7 +17960,7 @@ UE.plugins['video'] = function (){
                 vi = videoObjs[i];
                 cl = (type == 'upload' ? 'edui-upload-video video-js vjs-default-skin':'edui-faked-video');
                 var url = ((vi.url || null) == null) ? ((vi.src || null) == null ? '' : vi.src) : vi.url;
-                html.push(creatInsertStr( url, vi.width || 420,  vi.height || 280, id + i, null, cl, 'image'));
+                html.push(creatInsertStr( url, vi.width || '',  vi.height || '', id + i, null, cl, 'image'));
             }
             me.execCommand("inserthtml",html.join(""),true);
             var rng = this.selection.getRange();
@@ -18974,12 +19160,12 @@ UE.plugins['video'] = function (){
                 for (var r = 0; r < rowsNum; r++) {
                     html.push('<tr' + (r == 0 ? ' class="firstRow"':'') + '>');
                     for (var c = 0; c < colsNum; c++) {
-                        html.push('<td>' + (browser.ie && browser.version < 11 ? domUtils.fillChar : '<br/>') + '</td>')
+                        html.push('<td width="' + tdWidth + '"  vAlign="' + opt.tdvalign + '" >' + (browser.ie && browser.version < 11 ? domUtils.fillChar : '<br/>') + '</td>')
                     }
                     html.push('</tr>')
                 }
                 //禁止指定table-width
-                return '<table class="am-table am-table-bordered"><tbody>' + html.join('') + '</tbody></table>'
+                return '<table><tbody>' + html.join('') + '</tbody></table>'
             }
 
             if (!opt) {
@@ -19739,7 +19925,8 @@ UE.plugins['video'] = function (){
         queryCommandState: function () {
             return getTableItemsByRange(this).table ? 0 : -1
         },
-        execCommand: function (cmd, color) {
+        execCommand: function (cmd, color, padding) {
+            console.log(cmd, color, padding)
             var rng = this.selection.getRange(),
                 table = domUtils.findParentByTagName(rng.startContainer, 'table');
             if (table) {
@@ -19749,6 +19936,7 @@ UE.plugins['video'] = function (){
                 );
                 utils.each(arr, function (node) {
                     node.style.borderColor = color;
+                    node.style.padding = padding+'px';
                 });
             }
         }
@@ -19836,10 +20024,14 @@ UE.plugins['video'] = function (){
         },
         execCommand: function () {
             var table = getTableItemsByRange(this).table;
+            utils.each(domUtils.getElementsByTagName(table,'th'),function(th){
+                th.style.borderWidth = '1px';
+                th.style.borderStyle = 'solid';
+            });
             utils.each(domUtils.getElementsByTagName(table,'td'),function(td){
                 td.style.borderWidth = '1px';
                 td.style.borderStyle = 'solid';
-            })
+            });
         }
     };
     function resetTdWidth(table, editor) {
@@ -19997,10 +20189,11 @@ UE.plugins['table'] = function () {
             '.selectTdClass{background-color:#edf5fa !important}' +
                 'table.noBorderTable td,table.noBorderTable th,table.noBorderTable caption{border:1px dashed #ddd !important}' +
                 //插入的表格的默认样式
-                'table{margin-bottom:10px;border-collapse:collapse;display:table;width:100%;}' +
-                'td,th{padding: 5px 10px;border: 1px solid #DDD;}' +
-                'caption{border:1px dashed #DDD;border-bottom:0;padding:3px;text-align:center;}' +
-                'th{border-top:1px solid #BBB;background-color:#F7F7F7;}' +
+                'table{margin-bottom:10px;border-collapse:collapse;display:table;}' +
+                'table tbody{vertical-align:inherit;}' +
+                'td,th{border: 1px dashed #ddd;}' +
+                'caption{border:1px dashed #ddd;border-bottom:0;padding:3px;text-align:center;}' +
+                'th{border-top:1px solid #bbb;background-color:#F7F7F7;}' +
                 'table tr.firstRow th{border-top-width:2px;}' +
                 '.ue-table-interlace-color-single{ background-color: #fcfcfc; } .ue-table-interlace-color-double{ background-color: #f7faff; }' +
                 'td p{margin:0;padding:0;}', me.document);
@@ -21352,7 +21545,6 @@ UE.plugins['table'] = function () {
     }
 
     function changeColWidth(cell, changeValue) {
-
         var ut = getUETable(cell);
         if (ut) {
 
@@ -24806,9 +24998,9 @@ UE.plugin.register('insertfile', function (){
                         item = filelist[i];
                         icon = iconDir + getFileIcon(item.url);
                         title = item.title || item.url.substr(item.url.lastIndexOf('/') + 1);
-                        html += '<p style="line-height: 16px;">' +
-                            '<img style="vertical-align: middle; margin-right: 2px;" src="'+ icon + '" _src="' + icon + '" />' +
-                            '<a style="font-size:12px; color:#0066cc;" href="' + item.url +'" title="' + title + '">' + title + '</a>' +
+                        html += '<p style="line-height:16px;">' +
+                            '<img style="vertical-align:middle; margin-right:2px;" src="'+ icon + '" _src="' + icon + '" />' +
+                            '<a style="font-size:12px; color:#0066cc; vertical-align:middle;" href="' + item.url +'" title="' + title + '">' + title + '</a>' +
                             '</p>';
                     }
                     me.execCommand('insertHtml', html);
@@ -29559,24 +29751,24 @@ UE.registerUI('message', function(editor) {
 
 
 // adapter/autosave.js
-UE.registerUI('autosave', function(editor) {
-    var timer = null,uid = null;
-    editor.on('afterautosave',function(){
-        clearTimeout(timer);
+// UE.registerUI('autosave', function(editor) {
+//     var timer = null,uid = null;
+//     editor.on('afterautosave',function(){
+//         clearTimeout(timer);
 
-        timer = setTimeout(function(){
-            if(uid){
-                editor.trigger('hidemessage',uid);
-            }
-            uid = editor.trigger('showmessage',{
-                content : editor.getLang('autosave.success'),
-                timeout : 2000
-            });
+//         timer = setTimeout(function(){
+//             if(uid){
+//                 editor.trigger('hidemessage',uid);
+//             }
+//             uid = editor.trigger('showmessage',{
+//                 content : editor.getLang('autosave.success'),
+//                 timeout : 2000
+//             });
 
-        },2000)
-    })
+//         },2000)
+//     })
 
-});
+// });
 
 
 

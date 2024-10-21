@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4094254 */
-  src: url('iconfont.woff2?t=1719884755193') format('woff2'),
-       url('iconfont.woff?t=1719884755193') format('woff'),
-       url('iconfont.ttf?t=1719884755193') format('truetype');
+  src: url('iconfont.woff2?t=1726845871474') format('woff2'),
+       url('iconfont.woff?t=1726845871474') format('woff'),
+       url('iconfont.ttf?t=1726845871474') format('truetype');
 }
 
 .iconfont {
@@ -10,6 +10,146 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-domain:before {
+  content: "\e7cf";
+}
+
+.icon-link:before {
+  content: "\e603";
+}
+
+.icon-link-round:before {
+  content: "\e718";
+}
+
+.icon-gift-fine:before {
+  content: "\e7ce";
+}
+
+.icon-ellipsis:before {
+  content: "\e635";
+}
+
+.icon-video:before {
+  content: "\e7cd";
+}
+
+.icon-layout-6:before {
+  content: "\e7cc";
+}
+
+.icon-layout-1-3:before {
+  content: "\e7c7";
+}
+
+.icon-layout-1-2:before {
+  content: "\e7c8";
+}
+
+.icon-layout-2-1:before {
+  content: "\e7c9";
+}
+
+.icon-layout-1-1:before {
+  content: "\e7ca";
+}
+
+.icon-layout-4:before {
+  content: "\e7cb";
+}
+
+.icon-layout-1-2-1:before {
+  content: "\e7c2";
+}
+
+.icon-layout-1:before {
+  content: "\e7c3";
+}
+
+.icon-layout-1-1-2:before {
+  content: "\e7c4";
+}
+
+.icon-layout-3:before {
+  content: "\e7c5";
+}
+
+.icon-layout-3-1:before {
+  content: "\e7c6";
+}
+
+.icon-layout-module-blank:before {
+  content: "\e7ba";
+}
+
+.icon-delete-tall:before {
+  content: "\e7bb";
+}
+
+.icon-layout-module-single-images:before {
+  content: "\e7bc";
+}
+
+.icon-layout-module-goods:before {
+  content: "\e7bd";
+}
+
+.icon-layout-module-many-images:before {
+  content: "\e7be";
+}
+
+.icon-edit-two:before {
+  content: "\e7bf";
+}
+
+.icon-layout-module-title:before {
+  content: "\e7c0";
+}
+
+.icon-layout-2-1-1:before {
+  content: "\e7c1";
+}
+
+.icon-layout-module-code:before {
+  content: "\e7b1";
+}
+
+.icon-remove:before {
+  content: "\e7b2";
+}
+
+.icon-layout-module-images-text:before {
+  content: "\e7b3";
+}
+
+.icon-replace:before {
+  content: "\e7b4";
+}
+
+.icon-drag:before {
+  content: "\e7b5";
+}
+
+.icon-icon-angle-right-twin:before {
+  content: "\e7b6";
+}
+
+.icon-icon-layout-module-border:before {
+  content: "\e7b7";
+}
+
+.icon-setup-round:before {
+  content: "\e7b8";
+}
+
+.icon-icon-layout-module-video:before {
+  content: "\e7b9";
+}
+
+.icon-tupianmofang:before {
+  content: "\e7b0";
 }
 
 .icon-shop-menu-center:before {
@@ -1140,7 +1280,7 @@
   content: "\e695";
 }
 
-.icon-share_qd:before {
+.icon-share-square:before {
   content: "\e696";
 }
 
@@ -1150,10 +1290,6 @@
 
 .icon-points_jf:before {
   content: "\e691";
-}
-
-.icon-share_jf:before {
-  content: "\e692";
 }
 
 .icon-shopping_assembly:before {

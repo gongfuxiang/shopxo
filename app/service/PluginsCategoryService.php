@@ -22,7 +22,7 @@ use think\facade\Db;
 class PluginsCategoryService
 {
     /**
-     * 应用分类
+     * 应用分类列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

@@ -6,7 +6,7 @@
     <form class="am-form form-validation am-form-popup-fixed" method="post" action="{{:MyUrl('index/cart/save')}}" request-type="ajax-fun" request-value="GoodsCartInfoSubmitBack">
         <div class="goods-spec-container am-padding-sm">
             <h2>
-                <img src="{{$goods.images}}" width="24" height="24" />
+                <img src="{{$goods.images}}" width="24" height="24" class="am-radius" />
                 <span class="am-margin-left-xs">{{$goods.title}}</span>
             </h2>
             <hr data-am-widget="divider" class="am-divider am-divider-default" />
@@ -24,7 +24,7 @@
                                                     {{if !empty($specs['images'])}}
                                                         <img src="{{$specs.images}}" class="am-radius" />
                                                     {{/if}}
-                                                    {{$specs.name}}<i></i>
+                                                    <span>{{$specs.name}}</span>
                                                 </li>
                                             {{/foreach}}
                                         </ul>
@@ -48,7 +48,7 @@
                                 <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
                                 <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
                             </div>
-                            <span class="am-margin-left-sm stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                            <div class="am-margin-top-xs stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</div>
                         </div>
                     </div>
                 {{else /}}

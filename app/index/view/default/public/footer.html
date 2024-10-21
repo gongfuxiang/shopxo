@@ -1,43 +1,46 @@
         </div>
 
         <div class="body-content-footer-container">
-            <!-- footer start -->
+            <!-- footer start, is footer nav -->
             {{if empty($module_data) or !isset($module_data['is_footer_nav']) or $module_data['is_footer_nav'] eq 1}}
                 {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
-                	{{:ModuleInclude('public/footer_nav')}}
+                	{{:ModuleInclude('public/footer_nav', isset($module_data) ? $module_data : [])}}
                 {{/if}}
             {{/if}}
             <!-- footer end -->
 
-            <!-- 公共底部钩子 -->
-            {{if !isset($page_pure) or $page_pure neq 1}}
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_common_bottom</span>
-                    </div>
+            <!-- is footer hook -->
+            {{if empty($module_data) or !isset($module_data['is_footer_hook']) or $module_data['is_footer_hook'] eq 1}}
+                <!-- 公共底部钩子 -->
+                {{if !isset($page_pure) or $page_pure neq 1}}
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_common_bottom</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
+                        {{foreach $plugins_view_common_bottom_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 {{/if}}
-                {{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
-                    {{foreach $plugins_view_common_bottom_data as $hook}}
-                        {{if is_string($hook) or is_int($hook)}}
-                            {{$hook|raw}}
-                        {{/if}}
-                    {{/foreach}}
-                {{/if}}
-            {{/if}}
 
-            <!-- footer公共底部钩子 -->
-            {{if !isset($is_footer) or $is_footer eq 1}}
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_common_bottom_footer</span>
-                    </div>
-                {{/if}}
-                {{if !empty($plugins_view_common_bottom_footer_data) and is_array($plugins_view_common_bottom_footer_data)}}
-                    {{foreach $plugins_view_common_bottom_footer_data as $hook}}
-                        {{if is_string($hook) or is_int($hook)}}
-                            {{$hook|raw}}
-                        {{/if}}
-                    {{/foreach}}
+                <!-- footer公共底部钩子 -->
+                {{if !isset($is_footer) or $is_footer eq 1}}
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_common_bottom_footer</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_common_bottom_footer_data) and is_array($plugins_view_common_bottom_footer_data)}}
+                        {{foreach $plugins_view_common_bottom_footer_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 {{/if}}
             {{/if}}
         </div>
@@ -111,72 +114,75 @@
 </html>
 
 <!-- 类库 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.js?v={{$static_cache_version}}"></script>
 
 <!-- jshash -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{$static_cache_version}}"></script>
 
 <!-- 图片放大镜 -->
 {{if isset($is_load_imagezoom) and $is_load_imagezoom eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- echarts 图表 -->
 {{if isset($is_load_echarts) and $is_load_echarts eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/shine.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{$static_cache_version}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{$static_cache_version}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/shine.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- amazeui插件 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-dialog/amazeui.dialog.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-dialog/amazeui.dialog.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 轮播插件 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper-bundle.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper.min.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/swiper/swiper-bundle.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 图像裁剪插件 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/cropper/cropper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/cropper/cropper.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 元素拖动 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/tdrag/tdrag.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/tdrag/tdrag.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 复制插件 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/clipboard/clipboard.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/clipboard/clipboard.min.js?v={{$static_cache_version}}"></script>
 
 <!-- base64 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/base64/base64csvtojson.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/base64/base64csvtojson.js?v={{$static_cache_version}}"></script>
 
 <!-- 元素拖拽排序插件 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/dragsort/jquery.dragsort-0.5.2.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/dragsort/jquery.dragsort-0.5.2.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 动画数数 -->
 {{if isset($is_load_animation_count) and $is_load_animation_count eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/animation-count-to/animation.count.to.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/animation-count-to/animation.count.to.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
+<!-- highlight代码高亮 -->
+<script src="{{$public_host}}static/common/lib/highlight/highlight.min.js?v={{$static_cache_version}}"></script>
+
 <!-- ueditor 编辑器 -->
-<script type='text/javascript' src="{{$my_public_url}}static/common/lib/ueditor/ueditor.config.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$my_public_url}}static/common/lib/ueditor/ueditor.config.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{$static_cache_version}}"></script>
 
 <!-- 颜色选择器 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/xncolorpicker/xncolorpicker.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/xncolorpicker/xncolorpicker.min.js?v={{$static_cache_version}}"></script>
 
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
 
 <!-- ckplayer播放器 -->
 {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 条形码 -->
 {{if isset($is_load_barcode) and $is_load_barcode eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/lib/JsBarcode/JsBarcode.all.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/JsBarcode/JsBarcode.all.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- map -->
@@ -205,32 +211,37 @@
 
 <!-- 打印js -->
 {{if isset($is_load_hiprint) and $is_load_hiprint eq 1}}
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/hiprint.bundle.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/polyfill.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jquery.hiwprint.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/JsBarcode.all.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/qrcode.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jquery.minicolors.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/canvas2image.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/canvg.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/html2canvas.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/jspdf.min.js"></script>
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/hiprint.config.js"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/hiprint.bundle.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/polyfill.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jquery.hiwprint.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/JsBarcode.all.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/qrcode.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jquery.minicolors.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/canvas2image.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/canvg.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/html2canvas.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/plugins/jspdf/jspdf.min.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/hiprint/hiprint.config.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 调用摄像头扫码js -->
 {{if isset($is_load_video_scan) and $is_load_video_scan eq 1}}
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/ZXing/ZXing.min.js"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ZXing/ZXing.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 代码编辑器js -->
 {{if isset($is_load_ace_builds) and $is_load_ace_builds eq 1}}
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/ace-builds/src-min/ace.js"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ace-builds/src-min/ace.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 范围滑条 -->
 {{if isset($is_load_jrange) and $is_load_jrange eq 1}}
-    <script type="text/javascript" src="{{$public_host}}static/common/lib/jRange/jquery.range.js"></script>
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/jRange/jquery.range.js?v={{$static_cache_version}}"></script>
+{{/if}}
+
+<!-- webuploader -->
+{{if isset($is_load_webuploader) and $is_load_webuploader eq 1}}
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/ueditor/third-party/webuploader/webuploader.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->
@@ -272,33 +283,33 @@
 </script>
 
 <!-- 项目公共 -->
-<script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{$static_cache_version}}"></script>
 {{if !empty($static_path_data['common_js'])}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.common_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.common_js}}?v={{$static_cache_version}}"></script>
 {{/if}}
 {{if !empty($static_path_data['theme_import_js']) and is_array($static_path_data['theme_import_js'])}}
     {{foreach $static_path_data.theme_import_js as $v}}
-        <script type='text/javascript' src="{{$public_host}}static/{{$v}}?v={{:MyC('home_static_cache_version')}}"></script>
+        <script type='text/javascript' src="{{$public_host}}static/{{$v}}?v={{$static_cache_version}}"></script>
     {{/foreach}}
 {{/if}}
 {{if !empty($static_path_data['module_js'])}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.module_js}}?v={{$static_cache_version}}"></script>
 {{/if}}
 {{if !empty($static_path_data['other_js'])}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.other_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.other_js}}?v={{$static_cache_version}}"></script>
 {{/if}}
 {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
-    <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 应用插件公共js -->
 {{if !empty($static_path_data['plugins_js'])}}
-    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_js}}?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 当前控制器js -->
 {{if !empty($static_path_data['page_js'])}}
-	<script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.page_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+	<script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.page_js}}?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 底部信息 --> 
@@ -318,17 +329,17 @@
     {{foreach $plugins_js_data as $hook}}
         {{if !empty($hook) and is_string($hook)}}
             {{if substr($hook, 0, 4) eq 'http'}}
-                <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
+                <script type='text/javascript' src="{{$hook}}?v={{$static_cache_version}}"></script>
             {{else /}}
-                <script type='text/javascript' src="{{$public_host}}{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
+                <script type='text/javascript' src="{{$public_host}}{{$hook}}?v={{$static_cache_version}}"></script>
             {{/if}}
         {{elseif is_array($hook) /}}
             {{foreach $hook as $hook_js}}
                 {{if !empty($hook_js) and is_string($hook_js)}}
                     {{if substr($hook_js, 0, 4) eq 'http'}}
-                        <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                        <script type='text/javascript' src="{{$hook_js}}?v={{$static_cache_version}}"></script>
                     {{else /}}
-                        <script type='text/javascript' src="{{$public_host}}{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                        <script type='text/javascript' src="{{$public_host}}{{$hook_js}}?v={{$static_cache_version}}"></script>
                     {{/if}}
                 {{/if}}
             {{/foreach}}

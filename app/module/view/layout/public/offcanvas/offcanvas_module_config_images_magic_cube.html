@@ -1,0 +1,46 @@
+<!-- 侧边栏 - 模块配置 - 图文 -->
+<div id="offcanvas-module-config-images-magic-cube" class="am-offcanvas module-offcanvas-container" data-default-images="{{:StaticAttachmentUrl('default-images-mini.png')}}">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-images-magic-cube" request-type="sync" request-value="FormBackModuleConfigImagesMagicCube">
+                <!-- 展示模式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_show_model_title')}}<span class="am-form-group-label-tips-must">*</span></div>
+                    <div class="am-panel-bd">
+                        {{:ModuleInclude('../../../module/view/layout/public/content/images_magic_cube_show_style')}}
+                    </div>
+                </div>
+
+                <!-- 内容 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}<span class="am-form-group-label-tips-must">*</span></div>
+                    <div class="am-panel-bd">
+                        <div class="config-images-magic-cube-container"></div>
+                        <p class="am-text-center am-padding-vertical-sm am-text-grey tips-msg">{{:MyLang('layout.view_show_model_not_choice_tips')}}</p>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角、元素样式 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+                            'key'   => '_item',
+                        ])}}
+
+                        <!-- 外边距、js取值使用 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin')}}
+
+                        <!-- 鼠标悬停图片放大 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/mouse_hover')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -21,10 +21,12 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <legend>
-                <span class="am-text-default">{{:MyLang('safety.logout_title')}}</span>
-                <a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
-            </legend>
+            <!-- user center title -->
+            {{:ModuleInclude('public/user_center_main_title', [
+                'operate_url'   => MyUrl('index/safety/index'),
+                'operate_name'  => MyLang('retreat_title'),
+                'operate_icon'  => 'icon-back'
+            ])}}
 
             <div class="am-text-center am-margin-top-lg">
                 <p class="am-text-sm">{{$document_data.name}}</p>

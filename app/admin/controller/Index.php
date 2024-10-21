@@ -58,8 +58,8 @@ class Index extends Common
 	 */
 	public function Index()
 	{
-		// 默认进入页面初始化
-		$to_url = MyUrl('admin/index/init');
+		// 默认地址
+		$to_url = '';
 
 		// 是否指定页面地址
 		if(!empty($this->data_request['to_url']))

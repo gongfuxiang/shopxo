@@ -1,106 +1,113 @@
-<!-- 底部导航上面钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-    <div class="plugins-tag">
-        <span>plugins_view_common_footer_top</span>
-    </div>
-{{/if}}
-{{if !empty($plugins_view_common_footer_top_data) and is_array($plugins_view_common_footer_top_data)}}
-    {{foreach $plugins_view_common_footer_top_data as $hook}}
-        {{if is_string($hook) or is_int($hook)}}
-            {{$hook|raw}}
-        {{/if}}
-    {{/foreach}}
+<!-- is footer hook -->
+{{if empty($module_data) or !isset($module_data['is_footer_hook']) or $module_data['is_footer_hook'] eq 1}}
+    <!-- 底部导航上面钩子 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_common_footer_top</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_common_footer_top_data) and is_array($plugins_view_common_footer_top_data)}}
+        {{foreach $plugins_view_common_footer_top_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
 {{/if}}
 
 <!-- 底部内容及页脚 -->
 {{if MyC('home_main_footer_content_status', 1) eq 1 and (!IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1))}}
-	<!-- 底部导航 -->
-	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
-		<div class="am-container footer-nav-content">
-			<!-- 底部导航 -->
-			{{if !empty($nav_footer)}}
-				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 am-u-lg-9 footer-nav-list theme-data-edit-event" data-module="navigation_footer" data-am-gallery="{}">
-					{{foreach $nav_footer as $k=>$v}}
-						{{if $k lt 4}}
-							<li>
-								<div class="am-gallery-item">
-									<p class="footer-nav-title am-text-truncate">{{$v.name}}</p>
-									{{if !empty($v['items'])}}
-										{{foreach $v.items as $vs}}
-											<p class="am-text-truncate">
-												<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
-											</p>
-										{{/foreach}}
-									{{/if}}
-								</div>
-							</li>
-						{{/if}}
-					{{/foreach}}
-				</ul>
-			{{/if}}
+    <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
+        {{if empty($module_data) or !isset($module_data['is_footer_nav_content']) or $module_data['is_footer_nav_content'] eq 1}}
+            <div class="am-container footer-nav-content">
+                <!-- 底部导航 -->
+                {{if !empty($nav_footer)}}
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 am-u-lg-9 footer-nav-list theme-data-edit-event" data-module="navigation_footer" data-am-gallery="{}">
+                        {{foreach $nav_footer as $k=>$v}}
+                            {{if $k lt 4}}
+                                <li>
+                                    <div class="am-gallery-item">
+                                        <p class="footer-nav-title am-text-truncate">{{$v.name}}</p>
+                                        {{if !empty($v['items'])}}
+                                            {{foreach $v.items as $vs}}
+                                                <p class="am-text-truncate">
+                                                    <a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
+                                                </p>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            {{/if}}
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
 
-			<!-- 商店信息 -->
-			<ul class="footer-about am-u-md-4 am-u-lg-3 theme-data-edit-event" data-module="store_config">
-				{{if !empty($common_customer_store_tel)}}
-					<li class="tel">
-						<i class="iconfont icon-footer-tel am-vertical-align-middle"></i>
-						<a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
-					</li>
-				{{/if}}
-				{{if !empty($common_customer_store_address)}}
-					<li class="address">
-						<i class="iconfont icon-footer-address am-vertical-align-middle"></i>
-						<span>{{$common_customer_store_address}}</span>
-					</li>
-				{{/if}}
-				{{if !empty($common_customer_store_describe)}}
-					<li class="describe">
-						<i class="iconfont icon-footer-describe am-vertical-align-middle"></i>
-						<span>{{$common_customer_store_describe}}</span>
-					</li>
-				{{/if}}
-				{{if !empty($common_customer_store_email)}}
-					<li class="email">
-						<i class="iconfont icon-footer-email am-vertical-align-middle"></i>
-						<span>{{$common_customer_store_email}}</span>
-					</li>
-				{{/if}}
-				{{if !empty($common_customer_store_qrcode)}}
-					<li class="qrcode">
-						<img src="{{$common_customer_store_qrcode}}" alt="{{:MyC('home_seo_site_title')}}" />
-					</li>
-				{{/if}}
-			</ul>
-		</div>
+                <!-- 商店信息 -->
+                <ul class="footer-about am-u-md-4 am-u-lg-3 theme-data-edit-event" data-module="store_config">
+                    {{if !empty($common_customer_store_tel)}}
+                        <li class="tel">
+                            <i class="iconfont icon-footer-tel am-vertical-align-middle"></i>
+                            <a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
+                        </li>
+                    {{/if}}
+                    {{if !empty($common_customer_store_address)}}
+                        <li class="address">
+                            <i class="iconfont icon-footer-address am-vertical-align-middle"></i>
+                            <span>{{$common_customer_store_address}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($common_customer_store_describe)}}
+                        <li class="describe">
+                            <i class="iconfont icon-footer-describe am-vertical-align-middle"></i>
+                            <span>{{$common_customer_store_describe}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($common_customer_store_email)}}
+                        <li class="email">
+                            <i class="iconfont icon-footer-email am-vertical-align-middle"></i>
+                            <span>{{$common_customer_store_email}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($common_customer_store_qrcode)}}
+                        <li class="qrcode">
+                            <img src="{{$common_customer_store_qrcode}}" alt="{{$home_site_name}}" />
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
 
-		<!-- 页脚 -->
-		<div class="am-footer-miscs">
-			<div class="am-container">
-				<!-- 友情链接 -->
-				{{if !empty($link_list)}}
-					<div class="friendship-list theme-data-edit-event" data-module="link_list">
-						<ul class="am-cf am-margin-bottom-sm">
-							<li class="am-fl am-text-center title">友情链接</li>
-							{{foreach $link_list as $v}}
-								<li class="am-fl am-text-center">
-									<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}}>{{$v.name}}</a>
-								</li>
-							{{/foreach}}
-						</ul>
-					</div>
-				{{/if}}
+            <!-- 页脚 -->
+            <div class="am-footer-miscs">
+                <div class="am-container">
+                    <!-- 友情链接 -->
+                    {{if !empty($link_list)}}
+                        <div class="friendship-list theme-data-edit-event" data-module="link_list">
+                            <ul class="am-cf am-margin-bottom-sm">
+                                <li class="am-fl am-text-center title">友情链接</li>
+                                {{foreach $link_list as $v}}
+                                    <li class="am-fl am-text-center">
+                                        <a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}}>{{$v.name}}</a>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        </div>
+                    {{/if}}
 
-				<!-- 页脚信息 -->
-				{{:ModuleInclude('public/footer_filing')}}
-			</div>
-		</div>
-	</footer>
+                    <!-- 页脚信息 -->
+                    {{:ModuleInclude('public/footer_filing')}}
+                </div>
+            </div>
+        {{else /}}
+            <div class="am-footer-miscs">
+                {{:ModuleInclude('public/footer_filing')}}
+            </div>
+        {{/if}}
+    </footer>
 {{else /}}
-	<!-- 页脚 -->
-	<footer class="am-footer am-footer am-footer-default footer-base-content">
-		<div class="am-footer-miscs">
-			<!-- 页脚信息 -->
-			{{:ModuleInclude('public/footer_filing')}}
-		</div>
-	</footer>
+    <!-- 页脚 -->
+    <footer class="am-footer am-footer am-footer-default footer-base-content">
+        <div class="am-footer-miscs">
+            {{:ModuleInclude('public/footer_filing')}}
+        </div>
+    </footer>
 {{/if}}

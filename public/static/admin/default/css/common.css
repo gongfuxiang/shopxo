@@ -2,7 +2,7 @@
  * 公共
  */
 div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, pre,
+h1, h2, h3, h4, h5, h6, p,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -86,7 +86,7 @@ header.am-topbar-inverse .am-topbar-nav > li > a:focus
 header.am-topbar-inverse .am-topbar-nav > li > a:hover i,
 header.am-topbar-inverse .am-topbar-nav > li > a:focus i
 { animation: scaleanimation .3s ease-in-out;}
-header.am-topbar-inverse .header-nav-submit { margin: 1rem 1rem 0 0; padding: 0.4rem 1rem;}
+header.am-topbar-inverse .header-nav-submit { margin: 1rem 1rem 0 0; padding: 0 1rem;}
 header.am-topbar-inverse .am-topbar-nav > li.am-active > a,
 header.am-topbar-inverse .am-topbar-nav > li.am-active > a:hover,
 header.am-topbar-inverse .am-topbar-nav > li.am-active > a:focus,
@@ -605,4 +605,67 @@ body[class^="admin-plugins-"] .content-right > .content {
 }
 .am-operate-stretch-tips.am-close-tips .title {
     color: var(--color-main);
-} 
+}
+
+
+/**
+ * 包搜索安装
+ */
+.package-install-list-container {
+    height: 100%;
+}
+.package-install-list-container .forth-selection-container .forth-selection-form-keywords {
+    width: 30rem !important;
+    display: -webkit-inline-box !important;
+}
+.package-install-list-container .forth-selection-container .search-submit {
+    width: 8.7rem;
+}
+.package-data-list-container {
+    height: calc(100vh - 16rem);
+    max-height: 100%;
+    border: 0.1rem solid #eee;
+}
+.package-data-list-container ul li {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.package-data-list-container ul li .images-content {
+    position: relative;
+}
+.package-data-list-container ul li .images-content:after {
+    content: '';
+    background: rgb(0 0 0 / 50%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.package-data-list-container ul li .images-content a {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.package-data-list-container ul li .images-content:hover:after,
+.package-data-list-container ul li .images-content:hover a {
+    display: block;
+}
+.package-data-list-container ul li:hover .am-gallery-item {
+    -webkit-box-shadow: 0 0 0.6rem var(--color-blue);
+    box-shadow: 0 0 0.6rem var(--color-blue);
+}
+.package-data-page-container {
+    height: 4rem;
+}
+@media only screen and (max-width: 640px) {
+    .package-install-list-container .forth-selection-container .forth-selection-form-keywords {
+        width: calc(100% - 30rem) !important;
+    }
+}

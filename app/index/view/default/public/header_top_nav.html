@@ -21,7 +21,7 @@
 
                         {{if empty($user)}}
                             <em class="first">{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
-                            <em class="site-name">{{:MyC('home_site_name')}}</em>
+                            <em class="site-name">{{$home_site_name}}</em>
                             {{if !empty($home_user_login_type)}}
                                 [<a href="{{:MyUrl('index/user/logininfo')}}">{{:MyLang('common.login_title')}}</a>]
                             {{/if}}
@@ -35,7 +35,7 @@
                             {{/if}}
                             <em class="user">{{$user.user_name_view}}</em>
                             <em class="last">{{:MyLang('common.header_top_nav_left_login_last')}}</em>
-                            <em class="site-name">{{:MyC('home_site_name')}}</em>
+                            <em class="site-name">{{$home_site_name}}</em>
                             <em class="logout"><a href="{{:MyUrl('index/user/logout')}}">[{{:MyLang('common.logout_title')}}]</a></em>
                         {{/if}}
 
@@ -58,7 +58,7 @@
 
             <div class="top-nav-left top-nav-left-site-logo am-show-sm-only">
                 <a href="{{$home_url}}">
-                    <img class="am-height" src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+                    <img class="am-height" src="{{$home_site_logo_wap}}" alt="{{$home_site_name}}" />
                 </a>
             </div>
 

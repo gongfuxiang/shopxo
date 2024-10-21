@@ -14,9 +14,6 @@
 .article-base-info {
     width: calc(100% - 25rem);
 }
-.article-content img {
-    max-width: 100%;
-}
 .article-header .am-article-divider {
     margin: 1.5rem 0 2rem 0;
 }

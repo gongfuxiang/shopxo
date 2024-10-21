@@ -56,13 +56,13 @@
 .goods-spec-content .sku-line:hover {
     background: none;
     color: #333;
-    border: 0.1rem solid #e23f36;
-    box-shadow: 0px 0 0px 0.1rem #e23f36;
+    border: 0.1rem solid var(--color-main);
+    box-shadow: 0px 0 0px 0.1rem var(--color-main);
 }
 .goods-spec-content .sku-line.selected {
-    background: #e23f36;
+    background: var(--color-main);
     color: #fff;
-    border: 0.1rem solid #e23f36;
+    border: 0.1rem solid var(--color-main);
 }
 .goods-spec-content .sku-line-images {
     padding: 0.6rem 1.5rem !important;

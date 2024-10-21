@@ -13,7 +13,6 @@ namespace app\api\controller;
 use app\BaseController;
 use app\service\ApiService;
 use app\service\SystemService;
-use app\service\ConfigService;
 use app\service\UserService;
 use app\module\FormTableHandleModule;
 
@@ -71,16 +70,11 @@ class Common extends BaseController
         // 检测是否是新安装
         SystemService::SystemInstallCheck();
 
-        // 输入参数
-        $this->data_post = input('post.');
-        $this->data_get = input('get.');
-        $this->data_request = input();
+        // 系统初始化
+        $this->SystemInit();
 
         // 系统运行开始
         SystemService::SystemBegin($this->data_request);
-
-        // 系统初始化
-        $this->SystemInit();
 
         // 网站状态
         $this->SiteStstusCheck();
@@ -116,8 +110,10 @@ class Common extends BaseController
      */
     private function SystemInit()
     {
-        // 配置信息初始化
-        ConfigService::ConfigInit();
+        // 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
     }
 
     /**

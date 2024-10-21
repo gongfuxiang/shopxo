@@ -576,5 +576,10 @@ return [
         'mobile_new_title'                      => 'New mobile phone number verification',
         'login_password_title'                  => 'Login password modification',
     ],
+
+    // 上传组件
+    'ueditor' => [
+        'base_nav_title'                        => 'Scan the code to upload'
+    ],
 ];
 ?>

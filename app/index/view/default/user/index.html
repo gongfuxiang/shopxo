@@ -48,9 +48,18 @@
                         </div>
                     </div>
                     <div class="items">
-                        <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> {{:MyLang('user.base_avatar_title')}}</a>
-                        <a href="{{:MyUrl('index/personal/index')}}" class="am-icon-edit"> {{:MyLang('user.base_personal_title')}}</a>
-                        <a href="{{:MyUrl('index/useraddress/index')}}" class="am-icon-street-view"> {{:MyLang('user.base_address_title')}}</a>
+                        <a href="javascript:;" data-am-modal="{target:'#user-avatar-popup'}">
+                            <i class="iconfont icon-user-circle"></i>
+                            <span>{{:MyLang('user.base_avatar_title')}}</span>
+                        </a>
+                        <a href="{{:MyUrl('index/personal/index')}}">
+                            <i class="iconfont icon-edit"></i>
+                            <span>{{:MyLang('user.base_personal_title')}}</span>
+                        </a>
+                        <a href="{{:MyUrl('index/useraddress/index')}}">
+                            <i class="iconfont icon-map-position"></i>
+                            <span>{{:MyLang('user.base_address_title')}}</span>
+                        </a>
                     </div>
                 </div>
                 <div class="user-base-right">
@@ -211,7 +220,7 @@
                                                         <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'ids'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">{{:MyLang('payment_title')}}</a>
                                                     {{/if}}
                                                     {{if in_array($order['status'], [3])}}
-                                                        <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">{{:MyLang('collect_title')}}</button>
+                                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">{{:MyLang('collect_title')}}</button>
                                                     {{/if}}
                                                     {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
                                                         <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">{{:MyLang('comment_title')}}</a>

@@ -23,25 +23,22 @@ function CategoryGoodsSearchAjax(page = 1, page_size = null) {
         },
         dataType: 'json',
         success: function (res) {
-            if (res.code == 0) {
-                // 数据赋值
-                $('.zero-right-item').html(res.data.data);
-                if (res.data.total > 0) {
-                    // 分页html生成
-                    $('.zero-right-page').html(PageLibrary(res.data.total, res.data.page_size, res.data.page, 2, true));
+            $('.zero-right-item').html(res.data.data);
+            if (res.data.total > 0) {
+                // 分页html生成
+                $('.zero-right-page').html(PageLibrary(res.data.total, res.data.page_size, res.data.page, 2, true));
 
-                    // 首次访问页面不执行动画
-                    if(is_loading_first == 0) {
-                        $('html,body').animate({scrollTop: $('.category-list-container').offset().top+3}, 'slow');
-                    }
-                    // 记录是否首次状态
-                    is_loading_first = 0;
-
-                    // 主题数据修改初始化
-                    ThemeDataEditEventInit();
-                } else {
-                    $('.zero-right-page').empty();
+                // 首次访问页面不执行动画
+                if(is_loading_first == 0) {
+                    $('html,body').animate({scrollTop: $('.category-list-container').offset().top+3}, 'slow');
                 }
+                // 记录是否首次状态
+                is_loading_first = 0;
+
+                // 主题数据修改初始化
+                ThemeDataEditEventInit();
+            } else {
+                $('.zero-right-page').empty();
             }
         },
         error: function (xhr, type) {
@@ -83,12 +80,12 @@ $(function () {
         $('.zero-left ul li').eq(0).siblings().remove();
         var json = (data == null) ? null : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
         if (json != null && json.length > 0) {
-            var menuHtml = '';
+            var html = '';
             json.forEach(item => {
-                var childJson = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
-                menuHtml += '<li class="am-text-break" data-json="' + childJson + '" data-id="' + item.id + '">' + item.name + '</li>';
+                var child_json = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
+                html += '<li class="am-text-break" data-json="' + child_json + '" data-id="' + item.id + '">' + item.name + '</li>';
             });
-            $('.zero-left ul li').eq(0).after(menuHtml);
+            $('.zero-left ul li').eq(0).after(html);
         }
         CategoryGoodsSearchAjax();
         $('.zero-left ul li').eq(0).addClass('active').siblings().removeClass('active');
@@ -115,13 +112,13 @@ $(function () {
         if (data != null) {
             var json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
             if (json.length > 0) {
-                var menuHtml = '';
-                menuHtml += '<a class="am-radius active" data-id="">' + ($('.zero-search').data('all-name') || '全部') + '</a>'
+                var html = '';
+                html += '<a class="am-radius active" data-id="">' + ($('.zero-search').data('all-name') || '全部') + '</a>'
                 json.forEach(item => {
-                    var childJson = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
-                    menuHtml += '<a class="am-radius" data-id="' + item.id + '">' + item.name + '</a>';
+                    var child_json = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items))));
+                    html += '<a class="am-radius" data-id="' + item.id + '">' + item.name + '</a>';
                 });
-                $('.zero-right-title .am-text-nowrap').empty().append(menuHtml);
+                $('.zero-right-title .am-text-nowrap').empty().append(html);
                 $('.zero-right-title').show();
             }
         }

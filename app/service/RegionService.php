@@ -33,27 +33,66 @@ class RegionService
      */
     public static function RegionName($region_ids = 0)
     {
+        // 参数处理
         if(empty($region_ids))
         {
             return null;
         }
-
         // 参数处理查询数据
         if(is_array($region_ids))
         {
             $region_ids = array_filter(array_unique($region_ids));
         }
-        if(!empty($region_ids))
+
+        // 静态数据容器，确保每一个名称只读取一次，避免重复读取浪费资源
+        static $region_name_static_data = [];
+        $temp_region_ids = [];
+        $params_region_ids = is_array($region_ids) ? $region_ids : explode(',', $region_ids);
+        foreach($params_region_ids as $rid)
         {
-            $data = Db::name('Region')->where(['id'=>$region_ids])->column('name', 'id');
+            if(empty($region_name_static_data) || !array_key_exists($rid, $region_name_static_data))
+            {
+                $temp_region_ids[] = $rid;
+            }
+        }
+        // 存在未读取的数据库读取
+        if(!empty($temp_region_ids))
+        {
+            $data = Db::name('Region')->where(['id'=>$temp_region_ids])->column('name', 'id');
+            if(!empty($data))
+            {
+                foreach($data as $rid=>$rv)
+                {
+                    $region_name_static_data[$rid] = $rv;
+                }
+            }
+            // 空数据记录、避免重复查询
+            foreach($temp_region_ids as $rid)
+            {
+                if(!array_key_exists($rid, $region_name_static_data))
+                {
+                    $region_name_static_data[$rid] = null;
+                }
+            }
         }
 
         // id数组则直接返回
         if(is_array($region_ids))
         {
-            return empty($data) ? [] : $data;
+            $result = [];
+            if(!empty($region_name_static_data))
+            {
+                foreach($region_ids as $id)
+                {
+                    if(isset($region_name_static_data[$id]))
+                    {
+                        $result[$id] = $region_name_static_data[$id];
+                    }
+                }
+            }
+            return $result;
         }
-        return (!empty($data) && is_array($data) && array_key_exists($region_ids, $data)) ? $data[$region_ids] : null;
+        return (!empty($region_name_static_data) && is_array($region_name_static_data) && array_key_exists($region_ids, $region_name_static_data)) ? $region_name_static_data[$region_ids] : null;
     }
 
     /**

@@ -18,6 +18,7 @@ use app\service\OrderService;
 use app\service\MessageService;
 use app\service\IntegralService;
 use app\service\WarehouseService;
+use app\service\OrderCurrencyService;
 use app\plugins\wallet\service\WalletService;
 
 /**
@@ -1355,6 +1356,9 @@ class OrderAftersaleService
             return DataReturn(MyLang('common_service.orderaftersale.pay_log_trade_empty_tips'), -1);
         }
 
+        // 订单货币
+        $currency_data = OrderCurrencyService::OrderCurrencyGroupList($order['id']);
+
         // 操作退款
         $pay_name = 'payment\\'.$pay_log['payment'];
         $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['order_no'], 'price'=>$aftersale['price']]);
@@ -1370,6 +1374,7 @@ class OrderAftersaleService
             'refund_reason'     => $msg,
             'pay_time'          => $pay_log['pay_time'],
             'pay_log_data'      => $pay_log,
+            'currency_data'     => $currency_data,
         ];
 
         // 订单发起售后原路退回前钩子
@@ -1697,42 +1702,49 @@ class OrderAftersaleService
             $dateil = Db::name('OrderDetail')->where(['order_id'=>$order_id])->field('id,price,total_price,buy_number,refund_price,returned_quantity')->select()->toArray();
             if(!empty($dateil))
             {
-                foreach($dateil as $v)
+                // 如果只有个商品则直接使用支付金额
+                if(count($dateil) == 1)
                 {
-                    // 从订单售后中获取进行中的数据
-                    $where = [
-                        ['order_detail_id', '=', $v['id']],
-                        ['status', '<=', 2],
-                    ];
-                    $aftersale = Db::name('OrderAftersale')->where($where)->field('sum(number) as number, sum(price) as price')->find();
-                    if(!empty($aftersale['number']))
+                    $refund_price = $order['pay_price'];
+                    $returned_quantity = $dateil[0]['buy_number'];
+                } else {
+                    foreach($dateil as $v)
                     {
-                        $v['returned_quantity'] += $aftersale['number'];
-                    }
-                    if(!empty($aftersale['price']))
-                    {
-                        $v['refund_price'] += $aftersale['price'];
-                    }
-
-                    // 累计
-                    $history_returned_quantity += $v['returned_quantity'];
-                    $history_refund_price += $v['refund_price'];
-
-                    // 当前指定详情
-                    if($v['id'] == $order_detail_id)
-                    {
-                        $returned_quantity = $v['buy_number']-$v['returned_quantity'];
-                        $refund_price = $v['price']*$returned_quantity;
-                        if($refund_price+$v['refund_price'] > $v['total_price'])
+                        // 从订单售后中获取进行中的数据
+                        $where = [
+                            ['order_detail_id', '=', $v['id']],
+                            ['status', '<=', 2],
+                        ];
+                        $aftersale = Db::name('OrderAftersale')->where($where)->field('sum(number) as number, sum(price) as price')->find();
+                        if(!empty($aftersale['number']))
                         {
-                            $refund_price = $v['total_price']-$v['refund_price'];
+                            $v['returned_quantity'] += $aftersale['number'];
                         }
-                    } else {
-                        // 未发生
-                        if($v['returned_quantity'] <= 0 && $v['refund_price'] <= 0.00)
+                        if(!empty($aftersale['price']))
                         {
-                            $not_returned_quantity += $v['buy_number'];
-                            $not_refund_price += $v['total_price'];
+                            $v['refund_price'] += $aftersale['price'];
+                        }
+
+                        // 累计
+                        $history_returned_quantity += $v['returned_quantity'];
+                        $history_refund_price += $v['refund_price'];
+
+                        // 当前指定详情
+                        if($v['id'] == $order_detail_id)
+                        {
+                            $returned_quantity = $v['buy_number']-$v['returned_quantity'];
+                            $refund_price = $v['price']*$returned_quantity;
+                            if($refund_price+$v['refund_price'] > $v['total_price'])
+                            {
+                                $refund_price = $v['total_price']-$v['refund_price'];
+                            }
+                        } else {
+                            // 未发生
+                            if($v['returned_quantity'] <= 0 && $v['refund_price'] <= 0.00)
+                            {
+                                $not_returned_quantity += $v['buy_number'];
+                                $not_refund_price += $v['total_price'];
+                            }
                         }
                     }
                 }

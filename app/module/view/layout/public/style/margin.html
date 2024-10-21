@@ -1,0 +1,7 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>{{:MyLang('layout.view_media_fixed_margin_title')}}</label>
+    <div class="am-input-group am-input-group-sm">
+        <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_margin_title')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_margin" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_margin_message')}}" value="" class="am-form-field am-radius" {{if !empty($module_data['required'])}}required{{/if}} />
+        <span class="am-input-group-label am-radius">px</span>
+    </div>
+</div>

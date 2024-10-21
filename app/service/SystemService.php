@@ -203,12 +203,21 @@ class SystemService
      */
     public static function DomainUrl()
     {
-        $url = MyC('common_domain_host', __MY_URL__, true);
-        if(substr($url, -1) != DS)
+        static $site_domain_url = null;
+        if($site_domain_url === null)
         {
-            $url .= DS;
+            if(APPLICATION == 'web')
+            {
+                $site_domain_url = MyC('common_domain_host', __MY_URL__, true);
+                if(substr($site_domain_url, -1) != DS)
+                {
+                    $site_domain_url .= DS;
+                }
+            } else {
+                $site_domain_url = '/pages/index/index';
+            }
         }
-        return $url;
+        return $site_domain_url;
     }
 
     /**

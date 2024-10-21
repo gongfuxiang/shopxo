@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\ResourcesService;
+
 /**
  * PayPal支付
  * @author  Devil
@@ -142,31 +144,32 @@ class PayPal
                 'name'          => 'currency_code',
                 'is_multiple'   => 0,
                 'element_data'  => [
-                    ['value'=>'CNY', 'name'=>'Chinese Renmenbi'],
-                    ['value'=>'USD', 'name'=>'U.S. Dollar'],
-                    ['value'=>'AUD', 'name'=>'Australian Dollar'],
-                    ['value'=>'BRL', 'name'=>'Brazilian Real'],
-                    ['value'=>'CAD', 'name'=>'Canadian Dollar'],
-                    ['value'=>'CZK', 'name'=>'Czech Koruna'],
-                    ['value'=>'DKK', 'name'=>'Danish Krone'],
-                    ['value'=>'EUR', 'name'=>'Euro'],
-                    ['value'=>'HKD', 'name'=>'Hong Kong Dollar'],
-                    ['value'=>'HUF', 'name'=>'Hungarian Forint'],
-                    ['value'=>'ILS', 'name'=>'Israeli New Sheqel'],
-                    ['value'=>'JPY', 'name'=>'Japanese Yen'],
-                    ['value'=>'MYR', 'name'=>'Malaysian Ringgit'],
-                    ['value'=>'MXN', 'name'=>'Mexican Peso'],
-                    ['value'=>'NOK', 'name'=>'Norwegian Krone'],
-                    ['value'=>'NZD', 'name'=>'New Zealand Dollar'],
-                    ['value'=>'PHP', 'name'=>'Philippine Peso'],
-                    ['value'=>'PLN', 'name'=>'Polish Zloty'],
-                    ['value'=>'GBP', 'name'=>'Pound Sterling'],
-                    ['value'=>'RUB', 'name'=>'Russian Ruble'],
-                    ['value'=>'SGD', 'name'=>'Singapore Dollar'],
-                    ['value'=>'SEK', 'name'=>'Swedish Krona'],
-                    ['value'=>'CHF', 'name'=>'Swiss Franc'],
-                    ['value'=>'TWD', 'name'=>'Taiwan New Dollar'],
-                    ['value'=>'THB', 'name'=>'Thai Baht'],
+                    ['value'=>'', 'name'=>'Auto Match'],
+                    ['value'=>'CNY', 'name'=>'Chinese Renmenbi( CNY )'],
+                    ['value'=>'USD', 'name'=>'U.S. Dollar( USD )'],
+                    ['value'=>'AUD', 'name'=>'Australian Dollar( AUD )'],
+                    ['value'=>'BRL', 'name'=>'Brazilian Real( BRL )'],
+                    ['value'=>'CAD', 'name'=>'Canadian Dollar( CAD )'],
+                    ['value'=>'CZK', 'name'=>'Czech Koruna( CZK )'],
+                    ['value'=>'DKK', 'name'=>'Danish Krone( DKK )'],
+                    ['value'=>'EUR', 'name'=>'Euro( EUR )'],
+                    ['value'=>'HKD', 'name'=>'Hong Kong Dollar( HKD )'],
+                    ['value'=>'HUF', 'name'=>'Hungarian Forint( HUF )'],
+                    ['value'=>'ILS', 'name'=>'Israeli New Sheqel( ILS )'],
+                    ['value'=>'JPY', 'name'=>'Japanese Yen( JPY )'],
+                    ['value'=>'MYR', 'name'=>'Malaysian Ringgit( MYR )'],
+                    ['value'=>'MXN', 'name'=>'Mexican Peso( MXN )'],
+                    ['value'=>'NOK', 'name'=>'Norwegian Krone( NOK )'],
+                    ['value'=>'NZD', 'name'=>'New Zealand Dollar( NZD )'],
+                    ['value'=>'PHP', 'name'=>'Philippine Peso( PHP )'],
+                    ['value'=>'PLN', 'name'=>'Polish Zloty( PLN )'],
+                    ['value'=>'GBP', 'name'=>'Pound Sterling( GBP )'],
+                    ['value'=>'RUB', 'name'=>'Russian Ruble( RUB )'],
+                    ['value'=>'SGD', 'name'=>'Singapore Dollar( SGD )'],
+                    ['value'=>'SEK', 'name'=>'Swedish Krona( SEK )'],
+                    ['value'=>'CHF', 'name'=>'Swiss Franc( CHF )'],
+                    ['value'=>'TWD', 'name'=>'Taiwan New Dollar( TWD )'],
+                    ['value'=>'THB', 'name'=>'Thai Baht( THB )'],
                 ],
             ],
             [
@@ -230,7 +233,7 @@ class PayPal
             'purchase_units'    => [
                 [
                     'amount'        => [
-                        'currency_code' => $this->config['currency_code'],
+                        'currency_code' => $this->CurrencyCode(),
                         'value'         => PriceNumberFormat($params['total_price']),
                     ],
                     'description'   => $params['name'],
@@ -274,7 +277,7 @@ class PayPal
                     'clientId'     => $this->config['client_id'],
                     'orderId'      => $result['data']['id'],
                     'userAction'   => 'paynow',
-                    'currency'     => $this->config['currency_code'],
+                    'currency'     => $this->CurrencyCode(),
                     'environment'  => ($is_dev_env == 1) ? 'sandbox' : 'live',
                 ],
                 'call_back_url' => $call_back_url,
@@ -315,6 +318,31 @@ class PayPal
             unset($ret['data']['pay_data']);
         }
         return $ret;
+    }
+
+    /**
+     * 货币code
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-11
+     * @desc    description
+     */
+    public function CurrencyCode($params = [])
+    {
+        if(empty($this->config['currency_code']))
+        {
+            // 指定货币
+            if(!empty($params['currency_data']) && !empty($params['currency_data']['currency_code']))
+            {
+                return $params['currency_data']['currency_code'];
+            }
+
+            // 当前默认货币
+            $res = ResourcesService::CurrencyData();
+            return (empty($res) || empty($res['currency_code'])) ? 'CNY' : $res['currency_code'];
+        }
+        return $this->config['currency_code'];
     }
 
     /**
@@ -474,7 +502,7 @@ class PayPal
         // 退款操作
         $parameter = [
             'amount'    => [
-                'currency'  => $this->config['currency_code'],
+                'currency'  => $this->CurrencyCode($params),
                 'total'     => $params['refund_price'],
             ],
             'description'   => $refund_reason,

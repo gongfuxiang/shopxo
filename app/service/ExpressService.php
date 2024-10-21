@@ -33,27 +33,66 @@ class ExpressService
      */
     public static function ExpressName($express_ids = 0)
     {
+        // 参数处理
         if(empty($express_ids))
         {
             return null;
         }
-
         // 参数处理查询数据
         if(is_array($express_ids))
         {
             $express_ids = array_filter(array_unique($express_ids));
         }
-        if(!empty($express_ids))
+
+        // 静态数据容器，确保每一个名称只读取一次，避免重复读取浪费资源
+        static $express_name_static_data = [];
+        $temp_express_ids = [];
+        $params_express_ids = is_array($express_ids) ? $express_ids : explode(',', $express_ids);
+        foreach($params_express_ids as $rid)
         {
-            $data = Db::name('Express')->where(['id'=>$express_ids])->column('name', 'id');
+            if(empty($express_name_static_data) || !array_key_exists($rid, $express_name_static_data))
+            {
+                $temp_express_ids[] = $rid;
+            }
+        }
+        // 存在未读取的数据库读取
+        if(!empty($temp_express_ids))
+        {
+            $data = Db::name('Express')->where(['id'=>$temp_express_ids])->column('name', 'id');
+            if(!empty($data))
+            {
+                foreach($data as $rid=>$rv)
+                {
+                    $express_name_static_data[$rid] = $rv;
+                }
+            }
+            // 空数据记录、避免重复查询
+            foreach($temp_express_ids as $rid)
+            {
+                if(!array_key_exists($rid, $express_name_static_data))
+                {
+                    $express_name_static_data[$rid] = null;
+                }
+            }
         }
 
         // id数组则直接返回
         if(is_array($express_ids))
         {
-            return empty($data) ? [] : $data;
+            $result = [];
+            if(!empty($express_name_static_data))
+            {
+                foreach($express_ids as $id)
+                {
+                    if(isset($express_name_static_data[$id]))
+                    {
+                        $result[$id] = $express_name_static_data[$id];
+                    }
+                }
+            }
+            return $result;
         }
-        return (!empty($data) && is_array($data) && array_key_exists($express_ids, $data)) ? $data[$express_ids] : null;
+        return (!empty($express_name_static_data) && is_array($express_name_static_data) && array_key_exists($express_ids, $express_name_static_data)) ? $express_name_static_data[$express_ids] : null;
     }
 
     /**
@@ -189,8 +228,7 @@ class ExpressService
         }
 
         // 其它附件
-        $data_fields = ['icon'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        $attachment = ResourcesService::AttachmentParams($params, ['icon']);
         if($attachment['code'] != 0)
         {
             return $attachment;

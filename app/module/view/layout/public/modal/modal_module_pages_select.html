@@ -1,0 +1,87 @@
+<!-- 页面选择 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="modal-module-pages-select">
+    <div class="am-modal-dialog am-radius">
+        <div class="am-modal-hd">
+            <span>{{:MyLang('layout.view_module_title_url')}}</span>
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd am-padding-0">
+            {{if !empty($pages_list)}}
+                <form class="am-form" action="false">
+                    <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-radius am-margin-0" data-am-tabs="{noSwipe: 1}">
+                        <ul class="am-tabs-nav am-cf">
+                            <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('layout.view_pages_tabs_system_title')}}</a></li>
+                            <li><a href="[data-tab-panel-1]">{{:MyLang('layout.view_pages_tabs_plugins_title')}}</a></li>
+                            <li><a href="[data-tab-panel-2]">{{:MyLang('layout.view_pages_tabs_custom_title')}}</a></li>
+                        </ul>
+                        <div class="am-tabs-bd am-padding">
+                            <div data-tab-panel-0 class="am-tab-panel am-padding-0 am-active">
+                                <ul class="content am-scrollable-vertical am-list am-list-border am-text-left">
+                                    {{foreach $pages_list.common.data as $ks=>$vs}}
+                                        <li class="page-{{$vs.value}}">
+                                            <a href="javascript:;" class="am-text-truncate" data-value="{{$vs.value}}" data-name="{{$vs.name}}">
+                                                <span>{{$vs.name}}</span>
+                                                <i class="am-icon-check am-fr am-hide"></i>
+                                            </a>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            </div>
+                            <div data-tab-panel-1 class="am-tab-panel am-padding-0">
+                                <div class="content am-scrollable-vertical">
+                                    {{if empty($pages_list['plugins']['data'])}}
+                                        {{:ModuleInclude('public/not_data')}}
+                                    {{else /}}
+                                        {{foreach $pages_list.plugins.data as $k=>$v}}
+                                            <section data-am-widget="accordion" class="am-accordion am-accordion-default" data-am-accordion='{ "multiple": true }'>
+                                                <dl class="am-accordion-item am-active">
+                                                    <dt class="am-accordion-title">{{$v.name}}</dt>
+                                                    <dd class="am-accordion-bd am-collapse am-in">
+                                                        <div class="am-accordion-content am-padding-0">
+                                                            <ul class="am-list am-list-border am-text-left am-margin-bottom-0">
+                                                                {{foreach $v.data as $ks=>$vs}}
+                                                                    <li class="page-plugins-{{$v.value}}-{{$vs.value}}">
+                                                                        <a href="javascript:;" class="am-text-truncate" data-value="plugins-{{$v.value}}-{{$vs.value}}" data-name="{{$v.name}}-{{$vs.name}}">
+                                                                            <span>{{$vs.name}}</span>
+                                                                            <i class="am-icon-check am-fr am-hide"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                {{/foreach}}
+                                                            </ul>
+                                                        </div>
+                                                    </dd>
+                                                </dl>
+                                            </section>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div data-tab-panel-2 class="am-tab-panel am-padding-0">
+                                <div class="content am-scrollable-vertical">
+                                    <div class="pages-custom-url-container am-padding-sm">
+                                        {{foreach :MyConst('common_platform_type') as $v}}
+                                            <div class="am-input-group am-input-group-sm">
+                                                <span class="am-input-group-btn">
+                                                    <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
+                                                </span>
+                                                <input type="text" name="pages_custom_url_{{$v.value}}" placeholder="{{$v.name}}" class="am-form-field am-radius" value="" />
+                                            </div>
+                                        {{/foreach}}
+                                    </div>
+                                    <div class="am-padding-sm am-text-left">
+                                        {{:ModuleInclude('public/custom_to_value_tips')}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-padding">
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block pages-confirm-submit">{{:MyLang('confirm_title')}}</button>
+                    </div>
+                </form>
+            {{else /}}
+                {{:ModuleInclude('public/not_data')}}
+            {{/if}}
+        </div>
+    </div>
+</div>

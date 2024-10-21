@@ -22,6 +22,7 @@ use app\service\MessageService;
 use app\service\AppService;
 use app\service\PluginsService;
 use app\service\GoodsCartService;
+use app\service\DiyService;
 
 /**
  * 首页
@@ -58,38 +59,56 @@ class Index extends Common
         $result = MyCache($key);
         if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
         {
-            // 数据模式
-            if(MyC('home_index_floor_data_type', 0, true) == 2)
-            {
-                $data_list = LayoutService::LayoutConfigData('home');
-            } else {
-                $data_list = GoodsService::HomeFloorList();
-            }
-
             // 购物车汇总
             $cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
 
-            // 未读消息总数
-            $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
-            $message_total = MessageService::UserMessageTotal($params);
+            // 数据模式（0自动模式, 1手动模式, 2拖拽模式, 3DIY模式）
+            // 手机端是否DIY模式
+            if(MyC('common_app_is_index_data_diy_mode', 0, true) == 1)
+            {
+                // diy下模式设置为3
+                $data_mode = 3;
 
-            // 返回数据
-            $result = SystemBaseService::DataReturn([
-                'navigation'            => AppHomeNavService::AppHomeNav(),
-                'banner_list'           => SlideService::SlideList(),
-                'data_list'             => $data_list,
-                'article_list'          => ArticleService::RecommendedArticleList(),
-                'right_icon_list'       => AppService::HomeRightIconList(['message_total'=>$message_total]),
-                'cart_total'            => $cart_total,
-                'message_total'         => $message_total,
-                'plugins_sort_list'     => PluginsService::PluginsSortList(),
-            ]);
+                // 获取diy数据
+                $data_list = DiyService::DiyData(['id'=>MyC('common_app_index_data_diy_mode_value')]);
 
-            // 缓存数据，购物车数量设置0
-            $cache_result = $result;
-            $cache_result['data']['cart_total'] = ['total_price'=>0, 'buy_number'=>0];
-            $cache_result['data']['message_total'] = 0;
-            MyCache($key, $cache_result, 3600);
+                // 返回数据
+                $result = DataReturn('success', 0, [
+                    'data_mode'   => $data_mode,
+                    'data_list'   => $data_list,
+                    'cart_total'  => $cart_total,
+                ]);
+            } else {
+                $data_mode = MyC('home_index_floor_data_type', 0, true);
+                if($data_mode == 2)
+                {
+                    $data_list = LayoutService::LayoutConfigData('home');
+                } else {
+                    $data_list = GoodsService::HomeFloorList();
+                }
+
+                // 未读消息总数
+                $message_total = MessageService::UserMessageTotal(['user'=>$this->user, 'is_more'=>1, 'is_read'=>0]);
+
+                // 返回数据
+                $result = SystemBaseService::DataReturn([
+                    'data_mode'             => $data_mode,
+                    'navigation'            => AppHomeNavService::AppHomeNav(),
+                    'banner_list'           => SlideService::SlideList(),
+                    'data_list'             => $data_list,
+                    'article_list'          => ArticleService::RecommendedArticleList(),
+                    'right_icon_list'       => AppService::HomeRightIconList(['message_total'=>$message_total]),
+                    'cart_total'            => $cart_total,
+                    'message_total'         => $message_total,
+                    'plugins_sort_list'     => PluginsService::PluginsSortList(),
+                ]);
+            }
+
+            // 缓存数据、没有用户登录信息则存储缓存
+            if(empty($this->user))
+            {
+                MyCache($key, $result, 3600);
+            }
         } else {
             $result['data']['is_result_data_cache'] = 1;
         }

@@ -1,0 +1,25 @@
+{{if !empty($data)}}
+    {{foreach $data as $v}}
+        <li data-gid="{{$v.id}}" data-add-html='<a href="javascript:;" class="goods-add-submit" data-type="add"><i class="iconfont icon-order-add am-color-green am-text-xl"></i></a>' data-del-html='<a href="javascript:;" class="goods-del-submit" data-type="del"><i class="iconfont icon-close am-color-red am-text-xl"></i></a>'>
+            <div class="am-gallery-item am-radius">
+                <a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
+                    <img src="{{$v.images}}" alt="{{$v.title}}" />
+                </a>
+                <h3 class="am-gallery-title">{{$v.title}}</h3>
+                <div class="icon-submit-container">
+                    {{if isset($v['is_exist']) and $v['is_exist'] eq 1}}
+                        <a href="javascript:;" class="goods-del-submit" data-type="del">
+                            <i class="iconfont icon-close am-color-red am-text-xl"></i>
+                        </a>
+                    {{else /}}
+                        <a href="javascript:;" class="goods-add-submit" data-type="add">
+                            <i class="iconfont icon-order-add am-color-green am-text-xl"></i>
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
+        </li>
+    {{/foreach}}
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('no_goods')}}</div>
+{{/if}}

@@ -1,0 +1,31 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>{{:MyLang('layout.view_media_fixed_border_style_title')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_media_fixed_four_sides_tips')}}</span></label>
+    <div class="am-input-group am-input-group-sm group-border-style">
+        {{if !empty($border_style_type_list)}}
+            <select name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_style_top" class="am-radius chosen-select" data-placeholder="{{:MyLang('layout.view_media_fixed_four_sides_top')}}" data-validation-message="{{:MyLang('layout.view_media_fixed_border_style_message')}}">
+                <option value="">{{:MyLang('layout.view_media_fixed_four_sides_top')}}</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_style_right" class="am-radius chosen-select" data-placeholder="{{:MyLang('layout.view_media_fixed_four_sides_right')}}" data-validation-message="{{:MyLang('layout.view_media_fixed_border_style_message')}}">
+                <option value="">{{:MyLang('layout.view_media_fixed_four_sides_right')}}</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_style_bottom" class="am-radius chosen-select" data-placeholder="{{:MyLang('layout.view_media_fixed_four_sides_bottom')}}" data-validation-message="{{:MyLang('layout.view_media_fixed_border_style_message')}}">
+                <option value="">{{:MyLang('layout.view_media_fixed_four_sides_bottom')}}</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_style_left" class="am-radius chosen-select" data-placeholder="{{:MyLang('layout.view_media_fixed_four_sides_left')}}" data-validation-message="{{:MyLang('layout.view_media_fixed_border_style_message')}}">
+                <option value="">{{:MyLang('layout.view_media_fixed_four_sides_left')}}</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+        {{/if}}
+    </div>
+</div>

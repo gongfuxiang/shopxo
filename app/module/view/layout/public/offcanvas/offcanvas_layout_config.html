@@ -1,0 +1,142 @@
+<!-- 侧边栏 - 布局 - 容器设置 -->
+<div id="offcanvas-layout-config" class="am-offcanvas module-offcanvas-container">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-layout-config" request-type="sync" request-value="FormBackLayoutConfig">
+                <!-- 基础样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_layout_base_title')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 背景图 -->
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="am-block">{{:MyLang('layout.view_offcanvas_layout_background_images')}}</label>
+                            <ul class="plug-file-upload-view am-cf layout-style-background-images-view" data-form-name="style_background_images" data-max-number="1" data-delete="1" data-dialog-type="images"></ul>
+                            <div>
+                                <span class="plug-file-upload-submit" data-view-tag="ul.layout-style-background-images-view">+ {{:MyLang('form_upload_images_title')}}</span>
+                                <label class="am-checkbox-inline am-margin-left-sm">
+                                    <input type="checkbox" name="style_background_images_position_center" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_center')}}
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="style_background_images_size_cover" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_cover')}}
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="style_background_images_no_repeat" value="1" data-am-ucheck /> {{:MyLang('layout.view_offcanvas_layout_background_images_no_repeat')}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 背景色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/background_color')}}
+
+                        <!-- 边线颜色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_color', [
+                            'key'   => '_border',
+                        ])}}
+
+                        <!-- 系统标准限宽 -->
+                        <label class="am-checkbox-inline">
+                            <input type="checkbox" name="style_width_max_limit_value" value="1" data-am-ucheck /> {{:MyLang('layout.view_style_width_max_limit_value')}}
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 中屏样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_md')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+                            'key'   => '_md',
+                        ])}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4', [
+                            'key'   => '_md',
+                        ])}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_4', [
+                            'key'   => '_md',
+                        ])}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4', [
+                            'key'   => '_md',
+                        ])}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4', [
+                            'key'   => '_md',
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 小屏样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_sm')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+                            'key'   => '_sm',
+                        ])}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4', [
+                            'key'   => '_sm',
+                        ])}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_4', [
+                            'key'   => '_sm',
+                        ])}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4', [
+                            'key'   => '_sm',
+                        ])}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4', [
+                            'key'   => '_sm',
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 大屏样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_screen_lg')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+                            'key'   => '_lg',
+                        ])}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4', [
+                            'key'   => '_lg',
+                        ])}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_4', [
+                            'key'   => '_lg',
+                        ])}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4', [
+                            'key'   => '_lg',
+                        ])}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4', [
+                            'key'   => '_lg',
+                        ])}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

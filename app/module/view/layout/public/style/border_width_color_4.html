@@ -1,0 +1,17 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>{{:MyLang('layout.view_media_fixed_border_color_title')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_media_fixed_four_sides_tips')}} -> {{:MyLang('color_title')}}</span></label>
+    <div class="am-flex am-gap-1-half">
+        <div class="am-input-group am-input-group-sm group-border-width group-border-radius-color am-flex-1">
+            <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_top')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_top" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+            <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_right')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_right" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+            <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_bottom')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_bottom" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+            <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_left')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_left" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+            <span class="am-input-group-label am-radius">px</span>
+        </div>
+        <div class="colorpicker-container colorpicker-simple">
+            <input type="hidden" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_color" value="" />
+            <div class="colorpicker-submit" data-color="#333" data-color-tag=".module-offcanvas-container input[name='style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_color']"></div>
+            <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+        </div>
+    </div>
+</div>

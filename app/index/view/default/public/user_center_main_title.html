@@ -1,6 +1,15 @@
 {{if !empty($home_seo_site_title)}}
-    <div class="am-flex am-flex-items-center am-flex-justify-between am-margin-bottom-main">
-        <h1 class="user-center-main-title am-text-xl">
+    <div class="am-flex am-flex-items-center am-margin-bottom-main">
+        {{if !empty($module_data['operate_url']) and !empty($module_data['operate_name'])}}
+            <a href="{{$module_data['operate_url']}}" class="am-text-lg am-color-main">
+                {{if !empty($module_data['operate_icon'])}}
+                    <i class="iconfont {{$module_data['operate_icon']}}"></i>
+                {{/if}}
+                <span>{{$module_data['operate_name']}}</span>
+            </a>
+            <em class="form-nav-top-retreat-ds am-color-grey-light am-text-lg am-margin-horizontal">|</em>
+        {{/if}}
+        <h1 class="user-center-main-title am-text-lg">
             {{if empty($module_data['title'])}}
                 {{if empty($user_center_main_title)}}
                     {{if stripos($home_seo_site_title, ' - ') heq false}}
@@ -15,8 +24,5 @@
                 {{$module_data.title}}
             {{/if}}
         </h1>
-        {{if !empty($module_data['operate_url']) and !empty($module_data['operate_name'])}}
-            <a href="{{$module_data['operate_url']}}" class="am-text-sm am-color-main {{if isset($module_data['operate_icon'])}}{{$module_data['operate_icon']}}{{/if}}"> {{$module_data['operate_name']}}</a>
-        {{/if}}
     </div>
 {{/if}}

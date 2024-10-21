@@ -1,0 +1,25 @@
+{{if !empty($goods_category_list)}}
+    <div class="goods-category-choice-content am-nbfc am-padding-lg">
+        <ul class="goods-category-select-1 am-scrollable-vertical am-list am-list-border am-fl am-radius" data-level="1">
+            {{foreach $goods_category_list as $k=>$v}}
+                <li>
+                    <a href="javascript:;" data-index="{{$k}}" data-value="{{$v.id}}">
+                        <span class="data-name">{{$v.name}}</span>
+                        {{if !empty($v['items'])}}
+                            <span class="data-json am-hide">{{:urlencode(base64_encode(json_encode($v['items'], JSON_UNESCAPED_UNICODE)))}}</span>
+                            <i class="iconfont icon-angle-right am-fr"></i>
+                        {{/if}}
+                    </a>
+                </li>
+            {{/foreach}}
+        </ul>
+        <ul class="goods-category-select-2 am-scrollable-vertical am-list am-list-border am-fl am-margin-left-lg am-radius am-hide" data-level="2"></ul>
+        <ul class="goods-category-select-3 am-scrollable-vertical am-list am-list-border am-fl am-margin-left-lg am-radius am-hide" data-level="3"></ul>
+    </div>
+    <p class="already-select-tips am-margin-top-lg am-radius am-hide">
+        <span>{{:MyLang('layout.view_goods_category_choice_title')}}</span>
+        <strong></strong>
+    </p>
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('layout.view_goods_category_empty_tips')}}</div>
+{{/if}}

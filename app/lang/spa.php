@@ -46,6 +46,7 @@ return [
         'goods_no_choice_spec_tips'         => 'Por favor, elija las especificaciones',
         'goods_spec_empty_tips'             => 'Datos sin especificaciones',
         'goods_id_empty_tips'               => 'Datos de identificación de la mercancía',
+        'goods_cart_title'                  => 'Añadir al carrito de la compra',
         'store_enabled_tips'                => 'Su navegador no admite almacenamiento local. Deshaga el "modo dedicado" o actualice a un navegador moderno.',
         'copy_fail'                         => 'Falló la copia',
         'copy_success'                      => 'Copia exitosa',
@@ -203,6 +204,10 @@ return [
     'refuse_success'                                        => 'Rechazar el éxito',
     'delivery_fail'                                         => 'Envío fallido',
     'delivery_success'                                      => 'Envío exitoso',
+    'print_fail'                                            => 'Falló la impresión',
+    'print_success'                                         => 'Impresión exitosa',
+    'verification_fail'                                     => 'Falló la verificación',
+    'verification_success'                                  => 'Verificación exitosa',
     'collect_fail'                                          => 'Falló la recepción',
     'collect_success'                                       => 'Recepción exitosa',
     'quit_success'                                          => 'Salida exitosa',
@@ -278,22 +283,26 @@ return [
     'plugins_config_error_tips'                             => 'Configuración incorrecta del plug - in',
     'operate_frequent_tips'                                 => '¡Las operaciones son frecuentes, ¡ por favor, vuelva a intentarlo más tarde!',
     'images_format_error_tips'                              => '¡La imagen es incorrecta, ¡ por favor, cambie una!',
-    'images_preview_title'                                  => 'Vista previa de la imagen',
-    'video_preview_title'                                   => 'Vista previa del vídeo',
-    'file_preview_title'                                    => 'Vista previa del archivo',
     'cancel_order_title'                                    => 'Cancelación del pedido',
     'delete_order_title'                                    => 'Eliminar pedido',
     'operate_list_tips_button_text'                         => 'Consejos de operación',
     'operate_list_tips_retract_text'                        => 'Guardar consejos',
     'operate_list_tips_msg'                                 => 'Puntos a los que se debe prestar atención al recordar las operaciones de configuración pertinentes',
+    'images_preview_title'                                  => 'Vista previa de la imagen',
+    'video_preview_title'                                   => 'Vista previa del vídeo',
+    'file_preview_title'                                    => 'Vista previa del archivo',
+    'local_import_title'                                    => 'Importación local',
+    'template_market_title'                                 => 'Mercado de plantillas',
+    'plugins_market_title'                                  => 'Mercado de aplicaciones',
+    'already_buy_title'                                     => 'He comprado',
+    'auth_domain_title'                                     => 'Nombre de dominio autorizado',
     // 商店绑定
-    'store_bind_account_name'                               => 'Vincular la cuenta de la tienda shopxo',
-    'store_bind_account_tips'                               => '¡Si está vinculado, ¡ vaya a la herramienta de menú izquierdo en el Fondo del centro comercial para eliminar la caché y luego intente acceder!',
-    'store_account_not_bind_tips'                           => 'Por favor, vincule primero la cuenta de la tienda de aplicaciones',
     'store_check_update_name'                               => 'Comprobar actualizaciones',
     'store_auto_update_name'                                => 'Actualización automática',
+    'store_account_not_bind_tips'                           => 'Por favor, vincule primero la cuenta de la tienda de aplicaciones',
     'store_bind_accounts_name'                              => 'Vincular la cuenta de la tienda shopxo',
-    'store_bind_accounts_tips'                              => 'Vincular la cuenta de la tienda de aplicaciones shopxo, obtener la información de la última versión del plug - in, instalación y actualización en línea',
+    'store_bind_accounts_tips'                              => '¡¡ vincule la cuenta de la tienda de aplicaciones shopxo, instale y actualice en línea y obtenga la última versión de la información!',
+    'store_already_bind_accounts_tips'                      => '¡Si está vinculado, ¡ vaya a la herramienta de menú izquierdo en el Fondo del centro comercial para eliminar la caché y luego intente acceder!',
     'store_bind_authorized_subject_name'                    => 'Sujeto autorizado',
     'store_content_error_tips'                              => 'Falló la conexión de la tienda',
     'store_respond_data_error_tips'                         => 'Los datos de retorno de la tienda son incorrectos',
@@ -301,6 +310,8 @@ return [
     'store_respond_empty_tips'                              => '¡La tienda no devuelve datos correspondientes, ¡ por favor, vuelva a intentarlo más tarde!',
     'store_respond_data_empty_tips'                         => '¡La tienda devolvió un error anormal, ¡ por favor vuelva a intentarlo más tarde!',
     'store_respond_result_tips'                             => 'Regreso de la tienda',
+    'store_plugins_params_error_tips'                       => 'Los parámetros del plug - in son incorrectos',
+    'store_package_data_params_error_tips'                  => 'Los parámetros de la lista de datos del paquete son incorrectos',
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Cuenta',
     'store_bind_form_accounts_placeholder'                  => 'Nombre de usuario / teléfono móvil / buzón',
@@ -368,6 +379,7 @@ return [
     'view_title'                                            => 'Ver',
     'preview_title'                                         => 'Vista previa',
     'choice_title'                                          => 'Selección',
+    'not_choice_title'                                      => 'No seleccionado',
     'already_choice_title'                                  => 'Seleccionado',
     'enter_title'                                           => 'Entrar',
     'link_title'                                            => 'Enlaces',
@@ -392,6 +404,7 @@ return [
     'barcode_title'                                         => 'código de barras',
     'enter_inventory_title'                                 => 'Almacenamiento',
     'sales_title'                                           => 'Ventas',
+    'score_title'                                           => 'Puntuación',
     'access_title'                                          => 'Visitas',
     'hot_title'                                             => 'Calor',
     'favor_title'                                           => 'Colección',
@@ -442,6 +455,9 @@ return [
     'confirm_download_title'                                => 'Confirmar descarga',
     'upload_title'                                          => 'Cargar',
     'confirm_upload_title'                                  => 'Confirmar carga',
+    'wait_upload_title'                                     => 'Esperando cargar',
+    'process_upload_title'                                  => 'Se está cargando',
+    'start_upload_title'                                    => 'Comienza a cargar',
     'reply_title'                                           => 'Respuesta',
     'note_title'                                            => 'Nota',
     'price_title'                                           => 'Precio',
@@ -474,6 +490,7 @@ return [
     'transfer_audit_title'                                  => 'Remisión',
     'divider_title'                                         => 'Distribución',
     'name_title'                                            => 'Nombre',
+    'size_title'                                            => 'Tamaño',
     'status_title'                                          => 'Estado',
     'collection_fee_title'                                  => 'Recaudación',
     'complaint_title'                                       => 'Quejas',
@@ -499,6 +516,7 @@ return [
     'unbind_title'                                          => 'Desatar',
     'brand_title'                                           => 'Marca',
     'category_title'                                        => 'Clasificación',
+    'place_origin_title'                                    => 'Origen',
     'attr_title'                                            => 'Atributos',
     'spec_title'                                            => 'Especificaciones',
     'register_title'                                        => 'Registro',
@@ -546,6 +564,8 @@ return [
     'first_title'                                           => 'Primero',
     'last_title'                                            => 'Finalmente',
     'list_title'                                            => 'Lista',
+    'chat_title'                                            => 'Servicio',
+    'gift_title'                                            => 'Regalos',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
     'self_pickup_point_title'                               => 'Punto de referencia propio',
     'web_title'                                             => 'Lado web',
@@ -553,6 +573,8 @@ return [
     'custom_title'                                          => 'Personalizado',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
+    'goods_add_name'                                        => 'Adición de productos básicos',
+    'goods_choice_name'                                     => 'Selección de productos básicos',
     'goods_stop_sale_title'                                 => 'Suspensión de ventas',
     'goods_buy_title'                                       => 'Compra',
     'goods_booking_title'                                   => 'Hacer una cita de inmediato',
@@ -696,6 +718,7 @@ return [
     'form_article_category_message'                         => 'Por favor, elija la clasificación del artículo',
     'form_refuse_reason'                                    => 'Razones del rechazo',
     'form_refuse_reason_message'                            => 'Formato de razón de rechazo de 1 a 230 caracteres',
+    'form_search_keywords_placeholder'                      => 'Palabras clave de búsqueda',
     // 动态表格
     'form_table_search_first'                               => [
         'input'         => 'Por favor, introduzca',
@@ -731,6 +754,7 @@ return [
     'collect_confirm_tips'                                  => '¡¡ se confirma que se han recibido las mercancías y que no se pueden restaurar después de la operación!',
     'save_close_page_confirm_tips'                          => 'Confirme si los datos se guardan y continúa cerrando esta página.',
     'service_confirm_tips'                                  => '¡¡ confirme que el servicio al cliente se ha completado y no se puede restaurar después de la operación!',
+    'copy_goods_confirm_tips'                               => '¿Copiar la información actual del producto y publicarlo como un nuevo producto, ¿ está seguro de continuar?',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => 'Caché del sitio', 'desc' => 'Esta función se puede utilizar para actualizar todos los cachés después de la conversión de datos o cuando el primer plano no puede acceder normalmente.'],
@@ -1139,6 +1163,14 @@ return [
         'fra'  => 'Francés',
         'swe'  => 'Sueco',
     ],
+    // token生成规则
+    'common_token_created_rules_list' => [
+        0 => 'IP del usuario',
+        1 => 'Información del equipo',
+        2 => 'Cliente',
+        3 => 'Tipo de sistema',
+        4 => 'Número aleatorio o sal criptográfica',
+    ],
     // 商品分类展示层级类型
     'common_show_goods_category_level_list' => [
         0 => 'Clasificación + productos básicos',
@@ -1146,7 +1178,13 @@ return [
         2 => 'Clasificación secundaria',
         3 => 'Clasificación de tres niveles',
     ],
-    // 图片验证码
+    // 图片验证码类型
+    'common_site_images_verify_rand_type_list' => [
+        0 => 'Números puros',
+        1 => 'Letras puras',
+        2 => 'Números + letras',
+    ],
+    // 图片验证码规则
     'common_site_images_verify_rules_list' => [
         0 => 'Fondo de color',
         1 => 'Texto en color',
@@ -1239,6 +1277,37 @@ return [
         0 => 'Último',
         1 => 'Calor',
     ],
+    // 附件分类-路径名称匹配
+    'common_attachment_category_path_name_list' => [
+        'common'          => 'Público',
+        'goods'           => 'Productos Básicos',
+        'goods_category'  => 'Clasificación de mercancías',
+        'brand'           => 'Marca',
+        'brand_category'  => 'Clasificación de la marca',
+        'customview'      => 'Página personalizada',
+        'express'         => 'Expreso',
+        'app_center_nav'  => 'Menú del Centro de usuarios',
+        'quick_nav'       => 'Navegación rápida',
+        'shortcutmenu'    => 'Menú de acceso rápido',
+        'app_nav'         => 'Navegación en la página de inicio',
+        'slide'           => 'Rotación',
+        'article'         => 'Artículo',
+        'user'            => 'Usuarios',
+        'design'          => 'Diseño de página',
+        'plugins'         => 'Plug - in',
+        'order_comments'  => 'Comentarios sobre productos de pedido',
+        'theme_data'      => 'Datos temáticos',
+        'agreement'       => 'Acuerdo',
+        'warehouse'       => 'Almacén',
+    ],
+    // 附件管理-类型
+    'common_attachment_type_list' => [
+        'file'    => 'Documentos',
+        'image'   => 'Imagen',
+        'scrawl'  => 'Graffiti',
+        'video'   => 'Vídeo',
+        'remote'  => 'Agarre remoto',
+    ],
 
     // -------------------- 后端相关 --------------------
     // 时区
@@ -1271,6 +1340,10 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 基础
+        'base'                => [
+            'key_error_tips'                    => 'El valor de la clave de datos es incorrecto',
+        ],
         // 系统
         'system'            => [
             'design_title'       => 'Diseño de página',
@@ -1569,7 +1642,7 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Tamaño recomendado 300 * 300px',
             // 基础
-            'create_name_default'                   => 'Página predeterminada',
+            'create_name_default'                   => 'Personalizado - Página predeterminada',
         ],
         // 页面设计
         'design'            => [
@@ -1579,13 +1652,59 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Tamaño recomendado 300 * 300px',
             // 基础
-            'create_name_default'                   => 'Página predeterminada',
+            'create_name_default'                   => 'Diseño de página - Página predeterminada',
             'download_config_file_create_fail_tips' => 'Falló la generación del archivo de configuración',
             'upload_dis_no_power_tips'              => 'Aplicar el catálogo de carga no tiene permisos operativos',
             'upload_config_file_get_fail_tips'      => 'Falló la lectura de la información de configuración',
             'upload_config_file_error_tips'         => 'La información de configuración está vacía o incorrecta',
             'upload_config_file_handle_fail_tips'   => 'Falló el procesamiento del archivo de configuración',
             'upload_invalid_packet_tips'            => 'Paquete de datos no válido',
+        ],
+        // DIY装修
+        'diy'            => [
+            'base_nav_title'                        => 'Decoración de bricolaje',
+            // 表单
+            'form_item_name'                        => 'Nombre',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
+            'form_item_describe'                    => 'Descripción',
+            'form_item_describe_message'            => 'La longitud de la descripción es de hasta 230 caracteres',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => 'Tamaño recomendado 300 * 300px',
+            // 基础
+            'create_name_default'                   => 'DIY - Página predeterminada',
+            'download_config_file_create_fail_tips' => 'Falló la generación del archivo de configuración',
+            'upload_dis_no_power_tips'              => 'Aplicar el catálogo de carga no tiene permisos operativos',
+            'upload_config_file_get_fail_tips'      => 'Falló la lectura de la información de configuración',
+            'upload_config_file_error_tips'         => 'La información de configuración está vacía o incorrecta',
+            'upload_config_file_handle_fail_tips'   => 'Falló el procesamiento del archivo de configuración',
+            'upload_invalid_packet_tips'            => 'Paquete de datos no válido',
+            'preview_url_tips'                      => 'Por favor, configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] primero',
+            'preview_url_copy_name'                 => 'Copiar enlace',
+            'preview_scan_tips'                     => 'Efecto de previsualización del Código de escaneo',
+        ],
+        // 附件管理
+        'attachment'        => [
+            // 表单
+            'form_item_original'             => 'Nombre original',
+            'form_item_original_message'     => 'La longitud del nombre original es de 1 a 230 caracteres.',
+            'form_item_title_message'        => 'El nombre del nuevo archivo es incorrecto',
+            'form_item_category_id_message'  => 'El ID de clasificación del anexo es incorrecto',
+            'form_item_url_message'          => 'Dirección incorrecta',
+            'form_item_size_message'         => 'El tamaño del archivo es incorrecto',
+            'form_item_ext_message'          => 'Extensión incorrecta',
+            'form_item_hash_message'         => 'El valor de hash es incorrecto',
+            'file_no_exist_tips'             => 'El archivo no existe',
+            // 基础
+            'delete_no_power_tips'           => 'El archivo no tiene permisos de eliminación',
+            'sync_file_to_db_tips'           => 'Total[{:count}], éxito[{:success}], Fracaso[{:error}]',
+        ],
+        // 附件分类
+        'attachmentcategory'           => [
+            // 表单
+            'form_item_name'                        => 'Nombre',
+            'form_item_name_message'                => 'La longitud del nombre es de 1 a 60 caracteres.',
+            'form_item_path'                        => 'Camino',
+            'form_item_path_message'                => 'Longitud de la ruta de 1 a 230 caracteres',
         ],
         // 域名服务
         'domain'            => [
@@ -1887,10 +2006,6 @@ return [
             'integral_dec_fail_tips'                => 'Falló la reducción de puntos del usuario',
             'integral_log_add_fail_tips'            => 'Falló la adición del registro de puntos del usuario',
         ],
-        // 布局
-        'layout'                => [
-            'key_error_tips'                        => 'El valor de la clave de diseño es incorrecto',
-        ],
         // 友情链接
         'link'                  => [
             // 表单
@@ -1960,7 +2075,7 @@ return [
                 ],
                 'logout'            => [
                     'title'         => 'Cancelación de la cuenta',
-                    'msg'           => 'Hay un riesgo de robo en internet, por lo que se recomienda cambiar su contraseña regularmente para proteger su seguridad.',
+                    'msg'           => 'Después de cancelar la cuenta, la cuenta ya no podrá iniciar sesión.',
                     'submit_text'   =>  'Cancelación',
                 ],
             ],
@@ -2272,11 +2387,11 @@ return [
             'please_uninstall_tips'                 => 'Desinstalar la aplicación primero',
             'app_name_exist_tips'                   => 'El nombre de la aplicación ya existe',
             'app_name_appoint_error_tips'           => 'La identidad de la aplicación no coincide con la designación',
-            'plugins_package_empty_tips'            => 'El paquete plug - in es incorrecto',
-            'plugins_package_error_tips'            => 'Por favor, vaya al módulo [gestión del sitio web - > método de pago] para cargar e instalar el plug - in de pago.',
             'plugins_package_invalid_tips'          => 'Paquete plug - in no válido',
             'plugins_identification_error_tips'     => 'La identificación del plug - in es incorrecta',
             'plugins_identification_empty_tips'     => 'La identificación del plug - in está vacía',
+            'plugins_config_error_tips'             => 'La información de configuración del tema es incorrecta',
+            'plugins_config_file_get_fail_tips'     => 'Falló la lectura de la información de configuración',
             'plugins_copy_main_fail_tips'           => 'Paquete principal',
             'plugins_new_config_error_tips'         => 'El nuevo perfil es incorrecto',
             'plugins_new_config_update_fail_tips'   => 'Falló la actualización del perfil de la nueva aplicación',
@@ -2341,20 +2456,6 @@ return [
             // 基础
             'region_code_search_empty_tips'         => 'Introduzca el número de área',
             'region_no_data_tips'                   => 'Zonas no relacionadas',
-        ],
-        // 资源
-        'resources'                 => [
-            // 保存
-            'save_attachment_title_tips'            => 'El nombre es incorrecto',
-            'save_attachment_original_tips'         => 'El nombre original es incorrecto.',
-            'save_attachment_path_type_tips'        => 'Marca de ruta incorrecta',
-            'save_attachment_url_tips'              => 'Dirección incorrecta',
-            'save_attachment_size_tips'             => 'El tamaño del archivo es incorrecto',
-            'save_attachment_ext_tips'              => 'Extensión incorrecta',
-            'save_attachment_hash_tips'             => 'El valor de hash es incorrecto',
-            // 基础
-            'delete_no_power_tips'                  => 'El archivo no tiene permisos de eliminación',
-            'sync_file_to_db_tips'                  => 'Número total ({:count}), éxito ({:success}), fracaso ({:error})',
         ],
         // 安全
         'safety'                    => [
@@ -2466,6 +2567,7 @@ return [
             'theme_new_config_update_fail_tips'     => 'Falló la actualización del perfil de la nueva aplicación',
             'config_file_no_exist_tips'             => 'El perfil temático no existe',
             'config_error_tips'                     => 'La información de configuración del tema es incorrecta',
+            'upload_config_file_get_fail_tips'      => 'Falló la lectura de la información de configuración',
         ],
         // 主题数据
         'themedata'                 => [
@@ -2536,7 +2638,11 @@ return [
         ],
         // 附件上传
         'ueditor'                   => [
-            'request_action_error_tips'             => 'Se solicitó una acción incorrecta',
+            'request_action_error_tips'  => 'Se solicitó una acción incorrecta',
+            'draging_tips'               => 'Suelte el ratón después de arrastrar archivos / carpetas a esta área',
+            'choice_file_tips'           => 'Por favor, seleccione el archivo primero.',
+            'scan_key_empty_tips'        => 'La clave de escaneo está vacía.',
+            'scan_key_not_exist_tips'    => 'La clave de escaneo no existe',
         ],
         // 用户地址
         'useraddress'               => [
@@ -3240,7 +3346,7 @@ return [
         ],
         'home_site_logo_app'  => [
             'name' => 'Logotipo del teléfono móvil',
-            'desc' => 'Soporte [jpg, png, gif], recomendado 60*60px',
+            'desc' => 'Soporte [jpg, png, gif], ancho recomendado * 60px',
             'tips' => 'Por favor, suba el logotipo del sitio web móvil',
         ],
         'home_site_logo_wap'  => [
@@ -3678,6 +3784,10 @@ return [
             'desc' => 'Cierre por defecto para evitar el registro ilegal',
             'tips' => 'Por favor, elija si abre el Código de verificación de la imagen de registro del usuario',
         ],
+        'common_images_verify_rand_type'  => [
+            'name' => 'Tipo de código de verificación de imagen',
+            'tips' => 'Por favor, elija el tipo de código de verificación de imagen',
+        ],
         'common_images_verify_rules'  => [
             'name' => 'Reglas del Código de verificación de imágenes',
             'desc' => 'La palabra negra de fondo blanco predeterminada puede aumentar la dificultad de identificación del Código de verificación de acuerdo con la demanda I.',
@@ -3732,6 +3842,16 @@ return [
             'name' => 'Abrir servicio al cliente en línea',
             'desc' => 'Predeterminado No',
             'tips' => 'Por favor, elija si abrir el servicio al cliente en línea',
+        ],
+        'common_app_is_index_data_diy_mode'  => [
+            'name' => 'La página de inicio utiliza el modo bricolaje',
+            'desc' => 'Seguir la configuración unificada de la página de inicio por defecto',
+            'tips' => 'Por favor, elija si usar el modo bricolaje en la página de inicio.',
+        ],
+        'common_app_index_data_diy_mode_value'  => [
+            'name' => 'Datos del modo bricolaje en la página de inicio',
+            'desc' => '',
+            'tips' => 'Por favor, elija los datos del modo bricolaje de la página de inicio.',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => 'Número de clasificaciones de productos secundarios en el lado izquierdo del piso de inicio',
@@ -4075,6 +4195,11 @@ return [
             'desc' => 'Abierto por defecto',
             'tips' => 'Por favor, elija la página de búsqueda para abrir los parámetros',
         ],
+        'home_search_is_place_origin'  => [
+            'name' => 'La página de búsqueda abre el origen del producto',
+            'desc' => 'Abierto por defecto',
+            'tips' => 'Por favor, seleccione la página de búsqueda para abrir el origen del producto.',
+        ],
         'home_search_is_price'  => [
             'name' => 'La página de búsqueda abre el precio',
             'desc' => 'Abierto por defecto',
@@ -4261,6 +4386,11 @@ return [
             'name' => 'Nombre de dominio válido de la Cookie',
             'desc' => 'El vacío predeterminado es válido para el nombre de dominio de acceso actual.',
             'tips' => 'Por favor, rellene el nombre de dominio válido de la cookie.',
+        ],
+        'common_token_created_rules'  => [
+            'name' => 'Token genera reglas',
+            'desc' => 'Contiene el ID de usuario por defecto',
+            'tips' => 'Por favor, elija la regla de generación de Token',
         ],
         'common_excel_export_type'  => [
             'name' => 'Tipo de exportación de Microsoft',

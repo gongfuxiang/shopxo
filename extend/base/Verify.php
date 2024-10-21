@@ -281,7 +281,10 @@ class Verify
 	 */
 	private function GetRandString()
 	{
-		$origstr = '3456789abxdefghijkmnprstuvwxy';
+		$type = MyC('common_images_verify_rand_type', 0, true);
+		$num = '23456789';
+		$str = 'abxdefghjkmnprstuvwxy';
+		$origstr = ($type == 2) ? $num.$str : ($type == 1 ? $str : $num);
 		$string = '';
 		$len = strlen($origstr);
 		for($i=0; $i<$this->length; $i++)

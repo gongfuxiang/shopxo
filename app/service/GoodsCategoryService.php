@@ -168,27 +168,32 @@ class GoodsCategoryService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $where[] = ['is_enable', '=', 1];
-        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
-        $field = empty($params['field']) ? 'id,pid,icon,icon_active,realistic_images,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 0;
+        $key = md5(json_encode($where));
+        static $goods_category_list_data = [];
+        if(!array_key_exists($key, $goods_category_list_data))
+        {
+            $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+            $field = empty($params['field']) ? 'id,pid,icon,icon_active,realistic_images,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
+            $m = isset($params['m']) ? intval($params['m']) : 0;
+            $n = isset($params['n']) ? intval($params['n']) : 0;
 
-        // 商品分类列表读取前钩子
-        $hook_name = 'plugins_service_goods_category_list_begin';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'where'         => &$where,
-            'field'         => &$field,
-            'order_by'      => &$order_by,
-            'm'             => &$m,
-            'n'             => &$n,
-        ]);
+            // 商品分类列表读取前钩子
+            $hook_name = 'plugins_service_goods_category_list_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'where'         => &$where,
+                'field'         => &$field,
+                'order_by'      => &$order_by,
+                'm'             => &$m,
+                'n'             => &$n,
+            ]);
 
-        // 获取商品分类数据
-        $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return self::GoodsCategoryDataHandle($data);
+            // 获取商品分类数据
+            $goods_category_list_data[$key] = self::GoodsCategoryDataHandle(Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray());
+        }
+        return $goods_category_list_data[$key];
     }
 
     /**
@@ -233,7 +238,13 @@ class GoodsCategoryService
         // 是否超过级别限制
         if($level === null || $level['temp'] < $level['value'])
         {
-            $data = Db::name('GoodsCategory')->where($where)->column('id');
+            static $goods_category_items_ids_data = [];
+            $key = md5(json_encode($where));
+            if(!array_key_exists($key, $goods_category_items_ids_data))
+            {
+                $goods_category_items_ids_data[$key] = Db::name('GoodsCategory')->where($where)->column('id');
+            }
+            $data = $goods_category_items_ids_data[$key];
             if(!empty($data))
             {
                 $temp = self::GoodsCategoryItemsIds($data, $is_enable, $level);
@@ -289,7 +300,13 @@ class GoodsCategoryService
         // 是否超过级别限制
         if($level === null || $level['temp'] < $level['value'])
         {
-            $data = Db::name('GoodsCategory')->where($where)->column('pid');
+            static $goods_category_parent_ids_data = [];
+            $key = md5(json_encode($where));
+            if(!array_key_exists($key, $goods_category_parent_ids_data))
+            {
+                $goods_category_parent_ids_data[$key] = Db::name('GoodsCategory')->where($where)->column('pid');
+            }
+            $data = $goods_category_parent_ids_data[$key];
             if(!empty($data))
             {
                 $temp = self::GoodsCategoryParentIds($data, $is_enable, $level);

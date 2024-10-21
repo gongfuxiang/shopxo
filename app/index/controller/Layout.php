@@ -11,7 +11,7 @@
 namespace app\index\controller;
 
 use app\service\ApiService;
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 
 /**
  * 布局自动化
@@ -47,11 +47,11 @@ class Layout extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
-        $ret = BaseLayout::GoodsSearchList($params);
+        $ret = LayoutModule::GoodsSearchList($params);
         if($ret['code'] == 0)
         {
             MyViewAssign('data', $ret['data']['data']);
-            $ret['data']['data'] = MyView('../../../layout/view/public/common/goodssearch');
+            $ret['data']['data'] = MyView('../../../module/view/layout/public/common/goodssearch');
         }
         return ApiService::ApiDataReturn($ret);
     }
@@ -68,7 +68,7 @@ class Layout extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BaseLayout::GoodsDataList($params));
+        return ApiService::ApiDataReturn(LayoutModule::GoodsDataList($params));
     }
 }
 ?>

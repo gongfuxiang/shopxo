@@ -114,6 +114,16 @@
                     </div>
                 </div>
                 <div class="am-form-group">
+                    <label>{{$data.home_search_is_place_origin.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_place_origin.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_is_place_origin.only_tag}}" data-validation-message="{{$data.home_search_is_place_origin.error_tips}}" required {{if isset($data['home_search_is_place_origin']['value']) and $data['home_search_is_place_origin']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
                     <label>{{$data.home_search_is_params.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_params.describe}}</span></label>
                     <div class="am-radio-group">
                         {{foreach $common_close_open_list as $v}}

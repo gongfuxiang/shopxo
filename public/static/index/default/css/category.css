@@ -12,6 +12,7 @@
     color: #333333;
     cursor: pointer;
     text-align: center;
+    overflow: hidden;
 }
 .category-list-container ul.category-nav li.active {
     color: var(--color-main);
@@ -180,7 +181,7 @@
         font-size: 1.4rem;
     }
     .category-list-container ul.category-nav {
-        width: 10rem;
+        width: 12rem;
     }
 }
 .two-content ul {
@@ -363,7 +364,7 @@
         font-size: 1.4rem;
     }
     .zero-right {
-        width: calc(100% - 11.3rem);
+        width: calc(100% - 13.3rem);
         margin-right: -0.6rem;
         padding-left: 0;
     }

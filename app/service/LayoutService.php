@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 
 /**
  * 布局服务层
@@ -62,7 +62,7 @@ class LayoutService
         // key 值是否存在
         if(!array_key_exists($key, self::$layout_key))
         {
-            return DataReturn(MyLang('common_service.layout.key_error_tips'), -1);
+            return DataReturn(MyLang('common_service.base.key_error_tips'), -1);
         }
 
         // 获取配置信息
@@ -71,13 +71,13 @@ class LayoutService
         $info = Db::name('Layout')->where($where)->find();
 
         // 配置信息
-        $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
+        $config = empty($params['config']) ? '' : LayoutModule::ConfigSaveHandle($params['config']);
 
         // 数据保存
         $data = [ 
-            'type'      => $key_info['type'],
-            'name'      => $key_info['name'],
-            'config'    => $config,
+            'type'    => $key_info['type'],
+            'name'    => $key_info['name'],
+            'config'  => empty($config) ? '' : (is_array($config) ? json_encode($config, JSON_UNESCAPED_UNICODE) : $config),
         ];
         if(empty($info))
         {
@@ -114,7 +114,7 @@ class LayoutService
         if(array_key_exists($key, self::$layout_key))
         {
             $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');
-            return BaseLayout::ConfigAdminHandle($config);
+            return LayoutModule::ConfigAdminHandle($config);
         }
         return '';
     }
@@ -137,7 +137,7 @@ class LayoutService
         if(array_key_exists($key, self::$layout_key))
         {
             $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');
-            return BaseLayout::ConfigHandle($config);
+            return LayoutModule::ConfigHandle($config);
         }
         return '';
     }

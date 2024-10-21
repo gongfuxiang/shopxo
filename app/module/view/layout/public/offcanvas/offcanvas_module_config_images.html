@@ -1,0 +1,77 @@
+<!-- 侧边栏 - 模块配置 - 图片 -->
+<div id="offcanvas-module-config-images" class="am-offcanvas module-offcanvas-container" data-default-images="{{:StaticAttachmentUrl('default-images-mini.png')}}">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-images" request-type="sync" request-value="FormBackModuleConfigImages">
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="am-block">{{:MyLang('layout.view_offcanvas_module_images')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <ul class="plug-file-upload-view am-cf module-images-type-images-view" data-form-name="content_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                                <li>
+                                    <input type="text" name="content_images" data-validation-message="{{:MyLang('form_upload_images_message')}}" value="" required />
+                                    <img src="{{:StaticAttachmentUrl('default-images-mini.png')}}" />
+                                </li>
+                            </ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.module-images-type-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
+                        </div>
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_module_title_url')}}</label>
+                            <div class="form-view-choice-container am-margin-top-xs">
+                                <input type="hidden" name="content_to_type" value="" />
+                                <input type="hidden" name="content_to_name" value="" />
+                                <input type="hidden" name="content_to_value" value="" />
+                                <div class="form-view-choice-container-content">
+                                    <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_module_title_url_message')}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 背景色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/background_color')}}
+
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius')}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4')}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_color_4')}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4')}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4')}}
+                    </div>
+                </div>
+
+                <!-- 图片样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_images')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 媒体样式 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/content/media_fixed', [
+                            'key'   => '_media_fixed',
+                        ])}}
+
+                        <!-- 鼠标悬停图片放大 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/mouse_hover')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

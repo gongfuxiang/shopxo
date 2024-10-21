@@ -88,10 +88,11 @@ function ArrayTurnJson (all, object) {
  * @return   {[object]}        		[josn对象]
  */
 function GetFormVal (element, is_json) {
+    var $form = (typeof(element) == 'object') ? $(element) : $(element);
     var object = new FormData();
 
     // input 常用类型
-    $(element).find('input[type="hidden"], input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="radio"]:checked, textarea, input[type="file"]').each(function (key, tmp) {
+    $form.find('input[type="hidden"], input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="radio"]:checked, textarea, input[type="file"]').each(function (key, tmp) {
         if (tmp.type == 'file') {
             object.append(tmp.name, ($(this).get(0).files[0] == undefined) ? '' : $(this).get(0).files[0]);
         } else {
@@ -102,7 +103,7 @@ function GetFormVal (element, is_json) {
     // select 单选择和多选择
     var tmp_all = [];
     var i = 0;
-    $(element).find('select').find('option').each(function (key, tmp) {
+    $form.find('select').find('option').each(function (key, tmp) {
         var name = $(this).parents('select').attr('name');
         if (name != undefined && name != '') {
             if ($(this).is(':selected')) {
@@ -129,7 +130,7 @@ function GetFormVal (element, is_json) {
     // input 复选框checkbox
     tmp_all = [];
     i = 0;
-    $(element).find('input[type="checkbox"]').each(function (key, tmp) {
+    $form.find('input[type="checkbox"]').each(function (key, tmp) {
         if (tmp.name != undefined && tmp.name != '') {
             if ($(this).is(':checked')) {
                 if (tmp_all[tmp.name] == undefined) {
@@ -363,12 +364,13 @@ function FromInit (form_name) {
                     var request_value = $form.attr('request-value') || null;
                     // 以 ajax 开头的都会先请求再处理
                     // ajax-reload  请求完成后刷新页面
+                    // ajax-close   请求完成后关闭弹窗
                     // ajax-url 	请求完成后调整到指定的请求值
                     // ajax-fun 	请求完成后调用指定方法
                     // ajax-view 	请求完成后仅提示文本信息
                     // sync 		不发起请求、直接同步调用指定的方法
                     // jump 		不发起请求、拼接数据参数跳转到指定 url 地址
-                    var request_handle = ['ajax-reload', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
+                    var request_handle = ['ajax-reload', 'ajax-close', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
 
                     // 参数校验
                     if (request_handle.indexOf(request_type) == -1) {
@@ -497,6 +499,18 @@ function FromInit (form_name) {
                                                     parent.location.reload();
                                                 } else {
                                                     window.location.reload();
+                                                }
+                                            }, 1000);
+                                            break;
+
+                                        // 页面关闭
+                                        case 'ajax-close':
+                                            Prompt(result.msg, 'success');
+                                            setTimeout(function () {
+                                                // 1. 已指定 data-am-modal-close 弹窗关闭属性
+                                                // 2. 为父级iframe载入的弹窗（则调用父级定义的关闭方法、当前窗口则不用）
+                                                if ($form.find('button').attr('data-am-modal-close') !== undefined) {
+                                                    parent.CommonPopupClose();
                                                 }
                                             }, 1000);
                                             break;
@@ -786,11 +800,10 @@ function TreeItemHtmlHandle (item, pid, level, is_delete_all) {
  */
 function TreeFormSaveBackHandle (e) {
     $.AMUI.progress.done();
-    var $button = $('form.form-validation').find('button[type="submit"]');
+    var $popup = $($('#tree').data('popup-tag'));
+    var $button = $popup.find('button[type="submit"]');
     if (e.code == 0) {
         Prompt(e.msg, 'success');
-        var $popup = $($('#tree').data('popup-tag') || '' + popup_tag + '');
-
         // 数据处理
         if ((e.data || null) != null) {
             if (typeof (e.data) == 'object') {
@@ -1547,8 +1560,9 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
 
     // 是否存在问号参数
     if (url.indexOf('?') >= 0) {
-        var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__));
-        var ext = url.substr(url.lastIndexOf('.' + __seo_url_suffix__));
+        var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__)) || url;
+        var loc = url.lastIndexOf('.' + __seo_url_suffix__);
+        var ext = (loc == -1) ? '' : url.substr(loc);
         if (str.indexOf(field+'/') >= 0) {
             var first = str.substr(0, str.lastIndexOf(field));
             var last = str.substr(str.lastIndexOf(field));
@@ -1595,18 +1609,52 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
                     url += '?' + p;
                 }
             } else {
-                if (value === null) {
-                    url = str + ext;
+                if (str.indexOf('?') >= 0) {
+                    var p = '';
+                    exts = str.substr(str.indexOf('?') + 1);
+                    if (str.indexOf(field) >= 0) {
+                        var params_all = exts.split('&');
+                        for (var i in params_all) {
+                            var temp = params_all[i].split('=');
+                            if (temp.length >= 2) {
+                                if (temp[0] == field) {
+                                    if (value !== null) {
+                                        p += '&' + field + '=' + value;
+                                    }
+                                } else {
+                                    p += '&' + params_all[i];
+                                }
+                            }
+                        }
+                    } else {
+                        if (value === null) {
+                            p = exts;
+                        } else {
+                            p = exts + '&' + field + '=' + value;
+                        }
+                    }
+                    url = (str.substr(0, str.indexOf('?')))
+                    if ((p || null) != null) {
+                        if (p.substr(0, 1) == '&') {
+                            p = p.substr(1);
+                        }
+                        url += '?' + p;
+                    }
                 } else {
-                    url = str + '/' + field + '/' + value + ext;
+                    if (value === null) {
+                        url = str + ext;
+                    } else {
+                        url = str + '/' + field + '/' + value + ext;
+                    }
                 }
             }
         }
     } else {
         if(url.indexOf(field+'/') != -1)
         {
-            var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__));
-            var ext = url.substr(url.lastIndexOf('.' + __seo_url_suffix__));
+            var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__)) || url;
+            var loc = url.lastIndexOf('.' + __seo_url_suffix__);
+            var ext = (loc == -1) ? '' : url.substr(loc);
             var first = str.substr(0, str.lastIndexOf(field));
             var last = str.substr(str.lastIndexOf(field));
             last = last.replace(new RegExp(field + '/', 'g'), '');
@@ -1987,6 +2035,9 @@ function TreeFormInit () {
 
     // 更改窗口名称
     var $title = $popup.find('.am-popup-title');
+    if($title.length == 0) {
+        $title = $popup.find('.am-modal-hd > span');
+    }
     $title.text($title.attr('data-add-title'));
     // 填充数据
     var data = { id: '', pid: 0, name: '', vice_name: '', describe: '', letters: '', lng: '', lat: '', code: '', sort: 0, is_enable: 1, icon: '', realistic_images: '', big_images: '', seo_title: '', seo_keywords: '', seo_desc: '', control: '', action: '', url: '' };
@@ -2031,6 +2082,9 @@ function CardFormInit () {
 
     // 更改窗口名称
     var $title = $popup.find('.am-popup-title');
+    if($title.length == 0) {
+        $title = $popup.find('.am-modal-hd > span');
+    }
     $title.text($title.attr('data-add-title'));
 
     // 填充数据
@@ -2817,6 +2871,7 @@ function DataPrintHandle (is_pdf = 0) {
  */
 function InputClearOutHandle (e) {
     var value = '';
+    var $obj = e;
     // input/textarea、排除非下拉搜索的input
     if ((e.is('input') || e.is('textarea')) && !e.parent().hasClass('chosen-search') && !e.parent().hasClass('search-field') && !e.parent().hasClass('am-selected-search')) {
         var status = e.attr('data-is-clearout');
@@ -2826,6 +2881,7 @@ function InputClearOutHandle (e) {
     }
     // 插件下拉选择组件
     if (e.parents('.chosen-container').length > 0 && !e.is('input')) {
+        $obj = e.parents('.chosen-container').prev();
         var status = e.parents('.chosen-container').prev().attr('data-is-clearout');
         if (status == undefined || parseInt(status) == 1) {
             value = e.parents('.chosen-container').prev().val();
@@ -2833,6 +2889,7 @@ function InputClearOutHandle (e) {
     }
     // 框架下拉选择组件
     if (e.parents('.am-selected').length > 0 && !e.is('input')) {
+        $obj = e.parents('.am-selected').prev();
         var status = e.parents('.am-selected').prev().attr('data-is-clearout');
         if (status == undefined || parseInt(status) == 1) {
             value = e.parents('.am-selected').prev().val();
@@ -2845,41 +2902,43 @@ function InputClearOutHandle (e) {
             (e.parents('.chosen-container').length > 0 && !e.is('input')) ||
             (e.parents('.am-selected').length > 0 && !e.is('input'))
         ) {
-            // 添加清除按钮
-            if (!e.next().is('a.input-clearout-submit')) {
-                e.after('<a href="javascript:;" class="input-clearout-submit"><i>&times;</i></a>');
-            }
-            // 清除按钮位置处理
-            var scroll_top = $(document).scrollTop();
-            var top = e.offset().top - scroll_top - 3;  // 解决清除按钮位置偏下的问题
-            var left = e.offset().left;
-            var width = e.innerWidth();
-            var height = e.innerHeight();
+            if($obj.attr('disabled') === undefined && $obj.attr('readonly') === undefined) {
+                // 添加清除按钮
+                if (!e.next().is('a.input-clearout-submit')) {
+                    e.after('<a href="javascript:;" class="input-clearout-submit"><i>&times;</i></a>');
+                }
+                // 清除按钮位置处理
+                var scroll_top = $(document).scrollTop();
+                var top = e.offset().top - scroll_top - 3;  // 解决清除按钮位置偏下的问题
+                var left = e.offset().left;
+                var width = e.innerWidth();
+                var height = e.innerHeight();
 
-            // 存在popup弹窗则减去弹窗的外边距
-            if (e.parents('.am-popup').length > 0) {
-                var offset = e.parents('.am-popup').offset();
-                top -= offset.top;
-                left -= offset.left;
-            }
-            // 存在modal弹窗则减去弹窗的外边距
-            if (e.parents('.am-modal').length > 0) {
-                var offset = e.parents('.am-modal .am-modal-dialog').offset();
-                top -= offset.top;
-                left -= offset.left;
-            }
-            // 存在tabs
-            if (e.parents('.am-tab-panel').length > 0) {
-                var offset = e.parents('.am-tab-panel').offset();
-                left -= offset.left;
-                top = (scroll_top > 0) ? (scroll_top + top) - offset.top : top - offset.top;
-            }
+                // 存在popup弹窗则减去弹窗的外边距
+                if (e.parents('.am-popup').length > 0) {
+                    var offset = e.parents('.am-popup').offset();
+                    top -= offset.top;
+                    left -= offset.left;
+                }
+                // 存在modal弹窗则减去弹窗的外边距
+                if (e.parents('.am-modal').length > 0) {
+                    var offset = e.parents('.am-modal .am-modal-dialog').offset();
+                    top -= offset.top;
+                    left -= offset.left;
+                }
+                // 存在tabs
+                if (e.parents('.am-tab-panel').length > 0) {
+                    var offset = e.parents('.am-tab-panel').offset();
+                    left -= offset.left;
+                    top = (scroll_top > 0) ? (scroll_top + top) - offset.top : top - offset.top;
+                }
 
-            // 设置位置
-            e.next().css({ 'left': (left + width - 23) + 'px', 'top': (top + 4) + 'px', 'padding': (((height - 14) / 2) - 0.1) + 'px 5px' });
-            e.addClass('input-clearout-element');
+                // 设置位置
+                e.next().css({ 'left': (left + width - 23) + 'px', 'top': (top + 4) + 'px', 'padding': (((height - 14) / 2) - 0.1) + 'px 5px' });
+                e.addClass('input-clearout-element');
 
-            return false;
+                return false;
+            }
         }
     } else {
         // 无数据、存在清除按钮则移除
@@ -3138,7 +3197,7 @@ function CommonGoodsChoiceSpecType () {
  */
 function ViewQrCodeInit () {
     $('.view-qrcode-init').each(function () {
-        var text = $(this).text();
+        var text = $(this).attr('data-value') || $(this).text();
         if (text !== '') {
             $(this).empty().qrcode({
                 text: text,
@@ -3160,37 +3219,21 @@ function ViewQrCodeInit () {
 function ViewDocumentTitleInit () {
     $('*').each(function (k, v) {
         if ($(this).prop('tagName') != 'IMG') {
-            var title = $(this).attr('title') || null;
-            if (title !== null) {
-                $(this).popover({
-                    content: title,
-                    trigger: 'hover focus',
-                    theme: 'sm'
-                });
-                $(this).removeAttr('title');
+            if($(this).attr('data-am-popover') === undefined) {
+                var title = $(this).attr('title') || null;
+                if (title !== null) {
+                    $(this).popover({
+                        content: title,
+                        trigger: 'hover focus',
+                        theme: 'sm'
+                    });
+                    $(this).removeAttr('title');
+                }
+            } else {
+                $(this).popover();
             }
         }
     });
-}
-
-/**
- * 弹窗放大缩小处理
- * @author  Devil
- * @blog    http://gong.gg/
- * @version 1.0.0
- * @date    2023-02-14
- * @desc    description
- * @param   {[object]}        e [弹窗头对象]
- */
-function PopupWindowSizeHandle (e) {
-    var $parent = e.parents('.am-popup');
-    if ($parent.hasClass('am-popup-full')) {
-        $parent.removeClass('am-popup-full').css({ left: $parent.attr('data-original-left') || '', top: $parent.attr('data-original-top') || '' });
-    } else {
-        $parent.attr('data-original-left', $parent.css('left'));
-        $parent.attr('data-original-top', $parent.css('top'));
-        $parent.addClass('am-popup-full').css({ left: 0, top: 0 });
-    }
 }
 
 /**
@@ -3221,6 +3264,32 @@ function CustomUrlOpenHandle (value) {
             window.open(value, '_blank');
         }
     }
+}
+
+/**
+ * 附件字节大小转换为单位
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-07-21
+ * @desc    description
+ * @param   {int}        size [文件大小]
+ */
+function AnnexSizeToUnit(size = 0) {
+    var unit = 'KB';
+    size = parseInt(size || 0);
+    var kb = size / 1024;
+    if (kb < 1024) {
+        unit = 'KB';
+        size = Math.round(kb * 100) / 100;
+    } else if (kb < 1024 * 1024) {
+        unit = 'MB';
+        size = Math.round((size / (1024 * 1024)) * 100) / 100;
+    } else if (kb < 1024 * 1024 * 1024) {
+        unit = 'GB';
+        size = Math.round((size / (1024 * 1024 * 1024)) * 100) / 100;
+    }
+    return size + unit
 }
 
 /**
@@ -3567,11 +3636,11 @@ function Card (id, url, is_delete_all = 0) {
  */
 function CardFormSaveBackHandle (e) {
     $.AMUI.progress.done();
-    var $button = $('form.form-validation').find('button[type="submit"]');
+    var popup_tag = $('#card').attr('data-popup-tag');
+    var $popup = $(popup_tag);
+    var $button = $popup.find('button[type="submit"]');
     if (e.code == 0) {
         Prompt(e.msg, 'success');
-        var popup_tag = $('#card').attr('data-popup-tag');
-        var $popup = $(popup_tag);
         // 是否有自定义配置
         var modal_config = JsonStringToJsonObject($('#card').attr('data-modal-config') || {});
         modal_config['target'] = popup_tag;
@@ -3773,8 +3842,7 @@ function AnnexView(type, value, obj) {
         if(typeof (obj) == 'object') {
             // 是否开启下载
             if(parseInt(obj.attr('data-is-download') || 0) == 1) {
-                var name = window['lang_operate_download_name'] || '下载';
-                html += '<button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-animation-slide-bottom btn-loading-example common-annex-download-event" data-value="'+value+'" data-name="'+(obj.attr('data-download-name') || '')+'" data-am-loading="{spinner: \'circle-o-notch\', loadingText:\''+name+'\'}" style="position: absolute;left: calc(50% - 2.5rem);bottom: 2rem;"><i class="am-icon-download"></i> <span>'+name+'</span></button>';
+                html += '<button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-animation-slide-bottom btn-loading-example common-annex-download-event" data-value="'+value+'" data-name="'+(obj.attr('data-download-name') || '')+'" data-am-loading="{spinner: \'circle-o-notch\', loadingText:\'\'}" style="position: absolute;left: calc(50% - 2rem);bottom: 1rem;height: 2.2rem;line-height: 2.2rem;"><i class="iconfont icon-download-btn"></i></button>';
             }
         }
         if (html != null) {
@@ -3789,6 +3857,37 @@ function AnnexView(type, value, obj) {
         }
     }
 }
+
+/**
+ * highlight代码高亮初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-07-26
+ * @desc    description
+ */
+function HighlightInit() {
+    if($('.richtext pre').length > 0) {
+        $('.richtext pre').each(function() {
+            hljs.highlightBlock(this);
+        });
+    }
+}
+
+/**
+ * Dropdown下拉组件初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-07-26
+ * @desc    description
+ */
+function DropdownInit() {
+    if($('.am-dropdown').length > 0) {
+        $('.am-dropdown').dropdown();
+    }
+}
+
 
 
 
@@ -3813,6 +3912,13 @@ $(function () {
 
     // 标签title属性初始化
     ViewDocumentTitleInit();
+
+    // highlight代码高亮初始化
+    HighlightInit();
+
+    // 隐藏播放器下载按钮和右击事件
+    $('video').attr('controlslist', 'nodownload');
+    $('video').bind('contextmenu', function() {return false;});
 
     // 表格字段数据排序
     $('.form-sort-container .sort-icon').on('click', function () {
@@ -3951,37 +4057,41 @@ $(function () {
             data: data,
             success: function (result) {
                 $.AMUI.progress.done();
-                // 截取数据并渲染
-                var arr = [
-                    {
-                        start: '<!-- form_table_data_content_start -->',
-                        end: '<!-- form_table_data_content_end -->',
-                        element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
-                    },
-                    {
-                        start: '<!-- form_table_no_data_start -->',
-                        end: '<!-- form_table_no_data_end -->',
-                        element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
-                    },
-                    {
-                        start: '<!-- form_table_data_page_start -->',
-                        end: '<!-- form_table_data_page_end -->',
-                        element: '.form-table-content > .form-table-operate-page'
+                if(typeof(result) == 'object' && result.code != 0) {
+                    Prompt(result.msg);
+                } else {
+                    // 截取数据并渲染
+                    var arr = [
+                        {
+                            start: '<!-- form_table_data_content_start -->',
+                            end: '<!-- form_table_data_content_end -->',
+                            element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
+                        },
+                        {
+                            start: '<!-- form_table_no_data_start -->',
+                            end: '<!-- form_table_no_data_end -->',
+                            element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
+                        },
+                        {
+                            start: '<!-- form_table_data_page_start -->',
+                            end: '<!-- form_table_data_page_end -->',
+                            element: '.form-table-content > .form-table-operate-page'
+                        }
+                    ];
+                    arr.forEach((v) => {
+                        var start_number = result.indexOf(v.start);
+                        var end_number = result.indexOf(v.end);
+                        $(v.element).html(result.substring(start_number, end_number + v.end.length));
+                    });
+
+                    // 表格数据模块初始化
+                    FormTableContentModuleInit();
+
+                    // 回调方法
+                    var back_function = 'FormTableDataListPageChangeBackEvent';
+                    if (IsExitsFunction(back_function)) {
+                        window[back_function](result);
                     }
-                ];
-                arr.forEach((v) => {
-                    var start_number = result.indexOf(v.start);
-                    var end_number = result.indexOf(v.end);
-                    $(v.element).html(result.substring(start_number, end_number + v.end.length));
-                });
-
-                // 表格数据模块初始化
-                FormTableContentModuleInit();
-
-                // 回调方法
-                var back_function = 'FormTableDataListPageChangeBackEvent';
-                if (IsExitsFunction(back_function)) {
-                    window[back_function](result);
                 }
             },
             error: function (xhr, type) {
@@ -4330,14 +4440,30 @@ $(function () {
      */
     $(document).on('click', '.submit-edit', function () {
         // 窗口标签
-        var tag = $(this).attr('data-tag') || 'data-save-win';
+        var tag = $(this).attr('data-tag') || null;
+        if(tag == null) {
+            var modal  = $(this).attr('data-am-modal') || null;
+            if(modal != null) {
+                modal = JsonStringToJsonObject(modal);
+                if((modal.target || null) != null) {
+                    tag = modal.target;
+                }
+            }
+        }
+        if(tag == null) {
+            tag = '#data-save-win';
+        } else {
+            if(tag.indexOf('#') == -1) {
+                tag = '#'+tag;
+            }
+        }
 
         // 更改窗口名称
-        if ($('#' + tag).length > 0) {
+        if ($(tag).length > 0) {
             // 是否modal窗口
-            var $title = $('#' + tag).find('>.am-modal-dialog>.am-modal-hd>span');
+            var $title = $(tag).find('>.am-modal-dialog>.am-modal-hd>span');
             if ($title.length == 0) {
-                $title = $('#' + tag).find('.am-popup-title');
+                $title = $(tag).find('.am-popup-title');
             }
             $title.text($title.attr('data-edit-title'));
         }
@@ -4346,10 +4472,10 @@ $(function () {
         var data = JSON.parse(decodeURIComponent($(this).attr('data-json')));
 
         // 初始数据
-        FormDataFill(data, '#' + tag);
+        FormDataFill(data, tag);
 
         // 额外数据处理
-        FunSaveWinAdditional(data, 'edit', '#' + tag);
+        FunSaveWinAdditional(data, 'edit', tag);
     });
 
     /**
@@ -4608,11 +4734,40 @@ $(function () {
             AjaxRequest($(this));
         }
     });
+
+    /**
+     * url事件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-10-09
+     * @desc    description
+     * @param    {[string]    [data-url]  [请求地址]}
+     * @param    {[string]    [data-title][提示标题]}
+     * @param    {[string]    [data-msg]  [提示信息，不配置则不提示]}
+     */
+    $(document).on('click', '.submit-url', function () {
+        var url = $(this).attr('data-url') || $(this).attr('href') || $(this).attr('src') || null;
+        if(url != null) {
+            var msg = $(this).attr('data-msg') || null;
+            if(msg == null) {
+                window.location.href = url;
+            } else {
+                AMUI.dialog.confirm({
+                    title: $(this).attr('data-title') || window['lang_reminder_title'] || '温馨提示',
+                    content: msg,
+                    onConfirm: function (result) {
+                        window.location.href = url;
+                    }
+                });
+            }
+        }
+    });
+
     // 地址初始化
     RegionLinkageInit();
-
     // 地址编号搜索
-    $('.region-linkage-code button').on('click', function () {
+    $(document).on('click', '.region-linkage-code button', function () {
         var code = $(this).parents('.region-linkage-code').find('input').val() || null;
         if (code == null) {
             Prompt(window['lang_input_empty_tips'] || '请输入数据');
@@ -4661,7 +4816,7 @@ $(function () {
             }
         });
     });
-    $('.region-linkage-code input').on('keydown', function () {
+    $(document).on('keydown', '.region-linkage-code input', function () {
         if (event.keyCode == 13) {
             $(this).parents('.region-linkage-code').find('button').trigger('click');
             return false;
@@ -4669,7 +4824,7 @@ $(function () {
     });
 
     // 根据字符串地址获取坐标位置
-    $('#map-location-submit').on('click', function () {
+    $(document).on('click', '#map-location-submit', function () {
         // 地址信息
         var region = $('.region-linkage  input[name="province_city_county"]').val();
         var detail = $('#form-address').val();
@@ -4745,20 +4900,7 @@ $(function () {
         // 显示选择的图片名称
         var fileNames = '';
         $.each(this.files, function () {
-            var unit = 'KB';
-            var size = 0;
-            var kb = this.size / 1024;
-            if (kb < 1024) {
-                unit = 'KB';
-                size = Math.round(kb * 100) / 100;
-            } else if (kb < 1024 * 1024) {
-                unit = 'MB';
-                size = Math.round((this.size / (1024 * 1024)) * 100) / 100;
-            } else if (kb < 1024 * 1024 * 1024) {
-                unit = 'GB';
-                size = Math.round((this.size / (1024 * 1024 * 1024)) * 100) / 100;
-            }
-            fileNames += '<span class="am-font-weight">' + this.name + '</span> <span class="am-color-999">(' + size + unit + ')</span>';
+            fileNames += '<span class="am-font-weight">' + this.name + '</span> <span class="am-color-999">(' + AnnexSizeToUnit(this.size) + ')</span>';
         });
         $($(this).attr('data-tips-tag')).html(fileNames);
 
@@ -4962,10 +5104,18 @@ $(function () {
         AnnexView(type, value, $(this));
     });
 
+    // 富文本图片预览
+    $(document).on('click', '.richtext img', function() {
+        // 存在跳转则不执行预览
+        if($(this).parent().prop('tagName') != 'A') {
+            AnnexView('images', $(this).attr('src'), $(this));
+        }
+    });
+
     // 文件下载
     $(document).on('click', '.common-annex-download-event', function() {
         // 文件信息
-        var value = $(this).attr('data-value') || null;
+        var value = $(this).attr('data-value') || $(this).attr('src') || null;
         if(value == null) {
             Prompt(window['lang_data_error'] || '数据有误');
             return false;
@@ -5123,15 +5273,6 @@ $(function () {
         // 调用弹窗方法
         var url = UrlFieldReplace('lat', lat, UrlFieldReplace('lng', lng, __map_view_url__));
         ModalLoad(url, title, class_tag, full, full_max, full_max_size);
-    });
-
-    // 弹窗全屏
-    $(document).on('click', '.am-popup-hd .am-full', function () {
-        PopupWindowSizeHandle($(this));
-    });
-    // 弹窗双击全屏及缩小
-    $(document).on('dblclick', '.am-popup-hd', function () {
-        PopupWindowSizeHandle($(this));
     });
 
     // 弹窗拖拽
@@ -5446,7 +5587,7 @@ $(function () {
         var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
             {
                 text: function (e) {
-                    return $(e).data('value') || $(e).text().trim();
+                    return $(e).attr('data-value') || $(e).text().trim();
                 }
             });
         text_copy_clipboard.on('success', function (e) {

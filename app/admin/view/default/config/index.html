@@ -242,6 +242,17 @@
                             </div>
                         {{/if}}
                     </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_token_created_rules.name}}<span class="am-form-group-label-tips">{{$data.common_token_created_rules.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_token_created_rules_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_token_created_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_token_created_rules']['value']) and in_array($v['value'], $data['common_token_created_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_token_created_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="am-form-popup-submit">

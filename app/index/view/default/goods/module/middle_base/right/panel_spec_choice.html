@@ -13,7 +13,7 @@
             <div class="theme-popover">
                 <div class="theme-span"></div>
                 <div class="theme-poptit">
-                    <a href="javascript:;" class="close am-icon-close am-icon-sm"></a>
+                    <a href="javascript:;" class="close iconfont icon-close-o"></a>
                 </div>
                 <div class="theme-popbod dform am-background-white">
                     <form class="theme-signin am-padding-horizontal-sm" action="javascript:;">
@@ -72,14 +72,14 @@
                             <!-- 库存数量 -->
                             <div class="theme-options am-flex am-flex-row am-flex-items-center">
                                 <div class="cart-title number">{{:MyLang('number_title')}}</div>
-                                <dd>
+                                <dd class="am-flex am-flex-justify-left am-flex-items-center">
                                     <div class="am-input-group am-input-group-sm operate-number-container" data-original-max="{{if empty($module_data['goods']['buy_max_number'])}}{{$module_data.goods.inventory}}{{else /}}{{$module_data.goods.buy_max_number}}{{/if}}" data-original-inventory="{{$module_data.goods.inventory}}" data-min-limit="{{$module_data.goods.buy_min_number}}" data-max-limit="{{$module_data.goods.buy_max_number}}" data-unit="{{$module_data.goods.inventory_unit}}">
                                         <button type="button" class="am-input-group-label am-radius operate-number-dec">-</button>
                                         <input type="number" class="am-form-field operate-number-input" value="{{$module_data.goods.buy_min_number}}" min="{{$module_data.goods.buy_min_number}}" max="{{if empty($module_data['goods']['buy_max_number'])}}{{$module_data.goods.inventory}}{{else /}}{{$module_data.goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$module_data.goods.buy_min_number}}" data-original-buy-max-number="{{$module_data.goods.buy_max_number}}" data-is-clearout="0" />
                                         <button type="button" class="am-input-group-label am-radius operate-number-inc">+</button>
                                     </div>
                                     {{if isset($module_data['goods']['show_inventory_status']) and $module_data['goods']['show_inventory_status'] eq 1}}
-                                        <span class="tb-hidden stock-tips"><span>({{:MyLang('inventory_title')}}</span><span class="stock" >{{$module_data.goods.inventory}}</span><span>{{$module_data.goods.inventory_unit}})</span></span>
+                                        <span class="stock-tips"><span>({{:MyLang('inventory_title')}}</span><span class="stock" >{{$module_data.goods.inventory}}</span><span>{{$module_data.goods.inventory_unit}})</span></span>
                                     {{/if}}
                                 </dd>
                             </div>

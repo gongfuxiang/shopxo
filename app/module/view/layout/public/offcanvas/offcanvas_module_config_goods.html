@@ -1,0 +1,145 @@
+<!-- 侧边栏 - 模块配置 - 商品 -->
+<div id="offcanvas-module-config-goods" class="am-offcanvas module-offcanvas-container" data-data-url="{{:MyUrl('index/layout/goodsdata')}}">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-goods" request-type="sync" request-value="FormBackModuleConfigGoods">
+                <input type="hidden" name="goods_data_type" value="goods" />
+                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-radius am-margin-0" data-am-tabs="{noSwipe: 1}">
+                    <ul class="am-tabs-nav am-cf">
+                        <li class="am-active"><a href="[data-tab-panel-0]" data-value="goods">{{:MyLang('layout.view_offcanvas_module_goods_tabs_goods_title')}}</a></li>
+                        <li><a href="[data-tab-panel-1]" data-value="category">{{:MyLang('layout.view_offcanvas_module_goods_tabs_category_title')}}</a></li>
+                    </ul>
+                    <div class="am-tabs-bd am-padding-sm">
+                        <div data-tab-panel-0 class="am-tab-panel am-padding-0 am-active">
+                            <input type="hidden" name="goods_ids" value="" />
+                            <div class="form-view-choice-container" data-value="goods">
+                                <div class="form-view-choice-container-content">
+                                    <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_offcanvas_module_goods_not_choice')}}</a>
+                                    <span class="am-form-group-label-tips-must">*</span>
+                                    <span class="text-tips am-margin-left-sm">{{:MyLang('layout.view_offcanvas_module_goods_choice_tips')}}</span>
+                                </div>
+                            </div>
+                            <ul class="config-goods-list am-cf am-margin-top-sm"></ul>
+                        </div>
+                        <div data-tab-panel-1 class="am-tab-panel am-padding-0">
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>{{:MyLang('form_goods_category_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <div class="form-view-choice-container am-margin-top-xs offcanvas-config-goods-category-container" data-value="category">
+                                    <input type="hidden" name="goods_category_value" value="" />
+                                    <div class="form-view-choice-container-content">
+                                        <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_offcanvas_module_goods_category_not_choice')}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>{{:MyLang('layout.view_offcanvas_module_goods_sort_type')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_goods_sort_type_tips')}}</span></label>
+                                <select name="goods_order_by_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('layout.view_offcanvas_module_goods_sort_type_message')}}">
+                                    {{foreach $common_goods_order_by_type_list as $k=>$v}}
+                                        <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                                <div class="am-alert am-alert-warning" data-am-alert>
+                                    <button type="button" class="am-close">&times;</button>
+                                    <p>{{:MyLang('layout.view_offcanvas_module_goods_sort_type_alert')}}</p>
+                                </div>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>{{:MyLang('layout.view_offcanvas_module_goods_sort_rule')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_goods_sort_rule_tips')}}</span></label>
+                                <select name="goods_order_by_rule" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('layout.view_offcanvas_module_goods_sort_rule_message')}}">
+                                    {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                        <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>{{:MyLang('layout.view_offcanvas_module_goods_limit_number')}}</label>
+                                <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_offcanvas_module_goods_limit_number')}}" name="goods_order_limit_number" min="0" max="50" data-validation-message="{{:MyLang('layout.view_offcanvas_module_goods_limit_number_message')}}" value="10" class="am-radius am-form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 内容样式 -->
+                <div class="am-panel am-panel-default am-margin-top-lg">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_content')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 展示模式 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/content/goods_show_style')}}
+
+                        <!-- 行展示数量 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/content/view_list_number')}}
+
+                        <!-- 背景色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/background_color', [
+                            'key'   => '_module',
+                        ])}}
+
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+                            'key'   => '_module',
+                        ])}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4', [
+                            'key'   => '_module',
+                        ])}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_color_4', [
+                            'key'   => '_module',
+                        ])}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4', [
+                            'key'   => '_module',
+                        ])}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4', [
+                            'key'   => '_module',
+                        ])}}
+                    </div>
+                </div>
+
+                <!-- 商品样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_module_goods_style')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius')}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style')}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_color')}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin')}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding')}}
+                    </div>
+                </div>
+
+                <!-- 图片样式 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_images')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 媒体样式 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/content/media_fixed', [
+                            'key'   => '_media_fixed',
+                        ])}}
+
+                        <!-- 鼠标悬停图片放大 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/mouse_hover')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

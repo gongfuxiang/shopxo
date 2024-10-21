@@ -496,6 +496,7 @@
 }
 .layout-forth-selection-container .goods-list-container {
     height: calc(100% - 10rem);
+    max-height: 100%;
     border: 0.1rem solid #eee;
 }
 .layout-forth-selection-container .goods-list-container .am-gallery-bordered .am-gallery-title {
@@ -525,6 +526,7 @@
     width: calc(33% - 1.5rem);
     margin-bottom: 0;
     height: 38rem;
+    max-height: 100%;
     background: #fff;
     border: 0.1rem solid #dedede;
 }

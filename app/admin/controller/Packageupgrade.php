@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\PluginsUpgradeService;
+use app\service\PackageUpgradeService;
 
 /**
  * 软件包更新
@@ -33,7 +33,7 @@ class Packageupgrade extends Base
      */
     public function Upgrade()
     {
-        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_request));
+        return ApiService::ApiDataReturn(PackageUpgradeService::Run($this->data_request));
     }
 }
 ?>

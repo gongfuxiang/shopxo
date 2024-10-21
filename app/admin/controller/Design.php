@@ -17,7 +17,7 @@ use app\service\BrandService;
 use app\service\StoreService;
 use app\service\GoodsService;
 use app\service\GoodsCategoryService;
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 
 /**
  * 页面设计管理
@@ -41,6 +41,19 @@ class Design extends Base
     {
         // 应用商店
         MyViewAssign('store_design_url', StoreService::StoreDesignUrl());
+        return MyView();
+    }
+
+    /**
+     * 详情
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     */
+    public function Detail()
+    {
         return MyView();
     }
 
@@ -69,7 +82,7 @@ class Design extends Base
         }
 
         // 配置处理
-        $layout_data = BaseLayout::ConfigAdminHandle($data['config']);
+        $layout_data = LayoutModule::ConfigAdminHandle($data['config']);
         unset($data['config']);
 
         // 商品分类
@@ -81,7 +94,7 @@ class Design extends Base
             'layout_data'                               => $layout_data,
             'data'                                      => $data,
             // 页面列表
-            'pages_list'                                => BaseLayout::PagesList(),
+            'pages_list'                                => LayoutModule::PagesList(),
             // 商品分类
             'goods_category_list'                       => $goods_category,
             // 商品搜索分类（分类）
@@ -90,11 +103,11 @@ class Design extends Base
             // 品牌
             'brand_list'                                => BrandService::CategoryBrand(),
             // 静态数据
-            'border_style_type_list'                    => BaseLayout::ConstData('border_style_type_list'),
-            'goods_view_list_show_style'                => BaseLayout::ConstData('goods_view_list_show_style'),
-            'many_images_view_list_show_style'          => BaseLayout::ConstData('many_images_view_list_show_style'),
-            'images_text_view_list_show_style'          => BaseLayout::ConstData('images_text_view_list_show_style'),
-            'images_magic_cube_view_list_show_style'    => BaseLayout::ConstData('images_magic_cube_view_list_show_style'),
+            'border_style_type_list'                    => LayoutModule::ConstData('border_style_type_list'),
+            'goods_view_list_show_style'                => LayoutModule::ConstData('goods_view_list_show_style'),
+            'many_images_view_list_show_style'          => LayoutModule::ConstData('many_images_view_list_show_style'),
+            'images_text_view_list_show_style'          => LayoutModule::ConstData('images_text_view_list_show_style'),
+            'images_magic_cube_view_list_show_style'    => LayoutModule::ConstData('images_magic_cube_view_list_show_style'),
             // 首页商品排序规则
             'common_goods_order_by_type_list'           => MyConst('common_goods_order_by_type_list'),
             'common_data_order_by_rule_list'           => MyConst('common_data_order_by_rule_list'),
@@ -188,6 +201,24 @@ class Design extends Base
     public function Upload()
     {
         return ApiService::ApiDataReturn(DesignService::DesignUpload($this->data_request));
+    }
+
+    /**
+     * 模板市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     */
+    public function Market()
+    {
+        $ret = DesignService::DesignMarket($this->data_request);
+        if($ret['code'] == 0 && isset($ret['data']['data_list']))
+        {
+            $ret['data']['data_list'] = MyView('public/market/list', ['data_list'=>$ret['data']['data_list']]);
+        }
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

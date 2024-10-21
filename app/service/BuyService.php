@@ -1620,7 +1620,7 @@ class BuyService
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存
-                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id'], 'is_rollback'=>0])->find();
+                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
                 if(!empty($temp))
                 {
                     // 数量
@@ -1653,7 +1653,7 @@ class BuyService
                     }
 
                     // 仓库库存回滚
-                    $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryRollback($params['order_id'], $v['goods_id'], $spec, $v['buy_number']);
+                    $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryRollback($params['order_id'], $v['goods_id'], $spec, $buy_number);
                     if($we_ret['code'] != 0)
                     {
                         return $we_ret;

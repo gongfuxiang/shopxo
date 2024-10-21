@@ -1,0 +1,197 @@
+<!-- 布局/模块导航-->
+<div class="am-tabs renovation-tabs" data-am-tabs="{noSwipe: 1}" data-am-sticky>
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+        {{if is_array(MyLang('layout.view_base_tabs_list'))}}
+            {{foreach :MyLang('layout.view_base_tabs_list') as $k=>$v}}
+                <li {{if $k eq 'structure'}}class="am-active"{{/if}} data-value="{{$k}}">
+                    <a href="#renovation-tabs-{{$k}}">{{$v}}</a>
+                </li>
+            {{/foreach}}
+        {{/if}}
+    </ul>
+    <div class="am-tabs-bd am-padding-horizontal-sm am-padding-top-sm">
+        <!-- 布局 -->
+        <div class="renovation-panel am-active" id="renovation-tabs-structure">
+            <div class="structure-drag scrollspy-nav">
+                {{if is_array(MyLang('layout.view_base_structure_list'))}}
+                    {{foreach :MyLang('layout.view_base_structure_list') as $k=>$v}}
+                        <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="{{$k}}">{{$v}}</button>
+                    {{/foreach}}
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- 模块 -->
+        <div class="renovation-panel am-hide" id="renovation-tabs-module">
+            <div class="renovation-drag scrollspy-nav">
+                {{if is_array(MyLang('layout.view_base_module_list'))}}
+                    {{foreach :MyLang('layout.view_base_module_list') as $k=>$v}}
+                        <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="{{$k}}">{{$v}}</button>
+                    {{/foreach}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 拖拽容器-->
+<div class="layout-container am-padding-sm am-margin-top-sm" 
+    data-switch-on-text="{{:MyLang('open_title')}}" 
+    data-switch-off-text="{{:MyLang('close_title')}}" 
+    data-edit-name="{{:MyLang('modify_title')}}" 
+    data-layout-set-title="{{:MyLang('layout.view_base_layout_set_title')}}" 
+    data-layout-del-title="{{:MyLang('layout.view_base_layout_del_title')}}" 
+    data-layout-content-set-tips="{{:MyLang('layout.view_base_layout_content_set_tips')}}" 
+    data-layout-content-tips="{{:MyLang('layout.view_module_container_tips')}}" 
+    data-module-drag-title="{{:MyLang('layout.view_base_module_drag_title')}}" 
+    data-module-set-title="{{:MyLang('layout.view_base_module_set_title')}}" 
+    data-module-del-title="{{:MyLang('layout.view_base_module_del_title')}}" 
+    data-module-not-exist-tips="{{:MyLang('layout.view_base_module_not_exist_tips')}}" 
+    data-module-assembly-not-exist-tips="{{:MyLang('layout.view_base_module_assembly_not_exist_tips')}}" 
+    data-type-event-not-exist-tips="{{:MyLang('layout.view_base_type_event_not_exist_tips')}}" 
+    data-params-tips="{{:MyLang('params_error_tips')}}" 
+    data-module-tab-tips="{{:MyLang('layout.view_base_module_tab_tips')}}" 
+    data-module-attr-tips="{{:MyLang('layout.view_base_module_attr_tips')}}" 
+    data-config-first-tips="{{:MyLang('layout.view_base_config_first_tips')}}" 
+    data-url-not-set-tips="{{:MyLang('layout.view_base_url_not_set_tips')}}" 
+    data-goods-category-name="{{:MyLang('goods_category_title')}}" 
+    data-brand-name="{{:MyLang('layout.view_popup_goods_search_tabs_brand')}}" 
+    data-keywords-name="{{:MyLang('layout.view_module_title_keywords')}}" 
+    data-config-images-text-tips="{{:MyLang('layout.view_base_config_images_text_tips')}}" 
+    data-upload-images-or-title-tips="{{:MyLang('layout.view_base_upload_images_or_title_tips')}}" 
+    data-upload-images-name="{{:MyLang('form_upload_images_title')}}" 
+    data-upload-images-tips="{{:MyLang('form_upload_images_message')}}" 
+    data-config-images-tips="{{:MyLang('layout.view_base_config_images_tips')}}" 
+    data-upload-video-tips="{{:MyLang('form_upload_video_title')}}" 
+    data-choice-goods-tips="{{:MyLang('layout.view_offcanvas_module_goods_not_choice')}}" 
+    data-goods-data-empty-tips="{{:MyLang('goods_data_empty_tips')}}" 
+    data-choice-goods-category-tips="{{:MyLang('form_goods_category_message')}}" 
+    data-data-type-tips="{{:MyLang('data_type_error_tips')}}" 
+    data-main-title-tips="{{:MyLang('layout.view_offcanvas_module_title_main_title_message')}}" 
+    data-border-style-tips="{{:MyLang('layout.view_media_fixed_border_style_message')}}" 
+    data-border-style-max-tips="{{:MyLang('layout.view_media_fixed_border_width_message')}}" 
+    data-height-max-tips="{{:MyLang('layout.view_media_fixed_height_message')}}" 
+    data-keywords-tips="{{:MyLang('layout.view_module_title_keywords_message')}}" 
+    data-before-choice-goods-tips="{{:MyLang('layout.view_offcanvas_module_goods_not_choice')}}" 
+    data-before-choice-goods-category-tips="{{:MyLang('layout.view_offcanvas_module_goods_category_not_choice')}}" 
+    data-before-choice-brand-tips="{{:MyLang('layout.view_popup_goods_search_tabs_brand_message')}}" 
+    data-before-input-keywords-tips="{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}" 
+    data-before-choice-page-tips="{{:MyLang('layout.view_base_before_choice_page_tips')}}" 
+    data-before-choice-url-position-tips="{{:MyLang('layout.view_base_before_choice_url_position_tips')}}" 
+    data-before-config-goods-search-tips="{{:MyLang('layout.view_base_before_config_goods_search_tips')}}" 
+    data-choice-url-tips="{{:MyLang('layout.view_module_title_url_message')}}" 
+    data-layout-reminder-title="{{:MyLang('reminder_title')}}" 
+    data-layout-reminder-msg="{{:MyLang('remove_confirm_tips')}}" 
+    data-layout-container-tips="{{:MyLang('layout.view_base_layout_container_tips')}}" 
+    data-search-goods-tips="{{:MyLang('layout.view_popup_goods_search_choice_init_tips')}}" 
+    data-custom-url-name="{{:MyLang('layout.view_pages_tabs_custom_title')}}" 
+    data-custom-url-tips="{{:MyLang('layout.view_base_custom_url_tips')}}" 
+    data-data-show-modal-tips="{{:MyLang('layout.view_base_show_modal_not_choice_tips')}}" 
+    data-data-show-modal-error-tips="{{:MyLang('layout.view_base_show_modal_error_tips')}}" 
+    data-images-text-font-size="{{:MyLang('layout.view_offcanvas_module_images_text_font_size')}}" 
+    data-images-text-title="{{:MyLang('layout.view_offcanvas_module_images_text_title')}}" 
+    data-images-text-margin-top="{{:MyLang('layout.view_offcanvas_module_images_text_margin_top')}}" 
+    data-images-text-margin-right="{{:MyLang('layout.view_offcanvas_module_images_text_margin_right')}}" 
+    data-images-text-margin-bottom="{{:MyLang('layout.view_offcanvas_module_images_text_margin_bottom')}}" 
+    data-images-text-margin-left="{{:MyLang('layout.view_offcanvas_module_images_text_margin_left')}}" 
+    data-images-text-margin-title-message="{{:MyLang('layout.view_offcanvas_module_images_text_margin_title_message')}}" 
+    data-images-text-position-left="{{:MyLang('layout.view_offcanvas_module_images_text_position_left')}}" 
+    data-images-text-position-center="{{:MyLang('layout.view_offcanvas_module_images_text_position_center')}}" 
+    data-images-text-position-right="{{:MyLang('layout.view_offcanvas_module_images_text_position_right')}}" 
+    data-images-text-desc="{{:MyLang('layout.view_offcanvas_module_images_text_desc')}}" 
+    data-images-text-margin-desc-message="{{:MyLang('layout.view_offcanvas_module_images_text_margin_desc_message')}}" 
+    data-images-text-font-size-title-message="{{:MyLang('layout.view_offcanvas_module_images_text_title_font_size_message')}}" 
+    data-images-text-font-size-desc-message="{{:MyLang('layout.view_offcanvas_module_images_text_desc_font_size_message')}}" 
+    data-base-module-not-config-tips="{{:MyLang('base_module_not_config_tips')}}" 
+>
+    {{if !empty($layout_data) and is_array($layout_data)}}
+        {{foreach $layout_data as $k=>$v}}
+            {{if !empty($v['value']) and !empty($v['children']) and is_array($v['children']) and !empty($v['value_arr']) and count($v['children']) eq count($v['value_arr'])}}
+                <div class="layout-view {{if $v['status'] eq 0}}layout-view-hidden{{/if}}" data-value="{{$v.value}}">
+                    <i class="layout-view-dragenter-icon am-icon-sort-asc am-icon-lg am-hide"></i>
+                    <div class="layout-content-submit drag-submit">
+                        <input type="checkbox" data-am-switch class="switch-checkbox am-switch-mini" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="{{:MyLang('close_title')}}" data-on-text="{{:MyLang('open_title')}}" {{if isset($v['status']) and $v['status'] eq 1}}checked="true"{{/if}} />
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> {{:MyLang('layout.view_base_layout_set_title')}}</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs iconfont icon-delete layout-submit layout-submit-del"> {{:MyLang('layout.view_base_layout_del_title')}}</button>
+                    </div>
+                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
+                        {{foreach $v.children as $ks=>$vs}}
+                            {{if count($v['value_arr']) eq 1}}
+                                {{:ModuleInclude('../../../module/view/layout/public/common/module_admin', [
+                                    'k'   => $k,
+                                    'v'   => $v,
+                                    'ks'  => $ks,
+                                    'vs'  => $vs,
+                                ])}}
+                            {{else /}}
+                                <div class="am-u-md-{{$v['value_arr'][$ks]}}">
+                                    {{:ModuleInclude('../../../module/view/layout/public/common/module_admin', [
+                                        'k'   => $k,
+                                        'v'   => $v,
+                                        'ks'  => $ks,
+                                        'vs'  => $vs,
+                                    ])}}
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+        {{/foreach}}
+    {{else /}}
+        <div class="layout-container-tips">{{:MyLang('layout.view_base_layout_container_tips')}}</div>
+    {{/if}}
+</div>
+<!-- 侧边栏 - 布局 - 容器设置 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_layout_config')}}
+
+<!-- 侧边栏 - 模块配置 - 单图 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_images')}}
+
+<!-- 侧边栏 - 模块配置 - 多图 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_many_images')}}
+
+<!-- 侧边栏 - 模块配置 - 图文 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_images_text')}}
+
+<!-- 侧边栏 - 模块配置 - 图片魔方 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_images_magic_cube')}}
+
+<!-- 侧边栏 - 模块配置 - 视频 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_video')}}
+
+<!-- 侧边栏 - 模块配置 - 商品 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_goods')}}
+
+<!-- 侧边栏 - 模块配置 - 标题 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_title')}}
+
+<!-- 侧边栏 - 模块配置 - 自定义html -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_custom')}}
+
+<!-- 侧边栏 - 模块配置 - 辅助线 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_border')}}
+
+<!-- 侧边栏 - 模块配置 - 辅助空白 -->
+{{:ModuleInclude('../../../module/view/layout/public/offcanvas/offcanvas_module_config_height')}}
+
+<!-- 滚动设置 -->
+{{:ModuleInclude('../../../module/view/layout/public/modal/modal_module_rolling_config')}}
+
+<!-- 列表设置 -->
+{{:ModuleInclude('../../../module/view/layout/public/modal/modal_module_list_config')}}
+
+<!-- 关键字设置 -->
+{{:ModuleInclude('../../../module/view/layout/public/modal/modal_module_title_keywords')}}
+
+<!-- 页面选择 -->
+{{:ModuleInclude('../../../module/view/layout/public/modal/modal_module_pages_select')}}
+
+<!-- 商品选择 -->
+{{:ModuleInclude('../../../module/view/layout/public/popup/popup_module_goods_select')}}
+
+<!-- 商品搜索 -->
+{{:ModuleInclude('../../../module/view/layout/public/popup/popup_module_goods_search')}}
+
+<!-- 商品分类选择 -->
+{{:ModuleInclude('../../../module/view/layout/public/popup/popup_module_goods_category')}}

@@ -337,7 +337,7 @@
                                             </div>
                                             <div class="am-form-group content-app-right am-padding-bottom-0">
                                                 <label>{{:MyLang('common_service.goods.form_app_value_title')}}</label>
-                                                <textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="{{:MyLang('common_service.goods.form_app_value_title')}}" data-validation-message="{{:MyLang('common_service.goods.form_app_value_message')}}">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
+                                                <textarea rows="5" name="content_app_text_{{$v.id}}" class="am-radius" placeholder="{{:MyLang('common_service.goods.form_app_value_title')}}" data-validation-message="{{:MyLang('common_service.goods.form_app_value_message')}}">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
                                             </div>
                                         </div>
                                         <div class="am-flex am-flex-items-center am-gap-32 am-margin-top-sm">
@@ -365,7 +365,7 @@
                 <div id="goods-nav-web" class="item" data-key="web">
                     <div class="am-form-group">
                         <label>{{$goods_nav_list.web.name}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <textarea class="am-radius" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="{{:MyLang('common_service.goods.form_web_content_message')}}">{{if !empty($data['content_web'])}}{{$data.content_web}}{{/if}}</textarea>
+                        <textarea class="am-radius" name="content_web" id="editor-tag" data-validation-message="{{:MyLang('common_service.goods.form_web_content_message')}}">{{if !empty($data['content_web'])}}{{$data.content_web}}{{/if}}</textarea>
                     </div>
                 </div>
 

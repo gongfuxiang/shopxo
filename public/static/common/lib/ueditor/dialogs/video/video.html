@@ -5,6 +5,19 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script type="text/javascript" src="../internal.js"></script>
+
+    <!-- jquery -->
+    <script type="text/javascript" src="../../third-party/jquery-2.2.4.min.js"></script>
+
+    <!-- webuploader -->
+    <script src="../../third-party/webuploader/webuploader.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css">
+
+    <!-- amazeui,clipboard -->
+    <script type="text/javascript" src="../../../assets/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="../../../clipboard/clipboard.min.js"></script>
+
+    <!-- video dialog -->
     <link rel="stylesheet" type="text/css" href="video.css" />
 </head>
 <body>
@@ -12,16 +25,21 @@
     <div id="videoTab">
         <div id="tabHeads" class="tabhead">
             <span tabSrc="video" class="focus" data-content-id="video"><var id="lang_tab_insertV"></var></span>
+            <span tabSrc="scan" data-content-id="scan"><var id="lang_tab_scan"></var></span>
             <span tabSrc="upload" data-content-id="upload"><var id="lang_tab_uploadV"></var></span>
             <span tabSrc="online" data-content-id="online"><var id="lang_tab_onlineV"></var></span>
         </div>
         <div class="alignBar">
+            <div id="choice-category-container" class="none">
+                <select></select>
+            </div>
             <div id="search-container" class="none">
                 <input type="text" name="keywords" id="search-input" placeholder="" />
                 <button type="button" class="am-btn am-btn-default am-radius am-btn-xs" id="search-submit"><var id="lang_input_search"></var></button>
             </div>
         </div>
         <div id="tabBodys" class="tabbody">
+            <!-- 远程 -->
             <div id="video" class="panel focus">
                <table><tr><td><label for="videoUrl" class="url"><var id="lang_video_url"></var></label></td><td><input id="videoUrl" type="text"></td></tr></table>
                <div id="preview"></div>
@@ -39,9 +57,34 @@
                   </fieldset>
                </div>
             </div>
+
+            <!-- 扫码 -->
+            <div id="scan" class="panel">
+                <div class="qrcode-content"></div>
+                <div class="qrcode-url">
+                    <span class="url-vlaue"></span>
+                    <span class="text-copy-submit" data-value=""><var id="lang_copy_text"></var></span>
+                </div>
+                <div class="qrcode-images-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><var id="lang_table_name"></var></th>
+                                <th><var id="lang_table_size"></var></th>
+                                <th><var id="lang_table_operate"></var></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <p class="no-data"><var id="lang_no_upload_data_tips"></var></p>
+                </div>
+            </div>
+
+            <!-- 上传 -->
             <div id="upload" class="panel">
                 <div id="upload_left">
                     <div id="queueList" class="queueList">
+                        <div class="draging"><var id="lang_draging_msg"></var></div>
                         <div class="statusBar element-invisible">
                             <div class="progress">
                                 <span class="text">0%</span>
@@ -79,19 +122,31 @@
 
             <!-- 在线视频 -->
             <div id="online" class="panel">
+                <div id="leftCategory">
+                    <input type="text" class="category-search-input" placeholder="" />
+                    <button type="button" class="category-search-submit"><var id="lang_category_input_search"></var></button>
+                    <ul></ul>
+                </div>
                 <div id="videoList"><var id="lang_imgLoading"></var></div>
+                <div id="loading" class="none"></div>
+                <div id="pagination">
+                    <span><var id="lang_page_current_page"></var></span>
+                    <span class="page">1</span>
+                    <span><var id="lang_page_page_text"></var></span>
+                    <span>/</span>
+                    <span class="size">0</span>
+                    <span><var id="lang_page_strip_text"></var></span>
+                    <span class="page-total-first"><var id="lang_page_general_text"></var></span>
+                    <span class="total">0</span>
+                    <span><var id="lang_page_strip_data_text"></var></span>
+                    <span>/</span>
+                    <span class="page-total">0</span>
+                    <span><var id="lang_page_page_two_text"></var></span>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- jquery -->
-<script type="text/javascript" src="../../third-party/jquery-2.2.4.min.js"></script>
-
-<!-- webuploader -->
-<script type="text/javascript" src="../../third-party/webuploader/webuploader.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css">
-
 <!-- video -->
 <script type="text/javascript" src="video.js"></script>
 </body>

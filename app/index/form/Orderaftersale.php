@@ -102,7 +102,7 @@ class OrderAftersale
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
                     'view_data'     => MyConst('common_order_aftersale_type_list'),
-                    'width'         => 120,
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',

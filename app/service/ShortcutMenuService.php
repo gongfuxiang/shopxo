@@ -11,8 +11,9 @@
 namespace app\service;
 
 use think\facade\Db;
-use app\service\ResourcesService;
 use app\service\SystemService;
+use app\service\ResourcesService;
+use app\service\AttachmentService;
 use app\service\AdminPowerService;
 
 /**
@@ -239,7 +240,7 @@ class ShortcutMenuService
             // 编辑的时候，图片已改变则删除
             if(!empty($info) && $info['icon'] != $data['icon'])
             {
-                ResourcesService::AttachmentUrlDelete($info['icon']);
+                AttachmentService::AttachmentUrlDelete($info['icon']);
             }
 
             return DataReturn(MyLang('operate_success'), 0);
@@ -322,7 +323,7 @@ class ShortcutMenuService
             // 删除图片
             if(!empty($icon))
             {
-                ResourcesService::AttachmentUrlDelete($icon);
+                AttachmentService::AttachmentUrlDelete($icon);
             }
             return DataReturn(MyLang('delete_success'), 0);
         }

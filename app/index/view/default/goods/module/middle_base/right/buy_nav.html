@@ -1,7 +1,7 @@
 <!-- 右侧基础购买导航模块 -->
 {{if !empty($module_data['goods'])}}
     <div class="buy-nav">
-        <div class="buy-nav-opt buy-nav-opt-number-{{if isset($buy_nav_opt_number)}}{{$buy_nav_opt_number}}{{else /}}2{{/if}}">
+        <div class="buy-nav-opt buy-nav-opt-number-{{if !empty($buy_left_nav)}}{{:count($buy_left_nav)}}{{else /}}1{{/if}}">
             <!-- 商品页面基础信息购买小导航内部前面钩子 开始 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -17,25 +17,22 @@
             {{/if}}
             <!-- 商品页面基础信息购买小导航内部前面钩子 结束 -->
 
-            <!-- 首页 -->
-            <a href="{{$home_url}}" class=nav-min-home-submit>
-                <span class="nav-icon nav-icon-home">
-                    <i class="iconfont icon-index"></i>
-                    <em>首页</em>
-                </span>
-            </a>
-
-            <!-- 收藏 -->
-            {{if isset($module_data['goods']['user_is_favor']) and $module_data['goods']['user_is_favor'] eq 1}}
-                <span class="nav-icon nav-icon-favor common-goods-favor-submit-event am-active" data-gid="{{$module_data.goods.id}}">
-                    <i class="iconfont icon-heart" ></i>
-                    <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
-                </span>
-            {{else /}}
-                <span class="nav-icon nav-icon-favor common-goods-favor-submit-event" data-gid="{{$module_data.goods.id}}">
-                    <i class="iconfont icon-heart-o"></i>
-                    <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
-                </span>
+            <!-- 左侧导航操作 -->
+            {{if !empty($buy_left_nav) and is_array($buy_left_nav)}}
+                {{foreach $buy_left_nav as $v}}
+                    {{if isset($v['type'])}}
+                        <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" class="buy-nav-left-{{$v.type}}-submit {{if isset($v['active']) and $v['active'] eq 1}} am-active{{/if}} {{if !empty($v['class'])}} {{$v.class}}{{/if}}" data-gid="{{$module_data.goods.id}}" {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
+                            <span class="nav-icon nav-icon-{{$v.type}}">
+                                {{if isset($v['icon'])}}
+                                    <i class="{{$v.icon}}"></i>
+                                {{/if}}
+                                {{if isset($v['name'])}}
+                                    <em class="name">{{$v.name}}</em>
+                                {{/if}}
+                            </span>
+                        </a>
+                    {{/if}}
+                {{/foreach}}
             {{/if}}
 
             <!-- 商品页面基础信息购买小导航内部后面钩子 开始 -->

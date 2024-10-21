@@ -46,6 +46,7 @@ return [
         'goods_no_choice_spec_tips'         => '请选择规格',
         'goods_spec_empty_tips'             => '无规格数据',
         'goods_id_empty_tips'               => '商品ID数据',
+        'goods_cart_title'                  => '加入购物车',
         'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
         'copy_fail'                         => '复制失败',
         'copy_success'                      => '复制成功',
@@ -203,6 +204,10 @@ return [
     'refuse_success'                                        => '拒绝成功',
     'delivery_fail'                                         => '发货失败',
     'delivery_success'                                      => '发货成功',
+    'print_fail'                                            => '打印失败',
+    'print_success'                                         => '打印成功',
+    'verification_fail'                                     => '核验失败',
+    'verification_success'                                  => '核验成功',
     'collect_fail'                                          => '收货失败',
     'collect_success'                                       => '收货成功',
     'quit_success'                                          => '退出成功',
@@ -286,14 +291,18 @@ return [
     'images_preview_title'                                  => '图片预览',
     'video_preview_title'                                   => '视频预览',
     'file_preview_title'                                    => '文件预览',
+    'local_import_title'                                    => '本地导入',
+    'template_market_title'                                 => '模板市场',
+    'plugins_market_title'                                  => '应用市场',
+    'already_buy_title'                                     => '我已购买',
+    'auth_domain_title'                                     => '授权域名',
     // 商店绑定
-    'store_bind_account_name'                               => '绑定ShopXO商店账户',
-    'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
-    'store_account_not_bind_tips'                           => '请先绑定应用商店帐号',
     'store_check_update_name'                               => '检查更新',
     'store_auto_update_name'                                => '自动更新',
+    'store_account_not_bind_tips'                           => '请先绑定应用商店帐号',
     'store_bind_accounts_name'                              => '绑定ShopXO商店账户',
-    'store_bind_accounts_tips'                              => '绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新',
+    'store_bind_accounts_tips'                              => '绑定ShopXO应用商店帐号、在线安装及更新、获取最新版本信息！',
+    'store_already_bind_accounts_tips'                      => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
     'store_bind_authorized_subject_name'                    => '授权主体',
     'store_content_error_tips'                              => '商店连接失败',
     'store_respond_data_error_tips'                         => '商店返回数据有误',
@@ -301,6 +310,8 @@ return [
     'store_respond_empty_tips'                              => '商店返回无对应数据、请稍后再试！',
     'store_respond_data_empty_tips'                         => '商店返回异常错误、请稍后再试！',
     'store_respond_result_tips'                             => '商店返回',
+    'store_plugins_params_error_tips'                       => '插件参数有误',
+    'store_package_data_params_error_tips'                  => '包数据列表参数有误',
     // 商店绑定表单
     'store_bind_form_accounts'                              => '账号',
     'store_bind_form_accounts_placeholder'                  => '用户名/手机/邮箱',
@@ -368,6 +379,7 @@ return [
     'view_title'                                            => '查看',
     'preview_title'                                         => '预览',
     'choice_title'                                          => '选择',
+    'not_choice_title'                                      => '未选',
     'already_choice_title'                                  => '已选',
     'enter_title'                                           => '进入',
     'link_title'                                            => '链接',
@@ -392,6 +404,7 @@ return [
     'barcode_title'                                         => '条码',
     'enter_inventory_title'                                 => '入库',
     'sales_title'                                           => '销量',
+    'score_title'                                           => '评分',
     'access_title'                                          => '访问',
     'hot_title'                                             => '热度',
     'favor_title'                                           => '收藏',
@@ -442,6 +455,9 @@ return [
     'confirm_download_title'                                => '确认下载',
     'upload_title'                                          => '上传',
     'confirm_upload_title'                                  => '确认上传',
+    'wait_upload_title'                                     => '等待上传',
+    'process_upload_title'                                  => '正在上传',
+    'start_upload_title'                                    => '开始上传',
     'reply_title'                                           => '回复',
     'note_title'                                            => '备注',
     'price_title'                                           => '价格',
@@ -474,6 +490,7 @@ return [
     'transfer_audit_title'                                  => '转审',
     'divider_title'                                         => '分配',
     'name_title'                                            => '名称',
+    'size_title'                                            => '大小',
     'status_title'                                          => '状态',
     'collection_fee_title'                                  => '收款',
     'complaint_title'                                       => '投诉',
@@ -499,6 +516,7 @@ return [
     'unbind_title'                                          => '解绑',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分类',
+    'place_origin_title'                                    => '产地',
     'attr_title'                                            => '属性',
     'spec_title'                                            => '规格',
     'register_title'                                        => '注册',
@@ -546,6 +564,8 @@ return [
     'first_title'                                           => '第一',
     'last_title'                                            => '最后',
     'list_title'                                            => '列表',
+    'chat_title'                                            => '客服',
+    'gift_title'                                            => '礼物',
     'continue_scan_title'                                   => '继续扫码',
     'self_pickup_point_title'                               => '自提点',
     'web_title'                                             => 'WEB端',
@@ -553,6 +573,8 @@ return [
     'custom_title'                                          => '自定义',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
+    'goods_add_name'                                        => '商品添加',
+    'goods_choice_name'                                     => '商品选择',
     'goods_stop_sale_title'                                 => '暂停销售',
     'goods_buy_title'                                       => '立即购买',
     'goods_booking_title'                                   => '立即预约',
@@ -696,6 +718,7 @@ return [
     'form_article_category_message'                         => '请选择文章分类',
     'form_refuse_reason'                                    => '拒绝原因',
     'form_refuse_reason_message'                            => '拒绝原因格式1~230个字符',
+    'form_search_keywords_placeholder'                      => '搜索关键字',
     // 动态表格
     'form_table_search_first'                               => [
         'input'         => '请输入',
@@ -731,6 +754,7 @@ return [
     'collect_confirm_tips'                                  => '确认已收到货物、操作后不可恢复！',
     'save_close_page_confirm_tips'                          => '请确认数据是否保存、继续关闭本页吗？',
     'service_confirm_tips'                                  => '确认客户服务完成，操作后不可恢复！',
+    'copy_goods_confirm_tips'                               => '复制当前商品信息发布为一个新的商品，确定继续吗？',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => '站点缓存', 'desc' => '数据转换后或前台不能正常访问时，可以使用此功能更新所有缓存'],
@@ -1139,6 +1163,14 @@ return [
         'fra'  => '法语',
         'swe'  => '瑞典语',
     ],
+    // token生成规则
+    'common_token_created_rules_list' => [
+        0 => '用户IP',
+        1 => '设备信息',
+        2 => '客户端',
+        3 => '系统类型',
+        4 => '随机数或密码盐',
+    ],
     // 商品分类展示层级类型
     'common_show_goods_category_level_list' => [
         0 => '分类+商品',
@@ -1146,7 +1178,13 @@ return [
         2 => '二级分类',
         3 => '三级分类',
     ],
-    // 图片验证码
+    // 图片验证码类型
+    'common_site_images_verify_rand_type_list' => [
+        0 => '纯数字',
+        1 => '纯字母',
+        2 => '数字+字母',
+    ],
+    // 图片验证码规则
     'common_site_images_verify_rules_list' => [
         0 => '彩色背景',
         1 => '彩色文本',
@@ -1241,6 +1279,37 @@ return [
         0 => '最新',
         1 => '热度',
     ],
+    // 附件分类-路径名称匹配
+    'common_attachment_category_path_name_list' => [
+        'common'          => '公共',
+        'goods'           => '商品',
+        'goods_category'  => '商品分类',
+        'brand'           => '品牌',
+        'brand_category'  => '品牌分类',
+        'customview'      => '自定义页面',
+        'express'         => '快递',
+        'app_center_nav'  => '用户中心菜单',
+        'quick_nav'       => '快捷导航',
+        'shortcutmenu'    => '快捷菜单',
+        'app_nav'         => '首页导航',
+        'slide'           => '轮播',
+        'article'         => '文章',
+        'user'            => '用户',
+        'design'          => '页面设计',
+        'plugins'         => '插件',
+        'order_comments'  => '订单商品评论',
+        'theme_data'      => '主题数据',
+        'agreement'       => '协议',
+        'warehouse'       => '仓库',
+    ],
+    // 附件管理-类型
+    'common_attachment_type_list' => [
+        'file'    => '文件',
+        'image'   => '图片',
+        'scrawl'  => '涂鸦',
+        'video'   => '视频',
+        'remote'  => '远程抓取',
+    ],
 
     // -------------------- 后端相关 --------------------
     // 时区
@@ -1273,6 +1342,10 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 基础
+        'base'                => [
+            'key_error_tips'                    => '数据key值有误',
+        ],
         // 系统
         'system'            => [
             'design_title'       => '页面设计',
@@ -1449,8 +1522,8 @@ return [
             'form_item_describe'                    => '描述',
             'form_item_describe_message'            => '描述最多230个字符',
             'form_item_content_title'               => '内容',
-            'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
-            'form_item_content_message'             => '内容格式10~105000个字符之间',
+            'form_item_content_placeholder'         => '内容格式10~1005000个字符之间更多编辑功能请使用电脑访问',
+            'form_item_content_message'             => '内容格式10~1005000个字符之间',
         ],
         // 文章分类
         'articlecategory'   => [
@@ -1571,7 +1644,7 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建议大小300*300px',
             // 基础
-            'create_name_default'                   => '默认页面',
+            'create_name_default'                   => '自定义-默认页面',
         ],
         // 页面设计
         'design'            => [
@@ -1581,13 +1654,59 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => '建议大小300*300px',
             // 基础
-            'create_name_default'                   => '默认页面',
+            'create_name_default'                   => '页面设计-默认页面',
             'download_config_file_create_fail_tips' => '配置文件生成失败',
             'upload_dis_no_power_tips'              => '应用upload目录没有操作权限',
             'upload_config_file_get_fail_tips'      => '配置信息读取失败',
             'upload_config_file_error_tips'         => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
             'upload_invalid_packet_tips'            => '无效数据包',
+        ],
+        // DIY装修
+        'diy'            => [
+            'base_nav_title'                        => 'DIY装修',
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度1~60个字符',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述长度最多230个字符',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => '建议大小300*300px',
+            // 基础
+            'create_name_default'                   => 'DIY-默认页面',
+            'download_config_file_create_fail_tips' => '配置文件生成失败',
+            'upload_dis_no_power_tips'              => '应用upload目录没有操作权限',
+            'upload_config_file_get_fail_tips'      => '配置信息读取失败',
+            'upload_config_file_error_tips'         => '配置信息为空或有误',
+            'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
+            'upload_invalid_packet_tips'            => '无效数据包',
+            'preview_url_tips'                      => '请在后台[ 手机->基础配置 ]先配置手机端h5地址',
+            'preview_url_copy_name'                 => '复制链接',
+            'preview_scan_tips'                     => '扫码预览效果',
+        ],
+        // 附件管理
+        'attachment'        => [
+            // 表单
+            'form_item_original'             => '原始名称',
+            'form_item_original_message'     => '原始名称长度1~230个字符',
+            'form_item_title_message'        => '新文件名称有误',
+            'form_item_category_id_message'  => '附件分类id有误',
+            'form_item_url_message'          => '地址有误',
+            'form_item_size_message'         => '文件大小有误',
+            'form_item_ext_message'          => '扩展名有误',
+            'form_item_hash_message'         => 'hash值有误',
+            'file_no_exist_tips'             => '文件不存在',
+            // 基础
+            'delete_no_power_tips'           => '文件没有删除权限',
+            'sync_file_to_db_tips'           => '总数[{:count}], 成功[{:success}], 失败[{:error}]',
+        ],
+        // 附件分类
+        'attachmentcategory'           => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度1~60个字符',
+            'form_item_path'                        => '路径',
+            'form_item_path_message'                => '路径长度1~230个字符',
         ],
         // 域名服务
         'domain'            => [
@@ -1807,10 +1926,10 @@ return [
             // 手机详情
             'form_app_top_tips'                     => '设置手机详情后、在手机模式下将展示手机详情、比如[小程序、APP]',
             'form_app_value_title'                  => '文本内容',
-            'form_app_value_message'                => '文本内容最多105000个字符',
+            'form_app_value_message'                => '文本内容最多1005000个字符',
             'form_app_button_add_name'              => '添加手机详情',
             // 电脑详情
-            'form_web_content_message'              => '电脑端详情内容最多105000个字符',
+            'form_web_content_message'              => '电脑端详情内容最多1005000个字符',
             // 保存
             'save_site_type_error_tips'             => '商品类型数据值范围有误',
             'save_params_add_fail_tips'             => '商品参数添加失败',
@@ -1889,10 +2008,6 @@ return [
             'integral_dec_fail_tips'                => '用户积分减少失败',
             'integral_log_add_fail_tips'            => '用户积分日志添加失败',
         ],
-        // 布局
-        'layout'                => [
-            'key_error_tips'                        => '布局key值有误',
-        ],
         // 友情链接
         'link'                  => [
             // 表单
@@ -1962,7 +2077,7 @@ return [
                 ],
                 'logout'            => [
                     'title'         => '账号注销',
-                    'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
+                    'msg'           => '注销账号后，账号将不可再登录',
                     'submit_text'   =>  '注销',
                 ],
             ],
@@ -2274,11 +2389,11 @@ return [
             'please_uninstall_tips'                 => '请先卸载应用',
             'app_name_exist_tips'                   => '应用名称已存在',
             'app_name_appoint_error_tips'           => '应用标识与指定不一致',
-            'plugins_package_empty_tips'            => '插件包有误',
-            'plugins_package_error_tips'            => '支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装',
             'plugins_package_invalid_tips'          => '无效的插件包',
             'plugins_identification_error_tips'     => '插件标识有误',
             'plugins_identification_empty_tips'     => '插件标识为空',
+            'plugins_config_error_tips'             => '主题配置信息有误',
+            'plugins_config_file_get_fail_tips'     => '配置信息读取失败',
             'plugins_copy_main_fail_tips'           => '主包',
             'plugins_new_config_error_tips'         => '新配置文件有误',
             'plugins_new_config_update_fail_tips'   => '新应用配置文件更新失败',
@@ -2343,20 +2458,6 @@ return [
             // 基础
             'region_code_search_empty_tips'         => '请输入地区编号',
             'region_no_data_tips'                   => '无相关地区',
-        ],
-        // 资源
-        'resources'                 => [
-            // 保存
-            'save_attachment_title_tips'            => '名称有误',
-            'save_attachment_original_tips'         => '原名有误',
-            'save_attachment_path_type_tips'        => '路径标记有误',
-            'save_attachment_url_tips'              => '地址有误',
-            'save_attachment_size_tips'             => '文件大小有误',
-            'save_attachment_ext_tips'              => '扩展名有误',
-            'save_attachment_hash_tips'             => 'hash值有误',
-            // 基础
-            'delete_no_power_tips'                  => '文件没有删除权限',
-            'sync_file_to_db_tips'                  => '总数[{:count}], 成功[{:success}], 失败[{:error}]',
         ],
         // 安全
         'safety'                    => [
@@ -2468,6 +2569,7 @@ return [
             'theme_new_config_update_fail_tips'     => '新应用配置文件更新失败',
             'config_file_no_exist_tips'             => '主题配置文件不存在',
             'config_error_tips'                     => '主题配置信息有误',
+            'upload_config_file_get_fail_tips'      => '配置信息读取失败',
         ],
         // 主题数据
         'themedata'                 => [
@@ -2547,7 +2649,6 @@ return [
             'form_item_text_detail_describe'          => '简介',
             'form_item_text_detail_describe_message'  => '请输入简介',
 
-
             // 服务层
             'save_type_error_tips'                     => '数据类型范围值有误',
             'save_goods_data_type_error_tips'          => '商品数据类型范围值有误',
@@ -2566,7 +2667,11 @@ return [
         ],
         // 附件上传
         'ueditor'                   => [
-            'request_action_error_tips'             => '请求action有误',
+            'request_action_error_tips'  => '请求action有误',
+            'draging_tips'               => '拖入文件/文件夹到此区域后松开鼠标',
+            'choice_file_tips'           => '请先选择文件',
+            'scan_key_empty_tips'        => '扫码key为空',
+            'scan_key_not_exist_tips'    => '扫码key不存在',
         ],
         // 用户地址
         'useraddress'               => [
@@ -3270,7 +3375,7 @@ return [
         ],
         'home_site_logo_app'  => [
             'name' => '手机端logo',
-            'desc' => '支持 [jpg, png, gif]，建议60*60px',
+            'desc' => '支持 [jpg, png, gif]，建议宽不限*60px',
             'tips' => '请上传手机端网站logo',
         ],
         'home_site_logo_wap'  => [
@@ -3614,8 +3719,8 @@ return [
         ],
         'common_agreement_userregister'  => [
             'name' => '用户注册协议',
-            'desc' => '最多 105000 个字符',
-            'tips' => '用户注册协议最多 105000 个字符',
+            'desc' => '最多 1005000 个字符',
+            'tips' => '用户注册协议最多 1005000 个字符',
         ],
         'home_site_user_register_bg_images'  => [
             'name' => '用户注册背景图片',
@@ -3708,6 +3813,10 @@ return [
             'desc' => '默认关闭，可以防止非法注册',
             'tips' => '请选择是否开启用户注册图片验证码',
         ],
+        'common_images_verify_rand_type'  => [
+            'name' => '图片验证码类型',
+            'tips' => '请选择图片验证码类型',
+        ],
         'common_images_verify_rules'  => [
             'name' => '图片验证码规则',
             'desc' => '默认白底黑字，可根据需求i加大验证码识别难度',
@@ -3762,6 +3871,16 @@ return [
             'name' => '开启在线客服',
             'desc' => '默认否',
             'tips' => '请选择是否开启在线客服',
+        ],
+        'common_app_is_index_data_diy_mode'  => [
+            'name' => '首页使用DIY模式',
+            'desc' => '默认跟随统一的首页配置',
+            'tips' => '请选择是否首页使用DIY模式',
+        ],
+        'common_app_index_data_diy_mode_value'  => [
+            'name' => '首页DIY模式数据',
+            'desc' => '',
+            'tips' => '请选择首页DIY模式数据',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => '首页楼层左侧二级商品分类数量',
@@ -4105,6 +4224,11 @@ return [
             'desc' => '默认开启',
             'tips' => '请选择搜索页开启参数',
         ],
+        'home_search_is_place_origin'  => [
+            'name' => '搜索页开启商品产地',
+            'desc' => '默认开启',
+            'tips' => '请选择搜索页开启商品产地',
+        ],
         'home_search_is_price'  => [
             'name' => '搜索页开启价格',
             'desc' => '默认开启',
@@ -4205,8 +4329,8 @@ return [
         ],
         'common_agreement_userprivacy'  => [
             'name' => '用户隐私政策',
-            'desc' => '最多 105000 个字符',
-            'tips' => '用户隐私政策最多 105000 个字符',
+            'desc' => '最多 1005000 个字符',
+            'tips' => '用户隐私政策最多 1005000 个字符',
         ],
         'admin_notice'  => [
             'name' => '后台管理公告',
@@ -4292,6 +4416,11 @@ return [
             'desc' => '默认空则是当前访问域名有效',
             'tips' => '请填写Cookie有效域名',
         ],
+        'common_token_created_rules'  => [
+            'name' => 'Token生成规则',
+            'desc' => '默认包含用户id',
+            'tips' => '请选择token生成规则',
+        ],
         'common_excel_export_type'  => [
             'name' => 'Excel导出类型',
             'desc' => '默认CSV',
@@ -4364,8 +4493,8 @@ return [
         ],
         'common_agreement_userlogout'  => [
             'name' => '账号注销协议',
-            'desc' => '最多 105000 个字符',
-            'tips' => '账号注销协议最多 105000 个字符',
+            'desc' => '最多 1005000 个字符',
+            'tips' => '账号注销协议最多 1005000 个字符',
         ],
         'home_main_header_status'  => [
             'name' => '主导航',

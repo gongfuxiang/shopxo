@@ -14,7 +14,7 @@
                         </a>
                     {{/if}}
                     {{if AdminIsPower('pluginsadmin', 'upload')}}
-                        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}">
+                        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}" data-full-max="1" data-full-max-size="xl">
                             <i class="iconfont icon-upload"></i>
                             <span>{{:MyLang('pluginsadmin.base_upload_application_name')}}</span>
                         </button>
@@ -65,7 +65,7 @@
                             {{/if}}
                         </p>
                     {{/if}}
-                    {{if AdminIsPower('index', 'storeaccountsbind') and (empty($site_store_info) or empty($site_store_info['user']))}}
+                    {{if $is_not_bind_accounts eq 1}}
                         <p>
                             <span>{{:MyLang('store_bind_accounts_tips')}}</span>
                             <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> {{:MyLang('store_bind_accounts_name')}}</button>
@@ -86,8 +86,8 @@
                         </div>
                         {{if AdminIsPower('pluginscategory', 'index')}}
                             <a href="javascript:;" class="am-text-sm submit-popup am-flex" data-url="{{:MyUrl('admin/pluginscategory/index')}}" data-class="plugins-category-save-popup" data-title="{{:MyLang('pluginsadmin.plugins_category_title')}}">
-                                <i class="iconfont icon-type-manage"></i> 
-                                <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.plugins_category_admin_title')}}</span> 
+                                <i class="iconfont icon-type-manage"></i>
+                                <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.plugins_category_admin_title')}}</span>
                             </a>
                         {{/if}}
                     </div>
@@ -161,7 +161,7 @@
                                             </button>
 
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                                <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}">
+                                                <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}" data-title="{{:MyLang('upload_title')}}">
                                                     <i class="iconfont icon-application-upload"></i>
                                                     <span>{{:MyLang('upload_title')}}</span>
                                                 </button>
@@ -240,11 +240,6 @@
                                             <div class="desc">{{$v.desc}}</div>
                                         </div>
                                         <div class="operation">
-                                            <button class="am-btn am-btn-default am-btn-xs am-radius submit-delete-modal am-padding-left-0" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}">
-                                                <i class="iconfont icon-application-delete"></i>
-                                                <span>{{:MyLang('delete_title')}}</span>
-                                            </button>
-
                                             <button class="am-btn am-btn-default am-btn-xs am-radius submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/install')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="{{:MyLang('install_confirm_tips')}}">
                                                 <i class="iconfont icon-application-install"></i>
                                                 <span>{{:MyLang('install_title')}}</span>
@@ -264,6 +259,11 @@
                                                     <span>{{:MyLang('download_title')}}</span>
                                                 </a>
                                             {{/if}}
+
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}">
+                                                <i class="iconfont icon-application-delete"></i>
+                                                <span>{{:MyLang('delete_title')}}</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </li>

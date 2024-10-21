@@ -51,8 +51,11 @@ class Payment
                 ],
                  [
                     'label'         => $lang['logo'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'payment/module/logo',
+                    'view_type'     => 'images',
+                    'view_key'      => 'logo',
+                    'images_width'  => 40,
+                    'images_height' => 40,
+                    'width'         => 80,
                 ],
                 [
                     'label'         => $lang['version'],
@@ -82,14 +85,17 @@ class Payment
                 ],
                 [
                     'label'         => $lang['enable'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'payment/module/enable',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_enable',
+                    'post_url'      => MyUrl('admin/payment/statusupdate'),
+                    'is_form_su'    => 1,
                     'align'         => 'center',
                 ],
                 [
                     'label'         => $lang['open_user'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'payment/module/open_user',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_open_user',
+                    'post_url'      => MyUrl('admin/payment/statusupdate'),
                     'align'         => 'center',
                 ],
                 [

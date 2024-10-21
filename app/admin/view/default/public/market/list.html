@@ -1,0 +1,48 @@
+{{if !empty($data_list) and is_array($data_list)}}
+    {{foreach $data_list as $v}}
+        <li>
+            <div class="am-gallery-item am-radius">
+                <div class="am-padding-xs">
+                    <div class="images-content am-radius am-nbfc">
+                        <img src="{{$v.images}}" class="am-radius" />
+                        <a href="{{$v.goods_url}}" target="_blank" class="am-btn am-btn-primary-light am-btn-xs am-round">
+                            <i class="iconfont icon-eye"></i>
+                            <span>{{:MyLang('view_detail_title')}}</span>
+                        </a>
+                    </div>
+                    <p class="am-margin-top-xs am-text-sm am-text-truncate-2">{{$v.title}}</p>
+                    <div class="am-margin-top-xs am-flex am-flex-justify-between am-flex-items-center">
+                        <strong class="am-text-sm am-color-{{if $v['min_price'] gt 0}}price{{else /}}green{{/if}}">{{$v.price_data.value}}</strong>
+                        {{if $v.buy_data.status eq 1}}
+                            <button type="button" class="am-btn am-btn-success am-btn-xs am-radius package-install-submit" data-id="{{$v.id}}">{{$v.buy_data.title}}</button>
+                        {{elseif $v.buy_data.status eq 2 /}}
+                            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius package-install-submit" disabled>{{$v.buy_data.title}}</button>
+                        {{else /}}
+                            <a href="{{$v.goods_url}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-fr">{{$v.buy_data.title}}</a>
+                        {{/if}}
+                    </div>
+                    <div class="am-margin-top-sm am-flex am-flex-justify-between">
+                        <div class="am-dropdown am-dropdown-up" data-am-dropdown>
+                            <span class="am-color-grey am-dropdown-toggle">{{$v.version_apply.name}}</span>
+                            <div class="am-dropdown-content am-radius am-padding-0">
+                                <div class="am-radius am-nbfc">
+                                    <div class="am-scrollable-vertical am-padding-sm">{{:implode('<br />', $v.version_apply.data)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {{if !empty($v['buy_auth_domain'])}}
+                            <div class="am-dropdown am-dropdown-up" data-am-dropdown>
+                                <span class="am-color-grey am-dropdown-toggle iconfont icon-domain"> {{:MyLang('auth_domain_title')}}</span>
+                                <div class="am-dropdown-content am-radius am-padding-0">
+                                    <div class="am-radius am-nbfc">
+                                        <div class="am-scrollable-vertical am-padding-sm">{{:implode('<br />', $v.buy_auth_domain)}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </li>
+    {{/foreach}}
+{{/if}}

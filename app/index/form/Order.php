@@ -193,7 +193,7 @@ class Order
                 'label'         => $lang['take'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/take',
-                'width'         => 125,
+                'width'         => 140,
                 'search_config' => [
                     'form_type'             => 'input',
                     'form_name'             => 'id',

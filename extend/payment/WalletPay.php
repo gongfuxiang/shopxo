@@ -16,6 +16,7 @@ use app\service\OrderService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\scanpay\service\ScanpayLogService;
 use app\plugins\membershiplevelvip\service\PayService as LevelPayService;
+use app\plugins\givegift\service\PayService as GiftPayService;
 
 /**
  * 钱包支付
@@ -171,6 +172,11 @@ class WalletPay
                 case 'plugins-membershiplevelvip' :
                     $order_list = Db::name('PluginsMembershiplevelvipPaymentUserOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
                     break;
+
+                // 送礼
+                case 'plugins-givegift' :
+                    $order_list = Db::name('PluginsGivegiftOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                    break;
             }
             if(empty($order_list))
             {
@@ -226,6 +232,21 @@ class WalletPay
                     {
                         return DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
                     }
+                    break;
+
+                // 送礼
+                case 'plugins-givegift' :
+                    $pay_params['order'] = $pay_params['order'][0];
+                    $ret = GiftPayService::GiftPayHandle($pay_params);
+                    if($ret['code'] == 0)
+                    {
+                        return DataReturn('支付成功', 0, PluginsHomeUrl('givegift', 'gift', 'respond', ['appoint_status'=>0]));
+                    }
+                    break;
+
+                // 默认
+                default :
+                    return DataReturn('支付业务未处理('.$business_type.')', -1);
                     break;
             }
         }

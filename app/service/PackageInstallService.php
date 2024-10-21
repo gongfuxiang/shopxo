@@ -16,6 +16,7 @@ use app\service\PaymentService;
 use app\service\ThemeAdminService;
 use app\service\AppMiniService;
 use app\service\DesignService;
+use app\service\DiyService;
 
 /**
  * 软件安装服务层
@@ -78,6 +79,11 @@ class PackageInstallService
             // 页面设计
             case 'design' :
                 $url = MyUrl('admin/design/index');
+                break;
+
+            // diy装修
+            case 'diy' :
+                $url = MyUrl('admin/diy/index');
                 break;
 
             default :
@@ -181,6 +187,11 @@ class PackageInstallService
             // 页面设计
             case 'design' :
                 $ret = DesignService::DesignUploadHandle($res['url'], $params);
+                break;
+
+            // diy装修
+            case 'diy' :
+                $ret = DiyService::DiyUploadHandle($res['url'], $params);
                 break;
 
             // 默认

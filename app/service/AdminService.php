@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\SystemService;
+use app\service\ApiService;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
 
@@ -414,7 +415,7 @@ class AdminService
         }
 
         // 获取管理员
-        $admin = Db::name('Admin')->field('id,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find();
+        $admin = Db::name('Admin')->field('id,token,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find();
         if(empty($admin))
         {
             return DataReturn(MyLang('account_abnormal_tips'), -2);
@@ -431,16 +432,31 @@ class AdminService
             }
         }
 
+        // 登录前钩子
+        $hook_name = 'plugins_service_admin_login_begin';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'admin_id'      => $admin['id'],
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 种session,更新数据库
+        $login_salt = GetNumberCode(6);
+        $admin['token'] = ApiService::CreatedUserToken($admin['id'], $login_salt);
         if(self::LoginSession($admin))
         {
             $data = [
-                    'login_total'   =>  $admin['login_total']+1,
-                    'login_time'    =>  time(),
-                ];
+                'token'        => $admin['token'],
+                'login_total'  => $admin['login_total']+1,
+                'login_time'   => time(),
+            ];
             if($params['type'] == 'username')
             {
-                $login_salt = GetNumberCode(6);
                 $data['login_salt'] = $login_salt;
                 $data['login_pwd'] = LoginPwdEncryption($params['pwd'], $login_salt);
             }
@@ -454,7 +470,25 @@ class AdminService
                 // 权限菜单初始化
                 AdminPowerService::PowerMenuInit($admin);
 
-                return DataReturn(MyLang('login_success'));
+                // 成功并返回管理员信息
+                $admin['login_total'] = $data['login_total'];
+                unset($admin['login_pwd'], $admin['login_salt']);
+
+                // 登录后钩子
+                $hook_name = 'plugins_service_admin_login_end';
+                $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'admin_id'      => $admin['id'],
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
+                // 返回成功数据
+                return DataReturn(MyLang('login_success'), 0, $admin);
             }
         }
 
@@ -473,12 +507,28 @@ class AdminService
      */
     public static function LoginInfo()
     {
-        // 获取管理员信息
-        $admin = MySession(self::$admin_login_key);
-        // 非退出则重新设置管理员信息
-        if(RequestAction() != 'logout')
+        // 管理员信息
+        $admin = null;
+
+        // 是否有token
+        $params = input();
+        if(empty($params['token']))
         {
-            self::LoginSession($admin);
+            // 获取管理员信息
+            $admin = MySession(self::$admin_login_key);
+            // 非退出则重新设置管理员信息
+            if(RequestAction() != 'logout')
+            {
+                self::LoginSession($admin);
+            }
+        } else {
+            // 获取管理员信息
+            $info = Db::name('Admin')->field('id,token,username,mobile,email,login_total,role_id,login_total,login_salt')->where(['token'=>$params['token'], 'status'=>0])->find();
+            if(!empty($info) && ApiService::CreatedUserToken($info['id'], $info['login_salt']) == $info['token'])
+            {
+                unset($info['login_salt']);
+                $admin = $info;
+            }
         }
         return $admin;
     }
@@ -494,8 +544,12 @@ class AdminService
      */
     public static function LoginSession($admin)
     {
+        // 移除私密数据
         unset($admin['login_pwd'], $admin['login_salt']);
+        // 存储session
         MySession(self::$admin_login_key, $admin);
+        // 设置cookie数据
+        MyCookie('admin_info', json_encode($admin, JSON_UNESCAPED_UNICODE), false);
         return true;
     }
 

@@ -35,8 +35,8 @@ class MultilingualService
      */
     public static function MultilingualData()
     {
-        static $user_multilingual_result = [];
-        if(empty($user_multilingual_result))
+        static $user_multilingual_static_result = [];
+        if(empty($user_multilingual_static_result))
         {
             $default = [];
             $select = [];
@@ -92,12 +92,12 @@ class MultilingualService
                     $default = $select[0];
                 }
             }
-            $user_multilingual_result = [
+            $user_multilingual_static_result = [
                 'default'  => $default,
                 'data'     => $select,
             ];
         }
-        return $user_multilingual_result;
+        return $user_multilingual_static_result;
     }
 
     /**
@@ -174,8 +174,8 @@ class MultilingualService
      */
     public static function GetUserMultilingualValue()
     {
-        static $user_multilingual_value = null;
-        if(is_null($user_multilingual_value))
+        static $user_multilingual_static_value = null;
+        if(is_null($user_multilingual_static_value))
         {
             // 参数指定
             $value = input(MyConfig('lang.detect_var'));
@@ -224,14 +224,17 @@ class MultilingualService
             }
 
             // 域名绑定语言
-            $domain_multilingual = MyC('common_domain_multilingual_bind_list');
-            if(!empty($domain_multilingual) && is_array($domain_multilingual))
+            if(empty($value))
             {
-                foreach($domain_multilingual as $v)
+                $domain_multilingual = MyC('common_domain_multilingual_bind_list');
+                if(!empty($domain_multilingual) && is_array($domain_multilingual))
                 {
-                    if(!empty($v['domain']) && !empty($v['lang']) && $v['domain'] == __MY_HOST__)
+                    foreach($domain_multilingual as $v)
                     {
-                        $value = $v['lang'];
+                        if(!empty($v['domain']) && !empty($v['lang']) && $v['domain'] == __MY_HOST__)
+                        {
+                            $value = $v['lang'];
+                        }
                     }
                 }
             }
@@ -247,9 +250,9 @@ class MultilingualService
             {
                 $value = MyConfig('lang.default_lang');
             }
-            $user_multilingual_value = $value;
+            $user_multilingual_static_value = $value;
         }
-        return $user_multilingual_value;
+        return $user_multilingual_static_value;
     }
 
     /**

@@ -69,7 +69,7 @@
                             <div class="am-flex am-flex-col am-flex-items-center drop-mode am-color-999 am-text-xs am-gap-1">
                                 <img src="{{:StaticAttachmentUrl('site/siteset/index/drop.png')}}"/>
                                 {{:MyLang('site.site_setup_layout_tips')}}
-                                <a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-btn am-btn-primary am-radius">{{:MyLang('site.site_setup_layout_button_name')}}</a>
+                                <a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius">{{:MyLang('site.site_setup_layout_button_name')}}</a>
                             </div>
                         </div>
                     </div>
@@ -238,11 +238,10 @@
 <!-- right content end  -->
 
 <!-- 商品添加弹窗 -->
-<div class="am-popup am-radius" id="siteset-goods-popup">
+<div class="am-popup am-radius am-popup-full-max-lg" id="siteset-goods-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
             <h4 class="am-popup-title">{{:MyLang('site.add_goods_title')}}</h4>
-            <span class="am-icon-arrows-alt am-full"></span>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd am-padding-0">
@@ -276,7 +275,7 @@
 
                 <!-- 商品列表 -->
                 <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs am-radius goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
-                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered"></ul>
+                    <ul class="am-gallery am-avg-sm-2 am-avg-md-6 am-avg-lg-8 am-gallery-bordered"></ul>
                 </div>
 
                 <!-- 分页 -->

@@ -30,6 +30,7 @@
 
 .goods-list-container {
     height: calc(100% - 9.2rem);
+    max-height: 100%;
     border: 0.1rem solid #eee;
 }
 

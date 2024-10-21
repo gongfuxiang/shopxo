@@ -232,20 +232,18 @@ $(function () {
             goods_ids.push($(this).val());
         });
 
-        var $this = $(this);
+        var $btn = $('.forth-selection-container .search-submit');
+        $btn.button('loading');
         $.AMUI.progress.start();
-        if ($this.hasClass('search-submit')) {
-            $this.button('loading');
-        }
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> ' + ($('.goods-list-container').data('loading-msg')) + '</div>');
         $.ajax({
             url: RequestUrlHandle(url),
             type: 'post',
-            data: { "page": page, "category_id": category_id, "keywords": keywords, "goods_ids": goods_ids },
+            data: { page: page, category_id: category_id, keywords: keywords, goods_ids: goods_ids },
             dataType: 'json',
             success: function (res) {
                 $.AMUI.progress.done();
-                $this.button('reset');
+                $btn.button('reset');
                 if (res.code == 0) {
                     $('.goods-list-container').attr('data-is-init', 0);
                     $('.goods-list-container ul.am-gallery').html(res.data.data);
@@ -257,7 +255,7 @@ $(function () {
             },
             error: function (xhr, type) {
                 $.AMUI.progress.done();
-                $this.button('reset');
+                $btn.button('reset');
                 var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> ' + msg + '</div>');
@@ -290,20 +288,6 @@ $(function () {
             $(tag).append('<li class="manual-mode-goods-item-' + goods_id + '"><input type="hidden" name="' + form_name + '" value="' + goods_id + '" /><a href="' + goods_url + '" target="_blank" class="am-text-truncate am-flex am-flex-items-center am-gap-1"><img src="' + goods_img + '" alt="' + goods_title + '" class="am-border-c am-radius" width="26" height="26" /><span class="am-flex-1 am-flex-width">' + goods_title + '</span></a><button type="button" class="am-close am-fr">&times;</button></li>');
         }
         $this.parent().html(icon_html);
-    });
-
-    // 弹窗全屏
-    $(document).on('click', '#siteset-goods-popup .am-popup-hd .am-full', function () {
-        var width = $(window).width();
-        var height = $(window).height();
-        if (width >= 630 && height >= 630) {
-            var $parent = $(this).parents('.am-popup');
-            if ($parent.hasClass('am-popup-full')) {
-                $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
-            } else {
-                $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
-            }
-        }
     });
 
     // 添加域名

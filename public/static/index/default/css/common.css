@@ -1,7 +1,7 @@
 body {
     font-size: 1.4rem
 }
-div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,
+div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,
 small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,legend,table,caption,tbody,tfoot,thead,tr,th,
 td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,summary,time,mark,audio,video {
     margin: 0;
@@ -138,10 +138,6 @@ input.min {
     border-right: none !important;
 }
 
-.am-container {
-    margin: 0 auto;
-}
-
 /**
  * 公共数据表格
  */
@@ -170,7 +166,7 @@ input.min {
 
 #goods-category .category-show-level3-title {
     padding: 1rem;
-    width: 8rem;
+    width: 10rem;
     font-weight: 500;
     position: relative;
 }
@@ -188,7 +184,7 @@ input.min {
 #goods-category .category-show-level3 .category-show-level3-child {
     display: flex;
     flex-wrap: wrap;
-    width: calc(100% - 8rem);
+    width: calc(100% - 10rem);
     align-items: center;
 }
 
@@ -373,7 +369,7 @@ ul.am-dropdown-content>li>a:focus {
 .line-column {
     display: inline-block;
     margin: 0 1.1rem;
-    color: #EEEEEE;
+    color: #eee;
 }
 
 .header-top .nav-images {
@@ -524,10 +520,21 @@ ul.am-dropdown-content>li>a:focus {
         font: 1.2rem/3.6rem 'Microsoft YaHei';
     }
 
-    .category-content .category {
-        width: 15rem;
+    .category-content:hover .category {
+        background: #eee;
+    }
+
+    .goods-category-title,
+    #goods-category .category-content,
+    .category-content .category,
+    #goods-category .category-content .all-goods,
+    .category-content .category-info {
+        width: 18rem;
+    }
+
+    .category-content .category {;
         border-top: none;
-        background: rgba(238, 238, 238, 1);
+        background: #fff;
     }
 
     .category-content .down-ico {
@@ -540,7 +547,7 @@ ul.am-dropdown-content>li>a:focus {
     }
 
     .category-content .category-list li {
-        height: 4rem;
+        height: 4.7rem;
         margin-top: -0.2rem;
     }
 
@@ -581,6 +588,10 @@ ul.am-dropdown-content>li>a:focus {
         position: relative;
     }
 
+    .category-content .category-name i {
+        top: 0.6rem;
+    }
+
     .category-content .category-name img {
         position: absolute;
         top: 1.4rem;
@@ -607,7 +618,7 @@ ul.am-dropdown-content>li>a:focus {
 
     .category-content .bd-name {
         font-size: 1.4rem;
-        padding-left: 3.3rem;
+        padding-left: 3rem;
     }
 
     .category-content .category-list .bd-b {
@@ -621,12 +632,16 @@ ul.am-dropdown-content>li>a:focus {
     .category-content .b-category-name {
         line-height: 4.7rem;
         padding-left: 0.5rem;
-        padding-right: 4rem;
+        padding-right: 3rem;
     }
 
     .category-content .b-category-name b {
         margin-left: 0.4rem;
         font: 400 1.2rem/2.8rem '宋体';
+    }
+
+    .category-content .b-category-name {
+        padding-left: 1rem;
     }
 
     .category-content .b-category-name,
@@ -659,14 +674,13 @@ ul.am-dropdown-content>li>a:focus {
         position: relative;
         height: 100%;
         padding-left: 1rem;
-        width: 15.2rem;
         overflow: hidden;
     }
 
     .category-content .category-info i {
         position: absolute;
-        top: 1.2rem;
-        right: 2rem;
+        top: 1.4rem;
+        right: 1.2rem;
         width: 1.3rem;
         height: 1.3rem;
         font: 1.2rem/1.8rem '宋体';
@@ -682,16 +696,15 @@ ul.am-dropdown-content>li>a:focus {
     .category-content .menu-item {
         display: none;
         position: absolute;
-        left: 14.9rem;
-        height: 100%;
+        left: 17.9rem;
         padding: 0 0 0 0.2rem;
         width: 77rem;
         background: #FFFFFF;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 40rem;
-        border-right: 0.1rem solid #EEEEEE;
-        border-bottom: 0.1rem solid #EEEEEE;
+        height: 47rem;
+        border-right: 0.1rem solid #eee;
+        border-bottom: 0.1rem solid #eee;
         border-bottom-right-radius: var(--border-radius);
     }
 
@@ -762,9 +775,9 @@ ul.am-dropdown-content>li>a:focus {
     }
 
     .category-list li.hover .menu-in {
-        border-top-width: 0.1rem solid #CCCCCC;
-        border-right-width: 0.1rem solid #CCCCCC;
-        bottom: 0.1rem solid #CCCCCC;
+        border-top-width: 0.1rem solid #ccc;
+        border-right-width: 0.1rem solid #ccc;
+        bottom: 0.1rem solid #ccc;
     }
 
     .category-content .sort-side .dl-sort-two {
@@ -1021,22 +1034,12 @@ ul.am-dropdown-content>li>a:focus {
         display: block;
     }
 
-    #goods-category .category-content {
-        opacity: 0.8;
-        -webkit-transition: opacity 0.2s ease-in;
-        -moz-transition: opacity 0.2s ease-in;
-        -ms-transition: opacity 0.2s ease-in;
-        -o-transition: opacity 0.2s ease-in;
-        transition: opacity 0.2s ease-in;
-    }
-
     #goods-category:hover .category-content {
         opacity: 1;
     }
 }
 
 @media only screen and (min-width: 1260px) {
-
     .am-container,
     .footer,
     .nav-table {
@@ -1044,48 +1047,8 @@ ul.am-dropdown-content>li>a:focus {
         padding-right: 0rem;
         max-width: 120rem;
     }
-
     .footer {
         margin: auto;
-    }
-
-    /* 分类 */
-    .goods-category-title,
-    #goods-category .category-content,
-    .category-content .category,
-    #goods-category .category-content .all-goods {
-        width: 18rem;
-    }
-    .category-content .category-info {
-        padding-left: 1rem;
-        width: 18rem;
-        overflow: hidden;
-    }
-
-    .category-content .menu-item {
-        left: 17.9rem;
-        height: 47rem;
-    }
-
-    .category-content .category-list li {
-        height: 4.7rem;
-    }
-
-    .category-content .b-category-name {
-        padding-left: 1rem;
-    }
-
-    .category-content .category-name i {
-        top: 0.6rem;
-    }
-
-    .category-content .category-info i {
-        top: 1.4rem;
-    }
-
-    .category-content .bd-name {
-        font-size: 1.4rem;
-        padding-left: 3rem;
     }
 }
 
@@ -1416,7 +1379,7 @@ ul.am-dropdown-content>li>a:focus {
  * 底部
  */
 .am-footer-default {
-    border-top: 0.1rem solid #eeeeee;
+    border-top: 0.1rem solid #eee;
     background: #FFFFFF;
     margin-top: 2rem;
 }
@@ -1528,7 +1491,7 @@ ul.am-dropdown-content>li>a:focus {
 
 @media only screen and (max-width: 640px) {
     .footer-about {
-        border-top: 0.1rem solid #EEEEEE;
+        border-top: 0.1rem solid #eee;
         padding-top: 1rem;
         margin-top: 1rem;
     }
@@ -1679,6 +1642,7 @@ ul.am-dropdown-content>li>a:focus {
 @media only screen and (min-width: 641px) {
     .user-left-container {
         padding-left: 0.5rem;
+        height: 56rem;
     }
 
     .user-left-container img {
@@ -1687,7 +1651,7 @@ ul.am-dropdown-content>li>a:focus {
     }
 
     .user-left-container>a {
-        display: block;
+        display: inline-block;
         height: 100%;
         width: 100%;
     }
@@ -1805,7 +1769,7 @@ ul.am-dropdown-content>li>a:focus {
 #user-verify-win-img {
     width: 12.2rem;
     height: 3.1rem;
-    border: 1px solid #EEEEEE;
+    border: 1px solid #eee;
     padding: 0.2em;
     margin-right: 0.8rem;
 }
@@ -2801,7 +2765,7 @@ img.common-user-icon {
 .user-menu {
     position: fixed;
     z-index: 10;
-    bottom: 3rem;
+    bottom: 10rem;
     right: 2rem;
     box-shadow: 0 0 0.5rem 0.2rem #e8e8e8;
     opacity: 0.8;
@@ -3202,7 +3166,7 @@ header.am-topbar a {
 }
 
 .am-nav-tabs>li {
-    border-bottom: 0.2rem solid #EEEEEE;
+    border-bottom: 0.2rem solid #eee;
 }
 
 .am-nav-tabs,
@@ -3250,7 +3214,7 @@ header.am-topbar a {
     margin: 0;
     padding: 0 2rem;
     border: 0;
-    border-bottom: 0.1rem solid #EEEEEE;
+    border-bottom: 0.1rem solid #eee;
     border-radius: 0;
     border-top-left-radius: var(--border-radius-lg);
     border-top-right-radius: var(--border-radius-lg);
@@ -3396,7 +3360,7 @@ header.am-topbar a {
 
 .items-nav-title .more {
     position: absolute;
-    right: -0.5rem;
+    right: -0.2rem;
     top: 1.3rem;
     overflow: hidden;
 }
@@ -3409,10 +3373,6 @@ header.am-topbar a {
     padding: 0 1rem;
     border-radius: 1rem;
     font-size: 1.4rem;
-}
-
-.items-nav-title .more a i {
-    margin-left: 0.5rem;
 }
 
 @media only screen and (min-width: 641px) {

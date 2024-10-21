@@ -1,0 +1,72 @@
+<!-- 商品搜索 -->
+<div class="am-popup am-radius" id="popup-module-goods-search">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('layout.page_goods_search')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-form-popup-fixed form-validation-module-popup-goods-search layout-forth-selection-container" request-type="sync" request-value="FormBackModulePopupGoodsSearch">
+                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-radius am-margin-0" data-am-tabs="{noSwipe: 1}">
+                    <ul class="am-tabs-nav am-cf">
+                        <li class="am-active"><a href="[data-tab-panel-0]" data-value="category">{{:MyLang('form_goods_category_title')}}</a></li>
+                        <li><a href="[data-tab-panel-1]" data-value="brand">{{:MyLang('layout.view_popup_goods_search_tabs_brand')}}</a></li>
+                        <li><a href="[data-tab-panel-2]" data-value="keywords">{{:MyLang('layout.view_popup_goods_search_tabs_keywords')}}</a></li>
+                        <li><a href="[data-tab-panel-3]" data-value="other">{{:MyLang('layout.view_popup_goods_search_tabs_other')}}</a></li>
+                    </ul>
+                    <div class="am-tabs-bd">
+                        <div data-tab-panel-0 class="am-tab-panel am-padding-0 am-active">
+                            <div class="layout-category-choice">
+                                <div class="goods-category-choice am-padding-sm form-container-category">
+                                    {{:ModuleInclude('../../../module/view/layout/public/common/goods_category_choice')}}
+                                </div>
+                            </div>
+                        </div>
+                        <div data-tab-panel-1 class="am-tab-panel am-padding-0">
+                            <div class="layout-category-choice">
+                                <div class="goods-category-choice am-padding-sm form-container-brand">
+                                    <div class="goods-category-choice-content am-nbfc">
+                                        <ul class="am-scrollable-vertical am-list am-list-border" data-level="1">
+                                            {{foreach $brand_list as $k=>$v}}
+                                                <li>
+                                                    <a href="javascript:;" data-index="{{$k}}" data-value="{{$v.id}}">
+                                                        <span>{{$v.name}}</span>
+                                                    </a>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-tab-panel-2 class="am-tab-panel am-padding-0">
+                            <div class="am-form-group am-form-group-refreshing">
+                                <div class="am-padding-sm form-container-keywords">
+                                    <p class="am-margin-top-sm am-text-warning am-text-center">{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}</p>
+                                    <div class="am-margin-top-sm">
+                                        <input type="text" name="goods_search_keywords" placeholder="{{:MyLang('layout.view_popup_goods_search_tabs_keywords')}}" maxlength="80" data-validation-message="{{:MyLang('layout.view_popup_goods_search_keywords_tips')}}" class="am-radius" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-tab-panel-3 class="am-tab-panel am-padding-0">
+                            <p class="am-margin-top-lg am-padding-top-lg am-text-warning am-text-center">{{:MyLang('layout.view_popup_goods_search_other_tips')}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作 -->
+                <div class="am-form-popup-submit goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -82,7 +82,7 @@ class SiteService
         // 返回数据
         $result = [
             'page_total'    => 0,
-            'page_size'     => 20,
+            'page_size'     => 32,
             'page'          => max(1, isset($params['page']) ? intval($params['page']) : 1),
             'total'         => 0,
             'data'          => [],

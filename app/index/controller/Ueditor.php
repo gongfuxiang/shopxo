@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\ApiService;
 use app\service\UeditorService;
 
@@ -46,6 +47,38 @@ class Ueditor extends Common
     public function Index()
     {
         return ApiService::ApiDataReturn(UeditorService::Run(input()));
+    }
+
+    /**
+     * 扫码上传
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-20
+     * @desc    description
+     */
+    public function ScanUpload()
+    {
+        $cid = empty($this->data_request['cid']) ? '' : $this->data_request['cid'];
+        $key = empty($this->data_request['key']) ? '' : $this->data_request['key'];
+        $type = empty($this->data_request['type']) ? 'uploadimage' : $this->data_request['type'];
+        $extensions = [
+            'uploadimage' => implode(',', array_map(function($item){return substr($item, 1);}, MyConfig('ueditor.imageAllowFiles'))),
+            'uploadfile'  => implode(',', array_map(function($item){return substr($item, 1);}, MyConfig('ueditor.fileAllowFiles'))),
+            'uploadvideo' => implode(',', array_map(function($item){return substr($item, 1);}, MyConfig('ueditor.videoAllowFiles'))),
+        ];
+        MyViewAssign([
+            'is_header'            => 0,
+            'is_footer'            => 0,
+            'is_load_webuploader'  => 1,
+            'category_id'          => $cid,
+            'upload_key'           => $key,
+            'upload_action'        => $type,
+            'scan_key_exist'       => UeditorService::ScanKeyIsExist($this->data_request),
+            'extensions'           => empty($extensions[$type]) ? '' : $extensions[$type],
+            'home_seo_site_title'  => SeoService::BrowserSeoTitle(MyLang('ueditor.base_nav_title'), 2),
+        ]);
+        return MyView();
     }
 }
 ?>

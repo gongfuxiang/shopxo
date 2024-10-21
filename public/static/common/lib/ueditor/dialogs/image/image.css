@@ -2,9 +2,8 @@
 /* dialog样式 */
 .wrapper {
     zoom: 1;
-    width: 630px;
-    *width: 626px;
-    height: 380px;
+    width: calc(100% - 20px);
+    height: calc(100vh - 20px);
     margin: 0 auto;
     padding: 10px;
     position: relative;
@@ -17,7 +16,7 @@
 }
 .tabbody {
     width: 100%;
-    height: 346px;
+    height: calc(100% - 34px);
     position: relative;
     clear: both;
 }
@@ -33,7 +32,7 @@
 
 .tabbody .panel.focus {
     width: 100%;
-    height: 346px;
+    height: calc(100% - 34px);
     display: block;
 }
 
@@ -56,7 +55,7 @@
 #remote .right{
     display: block;
     float: right;
-    width: 300px;
+    width: 274px;
     height:10px;
 }
 #remote .row{
@@ -99,7 +98,7 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 #remote #url{
-    width: 502px;
+    width: calc(100% - 100px);
 }
 #remote #width,
 #remote #height{
@@ -156,17 +155,33 @@
 
 .tabbody #upload.panel.focus {
     width: 100%;
-    height: 346px;
+    height: 100%;
     display: block;
     clip: auto;
 }
 
 #upload .queueList {
     margin: 0;
-    width: 100%;
-    height: 100%;
+    height: calc(100vh - 60px);
+}
+
+#upload .queueList .draging {
     position: absolute;
-    overflow: hidden;
+    top: 10px;
+    left: 0;
+    width: calc(100% - 2px);
+    height: calc(100% - 12px);
+    line-height: calc(100vh - 70px);
+    background: #f0faff;
+    z-index: 10;
+    color: #03A9F4;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px dashed #03A9F4;
+    display: none;
+}
+#upload .queueList.webuploader-dnd-over .draging {
+    display: block;
 }
 
 #upload p {
@@ -186,10 +201,9 @@
 
 #upload .placeholder {
     margin: 10px;
-    height: 142px;
-    padding-top: 180px;
+    padding-top: 30%;
     text-align: center;
-    background: url(./images/image.png) center 70px no-repeat;
+    background: url(./images/image.png) center calc(20% + 70px) no-repeat;
     color: #cccccc;
     font-size: 18px;
     position: relative;
@@ -245,11 +259,12 @@
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
-    height: 300px;    
+    height: calc(100vh - 110px);
     display: flex;
     flex-flow: row wrap;
-    gap: 1.2rem;
-    padding: 10px 3px 10px 5px;
+    gap: 14px;
+    padding: 0 3px 10px 5px;
+    align-content: flex-start;
 }
 
 #upload .filelist:after {
@@ -263,8 +278,8 @@
 }
 
 #upload .filelist li {
-    width: 139px;
-    height: 139px;
+    width: 110px;
+    height: 110px;
     background: url(./images/bg.png);
     text-align: center;
     position: relative;
@@ -362,7 +377,7 @@
 #upload .filelist li p.imgWrap {
     position: relative;
     z-index: 2;
-    line-height: 139px;
+    line-height: 110px;
     vertical-align: middle;
     overflow: hidden;
 
@@ -392,7 +407,7 @@
     height: 28px;
     line-height: 28px;
     width: 100%;
-    z-index: 100;
+    z-index: 2;
     display:none;
 }
 
@@ -403,15 +418,15 @@
     bottom: 0;
     height: 40px;
     width: 100%;
-    z-index: 200;
+    z-index: 2;
     background: url(./images/success.png) no-repeat right bottom;
     background: url(./images/success.gif) no-repeat right bottom \9;
 }
 
 #upload .filelist li.filePickerBlock {
-    width: 139px;
-    height: 139px;
-    background: url(./images/image.png) no-repeat center 28px;
+    width: 110px;
+    height: 110px;
+    background: url(./images/image.png) no-repeat center 18px;
     border: 1px solid #f2f2f2;
     border-radius: 4px;
 }
@@ -434,7 +449,7 @@
     top: 0;
     left: 0;
     overflow: hidden;
-    z-index: 300;
+    z-index: 3;
 }
 
 #upload .filelist div.file-panel span {
@@ -445,7 +460,6 @@
     text-indent: -9999px;
     overflow: hidden;
     background: url(./images/icons.png) no-repeat;
-    background: url(./images/icons.gif) no-repeat \9;
     margin: 5px 1px 1px;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -482,12 +496,14 @@
 }
 
 #upload .statusBar {
-    height: 45px;
+    height: 32px;
     margin: 0 5px;
     padding: 0;
-    line-height: 45px;
+    line-height: 32px;
     vertical-align: middle;
     position: relative;
+    margin-top: 10px;
+    padding-bottom: 10px;
 }
 
 #upload .statusBar .progress {
@@ -528,7 +544,7 @@
 
 #upload .statusBar .btns {
     position: absolute;
-    top: 7px;
+    top: 0;
     right: 0;
     line-height: 30px;
 }
@@ -587,31 +603,92 @@
 /* 图片管理样式 */
 #online {
     width: 100%;
-    height: 336px;
+    height: calc(100% - 10px);
     padding: 10px 0 0 0;
+    overflow: hidden;
 }
-#online #imageList{
-    width: 100%;
-    height: 100%;
+#online #leftCategory {
+    width: 120px;
+    float: left;
+    border: 1px solid #f2f2f2;
+    height: calc(100% - 2px);
+    border-radius: 4px;
+}
+#online #leftCategory ul {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: calc(100% - 46px);
+    margin-top: 10px;
+}
+#online #leftCategory li {
+    line-height: 16px;
+    padding: 8px 5px 8px 15px;
+    position: relative;
+    cursor: pointer;
+}
+#online #leftCategory li:before {
+    content: '';
+    background: #00b7ee;
+    display: block;
+    width: 2px;
+    height: 10px;
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    border-radius: 4px;
+    display: none;
+}
+#online #leftCategory li.disabled {
+    color: #ccc;
+}
+#online #leftCategory li.active {
+    color: #00b7ee;
+}
+#online #leftCategory li.active:before {
+    display: block;
+}
+#online #leftCategory .category-search-input,
+#online #leftCategory .category-search-submit {
+    vertical-align: middle;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
+    font-size: 12px;
+    outline: none;
+    margin-top: 10px;
+}
+#online #leftCategory .category-search-input {
+    height: 22px;
+    line-height: 22px;
+    width: calc(100% - 68px);
+    margin-left: 10px;
+}
+#online #leftCategory .category-search-submit {
+    background: #fff;
+    height: 26px;
+    color: #666;
+    cursor: pointer;
+}
+#online #imageList {
+    width: calc(100% - 135px);
+    height: calc(100% - 30px);
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
+    float: right;
 }
-#online ul {
-    display: block;
+#online #imageList ul {
     list-style: none;
     padding: 0;
     display: flex;
     flex-flow: row wrap;
-    gap: 1.27rem;
-    padding: 10px 0px 10px 5px;
+    gap: 15px;
 }
-#online li {
+#online #imageList li {
     display: block;
     list-style: none;
     padding: 0;
-    width: 139px;
-    height: 139px;
+    width: 110px;
+    height: 110px;
     background-color: #eee;
     overflow: hidden;
     cursor: pointer;
@@ -619,7 +696,7 @@
     border-radius: 4px;
     border: 1px solid #f2f2f2;
 }
-#online li.clearFloat {
+#online #imageList li.clearFloat {
     float: none;
     clear: both;
     display: block;
@@ -628,14 +705,14 @@
     margin: 0;
     padding: 0;
 }
-#online li img {
+#online #imageList li img {
     cursor: pointer;
     width: 100%;
 }
-#online li .icon {
+#online #imageList li .icon {
     cursor: pointer;
-    width: 139px;
-    height: 139px;
+    width: 110px;
+    height: 110px;
     position: absolute;
     top: 0;
     left: 0;
@@ -643,24 +720,23 @@
     border: 0;
     background-repeat: no-repeat;
 }
-#online li .icon:hover {
-    width: 133px;
-    height: 133px;
+#online #imageList li .icon:hover {
+    width: 104px;
+    height: 104px;
     border: 3px solid #1094fa;
 }
-#online li.selected .icon {
+#online #imageList li.selected .icon {
     background-image: url(images/success.png);
-    background-image: url(images/success.gif)\9;
-    background-position: 99px 99px;
+    background-position: 70px 70px;
 }
-#online li.selected .icon:hover {
-    width: 133px;
-    height: 133px;
+#online #imageList li.selected .icon:hover {
+    width: 104px;
+    height: 104px;
     border: 3px solid #1094fa;
-    background-position: 96px 96px;
+    background-position: 67px 67px;
 }
 
-#online li .delbtn {      
+#online #imageList li .delbtn {      
     position: absolute;
     top: 0;
     right: 0;
@@ -670,13 +746,36 @@
     display: inline;
     font-size: 14px;
     line-height: 12px;
-    padding:5px 8px;
+    padding:5px;
     text-align: center;
     background-color: #d9534f;
+    border-radius: 2px;
 }
-#online li .delbtn:hover {
+#online #imageList li .delbtn:hover {
     color: #fff;
     background-color: #ef1313;
+}
+
+#online #pagination {
+    margin-top: 10px;
+    float: right;
+    color: #999;
+}
+#online #pagination .page-total-first {
+    margin-left: 15px;
+}
+
+/**
+ * 加载
+ */
+#online #loading {
+    width: calc(100% - 135px);
+    text-align: center;
+    margin-top: 25%;
+    color: #ccc;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 /**
@@ -686,7 +785,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% - 23px);
+    width: calc(100% - 19px);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -722,14 +821,23 @@
     float:right;
     position: relative;
     top: -1px;
-    width: calc(100% - 210px);
+    width: calc(100% - 270px);
+}
+
+/**
+ * 公共
+ */
+.none {
+    display: none !important;
 }
 
 /**
  * 搜索
  */
-.none {
-    display: none;
+#search-container {
+    text-align: right;
+    float: right;
+    width: 300px;
 }
 #search-submit {
     background: #fff;
@@ -746,8 +854,12 @@
 }
 #search-input {
     padding: 4px 5px;
-    width: calc(100% - 76px);
+    width: calc(100% - 74px);
     margin-right: 0;
+    color: #666;
+}
+#search-input::placeholder {
+    color: #ccc;
 }
 #search-input, #search-submit {
     border-radius: 4px;
@@ -755,6 +867,98 @@
     outline: none;
     height: 22px;
     line-height: 22px;
+}
+
+/**
+ * 上传-分类
+ */
+#choice-category-container {
+    float: right;
+    text-align: right;
+    width: 100%;
+}
+#choice-category-container select {
+    cursor: pointer;
+    width: 300px;
+    padding: 2px;
+    height: 32px;
+    font-size: 14px;
+    border: 1px solid #D4D6D9;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #666;
+}
+#choice-category-container select:focus {
+    outline: none;
+}
+
+/**
+ * 扫码上传
+ */
+#scan {
+    text-align: center;
+    padding-top: 30px;
+}
+#scan .qrcode-url {
+    margin-top: 10px;
+}
+#scan .qrcode-url .text-copy-submit {
+    border: 1px solid #f2f2f2;
+    border-radius: 4px;
+    padding: 1px 5px;
+    cursor: pointer;
+}
+#scan .qrcode-images-list {
+    margin-top: 30px;
+    height: calc(100vh - 306px);
+    overflow-x: auto;
+    border: 1px solid #f2f2f2;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+#scan .qrcode-images-list table {
+    width: 100%;
+    text-align: left;
+}
+#scan .qrcode-images-list table thead {
+    position: sticky;
+    left: 0;
+    top: 0;
+    background: #fff;
+}
+#scan .qrcode-images-list table thead th:nth-child(1) {
+    width: 60%;
+}
+#scan .qrcode-images-list table thead th:nth-child(2) {
+    width: 30%;
+}
+#scan .qrcode-images-list table thead th:nth-child(3) {
+    width: 10%;
+}
+#scan .qrcode-images-list table thead th,
+#scan .qrcode-images-list table tbody td {
+    padding: 10px 0;
+    line-height: 18px;
+    border-bottom: 1px solid #f9f9f9;
+}
+#scan .qrcode-images-list table tbody td img {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    vertical-align: middle;
+    border-radius: 4px;
+}
+#scan .qrcode-images-list table tbody td .delete {
+    color: #2196F3;
+    cursor: pointer;
+}
+#scan .qrcode-images-list table tbody td .delete:hover {
+    color: #f00;
+}
+#scan .qrcode-images-list .no-data {
+    text-align: center;
+    color: #ccc;
+    line-height: calc(100vh - 366px);
 }
 
 /**
@@ -787,22 +991,33 @@
         margin-left: 0;
     }
     .tabbody {
-        height: 315px;
+        height: 350px;
         overflow: hidden;
     }
     #upload .placeholder {
-        height: 140px;
+        padding-top: 40%;
+        background-position-y: 40%;
     }
     #online {
-        height: 305px;
+        height: 336px;
     }
     #upload .filelist {
         height: 260px;
     }
     .tabbody .panel.focus {
-        height: 315px;
+        height: 350px;
     }
     .alignBar {
-        width: calc(100% - 190px);
+        width: calc(100% - 270px);
+    }
+    #search-container,
+    #choice-category-container select {
+        max-width: 100%;
+    }
+    #scan .qrcode-images-list {
+        height: calc(100vh - 268px);
+    }
+    #scan .qrcode-images-list .no-data {
+        line-height: calc(100vh - 320px);
     }
 }

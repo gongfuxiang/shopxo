@@ -1,0 +1,31 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/attachment/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
+            <div class="am-form-group">
+                <label>{{:MyLang('common_service.attachment.form_item_original')}}</label>
+                <input type="text" name="original" class="am-radius" placeholder="{{:MyLang('common_service.attachment.form_item_original_message')}}" data-validation-message="{{:MyLang('common_service.attachment.form_item_original_message')}}" value="{{if !empty($data['original'])}}{{$data.original}}{{/if}}" required />
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" value="{{if !empty($data)}}{{$data.id}}{{/if}}" />
+                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                    <i class="am-icon-paint-brush"></i>
+                    <span>{{:MyLang('cancel_title')}}</span>
+                </button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                    <i class="am-icon-check"></i>
+                    <span>{{:MyLang('confirm_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

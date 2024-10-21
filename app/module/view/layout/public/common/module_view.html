@@ -1,0 +1,571 @@
+<div class="layout-content-container {{if !empty($module_data['vs']['config']) and !empty($module_data['vs']['config']['frontend_config'])}}{{$module_data.vs.config.frontend_config.ent}}{{/if}}" style="{{if !empty($module_data['vs']['config']) and !empty($module_data['vs']['config']['frontend_config'])}}{{$module_data.vs.config.frontend_config.style}}{{/if}}{{if !empty($module_data['vs']['config']['style_background_images'])}}background-image:url({{$module_data.vs.config.style_background_images}});{{/if}}">
+    <div class="layout-content">
+        {{if !empty($module_data['vs']['children']) and is_array($module_data['vs']['children'])}}
+            {{foreach $module_data.vs.children as $kss=>$vss}}
+                <div class="module-view">
+                    <div class="module-content">
+                        {{if !empty($vss['config'])}}
+                            <div class="module-{{$vss.value}}-container" style="{{if isset($vss['config']['frontend_config']['style'])}}{{$vss.config.frontend_config.style}}{{/if}}">
+                                {{switch vss.value}}
+                                    {{case images}}
+                                        <a {{if empty($vss['config']['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['url'])}}href="{{$vss.config.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss.config.url}}');"{{/if}}{{/if}} class="module-images-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                            <img src="{{$vss.config.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                        </a>
+                                    {{/case}}
+                                    {{case many-images}}
+                                        {{switch vss.config.view_list_show_style}}
+                                            {{case rolling}}
+                                                <div class="am-slider am-slider-default am-slider-carousel module-list-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $i}}
+                                                            <li>
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                </a>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                            {{/case}}
+                                            {{case list}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/case}}
+                                            {{default /}}
+                                                <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}'>
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $i}}
+                                                            <li>
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                </a>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                        {{/switch}}
+                                    {{/case}}
+                                    {{case images-text}}
+                                        {{switch vss.config.view_list_show_style}}
+                                            {{case rolling}}
+                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $ik=>$i}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    {{if !empty($i['images'])}}
+                                                                        <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                            <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                        </a>
+                                                                    {{/if}}
+                                                                    {{if !empty($i['title'])}}
+                                                                        <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}}>
+                                                                            <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}"><a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}}>{{$i.title}}</p>
+                                                                        </a>
+                                                                    {{/if}}
+                                                                    {{if !empty($i['desc'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                    {{/if}}
+                                                                </div>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                            {{/case}}
+                                            {{case leftright}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $ik=>$i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                {{if !empty($i['images'])}}
+                                                                    <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                {{/if}}
+                                                                <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
+                                                                    {{if !empty($i['title'])}}
+                                                                        <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}}>
+                                                                            <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                        </a>
+                                                                    {{/if}}
+                                                                    {{if !empty($i['desc'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                    {{/if}}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/case}}
+                                            {{default /}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $ik=>$i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                {{if !empty($i['images'])}}
+                                                                    <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                {{/if}}
+                                                                {{if !empty($i['title'])}}
+                                                                    <a {{if empty($i['url'])}}href="javascript:;"{{else /}}{{if IsUrl($i['url'])}}href="{{$i.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$i.url}}');"{{/if}}{{/if}}>
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                    </a>
+                                                                {{/if}}
+                                                                {{if !empty($i['desc'])}}
+                                                                    <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                {{/if}}
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                        {{/switch}}
+                                    {{/case}}
+                                    {{case images-magic-cube}}
+                                        <div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-{{$vss.config.view_list_show_style}} {{$vss.config.frontend_config.list_ent}}">
+                                            {{switch vss.config.view_list_show_style}}
+                                                {{case g1}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v3}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v3}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h2}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h3}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h4}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr12}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr13}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr21}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr31}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb12}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb13}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb21}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb31}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lrv2h2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lrh2v2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case g4}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][0]['url'])}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][0]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][1]['url'])}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][1]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][2]['url'])}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][2]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['data_list'][3]['url'])}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss['config']['data_list'][3]['url']}}');"{{/if}}{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block {{if !empty($vss['config']['frontend_config']['media_fixed'])}}{{$vss.config.frontend_config.media_fixed.media_ent}}{{/if}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                            {{/switch}}
+                                        </div>
+                                    {{/case}}
+                                    {{case video}}
+                                        <div class="module-video-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                            <video src="{{$vss.config.video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">your browser does not support the video tag</video>
+                                        </div>
+                                    {{/case}}
+                                    {{case goods}}
+                                        {{if !empty($vss['config']['data_list']) and is_array($vss['config']['data_list'])}}
+                                            {{switch vss.config.view_list_show_style}}
+                                                {{case rolling}}
+                                                    <div class="am-slider am-slider-default am-slider-carousel module-goods-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                        <div class="am-viewport">
+                                                            <ul class="am-slides module-list-content">
+                                                                {{foreach $vss.config.data_list as $g}}
+                                                                    <li>
+                                                                        <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                            <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                                <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                            </a>
+                                                                            <div class="item-bottom">
+                                                                                <div class="module-title">
+                                                                                    <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}}>{{$g.title}}</a></div>
+                                                                                <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                {{/foreach}}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                                {{case leftright}}
+                                                    <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                        {{foreach $vss.config.data_list as $g}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}} class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$g.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                    <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
+                                                                        <div class="module-title">
+                                                                            <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}}>{{$g.title}}</a>
+                                                                        </div>
+                                                                        <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                {{/case}}
+                                                {{default /}}
+                                                    <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                        {{foreach $vss.config.data_list as $g}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                    <div class="item-bottom">
+                                                                        <div class="module-title">
+                                                                            <a {{if empty($g['goods_url'])}}href="javascript:;"{{else /}}{{if IsUrl($g['goods_url'])}}href="{{$g.goods_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$g.goods_url}}');"{{/if}}{{/if}}>{{$g.title}}</a></div>
+                                                                        <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                            {{/switch}}
+                                        {{/if}}
+                                    {{/case}}
+                                    {{case title}}
+                                        <div class="module-title-content">
+                                            <span class="title-main" style="{{$vss.config.frontend_config.style_title_main}}">{{$vss.config.title}}</span>
+                                            {{if !empty($vss['config']['title_vice'])}}
+                                                <span class="title-vice" style="{{$vss.config.frontend_config.style_title_vice}}">{{$vss.config.title_vice}}</span>
+                                            {{/if}}
+                                            {{if !empty($vss['config']['keywords_list'])}}
+                                                <div class="keywords-content">
+                                                    {{foreach $vss.config.keywords_list as $wd}}
+                                                        <a {{if empty($wd['url'])}}href="javascript:;"{{else /}}{{if IsUrl($wd['url'])}}href="{{$wd.url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$wd.url}}');"{{/if}}{{/if}} {{if !empty($wd['color'])}}style="color:{{$wd.color}};"{{/if}}>{{$wd.keywords}}</a>
+                                                    {{/foreach}}
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($vss['config']['title_more'])}}
+                                                <div class="more-content">
+                                                    <a {{if empty($vss['config']['title_more_url'])}}href="javascript:;"{{else /}}{{if IsUrl($vss['config']['title_more_url'])}}href="{{$vss.config.title_more_url}}" target="_blank"{{else /}}href="javascript:CustomUrlOpenHandle('{{$vss.config.title_more_url}}');"{{/if}}{{/if}} style="{{$vss.config.frontend_config.style_title_more}}">
+                                                        <span>{{$vss.config.title_more}}</span>
+                                                        <i class="iconfont icon-angle-right"></i>
+                                                    </a>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    {{/case}}
+                                    {{case custom}}
+                                        {{if !empty($vss['config']['custom'])}}
+                                            {{$vss.config.custom|raw}}
+                                        {{/if}}
+                                    {{/case}}
+                                {{/switch}}
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/foreach}}
+        {{/if}}
+    </div>
+</div>

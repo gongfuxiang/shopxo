@@ -74,13 +74,14 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => $lang['info'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'goods/module/info',
-                    'grid_size'     => 'lg',
-                    'is_sort'       => 1,
-                    'sort_field'    => 'title',
-                    'search_config' => [
+                    'label'             => $lang['info'],
+                    'view_type'         => 'module',
+                    'view_key'          => 'goods/module/info',
+                    'grid_size'         => 'lg',
+                    'is_sort'           => 1,
+                    'sort_field'        => 'title',
+                    'params_where_name' => 'keywords',
+                    'search_config'     => [
                         'form_type'           => 'input',
                         'form_name'           => 'id',
                         'where_type_custom'   => 'in',
@@ -89,12 +90,13 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => $lang['category_text'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'category_text',
-                    'search_config' => [
+                    'label'             => $lang['category_text'],
+                    'view_type'         => 'field',
+                    'view_key'          => 'category_text',
+                    'params_where_name' => 'category_ids',
+                    'search_config'     => [
                         'form_type'             => 'module',
-                        'template'              => 'lib/module/goods_category',
+                        'template'              => 'lib/module/multi_level_category',
                         'form_name'             => 'id',
                         'where_type'            => 'in',
                         'where_value_custom'    => 'WhereValueGoodsCategory',
@@ -102,11 +104,13 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => $lang['brand_name'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'brand_name',
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'             => $lang['brand_name'],
+                    'view_type'         => 'field',
+                    'view_key'          => 'brand_name',
+                    'params_where_name' => 'brand_ids',
+                    'is_sort'           => 1,
+                    'width'             => 140,
+                    'search_config'     => [
                         'form_type'         => 'select',
                         'form_name'         => 'brand_id',
                         'where_type'        => 'in',
@@ -150,14 +154,16 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => $lang['is_shelves'],
-                    'view_type'     => 'status',
-                    'view_key'      => 'is_shelves',
-                    'post_url'      => MyUrl('admin/goods/statusupdate'),
-                    'is_form_su'    => 1,
-                    'align'         => 'center',
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'              => $lang['is_shelves'],
+                    'view_type'          => 'status',
+                    'view_key'           => 'is_shelves',
+                    'post_url'           => MyUrl('admin/goods/statusupdate'),
+                    'is_form_su'         => 1,
+                    'align'              => 'center',
+                    'is_sort'            => 1,
+                    'width'              => 130,
+                    'params_where_name'  => 'is_shelves',
+                    'search_config'      => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_is_shelves_list'),
@@ -173,6 +179,7 @@ class Goods
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'align'         => 'center',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -189,6 +196,7 @@ class Goods
                     'view_data_key' => 'name',
                     'view_data'     => MyConst('common_site_type_list'),
                     'is_sort'       => 1,
+                    'width'         => 140,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',

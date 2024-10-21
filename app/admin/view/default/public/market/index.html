@@ -1,0 +1,36 @@
+<form class="am-form package-install-list-container"
+    data-url="{{:MyUrl('admin/packageinstall/install')}}"
+    data-type="{{if !empty($module_data['type'])}}{{$module_data.type}}{{/if}}"
+    data-back-url="{{if !empty($module_data['back_url'])}}{{$module_data.back_url}}{{/if}}"
+    data-back-url-field="{{if !empty($module_data['back_url_field'])}}{{$module_data.back_url_field}}{{/if}}"
+    data-back-url-is-new-win="{{if isset($module_data['back_url_is_new_win'])}}{{$module_data.back_url_is_new_win}}{{/if}}"
+    data-back-url-is-new-win-data-list-query="{{if isset($module_data['back_url_is_new_win_data_list_query'])}}{{$module_data.back_url_is_new_win_data_list_query}}{{/if}}"
+    data-back-url-is-new-win-refresh="{{if isset($module_data['back_url_is_new_win_refresh'])}}{{$module_data.back_url_is_new_win_refresh}}{{/if}}"
+    data-back-win-refresh-type="{{if isset($module_data['back_win_refresh_type'])}}{{$module_data.back_win_refresh_type}}{{/if}}"
+>
+    <!-- 搜索 -->
+    <div class="forth-selection-container" data-search-url="{{if !empty($module_data['search_url'])}}{{$module_data.search_url}}{{/if}}">
+        <input type="text" placeholder="{{:MyLang('form_search_keywords_placeholder')}}" class="am-radius forth-selection-form-keywords" />
+        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: '{{:MyLang('search_title')}}'}">
+            <i class="iconfont icon-search"></i>
+            <span>{{:MyLang('search_title')}}</span>
+        </button>
+        <label class="am-checkbox-inline am-margin-left-sm am-margin-top-xs">
+            <input type="checkbox" value="1" class="is-already-buy" data-am-ucheck /> {{:MyLang('already_buy_title')}}
+        </label>
+        {{if !empty($module_data['more_download_url']) and !empty($module_data['more_download_name']) and $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index')}}
+            <a class="am-fr am-margin-top-sm" href="{{$module_data.more_download_url}}" target="_blank">
+                <i class="iconfont icon-download-btn"></i>
+                <span class="am-margin-left-xs">{{$module_data.more_download_name}}</span>
+            </a>
+        {{/if}}
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs am-radius package-data-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
+        <ul class="am-gallery am-gallery-bordered am-avg-sm-2 am-avg-md-3 am-avg-lg-6"></ul>
+    </div>
+
+    <!-- 分页 -->
+    <div class="am-margin-top-sm am-text-center package-data-page-container"></div>
+</form>

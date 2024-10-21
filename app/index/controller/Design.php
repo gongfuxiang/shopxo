@@ -12,7 +12,7 @@ namespace app\index\controller;
 
 use app\service\SeoService;
 use app\service\DesignService;
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 
 /**
  * 页面设计
@@ -68,7 +68,7 @@ class Design extends Common
                 $assign = [
                     'data'              => $data,
                     // 配置处理
-                    'layout_data'       => BaseLayout::ConfigHandle($data['config']),
+                    'layout_data'       => LayoutModule::ConfigHandle($data['config']),
                     // 加载布局样式
                     'is_load_layout'    => 1,
                     // 头尾

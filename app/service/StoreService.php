@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
+use think\facade\Db;
 use app\service\ConfigService;
-use app\service\AdminService;
+use app\service\MultilingualService;
 
 /**
  * 应用商店服务层
@@ -36,7 +37,7 @@ class StoreService
      */
     public static function StoreUrl($params = [])
     {
-        return MyConfig('shopxo.store_url').self::RequestParamsString($params);
+        return self::RequestParamsString(MyConfig('shopxo.store_url'), $params);
     }
 
     /**
@@ -50,7 +51,7 @@ class StoreService
      */
     public static function StorePaymentUrl($params = [])
     {
-        return MyConfig('shopxo.store_payment_url').self::RequestParamsString($params);
+        return self::RequestParamsString(MyConfig('shopxo.store_payment_url'), $params);
     }
 
     /**
@@ -64,7 +65,21 @@ class StoreService
      */
     public static function StoreDesignUrl($params = [])
     {
-        return MyConfig('shopxo.store_design_url').self::RequestParamsString($params);
+        return self::RequestParamsString(MyConfig('shopxo.store_design_url'), $params);
+    }
+
+    /**
+     * 应用商店DIY装修地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-12
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function StoreDiyUrl($params = [])
+    {
+        return self::RequestParamsString(MyConfig('shopxo.store_diy_url'), $params);
     }
     
     /**
@@ -78,7 +93,7 @@ class StoreService
      */
     public static function StoreThemeUrl($params = [])
     {
-        return MyConfig('shopxo.store_theme_url').self::RequestParamsString($params);
+        return self::RequestParamsString(MyConfig('shopxo.store_theme_url'), $params);
     }
 
     /**
@@ -88,15 +103,17 @@ class StoreService
      * @version 1.0.0
      * @date    2021-02-12
      * @desc    description
+     * @param   [string]          $url    [url地址]
      * @param   [array]           $params [输入参数]
      */
-    public static function RequestParamsString($params = [])
+    public static function RequestParamsString($url, $params = [])
     {
         // 当前管理员后台地址
         $admin_url = explode('?', __MY_VIEW_URL__);
 
         // 拼接商店请求参数地址
-        return '?name='.urlencode(base64_encode(MyC('home_site_name'))).'&ver='.urlencode(base64_encode(APPLICATION_VERSION)).'&url='.urlencode(base64_encode(__MY_URL__)).'&host='.urlencode(base64_encode(__MY_HOST__)).'&ip='.urlencode(base64_encode(__MY_ADDR__)).'&admin_url='.urlencode(base64_encode($admin_url[0]));
+        $join = (stripos($url, '?') === false) ? '?' : '&';
+        return $url.$join.'name='.urlencode(base64_encode(MyC('home_site_name'))).'&ver='.urlencode(base64_encode(APPLICATION_VERSION)).'&url='.urlencode(base64_encode(__MY_URL__)).'&host='.urlencode(base64_encode(__MY_HOST__)).'&ip='.urlencode(base64_encode(__MY_ADDR__)).'&admin_url='.urlencode(base64_encode($admin_url[0]));
     }
 
     /**
@@ -174,6 +191,20 @@ class StoreService
         // 数据库配置中读取
         $accounts = MyC('common_store_accounts');
         $password = MyC('common_store_password');
+
+        // 缓存没有则从数据库读取
+        if(empty($accounts) || empty($password))
+        {
+            $info = Db::name('Config')->where('only_tag', 'in', ['common_store_accounts', 'common_store_password'])->column('value', 'only_tag');
+            if(!empty($info['common_store_accounts']))
+            {
+                $accounts = $info['common_store_accounts'];
+            }
+            if(!empty($info['common_store_password']))
+            {
+                $password = $info['common_store_password'];
+            }
+        }
 
         // 存在密码则解密
         if(!empty($password))
@@ -264,9 +295,9 @@ class StoreService
     public static function PluginsLegalCheck($params = [])
     {
         // 参数校验
-        if(empty($params) || empty($params['type']) || empty($params['plugins']) || empty($params['author']) || empty($params['ver']))
+        if(empty($params) || empty($params['type']) || empty($params['plugins']))
         {
-            return DataReturn('插件参数有误', -1);
+            return DataReturn(MyLang('store_plugins_params_error_tips'), -1);
         }
 
         // 帐号信息
@@ -280,9 +311,9 @@ class StoreService
         $request_params = [
             'plugins_type'      => $params['type'],
             'plugins_value'     => $params['plugins'],
-            'plugins_author'    => $params['author'],
-            'plugins_ver'       => $params['ver'],
-            'plugins_config'    => $params['config'],
+            'plugins_author'    => empty($params['author']) ? '' : $params['author'],
+            'plugins_ver'       => empty($params['ver']) ? '' : empty($params['ver']),
+            'plugins_config'    => isset($params['config']) ? $params['config'] : '',
         ];
         return self::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_plugins_legal_check_url'), $request_params);
     }
@@ -328,13 +359,6 @@ class StoreService
      */
     public static function RemoteStoreData($accounts, $password, $url, $params = [], $data_type = 0)
     {
-        // 未登录则不执行
-        $admin = AdminService::LoginInfo();
-        if(empty($admin))
-        {
-            return DataReturn(MyLang('user_no_login_tips'), -1);
-        }
-
         // http状态验证
         $key = 'cache_store_url_http_code';
         $time = 600;
@@ -371,6 +395,7 @@ class StoreService
             'php_os'        => PHP_OS,
             'php_version'   => PHP_VERSION,
             'php_sapi_name' => php_sapi_name(),
+            'lang'          => MultilingualService::GetUserMultilingualValue(),
             'client_date'   => date('Y-m-d H:i:s'), 
         ];
         $ret = CurlPost($url, array_merge($data, $params), $data_type);
@@ -405,6 +430,59 @@ class StoreService
             return $result;
         }
         return DataReturn(empty($result['msg']) ? MyLang('store_respond_data_empty_tips') : MyLang('store_respond_result_tips').'[ '.$result['msg'].' ]', -1);
+    }
+
+    /**
+     * 包数数据列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PackageDataList($params = [])
+    {
+        // 参数校验
+        if(empty($params) || empty($params['type']))
+        {
+            return DataReturn(MyLang('store_package_data_params_error_tips'), -1);
+        }
+
+        // 参数处理
+        $params['page_size'] = empty($params['page_size']) ? 18 : min(100, intval($params['page_size']));
+
+        // 帐号信息
+        $user = self::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
+        {
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
+        }
+
+        // 获取信息
+        $res = self::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_package_data_list_url'), $params);
+        if($res['code'] == 0)
+        {
+            $data = $res['data'];
+            if(!empty($data['data_list']) && is_array($data['data_list']))
+            {
+                foreach($data['data_list'] as &$v)
+                {
+                    // 拼接商品应用商店来源地址
+                    $v['goods_url'] = self::RequestParamsString($v['goods_url']);
+                }
+            }
+            $result = [
+                'page'        => empty($data['page']) ? 0 : $data['page'],
+                'page_start'  => empty($data['page_start']) ? 0 : $data['page_start'],
+                'page_size'   => empty($data['page_size']) ? 0 : $data['page_size'],
+                'page_total'  => empty($data['page_total']) ? 0 : $data['page_total'],
+                'data_total'  => empty($data['data_total']) ? 0 : $data['data_total'],
+                'data_list'   => empty($data['data_list']) ? [] : $data['data_list'],
+            ];
+            return DataReturn('success', 0, $result);
+        }
+        return $res;
     }
 }
 ?>

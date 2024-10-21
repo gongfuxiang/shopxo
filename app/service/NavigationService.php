@@ -45,15 +45,17 @@ class NavigationService
         $header = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'));
         $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'));
 
+        // 是否需要重新读取
+        $is_query = MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1;
         // 缓存没数据则从数据库重新读取,顶部菜单
-        if($header === null || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
+        if($header === null || $is_query)
         {
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
 
         // 底部导航
-        if($footer === null || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
+        if($footer === null || $is_query)
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');
@@ -123,37 +125,49 @@ class NavigationService
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-06-15
-     * @desc    description
      * @param   [string]          $nav_type [导航类型（header, footer）]
      */
     public static function NavDataAll($nav_type)
     {
-        // 获取导航数据
-        $field = 'id,pid,name,url,value,data_type,is_new_window_open';
-        $order_by = 'sort asc,id asc';
-        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>0))->order($order_by)->select()->toArray());
-        if(!empty($data))
+        // 返回数据
+        static $main_nav_static_data = null;
+        if($main_nav_static_data === null)
         {
-            // 获取子数据
-            $items = [];
-            $ids = array_column($data, 'id');
-            $items_data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>$ids))->order($order_by)->select()->toArray());
-            if(!empty($items_data))
+            // 获取导航数据
+            $nav = self::NavDataDealWith(Db::name('Navigation')->field('id,pid,name,url,value,data_type,nav_type,is_new_window_open')->where(['is_show'=>1])->order('sort asc,id asc')->select()->toArray());
+            // 数据处理
+            $temp_nav_data = [
+                'header' => [],
+                'footer' => [],
+            ];
+            if(!empty($nav))
             {
-                foreach($items_data as $it)
+                foreach($nav as $v)
                 {
-                    $items[$it['pid']][] = $it;
+                    if(empty($v['pid']))
+                    {
+                        $temp_nav_data[$v['nav_type']][$v['id']] = $v;
+                    }
+                }
+                foreach($nav as $v)
+                {
+                    if(!empty($v['pid']) && array_key_exists($v['pid'], $temp_nav_data[$v['nav_type']]))
+                    {
+                        if(empty($temp_nav_data[$v['nav_type']][$v['pid']]['items']))
+                        {
+                            $temp_nav_data[$v['nav_type']][$v['pid']]['items'] = [];
+                        }
+                        $temp_nav_data[$v['nav_type']][$v['pid']]['items'][] = $v;
+                    }
                 }
             }
-
-            // 数据组合
-            foreach($data as &$v)
-            {
-                $v['items'] = isset($items[$v['id']]) ? $items[$v['id']] : [];
-            }
+            $temp_nav_data['header'] = array_values($temp_nav_data['header']);
+            $temp_nav_data['footer'] = array_values($temp_nav_data['footer']);
+            $main_nav_static_data = $temp_nav_data;
         }
+        $data = $main_nav_static_data[$nav_type];
 
-        // 大导航钩子
+        // 导航钩子
         $hook_name = 'plugins_service_navigation_'.$nav_type.'_handle';
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
@@ -175,7 +189,7 @@ class NavigationService
     }
 
     /**
-     * [NavDataDealWith 导航数据处理]
+     * 导航数据处理
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

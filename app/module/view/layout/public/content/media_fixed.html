@@ -1,0 +1,53 @@
+<!-- 宽度 -->
+{{:ModuleInclude('../../../module/view/layout/public/style/width', [
+    'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+    'required' => isset($module_data['required']) ? $module_data['required'] : '',
+])}}
+
+<!-- 高度 -->
+{{:ModuleInclude('../../../module/view/layout/public/style/height', [
+    'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+    'required' => isset($module_data['required']) ? $module_data['required'] : '',
+])}}
+
+<!-- 最大宽度 -->
+{{:ModuleInclude('../../../module/view/layout/public/style/max_width', [
+    'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+    'required' => isset($module_data['required']) ? $module_data['required'] : '',
+])}}
+
+<!-- 最大高度 -->
+{{:ModuleInclude('../../../module/view/layout/public/style/max_height', [
+    'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+    'required' => isset($module_data['required']) ? $module_data['required'] : '',
+])}}
+
+<!-- 圆角 -->
+{{:ModuleInclude('../../../module/view/layout/public/style/border_radius', [
+    'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+    'required' => isset($module_data['required']) ? $module_data['required'] : '',
+])}}
+
+<!-- 是否高度100% -->
+<div class="am-form-group am-form-group-refreshing">
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_width_100_title')}}</label>
+    <input name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_is_width" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+</div>
+
+<!-- 是否高度100% -->
+<div class="am-form-group am-form-group-refreshing">
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_height_100_title')}}</label>
+    <input name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_is_height" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+</div>
+
+<!-- 是否居中 -->
+<div class="am-form-group am-form-group-refreshing">
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_center_title')}}</label>
+    <input name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_is_auto" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+</div>
+
+<!-- 是否铺满容器 -->
+<div class="am-form-group am-form-group-refreshing">
+    <label class="am-block">{{:MyLang('layout.view_media_fixed_cover_title')}}</label>
+    <input name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_is_cover" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+</div>

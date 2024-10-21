@@ -178,10 +178,16 @@ class CashPayment
             if(APPLICATION == 'web')
             {
                 $home_url = __MY_URL__;
-                $order_url = MyUrl('index/order/index');
-                $html .= '<div style="text-align: center;padding: 10px 0;margin-top:30px;"><a href="'.$home_url.'" style="text-decoration: none;background: #666;padding: 5px 10px;border-radius: 2px;color: #fff;background: #d2364c;">回到首页</a><a href="'.$order_url.'" style="text-decoration: none;background: #666;padding: 5px 10px;border-radius: 2px;color: #fff;background: #4caf50;margin-left:50px;">进入我的订单</a></div>';
-                $html .= '</div>';
+                $order_url = MySession('payment_business_order_index_url');
+                if(empty($order_url))
+                {
+                    $order_url = MyUrl('index/order/index');
+                }
+                $html .= '<div style="text-align: center;padding: 10px 0;margin-top:30px;"><a href="'.$home_url.'" style="text-decoration: none;background: #666;padding: 6px 12px;border-radius: 4px;color: #fff;background: #d2364c;font-size: 14px;">回到首页</a><a href="'.$order_url.'" style="text-decoration: none;background: #666;padding: 6px 12px;border-radius: 4px;color: #fff;background: #4caf50;margin-left:50px;font-size: 14px;">进入我的订单</a></div>';
             }
+
+            // 闭合
+            $html .= '</div>';
 
             // app则返回固定错误码和html代码、返回固定错误码
             if(APPLICATION == 'app')

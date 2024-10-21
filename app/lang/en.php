@@ -46,6 +46,7 @@ return [
         'goods_no_choice_spec_tips'         => 'Please select a specification',
         'goods_spec_empty_tips'             => 'No specification data',
         'goods_id_empty_tips'               => 'Item ID data',
+        'goods_cart_title'                  => 'add to cart',
         'store_enabled_tips'                => 'Your browser does not support local storage. Please disable Private Mode or upgrade to a modern browser.',
         'copy_fail'                         => 'Copy Failed',
         'copy_success'                      => 'Copy Succeeded',
@@ -203,6 +204,10 @@ return [
     'refuse_success'                                        => 'Refuse Succeeded',
     'delivery_fail'                                         => 'Delivery Failed',
     'delivery_success'                                      => 'Delivery Succeeded',
+    'print_fail'                                            => 'Print Failed',
+    'print_success'                                         => 'Print Succeeded',
+    'verification_fail'                                     => 'Verification failed',
+    'verification_success'                                  => 'Verification successful',
     'collect_fail'                                          => 'Collect Failed',
     'collect_success'                                       => 'Collect Succeeded',
     'quit_success'                                          => 'Quit Succeeded',
@@ -286,14 +291,18 @@ return [
     'images_preview_title'                                  => 'Images Preview',
     'video_preview_title'                                   => 'Video Preview',
     'file_preview_title'                                    => 'File preview',
+    'local_import_title'                                    => 'Local import',
+    'template_market_title'                                 => 'Template market',
+    'plugins_market_title'                                  => 'Application Market',
+    'already_buy_title'                                     => 'I have purchased',
+    'auth_domain_title'                                     => 'Auth domain',
     // 商店绑定
-    'store_bind_account_name'                               => 'Bind ShopXO store account',
-    'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
-    'store_account_not_bind_tips'                           => 'Please bind the store account first',
     'store_check_update_name'                               => 'Check for update',
     'store_auto_update_name'                                => 'Automatic update',
+    'store_account_not_bind_tips'                           => 'Please bind the store account first',
     'store_bind_accounts_name'                              => 'Bind ShopXO store account',
-    'store_bind_accounts_tips'                              => 'Bind ShopXO App Store account, get the latest version information of plug-in, install and update online',
+    'store_bind_accounts_tips'                              => 'Bind ShopXO app store account, install and update online, and obtain the latest version information!',
+    'store_already_bind_accounts_tips'                      => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
     'store_bind_authorized_subject_name'                    => 'Authorized Subject',
     'store_content_error_tips'                              => 'Store connection failed',
     'store_respond_data_error_tips'                         => 'The store returned the wrong data',
@@ -301,6 +310,8 @@ return [
     'store_respond_empty_tips'                              => 'The store returned no corresponding data. Please try again later!',
     'store_respond_data_empty_tips'                         => 'The store returned an unexpected error. Please try again later!',
     'store_respond_result_tips'                             => 'Store Return',
+    'store_plugins_params_error_tips'                       => 'The plugin parameters are incorrect',
+    'store_package_data_params_error_tips'                  => 'The parameters of the package data list are incorrect',
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Accounts',
     'store_bind_form_accounts_placeholder'                  => 'User name/mobile phone/email',
@@ -368,6 +379,7 @@ return [
     'view_title'                                            => 'View',
     'preview_title'                                         => 'PreaView',
     'choice_title'                                          => 'Choice',
+    'not_choice_title'                                      => 'Not selected',
     'already_choice_title'                                  => 'Already Choice',
     'enter_title'                                           => 'Enter',
     'link_title'                                            => 'Link',
@@ -392,6 +404,7 @@ return [
     'barcode_title'                                         => 'Barcode',
     'enter_inventory_title'                                 => 'Enter Inventory',
     'sales_title'                                           => 'Sales',
+    'score_title'                                           => 'Score',
     'access_title'                                          => 'Access',
     'hot_title'                                             => 'Hot',
     'favor_title'                                           => 'Favor',
@@ -442,6 +455,9 @@ return [
     'confirm_download_title'                                => 'Confirm Download',
     'upload_title'                                          => 'Upload',
     'confirm_upload_title'                                  => 'Confirm Upload',
+    'wait_upload_title'                                     => 'Wait Upload',
+    'process_upload_title'                                  => 'Uploading',
+    'start_upload_title'                                    => 'Start Upload',
     'reply_title'                                           => 'Reply',
     'note_title'                                            => 'Note',
     'price_title'                                           => 'Price',
@@ -474,6 +490,7 @@ return [
     'transfer_audit_title'                                  => 'Transfer Audit',
     'divider_title'                                         => 'Divider',
     'name_title'                                            => 'Name',
+    'size_title'                                            => 'Size',
     'status_title'                                          => 'Status',
     'collection_fee_title'                                  => 'Collection Fee',
     'complaint_title'                                       => 'Complaint',
@@ -499,6 +516,7 @@ return [
     'unbind_title'                                          => 'Unbind',
     'brand_title'                                           => 'Brand',
     'category_title'                                        => 'Category',
+    'place_origin_title'                                    => 'PlaceOrigin',
     'attr_title'                                            => 'Attribute',
     'spec_title'                                            => 'Specifications',
     'register_title'                                        => 'Register',
@@ -546,6 +564,8 @@ return [
     'first_title'                                           => 'First',
     'last_title'                                            => 'Last',
     'list_title'                                            => 'List',
+    'chat_title'                                            => 'Chat',
+    'gift_title'                                            => 'Gift',
     'continue_scan_title'                                   => 'ContinueScan',
     'self_pickup_point_title'                               => 'Self Pickup Point',
     'web_title'                                             => 'WEB end',
@@ -553,6 +573,8 @@ return [
     'custom_title'                                          => 'Custom',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
+    'goods_add_name'                                        => 'Goods Add',
+    'goods_choice_name'                                     => 'Goods Choice',
     'goods_stop_sale_title'                                 => 'Stop Sale',
     'goods_buy_title'                                       => 'Buy',
     'goods_booking_title'                                   => 'Booking',
@@ -696,6 +718,7 @@ return [
     'form_article_category_message'                         => 'Please select the article category',
     'form_refuse_reason'                                    => 'Reason for rejection',
     'form_refuse_reason_message'                            => 'Rejection reason format 1-230 characters',
+    'form_search_keywords_placeholder'                      => 'Search keywords',
     // 动态表格
     'form_table_search_first'                               => [
         'input'         => 'Please enter',
@@ -731,6 +754,7 @@ return [
     'collect_confirm_tips'                                  => 'Please carefully confirm that the goods have been received and confirm to continue?',
     'save_close_page_confirm_tips'                          => 'Are you sure you want to save the data and continue to close this page?',
     'service_confirm_tips'                                  => 'Confirm that customer service is complete and cannot be restored after operation!',
+    'copy_goods_confirm_tips'                               => 'Copy the current product information and publish it as a new product. Are you sure to continue?',
     // 缓存更新类型列表
     'admin_cache_type_list'             => [
         'site'      => ['name' => 'Site Cache', 'desc' => 'This function can be used to update all caches after data conversion or when the foreground cannot be accessed normally'],
@@ -1139,6 +1163,14 @@ return [
         'fra'  => 'French',
         'swe'  => 'Swedish',
     ],
+    // token生成规则
+    'common_token_created_rules_list' => [
+        0 => 'User IP',
+        1 => 'Equipment information',
+        2 => 'client',
+        3 => 'System type',
+        4 => 'Random number or password salt',
+    ],
     // 商品分类展示层级类型
     'common_show_goods_category_level_list' => [
         0 => 'CategoryGoods',
@@ -1146,7 +1178,13 @@ return [
         2 => 'TwoLevelCategory',
         3 => 'ThreeLevelCategory',
     ],
-    // 图片验证码
+    // 图片验证码类型
+    'common_site_images_verify_rand_type_list' => [
+        0 => 'Pure numbers',
+        1 => 'Pure letters',
+        2 => 'Number+letter',
+    ],
+    // 图片验证码规则
     'common_site_images_verify_rules_list' => [
         0 => 'Color background',
         1 => 'Color text',
@@ -1239,6 +1277,37 @@ return [
         0 => 'Latest',
         1 => 'Heat',
     ],
+    // 附件分类-路径名称匹配
+    'common_attachment_category_path_name_list' => [
+        'common'          => 'public',
+        'goods'           => 'commodity',
+        'goods_category'  => 'Product classification',
+        'brand'           => 'brand',
+        'brand_category'  => 'Brand classification',
+        'customview'      => 'Customize page',
+        'express'         => 'express',
+        'app_center_nav'  => 'User Center Menu',
+        'quick_nav'       => 'Quick Navigation',
+        'shortcutmenu'    => 'shortcut menu',
+        'app_nav'         => 'Home Navigation',
+        'slide'           => 'Rotating broadcast',
+        'article'         => 'article',
+        'user'            => 'user',
+        'design'          => 'Page Design',
+        'plugins'         => 'plug-in unit',
+        'order_comments'  => 'Order Product Review',
+        'theme_data'      => 'Theme data',
+        'agreement'       => 'agreement',
+        'warehouse'       => 'Warehouse',
+    ],
+    // 附件管理-类型
+    'common_attachment_type_list' => [
+        'file'    => 'file',
+        'image'   => 'picture',
+        'scrawl'  => 'Graffiti',
+        'video'   => 'video',
+        'remote'  => 'Remote capture',
+    ],
 
     // -------------------- 后端相关 --------------------
     // 时区
@@ -1271,6 +1340,10 @@ return [
 
     // -------------------- 公共服务层 --------------------
     'common_service'            => [
+        // 基础
+        'base'                => [
+            'key_error_tips'                    => 'The data key value is incorrect',
+        ],
         // 系统
         'system'            => [
             'design_title'       => 'Page Design',
@@ -1445,8 +1518,8 @@ return [
             'form_item_describe'                    => 'Describe',
             'form_item_describe_message'            => 'Description can be up to 230 characters long',
             'form_item_content_title'               => 'Content',
-            'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
-            'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+            'form_item_content_placeholder'         => 'The content format is between 10 and 1005000 characters. For more editing functions, please use the computer to access',
+            'form_item_content_message'             => 'Content format is between 10 and 1005000 characters',
         ],
         // 文章分类
         'articlecategory'   => [
@@ -1565,7 +1638,7 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Propose size 300 * 300px',
             // 基础
-            'create_name_default'                   => 'Default Page',
+            'create_name_default'                   => 'Custom - Default Page',
         ],
         // 页面设计
         'design'            => [
@@ -1575,13 +1648,59 @@ return [
             'form_logo_name'                        => 'LOGO',
             'form_logo_tips'                        => 'Propose size 300 * 300px',
             // 基础
-            'create_name_default'                   => 'Default Page',
+            'create_name_default'                   => 'Design - Default Page',
             'download_config_file_create_fail_tips' => 'Profile generation failed',
             'upload_dis_no_power_tips'              => 'The application upload directory does not have operation permissions',
             'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
             'upload_config_file_error_tips'         => 'The configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'   => 'Profile processing failed',
             'upload_invalid_packet_tips'            => 'Invalid packet',
+        ],
+        // DIY装修
+        'diy'            => [
+            'base_nav_title'                        => 'DIY decoration',
+            // 表单
+            'form_item_name'                        => 'name',
+            'form_item_name_message'                => 'Name length 1~60 characters',
+            'form_item_describe'                    => 'describe',
+            'form_item_describe_message'            => 'The maximum description length is 230 characters',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => 'Suggested size 300 * 300px',
+            // 基础
+            'create_name_default'                   => 'DIY - Default page',
+            'download_config_file_create_fail_tips' => 'Configuration file generation failed',
+            'upload_dis_no_power_tips'              => 'The upload directory of the application does not have operational permissions',
+            'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
+            'upload_config_file_error_tips'         => 'Configuration information is empty or incorrect',
+            'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
+            'upload_invalid_packet_tips'            => 'Invalid data packet',
+            'preview_url_tips'                      => 'Please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first',
+            'preview_url_copy_name'                 => 'Copy link',
+            'preview_scan_tips'                     => 'Scan code preview effect',
+        ],
+        // 附件管理
+        'attachment'        => [
+            // 表单
+            'form_item_original'             => 'Original name',
+            'form_item_original_message'     => 'Original name length 1-230 characters',
+            'form_item_title_message'        => 'The new file name is incorrect',
+            'form_item_category_id_message'  => 'The attachment classification ID is incorrect',
+            'form_item_url_message'          => 'The address is incorrect',
+            'form_item_size_message'         => 'The file size is incorrect',
+            'form_item_ext_message'          => 'Incorrect extension',
+            'form_item_hash_message'         => 'The hash value is incorrect',
+            'file_no_exist_tips'             => 'file does not exist',
+            // 基础
+            'delete_no_power_tips'           => 'The file does not have deletion permission',
+            'sync_file_to_db_tips'           => 'total[{:count}], success[{:success}], fail[{:error}]',
+        ],
+        // 附件分类
+        'attachmentcategory'           => [
+            // 表单
+            'form_item_name'                        => 'name',
+            'form_item_name_message'                => 'Name length 1~60 characters',
+            'form_item_path'                        => 'route',
+            'form_item_path_message'                => 'Path length of 1-230 characters',
         ],
         // 域名服务
         'domain'            => [
@@ -1801,10 +1920,10 @@ return [
             // 手机详情
             'form_app_top_tips'                     => 'After setting the phone details, the phone details will be displayed in the phone mode, such as [App, APP]',
             'form_app_value_title'                  => 'Text Content',
-            'form_app_value_message'                => 'Text content can be up to 105000 characters',
+            'form_app_value_message'                => 'Text content can be up to 1005000 characters',
             'form_app_button_add_name'              => 'Add Phone Detail',
             // 电脑详情
-            'form_web_content_message'              => 'The details of the computer terminal can be up to 105000 characters',
+            'form_web_content_message'              => 'The details of the computer terminal can be up to 1005000 characters',
             // 保存
             'save_site_type_error_tips'             => 'Wrong range of goods type data value',
             'save_params_add_fail_tips'             => 'Failed to add goods parameters',
@@ -1883,10 +2002,6 @@ return [
             'integral_dec_fail_tips'                => 'User points reduction failed',
             'integral_log_add_fail_tips'            => 'User points log addition failed',
         ],
-        // 布局
-        'layout'                => [
-            'key_error_tips'                        => 'Incorrect layout key value',
-        ],
         // 友情链接
         'link'                  => [
             // 表单
@@ -1956,7 +2071,7 @@ return [
                 ],
                 'logout'            => [
                     'title'         => 'Account Logout',
-                    'msg'           => 'There is a risk of theft on the Internet. It is recommended that you change your password regularly to protect your security.',
+                    'msg'           => 'After canceling the account, it will no longer be able to log in',
                     'submit_text'   =>  'Logout',
                 ],
             ],
@@ -2267,11 +2382,11 @@ return [
             'please_uninstall_tips'                 => 'Please uninstall the app first',
             'app_name_exist_tips'                   => 'App name already exists',
             'app_name_appoint_error_tips'           => 'The application ID is inconsistent with the specified',
-            'plugins_package_empty_tips'            => 'Wrong plug-in package',
-            'plugins_package_error_tips'            => 'Please upload and install the payment plug-in in the [Website Management ->Payment Method] module',
             'plugins_package_invalid_tips'          => 'Invalid plug-in package',
             'plugins_identification_error_tips'     => 'Wrong plug-in identification',
             'plugins_identification_empty_tips'     => 'Plug-in ID is empty',
+            'plugins_config_error_tips'             => 'The theme configuration information is incorrect',
+            'plugins_config_file_get_fail_tips'     => 'Failed to read configuration information',
             'plugins_copy_main_fail_tips'           => 'Main package',
             'plugins_new_config_error_tips'         => 'The new configuration file is incorrect',
             'plugins_new_config_update_fail_tips'   => 'Failed to update the new app profile',
@@ -2336,20 +2451,6 @@ return [
             // 基础
             'region_code_search_empty_tips'         => 'Please enter the region number',
             'region_no_data_tips'                   => 'No relevant regions',
-        ],
-        // 资源
-        'resources'                 => [
-            // 保存
-            'save_attachment_title_tips'            => 'Wrong name',
-            'save_attachment_original_tips'         => 'Wrong original name',
-            'save_attachment_path_type_tips'        => 'Wrong path mark',
-            'save_attachment_url_tips'              => 'Wrong address',
-            'save_attachment_size_tips'             => 'Wrong file size',
-            'save_attachment_ext_tips'              => 'Incorrect extension',
-            'save_attachment_hash_tips'             => 'Incorrect hash value',
-            // 基础
-            'delete_no_power_tips'                  => 'File does not have permission to delete',
-            'sync_file_to_db_tips'                  => 'total[{:count}], success[{:success}], fail[{:error}]',
         ],
         // 安全
         'safety'                    => [
@@ -2461,6 +2562,7 @@ return [
             'theme_new_config_update_fail_tips'     => 'Failed to update the new app profile',
             'config_file_no_exist_tips'             => 'Theme profile does not exist',
             'config_error_tips'                     => 'The subject configuration information is incorrect',
+            'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
         ],
         // 主题数据
         'themedata'                 => [
@@ -2531,7 +2633,11 @@ return [
         ],
         // 附件上传
         'ueditor'                   => [
-            'request_action_error_tips'             => 'Request action error',
+            'request_action_error_tips'  => 'Request action error',
+            'draging_tips'               => 'Drag files/folders into this area and release the mouse',
+            'choice_file_tips'           => 'Please select the file first',
+            'scan_key_empty_tips'        => 'Scan code key is empty',
+            'scan_key_not_exist_tips'    => 'Scan key does not exist',
         ],
         // 用户地址
         'useraddress'               => [
@@ -3241,7 +3347,7 @@ return [
         ],
         'home_site_logo_app'  => [
             'name' => 'Mobile logo',
-            'desc' => 'Support [JPG, PNG, GIF], 60*60px recommended',
+            'desc' => 'Support [jpg, png, gif], recommended width not limited to * 60px',
             'tips' => 'Please upload the logo of the mobile website',
         ],
         'home_site_logo_wap'  => [
@@ -3596,8 +3702,8 @@ return [
         ],
         'common_agreement_userregister'  => [
             'name' => 'User registration agreement',
-            'desc' => 'Up to 105000 characters',
-            'tips' => 'The user registration agreement can have a maximum of 105000 characters',
+            'desc' => 'Up to 1005000 characters',
+            'tips' => 'The user registration agreement can have a maximum of 1005000 characters',
         ],
         'home_site_user_register_bg_images'  => [
             'name' => 'User registration background image',
@@ -3708,6 +3814,10 @@ return [
             'desc' => 'It is off by default to prevent illegal registration',
             'tips' => 'Please select whether to enable user registration picture verification code',
         ],
+        'common_images_verify_rand_type'  => [
+            'name' => 'Image captcha type',
+            'tips' => 'Please select the type of image verification code',
+        ],
         'common_images_verify_rules'  => [
             'name' => 'Picture verification code rules',
             'desc' => 'The default is black text on a white background, which can increase the difficulty of verification code identification according to demand i',
@@ -3763,6 +3873,16 @@ return [
             'name' => 'Open online customer service',
             'desc' => 'Default no',
             'tips' => 'Please select whether to open online customer service',
+        ],
+        'common_app_is_index_data_diy_mode'  => [
+            'name' => 'Home page using DIY mode',
+            'desc' => 'By default, follow the unified homepage configuration',
+            'tips' => 'Please choose whether to use DIY mode on the homepage',
+        ],
+        'common_app_index_data_diy_mode_value'  => [
+            'name' => 'Home DIY Mode Data',
+            'desc' => '',
+            'tips' => 'Please select DIY mode data on the homepage',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => 'Number of secondary goods categories on the left side of the first floor',
@@ -4106,6 +4226,11 @@ return [
             'desc' => 'Default on',
             'tips' => 'Please select search page opening parameters',
         ],
+        'home_search_is_place_origin'  => [
+            'name' => 'Open the product origin on the search page',
+            'desc' => 'Default enabled',
+            'tips' => 'Please select the search page to open the origin of the product',
+        ],
         'home_search_is_price'  => [
             'name' => 'Search page opening price',
             'desc' => 'Default on',
@@ -4208,8 +4333,8 @@ return [
         ],
         'common_agreement_userprivacy'  => [
             'name' => 'User privacy policy',
-            'desc' => 'Up to 105000 characters',
-            'tips' => 'User privacy policy can be 105000 characters at most',
+            'desc' => 'Up to 1005000 characters',
+            'tips' => 'User privacy policy can be 1005000 characters at most',
         ],
         'admin_notice'  => [
             'name' => 'Background management announcement',
@@ -4299,6 +4424,11 @@ return [
             'desc' => 'If it is empty by default, the currently accessed domain name is valid',
             'tips' => 'Please fill in the valid domain name of the cookie',
         ],
+        'common_token_created_rules'  => [
+            'name' => 'Token generation rules',
+            'desc' => 'Default includes user ID',
+            'tips' => 'Please select the token generation rule',
+        ],
         'common_excel_export_type'  => [
             'name' => 'Excel export type',
             'desc' => 'Default CSV',
@@ -4371,8 +4501,8 @@ return [
         ],
         'common_agreement_userlogout'  => [
             'name' => 'Account cancellation agreement',
-            'desc' => 'Up to 105000 characters',
-            'tips' => 'Account cancellation agreement can be 105000 characters at most',
+            'desc' => 'Up to 1005000 characters',
+            'tips' => 'Account cancellation agreement can be 1005000 characters at most',
         ],
         'home_main_header_status'  => [
             'name' => 'Main navigation',

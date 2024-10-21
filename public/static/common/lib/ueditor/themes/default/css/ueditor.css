@@ -1191,6 +1191,7 @@ div.edui-box {
     /*padding:2px 0 0 2px;*/
     padding: 1px 0 0 1px;
     _zoom: 1;
+    max-width: calc(100vw - 40px);
 }
 
 .edui-default .edui-dialog-fullscreen-flag .edui-dialog-body {
@@ -1249,7 +1250,7 @@ div.edui-box {
     height: 30px;
     width: 20px;
     cursor: pointer;
-    top: -11px;
+    top: -12px;
     font-size: 20px;
 }
 
@@ -1304,6 +1305,8 @@ div.edui-box {
 
 .edui-default .edui-dialog-content {
     position: relative;
+    max-width: 100%;
+    max-height: calc(100% - 90px);
 }
 
 .edui-default .dialogcontmask {
@@ -1402,8 +1405,8 @@ div.edui-box {
 
 /*video-dialog*/
 .edui-default .edui-for-insertvideo .edui-dialog-content {
-    width: 590px;
-    height: 390px;
+    width: 650px;
+    height: 400px;
 }
 
 /*anchor-dialog*/
@@ -1893,6 +1896,19 @@ div.edui-box {
 }
 .edui-default  .edui-pastecontainer .edui-button  .edui-state-hover .edui-plaintxticon{
     background-position: -72px -34px;
+}
+
+
+/**
+ * pc大屏幕
+ */
+@media only screen and (min-width:1025px) {
+    .edui-default .edui-for-insertimage .edui-dialog-content,
+    .edui-default .edui-for-insertvideo .edui-dialog-content,
+    .edui-default .edui-for-attachment .edui-dialog-content {
+        width: 920px;
+        height: 600px;
+    }
 }
 
 

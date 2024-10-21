@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\AttachmentService;
 use app\service\RegionService;
 use app\service\GoodsService;
 use app\service\WarehouseGoodsService;
@@ -66,7 +67,7 @@ class Devtest extends Common
             {
                 if($file != 'index.html' && $file != '.' && $file != '..' && substr($file, 0, 1) != '.')
                 {
-                    $ret = ResourcesService::AttachmentDiskFilesToDb($file);
+                    $ret = AttachmentService::AttachmentDiskFilesToDb($file);
                     if(isset($ret['msg']))
                     {
                         echo $ret['msg'];

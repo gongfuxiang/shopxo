@@ -13,6 +13,7 @@
         autoSizeContent = $G("J_autoSizeContent"),
         autoSizePage = $G("J_autoSizePage"),
         tone = $G("J_tone"),
+        padding = $G("J_padding"),
         me,
         preview = $G("J_preview");
 
@@ -227,7 +228,7 @@
             }
         }
 
-        editor.execCommand("edittable", tone.value);
+        editor.execCommand("edittable", tone.value, padding.value);
         autoSizeContent.checked ?editor.execCommand('adaptbytext') : "";
         autoSizePage.checked ? editor.execCommand("adaptbywindow") : "";
         editor.fireEvent('saveScene');

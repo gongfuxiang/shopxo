@@ -98,7 +98,9 @@
                                         <input type="text" name="idcard_front" value="{{$data.idcard_front}}" />
                                     {{/if}}
                                     <img src="{{if empty($data['idcard_front'])}}{{:StaticAttachmentUrl('default-idcard-front.jpg')}}{{else /}}{{$data.idcard_front}}{{/if}}" />
-                                    <i class="iconfont icon-close"></i>
+                                    {{if !empty($data['idcard_front'])}}
+                                        <i class="iconfont icon-close"></i>
+                                    {{/if}}
                                 </li>
                             </ul>
                             <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_front">+ {{:MyLang('common_service.useraddress.form_item_idcard_front_button_name')}}</div>
@@ -110,7 +112,9 @@
                                         <input type="text" name="idcard_back" value="{{$data.idcard_back}}" />
                                     {{/if}}
                                     <img src="{{if empty($data['idcard_back'])}}{{:StaticAttachmentUrl('default-idcard-back.jpg')}}{{else /}}{{$data.idcard_back}}{{/if}}" />
-                                    <i class="iconfont icon-close"></i>
+                                    {{if !empty($data['idcard_back'])}}
+                                        <i class="iconfont icon-close"></i>
+                                    {{/if}}
                                 </li>
                             </ul>
                             <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_back">+ {{:MyLang('common_service.useraddress.form_item_idcard_back_button_name')}}</div>

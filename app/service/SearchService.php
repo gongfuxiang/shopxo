@@ -16,6 +16,7 @@ use app\service\GoodsService;
 use app\service\BrandService;
 use app\service\ResourcesService;
 use app\service\GoodsCategoryService;
+use app\service\RegionService;
 
 /**
  * 搜索服务层
@@ -320,6 +321,24 @@ class SearchService
         {
             $ids = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['cid'])], 1);
             $where_base[] = ['gci.category_id', 'in', $ids];
+        }
+
+        // 产地、单个id
+        if(!empty($params['poid']))
+        {
+            $where_base[] = ['g.place_origin', '=', intval($params['poid'])];
+        }
+        // 产地、多个id
+        if(!empty($params['place_origin_ids']))
+        {
+            if(!is_array($params['place_origin_ids']))
+            {
+                $params['place_origin_ids'] = (substr($params['place_origin_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['place_origin_ids']), true) : explode(',', $params['place_origin_ids']);
+            }
+            if(!empty($params['place_origin_ids']))
+            {
+                $where_base[] = ['g.place_origin', 'in', $params['place_origin_ids']];
+            }
         }
 
         // 筛选价格
@@ -708,6 +727,46 @@ class SearchService
     }
 
     /**
+     * 搜索商品产地、去重
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-08
+     * @desc    description
+     * @param   [array]          $map    [搜素条件]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SearchGoodsPlaceOriginList($map, $params = [])
+    {
+        $data = [];
+        if(MyC('home_search_is_place_origin', 0) == 1)
+        {
+            // 搜索条件
+            $where_base = $map['base'];
+            $where_keywords = $map['keywords'];
+            $where_screening_price = $map['screening_price'];
+
+            // 一维数组、参数值去重
+            $list = RegionService::RegionName(Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_params gp', 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
+                self::SearchKeywordsWhereJoinType($query, $where_keywords);
+            })->where(function($query) use($where_screening_price) {
+                $query->whereOr($where_screening_price);
+            })->group('g.place_origin')->column('g.place_origin'));
+            if(!empty($list))
+            {
+                foreach($list as $k=>$v)
+                {
+                    $data[] = [
+                        'id'    => $k,
+                        'name'  => $v,
+                    ];
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 搜索商品参数列表、去重
      * @author  Devil
      * @blog    http://gong.gg/
@@ -857,6 +916,116 @@ class SearchService
             }
         }
         return DataReturn('success', 0);
+    }
+
+    /**
+     * 搜索排行榜
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-10-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchRankingList($params = [])
+    {
+        $key = SystemService::CacheKey('shopxo.cache_search_start_ranking_key').APPLICATION_CLIENT_TYPE;
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            // 数据缓存
+            $data = [];
+
+            // 销量
+            $where = [
+                ['is_shelves', '=', 1],
+                ['is_delete_time', '=', 0],
+                ['inventory', '>', 0],
+            ];
+            $field = 'id,title,images';
+            $goods = Db::name('Goods')->where($where)->field($field)->order('sales_count desc')->limit(0, 10)->select()->toArray();
+            if(!empty($goods))
+            {
+                $data[] = [
+                    'name'  => MyLang('sales_title'),
+                    'icon'  => 'icon-fire',
+                    'data'  => $goods
+                ];
+            }
+
+            // 评分
+            $where = [
+                ['g.is_shelves', '=', 1],
+                ['g.is_delete_time', '=', 0],
+                ['g.inventory', '>', 0],
+                ['gc.business_type', '=', 'order'],
+            ];
+            $field = 'g.id,g.title,g.images,AVG(gc.rating) AS avg_rating';
+            $goods = Db::name('GoodsComments')->alias('gc')->join('goods g', 'g.id=gc.goods_id')->where($where)->field($field)->order('avg_rating desc')->group('g.id')->limit(0, 10)->select()->toArray();
+            if(!empty($goods))
+            {
+                $data[] = [
+                    'name'  => MyLang('score_title'),
+                    'icon'  => 'icon-fire',
+                    'data'  => $goods
+                ];
+            }
+
+            // 收藏
+            $where = [
+                ['g.is_shelves', '=', 1],
+                ['g.is_delete_time', '=', 0],
+                ['g.inventory', '>', 0],
+            ];
+            $field = 'g.id,g.title,g.images,COUNT(g.id) AS count';
+            $goods = Db::name('GoodsFavor')->alias('gf')->join('goods g', 'g.id=gf.goods_id')->where($where)->field($field)->order('count desc')->group('g.id')->limit(0, 10)->select()->toArray();
+            if(!empty($goods))
+            {
+                $data[] = [
+                    'name'  => MyLang('favor_title'),
+                    'icon'  => 'icon-fire',
+                    'data'  => $goods
+                ];
+            }
+            // 数据处理
+            if(!empty($data))
+            {
+                foreach($data as &$v)
+                {
+                    if(!empty($v['data']))
+                    {
+                        foreach($v['data'] as &$vs)
+                        {
+                            $vs['goods_url'] = GoodsService::GoodsUrlCreate($vs['id']);
+                            $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
+                        }
+                    }
+                }
+            }
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
+    }
+
+    /**
+     * 搜索开始数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-10-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchStartData($params = [])
+    {
+        return DataReturn('success', 0, [
+            // 推荐关键字
+            'search_keywords'  => self::SearchKeywordsList($params),
+            // 排行
+            'ranking_list'     => self::SearchRankingList($params),
+        ]);
     }
 }
 ?>

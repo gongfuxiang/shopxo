@@ -1,0 +1,76 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- operation start -->
+        <div class="am-g">
+            <button class="am-btn am-btn-primary am-radius am-btn-xs tree-submit-add" data-am-modal="{target: '#data-save-win', width: 400, height: 350}">
+                <i class="iconfont icon-btn-add am-show-sm-only"></i>
+                <span>{{:MyLang('add_title')}}</span>
+            </button>
+        </div>
+        <!-- operation end -->
+
+        <!-- save win start -->
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="data-save-win">
+            <div class="am-modal-dialog am-radius am-nbfc">
+                <div class="am-modal-hd">
+                    <span data-add-title="{{:MyLang('attachmentcategory.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('attachmentcategory.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('attachmentcategory.base_nav_title')}}{{:MyLang('add_title')}}</span>
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-padding-sm">
+                        <!-- form start -->
+                        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/attachmentcategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
+                            <div class="am-form-group row">
+                                <label>{{:MyLang('common_service.attachmentcategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" placeholder="{{:MyLang('common_service.attachmentcategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.attachmentcategory.form_item_name_message')}}" class="am-radius" required />
+                            </div>
+                            <div class="am-form-group row">
+                                <label>{{:MyLang('common_service.attachmentcategory.form_item_path')}}<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" placeholder="{{:MyLang('common_service.attachmentcategory.form_item_path_message')}}" name="path" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.attachmentcategory.form_item_path_message')}}" class="am-radius" required />
+                            </div>
+                            {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
+                            {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
+                            <div class="am-form-popup-submit">
+                                <input type="hidden" name="id" />
+                                <input type="hidden" name="pid" />
+                                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                                    <i class="am-icon-paint-brush"></i>
+                                    <span>{{:MyLang('cancel_title')}}</span>
+                                </button>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                                    <i class="am-icon-save"></i>
+                                    <span>{{:MyLang('save_title')}}</span>
+                                </button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- save win end -->
+
+        <!-- list start -->
+        <div id="tree" class="am-margin-top-sm" data-head='[{"name":"ID","field":"id"},{"name":"{{:MyLang("name_title")}}","field":"name","is_arrow":"1","value_style":{"style":"color:#999","value_style_key":"is_enable","value_style_key_status":"0"}},{"name":"{{:MyLang("form_is_enable_title")}}","field":"is_enable","type":"status"},{"name":"{{:MyLang("common_service.attachmentcategory.form_item_path")}}","field":"path"},{"name":"{{:MyLang("operate_title")}}","type":"operate"}]' data-additional='[{"field":"path", "value":"", "type":"input"}]' data-node-url="{{:MyUrl('admin/attachmentcategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/attachmentcategory/delete')}}" data-popup-tag="#data-save-win" data-status-url="{{:MyUrl('admin/attachmentcategory/statusupdate')}}" data-modal-config="{width: 400, height: 350}" data-rank="2">
+            {{:ModuleInclude('public/loading')}}
+        </div>
+        <!-- list end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+<script type="text/javascript">
+    // 初始化
+    Tree(0, $('#tree').data('node-url'));
+
+    // 回调处理
+    function TreeFormSaveBack(e)
+    {
+        TreeFormSaveBackHandle(e);
+    }
+</script>

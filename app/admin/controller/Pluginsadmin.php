@@ -16,7 +16,7 @@ use app\service\StoreService;
 use app\service\PluginsAdminService;
 use app\service\ResourcesService;
 use app\service\PluginsService;
-use app\service\PluginsUpgradeService;
+use app\service\PackageUpgradeService;
 use app\service\PluginsCategoryService;
 
 /**
@@ -28,24 +28,6 @@ use app\service\PluginsCategoryService;
  */
 class Pluginsadmin extends Base
 {
-    private $view_type;
-
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 小导航
-        $this->view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -57,16 +39,13 @@ class Pluginsadmin extends Base
     {
         // 模板数据
         $assign = [
-            // 导航参数
-            'view_type' => $this->view_type,
-            // 管理导航
-            'nav_data'  => MyLang('pluginsadmin.base_nav_list'),
             // 应用商店地址
             'store_url' => StoreService::StoreUrl(),
         ];
 
         // 页面类型
-        if($this->view_type == 'index')
+        $view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
+        if($view_type == 'index')
         {
             // 插件列表
             $ret = PluginsAdminService::PluginsList(['is_power'=>true]);
@@ -80,10 +59,8 @@ class Pluginsadmin extends Base
             $categosy = PluginsCategoryService::PluginsCategoryList();
             $assign['plugins_categosy_list'] = $categosy['data'];
         }
-
-        // 数据赋值
         MyViewAssign($assign);
-        return MyView($this->view_type);
+        return MyView($view_type);
     }
 
     /**
@@ -310,7 +287,25 @@ class Pluginsadmin extends Base
      */
     public function Upgrade()
     {
-        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_request));
+        return ApiService::ApiDataReturn(PackageUpgradeService::Run($this->data_request));
+    }
+
+    /**
+     * 应用市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     */
+    public function Market()
+    {
+        $ret = PluginsAdminService::PluginsAdminMarket($this->data_request);
+        if($ret['code'] == 0 && isset($ret['data']['data_list']))
+        {
+            $ret['data']['data_list'] = MyView('public/market/list', ['data_list'=>$ret['data']['data_list']]);
+        }
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

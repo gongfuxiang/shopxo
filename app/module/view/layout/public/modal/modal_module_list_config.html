@@ -1,0 +1,19 @@
+<!-- 列表配置 -->
+<div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-list-config">
+    <div class="am-modal-dialog">
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <form class="am-form am-padding-sm am-text-left form-validation-module-modal-list-config" request-type="sync" request-value="FormBackModuleModalListConfig">
+            <!-- 行展示数量 -->
+            {{:ModuleInclude('../../../module/view/layout/public/content/view_list_number')}}
+
+            <!-- 外边距 -->
+            {{:ModuleInclude('../../../module/view/layout/public/style/margin', [
+                'key'      => isset($module_data['key']) ? $module_data['key'] : '',
+                'required' => isset($module_data['required']) ? $module_data['required'] : '',
+            ])}}
+            <div class="am-margin-top-sm">
+                <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">{{:MyLang('confirm_title')}}</button>
+            </div>
+        </form>
+    </div>
+</div>

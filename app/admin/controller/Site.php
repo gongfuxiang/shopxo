@@ -159,45 +159,47 @@ class Site extends Base
         // 模板数据
         $assign = [
             // 主/子导航
-            'nav_type'                               => $this->nav_type,
-            'view_type'                              => $this->view_type,
+            'nav_type'                                  => $this->nav_type,
+            'view_type'                                 => $this->view_type,
             // 时区
-            'common_site_timezone_list'              => MyLang('common_site_timezone_list'),
+            'common_site_timezone_list'                 => MyLang('common_site_timezone_list'),
             // 平台
-            'common_platform_type'                   => MyConst('common_platform_type'),
+            'common_platform_type'                      => MyConst('common_platform_type'),
             // 关闭开启
-            'common_close_open_list'                 => MyConst('common_close_open_list'),
+            'common_close_open_list'                    => MyConst('common_close_open_list'),
             // 登录方式
-            'common_login_type_list'                 => MyConst('common_login_type_list'),
+            'common_login_type_list'                    => MyConst('common_login_type_list'),
             // 用户注册类型列表
-            'common_user_reg_type_list'              => MyConst('common_user_reg_type_list'),
+            'common_user_reg_type_list'                 => MyConst('common_user_reg_type_list'),
+            // 图片验证码类型
+            'common_site_images_verify_rand_type_list'  => MyConst('common_site_images_verify_rand_type_list'),
             // 图片验证码规则
-            'common_site_images_verify_rules_list'   => MyConst('common_site_images_verify_rules_list'),
+            'common_site_images_verify_rules_list'      => MyConst('common_site_images_verify_rules_list'),
             // 热门搜索关键字
-            'common_search_keywords_type_list'       => MyConst('common_search_keywords_type_list'),
+            'common_search_keywords_type_list'          => MyConst('common_search_keywords_type_list'),
             // 是否
-            'common_is_text_list'                    => MyConst('common_is_text_list'),
+            'common_is_text_list'                       => MyConst('common_is_text_list'),
             // 站点类型
-            'common_site_type_list'                  => MyConst('common_site_type_list'),
+            'common_site_type_list'                     => MyConst('common_site_type_list'),
             // 扣除库存规则
-            'common_deduction_inventory_rules_list'  => MyConst('common_deduction_inventory_rules_list'),
+            'common_deduction_inventory_rules_list'     => MyConst('common_deduction_inventory_rules_list'),
             // 增加销量规则
-            'common_sales_count_inc_rules_list'      => MyConst('common_sales_count_inc_rules_list'),
+            'common_sales_count_inc_rules_list'         => MyConst('common_sales_count_inc_rules_list'),
             // 首页商品排序规则
-            'common_goods_order_by_type_list'        => MyConst('common_goods_order_by_type_list'),
-            'common_data_order_by_rule_list'        => MyConst('common_data_order_by_rule_list'),
+            'common_goods_order_by_type_list'           => MyConst('common_goods_order_by_type_list'),
+            'common_data_order_by_rule_list'            => MyConst('common_data_order_by_rule_list'),
             // 首页楼层数据类型
-            'common_site_floor_data_type_list'       => MyConst('common_site_floor_data_type_list'),
+            'common_site_floor_data_type_list'          => MyConst('common_site_floor_data_type_list'),
             // 搜索参数类型
-            'common_goods_parameters_type_list'      => MyConst('common_goods_parameters_type_list'),
+            'common_goods_parameters_type_list'         => MyConst('common_goods_parameters_type_list'),
             // 多语言
-            'common_multilingual_list'               => MyConst('common_multilingual_list'),
+            'common_multilingual_list'                  => MyConst('common_multilingual_list'),
             // 商品分类
-            'common_show_goods_category_level_list'  => MyConst('common_show_goods_category_level_list'),
+            'common_show_goods_category_level_list'     => MyConst('common_show_goods_category_level_list'),
             // 主导航
-            'base_nav_list'                          => MyLang('site.base_nav_list'),
+            'base_nav_list'                             => MyLang('site.base_nav_list'),
             // 网站设置导航
-            'siteset_nav_list'                       => MyLang('site.siteset_nav_list'),
+            'siteset_nav_list'                          => MyLang('site.siteset_nav_list'),
         ];
         return $assign;
     }

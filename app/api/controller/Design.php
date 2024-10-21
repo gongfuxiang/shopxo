@@ -13,7 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\DesignService;
 use app\service\SystemBaseService;
-use app\layout\service\BaseLayout;
+use app\module\LayoutModule;
 
 /**
  * 页面设计
@@ -35,39 +35,62 @@ class Design extends Common
      */
     public function Index()
     {
-        $data = null;
-        $layout_data = null;
         if(!empty($this->data_request['id']))
         {
-            $data_params = [
-                'where' => [
-                    'id' => intval($this->data_request['id']),
-                ],
-                'm' => 0,
-                'n' => 1,
-            ];
-            $ret = DesignService::DesignList($data_params);
-            if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data'][0]))
+            $key = 'api_design_data_'.intval($this->data_request['id']).'_'.APPLICATION_CLIENT_TYPE;
+            $result = MyCache($key);
+            if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
             {
-                $data = $ret['data'][0];
+                // 数据容器
+                $data = null;
+                $layout_data = null;
 
-                // 访问统计
-                DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
+                // 获取design数据
+                $data_params = [
+                    'where' => [
+                        'id' => intval($this->data_request['id']),
+                    ],
+                    'm' => 0,
+                    'n' => 1,
+                ];
+                $ret = DesignService::DesignList($data_params);
+                if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data'][0]))
+                {
+                    $data = $ret['data'][0];
 
-                // 配置处理
-                $layout_data = BaseLayout::ConfigHandle($data['config']);
+                    // 访问统计
+                    DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
 
-                // 去除布局配置数据、避免很多配置数据造成带宽浪费
-                unset($data['config']);
+                    // 配置处理
+                    $layout_data = LayoutModule::ConfigHandle($data['config']);
+
+                    // 去除布局配置数据、避免很多配置数据造成带宽浪费
+                    unset($data['config']);
+                }
+
+                // 返回数据
+                $result = SystemBaseService::DataReturn([
+                    'data'          => $data,
+                    'layout_data'   => $layout_data,
+                ]);
+
+                // 缓存数据、没有用户登录信息则存储缓存
+                if(empty($this->user))
+                {
+                    MyCache($key, $result, 3600);
+                }
+            } else {
+                $result['data']['is_result_data_cache'] = 1;
             }
-        }
 
-        // 返回数据
-        $result = [
-            'data'          => $data,
-            'layout_data'   => $layout_data,
-        ];
-        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
+            // 访问统计
+            if(!empty($result['data']) && !empty($result['data']['data']))
+            {
+                DesignService::DesignAccessCountInc(['design_id'=>$result['data']['data']['id']]);
+            }
+            return ApiService::ApiDataReturn($result);
+        }
+        return ApiService::ApiDataReturn(DataReturn(MyLang('no_data'), -1));
     }
 }
 ?>

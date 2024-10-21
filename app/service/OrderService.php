@@ -336,6 +336,12 @@ class OrderService
             MySession('plugins_weixinwebauth_pay_callback_view_url', $url);
         }
 
+        // 现金支付业务订单列表记录
+        if($payment['payment'] == 'CashPayment')
+        {
+            MySession('payment_business_order_index_url', MyUrl('index/order/index'));
+        }
+
         // 发起支付
         $pay_name = 'payment\\'.$payment['payment'];
         $ret = (new $pay_name($payment['config']))->Pay($pay_data);
@@ -2325,7 +2331,7 @@ class OrderService
         }
 
         // 完成
-        return DataReturn(MyLang('delivery_success'), 0);
+        return DataReturn($order['order_model'] == 2 ? MyLang('verification_success') : MyLang('delivery_success'), 0);
     }
 
     /**

@@ -12,13 +12,18 @@
 // +----------------------------------------------------------------------
 // | Cookie设置
 // +----------------------------------------------------------------------
+$cookie_domain = MyFileConfig('common_cookie_domain', '', __MY_MAIN_DOMAIN__, true);
+if(!empty($cookie_domain) && substr($cookie_domain, 0, 1) != '.')
+{
+    $cookie_domain = '.'.$cookie_domain;
+}
 return [
     // cookie 保存时间
     'expire'    => 0,
     // cookie 保存路径
     'path'      => '/',
     // cookie 有效域名
-    'domain'    => MyFileConfig('common_cookie_domain', '', '', true),
+    'domain'    => $cookie_domain,
     //  cookie 启用安全传输
     'secure'    => false,
     // httponly设置

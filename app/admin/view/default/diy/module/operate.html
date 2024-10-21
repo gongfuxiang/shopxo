@@ -1,0 +1,23 @@
+<!-- 操作栏 -->
+{{if !empty($module_data)}}
+    <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/diy/detail', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('detail_title')}}">
+        <i class="am-icon-eye"></i>
+        <span>{{:MyLang('detail_title')}}</span>
+    </button>
+    <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/diy/preview', ['id'=>$module_data['id']])}}" data-offcanvas="right" data-title="{{:MyLang('preview_title')}}">
+        <i class="am-icon-eye"></i>
+        <span>{{:MyLang('preview_title')}}</span>
+    </button>
+    <a class="am-btn am-btn-success am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/diy/download', array_merge($params, ['id'=>$module_data['id']]))}}" target="_blank">
+        <i class="am-icon-download"></i>
+        <span>{{:MyLang('download_title')}}</span>
+    </a>
+    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/diy/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}" target="_blank">
+        <i class="am-icon-edit"></i>
+        <span>{{:MyLang('edit_title')}}</span>
+    </a>
+    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/diy/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
+        <i class="iconfont icon-delete"></i>
+        <span>{{:MyLang('delete_title')}}</span>
+    </button>
+{{/if}}

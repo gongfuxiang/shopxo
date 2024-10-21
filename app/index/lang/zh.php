@@ -576,5 +576,10 @@ return [
         'mobile_new_title'                      => '新手机号码校验',
         'login_password_title'                  => '登录密码修改',
     ],
+
+    // 上传组件
+    'ueditor' => [
+        'base_nav_title'                        => '扫码上传'
+    ],
 ];
 ?>

@@ -1,0 +1,13 @@
+<!-- 继承公共的 form -->
+{{extend name="../../../module/view/form_table/form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-ajax" data-url="{{:MyUrl('admin/errorlog/alldelete')}}" data-view="reload">
+        <i class="iconfont icon-clear am-show-sm-only"></i>
+        <span>{{:MyLang('delete_all_title')}}</span>
+    </button>
+
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}

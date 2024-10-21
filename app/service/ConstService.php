@@ -33,30 +33,41 @@ class ConstService
     public static function Run($key = '', $default = null)
     {
         // 数据定义
-        $container = self::ConstData();
+        static $const_data_container = null;
+        if($const_data_container === null)
+        {
+            $const_data_container = self::ConstData();
+        }
 
         // 是否读取全部
         if(empty($key))
         {
-            $data = $container;
+            $data = $const_data_container;
         } else {
-            // 是否存在多级
-            $arr = explode('.', $key);
-            if(count($arr) == 1)
+            static $const_key_static_data = [];
+            if(!array_key_exists($key, $const_key_static_data))
             {
-                $data = array_key_exists($key, $container) ? $container[$key] : $default;
-            } else {
-                $data = $container;
-                foreach($arr as $v)
+                // 是否存在多级
+                $arr = explode('.', $key);
+                if(count($arr) == 1)
                 {
-                    if(isset($data[$v]))
+                    $data = array_key_exists($key, $const_data_container) ? $const_data_container[$key] : $default;
+                } else {
+                    $data = $const_data_container;
+                    foreach($arr as $v)
                     {
-                        $data = $data[$v];
-                    } else {
-                        $data = $default;
-                        break;
+                        if(isset($data[$v]))
+                        {
+                            $data = $data[$v];
+                        } else {
+                            $data = $default;
+                            break;
+                        }
                     }
                 }
+                $const_key_static_data[$key] = $data;
+            } else {
+                $data = $const_key_static_data[$key];
             }
         }
 
@@ -128,6 +139,7 @@ class ConstService
                 '6.0.0' => ['value' => '6.0.0', 'name' => 'v6.0.0'],
                 '6.1.0' => ['value' => '6.1.0', 'name' => 'v6.1.0'],
                 '6.2.0' => ['value' => '6.2.0', 'name' => 'v6.2.0'],
+                '6.3.0' => ['value' => '6.3.0', 'name' => 'v6.3.0'],
             ],
 
             // 搜索排序方式
@@ -431,6 +443,14 @@ class ConstService
                 'fra'  => MyLang('common_multilingual_list.fra'),
                 'swe'  => MyLang('common_multilingual_list.swe'),
             ],
+            // token生成规则
+            'common_token_created_rules_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_token_created_rules_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_token_created_rules_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_token_created_rules_list.2')],
+                3 => ['value' => 3, 'name' => MyLang('common_token_created_rules_list.3')],
+                4 => ['value' => 4, 'name' => MyLang('common_token_created_rules_list.4')],
+            ],
             // 商品分类展示层级类型
             'common_show_goods_category_level_list' => [
                 0 => ['value' => 0, 'name' => MyLang('common_show_goods_category_level_list.0')],
@@ -438,7 +458,13 @@ class ConstService
                 2 => ['value' => 2, 'name' => MyLang('common_show_goods_category_level_list.2')],
                 3 => ['value' => 3, 'name' => MyLang('common_show_goods_category_level_list.3')],
             ],
-            // 图片验证码
+            // 图片验证码类型
+            'common_site_images_verify_rand_type_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_site_images_verify_rand_type_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_site_images_verify_rand_type_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_site_images_verify_rand_type_list.2')],
+            ],
+            // 图片验证码规则
             'common_site_images_verify_rules_list' => [
                 0 => ['value' => 'bgcolor', 'name' => MyLang('common_site_images_verify_rules_list.0')],
                 1 => ['value' => 'textcolor', 'name' => MyLang('common_site_images_verify_rules_list.1')],
@@ -546,6 +572,38 @@ class ConstService
                 1 => ['value' => 'access_count', 'name' => MyLang('common_theme_article_order_by_type_list.1')],
                 
             ],
+            // 附件分类-路径名称匹配
+            'common_attachment_category_path_name_list' => [
+                'common'          => MyLang('common_attachment_category_path_name_list.common'),
+                'goods'           => MyLang('common_attachment_category_path_name_list.goods'),
+                'goods_category'  => MyLang('common_attachment_category_path_name_list.goods_category'),
+                'brand'           => MyLang('common_attachment_category_path_name_list.brand'),
+                'brand_category'  => MyLang('common_attachment_category_path_name_list.brand_category'),
+                'customview'      => MyLang('common_attachment_category_path_name_list.customview'),
+                'express'         => MyLang('common_attachment_category_path_name_list.express'),
+                'app_center_nav'  => MyLang('common_attachment_category_path_name_list.app_center_nav'),
+                'quick_nav'       => MyLang('common_attachment_category_path_name_list.quick_nav'),
+                'shortcutmenu'    => MyLang('common_attachment_category_path_name_list.shortcutmenu'),
+                'app_nav'         => MyLang('common_attachment_category_path_name_list.app_nav'),
+                'slide'           => MyLang('common_attachment_category_path_name_list.slide'),
+                'article'         => MyLang('common_attachment_category_path_name_list.article'),
+                'user'            => MyLang('common_attachment_category_path_name_list.user'),
+                'design'          => MyLang('common_attachment_category_path_name_list.design'),
+                'plugins'         => MyLang('common_attachment_category_path_name_list.plugins'),
+                'order_comments'  => MyLang('common_attachment_category_path_name_list.order_comments'),
+                'theme_data'      => MyLang('common_attachment_category_path_name_list.theme_data'),
+                'agreement'       => MyLang('common_attachment_category_path_name_list.agreement'),
+                'warehouse'       => MyLang('common_attachment_category_path_name_list.warehouse'),
+            ],
+            // 附件管理-类型
+            'common_attachment_type_list' => [
+                'file'    => MyLang('common_attachment_type_list.file'),
+                'image'   => MyLang('common_attachment_type_list.image'),
+                'scrawl'  => MyLang('common_attachment_type_list.scrawl'),
+                'video'   => MyLang('common_attachment_type_list.video'),
+                'remote'  => MyLang('common_attachment_type_list.remote'),
+            ],
+
 
             // -------------------- 正则 --------------------
             // 用户名

@@ -456,5 +456,92 @@ class BrandService
         }
         return DataReturn(MyLang('operate_fail'), -100);
     }
+
+    /**
+     * 指定读取品牌列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-29
+     * @desc    description
+     * @param   [array]         $brand_ids [品牌id]
+     * @param   [array]         $params    [输入参数]
+     */
+    public static function AppointBrandList($brand_ids, $params = [])
+    {
+        $result = [];
+        if(!empty($brand_ids))
+        {
+            // 非数组则转为数组
+            if(!is_array($brand_ids))
+            {
+                $brand_ids = explode(',', $brand_ids);
+            }
+
+            // 基础条件
+            $where = [
+                ['is_enable', '=', 1],
+                ['id', 'in', array_unique($brand_ids)]
+            ];
+
+            // 获取数据
+            $ret = self::BrandList(['where'=>$where, 'm'=>0, 'n'=>0]);
+            if(!empty($ret['data']))
+            {
+                $temp = array_column($ret['data'], null, 'id');
+                foreach($brand_ids as $id)
+                {
+                    if(!empty($id) && array_key_exists($id, $temp))
+                    {
+                        $result[] = $temp[$id];
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 自动读取品牌列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-29
+     * @desc    description
+     * @param   [array]         $config [配置信息]
+     * @param   [array]         $params [输入参数]
+     */
+    public static function AutoBrandList($config = [], $params = [])
+    {
+        // 基础条件
+        $where = [
+            ['is_enable', '=', 1],
+        ];
+
+        // 品牌关键字
+        if(!empty($config['brand_keywords']))
+        {
+            $where[] = ['name|describe', 'like', '%'.$config['brand_keywords'].'%'];
+        }
+
+        // 分类条件
+        if(!empty($config['brand_category_ids']))
+        {
+            if(!is_array($config['brand_category_ids']))
+            {
+                $config['brand_category_ids'] = explode(',', $config['brand_category_ids']);
+            }
+            $ids = Db::name('BrandCategoryJoin')->where(['brand_category_id'=>$config['brand_category_ids']])->column('brand_id');
+            $where[] = ['id', 'in', empty($ids) ? [0] : $ids];
+        }
+
+        // 获取数据
+        $ret = self::BrandList([
+            'where'    => $where,
+            'm'        => 0,
+            'n'        => empty($config['brand_number']) ? 10 : intval($config['brand_number']),
+        ]);
+        return empty($ret['data']) ? [] : $ret['data'];
+    }
 }
 ?>

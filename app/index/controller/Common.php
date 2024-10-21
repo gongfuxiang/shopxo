@@ -21,7 +21,6 @@ use app\service\NavigationService;
 use app\service\BuyService;
 use app\service\MessageService;
 use app\service\SearchService;
-use app\service\ConfigService;
 use app\service\UserService;
 use app\service\AdminService;
 use app\service\MultilingualService;
@@ -39,7 +38,7 @@ use app\service\ThemeDataService;
  */
 class Common extends BaseController
 {
-    // 顶部导航、底部导航、快捷导航
+    // 顶部导航、底部导航
     protected $nav_header;
     protected $nav_footer;
 
@@ -115,11 +114,6 @@ class Common extends BaseController
         // 检测是否是新安装
         SystemService::SystemInstallCheck();
 
-        // 输入参数
-        $this->data_post = input('post.');
-        $this->data_get = input('get.');
-        $this->data_request = input();
-
         // 系统初始化
         $this->SystemInit();
 
@@ -177,9 +171,11 @@ class Common extends BaseController
      * @desc    description
      */
     private function SystemInit()
-    {        
-        // 配置信息初始化
-        ConfigService::ConfigInit();
+    {
+        // 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
     }
 
     /**
@@ -205,7 +201,17 @@ class Common extends BaseController
     public function ViewInit()
     {
         // 模板数据
-        $assign = [];
+        $assign = [
+            // 静态文件缓存版本号
+            'static_cache_version'   => MyC('home_static_cache_version'),
+            // logo
+            'home_site_logo'         => AttachmentPathViewHandle(MyC('home_site_logo')),
+            'home_site_logo_wap'     => AttachmentPathViewHandle(MyC('home_site_logo_wap')),
+            'home_site_logo_app'     => AttachmentPathViewHandle(MyC('home_site_logo_app')),
+            'home_site_logo_square'  => AttachmentPathViewHandle(MyC('home_site_logo_square')),
+            // 站点名称
+            'home_site_name'         => MyC('home_site_name'),
+        ];
 
         // 系统类型
         $this->system_type = SystemService::SystemTypeValue();
@@ -351,8 +357,11 @@ class Common extends BaseController
         // 当前host地址
         $assign['my_host'] = __MY_HOST__;
 
-        // 当前完整url地址
+        // 当前站点url地址
         $assign['my_url'] = __MY_URL__;
+
+        // 当前完整url地址
+        $assign['my_view_url'] = __MY_VIEW_URL__;
 
         // 项目public目录URL地址
         $assign['my_public_url'] = __MY_PUBLIC_URL__;
@@ -389,8 +398,8 @@ class Common extends BaseController
         // 默认不加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = 0;
         $assign['is_page_loading_images'] = 0;
+        $assign['page_loading_logo'] = $assign['home_site_logo_square'];
         $assign['page_loading_images_url'] = StaticAttachmentUrl('loading.gif');
-        $assign['page_loading_logo'] = AttachmentPathViewHandle(MyC('home_site_logo_square'));
         $assign['page_loading_logo_border'] = StaticAttachmentUrl('loading-border.svg', 'svg');
 
         // 顶部右侧导航
@@ -448,6 +457,9 @@ class Common extends BaseController
 
         // 默认不加载代码编辑器
         $assign['is_load_ace_builds'] = 0;
+
+        // 是否加载webuploader
+        $assign['is_load_webuploader'] = 0;
 
         // 登录/注册方式
         $assign['home_user_login_type'] = MyC('home_user_login_type', [], true);

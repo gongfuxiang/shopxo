@@ -61,7 +61,7 @@ class User
                     'label'         => $lang['id'],
                     'view_type'     => 'field',
                     'view_key'      => 'id',
-                    'width'         => 105,
+                    'width'         => 110,
                     'is_copy'       => 1,
                     'is_sort'       => 1,
                     'search_config' => [

@@ -51,7 +51,7 @@ function FormTableHeightHandle()
             {
                 $('#user-offcanvas').css('height', 'auto');
             } else {
-                $('#user-offcanvas').css('height', 'calc(100vh - '+((height_header_top+header_nav_simple)-4)+'px)');
+                $('#user-offcanvas').css('height', 'calc(100vh - '+((height_header_top+header_nav_simple)-24)+'px)');
             }
         }
     }
@@ -398,7 +398,7 @@ $(function()
     }
 
     // 公共商品收藏
-    $(document).on('click', '.common-goods-favor-submit-event', function()
+    $(document).on('click', '.common-goods-favor-submit-event, .buy-nav-left-favor-submit', function()
     {
         // 是否登录
         if((__user_id__ || 0) == 0)
@@ -431,6 +431,11 @@ $(function()
                         if($this.find('.goods-favor-text').length > 0)
                         {
                             $this.find('.goods-favor-text').text(res.data.text);
+                        } else {
+                            if($this.find('.name').length > 0)
+                            {
+                                $this.find('.name').text(res.data.text);
+                            }
                         }
                         if(res.data.status == 1)
                         {
@@ -537,7 +542,7 @@ $(function()
             });
         } else {
             // 开启规格选择弹窗
-            ModalLoad(UrlFieldReplace('id', goods_id, __goods_cart_info_url__), '', 'common-goods-cart-popup');
+            ModalLoad(UrlFieldReplace('id', goods_id, __goods_cart_info_url__), (window['lang_goods_cart_title'] || '加入购物车'), 'common-goods-cart-popup');
         }
     });
 
@@ -598,8 +603,8 @@ $(function()
 
         // 调用弹窗组件
         AMUI.dialog.alert({
-        isClose: true,
-        content: html
+            isClose: true,
+            content: html
         });
         // 当前对象赋值
         $common_goods_spec_choice_submit_event_obj = $(this);
@@ -885,8 +890,7 @@ $(function()
         }
         // 存在id则增加id参数
         if(id !== null) {
-            var join = (url.indexOf('?') == -1) ? '?' : '&';
-            url += join+'id='+id;
+            url = UrlFieldReplace('id', id, url);
         }
         // 打开弹窗
         ModalLoad(url, (window['themedata_admin_title'] || '主题数据管理'), '', 1, 1, 'lg', null, function() {

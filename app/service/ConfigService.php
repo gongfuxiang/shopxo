@@ -90,6 +90,7 @@ class ConfigService
         'common_user_address_platform_import_list',
         'common_app_user_base_popup_pages',
         'common_app_user_base_popup_client',
+        'common_token_created_rules',
     ];
 
     // json数组字段
@@ -279,7 +280,7 @@ class ConfigService
                     $v = htmlentities($v);
                 }
             }
-            if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
+            if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]) !== false)
             {
                 $success++;
 
@@ -327,7 +328,7 @@ class ConfigService
     {
         $key = SystemService::CacheKey('shopxo.cache_common_my_config_key');
         $data = MyCache($key);
-        if($data === null || $status == 1 || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
+        if($data === null || $status == 1 || MyEnv('app_debug') || MyInput('lang') || MyFileConfig('common_data_is_use_cache') != 1)
         {
             // 所有配置
             $data = Db::name('Config')->column('value', 'only_tag');
@@ -382,6 +383,7 @@ class ConfigService
                     // 不参与缓存的配置
                     if(in_array($k, self::$not_cache_field_list))
                     {
+                        unset($data[$k]);
                         continue;
                     }
 
@@ -390,9 +392,6 @@ class ConfigService
                     {
                         $v = ResourcesService::ContentStaticReplace($v, 'get');
                     }
-
-                    // 公共内置数据缓存
-                    MyCache($k, $v);
 
                     // 数据文件缓存
                     if(in_array($k, self::$file_cache_keys))
@@ -407,6 +406,7 @@ class ConfigService
             // 所有配置缓存集合
             MyCache($key, $data);
         }
+        return $data;
     }
 
     /**

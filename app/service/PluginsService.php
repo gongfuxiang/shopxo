@@ -273,8 +273,17 @@ class PluginsService
      */
     public static function PluginsField($plugins, $field)
     {
-        $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value($field);
-        return DataReturn(MyLang('operate_success'), 0, $data);
+        static $plugins_field_data = null;
+        if($plugins_field_data === null)
+        {
+            $plugins_field_data = Db::name('Plugins')->column('*', 'plugins');
+        }
+        $value = '';
+        if(!empty($plugins_field_data) && array_key_exists($plugins, $plugins_field_data) && array_key_exists($field, $plugins_field_data[$plugins]))
+        {
+            $value = $plugins_field_data[$plugins][$field];
+        }
+        return DataReturn('success', 0, $value);
     }
 
     /**
@@ -392,34 +401,35 @@ class PluginsService
      * @date    2023-05-26
      * @desc    description
      * @param   [string]          $plugins [插件标识]
+     * @param   [array]           $data    [插件数据]
      */
-    public static function PluginsLegalCheck($plugins)
+    public static function PluginsLegalCheck($plugins, $data = [])
     {
-        if(RequestModule() == 'admin')
+        $key = 'plugins_legal_check_'.$plugins;
+        $ret = MyCache($key);
+        if(empty($ret))
         {
-            $key = 'plugins_legal_check_'.$plugins;
-            $ret = MyCache($key);
-            if(empty($ret))
+            if(empty($data))
             {
-                $config = PluginsAdminService::GetPluginsConfig($plugins);
-                if(empty($config) || empty($config['base']))
-                {
-                    return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
-                }
-                $check_params = [
-                    'type'      => 'plugins',
-                    'config'    => $config,
-                    'plugins'   => $plugins,
-                    'author'    => $config['base']['author'],
-                    'ver'       => $config['base']['version'],
-                ];
-                $ret = StoreService::PluginsLegalCheck($check_params);
-                MyCache($key, $ret, 3600);
+                $data = PluginsAdminService::GetPluginsConfig($plugins);
             }
-            if(!in_array($ret['code'], [0, -9999]))
+            if(empty($data) || empty($data['base']))
             {
-                return $ret;
+                return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
             }
+            $check_params = [
+                'type'      => 'plugins',
+                'config'    => $data,
+                'plugins'   => $plugins,
+                'author'    => $data['base']['author'],
+                'ver'       => $data['base']['version'],
+            ];
+            $ret = StoreService::PluginsLegalCheck($check_params);
+            MyCache($key, $ret, 3600);
+        }
+        if(!in_array($ret['code'], [0, -9999]))
+        {
+            return $ret;
         }
         return DataReturn('success', 0);
     }

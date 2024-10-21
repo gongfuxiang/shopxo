@@ -1,0 +1,52 @@
+<!-- 继承公共的 form -->
+{{extend name="../../../module/view/form_table/form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <!-- 新增 -->
+    {{if AdminIsPower('diy', 'saveinfo')}}
+        <a href="{{:MyUrl('admin/diy/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
+            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+            <span>{{:MyLang('add_title')}}</span>
+        </a>
+    {{/if}}
+    <!-- 导入 -->
+    {{if AdminIsPower('diy', 'upload')}}
+        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/diy/index', ['view_type'=>'upload'])}}" data-title="{{:MyLang('import_title')}}" data-full-max="1" data-full-max-size="xl">
+            <i class="iconfont icon-upload am-show-sm-only"></i>
+            <span>{{:MyLang('import_title')}}</span>
+        </button>
+    {{/if}}
+    <!-- 底部菜单 -->
+    {{if AdminIsPower('diy', 'apptabbar')}}
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/diy/saveinfo', ['is_auto_create'=>0])}}#/tabbar" data-title="{{:MyLang('diy.nav_apptabbar_name')}}">
+            <i class="iconfont icon-wechart am-show-sm-only"></i>
+            <span>{{:MyLang('diy.nav_apptabbar_name')}}</span>
+        </button>
+    {{/if}}
+    <!-- 父级内容 -->
+    {__block__}
+    {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_diy_url)}}
+        <a class="am-margin-left-sm" href="{{$store_diy_url}}" target="_blank">
+            <i class="iconfont icon-download-btn"></i>
+            <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('diy.nav_store_diy_name')}}</span>
+        </a>
+    {{/if}}
+{{/block}}
+
+<!-- 扩展 -->
+{{block name="form_extend"}}
+    <!-- upload start -->
+    <div class="am-popup am-radius am-popup-full-max-xl package-install-list-popup-container" id="popup-diy-upload">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">{{:MyLang('import_title')}}</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd am-padding-0">
+                
+            </div>
+        </div>
+    </div>
+    <!-- upload end -->
+{{/block}}

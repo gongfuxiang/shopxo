@@ -304,7 +304,7 @@ class Index extends Common
         }
 
         // 记录管理地址
-        MySession($this->admin_run_key, __MY_URL__.$admin_filename_new);
+        MySession($this->admin_run_key, __MY_URL__.$admin_filename_new.'?s=index/index.html');
 
         return DataReturn(MyLang('operate_success'), 0);
     }

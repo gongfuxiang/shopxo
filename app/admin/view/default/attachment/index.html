@@ -1,0 +1,16 @@
+<!-- 继承公共的 form -->
+{{extend name="../../../module/view/form_table/form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <!-- 是否有附件分类页面权限 -->
+    {{if AdminIsPower('attachmentcategory', 'index')}}
+        <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/attachmentcategory/index')}}" data-title="{{:MyLang('attachment.category_admin_title')}}" data-full-max="1" data-full-max-size="lg">
+            <i class="iconfont icon-type-manage am-show-sm-only"></i>
+            <span>{{:MyLang('attachment.category_admin_title')}}</span>
+        </button>
+    {{/if}}
+
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}

@@ -39,22 +39,19 @@ $(function()
             return false;
         }
 
-        var $this = $(this);
+        var $btn = $('.forth-selection-container .search-submit');
+        $btn.button('loading');
         $.AMUI.progress.start();
-        if($(this).hasClass('search-submit'))
-        {
-            $this.button('loading');
-        }
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
             url: RequestUrlHandle(url),
             type: 'post',
-            data: {"page":page, "warehouse_id":warehouse_id, "category_id":category_id, "keywords":keywords},
+            data: {page: page, warehouse_id: warehouse_id, category_id: category_id, keywords: keywords},
             dataType: 'json',
             success:function(res)
             {
                 $.AMUI.progress.done();
-                $this.button('reset');
+                $btn.button('reset');
                 if(res.code == 0)
                 {
                     $('.goods-list-container').attr('data-is-init', 0);
@@ -68,7 +65,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                $this.button('reset');
+                $btn.button('reset');
                 var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
@@ -114,31 +111,5 @@ $(function()
                 Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
         });
-    });
-
-    //弹窗全屏处理
-    function WarehouseGoodsPopupWinHandle(e)
-    {
-        var width = $(window).width();
-        var height = $(window).height();
-        if(width >= 630 && height >= 630)
-        {
-            var $parent = e.parents('.am-popup');
-            if($parent.hasClass('am-popup-full'))
-            {
-                $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
-            } else {
-                $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
-            }
-        }
-    }
-    // 弹窗全屏
-    $(document).on('click', '#warehouse-goods-popup .am-popup-hd .am-full', function()
-    {
-        WarehouseGoodsPopupWinHandle($(this));
-    });
-    $(document).on('dblclick', '#warehouse-goods-popup .am-popup-hd', function()
-    {
-        WarehouseGoodsPopupWinHandle($(this));
     });
 });

@@ -10,6 +10,28 @@ body{ background: var(--body-bg-color); color: #333333; }
 .block { display:block !important; }
 .text-deco-none { text-decoration: none !important; }
 .text-deco-line { text-decoration: underline !important; }
+pre {
+    margin: 0.5rem 0;
+    padding: .4rem .6rem;
+    border-radius: 2px;
+    background: #f8f8f8;
+}
+
+/**
+ * 常用类
+ */
+.am-wh-auto {
+    width: 100% !important;
+}
+.am-max-wh-auto {
+    max-width: 100% !important;
+}
+.am-ht-auto {
+    height: 100% !important;
+}
+.am-max-ht-auto {
+    max-height: 100% !important;
+}
 
 /**
  * 常用颜色
@@ -40,6 +62,9 @@ body{ background: var(--body-bg-color); color: #333333; }
 .am-color-white {
     color: #fff;
 }
+.am-color-price {
+    color: #E22C08 !important;
+}
 .am-color-blue {
     color: var(--color-blue) !important;
 }
@@ -53,10 +78,10 @@ body{ background: var(--body-bg-color); color: #333333; }
     color: var(--color-yellow) !important;
 }
 .am-color-main {
-    color: var(--color-main);
+    color: var(--color-main) !important;
 }
 .am-color-main:hover {
-    color: var(--color-main-hover);
+    color: var(--color-main-hover) !important;
 }
 .am-text-primary {
     color: var(--color-main) !important;
@@ -66,37 +91,37 @@ body{ background: var(--body-bg-color); color: #333333; }
  * 公共背景颜色
  */
 .am-background-main {
-    background: var(--color-main);
+    background: var(--color-main) !important;
 }
 .am-background-red {
-    background: var(--color-red);
+    background: var(--color-red) !important;
 }
 .am-background-yellow {
-    background: var(--color-yellow);
+    background: var(--color-yellow) !important;
 }
 .am-background-blue {
-    background: var(--color-blue);
+    background: var(--color-blue) !important;
 }
 .am-background-green {
-    background: var(--color-green);
+    background: var(--color-green) !important;
 }
 .am-background-grey-dark {
-    background: #666666;
+    background: #666666 !important;
 }
 .am-background-grey-f5 {
-    background: #f5f5f5;
+    background: #f5f5f5 !important;
 }
 .am-background-grey-f9 {
-    background: #f9f9f9;
+    background: #f9f9f9 !important;
 }
 .am-background-white {
-    background: #FFFFFF;
+    background: #FFFFFF !important;
 }
 .am-background-grey {
-    background: #999999;
+    background: #fafafa !important;
 }
 .am-background-grey-light {
-    background: #CCCCCC;
+    background: #CCCCCC !important;
 }
 
 /**
@@ -749,10 +774,10 @@ form.am-form .am-form-group,
         padding-right: 0;
     }
 }
-.form-nav-top-right-retreat i {
+.form-nav-top-retreat i {
     color: #666;
 }
-.form-nav-top-right-retreat i:hover {
+.form-nav-top-retreat i:hover {
     color: var(--color-main);
 }
 
@@ -1154,6 +1179,7 @@ span.business-operations-submit {
 .text-copy-submit,
 .common-goods-favor-submit-event,
 .common-annex-view-event,
+.common-annex-download-event,
 .common-scan-submit,
 .am-cursor-pointer {
     cursor: pointer;
@@ -1363,7 +1389,7 @@ ul.plug-file-upload-view-file li {
 /**
  * 拖拽排序
  */
-.drag-sort-dotted { border: 0.3rem dashed #639BF6 !important; }
+.drag-sort-dotted { border: 0.1rem dashed #639BF6 !important; }
 
 /**
  * 覆盖框架样式
@@ -1404,30 +1430,30 @@ ul.plug-file-upload-view-file li {
     background-color: #fbfbfb;
 }
 .am-alert {
-    background: #ECF3FD;
-    border: 0.1rem solid #BAE0FF;
+    background: #fafcff;
+    border: 0.1rem solid #f2faff;
     color: #333333;
     padding: 0.7rem 1.2rem;
     border-radius: var(--border-radius);
 }
 .am-alert-danger {
-    background-color: #fff1f0;
-    border: 0.1rem solid #ffe4e3;
+    background-color: #fff9f9;
+    border: 0.1rem solid #fff3f2;
     color: #dd514c;
 }
 .am-alert-secondary {
-    background-color: #f6f6f6;
-    border: 0.1rem solid #efefef;
+    background-color: #fbfbfb;
+    border: 0.1rem solid #f8f8f8;
     color: #666;
 }
 .am-alert-success {
-    background-color: #eef7ea;
-    border: 0.1rem solid #e3f3d6;
+    background-color: #f9fff6;
+    border: 0.1rem solid #f0fde5;
     color: #468847;
 }
 .am-alert-warning {
-    background-color: #fff7f1;
-    border: 0.1rem solid #fff0e4;
+    background-color: #fffbf8;
+    border: 0.1rem solid #fff5ed;
     color: #f37b1d;
 }
 .am-alert a:not(.am-btn,.am-badge) {
@@ -1451,6 +1477,10 @@ ul.plug-file-upload-view-file li {
 }
 .am-ucheck-icons {
     line-height: 2.2rem;
+}
+ul.am-dropdown-content > .am-active > a, ul.am-dropdown-content > .am-active > a:hover, ul.am-dropdown-content > .am-active > a:focus {
+    color: var(--color-main);
+    background-color: transparent;
 }
 .am-dropdown-content {
     -webkit-box-shadow: 0 0.2rem 1rem rgb(136 136 136 / 40%);
@@ -1615,6 +1645,7 @@ button.colorpicker-submit img {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.7rem;
@@ -1628,6 +1659,7 @@ button.colorpicker-submit img {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 2rem;
@@ -1640,6 +1672,7 @@ button.colorpicker-submit img {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 2.2rem;
@@ -1652,6 +1685,7 @@ button.colorpicker-submit img {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 2.6rem;
@@ -1664,6 +1698,7 @@ button.colorpicker-submit img {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 3.2rem;
@@ -1888,8 +1923,8 @@ button.colorpicker-submit img {
     padding: 11rem 0;
 }
 .am-form-table-data-container .am-badge {
-    height: 2.2rem;
-    line-height: 2.2rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
     padding: 0 0.8rem;
     background: #F3F3F3 !important;
     border-radius: 1.1rem;
@@ -1897,6 +1932,7 @@ button.colorpicker-submit img {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
     border-color: #F3F3F3 !important;
+    font-weight: inherit;
 }
 
 /**
@@ -2143,9 +2179,9 @@ button.colorpicker-submit img {
 }
 .user-info-dropdown-data-container > a i {
     font-size: 0.8rem;
-    position: absolute;
-    margin-left: 0.5rem;
+    margin-left: 0.2rem;
     transition: all 0.2s ease;
+    vertical-align: middle;
 }
 .user-info-dropdown-data-container > a.am-active i {
     transform: rotate(-180deg);
@@ -2193,6 +2229,11 @@ button.colorpicker-submit img {
     align-items: center;
     background-color: #F9F9F9;
     overflow: auto;
+    position: sticky;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
 }
 .detail-content-nav-switch-tabs .item {
     padding: 0.8rem 1.5rem;
@@ -2411,7 +2452,7 @@ form .am-tab-panel .am-form-group:last-child {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 641px) {  
+@media only screen and (max-width: 641px) {
     #card ul li .item .submit{
         opacity: 1;
     }
@@ -2461,6 +2502,17 @@ form .am-tab-panel .am-form-group:last-child {
 .richtext li {
     margin: revert !important;
     padding: revert !important;
+}
+.richtext p {
+    margin: 0.5rem 0;
+}
+.richtext a {
+    color: var(--color-blue);
+}
+.richtext img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
 }
 
 /**
@@ -2555,7 +2607,9 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn>span.am-icon-circle-o-no
  * 表单公共底部浮动
  */
 .am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning {
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-danger,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger {
     border: 1px solid #DCDFE6;
     background-color: transparent;
     color: #666;
@@ -2565,7 +2619,13 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning {
 .am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning:active,
 form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:hover,
 form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:focus,
-form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:active {
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning:active,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-danger:hover,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-danger:focus,
+.am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-danger:active,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:hover,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:focus,
+form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:active {
     border: 1px solid var(--color-main-hover);
     background-color: transparent;
     color: var(--color-main-hover);
@@ -2711,13 +2771,13 @@ a.input-clearout-submit:focus > i {
 .common-goods-spec-choice-content .sku-line:hover {
     background: none;
     color: #333;
-    border: 0.1rem solid #e23f36;
-    box-shadow: 0 0 0 0.1rem #e23f36;
+    border: 0.1rem solid var(--color-main);
+    box-shadow: 0 0 0 0.1rem var(--color-main);
 }
 .common-goods-spec-choice-content .sku-line.selected {
-    background: #e23f36;
+    background: var(--color-main);
     color: #fff;
-    border: 0.1rem solid #e23f36;
+    border: 0.1rem solid var(--color-main);
 }
 .common-goods-spec-choice-content .sku-line-images {
     padding: 0.5rem 1rem !important;
@@ -2904,7 +2964,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 .am-radius-sm {
     border-radius: var(--border-radius-sm);
 }
-.am-input-group > input.am-radius:first-child,
+.am-input-group:not([class*="am-gap-"]) > input.am-radius:first-child,
 .am-input-group > .am-input-group-btn:first-child > button.am-radius,
 .am-input-group > .am-input-group-label:first-child {
     border-top-right-radius: 0;
@@ -3027,16 +3087,15 @@ body ::-webkit-scrollbar-resizer:vertical {
     min-width: 4.6rem;
     margin: 0;
     font-size: inherit;
+    float: left;
+    height: 2.6rem;
+    line-height: 2.6rem;
 }
 table.am-table > thead > tr > th {
     padding: 0.9rem 1.2rem 1.2rem 1.2rem !important;
 }
 table.am-table td.am-operate-grid {
     padding: 0.2rem 1.2rem !important;
-}
-table.am-table .am-operate-grid .am-btn {
-    float: left;
-    padding: 0;
 }
 table.am-table .am-operate-grid .am-btn {
     color: var(--color-blue);
@@ -3618,6 +3677,15 @@ table.am-table .am-operate-grid .am-btn i {
 .nav-switch-tabs {
     margin-bottom: 2rem;
     border-bottom: 0.1rem solid #eee;
+    display: flex;
+    align-items: center;
+}
+.nav-switch-tabs .form-nav-top-retreat {
+    padding-bottom: 1rem;
+    line-height: initial;
+}
+.nav-switch-tabs .form-nav-top-retreat-ds {
+    padding-bottom: 1rem;
 }
 
 .nav-switch-tabs ul {
@@ -3625,17 +3693,15 @@ table.am-table .am-operate-grid .am-btn i {
     flex-flow: row wrap;
     align-items: center;
     gap: 1rem;
+    margin-bottom: -0.2rem;
 }
 .nav-switch-tabs li a,
 .nav-switch-tabs > span {
     display: inline-flex;
     align-items: center;
-    padding: 0 1.2rem 1.2rem 1.2rem;
+    padding: 0 1.2rem 1rem 1.2rem;
     color: #333;
     font-size: 1.4rem;
-}
-.nav-switch-tabs > span {
-    padding-left: 0;
 }
 .nav-switch-tabs li.am-active a {
     color: var(--color-main);
@@ -4027,7 +4093,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 .am-form-input-material .am-input-group-btn {
     position: absolute;
-    top: 2.3rem;
+    top: 1.8rem;
     right: 3.5rem;
     z-index: 1;
 }
@@ -4063,14 +4129,14 @@ table.am-table .am-operate-grid .am-btn i {
 @media only screen and (min-width: 641px) {
     /* 鼠标悬停放大 */
     .scale-sm {
-        transition: all .3s ease-in-out;
+        transition: all .5s ease-in-out;
     }
     .scale-sm:hover {
-        transform: scale(1.04);
+        transform: scale(1.02);
     }
     /* 鼠标悬停放大 */
     .scale-xs {
-        transition: all .3s ease-in-out;
+        transition: all .5s ease-in-out;
     }
     .scale-xs:hover {
         transform: scale(1.01);
@@ -4120,7 +4186,7 @@ table.am-table .am-operate-grid .am-btn i {
     .down-hover,
     .left-hover,
     .right-hover {
-        transition: all .3s;
+        transition: all .5s;
     }
     .up-hover:hover {
         transform: translateY(-0.5rem);
@@ -4378,8 +4444,8 @@ table.am-table .am-operate-grid .am-btn i {
 /**
  * 上传文件弹窗样式---内部只有一个上传按钮
  */
- .am-upload-file  .am-form-file {
-    position: absolute;
+ .am-upload-file .am-form-file {
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

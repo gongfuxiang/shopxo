@@ -585,8 +585,8 @@ class AlipayCert
         {
             return false;
         } else {
-            $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if(200 !== $httpStatusCode)
+            $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if(200 !== $http_status_code)
             {
                 return false;
             }
@@ -704,7 +704,7 @@ class AlipayCert
         {
             $ssl[$i] = openssl_x509_parse($array[$i] . "-----END CERTIFICATE-----");
             if(strpos($ssl[$i]['serialNumber'],'0x') === 0){
-                $ssl[$i]['serialNumber'] = $this->hex2dec($ssl[$i]['serialNumberHex']);
+                $ssl[$i]['serialNumber'] = $this->Hex2dec($ssl[$i]['serialNumberHex']);
             }
             if($ssl[$i]['signatureTypeLN'] == "sha1WithRSAEncryption" || $ssl[$i]['signatureTypeLN'] == "sha256WithRSAEncryption")
             {
@@ -730,7 +730,7 @@ class AlipayCert
      * @param   [int]          $hex [数字]
      * @return  [int|string]        [转换的数据]
      */
-    public function hex2dec($hex)
+    public function Hex2dec($hex)
     {
         $dec = 0;
         $len = strlen($hex);

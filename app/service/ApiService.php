@@ -44,27 +44,60 @@ class ApiService
     }
 
     /**
-     * 用户token生成
+     * token生成
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2021-02-26
      * @desc    description
-     * @param   [int]          $user_id [用户id]
+     * @param   [int]          $data_id [数据id]
+     * @param   [int|string]   $rand    [随机数]
      */
-    public static function CreatedUserToken($user_id)
+    public static function CreatedUserToken($data_id, $rand = '')
     {
-        $arr = ['USER', 'HTTP_USER_AGENT', 'HTTP_HOST', 'SERVER_SOFTWARE', 'GATEWAY_INTERFACE', 'REQUEST_SCHEME', 'SERVER_PROTOCOL'];
-        $data = [GetClientIP(), APPLICATION_CLIENT_TYPE, SYSTEM_TYPE];
-        foreach($arr as $v)
+        // 生成规则
+        $data = [];
+        $rules = MyC('common_token_created_rules');
+        if(!empty($rules) && is_array($rules))
         {
-            if(isset($_SERVER[$v]))
+            // 用户ip
+            if(in_array(0, $rules))
             {
-                $data[] = $_SERVER[$v];
+                $data[] = GetClientIP();
+            }
+            // 设备信息
+            if(in_array(1, $rules))
+            {
+                $arr = ['USER', 'HTTP_USER_AGENT', 'HTTP_HOST', 'SERVER_SOFTWARE', 'GATEWAY_INTERFACE', 'REQUEST_SCHEME', 'SERVER_PROTOCOL'];
+                foreach($arr as $v)
+                {
+                    if(isset($_SERVER[$v]))
+                    {
+                        $data[] = $_SERVER[$v];
+                    }
+                }
+            }
+            // 客户端
+            if(in_array(2, $rules))
+            {
+                $data[] = APPLICATION_CLIENT_TYPE;
+            }
+            // 系统类型
+            if(in_array(3, $rules))
+            {
+                $data[] = SYSTEM_TYPE;
+            }
+            // 随机数或密码盐
+            if(in_array(4, $rules))
+            {
+                if(empty($rand))
+                {
+                    $rand = time().GetNumberCode();
+                }
+                $data[] = $rand;
             }
         }
-        sort($data);
-        return md5(md5(md5(implode('', $data)).md5($user_id).time().GetNumberCode()));
+        return md5(md5(empty($data) ? '' : md5(implode('', $data)).md5($data_id)));
     }
 }
 ?>

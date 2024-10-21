@@ -1,0 +1,17 @@
+{{if !empty($module_data) and !empty($module_data['goods']) and is_array($module_data['goods'])}}
+    <div class="am-nbfc">
+        {{if !empty($module_data['goods']['images'])}}
+            <a {{if empty($module_data['goods']['goods_url'])}}href="javascript:;"{{else /}}href="{{$module_data.goods.goods_url}}" target="_blank"{{/if}} class="am-margin-right-sm am-fl">
+                <img src="{{$module_data.goods.images}}" class="am-img-thumbnail am-radius" width="40" height="40" />
+            </a>
+        {{/if}}
+        <div class="am-nbfc am-text-truncate">
+            {{if !empty($module_data['goods']['title'])}}
+                <a {{if empty($module_data['goods']['goods_url'])}}href="javascript:;"{{else /}}href="{{$module_data.goods.goods_url}}" target="_blank"{{/if}}>{{$module_data.goods.title}}</a>
+            {{/if}}
+            {{if !empty($module_data['goods']['price'])}}
+                <p class="am-color-price">{{$currency_symbol}}{{$module_data.goods.price}}</p>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}

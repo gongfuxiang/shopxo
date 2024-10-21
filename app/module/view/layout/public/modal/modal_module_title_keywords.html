@@ -1,0 +1,36 @@
+<!-- 标题关键字配置 -->
+<div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-title-keywords">
+    <div class="am-modal-dialog">
+        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <form class="am-form am-padding-sm am-text-left form-validation-module-modal-title-keywords" request-type="sync" request-value="FormBackModuleModalTitleKeywords">
+            <!-- 关键字 -->
+            <div class="am-form-group am-form-group-refreshing">
+                <label>{{:MyLang('layout.view_module_title_keywords')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center am-flex-items-center">
+                    <input type="text" placeholder="{{:MyLang('layout.view_module_title_keywords')}}" name="content_keywords" minlength="1" maxlength="80" data-validation-message="{{:MyLang('layout.view_module_title_keywords_message')}}" value="" class="am-form-field" required />
+                    <div class="colorpicker-container colorpicker-simple">
+                        <input type="hidden" name="style_keywords_color" value="" />
+                        <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_keywords']" data-color-tag="input[name='style_keywords_color']"></div>
+                        <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关键字链接 -->
+            <div class="am-form-group am-form-group-refreshing">
+                <label>{{:MyLang('layout.view_module_title_url')}}</label>
+                <div class="form-view-choice-container am-margin-top-xs">
+                    <input type="hidden" name="content_to_type" value="" />
+                    <input type="hidden" name="content_to_name" value="" />
+                    <input type="hidden" name="content_to_value" value="" />
+                    <div class="form-view-choice-container-content">
+                        <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_module_title_url_message')}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="am-margin-top-sm">
+                <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">{{:MyLang('confirm_title')}}</button>
+            </div>
+        </form>
+    </div>
+</div>

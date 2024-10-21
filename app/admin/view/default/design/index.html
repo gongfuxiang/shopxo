@@ -12,54 +12,93 @@
     {{/if}}
     <!-- 导入 -->
     {{if AdminIsPower('design', 'upload')}}
-        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius" data-am-modal="{target: '#popup-design-upload'}">
+        <button type="button" class="am-btn am-btn-default-plain am-btn-xs am-radius package-install-open-upload-submit" data-am-modal="{target: '#popup-design-upload'}">
             <i class="iconfont icon-upload am-show-sm-only"></i>
             <span>{{:MyLang('import_title')}}</span>
         </button>
     {{/if}}
     <!-- 父级内容 -->
     {__block__}
-    {{if $is_system_show_base eq 1 and !empty($store_design_url)}}
-        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">{{:MyLang('design.nav_store_design_name')}} <i class="am-icon-external-link"></i></a>
+    {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_design_url)}}
+        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">
+            <i class="iconfont icon-download-btn"></i>
+            <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('design.nav_store_design_name')}}</span>
+        </a>
     {{/if}}
 {{/block}}
 
 <!-- 扩展 -->
 {{block name="form_extend"}}
     <!-- upload start -->
-    <div class="am-popup am-radius" id="popup-design-upload">
+    <div class="am-popup am-radius am-popup-full-max-xl package-install-list-popup-container" id="popup-design-upload">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">{{:MyLang('import_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
-            <div class="am-popup-bd">
-                <!-- win form start -->
-                <form class="am-form form-validation am-form-popup-fixed am-upload-file" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                    <div class="am-form-group am-flex-1">
-                        <div class="am-form-file">
-                            <button type="button" class="am-btn am-btn-default am-btn-xl am-radius"><i class="iconfont icon-upload-file"></i></button>
-                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
-                            <div id="form-payment-tips" class="am-margin-top-xs"></div>
-                            {{if is_array(MyLang('design.upload_list_tips'))}}
-                                <div class="tips am-text-xs am-color-ccc am-margin-top-sm">
-                                    <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
+            <div class="am-popup-bd am-padding-0">
+                {{if $is_not_bind_accounts eq 1}}
+                    <div class="am-padding-xl am-margin-top-xl am-padding-bottom-xl am-text-center">
+                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> {{:MyLang('store_bind_accounts_name')}}</button>
+                        <p class="am-color-grey am-margin-top-sm">{{:MyLang('store_bind_accounts_tips')}}</p>
+                        <p class="am-color-yellow am-margin-top-xl">{{:MyLang('store_already_bind_accounts_tips')}}</p>
+                    </div>
+                {{else /}}
+                    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+                        'nav_data' => [
+                            [
+                                'name' => MyLang('local_import_title'),
+                                'key'  => 'upload',
+                            ],
+                            [
+                                'name' => MyLang('template_market_title'),
+                                'key'  => 'market',
+                            ],
+                        ]
+                    ])}}
+                    <div class="detail-content-switch-data-item">
+                        <!-- 本地导入 -->
+                        <div class="item am-ht-auto am-active" data-key="upload">
+                            <form class="am-form form-validation am-form-popup-fixed am-upload-file" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                                <div class="am-form-group am-flex-1">
+                                    <div class="am-form-file">
+                                        <button type="button" class="am-btn am-btn-default am-btn-xl am-radius"><i class="iconfont icon-upload-file"></i></button>
+                                        <input type="file" name="file" class="file-event" data-tips-tag="#form-upload-file-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
+                                        <div id="form-upload-file-tips" class="am-margin-top-xs"></div>
+                                        {{if is_array(MyLang('design.upload_list_tips'))}}
+                                            <div class="tips am-text-xs am-color-ccc am-margin-top-sm">
+                                                <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
+                                            </div>
+                                        {{/if}}
+                                    </div>
                                 </div>
-                            {{/if}}
+                                <div class="am-form-popup-submit">
+                                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                                        <i class="am-icon-paint-brush"></i>
+                                        <span>{{:MyLang('cancel_title')}}</span>
+                                    </button>
+                                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                                        <i class="am-icon-save"></i>
+                                        <span>{{:MyLang('confirm_title')}}</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- 模板市场 -->
+                        <div class="item am-ht-auto" data-key="market">
+                            {{:ModuleInclude('public/market/index', [
+                                'type'                                 => 'design',
+                                'back_url'                             => MyUrl('admin/design/saveinfo', ['id'=>0]),
+                                'back_url_field'                       => 'id',
+                                'back_url_is_new_win'                  => 1,
+                                'back_url_is_new_win_data_list_query'  => 1,
+                                'search_url'                           => MyUrl('admin/design/market'),
+                                'more_download_url'                    => empty($store_design_url) ? '' : $store_design_url,
+                                'more_download_name'                   => MyLang('design.nav_store_design_name'),
+                            ])}}
                         </div>
                     </div>
-                    <div class="am-form-popup-submit">
-                        <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
-                            <i class="am-icon-paint-brush"></i>
-                            <span>{{:MyLang('cancel_title')}}</span>
-                        </button>
-                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
-                            <i class="am-icon-save"></i>
-                            <span>{{:MyLang('confirm_title')}}</span>
-                        </button>
-                    </div>
-                </form>
-                <!-- win form end -->
+                {{/if}}
             </div>
         </div>
     </div>

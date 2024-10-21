@@ -72,7 +72,7 @@
 
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.article.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('common_service.article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="content" rows="5" minlength="10" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('common_service.article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
             </div>
 
             <!-- 插件扩展数据 start -->

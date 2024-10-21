@@ -344,9 +344,10 @@ class UserService
      * @version 1.0.0
      * @date    2019-02-27
      * @desc    description
-     * @param   [int]          $user_id [用户id]
+     * @param   [int]          $user_id      [用户id]
+     * @param   [array]        $valid_status [有效状态]
      */
-    public static function UserStatusCheck($user_id)
+    public static function UserStatusCheck($user_id, $valid_status = [0])
     {
         // 查询用户状态是否正常
         $user = self::UserBaseInfo('id', $user_id);
@@ -354,7 +355,11 @@ class UserService
         {
             return DataReturn(MyLang('common_service.user.user_no_exist_tips'), -110);
         }
-        if(!in_array($user['status'], [0,1]))
+        if(!is_array($valid_status))
+        {
+            $valid_status = explode(',', $valid_status);
+        }
+        if(!in_array($user['status'], $valid_status))
         {
             $common_user_status_list = MyConst('common_user_status_list');
             if(isset($common_user_status_list[$user['status']]))
@@ -1199,7 +1204,7 @@ class UserService
             return DataReturn($ret, -1);
         }
 
-        // 是否开启用户注册
+        // 是否开启用户登录
         if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
         {
             return DataReturn(MyLang('login_close_tips'), -1);
@@ -3303,30 +3308,52 @@ class UserService
         // 是否指定用户信息
         if(empty($user) && !empty($user_ids))
         {
+            // 参数处理查询数据
             if(is_array($user_ids))
             {
                 $user_ids = array_filter(array_unique($user_ids));
             }
+            // 静态数据容器，确保每一个用户只读取一次，避免重复读取浪费资源
+            static $user_view_info_static_data = [];
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,gender,birthday,province,city,county,address,integral,locking_integral,add_time', 'id');
-            }
-
-            // 数据处理
-            if(!empty($data) && is_array($data))
-            {
-                foreach($data as &$v)
+                $temp_user_ids = [];
+                $params_user_ids = is_array($user_ids) ? $user_ids : explode(',', $user_ids);
+                foreach($params_user_ids as $uid)
                 {
-                    $v = self::UserHandle($v);
+                    if(empty($user_view_info_static_data) || !array_key_exists($uid, $user_view_info_static_data))
+                    {
+                        $temp_user_ids[] = $uid;
+                    }
+                }
+                // 存在未读取的规格咋数据库读取
+                if(!empty($temp_user_ids))
+                {
+                    $data = Db::name('User')->where(['id'=>$temp_user_ids])->column('id,number_code,username,nickname,mobile,email,avatar,gender,birthday,province,city,county,address,integral,locking_integral,add_time', 'id');
+                    if(!empty($data))
+                    {
+                        foreach($data as $uid=>$uv)
+                        {
+                            $user_view_info_static_data[$uid] = self::UserHandle($uv);
+                        }
+                    }
+                    // 空数据记录、避免重复查询
+                    foreach($temp_user_ids as $uid)
+                    {
+                        if(!array_key_exists($uid, $user_view_info_static_data))
+                        {
+                            $user_view_info_static_data[$uid] = null;
+                        }
+                    }
                 }
             }
 
             // 用户id是否数组
             if(is_array($user_ids))
             {
-                $user = isset($data) ? $data : [];
+                $user = isset($user_view_info_static_data) ? $user_view_info_static_data : [];
             } else {
-                $user = (!empty($data) && array_key_exists($user_ids, $data)) ? $data[$user_ids] : [];
+                $user = (!empty($user_view_info_static_data) && array_key_exists($user_ids, $user_view_info_static_data)) ? $user_view_info_static_data[$user_ids] : [];
             }
         } else {
             if(!empty($user))

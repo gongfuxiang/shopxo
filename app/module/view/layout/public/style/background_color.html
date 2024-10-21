@@ -1,0 +1,8 @@
+<div class="am-form-group am-form-group-refreshing am-flex am-flex-col">
+    <label>{{:MyLang('form_bg_color_title')}}</label>
+    <div class="colorpicker-container">
+        <input type="hidden" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_background_color" data-validation-message="{{:MyLang('form_bg_color_message')}}" value="" {{if !empty($module_data['required'])}}required{{/if}} />
+        <div class="colorpicker-submit" data-color-tag="input[name='style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_background_color']"  data-color-style="background-color"></div>
+        <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+    </div>
+</div>

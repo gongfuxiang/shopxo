@@ -1,0 +1,18 @@
+<!-- 侧边栏 - 模块配置 - 自定义代码 -->
+<div id="offcanvas-module-config-custom" class="am-offcanvas module-offcanvas-container">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-custom" request-type="sync" request-value="FormBackModuleConfigCustom">
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <textarea name="custom" rows="35" placeholder="{{:MyLang('layout.view_content_custom_html')}}" class="am-radius"></textarea>
+                    </div>
+                </div>
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

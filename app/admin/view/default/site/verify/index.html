@@ -25,6 +25,17 @@
                             {{/foreach}}
                         </div>
                     </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_images_verify_rand_type.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rand_type.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_site_images_verify_rand_type_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.common_images_verify_rand_type.only_tag}}" value="{{$v.value}}" {{if isset($data['common_images_verify_rand_type']['value']) and $v['value'] eq $data['common_images_verify_rand_type']['value']}}checked{{/if}} data-validation-message="{{$data.common_images_verify_rand_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
     
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>

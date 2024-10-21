@@ -117,6 +117,7 @@
 
 .goods-list-container {
     height: calc(100% - 9.2rem);
+    max-height: 100%;
     border: 0.1rem solid #eee;
 }
 
@@ -180,7 +181,8 @@
     width: 22rem;
 }
 
-/* 站点类型 */
+/* 站点类型、默认支付方式 */
+.default-payment-list span,
 .site-type-list span {
     min-width: 8rem;
 }

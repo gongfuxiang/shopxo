@@ -1,0 +1,68 @@
+<!-- 商品选择 -->
+<div class="am-popup am-radius" id="popup-module-goods-select">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('layout.view_offcanvas_module_goods_tabs_goods_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-form-popup-fixed layout-forth-selection-container" action="false">
+                <!-- 搜索 -->
+                <div class="forth-selection-container am-padding-sm" data-search-url="{{:MyUrl('index/layout/goodssearch')}}" data-data-url="{{:MyUrl('index/layout/goodsdata')}}">
+                    <input type="hidden" name="category_field" value="{{if empty($layout_goods_category_field)}}gci.category_id{{else /}}{{$layout_goods_category_field}}{{/if}}">
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('layout.view_popup_goods_search_choice_category_placeholder')}}" data-validation-message="{{:MyLang('layout.view_popup_goods_search_choice_category_not_choice')}}">
+                        <option value="">{{:MyLang('layout.view_popup_goods_search_choice_category_placeholder')}}</option>
+                        {{if !empty($layout_goods_category)}}
+                            {{if empty($layout_goods_category_field) or $layout_goods_category_field eq 'gci.category_id'}}
+                                {{foreach $layout_goods_category as $v}}
+                                    <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
+                                    {{if !empty($v['items'])}}
+                                        {{foreach $v.items as $vs}}
+                                            <option style="padding-left: 20px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                            {{if !empty($vs['items'])}}
+                                                {{foreach $vs.items as $kss=>$vss}}
+                                                    <option style="padding-left: 40px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{else /}}
+                                {{foreach $layout_goods_category as $v}}
+                                    <option value="{{$v.id}}">{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        {{/if}}
+                    </select>
+                    <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs btn-loading-example search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: ' {{:MyLang('search_title')}}'}">
+                        <i class="iconfont icon-search"></i>
+                        <span>{{:MyLang('search_title')}}</span>
+                    </button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="am-scrollable-vertical am-margin-horizontal-sm goods-list-container am-radius am-padding-sm" data-loading-msg="{{:MyLang('searching_tips')}}">
+                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
+                        <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('layout.view_popup_goods_search_choice_init_tips')}}</div>
+                    </ul>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-margin-top-sm am-text-center goods-page-container"></div>
+
+                <!-- 操作 -->
+                <div class="am-form-popup-submit goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example confirm-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

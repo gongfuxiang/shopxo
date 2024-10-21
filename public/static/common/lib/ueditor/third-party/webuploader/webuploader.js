@@ -4084,6 +4084,7 @@
                 this.dropHandler = Base.bindFn( this._dropHandler, this );
                 this.dndOver = false;
     
+                elem.off();
                 elem.on( 'dragenter', this.dragEnterHandler );
                 elem.on( 'dragover', this.dragOverHandler );
                 elem.on( 'dragleave', this.dragLeaveHandler );

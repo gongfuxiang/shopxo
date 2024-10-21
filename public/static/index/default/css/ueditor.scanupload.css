@@ -1,0 +1,86 @@
+/**
+ * 上传列表
+ */
+.uploader-list {
+    max-height: none;
+    height: calc(100vh - 7.5rem);
+    resize: none;
+}
+.uploader-list li {
+    padding: 0 !important;
+    z-index: 0;
+}
+.uploader-list li p {
+    float: left;
+    color: #666;
+    line-height: 4.4rem;
+}
+.uploader-list li p.name {
+    width: 40%;
+    padding-left: 1rem;
+}
+.uploader-list li p.size {
+    width: 20%;
+}
+.uploader-list li p.status {
+    width: 30%;
+    color: #999;
+}
+.uploader-list li p.remove {
+    width: 10%;
+    color: var(--color-blue);
+    cursor: pointer;
+}
+.uploader-list li p.status.progress {
+    color: var(--color-blue);
+}
+.uploader-list li p.status.fail {
+    color: var(--color-red);
+}
+.uploader-list li p.status.success {
+    color: var(--color-green);
+}
+.uploader-list li.head p {
+    color: #666;
+    font-weight: 700;
+}
+.uploader-list li .progress {
+    background: #F3F9FF;
+    display: block;
+    width: 100%;
+    height: 4.4rem;
+    position: absolute;
+    z-index: -1;
+}
+
+/**
+ * 拖入上传
+ */
+.uploader-list .draging {
+    position: absolute;
+    top: 5.5rem;
+    left: 1rem;
+    width: calc(100% - 2.1rem);
+    height: calc(100% - 12rem);
+    line-height: calc(100vh - 12rem);
+    background: #f0faff;
+    z-index: 10;
+    color: #03A9F4;
+    border: 1px dashed #03A9F4;
+    display: none;
+}
+.uploader-list.webuploader-dnd-over .draging {
+    display: block !important;
+}
+
+/**
+ * 覆盖webuploader样式
+ */
+.webuploader-pick {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: var(--border-radius) !important;
+}
+#picker label {
+    margin: 0 !important;
+}

@@ -11,8 +11,10 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\module\LayoutModule;
 use app\service\ResourcesService;
-use app\layout\service\BaseLayout;
+use app\service\AttachmentService;
+use app\service\StoreService;
 
 /**
  * 页面设计服务层
@@ -97,11 +99,10 @@ class DesignService
     public static function DesignSave($params = [])
     {
         // 附件
-        $data_fields = ['logo'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        $attachment = ResourcesService::AttachmentParams($params, ['logo']);
 
         // 配置信息
-        $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
+        $config = empty($params['config']) ? '' : LayoutModule::ConfigSaveHandle($params['config']);
 
         // 数据
         $data = [
@@ -215,7 +216,7 @@ class DesignService
             // 删除数据库附件
             foreach($params['ids'] as $v)
             {
-                ResourcesService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
+                AttachmentService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
             }
             return DataReturn(MyLang('delete_success'), 0);
         }
@@ -322,7 +323,7 @@ class DesignService
         }
 
         // 目录不存在则创建
-        $dir = ROOT.'runtime'.DS.'data'.DS.'design'.DS.$data['id'];
+        $dir = ROOT.'runtime'.DS.'data'.DS.'design'.DS.GetNumberCode(6).$data['id'];
         \base\FileUtil::CreateDir($dir);
 
         // 临时数据id
@@ -718,13 +719,28 @@ class DesignService
         $zip->close();
 
         // 附件同步到数据库
-        ResourcesService::AttachmentDiskFilesToDb('design'.DS.$data_id, self::AttachmentPathTypeValue($data_id));
+        AttachmentService::AttachmentDiskFilesToDb('design'.DS.$data_id, self::AttachmentPathTypeValue($data_id));
 
         if($success > 0)
         {
-            return DataReturn(MyLang('import_success'), 0);
+            return DataReturn(MyLang('import_success'), 0, $data_id);
         }
         return DataReturn(MyLang('common_service.design.upload_invalid_packet_tips'), -1);
+    }
+
+    /**
+     * 模板市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DesignMarket($params = [])
+    {
+        $params['type'] = 'design';
+        return StoreService::PackageDataList($params);
     }
 }
 ?>

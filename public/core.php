@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v6.2.0');
+define('APPLICATION_VERSION', 'v6.3.0');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION, '8.0.2','<'))
@@ -118,8 +118,11 @@ if(!defined('SYSTEM_TYPE'))
 // 请求应用 [web, app] 默认web(ios|android|小程序 均为app)
 define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['application']));
 
-// 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu, toutiao, qq] 默认pc(目前系统为自适应,h5需自行校验)
+// 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu, toutiao, qq, kuaishou] 默认pc(目前系统为自适应,h5需自行校验)
 define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'pc' : trim($_REQUEST['application_client_type']));
+
+// 请求客户端手机品牌（调试模式为 devtools）
+define('APPLICATION_CLIENT_BRAND', empty($_REQUEST['application_client_brand']) ? '' : trim($_REQUEST['application_client_brand']));
 
 // 是否get
 define('IS_GET', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET');

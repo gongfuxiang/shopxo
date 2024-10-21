@@ -35,9 +35,11 @@ class Config extends Base
 		// 模板数据
 		$assign = [
 			// 数据
-			'data'		=> ConfigService::ConfigList(),
+			'data'                             => ConfigService::ConfigList(),
 			// 页面类型
-			'view_type'	=> 'index',
+			'view_type'                        => 'index',
+			// 静态数据
+			'common_token_created_rules_list'  => MyConst('common_token_created_rules_list'),
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -87,6 +89,7 @@ class Config extends Base
 				$field_list[] = 'admin_logo';
 				$field_list[] = 'admin_login_logo';
 				$field_list[] = 'admin_login_ad_images';
+				$field_list[] = 'common_token_created_rules';
 				break;
 
 			// 商店信息

@@ -34,9 +34,7 @@ class ViewIncludeModule
      */
     public function Run($template, $data = [], $params = [])
     {
-        MyViewAssign('module_data', $data);
-        MyViewAssign('module_params', $params);
-        return MyView($template);
+        return MyView($template, ['module_data'=>$data, 'module_params'=>$params]);
     }
 }
 ?>

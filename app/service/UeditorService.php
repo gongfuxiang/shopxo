@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
-use app\service\ResourcesService;
 use app\service\SystemBaseService;
+use app\service\AttachmentService;
+use app\service\AttachmentCategoryService;
 
 /**
  * 百度编辑器附件服务层
@@ -22,10 +23,11 @@ use app\service\SystemBaseService;
  */
 class UeditorService
 {
-    private static $current_action;
-    private static $current_config;
-    private static $params;
-    private static $path_type;
+    public static $current_action;
+    public static $current_config;
+    public static $params;
+    public static $path_type;
+    public static $category_id;
 
     /**
      * 请求入口
@@ -42,10 +44,15 @@ class UeditorService
         self::$params = $params;
         self::$current_config = MyConfig('ueditor');
         self::$current_action = isset($params['action']) ? $params['action'] : '';
-        self::$path_type = isset($params['path_type']) ? $params['path_type'] : PathToParams('path_type', 'other');
+        self::$path_type = isset($params['path_type']) ? $params['path_type'] : PathToParams('path_type');
+        if(empty(self::$path_type))
+        {
+            self::$path_type = self::CategoryIdPathType();
+        }
+        self::$category_id = self::PathTypeCategoryId();
 
         // action
-        $ret = DataReturn(MyLang('common_service.ueditor.action_error_tips'), -1);
+        $ret = DataReturn(MyLang('common_service.ueditor.request_action_error_tips'), -1);
         switch(self::$current_action)
         {
             // 配置信息
@@ -73,8 +80,12 @@ class UeditorService
                 $ret = self::ActionList();
                 break;
 
-            /* 抓取远程文件 */
+            /* 抓取远程图片 */
             case 'catchimage':
+            /* 抓取远程视频 */
+            case 'catchvideo':
+            /* 抓取远程文件 */
+            case 'catchfile':
                 $ret = self::ActionCrawler();
                 break;
 
@@ -82,8 +93,129 @@ class UeditorService
             case 'deletefile':
                 $ret = self::DeleteFile();
                 break;
+
+            /* 分类列表 */
+            case 'categorylist':
+                $ret = self::CategoryList();
+                break;
+
+            /* 扫码数据 */
+            case 'scandata':
+                $ret = self::ScanData();
+                break;
         }
         return $ret;
+    }
+
+    /**
+     * 扫码key是否存在
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-08-10
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ScanKeyIsExist($params = [])
+    {
+        // 请求参数
+        if(empty($params['key']))
+        {
+            return DataReturn(MyLang('common_service.ueditor.scan_key_empty_tips'), -1);
+        }
+
+        // 是否扫码来源-扫码数据
+        $key = self::ScanCacheKey($params['key']);
+        $data = MyCache($key);
+        if($data === null)
+        {
+            return DataReturn(MyLang('common_service.ueditor.scan_key_not_exist_tips'), -1);
+        }
+        return DataReturn('success', 0);
+    }
+
+    /**
+     * 扫码数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-22
+     * @desc    description
+     */
+    public static function ScanData()
+    {
+        // 请求参数
+        if(empty(self::$params['key']))
+        {
+            return DataReturn(MyLang('common_service.ueditor.scan_key_empty_tips'), -1);
+        }
+
+        // 是否扫码来源-扫码数据
+        $key = self::ScanCacheKey(self::$params['key']);
+        $data = MyCache($key);
+        if($data === null)
+        {
+            MyCache($key, [], 7200);
+        }
+        return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 扫码上传缓存key
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-22
+     * @desc    description
+     * @param   [string]          $key [标识key]
+     */
+    public static function ScanCacheKey($key)
+    {
+        return 'cache_scanupload_data_'.$key;
+    }
+
+    /**
+     * 分类id获取路径
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-17
+     * @desc    description
+     */
+    public static function CategoryIdPathType()
+    {
+        $path = '';
+        if(!empty(self::$params['category_id']))
+        {
+            $path = AttachmentCategoryService::AttachmentPathType(self::$params['category_id']);
+        }
+        return empty($path) ? 'other' : $path;
+    }
+
+    /**
+     * 路径分类id
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-17
+     * @desc    description
+     */
+    public static function PathTypeCategoryId()
+    {
+        return empty(self::$params['category_id']) ? AttachmentCategoryService::AttachmentCategoryId(self::$path_type) : intval(self::$params['category_id']);
+    }
+
+    /**
+     * 分类列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-10
+     * @desc    description
+     */
+    public static function CategoryList()
+    {
+        return DataReturn('success', 0, AttachmentCategoryService::AttachmentCategoryAll(array_merge(self::$params, ['is_enable'=>1])));
     }
 
     /**
@@ -94,9 +226,28 @@ class UeditorService
      * @date    2018-12-10
      * @desc    description
      */
-    private static function DeleteFile()
+    public static function DeleteFile()
     {
-        return ResourcesService::AttachmentDelete(input());
+        $ret = AttachmentService::AttachmentDelete(input());
+        if($ret['code'] == 0 && !empty(self::$params['id']))
+        {
+            // 是否扫码来源-删除操作
+            if(!empty(self::$params['upload_source']) && self::$params['upload_source'] == 'scanupload' && !empty(self::$params['key']))
+            {
+                $cache_key = self::ScanCacheKey(self::$params['key']);
+                $cache_data = MyCache($cache_key);
+                if(!empty($cache_data))
+                {
+                    $index = array_search(self::$params['id'], array_column($cache_data, 'id'));
+                    if($index !== false)
+                    {
+                        array_splice($cache_data, $index, 1);
+                        MyCache($cache_key, $cache_data, 7200);
+                    }
+                }
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -106,7 +257,7 @@ class UeditorService
      * @version  0.0.1
      * @datetime 2017-01-17T22:45:06+0800
      */
-    private static function ActionUpload()
+    public static function ActionUpload()
     {
         $attachment_type = "file";
         switch(htmlspecialchars(self::$current_action))
@@ -153,6 +304,13 @@ class UeditorService
                 $attachment_type = "file";
         }
 
+        // 上传路径匹配
+        // 路径非其他，并且配置路径中包含其他则使用新的路径替换
+        if(self::$path_type != 'other' && stripos($temp_config['pathFormat'], '/other/{yyyy}') !== false)
+        {
+            $temp_config['pathFormat'] = str_replace('/other/{yyyy}', '/'.str_replace('-', '/', self::$path_type).'/{yyyy}', $temp_config['pathFormat']);
+        }
+
         /* 生成上传实例对象并完成上传 */
         $up = new \base\Uploader($field_name, $temp_config, $attachment_type);
 
@@ -177,8 +335,25 @@ class UeditorService
                 $attachment_type = 'image';
             }
             $data['type'] = $attachment_type;
-            $data['path_type'] = self::$path_type;
-            return ResourcesService::AttachmentAdd($data);
+            $data['category_id'] = self::$category_id;
+            $ret = AttachmentService::AttachmentAdd($data);
+            if($ret['code'] == 0)
+            {
+                // 是否扫码来源-记录操作
+                if(!empty(self::$params['upload_source']) && self::$params['upload_source'] == 'scanupload' && !empty(self::$params['key']))
+                {
+                    $cache_key = self::ScanCacheKey(self::$params['key']);
+                    $cache_data = MyCache($cache_key);
+                    if(empty($cache_data))
+                    {
+                        $cache_data = [$ret['data']];
+                    } else {
+                        array_push($cache_data, $ret['data']);
+                    }
+                    MyCache($cache_key, $cache_data, 7200);
+                }
+            }
+            return $ret;
         }
         return DataReturn(isset($data['state']) ? $data['state'] : MyLang('upload_fail'), -1);
     }
@@ -190,7 +365,7 @@ class UeditorService
      * @version  0.0.1
      * @datetime 2017-01-17T22:55:16+0800
      */
-    private static function ActionList()
+    public static function ActionList()
     {
         /* 判断类型 */
         switch(self::$current_action)
@@ -228,9 +403,14 @@ class UeditorService
             'n'         => $size,
             'where'     => [
                 ['type', '=', substr(self::$current_action, 4)],
-                ['path_type', '=', self::$path_type]
             ],
         ];
+
+        // 分类id
+        if(!empty(self::$category_id))
+        {
+            $params['where'][] = ['category_id', '=', self::$category_id];
+        }
 
         // 搜索关键字
         if(!empty(self::$params['keywords']))
@@ -239,23 +419,29 @@ class UeditorService
         }
 
         // 总数
-        $total = ResourcesService::AttachmentTotal($params['where']);
+        $total = AttachmentService::AttachmentTotal($params['where']);
+
+        // 返回数据格式
+        $result = [
+            'size'        => $size,
+            'start'       => $start,
+            'total'       => $total,
+            'page'        => intval($start/$size)+1,
+            'page_total'  => ceil($total/$size),
+            'list'        => [],
+        ];
 
         // 获取数据
         if($total > 0)
         {
-            $ret = ResourcesService::AttachmentList($params);
+            $ret = AttachmentService::AttachmentList($params);
             if(!empty($ret['data']))
             {
-                return DataReturn('success', 0, [
-                    'start' => $start,
-                    'total' => $total,
-                    'list'  => $ret['data'],
-                ]);
+                $result['list'] = $ret['data'];
+                return DataReturn('success', 0, $result);
             }
         }
-
-        return DataReturn(MyLang('no_data'), -1);
+        return DataReturn(MyLang('no_data'), -1, $result);
     }
 
     /**
@@ -265,27 +451,65 @@ class UeditorService
      * @version  0.0.1
      * @datetime 2017-01-17T23:08:29+0800
      */
-    private static function ActionCrawler()
+    public static function ActionCrawler()
     {
-        $temp_config = array(
-                "pathFormat" => self::$current_config['catcherPathFormat'],
-                "maxSize" => self::$current_config['catcherMaxSize'],
-                "allowFiles" => self::$current_config['catcherAllowFiles'],
-                "oriName" => "remote.png"
-            );
+        $attachment_type = "file";
+        switch(htmlspecialchars(self::$current_action))
+        {
+            case 'catchimage':
+                $temp_config = [
+                    "pathFormat" => self::$current_config['imagePathFormat'],
+                    "maxSize" => self::$current_config['imageMaxSize'],
+                    "allowFiles" => self::$current_config['imageAllowFiles']
+                ];
+                $attachment_type = "image";
+                break;
+
+            case 'catchscrawl':
+                $temp_config = [
+                    "pathFormat" => self::$current_config['scrawlPathFormat'],
+                    "maxSize" => self::$current_config['scrawlMaxSize'],
+                    "allowFiles" => self::$current_config['scrawlAllowFiles'],
+                    "oriName" => "scrawl.png"
+                ];
+                $attachment_type = "scrawl";
+                break;
+
+            case 'catchvideo':
+                $temp_config = [
+                    "pathFormat" => self::$current_config['videoPathFormat'],
+                    "maxSize" => self::$current_config['videoMaxSize'],
+                    "allowFiles" => self::$current_config['videoAllowFiles']
+                ];
+                $attachment_type = "video";
+                break;
+
+            case 'catchfile':
+            default:
+                $temp_config = [
+                    "pathFormat" => self::$current_config['filePathFormat'],
+                    "maxSize" => self::$current_config['fileMaxSize'],
+                    "allowFiles" => self::$current_config['fileAllowFiles']
+                ];
+                $attachment_type = "file";
+        }
         $field_name = self::$current_config['catcherFieldName'];
 
-        // 当前站点域名或者附件域名不下载
-        $attachment_host = GetUrlHost(SystemBaseService::AttachmentHost());
-
-        // 抓取远程图片
-        $list = [];
-        $source = isset(self::$params[$field_name]) ? self::$params[$field_name] : self::$params[$field_name];
-        foreach($source as $imgUrl)
+        // 上传路径匹配
+        // 路径非其他，并且配置路径中包含其他则使用新的路径替换
+        if(self::$path_type != 'other' && stripos($temp_config['pathFormat'], '/other/{yyyy}') !== false)
         {
-            if(GetUrlHost($imgUrl) != $attachment_host)
+            $temp_config['pathFormat'] = str_replace('/other/{yyyy}', '/'.str_replace('-', '/', self::$path_type).'/{yyyy}', $temp_config['pathFormat']);
+        }
+
+        // 抓取远程
+        $list = [];
+        if(!empty(self::$params[$field_name]))
+        {
+            $source = is_array(self::$params[$field_name]) ? self::$params[$field_name] : [self::$params[$field_name]];
+            foreach($source as $url)
             {
-                $up = new \base\Uploader($imgUrl, $temp_config, "remote");
+                $up = new \base\Uploader($url, $temp_config, 'remote');
                 /**
                  * 得到上传文件所对应的各个参数,数组结构
                  * array(
@@ -302,12 +526,12 @@ class UeditorService
                 $data = $up->getFileInfo();
                 if(isset($data['state']) && $data['state'] == 'SUCCESS')
                 {
-                    $data['type'] = 'image';
-                    $data['path_type'] = self::$path_type;
-                    $ret = ResourcesService::AttachmentAdd($data);
+                    $data['type'] = $attachment_type;
+                    $data['category_id'] = self::$category_id;
+                    $ret = AttachmentService::AttachmentAdd($data);
                     if($ret['code'] == 0)
                     {
-                        $ret['data']['source'] = htmlspecialchars($imgUrl);
+                        $ret['data']['source'] = htmlspecialchars($url);
                         array_push($list, $ret['data']);
                     }
                 }

@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\ConfigService;
+use app\service\DiyService;
 
 /**
  * 手机端 - 配置
@@ -50,6 +51,16 @@ class AppConfig extends Base
      */
 	public function Index()
 	{
+        // diy页面
+        $ret = DiyService::DiyList([
+            'n'      => 0,
+            'field'  => 'id,name',
+            'where'  => [
+                ['is_enable', '=', 1],
+            ],
+        ]);
+        $diy_list = empty($ret['data']) ? [] : $ret['data'];
+
         $assign = [
             // 配置数据
             'data'      => ConfigService::ConfigList(),
@@ -57,6 +68,8 @@ class AppConfig extends Base
             'nav_data'  => MyLang('appconfig.base_nav_list'),
             // 页面导航
             'nav_type'  => $this->nav_type,
+            // diy页面
+            'diy_list'  => $diy_list,
         ];
         MyViewAssign($assign);
         return MyView($this->nav_type);

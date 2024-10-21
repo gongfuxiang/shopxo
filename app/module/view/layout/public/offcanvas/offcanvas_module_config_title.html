@@ -1,0 +1,109 @@
+<!-- 侧边栏 - 模块配置 - 标题 -->
+<div id="offcanvas-module-config-title" class="am-offcanvas module-offcanvas-container">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-title" request-type="sync" request-value="FormBackModuleConfigTitle">
+                <!-- 主内容 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_content_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 主标题 -->
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_main_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_main_title')}}" name="content_title" minlength="1" maxlength="160" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_main_title_message')}}" value="" class="am-form-field am-radius" required />
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title']" data-color-tag="input[name='style_title_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 副标题 -->
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}</label>
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_vice_title')}}" name="content_title_vice" minlength="0" maxlength="230" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_vice_title_message')}}" value="" class="am-form-field am-radius" />
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_vice_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_vice']" data-color-tag="input[name='style_title_vice_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧按钮 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_offcanvas_module_title_right')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_offcanvas_module_title_right_tips')}}</span></div>
+                    <div class="am-panel-bd">
+                        <!-- 右侧按钮名称 -->
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_offcanvas_module_title_right_name')}}</label>
+                            <div class="am-input-group am-input-group-sm am-flex am-gap-1-half  am-flex-items-center">
+                                <input type="text" placeholder="{{:MyLang('layout.view_offcanvas_module_title_right_name')}}" name="content_title_more" minlength="0" maxlength="80" data-validation-message="{{:MyLang('layout.view_offcanvas_module_title_right_name_message')}}" value="" class="am-form-field am-radius" />
+                                <div class="colorpicker-container colorpicker-simple">
+                                    <input type="hidden" name="style_title_more_color" value="" />
+                                    <div class="colorpicker-submit" data-color="#333" data-input-tag="input[name='content_title_more']" data-color-tag="input[name='style_title_more_color']"></div>
+                                    <img class="imitate-colorpicker-submit" src="{{:StaticAttachmentUrl('colorpicker.png')}}" width="24" height="24" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧按钮链接 -->
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>{{:MyLang('layout.view_module_title_url')}}</label>
+                            <div class="form-view-choice-container am-margin-top-xs">
+                                <input type="hidden" name="content_to_type" value="" />
+                                <input type="hidden" name="content_to_name" value="" />
+                                <input type="hidden" name="content_to_value" value="" />
+                                <div class="form-view-choice-container-content">
+                                    <a href="javascript:;" class="form-view-choice-container-submit">{{:MyLang('layout.view_module_title_url_message')}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关键字 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_module_title_keywords')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_module_title_keywords_tips')}}</span></div>
+                    <div class="am-panel-bd">
+                        <ul class="am-list am-list-static am-list-border config-title-container"></ul>
+                        <div class="business-operations-submit am-text-center am-block config-title-item-add">+ {{:MyLang('layout.view_module_title_keywords_add')}}</div>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default am-radius">
+                    <div class="am-panel-hd">{{:MyLang('layout.view_style_setup')}}</div>
+                    <div class="am-panel-bd">
+                        <!-- 背景色 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/background_color')}}
+
+                        <!-- 圆角 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_radius')}}
+
+                        <!-- 边线类型 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_style_4')}}
+
+                        <!-- 边线大小 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/border_width_color_4')}}
+
+                        <!-- 外边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/margin_4')}}
+
+                        <!-- 内边距 -->
+                        {{:ModuleInclude('../../../module/view/layout/public/style/padding_4')}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

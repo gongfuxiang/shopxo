@@ -1,0 +1,38 @@
+{{:ModuleInclude('public/header')}}
+<div class="am-padding-sm">
+    {{if isset($scan_key_exist['code']) and $scan_key_exist['code'] eq 0}}
+        <!--用来存放文件信息-->
+        <div class="uploader-list am-background-white am-radius am-scrollable-vertical"
+            data-swf-url="{{$public_host}}static/common/lib/ueditor/third-party/webuploader/Uploader.swf"
+            data-server-url="{{:MyUrl('index/ueditor/index')}}"
+            data-action="{{$upload_action}}"
+            data-cid="{{$category_id}}"
+            data-key="{{$upload_key}}"
+            data-extensions="{{$extensions}}"
+            data-choice-file-text="{{if $upload_action eq 'uploadimage'}}{{:MyLang('form_choice_images_title')}}{{elseif $upload_action eq 'uploadvideo' /}}{{:MyLang('form_choice_video_title')}}{{else /}}{{:MyLang('form_choice_file_title')}}{{/if}}"
+            data-upload-status-await-text="{{:MyLang('wait_upload_title')}}"
+            data-upload-status-progress-text="{{:MyLang('process_upload_title')}}"
+            data-upload-status-success-text="{{:MyLang('upload_success')}}"
+            data-upload-status-fail-text="{{:MyLang('upload_fail')}}"
+        >
+            <ul class="am-list am-list-static am-list-border am-margin-bottom-0 am-radius">
+                <li class="am-nbfc head">
+                    <p class="am-text-truncate name">{{:MyLang('name_title')}}</p>
+                    <p class="am-text-truncate size">{{:MyLang('size_title')}}</p>
+                    <p class="am-text-truncate status">{{:MyLang('status_title')}}</p>
+                    <p class="am-text-truncate remove">{{:MyLang('operate_title')}}</p>
+                </li>
+            </ul>
+            <div class="draging am-radius am-text-center">{{:MyLang('common_service.ueditor.draging_tips')}}</div>
+            {{:ModuleInclude('public/not_data', ['msg'=>MyLang('common_service.ueditor.choice_file_tips')])}}
+        </div>
+        <div class="am-nbfc am-margin-top">
+            <div id="picker" class="am-fl"></div>
+            <a href="javascript:;" class="am-fl am-color-blue am-margin-top-xs am-margin-left remove-all-submit">{{:MyLang('clear_all_title')}}</a>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-sm am-fr upload-submit">{{:MyLang('start_upload_title')}}</button>
+        </div>
+    {{else /}}
+        {{:ModuleInclude('public/not_data', ['msg'=>$scan_key_exist['msg']])}}
+    {{/if}}
+</div>
+{{:ModuleInclude('public/footer')}}

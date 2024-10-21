@@ -1,0 +1,18 @@
+<!-- 商品分类 -->
+{{if !empty($module_data['data']) && !empty($module_data['form_name_key'])}}
+    <select class="am-radius chosen-select" multiple name="{{$module_data.form_name_key}}" data-placeholder="{{:MyLang('form_goods_category_placeholder')}}">
+        {{foreach $module_data.data as $v}}
+            <option value="{{$v.id}}" {{if !empty($module_data['params']) and !empty($module_data['params'][$module_data['form_name_key']]) and is_array($module_data['params'][$module_data['form_name_key']]) and in_array($v['id'], $module_data['params'][$module_data['form_name_key']])}}selected{{/if}}>{{$v.name}}</option>
+            {{if !empty($v['items'])}}
+                {{foreach $v.items as $vs}}
+                    <option style="padding-left: 15px;" value="{{$vs.id}}" {{if !empty($module_data['params']) and !empty($module_data['params'][$module_data['form_name_key']]) and is_array($module_data['params'][$module_data['form_name_key']]) and in_array($vs['id'], $module_data['params'][$module_data['form_name_key']])}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                    {{if !empty($vs['items'])}}
+                        {{foreach $vs.items as $kss=>$vss}}
+                            <option style="padding-left: 30px;" value="{{$vss.id}}" {{if !empty($module_data['params']) and !empty($module_data['params'][$module_data['form_name_key']]) and is_array($module_data['params'][$module_data['form_name_key']]) and in_array($vss['id'], $module_data['params'][$module_data['form_name_key']])}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                        {{/foreach}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/foreach}}
+    </select>
+{{/if}}

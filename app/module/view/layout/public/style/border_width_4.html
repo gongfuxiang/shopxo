@@ -1,0 +1,10 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>{{:MyLang('layout.view_media_fixed_border_width_title')}}<span class="am-form-group-label-tips">{{:MyLang('layout.view_media_fixed_four_sides_tips')}}</span></label>
+    <div class="am-input-group am-input-group-sm group-border-width group-border-radius-color">
+        <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_top')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_top" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+        <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_right')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_right" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+        <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_bottom')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_bottom" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+        <input type="number" data-is-clearout="0" placeholder="{{:MyLang('layout.view_media_fixed_four_sides_left')}}" name="style{{if isset($module_data['key'])}}{{$module_data.key}}{{/if}}_border_width_left" min="0" max="100" data-validation-message="{{:MyLang('layout.view_media_fixed_border_width_message')}}" value="" class="am-form-field am-radius" />
+        <span class="am-input-group-label am-radius">px</span>
+    </div>
+</div>

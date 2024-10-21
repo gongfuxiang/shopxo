@@ -182,6 +182,44 @@ class ThemeAdminService
         {
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
+
+        // 配置信息
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+            $file = $zip->getNameIndex($i);
+            if(stripos($file, 'config.json') !== false)
+            {
+                // 打开文件资源
+                $stream = $zip->getStream($file);
+                if($stream === false)
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.themeadmin.upload_config_file_get_fail_tips'), -1);
+                }
+
+                // 获取配置信息并解析
+                $file_content = stream_get_contents($stream);
+                $config = empty($file_content) ? [] : json_decode($file_content, true);
+                if(empty($config))
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.themeadmin.config_file_no_exist_tips'), -1);
+                }
+
+                // 主题名称
+                $theme = substr($file, 0, strpos($file, '/'));
+
+                // 安全验证
+                $ret = self::ThemeAdminLegalCheck($theme, $config);
+                if($ret['code'] != 0)
+                {
+                    $zip->close();
+                    return $ret;
+                }
+            }
+        }
+
+        // 处理文件
         $success = 0;
         for($i=0; $i<$zip->numFiles; $i++)
         {
@@ -387,13 +425,6 @@ class ThemeAdminService
             return DataReturn(MyLang('common_service.themeadmin.theme_name_error_tips'), -1);
         }
 
-        // 安全判断
-        $ret = self::ThemeAdminLegalCheck($theme);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
         // 获取配置信息
         $config_res = self::ThemeAdminConfig($theme);
         if($config_res['code'] != 0)
@@ -401,6 +432,13 @@ class ThemeAdminService
             return $config_res;
         }
         $config = $config_res['data'];
+
+        // 安全判断
+        $ret = self::ThemeAdminLegalCheck($theme, $config);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_package'.DS.$theme;
@@ -477,35 +515,36 @@ class ThemeAdminService
      * @date    2023-05-26
      * @desc    description
      * @param   [string]          $theme [主题标识]
+     * @param   [array]           $data  [主题数据]
      */
-    public static function ThemeAdminLegalCheck($theme)
+    public static function ThemeAdminLegalCheck($theme, $data = [])
     {
-        if(RequestModule() == 'admin')
+        $key = 'theme_legal_check_'.$theme;
+        $ret = MyCache($key);
+        if(empty($ret))
         {
-            $key = 'theme_legal_check_'.$theme;
-            $ret = MyCache($key);
-            if(empty($ret))
+            if(empty($data))
             {
                 $config_res = self::ThemeAdminConfig($theme);
                 if($config_res['code'] != 0)
                 {
                     return $config_res;
                 }
-                $config = $config_res['data'];
-                $check_params = [
-                    'type'      => 'webtheme',
-                    'config'    => $config,
-                    'plugins'   => $theme,
-                    'author'    => $config['author'],
-                    'ver'       => isset($config['version']) ? $config['version'] : $config['ver'], 
-                ];
-                $ret = StoreService::PluginsLegalCheck($check_params);
-                MyCache($key, $ret, 3600);
+                $data = $config_res['data'];
             }
-            if(!in_array($ret['code'], [0, -9999]))
-            {
-                return $ret;
-            }
+            $check_params = [
+                'type'      => 'webtheme',
+                'config'    => $data,
+                'plugins'   => $theme,
+                'author'    => $data['author'],
+                'ver'       => isset($data['version']) ? $data['version'] : $data['ver'], 
+            ];
+            $ret = StoreService::PluginsLegalCheck($check_params);
+            MyCache($key, $ret, 3600);
+        }
+        if(!in_array($ret['code'], [0, -9999]))
+        {
+            return $ret;
         }
         return DataReturn('success', 0);
     }
@@ -623,6 +662,21 @@ class ThemeAdminService
         ]);
 
         return $data;
+    }
+
+    /**
+     * 模板市场
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ThemeAdminMarket($params = [])
+    {
+        $params['type'] = 'webtheme';
+        return StoreService::PackageDataList($params);
     }
 }
 ?>

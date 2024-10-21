@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\AttachmentService;
 use app\service\ConfigService;
 use app\service\StoreService;
 use app\service\GoodsService;
@@ -439,6 +440,15 @@ class ThemeDataService
         return $data;
     }
 
+    /**
+     * 指定商品和文章数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-24
+     * @desc    description
+     * @param   [array]          $data [列表数据]
+     */
     public static function ListAppointGoodsArticleData($data)
     {
         $goods_ids = [];
@@ -546,23 +556,7 @@ class ThemeDataService
      */
     public static function AppointArticleList($article_ids)
     {
-        $result = [];
-        if(!empty($article_ids))
-        {
-            // 基础条件
-            $where = [
-                ['is_enable', '=', 1],
-                ['id', 'in', array_unique($article_ids)]
-            ];
-
-            // 获取数据
-            $ret = ArticleService::ArticleList(['where'=>$where, 'm'=>0, 'n'=>0]);
-            if(!empty($ret['data']))
-            {
-                $result = $ret['data'];
-            }
-        }
-        return $result;
+        return ArticleService::AppointArticleList($article_ids);
     }
 
     /**
@@ -576,32 +570,7 @@ class ThemeDataService
      */
     public static function AutoArticleList($config = [])
     {
-        // 基础条件
-        $where = [
-            ['is_enable', '=', 1],
-        ];
-
-        // 分类条件
-        if(!empty($config['article_category_ids']) && is_array($config['article_category_ids']))
-        {
-            $where[] = ['article_category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($config['article_category_ids'], 1)];
-        }
-
-        // 排序
-        $order_by_type_list = MyConst('common_theme_article_order_by_type_list');
-        $order_by_rule_list = MyConst('common_data_order_by_rule_list');
-        $order_by_type = !isset($config['article_order_by_type']) || !array_key_exists($config['article_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['article_order_by_type']]['value'];
-        $order_by_rule = !isset($config['article_order_by_rule']) || !array_key_exists($config['article_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['article_order_by_rule']]['value'];
-        $order_by = $order_by_type.' '.$order_by_rule;
-
-        // 获取数据
-        $ret = ArticleService::ArticleList([
-                    'where'    => $where,
-                    'm'        => 0,
-                    'n'        => empty($config['article_number']) ? 10 : intval($config['article_number']),
-                    'order_by' => $order_by,
-                ]);
-        return empty($ret['data']) ? [] : $ret['data'];
+        return ArticleService::AutoArticleList($config);
     }
 
     /**
@@ -615,24 +584,11 @@ class ThemeDataService
      */
     public static function AppointGoodsList($goods_ids)
     {
-        $result = [];
-        if(!empty($goods_ids))
-        {
-            // 基础条件
-            $where = [
-                ['is_delete_time', '=', 0],
-                ['is_shelves', '=', 1],
-                ['id', 'in', array_unique($goods_ids)]
-            ];
-
-            // 获取数据
-            $ret = GoodsService::GoodsList(['where'=>$where, 'm'=>0, 'n'=>0, 'is_spec'=>1, 'is_cart'=>1, 'is_favor'=>1]);
-            if(!empty($ret['data']))
-            {
-                $result = $ret['data'];
-            }
-        }
-        return $result;
+        return GoodsService::AppointGoodsList($goods_ids, [
+            'is_spec'   => 1,
+            'is_cart'   => 1,
+            'is_favor'  => 1,
+        ]);
     }
 
     /**
@@ -646,45 +602,11 @@ class ThemeDataService
      */
     public static function AutoGoodsList($config = [])
     {
-        // 基础条件
-        $where = [
-            ['g.is_delete_time', '=', 0],
-            ['g.is_shelves', '=', 1],
-        ];
-
-        // 分类条件
-        if(!empty($config['goods_category_ids']) && is_array($config['goods_category_ids']))
-        {
-            $where[] = ['gci.category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($config['goods_category_ids'], 1)];
-        }
-
-        // 品牌条件
-        if(!empty($config['goods_brand_ids']) && is_array($config['goods_brand_ids']))
-        {
-            $where[] = ['g.brand_id', 'in', $config['goods_brand_ids']];
-        }
-
-        // 排序
-        $order_by_type_list = MyConst('common_goods_order_by_type_list');
-        $order_by_rule_list = MyConst('common_data_order_by_rule_list');
-        // 排序类型
-        $order_by_type = !isset($config['goods_order_by_type']) || !array_key_exists($config['goods_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['goods_order_by_type']]['value'];
-        // 排序值
-        $order_by_rule = !isset($config['goods_order_by_rule']) || !array_key_exists($config['goods_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['goods_order_by_rule']]['value'];
-        // 拼接排序
-        $order_by = $order_by_type.' '.$order_by_rule;
-
-        // 获取数据
-        $ret = GoodsService::CategoryGoodsList([
-                    'where'     => $where,
-                    'm'         => 0,
-                    'n'         => empty($config['goods_number']) ? 10 : intval($config['goods_number']),
-                    'order_by'  => $order_by,
-                    'is_spec'   => 1,
-                    'is_cart'   => 1,
-                    'is_favor'  => 1,
-                ]);
-        return empty($ret['data']) ? [] : $ret['data'];
+        return GoodsService::AutoGoodsList($config, [
+            'is_spec'   => 1,
+            'is_cart'   => 1,
+            'is_favor'  => 1,
+        ]);
     }
 
     /**
@@ -1200,7 +1122,7 @@ class ThemeDataService
             // 删除数据库附件
             foreach($params['ids'] as $v)
             {
-                ResourcesService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
+                AttachmentService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
             }
             return DataReturn(MyLang('delete_success'), 0);
         }
@@ -1405,7 +1327,7 @@ class ThemeDataService
         }
 
         // 目录不存在则创建
-        $key = date('YmdHis');
+        $key = date('YmdHis').GetNumberCode(6);
         $dir = ROOT.'runtime'.DS.'data'.DS.'theme_data'.DS.$key;
         \base\FileUtil::CreateDir($dir);
 
@@ -1855,7 +1777,7 @@ class ThemeDataService
                         return DataReturn(MyLang('update_fail'), -1);
                     }
                     // 删除原有的附件
-                    ResourcesService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($data_id));
+                    AttachmentService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($data_id));
                 }
                 
                 // 更新配置信息
@@ -1950,7 +1872,7 @@ class ThemeDataService
         // 附件同步到数据库
         foreach($handle_data as $v)
         {
-            ResourcesService::AttachmentDiskFilesToDb('theme_data'.DS.$v['data_id'], self::AttachmentPathTypeValue($v['data_id']));
+            AttachmentService::AttachmentDiskFilesToDb('theme_data'.DS.$v['data_id'], self::AttachmentPathTypeValue($v['data_id']));
         }
         return DataReturn(MyLang('import_success'), 0);
     }

@@ -1,0 +1,30 @@
+<!-- 商品分类 -->
+<div class="am-popup am-radius" id="popup-module-goods-category">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('goods_category_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-form-popup-fixed">
+                <div class="layout-category-choice">
+                    <div class="goods-category-choice am-padding-sm form-container-category">
+                        {{:ModuleInclude('../../../module/view/layout/public/common/goods_category_choice')}}
+                    </div>
+                </div>
+
+                <!-- 操作 -->
+                <div class="am-form-popup-submit goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example confirm-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

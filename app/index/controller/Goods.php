@@ -77,6 +77,8 @@ class Goods extends Common
             $assign = [
                 // 商品信息
                 'goods'             => $goods,
+                // 商品底部导航左侧小导航
+                'buy_left_nav'      => GoodsService::GoodsBuyLeftNavList($goods),
                 // 商品购买按钮列表
                 'buy_button'        => GoodsService::GoodsBuyButtonList($goods),
                 // 中间tabs导航
@@ -91,16 +93,20 @@ class Goods extends Common
             // 是否商品详情页展示相册
             $assign['common_is_goods_detail_show_photo'] = MyC('common_is_goods_detail_show_photo', 0, true);
 
-            // 详情商品评分
-            if(!empty($assign['middle_tabs_nav']) && in_array('comments', $assign['middle_tabs_nav']['type']))
+            // tabs菜单数据处理
+            if(!empty($assign['middle_tabs_nav']) && !empty($assign['middle_tabs_nav']['type']))
             {
-                $assign['goods_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
-            }
+                // 详情商品评分
+                if(in_array('comments', $assign['middle_tabs_nav']['type']))
+                {
+                    $assign['goods_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
+                }
 
-            // 详情tab商品 猜你喜欢
-            if(!empty($assign['middle_tabs_nav']) && in_array('guess_you_like', $assign['middle_tabs_nav']['type']))
-            {
-                $assign['guess_you_like'] = GoodsService::GoodsDetailGuessYouLikeData($goods['id']);
+                // 详情tab商品 猜你喜欢
+                if(!empty($assign['middle_tabs_nav']) && in_array('guess_you_like', $assign['middle_tabs_nav']['type']))
+                {
+                    $assign['guess_you_like'] = GoodsService::GoodsDetailGuessYouLikeData($goods['id']);
+                }
             }
 
             // 左侧商品 看了又看
