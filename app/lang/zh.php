@@ -3872,15 +3872,10 @@ return [
             'desc' => '默认否',
             'tips' => '请选择是否开启在线客服',
         ],
-        'common_app_is_index_data_diy_mode'  => [
-            'name' => '首页使用DIY模式',
-            'desc' => '默认跟随统一的首页配置',
-            'tips' => '请选择是否首页使用DIY模式',
-        ],
-        'common_app_index_data_diy_mode_value'  => [
-            'name' => '首页DIY模式数据',
+        'common_app_home_data_diy_mode'  => [
+            'name' => '首页DIY模式',
             'desc' => '',
-            'tips' => '请选择首页DIY模式数据',
+            'tips' => '请选择首页DIY模式',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => '首页楼层左侧二级商品分类数量',

@@ -477,6 +477,7 @@ return [
             ['name' => '基础配置', 'type' => 'index'],
             ['name' => 'APP/小程序', 'type' => 'app'],
         ],
+        'home_diy_template_title'               => '首页DIY模板',
         'online_service_title'                  => '在线客服',
         'user_base_popup_title'                 => '用户基础信息弹窗提示',
         'user_onekey_bind_mobile_tips_list'     => [
@@ -496,6 +497,7 @@ return [
             '1. 自定义客服http协议采用webview方式打开',
             '2. 客服优先级顺序【 客服系统 -> 自定义客服 -> 企业微信客服(仅app+h5+微信小程序生效) -> 各端平台客服 -> 电话客服 】',
         ],
+        'home_diy_template_tips'                => '不选择diy模板则默认跟随统一的首页配置',
     ],
 
     // 小程序管理

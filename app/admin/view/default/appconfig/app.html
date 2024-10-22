@@ -19,6 +19,10 @@
                         'key'  => 'base-config-title',
                     ],
                     [
+                        'name' => MyLang('appconfig.home_diy_template_title'),
+                        'key'  => 'home-diy-template',
+                    ],
+                    [
                         'name' => MyLang('appconfig.online_service_title'),
                         'key'  => 'online-service',
                     ],
@@ -31,45 +35,6 @@
             <div class="nav-content">
                 <!-- 基础配置 -->
                 <div class="item am-active" data-key="base-config-title">
-                    <div class="am-form-group">
-                        <label class="am-block">{{$data.common_app_is_index_data_diy_mode.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_index_data_diy_mode.describe}}</span></label>
-                        <div class="am-radio-group">
-                            <div>
-                                {{foreach :MyConst('common_is_text_list') as $v}}
-                                    <label class="am-radio-inline">
-                                        <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_index_data_diy_mode.only_tag}}" data-validation-message="{{$data.common_app_is_index_data_diy_mode.error_tips}}" required {{if isset($data['common_app_is_index_data_diy_mode']['value']) and $data['common_app_is_index_data_diy_mode']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
-                                    </label>
-                                {{/foreach}}
-                                <div class="diy-list-select am-inline-block am-margin-left-sm">
-                                    <select name="{{$data.common_app_index_data_diy_mode_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_app_index_data_diy_mode_value.error_tips}}">
-                                        <option value="">{{:MyLang('please_select_tips')}}</option>
-                                        {{if !empty($diy_list)}}
-                                            {{foreach $diy_list as $v}}
-                                                <option value="{{$v.id}}" {{if !empty($data['common_app_index_data_diy_mode_value']['value']) and $data['common_app_index_data_diy_mode_value']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                                            {{/foreach}}
-                                        {{/if}}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="am-inline-block">
-                        <select name="{{$data.common_app_index_data_diy_mode_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_app_index_data_diy_mode_value.error_tips}}">
-                        <option value="">{{:MyLang('please_select_tips')}}</option>
-                            {{if !empty($site_default_index_data_list)}}
-                                {{foreach $site_default_index_data_list as $v}}
-                                    {{if !empty($v['data']) and is_array($v['data']) and !empty($v['name'])}}
-                                        <optgroup label="{{$v.name}}" class="am-color-ccc">
-                                            {{foreach $v.data as $vs}}
-                                                <option value="{{$vs.type}}|{{$vs.value}}" {{if !empty($data['common_app_index_data_diy_mode_value']['value']) and $data['common_app_index_data_diy_mode_value']['value'] eq $vs['type'].'|'.$vs['value']}}selected{{/if}}>{{$vs.name}}</option>
-                                            {{/foreach}}
-                                        </optgroup>
-                                    {{/if}}
-                                {{/foreach}}
-                            {{/if}}
-                        </select>
-                    </div> -->
-
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
                         <div class="am-radio-group">
@@ -159,6 +124,35 @@
                                 <p>{{:implode('</p><p>', MyLang('appconfig.user_address_platform_import_tips_list'))}}</p>
                             </div>
                         {{/if}}
+                    </div>
+                </div>
+
+                <!-- 首页DIY模板 -->
+                <div class="item" data-key="home-diy-template">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-contract contract"></i> 
+                        </div>
+                        <p>{{:MyLang('appconfig.home_diy_template_tips')}}</p>
+                    </div>
+                    <div class="home-diy-template-list am-margin-bottom-lg">
+                        {{foreach $common_platform_type as $v}}
+                            {{if !in_array($v['value'], ['pc'])}}
+                                <div class="am-flex am-flex-row am-flex-items-center am-gap-1 am-margin-top-sm">
+                                    <span class="am-text-right">{{$v.name}}</span>
+                                    <select name="common_app_home_data_diy_mode[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
+                                        <option value="">{{:MyLang('optional_tips')}}</option>
+                                        {{if !empty($diy_list)}}
+                                            {{foreach $diy_list as $diy}}
+                                                <option value="{{$diy.id}}" {{if !empty($data['common_app_home_data_diy_mode']) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]) and $data['common_app_home_data_diy_mode']['value'][$v['value']] eq $diy['id']}}selected{{/if}}>{{$diy.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </select>
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
                     </div>
                 </div>
 

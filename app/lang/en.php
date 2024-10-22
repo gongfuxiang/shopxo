@@ -3874,15 +3874,10 @@ return [
             'desc' => 'Default no',
             'tips' => 'Please select whether to open online customer service',
         ],
-        'common_app_is_index_data_diy_mode'  => [
-            'name' => 'Home page using DIY mode',
-            'desc' => 'By default, follow the unified homepage configuration',
-            'tips' => 'Please choose whether to use DIY mode on the homepage',
-        ],
-        'common_app_index_data_diy_mode_value'  => [
-            'name' => 'Home DIY Mode Data',
+        'common_app_home_data_diy_mode'  => [
+            'name' => 'Home DIY Mode',
             'desc' => '',
-            'tips' => 'Please select DIY mode data on the homepage',
+            'tips' => 'Please choose DIY mode on the homepage',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => 'Number of secondary goods categories on the left side of the first floor',

@@ -480,6 +480,7 @@ return [
             ['name' => 'BaseConfig', 'type' => 'index'],
             ['name' => 'APP/Applet', 'type' => 'app'],
         ],
+        'home_diy_template_title'               => 'Home DIY Template',
         'online_service_title'                  => 'Online Service',
         'user_base_popup_title'                 => 'Pop up prompt for user basic information',
         'user_onekey_bind_mobile_tips_list'     => [
@@ -499,6 +500,7 @@ return [
             '1. Customize customer service HTTP protocol to open in webview mode',
             '2. Customer service priority order: [Customer service system ->Custom customer service ->Enterprise WeChat customer service (only effective for app+h5+WeChat mini program) ->Customer service on various platforms ->Telephone customer service]',
         ],
+        'home_diy_template_tips'                => 'If DIY template is not selected, it will default to following the unified homepage configuration',
     ],
 
     // 小程序管理

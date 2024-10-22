@@ -3842,15 +3842,10 @@ return [
             'desc' => '默認否',
             'tips' => '請選擇是否開啟線上客服',
         ],
-        'common_app_is_index_data_diy_mode'  => [
-            'name' => '首頁使用DIY模式',
-            'desc' => '默認跟隨統一的首頁配寘',
-            'tips' => '請選擇是否首頁使用DIY模式',
-        ],
-        'common_app_index_data_diy_mode_value'  => [
-            'name' => '首頁DIY模式數據',
+        'common_app_home_data_diy_mode'  => [
+            'name' => '首頁DIY模式',
             'desc' => '',
-            'tips' => '請選擇首頁DIY模式數據',
+            'tips' => '請選擇首頁DIY模式',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => '首頁樓層左側二級商品分類數量',

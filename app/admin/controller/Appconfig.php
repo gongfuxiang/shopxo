@@ -63,13 +63,15 @@ class AppConfig extends Base
 
         $assign = [
             // 配置数据
-            'data'      => ConfigService::ConfigList(),
+            'data'                  => ConfigService::ConfigList(),
             // 管理导航
-            'nav_data'  => MyLang('appconfig.base_nav_list'),
+            'nav_data'              => MyLang('appconfig.base_nav_list'),
             // 页面导航
-            'nav_type'  => $this->nav_type,
+            'nav_type'              => $this->nav_type,
             // diy页面
-            'diy_list'  => $diy_list,
+            'diy_list'              => $diy_list,
+            // 平台
+            'common_platform_type'  => MyConst('common_platform_type'),
         ];
         MyViewAssign($assign);
         return MyView($this->nav_type);

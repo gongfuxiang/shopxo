@@ -3843,15 +3843,10 @@ return [
             'desc' => 'Predeterminado No',
             'tips' => 'Por favor, elija si abrir el servicio al cliente en línea',
         ],
-        'common_app_is_index_data_diy_mode'  => [
-            'name' => 'La página de inicio utiliza el modo bricolaje',
-            'desc' => 'Seguir la configuración unificada de la página de inicio por defecto',
-            'tips' => 'Por favor, elija si usar el modo bricolaje en la página de inicio.',
-        ],
-        'common_app_index_data_diy_mode_value'  => [
-            'name' => 'Datos del modo bricolaje en la página de inicio',
+        'common_app_home_data_diy_mode'  => [
+            'name' => 'Modo DIY en la página de inicio',
             'desc' => '',
-            'tips' => 'Por favor, elija los datos del modo bricolaje de la página de inicio.',
+            'tips' => 'Por favor, elija el modo bricolaje de la página de inicio.',
         ],
         'home_index_floor_left_goods_category_max_count'  => [
             'name' => 'Número de clasificaciones de productos secundarios en el lado izquierdo del piso de inicio',

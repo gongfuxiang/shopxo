@@ -476,6 +476,7 @@ return [
             ['name' => '基礎配寘', 'type' => 'index'],
             ['name' => 'APP/小程式', 'type' => 'app'],
         ],
+        'home_diy_template_title'               => '首頁DIY範本',
         'online_service_title'                  => '線上客服',
         'user_base_popup_title'                 => '用戶基礎資訊彈窗提示',
         'user_onekey_bind_mobile_tips_list'     => [
@@ -495,6 +496,7 @@ return [
             '1.自定義客服http協定採用webview管道打開',
             '2.客服優先順序順序【客服系統->自定義客服->企業微信客服（僅app+h5+微信小程式生效）->各端平臺客服->電話客服】',
         ],
+        'home_diy_template_tips'                => '不選擇diy範本則默認跟隨統一的首頁配寘',
     ],
 
     // 小程序管理

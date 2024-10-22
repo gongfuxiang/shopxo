@@ -476,6 +476,7 @@ return [
             ['name' => 'Configuración básica', 'type' => 'index'],
             ['name' => 'APP / applet', 'type' => 'app'],
         ],
+        'home_diy_template_title'               => 'Plantilla DIY de página de inicio',
         'online_service_title'                  => 'Servicio al cliente en línea',
         'user_base_popup_title'                 => 'Consejos de ventana emergente de información básica del usuario',
         'user_onekey_bind_mobile_tips_list'     => [
@@ -495,6 +496,7 @@ return [
             '1. el Protocolo https de servicio al cliente personalizado se abre en webview',
             '2. orden de prioridad del servicio al cliente [sistema de servicio al cliente - > Servicio al cliente personalizado - > Servicio al cliente de Wechat corporativo (solo la aplicación + H5 + applet de Wechat está en vigor) - > Servicio al cliente de cada plataforma final - > Servicio al cliente telefónico]',
         ],
+        'home_diy_template_tips'                => 'Si no selecciona la plantilla diy, seguirá la configuración unificada de la página de inicio por defecto.',
     ],
 
     // 小程序管理
