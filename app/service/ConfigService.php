@@ -57,6 +57,7 @@ class ConfigService
         'common_regex_tel',
         'common_regex_id_card',
         'common_app_customer_service_custom',
+        'common_app_home_data_diy_mode',
     ];
 
     // 附件字段列表
@@ -100,6 +101,7 @@ class ConfigService
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
         'common_app_customer_service_custom',
+        'common_app_home_data_diy_mode',
     ];
 
     // 二维数组附件字段
