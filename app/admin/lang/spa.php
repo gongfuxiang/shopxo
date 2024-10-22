@@ -496,7 +496,7 @@ return [
             '1. el Protocolo https de servicio al cliente personalizado se abre en webview',
             '2. orden de prioridad del servicio al cliente [sistema de servicio al cliente - > Servicio al cliente personalizado - > Servicio al cliente de Wechat corporativo (solo la aplicación + H5 + applet de Wechat está en vigor) - > Servicio al cliente de cada plataforma final - > Servicio al cliente telefónico]',
         ],
-        'home_diy_template_tips'                => 'Si no selecciona la plantilla diy, seguirá la configuración unificada de la página de inicio por defecto.',
+        'home_diy_template_tips'                => 'Si no selecciona la plantilla DIY, seguirá la configuración unificada de la página de inicio por defecto.',
     ],
 
     // 小程序管理
