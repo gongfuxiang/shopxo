@@ -11,7 +11,7 @@
  Target Server Version : 50731
  File Encoding         : 65001
 
- Date: 22/10/2024 11:32:27
+ Date: 23/10/2024 19:00:55
 */
 
 SET NAMES utf8mb4;
@@ -121,12 +121,13 @@ CREATE TABLE `sxo_app_tabbar`  (
   INDEX `type`(`type`) USING BTREE,
   INDEX `name`(`name`) USING BTREE,
   INDEX `is_enable`(`is_enable`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '手机底部菜单';
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '手机底部菜单';
 
 -- ----------------------------
 -- Records of sxo_app_tabbar
 -- ----------------------------
 BEGIN;
+INSERT INTO `sxo_app_tabbar` (`id`, `type`, `name`, `config`, `is_enable`, `add_time`, `upd_time`) VALUES (1, 'app_tabbar_index_home_data', '首页', '{\"content\":{\"nav_style\":\"0\",\"nav_type\":\"0\",\"nav_content\":[{\"id\":\"1\",\"name\":\"首页\",\"img\":[{\"id\":\"1\",\"url\":\"\\/static\\/app\\/tabbar\\/home.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"img_checked\":[{\"id\":\"2\",\"url\":\"\\/static\\/app\\/tabbar\\/active\\/home.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"link\":{\"name\":\"商城首页\",\"page\":\"\\/pages\\/index\\/index\"}},{\"id\":\"2\",\"name\":\"分类\",\"img\":[{\"id\":\"3\",\"url\":\"\\/static\\/app\\/tabbar\\/category.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"img_checked\":[{\"id\":\"4\",\"url\":\"\\/static\\/app\\/tabbar\\/active\\/category.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"link\":{\"name\":\"商品分类\",\"page\":\"\\/pages\\/goods-category\\/goods-category\"}},{\"id\":\"3\",\"name\":\"购物车\",\"img\":[{\"id\":\"5\",\"url\":\"\\/static\\/app\\/tabbar\\/cart.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"img_checked\":[{\"id\":\"6\",\"url\":\"\\/static\\/app\\/tabbar\\/active\\/cart.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"link\":{\"name\":\"购物车\",\"page\":\"\\/pages\\/cart\\/cart\"}},{\"id\":\"4\",\"name\":\"我的\",\"img\":[{\"id\":\"7\",\"url\":\"\\/static\\/app\\/tabbar\\/user.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"img_checked\":[{\"id\":\"8\",\"url\":\"\\/static\\/app\\/tabbar\\/active\\/user.png\",\"original\":\"\",\"title\":\"\",\"ext\":\".png\",\"type\":\"img\"}],\"link\":{\"name\":\"我的\",\"page\":\"\\/pages\\/user\\/user\"}}]},\"style\":{\"text_color_checked\":\"rgba(255, 0, 0, 1)\",\"default_text_color\":\"rgba(0, 0, 0, 1)\",\"common_style\":{\"direction\":\"90deg\",\"color_list\":[{\"color\":\"rgba(255,255,255,1)\"}],\"background_img_style\":\"0\",\"floating_up\":\"0\",\"padding_top_safe_value\":\"0\",\"padding\":\"0\",\"padding_top\":\"0\",\"padding_bottom\":\"0\",\"padding_left\":\"0\",\"padding_right\":\"0\",\"margin\":\"0\",\"margin_top\":\"0\",\"margin_bottom\":\"0\",\"margin_left\":\"0\",\"margin_right\":\"0\",\"radius\":\"0\",\"radius_top_left\":\"0\",\"radius_top_right\":\"0\",\"radius_bottom_left\":\"0\",\"radius_bottom_right\":\"0\",\"box_shadow_color\":\"\",\"box_shadow_x\":\"0\",\"box_shadow_y\":\"0\",\"box_shadow_blur\":\"0\",\"box_shadow_spread\":\"0\",\"background_img\":[]}}}', 1, 1727084059, 1729679670);
 COMMIT;
 
 -- ----------------------------
