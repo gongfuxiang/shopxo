@@ -536,8 +536,8 @@ class ThemeAdminService
                 'type'      => 'webtheme',
                 'config'    => $data,
                 'plugins'   => $theme,
-                'author'    => $data['author'],
-                'ver'       => isset($data['version']) ? $data['version'] : $data['ver'], 
+                'author'    => isset($data['author']) ? $data['author'] : '',
+                'ver'       => isset($data['version']) ? $data['version'] : (isset($data['ver']) ? $data['ver'] : ''), 
             ];
             $ret = StoreService::PluginsLegalCheck($check_params);
             MyCache($key, $ret, 3600);
