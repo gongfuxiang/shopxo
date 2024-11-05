@@ -97,7 +97,7 @@ class ApiService
                 $data[] = $rand;
             }
         }
-        return md5(md5(empty($data) ? '' : md5(implode('', $data)).md5($data_id)));
+        return md5(md5((empty($data) ? '' : md5(implode('', $data))).md5($data_id)));
     }
 }
 ?>
