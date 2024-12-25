@@ -216,8 +216,7 @@ class MultiApp
         if (is_file($appPath . 'provider.php')) {
             $this->app->bind(include $appPath . 'provider.php');
         }
-
-        // 加载应用默认语言包
+        // 加载应用语言包
         $this->app->loadLangPack($this->app->lang->defaultLangSet());
     }
 

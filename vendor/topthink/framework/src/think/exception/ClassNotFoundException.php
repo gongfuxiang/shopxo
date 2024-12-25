@@ -17,7 +17,7 @@ use Throwable;
 
 class ClassNotFoundException extends RuntimeException implements NotFoundExceptionInterface
 {
-    public function __construct(string $message, protected string $class = '', Throwable $previous = null)
+    public function __construct(string $message, protected string $class = '', ?Throwable $previous = null)
     {
         $this->message = $message;
 

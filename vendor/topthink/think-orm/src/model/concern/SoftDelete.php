@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\model\concern;
 
@@ -85,7 +85,7 @@ trait SoftDelete
             return false;
         }
 
-        $name = $this->getDeleteTimeField();
+        $name  = $this->getDeleteTimeField();
         $force = $this->isForce();
 
         if ($name && !$force) {
@@ -145,7 +145,7 @@ trait SoftDelete
             $query->where($data);
             $data = [];
         } elseif ($data instanceof \Closure) {
-            call_user_func_array($data, [&$query]);
+            call_user_func_array($data, [ &$query]);
             $data = [];
         }
 
@@ -199,7 +199,7 @@ trait SoftDelete
      *
      * @return string|false
      */
-    public function getDeleteTimeField(bool $read = false): bool|string
+    public function getDeleteTimeField(bool $read = false): bool | string
     {
         $field = property_exists($this, 'deleteTime') && isset($this->deleteTime) ? $this->deleteTime : 'delete_time';
 

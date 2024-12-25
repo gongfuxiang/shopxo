@@ -98,7 +98,7 @@ class View extends Response
      * @param  string $name 模板变量
      * @return mixed
      */
-    public function getVars(string $name = null)
+    public function getVars(?string $name = null)
     {
         if (is_null($name)) {
             return $this->vars;
@@ -131,7 +131,7 @@ class View extends Response
      * @param callable $filter
      * @return $this
      */
-    public function filter(callable $filter = null)
+    public function filter(?callable $filter = null)
     {
         $this->filter = $filter;
         return $this;

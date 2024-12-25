@@ -180,7 +180,7 @@ class Order
                 'label'         => $lang['address'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/address',
-                'grid_size'     => 'sm',
+                'width'         => 400,
                 'search_config' => [
                     'form_type'             => 'input',
                     'form_name'             => 'id',
@@ -193,7 +193,7 @@ class Order
                 'label'         => $lang['take'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/take',
-                'width'         => 140,
+                'width'         => 130,
                 'search_config' => [
                     'form_type'             => 'input',
                     'form_name'             => 'id',
@@ -519,7 +519,7 @@ class Order
         if(!empty($value))
         {
             // 获取订单 id
-            $ids = Db::name('OrderAddress')->where('name|tel|address', 'like', '%'.$value.'%')->column('order_id');
+            $ids = Db::name('OrderAddress')->where('name|tel|province_name|city_name|county_name|address|extraction_contact_name|extraction_contact_tel', 'like', '%'.$value.'%')->column('order_id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

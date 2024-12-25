@@ -36,6 +36,9 @@ class PaymentService
     // 入口文件位置
     public static $dir_root_path;
 
+    // 支付缓存key
+    public static $pay_cashier_cache_key = 'payment_cashier_key_';
+
     /**
      * 初始化
      * @author   Devil
@@ -671,6 +674,14 @@ class PaymentService
                 {
                     $error++;
                     continue;
+                }
+
+                // 安全验证
+                $ret = self::PaymentLegalCheck($payment);
+                if($ret['code'] != 0)
+                {
+                    $zip->close();
+                    return $ret;
                 }
 
                 // 如果不是目录则写入文件

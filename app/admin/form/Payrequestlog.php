@@ -102,10 +102,13 @@ class PayRequestLog
                 [
                     'label'         => $lang['request_url'],
                     'view_type'     => 'field',
-                    'view_key'      => 'request_url',
+                    'view_type'     => 'module',
+                    'view_key'      => 'payrequestlog/module/request_url',
+                    'align'         => 'left',
                     'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
+                        'form_name'         => 'request_url',
                         'where_type'        => 'like',
                     ],
                 ],
@@ -253,7 +256,6 @@ class PayRequestLog
             'data'  => [
                 'table_name'    => 'PayRequestLog',
                 'data_handle'   => 'PayRequestLogService::PayRequestLogListHandle',
-                'is_page'       => 1,
             ],
         ];
     }

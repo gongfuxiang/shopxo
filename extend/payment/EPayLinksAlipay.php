@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 易票联 - 支付宝支付
  * @author   Devil
@@ -193,6 +195,9 @@ class EPayLinksAlipay
             'nonceStr'              => md5(time().GetNumberCode()),
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 执行请求
         $ret = $this->HttpRequest('api/txs/pay/UnifiedPayment', $parameter);
         if($ret['code'] != 0)
@@ -344,11 +349,12 @@ class EPayLinksAlipay
 
         // 统一返回格式
         return DataReturn('退款成功', 0, [
-            'out_trade_no'  => isset($ret['data']['outTradeNo']) ? $ret['data']['outTradeNo'] : '',
-            'trade_no'      => isset($ret['data']['transactionNo']) ? $ret['data']['transactionNo'] : '',
-            'buyer_user'    => '',
-            'refund_price'  => isset($ret['data']['refundAmount']) ? $ret['data']['refundAmount']/100 : 0.00,
-            'return_params' => $ret['data'],
+            'out_trade_no'    => isset($ret['data']['outTradeNo']) ? $ret['data']['outTradeNo'] : '',
+            'trade_no'        => isset($ret['data']['transactionNo']) ? $ret['data']['transactionNo'] : '',
+            'buyer_user'      => '',
+            'refund_price'    => isset($ret['data']['refundAmount']) ? $ret['data']['refundAmount']/100 : 0.00,
+            'return_params'   => $ret['data'],
+            'request_params'  => $parameter,
         ]);
     }
 

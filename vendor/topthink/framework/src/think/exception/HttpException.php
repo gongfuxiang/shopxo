@@ -19,7 +19,7 @@ use Exception;
  */
 class HttpException extends \RuntimeException
 {
-    public function __construct(private int $statusCode, string $message = '', Exception $previous = null, private array $headers = [], $code = 0)
+    public function __construct(private int $statusCode, string $message = '', ?Exception $previous = null, private array $headers = [], $code = 0)
     {
         parent::__construct($message, $code, $previous);
     }

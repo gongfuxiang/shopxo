@@ -75,7 +75,7 @@ abstract class Command
      * 设置控制台
      * @param Console $console
      */
-    public function setConsole(Console $console = null): void
+    public function setConsole(?Console $console = null): void
     {
         $this->console = $console;
     }
@@ -285,7 +285,7 @@ abstract class Command
      * @param mixed  $default     默认值
      * @return Command
      */
-    public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
+    public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null)
     {
         $this->definition->addArgument(new Argument($name, $mode, $description, $default));
 
@@ -301,7 +301,7 @@ abstract class Command
      * @param mixed  $default     默认值
      * @return Command
      */
-    public function addOption(string $name, string $shortcut = null, int $mode = null, string $description = '', $default = null)
+    public function addOption(string $name, ?string $shortcut = null, ?int $mode = null, string $description = '', $default = null)
     {
         $this->definition->addOption(new Option($name, $shortcut, $mode, $description, $default));
 

@@ -1,5 +1,9 @@
 {{if isset($form_table['base']['is_detail_nav_operate']) and $form_table['base']['is_detail_nav_operate'] eq 1}}
-    <div class="form-detail-nav-operate am-cf">
+    <div class="form-table-detail-nav-operate am-cf"
+        {{if !empty($form_table_data_detail)}}
+            data-original-form-table-detail-data="{{:urlencode(base64_encode(json_encode($form_table_data_detail, JSON_UNESCAPED_UNICODE)))}}"
+        {{/if}}
+    >
         <!-- 是否开启数据打印操作 -->
         {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
             <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-icon-print form-table-operate-top-data-print-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_print_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_print_name')}}</button>
@@ -20,8 +24,6 @@
         <script type="text/javascript">
             // 定义打印配置
             var print_is_list_choice = 0;
-            // 模板打印数据
-            var print_data = {{if empty($form_table_data_detail)}}''{{else /}}{{:json_encode($form_table_data_detail, JSON_UNESCAPED_UNICODE)}}{{/if}};
             // 打印模板
             var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
         </script>

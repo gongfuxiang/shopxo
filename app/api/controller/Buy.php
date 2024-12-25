@@ -16,6 +16,7 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
 use app\service\BuyService;
+use app\service\ResourcesService;
 
 /**
  * 购买
@@ -43,7 +44,7 @@ class Buy extends Common
     }
     
     /**
-     * [Index 首页]
+     * 首页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -78,12 +79,21 @@ class Buy extends Common
 
                 // 数据返回组装
                 $result = [
-                    'goods_list'          => $buy_goods,
-                    'payment_list'        => $payment_list,
-                    'base'                => $buy_base,
-                    'common_site_type'    => (int) $buy_base['common_site_type'],
-                    'default_payment_id'  => $params['payment_id'],
+                    'goods_list'           => $buy_goods,
+                    'payment_list'         => $payment_list,
+                    'base'                 => $buy_base,
+                    'common_site_type'     => (int) $buy_base['common_site_type'],
+                    'default_payment_id'   => $params['payment_id'],
+                    'buy_site_model_list'  => ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params),
                 ];
+                // 自提模式
+                if($buy_base['site_model'] == 2)
+                {
+                    // 指定时间
+                    $result['buy_datetime_info'] = ResourcesService::BuyDatetimeData($params);
+                    // 客户联系信息
+                    $result['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                }
             }
             $ret = SystemBaseService::DataReturn($result);
         }

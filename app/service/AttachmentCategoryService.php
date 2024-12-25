@@ -43,13 +43,13 @@ class AttachmentCategoryService
      * @version 1.0.0
      * @date    2024-07-17
      * @desc    description
-     * @param   [string]          $path_type [路径标识]
+     * @param   [int|string]      $value     [分类id或路径标识]
      * @param   [array]           $params    [输入参数]
      */
-    public static function AttachmentCategoryId($path_type, $params = [])
+    public static function AttachmentCategoryId($value, $params = [])
     {
         // 是否存在数据
-        $id = Db::name('AttachmentCategory')->where(['path'=>$path_type])->value('id');
+        $id = Db::name('AttachmentCategory')->where(['id|path'=>$value])->value('id');
         if(empty($id))
         {
             // 匹配名称
@@ -60,7 +60,7 @@ class AttachmentCategoryService
 
             // 是否插件
             $plugins = 'plugins_';
-            if(substr($path_type, 0, strlen($plugins)) == $plugins)
+            if(substr($value, 0, strlen($plugins)) == $plugins)
             {
                 $pid = Db::name('AttachmentCategory')->where(['path'=>'plugins'])->value('id');
                 if(empty($pid))
@@ -73,11 +73,11 @@ class AttachmentCategoryService
 
             // 横杠分割的数据
             } else {
-                $loc = stripos($path_type, '-');
+                $loc = stripos($value, '-');
                 if($loc !== false)
                 {
                     // 父级处理
-                    $first = substr($path_type, 0, $loc);
+                    $first = substr($value, 0, $loc);
                     $pid = Db::name('AttachmentCategory')->where(['path'=>$first])->value('id');
                     if(empty($pid))
                     {
@@ -89,8 +89,8 @@ class AttachmentCategoryService
             }
 
             // 添加当前数据
-            $name = (empty($lang) || empty($lang[$path_type])) ? (empty($params['name']) ? $path_type : $params['name'])  : $lang[$path_type];
-            $ret = self::AttachmentCategorySave(['name'=>$name, 'path'=>$path_type, 'is_enable'=>1, 'pid'=>$pid]);
+            $name = (empty($lang) || empty($lang[$value])) ? (empty($params['name']) ? $value : $params['name'])  : $lang[$value];
+            $ret = self::AttachmentCategorySave(['name'=>$name, 'path'=>$value, 'is_enable'=>1, 'pid'=>$pid]);
             return empty($ret['data']) ? 0 : $ret['data']['id'];
         }
         return $id;

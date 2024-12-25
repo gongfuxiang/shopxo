@@ -21,7 +21,7 @@
         "topthink/think-helper":"^3.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8|^9.5|^10"
+        "phpunit/phpunit": "^9.6|^10"
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +35,9 @@
         "psr-4": {
             "tests\\": "tests"
         }
+    },
+    "suggest": {
+        "ext-mongodb": "provide mongodb support"
     },
     "config": {
         "sort-packages": true

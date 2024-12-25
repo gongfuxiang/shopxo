@@ -250,7 +250,7 @@ class MultilingualService
             {
                 $value = MyConfig('lang.default_lang');
             }
-            $user_multilingual_static_value = $value;
+            $user_multilingual_static_value = htmlspecialchars(str_replace(['.', '/'], '', $value));
         }
         return $user_multilingual_static_value;
     }

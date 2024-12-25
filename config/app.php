@@ -12,6 +12,7 @@
 // +----------------------------------------------------------------------
 // | 应用设置
 // +----------------------------------------------------------------------
+$default_timezone = MyFileConfig('common_timezone', '', 'Asia/Shanghai', true);
 return [
     // 应用地址
     'app_host'         => '',
@@ -22,7 +23,7 @@ return [
     // 默认应用
     'default_app'      => 'index',
     // 默认时区
-    'default_timezone' => MyFileConfig('common_timezone', '', 'Asia/Shanghai', true),
+    'default_timezone' => empty($default_timezone) ? 'Asia/Shanghai' : $default_timezone,
 
     // 应用映射（自动多应用模式有效）
     'app_map'          => [],

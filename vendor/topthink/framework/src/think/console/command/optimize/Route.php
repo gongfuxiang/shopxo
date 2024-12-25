@@ -40,7 +40,7 @@ class Route extends Command
         $output->writeln('<info>Succeed!</info>');
     }
 
-    protected function buildRouteCache(string $dir = null): string
+    protected function buildRouteCache(?string $dir = null): string
     {
         $this->app->route->clear();
         $this->app->route->lazy(false);

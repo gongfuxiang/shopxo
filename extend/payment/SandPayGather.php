@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 杉德聚合支付
  * @author   Devil
@@ -188,6 +190,10 @@ class SandPayGather
             'encryptKey'   => $key['data'],
             'bizData'      => $biz_data['data'],
         ];
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 请求接口
         $ret = $this->HttpRequest('pay', $parameter);
         if($ret['code'] == 0)
@@ -195,14 +201,15 @@ class SandPayGather
             if(!empty($ret['data']['credential']) && !empty($ret['data']['credential']['qrCode']))
             {
                 $pay_params = [
-                    'url'       => urlencode(base64_encode($ret['data']['credential']['qrCode'])),
+                    'type'      => 'unionpay',
+                    'url'       => $ret['data']['credential']['qrCode'],
                     'order_no'  => $params['order_no'],
-                    'name'      => urlencode('银联支付'),
-                    'msg'       => urlencode('打开云闪付APP扫一扫进行支付'),
-                    'check_url' => urlencode(base64_encode($params['check_url'])),
+                    'name'      => '银联支付',
+                    'msg'       => '打开云闪付APP扫一扫进行支付',
+                    'check_url' => $params['check_url'],
                 ];
-                $data = MyUrl('index/pay/qrcode', $pay_params);
-                return DataReturn('success', 0, $data);
+                MySession('payment_qrcode_data', $pay_params);
+                return DataReturn('success', 0, MyUrl('index/pay/qrcode'));
             }
             return DataReturn('支付请求返回数据错误', -1);
         }
@@ -301,11 +308,12 @@ class SandPayGather
             // 统一返回格式
             $res = $ret['data'];
             $data = [
-                'out_trade_no'  => $params['order_no'],
-                'trade_no'      => isset($res['sandSerialNo']) ? $res['sandSerialNo'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => isset($result['amount']) ? $result['amount'] : 0,
-                'return_params' => $res,
+                'out_trade_no'    => $params['order_no'],
+                'trade_no'        => isset($res['sandSerialNo']) ? $res['sandSerialNo'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => isset($result['amount']) ? $result['amount'] : 0,
+                'return_params'   => $res,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         } else {
@@ -313,11 +321,12 @@ class SandPayGather
             if(stripos($ret['msg'], 'P05012') !== false)
             {
                 $data = [
-                    'out_trade_no'  => $params['order_no'],
-                    'trade_no'      => '',
-                    'buyer_user'    => '',
-                    'refund_price'  => $params['refund_price'],
-                    'return_params' => $ret['data'],
+                    'out_trade_no'    => $params['order_no'],
+                    'trade_no'        => '',
+                    'buyer_user'      => '',
+                    'refund_price'    => $params['refund_price'],
+                    'return_params'   => $ret['data'],
+                    'request_params'  => $parameter,
                 ];
                 return DataReturn('退款成功', 0, $data);
             }

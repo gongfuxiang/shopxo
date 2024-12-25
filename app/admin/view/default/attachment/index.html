@@ -3,6 +3,30 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
+    <div class="am-dropdown am-margin-right-sm" data-am-dropdown>
+        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('upload_title')}} <span class="am-icon-caret-down"></span></button>
+        <ul class="am-dropdown-content am-radius-lg">
+            <li>
+                <a href="javascript:;" class="am-text-primary am-text-left plug-file-upload-pure-submit" data-dialog-type="images"> 
+                    <i class="iconfont icon-btn-add"></i>
+                    <span>{{:MyLang('images_title')}}</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" class="am-text-primary am-text-left plug-file-upload-pure-submit" data-dialog-type="video"> 
+                    <i class="iconfont icon-btn-add"></i>
+                    <span>{{:MyLang('video_title')}}</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" class="am-text-primary am-text-left plug-file-upload-pure-submit" data-dialog-type="file"> 
+                    <i class="iconfont icon-btn-add"></i>
+                    <span>{{:MyLang('file_title')}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <!-- 是否有附件分类页面权限 -->
     {{if AdminIsPower('attachmentcategory', 'index')}}
         <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/attachmentcategory/index')}}" data-title="{{:MyLang('attachment.category_admin_title')}}" data-full-max="1" data-full-max-size="lg">

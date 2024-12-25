@@ -1364,22 +1364,21 @@ php;
         }
 
         // 生成下载包
-        $ret = self::PluginsDownloadHandle($params['id']);
-        if($ret['code'] != 0)
+        $package = self::PluginsDownloadHandle($params['id']);
+        if($package['code'] != 0)
         {
-            return $ret;
+            return $package;
         }
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($ret['data']['file'], $ret['data']['config']['base']['name'].'_v'.$ret['data']['config']['base']['version'].'.zip', true))
+        if(\base\FileUtil::DownloadFile($package['data']['file'], $package['data']['config']['base']['name'].'_v'.$package['data']['config']['base']['version'].'.zip', true))
         {
             // 插件事件回调
-            PluginsService::PluginsEventCall($ret['data']['plugins'], 'Download', $params);
+            PluginsService::PluginsEventCall($package['data']['plugins'], 'Download', $params);
 
             return DataReturn(MyLang('download_success'), 0);
-        } else {
-            return DataReturn(MyLang('download_fail'), -100);
         }
+        return DataReturn(MyLang('download_fail'), -100);
     }
 
     /**

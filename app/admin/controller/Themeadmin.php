@@ -47,11 +47,6 @@ class ThemeAdmin extends Base
 
             // 更新信息
             $upgrade = ThemeAdminService::ThemeAdminUpgradeInfo($data_list);
-            // 是否未绑定商店账号
-            if($upgrade['code'] == -300)
-            {
-                return $this->NotBindStoreAccountTips($upgrade['msg']);
-            }
 
             // 模板数据
             $assign = array_merge($assign, [
@@ -71,6 +66,20 @@ class ThemeAdmin extends Base
         }
         MyViewAssign($assign);
         return MyView($view_type);
+    }
+
+    /**
+     * 上传页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     */
+    public function StoreUploadInfo()
+    {
+        MyViewAssign('data', ThemeAdminService::ThemeAdminData($this->data_request));
+        return MyView();
     }
 
     /**
@@ -113,6 +122,19 @@ class ThemeAdmin extends Base
     public function Delete()
     {
         return ApiService::ApiDataReturn(ThemeAdminService::ThemeAdminDelete($this->data_request));
+    }
+
+    /**
+     * 上传到商店
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     */
+    public function StoreUpload()
+    {
+        return ApiService::ApiDataReturn(ThemeAdminService::ThemeAdminStoreUpload($this->data_request));
     }
 
     /**

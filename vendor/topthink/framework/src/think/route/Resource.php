@@ -8,10 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\route;
 
+use Closure;
+use think\Container;
 use think\Route;
 
 /**
@@ -44,6 +46,12 @@ class Resource extends RuleGroup
     protected $middleware = [];
 
     /**
+     * 扩展规则
+     * @var Closure
+     */
+    protected $extend;
+
+    /**
      * 架构函数
      * @access public
      * @param  Route         $router     路由对象
@@ -52,14 +60,14 @@ class Resource extends RuleGroup
      * @param  string        $route      路由地址
      * @param  array         $rest       资源定义
      */
-    public function __construct(Route $router, RuleGroup $parent = null, string $name = '', string $route = '', array $rest = [])
+    public function __construct(Route $router, ?RuleGroup $parent = null, string $name = '', string $route = '', array $rest = [])
     {
-        $name           = ltrim($name, '/');
-        $this->router   = $router;
-        $this->parent   = $parent;
-        $this->rule     = $name;
-        $this->route    = $route;
-        $this->name     = str_contains($name, '.') ? strstr($name, '.', true) : $name;
+        $name         = ltrim($name, '/');
+        $this->router = $router;
+        $this->parent = $parent;
+        $this->rule   = $name;
+        $this->route  = $route;
+        $this->name   = str_contains($name, '.') ? strstr($name, '.', true) : $name;
 
         $this->setFullName();
 
@@ -72,6 +80,18 @@ class Resource extends RuleGroup
             $this->domain = $this->parent->getDomain();
             $this->parent->addRuleItem($this);
         }
+    }
+
+    /**
+     * 扩展额外路由规则
+     * @access public
+     * @param  Closure $extend 路由规则闭包定义
+     * @return $this
+     */
+    public function extend(?Closure $extend)
+    {
+        $this->extend = $extend;
+        return $this;
     }
 
     /**
@@ -97,6 +117,9 @@ class Resource extends RuleGroup
             }
 
             $rule = implode('/', $item) . '/' . $last;
+            $id   = $option['var'][$last] ?? 'id';
+        } else {
+            $id = $option['var'][$rule] ?? 'id';
         }
 
         $prefix = substr($rule, strlen($this->name) + 1);
@@ -109,10 +132,8 @@ class Resource extends RuleGroup
                 continue;
             }
 
-            if (isset($last) && str_contains($val[1], '<id>') && isset($option['var'][$last])) {
-                $val[1] = str_replace('<id>', '<' . $option['var'][$last] . '>', $val[1]);
-            } elseif (str_contains($val[1], '<id>') && isset($option['var'][$rule])) {
-                $val[1] = str_replace('<id>', '<' . $option['var'][$rule] . '>', $val[1]);
+            if (str_contains($val[1], '<id>') && 'id' != $id) {
+                $val[1] = str_replace('<id>', '<' . $id . '>', $val[1]);
             }
 
             $ruleItem = $this->addRule(trim($prefix . $val[1], '/'), $this->route . '/' . $val[2], $val[0]);
@@ -122,6 +143,13 @@ class Resource extends RuleGroup
                     call_user_func_array([$ruleItem, $name], (array) $this->$name[$key]);
                 }
             }
+        }
+
+        if ($this->extend) {
+            // 扩展路由规则
+            $group = new RuleGroup($this->router, $this, $prefix . '/<' . $id . '>');
+            $this->router->setGroup($group);
+            Container::getInstance()->invokeFunction($this->extend);
         }
 
         $this->router->setGroup($origin);
@@ -168,7 +196,7 @@ class Resource extends RuleGroup
      * @param  array|string $validate 验证信息
      * @return $this
      */
-    public function withValidate(array|string $name, array|string $validate = [])
+    public function withValidate(array | string $name, array | string $validate = [])
     {
         if (is_array($name)) {
             $this->validate = array_merge($this->validate, $name);
@@ -186,7 +214,7 @@ class Resource extends RuleGroup
      * @param  array|string $model 模型绑定
      * @return $this
      */
-    public function withModel(array|string $name, array|string $model = [])
+    public function withModel(array | string $name, array | string $model = [])
     {
         if (is_array($name)) {
             $this->model = array_merge($this->model, $name);
@@ -204,7 +232,7 @@ class Resource extends RuleGroup
      * @param  array|string $middleware 中间件定义
      * @return $this
      */
-    public function withMiddleware(array|string $name, array|string $middleware = [])
+    public function withMiddleware(array | string $name, array | string $middleware = [])
     {
         if (is_array($name)) {
             $this->middleware = array_merge($this->middleware, $name);
@@ -222,7 +250,7 @@ class Resource extends RuleGroup
      * @param  array|bool    $resource 资源
      * @return $this
      */
-    public function rest(array|string $name, array|bool $resource = [])
+    public function rest(array | string $name, array | bool $resource = [])
     {
         if (is_array($name)) {
             $this->rest = $resource ? $name : array_merge($this->rest, $name);

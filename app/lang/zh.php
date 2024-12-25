@@ -311,7 +311,6 @@ return [
     'store_respond_data_empty_tips'                         => '商店返回异常错误、请稍后再试！',
     'store_respond_result_tips'                             => '商店返回',
     'store_plugins_params_error_tips'                       => '插件参数有误',
-    'store_package_data_params_error_tips'                  => '包数据列表参数有误',
     // 商店绑定表单
     'store_bind_form_accounts'                              => '账号',
     'store_bind_form_accounts_placeholder'                  => '用户名/手机/邮箱',
@@ -331,6 +330,8 @@ return [
     'base_config_title'                                     => '基础配置',
     'extend_config_title'                                   => '扩展配置',
     'clear_search_where'                                    => '清除搜索条件',
+    'appoint_time_title'                                    => '指定时间',
+    'choice_time_title'                                     => '选择时间',
     'register_time_title'                                   => '注册时间',
     'add_time_title'                                        => '添加时间',
     'upd_time_title'                                        => '更新时间',
@@ -374,6 +375,7 @@ return [
     'booking_title'                                         => '预约',
     'detail_title'                                          => '详情',
     'view_detail_title'                                     => '查看详情',
+    'view_all_title'                                        => '查看全部',
     'base_title'                                            => '基础',
     'data_title'                                            => '数据',
     'view_title'                                            => '查看',
@@ -531,6 +533,7 @@ return [
     'images_title'                                          => '图片',
     'icon_title'                                            => '图标',
     'cover_title'                                           => '封面',
+    'file_title'                                            => '文件',
     'video_title'                                           => '视频',
     'text_title'                                            => '文本',
     'loading_title'                                         => '加载',
@@ -567,10 +570,13 @@ return [
     'chat_title'                                            => '客服',
     'gift_title'                                            => '礼物',
     'continue_scan_title'                                   => '继续扫码',
+    'self_pickup_title'                                     => '自提',
     'self_pickup_point_title'                               => '自提点',
     'web_title'                                             => 'WEB端',
     'app_title'                                             => '手机端',
     'custom_title'                                          => '自定义',
+    'customer_title'                                        => '客户',
+    'customer_info_title'                                   => '客户信息',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_add_name'                                        => '商品添加',
@@ -614,6 +620,8 @@ return [
     'user_nickname_title'                                   => '昵称',
     'user_mobile_title'                                     => '手机',
     'user_email_title'                                      => '邮箱',
+    'user_status_title'                                     => '用户状态',
+    'user_status_message'                                   => '请选择用户状态',
     'account_abnormal_tips'                                 => '账户异常',
     'register_close_tips'                                   => '暂时关闭注册',
     'register_type_error_tips'                              => '注册类型有误',
@@ -628,6 +636,9 @@ return [
     'email_format_error_tips'                               => '电子邮箱格式错误',
     'email_no_exist_error_tips'                             => '电子邮箱不存在、请先注册！',
     'login_fail_tips'                                       => '登录失败，请稍后再试！',
+    'register_username_forbid_error_tips'                   => '该用户名禁止注册',
+    'register_mobile_forbid_error_tips'                     => '该手机禁止注册',
+    'register_email_forbid_error_tips'                      => '该邮箱禁止注册',
     // 表单相关
     'form_base_data_title'                                  => '基础信息',
     'form_open_zip_message'                                 => '压缩包打开失败',
@@ -1108,6 +1119,19 @@ return [
         1 => '详情',
         2 => '基础',
     ],
+    // 品牌排序类型
+    'common_brand_order_by_type_list' => [
+        0 => '综合',
+        1 => '顺序',
+        2 => '名称',
+        3 => '最新',
+    ],
+    // 文章排序类型
+    'common_article_order_by_type_list' => [
+        0 => '综合',
+        1 => '热度',
+        2 => '最新',
+    ],
     // 商品关联排序类型
     'common_goods_order_by_type_list' => [
         0 => '综合',
@@ -1274,11 +1298,6 @@ return [
         0 => '自动读取',
         1 => '指定文章',
     ],
-    // 主题数据-文章类型
-    'common_theme_article_order_by_type_list' => [
-        0 => '最新',
-        1 => '热度',
-    ],
     // 附件分类-路径名称匹配
     'common_attachment_category_path_name_list' => [
         'common'          => '公共',
@@ -1309,6 +1328,14 @@ return [
         'scrawl'  => '涂鸦',
         'video'   => '视频',
         'remote'  => '远程抓取',
+    ],
+    // 商店应用类型列表
+    'common_plugins_goods_type_list' => [
+        'plugins'   => '插件',
+        'payment'   => '支付插件',
+        'webtheme'  => 'Web端主题',
+        'design'    => '页面设计模板',
+        'diy'       => 'DIY模板',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1502,6 +1529,8 @@ return [
             'decrypt_iv_empty_tips'                 => 'iv为空,请重试',
             'platform_not_mobile_login_tips'        => '平台还未开发手机一键登录',
             'mobile_empty_tips'                     => '手机号码为空',
+            'avatar_empty_tips'                     => '请上传头像',
+            'nickname_format_tips'                  => '昵称1~60个字符之间',
             'auth_login_success_tips'               => '授权登录成功',
             'default_nickname_weiixn'               => '微信用户',
         ],
@@ -1680,9 +1709,13 @@ return [
             'upload_config_file_error_tips'         => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
             'upload_invalid_packet_tips'            => '无效数据包',
-            'preview_url_tips'                      => '请在后台[ 手机->基础配置 ]先配置手机端h5地址',
+            'preview_url_tips'                      => '请在后台[ 手机->基础配置 ]先配置手机端h5地址（h5端需要使用uniapp版本打包）',
             'preview_url_copy_name'                 => '复制链接',
             'preview_scan_tips'                     => '扫码预览效果',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述内容格式2~60个字符',
+            'form_item_apply_version'               => '适用系统版本',
+            'form_item_apply_version_message'       => '至少选择一个适用系统版本',
         ],
         // 附件管理
         'attachment'        => [
@@ -2570,6 +2603,13 @@ return [
             'config_file_no_exist_tips'             => '主题配置文件不存在',
             'config_error_tips'                     => '主题配置信息有误',
             'upload_config_file_get_fail_tips'      => '配置信息读取失败',
+            'form_item_version'                     => '版本',
+            'form_item_version_tips'                => '主版本.次版本号.修订号，每个段不超过6位，如 1.0.0',
+            'form_item_version_message'             => '版本格式有误',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述内容格式2~60个字符',
+            'form_item_apply_version'               => '适用系统版本',
+            'form_item_apply_version_message'       => '至少选择一个适用系统版本',
         ],
         // 主题数据
         'themedata'                 => [
@@ -3597,6 +3637,11 @@ return [
             'desc' => '微信小程序默认主题',
             'tips' => '请选择微信小程序默认主题',
         ],
+        'common_user_verify_bind_mobile_list'  => [
+            'name' => '验证码绑定手机登录',
+            'desc' => '默认关闭',
+            'tips' => '请选择验证码绑定手机登录',
+        ],
         'common_user_onekey_bind_mobile_list'  => [
             'name' => '获取账户手机一键登录',
             'desc' => '默认关闭',
@@ -3730,6 +3775,11 @@ return [
         'home_site_user_register_bg_color'  => [
             'name' => '用户注册背景色',
             'tips' => '请选择用户注册背景色',
+        ],
+        'home_userregister_unique_forbid_value'  => [
+            'name' => '禁止注册用户名/手机/邮箱',
+            'desc' => '输入后回车',
+            'tips' => '请填写禁止注册用户名/手机/邮箱',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => '图片',
@@ -3980,6 +4030,11 @@ return [
             'name' => '是否启用用户中心头部小导航',
             'desc' => '默认是',
             'tips' => '请选择是否启用用户中心头部小导航',
+        ],
+        'common_app_is_weixin_force_user_base'  => [
+            'name' => '微信小程序强制填写基础信息',
+            'desc' => '默认关闭',
+            'tips' => '请选择微信小程序强制填写基础信息',
         ],
         'common_app_user_base_popup_pages'  => [
             'name' => '用户基础信息提示页面',
@@ -4521,15 +4576,20 @@ return [
             'desc' => '勾选则使用',
             'tips' => '请勾选需要使用的语言',
         ],
+        'common_multilingual_admin_default_value'  => [
+            'name' => '后台默认语言',
+            'desc' => '默认中文',
+            'tips' => '请选择后台默认语言',
+        ],
+        'common_multilingual_user_default_value'  => [
+            'name' => '用户端默认语言',
+            'desc' => '默认中文',
+            'tips' => '请选择用户端默认语言',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => '后端使用多语言',
             'desc' => '默认关闭',
             'tips' => '请选择后端使用多语言',
-        ],
-        'common_multilingual_default_value'  => [
-            'name' => '默认语言',
-            'desc' => '默认中文',
-            'tips' => '请选择默认语言',
         ],
         'home_use_multilingual_status'  => [
             'name' => '前端用多语言',

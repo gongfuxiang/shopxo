@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db;
 
@@ -43,8 +43,8 @@ class Fetch
      */
     public function __construct(protected Query $query)
     {
-        $this->connection   = $query->getConnection();
-        $this->builder      = $this->connection->getBuilder();
+        $this->connection = $query->getConnection();
+        $this->builder    = $this->connection->getBuilder();
     }
 
     /**
@@ -198,7 +198,7 @@ class Fetch
      *
      * @return string
      */
-    public function insertAll(array $dataSet = [], int $limit = null): string
+    public function insertAll(array $dataSet = [], ?int $limit = null): string
     {
         $options = $this->query->parseOptions();
 
@@ -211,10 +211,10 @@ class Fetch
         }
 
         if ($limit) {
-            $array = array_chunk($dataSet, $limit, true);
+            $array    = array_chunk($dataSet, $limit, true);
             $fetchSql = [];
             foreach ($array as $item) {
-                $sql = $this->builder->insertAll($this->query, $item);
+                $sql  = $this->builder->insertAll($this->query, $item);
                 $bind = $this->query->getBind();
 
                 $fetchSql[] = $this->connection->getRealSql($sql, $bind);
@@ -243,6 +243,34 @@ class Fetch
         $sql = $this->builder->selectInsert($this->query, $fields, $table);
 
         return $this->fetch($sql);
+    }
+
+    /**
+     * 字段值增长
+     *
+     * @param string    $field 字段名
+     * @param float     $step  步进值
+     * @param int       $lazyTime 延迟时间（秒）
+     *
+     * @return string
+     */
+    public function setInc(string $field, float $step = 1, int $lazyTime = 0)
+    {
+        return $this->inc($field, $step)->update();
+    }
+
+    /**
+     * 字段值减少
+     *
+     * @param string    $field 字段名
+     * @param float     $step  步进值
+     * @param int       $lazyTime 延迟时间（秒）
+     *
+     * @return string
+     */
+    public function setDec(string $field, float $step = 1, int $lazyTime = 0)
+    {
+        return $this->dec($field, $step)->update();
     }
 
     /**
@@ -316,7 +344,7 @@ class Fetch
                 $this->query->setOption('soft_delete', null);
                 $this->query->setOption('data', [$field => $condition]);
                 // 生成删除SQL语句
-                $sql = $this->builder->delete($this->query);
+                $sql = $this->builder->update($this->query);
 
                 return $this->fetch($sql);
             }
@@ -437,12 +465,12 @@ class Fetch
         if (!empty($options['group'])) {
             // 支持GROUP
             $subSql = $this->query->field('count(' . $field . ') AS think_count')->buildSql();
-            $query = $this->query->newQuery()->table([$subSql => '_group_count_']);
+            $query  = $this->query->newQuery()->table([$subSql => '_group_count_']);
 
             return $query->fetchsql()->aggregate('COUNT', '*');
-        } else {
-            return $this->aggregate('COUNT', $field);
         }
+
+        return $this->aggregate('COUNT', $field);
     }
 
     /**
@@ -500,7 +528,9 @@ class Fetch
             $field = Str::snake(substr($method, 5));
 
             return $this->where($field, '=', $args[0])->find();
-        } elseif (strtolower(substr($method, 0, 10)) == 'getfieldby') {
+        }
+
+        if (strtolower(substr($method, 0, 10)) == 'getfieldby') {
             // 根据某个字段获取记录的某个值
             $name = Str::snake(substr($method, 10));
 

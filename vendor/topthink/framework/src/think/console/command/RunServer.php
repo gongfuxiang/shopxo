@@ -56,7 +56,7 @@ class RunServer extends Command
         }
 
         $command = sprintf(
-            '%s -S %s:%d -t %s %s',
+            '"%s" -S %s:%d -t %s %s',
             PHP_BINARY,
             $host,
             $port,

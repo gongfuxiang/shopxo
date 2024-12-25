@@ -69,6 +69,16 @@ class GoodsCategoryService
             // 存储缓存
             MyCache($key, $data, 180);
         }
+
+        // 所有商品分类数据钩子
+        $hook_name = 'plugins_service_goods_category_all_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => $params,
+            'data'        => &$data,
+        ]);
+
         return $data;
     }
 

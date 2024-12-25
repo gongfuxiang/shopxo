@@ -41,26 +41,28 @@ class RefundLogService
      * @param   [string]            $payment_name   [支付方式名称]
      * @param   [int]               $refundment     [退款类型（0原路退回, 1退至钱包, 2手动处理）]
      * @param   [int]               $business_type  [业务类型，字符串（如：订单、钱包充值、会员购买、等...）]
+     * @param   [string]            $request_params [请求参数]
      * @param   [string]            $return_params  [支付平台返回参数]
      * @return  [boolean]                           [成功true, 失败false]
      */
     public static function RefundLogInsert($params = [])
     {
         $data = [
-            'pay_id'            => isset($params['pay_id']) ? intval($params['pay_id']) : 0,
-            'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
-            'business_id'       => isset($params['business_id']) ? intval($params['business_id']) : 0,
-            'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
-            'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
-            'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
-            'refund_price'      => isset($params['refund_price']) ? PriceNumberFormat($params['refund_price']) : 0.00,
-            'msg'               => isset($params['msg']) ? $params['msg'] : '',
-            'payment'           => isset($params['payment']) ? $params['payment'] : '',
-            'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
-            'refundment'        => isset($params['refundment']) ? intval($params['refundment']) : 0,
-            'business_type'     => isset($params['business_type']) ? trim($params['business_type']) : 0,
-            'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], JSON_UNESCAPED_UNICODE),
-            'add_time'          => time(),
+            'pay_id'          => isset($params['pay_id']) ? intval($params['pay_id']) : 0,
+            'user_id'         => isset($params['user_id']) ? intval($params['user_id']) : 0,
+            'business_id'     => isset($params['business_id']) ? intval($params['business_id']) : 0,
+            'pay_price'       => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
+            'trade_no'        => isset($params['trade_no']) ? $params['trade_no'] : '',
+            'buyer_user'      => isset($params['buyer_user']) ? $params['buyer_user'] : '',
+            'refund_price'    => isset($params['refund_price']) ? PriceNumberFormat($params['refund_price']) : 0.00,
+            'msg'             => isset($params['msg']) ? $params['msg'] : '',
+            'payment'         => isset($params['payment']) ? $params['payment'] : '',
+            'payment_name'    => isset($params['payment_name']) ? $params['payment_name'] : '',
+            'refundment'      => isset($params['refundment']) ? intval($params['refundment']) : 0,
+            'business_type'   => isset($params['business_type']) ? trim($params['business_type']) : 0,
+            'request_params'  => empty($params['request_params']) ? '' : (is_array($params['request_params']) ? json_encode($params['request_params'], JSON_UNESCAPED_UNICODE) : $params['request_params']),
+            'return_params'   => empty($params['return_params']) ? '' : (is_array($params['return_params']) ? json_encode($params['return_params'], JSON_UNESCAPED_UNICODE) : $params['return_params']),
+            'add_time'        => time(),
         ];
         return Db::name('RefundLog')->insertGetId($data) > 0;
     }

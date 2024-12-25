@@ -24,4 +24,4 @@ composer require topthink/think-orm
 
 ## 文档
 
-详细参考 [ThinkORM开发指南](https://www.kancloud.cn/manual/think-orm/content)
+详细参考 [ThinkORM开发指南](https://doc.thinkphp.cn/@think-orm)

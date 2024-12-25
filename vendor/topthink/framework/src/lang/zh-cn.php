@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -101,6 +102,7 @@ return [
     ':attribute must be integer'                                => ':attribute必须是整数',
     ':attribute must be float'                                  => ':attribute必须是浮点数',
     ':attribute must be string'                                 => ':attribute必须是字符串',
+    ':attribute must be :rule enum'                             => ':attribute必须是有效的 :rule 枚举',
     ':attribute must start with :rule'                          => ':attribute必须以 :rule 开头',
     ':attribute must end with :rule'                            => ':attribute必须以 :rule 结尾',
     ':attribute must contain :rule'                             => ':attribute必须包含 :rule',
@@ -108,7 +110,8 @@ return [
     ':attribute not a valid email address'                      => ':attribute格式不符',
     ':attribute not a valid mobile'                             => ':attribute格式不符',
     ':attribute must be a array'                                => ':attribute必须是数组',
-    ':attribute must be yes,on or 1'                            => ':attribute必须是yes、on或者1',
+    ':attribute must be yes,on,true or 1'                       => ':attribute必须是yes、on、true或者1',
+    ':attribute must be no,off,false or 0'                      => ':attribute必须是no、off、false或者0',
     ':attribute not a valid datetime'                           => ':attribute不是一个有效的日期或时间格式',
     ':attribute not a valid file'                               => ':attribute不是有效的上传文件',
     ':attribute not a valid image'                              => ':attribute不是有效的图像文件',
@@ -142,8 +145,10 @@ return [
     ':attribute must less than or equal :rule'                  => ':attribute必须小于等于 :rule',
     ':attribute must less than :rule'                           => ':attribute必须小于 :rule',
     ':attribute must equal :rule'                               => ':attribute必须等于 :rule',
+    ':attribute must not be equal to :rule'                     => ':attribute不能等于 :rule',
     ':attribute has exists'                                     => ':attribute已存在',
     ':attribute not conform to the rules'                       => ':attribute不符合指定规则',
+    ':attribute must multiple :rule'                            => ':attribute必须是 :rule 的倍数',
     'invalid Request method'                                    => '无效的请求类型',
     'invalid token'                                             => '令牌数据无效',
     'not conform to the rules'                                  => '规则错误',

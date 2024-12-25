@@ -88,7 +88,7 @@ function ArrayTurnJson (all, object) {
  * @return   {[object]}        		[josn对象]
  */
 function GetFormVal (element, is_json) {
-    var $form = (typeof(element) == 'object') ? $(element) : $(element);
+    var $form = (typeof (element) == 'object') ? $(element) : $(element);
     var object = new FormData();
 
     // input 常用类型
@@ -509,7 +509,7 @@ function FromInit (form_name) {
                                             setTimeout(function () {
                                                 // 1. 已指定 data-am-modal-close 弹窗关闭属性
                                                 // 2. 为父级iframe载入的弹窗（则调用父级定义的关闭方法、当前窗口则不用）
-                                                if ($form.find('button').attr('data-am-modal-close') !== undefined) {
+                                                if (request_value == 'parent' || ($form.find('button').is('[data-am-modal-close]') && $form.find('button').parents('.am-popup').length == 0 && $form.find('button').parents('.am-modal').length == 0)) {
                                                     parent.CommonPopupClose();
                                                 }
                                             }, 1000);
@@ -560,7 +560,7 @@ function FormDataFill (json, tag = null) {
         if ((tag || null) == null) {
             tag = 'form.form-validation';
         }
-        $form = (typeof(tag) == 'object') ? tag : $(tag);
+        $form = (typeof (tag) == 'object') ? tag : $(tag);
         for (var i in json) {
             $form.find('input[type="hidden"][name="' + i + '"], input[type="text"][name="' + i + '"], input[type="password"][name="' + i + '"], input[type="email"][name="' + i + '"], input[type="number"][name="' + i + '"], input[type="date"][name="' + i + '"], textarea[name="' + i + '"], select[name="' + i + '"], input[type="url"][name="' + i + '"]').val(json[i]);
 
@@ -1066,12 +1066,12 @@ function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size
 
             // 回调打开方法
             if ((on_open || null) != null) {
-                var type = typeof(on_open);
-                if(type == 'string') {
-                    if(IsExitsFunction(on_open)) {
+                var type = typeof (on_open);
+                if (type == 'string') {
+                    if (IsExitsFunction(on_open)) {
                         window[on_open]();
                     }
-                } else if(type == 'function') {
+                } else if (type == 'function') {
                     on_open();
                 }
             }
@@ -1079,12 +1079,12 @@ function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size
         onClose: function () {
             // 回调关闭方法
             if ((on_close || null) != null) {
-                var type = typeof(on_close);
-                if(type == 'string') {
-                    if(IsExitsFunction(on_close)) {
+                var type = typeof (on_close);
+                if (type == 'string') {
+                    if (IsExitsFunction(on_close)) {
                         window[on_close]();
                     }
-                } else if(type == 'function') {
+                } else if (type == 'function') {
                     on_close();
                 }
             }
@@ -1563,7 +1563,7 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
         var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__)) || url;
         var loc = url.lastIndexOf('.' + __seo_url_suffix__);
         var ext = (loc == -1) ? '' : url.substr(loc);
-        if (str.indexOf(field+'/') >= 0) {
+        if (str.indexOf(field + '/') >= 0) {
             var first = str.substr(0, str.lastIndexOf(field));
             var last = str.substr(str.lastIndexOf(field));
             last = last.replace(new RegExp(field + '/', 'g'), '');
@@ -1650,8 +1650,7 @@ function UrlFieldReplace (field, value, url = null, anchor = null) {
             }
         }
     } else {
-        if(url.indexOf(field+'/') != -1)
-        {
+        if (url.indexOf(field + '/') != -1) {
             var str = url.substr(0, url.lastIndexOf('.' + __seo_url_suffix__)) || url;
             var loc = url.lastIndexOf('.' + __seo_url_suffix__);
             var ext = (loc == -1) ? '' : url.substr(loc);
@@ -1928,6 +1927,7 @@ function FunSaveWinAdditional (data, type, tag = null) {
                                 var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : parseInt($tag.attr('data-delete'));
                                 var is_compose = $tag.find('li.plug-file-upload-submit').length > 0;
                                 var is_eye = parseInt($tag.attr('data-is-eye') || 0);
+                                var is_download = parseInt($tag.attr('data-is-download') || 0);
                                 if (form_name != null && form_type != null) {
                                     // 是否json对象
                                     if ((value || null) != null && typeof value != 'object') {
@@ -1975,7 +1975,7 @@ function FunSaveWinAdditional (data, type, tag = null) {
                                                         html += '<i class="iconfont icon-close"></i>';
                                                     }
                                                     if (is_eye == 1) {
-                                                        html += '<i class="iconfont icon-eye"></i>';
+                                                        html += '<i class="iconfont icon-eye" data-is-download="' + is_download + '"></i>';
                                                     }
                                                     if (is_compose) {
                                                         $tag.find('li.plug-file-upload-submit').html(html);
@@ -2035,7 +2035,7 @@ function TreeFormInit () {
 
     // 更改窗口名称
     var $title = $popup.find('.am-popup-title');
-    if($title.length == 0) {
+    if ($title.length == 0) {
         $title = $popup.find('.am-modal-hd > span');
     }
     $title.text($title.attr('data-add-title'));
@@ -2082,7 +2082,7 @@ function CardFormInit () {
 
     // 更改窗口名称
     var $title = $popup.find('.am-popup-title');
-    if($title.length == 0) {
+    if ($title.length == 0) {
         $title = $popup.find('.am-modal-hd > span');
     }
     $title.text($title.attr('data-add-title'));
@@ -2803,16 +2803,15 @@ function PopoverContentHandle (content) {
  * @param   {int}        is_pdf [是否导出PDF（0否、1是）]
  */
 function DataPrintHandle (is_pdf = 0) {
-    // 打印和模板数据
-    var print_data = window['print_data'] || null;
+    // 打印模板数据
     var print_template = window['print_template'] || null;
-    if (print_data == null || print_template == null) {
+    if (print_template == null) {
         Prompt(window['lang_operate_params_error'] || '操作参数有误');
         return false;
     }
 
     // 需要打印的数据
-    var result = [];
+    var print_data = [];
 
     // 是否列表选择多选
     var print_is_list_choice = parseInt(window['print_is_list_choice'] || 0);
@@ -2824,20 +2823,30 @@ function DataPrintHandle (is_pdf = 0) {
             return false;
         }
 
-        // 获取需要打印的数据
-        var field = window['print_data_list_key'] || 'id';
-        print_data = JsonStringToJsonObject(print_data);
-        for (var i in print_data) {
-            if ((print_data[i][field] || null) != null && (values.indexOf(print_data[i][field]) != -1 ||  values.indexOf(print_data[i][field].toString()) != -1)) {
-                result.push(print_data[i]);
+        // 获取打印数据
+        for(var i in values) {
+            var json = $('.am-table-scrollable-horizontal .form-table-data-list #data-list-'+values[i]).attr('data-original-form-table-item-data') || null;
+            if(json != null) {
+                json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)) || null;
+                if(json != null) {
+                    print_data.push(json);
+                }
             }
         }
-        if (result.length == 0) {
-            Prompt(window['lang_not_operate_error'] || '没有相关数据');
-            return false;
-        }
     } else {
-        result = print_data;
+        var json = $('.form-table-detail-nav-operate').attr('data-original-form-table-detail-data') || null;
+        if(json != null) {
+            json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)) || null;
+            if(json != null) {
+                print_data.push(json);
+            }
+        }
+    }
+
+    // 获取需要打印的数据
+    if (print_data.length == 0) {
+        Prompt(window['lang_not_operate_error'] || '没有相关数据');
+        return false;
     }
 
     // 是否已引入hiprint库
@@ -2853,10 +2862,10 @@ function DataPrintHandle (is_pdf = 0) {
     if (is_pdf == 1) {
         // 导出pdf
         var filename = $(this).data('file-name') || 'file-' + (new Date().getTime());
-        ht.toPdf(result, filename);
+        ht.toPdf(print_data, filename);
     } else {
         // 调用打印组件
-        ht.print(result, {});
+        ht.print(print_data, {});
     }
 }
 
@@ -2902,7 +2911,7 @@ function InputClearOutHandle (e) {
             (e.parents('.chosen-container').length > 0 && !e.is('input')) ||
             (e.parents('.am-selected').length > 0 && !e.is('input'))
         ) {
-            if($obj.attr('disabled') === undefined && $obj.attr('readonly') === undefined) {
+            if ($obj.attr('disabled') === undefined && $obj.attr('readonly') === undefined) {
                 // 添加清除按钮
                 if (!e.next().is('a.input-clearout-submit')) {
                     e.after('<a href="javascript:;" class="input-clearout-submit"><i>&times;</i></a>');
@@ -2934,7 +2943,7 @@ function InputClearOutHandle (e) {
                 }
 
                 // 设置位置
-                e.next().css({ 'left': (left + width - 23) + 'px', 'top': (top + 4) + 'px', 'padding': (((height - 14) / 2) - 0.1) + 'px 5px' });
+                e.next().css({ 'left': (left + width - 23) + 'px', 'top': (top + 4) + 'px', 'padding': (((height - 14) / 2) - 0.5) + 'px 4px' });
                 e.addClass('input-clearout-element');
 
                 return false;
@@ -3197,10 +3206,10 @@ function CommonGoodsChoiceSpecType () {
  */
 function ViewQrCodeInit () {
     $('.view-qrcode-init').each(function () {
-        var text = $(this).attr('data-value') || $(this).text();
-        if (text !== '') {
+        var value = $(this).attr('data-value') || $(this).text();
+        if (value !== '') {
             $(this).empty().qrcode({
-                text: text,
+                text: value,
                 width: parseInt($(this).data('width') || 100),
                 height: parseInt($(this).data('height') || 100)
             });
@@ -3219,7 +3228,7 @@ function ViewQrCodeInit () {
 function ViewDocumentTitleInit () {
     $('*').each(function (k, v) {
         if ($(this).prop('tagName') != 'IMG') {
-            if($(this).attr('data-am-popover') === undefined) {
+            if ($(this).attr('data-am-popover') === undefined) {
                 var title = $(this).attr('title') || null;
                 if (title !== null) {
                     $(this).popover({
@@ -3275,7 +3284,7 @@ function CustomUrlOpenHandle (value) {
  * @desc    description
  * @param   {int}        size [文件大小]
  */
-function AnnexSizeToUnit(size = 0) {
+function AnnexSizeToUnit (size = 0) {
     var unit = 'KB';
     size = parseInt(size || 0);
     var kb = size / 1024;
@@ -3436,6 +3445,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
         var is_attr = $tag.attr('data-is-attr') || null;
         var is_compose = $tag.find('li.plug-file-upload-submit').length > 0;
         var is_eye = parseInt($tag.attr('data-is-eye') || 0);
+        var is_download = parseInt($tag.attr('data-is-download') || 0);
 
         // 只限制一条、排除上传和显示组合的方式
         if (max_number <= 1 && !is_compose) {
@@ -3463,7 +3473,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                             html += '<i class="iconfont icon-close"></i>';
                         }
                         if (is_eye == 1) {
-                            html += '<i class="iconfont icon-eye"></i>';
+                            html += '<i class="iconfont icon-eye" data-is-download="' + is_download + '"></i>';
                         }
                         $tag.find('li.plug-file-upload-submit').html(html);
                     } else {
@@ -3482,7 +3492,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                             html += '<i class="iconfont icon-close"></i>';
                         }
                         if (is_eye == 1) {
-                            html += '<i class="iconfont icon-eye"></i>';
+                            html += '<i class="iconfont icon-eye" data-is-download="' + is_download + '"></i>';
                         }
                         html += '</li>';
                         $tag.append(html);
@@ -3509,7 +3519,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                             html += '<i class="iconfont icon-close"></i>';
                         }
                         if (is_eye == 1) {
-                            html += '<i class="iconfont icon-eye"></i>';
+                            html += '<i class="iconfont icon-eye" data-is-download="' + is_download + '"></i>';
                         }
                         $tag.find('li.plug-file-upload-submit').html(html);
                     } else {
@@ -3525,6 +3535,9 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
                         html += '<video src="' + src + '" controls>your browser does not support the video tag</video>';
                         if (is_delete == 1) {
                             html += '<i class="iconfont icon-close"></i>';
+                        }
+                        if (is_eye == 1) {
+                            html += '<i class="iconfont icon-eye" data-is-download="' + is_download + '"></i>';
                         }
                         html += '</li>';
                         $tag.append(html);
@@ -3824,8 +3837,8 @@ function VoiceNotice (mp3) {
  * @param   {[string]}        value [附件地址]
  * @param   {[object]}        obj   [元素对象]
  */
-function AnnexView(type, value, obj) {
-    if((value || null) != null) {
+function AnnexView (type, value, obj) {
+    if ((value || null) != null) {
         var title = null;
         var html = null;
         var style = 'max-width:100%; max-height:calc(90vh - 4.5rem); margin: 0 auto;';
@@ -3839,10 +3852,10 @@ function AnnexView(type, value, obj) {
                 html = '<img src="' + value + '" class="am-block" style="' + style + '" />';
         }
         // 是否存在元素对象
-        if(typeof (obj) == 'object') {
+        if (typeof (obj) == 'object') {
             // 是否开启下载
-            if(parseInt(obj.attr('data-is-download') || 0) == 1) {
-                html += '<button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-animation-slide-bottom btn-loading-example common-annex-download-event" data-value="'+value+'" data-name="'+(obj.attr('data-download-name') || '')+'" data-am-loading="{spinner: \'circle-o-notch\', loadingText:\'\'}" style="position: absolute;left: calc(50% - 2rem);bottom: 1rem;height: 2.2rem;line-height: 2.2rem;"><i class="iconfont icon-download-btn"></i></button>';
+            if (parseInt(obj.attr('data-is-download') || 0) == 1) {
+                html += '<button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-animation-slide-bottom btn-loading-example common-annex-download-event" data-value="' + value + '" data-name="' + (obj.attr('data-download-name') || '') + '" data-am-loading="{spinner: \'circle-o-notch\', loadingText:\'\'}" style="position: absolute;left: calc(50% - 2rem);bottom: 1rem;height: 2.2rem;line-height: 2.2rem;"><i class="iconfont icon-download-btn"></i></button>';
             }
         }
         if (html != null) {
@@ -3866,9 +3879,9 @@ function AnnexView(type, value, obj) {
  * @date    2024-07-26
  * @desc    description
  */
-function HighlightInit() {
-    if($('.richtext pre').length > 0) {
-        $('.richtext pre').each(function() {
+function HighlightInit () {
+    if ($('.richtext pre').length > 0) {
+        $('.richtext pre').each(function () {
             hljs.highlightBlock(this);
         });
     }
@@ -3882,8 +3895,8 @@ function HighlightInit() {
  * @date    2024-07-26
  * @desc    description
  */
-function DropdownInit() {
-    if($('.am-dropdown').length > 0) {
+function DropdownInit () {
+    if ($('.am-dropdown').length > 0) {
         $('.am-dropdown').dropdown();
     }
 }
@@ -3918,7 +3931,7 @@ $(function () {
 
     // 隐藏播放器下载按钮和右击事件
     $('video').attr('controlslist', 'nodownload');
-    $('video').bind('contextmenu', function() {return false;});
+    $('video').bind('contextmenu', function () { return false; });
 
     // 表格字段数据排序
     $('.form-sort-container .sort-icon').on('click', function () {
@@ -4047,59 +4060,63 @@ $(function () {
         }
         history.pushState({}, '', browser_url);
 
-        // ajax请求操作
-        $.AMUI.progress.start();
-        $.ajax({
-            url: RequestUrlHandle(action),
-            type: 'POST',
-            dataType: "json",
-            timeout: $form.data('timeout') || 60000,
-            data: data,
-            success: function (result) {
-                $.AMUI.progress.done();
-                if(typeof(result) == 'object' && result.code != 0) {
-                    Prompt(result.msg);
-                } else {
-                    // 截取数据并渲染
-                    var arr = [
-                        {
-                            start: '<!-- form_table_data_content_start -->',
-                            end: '<!-- form_table_data_content_end -->',
-                            element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
-                        },
-                        {
-                            start: '<!-- form_table_no_data_start -->',
-                            end: '<!-- form_table_no_data_end -->',
-                            element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
-                        },
-                        {
-                            start: '<!-- form_table_data_page_start -->',
-                            end: '<!-- form_table_data_page_end -->',
-                            element: '.form-table-content > .form-table-operate-page'
+        // 是否同步搜索、则直接刷新页面
+        if (parseInt($(this).attr('data-is-sync-search')) == 1) {
+            window.location.reload();
+        } else {
+            // ajax请求操作
+            $.AMUI.progress.start();
+            $.ajax({
+                url: RequestUrlHandle(action),
+                type: 'POST',
+                dataType: "json",
+                timeout: $form.data('timeout') || 60000,
+                data: data,
+                success: function (result) {
+                    $.AMUI.progress.done();
+                    if (typeof (result) == 'object' && result.code != 0) {
+                        Prompt(result.msg);
+                    } else {
+                        // 截取数据并渲染
+                        var arr = [
+                            {
+                                start: '<!-- form_table_data_content_start -->',
+                                end: '<!-- form_table_data_content_end -->',
+                                element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
+                            },
+                            {
+                                start: '<!-- form_table_no_data_start -->',
+                                end: '<!-- form_table_no_data_end -->',
+                                element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
+                            },
+                            {
+                                start: '<!-- form_table_data_page_start -->',
+                                end: '<!-- form_table_data_page_end -->',
+                                element: '.form-table-content > .form-table-operate-page'
+                            }
+                        ];
+                        arr.forEach((v) => {
+                            var start_number = result.indexOf(v.start);
+                            var end_number = result.indexOf(v.end);
+                            $(v.element).html(result.substring(start_number, end_number + v.end.length));
+                        });
+
+                        // 表格数据模块初始化
+                        FormTableContentModuleInit();
+
+                        // 回调方法
+                        var back_function = 'FormTableDataListPageChangeBackEvent';
+                        if (IsExitsFunction(back_function)) {
+                            window[back_function](result);
                         }
-                    ];
-                    arr.forEach((v) => {
-                        var start_number = result.indexOf(v.start);
-                        var end_number = result.indexOf(v.end);
-                        $(v.element).html(result.substring(start_number, end_number + v.end.length));
-                    });
-
-                    // 表格数据模块初始化
-                    FormTableContentModuleInit();
-
-                    // 回调方法
-                    var back_function = 'FormTableDataListPageChangeBackEvent';
-                    if (IsExitsFunction(back_function)) {
-                        window[back_function](result);
                     }
+                },
+                error: function (xhr, type) {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
                 }
-            },
-            error: function (xhr, type) {
-                $.AMUI.progress.done();
-                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
-            }
-        });
-
+            });
+        }
         return false;
     });
 
@@ -4180,19 +4197,19 @@ $(function () {
         var form_name = 'form.form-validation-search';
         var $form = $(form_name);
         var request_value = $form.attr('request-value') || window.location.href;
-            request_value = UrlFieldReplace('form_table_is_export_excel', null, request_value);
+        request_value = UrlFieldReplace('form_table_is_export_excel', null, request_value);
 
         // 拼接条件
         var pv = 'form_table_is_export_excel=1&';
 
         // 是否存在数据选择（复选框列+id数据列）
         var id_form_name = null;
-        if($form.find('.form-table-search-item-head-value-form_checkbox_value').length > 0 && $form.find('.form-table-search-item-head-value-id').length > 0) {
+        if ($form.find('.form-table-search-item-head-value-form_checkbox_value').length > 0 && $form.find('.form-table-search-item-head-value-id').length > 0) {
             // 是否有选择的数据
             var values = FromTableCheckedValues('form_checkbox_value', '.am-table-scrollable-horizontal');
-            if(values.length > 0) {
+            if (values.length > 0) {
                 id_form_name = $form.find('.form-table-search-item-head-value-id input').attr('name') || null;
-                if(id_form_name != null) {
+                if (id_form_name != null) {
                     pv += id_form_name + '=' + encodeURIComponent(values.join(',')) + '&';
                 }
             }
@@ -4239,7 +4256,7 @@ $(function () {
 
     // 页面加载loading
     if ($('.am-page-loading').length > 0) {
-        $('.am-page-loading').fadeOut(1000);
+        $('.am-page-loading').fadeOut(400);
     }
 
     // 全屏操作
@@ -4441,20 +4458,20 @@ $(function () {
     $(document).on('click', '.submit-edit', function () {
         // 窗口标签
         var tag = $(this).attr('data-tag') || null;
-        if(tag == null) {
-            var modal  = $(this).attr('data-am-modal') || null;
-            if(modal != null) {
+        if (tag == null) {
+            var modal = $(this).attr('data-am-modal') || null;
+            if (modal != null) {
                 modal = JsonStringToJsonObject(modal);
-                if((modal.target || null) != null) {
+                if ((modal.target || null) != null) {
                     tag = modal.target;
                 }
             }
         }
-        if(tag == null) {
+        if (tag == null) {
             tag = '#data-save-win';
         } else {
-            if(tag.indexOf('#') == -1) {
-                tag = '#'+tag;
+            if (tag.indexOf('#') == -1) {
+                tag = '#' + tag;
             }
         }
 
@@ -4748,9 +4765,9 @@ $(function () {
      */
     $(document).on('click', '.submit-url', function () {
         var url = $(this).attr('data-url') || $(this).attr('href') || $(this).attr('src') || null;
-        if(url != null) {
+        if (url != null) {
             var msg = $(this).attr('data-msg') || null;
-            if(msg == null) {
+            if (msg == null) {
                 window.location.href = url;
             } else {
                 AMUI.dialog.confirm({
@@ -4826,7 +4843,7 @@ $(function () {
     // 根据字符串地址获取坐标位置
     $(document).on('click', '#map-location-submit', function () {
         // 地址信息
-        var region = $('.region-linkage  input[name="province_city_county"]').val();
+        var region = $('.region-linkage input[name="province_city_county"]').val();
         var detail = $('#form-address').val();
         if (region.length <= 0 || detail.length <= 0) {
             Prompt(window['lang_address_data_empty_tips'] || '地址为空');
@@ -4834,7 +4851,7 @@ $(function () {
         }
         var arr = region.split('-');
         var province = arr[0];
-        var address = arr.join('')+detail;
+        var address = arr.join('') + detail;
 
         // 地图类型
         switch (__load_map_type__) {
@@ -4958,7 +4975,7 @@ $(function () {
     }
 
     // 打开编辑器插件
-    $(document).on('click', '.plug-file-upload-submit', function () {
+    $(document).on('click', '.plug-file-upload-submit, .plug-file-upload-pure-submit', function () {
         // 是否查看文件操作、则阻止往下执行
         if ($(this).find('>i.icon-eye').length > 0) {
             return false;
@@ -4970,37 +4987,42 @@ $(function () {
             return false;
         }
 
-        // 容器是否指定
-        if (($(this).attr('data-view-tag') || null) == null) {
-            Prompt(window['lang_not_specified_container_tips'] || '未指定容器');
-            return false;
-        }
-
         // 容器配置
-        var $view_tag = $($(this).attr('data-view-tag'));
-        var max_number = $view_tag.attr('data-max-number') || 0;
-
-        // 是否限制数量
-        if (max_number > 0 && $view_tag.find('li').length > 0) {
-            var count = 0;
-            var remove_default_images = $view_tag.data('remove-default-images') || null;
-            $view_tag.find('li').each(function (k, v) {
-                // 默认图片项不参与数量计算、li是按钮则不参与计算
-                if ($(this).find('img').attr('src') != remove_default_images && !$(this).hasClass('plug-file-upload-submit')) {
-                    count++;
+        var $view_tag = (($(this).attr('data-view-tag') || null) == null) ? null : $($(this).attr('data-view-tag'));
+        if($view_tag != null) {
+            // 是否限制数量
+            var max_number = $view_tag.attr('data-max-number') || 0;
+            if (max_number > 0 && $view_tag.find('li').length > 0) {
+                var count = 0;
+                var remove_default_images = $view_tag.data('remove-default-images') || null;
+                $view_tag.find('li').each(function (k, v) {
+                    // 默认图片项不参与数量计算、li是按钮则不参与计算
+                    if ($(this).find('img').attr('src') != remove_default_images && !$(this).hasClass('plug-file-upload-submit')) {
+                        count++;
+                    }
+                });
+                if (count > max_number) {
+                    var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
+                    Prompt(temp_msg.replace('{value}', max_number));
+                    return false;
                 }
-            });
-            if (count > max_number) {
-                var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
-                Prompt(temp_msg.replace('{value}', max_number));
+            }
+
+            // 是否指定form名称
+            if (($view_tag.attr('data-form-name') || null) == null) {
+                Prompt(window['lang_not_specified_form_name_tips'] || '未指定表单name名称');
                 return false;
             }
+
+            // 加载类型
+            var dialog_type = $view_tag.attr('data-dialog-type');
+        } else {
+            var dialog_type = $(this).attr('data-dialog-type');
         }
 
         // 加载组件类型
-        var dialog_type = null;
         var form_action = 'uploadimage';
-        switch ($view_tag.attr('data-dialog-type')) {
+        switch (dialog_type) {
             // 视频
             case 'video':
                 dialog_type = 'insertvideo';
@@ -5018,27 +5040,24 @@ $(function () {
                 dialog_type = 'attachment';
                 form_action = 'uploadfile';
                 break;
-        }
-        if (dialog_type == null) {
-            Prompt(window['lang_not_specified_assembly_tips'] || '未指定加载组件');
-            return false;
-        }
 
-        // 是否指定form名称
-        if (($view_tag.attr('data-form-name') || null) == null) {
-            Prompt(window['lang_not_specified_form_name_tips'] || '未指定表单name名称');
-            return false;
+            default :
+                Prompt(window['lang_not_specified_assembly_tips'] || '未指定加载组件');
+                return false;
         }
 
-        // 赋值参数
-        $('body').attr('view-tag', $(this).attr('data-view-tag'));
+        // 容易配置判断
+        if($view_tag != null) {
+            // 是否单个上传
+            if (parseInt($view_tag.data('is-single') || 0) == 1) {
+                var $form = $('form.form-validation-common-upload-editor-single');
+                $form.find('input[name="action"]').val(form_action);
+                $form.find('input[name="upfile"]').attr('accept', form_action == 'uploadimage' ? 'image/*' : '').trigger('click');
+                return false;
+            }
 
-        // 是否单个上传
-        if (parseInt($view_tag.data('is-single') || 0) == 1) {
-            var $form = $('form.form-validation-common-upload-editor-single');
-            $form.find('input[name="action"]').val(form_action);
-            $form.find('input[name="upfile"]').attr('accept', form_action == 'uploadimage' ? 'image/*' : '').trigger('click');
-            return false;
+            // 赋值参数
+            $('body').attr('view-tag', $(this).attr('data-view-tag'));
         }
 
         // 打开组件
@@ -5087,44 +5106,50 @@ $(function () {
     });
 
     // 上传文件组件预览
-    $(document).on('click', '.plug-file-upload-view li', function () {
-        if ($(this).find('i.icon-eye').length > 0) {
-            // 容器
-            var $tag = $(this).parents('ul.plug-file-upload-view');
-            var type = $tag.attr('data-dialog-type') || 'images';
-            var value = (type == 'video') ? $(this).find('>video').attr('src') : $(this).find('>img').attr('src');
-            AnnexView(type, value, $(this));
+    $(document).on('click', '.plug-file-upload-view li i.icon-eye', function () {
+        var $parent = $(this).parent();
+        var $tag = $(this).parents('ul.plug-file-upload-view');
+        var type = $tag.attr('data-dialog-type') || null;
+        var value = $parent.find('>img').attr('src') || null;
+        if (value != null) {
+            type = 'images';
+        } else {
+            value = $parent.find('>video').attr('src') || null;
+            if (value != null) {
+                type = 'video';
+            }
         }
+        AnnexView(type, value, $(this));
     });
 
     // 公共文件预览
-    $(document).on('click', '.common-annex-view-event', function() {
+    $(document).on('click', '.common-annex-view-event', function () {
         var type = $(this).attr('data-type') || 'images';
         var value = $(this).attr('data-value') || $(this).attr('src') || null;
         AnnexView(type, value, $(this));
     });
 
     // 富文本图片预览
-    $(document).on('click', '.richtext img', function() {
+    $(document).on('click', '.richtext img', function () {
         // 存在跳转则不执行预览
-        if($(this).parent().prop('tagName') != 'A') {
+        if ($(this).parent().prop('tagName') != 'A') {
             AnnexView('images', $(this).attr('src'), $(this));
         }
     });
 
     // 文件下载
-    $(document).on('click', '.common-annex-download-event', function() {
+    $(document).on('click', '.common-annex-download-event', function () {
         // 文件信息
         var value = $(this).attr('data-value') || $(this).attr('src') || null;
-        if(value == null) {
+        if (value == null) {
             Prompt(window['lang_data_error'] || '数据有误');
             return false;
         }
         // 名称及后缀、没有指定则获取最后一次出现的斜杠后面的的内容作为文件名称
         var name = $(this).attr('data-name') || null;
-        if(name == null) {
+        if (name == null) {
             var last = value.lastIndexOf('/');
-            name = (last == -1) ? value : value.substr(last+1);
+            name = (last == -1) ? value : value.substr(last + 1);
         }
 
         var $this = $(this);
@@ -5134,8 +5159,8 @@ $(function () {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', value, true);
         // blob 类型
-        xhr.responseType = 'blob'; 
-        xhr.onload = function() {
+        xhr.responseType = 'blob';
+        xhr.onload = function () {
             if (xhr.status != 200) {
                 Prompt(window['lang_operate_download_fail_tips'] || '下载失败！');
                 $this.button('reset');
@@ -5584,10 +5609,15 @@ $(function () {
 
     // 文本信息复制
     if ($('.text-copy-submit').length > 0) {
+        // 阻止a标签跳转
+        $(document).on('click', 'a.text-copy-submit', function (e) {
+            e.preventDefault();
+        });
+        // 调用复制文本组件
         var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
             {
                 text: function (e) {
-                    return $(e).attr('data-value') || $(e).text().trim();
+                    return $(e).attr('data-value') || $(e).attr('href') || $(e).attr('src') || $(e).text().trim();
                 }
             });
         text_copy_clipboard.on('success', function (e) {
@@ -5772,7 +5802,7 @@ $(function () {
     $(document).on('click', '.am-form-popup-submit button', function () {
         // 1. 已指定 data-am-modal-close 弹窗关闭属性
         // 2. 为父级iframe载入的弹窗（则调用父级定义的关闭方法、当前窗口则不用）
-        if ($(this).attr('data-am-modal-close') !== undefined && ($(this).parents('.am-popup').length == 0 && $(this).parents('.am-modal').length == 0)) {
+        if ($(this).is('[data-am-modal-close]') && $(this).parents('.am-popup').length == 0 && $(this).parents('.am-modal').length == 0) {
             parent.CommonPopupClose();
         }
     });

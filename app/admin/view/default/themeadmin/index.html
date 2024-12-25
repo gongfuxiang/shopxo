@@ -42,6 +42,7 @@
                                             <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="{{:MyLang('update_title')}}" data-type="webtheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
                                         {{/if}}
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                            <a href="javascript:;" class="am-icon-upload am-text-success {{if $v['theme'] eq $theme}}am-color-ccc{{/if}} theme-upload-submit submit-popup" data-url="{{:MyUrl('admin/themeadmin/storeuploadinfo', ['id'=>$v['theme']])}}" data-title="{{:MyLang('upload_title')}}" title="{{:MyLang('upload_title')}}"></a>
                                             <a href="{{:MyUrl('admin/themeadmin/download', ['id'=>$v['theme']])}}" class="iconfont icon-delete am-icon-download am-margin-left-sm theme-download-submit {{if $v['theme'] eq $theme}}am-color-ccc{{/if}}" title="{{:MyLang('download_title')}}"></a>
                                         {{/if}}
                                         {{if isset($v['is_theme_data_admin']) and $v['is_theme_data_admin'] eq 1}}

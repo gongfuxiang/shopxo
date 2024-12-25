@@ -49,8 +49,8 @@
 }
 .hiprint-printPaper.design {
     border: 1px dashed rgba(0,0,0,.06);
-    background: -webkit-linear-gradient(top, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #fafafa 63px, #fafafa 63px),
-  -webkit-linear-gradient( left, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #fafafa 63px, #fafafa 63px);
+    background: -webkit-linear-gradient(top, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #f9f9f9 63px, #f9f9f9 63px),
+  -webkit-linear-gradient( left, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #f9f9f9 63px, #f9f9f9 63px);
   background-size: 64px 64px;
   background-repeat: repeat;
 }

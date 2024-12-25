@@ -163,6 +163,9 @@ return [
         'payment_layer_content'                 => '支付失败或长时间未响应',
         'payment_layer_order_button_text'       => '我的订单',
         'payment_layer_tips'                    => '后可以重新发起支付',
+        'extraction_contact_name'               => '我的姓名',
+        'extraction_contact_tel'                => '我的电话',
+        'extraction_contact_tel_placeholder'    => '我的手机或座机',
     ],
 
     // 文章
@@ -215,6 +218,7 @@ return [
         'form_payment_no_data_tips'             => '没有支付方式',
         'order_base_title'                      => '订单信息',
         'order_status_title'                    => '订单状态',
+        'order_contact_title'                   => '联系人',
         'order_consignee_title'                 => '收货人',
         'order_phone_title'                     => '手机号',
         'order_base_warehouse_title'            => '出货服务：',

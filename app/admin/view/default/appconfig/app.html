@@ -91,6 +91,19 @@
                     </div>
 
                     <div class="am-form-group">
+                        <label class="am-block">{{$data.common_user_verify_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_verify_bind_mobile_list.describe}}</span></label>
+                        <div class="am-checkbox-group am-flex am-gap-12">
+                            {{foreach :MyConst('common_platform_type') as $v}}
+                                {{if !in_array($v['value'], ['pc'])}}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" name="{{$data.common_user_verify_bind_mobile_list.only_tag}}" value="{{$v.value}}" {{if !empty($data['common_user_verify_bind_mobile_list']) and isset($data['common_user_verify_bind_mobile_list']['value']) and is_array($data['common_user_verify_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_verify_bind_mobile_list']['value'])}}checked{{/if}} data-validation-message="{{$data.common_user_verify_bind_mobile_list.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    </label>
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
                         <label class="am-block">{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
                         <div class="am-checkbox-group am-flex am-gap-12">
                             {{foreach :MyConst('common_platform_type') as $v}}
@@ -220,6 +233,16 @@
                             <p>{{:implode('</p><p>', MyLang('appconfig.user_base_popup_top_tips_list'))}}</p>
                         </div>
                     {{/if}}
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_app_is_weixin_force_user_base.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_weixin_force_user_base.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach :MyConst('common_is_text_list') as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_app_is_weixin_force_user_base.only_tag}}" data-validation-message="{{$data.common_app_is_weixin_force_user_base.error_tips}}" required {{if isset($data['common_app_is_weixin_force_user_base']['value']) and $data['common_app_is_weixin_force_user_base']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_user_base_popup_pages.name}}<span class="am-form-group-label-tips">{{$data.common_app_user_base_popup_pages.describe}}</span></label>
                         <div class="am-checkbox-group am-flex am-gap-12">

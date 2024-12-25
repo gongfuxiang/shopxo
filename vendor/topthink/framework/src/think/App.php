@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
@@ -39,6 +39,10 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
+    /**
+     * 核心框架版本 
+     * @deprecated 已经废弃 请改用version()方法
+     */    
     const VERSION = '8.0.0';
 
     /**
@@ -46,6 +50,12 @@ class App extends Container
      * @var bool
      */
     protected $appDebug = false;
+
+    /**
+     * 公共环境变量标识
+     * @var string
+     */
+    protected $baseEnvName = '';
 
     /**
      * 环境变量标识
@@ -189,7 +199,7 @@ class App extends Container
      * @param bool           $force   强制重新注册
      * @return Service|null
      */
-    public function register(Service|string $service, bool $force = false)
+    public function register(Service | string $service, bool $force = false)
     {
         $registered = $this->getService($service);
 
@@ -230,7 +240,7 @@ class App extends Container
      * @param string|Service $service
      * @return Service|null
      */
-    public function getService(Service|string $service): ?Service
+    public function getService(Service | string $service): ?Service
     {
         $name = is_string($service) ? $service : $service::class;
         return array_values(array_filter($this->services, function ($value) use ($name) {
@@ -280,6 +290,18 @@ class App extends Container
     public function getNamespace(): string
     {
         return $this->namespace;
+    }
+
+    /**
+     * 设置公共环境变量标识
+     * @access public
+     * @param string $name 环境标识
+     * @return $this
+     */
+    public function setBaseEnvName(string $name)
+    {
+        $this->baseEnvName = $name;
+        return $this;
     }
 
     /**
@@ -440,6 +462,12 @@ class App extends Container
         $this->beginTime = microtime(true);
         $this->beginMem  = memory_get_usage();
 
+        // 加载环境变量
+        if ($this->baseEnvName) {
+            $this->loadEnv($this->baseEnvName);
+        }
+
+        $this->envName = $this->envName ?: (string) $this->env->get('env_name', '');
         $this->loadEnv($this->envName);
 
         $this->configExt = $this->env->get('config_ext', '.php');
@@ -546,6 +574,9 @@ class App extends Container
         // 应用调试模式
         if (!$this->appDebug) {
             $this->appDebug = $this->env->get('app_debug') ? true : false;
+        }
+
+        if (!$this->appDebug) {
             ini_set('display_errors', 'Off');
         }
 
@@ -579,7 +610,7 @@ class App extends Container
 
         if (isset($event['subscribe'])) {
             $this->event->subscribe($event['subscribe']);
-        }
+        }      
     }
 
     /**

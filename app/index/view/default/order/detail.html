@@ -244,17 +244,27 @@
                         <!-- 自提模式下 - 取货码 -->
                         {{if $data['order_model'] eq 2 and in_array($data['status'], [2,3]) and !empty($data['extraction_data'])}}
                             <div class="extraction-take-container am-inline-block am-background-body am-radius am-text-center am-padding-lg">
+                                {{if !empty($data['extraction_data']['images'])}}
+                                    <p class="am-margin-bottom-xs">
+                                        <img class="qrcode-images am-img-thumbnail am-radius am-block common-annex-view-event" src="{{$data.extraction_data.images}}" alt="{{:MyLang('order.order_base_take_code_title')}}" width="130" height="130" data-is-download="1" />
+                                    </p>
+                                {{/if}}
                                 <p class="am-text-sm">
-                                    <span">{{:MyLang('order.order_base_take_code_title')}}</span>
+                                    <span class="am-vertical-align-middle">{{:MyLang('order.order_base_take_code_title')}}</span>
                                     {{if empty($data['extraction_data']['code'])}}
-                                        <span class="am-text-danger">{{:MyLang('order.order_base_take_code_no_exist_tips')}}</span>
+                                        <span class="am-text-danger am-vertical-align-middle">{{:MyLang('order.order_base_take_code_no_exist_tips')}}</span>
                                     {{else /}}
-                                        <span class="extraction-take-title am-text-default am-font-weight text-copy-submit am-cursor-pointer" data-value="{{$data.extraction_data.code}}">{{$data.extraction_data.code}}</span>
+                                        <span class="extraction-take-title am-text-default am-font-weight text-copy-submit am-vertical-align-middle" data-value="{{$data.extraction_data.code}}">{{$data.extraction_data.code}}</span>
                                     {{/if}}
                                 </p>
-                                {{if !empty($data['extraction_data']['images'])}}
+                                {{if !empty($data['extraction_data']['name']) or !empty($data['extraction_data']['tel'])}}
                                     <p class="am-margin-top-xs">
-                                        <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_data.images}}" alt="{{:MyLang('order.order_base_take_code_title')}}" width="150" height="150" />
+                                        {{if !empty($data['extraction_data']['name'])}}
+                                            <span class="text-copy-submit am-margin-right-sm">{{$data.extraction_data.name}}</span>
+                                        {{/if}}
+                                        {{if !empty($data['extraction_data']['tel'])}}
+                                            <span class="text-copy-submit">{{$data.extraction_data.tel}}</span>
+                                        {{/if}}
                                     </p>
                                 {{/if}}
                             </div>
@@ -319,7 +329,7 @@
                         <div class="am-panel-hd">{{if $data.order_model eq 2}}{{:MyLang('order.detail_take_title')}}{{else /}}{{:MyLang('order.detail_shipping_address_title')}}{{/if}}</div>
                         <div class="am-panel-bd">
                             <div class="items am-cf">
-                                <div class="items-title am-fl">{{:MyLang('order.order_consignee_title')}}：</div>
+                                <div class="items-title am-fl">{{if $data['order_model'] eq 2}}{{:MyLang('order.order_contact_title')}}{{else /}} {{:MyLang('order.order_consignee_title')}}{{/if}}：</div>
                                 <div class="items-detail am-fl">{{$data.address_data.name}}</div>
                             </div>
                             <div class="items am-cf">
@@ -344,6 +354,30 @@
                                     {{/if}}
                                 </div>
                             </div>
+                            {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel']) or !empty($data['address_data']['appoint_time'])}}
+                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs">
+                                <div class="items am-cf">
+                                    {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel'])}}
+                                        <div class="items-title am-fl">{{:MyLang('customer_info_title')}}：</div>
+                                        <div class="items-detail am-fl">
+                                            {{if !empty($data['address_data']['extraction_contact_name'])}}
+                                                <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_name}}</span>
+                                            {{/if}}
+                                            {{if !empty($data['address_data']['extraction_contact_tel'])}}
+                                                <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_tel}}</span>
+                                            {{/if}}
+                                        </div>
+                                    {{/if}}
+                                </div>
+                                {{if !empty($data['address_data']['appoint_time'])}}
+                                    <div class="items am-cf">
+                                        <div class="items-title am-fl">{{:MyLang('appoint_time_title')}}：</div>
+                                        <div class="items-detail am-fl">
+                                            <span class="text-copy-submit am-color-red">{{$data.address_data.appoint_time}}</span>
+                                        </div>
+                                    </div>
+                                {{/if}}
+                            {{/if}}
                         </div>
                     </div>
 
@@ -390,8 +424,13 @@
                                                 <img src="{{$goods.images}}" alt="{{$goods.title}}" />
                                             </div>
                                             <div class="am-list-item-text richtext virtually-right am-padding-left-xl">
+                                                {{if !empty($goods['spec_text'])}}
+                                                    <p>
+                                                        <strong>{{$goods.spec_text}}</strong>
+                                                    </p>
+                                                {{/if}}
                                                 {{if empty($goods['fictitious_goods_value'])}}
-                                                    <span class="am-text-grey">{{:MyLang('no_config_data_tips')}}</span>
+                                                    <span class="am-text-grey am-text-xs">{{:MyLang('no_config_data_tips')}}</span>
                                                 {{else /}}
                                                     {{$goods.fictitious_goods_value|raw}}
                                                 {{/if}}
@@ -680,12 +719,12 @@
                 <!-- 用户订单详情商品信息底部-结束 -->
 
                 {{if !empty($data['extension_data'])}}
-                    <div class="order-point-discount">
+                    <div class="order-extension">
                         <div class="am-alert am-alert-warning am-radius-sm">
                             {{foreach $data.extension_data as $ertk=>$ext}}
                                 <div class="items am-nbfc">
                                     <div class="items-detail">{{$ext.tips}}</div>
-                                    <div class="items-title">{{$ext.name}}：</div>
+                                    <div class="items-title">{{$ext.name}}{{if !empty($ext['tips'])}}：{{/if}}</div>
                                 </div>
                             {{/foreach}}
                         </div>

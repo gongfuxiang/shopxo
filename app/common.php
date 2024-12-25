@@ -354,7 +354,7 @@ function StaticAttachmentUrl($value, $type = 'images')
         $theme = MyInput('theme');
         if(!empty($theme))
         {
-            $file = DS.'static'.DS.'app'.DS.$theme.DS.'common'.DS.$value;
+            $file = DS.'static'.DS.'app'.DS.$theme.DS.'common'.$value;
             if(file_exists(ROOT.'public'.$file))
             {
                 $result = $file;
@@ -686,19 +686,17 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
                     {
                         $value = MyLang($key, $vars, $default_lang, $plugins_name);
                     }
+                }
 
-                    // 未找到对应语言、则取zh语言
+                // 未找到对应语言、当前非中文则取zh语言
+                if($value == '' && $current_lang != 'zh')
+                {
+                    $value = MyLang($key, $vars, 'zh', $plugins_name);
+                    // 没有语言则赋值key
                     if($value == '')
                     {
-                        $value = MyLang($key, $vars, 'zh', $plugins_name);
-                        // 没有语言则赋值key
-                        if($value == '')
-                        {
-                            $value = $key;
-                        }
+                        $value = $key;
                     }
-                } else {
-                    $value = $key;
                 }
             }
 
@@ -1297,11 +1295,11 @@ function GetUrlHost($url)
  * @desc    description
  * @param   [string]          $key      [数据缓存可以]
  * @param   [mixed]           $value    [数据值(空字符串:读, null:删除, 其他:写)]
- * @param   [mixed]           $default  [默认值]
+ * @param   [mixed]           $default  [默认值、空字符串]
  * @param   [boolean]         $mandatory[是否强制判断数据值(空字符串|null|0)视为空]
  * @return  [mixed]                     [缓存不存在:null, 则缓存数据]
  */
-function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
+function MyFileConfig($key, $value = '', $default = '', $mandatory = false)
 {
     // 静态存储、不用每次都从磁盘读取
     static $object_file_cache_config = [];
@@ -1959,6 +1957,7 @@ function FormModuleData($params = [])
                         'page_total'  => empty($temp['page_total']) ? 0 : $temp['page_total'],
                         'data_total'  => empty($temp['data_total']) ? 0 : $temp['data_total'],
                         'data_list'   => empty($temp['data_list']) ? [] : $temp['data_list'],
+                        'field_list'  => FormModuleFieldData($temp['table']),
                     ];
                     break;
 
@@ -1967,6 +1966,14 @@ function FormModuleData($params = [])
                     if(array_key_exists($data_type, $ret['data']))
                     {
                         $data = $ret['data'][$data_type];
+                    }
+                    // 详情则增加字段列表数据，重新组织结构
+                    if($data_type == 'data_detail')
+                    {
+                        $data = [
+                            'data'        => empty($data) ? null : $data,
+                            'field_list'  => FormModuleFieldData($ret['data']['table']),
+                        ];
                     }
             }
         }
@@ -2792,9 +2799,6 @@ function MyUrl($path, $params = [])
     $key = md5($path.(empty($params) ? '' : (is_array($params) ? json_encode($params) : $params)));
     if(!array_key_exists($key, $url_create_data))
     {
-        // 当前脚本名称
-        $script_name = SCRIPT_NAME;
-
         // url模式
         $url_model = MyC('home_seo_url_model', 0);
 
@@ -2804,50 +2808,83 @@ function MyUrl($path, $params = [])
         $is_index = (substr($path, 0, 6) == 'index/');
         $is_install = (substr($path, 0, 8) == 'install/');
 
-        // 调用框架生成url
-        $url = url($path, $params, true);
+        // 去除应用组名称
+        $url_path = $path;
+        if($is_index || $is_admin)
+        {
+            $url_path = substr($path, 6);
+        } else if($is_api)
+        {
+            $url_path = substr($path, 4);
+        } else if($is_install)
+        {
+            $url_path = substr($path, 8);
+        }
 
-        // 非 admin 则使用配置后缀
-        if(!$is_admin && !$is_install)
+        // 调用框架生成url
+        $url = url($url_path, $params, true);
+
+        // 非 admin,api,install 则使用配置后缀
+        if(!$is_admin && !$is_install && !$is_api)
         {
             $url = $url->suffix(MyFileConfig('home_seo_url_html_suffix', '', 'html', true));
         }
 
-        // 转 url字符串
-        $url = MyConfig('shopxo.domain_url').substr((string) $url, 1);
+        // 转url字符串
+        $domain_url = MyConfig('shopxo.domain_url');
+        $url = $domain_url.substr((string) $url, 1);
 
-        // 去除组名称
-        $ds = ($script_name == 'index.php') ? '/' : '';
-        $join = ($script_name != 'index.php' || $url_model == 0) ? $ds.'?s=' : '/';
-        $len = $is_api ? 4 : ($is_install ? 8 : 6);
-        $path = substr($path, $len);
-        $url = str_replace('/'.$path, $join.$path, $url);
+        // 当前脚本名称
+        $script_name = SCRIPT_NAME;
 
-        // 避免非当前目录生成url索引错误
-        if($script_name != 'index.php' && $is_index)
+        // 当前索引脚本不存在、则先补全
+        if(stripos($url, $script_name) === false)
         {
-            if($url_model == 0)
+            $url = str_replace($url_path, $script_name.'/'.$url_path, $url);
+        }
+
+        // 非index.php，admin路径并且非index.php，api路径，install路径，兼容模式
+        if($script_name != 'index.php' || ($is_admin && $script_name != 'index.php') || $is_api || $is_install || $url_model == 0)
+        {
+            $url = str_replace($script_name.'/', $script_name.'?s=', $url);
+
+            // 前端模式，短地址模式（无路径则是短地址）
+            if($script_name == 'index.php' && stripos($url, $url_path) === false)
             {
-                // 替换索引为 index.php
-                $url = str_replace($script_name, 'index.php', $url);
-            } else {
-                // 去除入口和?s=
-                $url = str_replace([$script_name.'?s=', '/'.$script_name], '', $url);
+                // api路径，无兼容模式? 则转为兼容模式
+                if($is_api && stripos($url, '?') === false)
+                {
+                    $url = str_replace($domain_url, $domain_url.'api.php?s=', $url);
+                }
+                // install路径，无兼容模式? 则转为兼容模式
+                if($is_install && stripos($url, '?') === false)
+                {
+                    $url = str_replace($domain_url, $domain_url.'install.php?s=', $url);
+                }
+                // 兼容模式，前端路径或后台路径，无兼容模式? 则转为兼容模式
+                if($url_model == 0 && ($is_index || $is_admin) && stripos($url, '?') === false)
+                {
+                    $url = str_replace($domain_url, $domain_url.'?s=', $url);
+                }
             }
         }
-        // 替换索引为 api.php
-        if($script_name != 'api.php' && $is_api)
+
+        // index
+        if($is_index)
         {
-            $url = str_replace($script_name, 'api.php', $url);
-        }
-        // 替换索引为 install.php
-        if($script_name != 'install.php' && $is_install)
+            $url = str_replace('/'.$script_name, '/index.php', $url);
+        } else if($is_api)
         {
-            $url = str_replace($script_name, 'install.php', $url);
+            // api
+            $url = str_replace('/'.$script_name, '/api.php', $url);
+        } else if($is_install)        
+        {
+            // install
+            $url = str_replace('/'.$script_name, '/install.php', $url);
         }
 
-        // 前端则去除 index.php
-        $url = str_replace('/index.php', '', $url);
+        // index去除索引脚本
+        $url = str_replace(['index.php/', 'index.php?'], ['', '?'], $url);
 
         // 是否根目录访问项目
         if(defined('IS_ROOT_ACCESS'))
@@ -2859,6 +2896,37 @@ function MyUrl($path, $params = [])
         $url = $url_create_data[$key];
     }
     return $url;
+}
+
+/**
+ * 生成url地址 - api前端
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-06-12
+ * @desc    description
+ * @param   string          $plugins_name      [应用名称]
+ * @param   string          $plugins_control   [应用控制器]
+ * @param   string          $plugins_action    [应用方法]
+ * @param   array           $params            [参数]
+ */
+function PluginsApiUrl($plugins_name, $plugins_control = '', $plugins_action = '', $params = [])
+{
+    // 控制器和方法都为index的时候置空、缩短url地址
+    if($plugins_control == 'index' && $plugins_action == 'index' && empty($params))
+    {
+        $plugins_control = '';
+        $plugins_action = '';
+    }
+
+    // 插件基础参数
+    $plugins = [
+        'pluginsname'       => $plugins_name,
+        'pluginscontrol'    => $plugins_control,
+        'pluginsaction'     => $plugins_action,
+    ];
+    $path = 'api/plugins/index';
+    return MyUrl($path, $plugins+(empty($params) ? [] : $params));
 }
 
 /**
@@ -3263,6 +3331,31 @@ function IsMobile($agent = '')
     return false;
 }
 
+/**
+ * 设备类型
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2024-11-14
+ * @desc    description
+ * @param   [string]          $agent [是否指定agent信息]
+ */
+function DeviceType($agent = '')
+{
+    $value = 'other';
+    $agent = empty($agent) ? (empty($_SERVER['HTTP_USER_AGENT']) ? '' : $_SERVER['HTTP_USER_AGENT']) : $agent;
+    if($agent)
+    {
+        if(strpos($agent, 'iPhone') !== false || strpos($agent, 'iPad') !== false || strpos($agent, 'iPod') !== false)
+        {
+            $value = 'apple';
+        } elseif (strpos($agent, 'Android') !== false)
+        {
+            $value = 'android';
+        }
+    }
+    return $value;
+}
 
 /**
  * 校验json数据是否合法
@@ -4092,7 +4185,8 @@ function ParamsChecked($data, $params)
                 {
                     return str_replace('{$var}', MyLang('common_function.check_checked_data_unique_error_name'), $v['error_msg']);
                 }
-                $temp = \think\facade\Db::name($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
+                $checked_where = empty($v['checked_where']) ? [] : $v['checked_where'];
+                $temp = \think\facade\Db::name($v['checked_data'])->where(array_merge($checked_where, [[$v['key_name'], '=', $data[$v['key_name']]]]))->find();
                 if(!empty($temp))
                 {
                     // 错误数据变量替换

@@ -1369,13 +1369,6 @@ ul.am-dropdown-content>li>a:focus {
 }
 
 /**
- * amazeui 布局样式覆盖
- */
-.am-gallery {
-    padding: 0;
-}
-
-/**
  * 底部
  */
 .am-footer-default {
@@ -1668,11 +1661,10 @@ ul.am-dropdown-content>li>a:focus {
 }
 
 @media only screen and (max-width: 640px) {
-
     .user-login-container .user-right-container,
     .user-forgetpwd-container .user-right-container {
         margin: 0 auto !important;
-        padding: 6rem 2rem;
+        padding: 6rem 1rem;
         float: none !important;
     }
 }
@@ -1739,11 +1731,27 @@ ul.am-dropdown-content>li>a:focus {
     padding: 1rem 1rem 0 1rem;
 }
 
-.user-form-container form.am-form .am-form-group {
+.user-login-content-container form.am-form .am-form-group {
     padding-top: 0;
     margin-bottom: 0;
 }
-
+.user-login-content-container .user-entrance-tabs.am-nav-tabs > li {
+    max-width: 33%;
+    display: inline-block;
+}
+.user-login-content-container .user-entrance-tabs.am-nav-tabs>li a {
+    font-size: 1.4rem;
+    line-height: 3.6rem;
+    color: #333333;
+    font-weight: 500;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding: 0.56rem 0 !important;
+}
+.user-login-content-container .user-entrance-tabs.am-nav-tabs > li:not(:first-child) a {
+    padding-left: 2rem !important;
+}
 @media only screen and (min-width: 641px) {
     .user-form-content-container .form-verify:hover a.form-verify-tips {
         display: block;
@@ -3154,13 +3162,6 @@ header.am-topbar a {
 * tabs 选项卡
 */
 /*导航*/
-.am-nav-tabs>li a {
-    font-size: 1.4rem;
-    line-height: 3.6rem;
-    color: #333333;
-    font-weight: 500;
-}
-
 .am-nav-tabs>li>a {
     margin-right: 0px;
 }
@@ -3212,7 +3213,7 @@ header.am-topbar a {
 
 .am-tabs-border>ul.am-tabs-nav.am-nav.am-nav-tabs {
     margin: 0;
-    padding: 0 2rem;
+    padding: 0 0 0 2rem;
     border: 0;
     border-bottom: 0.1rem solid #eee;
     border-radius: 0;

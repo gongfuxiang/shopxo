@@ -36,7 +36,6 @@
 
 .am-switch .am-switch-handle {
     position: absolute;
-    z-index: 1;
     top: 1px;
     left: 1px;
     width: 18px;

@@ -873,11 +873,6 @@ function EchartsInit () {
                     var data = res.data[i];
                     var chart = null;
                     switch (i) {
-                        // 基础数据总数
-                        case 'base_count':
-                            EchartsBaseCount(data);
-                            break;
-
                         // 订单成交金额走势
                         case 'order_profit':
                             var chart = EchartsOrderProfit(data.title_arr, data.name_arr, data.data);

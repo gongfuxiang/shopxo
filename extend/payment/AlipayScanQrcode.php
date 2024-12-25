@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 支付宝扫码支付
  * @author   Devil
@@ -161,6 +163,9 @@ class AlipayScanQrcode
         // 生成签名参数+签名
         $sp = $this->GetParamSign($parameter);
         $parameter['sign'] = $this->MyRsaSign($sp['value']);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 执行请求
         $res = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
@@ -485,11 +490,12 @@ class AlipayScanQrcode
 
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
-                'trade_no'      => isset($result['trade_no']) ? $result['trade_no'] : '',
-                'buyer_user'    => isset($result['buyer_user_id']) ? $result['buyer_user_id'] : '',
-                'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee'] : 0.00,
-                'return_params' => $result,
+                'out_trade_no'    => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
+                'trade_no'        => isset($result['trade_no']) ? $result['trade_no'] : '',
+                'buyer_user'      => isset($result['buyer_user_id']) ? $result['buyer_user_id'] : '',
+                'refund_price'    => isset($result['refund_fee']) ? $result['refund_fee'] : 0.00,
+                'return_params'   => $result,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

@@ -120,6 +120,33 @@ class ThemeAdminService
     }
 
     /**
+     * 主题数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-12-20
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ThemeAdminData($params = [])
+    {
+        $data = [];
+        if(!empty($params['id']))
+        {
+            $list = self::ThemeAdminList($params);
+            if(!empty($list))
+            {
+                $list = array_column($list, null, 'theme');
+                if(array_key_exists($params['id'], $list))
+                {
+                    $data = $list[$params['id']];
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 模板上传
      * @author   Devil
      * @blog     http://gong.gg/
@@ -398,6 +425,91 @@ class ThemeAdminService
      */
     public static function ThemeAdminDownload($params = [])
     {
+        // 生成下载包
+        $package = self::ThemeAdminDownloadHandle($params);
+        if($package['code'] != 0)
+        {
+            return $package;
+        }
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($package['data']['file'], $package['data']['config']['name'].'_v'.$package['data']['config']['ver'].'.zip', true))
+        {
+            return DataReturn(MyLang('download_success'), 0);
+        }
+        return DataReturn(MyLang('download_fail'), -100);
+    }
+
+    /**
+     * 上传到应用商店
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-08-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ThemeAdminStoreUpload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'version_new',
+                'error_msg'         => MyLang('common_service.themeadmin.form_item_version_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'describe',
+                'error_msg'         => MyLang('common_service.themeadmin.form_item_desc_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'apply_version',
+                'error_msg'         => MyLang('common_service.themeadmin.form_item_apply_version_message'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 生成下载包
+        $package = self::ThemeAdminDownloadHandle($params);
+        if($package['code'] != 0)
+        {
+            return $package;
+        }
+
+        // 帐号信息
+        $user = StoreService::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
+        {
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
+        }
+
+        // 上传到远程
+        $params['theme'] = $package['data']['theme'];
+        $params['file'] = new \CURLFile($package['data']['file']);
+        $ret = StoreService::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_themeadmin_upload_url'), $params, 2);
+        // 是个与否都删除本地生成的zip包
+        @unlink($package['data']['file']);
+        // 返回数据
+        return $ret;
+    }
+
+    /**
+     * 主题打包处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ThemeAdminDownloadHandle($params = [])
+    {
         // 请求参数
         $p = [
             [
@@ -498,13 +610,12 @@ class ThemeAdminService
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($new_dir);
 
-        // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'_v'.$config['ver'].'.zip', true))
-        {
-            return DataReturn(MyLang('download_success'), 0);
-        } else {
-            return DataReturn(MyLang('download_fail'), -100);
-        }
+        // 返回数据
+        return DataReturn('success', 0, [
+            'file'    => $new_dir.'.zip',
+            'config'  => $config,
+            'theme'   => $theme,
+        ]);
     }
 
     /**
@@ -519,32 +630,35 @@ class ThemeAdminService
      */
     public static function ThemeAdminLegalCheck($theme, $data = [])
     {
-        $key = 'theme_legal_check_'.$theme;
-        $ret = MyCache($key);
-        if(empty($ret))
+        if(RequestModule() == 'admin')
         {
-            if(empty($data))
+            $key = 'theme_legal_check_'.$theme;
+            $ret = MyCache($key);
+            if(empty($ret))
             {
-                $config_res = self::ThemeAdminConfig($theme);
-                if($config_res['code'] != 0)
+                if(empty($data))
                 {
-                    return $config_res;
+                    $config_res = self::ThemeAdminConfig($theme);
+                    if($config_res['code'] != 0)
+                    {
+                        return $config_res;
+                    }
+                    $data = $config_res['data'];
                 }
-                $data = $config_res['data'];
+                $check_params = [
+                    'type'      => 'webtheme',
+                    'config'    => $data,
+                    'plugins'   => $theme,
+                    'author'    => isset($data['author']) ? $data['author'] : '',
+                    'ver'       => isset($data['version']) ? $data['version'] : (isset($data['ver']) ? $data['ver'] : ''), 
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                MyCache($key, $ret, 3600);
             }
-            $check_params = [
-                'type'      => 'webtheme',
-                'config'    => $data,
-                'plugins'   => $theme,
-                'author'    => isset($data['author']) ? $data['author'] : '',
-                'ver'       => isset($data['version']) ? $data['version'] : (isset($data['ver']) ? $data['ver'] : ''), 
-            ];
-            $ret = StoreService::PluginsLegalCheck($check_params);
-            MyCache($key, $ret, 3600);
-        }
-        if(!in_array($ret['code'], [0, -9999]))
-        {
-            return $ret;
+            if(!in_array($ret['code'], [0, -9999]))
+            {
+                return $ret;
+            }
         }
         return DataReturn('success', 0);
     }

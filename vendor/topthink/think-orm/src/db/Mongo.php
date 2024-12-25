@@ -46,7 +46,7 @@ class Mongo extends BaseQuery
      *
      * @return mixed
      */
-    public function command(Command $command, string $dbName = '', ReadPreference $readPreference = null, $typeMap = null)
+    public function command(Command $command, string $dbName = '', ?ReadPreference $readPreference = null, $typeMap = null)
     {
         return $this->connection->command($command, $dbName, $readPreference, $typeMap);
     }
@@ -106,7 +106,7 @@ class Mongo extends BaseQuery
      *
      * @return int
      */
-    public function count(string $field = null): int
+    public function count(?string $field = null): int
     {
         $result = $this->cmd('count');
 
@@ -462,7 +462,7 @@ class Mongo extends BaseQuery
      *
      * @return $this
      */
-    public function limit(int $offset, int $length = null)
+    public function limit(int $offset, ?int $length = null)
     {
         if (is_null($length)) {
             $length = $offset;

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 建行聚合支付
  * @author  Devil
@@ -241,6 +243,9 @@ class CcbPay
             'SUB_OPENID'    => $params['params']['user']['weixin_openid'],
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 请求参数
         $str = http_build_query($parameter);
         $url = 'https://ibsbjstar.ccb.com.cn/CCBIS/ccbMain?CCB_IBSVersion=V6&'.str_replace('&PUB='.$parameter['PUB'], '', $str).'&MAC='.md5($str);
@@ -280,6 +285,9 @@ class CcbPay
             'PUB'           => $this->config['pub'],
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 请求参数
         $str = http_build_query($parameter);
         $url = 'https://ibsbjstar.ccb.com.cn/CCBIS/ccbMain?CCB_IBSVersion=V6&'.str_replace('&PUB='.$parameter['PUB'], '', $str).'&MAC='.md5($str);
@@ -291,14 +299,15 @@ class CcbPay
             {
                 // PC端返回扫码支付格式
                 $pay_params = [
-                    'url'       => urlencode(base64_encode(urldecode($result['QRURL']))),
+                    'type'      => 'scan',
+                    'url'       => urldecode($result['QRURL']),
                     'order_no'  => $params['order_no'],
-                    'name'      => urlencode('扫码支付'),
-                    'msg'       => urlencode('打开【支付宝、微信、建行APP】扫一扫进行支付'),
-                    'check_url' => urlencode(base64_encode($params['check_url'])),
+                    'name'      => '扫码支付',
+                    'msg'       => '打开【支付宝、微信、建行APP】扫一扫进行支付',
+                    'check_url' => $params['check_url'],
                 ];
-                $data = MyUrl('index/pay/qrcode', $pay_params);
-                return DataReturn('success', 0, $data);
+                MySession('payment_qrcode_data', $pay_params);
+                return DataReturn('success', 0, MyUrl('index/pay/qrcode'));
             }
         }
         return DataReturn('支付单提交失败', -1);
@@ -338,27 +347,28 @@ class CcbPay
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // 请求参数
-        $data = "<?xml version=\"1.0\" encoding=\"GB2312\" standalone=\"yes\" ?>";
-        $data .="<TX><REQUEST_SN>" . date('YmdHis') . "</REQUEST_SN>";
-        $data .="<CUST_ID>" . $this->config['merchant_id'] . "</CUST_ID>";
-        $data .="<USER_ID>" . $this->config['user_id'] . "</USER_ID>";
-        $data .="<PASSWORD>" . $this->config['user_pwd'] . "</PASSWORD><TX_CODE>5W1004</TX_CODE><LANGUAGE>CN</LANGUAGE>";
-        $data .="<TX_INFO><MONEY>" . $params['refund_price'] . "</MONEY>";
-        $data .="<ORDER>" . $params['order_no'] . "</ORDER>";
-        $data .="<REFUND_CODE></REFUND_CODE></TX_INFO><SIGN_INFO></SIGN_INFO><SIGNCERT></SIGNCERT></TX>";
+        $parameter = "<?xml version=\"1.0\" encoding=\"GB2312\" standalone=\"yes\" ?>";
+        $parameter .="<TX><REQUEST_SN>" . date('YmdHis') . "</REQUEST_SN>";
+        $parameter .="<CUST_ID>" . $this->config['merchant_id'] . "</CUST_ID>";
+        $parameter .="<USER_ID>" . $this->config['user_id'] . "</USER_ID>";
+        $parameter .="<PASSWORD>" . $this->config['user_pwd'] . "</PASSWORD><TX_CODE>5W1004</TX_CODE><LANGUAGE>CN</LANGUAGE>";
+        $parameter .="<TX_INFO><MONEY>" . $params['refund_price'] . "</MONEY>";
+        $parameter .="<ORDER>" . $params['order_no'] . "</ORDER>";
+        $parameter .="<REFUND_CODE></REFUND_CODE></TX_INFO><SIGN_INFO></SIGN_INFO><SIGNCERT></SIGNCERT></TX>";
 
         // 请求接口处理
-        $result = $this->HttpRequestWlpt($params['wlpt_url'], $data);
+        $result = $this->HttpRequestWlpt($params['wlpt_url'], $parameter);
         $resultData = simplexml_load_string($result);
         if(!empty($result) && isset($result['RETURN_MSG']) && $result['RETURN_CODE'] == '000000')
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result['ORDER_NUM']) ? $result['ORDER_NUM'] : '',
-                'trade_no'      => isset($params['ORDERID']) ? $params['ORDERID'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => isset($result['AMOUNT']) ? $result['AMOUNT'] : 0.00,
-                'return_params' => $result,
+                'out_trade_no'    => isset($result['ORDER_NUM']) ? $result['ORDER_NUM'] : '',
+                'trade_no'        => isset($params['ORDERID']) ? $params['ORDERID'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => isset($result['AMOUNT']) ? $result['AMOUNT'] : 0.00,
+                'return_params'   => $result,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

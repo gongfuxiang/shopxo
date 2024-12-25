@@ -148,6 +148,7 @@ class AppTest extends TestCase
         $env->shouldReceive('load')->once()->with($rootPath . '.env');
         $env->shouldReceive('get')->once()->with('config_ext', '.php')->andReturn('.php');
         $env->shouldReceive('get')->once()->with('app_debug')->andReturn($debug);
+        $env->shouldReceive('get')->once()->with('env_name', '')->andReturn('');
 
         $event = m::mock(Event::class);
         $event->shouldReceive('trigger')->once()->with(AppInit::class);

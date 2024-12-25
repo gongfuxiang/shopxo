@@ -422,6 +422,32 @@ class DiyApi extends Base
     }
 
     /**
+     * 品牌指定数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-18
+     * @desc    description
+     */
+    public function BrandAppointData()
+    {
+        return ApiService::ApiDataReturn(DiyApiService::BrandAppointData($this->data_request));
+    }
+
+    /**
+     * 品牌自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-18
+     * @desc    description
+     */
+    public function BrandAutoData()
+    {
+        return ApiService::ApiDataReturn(DiyApiService::BrandAutoData($this->data_request));
+    }
+
+    /**
      * 用户头部数据
      * @author  Devil
      * @blog    http://gong.gg/

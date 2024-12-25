@@ -901,7 +901,7 @@ class BuyService
                 {
                     // 添加订单详情数据,data返回自增id
                     $order_detail_id = 0;
-                    $ret = self::OrderDetailInsert($order_id, $order['user_id'], $vs);
+                    $ret = self::OrderDetailInsert($order_id, $order['user_id'], $vs, $params);
                     if($ret['code'] == 0)
                     {
                         $order_detail_id = $ret['data'];
@@ -913,7 +913,7 @@ class BuyService
                     // 订单模式 - 虚拟信息添加
                     if($order['order_model'] == 3)
                     {
-                        $ret = self::OrderFictitiousValueInsert($order_id, $order_detail_id, $order['user_id'], $vs['goods_id']);
+                        $ret = self::OrderFictitiousValueInsert($order_id, $order_detail_id, $order['user_id'], $vs['goods_id'], $params);
                         if($ret['code'] != 0)
                         {
                             throw new \Exception($ret['msg']);
@@ -928,7 +928,7 @@ class BuyService
                     // 添加订单(收货|取货)地址
                     if(!empty($v['address_data']))
                     {
-                        $ret = self::OrderAddressInsert($order_id, $order['user_id'], $v['address_data']);
+                        $ret = self::OrderAddressInsert($order_id, $order['user_id'], $v['address_data'], $params);
                         if($ret['code'] != 0)
                         {
                             throw new \Exception($ret['msg']);
@@ -938,7 +938,7 @@ class BuyService
                     // 自提模式 添加订单取货码
                     if($order['order_model'] == 2)
                     {
-                        $ret = self::OrderExtractionCcodeInsert($order_id, $order['user_id']);
+                        $ret = self::OrderExtractionCcodeInsert($order_id, $order['user_id'], $params);
                         if($ret['code'] != 0)
                         {
                             throw new \Exception($ret['msg']);
@@ -947,7 +947,7 @@ class BuyService
                 }
 
                 // 订单货币
-                $ret = OrderCurrencyService::OrderCurrencyInsert($order_id, $order['user_id']);
+                $ret = OrderCurrencyService::OrderCurrencyInsert($order_id, $order['user_id'], $params);
                 if($ret['code'] != 0)
                 {
                     throw new \Exception($ret['msg']);
@@ -1032,8 +1032,9 @@ class BuyService
      * @param   [int]          $order_id    [订单id]
      * @param   [int]          $user_id     [用户id]
      * @param   [array]        $detail      [商品详情数据]
+     * @param   [array]        $params      [输入参数]
      */
-    private static function OrderDetailInsert($order_id, $user_id, $detail)
+    private static function OrderDetailInsert($order_id, $user_id, $detail, $params = [])
     {
         $data = [
             'order_id'          => $order_id,
@@ -1062,6 +1063,7 @@ class BuyService
             'order_id'      => $order_id,
             'user_id'       => $user_id,
             'data'          => &$data,
+            'params'        => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1084,16 +1086,17 @@ class BuyService
      * @version 1.0.0
      * @date    2019-11-20
      * @desc    description
-     * @param   [int]          $order_id            [订单id]
-     * @param   [int]          $user_id             [用户id]
+     * @param   [int]       $order_id  [订单id]
+     * @param   [int]       $user_id   [用户id]
+     * @param   [array]     $params    [输入参数]
      */
-    private static function OrderExtractionCcodeInsert($order_id, $user_id)
+    private static function OrderExtractionCcodeInsert($order_id, $user_id, $params = [])
     {
         $data = [
-            'order_id'      => $order_id,
-            'user_id'       => $user_id,
-            'code'          => GetNumberCode(4),
-            'add_time'      => time(),
+            'order_id'  => $order_id,
+            'user_id'   => $user_id,
+            'code'      => GetNumberCode(4),
+            'add_time'  => time(),
         ];
 
         // 订单取货码添加前钩子
@@ -1104,6 +1107,7 @@ class BuyService
             'user_id'               => $user_id,
             'order_id'              => $order_id,
             'data'                  => &$data,
+            'params'                => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1129,8 +1133,9 @@ class BuyService
      * @param   [int]          $order_detail_id     [订单详情id]
      * @param   [int]          $user_id             [用户id]
      * @param   [int]          $goods_id            [商品id]
+     * @param   [array]        $params              [输入参数]
      */
-    private static function OrderFictitiousValueInsert($order_id, $order_detail_id, $user_id, $goods_id)
+    private static function OrderFictitiousValueInsert($order_id, $order_detail_id, $user_id, $goods_id, $params = [])
     {
         $data = [
             'order_id'              => $order_id,
@@ -1150,6 +1155,7 @@ class BuyService
             'order_detail_id'       => $order_detail_id,
             'goods_id'              => $goods_id,
             'data'                  => &$data,
+            'params'                => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1174,31 +1180,35 @@ class BuyService
      * @param   [int]          $order_id [订单id]
      * @param   [int]          $user_id  [用户id]
      * @param   [array]        $address  [地址]
+     * @param   [array]        $params   [输入参数]
      */
-    private static function OrderAddressInsert($order_id, $user_id, $address)
+    private static function OrderAddressInsert($order_id, $user_id, $address, $params = [])
     {
         // 订单收货地址
         $data = [
-            'order_id'      => $order_id,
-            'user_id'       => $user_id,
-            'address_id'    => isset($address['id']) ? intval($address['id']) : 0,
-            'alias'         => isset($address['alias']) ? $address['alias'] : '',
-            'name'          => isset($address['name']) ? $address['name'] : '',
-            'tel'           => isset($address['tel']) ? $address['tel'] : '',
-            'province'      => isset($address['province']) ? intval($address['province']) : 0,
-            'city'          => isset($address['city']) ? intval($address['city']) : 0,
-            'county'        => isset($address['county']) ? intval($address['county']) : 0,
-            'address'       => isset($address['address']) ? $address['address'] : '',
-            'province_name' => isset($address['province_name']) ? $address['province_name'] : '',
-            'city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
-            'county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
-            'lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
-            'lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
-            'idcard_name'   => empty($address['idcard_name']) ? '' : $address['idcard_name'],
-            'idcard_number' => empty($address['idcard_number']) ? '' : $address['idcard_number'],
-            'idcard_front'  => empty($address['idcard_front']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_front']),
-            'idcard_back'   => empty($address['idcard_back']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_back']),
-            'add_time'      => time(),
+            'order_id'                 => $order_id,
+            'user_id'                  => $user_id,
+            'address_id'               => isset($address['id']) ? intval($address['id']) : 0,
+            'alias'                    => isset($address['alias']) ? $address['alias'] : '',
+            'name'                     => isset($address['name']) ? $address['name'] : '',
+            'tel'                      => isset($address['tel']) ? $address['tel'] : '',
+            'province'                 => isset($address['province']) ? intval($address['province']) : 0,
+            'city'                     => isset($address['city']) ? intval($address['city']) : 0,
+            'county'                   => isset($address['county']) ? intval($address['county']) : 0,
+            'address'                  => isset($address['address']) ? $address['address'] : '',
+            'province_name'            => isset($address['province_name']) ? $address['province_name'] : '',
+            'city_name'                => isset($address['city_name']) ? $address['city_name'] : '',
+            'county_name'              => isset($address['county_name']) ? $address['county_name'] : '',
+            'lng'                      => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
+            'lat'                      => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+            'appoint_time'             => empty($params['appoint_time']) ? '' : trim($params['appoint_time']),
+            'extraction_contact_name'  => empty($params['extraction_contact_name']) ? '' : trim($params['extraction_contact_name']),
+            'extraction_contact_tel'   => empty($params['extraction_contact_tel']) ? '' : trim($params['extraction_contact_tel']),
+            'idcard_name'              => empty($address['idcard_name']) ? '' : $address['idcard_name'],
+            'idcard_number'            => empty($address['idcard_number']) ? '' : $address['idcard_number'],
+            'idcard_front'             => empty($address['idcard_front']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_front']),
+            'idcard_back'              => empty($address['idcard_back']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_back']),
+            'add_time'                 => time(),
         ];
 
         // 订单地址添加前钩子
@@ -1209,6 +1219,7 @@ class BuyService
             'user_id'       => $user_id,
             'order_id'      => $order_id,
             'data'          => &$data,
+            'params'        => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1746,7 +1757,8 @@ class BuyService
         if(isset($ret['code']) && $ret['code'] == 0 && !empty($ret['data']))
         {
             // 是否开启虚拟订单快速创建订单
-            if($ret['data']['base']['site_model'] == 3 && MyC('common_fictitious_order_direct_pay') == 1)
+            // 购物车页面初始化则不处理订单创建
+            if((!isset($params['is_cart_init']) || $params['is_cart_init'] != 1) && $ret['data']['base']['site_model'] == 3 && MyC('common_fictitious_order_direct_pay') == 1)
             {
                 // 指定订单类型
                 $params['site_model'] = $ret['data']['base']['site_model'];

@@ -10,16 +10,26 @@
 >
     <!-- 搜索 -->
     <div class="forth-selection-container" data-search-url="{{if !empty($module_data['search_url'])}}{{$module_data.search_url}}{{/if}}">
+        {{if !empty($common_plugins_goods_type_list)}}
+            <div class="forth-selection-form-goods-type">
+                <select name="type" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}">
+                    <option value="">{{:MyLang('please_select_tips')}}</option>
+                    {{foreach $common_plugins_goods_type_list as $k=>$v}}
+                        <option value="{{$k}}">{{$v}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+        {{/if}}
         <input type="text" placeholder="{{:MyLang('form_search_keywords_placeholder')}}" class="am-radius forth-selection-form-keywords" />
         <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: '{{:MyLang('search_title')}}'}">
             <i class="iconfont icon-search"></i>
             <span>{{:MyLang('search_title')}}</span>
         </button>
-        <label class="am-checkbox-inline am-margin-left-sm am-margin-top-xs">
+        <label class="am-checkbox-inline am-margin-left-sm am-margin-top-xs already-buy">
             <input type="checkbox" value="1" class="is-already-buy" data-am-ucheck /> {{:MyLang('already_buy_title')}}
         </label>
         {{if !empty($module_data['more_download_url']) and !empty($module_data['more_download_name']) and $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index')}}
-            <a class="am-fr am-margin-top-sm" href="{{$module_data.more_download_url}}" target="_blank">
+            <a class="am-fr am-margin-top-sm right-to-download" href="{{$module_data.more_download_url}}" target="_blank">
                 <i class="iconfont icon-download-btn"></i>
                 <span class="am-margin-left-xs">{{$module_data.more_download_name}}</span>
             </a>

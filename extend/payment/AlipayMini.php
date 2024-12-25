@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 支付宝小程序支付
  * @author   Devil
@@ -197,7 +199,9 @@ class AlipayMini
         // 生成签名参数+签名
         $params = $this->GetParamSign($parameter);
         $parameter['sign'] = $this->MyRsaSign($params['value']);
-        
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 执行请求
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
@@ -377,11 +381,12 @@ class AlipayMini
 
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
-                'trade_no'      => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
-                'buyer_user'    => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
-                'refund_price'  => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
-                'return_params' => $result[$key],
+                'out_trade_no'    => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
+                'trade_no'        => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
+                'buyer_user'      => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
+                'refund_price'    => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
+                'return_params'   => $result[$key],
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

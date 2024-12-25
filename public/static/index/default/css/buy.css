@@ -571,6 +571,14 @@ ul.address-list,
     display: flex !important;
     flex-flow: row nowrap;
 }
+.extraction-contact input {
+    width: 12rem;
+}
+@media only screen and (min-width: 1025px) {
+    .extraction-contact input {
+        width: 20rem;
+    }
+}
 @media only screen and (max-width: 640px) {
     .extraction-default .am-panel-bd {
         padding: 2rem 0.5rem;
@@ -590,6 +598,19 @@ ul.address-list,
     }
     .extraction-address-content-left p {
         width: 100%;
+    }
+    .extraction-contact {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-top: 0.1rem solid #f9f9f9;
+        padding-top: 1rem;
+    }
+    .extraction-contact input {
+        width: 26rem;
+    }
+    .extraction-contact .item > p {
+        width: 7rem;
     }
 }
 
@@ -624,6 +645,9 @@ ul.address-list,
 /**
 * 销售+自提导航
 */
+.buy-header-nav .am-nav-tabs > li > a {
+    line-height: 3.6rem;
+}
 @media only screen and (min-width: 641px) {
     .buy-header-nav {
         margin-top: 1rem;

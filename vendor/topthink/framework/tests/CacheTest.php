@@ -83,9 +83,9 @@ class CacheTest extends TestCase
         $this->assertTrue($this->cache->get('bar'));
 
         $this->cache->set('baz', null);
+        $this->assertTrue($this->cache->has('baz'));
         $this->assertNull($this->cache->get('baz'));
 
-        $this->assertTrue($this->cache->has('baz'));
         $this->cache->delete('baz');
         $this->assertFalse($this->cache->has('baz'));
         $this->assertNull($this->cache->get('baz'));

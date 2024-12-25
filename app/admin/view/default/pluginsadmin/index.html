@@ -52,9 +52,18 @@
                         <p>
                             {{if AdminIsPower('pluginsadmin', 'setupsave')}}
                                 <span>{{:MyLang('pluginsadmin.base_top_tips_two')}}</span>
-                                <a href="javascript:;" class="am-margin-left iconfont icon-setup submit-move-setup-open"> {{:MyLang('pluginsadmin.base_open_setup_title')}}</a>
-                                <a href="javascript:;" class="am-margin-left iconfont icon-check submit-move-setup-save am-hide"> {{:MyLang('save_title')}}</a>
-                                <a href="javascript:;" class="am-margin-left-sm iconfont icon-close-o submit-move-setup-cancel am-hide"> {{:MyLang('cancel_title')}}</a>
+                                <a href="javascript:;" class="am-margin-left submit-move-setup-open">
+                                    <i class="iconfont icon-setup"></i>
+                                    <span>{{:MyLang('pluginsadmin.base_open_setup_title')}}</span>
+                                </a>
+                                <a href="javascript:;" class="am-margin-left submit-move-setup-save am-hide">
+                                    <i class="iconfont icon-check"></i>
+                                    <span>{{:MyLang('save_title')}}</span>
+                                </a>
+                                <a href="javascript:;" class="am-margin-left-sm submit-move-setup-cancel am-hide">
+                                    <i class="iconfont icon-close-o"></i>
+                                    <span>{{:MyLang('cancel_title')}}</span>
+                                </a>
                             {{/if}}
                             {{if AdminIsPower('packageinstall', 'index')}}
                                 <a href="javascript:;" class="am-margin-left-lg">

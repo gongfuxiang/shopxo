@@ -1,6 +1,6 @@
 <!-- 底部信息右侧模块 -->
 {{if !empty($module_data['goods'])}}
-    <div class="introduce-main">
+    <div class="introduce-main {{if empty($module_data['left_goods'])}}no-left-goods{{/if}}">
         <!-- 商品页面tabs顶部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
@@ -82,7 +82,7 @@
                                     <div class="content-photo">
                                         {{foreach $goods.photo as $photo}}
                                             <li>
-                                                <img src="{{$photo.images}}" />
+                                                <img src="{{$photo.images}}" class="am-thumbnail" />
                                             </li>
                                         {{/foreach}}
                                     </div>

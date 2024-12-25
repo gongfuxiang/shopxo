@@ -57,7 +57,7 @@ class Log extends Manager implements LoggerInterface
      * @param mixed       $default 默认值
      * @return mixed
      */
-    public function getConfig(string $name = null, $default = null)
+    public function getConfig(?string $name = null, $default = null)
     {
         if (!is_null($name)) {
             return $this->app->config->get('log.' . $name, $default);
@@ -73,7 +73,7 @@ class Log extends Manager implements LoggerInterface
      * @param mixed  $default
      * @return array
      */
-    public function getChannelConfig(string $channel, string $name = null, $default = null)
+    public function getChannelConfig(string $channel, ?string $name = null, $default = null)
     {
         if ($config = $this->getConfig("channels.{$channel}")) {
             return Arr::get($config, $name, $default);
@@ -87,7 +87,7 @@ class Log extends Manager implements LoggerInterface
      * @param string|array $name 渠道名
      * @return Channel|ChannelSet
      */
-    public function channel(string|array $name = null)
+    public function channel(string|array|null $name = null)
     {
         if (is_array($name)) {
             return new ChannelSet($this, $name);
@@ -156,7 +156,7 @@ class Log extends Manager implements LoggerInterface
      * @param string $channel 日志通道名
      * @return array
      */
-    public function getLog(string $channel = null): array
+    public function getLog(?string $channel = null): array
     {
         return $this->channel($channel)->getLog();
     }

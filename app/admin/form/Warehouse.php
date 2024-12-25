@@ -213,7 +213,6 @@ class Warehouse
             'data'  => [
                 'table_name'    => 'Warehouse',
                 'data_handle'   => 'WarehouseService::WarehouseListHandle',
-                'is_page'       => 1,
                 'order_by'      => 'level desc, id desc',
             ],
         ];

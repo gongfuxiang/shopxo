@@ -798,7 +798,7 @@ class ThemeDataService
                     [
                         'checked_type'      => 'in',
                         'key_name'          => 'article_order_by_type',
-                        'checked_data'      => array_keys(MyConst('common_theme_article_order_by_type_list')),
+                        'checked_data'      => array_keys(MyConst('common_article_order_by_type_list')),
                         'is_checked'        => 2,
                         'error_msg'         => MyLang('common_service.themedata.save_article_order_by_type_error_tips'),
                     ],

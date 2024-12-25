@@ -14,9 +14,9 @@
                     <div class="am-margin-top-xs am-flex am-flex-justify-between am-flex-items-center">
                         <strong class="am-text-sm am-color-{{if $v['min_price'] gt 0}}price{{else /}}green{{/if}}">{{$v.price_data.value}}</strong>
                         {{if $v.buy_data.status eq 1}}
-                            <button type="button" class="am-btn am-btn-success am-btn-xs am-radius package-install-submit" data-id="{{$v.id}}">{{$v.buy_data.title}}</button>
+                            <button type="button" class="am-btn am-btn-success am-btn-xs am-radius package-install-submit" data-id="{{$v.id}}" data-type="{{if !empty($v['type'])}}{{$v.type}}{{/if}}">{{$v.buy_data.title}}</button>
                         {{elseif $v.buy_data.status eq 2 /}}
-                            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius package-install-submit" disabled>{{$v.buy_data.title}}</button>
+                            <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius" disabled>{{$v.buy_data.title}}</button>
                         {{else /}}
                             <a href="{{$v.goods_url}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-fr">{{$v.buy_data.title}}</a>
                         {{/if}}

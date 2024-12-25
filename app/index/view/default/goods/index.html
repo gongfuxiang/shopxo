@@ -39,7 +39,7 @@
     <!-- 商品页基础信息底部钩子 结束 -->
 
     <!-- 底部信息模块 -->
-    {{:ModuleInclude('goods/module/bottom_base/index', ['goods'=>$goods])}}
+    {{:ModuleInclude('goods/module/bottom_base/index', ['goods'=>$goods, 'left_goods'=>isset($left_goods) ? $left_goods : []])}}
 </div>
 
 {{:ModuleInclude('public/footer')}}

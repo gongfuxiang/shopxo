@@ -8,15 +8,18 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\route;
 
 use Closure;
 use think\Container;
 use think\Exception;
+use think\helper\Str;
 use think\Request;
 use think\Route;
+use think\route\dispatch\Callback as CallbackDispatch;
+use think\route\dispatch\Controller as ControllerDispatch;
 
 /**
  * 路由分组类
@@ -48,6 +51,12 @@ class RuleGroup extends Rule
     protected $alias;
 
     /**
+     * 分组绑定
+     * @var string
+     */
+    protected $bind;
+
+    /**
      * 是否已经解析
      * @var bool
      */
@@ -62,7 +71,7 @@ class RuleGroup extends Rule
      * @param  mixed     $rule   分组路由
      * @param  bool      $lazy   延迟解析
      */
-    public function __construct(Route $router, RuleGroup $parent = null, string $name = '', $rule = null, bool $lazy = false)
+    public function __construct(Route $router, ?RuleGroup $parent = null, string $name = '', $rule = null, bool $lazy = false)
     {
         $this->router = $router;
         $this->parent = $parent;
@@ -153,33 +162,34 @@ class RuleGroup extends Rule
         }
 
         if (!empty($option['merge_rule_regex'])) {
-            // 合并路由正则规则进行路由匹配检查
+            // 路由合并检查
             $result = $this->checkMergeRuleRegex($request, $rules, $url, $completeMatch);
 
             if (false !== $result) {
                 return $result;
             }
-        }
+        } else {
+            // 检查分组路由
+            foreach ($rules as $item) {
+                $result = $item->check($request, $url, $completeMatch);
 
-        // 检查分组路由
-        foreach ($rules as $item) {
-            $result = $item->check($request, $url, $completeMatch);
-
-            if (false !== $result) {
-                return $result;
+                if (false !== $result) {
+                    return $result;
+                }
             }
         }
 
-        if (!empty($option['dispatcher'])) {
-            $result = $this->parseRule($request, '', $option['dispatcher'], $url, $option);
-        } elseif ($miss = $this->getMissRule($method)) {
-            // 未匹配所有路由的路由规则处理
-            $result = $miss->parseRule($request, '', $miss->getRoute(), $url, $miss->getOption());
-        } else {
-            $result = false;
+        if ($this->bind) {
+            // 检查分组绑定
+            return $this->checkBind($request, $url, $option);
         }
 
-        return $result;
+        if ($miss = $this->getMissRule($method)) {
+            // MISS路由
+            return $miss->parseRule($request, '', $miss->getRoute(), $url, $miss->getOption());
+        }
+
+        return false;
     }
 
     /**
@@ -240,7 +250,7 @@ class RuleGroup extends Rule
         if ($rule instanceof Closure) {
             Container::getInstance()->invokeFunction($rule);
         } elseif (is_string($rule) && $rule) {
-            $this->router->bind($rule, $this->domain);
+            $this->bind($rule);
         }
 
         $this->router->setGroup($origin);
@@ -355,11 +365,11 @@ class RuleGroup extends Rule
      * @param  string         $method 请求类型
      * @return RuleItem
      */
-    public function miss(string|Closure $route, string $method = '*'): RuleItem
+    public function miss(string | Closure $route, string $method = '*'): RuleItem
     {
         // 创建路由规则实例
-        $method     =   strtolower($method);
-        $ruleItem   =   new RuleItem($this->router, $this, null, '', $route, $method);
+        $method   = strtolower($method);
+        $ruleItem = new RuleItem($this->router, $this, null, '', $route, $method);
 
         $this->miss[$method] = $ruleItem->setMiss();
 
@@ -367,7 +377,7 @@ class RuleGroup extends Rule
     }
 
     /**
-     * 添加分组下的MISS路由
+     * 获取分组下的MISS路由
      * @access public
      * @param  string $method 请求类型
      * @return RuleItem|null
@@ -378,10 +388,213 @@ class RuleGroup extends Rule
             $miss = $this->miss[$method];
         } elseif (isset($this->miss['*'])) {
             $miss = $this->miss['*'];
-        } else {
-            return null;
         }
-        return $miss;
+        return $miss ?? null;
+    }
+
+    /**
+     * 分组自动URL调度  默认绑定到当前分组名所在的控制器分级
+     * @access public
+     * @param  string       $bind 绑定资源 绑定规则 class @controller :namespace /layer
+     * @param  string|array $middleware 中间件
+     * @return $this
+     */
+    public function auto(string $bind = '', string | array $middleware = '')
+    {
+        $this->bind = $bind ?: '/' . $this->getFullName();
+        if ($middleware) {
+            $this->middleware($middleware);
+        }
+
+        return $this;
+    }
+
+    /**
+     * 分组绑定到类
+     * @access public
+     * @param  string $class
+     * @return $this
+     */
+    public function class(string $class)
+    {
+        $this->bind = '\\' . $class;
+        $this->prefix('\\' . $class . '@');
+        return $this;
+    }
+
+    /**
+     * 分组绑定到控制器
+     * @access public
+     * @param  string $controller
+     * @return $this
+     */
+    public function controller(string $controller)
+    {
+        $this->bind = '@' . $controller;
+        $this->prefix($controller . '/');
+        return $this;
+    }
+
+    /**
+     * 分组绑定到命名空间
+     * @access public
+     * @param  string $namespace
+     * @return $this
+     */
+    public function namespace(string $namespace)
+    {
+        $this->bind = ':' . $namespace;
+        $this->prefix($namespace . '\\');
+        return $this;
+    }
+
+    /**
+     * 分组绑定到控制器分级
+     * @access public
+     * @param  string $namespace
+     * @return $this
+     */
+    public function layer(string $layer)
+    {
+        $this->bind = '/' . $layer;
+        $this->prefix($layer . '/');
+        return $this;
+    }
+
+    /**
+     * 获取分组绑定信息
+     * @access public
+     * @return string
+     */
+    public function getBind()
+    {
+        return $this->bind ?? '';
+    }
+
+    /**
+     * 检测URL绑定
+     * @access private
+     * @param  Request   $request
+     * @param  string    $url URL地址
+     * @param  array     $option 分组参数
+     * @return Dispatch
+     */
+    public function checkBind(Request $request, string $url, array $option = []): Dispatch
+    {
+        [$bind, $param] = $this->parseBindAppendParam($this->bind);
+
+        [$call, $bind] = match (substr($bind, 0, 1)) {
+            '\\' => ['bindToClass', substr($bind, 1)],
+            '@' => ['bindToController', substr($bind, 1)],
+            '/' => ['bindToLayer', substr($bind, 1)],
+            ':' => ['bindToNamespace', substr($bind, 1)],
+            default => ['bindToClass', $bind],
+        };
+
+        $name = $this->getFullName();
+        $url  = trim(substr(str_replace('|', '/', $url), strlen($name)), '/');
+
+        return $this->$call($request, $url, $bind, $param, $option);
+    }
+
+    protected function parseBindAppendParam(string $bind)
+    {
+        $vars = [];
+        if (str_contains($bind, '?')) {
+            [$bind, $query] = explode('?', $bind);
+            parse_str($query, $vars);
+        }
+        return [$bind, $vars];
+    }
+
+    /**
+     * 绑定到类
+     * @access protected
+     * @param  Request   $request
+     * @param  string    $url URL地址
+     * @param  string    $class 类名（带命名空间）
+     * @param  array     $param  路由变量
+     * @param  array     $option 分组参数
+     * @return CallbackDispatch
+     */
+    protected function bindToClass(Request $request, string $url, string $class, array $param = [], array $option = []): CallbackDispatch
+    {
+        $array  = explode('/', $url, 2);
+        $action = !empty($array[0]) ? $array[0] : $this->config('default_action');
+
+        if (!empty($array[1])) {
+            $this->parseUrlParams($array[1], $param);
+        }
+
+        return new CallbackDispatch($request, $this, [$class, $action], $param, $option);
+    }
+
+    /**
+     * 绑定到命名空间
+     * @access protected
+     * @param  Request   $request
+     * @param  string    $url URL地址
+     * @param  string    $namespace 命名空间
+     * @param  array     $param  路由变量
+     * @param  array     $option 分组参数
+     * @return CallbackDispatch
+     */
+    protected function bindToNamespace(Request $request, string $url, string $namespace, array $param = [], array $option = []): CallbackDispatch
+    {
+        $array  = explode('/', $url, 3);
+        $class  = !empty($array[0]) ? $array[0] : $this->config('default_controller');
+        $method = !empty($array[1]) ? $array[1] : $this->config('default_action');
+
+        if (!empty($array[2])) {
+            $this->parseUrlParams($array[2], $param);
+        }
+
+        return new CallbackDispatch($request, $this, [trim($namespace, '\\') . '\\' . Str::studly($class), $method], $param, $option);
+    }
+
+    /**
+     * 绑定到控制器
+     * @access protected
+     * @param  Request   $request
+     * @param  string    $url URL地址
+     * @param  string    $controller 控制器名
+     * @param  array     $param  路由变量
+     * @param  array     $option 分组参数
+     * @return ControllerDispatch
+     */
+    protected function bindToController(Request $request, string $url, string $controller, array $param = [], array $option = []): ControllerDispatch
+    {
+        $array  = explode('/', $url, 2);
+        $action = !empty($array[0]) ? $array[0] : $this->config('default_action');
+
+        if (!empty($array[1])) {
+            $this->parseUrlParams($array[1], $param);
+        }
+
+        return new ControllerDispatch($request, $this, [$controller, $action], $param, $option);
+    }
+
+    /**
+     * 绑定到控制器分级
+     * @access protected
+     * @param  Request   $request
+     * @param  string    $url URL地址
+     * @param  string    $controller 控制器名
+     * @param  array     $param  路由变量
+     * @param  array     $option 分组参数
+     * @return ControllerDispatch
+     */
+    protected function bindToLayer(Request $request, string $url, string $layer, array $param = [], array $option = []): ControllerDispatch
+    {
+        $array      = explode('/', $url, 3);
+        $controller = !empty($array[0]) ? $array[0] : $this->config('default_controller');
+        $action     = !empty($array[1]) ? $array[1] : $this->config('default_action');
+
+        if (!empty($array[2])) {
+            $this->parseUrlParams($array[2], $param);
+        }
+
+        return new ControllerDispatch($request, $this, [$layer, $controller, $action], $param, $option);
     }
 
     /**

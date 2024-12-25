@@ -103,13 +103,15 @@ class Brand
                     'width'         => 100,
                 ],
                 [
-                    'label'         => $lang['url'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'brand/module/url',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
+                    'label'             => $lang['url'],
+                    'view_type'         => 'field',
+                    'view_key'          => 'website_url',
+                    'grid_size'         => 'sm',
+                    'is_first_link'     => 1,
+                    'first_link_key'    => 'website_url',
+                    'first_link_style'  => 'primary',
+                    'search_config'     => [
                         'form_type'         => 'input',
-                        'form_name'         => 'website_url',
                         'where_type'        => 'like',
                     ],
                 ],
@@ -189,7 +191,6 @@ class Brand
             'data'  => [
                 'table_name'    => 'Brand',
                 'data_handle'   => 'BrandService::BrandListHandle',
-                'is_page'       => 1,
             ],
         ];
     }

@@ -222,5 +222,5 @@ interface ConnectionInterface
      *
      * @return mixed
      */
-    public function getLastInsID(BaseQuery $query, string $sequence = null);
+    public function getLastInsID(BaseQuery $query, ?string $sequence = null);
 }

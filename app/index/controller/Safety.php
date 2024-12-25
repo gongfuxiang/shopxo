@@ -225,7 +225,6 @@ class Safety extends Center
         return ApiService::ApiDataReturn(SafetyService::VerifySend($params));
 	}
 
-
 	/**
 	 * 原账户验证码校验
 	 * @author   Devil

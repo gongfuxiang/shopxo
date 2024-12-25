@@ -220,11 +220,20 @@
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label>{{$data.common_multilingual_default_value.name}}<span class="am-form-group-label-tips">{{$data.common_multilingual_default_value.describe}}</span></label>
-                        <select name="{{$data.common_multilingual_default_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_multilingual_default_value.error_tips}}">
+                        <label>{{$data.common_multilingual_admin_default_value.name}}<span class="am-form-group-label-tips">{{$data.common_multilingual_admin_default_value.describe}}</span></label>
+                        <select name="{{$data.common_multilingual_admin_default_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_multilingual_admin_default_value.error_tips}}">
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $common_multilingual_list as $k=>$v}}
-                                <option value="{{$k}}" {{if isset($data['common_multilingual_default_value']['value']) and $data['common_multilingual_default_value']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
+                                <option value="{{$k}}" {{if isset($data['common_multilingual_admin_default_value']['value']) and $data['common_multilingual_admin_default_value']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_multilingual_user_default_value.name}}<span class="am-form-group-label-tips">{{$data.common_multilingual_user_default_value.describe}}</span></label>
+                        <select name="{{$data.common_multilingual_user_default_value.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_multilingual_user_default_value.error_tips}}">
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
+                            {{foreach $common_multilingual_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['common_multilingual_user_default_value']['value']) and $data['common_multilingual_user_default_value']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
                             {{/foreach}}
                         </select>
                     </div>

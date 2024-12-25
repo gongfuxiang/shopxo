@@ -11,6 +11,9 @@
             {{if !empty($form_table['base']['status_field']) and isset($form_table_data_list[$i][$form_table['base']['status_field']]) and $form_table_data_list[$i][$form_table['base']['status_field']] eq 0}}
                 class="am-active"
             {{/if}}
+            {{if !empty($form_table_data_list[$i])}}
+                data-original-form-table-item-data="{{:urlencode(base64_encode(json_encode($form_table_data_list[$i], JSON_UNESCAPED_UNICODE)))}}"
+            {{/if}}
         >
             {{foreach $form_table['form'] as $t}}
                 {{if !isset($t['is_list']) or $t['is_list'] eq 1}}

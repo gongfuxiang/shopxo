@@ -55,7 +55,7 @@ class ArrTest extends TestCase
 
     public function testDivide()
     {
-        list($keys, $values) = Arr::divide(['name' => 'ThinkPHP']);
+        [$keys, $values] = Arr::divide(['name' => 'ThinkPHP']);
         $this->assertSame(['name'], $keys);
         $this->assertSame(['ThinkPHP'], $values);
     }
@@ -109,7 +109,7 @@ class ArrTest extends TestCase
     public function testLast()
     {
         $array = [100, 200, 300];
-        $last = Arr::last($array, function ($value) {
+        $last  = Arr::last($array, function ($value) {
             return $value < 250;
         });
         $this->assertSame(200, $last);
@@ -234,17 +234,17 @@ class ArrTest extends TestCase
     public function testPull()
     {
         $array = ['name' => 'ThinkPHP', 'price' => 100];
-        $name = Arr::pull($array, 'name');
+        $name  = Arr::pull($array, 'name');
         $this->assertSame('ThinkPHP', $name);
         $this->assertSame(['price' => 100], $array);
         // Only works on first level keys
         $array = ['i@example.com' => 'Joe', 'jack@localhost' => 'Jane'];
-        $name = Arr::pull($array, 'i@example.com');
+        $name  = Arr::pull($array, 'i@example.com');
         $this->assertSame('Joe', $name);
         $this->assertSame(['jack@localhost' => 'Jane'], $array);
         // Does not work for nested keys
         $array = ['emails' => ['i@example.com' => 'Joe', 'jack@localhost' => 'Jane']];
-        $name = Arr::pull($array, 'emails.i@example.com');
+        $name  = Arr::pull($array, 'emails.i@example.com');
         $this->assertNull($name);
         $this->assertSame(['emails' => ['i@example.com' => 'Joe', 'jack@localhost' => 'Jane']], $array);
     }
@@ -331,12 +331,42 @@ class ArrTest extends TestCase
 
     public function testWrap()
     {
-        $string = 'a';
-        $array = ['a'];
-        $object = new stdClass();
+        $string        = 'a';
+        $array         = ['a'];
+        $object        = new stdClass();
         $object->value = 'a';
         $this->assertSame(['a'], Arr::wrap($string));
         $this->assertSame($array, Arr::wrap($array));
         $this->assertSame([$object], Arr::wrap($object));
+    }
+
+    public function testMergeDeep()
+    {
+        $this->assertSame(
+            [
+                'a' => [
+                    'c' => [2],
+                    'e' => 5,
+                    'f' => 4,
+                ],
+                'x' => 3,
+            ],
+            Arr::mergeDeep(
+                [
+                    'a' => [
+                        'c' => [1],
+                        'e' => 5,
+                    ],
+                    'x' => 4,
+                ],
+                [
+                    'a' => [
+                        'c' => [2],
+                        'f' => 4,
+                    ],
+                    'x' => 3,
+                ]
+            )
+        );
     }
 }

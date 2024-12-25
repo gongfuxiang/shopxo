@@ -15,6 +15,7 @@ namespace think\model\relation;
 use Closure;
 use think\db\BaseQuery as Query;
 use think\db\exception\DbException as Exception;
+use think\db\exception\InvalidArgumentException;
 use think\helper\Str;
 use think\Model;
 use think\model\Relation;
@@ -71,7 +72,7 @@ abstract class OneToOne extends Relation
      *
      * @return void
      */
-    public function eagerly(Query $query, string $relation, $field = true, string $joinType = '', Closure $closure = null, bool $first = false): void
+    public function eagerly(Query $query, string $relation, $field = true, string $joinType = '', ?Closure $closure = null, bool $first = false): void
     {
         $name = Str::snake(class_basename($this->parent));
 
@@ -139,7 +140,7 @@ abstract class OneToOne extends Relation
      *
      * @return mixed
      */
-    abstract protected function eagerlySet(array &$resultSet, string $relation, array $subRelation = [], Closure $closure = null);
+    abstract protected function eagerlySet(array &$resultSet, string $relation, array $subRelation = [], ?Closure $closure = null);
 
     /**
      * 预载入关联查询（数据）.
@@ -151,7 +152,7 @@ abstract class OneToOne extends Relation
      *
      * @return mixed
      */
-    abstract protected function eagerlyOne(Model $result, string $relation, array $subRelation = [], Closure $closure = null);
+    abstract protected function eagerlyOne(Model $result, string $relation, array $subRelation = [], ?Closure $closure = null);
 
     /**
      * 预载入关联查询（数据集）.
@@ -165,7 +166,7 @@ abstract class OneToOne extends Relation
      *
      * @return void
      */
-    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation = [], Closure $closure = null, array $cache = [], bool $join = false): void
+    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation = [], ?Closure $closure = null, array $cache = [], bool $join = false): void
     {
         if ($join) {
             // 模型JOIN关联组装
@@ -190,7 +191,7 @@ abstract class OneToOne extends Relation
      *
      * @return void
      */
-    public function eagerlyResult(Model $result, string $relation, array $subRelation = [], Closure $closure = null, array $cache = [], bool $join = false): void
+    public function eagerlyResult(Model $result, string $relation, array $subRelation = [], ?Closure $closure = null, array $cache = [], bool $join = false): void
     {
         if ($join) {
             // 模型JOIN关联组装
@@ -232,7 +233,7 @@ abstract class OneToOne extends Relation
         // 保存关联表数据
         $data[$this->foreignKey] = $this->parent->{$this->localKey};
 
-        return new $this->model($data);
+        return (new $this->model($data))->setSuffix($this->getModel()->getSuffix());
     }
 
     /**
@@ -312,17 +313,28 @@ abstract class OneToOne extends Relation
      *
      * @return void
      */
-    protected function bindAttr(Model $result, Model $model = null): void
+    protected function bindAttr(Model $result, ?Model $model = null): void
     {
         foreach ($this->bindAttr as $key => $attr) {
-            $key    = is_numeric($key) ? $attr : $key;
-            $value  = $result->getOrigin($key);
+            if (is_numeric($key)) {
+                if (!is_string($attr)) {
+                    throw new InvalidArgumentException('bind attr must be string:' . $key);
+                }
 
-            if (!is_null($value)) {
+                $key = $attr;
+            }
+
+            if (null !== $result->getOrigin($key)) {
                 throw new Exception('bind attr has exists:' . $key);
             }
 
-            $result->setAttr($key, $model?->$attr);
+            if ($attr instanceof Closure) {
+                $value = $attr($model, $key, $result);
+            } else {
+                $value = $model?->getAttr($attr);
+            }
+
+            $result->setAttr($key, $value);
         }
     }
 
@@ -337,7 +349,7 @@ abstract class OneToOne extends Relation
      *
      * @return array
      */
-    protected function eagerlyWhere(array $where, string $key, array $subRelation = [], Closure $closure = null, array $cache = [])
+    protected function eagerlyWhere(array $where, string $key, array $subRelation = [], ?Closure $closure = null, array $cache = [])
     {
         // 预载入关联查询 支持嵌套预载入
         if ($closure) {

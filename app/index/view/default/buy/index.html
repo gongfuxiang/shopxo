@@ -143,7 +143,7 @@
                                             {{/if}}
                                             <span class="am-margin-right-xs">{{$base.address.name}}</span>
                                             <span class="am-margin-right-xs">{{$base.address.tel}}</span>
-                                            <p class="address-detail am-color-grey-dark">
+                                            <p class="address-detail">
                                                 <span>{{$base.address.province_name}}</span>
                                                 <span>{{$base.address.city_name}}</span>
                                                 <span>{{$base.address.county_name}}</span>
@@ -158,6 +158,26 @@
                                         <span class="iconfont icon-angle-right"></span>
                                     </div>
                                 </div>
+                                {{if (!empty($buy_extraction_contact_info) and isset($buy_extraction_contact_info['is_write']) and $buy_extraction_contact_info['is_write'] eq 1) or (!empty($buy_datetime_info) and isset($buy_datetime_info['is_select']) and $buy_datetime_info['is_select'] eq 1)}}
+                                    <div class="address-extend-field-container extraction-contact am-flex am-gap-32 am-margin-top">
+                                        {{if !empty($buy_extraction_contact_info) and isset($buy_extraction_contact_info['is_write']) and $buy_extraction_contact_info['is_write'] eq 1}}
+                                            <div class="item am-flex am-flex-items-center am-gap-1">
+                                                <p>{{:MyLang('buy.extraction_contact_name')}}</p>
+                                                <input type="text" form-name="extraction_contact_name" class="am-form-field am-radius" placeholder="{{:MyLang('buy.extraction_contact_name')}}" value="{{if !empty($buy_extraction_contact_info['name'])}}{{$buy_extraction_contact_info.name}}{{/if}}" />
+                                            </div>
+                                            <div class="item am-flex am-flex-items-center am-gap-1">
+                                                <p>{{:MyLang('buy.extraction_contact_tel')}}</p>
+                                                <input type="text" form-name="extraction_contact_tel" class="am-form-field am-radius" placeholder="{{:MyLang('buy.extraction_contact_tel_placeholder')}}" value="{{if !empty($buy_extraction_contact_info['tel'])}}{{$buy_extraction_contact_info.tel}}{{/if}}" />
+                                            </div>
+                                        {{/if}}
+                                        {{if !empty($buy_datetime_info) and isset($buy_datetime_info['is_select']) and $buy_datetime_info['is_select'] eq 1}}
+                                            <div class="item am-flex am-flex-items-center am-gap-1">
+                                                <p>{{:MyLang('appoint_time_title')}}</p>
+                                                <input type="text" form-name="appoint_time" class="am-form-field am-radius Wdate" autocomplete="off" placeholder="{{:MyLang('appoint_time_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm'})" />
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
                             </div>
                         {{else /}}
                             <div class="am-text-center">
@@ -194,7 +214,7 @@
                                                             <span class="am-margin-right-sm">{{$address.name}}</span>
                                                             <span class="am-margin-right-sm">{{$address.tel}}</span>
                                                         </p>
-                                                        <p class="address-detail am-color-grey-dark am-margin-bottom-sm am-margin-top-sm">
+                                                        <p class="address-detail am-margin-bottom-sm am-margin-top-sm">
                                                             <span>{{$address.province_name}}</span>
                                                             <span>{{$address.city_name}}</span>
                                                             <span>{{$address.county_name}}</span>
@@ -244,12 +264,12 @@
                         <div class="am-panel-bd am-padding-0">
                             <!-- 商品明细 -->
                             <table class="am-table am-margin-0">
-                                <thead>
+                                <thead class="am-text-left">
                                     <tr>
                                         <th>{{:MyLang('buy.goods_list_thead_base')}}</th>
                                         <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_price')}}</th>
                                         <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_number')}}</th>
-                                        <th class="am-hide-sm-only am-text-center">{{:MyLang('buy.goods_list_thead_total')}}</th>
+                                        <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_total')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -479,7 +499,7 @@
                                                         {{/php}}
                                                         <!-- 分组商品详情基础底部钩子-结束 -->
                                                     </td>
-                                                    <td class="am-hide-sm-only">
+                                                    <td class="am-hide-sm-only am-color-666">
                                                         {{if isset($goods['show_field_original_price_status']) and $goods['show_field_original_price_status'] eq 1}}
                                                             {{if $goods['original_price'] gt 0}}
                                                                 <p class="original-price">{{$goods.show_original_price_symbol}}{{$goods.original_price}}{{$goods.show_original_price_unit}}</p>
@@ -510,7 +530,7 @@
                                                         {{/php}}
                                                         <!-- 分组内商品列表价格钩子-结束 -->
                                                     </td>
-                                                    <td class="number am-hide-sm-only am-color-grey">
+                                                    <td class="number am-hide-sm-only am-color-666">
                                                         <span>{{$goods.stock}} {{$goods.inventory_unit}}</span>
                                                         <!-- 分组内商品列表数量钩子-开始 -->
                                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -536,7 +556,7 @@
                                                     </td>
                                                     <td class="total-price am-hide-sm-only am-color-grey-dark">
                                                         {{if isset($goods['show_field_price_status']) and $goods['show_field_price_status'] eq 1}}
-                                                            <span>{{$goods.show_price_symbol}}</span><strong class="line-price total-price-content">{{$goods.total_price}}</strong>
+                                                            <strong>{{$goods.show_price_symbol}}</strong><strong class="total-price-content">{{$goods.total_price}}</strong>
                                                         {{/if}}
                                                         <!-- 分组内商品列表总价钩子-开始 -->
                                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -729,7 +749,10 @@
                                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
                                     {{foreach $payment_list as $payment}}
                                         <li data-value="{{$payment.id}}" class="am-padding-sm am-padding-left-main am-padding-right-main am-text-center {{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
-                                            <div class="business-item am-nbfc am-padding-sm am-radius">
+                                            <div class="business-item am-padding-sm am-radius">
+                                                {{if !empty($payment['tips'])}}
+                                                    <p class="tips">{{$payment.tips}}</p>
+                                                {{/if}}
                                                 {{if !empty($payment.logo)}}
                                                     <img class="am-margin-right-xs am-radius" src="{{$payment.logo}}" class="am-radius" />
                                                 {{/if}}
@@ -850,6 +873,9 @@
                         <input type="hidden" name="payment_id" value="{{if isset($params['payment_id'])}}{{$params.payment_id}}{{else /}}0{{/if}}" />
                         <input type="hidden" name="user_note" value="" />
                         <input type="hidden" name="site_model" value="{{if isset($base['site_model'])}}{{$base.site_model}}{{else /}}0{{/if}}" />
+                        <input type="hidden" name="appoint_time" class="am-form-field am-radius" value="" />
+                        <input type="hidden" name="extraction_contact_name" class="am-form-field am-radius" value="{{if !empty($user['nickname'])}}{{$user.nickname}}{{/if}}" />
+                        <input type="hidden" name="extraction_contact_tel" class="am-form-field am-radius" value="{{if !empty($user['mobile'])}}{{$user.mobile}}{{/if}}" />
                         <!-- 订单确认页面提交订单表单内部钩子-开始 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">

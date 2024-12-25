@@ -11,7 +11,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Gnumeric\Styles;
 use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
 use PhpOffice\PhpSpreadsheet\ReferenceHelper;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
-use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Shared\File;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -80,17 +79,15 @@ class Gnumeric extends BaseReader
      */
     public function canRead(string $filename): bool
     {
-        // Check if gzlib functions are available
-        if (File::testFileNoThrow($filename) && function_exists('gzread')) {
-            // Read signature data (first 3 bytes)
-            $fh = fopen($filename, 'rb');
-            if ($fh !== false) {
-                $data = fread($fh, 2);
-                fclose($fh);
+        $data = null;
+        if (File::testFileNoThrow($filename)) {
+            $data = $this->gzfileGetContents($filename);
+            if (strpos($data, self::NAMESPACE_GNM) === false) {
+                $data = '';
             }
         }
 
-        return isset($data) && $data === chr(0x1F) . chr(0x8B);
+        return !empty($data);
     }
 
     private static function matchXml(XMLReader $xml, string $expectedLocalName): bool
@@ -110,9 +107,13 @@ class Gnumeric extends BaseReader
     public function listWorksheetNames($filename)
     {
         File::assertFile($filename);
+        if (!$this->canRead($filename)) {
+            throw new Exception($filename . ' is an invalid Gnumeric file.');
+        }
 
         $xml = new XMLReader();
-        $xml->xml($this->getSecurityScannerOrThrow()->scanFile('compress.zlib://' . realpath($filename)), null, Settings::getLibXmlLoaderOptions());
+        $contents = $this->gzfileGetContents($filename);
+        $xml->xml($contents);
         $xml->setParserProperty(2, true);
 
         $worksheetNames = [];
@@ -139,9 +140,13 @@ class Gnumeric extends BaseReader
     public function listWorksheetInfo($filename)
     {
         File::assertFile($filename);
+        if (!$this->canRead($filename)) {
+            throw new Exception($filename . ' is an invalid Gnumeric file.');
+        }
 
         $xml = new XMLReader();
-        $xml->xml($this->getSecurityScannerOrThrow()->scanFile('compress.zlib://' . realpath($filename)), null, Settings::getLibXmlLoaderOptions());
+        $contents = $this->gzfileGetContents($filename);
+        $xml->xml($contents);
         $xml->setParserProperty(2, true);
 
         $worksheetInfo = [];
@@ -185,13 +190,23 @@ class Gnumeric extends BaseReader
      */
     private function gzfileGetContents($filename)
     {
-        $file = @gzopen($filename, 'rb');
         $data = '';
-        if ($file !== false) {
-            while (!gzeof($file)) {
-                $data .= gzread($file, 1024);
+        $contents = @file_get_contents($filename);
+        if ($contents !== false) {
+            if (substr($contents, 0, 2) === "\x1f\x8b") {
+                // Check if gzlib functions are available
+                if (function_exists('gzdecode')) {
+                    $contents = @gzdecode($contents);
+                    if ($contents !== false) {
+                        $data = $contents;
+                    }
+                }
+            } else {
+                $data = $contents;
             }
-            gzclose($file);
+        }
+        if ($data !== '') {
+            $data = $this->getSecurityScannerOrThrow()->scan($data);
         }
 
         return $data;
@@ -245,10 +260,13 @@ class Gnumeric extends BaseReader
     {
         $this->spreadsheet = $spreadsheet;
         File::assertFile($filename);
+        if (!$this->canRead($filename)) {
+            throw new Exception($filename . ' is an invalid Gnumeric file.');
+        }
 
         $gFileData = $this->gzfileGetContents($filename);
 
-        $xml2 = simplexml_load_string($this->getSecurityScannerOrThrow()->scan($gFileData), 'SimpleXMLElement', Settings::getLibXmlLoaderOptions());
+        $xml2 = simplexml_load_string($gFileData);
         $xml = self::testSimpleXml($xml2);
 
         $gnmXML = $xml->children(self::NAMESPACE_GNM);

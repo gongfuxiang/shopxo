@@ -93,6 +93,12 @@ class Console
         //加载指令
         $this->loadCommands();
 
+        // 设置执行用户
+        $user = $this->app->config->get('console.user');
+        if (!empty($user)) {
+            $this->setUser($user);
+        }
+
         $this->start();
     }
 
@@ -590,7 +596,7 @@ class Console
      * @return Command[]
      * @api
      */
-    public function all(string $namespace = null): array
+    public function all(?string $namespace = null): array
     {
         if (null === $namespace) {
             return $this->commands;

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 百度小程序支付
  * @author   Devil
@@ -149,7 +151,7 @@ class BaiduMini
         }
 
         // 支付参数
-        $data = [
+        $parameter = [
             'dealId'            => $this->config['dealid'],
             'appKey'            => $this->config['appkey'],
             'totalAmount'       => (int) (($params['total_price']*1000)/10),
@@ -159,20 +161,24 @@ class BaiduMini
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,
         ];
-        $data['rsaSign'] = $this->SignWithRsa($data);
+        $parameter['rsaSign'] = $this->SignWithRsa($parameter);
         $biz_info = [
             'tpData'    => [
-                'appKey'        => $data['appKey'],
-                'dealId'        => $data['dealId'],
-                'tpOrderId'     => $data['tpOrderId'],
-                'rsaSign'       => $data['rsaSign'],
-                'totalAmount'   => $data['totalAmount'],
+                'appKey'        => $parameter['appKey'],
+                'dealId'        => $parameter['dealId'],
+                'tpOrderId'     => $parameter['tpOrderId'],
+                'rsaSign'       => $parameter['rsaSign'],
+                'totalAmount'   => $parameter['totalAmount'],
                 'returnData'    => (object) [],
                 'displayData'   => (object) [],
             ],
         ];
-        $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
-        return DataReturn('处理成功', 0, $data);
+        $parameter['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        return DataReturn('处理成功', 0, $parameter);
     }
 
     /**

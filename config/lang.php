@@ -12,9 +12,10 @@
 // +----------------------------------------------------------------------
 // | 多语言设置
 // +----------------------------------------------------------------------
+$default_lang = MyFileConfig('common_multilingual_user_default_value', '', 'zh', true);
 return [
     // 默认语言
-    'default_lang'    => MyFileConfig('common_multilingual_default_value', '', 'zh', true),
+    'default_lang'    => empty($default_lang) ? 'zh' : $default_lang,
     // 允许的语言列表（preg 正则匹配、code 语言编码、语言名称在对应语言文件中）
     // app/service/MultilingualService.php 文件中处理语言逻辑
     // app/service/ConstService.php 文件中对应common_multilingual_list语言列表

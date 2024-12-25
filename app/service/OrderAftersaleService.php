@@ -1365,14 +1365,17 @@ class OrderAftersaleService
         // 如果支付金额与支付单总额仅相差一分钱则使用支付单总额（该问题可能在有些支付会转换为分的情况下出现精度原因造成金额不一致）
         $pay_price = ($pay_log['total_price']-$pay_log['pay_price'] <= 0.01) ? $pay_log['total_price'] : $pay_log['pay_price'];
         $pay_params = [
-            'order_id'          => $order['id'],
             'order_no'          => $pay_log['log_no'],
             'trade_no'          => $pay_log['trade_no'],
             'pay_price'         => $pay_price,
+            'pay_time'          => $pay_log['pay_time'],
             'refund_price'      => $aftersale['price'],
+            'aftersale'         => $aftersale,
+            'order'             => $order,
+            'business_id'       => $order['id'],
+            'business_no'       => $order['order_no'],
             'client_type'       => $order['client_type'],
             'refund_reason'     => $msg,
-            'pay_time'          => $pay_log['pay_time'],
             'pay_log_data'      => $pay_log,
             'currency_data'     => $currency_data,
         ];
@@ -1407,19 +1410,20 @@ class OrderAftersaleService
 
         // 写入退款日志
         $refund_log = [
-            'user_id'       => $order['user_id'],
-            'business_id'   => $order['id'],
-            'pay_price'     => $order['pay_price'],
-            'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
-            'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
-            'refund_price'  => isset($ret['data']['refund_price']) ? $ret['data']['refund_price'] : '',
-            'msg'           => $pay_params['refund_reason'],
-            'pay_id'        => $pay_log['id'],
-            'payment'       => $pay_log['payment'],
-            'payment_name'  => $pay_log['payment_name'],
-            'refundment'    => $params['refundment'],
-            'business_type' => OrderService::BusinessTypeName(),
-            'return_params' => isset($ret['data']['return_params']) ? $ret['data']['return_params'] : '',
+            'user_id'         => $order['user_id'],
+            'business_id'     => $order['id'],
+            'pay_price'       => $order['pay_price'],
+            'trade_no'        => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
+            'buyer_user'      => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
+            'request_params'  => isset($ret['data']['request_params']) ? $ret['data']['request_params'] : '',
+            'refund_price'    => isset($ret['data']['refund_price']) ? $ret['data']['refund_price'] : '',
+            'msg'             => $pay_params['refund_reason'],
+            'pay_id'          => $pay_log['id'],
+            'payment'         => $pay_log['payment'],
+            'payment_name'    => $pay_log['payment_name'],
+            'refundment'      => $params['refundment'],
+            'business_type'   => OrderService::BusinessTypeName(),
+            'return_params'   => isset($ret['data']['return_params']) ? $ret['data']['return_params'] : '',
         ];
         RefundLogService::RefundLogInsert($refund_log);
         return $ret;

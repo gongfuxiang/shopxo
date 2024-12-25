@@ -24,6 +24,12 @@ use Traversable;
 
 /**
  * 数据集管理类
+ *
+ * @template TKey of array-key
+ * @template-covariant TValue
+ *
+ * @implements ArrayAccess<TKey, TValue>
+ * @implements IteratorAggregate<TKey, TValue>
  */
 class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Arrayable, Jsonable
 {
@@ -33,11 +39,19 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     protected $items = [];
 
+    /**
+     * 构造函数
+     * @param iterable<TKey, TValue>|Collection<TKey, TValue> $items 数据
+     */
     public function __construct($items = [])
     {
         $this->items = $this->convertToArray($items);
     }
 
+    /**
+     * @param iterable<TKey, TValue>|Collection<TKey, TValue> $items
+     * @return static<TKey, TValue>
+     */
     public static function make($items = [])
     {
         return new static($items);
@@ -45,7 +59,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 是否为空
-     * @access public
      * @return bool
      */
     public function isEmpty(): bool
@@ -60,6 +73,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         }, $this->items);
     }
 
+    /**
+     * @return array<TKey, TValue>
+     */
     public function all(): array
     {
         return $this->items;
@@ -68,7 +84,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 合并数组
      *
-     * @access public
      * @param mixed $items 数据
      * @return static
      */
@@ -80,12 +95,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 按指定键整理数据
      *
-     * @access public
      * @param mixed  $items    数据
-     * @param string $indexKey 键名
+     * @param string|null $indexKey 键名
      * @return array
      */
-    public function dictionary($items = null, string &$indexKey = null)
+    public function dictionary($items = null, ?string &$indexKey = null)
     {
         if ($items instanceof self) {
             $items = $items->all();
@@ -107,12 +121,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 比较数组，返回差集
      *
-     * @access public
      * @param mixed  $items    数据
-     * @param string $indexKey 指定比较的键名
-     * @return static
+     * @param string|null $indexKey 指定比较的键名
+     * @return static<TKey, TValue>
      */
-    public function diff($items, string $indexKey = null)
+    public function diff($items, ?string $indexKey = null)
     {
         if ($this->isEmpty() || is_scalar($this->items[0])) {
             return new static(array_diff($this->items, $this->convertToArray($items)));
@@ -135,12 +148,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 比较数组，返回交集
      *
-     * @access public
      * @param mixed  $items    数据
-     * @param string $indexKey 指定比较的键名
-     * @return static
+     * @param string|null $indexKey 指定比较的键名
+     * @return static<TKey, TValue>
      */
-    public function intersect($items, string $indexKey = null)
+    public function intersect($items, ?string $indexKey = null)
     {
         if ($this->isEmpty() || is_scalar($this->items[0])) {
             return new static(array_intersect($this->items, $this->convertToArray($items)));
@@ -163,8 +175,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 交换数组中的键和值
      *
-     * @access public
-     * @return static
+     * @return static<TValue, TKey>
      */
     public function flip()
     {
@@ -174,8 +185,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 返回数组中所有的键名
      *
-     * @access public
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function keys()
     {
@@ -184,8 +194,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 返回数组中所有的值组成的新 Collection 实例
-     * @access public
-     * @return static
+     * @return static<int, TValue>
      */
     public function values()
     {
@@ -195,8 +204,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 删除数组的最后一个元素（出栈）
      *
-     * @access public
-     * @return mixed
+     * @return TValue
      */
     public function pop()
     {
@@ -206,7 +214,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 通过使用用户自定义函数，以字符串返回数组
      *
-     * @access public
      * @param callable $callback 调用方法
      * @param mixed    $initial
      * @return mixed
@@ -219,8 +226,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 以相反的顺序返回数组。
      *
-     * @access public
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function reverse()
     {
@@ -230,8 +236,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 删除数组中首个元素，并返回被删除元素的值
      *
-     * @access public
-     * @return mixed
+     * @return TValue
      */
     public function shift()
     {
@@ -240,12 +245,12 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 在数组结尾插入一个元素
-     * @access public
+     *
      * @param mixed  $value 元素
-     * @param string $key   KEY
+     * @param string|null $key   KEY
      * @return $this
      */
-    public function push($value, string $key = null)
+    public function push($value, ?string $key = null)
     {
         if (is_null($key)) {
             $this->items[] = $value;
@@ -259,7 +264,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 把一个数组分割为新的数组块.
      *
-     * @access public
      * @param int  $size 块大小
      * @param bool $preserveKeys
      * @return static
@@ -277,12 +281,12 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 在数组开头插入一个元素
-     * @access public
+     *
      * @param mixed  $value 元素
-     * @param string $key   KEY
+     * @param string|null $key   KEY
      * @return $this
      */
-    public function unshift($value, string $key = null)
+    public function unshift($value, ?string $key = null)
     {
         if (is_null($key)) {
             array_unshift($this->items, $value);
@@ -296,7 +300,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 给每个元素执行个回调
      *
-     * @access public
+     *
      * @param callable $callback 回调
      * @return $this
      */
@@ -317,9 +321,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 用回调函数处理数组中的元素
-     * @access public
+     *
      * @param callable|null $callback 回调
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function map(callable $callback)
     {
@@ -328,11 +332,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 用回调函数过滤数组中的元素
-     * @access public
+     *
      * @param callable|null $callback 回调
-     * @return static
+     * @return static<TKey, TValue>
      */
-    public function filter(callable $callback = null)
+    public function filter(?callable $callback = null)
     {
         if ($callback) {
             return new static(array_filter($this->items, $callback));
@@ -343,11 +347,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 根据字段条件过滤数组中的元素
-     * @access public
+     *
      * @param string $field    字段名
      * @param mixed  $operator 操作符
      * @param mixed  $value    数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function where(string $field, $operator, $value = null)
     {
@@ -405,10 +409,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * LIKE过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param string $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereLike(string $field, string $value)
     {
@@ -417,10 +421,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * NOT LIKE过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param string $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereNotLike(string $field, string $value)
     {
@@ -429,10 +433,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * IN过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param array  $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereIn(string $field, array $value)
     {
@@ -441,10 +445,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * NOT IN过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param array  $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereNotIn(string $field, array $value)
     {
@@ -453,10 +457,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * BETWEEN 过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param mixed  $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereBetween(string $field, $value)
     {
@@ -465,10 +469,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * NOT BETWEEN 过滤
-     * @access public
+     *
      * @param string $field 字段名
      * @param mixed  $value 数据
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function whereNotBetween(string $field, $value)
     {
@@ -477,12 +481,12 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 返回数据中指定的一列
-     * @access public
+     *
      * @param string|null $columnKey 键名
      * @param string|null $indexKey  作为索引值的列
      * @return array
      */
-    public function column( ? string $columnKey, string $indexKey = null)
+    public function column(?string $columnKey, ?string $indexKey = null)
     {
         return array_column($this->items, $columnKey, $indexKey);
     }
@@ -490,11 +494,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 对数组排序
      *
-     * @access public
      * @param callable|null $callback 回调
-     * @return static
+     * @return static<TKey, TValue>
      */
-    public function sort(callable $callback = null)
+    public function sort(?callable $callback = null)
     {
         $items = $this->items;
 
@@ -509,7 +512,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 指定字段排序
-     * @access public
+     *
      * @param string $field 排序字段
      * @param string $order 排序
      * @return $this
@@ -527,8 +530,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 将数组打乱
      *
-     * @access public
-     * @return static
+     * @return static<TKey, TValue>
      */
     public function shuffle()
     {
@@ -542,12 +544,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 获取第一个单元数据
      *
-     * @access public
      * @param callable|null $callback
      * @param null          $default
-     * @return mixed
+     * @return TValue
      */
-    public function first(callable $callback = null, $default = null)
+    public function first(?callable $callback = null, $default = null)
     {
         return Arr::first($this->items, $callback, $default);
     }
@@ -555,12 +556,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 获取最后一个单元数据
      *
-     * @access public
      * @param callable|null $callback
      * @param null          $default
-     * @return mixed
+     * @return TValue
      */
-    public function last(callable $callback = null, $default = null)
+    public function last(?callable $callback = null, $default = null)
     {
         return Arr::last($this->items, $callback, $default);
     }
@@ -568,30 +568,41 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 截取数组
      *
-     * @access public
      * @param int  $offset       起始位置
-     * @param int  $length       截取长度
+     * @param int|null $length       截取长度
      * @param bool $preserveKeys preserveKeys
-     * @return static
+     * @return static<TKey, TValue>
      */
-    public function slice(int $offset, int $length = null, bool $preserveKeys = false)
+    public function slice(int $offset, ?int $length = null, bool $preserveKeys = false)
     {
         return new static(array_slice($this->items, $offset, $length, $preserveKeys));
     }
 
-    // ArrayAccess
+    /**
+     * @param TKey $key
+     * @return bool
+     */
     #[\ReturnTypeWillChange]
     public function offsetExists($offset) : bool
     {
         return array_key_exists($offset, $this->items);
     }
 
+    /**
+     * @param TKey $offset
+     * @return TValue
+     */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->items[$offset];
     }
 
+    /**
+     * @param TKey|null $offset
+     * @param TValue $value
+     * @return void
+     */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
@@ -602,6 +613,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         }
     }
 
+    /**
+     * @param TKey $offset
+     * @return void
+     */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
@@ -614,7 +629,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return count($this->items);
     }
 
-    //IteratorAggregate
+    /**
+     * @return ArrayIterator<TKey, TValue>
+     */
     #[\ReturnTypeWillChange]
     public function getIterator(): Traversable
     {
@@ -630,7 +647,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * 转换当前数据集为JSON字符串
-     * @access public
+     *
      * @param integer $options json参数
      * @return string
      */
@@ -647,7 +664,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 转换成数组
      *
-     * @access public
      * @param mixed $items 数据
      * @return array
      */

@@ -459,7 +459,11 @@ function GoodsSpecType()
  */
 function GoodsBrowserHistoryUrlChange()
 {
-   history.pushState({}, '', UrlFieldReplace('spec', null));
+    // 仅参数存在spec则改变url地址
+    if(GetQueryValue('spec') != false)
+    {
+        history.pushState({}, '', UrlFieldReplace('spec', null));
+    }
 }
 
 /**

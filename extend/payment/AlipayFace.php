@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 支付宝当面付
  * @author   Devil
@@ -162,7 +164,9 @@ class AlipayFace
         // 生成签名参数+签名
         $sp = $this->GetParamSign($parameter);
         $parameter['sign'] = $this->MyRsaSign($sp['value']);
-        
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 执行请求
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
@@ -191,13 +195,15 @@ class AlipayFace
                     ];
                 } else {
                     $pay_params = [
-                        'url'       => urlencode(base64_encode($result[$key]['qr_code'])),
+                        'type'      => 'alipay',
+                        'url'       => $result[$key]['qr_code'],
                         'order_no'  => $params['order_no'],
-                        'name'      => urlencode('支付宝支付'),
-                        'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
-                        'check_url' => urlencode(base64_encode($params['check_url'])),
+                        'name'      => '支付宝支付',
+                        'msg'       => '打开支付宝APP扫一扫进行支付',
+                        'check_url' => $params['check_url'],
                     ];
-                    $data = MyUrl('index/pay/qrcode', $pay_params);
+                    MySession('payment_qrcode_data', $pay_params);
+                    $data = MyUrl('index/pay/qrcode');
                 }
                 return DataReturn('success', 0, $data);
             }
@@ -364,11 +370,12 @@ class AlipayFace
 
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
-                'trade_no'      => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
-                'buyer_user'    => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
-                'refund_price'  => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
-                'return_params' => $result[$key],
+                'out_trade_no'    => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
+                'trade_no'        => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
+                'buyer_user'      => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
+                'refund_price'    => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
+                'return_params'   => $result[$key],
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

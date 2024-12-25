@@ -130,7 +130,6 @@ class GoodsBrowse
                 'order_by'      => 'b.id desc',
                 'detail_dkey'   => 'b.id',
                 'data_handle'   => 'GoodsBrowseService::GoodsBrowseListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

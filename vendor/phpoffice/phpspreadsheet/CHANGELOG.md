@@ -5,6 +5,123 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com)
 and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 1.29.6 - 2024-12-08
+
+### Fixed
+
+- Fix Minor Break Handling Drawings. Backport of [PR #4244](https://github.com/PHPOffice/PhpSpreadsheet/pull/4244)
+- Upgrade locked version of Tcpdf (security advisory).
+- Upgrade locked version of Dompdf (Php8.4 compatibility).
+- Remove unnecessary files from Composer package.
+
+## 1.29.5 - 2024-11-22
+
+### Changed
+
+- Settings::libXmlLoaderOptions is ignored. Backport of [PR #4233](https://github.com/PHPOffice/PhpSpreadsheet/pull/4233)
+
+### Deprecated
+
+- Settings::setLibXmlLoaderOptions() and Settings::getLibXmlLoaderOptions() are no longer needed - no replacement.
+
+## 1.29.4 - 2024-11-10
+
+### Fixed
+
+- 1.29.3 omitted
+- Backported security patches.
+- Write ignoredErrors Tag Before Drawings. Backport of [PR #4212](https://github.com/PHPOffice/PhpSpreadsheet/pull/4212) intended for 3.4.0.
+- Changes to ROUNDDOWN/ROUNDUP/TRUNC. Backport of [PR #4214](https://github.com/PHPOffice/PhpSpreadsheet/pull/4214) intended for 3.4.0.
+- Replace str_starts_with in Drawing. [Issue #4215](https://github.com/PHPOffice/PhpSpreadsheet/issues/4215)
+
+### Added
+
+- Method to Test Whether Csv Will Be Affected by Php9. Backport of [PR #4189](https://github.com/PHPOffice/PhpSpreadsheet/pull/4189)  intended for 3.4.0.
+
+## 1.29.2 - 2024-09-29
+
+### Fixed
+
+- Backported security patches.
+- Support for Php8.4.
+- Change to Csv Reader (see below under Deprecated). Backport of PR #4162 intended for 3.0.0. [Issue #4161](https://github.com/PHPOffice/PhpSpreadsheet/issues/4161)
+- Tweaks to ROUNDUP, ROUNDDOWN, TRUNC, AMORDEGRC (results had been different under 8.4).
+
+### Changed
+
+- Images will not be added to spreadsheet if they cannot be validated as images.
+
+### Deprecated
+
+- Php8.4 will deprecate the escape parameter of fgetcsv. Csv Reader is affected by this; code is changed to be unaffected, but this will mean a breaking change is coming with Php9. Any code which uses the default escape value of backslash will fail in Php9. It is recommended to explicitly set the escape value to null string before then.
+
+## 1.29.1 - 2024-09-03
+
+### Fixed
+
+- Backported security patches.
+
+## 1.29.0 - 2023-06-15
+
+### Added
+
+- Wizards for defining Number Format masks for Dates and Times, including Durations/Intervals. [PR #3458](https://github.com/PHPOffice/PhpSpreadsheet/pull/3458)
+- Specify data type in html tags. [Issue #3444](https://github.com/PHPOffice/PhpSpreadsheet/issues/3444) [PR #3445](https://github.com/PHPOffice/PhpSpreadsheet/pull/3445)
+- Provide option to ignore hidden rows/columns in `toArray()` methods. [PR #3494](https://github.com/PHPOffice/PhpSpreadsheet/pull/3494)
+- Font/Effects/Theme support for Chart Data Labels and Axis. [PR #3476](https://github.com/PHPOffice/PhpSpreadsheet/pull/3476)
+- Font Themes support. [PR #3486](https://github.com/PHPOffice/PhpSpreadsheet/pull/3486)
+- Ability to Ignore Cell Errors in Excel. [Issue #1141](https://github.com/PHPOffice/PhpSpreadsheet/issues/1141) [PR #3508](https://github.com/PHPOffice/PhpSpreadsheet/pull/3508)
+- Unzipped Gnumeric file [PR #3591](https://github.com/PHPOffice/PhpSpreadsheet/pull/3591)
+
+### Changed
+
+- Xlsx Color schemes read in will be written out (previously Excel 2007-2010 Color scheme was always written); manipulation of those schemes before write, including restoring prior behavior, is provided [PR #3476](https://github.com/PHPOffice/PhpSpreadsheet/pull/3476)
+- Memory and speed optimisations for Read Filters with Xlsx Files and Shared Formulae. [PR #3474](https://github.com/PHPOffice/PhpSpreadsheet/pull/3474)
+- Allow `CellRange` and `CellAddress` objects for the `range` argument in the `rangeToArray()` method. [PR #3494](https://github.com/PHPOffice/PhpSpreadsheet/pull/3494)
+- Stock charts will now read and reproduce `upDownBars` and subsidiary tags; these were previously ignored on read and hard-coded on write. [PR #3515](https://github.com/PHPOffice/PhpSpreadsheet/pull/3515)
+
+### Deprecated
+
+- Nothing
+
+### Removed
+
+- Nothing
+
+### Fixed
+
+- Updates Cell formula absolute ranges/references, and Defined Name absolute ranges/references when inserting/deleting rows/columns. [Issue #3368](https://github.com/PHPOffice/PhpSpreadsheet/issues/3368) [PR #3402](https://github.com/PHPOffice/PhpSpreadsheet/pull/3402)
+- EOMONTH() and EDATE() Functions should round date value before evaluation. [Issue #3436](https://github.com/PHPOffice/PhpSpreadsheet/issues/3436) [PR #3437](https://github.com/PHPOffice/PhpSpreadsheet/pull/3437)
+- NETWORKDAYS function erroneously being converted to NETWORK_xlfn.DAYS in Xlsx Writer. [Issue #3461](https://github.com/PHPOffice/PhpSpreadsheet/issues/3461) [PR #3463](https://github.com/PHPOffice/PhpSpreadsheet/pull/3463)
+- Getting a style for a CellAddress instance fails if the worksheet is set in the CellAddress instance. [Issue #3439](https://github.com/PHPOffice/PhpSpreadsheet/issues/3439) [PR #3469](https://github.com/PHPOffice/PhpSpreadsheet/pull/3469)
+- Shared Formulae outside the filter range when reading with a filter are not always being identified. [Issue #3473](https://github.com/PHPOffice/PhpSpreadsheet/issues/3473) [PR #3474](https://github.com/PHPOffice/PhpSpreadsheet/pull/3474)
+- Xls Reader Conditional Styles. [PR #3400](https://github.com/PHPOffice/PhpSpreadsheet/pull/3400)
+- Allow use of # and 0 digit placeholders in fraction masks. [PR #3401](https://github.com/PHPOffice/PhpSpreadsheet/pull/3401)
+- Modify Date/Time check in the NumberFormatter for decimal/fractional times. [PR #3413](https://github.com/PHPOffice/PhpSpreadsheet/pull/3413)
+- Misplaced Xml Writing Chart Label FillColor. [Issue #3397](https://github.com/PHPOffice/PhpSpreadsheet/issues/3397) [PR #3404](https://github.com/PHPOffice/PhpSpreadsheet/pull/3404)
+- TEXT function ignores Time in DateTimeStamp. [Issue #3409](https://github.com/PHPOffice/PhpSpreadsheet/issues/3409) [PR #3411](https://github.com/PHPOffice/PhpSpreadsheet/pull/3411)
+- Xlsx Column Autosize Approximate for CJK. [Issue #3405](https://github.com/PHPOffice/PhpSpreadsheet/issues/3405) [PR #3416](https://github.com/PHPOffice/PhpSpreadsheet/pull/3416)
+- Correct Xlsx Parsing of quotePrefix="0". [Issue #3435](https://github.com/PHPOffice/PhpSpreadsheet/issues/3435) [PR #3438](https://github.com/PHPOffice/PhpSpreadsheet/pull/3438)
+- More Display Options for Chart Axis and Legend. [Issue #3414](https://github.com/PHPOffice/PhpSpreadsheet/issues/3414) [PR #3434](https://github.com/PHPOffice/PhpSpreadsheet/pull/3434)
+- Apply strict type checking to Complex suffix. [PR #3452](https://github.com/PHPOffice/PhpSpreadsheet/pull/3452)
+- Incorrect Font Color Read Xlsx Rich Text Indexed Color Custom Palette. [Issue #3464](https://github.com/PHPOffice/PhpSpreadsheet/issues/3464) [PR #3465](https://github.com/PHPOffice/PhpSpreadsheet/pull/3465)
+- Xlsx Writer Honor Alignment in Default Font. [Issue #3443](https://github.com/PHPOffice/PhpSpreadsheet/issues/3443) [PR #3459](https://github.com/PHPOffice/PhpSpreadsheet/pull/3459)
+- Support Border for Charts. [PR #3462](https://github.com/PHPOffice/PhpSpreadsheet/pull/3462)
+- Error in "this row" structured reference calculation (cached result from first row when using a range) [Issue #3504](https://github.com/PHPOffice/PhpSpreadsheet/issues/3504) [PR #3505](https://github.com/PHPOffice/PhpSpreadsheet/pull/3505)
+- Allow colour palette index references in Number Format masks [Issue #3511](https://github.com/PHPOffice/PhpSpreadsheet/issues/3511) [PR #3512](https://github.com/PHPOffice/PhpSpreadsheet/pull/3512)
+- Xlsx Reader formula with quotePrefix [Issue #3495](https://github.com/PHPOffice/PhpSpreadsheet/issues/3495) [PR #3497](https://github.com/PHPOffice/PhpSpreadsheet/pull/3497)
+- Handle REF error as part of range [Issue #3453](https://github.com/PHPOffice/PhpSpreadsheet/issues/3453) [PR #3467](https://github.com/PHPOffice/PhpSpreadsheet/pull/3467)
+- Handle Absolute Pathnames in Rels File [Issue #3553](https://github.com/PHPOffice/PhpSpreadsheet/issues/3553) [PR #3554](https://github.com/PHPOffice/PhpSpreadsheet/pull/3554)
+- Return Page Breaks in Order [Issue #3552](https://github.com/PHPOffice/PhpSpreadsheet/issues/3552) [PR #3555](https://github.com/PHPOffice/PhpSpreadsheet/pull/3555)
+- Add position attribute for MemoryDrawing in Html [Issue #3529](https://github.com/PHPOffice/PhpSpreadsheet/issues/3529 [PR #3535](https://github.com/PHPOffice/PhpSpreadsheet/pull/3535)
+- Allow Index_number as Array for VLOOKUP/HLOOKUP [Issue #3561](https://github.com/PHPOffice/PhpSpreadsheet/issues/3561 [PR #3570](https://github.com/PHPOffice/PhpSpreadsheet/pull/3570)
+- Add Unsupported Options in Xml Spreadsheet [Issue #3566](https://github.com/PHPOffice/PhpSpreadsheet/issues/3566 [Issue #3568](https://github.com/PHPOffice/PhpSpreadsheet/issues/3568 [Issue #3569](https://github.com/PHPOffice/PhpSpreadsheet/issues/3569 [PR #3567](https://github.com/PHPOffice/PhpSpreadsheet/pull/3567)
+- Changes to NUMBERVALUE, VALUE, DATEVALUE, TIMEVALUE [Issue #3574](https://github.com/PHPOffice/PhpSpreadsheet/issues/3574 [PR #3575](https://github.com/PHPOffice/PhpSpreadsheet/pull/3575)
+- Redo calculation of color tinting [Issue #3550](https://github.com/PHPOffice/PhpSpreadsheet/issues/3550) [PR #3580](https://github.com/PHPOffice/PhpSpreadsheet/pull/3580)
+- Accommodate Slash with preg_quote [PR #3582](https://github.com/PHPOffice/PhpSpreadsheet/pull/3582) [PR #3583](https://github.com/PHPOffice/PhpSpreadsheet/pull/3583) [PR #3584](https://github.com/PHPOffice/PhpSpreadsheet/pull/3584)
+- HyperlinkBase Property and Html Handling of Properties [Issue #3573](https://github.com/PHPOffice/PhpSpreadsheet/issues/3573) [PR #3589](https://github.com/PHPOffice/PhpSpreadsheet/pull/3589)
+- Improvements for Data Validation [Issue #3592](https://github.com/PHPOffice/PhpSpreadsheet/issues/3592) [Issue #3594](https://github.com/PHPOffice/PhpSpreadsheet/issues/3594) [PR #3605](https://github.com/PHPOffice/PhpSpreadsheet/pull/3605)
+
 ## 1.28.0 - 2023-02-25
 
 ### Added

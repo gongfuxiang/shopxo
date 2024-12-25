@@ -163,6 +163,9 @@ return [
         'payment_layer_content'                 => 'El pago falló o no respondió durante mucho tiempo',
         'payment_layer_order_button_text'       => 'Mi pedido',
         'payment_layer_tips'                    => 'Después de eso, se puede reiniciar el pago.',
+        'extraction_contact_name'               => 'Mi nombre',
+        'extraction_contact_tel'                => 'Mi teléfono',
+        'extraction_contact_tel_placeholder'    => 'Mi teléfono móvil o fijo',
     ],
 
     // 文章
@@ -215,6 +218,7 @@ return [
         'form_payment_no_data_tips'             => 'No hay método de pago',
         'order_base_title'                      => 'Información del pedido',
         'order_status_title'                    => 'Estado del pedido',
+        'order_contact_title'                   => 'Contactos',
         'order_consignee_title'                 => 'Destinatario',
         'order_phone_title'                     => 'Número de teléfono móvil',
         'order_base_warehouse_title'            => 'Servicio de envío:',

@@ -64,18 +64,11 @@ class Index extends Common
 
             // 数据模式（0自动模式, 1手动模式, 2拖拽模式, 3DIY模式）
             // 手机端是否DIY模式
-            $diy_mode = MyC('common_app_home_data_diy_mode');
-            if(!empty($diy_mode) && is_array($diy_mode) && !empty($diy_mode[APPLICATION_CLIENT_TYPE]))
+            $data_list = DiyService::AppClientHomeDiyData();
+            if(!empty($data_list))
             {
-                // diy下模式设置为3
-                $data_mode = 3;
-
-                // 获取diy数据
-                $data_list = DiyService::DiyData(['id'=>$diy_mode[APPLICATION_CLIENT_TYPE]]);
-
-                // 返回数据
                 $result = DataReturn('success', 0, [
-                    'data_mode'   => $data_mode,
+                    'data_mode'   => 3,
                     'data_list'   => $data_list,
                     'cart_total'  => $cart_total,
                 ]);

@@ -232,11 +232,15 @@ class ResourcesService
     {
         if(!empty($content))
         {
-            $pattern = (!empty($type) && in_array($type, ['images', 'video'])) ? '/<'.$type : '/';
+            $pattern = (!empty($type) && in_array($type, ['images', 'video'])) ? '/<'.($type == 'images' ? 'img' : $type) : '/<';
             $pattern .= '.*?src=[\'|\"](\/static\/upload';
-            if(!empty($business) || !empty($type))
+            if(!empty($type))
             {
-                $pattern .= '\/'.$type.'\/'.$business;
+                $pattern .= '\/'.$type;
+            }
+            if(!empty($business))
+            {
+                $pattern .= '\/'.$business;
             }
             $file_suffix = str_replace('.', '\.', implode('|', MyConfig('ueditor.fileAllowFiles')));
             $pattern .= '\/.*?['.$file_suffix.'])[\'|\"].*?[\/]?>/';
@@ -274,6 +278,113 @@ class ResourcesService
     }
 
     /**
+     * 购买填写时间数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BuyDatetimeData($params = [])
+    {
+        // 默认配置
+        $data = [
+            'is_select'     => 1,
+            'required'      => 0,
+            'title'         => MyLang('appoint_time_title'),
+            'placeholder'   => MyLang('choice_time_title'),
+            'error_msg'     => '',
+            'time_start'    => '',
+            'time_end'      => '',
+            'range_type'    => 1,
+            'range_day'     => 7,
+            'disabled'      => [],
+        ];
+
+        // 钩子
+        $hook_name = 'plugins_service_buy_datetime_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 购买填写客户信息数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BuyExtractionContactData($params = [])
+    {
+        // 默认配置
+        $data = [
+            'is_write'   => 1,
+            'required'   => 0,
+            'name'       => (empty($params['user']) || empty($params['user']['nickname'])) ? '' : $params['user']['nickname'],
+            'tel'        => (empty($params['user']) || empty($params['user']['mobile'])) ? '' : $params['user']['mobile'],
+            'error_msg'  => '',
+        ];
+
+        // 钩子
+        $hook_name = 'plugins_service_buy_extraction_contact_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 购买站点类型切换数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     * @param   [int]           $common_site_type   [站点类型]
+     * @param   [int]           $site_model         [指定站点类型]
+     * @param   [array]         $buy_goods          [购买的商品]
+     * @param   [array]         $params             [输入参数]
+     */
+    public static function BuySiteModelData($common_site_type, $site_model, $buy_goods = [], $params = [])
+    {
+        // 默认配置
+        $data = [];
+
+        // 快递+自提默认下切换订单类型
+        if($common_site_type == 4)
+        {
+            $data = MyConst('common_buy_site_model_list');
+        }
+
+        // 钩子
+        $hook_name = 'plugins_service_buy_site_model_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'common_site_type'  => $common_site_type,
+            'site_model'        => $site_model,
+            'buy_goods'         => $buy_goods,
+            'params'            => $params,
+            'data'              => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
      * 货币信息
      * @author  Devil
      * @blog    http://gong.gg/
@@ -297,8 +408,8 @@ class ResourcesService
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'data'          => &$data,
             'params'        => $params,
+            'data'          => &$data,
         ]);
 
         return $data;

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 快手
  * @author   Devil
@@ -150,6 +152,9 @@ class Kuaishou
 
         // 签名
         $parameter['sign'] = $this->GetParamSign(array_merge($parameter, ['app_id'=>$this->config['app_id']]));
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 请求接口
         $url = 'https://open.kuaishou.com/openapi/mp/developer/epay/create_order?app_id='.$this->config['app_id'].'&access_token='.$access_token['data'];
@@ -330,9 +335,10 @@ class Kuaishou
         {
             // 统一返回格式
             $data = [
-                'trade_no'      => $ret['data']['refund_no'],
-                'refund_price'  => $params['refund_price'],
-                'return_params' => $ret['data'],
+                'trade_no'        => $ret['data']['refund_no'],
+                'refund_price'    => $params['refund_price'],
+                'return_params'   => $ret['data'],
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         } else {
@@ -341,9 +347,10 @@ class Kuaishou
             {
                 // 统一返回格式
                 $data = [
-                    'trade_no'      => '',
-                    'refund_price'  => $params['refund_price'],
-                    'return_params' => $ret['msg'],
+                    'trade_no'        => '',
+                    'refund_price'    => $params['refund_price'],
+                    'return_params'   => $ret['msg'],
+                    'request_params'  => $parameter,
                 ];
                 return DataReturn('退款成功', 0, $data);
             }

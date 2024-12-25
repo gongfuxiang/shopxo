@@ -178,7 +178,6 @@ class Message
             'data'  => [
                 'table_name'    => 'Message',
                 'data_handle'   => 'MessageService::MessageListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

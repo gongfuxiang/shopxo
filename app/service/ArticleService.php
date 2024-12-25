@@ -99,8 +99,11 @@ class ArticleService
                 $category_names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
             }
 
-            foreach($data as &$v)
+            foreach($data as $k=>&$v)
             {
+                // 增加索引
+                $v['data_index'] = $k+1;
+
                 // url
                 $v['url'] = (APPLICATION == 'web') ? MyUrl('index/article/index', ['id'=>$v['id']]) : '/pages/article-detail/article-detail?id='.$v['id'];
 
@@ -580,7 +583,7 @@ class ArticleService
         }
 
         // 排序
-        $order_by_type_list = MyConst('common_theme_article_order_by_type_list');
+        $order_by_type_list = MyConst('common_article_order_by_type_list');
         $order_by_rule_list = MyConst('common_data_order_by_rule_list');
         $order_by_type = !isset($config['article_order_by_type']) || !array_key_exists($config['article_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['article_order_by_type']]['value'];
         $order_by_rule = !isset($config['article_order_by_rule']) || !array_key_exists($config['article_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['article_order_by_rule']]['value'];

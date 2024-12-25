@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * JeePay - 支付宝支付
  * @author  Devil
@@ -139,6 +141,9 @@ class JeePayAlipay
             'signType'     => 'MD5',
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 执行请求
         $ret = $this->HttpRequest('api/pay/unifiedOrder', $parameter);
         if($ret['code'] != 0)
@@ -148,14 +153,15 @@ class JeePayAlipay
         if(!empty($ret['data']['payData']))
         {
             $pay_params = [
-                'url'       => urlencode(base64_encode($ret['data']['payData'])),
+                'type'      => 'alipay',
+                'url'       => $ret['data']['payData'],
                 'order_no'  => $params['order_no'],
-                'name'      => urlencode('支付宝支付'),
-                'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
-                'check_url' => urlencode(base64_encode($params['check_url'])),
+                'name'      => '支付宝支付',
+                'msg'       => '打开支付宝APP扫一扫进行支付',
+                'check_url' => $params['check_url'],
             ];
-            $pay_url = MyUrl('index/pay/qrcode', $pay_params);
-            return DataReturn('success', 0, $pay_url);
+            MySession('payment_qrcode_data', $pay_params);
+            return DataReturn('success', 0, MyUrl('index/pay/qrcode'));
         }
         return DataReturn('返回支付url地址为空', -1);
     }
@@ -290,11 +296,12 @@ class JeePayAlipay
         {
             // 统一返回格式
             return DataReturn('退款成功', 0, [
-                'out_trade_no'  => isset($ret['data']['mchRefundNo']) ? $ret['data']['mchRefundNo'] : '',
-                'trade_no'      => isset($ret['data']['refundOrderId']) ? $ret['data']['refundOrderId'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => isset($ret['data']['refundAmount']) ? $ret['data']['refundAmount']/100 : 0.00,
-                'return_params' => $ret['data'],
+                'out_trade_no'    => isset($ret['data']['mchRefundNo']) ? $ret['data']['mchRefundNo'] : '',
+                'trade_no'        => isset($ret['data']['refundOrderId']) ? $ret['data']['refundOrderId'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => isset($ret['data']['refundAmount']) ? $ret['data']['refundAmount']/100 : 0.00,
+                'return_params'   => $ret['data'],
+                'request_params'  => $parameter,
             ]);
         }
         return DataReturn('退款失败', -1);

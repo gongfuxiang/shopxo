@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * Csgjs支付
  * @author   Devil
@@ -127,6 +129,11 @@ class Csgjs
             'card'          => $card['data'],
             'postype'       => 2,
         ];
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        // 请求接口
         $ret = RequestGet('http://zkserver.v.csgjs.com/iclock/pos_getrequest?'.http_build_query($parameter));
         $data = [];
         if(!empty($ret))

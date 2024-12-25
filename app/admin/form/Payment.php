@@ -49,7 +49,7 @@ class Payment
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                 ],
-                 [
+                [
                     'label'         => $lang['logo'],
                     'view_type'     => 'images',
                     'view_key'      => 'logo',

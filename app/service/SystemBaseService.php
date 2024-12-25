@@ -94,8 +94,10 @@ class SystemBaseService
             
             // APP、小程序
             'common_user_is_mandatory_bind_mobile'               => (int) MyC('common_user_is_mandatory_bind_mobile', 0),
+            'common_user_verify_bind_mobile_list'                => MyC('common_user_verify_bind_mobile_list', [], true),
             'common_user_onekey_bind_mobile_list'                => MyC('common_user_onekey_bind_mobile_list', [], true),
             'common_user_address_platform_import_list'           => MyC('common_user_address_platform_import_list', [], true),
+            'common_app_is_weixin_force_user_base'               => (int) MyC('common_app_is_weixin_force_user_base', 0, true),
             'common_app_user_base_popup_pages'                   => MyC('common_app_user_base_popup_pages', [], true),
             'common_app_user_base_popup_client'                  => MyC('common_app_user_base_popup_client', [], true),
             'common_app_user_base_popup_interval_time'           => (int) MyC('common_app_user_base_popup_interval_time', 1800),
@@ -197,6 +199,7 @@ class SystemBaseService
             'common_app_mini_weixin_title'                       => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_title'),
             'common_app_mini_weixin_describe'                    => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_describe'),
             'common_app_mini_weixin_share_original_id'           => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_share_original_id'),
+            'common_app_mini_weixin_upload_shipping_status'      => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_upload_shipping_status'),
             'common_app_mini_weixin_privacy_content'             => AppMiniUserService::AppMiniConfig('common_app_mini_weixin_privacy_content'),
             // 支付宝小程序
             'common_app_mini_alipay_title'                       => AppMiniUserService::AppMiniConfig('common_app_mini_alipay_title'),
@@ -229,7 +232,7 @@ class SystemBaseService
             // 配置信息
             'config'            => $config,
             // 底部菜单
-            'app_tabber'        => AppTabbarService::AppTabbarConfigData('home'),
+            'app_tabbar'        => AppTabbarService::AppTabbarConfigData('home'),
             // 货币符号
             'currency_symbol'   => ResourcesService::CurrencyDataSymbol(),
             // 快捷入口信息

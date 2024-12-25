@@ -8,6 +8,7 @@ use DOMElement;
 use DOMNode;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Helper\Dimension as HelperDimension;
 use PhpOffice\PhpSpreadsheet\Reader\Ods\AutoFilter;
 use PhpOffice\PhpSpreadsheet\Reader\Ods\DefinedNames;
 use PhpOffice\PhpSpreadsheet\Reader\Ods\FormulaTranslator;
@@ -15,7 +16,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Ods\PageSettings;
 use PhpOffice\PhpSpreadsheet\Reader\Ods\Properties as DocumentProperties;
 use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
-use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Shared\File;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -56,9 +56,12 @@ class Ods extends BaseReader
                     $mimeType = $zip->getFromName($stat['name']);
                 } elseif ($zip->statName('META-INF/manifest.xml')) {
                     $xml = simplexml_load_string(
-                        $this->getSecurityScannerOrThrow()->scan($zip->getFromName('META-INF/manifest.xml')),
-                        'SimpleXMLElement',
-                        Settings::getLibXmlLoaderOptions()
+                        $this->getSecurityScannerOrThrow()
+                            ->scan(
+                                $zip->getFromName(
+                                    'META-INF/manifest.xml'
+                                )
+                            )
                     );
                     if ($xml !== false) {
                         $namespacesContent = $xml->getNamespaces(true);
@@ -99,9 +102,8 @@ class Ods extends BaseReader
 
         $xml = new XMLReader();
         $xml->xml(
-            $this->getSecurityScannerOrThrow()->scanFile('zip://' . realpath($filename) . '#' . self::INITIAL_FILE),
-            null,
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scanFile('zip://' . realpath($filename) . '#' . self::INITIAL_FILE)
         );
         $xml->setParserProperty(2, true);
 
@@ -150,9 +152,8 @@ class Ods extends BaseReader
 
         $xml = new XMLReader();
         $xml->xml(
-            $this->getSecurityScannerOrThrow()->scanFile('zip://' . realpath($filename) . '#' . self::INITIAL_FILE),
-            null,
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scanFile('zip://' . realpath($filename) . '#' . self::INITIAL_FILE)
         );
         $xml->setParserProperty(2, true);
 
@@ -261,9 +262,8 @@ class Ods extends BaseReader
         // Meta
 
         $xml = @simplexml_load_string(
-            $this->getSecurityScannerOrThrow()->scan($zip->getFromName('meta.xml')),
-            'SimpleXMLElement',
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scan($zip->getFromName('meta.xml'))
         );
         if ($xml === false) {
             throw new Exception('Unable to read data from {$pFilename}');
@@ -277,8 +277,8 @@ class Ods extends BaseReader
 
         $dom = new DOMDocument('1.01', 'UTF-8');
         $dom->loadXML(
-            $this->getSecurityScannerOrThrow()->scan($zip->getFromName('styles.xml')),
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scan($zip->getFromName('styles.xml'))
         );
 
         $pageSettings = new PageSettings($dom);
@@ -287,19 +287,37 @@ class Ods extends BaseReader
 
         $dom = new DOMDocument('1.01', 'UTF-8');
         $dom->loadXML(
-            $this->getSecurityScannerOrThrow()->scan($zip->getFromName(self::INITIAL_FILE)),
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scan($zip->getFromName(self::INITIAL_FILE))
         );
 
         $officeNs = $dom->lookupNamespaceUri('office');
         $tableNs = $dom->lookupNamespaceUri('table');
         $textNs = $dom->lookupNamespaceUri('text');
         $xlinkNs = $dom->lookupNamespaceUri('xlink');
+        $styleNs = $dom->lookupNamespaceUri('style');
 
         $pageSettings->readStyleCrossReferences($dom);
 
         $autoFilterReader = new AutoFilter($spreadsheet, $tableNs);
         $definedNameReader = new DefinedNames($spreadsheet, $tableNs);
+        $columnWidths = [];
+        $automaticStyle0 = $dom->getElementsByTagNameNS($officeNs, 'automatic-styles')->item(0);
+        $automaticStyles = ($automaticStyle0 === null) ? [] : $automaticStyle0->getElementsByTagNameNS($styleNs, 'style');
+        foreach ($automaticStyles as $automaticStyle) {
+            $styleName = $automaticStyle->getAttributeNS($styleNs, 'name');
+            $styleFamily = $automaticStyle->getAttributeNS($styleNs, 'family');
+            if ($styleFamily === 'table-column') {
+                $tcprops = $automaticStyle->getElementsByTagNameNS($styleNs, 'table-column-properties');
+                if ($tcprops !== null) {
+                    $tcprop = $tcprops->item(0);
+                    if ($tcprop !== null) {
+                        $columnWidth = $tcprop->getAttributeNs($styleNs, 'column-width');
+                        $columnWidths[$styleName] = $columnWidth;
+                    }
+                }
+            }
+        }
 
         // Content
         $item0 = $dom->getElementsByTagNameNS($officeNs, 'body')->item(0);
@@ -340,6 +358,7 @@ class Ods extends BaseReader
 
                 // Go through every child of table element
                 $rowID = 1;
+                $tableColumnIndex = 1;
                 foreach ($worksheetDataSet->childNodes as $childNode) {
                     /** @var DOMElement $childNode */
 
@@ -366,6 +385,26 @@ class Ods extends BaseReader
 //                                $rowData = $cellData;
 //                                break;
 //                            }
+                            break;
+                        case 'table-column':
+                            if ($childNode->hasAttributeNS($tableNs, 'number-columns-repeated')) {
+                                $rowRepeats = (int) $childNode->getAttributeNS($tableNs, 'number-columns-repeated');
+                            } else {
+                                $rowRepeats = 1;
+                            }
+                            $tableStyleName = $childNode->getAttributeNS($tableNs, 'style-name');
+                            if (isset($columnWidths[$tableStyleName])) {
+                                $columnWidth = new HelperDimension($columnWidths[$tableStyleName]);
+                                $tableColumnString = Coordinate::stringFromColumnIndex($tableColumnIndex);
+                                for ($rowRepeats2 = $rowRepeats; $rowRepeats2 > 0; --$rowRepeats2) {
+                                    $spreadsheet->getActiveSheet()
+                                        ->getColumnDimension($tableColumnString)
+                                        ->setWidth($columnWidth->toUnit('cm'), 'cm');
+                                    ++$tableColumnString;
+                                }
+                            }
+                            $tableColumnIndex += $rowRepeats;
+
                             break;
                         case 'table-row':
                             if ($childNode->hasAttributeNS($tableNs, 'number-rows-repeated')) {
@@ -624,8 +663,8 @@ class Ods extends BaseReader
     {
         $dom = new DOMDocument('1.01', 'UTF-8');
         $dom->loadXML(
-            $this->getSecurityScannerOrThrow()->scan($zip->getFromName('settings.xml')),
-            Settings::getLibXmlLoaderOptions()
+            $this->getSecurityScannerOrThrow()
+                ->scan($zip->getFromName('settings.xml'))
         );
         //$xlinkNs = $dom->lookupNamespaceUri('xlink');
         $configNs = $dom->lookupNamespaceUri('config');

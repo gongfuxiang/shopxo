@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * UniPayment支付
  * @author  Devil
@@ -166,7 +168,7 @@ class UniPayment
         MyCache($this->respond_url_cache_key.$params['order_no'], $respond_url, 3600);
 
         // 请求数据
-        $request_params = [
+        $parameter = [
             'app_id'          => $this->config['app_id'],
             'title'           => ChinesePinyin($params['name'], true),
             'lang'            => 'en',
@@ -177,7 +179,12 @@ class UniPayment
             'redirect_url'    => $params['call_back_url'],
             'order_id'        => $params['order_no'],
         ];
-        $ret = $this->HttpRequest('invoices', $request_params);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        // 请求接口
+        $ret = $this->HttpRequest('invoices', $parameter);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -185,10 +192,10 @@ class UniPayment
         if(!empty($ret['data']['data']) && !empty($ret['data']['data']['invoice_url']))
         {
             // 订单信息存储缓存
-            $key = $this->pay_data_cache_key.$request_params['order_id'];
+            $key = $this->pay_data_cache_key.$parameter['order_id'];
             MyCache($key, [
                 'params'       => $params,
-                'data'         => $request_params,
+                'data'         => $parameter,
                 'respond'      => $ret['data'],
                 'client_type'  => APPLICATION_CLIENT_TYPE,
             ], 3600);

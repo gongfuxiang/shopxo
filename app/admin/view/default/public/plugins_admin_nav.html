@@ -1,7 +1,7 @@
 {{if !empty($module_data['plugins']) and (!empty($module_data['title']) or (!empty($module_data['nav_data']) and is_array($module_data['nav_data'])))}}
     <div class="nav-switch-tabs am-pr plugins-admin-nav-container {{if !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}} admin-nav-data{{/if}}  {{$module_data.plugins}}">
-        {{if !isset($module_data['is_back_btn']) or $module_data['is_back_btn'] eq 1}}
-            <a href="{{if empty($module_data['back_url'])}}{{:MyUrl('admin/pluginsadmin/index')}}{{else /}}{{$module_data.back_url}}{{/if}}" class="form-nav-top-retreat am-text-lg">
+        {{if !empty($module_data['back_url'])}}
+            <a href="{{$module_data.back_url}}" class="form-nav-top-retreat am-text-lg">
                 <i class="iconfont icon-back"></i>
             </a>
             <em class="form-nav-top-retreat-ds am-color-grey-light am-text-xs am-margin-left am-margin-right-xs">|</em>

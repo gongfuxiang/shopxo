@@ -92,7 +92,7 @@ if (!function_exists('cache')) {
      * @param string $tag     缓存标签
      * @return mixed
      */
-    function cache(string $name = null, $value = '', $options = null, $tag = null)
+    function cache(?string $name = null, $value = '', $options = null, $tag = null)
     {
         if (is_null($name)) {
             return app('cache');
@@ -211,7 +211,7 @@ if (!function_exists('env')) {
      * @param string $default 默认值
      * @return mixed
      */
-    function env(string $name = null, $default = null)
+    function env(?string $name = null, $default = null)
     {
         return Env::get($name, $default);
     }

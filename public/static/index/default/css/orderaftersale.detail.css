@@ -199,6 +199,7 @@
 	margin: 2rem 0px;
 	overflow: hidden;
 	height: 4rem;
+	border-radius: var(--border-radius);
 }
 .aftersale-step li .am-caret-right {
 	position: absolute;

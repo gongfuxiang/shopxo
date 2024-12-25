@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 现金支付
  * @author   Devil
@@ -137,12 +139,12 @@ class CashPayment
                 $radius = '10px;';
             }
             $html = '<h1 style="text-align:center;margin-top:'.$h1_margin.'">按照以下信息进行打款</h1>
-                    <div style="text-align: left;margin:0 auto;max-width:800px;height:auto;border: 1px solid #e5e5e5;padding: '.$padding.';background:#fff;margin-top:'.$margin.'border-radius:'.$radius.'">';
+                    <div style="text-align: left;margin:0 auto;max-width:800px;height:auto;border: 1px solid #f4f4f4;padding: '.$padding.';background:#fff;margin-top:'.$margin.'border-radius:'.$radius.'">';
 
             // 文本信息
             if(!empty($this->config['content']))
             {
-                $html .= '<ul style="margin:0;padding:0;background: #f7f7f7;border: 1px solid #eeeeee;border-radius:'.$radius.'">';
+                $html .= '<ul style="margin:0;padding:0;background: #fafafa;border: 1px solid #f4f4f4;border-radius:'.$radius.'">';
                 $content = explode("\n", $this->config['content']);
                 foreach($content as $k=>$v)
                 {
@@ -153,25 +155,25 @@ class CashPayment
             }
 
             // 支付金额
-            $html .= '<p style="margin-top: 15px;font-size: 14px;line-height: 24px;">打款金额：<strong style="color:#c00;">￥'.$params['total_price'].'</strong></p>';
+            $html .= '<p style="margin-top: 15px;font-size: 14px;line-height: 24px;">打款金额：<strong style="color:#E22C08;">￥'.$params['total_price'].'</strong></p>';
 
             // 备注
             $html .= '<p style="margin-top: 5px;font-size: 14px;line-height: 24px;">打款备注：<strong style="color:#2196f3;">'.$params['order_no'].'</strong></p>';
 
             // 订单关闭提示
             $order_close_time = time()+((MyC('common_order_close_limit_time', 30, true)-5)*60);
-            $html .= '<div style="margin-top: 15px;"><p style="color:#d39e00;font-size: 14px;line-height: 24px;">订单预计[ <span style="color:#ff5722;">'.date('m月d号H点i分', $order_close_time).'</span> ]自动关闭、请尽快完成支付!</p></div>';
+            $html .= '<div style="margin-top: 15px;"><p style="color:#f89703;font-size: 14px;line-height: 24px;">订单预计[ <span style="color:#ff5722;">'.date('m月d号H点i分', $order_close_time).'</span> ]自动关闭、请尽快完成支付!</p></div>';
 
             // 特别提示文字
             if(!empty($this->config['tips']))
             {
-                $html .= '<p class="tips" style="margin-top: 15px;font-size: 14px;background: #ffddaa;border: 1px solid #ffb342;color: #875100;padding: 5px 10px;line-height: 22px;border-radius:'.$radius.'">'.$this->config['tips'].'</p>';
+                $html .= '<p class="tips" style="margin-top: 15px;font-size: 14px;background: #fff2df;border: 1px solid #ffeacc;color: #f99600;padding: 5px 10px;line-height: 22px;border-radius:'.$radius.'">'.$this->config['tips'].'</p>';
             }
 
             // 图片信息
             if(!empty($this->config['images_url']))
             {
-                $html .= '<div style="margin-top: 15px;"><img src="'.$this->config['images_url'].'" alt="支付信息" style="width: 100%;" /></div>';
+                $html .= '<div style="margin-top: 15px;"><img src="'.$this->config['images_url'].'" alt="支付信息" style="width: 100%;border-radius: 2px;" /></div>';
             }
 
             // 导航入口
@@ -195,16 +197,26 @@ class CashPayment
                 return DataReturn('success', -6666, $html);
             }
 
+            // 表单html
+            $parameter = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>支付信息</title></head><body style="color: #333;background: #f7f7f7;">'.$html.'</body></html>';
+
+            // 支付请求记录
+            PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
             // web端直接输出html
-            die('<!DOCTYPE html><html><head><meta charset="utf-8"><title>支付信息</title></head><body style="color: #333;background: #f7f7f7;">'.$html.'</body></html>');
+            die($parameter);
         }
 
         // 默认方式
-        $url = $params['call_back_url'].'?';
-        $url .= 'out_trade_no='.$params['order_no'];
-        $url .= '&subject='.$params['name'];
-        $url .= '&total_price='.$params['total_price'];
-        return DataReturn('success', 0, $url);
+        $parameter = $params['call_back_url'].'?';
+        $parameter .= 'out_trade_no='.$params['order_no'];
+        $parameter .= '&subject='.$params['name'];
+        $parameter .= '&total_price='.$params['total_price'];
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        return DataReturn('success', 0, $parameter);
     }
 
     /**

@@ -91,6 +91,7 @@ class AppConfig extends Base
         {
             // 空字段处理
             $field_list = [
+                'common_user_verify_bind_mobile_list',
                 'common_user_onekey_bind_mobile_list',
                 'common_user_address_platform_import_list',
                 'common_app_user_base_popup_pages',

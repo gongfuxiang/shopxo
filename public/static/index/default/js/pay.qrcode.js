@@ -26,7 +26,7 @@ $(function()
                         window.location.href = result.data.url;
                     }, 1500);
                 } else {
-                    if(result.code != -300)
+                    if(result.code != -333)
                     {
                         Prompt(result.msg);
                     }

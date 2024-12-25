@@ -207,7 +207,7 @@ class Template
      * @param callable|null $callback 解析规则回调
      * @return void
      */
-    public function extend(string $rule, callable $callback = null): void
+    public function extend(string $rule, ?callable $callback = null): void
     {
         $this->extend[$rule] = $callback;
     }
@@ -808,7 +808,7 @@ class Template
      * @param string|null $name 不为空时返回指定的属性名
      * @return array
      */
-    public function parseAttr(string $str, string $name = null): array
+    public function parseAttr(string $str, ?string $name = null): array
     {
         $regex = '/\s+(?>(?P<name>[\w-]+)\s*)=(?>\s*)([\"\'])(?P<value>(?:(?!\\2).)*)\\2/is';
         $array = [];
@@ -1068,6 +1068,9 @@ class Template
                 switch (strtolower($fun)) {
                     case 'raw':
                         break;
+                    case 'htmlentities':
+                        $name = 'htmlentities((string) ' . $name . ')';
+                        break;
                     case 'date':
                         $name = 'date(' . $args[1] . ',!is_numeric(' . $name . ')? strtotime(' . $name . ') : ' . $name . ')';
                         break;
@@ -1189,13 +1192,13 @@ class Template
         $parseStr = '';
 
         foreach ($array as $templateName) {
-            if (empty($templateName)) {
-                continue;
-            }
-
             if (str_starts_with($templateName, '$')) {
                 //支持加载变量文件名
                 $templateName = $this->get(substr($templateName, 1));
+            }
+
+            if (empty($templateName)) {
+                continue;
             }
 
             $template = $this->parseTemplateFile($templateName);

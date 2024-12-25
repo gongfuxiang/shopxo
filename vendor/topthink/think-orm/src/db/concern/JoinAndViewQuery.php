@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db\concern;
 
@@ -30,7 +30,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function join(array|string|Raw $join, string $condition = null, string $type = 'INNER', array $bind = [])
+    public function join(array | string | Raw $join, ?string $condition = null, string $type = 'INNER', array $bind = [])
     {
         $table = $this->getJoinTable($join);
 
@@ -52,7 +52,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function leftJoin(array|string|Raw $join, string $condition = null, array $bind = [])
+    public function leftJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'LEFT', $bind);
     }
@@ -66,7 +66,7 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function rightJoin(array|string|Raw $join, string $condition = null, array $bind = [])
+    public function rightJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
         return $this->join($join, $condition, 'RIGHT', $bind);
     }
@@ -80,9 +80,9 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function fullJoin(array|string|Raw $join, string $condition = null, array $bind = [])
+    public function fullJoin(array | string | Raw $join, ?string $condition = null, array $bind = [])
     {
-        return $this->join($join, $condition, 'FULL');
+        return $this->join($join, $condition, 'FULL', $bind);
     }
 
     /**
@@ -94,14 +94,16 @@ trait JoinAndViewQuery
      *
      * @return string|array
      */
-    protected function getJoinTable(array|string|Raw $join, string &$alias = null)
+    protected function getJoinTable(array | string | Raw $join, ?string &$alias = null)
     {
         if (is_array($join)) {
             $table = $join;
             $alias = array_shift($join);
 
             return $table;
-        } elseif ($join instanceof Raw) {
+        }
+
+        if ($join instanceof Raw) {
             return $join;
         }
 
@@ -109,22 +111,21 @@ trait JoinAndViewQuery
 
         if (str_contains($join, '(')) {
             // 使用子查询
-            $table = $join;
-        } else {
+            return $join;
+        }
+        // 使用别名
+        if (str_contains($join, ' ')) {
             // 使用别名
-            if (str_contains($join, ' ')) {
-                // 使用别名
-                [$table, $alias] = explode(' ', $join);
-            } else {
-                $table = $join;
-                if (!str_contains($join, '.')) {
-                    $alias = $join;
-                }
+            [$table, $alias] = explode(' ', $join);
+        } else {
+            $table = $join;
+            if (!str_contains($join, '.')) {
+                $alias = $join;
             }
+        }
 
-            if ($this->prefix && !str_contains($table, '.') && !str_starts_with($table, $this->prefix)) {
-                $table = $this->getTable($table);
-            }
+        if ($this->prefix && !str_contains($table, '.') && !str_starts_with($table, $this->prefix)) {
+            $table = $this->getTable($table);
         }
 
         if (!empty($alias) && $table != $alias) {
@@ -145,41 +146,19 @@ trait JoinAndViewQuery
      *
      * @return $this
      */
-    public function view(array|string|Raw $join, string|array|bool $field = true, string $on = null, string $type = 'INNER', array $bind = [])
+    public function view(array | string | Raw $join, string | array | bool $field = true, ?string $on = null, string $type = 'INNER', array $bind = []): self
     {
         $this->options['view'] = true;
 
         $fields = [];
-        $table = $this->getJoinTable($join, $alias);
+        $table  = $this->getJoinTable($join, $alias);
 
-        if (true === $field) {
-            $fields = $alias . '.*';
-        } else {
-            if (is_string($field)) {
-                $field = explode(',', $field);
-            }
-
-            foreach ($field as $key => $val) {
-                if (is_numeric($key)) {
-                    $fields[] = $alias . '.' . $val;
-
-                    $this->options['map'][$val] = $alias . '.' . $val;
-                } else {
-                    if (preg_match('/[,=\.\'\"\(\s]/', $key)) {
-                        $name = $key;
-                    } else {
-                        $name = $alias . '.' . $key;
-                    }
-
-                    $fields[] = $name . ' AS ' . $val;
-
-                    $this->options['map'][$val] = $name;
-                }
-            }
-        }
+        // 处理字段
+        $fields = $this->processFields($field, $alias);
 
         $this->field($fields);
 
+        // 处理连接
         if ($on) {
             $this->join($table, $on, $type, $bind);
         } else {
@@ -187,6 +166,28 @@ trait JoinAndViewQuery
         }
 
         return $this;
+    }
+
+    protected function processFields(string | array | bool $field, string $alias): array
+    {
+        $fields = [];
+
+        if (true === $field) {
+            $fields[] = $alias . '.*'; // 选取所有字段
+        } else {
+            if (is_string($field)) {
+                $field = explode(',', $field);
+            }
+
+            foreach ($field as $key => $val) {
+                $name     = is_numeric($key) ? $alias . '.' . $val : (preg_match('/[,=\.\'\"\(\s]/', $key) ? $key : $alias . '.' . $key);
+                $fields[] = $name . (is_numeric($key) ? '' : ' AS ' . $val);
+
+                $this->options['map'][$val] = $name;
+            }
+        }
+
+        return $fields;
     }
 
     /**
@@ -199,36 +200,41 @@ trait JoinAndViewQuery
     protected function parseView(array &$options): void
     {
         foreach (['AND', 'OR'] as $logic) {
-            if (isset($options['where'][$logic])) {
-                foreach ($options['where'][$logic] as $key => $val) {
-                    if (array_key_exists($key, $options['map'])) {
-                        array_shift($val);
-                        array_unshift($val, $options['map'][$key]);
-                        $options['where'][$logic][$options['map'][$key]] = $val;
-                        unset($options['where'][$logic][$key]);
-                    }
+            if (!isset($options['where'][$logic])) {
+                continue;
+            }
+
+            // 视图查询条件处理
+            foreach ($options['where'][$logic] as $key => $val) {
+                if (array_key_exists($key, $options['map'])) {
+                    array_shift($val);
+                    array_unshift($val, $options['map'][$key]);
+                    $options['where'][$logic][$options['map'][$key]] = $val;
+                    unset($options['where'][$logic][$key]);
                 }
             }
         }
 
-        if (isset($options['order'])) {
-            // 视图查询排序处理
-            foreach ($options['order'] as $key => $val) {
-                if (is_numeric($key) && is_string($val)) {
-                    if (str_contains($val, ' ')) {
-                        [$field, $sort] = explode(' ', $val);
-                        if (array_key_exists($field, $options['map'])) {
-                            $options['order'][$options['map'][$field]] = $sort;
-                            unset($options['order'][$key]);
-                        }
-                    } elseif (array_key_exists($val, $options['map'])) {
-                        $options['order'][$options['map'][$val]] = 'asc';
+        if (empty($options['order'])) {
+            return;
+        }
+        
+        // 视图查询排序处理
+        foreach ($options['order'] as $key => $val) {
+            if (is_numeric($key) && is_string($val)) {
+                if (str_contains($val, ' ')) {
+                    [$field, $sort] = explode(' ', $val);
+                    if (array_key_exists($field, $options['map'])) {
+                        $options['order'][$options['map'][$field]] = $sort;
                         unset($options['order'][$key]);
                     }
-                } elseif (array_key_exists($key, $options['map'])) {
-                    $options['order'][$options['map'][$key]] = $val;
+                } elseif (array_key_exists($val, $options['map'])) {
+                    $options['order'][$options['map'][$val]] = 'asc';
                     unset($options['order'][$key]);
                 }
+            } elseif (array_key_exists($key, $options['map'])) {
+                $options['order'][$options['map'][$key]] = $val;
+                unset($options['order'][$key]);
             }
         }
     }

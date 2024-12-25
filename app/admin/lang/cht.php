@@ -599,6 +599,7 @@ return [
             'give_integral'           => '購買贈送積分比例',
             'buy_min_number'          => '單次最低起購數量',
             'buy_max_number'          => '單次最大購買數量',
+            'sort_level'              => '排序權重',
             'sales_count'             => '銷量',
             'access_count'            => '訪問次數',
             'add_time'                => '創建時間',
@@ -1023,6 +1024,7 @@ return [
             'trade_no'          => '支付平臺交易號',
             'buyer_user'        => '支付平臺用戶帳號',
             'subject'           => '訂單名稱',
+            'request_params'    => '請求參數',
             'pay_time'          => '支付時間',
             'close_time'        => '關閉時間',
             'add_time'          => '創建時間',
@@ -1068,6 +1070,8 @@ return [
             'refund_price'      => '退款金額',
             'pay_price'         => '訂單支付金額',
             'msg'               => '描述',
+            'request_params'    => '請求參數',
+            'return_params'     => '響應參數',
             'add_time_time'     => '退款時間',
         ],
     ],
@@ -1333,8 +1337,7 @@ return [
 
     // 应用商店
     'store'                 => [
-        'top_tips'                              => 'ShopXO優秀應用清單，這裡雲集了最資深，科技能力最强，最可信賴的ShopXO開發者，為您的挿件、風格、範本定制全面護航。',
-        'to_store_name'                         => '去應用商店挑選挿件>>',
+        'to_store_name'                         => '去應用商店挑選挿件',
     ],
 
     // 公共
@@ -1342,8 +1345,6 @@ return [
         // 公共
         'admin_browser_title'                   => '後臺管理系統',
         'remove_cache_title'                    => '清除緩存',
-        'user_status_title'                     => '使用者狀態',
-        'user_status_message'                   => '請選擇使用者狀態',
         // 商品参数
         'form_goods_params_config_error_tips'   => '商品參數配寘資訊',
         'form_goods_params_copy_no_tips'        => '請先粘貼配寘資訊',
@@ -1529,6 +1530,8 @@ return [
                 'themeadmin_delete'                => '主題删除',
                 'themeadmin_download'              => '主題下載',
                 'themeadmin_market'                => '主題範本市場',
+                'themeadmin_storeuploadinfo'       => '主題上傳頁面',
+                'themeadmin_storeupload'           => '主題上傳',
                 'themedata_index'                  => '主題數據',
                 'themedata_saveinfo'               => '主題數據添加/編輯頁面',
                 'themedata_save'                   => '主題數據添加/編輯',
@@ -1646,6 +1649,8 @@ return [
                 'diy_preview'                      => 'DIY裝修預覽',
                 'diy_market'                       => 'DIY裝修範本市場',
                 'diy_apptabbar'                    => 'DIY裝修底部選單',
+                'diy_storeuploadinfo'              => 'DIY裝修上傳頁面',
+                'diy_storeupload'                  => 'DIY裝修上傳',
                 'diyapi_init'                      => 'DIY裝修-公共初始化',
                 'diyapi_attachmentcategory'        => 'DIY裝修-附件分類',
                 'diyapi_attachmentlist'            => 'DIY裝修-附件清單',
@@ -1673,6 +1678,8 @@ return [
                 'diyapi_goodsautodata'             => 'DIY裝修-商品自動數據',
                 'diyapi_articleappointdata'        => 'DIY裝修-文章指定數據',
                 'diyapi_articleautodata'           => 'DIY裝修-文章自動數據',
+                'diyapi_brandappointdata'          => 'DIY裝修-品牌指定數據',
+                'diyapi_brandautodata'             => 'DIY裝修-品牌自動數據',
                 'diyapi_userheaddata'              => 'DIY裝修-用戶頭部數據',
                 'diyapi_custominit'                => 'DIY裝修-自定義初始化',
                 'apphomenav_index'                 => '首頁導航',
@@ -1755,6 +1762,7 @@ return [
                 'pluginscategory_save'          => '應用分類添加/編輯',
                 'pluginscategory_statusupdate'  => '應用分類狀態更新',
                 'pluginscategory_delete'        => '應用分類删除',
+                'store_market'                  => '應用市場',
             ]
         ],
         'tool_index' => [

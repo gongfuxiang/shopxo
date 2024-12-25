@@ -286,6 +286,7 @@ class OrderService
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
             'business_data' => $order_data,
+            'payment_data'  => $payment,
             'order_id'      => $pay_log['data']['id'],
             'order_no'      => $pay_log['data']['log_no'],
             'name'          => MyLang('common_service.order.pay_subject_name'),
@@ -1105,7 +1106,7 @@ class OrderService
             // 收件姓名电话查询
             if($keywords_status === false)
             {
-                $oids = Db::name('OrderAddress')->where([['name|tel', '=', $params['keywords']]])->column('order_id');
+                $oids = Db::name('OrderAddress')->where([['name|tel|extraction_contact_name|extraction_contact_tel', '=', $params['keywords']]])->column('order_id');
                 if(!empty($oids))
                 {
                     $where[] = ['id', 'in', $oids];
@@ -1510,6 +1511,32 @@ class OrderService
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
+                }
+            }
+
+            // 微信小程序发货数据
+            if($is_operate == 1 && APPLICATION_CLIENT_TYPE == 'weixin' && MyC('common_app_mini_weixin_upload_shipping_status') == 1)
+            {
+                $weixin_collect_order_ids = array_filter(array_map(function($item)
+                    {
+                        if(!empty($item['operate_data']) && isset($item['operate_data']['is_collect']) && $item['operate_data']['is_collect'] == 1)
+                        {
+                            return  $item['id'];
+                        }
+                    }, $data));
+                if(!empty($weixin_collect_order_ids))
+                {
+                    $pay_log = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$weixin_collect_order_ids, 'pl.business_type'=>self::BusinessTypeName(), 'pl.status'=>1, 'pl.payment'=>'Weixin'])->column('pl.trade_no', 'plv.business_id');
+                    if(!empty($pay_log))
+                    {
+                        foreach($data as $k=>$v)
+                        {
+                            if(array_key_exists($v['id'], $pay_log))
+                            {
+                                $data[$k]['weixin_collect_data'] = $pay_log[$v['id']];
+                            }
+                        }
+                    }
                 }
             }
 
@@ -2251,9 +2278,10 @@ class OrderService
             {
                 if(!is_array($params['express_data']))
                 {
-                    $params['express_data'] = json_decode(urldecode($params['express_data']), true);
+                    $params['express_data'] = json_decode(urldecode(htmlspecialchars_decode($params['express_data'])), true);
                 }
             }
+
             // 没有发货信息则删除全部
             if(!empty($params['express_data']) && is_array($params['express_data']))
             {
@@ -2714,6 +2742,9 @@ class OrderService
             }
         }
 
+        // 是否需要查询数据
+        $is_query = true;
+
         // 条件
         $where = [
             ['is_delete_time', '=', 0]
@@ -2723,55 +2754,63 @@ class OrderService
         $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
         if($user_type == 'user')
         {
+            // 用户为空责不查询数据
             if(empty($params['user']))
             {
-                return DataReturn(MyLang('user_info_incorrect_tips'), 0, $result);
+                $is_query = false;
+            } else {
+                // 增加用户条件
+                $where[] = ['user_is_delete_time', '=', 0];
+                $where[] = ['user_id', '=', $params['user']['id']];
             }
-
-            // 增加用户条件
-            $where[] = ['user_is_delete_time', '=', 0];
-            $where[] = ['user_id', '=', $params['user']['id']];
         }
-
-        // 订单状态各项总数
-        $data = self::OrderStatusGroupTotal($where);
-
-        // 待评价 状态占位100
-        if($is_comments)
+        if($is_query)
         {
-            switch($user_type)
+            // 订单状态各项总数
+            $data = self::OrderStatusGroupTotal($where);
+
+            // 待评价 状态占位100
+            if($is_comments)
             {
-                case 'user' :
-                    $where[] = ['user_is_comments', '=', 0];
-                    break;
-                case 'admin' :
-                    $where[] = ['is_comments', '=', 0];
-                    break;
-                default :
-                    $where[] = ['user_is_comments', '=', 0];
-                    $where[] = ['is_comments', '=', 0];
+                switch($user_type)
+                {
+                    case 'user' :
+                        $where[] = ['user_is_comments', '=', 0];
+                        break;
+                    case 'admin' :
+                        $where[] = ['is_comments', '=', 0];
+                        break;
+                    default :
+                        $where[] = ['user_is_comments', '=', 0];
+                        $where[] = ['is_comments', '=', 0];
+                }
+                $where[] = ['status', '=', 4];
+                $data[] = [
+                    'status'    => 100,
+                    'count'     => self::OrderTotal($where),
+                ];
             }
-            $where[] = ['status', '=', 4];
-            $data[] = [
-                'status'    => 100,
-                'count'     => self::OrderTotal($where),
-            ];
         }
 
         // 退款/售后 状态占位101
         if($is_aftersale)
         {
-            $where = [
-                ['status', '<=', 2],
-            ];
-            if($user_type == 'user' && !empty($params['user']))
-            {
-                $where[] = ['user_id', '=', $params['user']['id']];
-            }
-            $data[] = [
+            $aftersale = [
                 'status'    => 101,
-                'count'     => OrderAftersaleService::OrderAftersaleTotal($where),
+                'count'     => 0,
             ];
+            if($is_query)
+            {
+                $where = [
+                    ['status', '<=', 2],
+                ];
+                if($user_type == 'user' && !empty($params['user']))
+                {
+                    $where[] = ['user_id', '=', $params['user']['id']];
+                }
+                $aftersale['count'] = OrderAftersaleService::OrderAftersaleTotal($where);
+            }
+            $data[] = $aftersale;
         }
 
         // 数据处理
@@ -2908,7 +2947,7 @@ class OrderService
             }
             return DataReturn(MyLang('pay_success'), 0, ['url'=>$url]);
         }
-        return DataReturn(MyLang('common_service.order.pay_have_in_hand_tips'), -300);
+        return DataReturn(MyLang('common_service.order.pay_have_in_hand_tips'), -333);
     }
 
     /**

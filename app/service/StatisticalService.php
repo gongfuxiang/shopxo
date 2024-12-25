@@ -967,9 +967,15 @@ class StatisticalService
         }
 
         // 时间处理
-        $params['start'] = strtotime($params['start']);
-        $params['end'] = strtotime($params['end']);
-        if($params['end'] < $params['start'])
+        if(!empty($params['start']))
+        {
+            $params['start'] = strtotime($params['start']);
+        }
+        if(!empty($params['end']))
+        {
+            $params['end'] = strtotime($params['end']);
+        }
+        if(!empty($params['start']) && !empty($params['end']) && $params['end'] < $params['start'])
         {
             return DataReturn(MyLang('common_service.statistical.stats_time_error_tips'), -1);
         }
@@ -979,7 +985,6 @@ class StatisticalService
         {
             // 全部
             case 'all' :
-                $base_count = self::BaseTotalCount($params);
                 $order_profit = self::OrderProfitTotal($params);
                 $order_trading = self::OrderTradingTotal($params);
                 $goods_hot = self::GoodsHotTotal($params);
@@ -988,7 +993,6 @@ class StatisticalService
                 $renew_usert = self::NewUserTotal($params);
                 $buy_user = self::BuyUserTotal($params);
                 $ret = DataReturn('success', 0, [
-                    'base_count'           => $base_count['data'],
                     'order_profit'         => $order_profit['data'],
                     'order_trading'        => $order_trading['data'],
                     'goods_hot'            => $goods_hot['data'],

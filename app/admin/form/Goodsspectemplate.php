@@ -157,7 +157,6 @@ class GoodsSpecTemplate
             'data'  => [
                 'table_name'    => 'GoodsSpecTemplate',
                 'data_handle'   => 'GoodsSpecService::GoodsSpecTemplateListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

@@ -61,7 +61,12 @@ class Url extends UrlBuild
 
                 $domain = is_bool($domain) ? $key : $domain;
             } elseif (!$this->app->http->isBind()) {
-                $url = $app . '/' . $url;
+                $map = $this->app->config->get('app.app_map', []);
+                if ($key = array_search($app, $map)) {
+                    $url = $key . '/' . $url;
+                } else {
+                    $url = $app . '/' . $url;
+                }
             }
         }
 
@@ -141,20 +146,10 @@ class Url extends UrlBuild
             throw new \InvalidArgumentException('route name not exists:' . $name);
         } else {
             // 检测URL绑定
-            $bind = $this->route->getDomainBind($domain && is_string($domain) ? $domain : null);
+            $bind = (string) $this->route->getDomainBind($domain && is_string($domain) ? $domain : null);
 
             if ($bind && 0 === strpos($url, $bind)) {
                 $url = substr($url, strlen($bind) + 1);
-            } else {
-                $binds = $this->route->getBind();
-
-                foreach ($binds as $key => $val) {
-                    if (is_string($val) && 0 === strpos($url, $val) && substr_count($val, '/') > 1) {
-                        $url    = substr($url, strlen($val) + 1);
-                        $domain = $key;
-                        break;
-                    }
-                }
             }
 
             // 路由标识不存在 直接解析

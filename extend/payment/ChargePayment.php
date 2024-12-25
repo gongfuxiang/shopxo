@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 挂账支付
  * @author   Devil
@@ -78,11 +80,16 @@ class ChargePayment
      */
     public function Pay($params = [])
     {
-        $url = $params['call_back_url'].'?';
-        $url .= 'out_trade_no='.$params['order_no'];
-        $url .= '&subject='.$params['name'];
-        $url .= '&total_price='.$params['total_price'];
-        return DataReturn('处理成功', 0, $url);
+        // 请求地址
+        $parameter = $params['call_back_url'].'?';
+        $parameter .= 'out_trade_no='.$params['order_no'];
+        $parameter .= '&subject='.$params['name'];
+        $parameter .= '&total_price='.$params['total_price'];
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        return DataReturn('处理成功', 0, $parameter);
     }
 
     /**

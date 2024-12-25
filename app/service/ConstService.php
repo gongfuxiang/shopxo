@@ -140,6 +140,7 @@ class ConstService
                 '6.1.0' => ['value' => '6.1.0', 'name' => 'v6.1.0'],
                 '6.2.0' => ['value' => '6.2.0', 'name' => 'v6.2.0'],
                 '6.3.0' => ['value' => '6.3.0', 'name' => 'v6.3.0'],
+                '6.4.0' => ['value' => '6.4.0', 'name' => 'v6.4.0'],
             ],
 
             // 搜索排序方式
@@ -388,18 +389,31 @@ class ConstService
                 1 => ['value' => 1, 'name' => MyLang('common_goods_parameters_type_list.1'), 'checked' => true],
                 2 => ['value' => 2, 'name' => MyLang('common_goods_parameters_type_list.2')],
             ],
+            // 品牌排序类型
+            'common_brand_order_by_type_list' => [
+                0 => ['index' => 0, 'value' => 'sort,id', 'name' => MyLang('common_brand_order_by_type_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'name', 'name' => MyLang('common_brand_order_by_type_list.1')],
+                2 => ['index' => 2, 'value' => 'sort', 'name' => MyLang('common_brand_order_by_type_list.2')],
+                3 => ['index' => 3, 'value' => 'id', 'name' => MyLang('common_brand_order_by_type_list.3')],
+            ],
+            // 文章排序类型
+            'common_article_order_by_type_list' => [
+                0 => ['index' => 0, 'value' => 'access_count,id', 'name' => MyLang('common_article_order_by_type_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'access_count', 'name' => MyLang('common_article_order_by_type_list.1')],
+                2 => ['index' => 2, 'value' => 'id', 'name' => MyLang('common_article_order_by_type_list.2')],
+            ],
             // 商品关联排序类型
             'common_goods_order_by_type_list' => [
-                0 => ['value' => 'g.access_count,g.sales_count,g.id', 'name' => MyLang('common_goods_order_by_type_list.0'), 'checked' => true],
-                1 => ['value' => 'g.sales_count', 'name' => MyLang('common_goods_order_by_type_list.1')],
-                2 => ['value' => 'g.access_count', 'name' => MyLang('common_goods_order_by_type_list.2')],
-                3 => ['value' => 'g.min_price', 'name' => MyLang('common_goods_order_by_type_list.3')],
-                4 => ['value' => 'g.id', 'name' => MyLang('common_goods_order_by_type_list.4')],
+                0 => ['index' => 0, 'value' => 'g.access_count,g.sales_count,g.id', 'name' => MyLang('common_goods_order_by_type_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'g.sales_count', 'name' => MyLang('common_goods_order_by_type_list.1')],
+                2 => ['index' => 2, 'value' => 'g.access_count', 'name' => MyLang('common_goods_order_by_type_list.2')],
+                3 => ['index' => 3, 'value' => 'g.min_price', 'name' => MyLang('common_goods_order_by_type_list.3')],
+                4 => ['index' => 4, 'value' => 'g.id', 'name' => MyLang('common_goods_order_by_type_list.4')],
             ],
             // 数据排序规则
             'common_data_order_by_rule_list' => [
-                0 => ['value' => 'desc', 'name' => MyLang('common_data_order_by_rule_list.0'), 'checked' => true],
-                1 => ['value' => 'asc', 'name' => MyLang('common_data_order_by_rule_list.1')],
+                0 => ['index' => 0, 'value' => 'desc', 'name' => MyLang('common_data_order_by_rule_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'asc', 'name' => MyLang('common_data_order_by_rule_list.1')],
             ],
             // 首页数据类型
             'common_site_floor_data_type_list' => [
@@ -566,12 +580,6 @@ class ConstService
                 0 => ['value' => 0, 'name' => MyLang('common_theme_article_type_list.0'), 'checked' => true],
                 1 => ['value' => 1, 'name' => MyLang('common_theme_article_type_list.1')],
             ],
-            // 主题数据-文章排序类型
-            'common_theme_article_order_by_type_list' => [
-                0 => ['value' => 'id', 'name' => MyLang('common_theme_article_order_by_type_list.0'), 'checked' => true],
-                1 => ['value' => 'access_count', 'name' => MyLang('common_theme_article_order_by_type_list.1')],
-                
-            ],
             // 附件分类-路径名称匹配
             'common_attachment_category_path_name_list' => [
                 'common'          => MyLang('common_attachment_category_path_name_list.common'),
@@ -602,6 +610,14 @@ class ConstService
                 'scrawl'  => MyLang('common_attachment_type_list.scrawl'),
                 'video'   => MyLang('common_attachment_type_list.video'),
                 'remote'  => MyLang('common_attachment_type_list.remote'),
+            ],
+            // 商店应用类型列表
+            'common_plugins_goods_type_list' => [
+                'plugins'   => MyLang('common_plugins_goods_type_list.plugins'),
+                'payment'   => MyLang('common_plugins_goods_type_list.payment'),
+                'webtheme'  => MyLang('common_plugins_goods_type_list.webtheme'),
+                'design'    => MyLang('common_plugins_goods_type_list.design'),
+                'diy'       => MyLang('common_plugins_goods_type_list.diy'),
             ],
 
 

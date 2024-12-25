@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * TrySeeMerPay
  * @author   Devil
@@ -156,6 +158,9 @@ class TrySeeMerPay
             ]
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 执行请求
         $ret = $this->HttpRequest('/v2/payment/pay', $parameter);
         if($ret['code'] == 0)
@@ -279,11 +284,12 @@ class TrySeeMerPay
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($ret['data']['mch_trade_no']) ? $ret['data']['mch_trade_no'] : '',
-                'trade_no'      => isset($ret['data']['refund_no']) ? $ret['data']['refund_no'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => isset($ret['data']['refund_amount']) ? $ret['data']['refund_amount'] : 0.00,
-                'return_params' => $ret['data'],
+                'out_trade_no'    => isset($ret['data']['mch_trade_no']) ? $ret['data']['mch_trade_no'] : '',
+                'trade_no'        => isset($ret['data']['refund_no']) ? $ret['data']['refund_no'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => isset($ret['data']['refund_amount']) ? $ret['data']['refund_amount'] : 0.00,
+                'return_params'   => $ret['data'],
+                'request_params'  => $parameter,
             ];
             $ret = DataReturn('退款成功', 0, $data);
         }

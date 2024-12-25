@@ -531,6 +531,7 @@ $(function () {
 
         // 请求参数
         var url = $package.find('.forth-selection-container').data('search-url');
+        var type = $package.find('.forth-selection-form-goods-type select').val() || '';
         var keywords = $package.find('.forth-selection-form-keywords').val();
         var is_already_buy = $package_is_already_buy.is(':checked') ? 1 : 0;
 
@@ -541,7 +542,7 @@ $(function () {
         $.ajax({
             url: RequestUrlHandle(url),
             type: 'post',
-            data: {page: page, keywords: keywords, is_already_buy: is_already_buy},
+            data: {page: page, type: type, keywords: keywords, is_already_buy: is_already_buy},
             dataType: 'json',
             success:function(res)
             {
@@ -602,7 +603,7 @@ $(function () {
         var back_url_is_new_win_data_list_query = $package.data('back-url-is-new-win-data-list-query') || 0;
         var back_win_refresh_type = $package.data('back-win-refresh-type') || '';
         var back_fun = $package.data('back-fun') || null;
-        var type = $package.data('type') || null;
+        var type = $package.data('type') || $(this).data('type') || null;
         var id = $(this).data('id') || null;
         PackageInstallRequestHandle({type: type,
             id: id,

@@ -213,6 +213,19 @@ class PayLog
                     ],
                 ],
                 [
+                    'label'         => $lang['request_params'],
+                    'view_type'     => 'field',
+                    'view_type'     => 'module',
+                    'view_key'      => 'paylog/module/request_params',
+                    'align'         => 'left',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'request_params',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['pay_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'pay_time',
@@ -252,7 +265,6 @@ class PayLog
             'data'  => [
                 'table_name'    => 'PayLog',
                 'data_handle'   => 'PayLogService::PayLogListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

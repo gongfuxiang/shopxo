@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
 use app\service\ResourcesService;
 
 /**
@@ -245,6 +246,11 @@ class PayPal
                 'return_url'    => $params['call_back_url'],
             ],
         ];
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        // 请求接口
         $result = $this->HttpRequest('v2/checkout/orders', $parameter);
         if($result['code'] != 0)
         {
@@ -515,11 +521,12 @@ class PayPal
             {
                 // 统一返回格式
                 $data = [
-                    'out_trade_no'  => $params['order_no'],
-                    'trade_no'      => '',
-                    'buyer_user'    => '',
-                    'refund_price'  => $params['refund_price'],
-                    'return_params' => $result['data'],
+                    'out_trade_no'    => $params['order_no'],
+                    'trade_no'        => '',
+                    'buyer_user'      => '',
+                    'refund_price'    => $params['refund_price'],
+                    'return_params'   => $result['data'],
+                    'request_params'  => $parameter,
                 ];
                 return DataReturn('退款成功', 0, $data);
             }
@@ -530,11 +537,12 @@ class PayPal
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => $params['order_no'],
-                'trade_no'      => $result['data']['id'],
-                'buyer_user'    => $result['data']['sale_id'],
-                'refund_price'  => $result['data']['total_refunded_amount']['value'],
-                'return_params' => $result['data'],
+                'out_trade_no'    => $params['order_no'],
+                'trade_no'        => $result['data']['id'],
+                'buyer_user'      => $result['data']['sale_id'],
+                'refund_price'    => $result['data']['total_refunded_amount']['value'],
+                'return_params'   => $result['data'],
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

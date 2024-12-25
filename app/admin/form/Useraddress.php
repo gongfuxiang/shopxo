@@ -214,7 +214,6 @@ class UserAddress
             'data'  => [
                 'table_name'    => 'UserAddress',
                 'data_handle'   => 'UserAddressService::UserAddressListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                 ],
@@ -232,7 +231,7 @@ class UserAddress
      */
     public function RegionProvinceItems()
     {
-        return RegionService::RegionNode(['field'=>'id,name', 'where'=>[['pid', '=', 0]]]);;
+        return RegionService::RegionNode(['field'=>'id,name', 'where'=>[['pid', '=', 0]]]);
     }
 }
 ?>

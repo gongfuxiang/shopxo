@@ -115,6 +115,7 @@ class RuleName
     {
         $this->item = [];
         $this->rule = [];
+        $this->group = [];
     }
 
     /**
@@ -165,7 +166,7 @@ class RuleName
      * @param  string $method 请求类型
      * @return array
      */
-    public function getName(string $name = null, string $domain = null, string $method = '*'): array
+    public function getName(?string $name = null, ?string $domain = null, string $method = '*'): array
     {
         if (is_null($name)) {
             return $this->item;

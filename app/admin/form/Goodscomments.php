@@ -242,7 +242,6 @@ class GoodsComments
             'data'  => [
                 'table_name'    => 'GoodsComments',
                 'data_handle'   => 'GoodsCommentsService::GoodsCommentsListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'is_goods'      => 1,

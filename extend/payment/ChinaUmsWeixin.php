@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 银联商务 - 微信
  * @author   Devil
@@ -172,6 +174,9 @@ class ChinaUmsWeixin
         // 生成签名参数+签名
         $parameter['sign'] = $this->CreateSign($parameter);
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 下单
         $result = $this->HttpRequest('https://qr.chinaums.com/netpay-route-server/api/', $parameter);
         if(!empty($result) && isset($result['errCode']) && $result['errCode'] == 'SUCCESS' && !empty($result['miniPayRequest']))
@@ -298,7 +303,7 @@ class ChinaUmsWeixin
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // 请求参数
-        $data = [
+        $parameter = [
             'msgId'             => $this->config['msg_id'],
             'msgSrc'            => $this->config['msg_src'],
             'mid'               => $this->config['mid'],
@@ -309,21 +314,22 @@ class ChinaUmsWeixin
             'targetOrderId'     => $params['trade_no'],
             'merOrderId'        => $this->config['msg_id'].$params['order_no'],
             'refundAmount'      => (int) (($params['refund_price']*1000)/10),
-            'refundDesc'        => $refund_reason,            
+            'refundDesc'        => $refund_reason,
         ];
-        $data['sign'] = $this->CreateSign($data);
+        $parameter['sign'] = $this->CreateSign($parameter);
 
         // 请求接口处理
-        $result = $this->HttpRequest('https://qr.chinaums.com/netpay-route-server/api/', $data);
+        $result = $this->HttpRequest('https://qr.chinaums.com/netpay-route-server/api/', $parameter);
         if(!empty($result) && isset($result['errCode']) && $result['errCode'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result['merOrderId']) ? $result['merOrderId'] : '',
-                'trade_no'      => isset($result['refundOrderId']) ? $result['refundOrderId'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => isset($result['refundAmount']) ? $result['refundAmount']/100 : 0.00,
-                'return_params' => $result,
+                'out_trade_no'    => isset($result['merOrderId']) ? $result['merOrderId'] : '',
+                'trade_no'        => isset($result['refundOrderId']) ? $result['refundOrderId'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => isset($result['refundAmount']) ? $result['refundAmount']/100 : 0.00,
+                'return_params'   => $result,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

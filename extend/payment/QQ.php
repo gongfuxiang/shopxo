@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * QQ支付
  * @author   Devil
@@ -247,13 +249,15 @@ class QQ
                         ];
                     } else {
                         $pay_params = [
-                            'url'       => urlencode(base64_encode($data['code_url'])),
+                            'type'      => 'qq',
+                            'url'       => $data['code_url'],
                             'order_no'  => $params['order_no'],
-                            'name'      => urlencode('QQ支付'),
-                            'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
-                            'check_url' => urlencode(base64_encode($params['check_url'])),
+                            'name'      => 'QQ支付',
+                            'msg'       => '打开QQAPP扫一扫进行支付',
+                            'check_url' => $params['check_url'],
                         ];
-                        $data = MyUrl('index/pay/qrcode', $pay_params);
+                        MySession('payment_qrcode_data', $pay_params);
+                        $data = MyUrl('index/pay/qrcode');
                     }
                     $result = DataReturn('success', 0, $data);
                 }
@@ -318,7 +322,7 @@ class QQ
         $appid = $this->PayAppID($client_type);
 
         // 请求参数
-        $data = [
+        $parameter = [
             'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().$params['order_no']),
@@ -331,8 +335,12 @@ class QQ
             'trade_type'        => $trade_type,
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
         ];
-        $data['sign'] = $this->GetSign($data);
-        return DataReturn('success', 0, $data);
+        $parameter['sign'] = $this->GetSign($parameter);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        return DataReturn('success', 0, $parameter);
     }
 
     /**
@@ -459,7 +467,7 @@ class QQ
         }
 
         // 请求参数
-        $data = [
+        $parameter = [
             'appid'             => $this->PayAppID($params['client_type']),
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
@@ -470,19 +478,20 @@ class QQ
             'op_user_id'        => $this->config['op_user_id'],
             'op_user_passwd'    => md5($this->config['op_user_passwd']),
         ];
-        $data['sign'] = $this->GetSign($data);
+        $parameter['sign'] = $this->GetSign($parameter);
 
         // 请求接口处理
-        $result = $this->XmlToArray($this->HttpRequest('https://api.qpay.qq.com/cgi-bin/pay/qpay_refund.cgi', $this->ArrayToXml($data), true));
+        $result = $this->XmlToArray($this->HttpRequest('https://api.qpay.qq.com/cgi-bin/pay/qpay_refund.cgi', $this->ArrayToXml($parameter), true));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
-                'trade_no'      => isset($result['refund_id']) ? $result['refund_id'] : '',
-                'buyer_user'    => isset($result['openid']) ? $result['openid'] : '',
-                'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
-                'return_params' => $result,
+                'out_trade_no'    => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
+                'trade_no'        => isset($result['refund_id']) ? $result['refund_id'] : '',
+                'buyer_user'      => isset($result['openid']) ? $result['openid'] : '',
+                'refund_price'    => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
+                'return_params'   => $result,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

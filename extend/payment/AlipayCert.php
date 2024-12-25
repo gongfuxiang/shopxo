@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 支付宝支付 - 新版本证书通信方式接口
  * @author   Devil
@@ -211,6 +213,9 @@ class AlipayCert
         // 生成签名参数+签名
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 生成支付参数
         $value = '';
         $i = 0;
@@ -267,6 +272,9 @@ class AlipayCert
         // 生成签名参数+签名
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 接口则直接返回
         $html = $this->BuildRequestForm($parameter);
         if(APPLICATION == 'app')
@@ -318,6 +326,9 @@ class AlipayCert
 
         // 生成签名参数+签名
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
         
         // 接口则直接返回
         $html = $this->BuildRequestForm($parameter);
@@ -507,11 +518,12 @@ class AlipayCert
 
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
-                'trade_no'      => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
-                'buyer_user'    => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
-                'refund_price'  => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
-                'return_params' => $result[$key],
+                'out_trade_no'    => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
+                'trade_no'        => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
+                'buyer_user'      => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
+                'refund_price'    => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
+                'return_params'   => $result[$key],
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

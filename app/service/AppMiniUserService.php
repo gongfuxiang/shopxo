@@ -811,7 +811,7 @@ class AppMiniUserService
     }
 
     /**
-     * 小程序用户手机一键绑定
+     * 小程序用户手机一键获取解密
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -819,7 +819,7 @@ class AppMiniUserService
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public static function AppMiniOnekeyUserMobileBind($params = [])
+    public static function AppMiniOnekeyUserMobileDecrypt($params = [])
     {
         // 参数校验
         $p = [
@@ -944,10 +944,73 @@ class AppMiniUserService
         {
             return DataReturn(MyLang('common_service.user.mobile_empty_tips'), -1);
         }
+        return DataReturn('success', 0, $mobile);
+    }
+
+    /**
+     * 小程序用户手机一键绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppMiniOnekeyUserMobileBind($params = [])
+    {
+        // 手机号码解密
+        $ret = self::AppMiniOnekeyUserMobileDecrypt($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 用户信息处理
-        $params['mobile'] = $mobile;
-        $params['is_onekey_mobile_bind'] = 1;
+        $params['mobile'] = $ret['data'];
+        return UserService::AuthUserProgram($params, APPLICATION_CLIENT_TYPE.'_openid');
+    }
+
+    /**
+     * 小程序用户基础信息注册
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppMiniUserBaseReg($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'avatar',
+                'error_msg'         => MyLang('common_service.appminiuser.avatar_empty_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'nickname',
+                'error_msg'         => MyLang('common_service.appminiuser.nickname_format_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'mobile',
+                'error_msg'         => MyLang('common_service.appminiuser.mobile_empty_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 用户信息注册
         return UserService::AuthUserProgram($params, APPLICATION_CLIENT_TYPE.'_openid');
     }
 }

@@ -483,7 +483,7 @@
     display: -webkit-inline-box;
 }
 .layout-forth-selection-container .forth-selection-container .forth-selection-form-category, .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
-    width: calc(50% - 4.8rem) !important;
+    width: calc(50% - 4.9rem) !important;
 }
 .layout-forth-selection-container .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
     display: -webkit-inline-box !important;

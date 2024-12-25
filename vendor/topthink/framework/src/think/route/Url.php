@@ -47,7 +47,7 @@ class Url
     /**
      * 架构函数
      * @access public
-     * @param  Route  $route URL地址
+     * @param  Route  $route 路由对象
      * @param  App    $app App对象
      * @param  string $url URL地址
      * @param  array  $vars 参数
@@ -209,22 +209,19 @@ class Url
         if (str_starts_with($url, '/')) {
             // 直接作为路由地址解析
             $url = substr($url, 1);
-        } elseif (str_contains($url, '\\')) {
-            // 解析到类
-            $url = ltrim(str_replace('\\', '/', $url), '/');
-        } elseif (str_starts_with($url, '@')) {
-            // 解析到控制器
-            $url = substr($url, 1);
         } elseif ('' === $url) {
-            $url = $request->controller() . '/' . $request->action();
+            $url  = $request->pathinfo();
         } else {
             $controller = $request->controller();
-
             $path       = explode('/', $url);
             $action     = array_pop($path);
             $controller = empty($path) ? $controller : array_pop($path);
-
-            $url = $controller . '/' . $action;
+            $url        = $controller . '/' . $action;
+            $auto       = $this->route->getName('__think_auto_route__');
+            if (!empty($auto) && !strpos($controller,'.')) {
+                $module = empty($path) ? $request->layer() : array_pop($path);
+                $url    = $module . '/' . $url;
+            }
         }
 
         return $url;
@@ -404,16 +401,6 @@ class Url
 
             if ($bind && str_starts_with($url, $bind)) {
                 $url = substr($url, strlen($bind) + 1);
-            } else {
-                $binds = $this->route->getBind();
-
-                foreach ($binds as $key => $val) {
-                    if (is_string($val) && str_starts_with($url, $val) && substr_count($val, '/') > 1) {
-                        $url    = substr($url, strlen($val) + 1);
-                        $domain = $key;
-                        break;
-                    }
-                }
             }
 
             // 路由标识不存在 直接解析

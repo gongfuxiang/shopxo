@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db\concern;
 
@@ -50,7 +50,7 @@ trait ParamsBind
      *
      * @return string
      */
-    public function bindValue($value, int $type = null, string $name = null)
+    public function bindValue($value, ?int $type = null, ?string $name = null)
     {
         $name = $name ?: 'ThinkBind_' . (count($this->bind) + 1) . '_' . mt_rand() . '_';
 
@@ -119,8 +119,13 @@ trait ParamsBind
 
             if (is_numeric($key)) {
                 $sql = substr_replace($sql, ':' . $name, strpos($sql, '?'), 1);
+            } elseif (str_ends_with($sql, ':' . $key)) {
+                $sql = substr_replace($sql, ':' . $name . ' ', strrpos($sql, ':' . $key), strlen(':' . $key));
             } else {
-                $sql = str_replace(':' . $key, ':' . $name, $sql);
+                $sql = str_replace(
+                    [':' . $key . ' ', ':' . $key . ',', ':' . $key . ')'],
+                    [':' . $name . ' ', ':' . $name . ',', ':' . $name . ')'],
+                    $sql);
             }
         }
     }

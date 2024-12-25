@@ -720,6 +720,11 @@ class UserService
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
         ];
+        // 邀请人不能为当前用户id、相同则去掉
+        if(!empty($data['referrer']) && !empty($params['id']) && $data['referrer'] == $params['id'])
+        {
+            $data['referrer'] = 0;
+        }
 
         // 用户保存处理钩子
         $hook_name = 'plugins_service_user_save_handle';
@@ -764,7 +769,7 @@ class UserService
             }
             $user_id = $ret['data']['user_id'];
         }
-		
+
 		// 添加用户后处理钩子
         $hook_name = 'plugins_service_user_save_success_handle';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -831,7 +836,7 @@ class UserService
 
         // 用户信息更新
         $user_base['upd_time'] = time();
-        if(!Db::name('User')->where(['id'=>$user_id])->update($user_base))
+        if(Db::name('User')->where(['id'=>$user_id])->update($user_base) === false)
         {
             return DataReturn(MyLang('update_fail'), -100);
         }
@@ -1026,22 +1031,13 @@ class UserService
      */
     public static function UserAvatarUpload($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => MyLang('user_info_incorrect_tips'),
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
+        // 用户id
+        $user_id = (empty($params['user']) || empty($params['user']['id'])) ? 0 : $params['user']['id'];
+        // 唯一标识
+        $unique = md5(empty($user_id) ? ResourcesService::UserUniqueId() : $user_id);
 
         // 缓存key、是否操作频繁
-        $cache_key = 'cache_user_avatar_upload_frequency_'.$params['user']['id'];
+        $cache_key = 'cache_user_avatar_upload_frequency_'.$unique;
         $cache_value = MyCache($cache_key);
         if(!empty($cache_value) && $cache_value['time']+3600 > time() && $cache_value['count'] >= 5)
         {
@@ -1069,7 +1065,8 @@ class UserService
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'user_id'       => $params['user']['id'],
+            'user_id'       => $user_id,
+            'unique'        => $unique,
             'params'        => $params,
             'files'         => $_FILES,
             'root_path'     => $root_path,
@@ -1114,7 +1111,8 @@ class UserService
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'user_id'       => $params['user']['id'],
+            'user_id'       => $user_id,
+            'unique'        => $unique,
             'params'        => $params,
             'files'         => $_FILES,
             'root_path'     => $root_path,
@@ -1138,14 +1136,15 @@ class UserService
             'avatar'    => $avatar,
             'upd_time'  => time(),
         ];
-        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
+        if(Db::name('User')->where(['id'=>$user_id])->update($data))
         {
             // 头像处理成功钩子
             $hook_name = 'plugins_service_user_avatar_upload_success';
             MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
-                'user_id'       => $params['user']['id'],
+                'user_id'       => $user_id,
+                'unique'        => $unique,
                 'params'        => $params,
                 'files'         => $_FILES,
                 'root_path'     => $root_path,
@@ -2247,6 +2246,7 @@ class UserService
             'city',
             'county',
             'address',
+            'mobile',
         ];
         $data = [];
         foreach($fields as $k)
@@ -2262,6 +2262,19 @@ class UserService
                     // 生日
                     case 'birthday' :
                         $data[$k] = empty($params['birthday']) ? '' : strtotime($params['birthday']);
+                        break;
+                    // 手机、用户基础信息填写一键授权手机号码
+                    case 'mobile' :
+                        if(!empty($params['mobile']))
+                        {
+                            // 手机号码不存在则绑定到当前账号下
+                            $method = self::UserUniqueMethod();
+                            $temp = self::$method('mobile', $params['mobile']);
+                            if(empty($temp))
+                            {
+                                $data[$k] = $params['mobile'];
+                            }
+                        }
                         break;
                     default :
                         $data[$k] = empty($params[$k]) ? '' : $params[$k];
@@ -2318,9 +2331,6 @@ class UserService
         // 用户唯一方法
         $method = self::UserUniqueMethod();
 
-        // 是否一键登录
-        $is_onekey_mobile_bind = isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 ? 1 : 0;
-
         // 是否需要添加用户
         $is_insert_user = false;
 
@@ -2340,8 +2350,8 @@ class UserService
                     return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -301);
                 }
 
-                // 如果是一键登录、如当前用户不存在手机号码则绑定
-                if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                // 如果有手机号码、如当前用户不存在手机号码则绑定
+                if(empty($user['mobile']) && !empty($data['mobile']))
                 {
                     // 手机号码不存在则绑定到当前账号下
                     $temp = self::$method('mobile', $data['mobile']);
@@ -2391,8 +2401,8 @@ class UserService
                             return DataReturn(MyLang('bind_fail'), -1);
                         }
 
-                        // 如果是一键登录、如当前用户不存在手机号码则绑定
-                        if(empty($unionid_user_base['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                        // 如果有手机号码、如当前用户不存在手机号码则绑定
+                        if(empty($unionid_user_base['mobile']) && !empty($data['mobile']))
                         {
                             // 手机号码不存在则绑定到当前账号下
                             $temp = self::$method('mobile', $data['mobile']);
@@ -2426,8 +2436,8 @@ class UserService
             {
                 $is_insert_user = true;
             } else {
-                // 强制绑定手机号码、是否一键获取操作绑定
-                if($is_onekey_mobile_bind == 1 && !empty($data['mobile']))
+                // 绑定手机号码
+                if(!empty($data['mobile']))
                 {
                     // 如果手机号码存在则直接绑定openid
                     // 不存在添加，存在更新openid
@@ -2663,6 +2673,14 @@ class UserService
         // 用户名、手机、邮箱不允许重复注册
         if(!empty($data['username']))
         {
+            // 是否被禁止
+            $ret = self::UserRegForbidCheck($data['username'], 'username');
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 唯一验证
             $temp = self::$method('username', $data['username']);
             if(!empty($temp))
             {
@@ -2670,6 +2688,14 @@ class UserService
             }
         } else if(!empty($data['mobile']))
         {
+            // 是否被禁止
+            $ret = self::UserRegForbidCheck($data['mobile'], 'mobile');
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 唯一验证
             $temp = self::$method('mobile', $data['mobile']);
             if(!empty($temp))
             {
@@ -2677,6 +2703,14 @@ class UserService
             }
         } else if(!empty($data['email']))
         {
+            // 是否被禁止
+            $ret = self::UserRegForbidCheck($data['email'], 'email');
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 唯一验证
             $temp = self::$method('email', $data['email']);
             if(!empty($temp))
             {
@@ -3507,6 +3541,33 @@ class UserService
             }
         }
         return $referer_url;
+    }
+
+    /**
+     * 用户名、手机、邮箱注册是否禁止
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-12-18
+     * @desc    description
+     * @param   [string]          $value [用户名、手机、邮箱]
+     * @param   [string]          $type  [类型 username用户名、mobile手机、email邮箱]
+     */
+    public static function UserRegForbidCheck($value, $type)
+    {
+        $forbid = MyC('home_userregister_unique_forbid_value');
+        if(!empty($forbid))
+        {
+            if(!is_array($forbid))
+            {
+                $forbid = explode(',', $forbid);
+            }
+            if(in_array($value, $forbid))
+            {
+                return DataReturn(MyLang('register_'.$type.'_forbid_error_tips').'('.$value.')', -1);
+            }
+        }
+        return DataReturn('success', 0);
     }
 }
 ?>

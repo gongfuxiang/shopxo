@@ -16,12 +16,15 @@ if (!function_exists('throw_if')) {
     /**
      * 按条件抛异常
      *
-     * @param mixed            $condition
-     * @param Throwable|string $exception
-     * @param array            ...$parameters
-     * @return mixed
+     * @template TValue
+     * @template TException of \Throwable
      *
-     * @throws Throwable
+     * @param TValue                                     $condition
+     * @param TException|class-string<TException>|string $exception
+     * @param mixed                                      ...$parameters
+     * @return TValue
+     *
+     * @throws TException
      */
     function throw_if($condition, $exception, ...$parameters)
     {
@@ -37,11 +40,15 @@ if (!function_exists('throw_unless')) {
     /**
      * 按条件抛异常
      *
-     * @param mixed            $condition
-     * @param Throwable|string $exception
-     * @param array            ...$parameters
-     * @return mixed
-     * @throws Throwable
+     * @template TValue
+     * @template TException of \Throwable
+     *
+     * @param TValue                                     $condition
+     * @param TException|class-string<TException>|string $exception
+     * @param mixed                                      ...$parameters
+     * @return TValue
+     *
+     * @throws TException
      */
     function throw_unless($condition, $exception, ...$parameters)
     {
@@ -57,9 +64,11 @@ if (!function_exists('tap')) {
     /**
      * 对一个值调用给定的闭包，然后返回该值
      *
-     * @param mixed         $value
-     * @param callable|null $callback
-     * @return mixed
+     * @template TValue
+     *
+     * @param TValue                         $value
+     * @param (callable(TValue): mixed)|null $callback
+     * @return TValue
      */
     function tap($value, $callback = null)
     {
@@ -77,8 +86,10 @@ if (!function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
-     * @param mixed $value
-     * @return mixed
+     * @template TValue
+     *
+     * @param TValue|\Closure(): TValue $value
+     * @return TValue
      */
     function value($value)
     {
@@ -275,5 +286,32 @@ if (!function_exists('class_uses_recursive')) {
         }
 
         return array_unique($results);
+    }
+}
+
+if (!function_exists('array_is_list')) {
+    /**
+     * 判断数组是否为list
+     *
+     * @param array $array 数据
+     * @return bool
+     */    
+    function array_is_list(array $array): bool
+    {
+        return array_values($array) === $array;
+    }
+}
+
+if (!function_exists('json_validate')) {
+    /**
+     * 判断是否为有效json数据
+     *
+     * @param string $string 数据
+     * @return bool
+     */     
+    function json_validate(string $string): bool 
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

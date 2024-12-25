@@ -136,7 +136,7 @@ class Lang
             $this->app->getThinkPath() . 'lang' . DIRECTORY_SEPARATOR . $langset . '.php',
         ]);
 
-        // 加载系统语言包
+        // 加载应用语言包（支持多种类型）
         $files = glob($this->app->getAppPath() . 'lang' . DIRECTORY_SEPARATOR . $langset . '.*');
         $this->load($files);
 
@@ -200,8 +200,8 @@ class Lang
     /**
      * 判断是否存在语言定义(不区分大小写)
      * @access public
-     * @param string|null $name  语言变量
-     * @param string      $range 语言作用域
+     * @param string  $name  语言变量
+     * @param string  $range 语言作用域
      * @return bool
      */
     public function has(string $name, string $range = ''): bool
@@ -224,7 +224,7 @@ class Lang
      * @param string      $range 语言作用域
      * @return mixed
      */
-    public function get(string $name = null, array $vars = [], string $range = '')
+    public function get(?string $name = null, array $vars = [], string $range = '')
     {
         $range = $range ?: $this->range;
 

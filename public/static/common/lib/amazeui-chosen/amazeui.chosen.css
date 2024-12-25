@@ -176,7 +176,8 @@
     list-style: none;
     line-height: 1.5rem;
     word-wrap: break-word;
-    -webkit-touch-callout: none
+    -webkit-touch-callout: none;
+    text-align: left;
 }
 .chosen-container .chosen-results li.active-result {
     display: list-item;

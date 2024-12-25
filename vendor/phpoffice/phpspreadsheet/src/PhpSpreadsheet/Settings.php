@@ -98,6 +98,8 @@ class Settings
      * Set default options for libxml loader.
      *
      * @param ?int $options Default options for libxml loader
+     *
+     * @deprecated 3.5.0 no longer needed
      */
     public static function setLibXmlLoaderOptions($options): int
     {
@@ -114,14 +116,12 @@ class Settings
      * Defaults to LIBXML_DTDLOAD | LIBXML_DTDATTR when not set explicitly.
      *
      * @return int Default options for libxml loader
+     *
+     * @deprecated 3.5.0 no longer needed
      */
     public static function getLibXmlLoaderOptions(): int
     {
-        if (self::$libXmlLoaderOptions === null) {
-            return self::setLibXmlLoaderOptions(null);
-        }
-
-        return self::$libXmlLoaderOptions;
+        return self::$libXmlLoaderOptions ?? (defined('LIBXML_DTDLOAD') ? (LIBXML_DTDLOAD | LIBXML_DTDATTR) : 0);
     }
 
     /**
@@ -155,7 +155,7 @@ class Settings
     /**
      * Sets the implementation of cache that should be used for cell collection.
      */
-    public static function setCache(CacheInterface $cache): void
+    public static function setCache(?CacheInterface $cache): void
     {
         self::$cache = $cache;
     }

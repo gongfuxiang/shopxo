@@ -13,6 +13,7 @@ namespace payment;
 use think\facade\Db;
 use app\service\PaymentService;
 use app\service\OrderService;
+use app\service\PayLogService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\scanpay\service\ScanpayLogService;
 use app\plugins\membershiplevelvip\service\PayService as LevelPayService;
@@ -190,7 +191,7 @@ class WalletPay
             }
 
             // 支付处理
-            $pay_params = [
+            $parameter = [
                 'order'         => $order_list,
                 'payment'       => $payment[0],
                 'pay_log_data'  => $pay_log_data,
@@ -202,12 +203,15 @@ class WalletPay
                 ],
             ];
 
+            // 支付请求记录
+            PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
             // 调用支付处理方法
             switch($business_type)
             {
                 // 系统订单
                 case 'system-order' :
-                    $ret = OrderService::OrderPayHandle($pay_params);
+                    $ret = OrderService::OrderPayHandle($parameter);
                     if($ret['code'] == 0)
                     {
                         return DataReturn('支付成功', 0, MyUrl('index/order/respond', ['appoint_status'=>0]));
@@ -216,8 +220,8 @@ class WalletPay
 
                 // 扫码收款
                 case 'plugins-scanpay' :
-                    $pay_params['order'] = $pay_params['order'][0];
-                    $ret = ScanpayLogService::ScanpayLogHandle($pay_params);
+                    $parameter['order'] = $parameter['order'][0];
+                    $ret = ScanpayLogService::ScanpayLogHandle($parameter);
                     if($ret['code'] == 0)
                     {
                         return DataReturn('支付成功', 0, PluginsHomeUrl('scanpay', 'index', 'respond'));
@@ -226,8 +230,8 @@ class WalletPay
 
                 // 会员购买
                 case 'plugins-membershiplevelvip' :
-                    $pay_params['order'] = $pay_params['order'][0];
-                    $ret = LevelPayService::LevelPayHandle($pay_params);
+                    $parameter['order'] = $parameter['order'][0];
+                    $ret = LevelPayService::LevelPayHandle($parameter);
                     if($ret['code'] == 0)
                     {
                         return DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
@@ -236,8 +240,8 @@ class WalletPay
 
                 // 送礼
                 case 'plugins-givegift' :
-                    $pay_params['order'] = $pay_params['order'][0];
-                    $ret = GiftPayService::GiftPayHandle($pay_params);
+                    $parameter['order'] = $parameter['order'][0];
+                    $ret = GiftPayService::GiftPayHandle($parameter);
                     if($ret['code'] == 0)
                     {
                         return DataReturn('支付成功', 0, PluginsHomeUrl('givegift', 'gift', 'respond', ['appoint_status'=>0]));

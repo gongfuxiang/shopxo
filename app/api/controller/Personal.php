@@ -34,8 +34,11 @@ class Personal extends Common
         // 调用父类前置方法
         parent::__construct();
 
-        // 是否登录
-        $this->IsLogin();
+        // 是否登录、排除用户头像方法
+        if(!in_array($this->action_name, ['useravatarupload']))
+        {
+            $this->IsLogin();
+        }
     }
 
     /**

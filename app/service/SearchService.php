@@ -260,15 +260,28 @@ class SearchService
             {
                 $params['wd'] = AsciiToStr($params['wd']);
             }
-            $keywords_fields = 'g.title|g.simple_desc|g.model';
-            if(MyC('home_search_is_keywords_seo_fields') == 1)
-            {
-                $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';
-            }
             $keywords = explode(' ', $params['wd']);
-            foreach($keywords as $kv)
+            $is_keywords_spec = true;
+            if(count($keywords) == 1)
             {
-                $where_keywords[] = [$keywords_fields, 'like', '%'.$kv.'%'];
+                $goods_ids = Db::name('GoodsSpecBase')->where(['barcode|coding'=>$keywords[0]])->column('goods_id');
+                if(!empty($goods_ids))
+                {
+                    $where_base[] = ['g.id', 'in', $goods_ids];
+                    $is_keywords_spec = false;
+                }
+            }
+            if($is_keywords_spec)
+            {
+                $keywords_fields = 'g.title|g.simple_desc|g.model';
+                if(MyC('home_search_is_keywords_seo_fields') == 1)
+                {
+                    $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';
+                }
+                foreach($keywords as $kv)
+                {
+                    $where_keywords[] = [$keywords_fields, 'like', '%'.$kv.'%'];
+                }
             }
         }
 

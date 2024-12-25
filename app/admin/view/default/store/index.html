@@ -2,11 +2,18 @@
         
 <!-- right content  -->
 <div class="content-right">
-    <div class="content am-text-center am-margin-top-xl">
-        <p>{{:MyLang('store.top_tips')}}</p>
-        <div class="am-margin-top-xl">
-            <a href="{{$store_url}}" class="am-btn am-btn-secondary am-btn-xs am-radius" target="_blank">{{:MyLang('store.to_store_name')}}</a>
-        </div>
+    <div class="content">
+        {{if $is_not_bind_accounts eq 1}}
+            {{:ModuleInclude('public/store_bind_accounts_tips')}}
+        {{else /}}
+            {{:ModuleInclude('public/market/index', [
+                'type'                   => '',
+                'back_win_refresh_type'  => 'none',
+                'search_url'             => MyUrl('admin/store/market'),
+                'more_download_url'      => empty($store_url) ? '' : $store_url,
+                'more_download_name'     => MyLang('store.to_store_name'),
+            ])}}
+        {{/if}}
     </div>
 </div>
 <!-- right content end  -->

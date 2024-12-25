@@ -107,7 +107,7 @@ class Oracle extends PDOConnection
      *
      * @return mixed
      */
-    public function getLastInsID(BaseQuery $query, string $sequence = null)
+    public function getLastInsID(BaseQuery $query, ?string $sequence = null)
     {
         if (!is_null($sequence)) {
             $pdo = $this->linkID->query("select {$sequence}.currval as id from dual");

@@ -321,23 +321,23 @@ ul.progress-4 li {
 	font-weight: 400;
 	color: #333333;
 }
+
 /* 
-* 积分折扣
+* 扩展
 */
-.order-point-discount {
+.order-extension {
 	padding: 0 2.4rem;
 }
-.order-point-discount .items {
+.order-extension .items {
 	padding: 0.2rem 2rem;
 }
-.order-point-discount .items .items-title {
+.order-extension .items .items-title {
 	width: auto;
 	text-align: right;
 	color: var(--color-yellow);
 	float: right;
 }
-.order-point-discount .items .items-detail {
-	min-width: 10rem;
+.order-extension .items .items-detail {
 	text-align: right;
 	color: var(--color-yellow);
 	float: right;

@@ -60,23 +60,31 @@ class DiyApiService
 
         // 返回数据
         $data = [
-            'config'               => self::ConfigData(),
+            'config'                      => self::ConfigData(),
             // 附件分类
-            'attachment_category'  => AttachmentCategoryService::AttachmentCategoryAll(),
+            'attachment_category'         => AttachmentCategoryService::AttachmentCategoryAll(),
             // 文章分类
-            'article_category'     => $article_category['data'],
+            'article_category'            => $article_category['data'],
             // 品牌分类
-            'brand_category'       => $brand_category['data'],
+            'brand_category'              => $brand_category['data'],
             // 品牌列表
-            'brand_list'           => BrandService::CategoryBrand(),
+            'brand_list'                  => BrandService::CategoryBrand(),
             // 商品分类
-            'goods_category'       => GoodsCategoryService::GoodsCategoryAll(),
+            'goods_category'              => GoodsCategoryService::GoodsCategoryAll(),
             // 页面链接
-            'page_link_list'       => self::PageLinkList(),
+            'page_link_list'              => self::PageLinkList(),
             // 模块组件
-            'module_list'          => self::ModuleList(),
+            'module_list'                 => self::ModuleList(),
+            // 品牌排序类型
+            'brand_order_by_type_list'    => MyConst('common_brand_order_by_type_list'),
+            // 文章排序类型
+            'article_order_by_type_list'  => MyConst('common_article_order_by_type_list'),
+            // 商品排序类型
+            'goods_order_by_type_list'    => MyConst('common_goods_order_by_type_list'),
+            // 数据排序规则
+            'data_order_by_rule_list'     => MyConst('common_data_order_by_rule_list'),
             // 插件
-            'plugins'              => [],
+            'plugins'                     => [],
         ];
 
         // 钩子
@@ -790,6 +798,51 @@ class DiyApiService
     }
 
     /**
+     * 品牌指定数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BrandAppointData($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'brand_ids',
+                'error_msg'         => '请选择品牌',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取品牌
+        $result = BrandService::AppointBrandList($params['brand_ids']);
+        return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 品牌自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BrandAutoData($params = [])
+    {
+        $result = BrandService::AutoBrandList($params);
+        return DataReturn('success', 0, $result);
+    }
+
+    /**
      * 用户头部数据
      * @author  Devil
      * @blog    http://gong.gg/
@@ -858,13 +911,37 @@ class DiyApiService
     public static function CustomInit($params = [])
     {
         // 返回数据
-        $result = [
+        $data = [
             // 数据源
             'data_source' => [
+                [
+                    'name'          => '用户信息',
+                    'type'          => 'user-info',
+                    'appoint_data'  => [
+                        'user_avatar'           => UserDefaultAvatar(),
+                        'user_name_view'        => '用户名称',
+                        'order_count'           => 0,
+                        'goods_favor_count'     => 0,
+                        'goods_browse_count'    => 0,
+                        'message_unread_count'  => 0,
+                        'integral_number'       => 0,
+                    ],
+                    'data'          => [
+                        ['name'=>'用户头像', 'field'=>'user_avatar', 'type'=>'images'],
+                        ['name'=>'用户名称', 'field'=>'user_name_view', 'type'=>'text'],
+                        ['name'=>'订单总数', 'field'=>'order_count', 'type'=>'text'],
+                        ['name'=>'商品收藏', 'field'=>'goods_favor_count', 'type'=>'text'],
+                        ['name'=>'我的足迹', 'field'=>'goods_browse_count', 'type'=>'text'],
+                        ['name'=>'未读消息', 'field'=>'message_unread_count', 'type'=>'text'],
+                        ['name'=>'我的积分', 'field'=>'integral_number', 'type'=>'text'],
+                    ],
+                ],
                 [
                     'name'  => '商品',
                     'type'  => 'goods',
                     'data'  => [
+                        ['name'=>'数据索引', 'field'=>'data_index', 'type'=>'text'],
+                        ['name'=>'商品URL', 'field' =>'goods_url', 'type'=>'link'],
                         ['name'=>'商品ID', 'field' =>'id', 'type'=>'text'],
                         ['name'=>'标题', 'field' =>'title', 'type'=>'text'],
                         ['name'=>'简述', 'field' =>'simple_desc', 'type'=>'text'],
@@ -894,11 +971,135 @@ class DiyApiService
                         ['name'=>'添加时间', 'field' =>'add_time', 'type'=>'text'],
                         ['name'=>'更新时间', 'field' =>'upd_time', 'type'=>'text'],
                     ],
+                    'custom_config' => [
+                        'appoint_config' => [
+                            'data_url'     => MyUrl('admin/diyapi/goodslist'),
+                            'is_multiple'  => 1,
+                            'show_data'    => [
+                                'data_key'   => 'id',
+                                'data_name'  => 'title',
+                                'data_logo'  => 'images',
+                            ],
+                            'popup_title'   => '商品选择',
+                            'header' => [
+                                [
+                                    'field'  => 'id',
+                                    'name'   => '商品ID',
+                                    'width'  => 120,
+                                ],
+                                [
+                                    'field'  => 'images',
+                                    'name'   => '图片',
+                                    'type'   => 'images',
+                                    'width'  => 100,
+                                ],
+                                [
+                                    'field'  => 'title',
+                                    'name'   => '标题',
+                                ],
+                                [
+                                    'field'  => 'category_text',
+                                    'name'   => '分类',
+                                ],
+                            ],
+                            'filter_form_config' => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'placeholder'  => '请选择商品分类',
+                                        'is_level'     => 1,
+                                        'is_multiple'  => 1,
+                                        'children'     => 'items',
+                                    ],
+                                    'title'      => '商品分类',
+                                    'form_name'  => 'category_ids',
+                                    'const_key'  => 'goods_category',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'keywords',
+                                ]
+                            ],
+                        ],
+                        'filter_config' => [
+                            'data_url'            => MyUrl('admin/diyapi/goodsautodata'),
+                            'filter_form_config'  => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'placeholder'  => '请选择商品分类',
+                                        'is_level'     => 1,
+                                        'is_multiple'  => 1,
+                                        'children'     => 'items',
+                                    ],
+                                    'title'      => '商品分类',
+                                    'form_name'  => 'goods_category_ids',
+                                    'const_key'  => 'goods_category',
+                                ],
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'is_multiple'  => 1,
+                                    ],
+                                    'title'      => '指定品牌',
+                                    'form_name'  => 'goods_brand_ids',
+                                    'const_key'  => 'brand_list',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'goods_keywords',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'default'  => 4,
+                                        'type'     => 'number',
+                                    ],
+                                    'title'      => '显示数量',
+                                    'form_name'  => 'goods_number',
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序类型',
+                                    'form_name'  => 'goods_order_by_type',
+                                    'data'       => MyConst('common_goods_order_by_type_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序规则',
+                                    'form_name'  => 'goods_order_by_rule',
+                                    'data'       => MyConst('common_data_order_by_rule_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name'  => '文章',
                     'type'  => 'article',
                     'data'  => [
+                        ['name'=>'数据索引', 'field'=>'data_index', 'type'=>'text'],
+                        ['name'=>'文章URL', 'field' =>'url', 'type'=>'link'],
                         ['name'=>'文章ID','field'=>'id', 'type'=>'text'],
                         ['name'=>'标题','field'=>'title', 'type'=>'text'],
                         ['name'=>'分类名称','field'=>'article_category_name', 'type'=>'text'],
@@ -909,11 +1110,127 @@ class DiyApiService
                         ['name'=>'添加时间','field'=>'add_time', 'type'=>'text'],
                         ['name'=>'更新时间','field'=>'upd_time', 'type'=>'text'],
                     ],
+                    'custom_config' => [
+                        'appoint_config' => [
+                            'data_url'     => MyUrl('admin/diyapi/articlelist'),
+                            'is_multiple'  => 1,
+                            'show_data'    => [
+                                'data_key'   => 'id',
+                                'data_name'  => 'title',
+                                'data_logo'  => 'cover',
+                            ],
+                            'popup_title'   => '文章选择',
+                            'header' => [
+                                [
+                                    'field'  => 'id',
+                                    'name'   => '文章ID',
+                                    'width'  => 120,
+                                ],
+                                [
+                                    'field'  => 'cover',
+                                    'name'   => '封面',
+                                    'type'   => 'images',
+                                    'width'  => 100,
+                                ],
+                                [
+                                    'field'  => 'title',
+                                    'name'   => '标题',
+                                ],
+                                [
+                                    'field'  => 'article_category_name',
+                                    'name'   => '分类',
+                                ],
+                            ],
+                            'filter_form_config' => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'placeholder'  => '请选择文章分类',
+                                        'is_multiple'  => 1,
+                                        'children'     => 'items',
+                                    ],
+                                    'title'      => '文章分类',
+                                    'form_name'  => 'category_ids',
+                                    'const_key'  => 'article_category',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'keywords',
+                                ]
+                            ],
+                        ],
+                        'filter_config' => [
+                            'data_url'            => MyUrl('admin/diyapi/articleautodata'),
+                            'filter_form_config'  => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'is_multiple'  => 1,
+                                    ],
+                                    'title'      => '文章分类',
+                                    'form_name'  => 'article_category_ids',
+                                    'const_key'  => 'article_category',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'article_keywords',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'default'  => 4,
+                                        'type'     => 'number',
+                                    ],
+                                    'title'      => '显示数量',
+                                    'form_name'  => 'article_number',
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序类型',
+                                    'form_name'  => 'article_order_by_type',
+                                    'const_key'  => 'article_order_by_type_list',
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序规则',
+                                    'form_name'  => 'article_order_by_rule',
+                                    'const_key'  => 'data_order_by_rule_list',
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'switch',
+                                    'title'      => '封面图片',
+                                    'form_name'  => 'article_is_cover',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name'  => '品牌',
                     'type'  => 'brand',
                     'data'  => [
+                        ['name'=>'数据索引', 'field'=>'data_index', 'type'=>'text'],
+                        ['name'=>'品牌URL', 'field' =>'url', 'type'=>'link'],
                         ['name'=>'品牌ID', 'field'=>'id', 'type'=>'text'],
                         ['name'=>'LOGO', 'field'=>'logo', 'type'=>'images'],
                         ['name'=>'名称', 'field'=>'name', 'type'=>'text'],
@@ -922,32 +1239,128 @@ class DiyApiService
                         ['name'=>'添加时间', 'field'=>'add_time', 'type'=>'text'],
                         ['name'=>'更新时间', 'field'=>'upd_time', 'type'=>'text'],
                     ],
-                ],
-                [
-                    'name'          => '用户信息',
-                    'type'          => 'user-info',
-                    'appoint_data'  => [
-                        'user_avatar'           => UserDefaultAvatar(),
-                        'user_name_view'        => '用户名称',
-                        'order_count'           => 0,
-                        'goods_favor_count'     => 0,
-                        'goods_browse_count'    => 0,
-                        'message_unread_count'  => 0,
-                        'integral_number'       => 0,
-                    ],
-                    'data'          => [
-                        ['name'=>'用户头像', 'field'=>'user_avatar', 'type'=>'images'],
-                        ['name'=>'用户名称', 'field'=>'user_name_view', 'type'=>'text'],
-                        ['name'=>'订单总数', 'field'=>'order_count', 'type'=>'text'],
-                        ['name'=>'商品收藏', 'field'=>'goods_favor_count', 'type'=>'text'],
-                        ['name'=>'我的足迹', 'field'=>'goods_browse_count', 'type'=>'text'],
-                        ['name'=>'未读消息', 'field'=>'message_unread_count', 'type'=>'text'],
-                        ['name'=>'我的积分', 'field'=>'integral_number', 'type'=>'text'],
+                    'custom_config' => [
+                        'appoint_config' => [
+                            'data_url'     => MyUrl('admin/diyapi/brandlist'),
+                            'is_multiple'  => 1,
+                            'show_data'    => [
+                                'data_key'   => 'id',
+                                'data_name'  => 'name',
+                                'data_logo'  => 'logo',
+                            ],
+                            'popup_title'   => '品牌选择',
+                            'header' => [
+                                [
+                                    'field'  => 'id',
+                                    'name'   => '品牌ID',
+                                    'width'  => 120,
+                                ],
+                                [
+                                    'field'  => 'logo',
+                                    'name'   => 'LOGO',
+                                    'type'   => 'images',
+                                    'width'  => 100,
+                                ],
+                                [
+                                    'field'  => 'name',
+                                    'name'   => '名称',
+                                ],
+                                [
+                                    'field'  => 'brand_category_text',
+                                    'name'   => '分类',
+                                ],
+                            ],
+                            'filter_form_config' => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'placeholder'  => '请选择品牌分类',
+                                        'is_multiple'  => 1,
+                                        'children'     => 'items',
+                                    ],
+                                    'title'      => '品牌分类',
+                                    'form_name'  => 'category_ids',
+                                    'const_key'  => 'brand_category',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'keywords',
+                                ]
+                            ],
+                        ],
+                        'filter_config' => [
+                            'data_url'            => MyUrl('admin/diyapi/brandautodata'),
+                            'filter_form_config'  => [
+                                [
+                                    'type'       => 'select',
+                                    'config'     => [
+                                        'is_multiple'  => 1,
+                                    ],
+                                    'title'      => '品牌分类',
+                                    'form_name'  => 'brand_category_ids',
+                                    'const_key'  => 'brand_category',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'brand_keywords',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'default'  => 4,
+                                        'type'     => 'number',
+                                    ],
+                                    'title'      => '显示数量',
+                                    'form_name'  => 'brand_number',
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序类型',
+                                    'form_name'  => 'brand_order_by_type',
+                                    'const_key'  => 'brand_order_by_type_list',
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序规则',
+                                    'form_name'  => 'brand_order_by_rule',
+                                    'const_key'  => 'data_order_by_rule_list',
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],
         ];
-        return DataReturn('success', 0, $result);
+
+        // diy自定义初始化钩子
+        $hook_name = 'plugins_service_diyapi_custom_init';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'data'        => &$data,
+            'params'      => $params,
+        ]);
+        return DataReturn('success', 0, $data);
     }
 }
 ?>

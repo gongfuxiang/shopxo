@@ -167,7 +167,6 @@ class UserAddressService
 
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where['user_id'] = $params['user']['id'];
-        $where['is_delete_time'] = 0;
 
         // 获取用户地址
         $field = 'id,alias,name,tel,province,city,county,address,address_last_code,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
@@ -591,8 +590,7 @@ class UserAddressService
 
         // 软删除数据
         $where = ['user_id' => $params['user']['id'], 'id'=>$params['id']];
-        $data = ['is_delete_time' => time()];
-        if(Db::name('UserAddress')->where($where)->update($data))
+        if(Db::name('UserAddress')->where($where)->delete())
         {
             // 用户地址删除钩子
             $hook_name = 'plugins_service_user_address_delete';
@@ -757,14 +755,13 @@ class UserAddressService
 
         // 地址存在则不重复添加
         $where = [
-            'name'              => $params['name'],
-            'tel'               => $params['tel'],
-            'province'          => $params['province'],
-            'city'              => $params['city'],
-            'county'            => $params['county'],
-            'address'           => $params['address'],
-            'user_id'           => $params['user']['id'],
-            'is_delete_time'    => 0,
+            'name'      => $params['name'],
+            'tel'       => $params['tel'],
+            'province'  => $params['province'],
+            'city'      => $params['city'],
+            'county'    => $params['county'],
+            'address'   => $params['address'],
+            'user_id'   => $params['user']['id'],
         ];
         $address = Db::name('UserAddress')->where($where)->find();
         if(!empty($address))

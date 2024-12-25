@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * XPay - XPay支付
  * @author  Devil
@@ -124,7 +126,7 @@ class XPay
         }
 
         // 支付参数
-        $request_params = [
+        $parameter = [
             'mid'           => $this->config['mch_no'],
             'orderid'       => $params['order_no'],
             'product_name'  => $this->config['product_name'],
@@ -136,8 +138,11 @@ class XPay
             'userip'        => GetClientIP(),
         ];
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 执行请求
-        $ret = $this->HttpRequest('trans/order_create', $request_params);
+        $ret = $this->HttpRequest('trans/order_create', $parameter);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -145,7 +150,7 @@ class XPay
         if(!empty($ret['data']['url']))
         {
             // 订单信息存储缓存
-            MySession($this->pay_data_cache_key, $request_params['orderid'], 3600);
+            MySession($this->pay_data_cache_key, $parameter['orderid'], 3600);
             return DataReturn('success', 0, $ret['data']['url']);
         }
         return DataReturn('返回支付url地址为空', -1);

@@ -58,7 +58,7 @@ class CacheItem
      */
     protected $isHit = false;
 
-    public function __construct(string $key = null)
+    public function __construct(?string $key = null)
     {
         $this->key = $key;
     }

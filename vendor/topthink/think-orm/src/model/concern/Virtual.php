@@ -53,7 +53,7 @@ trait Virtual
      *
      * @return bool
      */
-    public function save(array|object $data = [], string $sequence = null): bool
+    public function save(array|object $data = [], ?string $sequence = null): bool
     {
         if ($data instanceof Model) {
             $data = $data->getData();

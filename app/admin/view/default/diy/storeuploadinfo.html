@@ -1,0 +1,53 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        {{if empty($data)}}
+            {{:ModuleInclude('public/not_data')}}
+        {{else /}}
+            <!-- form start -->
+            <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/diy/storeupload')}}" method="POST" request-type="ajax-view" request-value="parent" enctype="multipart/form-data">
+                <div class="am-flex am-gap-12 am-padding-bottom am-border-bottom-f8 am-margin-bottom">
+                    {{if !empty($data['logo'])}}
+                        <img src="{{$data.logo}}" class="am-radius am-padding-0 am-border-f8" width="75" />
+                    {{/if}}
+                    <div class="am-text-truncate-2">{{$data.name}}</div>
+                </div>
+
+                <div class="am-form-group row">
+                    <label class="am-block am-flex-align-self-start">{{:MyLang('common_service.diy.form_item_apply_version')}}</label>
+                    <div class="am-checkbox-group am-flex am-gap-1 am-flex-warp">
+                        {{foreach :MyConst('common_system_version_list') as $v}}
+                            <label class="am-checkbox-inline am-text-left">
+                                <input type="checkbox" name="apply_version" value="{{$v.value}}" data-validation-message="{{:MyLang('common_service.diy.form_item_apply_version_message')}}" {{if isset($choice_system_new_version) and $choice_system_new_version eq $v['name']}}checked{{/if}} data-am-ucheck required /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group row">
+                    <label class="am-block am-flex-align-self-start">{{:MyLang('common_service.diy.form_item_desc')}}</label>
+                    <textarea rows="5" name="describe" class="am-radius am-field-valid" placeholder="{{:MyLang('common_service.diy.form_item_desc_message')}}" minlength="2" maxlength="1200" data-validation-message="{{:MyLang('common_service.diy.form_item_desc_message')}}"></textarea>
+                </div>
+
+                <div class="am-form-popup-submit">
+                    <input type="hidden" name="id" value="{{$data.id}}" />
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('submit_title')}}'}">
+                        <i class="am-icon-send"></i>
+                        <span>{{:MyLang('submit_title')}}</span>
+                    </button>
+                </div>
+            </form>
+            <!-- form end -->
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

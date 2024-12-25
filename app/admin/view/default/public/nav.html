@@ -63,7 +63,7 @@
                 <!-- 清除缓存 -->
                 {{if AdminIsPower('cache', 'statusupdate')}}
                     <li class="am-dropdown">
-                        <a href="javascript:;" class="submit-ajax am-flex am-flex-row am-flex-items-center am-gap-12" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1"  data-am-popover="{content: '{{:MyLang('common.remove_cache_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                        <a href="javascript:;" class="clear-cache-html submit-ajax am-flex am-flex-row am-flex-items-center am-gap-12" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1"  data-am-popover="{content: '{{:MyLang('common.remove_cache_title')}}', trigger: 'hover focus', theme: 'sm'}">
                             <i class="iconfont icon-clear"></i>
                             <span class="am-show-sm-only">{{:MyLang('common.remove_cache_title')}}</span>
                         </a>

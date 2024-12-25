@@ -158,4 +158,35 @@ $(function()
         var anchor = $(this).parents('.buy-header-nav').attr('id') || '';
         window.location.href = UrlFieldReplace('site_model', value, url, anchor);
     });
+
+    // 地址扩展字段填写同步和更新
+    var address_extend_field_key = 'buy-address-extend-field-';
+    $(document).on('blur', '.address-extend-field-container input', function()
+    {
+        var form_name = $(this).attr('form-name');
+        var value = $(this).val();
+        store.set(address_extend_field_key+form_name, value);
+        $('.nav-buy input[name="'+form_name+'"]').val(value);
+    });
+    $(document).on('change', '.address-extend-field-container input', function()
+    {
+        var form_name = $(this).attr('form-name');
+        var value = $(this).val();
+        store.set(address_extend_field_key+form_name, value);
+        $('.nav-buy input[name="'+form_name+'"]').val(value);
+    });
+    // 初始化赋值
+    if($('.address-extend-field-container input').length > 0)
+    {
+        $('.address-extend-field-container input').each(function()
+        {
+            var form_name = $(this).attr('form-name');
+            var value = store.get(address_extend_field_key+form_name);
+            if(value !== undefined)
+            {
+                $(this).val(value);
+                $('.nav-buy input[name="'+form_name+'"]').val(value);
+            }
+        });
+    }
 }); 

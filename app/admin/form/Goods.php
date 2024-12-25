@@ -260,6 +260,14 @@ class Goods
                     ],
                 ],
                 [
+                    'label'         => $lang['sort_level'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'sort_level',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => $lang['sales_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'sales_count',
@@ -301,13 +309,13 @@ class Goods
                     'view_key'      => 'goods/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => IsMobile() ? 120 : '',
                 ],
             ],
             // 数据配置
             'data'  => [
                 'table_name'    => 'Goods',
                 'data_handle'   => 'GoodsService::GoodsDataHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_content_app'    => 1,
                     'is_category'       => 1,

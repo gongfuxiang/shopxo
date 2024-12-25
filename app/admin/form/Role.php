@@ -114,7 +114,6 @@ class Role
             'data'  => [
                 'table_name'    => 'Role',
                 'data_handle'   => 'AdminRoleService::RoleListHandle',
-                'is_page'       => 1,
             ],
         ];
     }

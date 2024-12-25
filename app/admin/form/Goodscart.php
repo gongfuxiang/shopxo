@@ -130,7 +130,6 @@ class GoodsCart
                 'order_by'      => 'c.id desc',
                 'detail_dkey'   => 'c.id',
                 'data_handle'   => 'GoodsCartService::GoodsCartListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

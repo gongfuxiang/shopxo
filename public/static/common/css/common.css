@@ -5,7 +5,7 @@
 ul { list-style: none; }
 html input[disabled] { cursor: default !important; color: #999 !important; background: #f9f9f9 !important; }
 html { font-size: var(--html-body-size); }
-body{ background: var(--body-bg-color); color: #333333; }
+body{ background: var(--body-bg-color); color: #333; }
 .none { display:none !important; }
 .block { display:block !important; }
 .text-deco-none { text-decoration: none !important; }
@@ -1277,7 +1277,8 @@ ul.plug-file-upload-view li input {
     position: absolute;
     margin-left: -100000rem;
 }
-ul.plug-file-upload-view li img, ul.plug-file-upload-view-video li video {
+ul.plug-file-upload-view li img,
+ul.plug-file-upload-view li video {
     max-width: 100%;
     max-height: 100%;
 }
@@ -1314,7 +1315,12 @@ ul.plug-file-upload-view li > i.icon-eye {
     z-index: 0;
     cursor: pointer;
     display: none;
-    line-height: 300%;
+}
+ul.plug-file-upload-view li > i.icon-eye:before {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
 }
 ul.plug-file-upload-view li:hover > i.icon-eye {
     display: block;
@@ -1432,7 +1438,7 @@ ul.plug-file-upload-view-file li {
 .am-alert {
     background: #fafcff;
     border: 0.1rem solid #f2faff;
-    color: #333333;
+    color: #666;
     padding: 0.7rem 1.2rem;
     border-radius: var(--border-radius);
 }
@@ -2001,10 +2007,10 @@ button.colorpicker-submit img {
 /**
  * 表格-详情底部操作
  */
-.form-navigation-present-operate {
+.form-table-navigation-present-operate {
     padding-bottom: 3rem;
 }
-.form-detail-nav-operate {
+.form-table-detail-nav-operate {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -2012,10 +2018,10 @@ button.colorpicker-submit img {
     padding: 1rem;
     text-align: right;
 }
-.form-detail-nav-operate > .am-btn:not(:last-child) {
+.form-table-detail-nav-operate > .am-btn:not(:last-child) {
     margin-right: 1rem;
 }
-.iframe-popup-page .form-detail-nav-operate {
+.iframe-popup-page .form-table-detail-nav-operate {
     width: 100%;
 }
 
@@ -2496,15 +2502,11 @@ form .am-tab-panel .am-form-group:last-child {
  */
 .richtext {
     font-family: sans-serif !important;
-    color: #333;
 }
 .richtext ul,
 .richtext li {
     margin: revert !important;
     padding: revert !important;
-}
-.richtext p {
-    margin: 0.5rem 0;
 }
 .richtext a {
     color: var(--color-blue);
@@ -2657,11 +2659,22 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:active {
     background: #fff;
     position: relative;
     min-height: 4.6rem;
-    overflow: hidden;
 }
 .business-list ul li .business-item p {
     line-height: 2.4rem;
     text-align: left;
+}
+.business-list ul li .business-item p.tips {
+    height: 1.6rem;
+    line-height: 1.6rem;
+    position: absolute;
+    top: -0.3rem;
+    right: -0.3rem;
+    color: #fff;
+    padding: 0 0.6rem;
+    border-radius: 0.8rem 0 0.8rem 0;
+    font-size: 1.2rem;
+    background: #D8D8D8 linear-gradient(107deg, #FC6F31 0%, #E22C08 100%);
 }
 .business-list ul li .business-item img {
     width: 2.4rem;
@@ -4127,6 +4140,13 @@ table.am-table .am-operate-grid .am-btn i {
 
 /* css3动画效果 */
 @media only screen and (min-width: 641px) {
+    /* 鼠标悬停放大 */
+    .scale-md {
+        transition: all .5s ease-in-out;
+    }
+    .scale-md:hover {
+        transform: scale(1.1);
+    }
     /* 鼠标悬停放大 */
     .scale-sm {
         transition: all .5s ease-in-out;

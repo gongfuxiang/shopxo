@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
 use app\service\AppMiniUserService;
 
 /**
@@ -210,6 +211,9 @@ class Toutiao
                 // 签名
                 $parameter['sign'] = $this->GetParamSign($parameter);
 
+                // 支付请求记录
+                PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
                 // 请求接口
                 $url = 'https://developer.toutiao.com/api/apps/ecpay/v1/create_order';
                 $ret = $this->HttpRequest($url, $parameter);
@@ -249,13 +253,25 @@ class Toutiao
                         'path'  => 'pages/index/index',
                     ],
                 ], JSON_UNESCAPED_UNICODE);
+
                 // 签名
                 $auth = $this->GetByteAuthorization($data);
                 if($auth['code'] != 0)
                 {
                     return $auth;
                 }
-                return DataReturn('success', 0, ['data'=>$data, 'auth'=>$auth['data'], 'pay_type'=>$pay_type]);
+
+                // 请求数据
+                $parameter = [
+                    'data'      => $data,
+                    'auth'      => $auth['data'],
+                    'pay_type'  => $pay_type,
+                ];
+
+                // 支付请求记录
+                PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+                return DataReturn('success', 0, $parameter);
                 break;
         }
     }
@@ -596,9 +612,10 @@ class Toutiao
                 {
                     // 统一返回格式
                     $data = [
-                        'trade_no'      => isset($ret['data']['refund_no']) ? $ret['data']['refund_no'] : '',
-                        'refund_price'  => $params['refund_price'],
-                        'return_params' => $ret['data'],
+                        'trade_no'        => isset($ret['data']['refund_no']) ? $ret['data']['refund_no'] : '',
+                        'refund_price'    => $params['refund_price'],
+                        'return_params'   => $ret['data'],
+                        'request_params'  => $parameter,
                     ];
                     return DataReturn('退款成功', 0, $data);
                 }
@@ -650,9 +667,10 @@ class Toutiao
                 {
                     // 统一返回格式
                     $data = [
-                        'trade_no'      => (!empty($ret['data']['data']) && isset($ret['data']['data']['refund_id'])) ? $ret['data']['data']['refund_id'] : '',
-                        'refund_price'  => $params['refund_price'],
-                        'return_params' => $ret['data'],
+                        'trade_no'        => (!empty($ret['data']['data']) && isset($ret['data']['data']['refund_id'])) ? $ret['data']['data']['refund_id'] : '',
+                        'refund_price'    => $params['refund_price'],
+                        'return_params'   => $ret['data'],
+                        'request_params'  => $parameter,
                     ];
                     return DataReturn('退款成功', 0, $data);
                 }

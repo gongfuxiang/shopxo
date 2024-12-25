@@ -227,8 +227,8 @@ $(function () {
             })
             var offset_scroll_top = $('.menu-list').find('.must-menu-scroll').scrollTop();
             var $menu_active = $('.menu-list').find('a.common-left-menu-active');
-            if($menu_active.length > 0) {
-                $('.must-menu-list-am-active').css({'display': 'block'});
+            if ($menu_active.length > 0) {
+                $('.must-menu-list-am-active').css({ 'display': 'block' });
                 var offset_top = $('.menu-list a.common-left-menu-active').parent().offset().top - ($('.must-menu-list-am-active').hasClass('is_logo') ? $('.menu-logo').height() : 0);
                 if (is_reload_menu_status == 0 || (event.originalEvent && event.originalEvent.isTrusted)) {
                     $('.must-menu-scroll').animate({
@@ -241,7 +241,7 @@ $(function () {
                     'top': offset_top + offset_scroll_top
                 }, 300);
             } else {
-                $('.must-menu-list-am-active').css({'top': 0, 'display': 'none'});
+                $('.must-menu-list-am-active').css({ 'top': 0, 'display': 'none' });
             }
         }
         // 存储tabs标签数据
@@ -606,4 +606,13 @@ $(function () {
 
     // 监听顶部tabs记忆展示
     AdminMenuNavTabsMemoryView();
+
+    // 清除选项卡的缓存
+    $(document).on('click', '.clear-cache-html', function () {
+        var key = AdminMenuNavTabsMemoryKey();
+        var key_data = localStorage.getItem(key);
+        if (key_data.length <= 1) {
+            localStorage.removeItem(key);
+        }
+    });
 });

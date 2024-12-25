@@ -170,6 +170,32 @@ class RefundLog
                     ],
                 ],
                 [
+                    'label'         => $lang['request_params'],
+                    'view_type'     => 'field',
+                    'view_type'     => 'module',
+                    'view_key'      => 'refundlog/module/request_params',
+                    'align'         => 'left',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'request_params',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['return_params'],
+                    'view_type'     => 'field',
+                    'view_type'     => 'module',
+                    'view_key'      => 'refundlog/module/return_params',
+                    'align'         => 'left',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'return_params',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
@@ -192,7 +218,6 @@ class RefundLog
             'data'  => [
                 'table_name'    => 'RefundLog',
                 'data_handle'   => 'RefundLogService::RefundLogListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

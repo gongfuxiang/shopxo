@@ -17,6 +17,7 @@ use app\service\UserService;
 use app\service\UserAddressService;
 use app\service\PaymentService;
 use app\service\BuyService;
+use app\service\ResourcesService;
 use app\service\SeoService;
 
 /**
@@ -62,16 +63,14 @@ class Buy extends Common
             // 站点类型，是否开启了展示型
             if(SystemBaseService::SiteTypeValue() == 1)
             {
-                MyViewAssign('msg', MyLang('buy.exhibition_not_allow_submit_tips'));
-                return MyView('public/tips_error');
+                return MyView('public/tips_error', ['msg'=>MyLang('buy.exhibition_not_allow_submit_tips')]);
             }
 
             // 获取下单信息
             $buy_data = MyCache($key);
             if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
-                MyViewAssign('msg', MyLang('goods_data_empty_tips'));
-                return MyView('public/tips_error');
+                return MyView('public/tips_error', ['msg'=>MyLang('goods_data_empty_tips')]);
             }
 
             // 参数
@@ -97,18 +96,27 @@ class Buy extends Common
 
                 // 模板数据
                 $assign = [
-                    'base'                  => $buy_base,
-                    'buy_goods'             => $buy_goods,
-                    'buy_data'              => $buy_data,
+                    'base'                 => $buy_base,
+                    'buy_goods'            => $buy_goods,
+                    'buy_data'             => $buy_data,
                     // 浏览器名称
-                    'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('buy.base_nav_title'), 1),
+                    'home_seo_site_title'  => SeoService::BrowserSeoTitle(MyLang('buy.base_nav_title'), 1),
                     // 公共销售模式
-                    'common_site_type'      => $buy_base['common_site_type'],
+                    'common_site_type'     => $buy_base['common_site_type'],
                     // 支付方式
-                    'payment_list'          => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+                    'payment_list'         => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
                     // 下单类型模式
-                    'buy_site_model_list'   => MyConst('common_buy_site_model_list'),
+                    'buy_site_model_list'  => ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params),
                 ];
+
+                // 自提模式
+                if($buy_base['site_model'] == 2)
+                {
+                    // 指定时间
+                    $assign['buy_datetime_info'] = ResourcesService::BuyDatetimeData($params);
+                    // 客户联系信息
+                    $assign['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                }
 
                 // 用户地址
                 $address = UserAddressService::UserAddressList(['user'=>$this->user]);
@@ -129,8 +137,7 @@ class Buy extends Common
                 $this->PluginsHook($ret['data'], $params);
                 return MyView();
             }
-            MyViewAssign('msg', isset($ret['msg']) ? $ret['msg'] : MyLang('params_error_tips'));
-            return MyView('public/tips_error');
+            return MyView('public/tips_error', ['msg'=>isset($ret['msg']) ? $ret['msg'] : MyLang('params_error_tips')]);
         }
     }
 
@@ -207,10 +214,15 @@ class Buy extends Common
             $params['user'] = $this->user;
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['username'];
-            return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
+            $ret = ApiService::ApiDataReturn(BuyService::OrderInsert($params));
+            if(IS_AJAX)
+            {
+                return $ret;
+            } else {
+                return MyRedirect($ret['data']['jump_url']);
+            }
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 }
 ?>

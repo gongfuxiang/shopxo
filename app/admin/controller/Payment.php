@@ -67,11 +67,6 @@ class Payment extends Base
 
             // 插件更新信息
             $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
-            // 是否未绑定商店账号
-            if($upgrade['code'] == -300)
-            {
-                return $this->NotBindStoreAccountTips($upgrade['msg']);
-            }
 
             // 模板数据
             $assign = array_merge($assign, [

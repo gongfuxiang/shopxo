@@ -134,11 +134,13 @@ class ThemeData extends Base
             'common_theme_business_images_list'         => MyConst('common_theme_business_images_list'),
             'common_theme_business_text_input_list'     => MyConst('common_theme_business_text_input_list'),
             'common_theme_business_text_textarea_list'  => MyConst('common_theme_business_text_textarea_list'),
-            // 文章排序规则
+            // 文章选择类型
             'common_theme_article_type_list'            => MyConst('common_theme_article_type_list'),
-            'common_theme_article_order_by_type_list'   => MyConst('common_theme_article_order_by_type_list'),
+            // 文章排序规则
+            'common_article_order_by_type_list'         => MyConst('common_article_order_by_type_list'),
             // 商品排序规则
             'common_goods_order_by_type_list'           => MyConst('common_goods_order_by_type_list'),
+            // 数据排序规则
             'common_data_order_by_rule_list'            => MyConst('common_data_order_by_rule_list'),
         ]);
     }

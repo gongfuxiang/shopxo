@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 翼支付
  * @author  Devil
@@ -148,6 +150,9 @@ class Bestpay
 
         // 生成签名参数+签名
         $parameter['sign'] = $this->CreateSign($this->GetSignContent($parameter));
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 下单
         $result = $this->HttpRequest('https://mapi.bestpay.com.cn/mapi/uniformReceipt/proCreateOrder', $parameter);
@@ -373,11 +378,12 @@ class Bestpay
             {
                 // 统一返回格式
                 $data = [
-                    'out_trade_no'  => isset($result['result']['outTradeNo']) ? $result['result']['outTradeNo'] : '',
-                    'trade_no'      => isset($result['result']['tradeNo']) ? $result['result']['tradeNo'] : (isset($result['err_code_des']) ? $result['err_code_des'] : ''),
-                    'buyer_user'    => isset($result['result']['buyerLoginNo']) ? $result['result']['buyerLoginNo'] : '',
-                    'refund_price'  => isset($result['result']['refundAmt']) ? $result['result']['refundAmt']/100 : 0.00,
-                    'return_params' => $result['result'],
+                    'out_trade_no'    => isset($result['result']['outTradeNo']) ? $result['result']['outTradeNo'] : '',
+                    'trade_no'        => isset($result['result']['tradeNo']) ? $result['result']['tradeNo'] : (isset($result['err_code_des']) ? $result['err_code_des'] : ''),
+                    'buyer_user'      => isset($result['result']['buyerLoginNo']) ? $result['result']['buyerLoginNo'] : '',
+                    'refund_price'    => isset($result['result']['refundAmt']) ? $result['result']['refundAmt']/100 : 0.00,
+                    'return_params'   => $result['result'],
+                    'request_params'  => $parameter,
                 ];
                 return DataReturn('退款成功', 0, $data);
             } else {

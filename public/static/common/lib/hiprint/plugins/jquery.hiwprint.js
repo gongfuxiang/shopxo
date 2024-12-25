@@ -90,7 +90,6 @@
             if (image.src && image.src !== window.location.href && image.src.indexOf('base64') == -1) {
                
                 if (!image || typeof image.naturalWidth === 'undefined' || image.naturalWidth === 0 || !image.complete) {
-                    console.log(image.complete);
                     if (!image.complete) {
                         allLoaded = false;
                     }

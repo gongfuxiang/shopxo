@@ -1,3 +1,8 @@
-.idea
+/vendor
+composer.phar
 composer.lock
-vendor
+.DS_Store
+Thumbs.db
+/.idea
+/.vscode
+/.settings

@@ -78,7 +78,7 @@ class MorphOne extends Relation
      *
      * @return Model
      */
-    public function getRelation(array $subRelation = [], Closure $closure = null)
+    public function getRelation(array $subRelation = [], ?Closure $closure = null)
     {
         if ($closure) {
             $closure($this->query);
@@ -114,7 +114,7 @@ class MorphOne extends Relation
      *
      * @return Query
      */
-    public function has(string $operator = '>=', int $count = 1, string $id = '*', string $joinType = '', Query $query = null)
+    public function has(string $operator = '>=', int $count = 1, string $id = '*', string $joinType = '', ?Query $query = null)
     {
         return $this->parent;
     }
@@ -129,7 +129,7 @@ class MorphOne extends Relation
      *
      * @return Query
      */
-    public function hasWhere($where = [], $fields = null, string $joinType = '', Query $query = null)
+    public function hasWhere($where = [], $fields = null, string $joinType = '', ?Query $query = null)
     {
         throw new Exception('relation not support: hasWhere');
     }
@@ -145,7 +145,7 @@ class MorphOne extends Relation
      *
      * @return void
      */
-    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation, Closure $closure = null, array $cache = []): void
+    public function eagerlyResultSet(array &$resultSet, string $relation, array $subRelation, ?Closure $closure = null, array $cache = []): void
     {
         $morphType  = $this->morphType;
         $morphKey   = $this->morphKey;
@@ -201,7 +201,7 @@ class MorphOne extends Relation
      *
      * @return void
      */
-    public function eagerlyResult(Model $result, string $relation, array $subRelation = [], Closure $closure = null, array $cache = []): void
+    public function eagerlyResult(Model $result, string $relation, array $subRelation = [], ?Closure $closure = null, array $cache = []): void
     {
         $pk = $result->getPk();
 
@@ -241,7 +241,7 @@ class MorphOne extends Relation
      *
      * @return array
      */
-    protected function eagerlyMorphToOne(array $where, array $subRelation = [], $closure = null, array $cache = []): array
+    protected function eagerlyMorphToOne(array $where, array $subRelation = [], ?Closure $closure = null, array $cache = []): array
     {
         // 预载入关联查询 支持嵌套预载入
         if ($closure) {
@@ -300,7 +300,7 @@ class MorphOne extends Relation
         $data[$this->morphKey]  = $this->parent->$pk;
         $data[$this->morphType] = $this->type;
 
-        return new $this->model($data);
+        return (new $this->model($data))->setSuffix($this->getModel()->getSuffix());
     }
 
     /**
@@ -355,7 +355,7 @@ class MorphOne extends Relation
      *
      * @return void
      */
-    protected function bindAttr(Model $result, Model $model = null): void
+    protected function bindAttr(Model $result, ?Model $model = null): void
     {
         foreach ($this->bindAttr as $key => $attr) {
             $key = is_numeric($key) ? $attr : $key;
@@ -365,7 +365,7 @@ class MorphOne extends Relation
                 throw new Exception('bind attr has exists:' . $key);
             }
 
-            $result->setAttr($key, $model?->$attr);
+            $result->setAttr($key, $model?->getAttr($attr));
         }
     }
 }

@@ -603,6 +603,7 @@ return [
             'give_integral'           => 'Give Integral',
             'buy_min_number'          => 'Buy Min Number',
             'buy_max_number'          => 'Buy Max Number',
+            'sort_level'              => 'Sort Weight',
             'sales_count'             => 'Sales Count',
             'access_count'            => 'Access Count',
             'add_time'                => 'Creation Time',
@@ -1041,6 +1042,7 @@ return [
             'trade_no'          => 'Transaction No. of payment platform',
             'buyer_user'        => 'Payment Platform UserAccount',
             'subject'           => 'Order Name',
+            'request_params'    => 'Request Params',
             'pay_time'          => 'Payment Time',
             'close_time'        => 'Close Time',
             'add_time'          => 'Creation Time',
@@ -1086,6 +1088,8 @@ return [
             'refund_price'      => 'Refund Price',
             'pay_price'         => 'Order payment amount',
             'msg'               => 'Describe',
+            'request_params'    => 'Request Params',
+            'return_params'     => 'Response parameters',
             'add_time_time'     => 'Refund Time',
         ],
     ],
@@ -1351,8 +1355,7 @@ return [
 
     // 应用商店
     'store'                 => [
-        'top_tips'                              => 'ShopXO excellent application list, where the most senior, technically capable and reliable ShopXO developers are gathered to provide a comprehensive escort for your plug-in, style and template customization.',
-        'to_store_name'                         => 'Go to the app store to select plugins >>',
+        'to_store_name'                         => 'Go to the app store to select plugins',
     ],
 
     // 公共
@@ -1360,8 +1363,6 @@ return [
         // 公共
         'admin_browser_title'                   => 'Background management system',
         'remove_cache_title'                    => 'Clear Cache',
-        'user_status_title'                     => 'User Status',
-        'user_status_message'                   => 'Please select user status',
         // 商品参数
         'form_goods_params_config_error_tips'   => 'Goods parameter configuration information',
         'form_goods_params_copy_no_tips'        => 'Please paste the configuration information first',
@@ -1547,6 +1548,8 @@ return [
                 'themeadmin_delete'                => 'Theme delete',
                 'themeadmin_download'              => 'Theme download',
                 'themeadmin_market'                => 'Theme template market',
+                'themeadmin_storeuploadinfo'       => 'Theme upload page',
+                'themeadmin_storeupload'           => 'Theme upload',
                 'themedata_index'                  => 'Theme data',
                 'themedata_saveinfo'               => 'Theme data add/edit page',
                 'themedata_save'                   => 'Theme data add/edit',
@@ -1664,6 +1667,8 @@ return [
                 'diy_preview'                      => 'DIY Decoration Preview',
                 'diy_market'                       => 'DIY decoration template market',
                 'diy_apptabbar'                    => 'DIY Decoration Bottom Menu',
+                'diy_storeuploadinfo'              => 'DIY decoration upload page',
+                'diy_storeupload'                  => 'DIY decoration upload',
                 'diyapi_init'                      => 'DIY Decoration - Public Initialization',
                 'diyapi_attachmentcategory'        => 'DIY Decoration - Attachment Classification',
                 'diyapi_attachmentlist'            => 'DIY Decoration - Attachment List',
@@ -1691,6 +1696,8 @@ return [
                 'diyapi_goodsautodata'             => 'DIY Decoration - Automated Product Data',
                 'diyapi_articleappointdata'        => 'DIY Decoration - Article Specific Data',
                 'diyapi_articleautodata'           => 'DIY Decoration - Automatic Article Data',
+                'diyapi_brandappointdata'          => 'DIY Decoration - Brand Designated Data',
+                'diyapi_brandautodata'             => 'DIY Decoration - Brand Automatic Data',
                 'diyapi_userheaddata'              => 'DIY Decoration - User Head Data',
                 'diyapi_custominit'                => 'DIY Decoration - Custom Initialization',
                 'apphomenav_index'                 => 'Home page navigation',
@@ -1773,6 +1780,7 @@ return [
                 'pluginscategory_save'          => 'Add/edit application category',
                 'pluginscategory_statusupdate'  => 'Application category status update',
                 'pluginscategory_delete'        => 'Application category deletion',
+                'store_market'                  => 'Application Market',
             ]
         ],
         'tool_index' => [

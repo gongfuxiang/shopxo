@@ -599,6 +599,7 @@ return [
             'give_integral'           => 'Proporción de puntos de regalo de compra',
             'buy_min_number'          => 'Número mínimo de compras a partir de una sola vez',
             'buy_max_number'          => 'Cantidad máxima de compra única',
+            'sort_level'              => 'Peso de clasificación',
             'sales_count'             => 'Ventas',
             'access_count'            => 'Número de visitas',
             'add_time'                => 'Tiempo de creación',
@@ -1023,6 +1024,7 @@ return [
             'trade_no'          => 'Número de transacción de la Plataforma de pago',
             'buyer_user'        => 'Cuenta de usuario de la Plataforma de pago',
             'subject'           => 'Nombre del pedido',
+            'request_params'    => 'Parámetros de solicitud',
             'pay_time'          => 'Tiempo de pago',
             'close_time'        => 'Tiempo de cierre',
             'add_time'          => 'Tiempo de creación',
@@ -1068,6 +1070,8 @@ return [
             'refund_price'      => 'Importe del reembolso',
             'pay_price'         => 'Monto del pago del pedido',
             'msg'               => 'Descripción',
+            'request_params'    => 'Parámetros de solicitud',
+            'return_params'     => 'Parámetros de respuesta',
             'add_time_time'     => 'Tiempo de reembolso',
         ],
     ],
@@ -1333,8 +1337,7 @@ return [
 
     // 应用商店
     'store'                 => [
-        'top_tips'                              => 'Lista de excelentes aplicaciones de shopxo, que reúne a los desarrolladores de shopxo más veteranos, tecnológicamente capaces y confiables para personalizar la escolta completa de sus plug - ins, estilos y plantillas.',
-        'to_store_name'                         => 'Ir a la tienda de aplicaciones para seleccionar el plug - in > *',
+        'to_store_name'                         => 'Ir a la tienda de aplicaciones para seleccionar plug - ins',
     ],
 
     // 公共
@@ -1342,8 +1345,6 @@ return [
         // 公共
         'admin_browser_title'                   => 'Sistema de gestión de fondo',
         'remove_cache_title'                    => 'Borrar caché',
-        'user_status_title'                     => 'Estado del usuario',
-        'user_status_message'                   => 'Por favor, seleccione el Estado del usuario',
         // 商品参数
         'form_goods_params_config_error_tips'   => 'Información sobre la configuración de los parámetros de los productos básicos',
         'form_goods_params_copy_no_tips'        => 'Por favor, pegue la información de configuración primero.',
@@ -1529,6 +1530,8 @@ return [
                 'themeadmin_delete'                => 'Eliminación del tema',
                 'themeadmin_download'              => 'Descarga del tema',
                 'themeadmin_market'                => 'Plantilla temática Mercado',
+                'themeadmin_storeuploadinfo'       => 'Tema cargar Página',
+                'themeadmin_storeupload'           => 'Carga del tema',
                 'themedata_index'                  => 'Datos temáticos',
                 'themedata_saveinfo'               => 'Página de adición / edición de datos temáticos',
                 'themedata_save'                   => 'Añadir / editar datos temáticos',
@@ -1646,6 +1649,8 @@ return [
                 'diy_preview'                      => 'Vista previa de la decoración de bricolaje',
                 'diy_market'                       => 'Plantilla de decoración de bricolaje Mercado',
                 'diy_apptabbar'                    => 'Menú inferior de la decoración de bricolaje',
+                'diy_storeuploadinfo'              => 'Página de carga de decoración de bricolaje',
+                'diy_storeupload'                  => 'Carga de decoración de bricolaje',
                 'diyapi_init'                      => 'Decoración de bricolaje - iniciación pública',
                 'diyapi_attachmentcategory'        => 'Decoración de bricolaje - Clasificación de accesorios',
                 'diyapi_attachmentlist'            => 'Decoración de bricolaje - Lista de accesorios',
@@ -1673,6 +1678,8 @@ return [
                 'diyapi_goodsautodata'             => 'Decoración de bricolaje - datos automáticos de la mercancía',
                 'diyapi_articleappointdata'        => 'Decoración de bricolaje - datos especificados en el artículo',
                 'diyapi_articleautodata'           => 'Decoración de bricolaje - datos automáticos del artículo',
+                'diyapi_brandappointdata'          => 'Decoración de bricolaje - datos de designación de marca',
+                'diyapi_brandautodata'             => 'Decoración de bricolaje - datos automáticos de la marca',
                 'diyapi_userheaddata'              => 'Decoración de bricolaje - datos de la cabeza del usuario',
                 'diyapi_custominit'                => 'Decoración de bricolaje - iniciación personalizada',
                 'apphomenav_index'                 => 'Navegación en la página de inicio',
@@ -1755,6 +1762,7 @@ return [
                 'pluginscategory_save'          => 'Añadir / editar clasificación de aplicaciones',
                 'pluginscategory_statusupdate'  => 'Actualización del Estado de clasificación de la aplicación',
                 'pluginscategory_delete'        => 'Eliminar la clasificación de la aplicación',
+                'store_market'                  => 'Mercado de aplicaciones',
             ]
         ],
         'tool_index' => [

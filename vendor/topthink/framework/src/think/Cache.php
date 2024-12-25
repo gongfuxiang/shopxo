@@ -46,7 +46,7 @@ class Cache extends Manager implements CacheInterface
      * @param mixed       $default 默认值
      * @return mixed
      */
-    public function getConfig(string $name = null, $default = null)
+    public function getConfig(?string $name = null, $default = null)
     {
         if (!is_null($name)) {
             return $this->app->config->get('cache.' . $name, $default);
@@ -62,7 +62,7 @@ class Cache extends Manager implements CacheInterface
      * @param mixed  $default
      * @return array
      */
-    public function getStoreConfig(string $store, string $name = null, $default = null)
+    public function getStoreConfig(string $store, ?string $name = null, $default = null)
     {
         if ($config = $this->getConfig("stores.{$store}")) {
             return Arr::get($config, $name, $default);
@@ -87,7 +87,7 @@ class Cache extends Manager implements CacheInterface
      * @param string|null $name 连接配置名
      * @return Driver
      */
-    public function store(string $name = null)
+    public function store(?string $name = null)
     {
         return $this->driver($name);
     }

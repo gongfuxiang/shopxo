@@ -171,7 +171,6 @@ class WarehouseGoods
                 'distinct'      => 'wg.id',
                 'detail_dkey'   => 'wg.id',
                 'data_handle'   => 'WarehouseGoodsService::WarehouseGoodsListHandle',
-                'is_page'       => 1,
             ],
         ];
     }

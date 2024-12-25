@@ -35,7 +35,7 @@ class BrandService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'sort,id asc' : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
@@ -104,8 +104,17 @@ class BrandService
             }
 
             // 数据处理
-            foreach($data as &$v)
+            foreach($data as $k=>&$v)
             {
+                // 增加索引
+                $v['data_index'] = $k+1;
+
+                // url
+                if(isset($v['id']))
+                {
+                    $v['url'] = (APPLICATION == 'web') ? MyUrl('index/search/index', ['brand'=>$v['id']]) : '/pages/goods-search/goods-search?brand='.$v['id'];
+                }
+
                 // 分类名称
                 if(isset($v['id']))
                 {
@@ -535,11 +544,19 @@ class BrandService
             $where[] = ['id', 'in', empty($ids) ? [0] : $ids];
         }
 
+        // 排序
+        $order_by_type_list = MyConst('common_brand_order_by_type_list');
+        $order_by_rule_list = MyConst('common_data_order_by_rule_list');
+        $order_by_type = !isset($config['brand_order_by_type']) || !array_key_exists($config['brand_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['brand_order_by_type']]['value'];
+        $order_by_rule = !isset($config['brand_order_by_rule']) || !array_key_exists($config['brand_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['brand_order_by_rule']]['value'];
+        $order_by = $order_by_type.' '.$order_by_rule;
+
         // 获取数据
         $ret = self::BrandList([
             'where'    => $where,
             'm'        => 0,
             'n'        => empty($config['brand_number']) ? 10 : intval($config['brand_number']),
+            'order_by' => $order_by,
         ]);
         return empty($ret['data']) ? [] : $ret['data'];
     }

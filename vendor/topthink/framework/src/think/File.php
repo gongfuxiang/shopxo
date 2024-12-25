@@ -100,7 +100,7 @@ class File extends SplFileInfo
      * @param string|null $name      保存的文件名
      * @return File
      */
-    public function move(string $directory, string $name = null): File
+    public function move(string $directory, ?string $name = null): File
     {
         $target = $this->getTargetFile($directory, $name);
 
@@ -124,7 +124,7 @@ class File extends SplFileInfo
      * @param null|string $name
      * @return File
      */
-    protected function getTargetFile(string $directory, string $name = null): File
+    protected function getTargetFile(string $directory, ?string $name = null): File
     {
         if (!is_dir($directory)) {
             if (false === @mkdir($directory, 0777, true) && !is_dir($directory)) {

@@ -684,7 +684,7 @@ class FormTableHandleModule
                             }
 
                             // 时间处理
-                            if($is_handle_time_field && substr($ks, -5) == '_time')
+                            if($is_handle_time_field && (substr($ks, -5) == '_time' || (!empty($handle_time_format) && is_array($handle_time_format) && array_key_exists($ks, $handle_time_format))))
                             {
                                 $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
                                 $vs = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
@@ -835,7 +835,8 @@ class FormTableHandleModule
                             // 数据字段
                             $field = empty($pv['field']) ? 'id' : $pv['field'];
                             $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
-                            $value = $this->db->$stats_fun($field);
+                            $res = $this->db->field($stats_fun.'('.$field.') as value')->find();
+                            $value = (empty($res) || empty($res['value'])) ? 0 : $res['value'];
                             $stats_data[] = $pv['name'].$value.(empty($pv['unit']) ? '' : $pv['unit']);
                         }
                     }
@@ -880,7 +881,7 @@ class FormTableHandleModule
     {
         // 列表和详情
         $list_action = isset($form_data['list_action']) ? (is_array($form_data['list_action']) ? $form_data['list_action'] : [$form_data['list_action']]) : ['index'];
-        $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo'];
+        $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo', 'save', 'delete', 'statusupdate'];
         if(empty($this->plugins_module_name))
         {
             $is_list = in_array($this->action_name, $list_action);

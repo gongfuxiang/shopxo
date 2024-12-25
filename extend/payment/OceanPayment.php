@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
 use app\service\ResourcesService;
 use app\service\UserService;
 use app\service\OrderService;
@@ -235,7 +236,7 @@ class OceanPayment
         $address = empty($address_data['address']) ? 'N/A' : $address_data['address'];
 
         // 支付数据
-        $pay_data = [
+        $parameter = [
             'account'            => $this->config['account'],
             'terminal'           => $this->config['terminal'],
             'signValue'          => '',
@@ -275,8 +276,12 @@ class OceanPayment
         MyCache($this->cache_key.$params['user']['id'], $params['order_no'], 3600);
 
         // 签名（account+terminal+order_number+order_currency+order_amount+billing_firstName+billing_lastName+billing_email+secureCode）
-        $pay_data['signValue'] = hash('sha256', $pay_data['account'].$pay_data['terminal'].$pay_data['order_number'].$pay_data['order_currency'].$pay_data['order_amount'].$pay_data['billing_firstName'].$pay_data['billing_lastName'].$pay_data['billing_email'].$this->config['secure_code']);
-        die($this->PayHtml($pay_data));
+        $parameter['signValue'] = hash('sha256', $parameter['account'].$parameter['terminal'].$parameter['order_number'].$parameter['order_currency'].$parameter['order_amount'].$parameter['billing_firstName'].$parameter['billing_lastName'].$parameter['billing_email'].$this->config['secure_code']);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
+        die($this->PayHtml($parameter));
     }
 
     /**
@@ -626,11 +631,12 @@ class OceanPayment
         {
             // 统一返回格式
             $data = [
-                'out_trade_no'  => isset($data['order_number']) ? $data['order_number'] : '',
-                'trade_no'      => isset($data['refund_id']) ? $data['refund_id'] : '',
-                'buyer_user'    => '',
-                'refund_price'  => $params['refund_price'],
-                'return_params' => $data,
+                'out_trade_no'    => isset($data['order_number']) ? $data['order_number'] : '',
+                'trade_no'        => isset($data['refund_id']) ? $data['refund_id'] : '',
+                'buyer_user'      => '',
+                'refund_price'    => $params['refund_price'],
+                'return_params'   => $data,
+                'request_params'  => $parameter,
             ];
             return DataReturn('退款成功', 0, $data);
         }

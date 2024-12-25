@@ -67,7 +67,7 @@
             <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
             {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
                 <!-- 搜索 -->
-                <button type="submit" class="am-btn am-radius btn-loading-example form-table-operate-top-search-submit" data-am-loading="{loadingText:' {{:MyLang('searching_tips')}}'}"  data-am-popover="{content: '{{:MyLang('search_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                <button type="submit" class="am-btn am-radius btn-loading-example form-table-operate-top-search-submit" data-is-sync-search="{{if isset($form_table['base']['is_sync_search']) and $form_table['base']['is_sync_search']}}1{{else /}}0{{/if}}" data-am-loading="{loadingText:' {{:MyLang('search_title')}}'}"  data-am-popover="{content: '{{:MyLang('search_title')}}', trigger: 'hover focus', theme: 'sm'}">
                     <i class="iconfont icon-search"></i>
                 </button>
                 <!-- 重置 -->

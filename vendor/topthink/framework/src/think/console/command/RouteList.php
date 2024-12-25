@@ -54,7 +54,7 @@ class RouteList extends Command
         file_put_contents($filename, 'Route List' . PHP_EOL . $content);
     }
 
-    protected function getRouteList(string $dir = null): string
+    protected function getRouteList(?string $dir = null): string
     {
         $this->app->route->clear();
         $this->app->route->lazy(false);

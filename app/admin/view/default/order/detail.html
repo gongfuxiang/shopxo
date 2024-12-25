@@ -111,29 +111,56 @@
                         <p>
                             <span>{{:MyLang('order.detail_user_address_value')}}：</span>
                             <span class="text-copy-submit">{{$data.address_data.province_name}}{{$data.address_data.city_name}}{{$data.address_data.county_name}}{{$data.address_data.address}}</span>
+                            {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
+                                <a href="javascript:;" class="submit-map-popup am-color-blue am-margin-left-xs" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs">
+                                    <i class="iconfont icon-map-position"></i>
+                                    <span>{{:MyLang('map_title')}}</span>
+                                </a>
+                            {{/if}}
                         </p>
+                        {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel']) or !empty($data['address_data']['appoint_time'])}}
+                            {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel'])}}
+                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs">
+                                <p>
+                                    <span>{{:MyLang('customer_info_title')}}：</span>
+                                    {{if !empty($data['address_data']['extraction_contact_name'])}}
+                                        <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_name}}</span>
+                                    {{/if}}
+                                    {{if !empty($data['address_data']['extraction_contact_tel'])}}
+                                        <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_tel}}</span>
+                                    {{/if}}
+                                </p>
+                            {{/if}}
+                            {{if !empty($data['address_data']['appoint_time'])}}
+                                <p>
+                                    <span>{{:MyLang('appoint_time_title')}}：</span>
+                                    <span class="text-copy-submit am-color-red">{{$data.address_data.appoint_time}}</span>
+                                </p>
+                            {{/if}}
+                        {{/if}}
                         {{if !empty($data['address_data']['idcard_name']) or !empty($data['address_data']['idcard_number']) or !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
                             <div class="am-alert am-alert-secondary">
                                 <p class="am-margin-bottom-xs"><strong>{{:MyLang('order.detail_user_address_idcard')}}</strong></p>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed am-margin-vertical-0" />
                                 <div class="am-margin-top-xs">
-                                    <p>{{:MyLang('order.detail_user_address_idcard_name')}}：{{$data.address_data.idcard_name}}</p>
-                                    <p>{{:MyLang('order.detail_user_address_idcard_number')}}：{{$data.address_data.idcard_number}}</p>
+                                    <p>
+                                        <span>{{:MyLang('order.detail_user_address_idcard_name')}}：</span>
+                                        <span class="text-copy-submit">{{$data.address_data.idcard_name}}</span>
+                                    </p>
+                                    <p>
+                                        <span>{{:MyLang('order.detail_user_address_idcard_number')}}：</span>
+                                        <span class="text-copy-submit">{{$data.address_data.idcard_number}}</span>
+                                    </p>
                                     {{if !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
-                                        <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($data['address_data']['idcard_front'])}}<a href="{{$data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="100" height="68" src="{{$data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($data['address_data']['idcard_back'])}}<a href="{{$data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="100" height="68" src="{{$data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
+                                        <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($data['address_data']['idcard_front'])}}<img width="50" height="68" src="{{$data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-fl am-margin-right-xs common-annex-view-event" data-is-download="1" />{{/if}} {{if !empty($data['address_data']['idcard_back'])}}<img width="50" height="68" src="{{$data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-fl common-annex-view-event" data-is-download="1" />{{/if}}</p>
                                     {{/if}}
                                 </div>
-                            </div>
-                        {{/if}}
-                        {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                            <div class="am-margin-top-xs">
-                                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</button>
                             </div>
                         {{/if}}
                     {{else /}}
                         {{if $data['order_model'] eq 2}}
                             <!-- 取货地址 -->
-                            <div class="am-alert am-alert-warning">
+                            <div class="am-alert">
                                 <p>
                                     <span>{{:MyLang('order.detail_take_address_contact')}}：</span>
                                     <span class="text-copy-submit">{{$data.address_data.name}}</span>
@@ -143,15 +170,50 @@
                                 <p>
                                     <span>{{:MyLang('order.detail_take_address_value')}}：</span>
                                     <span class="text-copy-submit">{{$data.address_data.province_name}}{{$data.address_data.city_name}}{{$data.address_data.county_name}}{{$data.address_data.address}}</span>
+                                    {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
+                                        <a href="javascript:;" class="submit-map-popup am-color-blue am-margin-left-xs" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs">
+                                            <i class="iconfont icon-map-position"></i>
+                                            <span>{{:MyLang('map_title')}}</span>
+                                        </a>
+                                    {{/if}}
                                 </p>
-                                {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                                    <div class="am-margin-top-xs">
-                                        <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</button>
-                                    </div>
+                                {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel']) or !empty($data['address_data']['appoint_time'])}}
+                                    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs">
+                                    {{if !empty($data['address_data']['extraction_contact_name']) or !empty($data['address_data']['extraction_contact_tel'])}}
+                                        <p>
+                                            <span>{{:MyLang('customer_info_title')}}：</span>
+                                            {{if !empty($data['address_data']['extraction_contact_name'])}}
+                                                <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_name}}</span>
+                                            {{/if}}
+                                            {{if !empty($data['address_data']['extraction_contact_tel'])}}
+                                                <span class="text-copy-submit am-margin-right-sm">{{$data.address_data.extraction_contact_tel}}</span>
+                                            {{/if}}
+                                        </p>
+                                    {{/if}}
+                                    {{if !empty($data['address_data']['appoint_time'])}}
+                                        <p>
+                                            <span>{{:MyLang('appoint_time_title')}}：</span>
+                                            <span class="text-copy-submit am-color-red">{{$data.address_data.appoint_time}}</span>
+                                        </p>
+                                    {{/if}}
                                 {{/if}}
                             </div>
                             <!-- 取货码 -->
-                            {{:ModuleInclude('order/module/take', $data)}}
+                            {{if !empty($data['extraction_data'])}}
+                                {{if !empty($data['extraction_data']['images'])}}
+                                    <p class="am-margin-bottom-xs">
+                                        <img class="am-img-thumbnail am-radius am-block common-annex-view-event" src="{{$data.extraction_data.images}}" width="105" height="105" data-is-download="1" />
+                                    </p>
+                                {{/if}}
+                                <p>
+                                    <span>{{:MyLang('order.form_item_take')}}：</span>
+                                    {{if empty($data['extraction_data']['code'])}}
+                                        <span class="am-text-danger">{{:MyLang('no_data')}}</span>
+                                    {{else /}}
+                                        <span class="am-badge am-badge-success am-radius am-margin-0 text-copy-submit">{{$data.extraction_data.code}}</span>
+                                    {{/if}}
+                                </p>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 {{else /}}
@@ -164,15 +226,20 @@
         <div class="item" data-key="order-detail-fictitious">
             <div class="am-padding-sm">
                 {{if $data['order_model'] eq 3 and !empty($data['items'])}}
-                    <ul class="am-list am-margin-bottom-0 fictitious-container">
+                    <ul class="am-list am-list-static am-margin-bottom-0 fictitious-container">
                         {{foreach $data.items as $goods}}
-                            <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
-                                <div class="am-u-sm-2 am-list-thumb">
+                            <li class="am-g am-list-item-desced">
+                                <div class="am-u-sm-2">
                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
                                 </div>
-                                <div class="am-u-sm-10 am-list-item-text">
+                                <div class="am-u-sm-10">
+                                    {{if !empty($goods['spec_text'])}}
+                                        <p>
+                                            <strong>{{$goods.spec_text}}</strong>
+                                        </p>
+                                    {{/if}}
                                     {{if empty($goods['fictitious_goods_value'])}}
-                                        <span class="am-text-grey">{{:MyLang('no_config_data_tips')}}</span>
+                                        <span class="am-text-grey am-text-xs">{{:MyLang('no_config_data_tips')}}</span>
                                     {{else /}}
                                         {{$goods.fictitious_goods_value|raw}}
                                     {{/if}}

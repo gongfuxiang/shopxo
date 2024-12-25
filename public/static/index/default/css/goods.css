@@ -693,6 +693,7 @@ i.buy-event {
 }
 
 .tb-detail-price-content .goods-sale-price .symbol {
+    font-weight: bold;
     font-size: 2rem;
 }
 
@@ -1769,6 +1770,9 @@ i.buy-event {
         width: 80%;
         float: left;
         background: #fff;
+    }
+    .introduce-main.no-left-goods {
+        width: 100%;
     }
     .browse {
         display: block;

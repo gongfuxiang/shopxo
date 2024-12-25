@@ -163,6 +163,9 @@ return [
         'payment_layer_content'                 => 'Payment failed or did not respond for a long time',
         'payment_layer_order_button_text'       => 'My Order',
         'payment_layer_tips'                    => 'Payment can be re-initiated after',
+        'extraction_contact_name'               => 'My name is',
+        'extraction_contact_tel'                => 'My phone',
+        'extraction_contact_tel_placeholder'    => 'My phone or landline',
     ],
 
     // 文章
@@ -215,6 +218,7 @@ return [
         'form_payment_no_data_tips'             => 'No payment method',
         'order_base_title'                      => 'Order information',
         'order_status_title'                    => 'Order Status',
+        'order_contact_title'                   => 'contacts',
         'order_consignee_title'                 => 'Consignee',
         'order_phone_title'                     => 'Mobile phone number',
         'order_base_warehouse_title'            => 'Shipping service:',

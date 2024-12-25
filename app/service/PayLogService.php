@@ -113,6 +113,100 @@ class PayLogService
     }
 
     /**
+     * 支付日志请求记录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-11-17
+     * @desc    description
+     * @param   [string]          $log_no [支付日志单号]
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayLogRequestRecord($log_no, $params = [])
+    {
+        $data = [
+            'request_params'  => empty($params['request_params']) ? '' : (is_array($params['request_params']) ? json_encode($params['request_params'], JSON_UNESCAPED_UNICODE) : $params['request_params']),
+        ];
+        Db::name('PayLog')->where(['log_no'=>$log_no])->update($data);
+    }
+
+    /**
+     * 支付日志数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-11-17
+     * @desc    description
+     * @param   [string]          $log_no [支付日志单号]
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayLogData($log_no, $params = [])
+    {
+        $data = Db::name('PayLog')->where(['log_no'=>$log_no])->find();
+        if(!empty($data))
+        {
+            if(!empty($data['request_params']) && IsJson($data['request_params']))
+            {
+                $data['request_params'] = json_decode($data['request_params'], true);
+            }
+            return $data;
+        }
+        return [];
+    }
+
+    /**
+     * 业务订单支付日志数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-11-17
+     * @desc    业务订单id 和 业务订单号必须传一个
+     * @param   [string]       $params['business_type'] [业务类型]
+     * @param   [int]          $params['business_id']   [业务订单id]
+     * @param   [string]       $params['business_no']   [业务订单号]
+     * @param   [int]          $params['status']        [支付状态]
+     */
+    public static function BusinessOrderPayLogData($params = [])
+    {
+        if(!empty($params['business_type']))
+        {
+            $where = [];
+            // 业务订单id
+            if(!empty($params['business_id']))
+            {
+                $where[] = ['plv.business_id', '=', intval($params['business_id'])];
+            }
+            // 业务订单号
+            if(!empty($params['business_no']))
+            {
+                $where[] = ['plv.business_no', '=', trim($params['business_no'])];
+            }
+            // 增加基础条件查询数据
+            if(!empty($where))
+            {
+                // 业务类型
+                $where[] = ['pl.business_type', '=', trim($params['business_type'])];
+                // 状态
+                if(isset($params['status']))
+                {
+                    $where[] = ['pl.status', '=', intval($params['status'])];
+                }
+                // 获取数据
+                $data = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where($where)->find();
+                if(!empty($data))
+                {
+                    if(!empty($data['request_params']) && IsJson($data['request_params']))
+                    {
+                        $data['request_params'] = json_decode($data['request_params'], true);
+                    }
+                    return $data;
+                }
+            }
+        }
+        return [];
+    }
+
+    /**
      * 支付日志更新
      * @author  Devil
      * @blog    http://gong.gg/

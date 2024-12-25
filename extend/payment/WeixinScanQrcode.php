@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
+
 /**
  * 微信扫码支付
  * @author   Devil
@@ -145,7 +147,7 @@ class WeixinScanQrcode
         }
 
         // 支付参数
-        $request_params = [
+        $parameter = [
             'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
@@ -158,11 +160,14 @@ class WeixinScanQrcode
             'sign_type'         => 'MD5',
             'time_expire'       => $this->OrderAutoCloseTime(),
         ];
-        $request_params['sign'] = $this->GetSign($request_params);
+        $parameter['sign'] = $this->GetSign($parameter);
+
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
         // 请求接口处理
         $request_url = 'https://api.mch.weixin.qq.com/pay/micropay';
-        $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params)));
+        $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($parameter)));
         if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
@@ -215,21 +220,21 @@ class WeixinScanQrcode
         }
 
         // 请求参数
-        $request_params = [
+        $parameter = [
             'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().$params['order_no']),
             'out_trade_no'      => $params['order_no'],
             'sign_type'         => 'MD5',
         ];
-        $request_params['sign'] = $this->GetSign($request_params);
+        $parameter['sign'] = $this->GetSign($parameter);
 
         // 是否撤销操作
         if(isset($params['is_reverse_pay']) && $params['is_reverse_pay'] == 1)
         {
             // 请求接口处理
             $request_url = 'https://api.mch.weixin.qq.com/secapi/pay/reverse';
-            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params), true));
+            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($parameter), true));
             if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
             {
                 if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
@@ -244,7 +249,7 @@ class WeixinScanQrcode
         } else {
             // 请求接口处理
             $request_url = 'https://api.mch.weixin.qq.com/pay/orderquery';
-            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($request_params)));
+            $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($parameter)));
             if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
             {
                 if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
@@ -371,7 +376,7 @@ class WeixinScanQrcode
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // 请求参数
-        $data = [
+        $parameter = [
             'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
@@ -383,21 +388,22 @@ class WeixinScanQrcode
             'refund_fee'        => (int) (($params['refund_price']*1000)/10),
             'refund_desc'       => $refund_reason,            
         ];
-        $data['sign'] = $this->GetSign($data);
+        $parameter['sign'] = $this->GetSign($parameter);
 
         // 请求接口处理
-        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
+        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($parameter), true));
         if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS')
             {
                 // 统一返回格式
                 $data = [
-                    'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
-                    'trade_no'      => isset($result['transaction_id']) ? $result['transaction_id'] : '',
-                    'buyer_user'    => isset($result['refund_id']) ? $result['refund_id'] : '',
-                    'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
-                    'return_params' => $result,
+                    'out_trade_no'    => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
+                    'trade_no'        => isset($result['transaction_id']) ? $result['transaction_id'] : '',
+                    'buyer_user'      => isset($result['refund_id']) ? $result['refund_id'] : '',
+                    'refund_price'    => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
+                    'return_params'   => $result,
+                    'request_params'  => $parameter,
                 ];
                 return DataReturn('退款成功', 0, $data);
             }

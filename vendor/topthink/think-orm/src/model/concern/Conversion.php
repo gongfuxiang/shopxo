@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\model\concern;
 
@@ -132,7 +132,7 @@ trait Conversion
                     throw new Exception('bind attr has exists:' . $key);
                 }
 
-                $this->data[$key] = $model->$attr;
+                $this->data[$key] = $model->getAttr($attr);
             }
         }
 
@@ -149,11 +149,7 @@ trait Conversion
      */
     public function append(array $append = [], bool $merge = false)
     {
-        if ($merge) {
-            $this->append = array_merge($this->append, $append);
-        } else {
-            $this->append = $append;
-        }
+        $this->append = $merge ? array_merge($this->append, $append) : $append;
 
         return $this;
     }
@@ -168,11 +164,7 @@ trait Conversion
      */
     public function hidden(array $hidden = [], bool $merge = false)
     {
-        if ($merge) {
-            $this->hidden = array_merge($this->hidden, $hidden);
-        } else {
-            $this->hidden = $hidden;
-        }
+        $this->hidden = $merge ? array_merge($this->hidden, $hidden) : $hidden;
 
         return $this;
     }
@@ -187,11 +179,7 @@ trait Conversion
      */
     public function visible(array $visible = [], bool $merge = false)
     {
-        if ($merge) {
-            $this->visible = array_merge($this->visible, $visible);
-        } else {
-            $this->visible = $visible;
-        }
+        $this->visible = $merge ? array_merge($this->visible, $visible) : $visible;
 
         return $this;
     }
@@ -218,16 +206,17 @@ trait Conversion
     public function toArray(): array
     {
         $item = $visible = $hidden = [];
+
         $hasVisible = false;
 
         foreach ($this->visible as $key => $val) {
             if (is_string($val)) {
                 if (str_contains($val, '.')) {
-                    [$relation, $name] = explode('.', $val);
+                    [$relation, $name]    = explode('.', $val);
                     $visible[$relation][] = $name;
                 } else {
                     $visible[$val] = true;
-                    $hasVisible = true;
+                    $hasVisible    = true;
                 }
             } else {
                 $visible[$key] = $val;
@@ -237,7 +226,7 @@ trait Conversion
         foreach ($this->hidden as $key => $val) {
             if (is_string($val)) {
                 if (str_contains($val, '.')) {
-                    [$relation, $name] = explode('.', $val);
+                    [$relation, $name]   = explode('.', $val);
                     $hidden[$relation][] = $name;
                 } else {
                     $hidden[$val] = true;
@@ -271,6 +260,20 @@ trait Conversion
                 $item[$key] = $this->getAttr($key);
             } elseif (!isset($hidden[$key]) && !$hasVisible) {
                 $item[$key] = $this->getAttr($key);
+            } elseif (in_array($key, $this->json)) {
+                if (isset($hidden[$key]) && is_array($hidden[$key])) {
+                    // 隐藏JSON属性
+                    foreach ($hidden[$key] as $name) {
+                        if (is_array($val)) {
+                            unset($val[$name]);
+                        } else {
+                            unset($val->$name);
+                        }
+                    }
+                    $item[$key] = $val;
+                } elseif (!isset($hidden[$key])) {
+                    $item[$key] = $val;
+                }
             }
 
             if (isset($this->mapping[$key])) {
@@ -294,7 +297,7 @@ trait Conversion
         return $item;
     }
 
-    protected function appendAttrToArray(array &$item, $key, array|string $name, array $visible, array $hidden): void
+    protected function appendAttrToArray(array &$item, $key, array | string $name, array $visible, array $hidden): void
     {
         if (is_array($name)) {
             // 批量追加关联对象属性
@@ -303,11 +306,11 @@ trait Conversion
         } elseif (str_contains($name, '.')) {
             // 追加单个关联对象属性
             [$key, $attr] = explode('.', $name);
-            $relation   = $this->getRelationWith($key, $hidden, $visible);
-            $item[$key] = $relation ? $relation->append([$attr])->toArray() : [];
+            $relation     = $this->getRelationWith($key, $hidden, $visible);
+            $item[$key]   = $relation ? $relation->append([$attr])->toArray() : [];
         } else {
-            $value          = $this->getAttr($name);
-            $item[$name]    = $value;
+            $value       = $this->getAttr($name);
+            $item[$name] = $value;
 
             $this->getBindAttrValue($name, $value, $item);
         }
@@ -315,7 +318,7 @@ trait Conversion
 
     protected function getRelationWith(string $key, array $hidden, array $visible)
     {
-        $relation   = $this->getRelation($key, true);
+        $relation = $this->getRelation($key, true);
         if ($relation) {
             if (isset($visible[$key])) {
                 $relation->visible($visible[$key]);
@@ -385,7 +388,7 @@ trait Conversion
      *
      * @return Collection
      */
-    public function toCollection(iterable $collection = [], string $resultSetType = null): Collection
+    public function toCollection(iterable $collection = [], ?string $resultSetType = null): Collection
     {
         $resultSetType = $resultSetType ?: $this->resultSetType;
 

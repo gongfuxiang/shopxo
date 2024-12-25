@@ -94,7 +94,7 @@
                                 <div class="am-form-group">
                                     <label class="am-block">{{:MyLang('common_service.themedata.form_item_article_order_by_type')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.themedata.form_item_article_order_by_type_tips')}}</span></label>
                                     <div class="am-radio-group">
-                                        {{foreach $common_theme_article_order_by_type_list as $k=>$v}}
+                                        {{foreach $common_article_order_by_type_list as $k=>$v}}
                                             <label class="am-radio-inline">
                                                 <input type="radio" name="article_order_by_type" value="{{$k}}"  data-validation-message="{{:MyLang('common_service.themedata.form_item_article_order_by_type_message')}}" {{if (empty($data['data']) and !isset($data['data']['article_order_by_type']) and isset($v['checked'])) or (!empty($data['data']) and isset($data['data']['article_order_by_type']) and $data['data']['article_order_by_type'] eq $k)}}checked{{/if}} data-am-ucheck> {{$v.name}}
                                             </label>

@@ -12,8 +12,9 @@
 // +----------------------------------------------------------------------
 // | 路由设置
 // +----------------------------------------------------------------------
+$suffix = MyFileConfig('home_seo_url_html_suffix', '', 'html', true);
 return [
     // URL伪静态后缀
-    'url_html_suffix'       => MyFileConfig('home_seo_url_html_suffix', '', 'html', true),
+    'url_html_suffix'       => empty($suffix) ? 'html' : $suffix,
 ];
 ?>

@@ -174,7 +174,7 @@
         <!-- 电脑端详情 -->
         <div class="item" data-key="web">
             {{if !empty($data['content_web'])}}
-                <div class="am-nowrap-initial am-img-responsive">
+                <div class="am-nowrap-initial richtext">
                     {{$data.content_web|raw}}
                 </div>
             {{else /}}
@@ -211,7 +211,7 @@
         <!-- 虚拟商品展示数据 -->
         <div class="item" data-key="fictitious">
             {{if !empty($data['fictitious_goods_value'])}}
-                <div class="am-nowrap-initial am-img-responsive">
+                <div class="am-nowrap-initial richtext">
                     {{$data.fictitious_goods_value|raw}}
                 </div>
             {{else /}}

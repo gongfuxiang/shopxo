@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\ConfigService;
 use app\service\MultilingualService;
+use app\service\ThemeAdminService;
 
 /**
  * 应用商店服务层
@@ -175,7 +176,53 @@ class StoreService
         }
 
         // 绑定处理
-        return self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password'], 'bind');
+        $ret = self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password'], 'bind');
+        if($ret['code'] == 0)
+        {
+            // 清除插件缓存
+            $plugins = Db::name('Plugins')->column('plugins');
+            if(!empty($plugins) && is_array($plugins))
+            {
+                foreach($plugins as $v)
+                {
+                    MyCache('plugins_legal_check_'.$v, null);
+                }
+            }
+
+            // 清除支付方式缓存
+            $payment = Db::name('Payment')->column('payment');
+            if(!empty($payment) && is_array($payment))
+            {
+                foreach($payment as $v)
+                {
+                    MyCache('payment_legal_check_'.$v, null);
+                }
+            }
+
+            // 清除DIY缓存
+            $diy = Db::name('Diy')->column('md5_key');
+            if(!empty($diy) && is_array($diy))
+            {
+                foreach($diy as $v)
+                {
+                    MyCache('diy_legal_check_'.$v, null);
+                }
+            }
+
+            // 清除主题缓存
+            $theme = ThemeAdminService::ThemeAdminList();
+            if(!empty($theme) && is_array($theme))
+            {
+                foreach($theme as $v)
+                {
+                    if(!empty($v['theme']))
+                    {
+                        MyCache('theme_legal_check_'.$v['theme'], null);
+                    }
+                }
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -398,7 +445,7 @@ class StoreService
             'lang'          => MultilingualService::GetUserMultilingualValue(),
             'client_date'   => date('Y-m-d H:i:s'), 
         ];
-        $ret = CurlPost($url, array_merge($data, $params), $data_type);
+        $ret = CurlPost($url, array_merge($data, $params), $data_type, 60);
         if($ret['code'] != 0)
         {
             // 网络不通
@@ -443,12 +490,6 @@ class StoreService
      */
     public static function PackageDataList($params = [])
     {
-        // 参数校验
-        if(empty($params) || empty($params['type']))
-        {
-            return DataReturn(MyLang('store_package_data_params_error_tips'), -1);
-        }
-
         // 参数处理
         $params['page_size'] = empty($params['page_size']) ? 18 : min(100, intval($params['page_size']));
 

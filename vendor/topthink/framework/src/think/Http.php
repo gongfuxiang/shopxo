@@ -149,7 +149,7 @@ class Http
      * @param Request|null $request
      * @return Response
      */
-    public function run(Request $request = null): Response
+    public function run(?Request $request = null): Response
     {
         //初始化
         $this->initialize();

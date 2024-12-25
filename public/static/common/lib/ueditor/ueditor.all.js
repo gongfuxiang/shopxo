@@ -6924,7 +6924,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     //font-family不能呢随便改，在safari下fillchar会有解析问题
                     'body{font-family:sans-serif;font-size:14px;color:#333;}' +
                     //设置段落间距
-                    'p{margin:5px 0;}</style>' +
+                    'p{margin:0;}</style>' +
                     ( options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '' ) +
                     (options.initialStyle ? '<style>' + options.initialStyle + '</style>' : '') +
                     '</head><body class=\'view\' ></body>' +
@@ -8074,7 +8074,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             }
             return {
                 path_type: path_type,
-                category_id: category_id
+                category_id: category_id || path_type
             };
         },
 
@@ -8097,7 +8097,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             }
             return {
                 path_type: path_type,
-                category_id: category_id
+                category_id: category_id || path_type
             };
         },
 

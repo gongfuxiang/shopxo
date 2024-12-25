@@ -79,6 +79,7 @@
     width: 8.7rem;
 }
 .forth-selection-list-container {
+    max-height: calc(100% - 9.2rem);
     height: calc(100% - 9.2rem);
     border: 0.1rem solid #eee;
 }

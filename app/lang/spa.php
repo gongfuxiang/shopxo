@@ -311,7 +311,6 @@ return [
     'store_respond_data_empty_tips'                         => '¡La tienda devolvió un error anormal, ¡ por favor vuelva a intentarlo más tarde!',
     'store_respond_result_tips'                             => 'Regreso de la tienda',
     'store_plugins_params_error_tips'                       => 'Los parámetros del plug - in son incorrectos',
-    'store_package_data_params_error_tips'                  => 'Los parámetros de la lista de datos del paquete son incorrectos',
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Cuenta',
     'store_bind_form_accounts_placeholder'                  => 'Nombre de usuario / teléfono móvil / buzón',
@@ -331,6 +330,7 @@ return [
     'base_config_title'                                     => 'Configuración básica',
     'extend_config_title'                                   => 'Configuración extendida',
     'clear_search_where'                                    => 'Eliminar las condiciones de búsqueda',
+    'appoint_time_title'                                    => 'Hora especificada',
     'register_time_title'                                   => 'Tiempo de registro',
     'add_time_title'                                        => 'Añadir tiempo',
     'upd_time_title'                                        => 'Tiempo de actualización',
@@ -374,6 +374,7 @@ return [
     'booking_title'                                         => 'Hacer una cita',
     'detail_title'                                          => 'Detalles',
     'view_detail_title'                                     => 'Ver detalles',
+    'view_all_title'                                        => 'Ver todo',
     'base_title'                                            => 'Base',
     'data_title'                                            => 'Datos',
     'view_title'                                            => 'Ver',
@@ -531,6 +532,7 @@ return [
     'images_title'                                          => 'Imagen',
     'icon_title'                                            => 'Iconos',
     'cover_title'                                           => 'Portada',
+    'file_title'                                            => 'Documentos',
     'video_title'                                           => 'Vídeo',
     'text_title'                                            => 'Texto',
     'loading_title'                                         => 'Carga',
@@ -567,10 +569,13 @@ return [
     'chat_title'                                            => 'Servicio',
     'gift_title'                                            => 'Regalos',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
+    'self_pickup_title'                                     => 'Autorecogida',
     'self_pickup_point_title'                               => 'Punto de referencia propio',
     'web_title'                                             => 'Lado web',
     'app_title'                                             => 'Teléfono móvil',
     'custom_title'                                          => 'Personalizado',
+    'customer_title'                                        => 'Cliente',
+    'customer_info_title'                                   => 'Información del cliente',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
     'goods_add_name'                                        => 'Adición de productos básicos',
@@ -614,6 +619,8 @@ return [
     'user_nickname_title'                                   => 'Apodo',
     'user_mobile_title'                                     => 'Teléfono móvil',
     'user_email_title'                                      => 'Buzón',
+    'user_status_title'                                     => 'Estado del usuario',
+    'user_status_message'                                   => 'Por favor, seleccione el Estado del usuario',
     'account_abnormal_tips'                                 => 'Cuenta anormal',
     'register_close_tips'                                   => 'Cierre temporal del registro',
     'register_type_error_tips'                              => 'El tipo de registro es incorrecto',
@@ -628,6 +635,9 @@ return [
     'email_format_error_tips'                               => 'Formato de correo electrónico incorrecto',
     'email_no_exist_error_tips'                             => '¡El correo electrónico no existe, ¡ por favor, registre primero!',
     'login_fail_tips'                                       => '¡Falló el inicio de sesión, ¡ por favor, vuelva a intentarlo más tarde!',
+    'register_username_forbid_error_tips'                   => 'El nombre de usuario prohíbe el registro',
+    'register_mobile_forbid_error_tips'                     => 'El teléfono está prohibido registrarse',
+    'register_email_forbid_error_tips'                      => 'El buzón está prohibido registrarse',
     // 表单相关
     'form_base_data_title'                                  => 'Información básica',
     'form_open_zip_message'                                 => 'Falló la apertura del paquete comprimido',
@@ -1108,6 +1118,19 @@ return [
         1 => 'Detalles',
         2 => 'Base',
     ],
+    // 品牌排序类型
+    'common_brand_order_by_type_list' => [
+        0 => 'Integral',
+        1 => 'Orden',
+        2 => 'Nombre',
+        3 => 'Último',
+    ],
+    // 文章排序类型
+    'common_article_order_by_type_list' => [
+        0 => 'Integral',
+        1 => 'Calor',
+        2 => 'Último',
+    ],
     // 商品关联排序类型
     'common_goods_order_by_type_list' => [
         0 => 'Integral',
@@ -1272,11 +1295,6 @@ return [
         0 => 'Lectura automática',
         1 => 'artículo especificado',
     ],
-    // 主题数据-文章类型
-    'common_theme_article_order_by_type_list' => [
-        0 => 'Último',
-        1 => 'Calor',
-    ],
     // 附件分类-路径名称匹配
     'common_attachment_category_path_name_list' => [
         'common'          => 'Público',
@@ -1307,6 +1325,14 @@ return [
         'scrawl'  => 'Graffiti',
         'video'   => 'Vídeo',
         'remote'  => 'Agarre remoto',
+    ],
+    // 商店应用类型列表
+    'common_plugins_goods_type_list' => [
+        'plugins'   => 'Plug - in',
+        'payment'   => 'Plug - in de pago',
+        'webtheme'  => 'Temas del lado web',
+        'design'    => 'Plantilla de diseño de página',
+        'diy'       => 'Plantilla DIY',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1500,6 +1526,9 @@ return [
             'decrypt_data_empty_tips'               => 'Los datos desclasificados están vacíos',
             'decrypt_iv_empty_tips'                 => 'IV está vacío, por favor vuelva a intentarlo',
             'platform_not_mobile_login_tips'        => 'La plataforma aún no ha desarrollado el teléfono para iniciar sesión con un solo clic.',
+            'mobile_empty_tips'                     => 'El número de teléfono móvil está vacío',
+            'avatar_empty_tips'                     => 'Por favor, suba el avatar',
+            'nickname_format_tips'                  => 'Entre 1 y 60 caracteres de apodo',
             'auth_login_success_tips'               => 'Autorización para iniciar sesión con éxito',
             'default_nickname_weiixn'               => 'Usuarios de Wechat',
         ],
@@ -1678,9 +1707,13 @@ return [
             'upload_config_file_error_tips'         => 'La información de configuración está vacía o incorrecta',
             'upload_config_file_handle_fail_tips'   => 'Falló el procesamiento del archivo de configuración',
             'upload_invalid_packet_tips'            => 'Paquete de datos no válido',
-            'preview_url_tips'                      => 'Por favor, configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] primero',
+            'preview_url_tips'                      => 'Por favor, configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] primero (el lado h5 necesita ser empaquetado con la versión uniapp)',
             'preview_url_copy_name'                 => 'Copiar enlace',
             'preview_scan_tips'                     => 'Efecto de previsualización del Código de escaneo',
+            'form_item_desc'                        => 'Descripción',
+            'form_item_desc_message'                => 'Formato de contenido de descripción de 2 a 60 caracteres',
+            'form_item_apply_version'               => 'Versión del sistema aplicable',
+            'form_item_apply_version_message'       => 'Elija al menos una versión del sistema aplicable',
         ],
         // 附件管理
         'attachment'        => [
@@ -2568,6 +2601,13 @@ return [
             'config_file_no_exist_tips'             => 'El perfil temático no existe',
             'config_error_tips'                     => 'La información de configuración del tema es incorrecta',
             'upload_config_file_get_fail_tips'      => 'Falló la lectura de la información de configuración',
+            'form_item_version'                     => 'Versión',
+            'form_item_version_tips'                => 'Versión principal - número de versión secundaria - número de revisión, no más de 6 dígitos por párrafo, como 1.0.0',
+            'form_item_version_message'             => 'El formato de la versión es incorrecto',
+            'form_item_desc'                        => 'Descripción',
+            'form_item_desc_message'                => 'Formato de contenido de descripción de 2 a 60 caracteres',
+            'form_item_apply_version'               => 'Versión del sistema aplicable',
+            'form_item_apply_version_message'       => 'Elija al menos una versión del sistema aplicable',
         ],
         // 主题数据
         'themedata'                 => [
@@ -3568,6 +3608,11 @@ return [
             'desc' => 'Tema predeterminado del applet de Wechat',
             'tips' => 'Por favor, elija el tema predeterminado del applet de Wechat',
         ],
+        'common_user_verify_bind_mobile_list'  => [
+            'name' => 'El Código de verificación vincula el inicio de sesión del teléfono',
+            'desc' => 'Cierre predeterminado',
+            'tips' => 'Por favor, elija el Código de verificación para vincular el teléfono para iniciar sesión.',
+        ],
         'common_user_onekey_bind_mobile_list'  => [
             'name' => 'Obtenga la cuenta, el teléfono móvil se conecta con un solo clic',
             'desc' => 'Cierre predeterminado',
@@ -3701,6 +3746,11 @@ return [
         'home_site_user_register_bg_color'  => [
             'name' => 'Color de fondo del registro del usuario',
             'tips' => 'Por favor, elija el color de fondo del registro del usuario',
+        ],
+        'home_userregister_unique_forbid_value'  => [
+            'name' => 'Se prohíbe el registro de nombre de usuario / teléfono móvil / buzón',
+            'desc' => 'Vuelve al coche después de entrar',
+            'tips' => 'Por favor, rellene el nombre de usuario / teléfono móvil / correo electrónico prohibido',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => 'Imagen',
@@ -3951,6 +4001,11 @@ return [
             'name' => '¿ habilitar la navegación pequeña de la cabeza del Centro de usuarios',
             'desc' => 'El valor predeterminado es',
             'tips' => 'Por favor, elija Si habilita la navegación pequeña de la cabeza del Centro de usuarios.',
+        ],
+        'common_app_is_weixin_force_user_base'  => [
+            'name' => 'El applet de Wechat obliga a rellenar la información básica',
+            'desc' => 'Cierre predeterminado',
+            'tips' => 'Por favor, elija el applet de Wechat para obligar a rellenar la información básica.',
         ],
         'common_app_user_base_popup_pages'  => [
             'name' => 'Página de recordatorio de información básica del usuario',
@@ -4492,10 +4547,15 @@ return [
             'desc' => 'Si se marca, se utiliza',
             'tips' => 'Por favor, marque el idioma que necesita usar',
         ],
-        'common_multilingual_default_value'  => [
-            'name' => 'Idioma predeterminado',
+        'common_multilingual_admin_default_value'  => [
+            'name' => 'Idioma predeterminado en segundo plano',
             'desc' => 'Chino predeterminado',
-            'tips' => 'Por favor, elija el idioma predeterminado',
+            'tips' => 'Por favor, elija el idioma predeterminado en segundo plano',
+        ],
+        'common_multilingual_user_default_value'  => [
+            'name' => 'Idioma predeterminado del lado del usuario',
+            'desc' => 'Chino predeterminado',
+            'tips' => 'Por favor, elija el idioma predeterminado del lado del usuario',
         ],
         'admin_use_multilingual_status'  => [
             'name' => 'El back - end utiliza Multilingüismo',

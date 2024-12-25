@@ -215,7 +215,6 @@ class Article
             'data'  => [
                 'table_name'    => 'Article',
                 'data_handle'   => 'ArticleService::ArticleListHandle',
-                'is_page'       => 1,
             ],
         ];
     }

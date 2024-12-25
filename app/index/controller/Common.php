@@ -27,6 +27,7 @@ use app\service\MultilingualService;
 use app\service\BreadcrumbService;
 use app\service\GoodsCartService;
 use app\service\ThemeDataService;
+use app\service\ConfigService;
 
 /**
  * 前端公共控制器
@@ -176,6 +177,9 @@ class Common extends BaseController
         $this->data_post = input('post.');
         $this->data_get = input('get.');
         $this->data_request = input();
+
+        // 配置信息初始化
+        ConfigService::ConfigInit();
     }
 
     /**

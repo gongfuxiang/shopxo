@@ -600,6 +600,7 @@ return [
             'give_integral'           => '购买赠送积分比例',
             'buy_min_number'          => '单次最低起购数量',
             'buy_max_number'          => '单次最大购买数量',
+            'sort_level'              => '排序权重',
             'sales_count'             => '销量',
             'access_count'            => '访问次数',
             'add_time'                => '创建时间',
@@ -1024,6 +1025,7 @@ return [
             'trade_no'          => '支付平台交易号',
             'buyer_user'        => '支付平台用户帐号',
             'subject'           => '订单名称',
+            'request_params'    => '请求参数',
             'pay_time'          => '支付时间',
             'close_time'        => '关闭时间',
             'add_time'          => '创建时间',
@@ -1069,6 +1071,8 @@ return [
             'refund_price'      => '退款金额',
             'pay_price'         => '订单支付金额',
             'msg'               => '描述',
+            'request_params'    => '请求参数',
+            'return_params'     => '响应参数',
             'add_time_time'     => '退款时间',
         ],
     ],
@@ -1351,8 +1355,7 @@ return [
 
     // 应用商店
     'store'                 => [
-        'top_tips'                              => 'ShopXO优秀应用列表，这里云集了最资深，技术能力最强，最可信赖的ShopXO开发者，为您的插件、风格、模板定制全面护航。',
-        'to_store_name'                         => '去应用商店挑选插件 >>',
+        'to_store_name'                         => '去应用商店挑选插件',
     ],
 
     // 公共
@@ -1360,8 +1363,6 @@ return [
         // 公共
         'admin_browser_title'                   => '后台管理系统',
         'remove_cache_title'                    => '清除缓存',
-        'user_status_title'                     => '用户状态',
-        'user_status_message'                   => '请选择用户状态',
         // 商品参数
         'form_goods_params_config_error_tips'   => '商品参数配置信息',
         'form_goods_params_copy_no_tips'        => '请先粘贴配置信息',
@@ -1547,6 +1548,8 @@ return [
                 'themeadmin_delete'                => '主题删除',
                 'themeadmin_download'              => '主题下载',
                 'themeadmin_market'                => '主题模板市场',
+                'themeadmin_storeuploadinfo'       => '主题上传页面',
+                'themeadmin_storeupload'           => '主题上传',
                 'themedata_index'                  => '主题数据',
                 'themedata_saveinfo'               => '主题数据添加/编辑页面',
                 'themedata_save'                   => '主题数据添加/编辑',
@@ -1667,6 +1670,8 @@ return [
                 'diy_preview'                      => 'DIY装修预览',
                 'diy_market'                       => 'DIY装修模板市场',
                 'diy_apptabbar'                    => 'DIY装修底部菜单',
+                'diy_storeuploadinfo'              => 'DIY装修上传页面',
+                'diy_storeupload'                  => 'DIY装修上传',
                 'diyapi_init'                      => 'DIY装修-公共初始化',
                 'diyapi_attachmentcategory'        => 'DIY装修-附件分类',
                 'diyapi_attachmentlist'            => 'DIY装修-附件列表',
@@ -1694,6 +1699,8 @@ return [
                 'diyapi_goodsautodata'             => 'DIY装修-商品自动数据',
                 'diyapi_articleappointdata'        => 'DIY装修-文章指定数据',
                 'diyapi_articleautodata'           => 'DIY装修-文章自动数据',
+                'diyapi_brandappointdata'          => 'DIY装修-品牌指定数据',
+                'diyapi_brandautodata'             => 'DIY装修-品牌自动数据',
                 'diyapi_userheaddata'              => 'DIY装修-用户头部数据',
                 'diyapi_custominit'                => 'DIY装修-自定义初始化',
                 'apphomenav_index'                 => '首页导航',
@@ -1776,6 +1783,7 @@ return [
                 'pluginscategory_save'          => '应用分类添加/编辑',
                 'pluginscategory_statusupdate'  => '应用分类状态更新',
                 'pluginscategory_delete'        => '应用分类删除',
+                'store_market'                  => '应用市场',
             ]
         ],
         'tool_index' => [

@@ -77,8 +77,7 @@ class Order extends Center
         // 订单信息
         if(empty($this->data_detail))
         {
-            MyViewAssign('msg', MyLang('no_data'));
-            return MyView('public/tips_error');
+            return MyView('public/tips_error', ['msg'=>MyLang('no_data')]);
         }
 
         // 模板数据
@@ -114,8 +113,7 @@ class Order extends Center
         $data = $this->OrderFirst();
         if(empty($data))
         {
-            MyViewAssign('msg', MyLang('no_data'));
-            return MyView('public/tips_error');
+            return MyView('public/tips_error', ['msg'=>MyLang('no_data')]);
         }
 
         // 模板数据
@@ -185,8 +183,7 @@ class Order extends Center
             $params['business_type'] = 'order';
             return GoodsCommentsService::Comments($params);
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 
     /**
@@ -212,8 +209,7 @@ class Order extends Center
                 return MyRedirect($ret['data']['data']);
             }
         }
-        MyViewAssign('msg', $ret['msg']);
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>$ret['msg']]);
     }
 
     /**
@@ -274,8 +270,7 @@ class Order extends Center
             $params['creator_name'] = $this->user['user_name_view'];
             return ApiService::ApiDataReturn(OrderService::OrderCancel($params));
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 
     /**
@@ -296,8 +291,7 @@ class Order extends Center
             $params['creator_name'] = $this->user['user_name_view'];
             return ApiService::ApiDataReturn(OrderService::OrderCollect($params));
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 
     /**
@@ -319,8 +313,7 @@ class Order extends Center
             $params['user_type'] = 'user';
             return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 
     /**
@@ -339,8 +332,7 @@ class Order extends Center
             $params['user'] = $this->user;
             return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
         }
-        MyViewAssign('msg', MyLang('illegal_access_tips'));
-        return MyView('public/tips_error');
+        return MyView('public/tips_error', ['msg'=>MyLang('illegal_access_tips')]);
     }
 }
 ?>

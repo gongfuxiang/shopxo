@@ -34,11 +34,19 @@ $(function()
                             $('.am-gallery-item .submit-delete').removeClass('am-hide');
                             $parent.find('.submit-delete').addClass('am-hide');
                             Prompt(result.msg, 'success');
+                            // 上传
+                            $('.am-gallery-item .theme-upload-submit').removeClass('am-color-ccc');
+                            $parent.find('.theme-upload-submit').addClass('am-color-ccc');
                             // 下载
                             $('.am-gallery-item .theme-download-submit').removeClass('am-color-ccc');
                             $parent.find('.theme-download-submit').addClass('am-color-ccc');
                         } else {
-                            Prompt(result.msg);
+                            if(result.code == -300)
+                            {
+                                StoreAccountsPopupOpen();
+                            } else {
+                                Prompt(result.msg);
+                            }
                         }
                     },
                     error: function(xhr, type)

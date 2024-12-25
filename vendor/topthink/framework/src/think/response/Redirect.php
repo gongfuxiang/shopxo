@@ -93,7 +93,7 @@ class Redirect extends Response
     public function restore()
     {
         if ($this->session->has('redirect_url')) {
-            $this->data = $this->session->get('redirect_url');
+            $this->data($this->session->get('redirect_url'));
             $this->session->delete('redirect_url');
         }
 

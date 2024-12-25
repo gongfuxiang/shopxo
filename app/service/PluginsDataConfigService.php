@@ -72,15 +72,25 @@ class PluginsDataConfigService
                 {
                     foreach($data as $k=>$v)
                     {
-                        if(!empty($v) && !is_array($v) && !is_object($v))
+                        if(!empty($v))
                         {
-                            $ext = strrchr(substr($v, -6), '.');
-                            if($ext !== false)
+                            // 附件
+                            if(!is_array($v) && !is_object($v))
                             {
-                                if(in_array($ext, $attachment_ext))
+                                $ext = strrchr(substr($v, -6), '.');
+                                if($ext !== false)
                                 {
-                                    $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                    if(in_array($ext, $attachment_ext))
+                                    {
+                                        $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                    }
                                 }
+                            }
+
+                            // json
+                            if(IsJson($v))
+                            {
+                                $data[$k] = json_decode($v, true);
                             }
                         }
                     }
@@ -138,7 +148,7 @@ class PluginsDataConfigService
             $data = [
                 'plugins'   => $plugins,
                 'only_tag'  => $k,
-                'value'     => $v,
+                'value'     => is_array($v) ? json_encode($v, JSON_UNESCAPED_UNICODE) : $v,
             ];
             $info = Db::name('PluginsDataConfig')->where(['plugins'=>$data['plugins'], 'only_tag'=>$data['only_tag']])->find();
             if(empty($info))

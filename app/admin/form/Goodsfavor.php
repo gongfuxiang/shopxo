@@ -132,7 +132,6 @@ class GoodsFavor
                 'order_by'      => 'f.id desc',
                 'detail_dkey'   => 'f.id',
                 'data_handle'   => 'GoodsFavorService::GoodsFavorListHandle',
-                'is_page'       => 1,
                 'data_params'   => [
                     'is_public'     => 0,
                     'user_type'     => 'admin',

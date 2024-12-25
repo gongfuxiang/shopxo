@@ -168,7 +168,7 @@ class Diy
             'data'  => [
                 'table_name'             => 'Diy',
                 'data_handle'            => 'DiyService::DiyListHandle',
-                'detail_action'          => ['detail', 'saveinfo', 'preview'],
+                'detail_action'          => ['detail', 'saveinfo', 'preview', 'storeuploadinfo'],
                 'is_page'                => 1,
                 'is_handle_annex_field'  => 1,
                 'data_params'            => [

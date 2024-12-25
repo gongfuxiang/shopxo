@@ -15,7 +15,7 @@
 
     {{if count($home_user_login_type) gt 1}}
         <!-- am-tabs-border：底部边框 -->
-        <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <ul class="am-tabs-nav am-nav am-nav-tabs user-entrance-tabs">
             {{if in_array('username', $home_user_login_type)}}
                 <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('user.login_type_username_title')}}</a></li>
             {{/if}}

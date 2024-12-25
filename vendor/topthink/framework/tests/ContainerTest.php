@@ -219,7 +219,7 @@ class ContainerTest extends TestCase
         });
 
         /** @var SomeClass $someClass */
-        $someClass = $container->invokeClass(SomeClass::class);
+        $someClass = $container->make(SomeClass::class);
         $this->assertEquals(2, $someClass->count);
     }
 

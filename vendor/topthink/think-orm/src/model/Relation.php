@@ -163,7 +163,7 @@ abstract class Relation
      *
      * @return mixed
      */
-    protected function resultSetBuild(array $resultSet, Model $parent = null)
+    protected function resultSetBuild(array $resultSet, ?Model $parent = null)
     {
         return (new $this->model())->toCollection($resultSet)->setParent($parent);
     }

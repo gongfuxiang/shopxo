@@ -70,8 +70,6 @@
         <script type="text/javascript">
             // 定义打印配置
             var print_is_list_choice = 1;
-            // 模板打印数据
-            var print_data = {{if empty($form_table_data_list)}}''{{else /}}{{:json_encode($form_table_data_list, JSON_UNESCAPED_UNICODE)}}{{/if}};
             // 打印模板
             var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
         </script>

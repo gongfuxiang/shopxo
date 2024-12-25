@@ -416,8 +416,11 @@ class GoodsService
             $user_favor = $is_favor ? self::UserFavorGoodsCountData($goods_ids, $params) : [];
 
             // 开始处理数据
-            foreach($data as &$v)
+            foreach($data as $k=>&$v)
             {
+                // 增加索引
+                $v['data_index'] = $k+1;
+
                 // 数据主键id
                 $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
 
@@ -548,13 +551,13 @@ class GoodsService
                 // 产地
                 if(isset($v['place_origin']))
                 {
-                    $v['place_origin_name'] = (!empty($place_origin_list) && is_array($place_origin_list) && array_key_exists($v['place_origin'], $place_origin_list)) ? $place_origin_list[$v['place_origin']] : null;
+                    $v['place_origin_name'] = (!empty($place_origin_list) && is_array($place_origin_list) && array_key_exists($v['place_origin'], $place_origin_list)) ? $place_origin_list[$v['place_origin']] : '';
                 }
 
                 // 品牌
                 if(isset($v['brand_id']))
                 {
-                    $v['brand_name'] = (!empty($brand_list) && is_array($brand_list) && array_key_exists($v['brand_id'], $brand_list)) ? $brand_list[$v['brand_id']] : null;
+                    $v['brand_name'] = (!empty($brand_list) && is_array($brand_list) && array_key_exists($v['brand_id'], $brand_list)) ? $brand_list[$v['brand_id']] : '';
                 }
 
                 // 时间
@@ -2822,6 +2825,35 @@ class GoodsService
             ]
         ];
 
+        // 手机端是否存在客服
+        if(APPLICATION == 'app' && MyC('common_app_is_online_service') == 1)
+        {
+            // 是否存在自定义客服
+            $custom = MyC('common_app_customer_service_custom', []);
+            if(empty($custom) || empty($custom[APPLICATION_CLIENT_TYPE]))
+            {
+                // h5,ios,android端必须存在电话
+                $status = in_array(APPLICATION_CLIENT_TYPE, ['h5', 'ios', 'android']);
+                if($status)
+                {
+                    $tel = MyC('common_app_customer_service_tel');
+                    $status = !empty($tel);
+                } else {
+                    $status = true;
+                }
+            } else {
+                $status = true;
+            }
+            if($status)
+            {
+                $data[] = [
+                    'name'  => MyLang('chat_title'),
+                    'icon'  => StaticAttachmentUrl('chat-icon.png'),
+                    'type'  => 'chat',
+                ];
+            }
+        }
+
         // 商品购买导航左侧钩子
         $hook_name = 'plugins_service_goods_buy_left_nav_handle';
         MyEventTrigger($hook_name, [
@@ -3172,9 +3204,9 @@ class GoodsService
         if($result['total'] > 0)
         {
             // 查询数据
-            $goods = GoodsService::GoodsDataHandle(Db::name('Goods')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
+            $goods = self::GoodsDataHandle(Db::name('Goods')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
-            })->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray());
+            })->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray(), $params);
 
             // 返回数据
             $result['data'] = $goods['data'];

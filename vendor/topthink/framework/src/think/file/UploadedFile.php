@@ -23,7 +23,7 @@ class UploadedFile extends File
     private $mimeType;
     private $error;
 
-    public function __construct(string $path, string $originalName, string $mimeType = null, int $error = null, bool $test = false)
+    public function __construct(string $path, string $originalName, ?string $mimeType = null, ?int $error = null, bool $test = false)
     {
         $this->originalName = $originalName;
         $this->mimeType     = $mimeType ?: 'application/octet-stream';
@@ -47,7 +47,7 @@ class UploadedFile extends File
      * @param string|null $name      保存的文件名
      * @return File
      */
-    public function move(string $directory, string $name = null): File
+    public function move(string $directory, ?string $name = null): File
     {
         if ($this->isValid()) {
             if ($this->test) {

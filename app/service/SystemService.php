@@ -213,7 +213,11 @@ class SystemService
         {
             if(APPLICATION == 'web')
             {
-                $site_domain_url = MyC('common_domain_host', __MY_URL__, true);
+                $site_domain_url = MyC('common_domain_host');
+                if(empty($site_domain_url))
+                {
+                    $site_domain_url = __MY_URL__;
+                }
                 if(substr($site_domain_url, -1) != DS)
                 {
                     $site_domain_url .= DS;

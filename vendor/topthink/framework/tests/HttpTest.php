@@ -54,8 +54,6 @@ class HttpTest extends TestCase
             return $req === $request;
         })->andReturn($response);
 
-        $route->shouldReceive('config')->with('route_annotation')->andReturn(true);
-
         $this->app->shouldReceive('get')->with('route')->andReturn($route);
 
         $console = m::mock(Console::class);

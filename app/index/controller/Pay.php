@@ -42,12 +42,13 @@ class Pay extends Common
      */
     public function Qrcode()
     {
-        if(!empty($this->data_request['url']) && !empty($this->data_request['order_no']) && !empty($this->data_request['name']) && !empty($this->data_request['msg']))
+        $pay_data = MySession('payment_qrcode_data');
+        if(empty($pay_data) || empty($pay_data['url']) || empty($pay_data['check_url']) || empty($pay_data['order_no']) || empty($pay_data['name']) || empty($pay_data['msg']))
         {
-            return MyView();
+            return MyView('public/tips_error', ['msg'=>MyLang('params_error_tips')]);
         }
-        MyViewAssign('msg', MyLang('params_error_tips'));
-        return MyView('public/tips_error');
+        MyViewAssign('pay_data', $pay_data);
+        return MyView();
     }
 }
 ?>

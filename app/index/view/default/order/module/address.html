@@ -13,10 +13,24 @@
         <span>{{$module_data.address_data.county_name}}</span>
         <span>{{$module_data.address_data.address}}</span>
         {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0 }}
-            <a href="javascript:;" class="submit-map-popup am-text-blue am-text-xs" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}">
+            <a href="javascript:;" class="submit-map-popup am-text-blue am-text-xs" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}" data-title="{{:MyLang('map_title')}}">
                 <i class="iconfont icon-map-position"></i>
-                <span>查看位置</span>
+                <span>{{:MyLang('map_title')}}</span>
             </a>
         {{/if}}
     </div>
+    {{if !empty($module_data['address_data']['extraction_contact_name']) or !empty($module_data['address_data']['extraction_contact_tel']) or !empty($module_data['address_data']['appoint_time'])}}
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs">
+        <p class="am-margin-top-xs">
+            {{if !empty($module_data['address_data']['extraction_contact_name'])}}
+                <span class="text-copy-submit am-margin-right-sm">{{$module_data.address_data.extraction_contact_name}}</span>
+            {{/if}}
+            {{if !empty($module_data['address_data']['extraction_contact_tel'])}}
+                <span class="text-copy-submit am-margin-right-sm">{{$module_data.address_data.extraction_contact_tel}}</span>
+            {{/if}}
+            {{if !empty($module_data['address_data']['appoint_time'])}}
+                <span class="text-copy-submit am-color-red">{{$module_data.address_data.appoint_time}}</span>
+            {{/if}}
+        </p>
+    {{/if}}
 {{/if}}

@@ -405,31 +405,34 @@ class PluginsService
      */
     public static function PluginsLegalCheck($plugins, $data = [])
     {
-        $key = 'plugins_legal_check_'.$plugins;
-        $ret = MyCache($key);
-        if(empty($ret))
+        if(RequestModule() == 'admin')
         {
-            if(empty($data))
+            $key = 'plugins_legal_check_'.$plugins;
+            $ret = MyCache($key);
+            if(empty($ret))
             {
-                $data = PluginsAdminService::GetPluginsConfig($plugins);
+                if(empty($data))
+                {
+                    $data = PluginsAdminService::GetPluginsConfig($plugins);
+                }
+                if(empty($data) || empty($data['base']))
+                {
+                    return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
+                }
+                $check_params = [
+                    'type'      => 'plugins',
+                    'config'    => $data,
+                    'plugins'   => $plugins,
+                    'author'    => $data['base']['author'],
+                    'ver'       => $data['base']['version'],
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                MyCache($key, $ret, 3600);
             }
-            if(empty($data) || empty($data['base']))
+            if(!in_array($ret['code'], [0, -9999]))
             {
-                return DataReturn(MyLang('common_service.plugins.plugins_call_config_error_tips'), -1);
+                return $ret;
             }
-            $check_params = [
-                'type'      => 'plugins',
-                'config'    => $data,
-                'plugins'   => $plugins,
-                'author'    => $data['base']['author'],
-                'ver'       => $data['base']['version'],
-            ];
-            $ret = StoreService::PluginsLegalCheck($check_params);
-            MyCache($key, $ret, 3600);
-        }
-        if(!in_array($ret['code'], [0, -9999]))
-        {
-            return $ret;
         }
         return DataReturn('success', 0);
     }

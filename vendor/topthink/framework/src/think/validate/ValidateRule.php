@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\validate;
 
@@ -53,7 +53,8 @@ namespace think\validate;
  * @method static ValidateRule isAlpha(mixed $rule = null, string $msg = '')  验证字段值是否为字母
  * @method static ValidateRule isAlphaDash(mixed $rule = null, string $msg = '')  验证字段值是否为字母和下划线
  * @method static ValidateRule isAlphaNum(mixed $rule = null, string $msg = '')  验证字段值是否为字母和数字
- * @method static ValidateRule isAccepted(mixed $rule = null, string $msg = '')  验证字段值是否为yes, on, 或是 1
+ * @method static ValidateRule isAccepted(mixed $rule = null, string $msg = '')  验证字段值是否为yes, on, true, 或是 1
+ * @method static ValidateRule isDeclined(mixed $rule = null, string $msg = '')  验证字段值是否为no, off, false, 或是 0
  * @method static ValidateRule isEmail(mixed $rule = null, string $msg = '')  验证字段值是否为有效邮箱格式
  * @method static ValidateRule isUrl(mixed $rule = null, string $msg = '')  验证字段值是否为有效URL地址
  * @method static ValidateRule activeUrl(mixed $rule, string $msg = '')  验证是否为合格的域名或者IP
@@ -67,6 +68,8 @@ namespace think\validate;
  * @method static ValidateRule unique(mixed $rule, string $msg = '')  验证是否唯一
  * @method static ValidateRule behavior(mixed $rule, string $msg = '')  使用行为类验证
  * @method static ValidateRule filter(mixed $rule, string $msg = '')  使用filter_var方式验证
+ * @method static ValidateRule acceptedIf(mixed $rule, string $msg = '')  验证某个字段等于指定的值，则验证中的字段必须为 yes、on、1 或 true
+ * @method static ValidateRule declinedIf(mixed $rule, string $msg = '')  验证某个字段等于指定的值，则验证中的字段必须为 no、off、0 或 false
  * @method static ValidateRule requireIf(mixed $rule, string $msg = '')  验证某个字段等于某个值的时候必须
  * @method static ValidateRule requireCallback(mixed $rule, string $msg = '')  通过回调方法验证某个字段是否必须
  * @method static ValidateRule requireWith(mixed $rule, string $msg = '')  验证某个字段有值的情况下必须

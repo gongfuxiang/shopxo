@@ -87,6 +87,7 @@ class ConfigService
         'admin_login_type',
         'home_site_app_state',
         'home_search_params_type',
+        'common_user_verify_bind_mobile_list',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
         'common_app_user_base_popup_pages',
@@ -154,7 +155,8 @@ class ConfigService
 
         // 多语言可选列表和默认值
         'common_multilingual_choose_list',
-        'common_multilingual_default_value',
+        'common_multilingual_admin_default_value',
+        'common_multilingual_user_default_value',
     ];
 
     /**
@@ -332,81 +334,88 @@ class ConfigService
         $data = MyCache($key);
         if($data === null || $status == 1 || MyEnv('app_debug') || MyInput('lang') || MyFileConfig('common_data_is_use_cache') != 1)
         {
-            // 所有配置
-            $data = Db::name('Config')->column('value', 'only_tag');
-            if(!empty($data))
+            static $is_init_config_data = false;
+            if($status == 1 || $is_init_config_data === false)
             {
-                // 数据处理
-                // 字符串转数组
-                foreach(self::$string_to_array_field_list as $fv)
+                // 所有配置
+                $data = Db::name('Config')->column('value', 'only_tag');
+                if(!empty($data))
                 {
-                    if(isset($data[$fv]))
+                    // 数据处理
+                    // 字符串转数组
+                    foreach(self::$string_to_array_field_list as $fv)
                     {
-                        $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
-                    }
-                }
-
-                // json数据数组
-                foreach(self::$data_json_array_field_list as $fv)
-                {
-                    if(isset($data[$fv]))
-                    {
-                        $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
-                    }
-                }
-
-                // 单附件字段
-                foreach(self::$attachment_field_list as $fv)
-                {
-                    if(!empty($data[$fv]))
-                    {
-                        $data[$fv] = ResourcesService::AttachmentPathViewHandle($data[$fv]);
-                    }
-                }
-
-                // 数组附件字段
-                foreach(self::$data_array_attachment_field_list as $fk=>$fv)
-                {
-                    if(!empty($data[$fk]) && is_array($data[$fk]))
-                    {
-                        foreach($data[$fk] as $fkk=>$fvv)
+                        if(isset($data[$fv]))
                         {
-                            if(!empty($fvv[$fv]))
+                            $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
+                        }
+                    }
+
+                    // json数据数组
+                    foreach(self::$data_json_array_field_list as $fv)
+                    {
+                        if(isset($data[$fv]))
+                        {
+                            $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
+                        }
+                    }
+
+                    // 单附件字段
+                    foreach(self::$attachment_field_list as $fv)
+                    {
+                        if(!empty($data[$fv]))
+                        {
+                            $data[$fv] = ResourcesService::AttachmentPathViewHandle($data[$fv]);
+                        }
+                    }
+
+                    // 数组附件字段
+                    foreach(self::$data_array_attachment_field_list as $fk=>$fv)
+                    {
+                        if(!empty($data[$fk]) && is_array($data[$fk]))
+                        {
+                            foreach($data[$fk] as $fkk=>$fvv)
                             {
-                                $data[$fk][$fkk][$fv] = ResourcesService::AttachmentPathViewHandle($fvv[$fv]);
+                                if(!empty($fvv[$fv]))
+                                {
+                                    $data[$fk][$fkk][$fv] = ResourcesService::AttachmentPathViewHandle($fvv[$fv]);
+                                }
                             }
                         }
                     }
+
+                    // 数据处理
+                    foreach($data as $k=>&$v)
+                    {
+                        // 不参与缓存的配置
+                        if(in_array($k, self::$not_cache_field_list))
+                        {
+                            unset($data[$k]);
+                            continue;
+                        }
+
+                        // 富文本字段处理
+                        if(in_array($k, self::$rich_text_list))
+                        {
+                            $v = ResourcesService::ContentStaticReplace($v, 'get');
+                        }
+
+                        // 数据文件缓存
+                        if(in_array($k, self::$file_cache_keys))
+                        {
+                            MyFileConfig($k, $v);
+                        }
+                    }
+                } else {
+                    $data = [];
                 }
 
-                // 数据处理
-                foreach($data as $k=>&$v)
-                {
-                    // 不参与缓存的配置
-                    if(in_array($k, self::$not_cache_field_list))
-                    {
-                        unset($data[$k]);
-                        continue;
-                    }
+                // 所有配置缓存集合
+                MyCache($key, $data);
 
-                    // 富文本字段处理
-                    if(in_array($k, self::$rich_text_list))
-                    {
-                        $v = ResourcesService::ContentStaticReplace($v, 'get');
-                    }
-
-                    // 数据文件缓存
-                    if(in_array($k, self::$file_cache_keys))
-                    {
-                        MyFileConfig($k, $v);
-                    }
-                }
-            } else {
-                $data = [];
+                // 已初始化状态
+                $is_init_config_data = true;
             }
-
-            // 所有配置缓存集合
-            MyCache($key, $data);
         }
         return $data;
     }
@@ -526,7 +535,7 @@ class ConfigService
         if(array_key_exists('home_seo_url_model', $params))
         {
             $route_file = APP_PATH.'route'.DS.'route.config';
-            $route_arr = ['admin', 'index'];
+            $route_arr = ['index'];
 
             // 后端+前端都生成对应的路由定义规则、为了后台进入前端url保持一致
             foreach($route_arr as $module)

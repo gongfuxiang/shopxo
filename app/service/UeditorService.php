@@ -202,7 +202,7 @@ class UeditorService
      */
     public static function PathTypeCategoryId()
     {
-        return empty(self::$params['category_id']) ? AttachmentCategoryService::AttachmentCategoryId(self::$path_type) : intval(self::$params['category_id']);
+        return AttachmentCategoryService::AttachmentCategoryId(empty(self::$params['category_id']) ? self::$path_type : self::$params['category_id']);
     }
 
     /**

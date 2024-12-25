@@ -8,6 +8,12 @@
         <i class="am-icon-eye"></i>
         <span>{{:MyLang('preview_title')}}</span>
     </button>
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/diy/storeuploadinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('upload_title')}}">
+            <i class="am-icon-upload"></i>
+            <span>{{:MyLang('upload_title')}}</span>
+        </button>
+    {{/if}}
     <a class="am-btn am-btn-success am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/diy/download', array_merge($params, ['id'=>$module_data['id']]))}}" target="_blank">
         <i class="am-icon-download"></i>
         <span>{{:MyLang('download_title')}}</span>

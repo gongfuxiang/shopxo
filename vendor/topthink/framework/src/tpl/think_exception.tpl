@@ -68,7 +68,7 @@ if (!function_exists('parse_args')) {
                     break;
             }
 
-            $result[] = is_int($key) ? $value : "'{$key}' => {$value}";
+            $result[] = is_int($key) ? $value : sprintf('\'%s\' => %s', htmlentities($key), $value);
         }
 
         return implode(', ', $result);

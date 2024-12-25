@@ -311,7 +311,6 @@ return [
     'store_respond_data_empty_tips'                         => 'The store returned an unexpected error. Please try again later!',
     'store_respond_result_tips'                             => 'Store Return',
     'store_plugins_params_error_tips'                       => 'The plugin parameters are incorrect',
-    'store_package_data_params_error_tips'                  => 'The parameters of the package data list are incorrect',
     // 商店绑定表单
     'store_bind_form_accounts'                              => 'Accounts',
     'store_bind_form_accounts_placeholder'                  => 'User name/mobile phone/email',
@@ -331,6 +330,7 @@ return [
     'base_config_title'                                     => 'Base Config',
     'extend_config_title'                                   => 'Extend Config',
     'clear_search_where'                                    => 'Clear Search Where',
+    'appoint_time_title'                                    => 'Specify time',
     'register_time_title'                                   => 'Register Time',
     'add_time_title'                                        => 'Add Time',
     'upd_time_title'                                        => 'Update Time',
@@ -374,6 +374,7 @@ return [
     'booking_title'                                         => 'Booking',
     'detail_title'                                          => 'Detail',
     'view_detail_title'                                     => 'View details',
+    'view_all_title'                                        => 'View all',
     'base_title'                                            => 'Base',
     'data_title'                                            => 'Data',
     'view_title'                                            => 'View',
@@ -531,6 +532,7 @@ return [
     'images_title'                                          => 'Images',
     'icon_title'                                            => 'Icon',
     'cover_title'                                           => 'Cover',
+    'file_title'                                            => 'File',
     'video_title'                                           => 'Video',
     'text_title'                                            => 'Text',
     'loading_title'                                         => 'Loading',
@@ -567,10 +569,13 @@ return [
     'chat_title'                                            => 'Chat',
     'gift_title'                                            => 'Gift',
     'continue_scan_title'                                   => 'ContinueScan',
+    'self_pickup_title'                                     => 'Self pickup',
     'self_pickup_point_title'                               => 'Self Pickup Point',
     'web_title'                                             => 'WEB end',
     'app_title'                                             => 'Mobile end',
     'custom_title'                                          => 'Custom',
+    'customer_title'                                        => 'customer',
+    'customer_info_title'                                   => 'Customer Information',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_add_name'                                        => 'Goods Add',
@@ -614,6 +619,8 @@ return [
     'user_nickname_title'                                   => 'Nickname',
     'user_mobile_title'                                     => 'Mobile',
     'user_email_title'                                      => 'Email',
+    'user_status_title'                                     => 'User Status',
+    'user_status_message'                                   => 'Please select user status',
     'account_abnormal_tips'                                 => 'Account exception',
     'register_close_tips'                                   => 'Temporarily close registration',
     'register_type_error_tips'                              => 'Wrong registration type',
@@ -628,6 +635,9 @@ return [
     'email_format_error_tips'                               => 'Email format error',
     'email_no_exist_error_tips'                             => 'Email does not exist, please register first!',
     'login_fail_tips'                                       => 'Login failed. Please try again later!',
+    'register_username_forbid_error_tips'                   => 'This username is prohibited from registration',
+    'register_mobile_forbid_error_tips'                     => 'This phone is prohibited from registration',
+    'register_email_forbid_error_tips'                      => 'This email is prohibited from registration',
     // 表单相关
     'form_base_data_title'                                  => 'Base Info',
     'form_open_zip_message'                                 => 'Failed to open the compressed package',
@@ -1108,6 +1118,19 @@ return [
         1 => 'details',
         2 => 'Basics',
     ],
+    // 品牌排序类型
+    'common_brand_order_by_type_list' => [
+        0 => 'comprehensive',
+        1 => 'order',
+        2 => 'name',
+        3 => 'newest',
+    ],
+    // 文章排序类型
+    'common_article_order_by_type_list' => [
+        0 => 'comprehensive',
+        1 => 'degree of heat',
+        2 => 'newest',
+    ],
     // 商品关联排序类型
     'common_goods_order_by_type_list' => [
         0 => 'comprehensive',
@@ -1272,11 +1295,6 @@ return [
         0 => 'Auto read',
         1 => 'Specify article',
     ],
-    // 主题数据-文章类型
-    'common_theme_article_order_by_type_list' => [
-        0 => 'Latest',
-        1 => 'Heat',
-    ],
     // 附件分类-路径名称匹配
     'common_attachment_category_path_name_list' => [
         'common'          => 'public',
@@ -1307,6 +1325,14 @@ return [
         'scrawl'  => 'Graffiti',
         'video'   => 'video',
         'remote'  => 'Remote capture',
+    ],
+    // 商店应用类型列表
+    'common_plugins_goods_type_list' => [
+        'plugins'   => 'Plugins',
+        'payment'   => 'Payment plugin',
+        'webtheme'  => 'Web theme',
+        'design'    => 'Page design template',
+        'diy'       => 'DIY Template',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1498,6 +1524,9 @@ return [
             'decrypt_data_empty_tips'               => 'Decrypted data is empty',
             'decrypt_iv_empty_tips'                 => 'Iv is empty, please try again',
             'platform_not_mobile_login_tips'        => 'The platform has not yet developed one-touch login',
+            'mobile_empty_tips'                     => 'The phone number is empty',
+            'avatar_empty_tips'                     => 'Please upload your profile picture',
+            'nickname_format_tips'                  => 'Nickname between 1 and 60 characters',
             'auth_login_success_tips'               => 'Auth login succeeded',
             'default_nickname_weiixn'               => 'WeChat User',
         ],
@@ -1674,9 +1703,13 @@ return [
             'upload_config_file_error_tips'         => 'Configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
             'upload_invalid_packet_tips'            => 'Invalid data packet',
-            'preview_url_tips'                      => 'Please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first',
+            'preview_url_tips'                      => 'Please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first (H5 end needs to be packaged using Uniapp version)',
             'preview_url_copy_name'                 => 'Copy link',
             'preview_scan_tips'                     => 'Scan code preview effect',
+            'form_item_desc'                        => 'describe',
+            'form_item_desc_message'                => 'Describe content format 2-60 characters',
+            'form_item_apply_version'               => 'Applicable system version',
+            'form_item_apply_version_message'       => 'Select at least one applicable system version',
         ],
         // 附件管理
         'attachment'        => [
@@ -2563,6 +2596,13 @@ return [
             'config_file_no_exist_tips'             => 'Theme profile does not exist',
             'config_error_tips'                     => 'The subject configuration information is incorrect',
             'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
+            'form_item_version'                     => 'Version',
+            'form_item_version_tips'                => 'Major version, minor version number and revision number, each segment shall not exceed 6 digits, such as 1.0.0',
+            'form_item_version_message'             => 'Incorrect version format',
+            'form_item_desc'                        => 'describe',
+            'form_item_desc_message'                => 'Describe content format 2-60 characters',
+            'form_item_apply_version'               => 'Applicable system version',
+            'form_item_apply_version_message'       => 'Select at least one applicable system version',
         ],
         // 主题数据
         'themedata'                 => [
@@ -3576,6 +3616,11 @@ return [
             'desc' => 'WeChat applet default theme',
             'tips' => 'Please select the default theme of WeChat applet',
         ],
+        'common_user_verify_bind_mobile_list'  => [
+            'name' => 'Verification code binding mobile login',
+            'desc' => 'Default shutdown',
+            'tips' => 'Please select verification code to bind mobile login',
+        ],
         'common_user_onekey_bind_mobile_list'  => [
             'name' => 'Get an account and log in with one key',
             'desc' => 'Default off',
@@ -3713,6 +3758,11 @@ return [
         'home_site_user_register_bg_color'  => [
             'name' => 'User registration background color',
             'tips' => 'Please select the background color for user registration',
+        ],
+        'home_userregister_unique_forbid_value'  => [
+            'name' => 'Prohibit registering username/phone/email',
+            'desc' => 'Enter and press Enter',
+            'tips' => 'Please fill in the prohibited username/phone/email for registration',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => 'picture',
@@ -3982,6 +4032,11 @@ return [
             'name' => 'Enable small navigation of user center head',
             'desc' => 'Default is',
             'tips' => 'Please select whether to enable small navigation of user center head',
+        ],
+        'common_app_is_weixin_force_user_base'  => [
+            'name' => 'WeChat mini program forces basic information to be filled in',
+            'desc' => 'Default shutdown',
+            'tips' => 'Please select WeChat mini program to force basic information to be filled in',
         ],
         'common_app_user_base_popup_pages'  => [
             'name' => 'User basic information prompt page',
@@ -4529,10 +4584,15 @@ return [
             'desc' => 'Check to use',
             'tips' => 'Please tick the language you want to use',
         ],
-        'common_multilingual_default_value'  => [
-            'name' => 'default language',
+        'common_multilingual_admin_default_value'  => [
+            'name' => 'Default language in the backend',
             'desc' => 'Default Chinese',
-            'tips' => 'Please select the default language',
+            'tips' => 'Please select the default language for the backend',
+        ],
+        'common_multilingual_user_default_value'  => [
+            'name' => 'User default language',
+            'desc' => 'Default Chinese',
+            'tips' => 'Please select the default language for the client',
         ],
         'admin_use_multilingual_status'  => [
             'name' => 'Backend uses multiple languages',

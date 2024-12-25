@@ -19,6 +19,7 @@ use app\service\AdminPowerService;
 use app\service\ResourcesService;
 use app\service\StoreService;
 use app\service\MultilingualService;
+use app\service\ConfigService;
 
 /**
  * 管理员公共控制器
@@ -152,6 +153,9 @@ class Common extends BaseController
         $this->data_post = input('post.');
         $this->data_get = input('get.');
         $this->data_request = input();
+
+        // 配置信息初始化
+        ConfigService::ConfigInit();
     }
 
 	/**

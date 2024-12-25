@@ -32,8 +32,9 @@ class OrderCurrencyService
      * @desc    description
      * @param   [int]          $order_id    [订单id]
      * @param   [int]          $user_id     [用户id]
+     * @param   [array]        $params      [输入参数]
      */
-    public static function OrderCurrencyInsert($order_id, $user_id)
+    public static function OrderCurrencyInsert($order_id, $user_id, $params = [])
     {
         $currency = ResourcesService::CurrencyData();
         $data = [

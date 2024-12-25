@@ -171,10 +171,10 @@ class Collection extends BaseCollection
      *
      * @return $this
      */
-    public function withAttr(string|array $name, callable $callback = null)
+    public function withAttr(string|array $name, ?callable $callback = null)
     {
         $this->each(function (Model $model) use ($name, $callback) {
-            $model->withAttr($name, $callback);
+            $model->withFieldAttr($name, $callback);
         });
 
         return $this;
@@ -207,7 +207,7 @@ class Collection extends BaseCollection
      *
      * @return array
      */
-    public function dictionary($items = null, string &$indexKey = null)
+    public function dictionary($items = null, ?string &$indexKey = null)
     {
         if ($items instanceof self || $items instanceof Paginator) {
             $items = $items->all();
@@ -234,7 +234,7 @@ class Collection extends BaseCollection
      *
      * @return static
      */
-    public function diff($items, string $indexKey = null)
+    public function diff($items, ?string $indexKey = null)
     {
         if ($this->isEmpty()) {
             return new static($items);
@@ -262,7 +262,7 @@ class Collection extends BaseCollection
      *
      * @return static
      */
-    public function intersect($items, string $indexKey = null)
+    public function intersect($items, ?string $indexKey = null)
     {
         if ($this->isEmpty()) {
             return new static([]);

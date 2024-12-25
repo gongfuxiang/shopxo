@@ -55,13 +55,7 @@
                     <div class="items goods-price goods-sale-price">
                         <dt>{{if empty($module_data['goods']['show_field_price_text'])}}销售价{{else /}}{{$module_data.goods.show_field_price_text|raw}}{{/if}}</dt>
                         <dd>
-                            {{if !empty($module_data['goods']['show_price_symbol'])}}
-                                <em class="symbol">{{$module_data.goods.show_price_symbol}}</em>
-                            {{/if}}
-                            <b class="goods-sale-price-value" data-original-price="{{$module_data.goods.price}}">{{$module_data.goods.price}}</b>
-                            {{if !empty($module_data['goods']['show_price_unit'])}}
-                                <em class="unit am-text-grey">{{$module_data.goods.show_price_unit}}</em>
-                            {{/if}}
+                            {{if !empty($module_data['goods']['show_price_symbol'])}}<em class="symbol">{{$module_data.goods.show_price_symbol}}</em>{{/if}}<b class="goods-sale-price-value" data-original-price="{{$module_data.goods.price}}">{{$module_data.goods.price}}</b>{{if !empty($module_data['goods']['show_price_unit'])}}<em class="unit am-text-grey">{{$module_data.goods.show_price_unit}}</em>{{/if}}
                         </dd>                                 
                     </div>
                 {{/if}}

@@ -311,7 +311,6 @@ return [
     'store_respond_data_empty_tips'                         => '商店返回异常錯誤、請稍後再試！',
     'store_respond_result_tips'                             => '商店返回',
     'store_plugins_params_error_tips'                       => '挿件參數有誤',
-    'store_package_data_params_error_tips'                  => '包數據清單參數有誤',
     // 商店绑定表单
     'store_bind_form_accounts'                              => '帳號',
     'store_bind_form_accounts_placeholder'                  => '用戶名/手機/郵箱',
@@ -331,6 +330,7 @@ return [
     'base_config_title'                                     => '基礎配寘',
     'extend_config_title'                                   => '擴展配寘',
     'clear_search_where'                                    => '清除搜索條件',
+    'appoint_time_title'                                    => '指定時間',
     'register_time_title'                                   => '註冊時間',
     'add_time_title'                                        => '添加時間',
     'upd_time_title'                                        => '更新時間',
@@ -374,6 +374,7 @@ return [
     'booking_title'                                         => '預約',
     'detail_title'                                          => '詳情',
     'view_detail_title'                                     => '查看詳情',
+    'view_all_title'                                        => '查看全部',
     'base_title'                                            => '基礎',
     'data_title'                                            => '數據',
     'view_title'                                            => '查看',
@@ -531,6 +532,7 @@ return [
     'images_title'                                          => '圖片',
     'icon_title'                                            => '圖標',
     'cover_title'                                           => '封面',
+    'file_title'                                            => '文件',
     'video_title'                                           => '視頻',
     'text_title'                                            => '文字',
     'loading_title'                                         => '加載',
@@ -567,10 +569,13 @@ return [
     'chat_title'                                            => '客服',
     'gift_title'                                            => '禮物',
     'continue_scan_title'                                   => '繼續掃碼',
+    'self_pickup_title'                                     => '自提',
     'self_pickup_point_title'                               => '自提點',
     'web_title'                                             => 'WEB端',
     'app_title'                                             => '手機端',
     'custom_title'                                          => '自定義',
+    'customer_title'                                        => '客戶',
+    'customer_info_title'                                   => '客戶資訊',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_add_name'                                        => '商品添加',
@@ -614,6 +619,8 @@ return [
     'user_nickname_title'                                   => '昵稱',
     'user_mobile_title'                                     => '手機',
     'user_email_title'                                      => '郵箱',
+    'user_status_title'                                     => '使用者狀態',
+    'user_status_message'                                   => '請選擇使用者狀態',
     'account_abnormal_tips'                                 => '帳戶异常',
     'register_close_tips'                                   => '暫時關閉注册',
     'register_type_error_tips'                              => '注册類型有誤',
@@ -628,6 +635,9 @@ return [
     'email_format_error_tips'                               => '電子郵箱格式錯誤',
     'email_no_exist_error_tips'                             => '電子郵箱不存在、請先註冊！',
     'login_fail_tips'                                       => '登入失敗，請稍後再試！',
+    'register_username_forbid_error_tips'                   => '該用戶名禁止注册',
+    'register_mobile_forbid_error_tips'                     => '該手機禁止注册',
+    'register_email_forbid_error_tips'                      => '該郵箱禁止注册',
     // 表单相关
     'form_base_data_title'                                  => '基礎資訊',
     'form_open_zip_message'                                 => '壓縮包打開失敗',
@@ -1108,6 +1118,19 @@ return [
         1 => '詳情',
         2 => '基礎',
     ],
+    // 品牌排序类型
+    'common_brand_order_by_type_list' => [
+        0 => '綜合',
+        1 => '順序',
+        2 => '名稱',
+        3 => '最新',
+    ],
+    // 文章排序类型
+    'common_article_order_by_type_list' => [
+        0 => '綜合',
+        1 => '熱度',
+        2 => '最新',
+    ],
     // 商品关联排序类型
     'common_goods_order_by_type_list' => [
         0 => '綜合',
@@ -1272,11 +1295,6 @@ return [
         0 => '自動讀取',
         1 => '指定文章',
     ],
-    // 主题数据-文章类型
-    'common_theme_article_order_by_type_list' => [
-        0 => '最新',
-        1 => '熱度',
-    ],
     // 附件分类-路径名称匹配
     'common_attachment_category_path_name_list' => [
         'common'          => '公共',
@@ -1307,6 +1325,14 @@ return [
         'scrawl'  => '塗鴉',
         'video'   => '視頻',
         'remote'  => '遠程抓取',
+    ],
+    // 商店应用类型列表
+    'common_plugins_goods_type_list' => [
+        'plugins'   => '挿件',
+        'payment'   => '支付挿件',
+        'webtheme'  => 'Web端主題',
+        'design'    => '頁面設計範本',
+        'diy'       => 'DIY範本',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1499,6 +1525,9 @@ return [
             'decrypt_data_empty_tips'               => '解密數據為空',
             'decrypt_iv_empty_tips'                 => 'iv為空，請重試',
             'platform_not_mobile_login_tips'        => '平臺還未開發手機一鍵登入',
+            'mobile_empty_tips'                     => '手機號碼為空',
+            'avatar_empty_tips'                     => '請上傳頭像',
+            'nickname_format_tips'                  => '昵稱1~60個字元之間',
             'auth_login_success_tips'               => '授權登入成功',
             'default_nickname_weiixn'               => '微信用戶',
         ],
@@ -1677,9 +1706,13 @@ return [
             'upload_config_file_error_tips'         => '配寘資訊為空或有誤',
             'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
             'upload_invalid_packet_tips'            => '無效數据包',
-            'preview_url_tips'                      => '請在後臺[ 手機->基礎配寘 ]先配寘手機端h5地址',
+            'preview_url_tips'                      => '請在後臺[ 手機->基礎配寘 ]先配寘手機端h5地址（h5端需要使用uniapp版本打包）',
             'preview_url_copy_name'                 => '複製連結',
             'preview_scan_tips'                     => '掃碼預覽效果',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述內容格式2~60個字元',
+            'form_item_apply_version'               => '適用系統版本',
+            'form_item_apply_version_message'       => '至少選擇一個適用系統版本',
         ],
         // 附件管理
         'attachment'        => [
@@ -2567,6 +2600,13 @@ return [
             'config_file_no_exist_tips'             => '主題設定檔不存在',
             'config_error_tips'                     => '主題配寘資訊有誤',
             'upload_config_file_get_fail_tips'      => '配寘資訊讀取失敗',
+            'form_item_version'                     => '版本',
+            'form_item_version_tips'                => '主版本.次版本號.修訂號，每個段不超過6比特，如1.0.0',
+            'form_item_version_message'             => '版本格式有誤',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述內容格式2~60個字元',
+            'form_item_apply_version'               => '適用系統版本',
+            'form_item_apply_version_message'       => '至少選擇一個適用系統版本',
         ],
         // 主题数据
         'themedata'                 => [
@@ -3567,6 +3607,11 @@ return [
             'desc' => '微信小程式默認主題',
             'tips' => '請選擇微信小程式默認主題',
         ],
+        'common_user_verify_bind_mobile_list'  => [
+            'name' => '驗證碼綁定手機登入',
+            'desc' => '默認關閉',
+            'tips' => '請選擇驗證碼綁定手機登入',
+        ],
         'common_user_onekey_bind_mobile_list'  => [
             'name' => '獲取帳戶手機一鍵登入',
             'desc' => '默認關閉',
@@ -3700,6 +3745,11 @@ return [
         'home_site_user_register_bg_color'  => [
             'name' => '用戶註冊背景色',
             'tips' => '請選擇用戶註冊背景色',
+        ],
+        'home_userregister_unique_forbid_value'  => [
+            'name' => '禁止注册用戶名/手機/郵箱',
+            'desc' => '輸入後回車',
+            'tips' => '請填寫禁止注册用戶名/手機/郵箱',
         ],
         'home_site_user_login_ad1_images'  => [
             'name' => '圖片',
@@ -3950,6 +4000,11 @@ return [
             'name' => '是否啟用用戶中心頭部小導航',
             'desc' => '默認是',
             'tips' => '請選擇是否啟用用戶中心頭部小導航',
+        ],
+        'common_app_is_weixin_force_user_base'  => [
+            'name' => '微信小程式強制填寫基礎資訊',
+            'desc' => '默認關閉',
+            'tips' => '請選擇微信小程式強制填寫基礎資訊',
         ],
         'common_app_user_base_popup_pages'  => [
             'name' => '用戶基礎資訊提示頁面',
@@ -4491,15 +4546,20 @@ return [
             'desc' => '勾選則使用',
             'tips' => '請勾選需要使用的語言',
         ],
+        'common_multilingual_admin_default_value'  => [
+            'name' => '後臺默認語言',
+            'desc' => '默認中文',
+            'tips' => '請選擇後臺默認語言',
+        ],
+        'common_multilingual_user_default_value'  => [
+            'name' => '用戶端默認語言',
+            'desc' => '默認中文',
+            'tips' => '請選擇用戶端默認語言',
+        ],
         'admin_use_multilingual_status'  => [
             'name' => '後端使用多語言',
             'desc' => '默認關閉',
             'tips' => '請選擇後端使用多語言',
-        ],
-        'common_multilingual_default_value'  => [
-            'name' => '默認語言',
-            'desc' => '默認中文',
-            'tips' => '請選擇默認語言',
         ],
         'home_use_multilingual_status'  => [
             'name' => '前端用多語言',

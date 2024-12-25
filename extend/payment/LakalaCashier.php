@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\PayLogService;
 use app\service\UserService;
 
 /**
@@ -197,6 +198,9 @@ class LakalaCashier
         ];
         $body = json_encode($parameter, JSON_UNESCAPED_UNICODE);
 
+        // 支付请求记录
+        PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
+
         // 生成签名
         $authorization = $this->AuthorizationCreated($body);
         $result = $this->HttpRequest('pay', $body, $authorization);
@@ -291,11 +295,12 @@ class LakalaCashier
                     // 统一返回格式
                     $res = $result['data']['resp_data'];
                     $data = [
-                        'out_trade_no'  => isset($res['out_trade_no']) ? $res['out_trade_no'] : '',
-                        'trade_no'      => isset($res['trade_no']) ? $res['trade_no'] : '',
-                        'buyer_user'    => isset($res['log_no']) ? $res['log_no'] : '',
-                        'refund_price'  => isset($result['refund_amount']) ? $result['refund_amount']/100 : 0.00,
-                        'return_params' => $result['data'],
+                        'out_trade_no'    => isset($res['out_trade_no']) ? $res['out_trade_no'] : '',
+                        'trade_no'        => isset($res['trade_no']) ? $res['trade_no'] : '',
+                        'buyer_user'      => isset($res['log_no']) ? $res['log_no'] : '',
+                        'refund_price'    => isset($result['refund_amount']) ? $result['refund_amount']/100 : 0.00,
+                        'return_params'   => $result['data'],
+                        'request_params'  => $parameter,
                     ];
                     return DataReturn('退款成功', 0, $data);
                 }

@@ -30,6 +30,36 @@ class DiyService
     private static $exclude_ext = ['php'];
 
     /**
+     * 手机端首页diy数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-10-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppClientHomeDiyData($params = [])
+    {
+        // 是否指定了首页diy数据
+        $diy_mode = MyC('common_app_home_data_diy_mode');
+        if(!empty($diy_mode) && is_array($diy_mode) && !empty($diy_mode[APPLICATION_CLIENT_TYPE]))
+        {
+            $diy_id = $diy_mode[APPLICATION_CLIENT_TYPE];
+        }
+
+        // 手机端首页diy数据钩子
+        $hook_name = 'plugins_service_diy_app_client_home_diy_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => $params,
+            'diy_id'      => &$diy_id,
+        ]);
+
+        return empty($diy_id) ? '' : self::DiyData(['id'=>$diy_id]);
+    }
+
+    /**
      * diy数据
      * @author  Devil
      * @blog    http://gong.gg/
@@ -152,6 +182,8 @@ class DiyService
         if(empty($info) || empty($info['md5_key']))
         {
             $data['md5_key'] = md5(time().GetNumberCode(10).RandomString(10));
+        } else {
+            $data['md5_key'] = $info['md5_key'];
         }
         if(empty($info))
         {
@@ -162,6 +194,13 @@ class DiyService
                 return DataReturn(MyLang('insert_fail'), -1);
             }
         } else {
+            // 安全验证
+            $ret = self::DiyLegalCheck($data['md5_key'], $data);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+            // 更新数据
             $data_id = intval($params['id']);
             $data['upd_time'] = time();
             if(Db::name('Diy')->where(['id'=>$data_id])->update($data) === false)
@@ -303,6 +342,86 @@ class DiyService
      */
     public static function DiyDownload($params = [])
     {
+        // 生成下载包
+        $package = self::DiyDownloadHandle($params);
+        if($package['code'] != 0)
+        {
+            return $package;
+        }
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($package['data']['file'], $package['data']['data']['name'].'_v'.date('YmdHis').'.zip', true))
+        {
+            return DataReturn(MyLang('download_success'), 0);
+        }
+        return DataReturn(MyLang('download_fail'), -100);
+    }
+
+    /**
+     * 上传到应用商店
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-08-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DiyStoreUpload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'describe',
+                'error_msg'         => MyLang('common_service.diy.form_item_desc_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'apply_version',
+                'error_msg'         => MyLang('common_service.diy.form_item_apply_version_message'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 生成下载包
+        $package = self::DiyDownloadHandle($params);
+        if($package['code'] != 0)
+        {
+            return $package;
+        }
+
+        // 帐号信息
+        $user = StoreService::AccountsData();
+        if(empty($user['accounts']) || empty($user['password']))
+        {
+            return DataReturn(MyLang('store_account_not_bind_tips'), -300);
+        }
+
+        // 上传到远程
+        $params['md5_key'] = $package['data']['md5_key'];
+        $params['file'] = new \CURLFile($package['data']['file']);
+        $ret = StoreService::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_diy_upload_url'), $params, 2);
+        // 是个与否都删除本地生成的zip包
+        @unlink($package['data']['file']);
+        // 返回数据
+        return $ret;
+    }
+
+    /**
+     * 下载处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DiyDownloadHandle($params = [])
+    {
         // 请求参数
         $p = [
             [
@@ -339,17 +458,17 @@ class DiyService
         $data_id = GetNumberCode(6).time().GetNumberCode(6);
 
         // 解析下载数据
-        $config = self::ConfigDownloadHandle($data_id, $data['config'], $dir);
+        $data_config = self::ConfigDownloadHandle($data_id, $data['config'], $dir);
 
         // 基础信息
-        $base = [
+        $config = [
             'data_id'   => $data_id,
             'name'      => $data['name'],
             'md5_key'   => $data['md5_key'],
             'logo'      => self::FileSave($data_id, $data['logo'], 'images', $dir),
-            'config'    => $config,
+            'config'    => $data_config,
         ];
-        if(@file_put_contents($dir.DS.'config.json', JsonFormat($base)) === false)
+        if(@file_put_contents($dir.DS.'config.json', JsonFormat($config)) === false)
         {
             return DataReturn(MyLang('common_service.diy.download_config_file_create_fail_tips'), -1);
         }
@@ -365,13 +484,13 @@ class DiyService
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($dir);
 
-        // 开始下载
-        if(\base\FileUtil::DownloadFile($dir_zip, $data['name'].'_v'.date('YmdHis').'.zip', true))
-        {
-            return DataReturn(MyLang('download_success'), 0);
-        } else {
-            return DataReturn(MyLang('download_fail'), -100);
-        }
+        // 返回数据
+        return DataReturn('success', 0, [
+            'file'     => $dir.'.zip',
+            'config'   => $config,
+            'data'     => $data,
+            'md5_key'  => $data['md5_key'],
+        ]);
     }
 
     /**
@@ -717,29 +836,32 @@ class DiyService
      */
     public static function DiyLegalCheck($md5_key, $data = [])
     {
-        $key = 'diy_legal_check_'.$md5_key;
-        $ret = MyCache($key);
-        if(empty($ret))
+        if(RequestModule() == 'admin')
         {
-            if(!is_array($data) && !empty($data))
+            $key = 'diy_legal_check_'.$md5_key;
+            $ret = MyCache($key);
+            if(empty($ret))
             {
-                $data = json_decode($data, true);
+                if(!is_array($data) && !empty($data))
+                {
+                    $data = json_decode($data, true);
+                }
+                if(!empty($data) && is_array($data) && isset($data['config']))
+                {
+                    unset($data['config']);
+                }
+                $check_params = [
+                    'type'      => 'diy',
+                    'config'    => $data,
+                    'plugins'   => $md5_key,
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                MyCache($key, $ret, 3600);
             }
-            if(!empty($data) && is_array($data) && isset($data['config']))
+            if(!in_array($ret['code'], [0, -9999]))
             {
-                unset($data['config']);
+                return $ret;
             }
-            $check_params = [
-                'type'      => 'diy',
-                'config'    => $data,
-                'plugins'   => $md5_key,
-            ];
-            $ret = StoreService::PluginsLegalCheck($check_params);
-            MyCache($key, $ret, 3600);
-        }
-        if(!in_array($ret['code'], [0, -9999]))
-        {
-            return $ret;
         }
         return DataReturn('success', 0);
     }

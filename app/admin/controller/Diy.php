@@ -96,12 +96,26 @@ class Diy extends Base
             if(!empty($data['md5_key']))
             {
                 $ret = DiyService::DiyLegalCheck($data['md5_key'], $data);
-                if($ret['code'] != 0)
+                if($ret['code'] != 0 && $ret['code'] != -300)
                 {
                     return MyView('public/tips_error', ['msg'=>$ret['msg']]);
                 }
             }
         }
+        return MyView();
+    }
+
+    /**
+     * 上传页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     */
+    public function StoreUploadInfo()
+    {
+        MyViewAssign(['choice_system_new_version'=>APPLICATION_VERSION]);
         return MyView();
     }
 
@@ -160,6 +174,19 @@ class Diy extends Base
     public function Delete()
     {
         return ApiService::ApiDataReturn(DiyService::DiyDelete($this->data_request));
+    }
+
+    /**
+     * 上传到商店
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     */
+    public function StoreUpload()
+    {
+        return ApiService::ApiDataReturn(DiyService::DiyStoreUpload($this->data_request));
     }
 
     /**

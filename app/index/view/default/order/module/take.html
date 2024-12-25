@@ -1,16 +1,13 @@
 <!-- 取货信息 -->
 {{if !empty($module_data) and !empty($module_data['extraction_data'])}}
     <p>
-        <span>{{:MyLang('order.order_base_take_code_title')}}</span>
         {{if empty($module_data['extraction_data']['code'])}}
-            <span class="am-text-danger">{{:MyLang('empty_title')}}</span>
+            <span class="am-text-danger">{{:MyLang('no_data')}}</span>
         {{else /}}
-            <span class="am-badge am-badge-success am-radius text-copy-submit">{{$module_data.extraction_data.code}}</span>
+            <span class="text-copy-submit am-vertical-align-middle">{{$module_data.extraction_data.code}}</span>
+            {{if !empty($module_data['extraction_data']['images'])}}
+                <img class="am-img-thumbnail am-radius am-vertical-align-middle common-annex-view-event" src="{{$module_data.extraction_data.images}}" width="18" height="18" data-is-download="1" />
+            {{/if}}
         {{/if}}
     </p>
-    {{if !empty($module_data['extraction_data']['images'])}}
-        <p class="am-margin-top-xs">
-            <img class="am-img-thumbnail" src="{{$module_data.extraction_data.images}}" alt="{{:MyLang('order.order_base_take_code_title')}}" width="100" height="100" />
-        </p>
-    {{/if}}
 {{/if}}
