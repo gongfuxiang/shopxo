@@ -20,7 +20,7 @@
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
     // 当前组件位置url
-    var URL = __public__+'static/common/lib/ueditor/';
+    var URL = __my_public_url__+'static/common/lib/ueditor/';
 
     // 默认语言
     var lang = (window['lang_multilingual_default_code'] || 'zh-cn') == 'en' ? 'en' : 'zh-cn';
