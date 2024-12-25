@@ -992,6 +992,7 @@ class StatisticalService
                 $order_whole_country = self::OrderWholeCountryTotal($params);
                 $renew_usert = self::NewUserTotal($params);
                 $buy_user = self::BuyUserTotal($params);
+                $new_user = self::NewUserTotal($params);
                 $ret = DataReturn('success', 0, [
                     'order_profit'         => $order_profit['data'],
                     'order_trading'        => $order_trading['data'],
@@ -1000,6 +1001,7 @@ class StatisticalService
                     'order_whole_country'  => $order_whole_country['data'],
                     'renew_usert'          => $renew_usert['data'],
                     'buy_user'             => $buy_user['data'],
+                    'new_user'             => $new_user['data'],
                 ]);
                 break;
 
