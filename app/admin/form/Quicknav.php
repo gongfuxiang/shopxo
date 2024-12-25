@@ -81,6 +81,7 @@ class QuickNav
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'event_type',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_app_event_type'),
                         'data_key'          => 'value',
