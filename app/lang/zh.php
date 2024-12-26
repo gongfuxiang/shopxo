@@ -4592,9 +4592,9 @@ return [
             'tips' => '请选择后端使用多语言',
         ],
         'home_use_multilingual_status'  => [
-            'name' => '前端用多语言',
+            'name' => '前端使用多语言',
             'desc' => '默认关闭',
-            'tips' => '请选择前端用多语言',
+            'tips' => '请选择前端使用多语言',
         ],
         'common_multilingual_auto_status'  => [
             'name' => '自动识别用户语言',

@@ -4600,9 +4600,9 @@ return [
             'tips' => 'Please select a backend that uses multiple languages',
         ],
         'home_use_multilingual_status'  => [
-            'name' => 'Multilingual front-end',
+            'name' => 'User uses multiple languages',
             'desc' => 'Default on',
-            'tips' => 'Please select multiple languages for the front end',
+            'tips' => 'Please select a user that uses multiple languages',
         ],
         'common_multilingual_auto_status'  => [
             'name' => 'Automatically recognize user language',

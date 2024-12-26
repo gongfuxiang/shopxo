@@ -4562,9 +4562,9 @@ return [
             'tips' => '請選擇後端使用多語言',
         ],
         'home_use_multilingual_status'  => [
-            'name' => '前端用多語言',
+            'name' => '前端使用多語言',
             'desc' => '默認關閉',
-            'tips' => '請選擇前端用多語言',
+            'tips' => '請選擇前端使用多語言',
         ],
         'common_multilingual_auto_status'  => [
             'name' => '自動識別用戶語言',

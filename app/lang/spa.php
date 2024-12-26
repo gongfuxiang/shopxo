@@ -4563,9 +4563,9 @@ return [
             'tips' => 'Por favor, elija el back - end para usar Multilingüismo',
         ],
         'home_use_multilingual_status'  => [
-            'name' => 'La parte delantera es multilingüe',
+            'name' => 'Uso multilingüe en la parte delantera',
             'desc' => 'Cierre predeterminado',
-            'tips' => 'Por favor, elija la parte delantera para usar varios idiomas',
+            'tips' => 'Por favor, elija la parte delantera para usar Multilingüismo',
         ],
         'common_multilingual_auto_status'  => [
             'name' => 'Reconocimiento automático del lenguaje del usuario',
