@@ -1710,8 +1710,6 @@ return [
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
             'upload_invalid_packet_tips'            => '无效数据包',
             'preview_url_tips'                      => '请在后台[ 手机->基础配置 ]先配置手机端h5地址（h5端需要使用uniapp版本打包）',
-            'preview_url_copy_name'                 => '复制链接',
-            'preview_scan_tips'                     => '扫码预览效果',
             'form_item_desc'                        => '描述',
             'form_item_desc_message'                => '描述内容格式2~60个字符',
             'form_item_apply_version'               => '适用系统版本',

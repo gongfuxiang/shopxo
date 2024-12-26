@@ -65,7 +65,7 @@ class Diy extends Base
      */
     public function Preview()
     {
-        MyViewAssign('data', DiyService::DiyPreviewUrl($this->data_detail));
+        MyViewAssign('data', DiyService::DiyPreviewData($this->data_detail));
         return MyView();
     }
 

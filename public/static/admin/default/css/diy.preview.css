@@ -8,7 +8,7 @@ body {
 }
 .qrcode-content {
     position: absolute;
-    top: 20%;
+    top: 2rem;
     left: calc(50% + 25rem);
 }
 .mobile-iframe,

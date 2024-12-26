@@ -3839,16 +3839,16 @@ function VoiceNotice (mp3) {
  */
 function AnnexView (type, value, obj) {
     if ((value || null) != null) {
-        var title = null;
+        var title = (typeof (obj) == 'object') ? (obj.attr('data-title') || null) : null;
         var html = null;
         var style = 'max-width:100%; max-height:calc(90vh - 4.5rem); margin: 0 auto;';
         switch (type) {
             case 'video':
-                title = window['lang_video_preview_title'] || '视频预览';
+                title = title || window['lang_video_preview_title'] || '视频预览';
                 html = '<video src="' + value + '" style="' + style + '" controls autoplay>your browser does not support the video tag</video>';
                 break;
             default:
-                title = window['lang_images_preview_title'] || '图片预览';
+                title = title || window['lang_images_preview_title'] || '图片预览';
                 html = '<img src="' + value + '" class="am-block" style="' + style + '" />';
         }
         // 是否存在元素对象
@@ -3865,7 +3865,7 @@ function AnnexView (type, value, obj) {
                 config: {},
                 style: 'max-width: 80%; max-height: 90%; left: auto; min-width: 12rem;',
                 content_style: 'padding: 0; border-bottom: 0;',
-                content: html,
+                content: '<div class="'+((typeof (obj) == 'object') ? (obj.attr('data-class') || '') : '')+'">'+html+'</div>',
             });
         }
     }

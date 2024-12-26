@@ -1704,8 +1704,6 @@ return [
             'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
             'upload_invalid_packet_tips'            => 'Invalid data packet',
             'preview_url_tips'                      => 'Please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first (H5 end needs to be packaged using Uniapp version)',
-            'preview_url_copy_name'                 => 'Copy link',
-            'preview_scan_tips'                     => 'Scan code preview effect',
             'form_item_desc'                        => 'describe',
             'form_item_desc_message'                => 'Describe content format 2-60 characters',
             'form_item_apply_version'               => 'Applicable system version',

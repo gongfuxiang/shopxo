@@ -1707,8 +1707,6 @@ return [
             'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
             'upload_invalid_packet_tips'            => '無效數据包',
             'preview_url_tips'                      => '請在後臺[ 手機->基礎配寘 ]先配寘手機端h5地址（h5端需要使用uniapp版本打包）',
-            'preview_url_copy_name'                 => '複製連結',
-            'preview_scan_tips'                     => '掃碼預覽效果',
             'form_item_desc'                        => '描述',
             'form_item_desc_message'                => '描述內容格式2~60個字元',
             'form_item_apply_version'               => '適用系統版本',

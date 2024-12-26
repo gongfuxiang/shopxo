@@ -3,14 +3,24 @@
 <!-- content start  -->
 <div class="content-right">
     {{if $data.code eq 0}}
-        <iframe src="{{$data.data}}" class="mobile-iframe am-radius"></iframe>
-        <div class="qrcode-content am-background-white am-radius am-padding-main">
-            <div class="view-qrcode-init" data-value="{{$data.data}}" data-width="140" data-height="140"></div>
-            <div class="am-margin-top-sm am-text-center">
-                <span class="am-color-grey">{{:MyLang('common_service.diy.preview_scan_tips')}}</span>
-                <span class="text-copy-submit am-color-blue am-margin-left-sm" data-value="{{$data.data}}">{{:MyLang('common_service.diy.preview_url_copy_name')}}</span>
+        {{if empty($data['data']['h5_url'])}}
+            <div class="mobile-iframe am-padding-lg am-color-grey am-radius">{{:MyLang('common_service.diy.preview_url_tips')}}</div>
+        {{else /}}
+            <iframe src="{{$data.data.h5_url}}" class="mobile-iframe am-radius"></iframe>
+        {{/if}}
+        {{if !empty($data['data']['qrcode']) and is_array($data['data']['qrcode'])}}
+            <div class="qrcode-content am-background-white am-radius am-padding">
+                {{foreach $data.data.qrcode as $v}}
+                    <img src="{{$v.qrcode}}" class="am-radius common-annex-view-event" width="100" data-value="{{$v.qrcode}}" data-is-download="1" data-download-name="{{$v.name}}" data-title="{{$v.name}}" data-class="am-padding-xl" />
+                    <div class="am-margin-bottom-sm am-text-center">
+                        <span class="am-color-grey">{{$v.name}}</span>
+                        {{if !empty($v['url'])}}
+                            <span class="text-copy-submit am-color-blue am-margin-left-sm" data-value="{{$v.url}}">{{:MyLang('copy_title')}}</span>
+                        {{/if}}
+                    </div>
+                {{/foreach}}
             </div>
-        </div>
+        {{/if}}
     {{else /}}
         {{:ModuleInclude('public/not_data', ['msg'=>$data['msg']])}}
     {{/if}}

@@ -1708,8 +1708,6 @@ return [
             'upload_config_file_handle_fail_tips'   => 'Falló el procesamiento del archivo de configuración',
             'upload_invalid_packet_tips'            => 'Paquete de datos no válido',
             'preview_url_tips'                      => 'Por favor, configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] primero (el lado h5 necesita ser empaquetado con la versión uniapp)',
-            'preview_url_copy_name'                 => 'Copiar enlace',
-            'preview_scan_tips'                     => 'Efecto de previsualización del Código de escaneo',
             'form_item_desc'                        => 'Descripción',
             'form_item_desc_message'                => 'Formato de contenido de descripción de 2 a 60 caracteres',
             'form_item_apply_version'               => 'Versión del sistema aplicable',

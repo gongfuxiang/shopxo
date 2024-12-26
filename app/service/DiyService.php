@@ -15,6 +15,7 @@ use app\module\DiyModule;
 use app\service\ResourcesService;
 use app\service\AttachmentService;
 use app\service\StoreService;
+use app\service\AppMiniUserService;
 
 /**
  * DIY装修服务层
@@ -867,7 +868,7 @@ class DiyService
     }
 
     /**
-     * 预览地址
+     * 预览数据
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -875,24 +876,194 @@ class DiyService
      * @desc    description
      * @param   [array]           $data [diy数据]
      */
-    public static function DiyPreviewUrl($data = [])
+    public static function DiyPreviewData($data = [])
     {
-        // h5地址
-        $h5_url = MyC('common_app_h5_url');
-        if(empty($h5_url))
-        {
-            return DataReturn(MyLang('common_service.diy.preview_url_tips'), -1);
-        }
-
         // 数据
         if(empty($data))
         {
             return DataReturn(MyLang('no_data'), -1);
         }
 
-        // 预览地址
-        $h5_url .= 'pages/diy/diy?id='.$data['id'];
-        return DataReturn('success', 0, $h5_url);
+        // h5地址
+        $h5_url = MyC('common_app_h5_url');
+
+        // 生成各平台二维码
+        $qrcode = [];
+        $platform = MyConst('common_platform_type');
+        if(!empty($platform) && is_array($platform))
+        {
+            // 自定义路径和名称
+            $time_dir = date('Y/m/d', is_numeric($data['add_time']) ? $data['add_time'] : strtotime($data['add_time']));
+            $filename = $data['id'].'.png';
+
+            // 地址信息
+            $page = 'pages/diy/diy';
+            $query = 'id='.$data['id'];
+            foreach($platform as $v)
+            {
+                // 存储信息
+                $path = 'download'.DS.'diy'.DS.'qrcode'.DS.$v['value'].DS.$time_dir.DS;
+                // 二维码处理参数
+                $dir_params = [
+                    'path'      => DS.$path,
+                    'filename'  => $filename,
+                    'dir'       => ROOT.'public'.DS.$path.$filename,
+                ];
+                $status = false;
+                if(!file_exists($dir_params['dir']))
+                {
+                    // 根据平台处理
+                    switch($v['value'])
+                    {
+                        // h5
+                        case 'h5' :
+                            if(!empty($h5_url))
+                            {
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url]));
+                                if($ret['code'] == 0)
+                                {
+                                    $status = true;
+                                }
+                            }
+                            break;
+
+                        // 微信
+                        case 'weixin' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid');
+                            $appsecret = AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret');
+                            if(!empty($appid) && !empty($appsecret))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Wechat($appid, $appsecret))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 支付宝小程序
+                        case 'alipay' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_alipay_appid');
+                            if(!empty($appid))
+                            {
+                                $request_params = [
+                                    'appid' => $appid,
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Alipay())->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], RequestGet($ret['data'])) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 头条小程序
+                        case 'toutiao' :
+                            $config = [
+                                'appid'   => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_appid'),
+                                'secret'  => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_appsecret'),
+                            ];
+                            if(!empty($config['appid']) && !empty($config['secret']))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Toutiao($config))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 百度小程序
+                        case 'baidu' :
+                            $config = [
+                                'appid'   => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appid'),
+                                'key'     => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appkey'),
+                                'secret'  => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appsecret'),
+                            ];
+                            if(!empty($config['appid']) && !empty($config['key']) && !empty($config['secret']))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Baidu($config))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 快手小程序
+                        case 'kuaishou' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_appid');
+                            if(!empty($appid))
+                            {
+                                $url = 'kwai://miniapp?appId='.$appid.'&KSMP_source=011012&KSMP_internal_source=011012&path='.urlencode($page.'?'.$query);
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$url]));
+                                if($ret['code'] == 0)
+                                {
+                                    $status = true;
+                                }
+                            }
+                            break;
+                    }
+                } else {
+                    $status = true;
+                }
+                if($status)
+                {
+                    $qrcode[] = [
+                        'name'    => $v['name'],
+                        'type'    => $v['value'],
+                        'url'     => ($v['value'] == 'h5') ? $h5_url .= $page.'?'.$query : '',
+                        'qrcode'  => ResourcesService::AttachmentPathViewHandle($dir_params['path'].$dir_params['filename']),
+                    ];
+                }
+            }
+        }
+        return DataReturn('success', 0, [
+            'qrcode'  => $qrcode,
+            'h5_url'  => $h5_url,
+        ]);
     }
 
     /**
