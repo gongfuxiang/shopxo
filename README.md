@@ -121,13 +121,13 @@
 ![可视化拖拽](https://doc.shopxo.net/upload/image/20210727/1627370212919280.gif "可视化DIY拖拽装修")
 
 
-### Gitee GVP荣誉证书
+### Gitee 荣获GVP证书
 ![Gitee荣誉证书](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/system/gitee-gvp.jpg "Gitee荣誉证书")
 
-### GitCode G-Star荣誉证书
+### GitCode 荣获G-Star证书
 ![GitCode荣誉证书](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/system/gotcode-star.jpg "GitCode荣誉证书")
 
-### GitCode 2024年度十大新锐项目
+### GitCode 荣获2024年度十大新锐项目
 ![GitCode2024年度十大新锐项目](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/system/gitcode-2024.png "GitCode2024年度十大新锐项目")
 
 
