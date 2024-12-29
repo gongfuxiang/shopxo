@@ -1963,6 +1963,7 @@ function FormModuleData($params = [])
 
                 // 默认
                 default :
+                    // 指定数据
                     if(array_key_exists($data_type, $ret['data']))
                     {
                         $data = $ret['data'][$data_type];
@@ -1975,6 +1976,22 @@ function FormModuleData($params = [])
                             'field_list'  => FormModuleFieldData($ret['data']['table']),
                         ];
                     }
+            }
+
+            // 额外数据字段
+            if(!empty($struct['params']['ext_data_fields']))
+            {
+                if(!is_array($struct['params']['ext_data_fields']))
+                {
+                    $struct['params']['ext_data_fields'] = explode(',', $struct['params']['ext_data_fields']);
+                }
+                foreach($struct['params']['ext_data_fields'] as $edfv)
+                {
+                    if(array_key_exists($edfv, $ret['data']))
+                    {
+                        $data[$edfv] = $ret['data'][$edfv];
+                    }
+                }
             }
         }
     }
