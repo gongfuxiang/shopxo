@@ -534,8 +534,8 @@ class ConfigService
     {
         if(array_key_exists('home_seo_url_model', $params))
         {
-            $route_file = APP_PATH.'route'.DS.'route.config';
-            $route_arr = ['index'];
+            // 模块组
+            $route_arr = ['admin', 'index', 'api'];
 
             // 后端+前端都生成对应的路由定义规则、为了后台进入前端url保持一致
             foreach($route_arr as $module)
@@ -556,7 +556,13 @@ class ConfigService
                 // pathinfo+短地址模式
                 if($params['home_seo_url_model'] == 2)
                 {
-                    
+                    // 伪静态规则配置文件
+                    $route_file = APP_PATH.'route'.DS.'route.config';
+                    $module_route_file = APP_PATH.$module.DS.'route'.DS.'route.config';
+                    if(file_exists($module_route_file))
+                    {
+                        $route_file = $module_route_file;
+                    }
                     if(!file_exists($route_file))
                     {
                         return DataReturn(MyLang('common_service.config.route_file_config_no_exist_tips').'[./app/route/route.config]', -14);
