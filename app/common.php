@@ -2863,8 +2863,8 @@ function MyUrl($path, $params = [])
         // 非index.php，admin路径并且非index.php，api路径，install路径，兼容模式
         if($script_name != 'index.php' || ($is_admin && $script_name != 'index.php') || $is_api || $is_install || $url_model == 0)
         {
-            // 仅index端处理为兼容模式
-            if(!$is_index)
+            // 仅index端和兼容模式处理为兼容模式
+            if(!$is_index || $url_model == 0)
             {
                 $url = str_replace($script_name.'/', $script_name.'?s=', $url);
             }
