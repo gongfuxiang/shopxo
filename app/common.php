@@ -2863,7 +2863,11 @@ function MyUrl($path, $params = [])
         // 非index.php，admin路径并且非index.php，api路径，install路径，兼容模式
         if($script_name != 'index.php' || ($is_admin && $script_name != 'index.php') || $is_api || $is_install || $url_model == 0)
         {
-            $url = str_replace($script_name.'/', $script_name.'?s=', $url);
+            // 仅index端处理为兼容模式
+            if(!$is_index)
+            {
+                $url = str_replace($script_name.'/', $script_name.'?s=', $url);
+            }
 
             // 前端模式，短地址模式（无路径则是短地址）
             if($script_name == 'index.php' && stripos($url, $url_path) === false)
