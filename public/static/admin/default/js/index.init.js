@@ -953,7 +953,7 @@ $(function () {
                         html += '</p>';
                         html += '<div class="am-alert upgrade-base">';
                         html += '<span class="upgrade-ver">' + upgrade_version_name + result.data.version_new + '</span>';
-                        html += '<span class="upgrade-date am-margin-left-sm">' + upgrade_date_name + result.data.add_time + '</span>';
+                        html += '<span class="upgrade-date am-margin-left-sm">' + upgrade_date_name + result.data.release_time + '</span>';
                         // 是否带指定链接和链接名称
                         if ((result.data.go_title || null) != null && (result.data.go_url || null) != null) {
                             html += '<a href="' + result.data.go_url + '" class="upgrade-go-detail am-margin-left-lg" target="_blank">' + result.data.go_title + '</a>';
