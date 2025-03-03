@@ -3378,7 +3378,7 @@ function MyC($key, $default = '', $mandatory = false)
         return $default;
     }
     // 2. 未设置则默认值
-    if($mandatory === true && $cache_config_data[$key] === null)
+    if($mandatory === true && ($cache_config_data[$key] === null || $cache_config_data[$key] === ''))
     {
         return $default;
     }
