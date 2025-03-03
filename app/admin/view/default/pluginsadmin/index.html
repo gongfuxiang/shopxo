@@ -38,7 +38,7 @@
         </div>
         <!-- operation end -->
 
-        <div class="plugins-data-list am-nbfc">
+        <div class="plugins-data-list am-cf">
             {{if !empty($data_list['db_data']) or !empty($data_list['dir_data'])}}
                 <!-- 操作提示 -->
                 <div class="am-operate-stretch-tips">
@@ -102,7 +102,7 @@
                     </div>
 
                     <!-- 已安装 -->
-                    <ul class="already-install am-nbfc" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/setupsave')}}">
+                    <ul class="already-install am-cf" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/setupsave')}}">
                         {{foreach $data_list['db_data'] as $v}}
                             {{if isset($v['is_install']) and $v['is_install'] eq 1}}
                                 <li class="plugins-category-{{$v.plugins_category_id}}" data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
@@ -136,9 +136,9 @@
                                                 <span>{{:MyLang('setup_title')}}</span>
                                             </a>
 
-                                            <a href="javascript:;" class="am-btn am-btn-default am-btn-xs submit-state state-plugins {{if $v['is_enable'] eq 1}}am-success{{/if}}" data-animate="0" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1">
+                                            <a href="javascript:;" class="am-btn am-btn-default am-btn-xs plugins-status-event {{if $v['is_enable'] eq 1}}am-success{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-value="{{$v.plugins}}" data-status="{{$v['is_enable']}}" data-open-text="{{:MyLang('open_title')}}" data-close-text="{{:MyLang('close_title')}}">
                                                 <i class="iconfont icon-enable"></i>
-                                                <span>{{:MyLang('status_title')}}</span>
+                                                <span>{{if $v['is_enable'] eq 1}}{{:MyLang('close_title')}}{{else /}}{{:MyLang('open_title')}}{{/if}}</span>
                                             </a>
 
                                             {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']])}}
@@ -229,7 +229,7 @@
                     <div class="am-margin-top-lg am-margin-bottom-xs am-nav-left">
                         <span class="am-text-sm am-font-weight">{{:MyLang('pluginsadmin.not_install_divide_title')}}</span>
                     </div>
-                    <ul class="not-install am-nbfc" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
+                    <ul class="not-install am-cf" data-setup-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
                         {{foreach $data_list['dir_data'] as $v}}
                             {{if !isset($v['is_install']) or $v['is_install'] eq 0}}
                                 <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
@@ -282,16 +282,17 @@
 
                     <!-- 删除弹层 -->
                     <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-delete-modal">
-                        <div class="am-modal-dialog am-radius am-nbfc">
+                        <div class="am-modal-dialog am-radius am-cf">
                             <div class="am-modal-hd">
+                                <span>{{:MyLang('reminder_title')}}</span>
                                 <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
                             </div>
-                            <div class="am-modal-bd">
-                                <div class="am-alert  am-text-left" data-am-alert>
+                            <div class="am-modal-bd am-padding-lg">
+                                <div class="am-alert am-margin-top-lg am-text-left">
                                     <p>{{:MyLang('pluginsadmin.delete_plugins_text')}}<span class="am-text-warning">{{:MyLang('pluginsadmin.delete_plugins_text_tips')}}</span></p>
                                     <p>{{:MyLang('pluginsadmin.delete_plugins_data_text')}}<span class="am-text-warning">{{:MyLang('pluginsadmin.delete_plugins_data_text_tips')}}</span></p>
                                 </div>
-                                <p class="am-text-danger am-margin-top">{{:MyLang('pluginsadmin.delete_plugins_ps_tips')}}</p>
+                                <p class="am-text-danger am-margin-top-lg">{{:MyLang('pluginsadmin.delete_plugins_ps_tips')}}</p>
                                 <div class="am-margin-top-sm">
                                     <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="1" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}"> {{:MyLang('pluginsadmin.delete_plugins_data_button_name')}}</button>
                                     <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="0" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}"> {{:MyLang('pluginsadmin.delete_plugins_button_name')}}</button>

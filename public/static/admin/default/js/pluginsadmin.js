@@ -55,6 +55,41 @@ $(function () {
         }, 1500);
     }
 
+    // 状态
+    $(document).on('click', '.plugins-status-event', function() {
+        var $this = $(this);
+        var state = parseInt($this.attr('data-status') || 0) == 1 ? 0 : 1;
+        $.AMUI.progress.start();
+        $.ajax({
+            url: RequestUrlHandle($this.attr('data-url')),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 60000,
+            data: {
+                id: $this.attr('data-value'),
+                state: state,
+            },
+            success: function (result) {
+                $.AMUI.progress.done();
+                if (result.code == 0) {
+                    $this.removeClass('am-success');
+                    $this.attr('data-status', state);
+                    $this.find('>span').text($this.attr('data-'+(state == 1 ? 'close' : 'open')+'-text'));
+                    if(state == 1) {
+                        $this.addClass('am-success');
+                    }
+                    Prompt(result.msg, 'success');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error: function (xhr, type) {
+                $.AMUI.progress.done();
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+            }
+        });
+    });
+
     // 插件批量更新事件
     $(document).on('click', '.plugins-batch-update-submit', function() {
         var status = $(this).find('input').is(':checked') ? 1 : null;
@@ -70,7 +105,7 @@ $(function () {
 
     // 插件设置事件
     $(document).on('click', '.plugins-set-event', function () {
-        if ($(this).parents('.item').hasClass('am-active')) {
+        if (parseInt($(this).parents('.operation').find('.plugins-status-event').attr('data-status') || 0) == 0) {
             Prompt(window['lang_not_enable_tips'] || '请先点击勾勾启用');
         } else {
             window.parent.AdminTopNavIframeAddHandle($(this).data('set-url'), $(this).data('name'), $(this).data('key'), 'nnav', true);

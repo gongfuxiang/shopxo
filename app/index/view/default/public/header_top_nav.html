@@ -33,7 +33,9 @@
                             {{if !empty($user['icon'])}}
                                 <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
-                            <em class="user">{{$user.user_name_view}}</em>
+                            {{if !empty($user['user_name_view'])}}
+                                <em class="user">{{$user.user_name_view}}</em>
+                            {{/if}}
                             <em class="last">{{:MyLang('common.header_top_nav_left_login_last')}}</em>
                             <em class="site-name">{{$home_site_name}}</em>
                             <em class="logout"><a href="{{:MyUrl('index/user/logout')}}">[{{:MyLang('common.logout_title')}}]</a></em>

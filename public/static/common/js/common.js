@@ -362,6 +362,9 @@ function FromInit (form_name) {
                     var method = $form.attr('method') || null;
                     var request_type = $form.attr('request-type') || null;
                     var request_value = $form.attr('request-value') || null;
+                    var is_progress = ($form.attr('data-is-progress') == undefined || parseInt($form.attr('data-is-progress') || 0) == 1) ? 1 : 0;
+                    var is_loading = parseInt($form.attr('data-is-loading') || 0);
+                    var loading_msg = $form.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
                     // 以 ajax 开头的都会先请求再处理
                     // ajax-reload  请求完成后刷新页面
                     // ajax-close   请求完成后关闭弹窗
@@ -458,8 +461,16 @@ function FromInit (form_name) {
                         }
                     }
 
+                    // 弹层加载
+                    if (is_loading == 1) {
+                        AMUI.dialog.loading({ title: loading_msg });
+                    }
+
                     // ajax请求
-                    $.AMUI.progress.start();
+                    if(is_progress == 1) {
+                        $.AMUI.progress.start();
+                    }
+
                     $.ajax({
                         url: RequestUrlHandle(action),
                         type: method,
@@ -469,7 +480,12 @@ function FromInit (form_name) {
                         processData: false,
                         contentType: false,
                         success: function (result) {
-                            $.AMUI.progress.done();
+                            if (is_loading == 1) {
+                                AMUI.dialog.loading('close');
+                            }
+                            if(is_progress == 1) {
+                                $.AMUI.progress.done();
+                            }
                             // 调用自定义回调方法
                             if (request_type == 'ajax-fun') {
                                 if (IsExitsFunction(request_value)) {
@@ -535,7 +551,12 @@ function FromInit (form_name) {
                             }
                         },
                         error: function (xhr, type) {
-                            $.AMUI.progress.done();
+                            if (is_loading == 1) {
+                                AMUI.dialog.loading('close');
+                            }
+                            if(is_progress == 1) {
+                                $.AMUI.progress.done();
+                            }
                             $button.button('reset');
                             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
                         }
@@ -1024,9 +1045,9 @@ function VideoFileUploadShow (class_name, show_video, default_video) {
  * @param   {[string]}  full_max_size [满屏最大限制指定（默认空 最大1200、lg 1000, 有效值 md 800, sm 500, xs 400）]
  * @param   {[string]}  on_open	      [开启监听方法]
  * @param   {[string]}  on_close	  [关闭监听方法]
- * @param   {[string]}  on_offcanvas  [侧边栏弹窗 top/bottom/left/right]
+ * @param   {[string]}  offcanvas     [侧边栏弹窗 top/bottom/left/right]
  */
-function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size = '', on_open = '', on_close = '', on_offcanvas) {
+function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size = '', on_open = '', on_close = '', offcanvas = '') {
     // class 定义
     var ent = 'popup-iframe';
 
@@ -1041,8 +1062,8 @@ function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size
     }
 
     // 是否开启侧边栏
-    if ((on_offcanvas || '') !== '') {
-        ent += ' am-popup-offcanvas-' + on_offcanvas;
+    if ((offcanvas || '') !== '') {
+        ent += ' am-popup-offcanvas-' + offcanvas;
     }
 
     // 满屏最大限制
@@ -1066,26 +1087,90 @@ function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size
 
             // 回调打开方法
             if ((on_open || null) != null) {
-                var type = typeof (on_open);
-                if (type == 'string') {
-                    if (IsExitsFunction(on_open)) {
-                        window[on_open]();
-                    }
-                } else if (type == 'function') {
+                if(typeof on_open == 'function') {
                     on_open();
+                } else if(IsExitsFunction(on_open))
+                {
+                    window[on_open]();
                 }
             }
         },
         onClose: function () {
             // 回调关闭方法
             if ((on_close || null) != null) {
-                var type = typeof (on_close);
-                if (type == 'string') {
-                    if (IsExitsFunction(on_close)) {
-                        window[on_close]();
-                    }
-                } else if (type == 'function') {
+                if(typeof on_close == 'function') {
                     on_close();
+                } else if(IsExitsFunction(on_close))
+                {
+                    window[on_close]();
+                }
+            }
+        }
+    });
+}
+
+/**
+ * 提示弹窗加载
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-01-23
+ * @desc    description
+ * @param   {Object}        params   [参数]
+ * @param   {Object}        config   [配置]
+ * @param   {String}        on_open  [监听打开]
+ * @param   {String}        on_close [监听关闭]
+ */
+function AlertLoad(params, config = {}, on_open = '', on_close = '')
+{
+    if((params || null) == null) {
+        params = {};
+    }
+
+    // 调用类库方法
+    var iframe_id = '';
+
+    // url地址
+    var iframe = '';
+    if ((params.url || null) != null) {
+        iframe_id = 'common-alert-iframe-' + (Math.random() * 9999999999).toString().replace('.', '');
+        iframe = '<iframe src="' + RequestUrlHandle(params.url) + '" class="am-block" id="' + iframe_id + '" style="width:100%;height:calc(100% - 4.5rem);"></iframe>';
+    }
+
+    // 打开弹窗
+    AMUI.dialog.alert({
+        title: params.title || '',
+        class: params.class || '',
+        style: params.style || '',
+        content_style: params.content_style || '',
+        isClose: true,
+        config: config || {},
+        iframe: iframe,
+        content: params.content || '',
+        onOpen: function () {
+            // 子页面样式处理
+            if(iframe_id !== '' && iframe !== '') {
+                IframeSubpageStyleHandle(iframe_id, 'iframe-alert-page');
+            }
+
+            // 回调打开方法
+            if ((on_open || null) != null) {
+                if(typeof on_open == 'function') {
+                    on_open();
+                } else if(IsExitsFunction(on_open))
+                {
+                    window[on_open]();
+                }
+            }
+        },
+        onClose: function () {
+            // 回调关闭方法
+            if ((on_close || null) != null) {
+                if(typeof on_close == 'function') {
+                    on_close();
+                } else if(IsExitsFunction(on_close))
+                {
+                    window[on_close]();
                 }
             }
         }
@@ -1162,6 +1247,7 @@ function DataDelete (e) {
     var view = e.attr('data-view') || 'delete';
     var view_value = e.attr('data-view-value') || '';
     var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
+    var is_progress = (e.attr('data-is-progress') == undefined || parseInt(e.attr('data-is-progress') || 0) == 1) ? 1 : 0;
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
@@ -1176,12 +1262,15 @@ function DataDelete (e) {
         AMUI.dialog.loading({ title: loading_msg });
     }
 
+    // 请求删除数据
+    if(is_progress == 1) {
+        $.AMUI.progress.start();
+    }
+
     // 请求数据
     var data = {};
     data[key] = id;
 
-    // 请求删除数据
-    $.AMUI.progress.start();
     $.ajax({
         url: RequestUrlHandle(url),
         type: 'POST',
@@ -1189,7 +1278,9 @@ function DataDelete (e) {
         timeout: e.attr('data-timeout') || 60000,
         data: data,
         success: function (result) {
-            $.AMUI.progress.done();
+            if(is_progress == 1) {
+                $.AMUI.progress.done();
+            }
             if (result.code == 0) {
                 Prompt(result.msg, 'success');
 
@@ -1263,7 +1354,9 @@ function DataDelete (e) {
             if (is_loading == 1) {
                 AMUI.dialog.loading('close');
             }
-            $.AMUI.progress.done();
+            if(is_progress == 1) {
+                $.AMUI.progress.done();
+            }
             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
@@ -1313,8 +1406,10 @@ function AjaxRequest (e) {
     var url = e.attr('data-url');
     var view = e.attr('data-view') || '';
     var view_value = e.attr('data-view-value') || '';
+    var is_error_view = parseInt(e.attr('data-is-error-view') || 0) == 1;
     var is_example = e.hasClass('btn-loading-example');
     var is_reset = e.attr('data-is-reset');
+    var is_progress = (e.attr('data-is-progress') == undefined || parseInt(e.attr('data-is-progress') || 0) == 1) ? 1 : 0;
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
@@ -1333,7 +1428,9 @@ function AjaxRequest (e) {
     }
 
     // ajax
-    $.AMUI.progress.start();
+    if(is_progress == 1) {
+        $.AMUI.progress.start();
+    }
     $.ajax({
         url: RequestUrlHandle(url),
         type: 'POST',
@@ -1357,7 +1454,9 @@ function AjaxRequest (e) {
             }
 
             // 关闭进度条
-            $.AMUI.progress.done();
+            if(is_progress == 1) {
+                $.AMUI.progress.done();
+            }
 
             // 根据类型处理回调
             if (result.code == 0) {
@@ -1421,7 +1520,50 @@ function AjaxRequest (e) {
                 if (is_example) {
                     e.button('reset');
                 }
-                Prompt(result.msg);
+                if(is_error_view) {
+                    switch (view) {
+                        // 刷新
+                        case 'reload':
+                            Prompt(result.msg);
+                            setTimeout(function () {
+                                if (is_loading == 1) {
+                                    AMUI.dialog.loading('close');
+                                }
+                                // 等于parent则刷新父窗口
+                                if (view_value == 'parent') {
+                                    parent.location.reload();
+                                } else {
+                                    window.location.reload();
+                                }
+                            }, 1000);
+                            break;
+
+                        // 回调函数
+                        case 'fun':
+                            if (IsExitsFunction(value)) {
+                                window[value](result, e);
+                            } else {
+                                Prompt((window['lang_config_fun_not_exist_tips'] || '配置方法未定义') + '[' + value + ']');
+                            }
+                            break;
+
+                        // 跳转
+                        case 'jump':
+                            Prompt(result.msg);
+                            if (value != null) {
+                                setTimeout(function () {
+                                    window.location.href = value;
+                                }, 1000);
+                            }
+                            break;
+
+                        // 默认提示失败
+                        default:
+                            Prompt(result.msg);
+                    }
+                } else {
+                    Prompt(result.msg);
+                }
             }
         },
         error: function (xhr, type) {
@@ -1431,7 +1573,9 @@ function AjaxRequest (e) {
             if (is_example) {
                 e.button('reset');
             }
-            $.AMUI.progress.done();
+            if(is_progress == 1) {
+                $.AMUI.progress.done();
+            }
             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
@@ -1820,55 +1964,104 @@ function PageLibrary (total, number, page, sub_number, is_extend = false) {
  * @param    {[int]}          ansyc 	[接口同步异步]
  */
 function RegionNodeData (pid, name, next_name, value, ansyc = true) {
-    if (pid != null) {
-        $.ajax({
-            url: RequestUrlHandle($('.region-linkage').attr('data-url')),
-            type: 'POST',
-            async: ansyc,
-            data: { "pid": pid },
-            dataType: 'json',
-            success: function (result) {
-                if (result.code == 0) {
-                    /* html拼接 */
-                    var html = '';
-                    /* 没有指定选中值则从元素属性读取 */
-                    value = value || $('.region-linkage input[name=' + next_name + ']').val() || null;
-                    for (var i in result.data) {
-                        html += '<li data-value="' + result.data[i]['id'] + '" data-name="' + result.data[i]['name'] + '" class="am-cascader-node'
-                        if (value != null && value == result.data[i]['id']) {
-                            html += ' am-active ';
+    if (pid !== null) {
+        /* 没有指定选中值则从元素属性读取 */
+        value = value || $('.region-linkage input[name=' + next_name + ']').val() || null;
+
+        // 是否指定地区数据
+        var data = $('.region-linkage').attr('data-original-value') || null;
+            data = (data == null) ? null : (JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8)) || null);
+        if(data != null) {
+            var node = [];
+            if(next_name == 'province') {
+                node = data;
+            } else if(next_name == 'city')
+            {
+                data.forEach((item) => {
+                    if((item.items || null) != null && item.items.length > 0) {
+                        if(item.id == pid) {
+                            node = item.items;
                         }
-                        html += '"><span class="am-cascader-node-label">' + result.data[i]['name'] + '</span>';
-                        // 当是区的时候不显示箭头
-                        if (result.data[i].is_son === 'ok') {
-                            html += '<i class="iconfont icon-arrow-right am-cascader-node-postfix"></i>';
-                        }
-                        html += '</li>';
                     }
-                    /* 下一级数据添加 */
-                    $('.region-linkage .' + next_name).find('ul').html(html);
-                } else {
-                    Prompt(result.msg);
+                });
+            } else if(next_name == 'county') {
+                data.forEach((item) => {
+                    if((item.items || null) != null && item.items.length > 0) {
+                        item.items.forEach((items) => {
+                            if(items.id == pid) {
+                                node = items.items;
+                            }
+                        });
+                    }
+                });
+            }
+            if(node.length > 0) {
+                /* html拼接 */
+                var html = '';
+                node.forEach((item) => {
+                    html += '<li data-value="' + item['id'] + '" data-name="' + item['name'] + '" class="am-cascader-node'
+                    if (value != null && value == item['id']) {
+                        html += ' am-active ';
+                    }
+                    html += '"><span class="am-cascader-node-label">' + item['name'] + '</span>';
+                    // 当是区的时候不显示箭头
+                    if((item.items || null) != null && item.items.length > 0) {
+                        html += '<i class="iconfont icon-arrow-right am-cascader-node-postfix"></i>';
+                    }
+                    html += '</li>';
+                });
+
+                /* 下一级数据添加 */
+                $('.region-linkage .' + next_name).find('ul').html(html);
+            }
+        } else {
+            $.ajax({
+                url: RequestUrlHandle($('.region-linkage').attr('data-url')),
+                type: 'POST',
+                async: ansyc,
+                data: { "pid": pid },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 0) {
+                        /* html拼接 */
+                        var html = '';
+                        for (var i in result.data) {
+                            html += '<li data-value="' + result.data[i]['id'] + '" data-name="' + result.data[i]['name'] + '" class="am-cascader-node'
+                            if (value != null && value == result.data[i]['id']) {
+                                html += ' am-active ';
+                            }
+                            html += '"><span class="am-cascader-node-label">' + result.data[i]['name'] + '</span>';
+                            // 当是区的时候不显示箭头
+                            if (result.data[i].is_son === 'ok') {
+                                html += '<i class="iconfont icon-arrow-right am-cascader-node-postfix"></i>';
+                            }
+                            html += '</li>';
+                        }
+                        /* 下一级数据添加 */
+                        $('.region-linkage .' + next_name).find('ul').html(html);
+                    } else {
+                        Prompt(result.msg);
+                    }
+                }
+            });
+
+            /* 子级元素数据清空 */
+            var child = null;
+            switch (name) {
+                case 'province':
+                    child = ['city', 'county'];
+                    break;
+
+                case 'city':
+                    child = ['county'];
+                    break;
+            }
+            if (child != null) {
+                for (var i in child) {
+                    var $temp_obj = $('.region-linkage .' + child[i]);
+                    $temp_obj.find('ul').empty();
                 }
             }
-        });
-    }
-
-    /* 子级元素数据清空 */
-    var child = null;
-    switch (name) {
-        case 'province':
-            child = ['city', 'county'];
-            break;
-
-        case 'city':
-            child = ['county'];
-            break;
-    }
-    if (child != null) {
-        for (var i in child) {
-            var $temp_obj = $('.region-linkage .' + child[i]);
-            $temp_obj.find('ul').empty();
         }
     }
 }
@@ -3302,6 +3495,37 @@ function AnnexSizeToUnit (size = 0) {
 }
 
 /**
+ * 文本复制初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-02-16
+ * @desc    description
+ */
+function TextCopyinit() {
+    // 文本信息复制
+    if ($('.text-copy-submit').length > 0) {
+        // 阻止a标签跳转
+        $(document).on('click', 'a.text-copy-submit', function (e) {
+            e.preventDefault();
+        });
+        // 调用复制文本组件
+        var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
+            {
+                text: function (e) {
+                    return $(e).attr('data-value') || $(e).attr('href') || $(e).attr('src') || $(e).text().trim();
+                }
+            });
+        text_copy_clipboard.on('success', function (e) {
+            Prompt(window['lang_copy_success'] || '复制成功', 'success');
+        });
+        text_copy_clipboard.on('error', function (e) {
+            Prompt(window['lang_copy_fail'] || '复制失败');
+        });
+    }
+}
+
+/**
  * 表格数据模块初始化
  * @author  Devil
  * @blog    http://gong.gg/
@@ -3318,6 +3542,9 @@ function FormTableContentModuleInit () {
 
     // 二维码初始化
     ViewQrCodeInit();
+
+    // 文本复制初始化
+    TextCopyinit();
 
     // 标签title属性初始化
     ViewDocumentTitleInit();
@@ -3923,6 +4150,9 @@ $(function () {
     // 二维码初始化
     ViewQrCodeInit();
 
+    // 文本复制初始化
+    TextCopyinit();
+
     // 标签title属性初始化
     ViewDocumentTitleInit();
 
@@ -4387,6 +4617,7 @@ $(function () {
         var url = $this.attr('data-url');
         var field = $this.attr('data-field') || '';
         var is_update_status = $this.attr('data-is-update-status') || 0;
+        var is_progress = ($this.attr('data-is-progress') == undefined || parseInt($this.attr('data-is-progress') || 0) == 1) ? 1 : 0;
         var is_loading = parseInt($this.attr('data-is-loading') || 0);
         var loading_msg = $this.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
         if (id == undefined || url == undefined) {
@@ -4400,7 +4631,9 @@ $(function () {
         }
 
         // 请求更新数据
-        $.AMUI.progress.start();
+        if (is_progress == 1) {
+            $.AMUI.progress.start();
+        }
         $.ajax({
             url: RequestUrlHandle(url),
             type: 'POST',
@@ -4411,7 +4644,9 @@ $(function () {
                 if (is_loading == 1) {
                     AMUI.dialog.loading('close');
                 }
-                $.AMUI.progress.done();
+                if (is_progress == 1) {
+                    $.AMUI.progress.done();
+                }
                 if (result.code == 0) {
                     Prompt(result.msg, 'success');
 
@@ -4442,7 +4677,9 @@ $(function () {
                 if (is_loading == 1) {
                     AMUI.dialog.loading('close');
                 }
-                $.AMUI.progress.done();
+                if (is_progress == 1) {
+                    $.AMUI.progress.done();
+                }
                 Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
         });
@@ -5220,10 +5457,10 @@ $(function () {
         var class_tag = $(this).attr('data-class') || '';
         var on_open = $(this).attr('data-on-open') || '';
         var on_close = $(this).attr('data-on-close') || '';
-        var on_offcanvas = $(this).attr('data-offcanvas') || '';
+        var offcanvas = $(this).attr('data-offcanvas') || '';
 
         // 调用弹窗方法
-        ModalLoad(url, title, class_tag, full, full_max, full_max_size, on_open, on_close, on_offcanvas);
+        ModalLoad(url, title, class_tag, full, full_max, full_max_size, on_open, on_close, offcanvas);
     });
 
     // 加载 loading modal 弹层
@@ -5253,29 +5490,8 @@ $(function () {
         var on_open = $(this).attr('data-on-open') || '';
         var on_close = $(this).attr('data-on-close') || '';
 
-        // 调用类库方法
-        var iframe_id = 'common-alert-iframe-' + (Math.random() * 9999999999).toString().replace('.', '');
-        AMUI.dialog.alert({
-            title: title,
-            isClose: true,
-            config: config,
-            iframe: '<iframe src="' + RequestUrlHandle(url) + '" class="am-block" id="' + iframe_id + '" style="width:100%;height:calc(100% - 4.5rem);"></iframe>',
-            onOpen: function () {
-                // 子页面样式处理
-                IframeSubpageStyleHandle(iframe_id, 'iframe-alert-page');
-
-                // 回调打开方法
-                if ((on_open || null) != null && IsExitsFunction(on_open)) {
-                    window[on_open]();
-                }
-            },
-            onClose: function () {
-                // 回调关闭方法
-                if ((on_close || null) != null && IsExitsFunction(on_close)) {
-                    window[on_close]();
-                }
-            }
-        });
+        // 调用弹窗
+        AlertLoad({url: url, title: title}, config, on_open, on_close);
     });
 
     // 地图弹窗
@@ -5606,27 +5822,6 @@ $(function () {
             }
         });
     });
-
-    // 文本信息复制
-    if ($('.text-copy-submit').length > 0) {
-        // 阻止a标签跳转
-        $(document).on('click', 'a.text-copy-submit', function (e) {
-            e.preventDefault();
-        });
-        // 调用复制文本组件
-        var text_copy_clipboard = new ClipboardJS('.text-copy-submit',
-            {
-                text: function (e) {
-                    return $(e).attr('data-value') || $(e).attr('href') || $(e).attr('src') || $(e).text().trim();
-                }
-            });
-        text_copy_clipboard.on('success', function (e) {
-            Prompt(window['lang_copy_success'] || '复制成功', 'success');
-        });
-        text_copy_clipboard.on('error', function (e) {
-            Prompt(window['lang_copy_fail'] || '复制失败');
-        });
-    }
 
     // 调起视频扫码、持续扫码
     var $video_scan_popup = $('#common-video-scan-popup');

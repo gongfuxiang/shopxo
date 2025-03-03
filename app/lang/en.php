@@ -208,6 +208,8 @@ return [
     'print_success'                                         => 'Print Succeeded',
     'verification_fail'                                     => 'Verification failed',
     'verification_success'                                  => 'Verification successful',
+    'service_fail'                                          => 'service failure',
+    'service_success'                                       => 'Service successful',
     'collect_fail'                                          => 'Collect Failed',
     'collect_success'                                       => 'Collect Succeeded',
     'quit_success'                                          => 'Quit Succeeded',
@@ -440,6 +442,7 @@ return [
     'copy_title'                                            => 'Copy',
     'admin_title'                                           => 'Admin',
     'user_title'                                            => 'User',
+    'account_title'                                         => 'Account',
     'revoke_audit_title'                                    => 'Revoke Audit',
     'reverse_audit_title'                                   => 'Reverse Audit',
     'submit_audit_title'                                    => 'Submit Audit',
@@ -558,6 +561,7 @@ return [
     'valid_title'                                           => 'Valid',
     'suspend_title'                                         => 'Suspend',
     'end_title'                                             => 'End',
+    'callback_title'                                        => 'CallBack',
     'buy_title'                                             => 'Buy',
     'place_order_title'                                     => 'PlaceOrder',
     'new_title'                                             => 'New',
@@ -657,7 +661,9 @@ return [
     'form_choice_excel_title'                               => 'Choice Excel',
     'form_upload_excel_message'                             => 'Please upload Excel',
     'form_gender_title'                                     => 'Gender',
+    'form_gender_message'                                   => 'Please select gender',
     'form_region_title'                                     => 'Provinces and cities',
+    'form_region_message'                                   => 'Please select province, city, or district',
     'form_region_province_title'                            => 'Province',
     'form_region_province_message'                          => 'Please select a province',
     'form_region_city_title'                                => 'City',
@@ -676,6 +682,8 @@ return [
     'form_seo_desc_title'                                   => 'SEO Description',
     'form_seo_desc_message'                                 => 'SEO description format can be up to 230 characters',
     'form_seo_desc_tips'                                    => 'Generally no more than 200 characters',
+    'form_share_images_title'                               => 'Share pictures',
+    'form_share_images_tips'                                => 'The size is generally best in a 5:4 ratio',
     'form_verify_title'                                     => 'Verification Code',
     'form_verify_placeholder'                               => 'Please enter the verification code',
     'form_verify_message'                                   => 'Verification code format 4 digits',
@@ -720,6 +728,8 @@ return [
     'form_time_start_message'                               => 'Please select the start time',
     'form_time_end_title'                                   => 'End Time',
     'form_time_end_message'                                 => 'Please select the end time',
+    'form_time_message'                                     => 'Please select a time',
+    'form_name_tel_message'                                 => 'Please fill in your name and phone number',
     'form_goods_category_title'                             => 'Goods Category',
     'form_goods_category_placeholder'                       => 'Goods Category...',
     'form_goods_category_message'                           => 'Please select goods category',
@@ -1043,6 +1053,16 @@ return [
         3 => 'Jump to the native map to view the specified location',
         4 => 'Make a call',
     ],
+    // 下单指定时间
+    'common_buy_datetime_config_list' => [
+        0 => 'Optional',
+        1 => 'Forced selection',
+    ],
+    // 下单联系信息
+    'common_buy_extraction_contact_config_list' => [
+        0 => 'Can be filled in',
+        1 => 'Mandatory filling',
+    ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
         0 => ['name' => 'Refund only', 'desc' => 'Not received (not signed for), subject to mutual agreement'],
@@ -1079,22 +1099,21 @@ return [
     // 站点类型
     'common_site_type_list' => [
         0 => 'express',
-        1 => 'Exhibition',
-        2 => 'Self mention',
-        3 => 'Virtual sale',
-        4 => 'Express + self delivery',
+        1 => 'Same city',
+        2 => 'Self pickup',
+        3 => 'fictitious',
+        4 => 'Exhibition',
+        5 => 'Express delivery+self pickup',
+        6 => 'Same city+self pickup',
+        7 => 'Express delivery+same city',
+        8 => 'Express delivery+same city+self pickup',
     ],
     // 订单类型
     'common_order_type_list' => [
         0 => 'express',
-        1 => 'Exhibition',
-        2 => 'Self mention',
-        3 => 'Virtual sales',
-    ],
-    // 下单站点类型列表
-    'common_buy_site_model_list' => [
-        0 => 'Express mail',
-        2 => 'Pick up from the pick-up point',
+        1 => 'Same city',
+        2 => 'Self pickup',
+        3 => 'fictitious',
     ],
     // 管理员状态
     'common_admin_status_list' => [
@@ -1117,6 +1136,11 @@ return [
         0 => 'whole',
         1 => 'details',
         2 => 'Basics',
+    ],
+    // 搜索商品展示样式类型
+    'common_search_goods_show_type_list' => [
+        0 => 'squared paper for practicing calligraphy',
+        1 => 'List of images and text',
     ],
     // 品牌排序类型
     'common_brand_order_by_type_list' => [
@@ -2266,13 +2290,15 @@ return [
                 'title'  => 'Order cancel',
                 'desc'   => 'Order canceled successfully',
             ],
-            // 发货/取货
+            // 发货、取货、服务
             'delivery_express_id_message'           => 'Incorrect delivery method',
             'delivery_express_number_message'       => 'Incorrect express order number',
             'delivery_express_data_message'         => 'The delivery data is incorrect',
             'delivery_express_insert_fail_tips'     => 'Shipment addition failed',
             'delivery_express_update_fail_tips'     => 'Shipment update failed',
             'delivery_express_info'                 => 'Express delivery information',
+            'delivery_service_insert_fail_tips'     => 'Service addition failed',
+            'delivery_service_update_fail_tips'     => 'Service update failed',
             'take_extraction_code_message'          => 'Wrong pickup code',
             'take_extraction_code_empty_tips'       => 'The order pickup code does not exist. Please contact the administrator',
             'take_extraction_code_error_tips'       => 'Incorrect pickup code',
@@ -2321,6 +2347,7 @@ return [
             'plugins_type_error_tips'               => 'Wrong plug-in type',
             'operate_key_error_tips'                => 'Incorrect operation key',
             'store_respond_error_tips'              => 'The store responded incorrectly',
+            'store_was_installed_text'              => 'was installed',
         ],
         // 支付日志
         'paylog'                => [
@@ -2416,7 +2443,7 @@ return [
             'plugins_package_invalid_tips'          => 'Invalid plug-in package',
             'plugins_identification_error_tips'     => 'Wrong plug-in identification',
             'plugins_identification_empty_tips'     => 'Plug-in ID is empty',
-            'plugins_config_error_tips'             => 'The theme configuration information is incorrect',
+            'plugins_config_error_tips'             => 'The plugin configuration information is incorrect',
             'plugins_config_file_get_fail_tips'     => 'Failed to read configuration information',
             'plugins_copy_main_fail_tips'           => 'Main package',
             'plugins_new_config_error_tips'         => 'The new configuration file is incorrect',
@@ -4080,10 +4107,6 @@ return [
             'desc' => 'If it is empty, online customer service will not be displayed',
             'tips' => 'Please fill in the online customer service - chat window code',
         ],
-        'common_is_goods_detail_show_photo'  => [
-            'name' => 'Product detail page display album',
-            'tips' => 'Please select whether to display the album on the goods details page',
-        ],
         'common_site_default_index'  => [
             'name' => 'default page',
             'desc' => 'Default system, web only',
@@ -4399,10 +4422,29 @@ return [
             'desc' => 'Default order receipt. Do not switch this configuration at will, which will cause inconsistent sales volume',
             'tips' => 'Please select the order item sales increase rule',
         ],
-        'common_is_show_goods_comments'  => [
-            'name' => 'Show goods evaluation',
-            'desc' => 'Default is',
-            'tips' => 'Please select whether to display goods evaluation',
+        'common_is_goods_detail_content_show_photo'  => [
+            'name' => 'Product Details Page Content Display Album',
+            'tips' => 'Please choose whether to display the product details page, content, and photo album',
+        ],
+        'common_is_goods_detail_show_comments'  => [
+            'name' => 'Product details page display evaluation',
+            'tips' => 'Please choose whether to display reviews on the product details page',
+        ],
+        'common_is_goods_detail_show_seeing_you'  => [
+            'name' => 'The product details page displays the product, and I have looked at it again and again',
+            'tips' => 'Please choose whether to display the product details page. I have looked at it again and again',
+        ],
+        'common_is_goods_detail_show_guess_you_like'  => [
+            'name' => 'Product details page display, guess what you like',
+            'tips' => 'Please choose whether to display the product details page and guess if you like it',
+        ],
+        'common_is_cart_show_guess_you_like'  => [
+            'name' => 'Shopping Cart Page Display Guess You Like',
+            'tips' => 'Please choose whether to display on the shopping cart page. Guess what you like',
+        ],
+        'common_is_goods_detail_show_left_more'  => [
+            'name' => 'More on the left side of the product details page (mobile version)',
+            'tips' => 'Please choose if there is more on the left side of the product details page',
         ],
         'common_app_h5_url'  => [
             'name' => 'Mobile terminal h5 address',
@@ -4541,6 +4583,16 @@ return [
             'name' => 'Direct submission and payment of virtual order',
             'desc' => 'No by default, the virtual order automatically creates an order and directly enters the order list to initiate payment, and the order confirmation phase is omitted (please set the default payment method first)',
             'tips' => 'Please select whether the virtual order is directly submitted for payment',
+        ],
+        'common_buy_datetime_info'  => [
+            'name' => 'Order specified time',
+            'desc' => '',
+            'tips' => 'Please select the designated time for placing the order',
+        ],
+        'common_buy_extraction_contact_info'  => [
+            'name' => 'Order contact information',
+            'desc' => '',
+            'tips' => 'Please select the contact information for placing an order',
         ],
         'home_search_history_record'  => [
             'name' => 'Turn on search record',

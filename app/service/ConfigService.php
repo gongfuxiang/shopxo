@@ -93,6 +93,8 @@ class ConfigService
         'common_app_user_base_popup_pages',
         'common_app_user_base_popup_client',
         'common_token_created_rules',
+        'common_buy_datetime_info',
+        'common_buy_extraction_contact_info',
     ];
 
     // json数组字段

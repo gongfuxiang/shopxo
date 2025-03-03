@@ -180,21 +180,8 @@
     width: 3.5rem;
 }
 
-.plugins-data-list>ul>li .submit-state.am-success {
+.plugins-data-list>ul>li .plugins-status-event.am-success {
     color: #52C41A;
-}
-
-.plugins-data-list>ul>li .submit-state {
-    font-size: 1.2rem;
-    width: unset;
-    height: unset;
-    line-height: normal;
-    background-color: unset;
-    position: unset;
-}
-.plugins-data-list>ul>li .submit-state i.iconfont {
-    position: unset;
-    transform: none;
 }
 
 .plugins-data-list>ul>li .submit-move {
@@ -290,7 +277,7 @@
     }
 
     #plugins-delete-modal .am-modal-bd button.submit-ajax {
-        margin-right: 1rem;
+        margin-right: 2rem;
     }
 }
 

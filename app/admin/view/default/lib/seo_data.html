@@ -9,6 +9,15 @@
 
             <dt>{{:MyLang('form_seo_desc_title')}}</dt>
             <dd>{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</dd>
+
+            {{if isset($data['share_images'])}}
+                <dt>{{:MyLang('form_share_images_title')}}</dt>
+                <dd>
+                    {{if !empty($data['share_images'])}}
+                        <img src="{{$data.share_images}}" class="am-radius common-annex-view-event" data-value="{{$data.share_images}}" height="30" />
+                    {{/if}}
+                </dd>
+            {{/if}}
         </dl>
     {{else /}}
         {{:ModuleInclude('public/not_data')}}

@@ -676,14 +676,6 @@ class PaymentService
                     continue;
                 }
 
-                // 安全验证
-                $ret = self::PaymentLegalCheck($payment);
-                if($ret['code'] != 0)
-                {
-                    $zip->close();
-                    return $ret;
-                }
-
                 // 如果不是目录则写入文件
                 $new_file = self::$payment_dir.$payment.'.php';
                 if(!is_dir($new_file))
@@ -704,6 +696,16 @@ class PaymentService
                                     $error++;
                                     @unlink($new_file);
                                 } else {
+                                    // 安全验证
+                                    $ret = self::PaymentLegalCheck($payment);
+                                    if($ret['code'] != 0)
+                                    {
+                                        @unlink($new_file);
+                                        $zip->close();
+                                        return $ret;
+                                    }
+
+                                    // 安装成功
                                     $success++;
                                 }
                             }

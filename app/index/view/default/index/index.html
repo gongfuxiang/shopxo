@@ -35,7 +35,9 @@
                                 {{if !empty($user['icon'])}}
                                     <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                                 {{/if}}
-                                <em>{{$user.user_name_view}}</em>
+                                {{if !empty($user['user_name_view'])}}
+                                    <em>{{$user.user_name_view}}</em>
+                                {{/if}}
                             {{else /}}
                                 <em>{{:MyLang('index.banner_right_not_login_first')}}</em>
                                 <em>{{$home_site_name}}</em>

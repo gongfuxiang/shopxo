@@ -33,32 +33,39 @@ class AppService
         $data = [];
         if(!empty($params['page']))
         {
-            $lang = MyLang('app_goods_nav_more_list_data');
-            switch($params['page'])
+            $is_goods_detail_show_left_more = MyC('common_is_goods_detail_show_left_more', 0) == 1;
+            if($is_goods_detail_show_left_more)
             {
-                // 商品页面
-                // icon 参考各终端
-                // web http://amazeui.shopxo.net/css/icon
-                // uniapp https://hellouniapp.dcloud.net.cn/pages/extUI/icons/icons
-                case 'goods' :
-                    $data = [
-                        [
-                            'name'  => $lang['goodsfavor'],
-                            'url'   => '/pages/user-favor/user-favor',
-                            'icon'  => 'heart'
-                        ],
-                        [
-                            'name'  => $lang['goodsbrowse'],
-                            'url'   => '/pages/user-goods-browse/user-goods-browse',
-                            'icon'  => 'eye'
-                        ],
-                        [
-                            'name'  => $lang['home'],
-                            'url'   => '/pages/index/index',
-                            'icon'  => 'home'
-                        ]
-                    ];
-                    break;
+                $lang = MyLang('app_goods_nav_more_list_data');
+                switch($params['page'])
+                {
+                    // 商品页面
+                    // icon 参考各终端
+                    // web http://amazeui.shopxo.net/css/icon
+                    // uniapp https://hellouniapp.dcloud.net.cn/pages/extUI/icons/icons
+                    case 'goods' :
+                        if($is_goods_detail_show_left_more)
+                        {
+                            $data = [
+                                [
+                                    'name'  => $lang['goodsfavor'],
+                                    'url'   => '/pages/user-favor/user-favor',
+                                    'icon'  => 'heart'
+                                ],
+                                [
+                                    'name'  => $lang['goodsbrowse'],
+                                    'url'   => '/pages/user-goods-browse/user-goods-browse',
+                                    'icon'  => 'eye'
+                                ],
+                                [
+                                    'name'  => $lang['home'],
+                                    'url'   => '/pages/index/index',
+                                    'icon'  => 'home'
+                                ]
+                            ];
+                        }
+                        break;
+                }
             }
         }
 

@@ -87,6 +87,10 @@ class GoodsCartService
 
                 // 规格
                 $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
+                $v['spec_text'] = empty($v['spec']) ? '' : implode('，', array_filter(array_map(function($spec)
+                        {
+                            return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
+                        }, $v['spec'])));
 
                 // 获取商品基础信息
                 $spec_params = array_merge($params, [

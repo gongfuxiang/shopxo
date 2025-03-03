@@ -58,22 +58,44 @@
                 {{foreach $buy_button.data as $v}}
                     {{if !empty($v['type']) and !empty($v['name'])}}
                         {{switch $v.type}}
-                            {{case show}}
+                            {{case show|tel}}
                                 <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
                                 class="am-radius am-btn am-btn-primary {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
                                 data-type="{{$v.type}}" 
-                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}">
                                     {{if !empty($v['icon'])}}
                                         <i class="{{$v.icon}}"></i>
                                     {{/if}}
                                     {{$v.name}}
                                 </a>
                             {{/case}}
+                            {{case url|link}}
+                                <a href="{{if !empty($v['value'])}}{{$v.value}}{{/if}}" 
+                                {{if !empty($v['value'])}}target="_blank"{{/if}} 
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{if !empty($v['class'])}}{{$v.class}}{{/if}}">
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </a>
+                            {{/case}}
+                            {{case copy}}
+                                <button type="button" 
+                                {{if !empty($v['value'])}}data-value="{{$v.value}}"{{/if}} 
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} text-copy-submit {{if !empty($v['class'])}}{{$v.class}}{{/if}}">
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </button>
+                            {{/case}}
                             {{default /}}
                                 <button type="button" 
                                 class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{$v.type}}-submit {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
                                 data-type="{{$v.type}}" 
-                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}">
                                     {{if !empty($v['icon'])}}
                                         <i class="{{$v.icon}}"></i>
                                     {{/if}}

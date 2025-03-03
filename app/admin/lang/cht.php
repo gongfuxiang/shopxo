@@ -167,9 +167,10 @@ return [
         // 网站设置导航
         'siteset_nav_list'                      => [
             ['name' => '首頁', 'type' => 'index'],
-            ['name' => '商品', 'type' => 'goods'],
             ['name' => '蒐索', 'type' => 'search'],
             ['name' => '訂單', 'type' => 'order'],
+            ['name' => '商品', 'type' => 'goods'],
+            ['name' => '購物車', 'type' => 'cart'],
             ['name' => '擴展', 'type' => 'extends'],
         ],
         // 页面基础
@@ -237,10 +238,11 @@ return [
         'site_setup_order_default_payment_tips' => '可以設定不同平臺對應的默認支付方式、請先在[網站管理->支付方式]中安裝好支付挿件啟用並對用戶開放',
         'site_setup_choice_payment_message'     => '請選擇{:name}默認支付方式',
         'sitetype_top_tips_list'                => [
-            '1.快遞、常規電商流程，用戶選擇收貨地址下單支付->商家發貨->確認收貨->訂單完成',
-            '2.展示型、僅展示產品，可發起諮詢（不能下單）',
-            '3.自提點、下單時選擇自提貨物地址，用戶下單支付->確認提貨->訂單完成',
-            '4.虛擬銷售、常規電商流程，用戶下單支付->自動發貨->確認提貨->訂單完成',
+            '1.快遞：常規電商流程，用戶選擇收貨地址下單支付->商家派發給協力廠商物流發貨->確認收貨->訂單完成',
+            '2.同城：同城騎手或自行配送，用戶選擇收貨地址下單支付->商家派發給同城協力廠商配送或自行配送->確認收貨->訂單完成',
+            '3.展示：僅展示產品，可發起諮詢（不能下單）',
+            '4.自提：下單時選擇自提貨物地址，用戶下單支付->確認提貨->訂單完成',
+            '5.虛擬：常規電商流程，用戶下單支付->自動發貨->確認提貨->訂單完成',
         ],
         // 添加自提地址表单
         'form_take_address_title'                  => '自提地址',
@@ -757,6 +759,7 @@ return [
         ],
         // 页面基础
         'form_delivery_title'                   => '發貨操作',
+        'form_service_title'                    => '服務操作',
         'form_payment_title'                    => '支付操作',
         'form_item_take'                        => '取貨碼',
         'form_item_take_message'                => '請填寫4位數取貨碼',
@@ -764,6 +767,15 @@ return [
         'form_item_express_choice_win_name'     => '選擇快遞',
         'form_item_express_id'                  => '快遞管道',
         'form_item_express_number'              => '快遞單號',
+        'form_item_service_name'                => '服務人員姓名',
+        'form_item_service_name_message'        => '請填寫服務人員姓名',
+        'form_item_service_mobile'              => '服務人員手機',
+        'form_item_service_mobile_message'      => '請填寫服務人員手機',
+        'form_item_service_time'                => '服務時間',
+        'form_item_service_start_time'          => '服務開始時間',
+        'form_item_service_start_time_message'  => '請選擇服務開始時間',
+        'form_item_service_end_time'            => '服務結束時間',
+        'form_item_service_end_time_message'    => '請選擇服務結束時間',
         'form_item_note'                        => '備註資訊',
         'form_item_note_message'                => '備註資訊最多200個字',
         // 地址
@@ -778,6 +790,7 @@ return [
         'detail_take_address_title'             => '取貨地址',
         'detail_take_address_contact'           => '聯系資訊',
         'detail_take_address_value'             => '詳細地址',
+        'detail_service_title'                  => '服務資訊',
         'detail_fictitious_title'               => '金鑰資訊',
         // 订单售后
         'detail_aftersale_status'               => '狀態',
@@ -804,6 +817,7 @@ return [
             'order_model'         => '訂單模式',
             'client_type'         => '來源',
             'address'             => '地址資訊',
+            'service'             => '服務資訊',
             'take'                => '取貨資訊',
             'refund_price'        => '退款金額',
             'returned_quantity'   => '退貨數量',
@@ -1496,6 +1510,8 @@ return [
                 'order_pay'               => '訂單支付',
                 'order_confirm'           => '訂單確認',
                 'order_detail'            => '訂單詳情',
+                'order_deliveryinfo'      => '訂單發貨頁面',
+                'order_serviceinfo'       => '訂單服務頁面',
                 'orderaftersale_index'    => '訂單售後',
                 'orderaftersale_delete'   => '訂單售後删除',
                 'orderaftersale_cancel'   => '訂單售後取消',

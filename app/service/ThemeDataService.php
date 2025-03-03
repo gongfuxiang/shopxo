@@ -503,11 +503,11 @@ class ThemeDataService
 
         if(!empty($goods_ids))
         {
-            $goods_data = array_column(self::AppointGoodsList($goods_ids), null, 'id');
+            $goods_data = array_column(self::AppointGoodsList(['goods_ids'=>$goods_ids]), null, 'id');
         }
         if(!empty($article_ids))
         {
-            $article_data = array_column(self::AppointArticleList($article_ids), null, 'id');
+            $article_data = array_column(self::AppointArticleList(['article_ids'=>$article_ids]), null, 'id');
         }
 
         return [
@@ -552,11 +552,11 @@ class ThemeDataService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $article_ids [文章id]
+     * @param   [array]         $params [输入参数]
      */
-    public static function AppointArticleList($article_ids)
+    public static function AppointArticleList($params = [])
     {
-        return ArticleService::AppointArticleList($article_ids);
+        return ArticleService::AppointArticleList($params);
     }
 
     /**
@@ -580,15 +580,15 @@ class ThemeDataService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $goods_ids [商品id]
+     * @param   [array]         $params [输入参数]
      */
-    public static function AppointGoodsList($goods_ids)
+    public static function AppointGoodsList($params = [])
     {
-        return GoodsService::AppointGoodsList($goods_ids, [
+        return GoodsService::AppointGoodsList(array_merge($params, [
             'is_spec'   => 1,
             'is_cart'   => 1,
             'is_favor'  => 1,
-        ]);
+        ]));
     }
 
     /**
@@ -598,15 +598,15 @@ class ThemeDataService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $config [配置信息]
+     * @param   [array]         $params [输入参数]
      */
-    public static function AutoGoodsList($config = [])
+    public static function AutoGoodsList($params = [])
     {
-        return GoodsService::AutoGoodsList($config, [
+        return GoodsService::AutoGoodsList(array_merge($params, [
             'is_spec'   => 1,
             'is_cart'   => 1,
             'is_favor'  => 1,
-        ]);
+        ]));
     }
 
     /**

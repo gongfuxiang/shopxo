@@ -1610,6 +1610,11 @@ i.buy-event {
     -ms-transform: scale(1.03);
 }
 
+.introduce-main .am-nav-tabs > li > a {
+    line-height: 4rem;
+    height: 4.8rem;
+}
+
 @media only screen and (min-width:641px) {
     /*放大镜*/
     .box {

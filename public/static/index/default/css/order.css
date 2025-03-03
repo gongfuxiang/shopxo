@@ -119,7 +119,7 @@ ul.progress-4 li {
 }
 .items-title {
 	color: #999999;
-	width: 8.5rem;
+	width: 10rem;
 }
 .items-title.am-color-main {
 	color: var(--color-main);

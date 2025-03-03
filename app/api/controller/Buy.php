@@ -52,9 +52,19 @@ class Buy extends Common
      */
     public function Index()
     {
-        // 获取商品列表
+        // 请求参数
         $params = $this->data_request;
         $params['user'] = $this->user;
+
+        // 获取下单信息
+        if(empty($params['goods_data']) && empty($params['ids']))
+        {
+            $buy_data = BuyService::BuyDataRead($this->user['id']);
+            if(!empty($buy_data) && (!empty($buy_data['goods_data']) || !empty($buy_data['ids'])))
+            {
+                $params = array_merge($params, $buy_data);
+            }
+        }
 
         // 默认支付方式
         $params['payment_id'] = PaymentService::BuyDefaultPayment($params);
@@ -77,6 +87,10 @@ class Buy extends Common
                 $buy_base = $ret['data']['base'];
                 $buy_goods = $ret['data']['goods'];
 
+                // 下单类型数据
+                $buy_site_model_data = ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params);
+                $buy_base['site_model'] = $buy_site_model_data['site_model'];
+
                 // 数据返回组装
                 $result = [
                     'goods_list'           => $buy_goods,
@@ -84,15 +98,18 @@ class Buy extends Common
                     'base'                 => $buy_base,
                     'common_site_type'     => (int) $buy_base['common_site_type'],
                     'default_payment_id'   => $params['payment_id'],
-                    'buy_site_model_list'  => ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params),
+                    'buy_site_model_list'  => $buy_site_model_data['data'],
                 ];
-                // 自提模式
-                if($buy_base['site_model'] == 2)
+                // 同城、自提模式
+                if(in_array($buy_base['site_model'], [1,2]))
                 {
                     // 指定时间
                     $result['buy_datetime_info'] = ResourcesService::BuyDatetimeData($params);
                     // 客户联系信息
-                    $result['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                    if($buy_base['site_model'] == 2)
+                    {
+                        $result['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                    }
                 }
             }
             $ret = SystemBaseService::DataReturn($result);
@@ -110,8 +127,19 @@ class Buy extends Common
      */
     public function Add()
     {
+        // 请求参数
         $params = $this->data_request;
         $params['user'] = $this->user;
+
+        // 获取下单信息
+        if(empty($params['goods_data']) && empty($params['ids']))
+        {
+            $buy_data = BuyService::BuyDataRead($this->user['id']);
+            if(!empty($buy_data) && (!empty($buy_data['goods_data']) || !empty($buy_data['ids'])))
+            {
+                $params = array_merge($params, $buy_data);
+            }
+        }
         return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
     }
 }

@@ -39,12 +39,16 @@
             <div class="user-base am-radius" style="--background-image: url({{:StaticAttachmentUrl('user-member-top-bg.png')}})">
                 <div class="user-base-left">
                     <div class="user-avatar">
-                        <img src="{{$user.avatar}}" class="avatar" />
+                        {{if !empty($user['avatar'])}}
+                            <img src="{{$user.avatar}}" class="avatar" />
+                        {{/if}}
                         <div class="user-name">
                             {{if !empty($user['icon'])}}
                                 <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
-                            <span>{{$user.user_name_view}}</span>
+                            {{if !empty($user['user_name_view'])}}
+                                <span>{{$user.user_name_view}}</span>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="items">

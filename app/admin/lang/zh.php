@@ -167,9 +167,10 @@ return [
         // 网站设置导航
         'siteset_nav_list'                      => [
             ['name' => '首页', 'type' => 'index'],
-            ['name' => '商品', 'type' => 'goods'],
             ['name' => '搜索', 'type' => 'search'],
             ['name' => '订单', 'type' => 'order'],
+            ['name' => '商品', 'type' => 'goods'],
+            ['name' => '购物车', 'type' => 'cart'],
             ['name' => '扩展', 'type' => 'extends'],
         ],
         // 页面基础
@@ -237,10 +238,11 @@ return [
         'site_setup_order_default_payment_tips' => '可以设置不同平台对应的默认支付方式、请先在[ 网站管理 -> 支付方式 ]中安装好支付插件启用并对用户开放',
         'site_setup_choice_payment_message'     => '请选择{:name}默认支付方式',
         'sitetype_top_tips_list'                => [
-            '1. 快递、常规电商流程，用户选择收货地址下单支付 -> 商家发货 -> 确认收货 -> 订单完成',
-            '2. 展示型、仅展示产品，可发起咨询（不能下单）',
-            '3. 自提点、下单时选择自提货物地址，用户下单支付 -> 确认提货 -> 订单完成',
-            '4. 虚拟销售、常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成',
+            '1. 快递：常规电商流程，用户选择收货地址下单支付 -> 商家派发给第三方物流发货 -> 确认收货 -> 订单完成',
+            '2. 同城：同城骑手或自行配送，用户选择收货地址下单支付 -> 商家派发给同城第三方配送或自行配送 -> 确认收货 -> 订单完成',
+            '3. 展示：仅展示产品，可发起咨询（不能下单）',
+            '4. 自提：下单时选择自提货物地址，用户下单支付 -> 确认提货 -> 订单完成',
+            '5. 虚拟：常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成',
         ],
         // 添加自提地址表单
         'form_take_address_title'                  => '自提地址',
@@ -758,6 +760,7 @@ return [
         ],
         // 页面基础
         'form_delivery_title'                   => '发货操作',
+        'form_service_title'                    => '服务操作',
         'form_payment_title'                    => '支付操作',
         'form_item_take'                        => '取货码',
         'form_item_take_message'                => '请填写4位数取货码',
@@ -765,6 +768,15 @@ return [
         'form_item_express_choice_win_name'     => '选择快递',
         'form_item_express_id'                  => '快递方式',
         'form_item_express_number'              => '快递单号',
+        'form_item_service_name'                => '服务人员姓名',
+        'form_item_service_name_message'        => '请填写服务人员姓名',
+        'form_item_service_mobile'              => '服务人员手机',
+        'form_item_service_mobile_message'      => '请填写服务人员手机',
+        'form_item_service_time'                => '服务时间',
+        'form_item_service_start_time'          => '服务开始时间',
+        'form_item_service_start_time_message'  => '请选择服务开始时间',
+        'form_item_service_end_time'            => '服务结束时间',
+        'form_item_service_end_time_message'    => '请选择服务结束时间',
         'form_item_note'                        => '备注信息',
         'form_item_note_message'                => '备注信息最多200个字符',
         // 地址
@@ -779,6 +791,7 @@ return [
         'detail_take_address_title'             => '取货地址',
         'detail_take_address_contact'           => '联系信息',
         'detail_take_address_value'             => '详细地址',
+        'detail_service_title'                  => '服务信息',
         'detail_fictitious_title'               => '密钥信息',
         // 订单售后
         'detail_aftersale_status'               => '状态',
@@ -805,6 +818,7 @@ return [
             'order_model'         => '订单模式',
             'client_type'         => '来源',
             'address'             => '地址信息',
+            'service'             => '服务信息',
             'take'                => '取货信息',
             'refund_price'        => '退款金额',
             'returned_quantity'   => '退货数量',
@@ -1514,6 +1528,8 @@ return [
                 'order_pay'               => '订单支付',
                 'order_confirm'           => '订单确认',
                 'order_detail'            => '订单详情',
+                'order_deliveryinfo'      => '订单发货页面',
+                'order_serviceinfo'       => '订单服务页面',
                 'orderaftersale_index'    => '订单售后',
                 'orderaftersale_delete'   => '订单售后删除',
                 'orderaftersale_cancel'   => '订单售后取消',

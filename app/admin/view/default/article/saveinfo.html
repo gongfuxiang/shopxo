@@ -95,7 +95,7 @@
             {{/if}}
             <!-- 插件扩展数据 end -->
 
-            {{:ModuleInclude('lib/seo')}}
+            {{:ModuleInclude('lib/seo', empty($data) ? [] : $data, ['is_share_images'=>1])}}
 
             <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />

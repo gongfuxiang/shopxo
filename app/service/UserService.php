@@ -791,7 +791,7 @@ class UserService
             {
                 $integral_type = 1;
                 $old_integral = 0;
-                $opt_integral = 0;
+                $opt_integral = $data['integral'];
                 if(!empty($params['id']))
                 {
                     $old_integral = $user['integral'];
@@ -2357,6 +2357,13 @@ class UserService
                     $temp = self::$method('mobile', $data['mobile']);
                     if(empty($temp))
                     {
+                        // 是否被禁止
+                        $ret = self::UserRegForbidCheck($data['mobile'], 'mobile');
+                        if($ret['code'] != 0)
+                        {
+                            return $ret;
+                        }
+                        // 绑定手机
                         $upd_data = [
                             'mobile'    => $data['mobile'],
                             'upd_time'  => time(),
@@ -2408,6 +2415,13 @@ class UserService
                             $temp = self::$method('mobile', $data['mobile']);
                             if(empty($temp))
                             {
+                                // 是否被禁止
+                                $ret = self::UserRegForbidCheck($data['mobile'], 'mobile');
+                                if($ret['code'] != 0)
+                                {
+                                    return $ret;
+                                }
+                                // 绑定手机
                                 $upd_data = [
                                     'mobile'    => $data['mobile'],
                                     'upd_time'  => time(),

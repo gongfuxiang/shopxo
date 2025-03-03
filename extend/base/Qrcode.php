@@ -141,18 +141,18 @@ class Qrcode
                     //源图象连接资源
                     $logo = imagecreatefromstring($logo);
 
-                    $qr_width = imagesx($qr);
-                    $qr_height = imagesy($qr);
-                    $logo_width = imagesx($logo);
-                    $logo_height = imagesy($logo);
+                    $qr_width = intval(imagesx($qr));
+                    $qr_height = intval(imagesy($qr));
+                    $logo_width = intval(imagesx($logo));
+                    $logo_height = intval(imagesy($logo));
                     //组合之后logo的宽度(占二维码的1/5)
-                    $logo_qr_width = $qr_width / 5;
+                    $logo_qr_width = intval($qr_width / 5);
                     //logo的宽度缩放比(本身宽度/组合后的宽度)
-                    $scale = $logo_width/$logo_qr_width;
+                    $scale = intval($logo_width/$logo_qr_width);
                     //组合之后logo的高度
-                    $logo_qr_height = $logo_height/$scale;
+                    $logo_qr_height = intval($logo_height/$scale);
                     //组合之后logo左上角所在坐标点
-                    $from_width = ($qr_width - $logo_qr_width) / 2;
+                    $from_width = intval(($qr_width - $logo_qr_width) / 2);
                     
                     //重新组合图片并调整大小
                     imagecopyresampled($qr, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,$logo_qr_height, $logo_width, $logo_height);

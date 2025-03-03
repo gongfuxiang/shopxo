@@ -133,6 +133,30 @@
                             <p>{{$data.common_fictitious_order_direct_pay.describe}}</p>
                         </div>
                     </div>
+
+                    <!-- 下单指定时间 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_buy_datetime_info.name}}</label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_buy_datetime_config_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_buy_datetime_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_datetime_info']['value']) and in_array($v['value'], $data['common_buy_datetime_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_datetime_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <!-- 下单联系信息 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_buy_extraction_contact_info.name}}</label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_buy_extraction_contact_config_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_buy_extraction_contact_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_extraction_contact_info']['value']) and in_array($v['value'], $data['common_buy_extraction_contact_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_extraction_contact_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 默认支付方式 -->

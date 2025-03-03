@@ -155,14 +155,19 @@
                             {{if !in_array($v['value'], ['pc'])}}
                                 <div class="am-flex am-flex-row am-flex-items-center am-gap-1 am-margin-top-sm">
                                     <span class="am-text-right">{{$v.name}}</span>
-                                    <select name="common_app_home_data_diy_mode[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
+                                    <select name="common_app_home_data_diy_mode[{{$v.value}}][diy_id]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
                                         <option value="">{{:MyLang('optional_tips')}}</option>
                                         {{if !empty($diy_list)}}
                                             {{foreach $diy_list as $diy}}
-                                                <option value="{{$diy.id}}" {{if !empty($data['common_app_home_data_diy_mode']) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]) and $data['common_app_home_data_diy_mode']['value'][$v['value']] eq $diy['id']}}selected{{/if}}>{{$diy.name}}</option>
+                                                <option value="{{$diy.id}}" {{if !empty($data['common_app_home_data_diy_mode']) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]['diy_id']) and $data['common_app_home_data_diy_mode']['value'][$v['value']]['diy_id'] eq $diy['id']}}selected{{/if}}>{{$diy.name}}</option>
                                             {{/foreach}}
                                         {{/if}}
                                     </select>
+                                    <div class="form-multiple-where-input am-margin-left-sm">
+                                        <input type="text" autocomplete="off" name="common_app_home_data_diy_mode[{{$v.value}}][time_start]" class="Wdate am-radius" placeholder="{{:MyLang('form_time_start_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($data['common_app_home_data_diy_mode']) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]['time_start'])}}{{$data['common_app_home_data_diy_mode']['value'][$v['value']]['time_start']}}{{/if}}" />
+                                        <span class="am-text-grey">~</span>
+                                        <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('form_time_end_title')}}" name="common_app_home_data_diy_mode[{{$v.value}}][time_end]" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($data['common_app_home_data_diy_mode']) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]) and !empty($data['common_app_home_data_diy_mode']['value']) and !empty($data['common_app_home_data_diy_mode']['value'][$v['value']]['time_end'])}}{{$data['common_app_home_data_diy_mode']['value'][$v['value']]['time_end']}}{{/if}}" />
+                                    </div>
                                 </div>
                             {{/if}}
                         {{/foreach}}

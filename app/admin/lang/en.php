@@ -167,9 +167,10 @@ return [
         // 网站设置导航
         'siteset_nav_list'                      => [
             ['name' => 'Home', 'type' => 'index'],
-            ['name' => 'Goods', 'type' => 'goods'],
             ['name' => 'Search', 'type' => 'search'],
             ['name' => 'Order', 'type' => 'order'],
+            ['name' => 'Goods', 'type' => 'goods'],
+            ['name' => 'Cart', 'type' => 'cart'],
             ['name' => 'Extensions', 'type' => 'extends'],
         ],
         // 页面基础
@@ -237,10 +238,11 @@ return [
         'site_setup_order_default_payment_tips' => 'You can set the default payment method corresponding to different platforms. Please install the payment plug-in in [Website Management ->Payment Method] to enable and open it to users',
         'site_setup_choice_payment_message'     => 'Please select {:name} default payment method',
         'sitetype_top_tips_list'                => [
-            '1. Express delivery, conventional e-commerce process, user selects the receiving address to place an order for payment ->merchant shipment ->confirmation of receipt ->order completion',
-            '2. Display type, only display goods, can initiate consultation (cant place an order)',
-            '3. Select the self-pickup address when placing the order, and the user places the order for payment ->confirm the delivery ->order completion',
-            '4. Virtual sales, conventional e-commerce process, user order payment ->automatic delivery ->confirmation of delivery ->order completion',
+            '1. Express delivery: Conventional e-commerce process, where the user selects the delivery address to place an order and make payment ->the merchant distributes the shipment to a third-party logistics provider ->confirms receipt ->completes the order',
+            '2. Same city: Same city rider or self delivery, users choose the delivery address to place an order and pay ->the merchant sends it to a third-party delivery in the same city or self delivery ->confirms receipt ->order completion',
+            '3. Display: Only display products, inquiries can be initiated (orders cannot be placed)',
+            '4. Self pickup: When placing an order, select the self pickup address, and the user places the order for payment ->confirms the pickup ->completes the order',
+            '5. Virtual: Conventional e-commerce process, where users place orders and make payments ->automatic shipping ->confirm pick-up ->order completion',
         ],
         // 添加自提地址表单
         'form_take_address_title'                  => 'Self pickup address',
@@ -775,6 +777,7 @@ return [
         ],
         // 页面基础
         'form_delivery_title'                   => 'Delivery Operation',
+        'form_service_title'                    => 'Service Operation',
         'form_payment_title'                    => 'Payment Operation',
         'form_item_take'                        => 'Take Code',
         'form_item_take_message'                => 'Please fill in the 4-digit pickup code',
@@ -782,6 +785,15 @@ return [
         'form_item_express_choice_win_name'     => 'Choose express delivery',
         'form_item_express_id'                  => 'Express delivery method',
         'form_item_express_number'              => 'Express Number',
+        'form_item_service_name'                => 'Name of service personnel',
+        'form_item_service_name_message'        => 'Please fill in the name of the service personnel',
+        'form_item_service_mobile'              => 'Service personnels mobile phones',
+        'form_item_service_mobile_message'      => 'Please fill in the service personnels mobile phone number',
+        'form_item_service_time'                => 'Service Time',
+        'form_item_service_start_time'          => 'Service start time',
+        'form_item_service_start_time_message'  => 'Please select the service start time',
+        'form_item_service_end_time'            => 'End time of service',
+        'form_item_service_end_time_message'    => 'Please select the end time of the service',
         'form_item_note'                        => 'memo',
         'form_item_note_message'                => 'Note information can be up to 200 characters long',
         // 地址
@@ -796,6 +808,7 @@ return [
         'detail_take_address_title'             => 'Take Address',
         'detail_take_address_contact'           => 'Contact Info',
         'detail_take_address_value'             => 'Detail Info',
+        'detail_service_title'                  => 'Service Info',
         'detail_fictitious_title'               => 'Key Info',
         // 订单售后
         'detail_aftersale_status'               => 'Status',
@@ -822,6 +835,7 @@ return [
             'order_model'         => 'Order Model',
             'client_type'         => 'Client Type',
             'address'             => 'Address Info',
+            'service'             => 'Service Info',
             'take'                => 'Take Info',
             'refund_price'        => 'Refund Amount (yuan)',
             'returned_quantity'   => 'Return Quantity',
@@ -1514,6 +1528,8 @@ return [
                 'order_pay'               => 'Order payment',
                 'order_confirm'           => 'acknowledgement of order',
                 'order_detail'            => 'Order details',
+                'order_deliveryinfo'      => 'Order shipping page',
+                'order_serviceinfo'       => 'Order Service Page',
                 'orderaftersale_index'    => 'Order aftersales',
                 'orderaftersale_delete'   => 'After sales order delete',
                 'orderaftersale_cancel'   => 'Order after-sales cancellation',

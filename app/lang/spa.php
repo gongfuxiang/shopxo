@@ -208,6 +208,8 @@ return [
     'print_success'                                         => 'Impresión exitosa',
     'verification_fail'                                     => 'Falló la verificación',
     'verification_success'                                  => 'Verificación exitosa',
+    'service_fail'                                          => 'El Servicio falló',
+    'service_success'                                       => 'El Servicio fue exitoso',
     'collect_fail'                                          => 'Falló la recepción',
     'collect_success'                                       => 'Recepción exitosa',
     'quit_success'                                          => 'Salida exitosa',
@@ -440,6 +442,7 @@ return [
     'copy_title'                                            => 'Copiar',
     'admin_title'                                           => 'Gestión',
     'user_title'                                            => 'Usuarios',
+    'account_title'                                         => 'Cuenta',
     'revoke_audit_title'                                    => 'Retirada del juicio',
     'reverse_audit_title'                                   => 'Contra el juicio',
     'submit_audit_title'                                    => 'Juicio',
@@ -558,6 +561,7 @@ return [
     'valid_title'                                           => 'Efectivo',
     'suspend_title'                                         => 'Suspensión',
     'end_title'                                             => 'Fin',
+    'callback_title'                                        => 'Devolución de llamada',
     'buy_title'                                             => 'Compra',
     'place_order_title'                                     => 'Hacer un pedido',
     'new_title'                                             => 'Último',
@@ -657,7 +661,9 @@ return [
     'form_choice_excel_title'                               => 'Elegir Microsoft',
     'form_upload_excel_message'                             => 'Por favor, suba Microsoft',
     'form_gender_title'                                     => 'Género',
+    'form_gender_message'                                   => 'Por favor, elija el sexo',
     'form_region_title'                                     => 'Provincias y municipios',
+    'form_region_message'                                   => 'Por favor, elija provincias y municipios',
     'form_region_province_title'                            => 'Provincias',
     'form_region_province_message'                          => 'Por favor, elija la provincia',
     'form_region_city_title'                                => 'Ciudad',
@@ -676,6 +682,8 @@ return [
     'form_seo_desc_title'                                   => 'Descripción seo',
     'form_seo_desc_message'                                 => 'El formato de descripción seo tiene un máximo de 230 caracteres',
     'form_seo_desc_tips'                                    => 'Generalmente no más de 200 caracteres',
+    'form_share_images_title'                               => 'Compartir imágenes',
+    'form_share_images_tips'                                => 'El tamaño es generalmente el mejor en la proporción de 5: 4.',
     'form_verify_title'                                     => 'Código de verificación',
     'form_verify_placeholder'                               => 'Por favor, introduzca el Código de verificación',
     'form_verify_message'                                   => 'Formato de código de verificación 4 dígitos',
@@ -720,6 +728,8 @@ return [
     'form_time_start_message'                               => 'Por favor, elija la hora de inicio',
     'form_time_end_title'                                   => 'Fin del tiempo',
     'form_time_end_message'                                 => 'Por favor, elija la hora de finalización',
+    'form_time_message'                                     => 'Por favor, elija la hora',
+    'form_name_tel_message'                                 => 'Por favor, rellene su nombre y teléfono.',
     'form_goods_category_title'                             => 'Clasificación de mercancías',
     'form_goods_category_placeholder'                       => 'Clasificación de productos básicos...',
     'form_goods_category_message'                           => 'Por favor, elija la clasificación de la mercancía.',
@@ -1043,6 +1053,16 @@ return [
         3 => 'Saltar al mapa nativo para ver la ubicación especificada',
         4 => 'Llamar',
     ],
+    // 下单指定时间
+    'common_buy_datetime_config_list' => [
+        0 => 'Opcional',
+        1 => 'Selección obligatoria',
+    ],
+    // 下单联系信息
+    'common_buy_extraction_contact_config_list' => [
+        0 => 'Se puede rellenar',
+        1 => 'Rellenar obligatoriamente',
+    ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
         0 => ['name' => 'Solo reembolso', 'desc' => 'No se recibieron las mercancías (no se firmaron) y se acordó mediante consulta.'],
@@ -1079,22 +1099,21 @@ return [
     // 站点类型
     'common_site_type_list' => [
         0 => 'Expreso',
-        1 => 'Exhibición',
+        1 => 'La misma ciudad',
         2 => 'Autorecogida',
-        3 => 'Venta virtual',
-        4 => 'Mensajería + recogida propia',
+        3 => 'Virtual',
+        4 => 'Exhibición',
+        5 => 'Mensajería + recogida propia',
+        6 => 'La misma ciudad + autorecogida',
+        7 => 'Mensajería + la misma ciudad',
+        8 => 'Mensajería + misma ciudad + recogida propia',
     ],
     // 订单类型
     'common_order_type_list' => [
         0 => 'Expreso',
-        1 => 'Exhibición',
+        1 => 'La misma ciudad',
         2 => 'Autorecogida',
-        3 => 'Ventas virtuales',
-    ],
-    // 下单站点类型列表
-    'common_buy_site_model_list' => [
-        0 => 'Correo expreso',
-        2 => 'Recoger la mercancía desde el punto de recogida',
+        3 => 'Virtual',
     ],
     // 管理员状态
     'common_admin_status_list' => [
@@ -1117,6 +1136,11 @@ return [
         0 => 'Todo',
         1 => 'Detalles',
         2 => 'Base',
+    ],
+    // 搜索商品展示样式类型
+    'common_search_goods_show_type_list' => [
+        0 => 'Jiugongge',
+        1 => 'Lista gráfica',
     ],
     // 品牌排序类型
     'common_brand_order_by_type_list' => [
@@ -2270,13 +2294,15 @@ return [
                 'title'  => 'Cancelación de pedidos',
                 'desc'   => 'El pedido fue cancelado con éxito.',
             ],
-            // 发货/取货
+            // 发货、取货、服务
             'delivery_express_id_message'           => 'El método de mensajería es incorrecto',
             'delivery_express_number_message'       => 'El número de la lista de mensajería es incorrecto.',
             'delivery_express_number_message'       => 'Los datos de mensajería son incorrectos',
             'delivery_express_insert_fail_tips'     => 'Falló la adición del envío',
             'delivery_express_update_fail_tips'     => 'Falló la actualización del envío',
             'delivery_express_info'                 => 'Información de mensajería',
+            'delivery_service_insert_fail_tips'     => 'Falló la adición del servicio',
+            'delivery_service_update_fail_tips'     => 'Falló la actualización del servicio',
             'take_extraction_code_message'          => 'El Código de recogida es incorrecto',
             'take_extraction_code_empty_tips'       => 'El Código de recogida del pedido no existe, Póngase en contacto con el Administrador',
             'take_extraction_code_error_tips'       => 'El Código de recogida no es correcto',
@@ -2325,6 +2351,7 @@ return [
             'plugins_type_error_tips'               => 'El tipo de plug - in es incorrecto',
             'operate_key_error_tips'                => 'La clave de operación es incorrecta',
             'store_respond_error_tips'              => 'La respuesta de la tienda es incorrecta',
+            'store_was_installed_text'              => 'Instalado',
         ],
         // 支付日志
         'paylog'                => [
@@ -2421,7 +2448,7 @@ return [
             'plugins_package_invalid_tips'          => 'Paquete plug - in no válido',
             'plugins_identification_error_tips'     => 'La identificación del plug - in es incorrecta',
             'plugins_identification_empty_tips'     => 'La identificación del plug - in está vacía',
-            'plugins_config_error_tips'             => 'La información de configuración del tema es incorrecta',
+            'plugins_config_error_tips'             => 'La información de configuración del plug - in es incorrecta',
             'plugins_config_file_get_fail_tips'     => 'Falló la lectura de la información de configuración',
             'plugins_copy_main_fail_tips'           => 'Paquete principal',
             'plugins_new_config_error_tips'         => 'El nuevo perfil es incorrecto',
@@ -4049,10 +4076,6 @@ return [
             'desc' => 'En blanco, no se muestra el servicio al cliente en línea.',
             'tips' => 'Por favor, rellene el Código de servicio al cliente en línea - ventana de chat',
         ],
-        'common_is_goods_detail_show_photo'  => [
-            'name' => 'La página de detalles del producto muestra el álbum',
-            'tips' => 'Por favor, elija si la página de detalles del producto muestra el álbum.',
-        ],
         'common_site_default_index'  => [
             'name' => 'Página de inicio predeterminada',
             'desc' => 'Sistema predeterminado, solo en el lado web',
@@ -4366,10 +4389,29 @@ return [
             'desc' => 'Recepción de pedidos por defecto, no cambie la configuración a voluntad, lo que causará ventas incompatibles de productos.',
             'tips' => 'Por favor, elija la regla de aumento de ventas de productos de pedido.',
         ],
-        'common_is_show_goods_comments'  => [
-            'name' => 'Evaluación de productos de exhibición',
-            'desc' => 'El valor predeterminado es',
-            'tips' => 'Por favor, elija si mostrar la evaluación del producto.',
+        'common_is_goods_detail_content_show_photo'  => [
+            'name' => 'El contenido de la página de detalles del producto muestra el álbum de fotos',
+            'tips' => 'Por favor, elija si el contenido de la página de detalles del producto muestra el álbum.',
+        ],
+        'common_is_goods_detail_show_comments'  => [
+            'name' => 'Evaluación de la presentación de la página de detalles del producto',
+            'tips' => 'Por favor, elija si la página de detalles del producto muestra la evaluación.',
+        ],
+        'common_is_goods_detail_show_seeing_you'  => [
+            'name' => 'La página de detalles del producto se muestra y se lee.',
+            'tips' => 'Por favor, elija si la página de detalles del producto se muestra y se ve.',
+        ],
+        'common_is_goods_detail_show_guess_you_like'  => [
+            'name' => 'Página de detalles del producto muestra adivina que te gusta',
+            'tips' => 'Por favor, elija si la página de detalles del producto se muestra y adivine si le gusta.',
+        ],
+        'common_is_cart_show_guess_you_like'  => [
+            'name' => 'La página del carrito de la compra muestra adivina que te gusta',
+            'tips' => 'Por favor, elija si la página del carrito de la compra se muestra adivina si te gusta',
+        ],
+        'common_is_goods_detail_show_left_more'  => [
+            'name' => 'Más a la izquierda de la página de detalles del producto (teléfono móvil)',
+            'tips' => 'Por favor, elija si hay más a la izquierda de la página de detalles del producto.',
         ],
         'common_app_h5_url'  => [
             'name' => 'Dirección h5 del teléfono móvil',
@@ -4504,6 +4546,16 @@ return [
             'name' => 'Los pedidos virtuales se envían directamente para el pago',
             'desc' => 'No por defecto, el pedido virtual crea automáticamente el pedido y entra directamente en la lista de pedidos para iniciar el pago, ahorrando el enlace de confirmación del pedido (primero establezca el método de pago por defecto)',
             'tips' => 'Por favor, elija si el pedido virtual se envía directamente para el pago.',
+        ],
+        'common_buy_datetime_info'  => [
+            'name' => 'Hora especificada para hacer el pedido',
+            'desc' => '',
+            'tips' => 'Por favor, elija la hora especificada para hacer el pedido.',
+        ],
+        'common_buy_extraction_contact_info'  => [
+            'name' => 'Información de contacto para hacer un pedido',
+            'desc' => '',
+            'tips' => 'Por favor, elija la información de contacto para hacer un pedido.',
         ],
         'home_search_history_record'  => [
             'name' => 'Abrir registro de búsqueda',

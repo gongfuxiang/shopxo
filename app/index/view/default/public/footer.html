@@ -244,6 +244,71 @@
     <script type="text/javascript" src="{{$public_host}}static/common/lib/ueditor/third-party/webuploader/webuploader.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
+<!-- uniapp webview js -->
+{{if isset($is_load_uniapp_webview) and $is_load_uniapp_webview eq 1}}
+    <script type="text/javascript">
+        var user_agent = navigator.userAgent;
+        if(user_agent.indexOf('AlipayClient') > -1)
+        {
+            // 支付宝小程序的 JS-SDK 防止 404 需要动态加载，如果不需要兼容支付宝小程序，则无需引用此 JS 文件。
+            document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
+        } else if(/QQ/i.test(user_agent) && /miniProgram/i.test(user_agent))
+        {
+            // QQ 小程序
+            document.write('<script type="text/javascript" src="https://qqq.gtimg.cn/miniprogram/webview_jssdk/qqjssdk-1.0.0.js"><\/script>');
+        } else if(/miniProgram/i.test(user_agent) && /micromessenger/i.test(user_agent))
+        {
+            // 微信小程序 JS-SDK 如果不需要兼容微信小程序，则无需引用此 JS 文件。
+            document.write('<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"><\/script>');
+        } else if(/toutiaomicroapp/i.test(user_agent))
+        {
+            // 头条小程序 JS-SDK 如果不需要兼容头条小程序，则无需引用此 JS 文件。
+            document.write('<script type="text/javascript" src="https://s3.pstatp.com/toutiao/tmajssdk/jssdk-1.0.1.js"><\/script>');
+        } else if(/swan/i.test(user_agent))
+        {
+            // 百度小程序 JS-SDK 如果不需要兼容百度小程序，则无需引用此 JS 文件。
+            document.write('<script type="text/javascript" src="https://b.bdstatic.com/searchbox/icms/searchbox/js/swan-2.0.18.js"><\/script>');
+        } else if(/quickapp/i.test(user_agent))
+        {
+            // 快手
+            document.write('<script type="text/javascript" src="https://quickapp/jssdk.webview.min.js"><\/script>');
+        }
+    </script>
+    <!-- uni 的 SDK -->
+    <!-- 需要把 uni.webview.1.5.4.js 下载到自己的服务器 -->
+    <script type="text/javascript" src="{{$public_host}}static/common/lib/uniapp/uniapp-webview-1.5.6.js?v={{$static_cache_version}}"></script>
+    <script type="text/javascript">
+    // 待触发 `UniAppJSBridgeReady` 事件后，即可调用 uni 的 API。
+    document.addEventListener('UniAppJSBridgeReady', function()
+    {
+        $(function()
+        {
+            // 导航事件
+            $(document).on('click', '.submit-mini-event', function()
+            {
+                var url = $(this).data('url');
+                var action = $(this).data('action');
+                switch(action)
+                {
+                    case 'switchTab':
+                        uni.switchTab({url: url});
+                        break;
+                    case 'reLaunch':
+                        uni.reLaunch({url: url});
+                        break;
+                    case 'navigateBack':
+                        uni.navigateBack({delta: 1});
+                        break;
+                    default:
+                        uni[action]({url: url});
+                        break;
+                }
+            });
+        });
+    });
+    </script>
+{{/if}}
+
 <!-- 隐藏编辑器初始化 -->
 <script type="text/javascript">
     var upload_editor = UE.getEditor("upload-editor-view", {
@@ -257,6 +322,18 @@
         scaleEnabled:true,
         toolbars: [["insertimage", "insertvideo", "attachment"]]
     });
+
+    // 跳转方法处理
+    function CommonTransferBackHandle(url)
+    {
+        window.location.href = url;
+    }
+
+    // 刷新方法处理
+    function CommonReloadBackHandle()
+    {
+        window.location.reload();
+    }
 
     // 关闭弹窗
     function CommonPopupClose()

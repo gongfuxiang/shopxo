@@ -167,9 +167,10 @@ return [
         // 网站设置导航
         'siteset_nav_list'                      => [
             ['name' => 'Página de inicio', 'type' => 'index'],
-            ['name' => 'Productos Básicos', 'type' => 'goods'],
             ['name' => 'Buscar', 'type' => 'search'],
             ['name' => 'Pedidos', 'type' => 'order'],
+            ['name' => 'Productos Básicos', 'type' => 'goods'],
+            ['name' => 'Carrito de compras', 'type' => 'cart'],
             ['name' => 'Expansión', 'type' => 'extends'],
         ],
         // 页面基础
@@ -237,10 +238,11 @@ return [
         'site_setup_order_default_payment_tips' => 'Se puede configurar el método de pago predeterminado correspondiente a diferentes plataformas, primero instale el plug - in de pago en [gestión del sitio web - > método de pago] para habilitarlo y abrirlo a los usuarios.',
         'site_setup_choice_payment_message'     => 'Por favor, elija el método de pago predeterminado ({:name}).',
         'sitetype_top_tips_list'                => [
-            '1. proceso de mensajería y comercio electrónico convencional, el usuario elige la dirección de recepción para hacer un pedido de pago - > envío del comerciante - > confirmación de la recepción - > finalización del pedido',
-            '2. tipo de exhibición, solo productos de exhibición, se puede iniciar una consulta (no se puede hacer un pedido)',
-            '3. al hacer un pedido, seleccione la dirección de la mercancía recogida, y el usuario haga un pedido para pagar - > confirmar la recogida - > el pedido se completa',
-            '4. ventas virtuales, procesos convencionales de comercio electrónico, el usuario hace un pedido para pagar - > Envío automático - > confirmación de la recogida - > pedido completado',
+            '1. mensajería: proceso convencional de comercio electrónico, el usuario elige la dirección de recepción para hacer un pedido y pagar - > el comerciante distribuye el envío a la logística de terceros - > confirma la recepción - > el pedido se completa',
+            '2. la misma ciudad: los jinetes de la misma ciudad o la distribución por sí mismos, los usuarios eligen la dirección de recepción para hacer un pedido de pago - > los comerciantes lo envían a terceros de la misma ciudad para la distribución o la distribución por sí mismos - > confirmar la recepción - > se completa el pedido',
+            '3. exhibición: solo muestra el producto, se puede iniciar una consulta (no se puede hacer un pedido)',
+            '4. autorecogida: al hacer un pedido, elija la dirección de la mercancía autorecogida, y el usuario haga un pedido para pagar - > confirmar la recogida - > completar el pedido',
+            '5. virtual: proceso convencional de comercio electrónico, el usuario hace un pedido para pagar - > Envío automático - > confirmación de la recogida - > finalización del pedido',
         ],
         // 添加自提地址表单
         'form_take_address_title'                  => 'Dirección de recogida propia',
@@ -757,6 +759,7 @@ return [
         ],
         // 页面基础
         'form_delivery_title'                   => 'Operación de envío',
+        'form_service_title'                    => 'Operación de servicio',
         'form_payment_title'                    => 'Operaciones de pago',
         'form_item_take'                        => 'Código de recogida',
         'form_item_take_message'                => 'Por favor, rellene el Código de recogida de 4 dígitos.',
@@ -764,6 +767,15 @@ return [
         'form_item_express_choice_win_name'     => 'Selección de mensajería',
         'form_item_express_id'                  => 'Método de mensajería',
         'form_item_express_number'              => 'Número de la lista de mensajería',
+        'form_item_service_name'                => 'Nombre del personal de servicio',
+        'form_item_service_name_message'        => 'Por favor, rellene el nombre del personal de servicio.',
+        'form_item_service_mobile'              => 'Teléfono móvil del personal de servicio',
+        'form_item_service_mobile_message'      => 'Por favor, rellene el teléfono móvil del personal de servicio.',
+        'form_item_service_time'                => 'Tiempo de servicio',
+        'form_item_service_start_time'          => 'Hora de inicio del servicio',
+        'form_item_service_start_time_message'  => 'Por favor, elija la hora de inicio del servicio',
+        'form_item_service_end_time'            => 'Hora de finalización del servicio',
+        'form_item_service_end_time_message'    => 'Por favor, elija la hora de finalización del servicio',
         'form_item_note'                        => 'Nota información',
         'form_item_note_message'                => 'La información de la nota tiene un máximo de 200 caracteres',
         // 地址
@@ -778,6 +790,7 @@ return [
         'detail_take_address_title'             => 'Dirección de recogida',
         'detail_take_address_contact'           => 'Información de contacto',
         'detail_take_address_value'             => 'Dirección detallada',
+        'detail_service_title'                  => 'Información de servicio',
         'detail_fictitious_title'               => 'Información clave',
         // 订单售后
         'detail_aftersale_status'               => 'Estado',
@@ -804,6 +817,7 @@ return [
             'order_model'         => 'Modo de pedido',
             'client_type'         => 'Fuente',
             'address'             => 'Información de dirección',
+            'service'             => 'Información de servicio',
             'take'                => 'Información de recogida',
             'refund_price'        => 'Monto del reembolso (yuan)',
             'returned_quantity'   => 'Número de devoluciones',
@@ -1496,6 +1510,8 @@ return [
                 'order_pay'               => 'Pago de pedidos',
                 'order_confirm'           => 'Confirmación del pedido',
                 'order_detail'            => 'Detalles del pedido',
+                'order_deliveryinfo'      => 'Página de envío de pedidos',
+                'order_serviceinfo'       => 'Página de servicio de pedidos',
                 'orderaftersale_index'    => 'Posventa de pedidos',
                 'orderaftersale_delete'   => 'Eliminación post - venta de pedidos',
                 'orderaftersale_cancel'   => 'Cancelación posventa de pedidos',

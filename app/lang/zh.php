@@ -208,6 +208,8 @@ return [
     'print_success'                                         => '打印成功',
     'verification_fail'                                     => '核验失败',
     'verification_success'                                  => '核验成功',
+    'service_fail'                                          => '服务失败',
+    'service_success'                                       => '服务成功',
     'collect_fail'                                          => '收货失败',
     'collect_success'                                       => '收货成功',
     'quit_success'                                          => '退出成功',
@@ -397,7 +399,7 @@ return [
     'notice_title'                                          => '公告',
     'refresh_title'                                         => '刷新',
     'close_title'                                           => '关闭',
-    'open_title'                                            => '打开',
+    'open_title'                                            => '开启',
     'number_title'                                          => '数量',
     'inventory_title'                                       => '库存',
     'weight_title'                                          => '重量',
@@ -441,6 +443,7 @@ return [
     'copy_title'                                            => '复制',
     'admin_title'                                           => '管理',
     'user_title'                                            => '用户',
+    'account_title'                                         => '账户',
     'revoke_audit_title'                                    => '撤审',
     'reverse_audit_title'                                   => '反审',
     'submit_audit_title'                                    => '提审',
@@ -559,6 +562,7 @@ return [
     'valid_title'                                           => '有效',
     'suspend_title'                                         => '暂停',
     'end_title'                                             => '结束',
+    'callback_title'                                        => '回调',
     'buy_title'                                             => '购买',
     'place_order_title'                                     => '下单',
     'new_title'                                             => '最新',
@@ -658,7 +662,9 @@ return [
     'form_choice_excel_title'                               => '选择Excel',
     'form_upload_excel_message'                             => '请上传Excel',
     'form_gender_title'                                     => '性别',
+    'form_gender_message'                                   => '请选择性别',
     'form_region_title'                                     => '省市区',
+    'form_region_message'                                   => '请选择省市区',
     'form_region_province_title'                            => '省份',
     'form_region_province_message'                          => '请选择省份',
     'form_region_city_title'                                => '城市',
@@ -677,6 +683,8 @@ return [
     'form_seo_desc_title'                                   => 'SEO描述',
     'form_seo_desc_message'                                 => 'SEO描述格式最多230个字符',
     'form_seo_desc_tips'                                    => '一般不超过200个字符',
+    'form_share_images_title'                               => '分享图片',
+    'form_share_images_tips'                                => '尺寸一般在5:4比例最佳',
     'form_verify_title'                                     => '验证码',
     'form_verify_placeholder'                               => '请输入验证码',
     'form_verify_message'                                   => '验证码格式4位数字',
@@ -721,6 +729,8 @@ return [
     'form_time_start_message'                               => '请选择开始时间',
     'form_time_end_title'                                   => '结束时间',
     'form_time_end_message'                                 => '请选择结束时间',
+    'form_time_message'                                     => '请选择时间',
+    'form_name_tel_message'                                 => '请填写姓名和电话',
     'form_goods_category_title'                             => '商品分类',
     'form_goods_category_placeholder'                       => '商品分类...',
     'form_goods_category_message'                           => '请选择商品分类',
@@ -1044,6 +1054,16 @@ return [
         3 => '跳转原生地图查看指定位置',
         4 => '拨打电话',
     ],
+    // 下单指定时间
+    'common_buy_datetime_config_list' => [
+        0 => '可选择',
+        1 => '强制选择',
+    ],
+    // 下单联系信息
+    'common_buy_extraction_contact_config_list' => [
+        0 => '可填写',
+        1 => '强制填写',
+    ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
         0 => ['name' => '仅退款', 'desc' => '未收到货(未签收),协商同意前提下'],
@@ -1080,22 +1100,21 @@ return [
     // 站点类型
     'common_site_type_list' => [
         0 => '快递',
-        1 => '展示',
+        1 => '同城',
         2 => '自提',
-        3 => '虚拟售卖',
-        4 => '快递+自提',
+        3 => '虚拟',
+        4 => '展示',
+        5 => '快递+自提',
+        6 => '同城+自提',
+        7 => '快递+同城',
+        8 => '快递+同城+自提',
     ],
     // 订单类型
     'common_order_type_list' => [
         0 => '快递',
-        1 => '展示',
+        1 => '同城',
         2 => '自提',
-        3 => '虚拟销售',
-    ],
-    // 下单站点类型列表
-    'common_buy_site_model_list' => [
-        0 => '快递邮寄',
-        2 => '自提点取货',
+        3 => '虚拟',
     ],
     // 管理员状态
     'common_admin_status_list' => [
@@ -1118,6 +1137,11 @@ return [
         0 => '全部',
         1 => '详情',
         2 => '基础',
+    ],
+    // 搜索商品展示样式类型
+    'common_search_goods_show_type_list' => [
+        0 => '九宫格',
+        1 => '图文列表',
     ],
     // 品牌排序类型
     'common_brand_order_by_type_list' => [
@@ -2272,13 +2296,15 @@ return [
                 'title'  => '订单取消',
                 'desc'   => '订单取消成功',
             ],
-            // 发货/取货
+            // 发货、取货、服务
             'delivery_express_id_message'           => '快递方式有误',
             'delivery_express_number_message'       => '快递单号有误',
             'delivery_express_data_message'         => '快递数据有误',
             'delivery_express_insert_fail_tips'     => '发货添加失败',
             'delivery_express_update_fail_tips'     => '发货更新失败',
             'delivery_express_info'                 => '快递信息',
+            'delivery_service_insert_fail_tips'     => '服务添加失败',
+            'delivery_service_update_fail_tips'     => '服务更新失败',
             'take_extraction_code_message'          => '取货码有误',
             'take_extraction_code_empty_tips'       => '订单取货码不存在、请联系管理员',
             'take_extraction_code_error_tips'       => '取货码不正确',
@@ -2327,6 +2353,7 @@ return [
             'plugins_type_error_tips'               => '插件类型有误',
             'operate_key_error_tips'                => '操作key有误',
             'store_respond_error_tips'              => '商店响应有误',
+            'store_was_installed_text'              => '已安装',
         ],
         // 支付日志
         'paylog'                => [
@@ -2423,7 +2450,7 @@ return [
             'plugins_package_invalid_tips'          => '无效的插件包',
             'plugins_identification_error_tips'     => '插件标识有误',
             'plugins_identification_empty_tips'     => '插件标识为空',
-            'plugins_config_error_tips'             => '主题配置信息有误',
+            'plugins_config_error_tips'             => '插件配置信息有误',
             'plugins_config_file_get_fail_tips'     => '配置信息读取失败',
             'plugins_copy_main_fail_tips'           => '主包',
             'plugins_new_config_error_tips'         => '新配置文件有误',
@@ -4078,10 +4105,6 @@ return [
             'desc' => '空则不显示在线客服',
             'tips' => '请填写在线客服-聊天窗编码',
         ],
-        'common_is_goods_detail_show_photo'  => [
-            'name' => '商品详情页展示相册',
-            'tips' => '请选择是否商品详情页展示相册',
-        ],
         'common_site_default_index'  => [
             'name' => '默认首页',
             'desc' => '默认系统、仅web端',
@@ -4395,10 +4418,29 @@ return [
             'desc' => '默认订单收货，请勿随意切换该配置、会造成商品销量不符',
             'tips' => '请选择订单商品销量增加规则',
         ],
-        'common_is_show_goods_comments'  => [
-            'name' => '展示商品评价',
-            'desc' => '默认是',
-            'tips' => '请选择是否展示商品评价',
+        'common_is_goods_detail_content_show_photo'  => [
+            'name' => '商品详情页内容展示相册',
+            'tips' => '请选择是否商品详情页内容展示相册',
+        ],
+        'common_is_goods_detail_show_comments'  => [
+            'name' => '商品详情页展示评价',
+            'tips' => '请选择是否商品详情页展示评价',
+        ],
+        'common_is_goods_detail_show_seeing_you'  => [
+            'name' => '商品详情页展示看了又看',
+            'tips' => '请选择是否商品详情页展示看了又看',
+        ],
+        'common_is_goods_detail_show_guess_you_like'  => [
+            'name' => '商品详情页展示猜你喜欢',
+            'tips' => '请选择是否商品详情页展示猜你喜欢',
+        ],
+        'common_is_cart_show_guess_you_like'  => [
+            'name' => '购物车页展示猜你喜欢',
+            'tips' => '请选择是否购物车页展示猜你喜欢',
+        ],
+        'common_is_goods_detail_show_left_more'  => [
+            'name' => '商品详情页左侧更多（手机端）',
+            'tips' => '请选择是否商品详情页左侧更多',
         ],
         'common_app_h5_url'  => [
             'name' => '手机端h5地址',
@@ -4533,6 +4575,16 @@ return [
             'name' => '虚拟订单直接提交支付',
             'desc' => '默认否，虚拟订单自动创建订单并直接进入订单列表发起支付、省去订单确认环节（请先设置默认支付方式）',
             'tips' => '请选择是否虚拟订单直接提交支付',
+        ],
+        'common_buy_datetime_info'  => [
+            'name' => '下单指定时间',
+            'desc' => '',
+            'tips' => '请选择下单指定时间',
+        ],
+        'common_buy_extraction_contact_info'  => [
+            'name' => '下单联系信息',
+            'desc' => '',
+            'tips' => '请选择下单联系信息',
         ],
         'home_search_history_record'  => [
             'name' => '开启搜索记录',

@@ -525,6 +525,13 @@ class GoodsService
                     $v['video'] = ResourcesService::AttachmentPathViewHandle($v['video']);
                 }
 
+                // 分享图片
+                if(isset($v['share_images']))
+                {
+                    $v['share_images_old'] = $v['share_images'];
+                    $v['share_images'] = ResourcesService::AttachmentPathViewHandle($v['share_images']);
+                }
+
                 // PC内容处理
                 if(isset($v['content_web']))
                 {
@@ -1287,8 +1294,7 @@ class GoodsService
         }
 
         // 其它附件
-        $data_fields = ['images', 'video'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        $attachment = ResourcesService::AttachmentParams($params, ['images', 'video', 'share_images']);
         if($attachment['code'] != 0)
         {
             return $attachment;
@@ -1324,6 +1330,7 @@ class GoodsService
             'fictitious_goods_value'    => $fictitious_goods_value,
             'site_type'                 => (isset($params['site_type']) && $params['site_type'] != '') ? $params['site_type'] : -1,
             'sort_level'                => empty($params['sort_level']) ? 0 : intval($params['sort_level']),
+            'share_images'              => $attachment['data']['share_images'],
         ];
 
         // 是否存在赠送积分
@@ -2083,6 +2090,12 @@ class GoodsService
             {
                 $del_images_data = array_unique(array_merge($del_images_data, $goods_images));
             }
+            // 商品分享图
+            $goods_share_images = Db::name('Goods')->where([['id', 'in', $goods_ids], ['share_images', '<>', '']])->column('share_images');
+            if(!empty($goods_share_images))
+            {
+                $del_images_data = array_unique(array_merge($del_images_data, $goods_share_images));
+            }
             // 商品规格图
             $goods_spec_type = Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->column('value');
             if(!empty($goods_spec_type))
@@ -2743,17 +2756,17 @@ class GoodsService
         {
             $site_type = Db::name('Goods')->where(['id'=>$goods_id])->value('site_type');
         }
+
+        // 是否展示型商品
+        if($site_type == 4)
+        {
+            return DataReturn(MyLang('goods_only_show_title'), -1, $site_type);
+        }
         
         // 商品类型与当前系统的类型是否一致包含其中
         if(IsGoodsSiteTypeConsistent($site_type) == 1)
         {
             return DataReturn('success', 0, $site_type);
-        }
-
-        // 是否展示型商品
-        if($site_type == 1)
-        {
-            return DataReturn(MyLang('goods_only_show_title'), -1, $site_type);
         }
 
         // 仅可单独购买
@@ -2893,6 +2906,7 @@ class GoodsService
         // value 数据值（可选）
         // icon icon类名称（可选）
         // class 自定义类名称（可选）
+        // business 业务
         $data = [];
         if(empty($error))
         {
@@ -2900,7 +2914,7 @@ class GoodsService
             $model_type = self::GoodsSalesModelType($goods['id'], $goods['site_type']);
 
             // 是否展示型
-            if($model_type['data'] == 1)
+            if($model_type['data'] == 4)
             {
                 $name = MyC('common_is_exhibition_mode_btn_text');
                 $data[] = [
@@ -2989,7 +3003,7 @@ class GoodsService
 
         // 返回数据
         $count = 0;
-        $types =  [];
+        $types = [];
         if(!empty($data) && is_array($data))
         {
             $count = count($data);
@@ -3022,24 +3036,36 @@ class GoodsService
         if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 是否展示商品评价
-            $is_comments = MyC('common_is_show_goods_comments', 1);
+            $is_comments = MyC('common_is_goods_detail_show_comments', 1);
 
             // app与web端不一致
             if(APPLICATION == 'app') 
             {
                 // 这里的 ent 值必须和系统中区域块定义的一致
                 $data = [
-                    ['name'=>MyLang('goods_main_title'), 'ent'=>'.page'],
+                    [
+                        'type'  => 'main',
+                        'name'  => MyLang('goods_main_title'),
+                        'ent'   => '.page',
+                    ],
                 ];
 
                 // 是否展示商品评价
                 if($is_comments == 1)
                 {
-                    $data[] = ['name'=>MyLang('comment_title'), 'ent'=>'.goods-comment'];
+                    $data[] = [
+                        'type'  => 'comments',
+                        'name'  => MyLang('comment_title'),
+                        'ent'   => '.goods-comment',
+                    ];
                 }
 
                 // 商品详情介绍
-                $data[] = ['name'=>MyLang('detail_title'), 'ent'=>'.goods-detail'];
+                $data[] = [
+                    'type'  => 'detail',
+                    'name'  => MyLang('detail_title'),
+                    'ent'   => '.goods-detail',
+                ];
             } else {
                 // 评论总数
                 $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
@@ -3067,10 +3093,13 @@ class GoodsService
                 }
 
                 // 猜你喜欢，目前以销量最高推荐
-                $data[] = [
-                    'type'      => 'guess_you_like',
-                    'name'      => MyLang('goods_guess_you_like_title'),
-                ];
+                if(MyC('common_is_goods_detail_show_guess_you_like', 0) == 1)
+                {
+                    $data[] = [
+                        'type'      => 'guess_you_like',
+                        'name'      => MyLang('goods_guess_you_like_title'),
+                    ];
+                }
             }
 
             // 商品详情中间导航钩子
@@ -3082,14 +3111,11 @@ class GoodsService
                 'data'          => &$data,
             ]);
 
-            // web端处理格式
-            if(APPLICATION == 'web')
-            {
-                $data = [
-                    'nav'   => $data,
-                    'type'  => array_column($data, 'type'),
-                ];
-            }
+            // 格式集合
+            $data = [
+                'nav'   => $data,
+                'type'  => array_column($data, 'type'),
+            ];
 
             // 存储缓存
             MyCache($key, $data, 180);
@@ -3264,7 +3290,7 @@ class GoodsService
     public static function GoodsDetailGuessYouLikeData($goods_id)
     {
         $goods_list = [];
-        if(!empty($goods_id))
+        if(!empty($goods_id) && MyC('common_is_goods_detail_show_guess_you_like', 0) == 1)
         {
             $category_ids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->column('category_id');
             if(!empty($category_ids))
@@ -3300,17 +3326,25 @@ class GoodsService
      */
     public static function GoodsDetailSeeingYouData($goods_id)
     {
-        $params = [
-            'where'     => [
-                ['is_shelves', '=', 1],
-                ['is_delete_time', '=', 0],
-                ['id', 'not in', $goods_id],
-            ],
-            'order_by'  => 'access_count desc',
-            'n'         => 10,
-        ];
-        $ret = self::GoodsList($params);
-        return empty($ret['data']) ? [] : $ret['data'];
+        $goods_list = [];
+        if(!empty($goods_id) && MyC('common_is_goods_detail_show_seeing_you', 0) == 1)
+        {
+            $params = [
+                'where'     => [
+                    ['is_shelves', '=', 1],
+                    ['is_delete_time', '=', 0],
+                    ['id', 'not in', $goods_id],
+                ],
+                'order_by'  => 'access_count desc',
+                'n'         => 10,
+            ];
+            $ret = self::GoodsList($params);
+            if(!empty($ret['data']))
+            {
+                $goods_list = $ret['data'];
+            }
+        }
+        return $goods_list;
     }
 
     /**
@@ -3320,25 +3354,24 @@ class GoodsService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $goods_ids [商品id]
      * @param   [array]         $params    [输入参数]
      */
-    public static function AppointGoodsList($goods_ids, $params = [])
+    public static function AppointGoodsList($params = [])
     {
         $result = [];
-        if(!empty($goods_ids))
+        if(!empty($params['goods_ids']))
         {
             // 非数组则转为数组
-            if(!is_array($goods_ids))
+            if(!is_array($params['goods_ids']))
             {
-                $goods_ids = explode(',', $goods_ids);
+                $params['goods_ids'] = explode(',', $params['goods_ids']);
             }
 
             // 基础条件
             $where = [
                 ['is_delete_time', '=', 0],
                 ['is_shelves', '=', 1],
-                ['id', 'in', array_unique($goods_ids)]
+                ['id', 'in', array_unique($params['goods_ids'])]
             ];
 
             // 获取数据
@@ -3349,7 +3382,7 @@ class GoodsService
             if(!empty($ret['data']))
             {
                 $temp = array_column($ret['data'], null, 'id');
-                foreach($goods_ids as $id)
+                foreach($params['goods_ids'] as $id)
                 {
                     if(!empty($id) && array_key_exists($id, $temp))
                     {
@@ -3368,10 +3401,9 @@ class GoodsService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $config [配置信息]
      * @param   [array]         $params [输入参数]
      */
-    public static function AutoGoodsList($config = [], $params = [])
+    public static function AutoGoodsList($params = [])
     {
         // 基础条件
         $where = [
@@ -3380,38 +3412,38 @@ class GoodsService
         ];
 
         // 商品关键字
-        if(!empty($config['goods_keywords']))
+        if(!empty($params['goods_keywords']))
         {
-            $where[] = ['g.title|g.simple_desc', 'like', '%'.$config['goods_keywords'].'%'];
+            $where[] = ['g.title|g.simple_desc', 'like', '%'.$params['goods_keywords'].'%'];
         }
 
         // 分类条件
-        if(!empty($config['goods_category_ids']))
+        if(!empty($params['goods_category_ids']))
         {
-            if(!is_array($config['goods_category_ids']))
+            if(!is_array($params['goods_category_ids']))
             {
-                $config['goods_category_ids'] = explode(',', $config['goods_category_ids']);
+                $params['goods_category_ids'] = explode(',', $params['goods_category_ids']);
             }
-            $where[] = ['gci.category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($config['goods_category_ids'], 1)];
+            $where[] = ['gci.category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($params['goods_category_ids'], 1)];
         }
 
         // 品牌条件
-        if(!empty($config['goods_brand_ids']))
+        if(!empty($params['goods_brand_ids']))
         {
-            if(!is_array($config['goods_brand_ids']))
+            if(!is_array($params['goods_brand_ids']))
             {
-                $config['goods_brand_ids'] = explode(',', $config['goods_brand_ids']);
+                $params['goods_brand_ids'] = explode(',', $params['goods_brand_ids']);
             }
-            $where[] = ['g.brand_id', 'in', $config['goods_brand_ids']];
+            $where[] = ['g.brand_id', 'in', $params['goods_brand_ids']];
         }
 
         // 排序
         $order_by_type_list = MyConst('common_goods_order_by_type_list');
         $order_by_rule_list = MyConst('common_data_order_by_rule_list');
         // 排序类型
-        $order_by_type = !isset($config['goods_order_by_type']) || !array_key_exists($config['goods_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['goods_order_by_type']]['value'];
+        $order_by_type = !isset($params['goods_order_by_type']) || !array_key_exists($params['goods_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$params['goods_order_by_type']]['value'];
         // 排序值
-        $order_by_rule = !isset($config['goods_order_by_rule']) || !array_key_exists($config['goods_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['goods_order_by_rule']]['value'];
+        $order_by_rule = !isset($params['goods_order_by_rule']) || !array_key_exists($params['goods_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['goods_order_by_rule']]['value'];
         // 拼接排序
         $order_by = $order_by_type.' '.$order_by_rule;
 
@@ -3422,7 +3454,7 @@ class GoodsService
         $ret = self::CategoryGoodsList([
             'where'     => $where,
             'm'         => 0,
-            'n'         => empty($config['goods_number']) ? 10 : intval($config['goods_number']),
+            'n'         => empty($params['goods_number']) ? 10 : intval($params['goods_number']),
             'order_by'  => $order_by,
             'is_spec'   => $is_spec,
             'is_cart'   => $is_cart,

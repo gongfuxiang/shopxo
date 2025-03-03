@@ -465,6 +465,9 @@ class Common extends BaseController
         // 是否加载webuploader
         $assign['is_load_webuploader'] = 0;
 
+        // 是否加载uniapp webview js
+        $assign['is_load_uniapp_webview'] = 0;
+
         // 登录/注册方式
         $assign['home_user_login_type'] = MyC('home_user_login_type', [], true);
         $assign['home_user_reg_type'] = MyC('home_user_reg_type', [], true);
@@ -683,6 +686,10 @@ class Common extends BaseController
             'plugins_js',
             // 公共header内钩子
             'plugins_common_header',
+            // 公共header内css钩子
+            'plugins_common_header_css',
+            // 公共header内js钩子
+            'plugins_common_header_javascript',
             // 公共页面底部钩子
             'plugins_common_page_bottom',
             // 公共顶部钩子

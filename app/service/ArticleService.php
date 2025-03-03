@@ -126,6 +126,12 @@ class ArticleService
                     $v['cover'] = ResourcesService::AttachmentPathViewHandle($v['cover']);
                 }
 
+                // 分享图片
+                if(isset($v['share_images']))
+                {
+                    $v['share_images'] = ResourcesService::AttachmentPathViewHandle($v['share_images']);
+                }
+
                 // 图片
                 if(!empty($v['images']))
                 {
@@ -296,7 +302,7 @@ class ArticleService
         }
 
         // 其它附件
-        $attachment = ResourcesService::AttachmentParams($params, ['cover']);
+        $attachment = ResourcesService::AttachmentParams($params, ['cover', 'share_images']);
 
         // 编辑器内容
         $content = empty($params['content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add');
@@ -317,6 +323,7 @@ class ArticleService
             'images_count'          => count($images),
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
+            'share_images'          => $attachment['data']['share_images'],
             'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],
             'seo_keywords'          => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
             'seo_desc'              => empty($params['seo_desc']) ? '' : $params['seo_desc'],
@@ -506,24 +513,23 @@ class ArticleService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $article_ids [文章id]
      * @param   [array]         $params      [输入参数]
      */
-    public static function AppointArticleList($article_ids, $params = [])
+    public static function AppointArticleList($params = [])
     {
         $result = [];
-        if(!empty($article_ids))
+        if(!empty($params['article_ids']))
         {
             // 非数组则转为数组
-            if(!is_array($article_ids))
+            if(!is_array($params['article_ids']))
             {
-                $article_ids = explode(',', $article_ids);
+                $params['article_ids'] = explode(',', $params['article_ids']);
             }
 
             // 基础条件
             $where = [
                 ['is_enable', '=', 1],
-                ['id', 'in', array_unique($article_ids)]
+                ['id', 'in', array_unique($params['article_ids'])]
             ];
 
             // 获取数据
@@ -531,7 +537,7 @@ class ArticleService
             if(!empty($ret['data']))
             {
                 $temp = array_column($ret['data'], null, 'id');
-                foreach($article_ids as $id)
+                foreach($params['article_ids'] as $id)
                 {
                     if(!empty($id) && array_key_exists($id, $temp))
                     {
@@ -550,10 +556,9 @@ class ArticleService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $config [配置信息]
      * @param   [array]         $params [输入参数]
      */
-    public static function AutoArticleList($config = [], $params = [])
+    public static function AutoArticleList($params = [])
     {
         // 基础条件
         $where = [
@@ -561,23 +566,23 @@ class ArticleService
         ];
 
         // 文章关键字
-        if(!empty($config['article_keywords']))
+        if(!empty($params['article_keywords']))
         {
-            $where[] = ['title|describe', 'like', '%'.$config['article_keywords'].'%'];
+            $where[] = ['title|describe', 'like', '%'.$params['article_keywords'].'%'];
         }
 
         // 分类条件
-        if(!empty($config['article_category_ids']))
+        if(!empty($params['article_category_ids']))
         {
-            if(!is_array($config['article_category_ids']))
+            if(!is_array($params['article_category_ids']))
             {
-                $config['article_category_ids'] = explode(',', $config['article_category_ids']);
+                $params['article_category_ids'] = explode(',', $params['article_category_ids']);
             }
-            $where[] = ['article_category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($config['article_category_ids'], 1)];
+            $where[] = ['article_category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds($params['article_category_ids'], 1)];
         }
 
         // 是否有封面
-        if(isset($config['article_is_cover']) && $config['article_is_cover'] == 1)
+        if(isset($params['article_is_cover']) && $params['article_is_cover'] == 1)
         {
             $where[] = ['cover', '<>', ''];
         }
@@ -585,15 +590,15 @@ class ArticleService
         // 排序
         $order_by_type_list = MyConst('common_article_order_by_type_list');
         $order_by_rule_list = MyConst('common_data_order_by_rule_list');
-        $order_by_type = !isset($config['article_order_by_type']) || !array_key_exists($config['article_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['article_order_by_type']]['value'];
-        $order_by_rule = !isset($config['article_order_by_rule']) || !array_key_exists($config['article_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['article_order_by_rule']]['value'];
+        $order_by_type = !isset($params['article_order_by_type']) || !array_key_exists($params['article_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$params['article_order_by_type']]['value'];
+        $order_by_rule = !isset($params['article_order_by_rule']) || !array_key_exists($params['article_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['article_order_by_rule']]['value'];
         $order_by = $order_by_type.' '.$order_by_rule;
 
         // 获取数据
         $ret = self::ArticleList([
             'where'    => $where,
             'm'        => 0,
-            'n'        => empty($config['article_number']) ? 10 : intval($config['article_number']),
+            'n'        => empty($params['article_number']) ? 10 : intval($params['article_number']),
             'order_by' => $order_by,
         ]);
         return empty($ret['data']) ? [] : $ret['data'];

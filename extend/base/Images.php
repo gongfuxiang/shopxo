@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\ResourcesService;
+
 /**
  * 图片上传驱动
  * @author   Devil
@@ -505,11 +507,14 @@ class Images
     public function ImageToBase64($image_file)
     {
 		$content = '';
-		if(file_exists($image_file))
+		$dir_file = ROOT.'public'.ResourcesService::AttachmentPathHandle($image_file);
+		if(file_exists($dir_file))
 		{
-			$info = getimagesize($image_file);
-			$image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+			$info = getimagesize($dir_file);
+			$image_data = fread(fopen($dir_file, 'r'), filesize($dir_file));
 			$content = 'data:'.$info['mime'].';base64,'.chunk_split(base64_encode($image_data));
+		} else {
+			$content = 'data:image/jpg/png/gif;base64,'.chunk_split(base64_encode(RequestGet($image_file)));
 		}
 		return $content;
 	}

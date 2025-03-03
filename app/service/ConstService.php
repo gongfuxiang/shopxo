@@ -141,6 +141,7 @@ class ConstService
                 '6.2.0' => ['value' => '6.2.0', 'name' => 'v6.2.0'],
                 '6.3.0' => ['value' => '6.3.0', 'name' => 'v6.3.0'],
                 '6.4.0' => ['value' => '6.4.0', 'name' => 'v6.4.0'],
+                '6.5.0' => ['value' => '6.5.0', 'name' => 'v6.5.0'],
             ],
 
             // 搜索排序方式
@@ -314,6 +315,16 @@ class ConstService
                 3 => ['value' => 3, 'name' => MyLang('common_app_event_type.3')],
                 4 => ['value' => 4, 'name' => MyLang('common_app_event_type.4')],
             ],
+            // 下单指定时间
+            'common_buy_datetime_config_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_buy_datetime_config_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_buy_datetime_config_list.1')],
+            ],
+            // 下单联系信息
+            'common_buy_extraction_contact_config_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_buy_extraction_contact_config_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_buy_extraction_contact_config_list.1')],
+            ],
             // 订单售后类型
             'common_order_aftersale_type_list' => [
                 0 => ['value' => 0, 'name' => MyLang('common_order_aftersale_type_list.0.name'), 'desc' => MyLang('common_order_aftersale_type_list.0.desc'), 'icon' => 'am-icon-random'],
@@ -353,7 +364,11 @@ class ConstService
                 1 => ['value' => 1, 'name' => MyLang('common_site_type_list.1')],
                 2 => ['value' => 2, 'name' => MyLang('common_site_type_list.2')],
                 3 => ['value' => 3, 'name' => MyLang('common_site_type_list.3')],
-                4 => ['value' => 4, 'name' => MyLang('common_site_type_list.4'), 'is_ext' => 1],
+                4 => ['value' => 4, 'name' => MyLang('common_site_type_list.4')],
+                5 => ['value' => 5, 'name' => MyLang('common_site_type_list.5'), 'is_ext' => 1],
+                6 => ['value' => 6, 'name' => MyLang('common_site_type_list.6'), 'is_ext' => 1],
+                7 => ['value' => 7, 'name' => MyLang('common_site_type_list.7'), 'is_ext' => 1],
+                8 => ['value' => 8, 'name' => MyLang('common_site_type_list.8'), 'is_ext' => 1],
             ],
             // 订单类型
             'common_order_type_list' => [
@@ -361,11 +376,6 @@ class ConstService
                 1 => ['value' => 1, 'name' => MyLang('common_order_type_list.1')],
                 2 => ['value' => 2, 'name' => MyLang('common_order_type_list.2')],
                 3 => ['value' => 3, 'name' => MyLang('common_order_type_list.3')],
-            ],
-            // 下单站点类型列表
-            'common_buy_site_model_list' => [
-                ['value' => 0, 'name' => MyLang('common_buy_site_model_list.0')],
-                ['value' => 2, 'name' => MyLang('common_buy_site_model_list.2')],
             ],
             // 管理员状态
             'common_admin_status_list' => [
@@ -388,6 +398,11 @@ class ConstService
                 0 => ['value' => 0, 'name' => MyLang('common_goods_parameters_type_list.0')],
                 1 => ['value' => 1, 'name' => MyLang('common_goods_parameters_type_list.1'), 'checked' => true],
                 2 => ['value' => 2, 'name' => MyLang('common_goods_parameters_type_list.2')],
+            ],
+            // 搜索商品展示样式类型
+            'common_search_goods_show_type_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_search_goods_show_type_list.0'), 'checked' => true],
+                1 => ['value' => 1, 'name' => MyLang('common_search_goods_show_type_list.1')],
             ],
             // 品牌排序类型
             'common_brand_order_by_type_list' => [

@@ -52,12 +52,12 @@ class PluginsService
                 if(!empty($ret['data']))
                 {
                     // 获取插件基础字段定义
-                    $field_data = self::PluginsBaseFieldData($plugins);
+                    $base_ser = self::PluginsBaseSerData($plugins);
 
                     // 数据处理、未指定附件字段则使用系统获取的附件字段
-                    if(empty($attachment_field) && !empty($field_data['attachment_field']))
+                    if(empty($attachment_field) && !empty($base_ser['attachment_field']))
                     {
-                        $attachment_field = $field_data['attachment_field'];
+                        $attachment_field = $base_ser['attachment_field'];
                     }
                     $data = self::PluginsDataHandle($ret['data'], $attachment_field);
                 } else {
@@ -74,7 +74,7 @@ class PluginsService
     }
 
     /**
-     * 获取插件基础字段
+     * 获取插件字段
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -82,11 +82,12 @@ class PluginsService
      * @desc    description
      * @param   [string]          $plugins [插件名称]
      */
-    public static function PluginsBaseFieldData($plugins)
+    public static function PluginsBaseSerData($plugins)
     {
         $result = [
             'private_field'     => [],
             'attachment_field'  => [],
+            'ser'               => null,
         ];
         $ser = '\app\plugins\\'.$plugins.'\service\BaseService';
         if(class_exists($ser))
@@ -96,6 +97,9 @@ class PluginsService
 
             // 私有字段
             $result['private_field'] = property_exists($ser, 'base_config_private_field') ? $ser::$base_config_private_field : [];
+
+            // 类对象
+            $result['ser'] = $ser;
         }
         return $result;
     }
@@ -502,15 +506,21 @@ class PluginsService
             foreach($data as &$v)
             {
                 // 获取插件基础字段定义
-                $field_data = self::PluginsBaseFieldData($v['plugins']);
+                $base_ser = self::PluginsBaseSerData($v['plugins']);
 
                 // 处理配置数据
-                $v['data'] = self::PluginsDataHandle($v['data'], $field_data['attachment_field']);
+                $v['data'] = self::PluginsDataHandle($v['data'], $base_ser['attachment_field']);
+
+                // 是否存在配置处理方法
+                if($base_ser['ser'] !== null && method_exists($base_ser['ser'], 'BaseConfigHandle'))
+                {
+                    $v['data'] = $base_ser['ser']::BaseConfigHandle($v['data']);
+                }
 
                 // 移除私有字段及数据
-                if(!empty($v['data']) && is_array($v['data']) && !empty($field_data['private_field']) && is_array($field_data['private_field']))
+                if(!empty($v['data']) && is_array($v['data']) && !empty($base_ser['private_field']) && is_array($base_ser['private_field']))
                 {
-                    $v['data'] = self::ConfigPrivateFieldsHandle($v['data'], $field_data['private_field']);
+                    $v['data'] = self::ConfigPrivateFieldsHandle($v['data'], $base_ser['private_field']);
                 }
             }
 

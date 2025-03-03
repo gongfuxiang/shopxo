@@ -11352,7 +11352,7 @@ tbody.am-collapse.am-in {
   color: #999999;
 }
 .am-list-news-default .am-list > li {
-  border-color: rgba(0,0,0,.06);
+  border-color: rgba(0,0,0,.02);
 }
 .am-list-news-default .am-list .am-list-item-desced {
   padding-top: 1rem;

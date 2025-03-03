@@ -602,6 +602,10 @@ class Common extends BaseController
             'plugins_admin_js',
             // 公共header内钩子
             'plugins_admin_common_header',
+            // 公共header内css钩子
+            'plugins_admin_common_header_css',
+            // 公共header内js钩子
+            'plugins_admin_common_header_javascript',
             // 公共页面底部钩子
             'plugins_admin_common_page_bottom',
             // 公共顶部钩子

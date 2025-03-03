@@ -473,24 +473,23 @@ class BrandService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $brand_ids [品牌id]
      * @param   [array]         $params    [输入参数]
      */
-    public static function AppointBrandList($brand_ids, $params = [])
+    public static function AppointBrandList($params = [])
     {
         $result = [];
-        if(!empty($brand_ids))
+        if(!empty($params['brand_ids']))
         {
             // 非数组则转为数组
-            if(!is_array($brand_ids))
+            if(!is_array($params['brand_ids']))
             {
-                $brand_ids = explode(',', $brand_ids);
+                $params['brand_ids'] = explode(',', $params['brand_ids']);
             }
 
             // 基础条件
             $where = [
                 ['is_enable', '=', 1],
-                ['id', 'in', array_unique($brand_ids)]
+                ['id', 'in', array_unique($params['brand_ids'])]
             ];
 
             // 获取数据
@@ -498,7 +497,7 @@ class BrandService
             if(!empty($ret['data']))
             {
                 $temp = array_column($ret['data'], null, 'id');
-                foreach($brand_ids as $id)
+                foreach($params['brand_ids'] as $id)
                 {
                     if(!empty($id) && array_key_exists($id, $temp))
                     {
@@ -517,10 +516,9 @@ class BrandService
      * @version 1.0.0
      * @date    2020-09-29
      * @desc    description
-     * @param   [array]         $config [配置信息]
      * @param   [array]         $params [输入参数]
      */
-    public static function AutoBrandList($config = [], $params = [])
+    public static function AutoBrandList($params = [])
     {
         // 基础条件
         $where = [
@@ -528,34 +526,34 @@ class BrandService
         ];
 
         // 品牌关键字
-        if(!empty($config['brand_keywords']))
+        if(!empty($params['brand_keywords']))
         {
-            $where[] = ['name|describe', 'like', '%'.$config['brand_keywords'].'%'];
+            $where[] = ['name|describe', 'like', '%'.$params['brand_keywords'].'%'];
         }
 
         // 分类条件
-        if(!empty($config['brand_category_ids']))
+        if(!empty($params['brand_category_ids']))
         {
-            if(!is_array($config['brand_category_ids']))
+            if(!is_array($params['brand_category_ids']))
             {
-                $config['brand_category_ids'] = explode(',', $config['brand_category_ids']);
+                $params['brand_category_ids'] = explode(',', $params['brand_category_ids']);
             }
-            $ids = Db::name('BrandCategoryJoin')->where(['brand_category_id'=>$config['brand_category_ids']])->column('brand_id');
+            $ids = Db::name('BrandCategoryJoin')->where(['brand_category_id'=>$params['brand_category_ids']])->column('brand_id');
             $where[] = ['id', 'in', empty($ids) ? [0] : $ids];
         }
 
         // 排序
         $order_by_type_list = MyConst('common_brand_order_by_type_list');
         $order_by_rule_list = MyConst('common_data_order_by_rule_list');
-        $order_by_type = !isset($config['brand_order_by_type']) || !array_key_exists($config['brand_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$config['brand_order_by_type']]['value'];
-        $order_by_rule = !isset($config['brand_order_by_rule']) || !array_key_exists($config['brand_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$config['brand_order_by_rule']]['value'];
+        $order_by_type = !isset($params['brand_order_by_type']) || !array_key_exists($params['brand_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$params['brand_order_by_type']]['value'];
+        $order_by_rule = !isset($params['brand_order_by_rule']) || !array_key_exists($params['brand_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['brand_order_by_rule']]['value'];
         $order_by = $order_by_type.' '.$order_by_rule;
 
         // 获取数据
         $ret = self::BrandList([
             'where'    => $where,
             'm'        => 0,
-            'n'        => empty($config['brand_number']) ? 10 : intval($config['brand_number']),
+            'n'        => empty($params['brand_number']) ? 10 : intval($params['brand_number']),
             'order_by' => $order_by,
         ]);
         return empty($ret['data']) ? [] : $ret['data'];

@@ -51,8 +51,8 @@ class OrderSplitService
 
         // 商品仓库集合
         $warehouse_goods = self::GoodsWarehouseAggregate($params);
-        // 存在多个订单，但是订单模式非快递则设置为快递模式
-        if(count($warehouse_goods) > 1 && $params['site_model'] != 0)
+        // 存在多个订单，但是订单模式非（快递、同城），则设置为快递模式
+        if(count($warehouse_goods) > 1 && !in_array($params['site_model'], [0,1]))
         {
             $params['site_model'] = 0;
             $params['common_site_type'] = 0;

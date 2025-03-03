@@ -1,7 +1,10 @@
 <!-- 基础数据编辑 -->
-<div class="am-popup popup-not-title" id="popup-saveinfo">
+<div class="am-popup am-radius" id="popup-saveinfo">
     <div class="am-popup-inner am-radius">
-        <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('detail_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
         <div class="am-popup-bd am-padding-0">
             <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/customview/save')}}" method="POST" request-type="sync" request-value="FormBackSaveinfoEdit">
                 <div class="am-padding-horizontal-sm">

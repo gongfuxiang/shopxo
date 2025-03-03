@@ -10,3 +10,22 @@
     <label>{{:MyLang('form_seo_desc_title')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('form_seo_desc_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
     <textarea rows="4" name="seo_desc" maxlength="230" class="am-radius" placeholder="{{:MyLang('form_seo_desc_title')}}" data-validation-message="{{:MyLang('form_seo_desc_message')}}">{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</textarea>
 </div>
+{{if !empty($module_params) and isset($module_params['is_share_images']) and $module_params['is_share_images'] eq 1}}
+    <div class="am-form-group am-form-file">
+        <label class="am-block">{{:MyLang('form_share_images_title')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('form_share_images_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+        <div class="am-form-file-upload-container">
+            <ul class="plug-file-upload-view seo-share-images-view" data-form-name="share_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                <li class="plug-file-upload-submit" data-view-tag="ul.seo-share-images-view">
+                    {{if empty($data['share_images'])}}
+                        <i class="iconfont icon-upload-add"></i>
+                    {{else /}}
+                        <input type="text" name="share_images" value="{{$data.share_images}}" />
+                        <img src="{{$data.share_images}}" />
+                        <i class="iconfont icon-close"></i>
+                        <i class="iconfont icon-eye"></i>
+                    {{/if}}
+                </li>
+            </ul>
+        </div>
+    </div>
+{{/if}}

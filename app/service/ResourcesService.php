@@ -289,12 +289,13 @@ class ResourcesService
     public static function BuyDatetimeData($params = [])
     {
         // 默认配置
+        $config = MyC('common_buy_datetime_info', [], true);
         $data = [
-            'is_select'     => 1,
-            'required'      => 0,
+            'is_select'     => in_array(0, $config) ? 1 : 0,
+            'required'      => in_array(1, $config) ? 1 : 0,
             'title'         => MyLang('appoint_time_title'),
             'placeholder'   => MyLang('choice_time_title'),
-            'error_msg'     => '',
+            'error_msg'     => MyLang('form_time_message'),
             'time_start'    => '',
             'time_end'      => '',
             'range_type'    => 1,
@@ -326,12 +327,13 @@ class ResourcesService
     public static function BuyExtractionContactData($params = [])
     {
         // 默认配置
+        $config = MyC('common_buy_extraction_contact_info', [], true);
         $data = [
-            'is_write'   => 1,
-            'required'   => 0,
+            'is_write'   => in_array(0, $config) ? 1 : 0,
+            'required'   => in_array(1, $config) ? 1 : 0,
             'name'       => (empty($params['user']) || empty($params['user']['nickname'])) ? '' : $params['user']['nickname'],
             'tel'        => (empty($params['user']) || empty($params['user']['mobile'])) ? '' : $params['user']['mobile'],
-            'error_msg'  => '',
+            'error_msg'  => MyLang('form_name_tel_message'),
         ];
 
         // 钩子
@@ -363,10 +365,57 @@ class ResourcesService
         // 默认配置
         $data = [];
 
-        // 快递+自提默认下切换订单类型
-        if($common_site_type == 4)
+        // 多选切换订单类型
+        // 0 快递
+        // 1 同城
+        // 2 自提
+        // 3 虚拟
+        // 4 展示
+        // -----
+        // 5 快递+自提
+        // 6 同城+自提
+        // 7 快递+同城
+        // 8 快递+同城+自提
+        if($common_site_type >= 5)
         {
-            $data = MyConst('common_buy_site_model_list');
+            $common_site_type_list = MyConst('common_site_type_list');
+            foreach($common_site_type_list as $v)
+            {
+                switch($common_site_type)
+                {
+                    // 快递+自提
+                    case 5 :
+                        if(in_array($v['value'], [0,2]))
+                        {
+                            $data[] = $v;
+                        }
+                        break;
+
+                    // 同城+自提
+                    case 6 :
+                        if(in_array($v['value'], [1,2]))
+                        {
+                            $data[] = $v;
+                        }
+                        break;
+
+                    // 快递+同城
+                    case 7 :
+                        if(in_array($v['value'], [0,1]))
+                        {
+                            $data[] = $v;
+                        }
+                        break;
+
+                    // 快递+同城+自提
+                    case 8 :
+                        if(in_array($v['value'], [0,1,2]))
+                        {
+                            $data[] = $v;
+                        }
+                        break;
+                }
+            }
         }
 
         // 钩子
@@ -374,14 +423,27 @@ class ResourcesService
         MyEventTrigger($hook_name, [
             'hook_name'         => $hook_name,
             'is_backend'        => true,
-            'common_site_type'  => $common_site_type,
-            'site_model'        => $site_model,
-            'buy_goods'         => $buy_goods,
             'params'            => $params,
+            'buy_goods'         => $buy_goods,
+            'common_site_type'  => $common_site_type,
+            'site_model'        => &$site_model,
             'data'              => &$data,
         ]);
 
-        return $data;
+        // 指定类型不在当前范围则使用第一个赋值
+        if(!empty($data))
+        {
+            $site_model_arr = array_column($data, 'value');
+            if(!empty($site_model_arr) && ($site_model == -1 || !in_array($site_model, $site_model_arr)))
+            {
+                $site_model = $site_model_arr[0];
+            }
+        }
+
+        return [
+            'data'        => $data,
+            'site_model'  => $site_model,
+        ];
     }
 
     /**

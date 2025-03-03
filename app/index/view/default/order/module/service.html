@@ -1,0 +1,35 @@
+<!-- 服务信息 -->
+{{if !empty($module_data['service_data'])}}
+    {{if !empty($module_data['service_data']['service_name']) or !empty($module_data['service_data']['service_mobile'])}}
+        <p>
+            {{if !empty($module_data['service_data']['service_name'])}}
+                <span>{{:MyLang('order.order_base_service_name')}}：</span>
+                <span class="text-copy-submit">{{$module_data.service_data.service_name}}</span>
+            {{/if}}
+            {{if !empty($module_data['service_data']['service_mobile'])}}
+                <span {{if !empty($module_data['service_data']['service_name'])}}class="am-margin-left-xl"{{/if}}>{{:MyLang('order.order_base_service_mobile')}}：</span>
+                <span class="text-copy-submit">{{$module_data.service_data.service_mobile}}</span>
+            {{/if}}
+        </p>
+    {{/if}}
+    {{if !empty($module_data['service_data']['service_start_time']) or !empty($module_data['service_data']['service_end_time'])}}
+        <p>
+            <span>{{:MyLang('order.order_base_service_time')}}：</span>
+            <span class="text-copy-submit">
+                {{if !empty($module_data['service_data']['service_start_time'])}}
+                    <span>{{$module_data.service_data.service_start_time}}</span>
+                    {{if !empty($module_data['service_data']['service_end_time'])}}
+                        <span class="am-color-grey-light">~</span>
+                    {{/if}}
+                {{/if}}
+                {{if !empty($module_data['service_data']['service_end_time'])}}
+                    <span>{{$module_data.service_data.service_end_time}}</span>
+                {{/if}}
+                {{if !empty($module_data['service_data']['service_duration_minute_text'])}}
+                    <span class="am-color-grey-light am-margin-horizontal-sm">/</span>
+                    <span class="am-icon-history"> {{$module_data.service_data.service_duration_minute_text}}</span>
+                {{/if}}
+            </span>
+        </p>
+    {{/if}}
+{{/if}}

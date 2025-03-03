@@ -1,5 +1,5 @@
 // 规格弹窗PC显示
-function PoptitPcShow()
+function GoodsBuyPoptitPcShow()
 {
     $(document.body).css('position', 'static');
     $('.theme-signin-left').scrollTop(0);
@@ -7,7 +7,7 @@ function PoptitPcShow()
     $('.theme-popover').slideDown(0);
 }
 // 规格弹窗关闭
-function PoptitClose()
+function GoodsBuyPoptitClose()
 {
     if($(window).width() < 1025)
     {
@@ -213,12 +213,12 @@ function BuyCartHandle(e)
             var $form = $('form.cart-form');
             $form.find('input[name="goods_data"]').val(goods_data);
             $form.find('button[type="submit"]').trigger('click');
-            PoptitClose();
+            GoodsBuyPoptitClose();
             break;
 
         // 默认
         default :
-            Prompt(window['lang_operate_params_error'] || '操作参数配置有误');
+            console.warn(window['lang_operate_params_error'] || '操作参数配置有误');
     }
     return true;
 }
@@ -726,11 +726,11 @@ $(function() {
                 SpecPopupShow($(this));
             }
         } else {
-            PoptitPcShow();
+            GoodsBuyPoptitPcShow();
         }
     });
     $(document).on('click', '.theme-poptit .close, .btn-op .close', function() {
-        PoptitClose();
+        GoodsBuyPoptitClose();
     });
 
     // 购买
@@ -892,9 +892,9 @@ $(window).resize(function()
     {
         if(parseInt(__is_mobile__ || 0) != 1)
         {
-            PoptitClose();
+            GoodsBuyPoptitClose();
         }
     } else {
-        PoptitPcShow();
+        GoodsBuyPoptitPcShow();
     }
 });

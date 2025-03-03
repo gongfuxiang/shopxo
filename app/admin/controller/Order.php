@@ -84,6 +84,19 @@ class Order extends Base
     }
 
     /**
+     * 服务页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function ServiceInfo()
+    {
+        return MyView();
+    }
+
+    /**
      * 订单删除
      * @author  Devil
      * @blog    http://gong.gg/
@@ -122,7 +135,7 @@ class Order extends Base
     }
 
     /**
-     * 订单发货/取货
+     * 订单发货、取货、服务
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

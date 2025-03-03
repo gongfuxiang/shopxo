@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label>{{:MyLang('common_service.goods.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_category_id_message')}}" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" required>
                             {{if !empty($goods_category_list)}}
                                 {{foreach $goods_category_list as $v}}
@@ -402,7 +402,7 @@
 
                 <!-- SEO信息 -->
                 <div id="goods-nav-seo" class="item" data-key="seo">
-                    {{:ModuleInclude('lib/seo')}}
+                    {{:ModuleInclude('lib/seo', empty($data) ? [] : $data, ['is_share_images'=>1])}}
                 </div>
             </div>
 

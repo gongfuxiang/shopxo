@@ -13,9 +13,14 @@
 // | Cookie设置
 // +----------------------------------------------------------------------
 $cookie_domain = MyFileConfig('common_cookie_domain', '', '', true);
-if(!empty($cookie_domain) && substr($cookie_domain, 0, 1) != '.')
+if(!empty($cookie_domain))
 {
-    $cookie_domain = '.'.$cookie_domain;
+    if(substr($cookie_domain, 0, 1) != '.')
+    {
+        $cookie_domain = '.'.$cookie_domain;
+    }
+} else {
+    $cookie_domain = __MY_MAIN_DOMAIN__;
 }
 return [
     // cookie 保存时间

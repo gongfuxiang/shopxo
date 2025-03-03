@@ -1640,6 +1640,9 @@ php;
             return $ret;
         }
 
+        // 附件同步到数据库
+        AttachmentService::AttachmentDiskFilesToDb('plugins_'.$plugins);
+
         // 插件事件回调
         PluginsService::PluginsEventCall($plugins, 'Upgrade', $params);
 

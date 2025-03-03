@@ -92,6 +92,10 @@ class BuyService
 
                 // 规格
                 $goods['spec'] = self::GoodsSpecificationsHandle($v);
+                $goods['spec_text'] = empty($goods['spec']) ? '' : implode('，', array_filter(array_map(function($spec)
+                        {
+                            return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
+                        }, $goods['spec'])));
 
                 // id处理、避免不同规格导致id一样
                 $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', array_column($goods['spec'], 'value'))));
@@ -314,8 +318,8 @@ class BuyService
             $extraction_address = [];
 
             // 站点模式 - 用户收货地址（未选择则取默认地址）
-            // 销售, 销售+自提(指定为销售)
-            if($model['site_model'] == 0)
+            // 销售,同城
+            if(in_array($model['site_model'], [0,1]))
             {
                 $address_params = [
                     'user'  => $params['user'],
@@ -332,7 +336,6 @@ class BuyService
             }
 
             // 自提模式 - 自提点地址
-            // 自提, 销售+自提(指定为自提)
             if($model['site_model'] == 2)
             {
                 $extraction = self::SiteExtractionAddress($params);
@@ -364,10 +367,16 @@ class BuyService
      */
     public static function BuyOredrSiteTypeModelData($goods, $params = [])
     {
-        // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
-        $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
+        // 站点模式 0快递, 1同城, 2自提, 3虚拟, 4展示, 5快递+自提, 6同城+自提, 7快递+同城, 8快递+同城+自提
         $common_site_type = SystemBaseService::SiteTypeValue();
-        $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
+        if(!isset($params['site_model']) || $params['site_model'] == -1)
+        {
+            // 用户未指定或者负数则默认第一种模式
+            $user_site_model = ($common_site_type >= 5) ? (in_array($common_site_type, [5,7,8]) ? 0 : 1) : $common_site_type;
+        } else {
+            $user_site_model = intval($params['site_model']);
+        }
+        $site_model = ($common_site_type >= 5) ? $user_site_model : $common_site_type;
 
         // 商品销售模式
         // 商品小于等于1则使用商品的类型
@@ -375,7 +384,7 @@ class BuyService
         {
             $ret = GoodsService::GoodsSalesModelType($goods[0]['goods_id']);
             $common_site_type = $ret['data'];
-            $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
+            $site_model = ($ret['data'] >= 5) ? $user_site_model : $ret['data'];
         }
 
         // 下单站点类型数据钩子
@@ -666,12 +675,12 @@ class BuyService
         // 下单类型
         $model = self::BuyOredrSiteTypeModelData(($buy['data']['base']['goods_count'] == 1) ? $buy['data']['goods'][0]['goods_items'] : null, $params);
         // 站点展示型
-        if($model['common_site_type'] == 1)
+        if($model['common_site_type'] == 4)
         {
             return DataReturn(MyLang('common_service.buy.exhibition_not_allow_submit_tips'), -1);
         }
-        // 快递,自提点,销售+自提 则校验地址
-        if(($model['site_model'] == 0 && empty($params['address_id'])) || $model['site_model'] == 2 && $params['address_id'] === null)
+        // 快递,同城,自提点 则校验地址（自提的地址id可以是0、所以这里恒等null）
+        if((in_array($model['site_model'], [0,1]) && empty($params['address_id'])) || $model['site_model'] == 2 && $params['address_id'] === null)
         {
             return DataReturn(MyLang('common_service.buy.choice_not_address_tips'), -1);
         }
@@ -727,9 +736,9 @@ class BuyService
                 return $check;
             }
 
-            // 快递,自提点,销售+自提 地址处理
+            // 快递,同城,自提点 地址处理
             $address = [];
-            if(in_array($model['site_model'], [0,2]))
+            if(in_array($model['site_model'], [0,1,2]))
             {
                 if(empty($v['order_base']['address']))
                 {
@@ -842,8 +851,10 @@ class BuyService
      */
     public static function OrderInsertHandle($data, $params = [])
     {
-        // 所有订单id
+        // 所有订单id、单号
         $order_ids = [];
+        $order_nos = [];
+        $order_data = [];
 
         // 启动事务
         Db::startTrans();
@@ -921,9 +932,8 @@ class BuyService
                     }
                 }
 
-                // 订单模式处理
-                // 快递模式,自提模式,销售+自提
-                if(in_array($order['order_model'], [0,2]))
+                // 订单模式处理  销售,同城,自提
+                if(in_array($order['order_model'], [0,1,2]))
                 {
                     // 添加订单(收货|取货)地址
                     if(!empty($v['address_data']))
@@ -985,8 +995,13 @@ class BuyService
                     throw new \Exception($ret['msg']);
                 }
 
-                // 订单id集合
+                // 订单id、单号集合
                 $order_ids[] = $order_id;
+                $order_nos[] = $v['order_no'];
+                $order_data[] = [
+                    'order_id' => $order_id,
+                    'order_no' => $v['order_no'],
+                ];
             }
 
             // 完成
@@ -1002,8 +1017,16 @@ class BuyService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order_ids'     => $order_ids,
+            'order_nos'     => $order_nos,
+            'order_data'    => $order_data,
             'params'        => $params,
         ]);
+
+        // 删除购买信息
+        if(!empty($data[0]) && !empty($data[0]['user_id']))
+        {
+            self::BuyDataDelete($data[0]['user_id']);
+        }
 
         // 返回信息
         return DataReturn(MyLang('operate_success'), 0, $order_ids);
@@ -1772,6 +1795,52 @@ class BuyService
             }
         }
         return $ret;
+    }
+
+    /**
+     * 购买数据存储
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-01-23
+     * @desc    description
+     * @param   [int]          $user_id  [用户id]
+     * @param   [array]        $buy_data [购买数据]
+     */
+    public static function BuyDataStorage($user_id, $buy_data)
+    {
+        if(!empty($buy_data))
+        {
+            MyCache('buy_post_data_'.$user_id, $buy_data, 21600);
+        }
+    }
+
+    /**
+     * 购买数据读取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-01-23
+     * @desc    description
+     * @param   [int]          $user_id  [用户id]
+     */
+    public static function BuyDataRead($user_id)
+    {
+        return MyCache('buy_post_data_'.$user_id);
+    }
+
+    /**
+     * 购买数据删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-01-23
+     * @desc    description
+     * @param   [int]          $user_id  [用户id]
+     */
+    public static function BuyDataDelete($user_id)
+    {
+        return MyCache('buy_post_data_'.$user_id, null);
     }
 }
 ?>

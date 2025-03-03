@@ -120,6 +120,7 @@ class Attachment
                     'params_where_name'  => 'keywords',
                     'search_config'      => [
                         'form_type'         => 'input',
+                        'form_name'         => 'original|title',
                         'where_type'        => 'like',
                     ],
                 ],

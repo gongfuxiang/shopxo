@@ -57,6 +57,7 @@ class Index extends Common
     {
         $key = 'api_index_data_'.APPLICATION_CLIENT_TYPE;
         $result = MyCache($key);
+        $result = '';
         if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
         {
             // 购物车汇总

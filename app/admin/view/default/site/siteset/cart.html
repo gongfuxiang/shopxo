@@ -1,0 +1,46 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !empty($siteset_nav_list) and is_array($siteset_nav_list)}}
+            {{:ModuleInclude('public/nav_switch_tabs', [
+                'nav_data'  => $siteset_nav_list,
+                'view_type' => $view_type,
+                'nav_type'  => $nav_type,
+                'url'       => 'admin/site/index'
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.common_is_cart_show_guess_you_like.name}}<span class="am-form-group-label-tips">{{$data.common_is_cart_show_guess_you_like.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_cart_show_guess_you_like.only_tag}}" data-validation-message="{{$data.common_is_cart_show_guess_you_like.error_tips}}" required {{if isset($data['common_is_cart_show_guess_you_like']['value']) and $data['common_is_cart_show_guess_you_like']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="view_type" value="{{$view_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

@@ -1,5 +1,5 @@
 <!-- 地址信息 -->
-{{if !empty($module_data) and in_array($module_data['order_model'], [0,2]) and !empty($module_data['address_data'])}}
+{{if !empty($module_data['address_data'])}}
     <div>
         {{if !empty($module_data['address_data']['alias'])}}
             <span class="am-badge am-badge-secondary-plain am-radius">{{$module_data.address_data.alias}}</span>

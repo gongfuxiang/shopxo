@@ -116,28 +116,60 @@ class ChinaumsAllocationWeixinH5SelfMini
      */
     public function Pay($params = [])
     {
-        $params['inst_mid'] = self::$inst_mid;
-        $ret = PaymentHandleService::Pay('weixin-h5-self-mini', $params);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 支付数据设置
-        $data = [
-            'pay_price'  => $params['total_price'],
-            'pay_data'   => $ret['data'],
+        // 配置参数验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '支付单号为空',
+            ],
         ];
-        PaymentService::SetCashierPayData($params['order_no'], $data);
-
-        // 跳转支付
-        $env_version = empty($this->config['env_version']) ? 'release' : $this->config['env_version'];
-        $url = 'weixin://dl/business/?appid='.$this->config['appid'].'&path='.$this->config['path'].'&query='.urlencode('key='.$params['order_no']).'&env_version='.$env_version;
-        if(APPLICATION_CLIENT_TYPE == 'h5')
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            return DataReturn('success', 0, $url);
+            return DataReturn($ret, -1);
         }
-        exit(header('location:'.$url.''));
+
+        $key = 'cache_payment_chinaumsallocationweixinh5selfmini_pay_data_'.$params['order_no'];
+        // 没有openid则跳转到小程序
+        if(empty($params['weixin_openid']))
+        {
+            // 存储支付数据
+            MyCache($key, ['config'=>$this->config, 'params'=>$params]);
+
+            // 跳转支付
+            $env_version = empty($this->config['env_version']) ? 'release' : $this->config['env_version'];
+            $url = 'weixin://dl/business/?appid='.$this->config['appid'].'&path='.$this->config['path'].'&query='.urlencode('order_no='.$params['order_no']).'&env_version='.$env_version;
+            // h5端则直接返回跳转链接
+            if(APPLICATION_CLIENT_TYPE == 'h5')
+            {
+                return DataReturn('success', 0, $url);
+            }
+
+            // web端进去收银台页面
+            $pay_params = [
+                'url'       => $url,
+                'order_no'  => $params['order_no'],
+                'name'      => '微信小程序支付',
+                'msg'       => '正在支付中...',
+                'check_url' => $params['check_url'],
+            ];
+            MySession('payment_qrcode_data', $pay_params);
+            return DataReturn('success', 0, PluginsHomeUrl('allocation', 'cashier', 'weixintominipay'));
+        }
+
+        // 获取支付数据
+        $cache_res = MyCache($key);
+        if(empty($cache_res))
+        {
+            return DataReturn('支付数据丢失，请重新发起支付！', -1);
+        }
+        $this->config = $cache_res['config'];
+        // 调用支付处理
+        $cache_res['params']['weixin_appid'] = $params['weixin_appid'];
+        $cache_res['params']['weixin_openid'] = $params['weixin_openid'];
+        $cache_res['params']['inst_mid'] = self::$inst_mid;
+        return PaymentHandleService::Pay('weixin-h5-self-mini', $cache_res['params']);
     }
 
     /**

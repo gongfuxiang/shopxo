@@ -155,20 +155,21 @@ class DiyApiService
                 'name'  => '基础组件',
                 'key'   => 'base',
                 'data'  => [
+                    ['key' => 'tabs', 'name' => '选项卡'],
+                    ['key' => 'tabs-carousel', 'name' => '选项卡轮播'],
                     ['key' => 'carousel', 'name' => '轮播图'],
                     ['key' => 'search', 'name' => '搜索框'],
                     ['key' => 'user-info', 'name' => '用户信息'],
                     ['key' => 'nav-group', 'name' => '导航组'],
                     ['key' => 'notice', 'name' => '公告'],
                     ['key' => 'video', 'name' => '视频'],
-                    ['key' => 'tabs', 'name' => '选项卡'],
-                    ['key' => 'tabs-carousel', 'name' => '选项卡轮播'],
-                    ['key' => 'article-tabs', 'name' => '文章选项卡'],
                     ['key' => 'article-list', 'name' => '文章列表'],
-                    ['key' => 'goods-tabs', 'name' => '商品选项卡'],
+                    ['key' => 'article-tabs', 'name' => '文章选项卡'],
                     ['key' => 'goods-list', 'name' => '商品列表'],
+                    ['key' => 'goods-tabs', 'name' => '商品选项卡'],
                     ['key' => 'img-magic', 'name' => '图片魔方'],
                     ['key' => 'data-magic', 'name' => '数据魔方'],
+                    ['key' => 'data-tabs', 'name' => '数据选项卡'],
                     ['key' => 'hot-zone', 'name' => '热区'],
                     ['key' => 'custom', 'name' => '自定义'],
                 ]
@@ -733,7 +734,7 @@ class DiyApiService
         }
 
         // 获取商品
-        $result = GoodsService::AppointGoodsList($params['goods_ids']);
+        $result = GoodsService::AppointGoodsList($params);
         return DataReturn('success', 0, $result);
     }
 
@@ -778,7 +779,7 @@ class DiyApiService
         }
 
         // 获取文章
-        $result = ArticleService::AppointArticleList($params['article_ids']);
+        $result = ArticleService::AppointArticleList($params);
         return DataReturn('success', 0, $result);
     }
 
@@ -823,7 +824,7 @@ class DiyApiService
         }
 
         // 获取品牌
-        $result = BrandService::AppointBrandList($params['brand_ids']);
+        $result = BrandService::AppointBrandList($params);
         return DataReturn('success', 0, $result);
     }
 
@@ -944,6 +945,7 @@ class DiyApiService
                         ['name'=>'商品URL', 'field' =>'goods_url', 'type'=>'link'],
                         ['name'=>'商品ID', 'field' =>'id', 'type'=>'text'],
                         ['name'=>'标题', 'field' =>'title', 'type'=>'text'],
+                        ['name'=>'标题颜色', 'field' =>'title_color', 'type'=>'text'],
                         ['name'=>'简述', 'field' =>'simple_desc', 'type'=>'text'],
                         ['name'=>'型号', 'field' =>'model', 'type'=>'text'],
                         ['name'=>'品牌', 'field' =>'brand_name', 'type'=>'text'],
@@ -970,6 +972,9 @@ class DiyApiService
                         ['name'=>'售价单位', 'field' =>'show_price_unit', 'type'=>'text'],
                         ['name'=>'添加时间', 'field' =>'add_time', 'type'=>'text'],
                         ['name'=>'更新时间', 'field' =>'upd_time', 'type'=>'text'],
+                        ['name'=>'商品相册', 'field' =>'photo', 'type'=>'custom-data-list', 'data'=>[
+                            ['name'=>'相册图片', 'field' =>'images', 'type'=>'images'],
+                        ]],
                     ],
                     'custom_config' => [
                         'appoint_config' => [
@@ -1002,7 +1007,7 @@ class DiyApiService
                                     'name'   => '分类',
                                 ],
                             ],
-                            'filter_form_config' => [
+                            'search_filter_form_config' => [
                                 [
                                     'type'       => 'select',
                                     'config'     => [
@@ -1141,7 +1146,7 @@ class DiyApiService
                                     'name'   => '分类',
                                 ],
                             ],
-                            'filter_form_config' => [
+                            'search_filter_form_config' => [
                                 [
                                     'type'       => 'select',
                                     'config'     => [
@@ -1270,7 +1275,7 @@ class DiyApiService
                                     'name'   => '分类',
                                 ],
                             ],
-                            'filter_form_config' => [
+                            'search_filter_form_config' => [
                                 [
                                     'type'       => 'select',
                                     'config'     => [

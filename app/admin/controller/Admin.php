@@ -37,17 +37,20 @@ class Admin extends Common
 		parent::__construct();
 
 		// 需要校验权限
-		if(!in_array($this->action_name, ['logininfo', 'login', 'logout', 'adminverifyentry', 'loginverifysend']))
+		if(!in_array($this->action_name, ['logininfo', 'login', 'logout', 'adminverifyentry', 'loginverifysend', 'saveinfo', 'save']))
 		{
 			// 登录校验
             $this->IsLogin();
 
             // 权限校验
             $this->IsPower();
-
-            // 动态表格初始化
-            $this->FormTableInit();
 		}
+
+        // 动态表格初始化
+        if(in_array($this->action_name, ['index', 'detail', 'saveinfo']))
+        {
+            $this->FormTableInit();
+        }
 	}
 
 	/**
@@ -111,9 +114,10 @@ class Admin extends Common
 
 		// 模板数据
 		$assign = [
-			'id' 						=> isset($params['id']) ? $params['id'] : 0,
-			'common_gender_list' 		=> MyConst('common_gender_list'),
-			'common_admin_status_list'	=> MyConst('common_admin_status_list'),
+            'id'                        => isset($params['id']) ? $params['id'] : 0,
+            'common_gender_list'        => MyConst('common_gender_list'),
+            'common_admin_status_list'  => MyConst('common_admin_status_list'),
+            'is_setup'                  => (isset($params['is_setup']) && $params['is_setup'] == 1) ? 1 : 0,
 		];
 
 		// 角色

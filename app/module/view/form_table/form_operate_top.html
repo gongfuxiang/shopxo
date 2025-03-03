@@ -43,6 +43,23 @@
     </button>
 {{/if}}
 
+<!-- 是否开启全部删除操作 -->
+{{if isset($form_table['base']['is_alldelete']) and $form_table['base']['is_alldelete'] eq 1}}
+    <button
+        type="button"
+        class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-alldelete-submit submit-ajax"
+        data-url="{{if isset($form_table['base']['alldelete_url'])}}{{$form_table.base.alldelete_url}}{{/if}}"
+        data-view="reload"
+        data-is-confirm="1"
+        data-title="{{if isset($form_table['base']['confirm_title'])}}{{$form_table.base.confirm_title}}{{/if}}"
+        data-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
+        data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
+    >
+        <i class="iconfont icon-clear am-show-sm-only"></i>
+        <span>{{:MyLang('delete_all_title')}}</span>
+    </button>
+{{/if}}
+
 <!-- 是否开启删除操作 -->
 {{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
     <button

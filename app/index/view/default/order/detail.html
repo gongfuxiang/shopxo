@@ -85,7 +85,10 @@
                         <h1 class="am-text-xl am-font-weight {{if !empty($data['operate_data'])}}{{if $data['operate_data']['is_pay'] eq 1}}am-color-main{{/if}}{{/if}}">{{$data.status_name}}</h1>
                         <div class="items am-cf">
                             <div class="items-title am-fl">{{:MyLang('order.order_base_order_no_title')}}</div>
-                            <div class="items-detail am-fl">{{$data.order_no}}</div>
+                            <div class="items-detail am-fl text-copy-submit" data-value="{{$data.order_no}}">
+                                <span>{{$data.order_no}}</span>
+                                <span class="am-badge am-badge-success am-radius">{{:MyLang('copy_title')}}</span>
+                            </div>
                         </div>
 
                         <!-- 快递信息、一条快递信息 -->
@@ -317,13 +320,143 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- 用户订单详情快递信息内部底部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_order_detail_express_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_order_detail_express_inside_bottom';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单详情快递信息内部底部-结束 -->
                         </div>
                     </div>
                 </div>
             {{/if}}
 
+            <!-- 用户订单详情快递信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_express_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_express_bottom';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情快递信息底部-结束 -->
+
+            <!-- 订单服务 -->
+            {{if !empty($data['service_data'])}}
+                <div class="order-service">
+                    <div class="am-panel am-panel-default business-panel">
+                        <div class="am-panel-hd">{{:MyLang('order.detail_service_title')}}</div>
+                        <div class="am-panel-bd">
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_name')}}：</div>
+                                <div class="items-detail am-fl">{{$data.service_data.service_name}}</div>
+                            </div>
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_mobile')}}：</div>
+                                <div class="items-detail am-fl {{if !empty($data['service_data']['service_mobile'])}}text-copy-submit{{/if}}" {{if !empty($data['service_data']['service_mobile'])}}data-value="{{$data.service_data.service_mobile}}"{{/if}}>
+                                    <span>{{$data.service_data.service_mobile}}</span>
+                                    {{if !empty($data['service_data']['service_mobile'])}}
+                                        <span class="am-badge am-badge-success am-radius">{{:MyLang('copy_title')}}</span>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_time')}}：</div>
+                                <div class="items-detail am-fl">
+                                    {{if !empty($data['service_data']['service_start_time'])}}
+                                        <span>{{$data.service_data.service_start_time}}</span>
+                                        {{if !empty($data['service_data']['service_end_time'])}}
+                                            <span class="am-color-grey-light">~</span>
+                                        {{/if}}
+                                    {{/if}}
+                                    {{if !empty($data['service_data']['service_end_time'])}}
+                                        <span>{{$data.service_data.service_end_time}}</span>
+                                    {{/if}}
+                                    {{if !empty($data['service_data']['service_duration_minute_text'])}}
+                                        <span class="am-color-grey-light am-margin-horizontal-sm">/</span>
+                                        <span class="am-icon-history"> {{$data.service_data.service_duration_minute_text}}</span>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                            <!-- 用户订单详情服务信息内部底部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_order_detail_service_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_order_detail_service_inside_bottom';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单详情服务信息内部底部-结束 -->
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+
+            <!-- 用户订单详情服务信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_service_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_service_bottom';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情服务信息底部-结束 -->
+
             <!-- 订单地址 -->
-            {{if in_array($data['order_model'], [0, 2]) and !empty($data['address_data'])}}
+            {{if !empty($data['address_data'])}}
                 <div class="order-address">
                     <div class="am-panel am-panel-default business-panel">
                         <div class="am-panel-hd">{{if $data.order_model eq 2}}{{:MyLang('order.detail_take_title')}}{{else /}}{{:MyLang('order.detail_shipping_address_title')}}{{/if}}</div>
@@ -378,35 +511,57 @@
                                     </div>
                                 {{/if}}
                             {{/if}}
+
+                            <!-- 用户订单详情地址信息内部底部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_order_detail_address_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_order_detail_address_inside_bottom';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单详情地址信息内部底部-结束 -->
                         </div>
                     </div>
-
-                    <!-- 用户订单详情地址信息底部-开始 -->
-                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                        <div class="plugins-tag">
-                            <span>plugins_view_user_order_detail_address_bottom</span>
-                        </div>
-                    {{/if}}
-                    {{php}}
-                        $hook_name = 'plugins_view_user_order_detail_address_bottom';
-                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
-                        if(!empty($hook_data) && is_array($hook_data))
-                        {
-                            foreach($hook_data as $hook)
-                            {
-                                if(is_string($hook) || is_int($hook))
-                                {
-                                    echo htmlspecialchars_decode($hook);
-                                }
-                            }
-                        }
-                    {{/php}}
-                    <!-- 用户订单详情地址信息底部-结束 -->
                 </div>
             {{/if}}
 
+            <!-- 用户订单详情地址信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_address_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_address_bottom';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情地址信息底部-结束 -->
+
             <!-- 虚拟销售信息 -->
-            {{if $data['order_model'] eq 3 and $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
+            {{if $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
                 <div class="order-virtually">
                     <div class="am-panel am-panel-default am-radius business-panel">
                         <div class="am-panel-hd">{{$site_fictitious.title}}</div>
@@ -444,6 +599,28 @@
                                     <p>{{:MyLang('order.order_goods_no_data_tips')}}</p>
                                 </div>
                             {{/if}}
+
+                            <!-- 用户订单详情虚拟信息内部底部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_order_detail_fictitious_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_order_detail_fictitious_inside_bottom';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单详情虚拟信息内部底部-结束 -->
                         </div>
                     </div>
                 </div>
@@ -505,7 +682,10 @@
                         </div>
                         <div class="items am-cf">
                             <div class="items-title am-fl">{{:MyLang('order.order_base_order_no_title')}}</div>
-                            <div class="items-detail am-fl">{{$data.order_no}}</div>
+                            <div class="items-detail am-fl text-copy-submit" data-value="{{$data.order_no}}">
+                                <span>{{$data.order_no}}</span>
+                                <span class="am-badge am-badge-success am-radius">{{:MyLang('copy_title')}}</span>
+                            </div>
                         </div>
                         {{if !empty($data.status_name)}}
                             <div class="items am-cf">

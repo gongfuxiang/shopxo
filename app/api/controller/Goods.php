@@ -87,12 +87,16 @@ class Goods extends Common
                     unset($goods['content_web']);
                 }
 
-                // 商品评价总数
-                $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
-                // 评分
-                $goods['comments_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
-                // 最新3条评价
-                $goods['comments_data'] = GoodsCommentsService::GoodsFirstSeveralComments($goods_id);
+                // 展示商品评分
+                if(MyC('common_is_goods_detail_show_comments', 0) == 1)
+                {
+                    // 商品评价总数
+                    $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
+                    // 评分
+                    $goods['comments_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
+                    // 最新3条评价
+                    $goods['comments_data'] = GoodsCommentsService::GoodsFirstSeveralComments($goods_id);
+                }
 
                 // 商品访问统计
                 GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
@@ -125,7 +129,7 @@ class Goods extends Common
                     'cart_total'       => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
                     'buy_left_nav'     => $buy_left_nav,
                     'buy_button'       => $buy_button,
-                    'middle_tabs_nav'  => $middle_tabs_nav,
+                    'middle_tabs_nav'  => $middle_tabs_nav['nav'],
                     'nav_more_list'    => $nav_more_list,
                     'guess_you_like'   => $guess_you_like,
                 ];

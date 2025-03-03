@@ -91,7 +91,7 @@ class Goods extends Common
                 'is_load_ckplayer'  => 1,
             ];
             // 是否商品详情页展示相册
-            $assign['common_is_goods_detail_show_photo'] = MyC('common_is_goods_detail_show_photo', 0, true);
+            $assign['common_is_goods_detail_content_show_photo'] = MyC('common_is_goods_detail_content_show_photo', 0, true);
 
             // tabs菜单数据处理
             if(!empty($assign['middle_tabs_nav']) && !empty($assign['middle_tabs_nav']['type']))

@@ -216,10 +216,15 @@ function DefaultTheme($theme = null)
     static $default_theme = null;
     if($default_theme === null)
     {
-        $cookie_domain = MyFileConfig('common_cookie_domain', '', __MY_MAIN_DOMAIN__, true);
-        if(!empty($cookie_domain) && substr($cookie_domain, 0, 1) != '.')
+        $cookie_domain = MyFileConfig('common_cookie_domain', '', '', true);
+        if(!empty($cookie_domain))
         {
-            $cookie_domain = '.'.$cookie_domain;
+            if(substr($cookie_domain, 0, 1) != '.')
+            {
+                $cookie_domain = '.'.$cookie_domain;
+            }
+        } else {
+            $cookie_domain = __MY_MAIN_DOMAIN__;
         }
         $params = [];
         $key = 'default_theme';
@@ -432,20 +437,6 @@ function DataObjectToArray($data)
         }
     }
     return $data;
-}
-
-/**
- * 图片转base64
- * @author  Devil
- * @blog    http://gong.gg/
- * @version 1.0.0
- * @date    2023-03-08
- * @desc    description
- * @param   [string]          $image [图片地址]
- */
-function ImageToBase64($image)
-{
-    return 'data:image/jpg/png/gif;base64,'.chunk_split(base64_encode(RequestGet($image)));
 }
 
 /**
@@ -1767,7 +1758,17 @@ function ArrayKeys($data)
  */
 function GoodsSalesModelType($site_type)
 {
-    return ($site_type == -1) ? SystemBaseService::SiteTypeValue() : $site_type;
+    if($site_type == -1)
+    {
+        // 系统站点类型
+        static $static_common_model_type_site_type_value = null;
+        if($static_common_model_type_site_type_value === null)
+        {
+            $static_common_model_type_site_type_value = SystemBaseService::SiteTypeValue();
+        }
+        return $static_common_model_type_site_type_value;
+    }
+    return $site_type;
 }
 
 /**
@@ -1789,24 +1790,88 @@ function IsGoodsSiteTypeConsistent($site_type)
     }
 
     // 系统站点类型
-    $common_site_type = SystemBaseService::SiteTypeValue();
+    static $static_common_consistent_site_type_value = null;
+    if($static_common_consistent_site_type_value === null)
+    {
+        $static_common_consistent_site_type_value = SystemBaseService::SiteTypeValue();
+    }
 
     // 是否一致
-    if($common_site_type == $site_type)
+    if($static_common_consistent_site_type_value == $site_type)
     {
         return 1;
     }
 
-    // 系统是否为 销售+自提,包含其中
-    if($common_site_type == 4 && in_array($site_type, [0, 2]))
+    // 系统是否为, 根据类型判断
+    switch($static_common_consistent_site_type_value)
     {
-        return 1;
+        // 快递+自提
+        case 5 :
+            if(in_array($site_type, [0,2]))
+            {
+                return 1;
+            }
+            break;
+
+        // 同城+自提
+        case 6 :
+            if(in_array($site_type, [1,2]))
+            {
+                return 1;
+            }
+            break;
+
+        // 快递+同城
+        case 7 :
+            if(in_array($site_type, [0,1]))
+            {
+                return 1;
+            }
+            break;
+
+        // 快递+同城+自提
+        case 8 :
+            if(in_array($site_type, [0,1,2]))
+            {
+                return 1;
+            }
+            break;
     }
 
-    // 商品类型为 销售+自提、包含其中
-    if($site_type == 4 && in_array($common_site_type, [0, 2]))
+    // 商品类型为, 根据类型判断
+    switch($site_type)
     {
-        return 1;
+        // 快递+自提
+        case 5 :
+            if(in_array($static_common_consistent_site_type_value, [0,2]))
+            {
+                return 1;
+            }
+            break;
+
+        // 同城+自提
+        case 6 :
+            if(in_array($static_common_consistent_site_type_value, [1,2]))
+            {
+                return 1;
+            }
+            break;
+
+        // 快递+同城
+        case 7 :
+            if(in_array($static_common_consistent_site_type_value, [0,1]))
+            {
+                return 1;
+            }
+            break;
+
+        // 快递+同城+自提
+        case 8 :
+            if(in_array($static_common_consistent_site_type_value, [0,1,2]))
+            {
+                return 1;
+            }
+            break;
     }
 
     // 不一致
@@ -1869,9 +1934,9 @@ function FormModulePath($params = [])
 {
     // 参数变量
     $path = '';
-    $group = RequestModule();
-    $controller = RequestController();
-    $action = RequestAction();
+    $group = empty($params['group']) ? RequestModule() : $params['group'];
+    $controller = empty($params['control']) ? RequestController() : $params['control'];
+    $action = empty($params['action']) ? RequestAction() : $params['action'];
 
     // 是否插件调用
     if($controller == 'plugins')
@@ -1904,6 +1969,12 @@ function FormModulePath($params = [])
         {
             $path = '\app\\'.$group.'\form\\'.ucfirst($controller);
         }
+    }
+
+    // 不存在是否支持后端模块
+    if(!class_exists($path) && isset($params['is_admin_module']) && $params['is_admin_module'] == 1)
+    {
+        return FormModulePath(array_merge($params, ['group'=>'admin', 'is_admin_module'=>0]));
     }
 
     return [
@@ -1940,57 +2011,112 @@ function FormModuleData($params = [])
             $data_type = $struct['params']['data_type'];
         }
 
-        // 全部数据
-        if($data_type == 'all')
+        // 返回结构处理
+        $data = FormModuleStructReturn($ret['data'], $data_type, $struct['params']);
+    }
+    return $data;
+}
+
+/**
+ * 动态表格数据列表处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-01-09
+ * @desc    description
+ * @param   [array]          $data   [数据列表]
+ * @param   [array]          $params [输入参数]
+ */
+function FormModuleDataListHandle($data, $params = [])
+{
+    if(!empty($data) && is_array($data))
+    {
+        // 数据处理
+        $obj = new app\module\FormTableHandleModule();
+        $result = $obj->FormTableDataListHandle($data, array_merge($params, ['return_data_struct'=>'all']));
+
+        // 返回结构处理
+        $data_type = empty($params['data_type']) ? 'data_list' : $params['data_type'];
+        $data = FormModuleStructReturn($result, $data_type, $params);
+
+        // 详情类型结构，无详情数据则从列表获取赋值（当前为传入数据处理、可能是单条数据、仅需要反悔一条数据）
+        if($data_type == 'data_detail' && empty($data['data']) && !empty($result['data_list']) && isset($result['data_list'][0]))
         {
-            $data = $ret['data'];
-        } else {
-            switch($data_type)
-            {
-                // 分页结构体
-                case 'page_struct' :
-                    $temp = $ret['data'];
-                    $data = [
-                        'page'        => empty($temp['page']) ? 1 : $temp['page'],
-                        'page_start'  => empty($temp['page_start']) ? 0 : $temp['page_start'],
-                        'page_size'   => empty($temp['page_size']) ? 0 : $temp['page_size'],
-                        'page_total'  => empty($temp['page_total']) ? 0 : $temp['page_total'],
-                        'data_total'  => empty($temp['data_total']) ? 0 : $temp['data_total'],
-                        'data_list'   => empty($temp['data_list']) ? [] : $temp['data_list'],
-                        'field_list'  => FormModuleFieldData($temp['table']),
-                    ];
-                    break;
+            $data['data'] = $result['data_list'][0];
+        }
+    }
+    return $data;
+}
 
-                // 默认
-                default :
-                    // 指定数据
-                    if(array_key_exists($data_type, $ret['data']))
-                    {
-                        $data = $ret['data'][$data_type];
-                    }
-                    // 详情则增加字段列表数据，重新组织结构
-                    if($data_type == 'data_detail')
-                    {
-                        $data = [
-                            'data'        => empty($data) ? null : $data,
-                            'field_list'  => FormModuleFieldData($ret['data']['table']),
-                        ];
-                    }
-            }
+/**
+ * 动态表格数据返回结构处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-01-09
+ * @desc    description
+ * @param   [array]          $data      [数据列表]
+ * @param   [string]         $data_type [返回数据结构类型]
+ * @param   [array]          $params    [输入参数]
+ */
+function FormModuleStructReturn($data, $data_type, $params = [])
+{
+    // 全部数据
+    if($data_type != 'all')
+    {
+        $table = empty($data['table']) ? [] : $data['table'];
+        switch($data_type)
+        {
+            // 分页结构体
+            case 'page_struct' :
+                $data = [
+                    'page'        => empty($data['page']) ? 1 : $data['page'],
+                    'page_start'  => empty($data['page_start']) ? 0 : $data['page_start'],
+                    'page_size'   => empty($data['page_size']) ? 0 : $data['page_size'],
+                    'page_total'  => empty($data['page_total']) ? 0 : $data['page_total'],
+                    'data_total'  => empty($data['data_total']) ? 0 : $data['data_total'],
+                    'data_list'   => empty($data['data_list']) ? [] : $data['data_list'],
+                    'field_list'  => FormModuleFieldData($table),
+                ];
+                break;
 
-            // 额外数据字段
-            if(!empty($struct['params']['ext_data_fields']))
-            {
-                if(!is_array($struct['params']['ext_data_fields']))
+            // 列表
+            case 'data_list' :
+                $data = [
+                    'data_list'   => empty($data['data_list']) ? [] : $data['data_list'],
+                    'field_list'  => FormModuleFieldData($table),
+                ];
+                break;
+
+            // 默认
+            default :
+                // 指定数据
+                if(array_key_exists($data_type, $data))
                 {
-                    $struct['params']['ext_data_fields'] = explode(',', $struct['params']['ext_data_fields']);
+                    $data = $data[$data_type];
                 }
-                foreach($struct['params']['ext_data_fields'] as $edfv)
+                // 详情则增加字段列表数据，重新组织结构
+                if($data_type == 'data_detail')
                 {
-                    if(array_key_exists($edfv, $ret['data']))
-                    {
-                        $data[$edfv] = $ret['data'][$edfv];
-                    }
+                    $data = [
+                        'data'        => empty($data) ? null : $data,
+                        'field_list'  => FormModuleFieldData($table),
+                    ];
+                }
+        }
+
+        // 额外数据字段
+        if(!empty($params['ext_data_fields']))
+        {
+            if(!is_array($params['ext_data_fields']))
+            {
+                $params['ext_data_fields'] = explode(',', $params['ext_data_fields']);
+            }
+            foreach($params['ext_data_fields'] as $edfv)
+            {
+                if(array_key_exists($edfv, $data))
+                {
+                    $data[$edfv] = $ret['data'][$edfv];
                 }
             }
         }
@@ -2491,7 +2617,7 @@ function StrToAscii($str)
     if(!empty($str))
     {
         // 编码处理
-        $encode = mb_detect_encoding($str);
+        $encode = mb_detect_encoding(trim($str));
         if($encode != 'UTF-8')
         {
             $str = mb_convert_encoding($str, 'UTF-8', $encode);
@@ -2530,7 +2656,7 @@ function AsciiToStr($ascii)
     if(!empty($ascii))
     {
         // 开始转换
-        $asc_arr = str_split(strtolower($ascii), 2);
+        $asc_arr = str_split(strtolower(trim($ascii)), 2);
         for($i=0; $i<count($asc_arr); $i++)
         {
             $str .= chr(hexdec($asc_arr[$i][1].$asc_arr[$i][0]));

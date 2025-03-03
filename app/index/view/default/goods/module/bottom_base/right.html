@@ -78,7 +78,7 @@
                                 {{/if}}
 
                                 <!-- 详情相册 -->
-                                {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                {{if isset($common_is_goods_detail_content_show_photo) and $common_is_goods_detail_content_show_photo eq 1 and !empty($goods.photo)}}
                                     <div class="content-photo">
                                         {{foreach $goods.photo as $photo}}
                                             <li>

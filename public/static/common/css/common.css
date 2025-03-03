@@ -11,10 +11,13 @@ body{ background: var(--body-bg-color); color: #333; }
 .text-deco-none { text-decoration: none !important; }
 .text-deco-line { text-decoration: underline !important; }
 pre {
-    margin: 0.5rem 0;
+    margin: 0;
     padding: .4rem .6rem;
     border-radius: 2px;
     background: #f8f8f8;
+}
+.richtext pre {
+    margin-bottom: 0.5rem;
 }
 
 /**
@@ -3143,6 +3146,9 @@ table.am-table .am-operate-grid .am-btn i {
     font-size: 1.2rem;
     line-height: 1.7rem;
     width: 100%;
+    max-width: 45rem;
+}
+.am-cascader.max-width {
     max-width: 29rem;
 }
 .am-cascader .am-cascader-suffix .am-input-inner {
@@ -3170,7 +3176,7 @@ table.am-table .am-operate-grid .am-btn i {
 .am-cascader .am-cascader-suffix .am-input-suffix {
     position: absolute;
     height: 100%;
-    right: 0.5rem;
+    right: 1rem;
     top: 0.1rem;
     text-align: center;
     color: #c0c4cc;
@@ -3179,7 +3185,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 .am-cascader .am-cascader-suffix .icon-angle-down {
     transition: transform .3s;
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 2.84rem;
     display:inline-block
 }

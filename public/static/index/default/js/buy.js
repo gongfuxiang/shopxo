@@ -104,11 +104,11 @@ $(function()
     });
 
     // 提交订单
-    $(document).on('click', '.nav-buy .buy-submit', function()
+    $(document).on('click', 'form.nav-buy .buy-submit', function()
     {
-        // 0销售型, 2自提点 校验地址
-        var site_type = $('.nav-buy').data('site-type') || 0;
-        if(site_type == 0 || site_type == 2)
+        // 0销售型, 1同城, 2自提点 校验地址
+        var site_type = parseInt($('form.nav-buy').data('site-type') || 0);
+        if(site_type <= 2)
         {
             var address_id = parseInt($('form.nav-buy input[name="address_id"]').val());
             if(address_id == -1)
@@ -118,9 +118,29 @@ $(function()
             }
         }
 
+        // 自提联系人、电话、时间是否需要填写
+        var $extraction_contact_name = $('input[form-name="extraction_contact_name"]');
+        if($extraction_contact_name.length > 0 && $extraction_contact_name.attr('required') && $extraction_contact_name.val().length == 0)
+        {
+            Prompt($extraction_contact_name.attr('data-validation-message') || '请填写姓名和电话');
+            return false;
+        }
+        var $extraction_contact_tel = $('input[form-name="extraction_contact_tel"]');
+        if($extraction_contact_tel.length > 0 && $extraction_contact_tel.attr('required') && $extraction_contact_tel.val().length == 0)
+        {
+            Prompt($extraction_contact_tel.attr('data-validation-message') || '请填写姓名和电话');
+            return false;
+        }
+        var $appoint_time = $('input[form-name="appoint_time"]');
+        if($appoint_time.length > 0 && $appoint_time.attr('required') && $appoint_time.val().length == 0)
+        {
+            Prompt($appoint_time.attr('data-validation-message') || '请选择时间');
+            return false;
+        }
+
         // 非预约模式校验支付方式
-        var is_booking = $('.nav-buy').data('is-booking') || 0;
-        var actual_price = parseFloat($('.nav-buy').data('base-actual-price')) || 0;
+        var is_booking = $('form.nav-buy').data('is-booking') || 0;
+        var actual_price = parseFloat($('form.nav-buy').data('base-actual-price')) || 0;
         if(is_booking != 1 && actual_price > 0)
         {
             var payment_id = parseInt($('form.nav-buy input[name="payment_id"]').val()) || 0;
@@ -166,14 +186,14 @@ $(function()
         var form_name = $(this).attr('form-name');
         var value = $(this).val();
         store.set(address_extend_field_key+form_name, value);
-        $('.nav-buy input[name="'+form_name+'"]').val(value);
+        $('form.nav-buy input[name="'+form_name+'"]').val(value);
     });
     $(document).on('change', '.address-extend-field-container input', function()
     {
         var form_name = $(this).attr('form-name');
         var value = $(this).val();
         store.set(address_extend_field_key+form_name, value);
-        $('.nav-buy input[name="'+form_name+'"]').val(value);
+        $('form.nav-buy input[name="'+form_name+'"]').val(value);
     });
     // 初始化赋值
     if($('.address-extend-field-container input').length > 0)
@@ -185,7 +205,7 @@ $(function()
             if(value !== undefined)
             {
                 $(this).val(value);
-                $('.nav-buy input[name="'+form_name+'"]').val(value);
+                $('form.nav-buy input[name="'+form_name+'"]').val(value);
             }
         });
     }

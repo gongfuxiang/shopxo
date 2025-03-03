@@ -151,6 +151,16 @@
                         {{/foreach}}
                     </div>
                 </div>
+                <div class="am-form-group">
+                    <label>{{$data.home_search_goods_show_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_goods_show_type.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_search_goods_show_type_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_search_goods_show_type.only_tag}}" data-validation-message="{{$data.home_search_goods_show_type.error_tips}}" required {{if isset($data['home_search_goods_show_type']['value']) and $data['home_search_goods_show_type']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
             </div>
 
             <div class="am-form-popup-submit">

@@ -54,20 +54,19 @@ class Buy extends Common
      */
     public function Index()
     {
-        $key = 'buy_post_data_'.$this->user['id'];
         if($this->data_post)
         {
-            MyCache($key, $this->data_post, 7200);
+            BuyService::BuyDataStorage($this->user['id'], $this->data_post);
             return MyRedirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
-            if(SystemBaseService::SiteTypeValue() == 1)
+            if(SystemBaseService::SiteTypeValue() == 4)
             {
                 return MyView('public/tips_error', ['msg'=>MyLang('buy.exhibition_not_allow_submit_tips')]);
             }
 
             // 获取下单信息
-            $buy_data = MyCache($key);
+            $buy_data = BuyService::BuyDataRead($this->user['id']);
             if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
                 return MyView('public/tips_error', ['msg'=>MyLang('goods_data_empty_tips')]);
@@ -94,6 +93,10 @@ class Buy extends Common
                 $buy_base = $ret['data']['base'];
                 $buy_goods = $ret['data']['goods'];
 
+                // 下单类型数据
+                $buy_site_model_data = ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params);
+                $buy_base['site_model'] = $buy_site_model_data['site_model'];
+
                 // 模板数据
                 $assign = [
                     'base'                 => $buy_base,
@@ -106,16 +109,20 @@ class Buy extends Common
                     // 支付方式
                     'payment_list'         => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
                     // 下单类型模式
-                    'buy_site_model_list'  => ResourcesService::BuySiteModelData($buy_base['common_site_type'], $buy_base['site_model'], $buy_goods, $params),
+                    'buy_site_model_list'  => $buy_site_model_data['data'],
                 ];
 
-                // 自提模式
-                if($buy_base['site_model'] == 2)
+                // 同城、自提模式
+                if(in_array($buy_base['site_model'], [1,2]))
                 {
                     // 指定时间
                     $assign['buy_datetime_info'] = ResourcesService::BuyDatetimeData($params);
+
                     // 客户联系信息
-                    $assign['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                    if($buy_base['site_model'] == 2)
+                    {
+                        $assign['buy_extraction_contact_info'] = ResourcesService::BuyExtractionContactData($params);
+                    }
                 }
 
                 // 用户地址

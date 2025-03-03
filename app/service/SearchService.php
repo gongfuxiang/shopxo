@@ -260,7 +260,7 @@ class SearchService
             {
                 $params['wd'] = AsciiToStr($params['wd']);
             }
-            $keywords = explode(' ', $params['wd']);
+            $keywords = explode(' ', str_replace('+', ' ', trim($params['wd'])));
             $is_keywords_spec = true;
             if(count($keywords) == 1)
             {

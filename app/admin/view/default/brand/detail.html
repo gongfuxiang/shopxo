@@ -3,9 +3,25 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('form_seo_data_title'),
+                'key'  => 'seo-data-title',
+            ]
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
 
-    <!-- SEO信息 -->
-    {{:ModuleInclude('lib/seo_data')}}
+        <!-- SEO信息 -->
+        {{:ModuleInclude('lib/seo_data')}}
+    </div>
 {{/block}}

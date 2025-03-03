@@ -104,7 +104,7 @@
                     <a class="am-dropdown-toggle" href="javascript:;">{{$admin.username}}</a>
                     <ul class="am-dropdown-content am-radius-lg">
                         <li>
-                            <a href="javascript:;" class="new-window" data-type="nav" data-url="{{:MyUrl('admin/admin/saveinfo', ['id'=>$admin['id']])}}" data-node-name="{{:MyLang('setup_title')}}">
+                            <a href="javascript:;" class="new-window" data-type="nav" data-url="{{:MyUrl('admin/admin/saveinfo', ['id'=>$admin['id'], 'is_setup'=>1])}}" data-node-name="{{:MyLang('setup_title')}}">
                                 <i class="iconfont icon-setup"></i>
                                 <span>{{:MyLang('setup_title')}}</span>
                             </a>

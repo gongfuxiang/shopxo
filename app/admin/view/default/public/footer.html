@@ -232,6 +232,18 @@
         toolbars: [["insertimage", "insertvideo", "attachment"]]
     });
 
+    // 跳转方法处理
+    function CommonTransferBackHandle(url)
+    {
+        window.location.href = url;
+    }
+
+    // 刷新方法处理
+    function CommonReloadBackHandle()
+    {
+        window.location.reload();
+    }
+
     // 关闭弹窗
     function CommonPopupClose()
     {

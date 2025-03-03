@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\PaymentService;
 use app\service\OrderService;
 use app\service\PayLogService;
+use app\service\PayRequestLogService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\scanpay\service\ScanpayLogService;
 use app\plugins\membershiplevelvip\service\PayService as LevelPayService;
@@ -105,36 +106,40 @@ class WalletPay
      */
     public function Pay($params = [])
     {
-        // 校验
-        $ret = $this->Check($params);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
+        // 根据业务类型
+        $business_type = empty($params['business_type']) ? 'system-order' : $params['business_type'];
 
-        // 是否登录用户
-        if(empty($params['user']) || empty($params['user']['id']))
-        {
-            return DataReturn('请先登录后再使用钱包支付！', -1);
-        }
+        // 支付请求日志添加
+        $log_ret = PayRequestLogService::PayRequestLogInsert($business_type);
 
-        // 获取用户钱包校验
-        $user_wallet = WalletService::UserWallet($params['user']['id']);
-        if($user_wallet['code'] != 0)
-        {
-            return $user_wallet;
-        }
+        // 捕获异常
+        try {
+            // 校验
+            $ret = $this->Check($params);
+            if($ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
 
-        // 余额校验
-        if($user_wallet['data']['normal_money'] < $params['total_price'])
-        {
-            return DataReturn('钱包余额不足['.$user_wallet['data']['normal_money'].'元]', -10);
-        }
+            // 是否登录用户
+            if(empty($params['user']) || empty($params['user']['id']))
+            {
+                throw new \Exception('请先登录后再使用钱包支付！', -1);
+            }
 
-        // 处理支付
-        $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, $params['name'].'[订单'.$params['order_no'].']', ['is_consistent'=>1]);
-        if($ret['code'] == 0)
-        {
+            // 获取用户钱包校验
+            $user_wallet = WalletService::UserWallet($params['user']['id']);
+            if($user_wallet['code'] != 0)
+            {
+                throw new \Exception($user_wallet['msg']);
+            }
+
+            // 余额校验
+            if($user_wallet['data']['normal_money'] < $params['total_price'])
+            {
+                throw new \Exception('钱包余额不足['.$user_wallet['data']['normal_money'].'元]', -10);
+            }
+
             // 支付方式
             $payment = PaymentService::PaymentList(['where'=>['payment'=>'WalletPay']]);
 
@@ -142,18 +147,15 @@ class WalletPay
             $pay_log_data = Db::name('PayLog')->find($params['order_id']);
             if(empty($pay_log_data))
             {
-                return DataReturn('日志订单有误', -1);
+                throw new \Exception('日志订单有误', -1);
             }
 
             // 获取关联信息
             $pay_log_value = Db::name('PayLogValue')->where(['pay_log_id'=>$pay_log_data['id']])->column('business_id');
             if(empty($pay_log_value))
             {
-                return DataReturn('日志订单关联信息有误', -1);
+                throw new \Exception('日志订单关联信息有误', -1);
             }
-
-            // 根据业务类型
-            $business_type = empty($params['business_type']) ? 'system-order' : $params['business_type'];
 
             // 获取对应订单信息
             $order_list = [];
@@ -181,15 +183,22 @@ class WalletPay
             }
             if(empty($order_list))
             {
-                return DataReturn('订单信息有误', -1);
+                throw new \Exception('订单信息有误', -1);
             }
 
             // 订单数量是否一致
             if(count($order_list) != count($pay_log_value))
             {
-                return DataReturn('订单与日志记录数量不一致', -1);
+                throw new \Exception('订单与日志记录数量不一致', -1);
             }
+            $ret = DataReturn('success', 0);
+        } catch(\Exception $e) {
+            $ret = DataReturn($e->getMessage(), -1);
+        }
 
+        // 处理支付
+        if($ret['code'] == 0)
+        {
             // 支付处理
             $parameter = [
                 'order'         => $order_list,
@@ -206,54 +215,63 @@ class WalletPay
             // 支付请求记录
             PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);
 
-            // 调用支付处理方法
-            switch($business_type)
+            // 处理支付
+            $ret = WalletService::UserWalletMoneyUpdate($params['user']['id'], $params['total_price'], 0, 'normal_money', 3, $params['name'].'[订单'.$params['order_no'].']', ['is_consistent'=>1]);
+            if($ret['code'] == 0)
             {
-                // 系统订单
-                case 'system-order' :
-                    $ret = OrderService::OrderPayHandle($parameter);
-                    if($ret['code'] == 0)
-                    {
-                        return DataReturn('支付成功', 0, MyUrl('index/order/respond', ['appoint_status'=>0]));
-                    }
-                    break;
+                // 调用支付处理方法
+                switch($business_type)
+                {
+                    // 系统订单
+                    case 'system-order' :
+                        $ret = OrderService::OrderPayHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, MyUrl('index/order/respond', ['appoint_status'=>0]));
+                        }
+                        break;
 
-                // 扫码收款
-                case 'plugins-scanpay' :
-                    $parameter['order'] = $parameter['order'][0];
-                    $ret = ScanpayLogService::ScanpayLogHandle($parameter);
-                    if($ret['code'] == 0)
-                    {
-                        return DataReturn('支付成功', 0, PluginsHomeUrl('scanpay', 'index', 'respond'));
-                    }
-                    break;
+                    // 扫码收款
+                    case 'plugins-scanpay' :
+                        $parameter['order'] = $parameter['order'][0];
+                        $ret = ScanpayLogService::ScanpayLogHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('scanpay', 'index', 'respond'));
+                        }
+                        break;
 
-                // 会员购买
-                case 'plugins-membershiplevelvip' :
-                    $parameter['order'] = $parameter['order'][0];
-                    $ret = LevelPayService::LevelPayHandle($parameter);
-                    if($ret['code'] == 0)
-                    {
-                        return DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
-                    }
-                    break;
+                    // 会员购买
+                    case 'plugins-membershiplevelvip' :
+                        $parameter['order'] = $parameter['order'][0];
+                        $ret = LevelPayService::LevelPayHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
+                        }
+                        break;
 
-                // 送礼
-                case 'plugins-givegift' :
-                    $parameter['order'] = $parameter['order'][0];
-                    $ret = GiftPayService::GiftPayHandle($parameter);
-                    if($ret['code'] == 0)
-                    {
-                        return DataReturn('支付成功', 0, PluginsHomeUrl('givegift', 'gift', 'respond', ['appoint_status'=>0]));
-                    }
-                    break;
+                    // 送礼
+                    case 'plugins-givegift' :
+                        $parameter['order'] = $parameter['order'][0];
+                        $ret = GiftPayService::GiftPayHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('givegift', 'gift', 'respond', ['appoint_status'=>0]));
+                        }
+                        break;
 
-                // 默认
-                default :
-                    return DataReturn('支付业务未处理('.$business_type.')', -1);
-                    break;
+                    // 默认
+                    default :
+                        $ret = DataReturn('支付业务未处理('.$business_type.')', -1);
+                        break;
+                }
             }
         }
+
+        // 支付响应日志
+        PayRequestLogService::PayRequestLogEnd($log_ret['data'], $ret, $ret['msg']);
+
         return $ret;
     }
 

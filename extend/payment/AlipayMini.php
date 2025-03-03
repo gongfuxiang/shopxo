@@ -197,8 +197,8 @@ class AlipayMini
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
         // 生成签名参数+签名
-        $params = $this->GetParamSign($parameter);
-        $parameter['sign'] = $this->MyRsaSign($params['value']);
+        $sign_params = $this->GetParamSign($parameter);
+        $parameter['sign'] = $this->MyRsaSign($sign_params['value']);
 
         // 支付请求记录
         PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);

@@ -42,10 +42,34 @@ class DiyService
     public static function AppClientHomeDiyData($params = [])
     {
         // 是否指定了首页diy数据
+        $diy_id = 0;
         $diy_mode = MyC('common_app_home_data_diy_mode');
         if(!empty($diy_mode) && is_array($diy_mode) && !empty($diy_mode[APPLICATION_CLIENT_TYPE]))
         {
-            $diy_id = $diy_mode[APPLICATION_CLIENT_TYPE];
+            $diy = $diy_mode[APPLICATION_CLIENT_TYPE];
+            if(!empty($diy))
+            {
+                if(is_array($diy))
+                {
+                    if(!empty($diy['diy_id']))
+                    {
+                        $diy_id = $diy['diy_id'];
+
+                        // 开始时间
+                        if(!empty($diy['time_start']) && strtotime($diy['time_start']) > time())
+                        {
+                            $diy_id = 0;
+                        }
+                        // 结束时间
+                        if(!empty($diy['time_end']) && strtotime($diy['time_end']) < time())
+                        {
+                            $diy_id = 0;
+                        }
+                    }
+                } else {
+                    $diy_id = $diy;
+                }
+            }
         }
 
         // 手机端首页diy数据钩子
@@ -74,7 +98,7 @@ class DiyService
         $data = null;
         if(!empty($params['id']))
         {
-            $ret = DiyService::DiyList([
+            $ret = self::DiyList([
                 'n'      => 1,
                 'field'  => 'id,config',
                 'where'  => [
@@ -83,6 +107,7 @@ class DiyService
                 ],
                 'is_config_handle'       => 1,
                 'is_config_data_handle'  => 1,
+                'is_view'                => 1,
             ]);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? null : $ret['data'][0];
         }
@@ -919,7 +944,7 @@ class DiyService
                         case 'h5' :
                             if(!empty($h5_url))
                             {
-                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url]));
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url.$page.'?'.$query]));
                                 if($ret['code'] == 0)
                                 {
                                     $status = true;

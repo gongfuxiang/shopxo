@@ -119,6 +119,14 @@
                 {{:ModuleInclude('public/header_style_root')}}
             {{/if}}
         }
+        /* 公共header内js钩子 */
+        {{if !empty($plugins_admin_common_header_css_data) and is_array($plugins_admin_common_header_css_data)}}
+            {{foreach $plugins_admin_common_header_css_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
     </style>
     <script type="text/javascript">
         // 基础配置
@@ -145,6 +153,24 @@
             {{foreach $lang_data as $k=>$v}}
                 {{if !empty($k) and isset($v) and !is_array($v)}}
                     var lang_{{$k}} = '{{$v}}';
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        // 公共header内js钩子
+        {{if !empty($plugins_admin_common_header_javascript_data) and is_array($plugins_admin_common_header_javascript_data)}}
+            {{foreach $plugins_admin_common_header_javascript_data as $v}}
+                {{if is_array($v)}}
+                    {{if isset($v['var']) and isset($v['value'])}}
+                        {{if is_string($v['value']) or is_int($v['value'])}}
+                            var plugins_{{$v.var}} = '{{$v.value}}';
+                        {{/if}}
+                    {{else /}}
+                        {{foreach $v as $vs}}
+                            {{if isset($vs['var']) and isset($vs['value']) and (is_string($vs['value']) or is_int($vs['value']))}}
+                                var plugins_{{$vs.var}} = '{{$vs.value}}';
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 {{/if}}
             {{/foreach}}
         {{/if}}

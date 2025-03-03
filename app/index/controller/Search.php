@@ -96,7 +96,7 @@ class Search extends Common
         } else {
             if(empty($list_layout_value))
             {
-                $list_layout_value = 0;
+                $list_layout_value = MyC('home_search_goods_show_type', 0, true);
             }
         }
 

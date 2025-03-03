@@ -1,7 +1,7 @@
 {{:ModuleInclude('public/header')}}
 
 {{if !empty($data)}}
-    <legend class="page-nav am-padding-horizontal-xs am-padding-bottom-xs am-margin-bottom-0">
+    <div class="page-nav am-padding-xs">
         <img src="{{if empty($data['logo'])}}{{:StaticAttachmentUrl('default-images-mini.png')}}{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
         <span class="page-top-nav-title">
             <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
@@ -21,7 +21,7 @@
                 <span>{{:MyLang('save_title')}}</span>
             </button>
         </div>
-    </legend>
+    </div>
     <!-- 编辑器容器 -->
 	<ace-playground></ace-playground>
     <!-- 页面编辑-->

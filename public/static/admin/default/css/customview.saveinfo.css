@@ -7,13 +7,9 @@ body {
 .page-nav {
     border-color: #333;
     color: #ccc;
-    padding-bottom: 0.2rem;
 }
 .page-top-nav-logo {
     width: 3rem;
     height: 3rem;
     vertical-align: middle;
-}
-.page-operate-container .am-btn {
-    padding: 0.4rem 1rem;
 }

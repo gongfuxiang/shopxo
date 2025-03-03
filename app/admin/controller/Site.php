@@ -179,6 +179,10 @@ class Site extends Base
             'common_search_keywords_type_list'          => MyConst('common_search_keywords_type_list'),
             // 是否
             'common_is_text_list'                       => MyConst('common_is_text_list'),
+            // 下单指定时间
+            'common_buy_datetime_config_list'           => MyConst('common_buy_datetime_config_list'),
+            // 下单联系信息
+            'common_buy_extraction_contact_config_list' => MyConst('common_buy_extraction_contact_config_list'),
             // 站点类型
             'common_site_type_list'                     => MyConst('common_site_type_list'),
             // 扣除库存规则
@@ -192,6 +196,8 @@ class Site extends Base
             'common_site_floor_data_type_list'          => MyConst('common_site_floor_data_type_list'),
             // 搜索参数类型
             'common_goods_parameters_type_list'         => MyConst('common_goods_parameters_type_list'),
+            // 关闭开启
+            'common_search_goods_show_type_list'        => MyConst('common_search_goods_show_type_list'),
             // 多语言
             'common_multilingual_list'                  => MyConst('common_multilingual_list'),
             // 商品分类
@@ -302,6 +308,8 @@ class Site extends Base
 
                     // 订单
                     case 'order' :
+                        $field_list[] = 'common_buy_datetime_info';
+                        $field_list[] = 'common_buy_extraction_contact_info';
                         $params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
                         break;
 

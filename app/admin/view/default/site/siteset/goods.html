@@ -84,22 +84,55 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label>{{$data.common_is_goods_detail_show_photo.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_photo.describe}}</span></label>
+                    <label>{{$data.common_is_goods_detail_content_show_photo.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_content_show_photo.describe}}</span></label>
                     <div class="am-radio-group">
                         {{foreach $common_is_text_list as $v}}
                             <label class="am-radio-inline">
-                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_show_photo.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_show_photo.error_tips}}" required {{if isset($data['common_is_goods_detail_show_photo']['value']) and $data['common_is_goods_detail_show_photo']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_content_show_photo.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_content_show_photo.error_tips}}" required {{if isset($data['common_is_goods_detail_content_show_photo']['value']) and $data['common_is_goods_detail_content_show_photo']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
                             </label>
                         {{/foreach}}
                     </div>
                 </div>
 
                 <div class="am-form-group">
-                    <label>{{$data.common_is_show_goods_comments.name}}<span class="am-form-group-label-tips">{{$data.common_is_show_goods_comments.describe}}</span></label>
+                    <label>{{$data.common_is_goods_detail_show_comments.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_comments.describe}}</span></label>
                     <div class="am-radio-group">
                         {{foreach $common_is_text_list as $v}}
                             <label class="am-radio-inline">
-                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_show_goods_comments.only_tag}}" data-validation-message="{{$data.common_is_show_goods_comments.error_tips}}" required {{if isset($data['common_is_show_goods_comments']['value']) and $data['common_is_show_goods_comments']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_show_comments.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_show_comments.error_tips}}" required {{if isset($data['common_is_goods_detail_show_comments']['value']) and $data['common_is_goods_detail_show_comments']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_is_goods_detail_show_guess_you_like.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_guess_you_like.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_show_guess_you_like.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_show_guess_you_like.error_tips}}" required {{if isset($data['common_is_goods_detail_show_guess_you_like']['value']) and $data['common_is_goods_detail_show_guess_you_like']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_is_goods_detail_show_seeing_you.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_seeing_you.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_show_seeing_you.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_show_seeing_you.error_tips}}" required {{if isset($data['common_is_goods_detail_show_seeing_you']['value']) and $data['common_is_goods_detail_show_seeing_you']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>{{$data.common_is_goods_detail_show_left_more.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_left_more.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_detail_show_left_more.only_tag}}" data-validation-message="{{$data.common_is_goods_detail_show_left_more.error_tips}}" required {{if isset($data['common_is_goods_detail_show_left_more']['value']) and $data['common_is_goods_detail_show_left_more']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
                             </label>
                         {{/foreach}}
                     </div>

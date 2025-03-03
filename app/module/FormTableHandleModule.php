@@ -257,6 +257,8 @@ class FormTableHandleModule
 
         // 是否开启删除
         $is_delete = isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1;
+        // 是否开启全部删除
+        $is_alldelete = isset($this->form_data['base']['is_alldelete']) && $this->form_data['base']['is_alldelete'] == 1;
         // 删除数据key默认ids
         if($is_delete && empty($this->form_data['base']['delete_key']))
         {
@@ -278,6 +280,12 @@ class FormTableHandleModule
             if($is_delete && empty($this->form_data['base']['delete_url']))
             {
                 $this->form_data['base']['delete_url'] = MyUrl($this->module_name.'/'.$this->controller_name.'/delete');
+            }
+
+            // 已开启全部删除功能未配置删除数据地址
+            if($is_alldelete && empty($this->form_data['base']['alldelete_url']))
+            {
+                $this->form_data['base']['alldelete_url'] = MyUrl($this->module_name.'/'.$this->controller_name.'/alldelete');
             }
         } else {
             // 处理插件页面模块
@@ -301,6 +309,17 @@ class FormTableHandleModule
                     $this->form_data['base']['delete_url'] = PluginsAdminUrl($this->plugins_module_name, $this->plugins_controller_name, 'delete');
                 } else {
                     $this->form_data['base']['delete_url'] = PluginsHomeUrl($this->plugins_module_name, $this->plugins_controller_name, 'delete');
+                }
+            }
+
+            // 已开启全部删除功能未配置删除数据地址
+            if($is_alldelete && empty($this->form_data['base']['alldelete_url']))
+            {
+                if($this->module_name == 'admin')
+                {
+                    $this->form_data['base']['alldelete_url'] = PluginsAdminUrl($this->plugins_module_name, $this->plugins_controller_name, 'alldelete');
+                } else {
+                    $this->form_data['base']['alldelete_url'] = PluginsHomeUrl($this->plugins_module_name, $this->plugins_controller_name, 'alldelete');
                 }
             }
         }
@@ -1875,24 +1894,40 @@ class FormTableHandleModule
         }
         $this->data_list = $data;
 
-        // 获取表格模型处理表格列表数据
-        $module = FormModulePath(input());
-        if(empty($module))
+        // 获取表格模型处理表格列表数据、支持使用后端模块form配置结构
+        $module = FormModulePath(array_merge(input(), ['is_admin_module'=>1]));
+        if(!empty($module))
         {
-            return $data;
+            // 参数校验
+            $ret = $this->ParamsCheckHandle($module['module'], $module['action'], $params);
+            if($ret['code'] == 0)
+            {
+                // 数据处理
+                $this->FormDataListHandle();
+            }
         }
-
-        // 参数校验
-        $ret = $this->ParamsCheckHandle($module['module'], $module['action'], $params);
-        if($ret['code'] != 0)
-        {
-            return $data;
-        }
-
-        // 数据处理
-        $this->FormDataListHandle();
 
         // 返回处理的数据
+        if(isset($params['return_data_struct']) && $params['return_data_struct'] == 'all')
+        {
+            return [
+                'table'         => $this->form_data,
+                'where'         => $this->where,
+                'params'        => $this->where_params,
+                'md5_key'       => $this->md5_key,
+                'user_fields'   => $this->user_fields,
+                'order_by'      => $this->order_by,
+                'page'          => $this->page,
+                'page_start'    => $this->page_start,
+                'page_size'     => $this->page_size,
+                'page_total'    => $this->page_total,
+                'page_url'      => $this->page_url,
+                'page_html'     => $this->page_html,
+                'data_total'    => $this->data_total,
+                'data_list'     => $this->data_list,
+                'data_detail'   => $this->data_detail,
+            ];
+        }
         return $this->data_list;
     }
 }

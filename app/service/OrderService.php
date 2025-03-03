@@ -1346,6 +1346,9 @@ class OrderService
             // 订单快递
             $express_data = self::OrderExpressData($order_ids);
 
+            // 订单服务
+            $service_data = self::OrderServiceData($order_ids);
+
             // 订单详情
             $detail = ($is_items == 1) ? self::OrderItemList($data, $is_orderaftersale) : [];
 
@@ -1388,12 +1391,12 @@ class OrderService
                 }
 
                 // 订单模式处理
-                // 快递模式+自提模式
-                if(in_array($v['order_model'], [0,2]))
+                // 快递、外送、自提模式
+                if(in_array($v['order_model'], [0,1,2]))
                 {
                     // 销售模式+自提模式 地址信息
                     $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : null;
-                    
+
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
@@ -1403,6 +1406,9 @@ class OrderService
 
                 // 快递信息
                 $v['express_data'] = (!empty($express_data) && array_key_exists($v['id'], $express_data)) ? $express_data[$v['id']] : null;
+
+                // 服务信息
+                $v['service_data'] = (!empty($service_data) && array_key_exists($v['id'], $service_data)) ? $service_data[$v['id']] : null;
 
                 // 用户信息
                 if(isset($v['user_id']))
@@ -1569,8 +1575,12 @@ class OrderService
             'is_confirm'    => 0,
             // 支付
             'is_pay'        => 0,
-            // 发货、取货
+            // 发货
             'is_delivery'   => 0,
+            // 同城
+            'is_service'    => 0,
+            // 取货
+            'is_take'       => 0,
             // 收货 
             'is_collect'    => 0,
             // 取消
@@ -1586,17 +1596,21 @@ class OrderService
             if($user_type == 'admin')
             {
                 // 确认
-                $result['is_confirm']    = ($data['status'] == 0) ? 1 : 0;
+                $result['is_confirm']   = ($data['status'] == 0) ? 1 : 0;
                 // 支付
-                $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
-                // 发货、取货
-                $result['is_delivery']   = isset($data['order_model']) && (($data['order_model'] == 0 && in_array($data['status'], [2,3])) || (in_array($data['order_model'], [2,3]) && $data['status'] == 2)) ? 1 : 0;
+                $result['is_pay']       = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
+                // 发货
+                $result['is_delivery']  = (isset($data['order_model']) && $data['order_model'] == 0 && in_array($data['status'], [2,3])) ? 1 : 0;
+                // 同城
+                $result['is_service']   = (isset($data['order_model']) && $data['order_model'] == 1 && in_array($data['status'], [2,3])) ? 1 : 0;
+                // 取货
+                $result['is_take']      = (isset($data['order_model']) && in_array($data['order_model'], [2,3]) && $data['status'] == 2) ? 1 : 0;
                 // 收货
-                $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
+                $result['is_collect']   = ($data['status'] == 3) ? 1 : 0;
                 // 取消
-                $result['is_cancel']     = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
+                $result['is_cancel']    = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
                 // 删除
-                $result['is_delete']     = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
+                $result['is_delete']    = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
 
             // 用户
             } else {
@@ -1829,6 +1843,68 @@ class OrderService
         ]);
 
         return $result;
+    }
+
+    /**
+     * 订单服务
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [array]          $order_ids    [订单id]
+     */
+    public static function OrderServiceData($order_ids)
+    {
+        $data = Db::name('OrderService')->where(['order_id'=>$order_ids])->column('*', 'order_id');
+        if(!empty($data) && is_array($data))
+        {
+            $day_unit = MyLang('day_title');
+            $hour_unit = MyLang('hour_title');
+            $minute_unit = MyLang('minute_title');
+            foreach($data as &$v)
+            {
+                // 持续时长
+                if(empty($v['service_duration_minute']))
+                {
+                    $v['service_duration_minute_text'] = '';
+                } else {
+                    $hour = intval($v['service_duration_minute']/60);
+                    $minute = $v['service_duration_minute']-($hour*60);
+                    if($hour > 24)
+                    {
+                        $day = intval($hour/24);
+                        $hours = $hour-($day*60);
+                        $v['service_duration_minute_text'] = $day.$day_unit.(($hours <= 0) ? '' : $hours.$hour_unit);
+                    } else {
+                        $v['service_duration_minute_text'] = ($hour <= 0) ? '' : $hour.$hour_unit;
+                    }
+                    if(!empty($minute))
+                    {
+                        $v['service_duration_minute_text'] .= $minute.$minute_unit;
+                    }
+                }                
+
+                // 开始和结束时间
+                $v['service_start_time'] = empty($v['service_start_time']) ? '' : date('Y-m-d H:i:s', $v['service_start_time']);
+                $v['service_end_time'] = empty($v['service_end_time']) ? '' : date('Y-m-d H:i:s', $v['service_end_time']);
+
+                // 时间
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+            }
+        }
+
+        // 订单服务信息钩子
+        $hook_name = 'plugins_service_order_service_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$data,
+        ]);
+
+        return empty($data) ? [] : $data;
     }
 
     /**
@@ -2163,7 +2239,7 @@ class OrderService
                 throw new \Exception(MyLang('order_no_exist_or_delete_error_tips'));
             }
             $operate = self::OrderOperateData($order, $user_type);
-            if($operate['is_delivery'] != 1)
+            if($operate['is_delivery'] != 1 && $operate['is_take'] != 1 && $operate['is_service'] != 1)
             {
                 $status_text = MyConst('common_order_status')[$order['status']]['name'];
                 throw new \Exception(MyLang('status_not_can_operate_tips').'['.$status_text.']');
@@ -2244,92 +2320,134 @@ class OrderService
         }
 
         // 发货信息单条模式处理
-        if(!empty($params['express_id']) && !empty($params['express_number']))
+        switch($order['order_model'])
         {
-            $express_data = [
-                'express_id'      => intval($params['express_id']),
-                'express_number'  => $params['express_number'],
-            ];
-            if(empty($params['order_express_id']))
-            {
-                $express_data['order_id']  = $order['id'];
-                $express_data['user_id']   = $order['user_id'];
-                $express_data['add_time']  = time();
-                if(Db::name('OrderExpress')->insertGetId($express_data) <= 0)
+            // 快递
+            case 0 :
+                if(!empty($params['express_id']) && !empty($params['express_number']))
                 {
-                    return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
-                }
-            } else {
-                $express_data['upd_time'] = time();
-                if(Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->update($express_data) === false)
-                {
-                    return DataReturn(MyLang('common_service.order.delivery_express_update_fail_tips'), -1);
-                }
-            }
-        } else {
-            // 没有发货信息，但是存在发货数据id则删除发货信息
-            if(!empty($params['order_express_id']))
-            {
-                Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->delete();
-            }
-
-            // 发货信息多条模式处理
-            if(!empty($params['express_data']))
-            {
-                if(!is_array($params['express_data']))
-                {
-                    $params['express_data'] = json_decode(urldecode(htmlspecialchars_decode($params['express_data'])), true);
-                }
-            }
-
-            // 没有发货信息则删除全部
-            if(!empty($params['express_data']) && is_array($params['express_data']))
-            {
-                // 原始数据
-                $express_data_old = Db::name('OrderExpress')->where(['order_id'=>$order['id']])->column('*', 'id');
-
-                // 数据处理
-                $express_insert_data = [];
-                foreach($params['express_data'] as $ev)
-                {
-                    if(!empty($ev['express_id']) && !empty($ev['express_number']))
+                    $express_data = [
+                        'express_id'      => intval($params['express_id']),
+                        'express_number'  => $params['express_number'],
+                    ];
+                    if(empty($params['order_express_id']))
                     {
-                        $temp = [
-                            'order_id'        => $order['id'],
-                            'user_id'         => $order['user_id'],
-                            'express_id'      => intval($ev['express_id']),
-                            'express_number'  => $ev['express_number'],
-                            'note'            => empty($ev['note']) ? '' : $ev['note'],
-                        ];
-                        if(empty($express_data_old) || empty($ev['id']) || empty($express_data_old[$ev['id']]))
+                        $express_data['order_id']  = $order['id'];
+                        $express_data['user_id']   = $order['user_id'];
+                        $express_data['add_time']  = time();
+                        if(Db::name('OrderExpress')->insertGetId($express_data) <= 0)
                         {
-                            $temp['add_time'] = time();
-                            $temp['upd_time'] = 0;
-                        } else {
-                            $temp['add_time'] = $express_data_old[$ev['id']]['add_time'];
-                            $temp['upd_time'] = time();
+                            return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
                         }
-                        $express_insert_data[] = $temp;
+                    } else {
+                        $express_data['upd_time'] = time();
+                        if(Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->update($express_data) === false)
+                        {
+                            return DataReturn(MyLang('common_service.order.delivery_express_update_fail_tips'), -1);
+                        }
                     }
-                }
-
-                // 先删除数据
-                if(!empty($express_data_old))
-                {
-                    Db::name('OrderExpress')->where(['id'=>array_column($express_data_old, 'id'), 'order_id'=>$order['id']])->delete();
-                }
-
-                // 数据添加处理
-                if(!empty($express_insert_data))
-                {
-                    if(Db::name('OrderExpress')->insertAll($express_insert_data) < count($express_insert_data))
+                } else {
+                    // 没有发货信息，但是存在发货数据id则删除发货信息
+                    if(!empty($params['order_express_id']))
                     {
-                        return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
+                        Db::name('OrderExpress')->where(['id'=>intval($params['order_express_id']), 'order_id'=>$order['id']])->delete();
+                    }
+
+                    // 发货信息多条模式处理
+                    if(!empty($params['express_data']))
+                    {
+                        if(!is_array($params['express_data']))
+                        {
+                            $params['express_data'] = json_decode(urldecode(htmlspecialchars_decode($params['express_data'])), true);
+                        }
+                    }
+
+                    // 没有发货信息则删除全部
+                    if(!empty($params['express_data']) && is_array($params['express_data']))
+                    {
+                        // 原始数据
+                        $express_data_old = Db::name('OrderExpress')->where(['order_id'=>$order['id']])->column('*', 'id');
+
+                        // 数据处理
+                        $express_insert_data = [];
+                        foreach($params['express_data'] as $ev)
+                        {
+                            if(!empty($ev['express_id']) && !empty($ev['express_number']))
+                            {
+                                $temp = [
+                                    'order_id'        => $order['id'],
+                                    'user_id'         => $order['user_id'],
+                                    'express_id'      => intval($ev['express_id']),
+                                    'express_number'  => $ev['express_number'],
+                                    'note'            => empty($ev['note']) ? '' : $ev['note'],
+                                ];
+                                if(empty($express_data_old) || empty($ev['id']) || empty($express_data_old[$ev['id']]))
+                                {
+                                    $temp['add_time'] = time();
+                                    $temp['upd_time'] = 0;
+                                } else {
+                                    $temp['add_time'] = $express_data_old[$ev['id']]['add_time'];
+                                    $temp['upd_time'] = time();
+                                }
+                                $express_insert_data[] = $temp;
+                            }
+                        }
+
+                        // 先删除数据
+                        if(!empty($express_data_old))
+                        {
+                            Db::name('OrderExpress')->where(['id'=>array_column($express_data_old, 'id'), 'order_id'=>$order['id']])->delete();
+                        }
+
+                        // 数据添加处理
+                        if(!empty($express_insert_data))
+                        {
+                            if(Db::name('OrderExpress')->insertAll($express_insert_data) < count($express_insert_data))
+                            {
+                                return DataReturn(MyLang('common_service.order.delivery_express_insert_fail_tips'), -1);
+                            }
+                        }
+                    } else {
+                        Db::name('OrderExpress')->where(['order_id'=>$order['id']])->delete();
                     }
                 }
-            } else {
-                Db::name('OrderExpress')->where(['order_id'=>$order['id']])->delete();
-            }
+                break;
+
+            // 外送服务
+            case 1 :
+                // 服务数据
+                $service_data = [
+                    'order_id'            => $order['id'],
+                    'user_id'             => $order['user_id'],
+                    'service_name'        => empty($params['service_name']) ? '' : trim($params['service_name']),
+                    'service_mobile'      => empty($params['service_mobile']) ? '' : trim($params['service_mobile']),
+                    'service_start_time'  => empty($params['service_start_time']) ? 0 : strtotime($params['service_start_time']),
+                    'service_end_time'    => empty($params['service_end_time']) ? 0 : strtotime($params['service_end_time']),
+                    'note'                => empty($params['note']) ? '' : trim($params['note']),
+                ];
+                // 持续时间
+                if(!empty($service_data['service_start_time']) && !empty($service_data['service_end_time']) && $service_data['service_start_time'] < $service_data['service_end_time'])
+                {
+                    $service_data['service_duration_minute'] = intval(($service_data['service_end_time']-$service_data['service_start_time'])/60);
+                } else {
+                    $service_data['service_duration_minute'] = 0;
+                }
+                $service_info = Db::name('OrderService')->where(['order_id'=>$order['id']])->find();
+                if(empty($service_info))
+                {
+                    $service_data['add_time'] = time();
+                    if(Db::name('OrderService')->insertGetId($service_data) <= 0)
+                    {
+                        return DataReturn(MyLang('common_service.order.delivery_service_insert_fail_tips'), -1);
+                    }
+                } else {
+                    $service_data['upd_time'] = time();
+                    if(Db::name('OrderService')->where(['id'=>$service_info['id']])->update($service_data) === false)
+                    {
+                        return DataReturn(MyLang('common_service.order.delivery_service_update_fail_tips'), -1);
+                    }
+                }
+                break;
         }
 
         // 库存扣除
@@ -2359,7 +2477,8 @@ class OrderService
         }
 
         // 完成
-        return DataReturn($order['order_model'] == 2 ? MyLang('verification_success') : MyLang('delivery_success'), 0);
+        $msg = ($order['order_model'] == 1) ? MyLang('service_success') : ($order['order_model'] == 2 ? MyLang('verification_success') : MyLang('delivery_success'));
+        return DataReturn($msg, 0);
     }
 
     /**

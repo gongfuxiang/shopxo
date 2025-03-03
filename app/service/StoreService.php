@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\ConfigService;
 use app\service\MultilingualService;
 use app\service\ThemeAdminService;
+use app\service\PluginsAdminService;
 
 /**
  * 应用商店服务层
@@ -507,8 +508,80 @@ class StoreService
             $data = $res['data'];
             if(!empty($data['data_list']) && is_array($data['data_list']))
             {
+                $type_data = [];
+                $type = array_unique(array_filter(array_column($data['data_list'], 'type')));
+                $store_plugins_value = array_filter(array_column($data['data_list'], 'store_plugins_value'));
+                if(!empty($type) && !empty($store_plugins_value))
+                {
+                    foreach($type as $tv)
+                    {
+                        switch($tv)
+                        {
+                            // 插件
+                            case 'plugins' :
+                                $temp = PluginsAdminService::PluginsList();
+                                if(!empty($temp['data']))
+                                {
+                                    $plugins_arr = [];
+                                    if(!empty($temp['data']['dir_data']))
+                                    {
+                                        $plugins_arr = array_map(function($item)
+                                        {
+                                            return strtolower($item['plugins']);
+                                        }, $temp['data']['dir_data']);
+                                    }
+                                    if(!empty($temp['data']['db_data']))
+                                    {
+                                        $tem_map = array_map(function($item)
+                                        {
+                                            return strtolower($item['plugins']);
+                                        }, $temp['data']['db_data']);
+                                        $plugins_arr = array_merge($plugins_arr, $tem_map);
+                                    }
+                                    $type_data[$tv] = $plugins_arr;
+                                }
+                                break;
+
+                            // web主题
+                            case 'webtheme' :
+                                $temp = ThemeAdminService::ThemeAdminList();
+                                if(!empty($temp))
+                                {
+                                    $type_data[$tv] = array_map(function($item)
+                                    {
+                                        return strtolower($item['theme']);
+                                    }, $temp);
+                                }
+                                break;
+
+                            // 支付插件
+                            case 'payment' :
+                                $temp = PaymentService::PluginsPaymentList();
+                                if(!empty($temp['data']))
+                                {
+                                    $type_data[$tv] = array_map(function($item)
+                                    {
+                                        return strtolower($item['payment']);
+                                    }, $temp['data']);
+                                }
+                                break;
+
+                            // diy
+                            case 'diy' :
+                                $type_data[$tv] = Db::name('Diy')->where(['md5_key'=>$store_plugins_value])->column('md5_key');
+                                break;
+                        }
+                    }
+                }
                 foreach($data['data_list'] as &$v)
                 {
+                    // 是否已安装
+                    if(!empty($v['type']) && !empty($v['store_plugins_value']) && !empty($type_data) && !empty($type_data[$v['type']]) && in_array(strtolower($v['store_plugins_value']), $type_data[$v['type']]))
+                    {
+                        $v['buy_data']['title'] = MyLang('common_service.packageinstall.store_was_installed_text');
+                        $v['buy_data']['status'] = 2;
+                    }
+
                     // 拼接商品应用商店来源地址
                     $v['goods_url'] = self::RequestParamsString($v['goods_url']);
                 }

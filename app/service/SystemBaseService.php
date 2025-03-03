@@ -46,12 +46,13 @@ class SystemBaseService
             // 基础
             'common_site_type'                                   => self::SiteTypeValue(),
             'common_shop_notice'                                 => MyC('common_shop_notice', null, true),
-            
+            'common_is_cart_show_guess_you_like'                 => (int) MyC('common_is_cart_show_guess_you_like', 0),
+
             // 协议、注册协议、隐私协议、注销协议
             'agreement_userregister_url'                         => MyUrl('index/agreement/index', ['document'=>'userregister', 'is_content'=>1]),
             'agreement_userprivacy_url'                          => MyUrl('index/agreement/index', ['document'=>'userprivacy', 'is_content'  =>1]),
             'agreement_userlogout_url'                           => MyUrl('index/agreement/index', ['document'=>'userlogout', 'is_content'   =>1]),
-            
+
             // 手机端相关配置
             'common_app_is_enable_search'                        => (int) MyC('common_app_is_enable_search', 1),
             'common_app_is_header_nav_fixed'                     => (int) MyC('common_app_is_header_nav_fixed', 0),
@@ -140,6 +141,7 @@ class SystemBaseService
             'home_search_is_price'                               => (int) MyC('home_search_is_price', 1),
             'home_search_is_params'                              => (int) MyC('home_search_is_params', 1),
             'home_search_is_spec'                                => (int) MyC('home_search_is_spec', 1),
+            'home_search_goods_show_type'                        => (int) MyC('home_search_goods_show_type', 0, true),
             
             // 站点设置-扩展-基础
             'home_index_friendship_link_status'                  => (int) MyC('home_index_friendship_link_status', 0, true),
@@ -170,8 +172,11 @@ class SystemBaseService
             
             // 商品相关
             'common_app_is_use_mobile_detail'                    => (int) MyC('common_app_is_use_mobile_detail'),
-            'common_is_show_goods_comments'                      => (int) MyC('common_is_show_goods_comments', 1),
-            'common_is_goods_detail_show_photo'                  => (int) MyC('common_is_goods_detail_show_photo', 0, true),
+            'common_is_goods_detail_show_comments'               => (int) MyC('common_is_goods_detail_show_comments', 1),
+            'common_is_goods_detail_show_seeing_you'             => (int) MyC('common_is_goods_detail_show_seeing_you', 1),
+            'common_is_goods_detail_show_guess_you_like'         => (int) MyC('common_is_goods_detail_show_guess_you_like', 1),
+            'common_is_goods_detail_show_left_more'              => (int) MyC('common_is_goods_detail_show_left_more', 1),
+            'common_is_goods_detail_content_show_photo'          => (int) MyC('common_is_goods_detail_content_show_photo', 0, true),
             'common_is_exhibition_mode_btn_text'                 => MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
             
             // 地图密钥
@@ -322,7 +327,7 @@ class SystemBaseService
      */
     public static function SiteTypeValue()
     {
-        // 当前站点类型、默认快递（0快递, 1展示型, 2自提点, 3虚拟销售, 4销售+自提）
+        // 当前站点类型、默认快递（0快递, 1同城, 2自提, 3虚拟, 4展示, 5快递+自提, 6同城+自提, 7快递+同城, 8快递+同城+自提）
         $site_type = MyC('common_site_type');
         $value = empty($site_type) ? 0 : (is_array($site_type) ? (array_key_exists(APPLICATION_CLIENT_TYPE, $site_type) ? $site_type[APPLICATION_CLIENT_TYPE] : 0) : $site_type);
 

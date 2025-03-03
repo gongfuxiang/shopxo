@@ -25,9 +25,6 @@ class ChinaumsAllocationUac
     // 插件配置参数
     private $config;
 
-    // 机构商户号
-    public static $inst_mid = 'H5DEFAULT';
-
     /**
      * 构造方法
      * @author   Devil
@@ -66,6 +63,16 @@ class ChinaumsAllocationUac
         // 配置信息
         $element = [
             [
+                'element'       => 'select',
+                'title'         => '支付模式',
+                'message'       => '请选择支付模式',
+                'name'          => 'inst_mid',
+                'element_data'  => [
+                    ['value'=>'H5DEFAULT', 'name'=>'H5版本'],
+                    ['value'=>'APPDEFAULT', 'name'=>'APP版本'],
+                ],
+            ],
+            [
                 'element'       => 'message',
                 'message'       => '支付参数请在【分账系统】插件中配置',
             ],
@@ -93,8 +100,8 @@ class ChinaumsAllocationUac
         {
             return $ret;
         }
-        $params['inst_mid'] = self::$inst_mid;
-        return PaymentHandleService::Pay('uac', $params);
+        $params['inst_mid'] = $this->InstMidValue();
+        return PaymentHandleService::Pay('uac'.($params['inst_mid'] == 'H5DEFAULT' ? '' : '-app'), $params);
     }
 
     /**
@@ -113,7 +120,7 @@ class ChinaumsAllocationUac
         {
             return $ret;
         }
-        $params['inst_mid'] = self::$inst_mid;
+        $params['inst_mid'] = $this->InstMidValue();
         return PaymentHandleService::Respond($params);
     }
 
@@ -133,8 +140,21 @@ class ChinaumsAllocationUac
         {
             return $ret;
         }
-        $params['inst_mid'] = self::$inst_mid;
+        $params['inst_mid'] = $this->InstMidValue();
         return PaymentHandleService::Refund($params);
+    }
+
+    /**
+     * 机构商户号
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-02-26
+     * @desc    description
+     */
+    public function InstMidValue()
+    {
+        return empty($this->config['inst_mid']) ? 'H5DEFAULT' : $this->config['inst_mid'];
     }
 
     /**

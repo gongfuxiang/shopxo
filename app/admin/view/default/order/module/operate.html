@@ -16,18 +16,23 @@
             <span>{{:MyLang('payment_title')}}</span>
         </button>
     {{/if}}
+    {{if $module_data['operate_data']['is_take'] eq 1}}
+        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 300, height: 200}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
+            <i class="am-icon-check"></i>
+            <span>{{:MyLang('take_title')}}</span>
+        </button>
+    {{/if}}
     {{if $module_data['operate_data']['is_delivery'] eq 1}}
-        {{if $module_data['order_model'] eq 2}}
-            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 300, height: 200}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
-                <i class="am-icon-check"></i>
-                <span>{{:MyLang('take_title')}}</span>
-            </button>
-        {{else /}}
-           <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/deliveryinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_delivery_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
-                <i class="am-icon-send-o"></i>
-                <span>{{if $module_data['status'] eq 2}}{{:MyLang('delivery_title')}}{{else /}}{{:MyLang('express_title')}}{{/if}}</span>
-            </button>
-        {{/if}}
+       <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/deliveryinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_delivery_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
+            <i class="am-icon-send-o"></i>
+            <span>{{if $module_data['status'] eq 2}}{{:MyLang('delivery_title')}}{{else /}}{{:MyLang('express_title')}}{{/if}}</span>
+        </button>
+    {{/if}}
+    {{if $module_data['operate_data']['is_service'] eq 1}}
+       <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/serviceinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_service_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
+            <i class="am-icon-life-ring"></i>
+            <span>{{:MyLang('service_title')}}</span>
+        </button>
     {{/if}}
     {{if $module_data['operate_data']['is_collect'] eq 1}}
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">

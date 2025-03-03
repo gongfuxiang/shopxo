@@ -12,7 +12,6 @@ strong.total-price-content, .nav-total-price { font-weight: 700; }
 .stock-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
 strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
 .am-table { margin-bottom: 1rem; }
-.am-table > tbody > tr > td { border-top: 0.1rem solid #F5F5F5; }
 
 .cart-nav { 
     display: flex;

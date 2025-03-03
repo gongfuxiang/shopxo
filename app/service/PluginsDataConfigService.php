@@ -88,7 +88,7 @@ class PluginsDataConfigService
                             }
 
                             // json
-                            if(IsJson($v))
+                            if(in_array(substr($v, 0, 1), ['[', '{']))
                             {
                                 $data[$k] = json_decode($v, true);
                             }

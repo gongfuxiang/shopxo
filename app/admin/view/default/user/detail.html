@@ -3,13 +3,26 @@
 
 <!-- 重写数据模块 -->
 {{block name="detail_data"}}
-    <!-- 父级内容 -->
-    {__block__}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('common_service.user.detail_platform_title'),
+                'key'  => 'platform-data',
+            ]
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
 
-    <!-- 用户平台信息 -->
-    <div class="am-panel am-panel-default am-radius">
-        <div class="am-panel-hd">{{:MyLang('common_service.user.detail_platform_title')}}</div>
-        <div class="am-panel-bd">
+        <!-- 用户平台信息 -->
+        <div class="item" data-key="platform-data">
             {{if !empty($data['user_platform_data'])}}
                 <div class="am-scrollable-horizontal">
                     <table class="am-table am-table-bordered am-table-striped am-text-nowrap am-margin-bottom-0">

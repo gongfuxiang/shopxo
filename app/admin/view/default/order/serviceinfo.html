@@ -1,0 +1,48 @@
+{{:ModuleInclude('public/header')}}
+
+<div class="am-padding-sm">
+    {{if empty($data)}}
+        {{:ModuleInclude('public/not_data')}}
+    {{else /}}
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/order/delivery')}}" method="POST" request-type="ajax-reload" request-value="parent">
+            <div class="am-form-group">
+                <label>{{:MyLang('order.form_item_service_name')}}</label>
+                <input type="text" name="service_name" placeholder="{{:MyLang('order.form_item_service_name')}}" data-validation-message="{{:MyLang('order.form_item_service_name_message')}}" class="am-radius" value="{{if !empty($data['service_data']) and !empty($data['service_data']['service_name'])}}{{$data.service_data.service_name}}{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('order.form_item_service_mobile')}}</label>
+                <input type="text" name="service_mobile" pattern="{{:MyConst('common_regex_mobile')}}" placeholder="{{:MyLang('order.form_item_service_mobile')}}" data-validation-message="{{:MyLang('order.form_item_service_mobile_message')}}" class="am-radius" value="{{if !empty($data['service_data']) and !empty($data['service_data']['service_mobile'])}}{{$data.service_data.service_mobile}}{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('order.form_item_service_time')}}</label>
+                <div class="form-multiple-where-input">
+                    <input type="text" name="service_start_time" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('order.form_item_service_start_time')}}" data-validation-message="{{:MyLang('order.form_item_service_start_time_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'form-item-service-end-time\');}'})" value="{{if !empty($data['service_data']) and !empty($data['service_data']['service_start_time'])}}{{$data.service_data.service_start_time}}{{/if}}" id="form-item-service-start-time" />
+                    <span class="am-text-grey">~</span>
+                    <input type="text" name="service_end_time" autocomplete="off" class="Wdate am-radius" placeholder="{{:MyLang('order.form_item_service_end_time')}}" data-validation-message="{{:MyLang('order.form_item_service_end_time_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'form-item-service-start-time\');}'})" value="{{if !empty($data['service_data']) and !empty($data['service_data']['service_end_time'])}}{{$data.service_data.service_end_time}}{{/if}}" id="form-item-service-end-time" />
+                </div>
+            </div>
+            <div class="am-form-group">
+                <label>{{:MyLang('order.form_item_note')}}</label>
+                <input type="text" name="note" placeholder="{{:MyLang('order.form_item_note')}}" maxlength="200" data-validation-message="{{:MyLang('order.form_item_note_message')}}" class="am-radius" value="{{if !empty($data['service_data']) and !empty($data['service_data']['note'])}}{{$data.service_data.note}}{{/if}}" />
+            </div>
+
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" value="{{$data.id}}"/>
+                <input type="hidden" name="user_id" value="{{$data.user_id}}"/>
+                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                    <i class="am-icon-paint-brush"></i>
+                    <span>{{:MyLang('cancel_title')}}</span>
+                </button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('submit_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('submit_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    {{/if}}
+</div>
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

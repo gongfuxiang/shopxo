@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v6.4.0');
+define('APPLICATION_VERSION', 'v6.5.0');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION, '8.0.2','<'))

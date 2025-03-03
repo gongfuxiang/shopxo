@@ -24,7 +24,7 @@ h3 {
     font-size: 1.4rem;
     font-weight: 700;
 }
-.address h3 {
+.address-container .address h3 {
     border-bottom: none;
 }
 
@@ -102,21 +102,21 @@ ul.address-list li .user-base .address-detail .user {
     text-align: right;
     padding-right: 0.5rem;
 }
-.address-default {
+.address-container .address-default {
     display: block !important;
 }
-.address .control {
+.address-container .address .control {
     display: flex;
     align-items: center;
 }
-.address .control .address-submit-save {
+.address-container .address .control .address-submit-save {
     padding: 0.5rem 1.2rem;
     margin-left: 2rem;
 }
 
 /* 物流/支付 */
 @media only screen and (min-width: 641px) {
-    .address {
+    .address-container .address {
         padding: 2rem;
     }
     .business-item ul li:nth-child(3n) {
@@ -142,7 +142,7 @@ ul.address-list li .user-base .address-detail .user {
     ul.address-list li.address-default.address-cart .address-content {
         padding: 1.1rem;
     }
-    .address .control .address-submit-save {
+    .address-container .address .control .address-submit-save {
         padding: 1rem 1.2rem;
         margin-left: 0;
         background: var(--color-main);
@@ -261,7 +261,7 @@ ul.address-list,
 .link-list .mobile-address ul.address-list li .address-right {
     display: none;
 }
-.address ul.address-express-delivery {
+.address-container .address ul.address-express-delivery {
     display: flex;
     flex-flow: row wrap;
     gap: 2rem;
@@ -270,7 +270,7 @@ ul.address-list,
 }
 @media only screen and (min-width: 641px) {
     /*地址操作*/
-    .address .control h3 {
+    .address-container .address .control h3 {
         display: -webkit-inline-box;
         border: none;
     }
@@ -398,16 +398,16 @@ ul.address-list,
     .cart-content table tr .base {
         width: 100%;
     }
-    .address {
+    .address-container .address {
         margin-top: 1rem;
     }
-    .address.address-phone-padding {
+    .address-container .address.address-phone-padding {
         padding: 1.1rem;
     }
-    .address .control, .extraction-address-content-right {
+    .address-container .address .control, .extraction-address-content-right {
         display: none;
     }
-    .address ul {
+    .address-container .address ul {
         margin-top: 0;
     }
     ul.address-list li {

@@ -199,6 +199,19 @@ class Order
                     ],
                 ],
                 [
+                    'label'         => $lang['service'],
+                    'view_type'     => 'module',
+                    'view_key'      => 'order/module/service',
+                    'width'         => 460,
+                    'is_detail'     => 0,
+                    'search_config' => [
+                        'form_type'             => 'input',
+                        'form_name'             => 'id',
+                        'where_type_custom'     => 'in',
+                        'where_value_custom'    => 'WhereValueServiceInfo',
+                    ],
+                ],
+                [
                     'label'         => $lang['take'],
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/take',
@@ -417,7 +430,7 @@ class Order
             'data'  => [
                 'table_name'        => 'Order',
                 'data_handle'       => 'OrderService::OrderListHandle',
-                'detail_action'     => ['detail', 'saveinfo', 'deliveryinfo'],
+                'detail_action'     => ['detail', 'saveinfo', 'deliveryinfo', 'serviceinfo'],
                 'detail_where'      => [
                     ['is_delete_time', '=', 0],
                 ],
@@ -523,7 +536,30 @@ class Order
     }
 
     /**
-     * 收件地址条件处理
+     * 服务信息条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-08
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueServiceInfo($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 获取订单 id
+            $ids = Db::name('OrderService')->where('service_name|service_mobile|note', 'like', '%'.$value.'%')->column('order_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
+    }
+
+    /**
+     * 地址条件处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
