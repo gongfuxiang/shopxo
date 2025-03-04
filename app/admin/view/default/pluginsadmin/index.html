@@ -310,15 +310,19 @@
                     </div>
                 {{/if}}
             {{else /}}
-                <div class="table-no">
-                    <i class="am-icon-skyatlas am-icon-lg"></i>
-                    <p class="am-margin-top-sm">{{:MyLang('plugins_no_data_tips')}}</p>
-                    {{if $is_system_show_base eq 1}}
-                        <div class="am-margin-top-xl">
-                            <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
-                        </div>
-                    {{/if}}
-                </div>
+                {{if $is_not_bind_accounts eq 1}}
+                    {{:ModuleInclude('public/store_bind_accounts_tips')}}
+                {{else /}}
+                    <div class="table-no">
+                        <i class="am-icon-skyatlas am-icon-lg"></i>
+                        <p class="am-margin-top-sm">{{:MyLang('plugins_no_data_tips')}}</p>
+                        {{if $is_system_show_base eq 1}}
+                            <div class="am-margin-top-xl">
+                                <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
+                            </div>
+                        {{/if}}
+                    </div>
+                {{/if}}
             {{/if}}
         </div>
     </div>
