@@ -26,6 +26,7 @@ class Email
 	private $expire_time;
 	private $key_code;
 	private $is_frq;
+	private $is_log;
 	public  $error;
 	private $obj;
 
@@ -39,6 +40,7 @@ class Email
 	 * @param    [int]        $params['expire_time'] 	[到期时间（默认30）单位（秒）]
 	 * @param    [string]     $params['key_prefix']     [验证码种存储前缀key（默认 空）]
 	 * @param    [string]     $params['is_frq']			[是否验证频率（默认 是）]
+	 * @param    [string]     $params['is_log']         [是否记录日志（默认 是）]
 	 */
 	public function __construct($params = [])
 	{
@@ -46,6 +48,7 @@ class Email
 		$this->expire_time = isset($params['expire_time']) ? intval($params['expire_time']) : 30;
 		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_sms_code' : '_sms_code';
 		$this->is_frq = isset($params['is_frq']) ? intval($params['is_frq']) : 1;
+		$this->is_log = isset($params['is_log']) ? intval($params['is_log']) : 1;
 	}
 
 	/**
@@ -168,11 +171,14 @@ class Email
 		$this->obj->AltBody = strip_tags($params['content']);
 
 		// 添加短信日志
-        $log = EmailLogService::EmailLogAdd($this->obj->Host, $this->obj->Port, $this->obj->Username, $this->obj->From, $this->obj->FromName, $params['email'], $params['title'], $params['content'], $params_code);
-        if($log['code'] != 0)
-        {
-            $this->error = $log['msg'];
-            return false;
+		if($this->is_log == 1)
+		{
+	        $log = EmailLogService::EmailLogAdd($this->obj->Host, $this->obj->Port, $this->obj->Username, $this->obj->From, $this->obj->FromName, $params['email'], $params['title'], $params['content'], $params_code);
+	        if($log['code'] != 0)
+	        {
+	            $this->error = $log['msg'];
+	            return false;
+	        }
         }
 
 		// 发送邮件
@@ -185,13 +191,20 @@ class Email
 			}
 
 			// 日志回调
-            EmailLogService::EmailLogResponse($log['data']['id'], 1, time()-$log['data']['add_time']);
+			if($this->is_log == 1)
+			{
+				EmailLogService::EmailLogResponse($log['data']['id'], 1, time()-$log['data']['add_time']);
+			}
+
 			return true;
 		} else {
 			$this->error = $this->obj->ErrorInfo;
 
 			// 日志回调
-        	EmailLogService::EmailLogResponse($log['data']['id'], 2, time()-$log['data']['add_time'], $this->error);
+			if($this->is_log == 1)
+			{
+				EmailLogService::EmailLogResponse($log['data']['id'], 2, time()-$log['data']['add_time'], $this->error);
+			}
 		}
 		return false;
 	}

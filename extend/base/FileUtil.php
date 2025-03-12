@@ -375,5 +375,38 @@ class FileUtil
         }
         return false;
     }
+
+    /**
+     * 上传文件内容安全验证
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-03-09
+     * @desc    description
+     * @param   [string]          $value        [文件内容，临时地址]
+     * @param   [boolean]         $is_temp_file [是否为临时地址]
+     */
+    public static function FileContentSecurityCheck($value, $is_temp_file = true)
+    {
+        if(!empty($value))
+        {
+            // 临时文件读取
+            if($is_temp_file)
+            {
+                $value = @file_get_contents($value);
+            }
+
+            // 包含php代码
+            // 包含script脚本
+            // 包含src引入文件
+            // 包含href跳转地址
+            // 包含iframe引入外部地址
+            if(preg_match('#<\?php#i', $value) || preg_match('#<script#i', $value) || preg_match('#src=#i', $value) || preg_match('#href=#i', $value) || preg_match('#<iframe#i', $value))
+            {
+                return DataReturn(MyLang('common_extend.base.fileupload.file_illegal_tips'), -1);
+            }
+        }
+        return DataReturn('success', 0);
+    }
 }
 ?>

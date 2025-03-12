@@ -35,6 +35,7 @@ class Sms
     private $expire_time;
 	private $key_code;
     private $is_frq;
+    private $is_log;
 
     /**
 	 * 构造方法
@@ -46,6 +47,7 @@ class Sms
 	 * @param    [int]        $params['expire_time'] 	[到期时间（默认30）单位（秒）]
 	 * @param    [string]     $params['key_prefix']     [验证码种存储前缀key（默认 空）]
      * @param    [string]     $params['is_frq']         [是否验证频率（默认 是）]
+     * @param    [string]     $params['is_log']         [是否记录日志（默认 是）]
 	 */
 	public function __construct($params = [])
 	{
@@ -53,6 +55,7 @@ class Sms
 		$this->expire_time = isset($params['expire_time']) ? intval($params['expire_time']) : 30;
 		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_sms_code' : '_sms_code';
         $this->is_frq = isset($params['is_frq']) ? intval($params['is_frq']) : 1;
+        $this->is_log = isset($params['is_log']) ? intval($params['is_log']) : 1;
 
 		$this->sign_ame = MyC('common_sms_sign');
 		$this->access_key_id = MyC('common_sms_apikey');
@@ -205,11 +208,14 @@ class Sms
         $request_params['Signature'] = $this->ComputeSignature($request_params, $this->access_key_secret);
 
         // 添加短信日志
-        $log = SmsLogService::SmsLogAdd('aliyun', $mobile, $sign_name, $template_value, $template_var, $request_url, $request_params);
-        if($log['code'] != 0)
+        if($this->is_log == 1)
         {
-            $this->error = $log['msg'];
-            return false;
+            $log = SmsLogService::SmsLogAdd('aliyun', $mobile, $sign_name, $template_value, $template_var, $request_url, $request_params);
+            if($log['code'] != 0)
+            {
+                $this->error = $log['msg'];
+                return false;
+            }
         }
 
         // 远程请求
@@ -226,14 +232,23 @@ class Sms
         if(isset($result['Code']) && $result['Code'] == 'OK')
         {
             // 日志回调
-            SmsLogService::SmsLogResponse($log['data']['id'], 1, $result, time()-$log['data']['add_time']);
+            if($this->is_log == 1)
+            {
+                SmsLogService::SmsLogResponse($log['data']['id'], 1, $result, time()-$log['data']['add_time']);
+            }
+
             return true;
         }
 
         // 错误原因
         $this->error = $this->GetErrorMessage($result['Code']);
+
         // 日志回调
-        SmsLogService::SmsLogResponse($log['data']['id'], 2, $result, time()-$log['data']['add_time'], $this->error);
+        if($this->is_log == 1)
+        {
+            SmsLogService::SmsLogResponse($log['data']['id'], 2, $result, time()-$log['data']['add_time'], $this->error);
+        }
+        
         return false;
     }
 

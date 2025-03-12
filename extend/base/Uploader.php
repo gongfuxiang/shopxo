@@ -134,6 +134,14 @@ class Uploader
             return;
         }
 
+        // 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($this->file['tmp_name']);
+        if($ret['code'] != 0)
+        {
+            $this->stateInfo = $ret['msg'];
+            return;
+        }
+
         //移动文件
         if (!(move_uploaded_file($this->file['tmp_name'], $this->filePath) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateErrorInfo('error_file_move');
@@ -204,11 +212,18 @@ class Uploader
             return;
         }
 
-        // 验证一句话木马（如果是加密的无法判断）
-        $content = @file_get_contents($this->file['tmp_name']);
-        if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
+        // 是否php文件类型
+        if($info['mime'] == 'text/x-php')
         {
             $this->stateInfo = $this->getStateErrorInfo('invalid_file');
+            return;
+        }
+
+        // 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($this->file['tmp_name']);
+        if($ret['code'] != 0)
+        {
+            $this->stateInfo = $ret['msg'];
             return;
         }
 
@@ -332,10 +347,11 @@ class Uploader
         $this->fileName = $this->getFileName();
         $dirname = dirname($this->filePath);
 
-        // 验证一句话木马（如果是加密的无法判断）
-        if(preg_match('#<\?php#i', $reponse))
+        // 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($reponse, false);
+        if($ret['code'] != 0)
         {
-            $this->stateInfo = $this->getStateErrorInfo('invalid_file');
+            $this->stateInfo = $ret['msg'];
             return;
         }
 

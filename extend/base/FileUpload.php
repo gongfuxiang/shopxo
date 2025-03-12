@@ -79,19 +79,27 @@ class FileUpload
         }
 
         $info = getimagesize($temp_file);
-        if(stripos($original_name, '.') === false)
+        if(!empty($info) && !empty($info['mime']))
         {
-            $original_name .= str_replace('/', '.', $info['mime']);
-        }
-
-        // 图片文件
-        if(isset($params['data_type']) && $params['data_type'] == 'images')
-        {
-            // 验证一句话木马（如果是加密的无法判断）
-            $content = @file_get_contents($temp_file);
-            if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
+            // 文件原始为空泽使用类型作为名称
+            if(empty($original_name) && stripos($original_name, '.') === false)
+            {
+                $original_name .= str_replace('/', '.', $info['mime']);
+            }
+            // 是否php文件类型
+            if($info['mime'] == 'text/x-php')
             {
                 return DataReturn(MyLang('common_extend.base.fileupload.file_illegal_tips'), -1);
+            }
+        }
+
+        // 安全验证
+        if(!isset($params['is_security_check']) || $params['is_security_check'] == 1)
+        {
+            $ret = \base\FileUtil::FileContentSecurityCheck($temp_file);
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
         }
 

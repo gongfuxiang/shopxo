@@ -229,8 +229,16 @@ class Images
 			$type = $this->Is_ImageType($img_info['mime']);
 			if($type == 'no') continue;
 
+			// 安全验证
+	        $ret = \base\FileUtil::FileContentSecurityCheck($data[$i], false);
+	        if($ret['code'] != 0)
+	        {
+	            continue;
+	        }
+
+        	// 存储文件
 			$file_name = $this->GetNewFileName().'.'.$type;
-			if(file_put_contents($this->i_path.$file_name, $data) !== false) $this->i_data[] = $file_name;
+			if(file_put_contents($this->i_path.$file_name, $data[$i]) !== false) $this->i_data[] = $file_name;
 		}
 		return $this->i_data;
 	}
@@ -249,12 +257,20 @@ class Images
 	public function GetOriginal($data, $path)
 	{
 		if(!$this->Initialization($data, $path)) return '';
-
 		if(empty($data['tmp_name'])) return '';
 
+		// 是否图片类型
 		$type = $this->Is_ImageType($data['type']);
 		if($type == 'no') return '';
 
+		// 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($data['tmp_name']);
+        if($ret['code'] != 0)
+        {
+            return '';
+        }
+
+        // 存储文件
 		$file_name = $this->GetNewFileName().'.'.$type;
 		return move_uploaded_file($data['tmp_name'], $this->i_path.$file_name) ? $file_name : '';
 	}
@@ -345,6 +361,13 @@ class Images
 	 */
 	private function ImageCompress($width, $height, $file, $type, $path, $src_x = 0, $src_y = 0, $src_width = 0, $src_height = 0)
 	{
+		// 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($file);
+        if($ret['code'] != 0)
+        {
+            return false;
+        }
+
 		// 获取图片原本尺寸
 		list($w, $h) = getimagesize($file);
 		
@@ -481,6 +504,7 @@ class Images
     		$file_name = $this->GetNewFileName().'.jpg';
     	}
 
+    	// 下载文件
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -488,6 +512,14 @@ class Images
         $file = curl_exec($ch);
         curl_close($ch);
 
+        // 安全验证
+        $ret = \base\FileUtil::FileContentSecurityCheck($file, false);
+        if($ret['code'] != 0)
+        {
+            return '';
+        }
+
+       	// 存储文件
         if(file_put_contents($this->i_path.$file_name, $file) !== false)
         {
         	return $file_name;
