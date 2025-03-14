@@ -76,6 +76,12 @@ if(empty($_SERVER['HTTP_HOST']) || is_numeric(str_replace('.', '', $_SERVER['HTT
             $main_domain = $arr[$len-2].'.'.$arr[$len-1];
         }
     }
+    // 去掉端口
+    if(!empty($main_domain) && stripos($main_domain, ':') !== false)
+    {
+        $arr = explode(':', $main_domain);
+        $main_domain = $arr[0];
+    }
 }
 define('__MY_MAIN_DOMAIN__', $main_domain);
 
