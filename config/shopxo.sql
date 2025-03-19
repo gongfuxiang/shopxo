@@ -11,7 +11,7 @@
  Target Server Version : 50731
  File Encoding         : 65001
 
- Date: 04/03/2025 21:29:30
+ Date: 19/03/2025 20:52:54
 */
 
 SET NAMES utf8mb4;
@@ -2207,13 +2207,12 @@ CREATE TABLE `sxo_user_platform`  (
   INDEX `qq_openid`(`qq_openid`) USING BTREE,
   INDEX `qq_unionid`(`qq_unionid`) USING BTREE,
   INDEX `kuaishou_openid`(`kuaishou_openid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户平台';
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户平台';
 
 -- ----------------------------
 -- Records of sxo_user_platform
 -- ----------------------------
 BEGIN;
-INSERT INTO `sxo_user_platform` (`id`, `user_id`, `system_type`, `platform`, `token`, `alipay_openid`, `weixin_openid`, `weixin_unionid`, `weixin_web_openid`, `baidu_openid`, `toutiao_openid`, `toutiao_unionid`, `qq_openid`, `qq_unionid`, `kuaishou_openid`, `add_time`, `upd_time`) VALUES (1, 1, 'default', 'weixin', '4e09b76066ca530b167ed32f55a763a3', '', 'oB6US5SNOngn196qzb3lagEBTh6w', 'o1Ang5xo5tiJD-l7Y1kY7-hT6emk', '', '', '', '', '', '', '', 1699451379, 1699456405);
 COMMIT;
 
 -- ----------------------------
