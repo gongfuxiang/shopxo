@@ -27,6 +27,7 @@ define('DS', '/');
 define('__MY_HTTP__', (
     (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
     || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    || (!empty($_SERVER['HTTP_X_FORWARDED_PORT']) && $_SERVER['HTTP_X_FORWARDED_PORT'] == 443)
     || (!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && (strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off' || $_SERVER['HTTP_FRONT_END_HTTPS'] == 'https'))
     || (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
     || (!empty($_SERVER['HTTP_FROM_HTTPS']) && $_SERVER['HTTP_FROM_HTTPS'] !== 'off')
@@ -52,35 +53,41 @@ define('__MY_ROOT_PUBLIC__', defined('IS_ROOT_ACCESS') ? DS.$my_root.'public'.DS
 // 当前服务器ip
 define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR']);
 
-// 主域名
-if(empty($_SERVER['HTTP_HOST']) || is_numeric(str_replace('.', '', $_SERVER['HTTP_HOST'])))
+// 主域名，排除ipv4、ipv6
+if(empty($_SERVER['HTTP_HOST']) || is_numeric(str_replace('.', '', $_SERVER['HTTP_HOST'])) || substr_count($_SERVER['HTTP_HOST'], ':') > 1)
 {
     $main_domain = '';
 } else {
     $main_domain = strtolower($_SERVER['HTTP_HOST']);
-    // 查看是几级域名
-    $arr = explode('.', $main_domain);
-    $len = count($arr);
-    if($len < 2)
-    {
-        $main_domain = '';
-    } else {
-        // 判断是否是双后缀
-        $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg)$/';
-        if($len > 2 && preg_match($preg, $main_domain))
-        {
-            // 双后缀取后3位
-            $main_domain = $arr[$len-3].'.'.$arr[$len-2].'.'.$arr[$len-1];
-        } else {
-            // 非双后缀取后两位
-            $main_domain = $arr[$len-2].'.'.$arr[$len-1];
-        }
-    }
     // 去掉端口
-    if(!empty($main_domain) && stripos($main_domain, ':') !== false)
+    if(stripos($main_domain, ':') !== false)
     {
         $arr = explode(':', $main_domain);
         $main_domain = $arr[0];
+    }
+    // 是否ip
+    if(is_numeric(str_replace('.', '', $main_domain)))
+    {
+        $main_domain = '';
+    } else {
+        // 查看是几级域名
+        $arr = explode('.', $main_domain);
+        $len = count($arr);
+        if($len < 2)
+        {
+            $main_domain = '';
+        } else {
+            // 判断是否是双后缀
+            $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg)$/';
+            if($len > 2 && preg_match($preg, $main_domain))
+            {
+                // 双后缀取后3位
+                $main_domain = $arr[$len-3].'.'.$arr[$len-2].'.'.$arr[$len-1];
+            } else {
+                // 非双后缀取后两位
+                $main_domain = $arr[$len-2].'.'.$arr[$len-1];
+            }
+        }
     }
 }
 define('__MY_MAIN_DOMAIN__', $main_domain);
