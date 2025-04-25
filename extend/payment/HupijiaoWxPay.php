@@ -2,7 +2,7 @@
 
 namespace payment;
 
-use think\Db;
+use think\facade\Db;
 use app\service\PayLogService;
 
 /**
@@ -23,7 +23,7 @@ class HupijiaoWxPay {
         // 基础信息
         $base = [
             'name' => '虎皮椒微信支付',
-            'version' => '1.0.0',
+            'version' => '1.0.1',
             'apply_version' => '不限',
             'apply_terminal' => ['pc','h5','weixin'],// 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc' => '个人微信支付接口，无需提现，100%资金安全，官方清算，金额无限制，支持各种网站系统。是个人收款的最佳解决方案。<a href="https://admin.xunhupay.com/sign-in.html" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -112,12 +112,7 @@ class HupijiaoWxPay {
         //查询订单支付状态
         if(isset($_GET['order_no'])){
             $order_no=$_GET['order_no'];
-            $orderData=Db::table(config('database.prefix').'order')->where('order_no',$order_no)->find();
-            if(!$orderData){
-                return DataReturn('错误订单！', -100);
-            }
-            $order_id=$orderData['id'];
-            $payData=Db::table(config('database.prefix').'pay_log')->where('order_id',$order_id)->find();
+            $payData=Db::name('PayLog')->where('log_no',$order_no)->order('id desc')->find();
             if(!$payData){
                 return DataReturn('订单暂无支付信息！', -100);
             }

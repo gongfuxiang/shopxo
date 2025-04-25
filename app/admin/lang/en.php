@@ -516,6 +516,8 @@ return [
         'nav_store_theme_name'                  => 'More topic downloads',
         'nav_theme_download_name'               => 'View the applet packaging tutorial',
         'nav_theme_download_tips'               => 'The mobile theme is developed using Uniapp (supporting multiple mini programs, H5, and APP)',
+        'nav_appmini_order_list_path_name'      => 'Order list path',
+        'nav_appmini_order_detail_path_name'    => 'Order details path',
         'form_alipay_extend_title'              => 'Customer service configuration',
         'form_alipay_extend_tips'               => 'PS: If [APP/applet] is enabled (online customer service is enabled), the following configuration must be filled in [Enterprise Code] and [Chat Window Code]',
         'form_theme_upload_tips'                => 'Upload a zip compressed installation package',
@@ -678,6 +680,7 @@ return [
             'goods_placeholder'  => 'Please enter the goods name/brief description/SEO information',
             'price'              => 'Sales Price(yuan)',
             'original_price'     => 'Original Price(yuan))',
+            'access_count'       => 'Access count',
             'add_time'           => 'Creation Time',
         ],
     ],
@@ -822,6 +825,7 @@ return [
         'detail_no_payment_tips'                => 'Please note that the order has not been paid',
         // 动态表格
         'form_table'                            => [
+            'system_type'         => 'System type',
             'goods'               => 'Base Info',
             'goods_placeholder'   => 'Please enter order ID/order number/goods name/model',
             'user'                => 'User Info',
@@ -1044,6 +1048,7 @@ return [
         'pay_request_title'                     => 'Payment Request Log',
         // 动态表格
         'form_table'                            => [
+            'id'                => 'Data ID',
             'user'              => 'User Info',
             'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
             'log_no'            => 'Payment OrderNo',
@@ -1247,6 +1252,7 @@ return [
     'diy'                   => [
         'nav_store_diy_name'                    => 'More DIY template downloads',
         'nav_apptabbar_name'                    => 'Bottom menu',
+        'nav_homediy_name'                      => 'Home DIY',
         'upload_list_tips'                      => [
             '1. Select the downloaded DIY design zip file',
             '2. Importing will automatically add a new piece of data',
@@ -1621,6 +1627,7 @@ return [
                 'attachmentcategory_index'         => 'Annex category',
                 'attachmentcategory_save'          => 'Annex category add/edit',
                 'attachmentcategory_statusupdate'  => 'Annex status update',
+                'attachmentcategory_upload'        => 'Annex upload',
                 'attachmentcategory_delete'        => 'Annex category deletion',
             ]
         ],

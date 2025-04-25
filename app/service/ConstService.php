@@ -142,6 +142,7 @@ class ConstService
                 '6.3.0' => ['value' => '6.3.0', 'name' => 'v6.3.0'],
                 '6.4.0' => ['value' => '6.4.0', 'name' => 'v6.4.0'],
                 '6.5.0' => ['value' => '6.5.0', 'name' => 'v6.5.0'],
+                '6.6.0' => ['value' => '6.6.0', 'name' => 'v6.6.0'],
             ],
 
             // 搜索排序方式
@@ -360,7 +361,7 @@ class ConstService
             ],
             // 站点类型
             'common_site_type_list' => [
-                0 => ['value' => 0, 'name' => MyLang('common_site_type_list.0')],
+                0 => ['value' => 0, 'name' => MyLang('common_site_type_list.0'), 'checked'=>true],
                 1 => ['value' => 1, 'name' => MyLang('common_site_type_list.1')],
                 2 => ['value' => 2, 'name' => MyLang('common_site_type_list.2')],
                 3 => ['value' => 3, 'name' => MyLang('common_site_type_list.3')],
@@ -424,6 +425,23 @@ class ConstService
                 2 => ['index' => 2, 'value' => 'g.access_count', 'name' => MyLang('common_goods_order_by_type_list.2')],
                 3 => ['index' => 3, 'value' => 'g.min_price', 'name' => MyLang('common_goods_order_by_type_list.3')],
                 4 => ['index' => 4, 'value' => 'g.id', 'name' => MyLang('common_goods_order_by_type_list.4')],
+            ],
+            // 用户商品收藏排序类型
+            'common_goods_favor_order_by_type_list' => [
+                0 => ['index' => 0, 'value' => 'g.access_count,g.sales_count,f.id', 'name' => MyLang('common_goods_favor_order_by_type_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'g.sales_count', 'name' => MyLang('common_goods_favor_order_by_type_list.1')],
+                2 => ['index' => 2, 'value' => 'g.access_count', 'name' => MyLang('common_goods_favor_order_by_type_list.2')],
+                3 => ['index' => 3, 'value' => 'g.min_price', 'name' => MyLang('common_goods_favor_order_by_type_list.3')],
+                4 => ['index' => 4, 'value' => 'f.id', 'name' => MyLang('common_goods_favor_order_by_type_list.4')],
+            ],
+            // 用户商品浏览排序类型
+            'common_goods_browse_order_by_type_list' => [
+                0 => ['index' => 0, 'value' => 'b.access_count,g.access_count,g.sales_count,b.id', 'name' => MyLang('common_goods_browse_order_by_type_list.0'), 'checked' => true],
+                1 => ['index' => 1, 'value' => 'g.sales_count', 'name' => MyLang('common_goods_browse_order_by_type_list.1')],
+                2 => ['index' => 2, 'value' => 'g.access_count', 'name' => MyLang('common_goods_browse_order_by_type_list.2')],
+                3 => ['index' => 3, 'value' => 'g.min_price', 'name' => MyLang('common_goods_browse_order_by_type_list.3')],
+                4 => ['index' => 4, 'value' => 'b.id', 'name' => MyLang('common_goods_browse_order_by_type_list.4')],
+                5 => ['index' => 5, 'value' => 'b.access_count', 'name' => MyLang('common_goods_browse_order_by_type_list.5')],
             ],
             // 数据排序规则
             'common_data_order_by_rule_list' => [

@@ -512,6 +512,8 @@ return [
         'nav_store_theme_name'                  => '更多主題下載',
         'nav_theme_download_name'               => '查看小程式打包教程',
         'nav_theme_download_tips'               => '手機端主題採用uniapp開發（支持多端小程式、H5、APP）',
+        'nav_appmini_order_list_path_name'      => '訂單清單path',
+        'nav_appmini_order_detail_path_name'    => '訂單詳情path',
         'form_alipay_extend_title'              => '客服配寘',
         'form_alipay_extend_tips'               => 'PS：如【APP/小程式】中開啟（開啟線上客服），則以下配寘必填[企業編碼]和[聊天窗編碼]',
         'form_theme_upload_tips'                => '上傳一個zip壓縮格式的安裝包',
@@ -674,6 +676,7 @@ return [
             'goods_placeholder'  => '請輸入商品名稱/簡述/SEO資訊',
             'price'              => '銷售價格',
             'original_price'     => '原價',
+            'access_count'       => '流覽量',
             'add_time'           => '創建時間',
         ],
     ],
@@ -804,6 +807,7 @@ return [
         'detail_no_payment_tips'                => '請注意、該訂單還未支付',
         // 动态表格
         'form_table'                            => [
+            'system_type'         => '系統類型',
             'goods'               => '基礎資訊',
             'goods_placeholder'   => '請輸入訂單ID/訂單號/商品名稱/型號',
             'user'                => '用戶資訊',
@@ -1026,6 +1030,7 @@ return [
         'pay_request_title'                     => '支付請求日誌',
         // 动态表格
         'form_table'                            => [
+            'id'                => '數據ID',
             'user'              => '用戶資訊',
             'user_placeholder'  => '請輸入用戶名/昵稱/手機/郵箱',
             'log_no'            => '支付單號',
@@ -1229,6 +1234,7 @@ return [
     'diy'                   => [
         'nav_store_diy_name'                    => '更多diy範本下載',
         'nav_apptabbar_name'                    => '底部選單',
+        'nav_homediy_name'                      => '首頁DIY',
         'upload_list_tips'                      => [
             '1. 選擇已下載的diy設計zip包',
             '2. 導入將自動新增一條數據',
@@ -1603,6 +1609,7 @@ return [
                 'attachmentcategory_index'         => '附件分類',
                 'attachmentcategory_save'          => '附件分類添加/編輯',
                 'attachmentcategory_statusupdate'  => '附件狀態更新',
+                'attachmentcategory_upload'        => '附件上傳',
                 'attachmentcategory_delete'        => '附件分類删除',
             ]
         ],

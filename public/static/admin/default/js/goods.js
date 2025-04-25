@@ -89,7 +89,7 @@ $(function () {
         html = '<th class="table-title table-title-' + index + '">';
         html += '<div class="am-flex am-am-flex-items-center am-gap-1">';
         html += '<input type="text" name="specifications_name_' + index + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" data-validation-message="' + $spec_table.data('spec-type-message') + '" data-is-clearout="0" required />';
-        html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="' + index + '"></i>';
+        html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-primary" data-index="' + index + '"></i>';
         html += '</div>';
         html += '</th>';
         $('.title-start').before(html);
@@ -494,7 +494,7 @@ $(function () {
         html += '<td class="am-text-middle">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">';
         html += '<input type="text" name="spec_base_title_' + index + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" />';
-        html += '<i class="am-close quick-title-remove iconfont icon-delete am-text-red"></i>';
+        html += '<i class="am-close quick-title-remove iconfont icon-delete am-text-primary"></i>';
         html += '</div>';
         html += '</td>';
         html += '<td class="spec-quick-td-value am-cf">';
@@ -515,7 +515,7 @@ $(function () {
         var html = '<div class="am-fl value-item">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">'
         html += '<input type="text" class="am-fl am-radius" name="spec_base_value_' + index + '[]" placeholder="' + $spec_table.data('spec-value-name') + '" />';
-        html += '<i class="am-close quick-value-remove iconfont icon-delete am-text-red"></i>';
+        html += '<i class="am-close quick-value-remove iconfont icon-delete am-text-primary"></i>';
         html += '</div>';
         html += '</div>';
         $(this).parent().before(html);
@@ -577,7 +577,7 @@ $(function () {
                     html = '<th class="table-title table-title-' + index + '">';
                     html += '<div class="am-flex am-flex-items-center am-gap-1">';
                     html += '<input type="text" name="specifications_name_' + index + '" value="' + spec[i]['title'] + '" placeholder="' + $spec_table.data('spec-type-name') + '" class="am-radius" data-validation-message="' + $spec_table.data('spec-type-message') + '" required />';
-                    html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="' + index + '"></i>';
+                    html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-primary" data-index="' + index + '"></i>';
                     html += '</div>';
                     html += '</th>';
                     $('.title-start').before(html);

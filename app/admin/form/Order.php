@@ -51,6 +51,17 @@ class Order
             // 表单配置
             'form' => [
                 [
+                    'label'              => $lang['system_type'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'system_type',
+                    'params_where_name'  => 'system_type_value',
+                    'is_copy'            => 1,
+                    'width'              => 130,
+                    'search_config'      => [
+                        'form_type'         => 'input',
+                    ],
+                ],
+                [
                     'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/goods',

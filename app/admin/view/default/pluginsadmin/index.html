@@ -304,24 +304,33 @@
                     </div>
                 {{/if}}
 
-                {{if $is_system_show_base eq 1}}
-                    <div class="am-padding-vertical-xl am-text-center">
-                        <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.more_plugins_store_to_text')}}</a>
+                {{if AdminIsPower('pluginsadmin', 'upload')}}
+                    <div class="am-text-center">
+                        <a href="javascript:;" class="submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload', 'switch_active'=>'market'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}" data-full-max="1" data-full-max-size="xl">{{:MyLang('pluginsadmin.more_plugins_store_to_text')}}</a>
                     </div>
+                {{else /}}
+                    {{if $is_system_show_base eq 1}}
+                        <div class="am-padding-vertical-xl am-text-center">
+                            <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.more_plugins_store_to_text')}}</a>
+                        </div>
+                    {{/if}}
                 {{/if}}
             {{else /}}
                 {{if $is_not_bind_accounts eq 1}}
                     {{:ModuleInclude('public/store_bind_accounts_tips')}}
                 {{else /}}
-                    <div class="table-no">
-                        <i class="am-icon-skyatlas am-icon-lg"></i>
-                        <p class="am-margin-top-sm">{{:MyLang('plugins_no_data_tips')}}</p>
+                    {{:ModuleInclude('public/not_data', ['msg'=>MyLang('plugins_no_data_tips')])}}
+                    {{if AdminIsPower('pluginsadmin', 'upload')}}
+                        <div class="am-text-center">
+                            <a href="javascript:;" class="submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload', 'switch_active'=>'market'])}}" data-title="{{:MyLang('pluginsadmin.base_upload_application_name')}}" data-full-max="1" data-full-max-size="xl">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
+                        </div>
+                    {{else /}}
                         {{if $is_system_show_base eq 1}}
                             <div class="am-margin-top-xl">
                                 <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">{{:MyLang('pluginsadmin.no_data_store_to_text')}}</a>
                             </div>
                         {{/if}}
-                    </div>
+                    {{/if}}
                 {{/if}}
             {{/if}}
         </div>

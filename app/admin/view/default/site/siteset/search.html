@@ -135,11 +135,13 @@
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_search_params_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_params_type.describe}}</span></label>
-                    <select name="{{$data.home_search_params_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_search_params_type.name}}" data-validation-message="{{$data.home_search_params_type.error_tips}}">
+                    <div class="am-checkbox-group">
                         {{foreach $common_goods_parameters_type_list as $v}}
-                            <option value="{{$v.value}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" value="{{$v.value}}" name="{{$data.home_search_params_type.only_tag}}" data-validation-message="{{$data.home_search_params_type.error_tips}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
                         {{/foreach}}
-                    </select>
+                    </div>
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_search_is_spec.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_spec.describe}}</span></label>

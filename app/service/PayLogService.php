@@ -347,5 +347,103 @@ class PayLogService
         }
         return DataReturn(MyLang('close_fail'), -100);
     }
+
+    /**
+     * 支付订单页面列表数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-03-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayLogPagesListData($params = [])
+    {
+        // 数据
+        $data = [
+            // 商城订单
+            [
+                'name'  => MyLang('shop_order'),
+                'url'   => (APPLICATION_CLIENT_TYPE == 'pc') ? MyUrl('index/order/index') : '/pages/user-order/user-order',
+            ]
+        ];
+        // 支付日志页面列表数据
+        $hook_name = 'plugins_service_paylog_pages_list_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'params'            => $params,
+            'data'              => &$data,
+        ]);
+
+        return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 支付订单页面详情数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-03-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayLogPagesDetailData($params = [])
+    {
+        // 支付数据
+        $where = [
+            ['user_id', '=', $params['user_id']],
+            ['status', '=', 1],
+        ];
+        if(!empty($params['id']))
+        {
+            $where[] = ['id', '=', intval($params['id'])];
+        }
+        if(!empty($params['orderno']))
+        {
+            $where[] = ['log_no', '=', trim($params['orderno'])];
+        }
+        $pay_log = Db::name('PayLog')->where($where)->find();
+        if(empty($pay_log))
+        {
+            return DataReturn(MyLang('no_data'), -1);
+        }
+
+        // 获取业务数据
+        $pay_log_business = Db::name('PayLogValue')->where(['pay_log_id'=>$pay_log['id']])->select()->toArray();
+        if(empty($pay_log_business))
+        {
+            return DataReturn(MyLang('common_service.paylog.pay_log_value_no_data_tips'), -1);
+        }
+        $data = [];
+        foreach($pay_log_business as $v)
+        {
+            // 系统订单
+            if($pay_log['business_type'] == 'order')
+            {
+                $data[] = [
+                    'url'       => (APPLICATION_CLIENT_TYPE == 'pc') ? MyUrl('index/order/detail', ['id'=>$v['business_id']]) : '/pages/user-order-detail/user-order-detail?id='.$v['business_id'],
+                    'order_no'  => $v['business_no'],
+                ];
+            }
+        }
+
+        // 支付日志页面详情数据
+        $hook_name = 'plugins_service_paylog_pages_detail_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'params'            => $params,
+            'data'              => &$data,
+            'pay_log'           => $pay_log,
+            'pay_log_business'  => $pay_log_business,
+        ]);
+
+        if(empty($data))
+        {
+            return DataReturn(MyLang('common_service.paylog.pay_log_value_no_data_tips'), -1);
+        }
+        return DataReturn('success', 0, $data);
+    }
 }
 ?>

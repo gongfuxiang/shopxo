@@ -37,24 +37,29 @@
                 <div class="item am-active" data-key="base-config-title">
                     <!-- 展示型 -->
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
-                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.describe}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
+                        <label class="am-block">{{$data.common_is_exhibition_mode_btn_text.name}}</label>
+                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.name}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
+                        <div class="am-tips-card">
+                            <p>{{$data.common_is_exhibition_mode_btn_text.describe}}</p>
+                        </div>
                     </div>
 
                     <!-- 站点类型 -->
-                    <div class="platform-list-value-container">
+                    <div class="am-form-group platform-list-value-container">
                         <label class="am-block am-margin-bottom-sm">{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
-                        <div class="site-type-list">
+                        <div class="site-type-list am-flex am-flex-warp am-gap-2 am-margin-top-sm">
                             {{foreach $common_platform_type as $k=>$v}}
-                                <div class="am-flex am-flex-row am-flex-items-center am-gap-1 {{if $k gt 0}}am-margin-top-sm{{/if}}">
+                                <div class="am-flex am-flex-row am-gap-2">
                                     <span class="am-text-right">{{$v.name}}</span>
-                                    <select name="{{$data.common_site_type.only_tag}}[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
-                                        {{if !empty($common_site_type_list)}}
+                                    {{if !empty($common_site_type_list)}}
+                                        <div class="am-radio-group">
                                             {{foreach $common_site_type_list as $site}}
-                                                <option value="{{$site.value}}" {{if !empty($data['common_site_type']) and !empty($data['common_site_type']['value']) and isset($data['common_site_type']['value'][$v['value']]) and $data['common_site_type']['value'][$v['value']] eq $site['value']}}selected{{/if}}>{{$site.name}}</option>
+                                                <label class="am-radio-inline">
+                                                    <input type="radio" value="{{$site.value}}" name="{{$data.common_site_type.only_tag}}[{{$v.value}}]" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}" {{if (!empty($data['common_site_type']) and !empty($data['common_site_type']['value']) and isset($data['common_site_type']['value'][$v['value']]) and $data['common_site_type']['value'][$v['value']] eq $site['value']) or ((empty($data['common_site_type']) or empty($data['common_site_type']['value']) or !isset($data['common_site_type']['value'][$v['value']])) and isset($site['checked']) and $site['checked'] eq true)}}checked{{/if}}  data-am-ucheck>{{$site.name}}
+                                                </label>
                                             {{/foreach}}
-                                        {{/if}}
-                                    </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             {{/foreach}}
                         </div>
@@ -105,12 +110,18 @@
                 <!-- 虚拟销售 -->
                 <div class="item" data-key="site-item-fictitious">
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
-                        <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.describe}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
+                        <label class="am-block">{{$data.common_site_fictitious_return_title.name}}</label>
+                        <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.name}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
+                        <div class="am-tips-card">
+                            <p>{{$data.common_site_fictitious_return_title.describe}}</p>
+                        </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.common_site_fictitious_return_tips.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_tips.describe}}</span></label>
+                        <label class="am-block">{{$data.common_site_fictitious_return_tips.name}}</label>
                         <textarea rows="4" name="{{$data.common_site_fictitious_return_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_return_tips.name}}" data-validation-message="{{$data.common_site_fictitious_return_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_return_tips.value}}{{/if}}</textarea>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_site_fictitious_return_tips.describe}}</p>
+                        </div>
                     </div>
                 </div>
             </div>

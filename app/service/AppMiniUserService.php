@@ -122,10 +122,10 @@ class AppMiniUserService
             if($ret['code'] == 0)
             {
                 // 先从数据库获取用户信息
-                $user = self::UserOpenOrUnionidData('alipay_openid', $ret['data']['user_id']);
+                $user = self::UserOpenOrUnionidData('alipay_openid', $ret['data']['open_id']);
                 if(empty($user))
                 {
-                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['open_id']]);
                 } else {
                     // 用户状态
                     $ret = UserService::UserStatusCheck($user['id']);

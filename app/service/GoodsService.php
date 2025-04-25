@@ -424,7 +424,7 @@ class GoodsService
                 // 数据主键id
                 $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
 
-                // 当前库存单位
+                // 当前计量单位
                 $inventory_unit = empty($v['inventory_unit']) ? '' : ' / '.$v['inventory_unit'];
                 // 原价基础字段数据
                 // 原价标题名称
@@ -565,6 +565,7 @@ class GoodsService
                 if(isset($v['brand_id']))
                 {
                     $v['brand_name'] = (!empty($brand_list) && is_array($brand_list) && array_key_exists($v['brand_id'], $brand_list)) ? $brand_list[$v['brand_id']] : '';
+                    $v['brand_goods_url'] = (APPLICATION == 'app') ? '/pages/goods-search/goods-search?brand='.$v['brand_id'] : MyUrl('index/search/index', ['brand'=>$v['brand_id']]);
                 }
 
                 // 时间
@@ -1301,8 +1302,8 @@ class GoodsService
         }
 
         // 编辑器内容
-        $content_web = empty($params['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add');
-        $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add');
+        $content_web = empty($params['content_web']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add'));
+        $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add'));
 
         // 封面图片、默认相册第一张
         $images = empty($attachment['data']['images']) ? (isset($photo['data'][0]) ? $photo['data'][0] : '') : $attachment['data']['images'];
@@ -1550,9 +1551,10 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-07-09
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [array]          $params     [输入参数]
+     * @param   [array]          $base_count [教程参数个数，默认9]
      */
-    public static function GetFormGoodsSpecificationsParams($params = [])
+    public static function GetFormGoodsSpecificationsParams($params = [], $base_count = 9)
     {
         $data = [];
         $title = [];
@@ -1560,7 +1562,6 @@ class GoodsService
 
         // 基础字段数据字段长度
         // 销售价、原价、起购数、限购数、重量、体积、编码、条形码、扩展
-        $base_count = 9;
 
         // 规格值
         foreach($params as $k=>$v)

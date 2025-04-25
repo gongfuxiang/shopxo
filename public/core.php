@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v6.5.0');
+define('APPLICATION_VERSION', 'v6.6.0');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION, '8.0.2','<'))
@@ -78,7 +78,7 @@ if(empty($_SERVER['HTTP_HOST']) || is_numeric(str_replace('.', '', $_SERVER['HTT
             $main_domain = '';
         } else {
             // 判断是否是双后缀
-            $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg)$/';
+            $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw)$/';
             if($len > 2 && preg_match($preg, $main_domain))
             {
                 // 双后缀取后3位

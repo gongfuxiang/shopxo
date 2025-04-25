@@ -268,7 +268,7 @@ class OrderSplitService
                 ['w.is_enable', '=', 1],
                 ['w.is_delete_time', '=', 0],
             ];
-            $field = 'distinct w.id,w.name,w.alias,w.lng,w.lat,w.province,w.city,w.county,w.address,wgs.inventory,w.is_default,w.level';
+            $field = 'w.*,wgs.inventory';
             $warehouse = Db::name('WarehouseGoodsSpec')->alias('wgs')->join('warehouse_goods wg', 'wgs.warehouse_id=wg.warehouse_id')->join('warehouse w', 'wg.warehouse_id=w.id')->where($where)->field($field)->order('w.level desc,w.is_default desc,wgs.inventory desc')->select()->toArray();
 
             // 商品仓库分配仓库组合钩子
@@ -300,7 +300,7 @@ class OrderSplitService
                         }
 
                         // 总价计算
-                        $temp_v['total_price'] = PriceBeautify(PriceNumberFormat($temp_v['price']*$temp_v['stock']));
+                        $temp_v['total_price'] = PriceBeautify(PriceNumberFormat(floatval($temp_v['price'])*$temp_v['stock']));
 
                         // 减除数量
                         $v['stock'] -= $w['inventory'];
@@ -309,6 +309,7 @@ class OrderSplitService
                         if(!array_key_exists($w['id'], $result))
                         {
                             // 仓库
+                            unset($w['is_enable'], $w['is_delete_time'], $w['contacts_name'], $w['contacts_tel'], $w['add_time'], $w['upd_time']);
                             $warehouse_handle = WarehouseService::WarehouseListHandle([$w]);
                             $result[$w['id']] = $warehouse_handle[0];
                             $result[$w['id']]['goods_items'] = [];

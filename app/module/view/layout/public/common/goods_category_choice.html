@@ -1,7 +1,7 @@
-{{if !empty($goods_category_list)}}
+{{if !empty($module_data)}}
     <div class="goods-category-choice-content am-nbfc am-padding-lg">
         <ul class="goods-category-select-1 am-scrollable-vertical am-list am-list-border am-fl am-radius" data-level="1">
-            {{foreach $goods_category_list as $k=>$v}}
+            {{foreach $module_data as $k=>$v}}
                 <li>
                     <a href="javascript:;" data-index="{{$k}}" data-value="{{$v.id}}">
                         <span class="data-name">{{$v.name}}</span>

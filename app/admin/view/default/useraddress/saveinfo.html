@@ -73,54 +73,56 @@
                 <input name="is_default" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
             </div>
 
-            <div class="am-form-group">
-                <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                <input type="text" name="idcard_number" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" minlength="0" maxlength="18" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
-            </div>
-            {{if empty($data) or empty($data['user_id'])}}
+            {{if MyC('home_user_address_idcard_status') eq 1}}
                 <div class="am-form-group">
-                    <div class="am-tips-card">
-                        <p>{{:MyLang('common_service.useraddress.form_item_idcard_no_user_tips')}}</p>
-                    </div>
+                    <label>{{:MyLang('common_service.useraddress.form_item_idcard_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_name_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                    <input type="text" name="idcard_name" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" minlength="0" maxlength="30" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
                 </div>
-            {{else /}}
-                <div class="am-form-group plug-file-upload-view">
-                    <label>{{:MyLang('common_service.useraddress.form_item_idcard_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.useraddress.form_item_idcard_images_tips')}}</span></label>
-                    <div class="am-nbfc user-address-idcard-images am-flex">
-                        <div class="item am-margin-right-lg">
-                            <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
-                                <li>
-                                    {{if !empty($data['idcard_front'])}}
-                                        <input type="text" name="idcard_front" value="{{$data.idcard_front}}" />
-                                    {{/if}}
-                                    <img src="{{if empty($data['idcard_front'])}}{{:StaticAttachmentUrl('default-idcard-front.jpg')}}{{else /}}{{$data.idcard_front}}{{/if}}" />
-                                    {{if !empty($data['idcard_front'])}}
-                                        <i class="iconfont icon-close"></i>
-                                    {{/if}}
-                                </li>
-                            </ul>
-                            <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_front">+ {{:MyLang('common_service.useraddress.form_item_idcard_front_button_name')}}</div>
-                        </div>
-                        <div class="item">
-                            <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
-                                <li>
-                                    {{if !empty($data['idcard_back'])}}
-                                        <input type="text" name="idcard_back" value="{{$data.idcard_back}}" />
-                                    {{/if}}
-                                    <img src="{{if empty($data['idcard_back'])}}{{:StaticAttachmentUrl('default-idcard-back.jpg')}}{{else /}}{{$data.idcard_back}}{{/if}}" />
-                                    {{if !empty($data['idcard_back'])}}
-                                        <i class="iconfont icon-close"></i>
-                                    {{/if}}
-                                </li>
-                            </ul>
-                            <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_back">+ {{:MyLang('common_service.useraddress.form_item_idcard_back_button_name')}}</div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('common_service.useraddress.form_item_idcard_number')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.useraddress.form_item_idcard_number_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                    <input type="text" name="idcard_number" placeholder="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" minlength="0" maxlength="18" data-validation-message="{{:MyLang('common_service.useraddress.form_item_idcard_number_message')}}" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
+                </div>
+                {{if empty($data) or empty($data['user_id'])}}
+                    <div class="am-form-group">
+                        <div class="am-tips-card">
+                            <p>{{:MyLang('common_service.useraddress.form_item_idcard_no_user_tips')}}</p>
                         </div>
                     </div>
-                </div>
+                {{else /}}
+                    <div class="am-form-group plug-file-upload-view">
+                        <label>{{:MyLang('common_service.useraddress.form_item_idcard_images')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.useraddress.form_item_idcard_images_tips')}}</span></label>
+                        <div class="am-nbfc user-address-idcard-images am-flex">
+                            <div class="item am-margin-right-lg">
+                                <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
+                                    <li>
+                                        {{if !empty($data['idcard_front'])}}
+                                            <input type="text" name="idcard_front" value="{{$data.idcard_front}}" />
+                                        {{/if}}
+                                        <img src="{{if empty($data['idcard_front'])}}{{:StaticAttachmentUrl('default-idcard-front.jpg')}}{{else /}}{{$data.idcard_front}}{{/if}}" />
+                                        {{if !empty($data['idcard_front'])}}
+                                            <i class="iconfont icon-close"></i>
+                                        {{/if}}
+                                    </li>
+                                </ul>
+                                <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_front">+ {{:MyLang('common_service.useraddress.form_item_idcard_front_button_name')}}</div>
+                            </div>
+                            <div class="item">
+                                <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
+                                    <li>
+                                        {{if !empty($data['idcard_back'])}}
+                                            <input type="text" name="idcard_back" value="{{$data.idcard_back}}" />
+                                        {{/if}}
+                                        <img src="{{if empty($data['idcard_back'])}}{{:StaticAttachmentUrl('default-idcard-back.jpg')}}{{else /}}{{$data.idcard_back}}{{/if}}" />
+                                        {{if !empty($data['idcard_back'])}}
+                                            <i class="iconfont icon-close"></i>
+                                        {{/if}}
+                                    </li>
+                                </ul>
+                                <div class="plug-file-upload-submit am-margin-top-sm" data-view-tag="ul.images-idcard_back">+ {{:MyLang('common_service.useraddress.form_item_idcard_back_button_name')}}</div>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
             {{/if}}
 
             <div class="am-form-popup-submit">

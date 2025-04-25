@@ -1219,6 +1219,9 @@ function IframeSubpageStyleHandle (iframe_id, style_class) {
 function FomatFloat (value, pos = 2) {
     var f_x = Math.round(value * Math.pow(10, pos)) / Math.pow(10, pos);
     var s_x = f_x.toString();
+    if(isNaN(s_x)) {
+        s_x = '0';
+    }
     var pos_decimal = s_x.indexOf('.');
     if (pos_decimal < 0) {
         pos_decimal = s_x.length;
@@ -3573,6 +3576,61 @@ function FormTableContentModuleInit () {
             $(this).dropdown();
         }
     });
+
+    // 全选按钮
+    var $table = $obj.find('.form-table-data-list');
+    var $operate_checkbox = $table.find('.form-table-search .form-table-operate-checkbox-submit');
+    if($operate_checkbox.length > 0) {
+        if($table.find('tbody tr').length == 0) {
+            $operate_checkbox.uCheck('disable');
+        } else {
+            $operate_checkbox.uCheck('enable');
+        }
+    }
+}
+
+/**
+ * 表格数据模块数据回调处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-03-24
+ * @desc    description
+ * @param   {[string]}        result [回调html代码]
+ */
+function FormTableContentModuleResponseHandle (result) {
+    // 截取数据并渲染
+    var arr = [
+        {
+            start: '<!-- form_table_data_content_start -->',
+            end: '<!-- form_table_data_content_end -->',
+            element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
+        },
+        {
+            start: '<!-- form_table_no_data_start -->',
+            end: '<!-- form_table_no_data_end -->',
+            element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
+        },
+        {
+            start: '<!-- form_table_data_page_start -->',
+            end: '<!-- form_table_data_page_end -->',
+            element: '.form-table-content > .form-table-operate-page'
+        }
+    ];
+    arr.forEach((v) => {
+        var start_number = result.indexOf(v.start);
+        var end_number = result.indexOf(v.end);
+        $(v.element).html(result.substring(start_number, end_number + v.end.length));
+    });
+
+    // 表格数据模块初始化
+    FormTableContentModuleInit();
+
+    // 回调方法
+    var back_function = 'FormTableDataListPageChangeBackEvent';
+    if (IsExitsFunction(back_function)) {
+        window[back_function](result);
+    }
 }
 
 /**
@@ -3673,6 +3731,7 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
         var is_compose = $tag.find('li.plug-file-upload-submit').length > 0;
         var is_eye = parseInt($tag.attr('data-is-eye') || 0);
         var is_download = parseInt($tag.attr('data-is-download') || 0);
+        var suffix = $tag.attr('data-suffix') || null;
 
         // 只限制一条、排除上传和显示组合的方式
         if (max_number <= 1 && !is_compose) {
@@ -3685,6 +3744,17 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
             case 'images':
                 for (var i in data) {
                     var src = data[i]['src'] || data[i]['url'];
+                    // 后缀格式
+                    if(suffix != null) {
+                        var temp_suffix = src.split('.').pop() || null;
+                        if(temp_suffix != null) {
+                            if(suffix.split(',').indexOf('.'+temp_suffix) == -1) {
+                                var temp_msg = window['lang_upload_images_suffix_tips'] || '第{value}张图片格式有误';
+                                Prompt(temp_msg.replace('{value}', parseInt(i)+1));
+                                continue;
+                            }
+                        }
+                    }
                     // 是否直接赋值属性
                     if (i == 0 && is_attr != null) {
                         $('form [name="' + form_name + '"]').val(src);
@@ -3731,6 +3801,17 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
             case 'video':
                 for (var i in data) {
                     var src = data[i]['src'] || data[i]['url'];
+                    // 后缀格式
+                    if(suffix != null) {
+                        var temp_suffix = src.split('.').pop() || null;
+                        if(temp_suffix != null) {
+                            if(suffix.split(',').indexOf('.'+temp_suffix) == -1) {
+                                var temp_msg = window['lang_upload_video_suffix_tips'] || '第{value}个视频格式有误';
+                                Prompt(temp_msg.replace('{value}', parseInt(i)+1));
+                                continue;
+                            }
+                        }
+                    }
                     // 是否直接赋值属性
                     if (i == 0 && is_attr != null) {
                         $('form [name="' + form_name + '"]').val(src);
@@ -3776,6 +3857,17 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
             case 'file':
                 for (var i in data) {
                     var src = data[i]['src'] || data[i]['url'];
+                    // 后缀格式
+                    if(suffix != null) {
+                        var temp_suffix = src.split('.').pop() || null;
+                        if(temp_suffix != null) {
+                            if(suffix.split(',').indexOf('.'+temp_suffix) == -1) {
+                                var temp_msg = window['lang_upload_annex_suffix_tips'] || '第{value}个附件格式有误';
+                                Prompt(temp_msg.replace('{value}', parseInt(i)+1));
+                                continue;
+                            }
+                        }
+                    }
                     // 是否直接赋值属性
                     if (i == 0 && is_attr != null) {
                         $('form [name="' + form_name + '"]').val(src);
@@ -4307,38 +4399,7 @@ $(function () {
                     if (typeof (result) == 'object' && result.code != 0) {
                         Prompt(result.msg);
                     } else {
-                        // 截取数据并渲染
-                        var arr = [
-                            {
-                                start: '<!-- form_table_data_content_start -->',
-                                end: '<!-- form_table_data_content_end -->',
-                                element: '.form-table-content .am-table-scrollable-horizontal > .am-table > tbody'
-                            },
-                            {
-                                start: '<!-- form_table_no_data_start -->',
-                                end: '<!-- form_table_no_data_end -->',
-                                element: '.form-table-content .am-table-scrollable-horizontal > .form-table-no-data'
-                            },
-                            {
-                                start: '<!-- form_table_data_page_start -->',
-                                end: '<!-- form_table_data_page_end -->',
-                                element: '.form-table-content > .form-table-operate-page'
-                            }
-                        ];
-                        arr.forEach((v) => {
-                            var start_number = result.indexOf(v.start);
-                            var end_number = result.indexOf(v.end);
-                            $(v.element).html(result.substring(start_number, end_number + v.end.length));
-                        });
-
-                        // 表格数据模块初始化
-                        FormTableContentModuleInit();
-
-                        // 回调方法
-                        var back_function = 'FormTableDataListPageChangeBackEvent';
-                        if (IsExitsFunction(back_function)) {
-                            window[back_function](result);
-                        }
+                        FormTableContentModuleResponseHandle(result);
                     }
                 },
                 error: function (xhr, type) {
@@ -4838,7 +4899,7 @@ $(function () {
         var head_col = TreeHeadConfig();
         var url = $('#tree').attr('data-status-url');
         var is_loading = parseInt($('#tree').attr('data-status-is-loading') || 0);
-        var loading_msg = $('#tree').attr('data-status-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';;
+        var loading_msg = $('#tree').attr('data-status-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
         // 弹层加载
         if (is_loading == 1) {
@@ -5283,8 +5344,11 @@ $(function () {
                 return false;
         }
 
-        // 容易配置判断
+        // 容器配置判断
         if($view_tag != null) {
+            // 赋值参数
+            $('body').attr('view-tag', $(this).attr('data-view-tag'));
+
             // 是否单个上传
             if (parseInt($view_tag.data('is-single') || 0) == 1) {
                 var $form = $('form.form-validation-common-upload-editor-single');
@@ -5292,9 +5356,6 @@ $(function () {
                 $form.find('input[name="upfile"]').attr('accept', form_action == 'uploadimage' ? 'image/*' : '').trigger('click');
                 return false;
             }
-
-            // 赋值参数
-            $('body').attr('view-tag', $(this).attr('data-view-tag'));
         }
 
         // 打开组件
@@ -6198,5 +6259,62 @@ $(function () {
     $(document).on('focus', '.am-form-input-material input', function () {
         $(this).removeClass('am-value-valid-false');
         $(this).removeClass('am-value-valid-true');
+    });
+
+    // 多级选择 一级操作
+    $(document).on('click', '.tree-list > li > .item-content input[type="checkbox"]', function() {
+        // 下级选择
+        var is_one_check_find = $('.tree-list').attr('data-is-one-check-find');
+        if(is_one_check_find == 1 || is_one_check_find == undefined) {
+            var state = $(this).is(':checked');
+            $(this).parents('li').find('.list-find input[type="checkbox"]').each(function() {
+                $(this).uCheck(state ? 'check' : 'uncheck');
+            });
+        }
+    });
+    // 多级选择 二级操作
+    $(document).on('click', '.tree-list .list-find > li .item-content input[type="checkbox"]', function() {
+        // 下级选择
+        var is_two_check_find = $('.tree-list').attr('data-is-two-check-find');
+        if(is_two_check_find == 1 || is_two_check_find == undefined) {
+            var c_state = $(this).is(':checked');
+            $(this).parents('.item-content').next().find('input[type="checkbox"]').each(function() {
+                $(this).uCheck(c_state ? 'check' : 'uncheck');
+            });
+        }
+        // 上级选择
+        var is_two_check_parent = $('.tree-list').attr('data-is-two-check-parent');
+        if(is_two_check_parent == 1 || is_two_check_parent == undefined) {
+            var state = ($(this).parents('.list-find').find('input[type="checkbox"]:checked').length > 0);
+            $(this).parents('ul').prev().find('label input').uCheck(state ? 'check' : 'uncheck');
+        }
+    });
+    // 多级选择 三级操作
+    $(document).on('click', '.tree-list .list-find-three input[type="checkbox"]', function() {
+        // 上级选择
+        var is_three_check_parent = $('.tree-list').attr('data-is-three-check-parent');
+        if(is_three_check_parent == 1 || is_three_check_parent == undefined) {
+            var state = ($(this).parents('.list-find-three').find('input[type="checkbox"]:checked').length > 0);
+            $(this).parents('.list-find-three').prev().find('label input').uCheck(state ? 'check' : 'uncheck');
+        }
+        // 上上级选择
+        var is_three_check_parents = $('.tree-list').attr('data-is-three-check-parents');
+        if(is_three_check_parents == 1 || is_three_check_parents == undefined) {
+            var state = ($(this).parents('.list-find').find('input[type="checkbox"]:checked').length > 0);
+            $(this).parents('.list-find').prev().find('label input').uCheck(state ? 'check' : 'uncheck');
+        }
+    });
+    // 多级选择 伸缩按钮
+    $(document).on('click', '.tree-list .tree-telescoping-submit', function () {
+        var $ul = $(this).parents('li').find('>ul');
+        if($(this).hasClass('icon-arrow-down')) {
+            $ul.slideUp(200);
+            $(this).addClass('icon-arrow-right').removeClass('icon-arrow-down');
+        } else {
+            $ul.slideDown(200);
+            $(this).addClass('icon-arrow-down').removeClass('icon-arrow-right');
+        }
+        
+        console.log(1)
     });
 });

@@ -92,7 +92,6 @@
 
 .specifications-table thead th i {
     cursor: pointer;
-    color: #2A94FF;
     font-size: 1.6rem;
 }
 
@@ -272,8 +271,8 @@ ul li {
     border-color: transparent !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    height: 2.9rem;
-    line-height: 2.9rem;
+    height: 2.7rem;
+    line-height: 2.4rem;
 }
 
 #specifications-quick-container .chosen-container .chosen-drop {

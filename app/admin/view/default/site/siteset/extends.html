@@ -179,16 +179,6 @@
                             {{/foreach}}
                         </div>
                     </div>
-                    <div class="am-form-group">
-                        <label>{{$data.home_extraction_address_position.name}}<span class="am-form-group-label-tips">{{$data.home_extraction_address_position.describe}}</span></label>
-                        <div class="am-radio-group">
-                            {{foreach $common_close_open_list as $v}}
-                                <label class="am-radio-inline">
-                                    <input type="radio" value="{{$v.value}}" name="{{$data.home_extraction_address_position.only_tag}}" data-validation-message="{{$data.home_extraction_address_position.error_tips}}" required {{if isset($data['home_extraction_address_position']['value']) and $data['home_extraction_address_position']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
-                                </label>
-                            {{/foreach}}
-                        </div>
-                    </div>
                 </div>
 
                 <!-- 多语言 -->

@@ -57,8 +57,8 @@ class Alipay
         // 执行请求
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $param);
 
-        // 存在user_id则表示信息正确，
-        if(!empty($result['alipay_system_oauth_token_response']['user_id']))
+        // 存在open_id则表示信息正确，
+        if(!empty($result['alipay_system_oauth_token_response']['open_id']))
         {
             // 结果正确则验证签名、存储缓存并返回数据
             if(!$this->SyncRsaVerify($result, 'alipay_system_oauth_token_response'))

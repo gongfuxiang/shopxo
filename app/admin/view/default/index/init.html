@@ -1,7 +1,7 @@
 {{:ModuleInclude('public/header')}}
 
 <!-- right content start  -->
-<div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}">
+<div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}" data-is-stats="{{if isset($is_stats) and $is_stats eq true}}1{{else /}}0{{/if}}">
 	<div class="content bg-transparent am-padding-0">
 		<!-- 顶部钩子 -->
 		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -80,7 +80,7 @@
 		{{/if}}
 
 		<!-- 是否展示统计数据 -->
-		{{if isset($is_stats) and $is_stats eq 1}}
+		{{if isset($is_stats) and $is_stats eq true}}
 			<!-- 基础统计内部顶部钩子 -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
 			    <div class="plugins-tag">
@@ -113,8 +113,8 @@
                                                 {{/if}}
                                             {{/if}}
                                         {{/foreach}}
-                                        <div id="shopxo-base-dropdown" class="dropdown-more">
-                                            <div class="am-dropdown" data-am-dropdown="{justify: '#shopxo-base-dropdown'}">
+                                        <div id="base-dropdown" class="dropdown-more">
+                                            <div class="am-dropdown" data-am-dropdown="{justify: '#base-dropdown'}">
                                                 <a href="javascript:;" class="am-dropdown-toggle more-btn">{{:MyLang('more_title')}} <i class="iconfont icon-angle-down"></i></a>
                                                 <div class="am-dropdown-content am-radius-lg">
                                                     <div class="am-flex am-flex-warp am-gap-1">

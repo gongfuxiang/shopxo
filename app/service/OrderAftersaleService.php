@@ -1812,6 +1812,30 @@ class OrderAftersaleService
     }
 
     /**
+     * 订单售后选择类型列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-04-16
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    public static function OrderAftersaleChoiceTypeList($order_id)
+    {
+        $aftersale_type_list = MyConst('common_order_aftersale_type_list');
+        if(!empty($aftersale_type_list))
+        {
+            // 非（3已发货/待收货, 4已完成）则移除退货退款的类型
+            $status = Db::name('Order')->where(['id'=>$order_id])->value('status');
+            if(!in_array($status, [3,4]))
+            {
+                unset($aftersale_type_list[1]);
+            }
+        }
+        return $aftersale_type_list;
+    }
+
+    /**
      * 订单售后进度
      * @author   Devil
      * @blog     http://gong.gg/

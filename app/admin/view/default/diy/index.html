@@ -20,8 +20,15 @@
     <!-- 底部菜单 -->
     {{if AdminIsPower('diy', 'apptabbar')}}
         <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/diy/saveinfo', ['is_auto_create'=>0])}}#/tabbar" data-title="{{:MyLang('diy.nav_apptabbar_name')}}">
-            <i class="iconfont icon-wechart am-show-sm-only"></i>
+            <i class="iconfont icon-order-list am-show-sm-only"></i>
             <span>{{:MyLang('diy.nav_apptabbar_name')}}</span>
+        </button>
+    {{/if}}
+    <!-- 首页DIY -->
+    {{if AdminIsPower('appconfig', 'index')}}
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'homediy'])}}" data-title="{{:MyLang('diy.nav_homediy_name')}}">
+            <i class="iconfont icon-tupianmofang am-show-sm-only"></i>
+            <span>{{:MyLang('diy.nav_homediy_name')}}</span>
         </button>
     {{/if}}
     <!-- 父级内容 -->

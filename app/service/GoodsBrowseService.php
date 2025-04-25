@@ -57,16 +57,17 @@ class GoodsBrowseService
 
         $where = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
         $temp = Db::name('GoodsBrowse')->where($where)->find();
-
         $data = [
             'goods_id'  => intval($params['goods_id']),
             'user_id'   => $params['user']['id'],
         ];
         if(empty($temp))
         {
+            $data['access_count'] = 1;
             $data['add_time'] = time();
             $status = Db::name('GoodsBrowse')->insertGetId($data) > 0;
         } else {
+            $data['access_count'] = $temp['access_count']+1;
             $data['upd_time'] = time();
             $status = Db::name('GoodsBrowse')->where($where)->update($data) !== false;
         }
@@ -224,6 +225,57 @@ class GoodsBrowseService
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);
+    }
+
+    /**
+     * 自动读取商品浏览列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-29
+     * @desc    description
+     * @param   [array]         $params [输入参数]
+     */
+    public static function AutoGoodsBrowseList($params = [])
+    {
+        $data = [];
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
+        {
+            // 基础条件
+            $where = [
+                ['g.is_delete_time', '=', 0],
+                ['g.is_shelves', '=', 1],
+                ['b.user_id', '=', $user['id']],
+            ];
+
+            // 商品关键字
+            if(!empty($params['goods_keywords']))
+            {
+                $where[] = ['g.title|g.simple_desc', 'like', '%'.$params['goods_keywords'].'%'];
+            }
+
+            // 排序
+            $order_by_type_list = MyConst('common_goods_browse_order_by_type_list');
+            $order_by_rule_list = MyConst('common_data_order_by_rule_list');
+            // 排序类型
+            $order_by_type = !isset($params['goods_order_by_type']) || !array_key_exists($params['goods_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$params['goods_order_by_type']]['value'];
+            // 排序值
+            $order_by_rule = !isset($params['goods_order_by_rule']) || !array_key_exists($params['goods_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['goods_order_by_rule']]['value'];
+            // 拼接排序
+            $order_by = $order_by_type.' '.$order_by_rule;
+
+            // 获取数据
+            $ret = self::GoodsBrowseList([
+                'where'     => $where,
+                'm'         => 0,
+                'n'         => empty($params['goods_number']) ? 10 : intval($params['goods_number']),
+                'order_by'  => $order_by,
+                'field'     => 'g.*,b.id,b.goods_id',
+            ]);
+            $data = empty($ret['data']) ? [] : $ret['data'];
+        }
+        return $data;
     }
 }
 ?>

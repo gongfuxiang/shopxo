@@ -99,17 +99,6 @@ class AlipayMini
                 'rows'          => 6,
                 'message'       => '请填写支付宝公钥',
             ],
-            [
-                'element'       => 'select',
-                'title'         => '是否JSAPI',
-                'message'       => '请选择是否JSAPI',
-                'name'          => 'is_jsapi',
-                'is_multiple'   => 0,
-                'element_data'  => [
-                    ['value'=>0, 'name'=>'否'],
-                    ['value'=>1, 'name'=>'是'],
-                ],
-            ],
         ];
 
         return [
@@ -153,18 +142,23 @@ class AlipayMini
             'notify_url'            => $params['notify_url'],
         );
         $biz_content = array(
-            'subject'               => $params['name'],
-            'out_trade_no'          => $params['order_no'],
-            'total_amount'          => (string) $params['total_price'],
-            'buyer_id'              => $params['user']['alipay_openid'],
-            'timeout_express'       => $this->OrderAutoCloseTime(),
+            'subject'          => $params['name'],
+            'out_trade_no'     => $params['order_no'],
+            'total_amount'     => (string) $params['total_price'],
+            'timeout_express'  => $this->OrderAutoCloseTime(),
+            'product_code'     => 'JSAPI_PAY',
+            'op_app_id'        => $this->config['appid'],
         );
 
-        // 是否jsapi
-        if(isset($this->config['is_jsapi']) && $this->config['is_jsapi'] == 1)
+        // userid 转 openid 老数据判断
+        if(!empty($params['user']['alipay_openid']))
         {
-            $biz_content['product_code']  = 'JSAPI_PAY';
-            $biz_content['op_app_id']     = $this->config['appid'];
+            if(substr($params['user']['alipay_openid'], 0, 4) == 2088)
+            {
+                $biz_content['buyer_id'] = $params['user']['alipay_openid'];
+            } else {
+                $biz_content['buyer_open_id'] = $params['user']['alipay_openid'];
+            }
         }
 
         // 商品详情
@@ -292,7 +286,7 @@ class AlipayMini
     private function ReturnData($data)
     {
         // 兼容web版本支付参数
-        $buyer_user = isset($data['buyer_logon_id']) ? $data['buyer_logon_id'] : (isset($data['buyer_email']) ? $data['buyer_email'] : '');
+        $buyer_user = isset($data['buyer_logon_id']) ? $data['buyer_logon_id'] : (isset($data['buyer_open_id']) ? $data['buyer_open_id'] : '');
         $pay_price = isset($data['total_amount']) ? $data['total_amount'] : (isset($data['total_fee']) ? $data['total_fee'] : '');
 
         // 返回数据固定基础参数

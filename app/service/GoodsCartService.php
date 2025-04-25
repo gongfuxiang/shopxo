@@ -92,11 +92,11 @@ class GoodsCartService
                             return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
                         }, $v['spec'])));
 
-                // 获取商品基础信息
+                // 获取商品基础信息、如果有请求参数指定数量则使用指定的数量
                 $spec_params = array_merge($params, [
                     'id'    => $v['goods_id'],
                     'spec'  => $v['spec'],
-                    'stock' => $v['stock'],
+                    'stock' => empty($params['stock']) ? $v['stock'] : intval($params['stock']),
                 ]);
                 $goods_base = GoodsService::GoodsSpecDetail($spec_params);
                 $v['is_invalid'] = 0;
@@ -104,7 +104,7 @@ class GoodsCartService
                 {
                     $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
                     $v['price'] = $goods_base['data']['spec_base']['price'];
-                    $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
+                    $v['total_price'] = PriceNumberFormat($v['stock']*floatval($v['price']));
                     $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
                     $v['spec_base_id'] = $goods_base['data']['spec_base']['id'];
                     $v['spec_buy_min_number'] = $goods_base['data']['spec_base']['buy_min_number'];

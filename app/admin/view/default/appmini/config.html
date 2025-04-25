@@ -4,6 +4,11 @@
 <div class="content-right">
     <!-- second nav end -->
 	<div class="content">
+        <!-- 提示 -->
+        
+        
+
+
         <!-- 新版本小程序主题提示 -->
         <div class="am-operate-stretch-tips">
             <div class="title">
@@ -18,8 +23,18 @@
                     <span>{{:MyLang('appmini.nav_store_theme_name')}}</span>
                 </a>
                 <p class="am-margin-top-xs">
-                    <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} <i class="am-icon-external-link"></i></a>
+                    <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} >></a>
                 </p>
+                <div class="am-margin-top">
+                    <span>{{:MyLang('appmini.nav_appmini_order_list_path_name')}}:</span>
+                    <strong class="am-color-blue">pages/paylog-list/paylog-list</strong>
+                    <span class="am-badge am-badge-success am-round am-margin-left-xs am-icon-copy text-copy-submit" data-value="pages/paylog-list/paylog-list"> {{:MyLang('copy_title')}}</span>
+                </div>
+                <div class="am-margin-top-xs">
+                    <span>{{:MyLang('appmini.nav_appmini_order_detail_path_name')}}:</span>
+                    <strong class="am-color-blue">pages/paylog-detail/paylog-detail?orderno=${商品订单号}</strong>
+                    <span class="am-badge am-badge-success am-round am-margin-left-xs am-icon-copy text-copy-submit" data-value="pages/paylog-detail/paylog-detail?orderno=${商品订单号}"> {{:MyLang('copy_title')}}</span>
+                </div>
             </div>
         </div>
 

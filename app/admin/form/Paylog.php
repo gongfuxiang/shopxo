@@ -76,6 +76,18 @@ class PayLog
             // 表单配置
             'form' => [
                 [
+                    'label'         => $lang['id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'id',
+                    'width'         => 110,
+                    'is_copy'       => 1,
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => '=',
+                    ],
+                ],
+                [
                     'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',

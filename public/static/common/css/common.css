@@ -1931,7 +1931,7 @@ button.colorpicker-submit img {
 .am-form-table-data-container .table-no {
     padding: 11rem 0;
 }
-.am-form-table-data-container .am-badge {
+.am-form-table-data-list-container .am-badge {
     height: 1.8rem;
     line-height: 1.8rem;
     padding: 0 0.8rem;
@@ -2371,6 +2371,7 @@ form .am-tab-panel .am-form-group:last-child {
 #tree table.am-table thead th {
     font-weight: 500;
     padding: 1.6rem 2rem;
+    text-align: left;
 }
 
 #tree table.am-table td {
@@ -4629,6 +4630,7 @@ form .am-form-group>label {
 @media only screen and (max-width: 640px) {
     form .form-multiple-where-input,
     form .am-input-group,
+    form .am-tagsinput,
     form:not(.form-validation-search) .chosen-select,
     form input[type="text"],
     form input[type="password"],
@@ -4649,6 +4651,7 @@ form .am-form-group>label {
         max-width: 100%;
     }
 }
+
 /**
  * 新增编辑带返回的头部显示
  */
@@ -4664,13 +4667,18 @@ legend a i:hover {
     color: var(--color-blue);
 }
 
-/* 角色权限树结构 */
+/**
+ * 角色权限树结构
+ */
 .tree-list li {
     list-style-type: none;
 }
 
 .tree-list>li {
-    background: #F0F9FF;
+    background: #fafcff;
+}
+.tree-list>li:not(:last-child) {
+    border-bottom: 0.1rem solid #f2fbff;
 }
 .tree-list>li>div>label {
     font-size: 1.4rem;
@@ -4682,23 +4690,26 @@ legend a i:hover {
     margin: 0;
 }
 
-.list-find {
+.tree-list .list-find {
     background-color: #fbfeff;
     padding-left: 3rem;
+    margin-top: 0;
+    padding-top: 0.5rem;
 }
 
-.list-find>li {
+.tree-list .list-find>li:not(:last-child) {
     border-bottom: 0.1rem solid #EBF4FA;
 }
 
-.list-find>li label span {
+.tree-list .list-find>li label span {
     font-weight: normal;
 }
-.bk-am-color-white {background-color: #fff;}
-/**
- * form表单页面布局 end
- */
 
+.tree-list .tree-telescoping-submit {
+    width: 1rem;
+    display: inline-block;
+    margin-right: 1rem;
+}
 
 /**
  * 打印组件

@@ -43,6 +43,44 @@
                         </div>
                     </div>
 
+                    <div class="am-form-group">
+                        <label>{{$data.home_extraction_address_position.name}}</label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.home_extraction_address_position.only_tag}}" data-validation-message="{{$data.home_extraction_address_position.error_tips}}" required {{if isset($data['home_extraction_address_position']['value']) and $data['home_extraction_address_position']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                        <div class="am-tips-card">
+                            <p>{{$data.home_extraction_address_position.describe}}</p>
+                        </div>
+                    </div>
+
+                    <!-- 下单指定时间 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_buy_datetime_info.name}}<span class="am-form-group-label-tips">{{$data.common_buy_datetime_info.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_buy_datetime_config_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_buy_datetime_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_datetime_info']['value']) and in_array($v['value'], $data['common_buy_datetime_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_datetime_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <!-- 下单联系信息 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_buy_extraction_contact_info.name}}<span class="am-form-group-label-tips">{{$data.common_buy_extraction_contact_info.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_buy_extraction_contact_config_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_buy_extraction_contact_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_extraction_contact_info']['value']) and in_array($v['value'], $data['common_buy_extraction_contact_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_extraction_contact_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
                     <!-- 库存 -->
                     <div class="am-form-group">
                         <label>{{$data.common_is_deduction_inventory.name}}</label>
@@ -82,29 +120,6 @@
                         </div>
                     </div>
 
-                    <!-- 订单支付 -->
-                    <div class="am-form-group">
-                        <label>{{$data.home_is_enable_order_bulk_pay.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_order_bulk_pay.describe}}</span></label>
-                        <div class="am-radio-group">
-                            {{foreach $common_is_text_list as $v}}
-                                <label class="am-radio-inline">
-                                    <input type="radio" value="{{$v.id}}" name="{{$data.home_is_enable_order_bulk_pay.only_tag}}" data-validation-message="{{$data.home_is_enable_order_bulk_pay.error_tips}}" required {{if isset($data['home_is_enable_order_bulk_pay']['value']) and $data['home_is_enable_order_bulk_pay']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
-                                </label>
-                            {{/foreach}}
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label>{{$data.common_is_pay_price_must_max_equal.name}}<span class="am-form-group-label-tips">{{$data.common_is_pay_price_must_max_equal.describe}}</span></label>
-                        <div class="am-radio-group">
-                            {{foreach $common_close_open_list as $v}}
-                                <label class="am-radio-inline">
-                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
-                                </label>
-                            {{/foreach}}
-                        </div>
-                    </div>
-
-                    <!-- 线下支付 -->
                     <div class="am-form-group">
                         <label>{{$data.common_is_under_line_order_normal.name}}</label>
                         <div class="am-radio-group">
@@ -119,7 +134,6 @@
                         </div>
                     </div>
 
-                    <!-- 虚拟订单直接提交支付 -->
                     <div class="am-form-group">
                         <label>{{$data.common_fictitious_order_direct_pay.name}}</label>
                         <div class="am-radio-group">
@@ -134,25 +148,24 @@
                         </div>
                     </div>
 
-                    <!-- 下单指定时间 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_buy_datetime_info.name}}</label>
-                        <div class="am-checkbox-group">
-                            {{foreach $common_buy_datetime_config_list as $v}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_buy_datetime_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_datetime_info']['value']) and in_array($v['value'], $data['common_buy_datetime_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_datetime_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                        <label>{{$data.common_is_pay_price_must_max_equal.name}}<span class="am-form-group-label-tips">{{$data.common_is_pay_price_must_max_equal.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>
                     </div>
 
-                    <!-- 下单联系信息 -->
+                    <!-- 订单支付 -->
                     <div class="am-form-group">
-                        <label>{{$data.common_buy_extraction_contact_info.name}}</label>
-                        <div class="am-checkbox-group">
-                            {{foreach $common_buy_extraction_contact_config_list as $v}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_buy_extraction_contact_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_extraction_contact_info']['value']) and in_array($v['value'], $data['common_buy_extraction_contact_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_extraction_contact_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                        <label>{{$data.home_is_enable_order_bulk_pay.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_order_bulk_pay.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.home_is_enable_order_bulk_pay.only_tag}}" data-validation-message="{{$data.home_is_enable_order_bulk_pay.error_tips}}" required {{if isset($data['home_is_enable_order_bulk_pay']['value']) and $data['home_is_enable_order_bulk_pay']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>

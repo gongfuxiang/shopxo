@@ -34,22 +34,21 @@ class LinkService
      */
     public static function HomeLinkList($params = [])
     {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_home_link_list_key');
-        $data = MyCache($key);
-        if($data == null || MyEnv('app_debug'))
+        $data = [];
+        $is_mobile = IsMobile();
+        if(!$is_mobile || ($is_mobile && MyC('home_index_friendship_link_status') == 1))
         {
-            $is_mobile = IsMobile();
-            if(!$is_mobile || ($is_mobile && MyC('home_index_friendship_link_status') == 1))
+            // 从缓存获取
+            $key = SystemService::CacheKey('shopxo.cache_home_link_list_key');
+            $data = MyCache($key);
+            if($data == null || MyEnv('app_debug'))
             {
                 $ret = self::LinkList(['where'=>['is_enable'=>1]]);
                 $data = empty($ret['data']) ? [] : $ret['data'];
-            } else {
-                $data = [];
-            }
 
-            // 存储缓存
-            MyCache($key, $data, 180);
+                // 存储缓存
+                MyCache($key, $data, 180);
+            }
         }
         return $data;
     }

@@ -1,0 +1,24 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-close" request-value="parent">
+            {{:ModuleInclude('appconfig/public/home-diy-template')}}
+            <div class="am-form-popup-submit am-text-left">
+                <input type="hidden" name="type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}
+<!-- footer end  -->

@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
+use app\service\SystemBaseService;
 use app\service\RegionService;
 
 /**
@@ -107,7 +108,7 @@ class Region extends Base
                 ['pid', '=', $pid],
             ],
         ];
-        return ApiService::ApiDataReturn(DataReturn('success', 0, RegionService::RegionNode($params)));
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn(RegionService::RegionNode($params)));
     }
 
     /**

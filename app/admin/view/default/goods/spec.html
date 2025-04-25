@@ -41,7 +41,7 @@
                             <td class="am-text-middle">
                                 <div class="am-flex am-flex-items-center am-gap-1">
                                     <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" class="am-radius" />
-                                    <i class="am-close quick-title-remove iconfont icon-delete am-text-red"></i>
+                                    <i class="am-close quick-title-remove iconfont icon-delete am-text-primary"></i>
                                 </div>
                             </td>
                             <td class="spec-quick-td-value am-cf">
@@ -51,7 +51,7 @@
                                             <div class="am-fl value-item">
                                                 <div class="am-flex am-flex-items-center am-gap-1">
                                                     <input type="text" class="am-fl am-radius" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" />
-                                                    <i class="am-close quick-value-remove iconfont icon-delete am-text-red"></i>
+                                                    <i class="am-close quick-value-remove iconfont icon-delete am-text-primary"></i>
                                                 </div>
                                             </div>
                                         {{/foreach}}
@@ -82,7 +82,7 @@
         </span>
         <span class="am-text-warning am-margin-left-sm"></span>
     </div>
-    <div class="goods-specifications am-padding-top-sm">
+    <div class="goods-specifications">
         <!-- 规格列表 -->
         <div class="specifications-container am-scrollable-horizontal">
             <table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify am-margin-bottom-0"
@@ -114,7 +114,7 @@
                                 <th class="table-title table-title-{{$type_v.id}}">
                                     <div class="am-flex am-am-flex-items-center am-gap-1">
                                         <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" class="am-radius" data-is-clearout="0" required />
-                                        <i class="am-close title-nav-remove iconfont icon-delete am-text-red" data-index="{{$type_v.id}}"></i>
+                                        <i class="am-close title-nav-remove iconfont icon-delete am-text-primary" data-index="{{$type_v.id}}"></i>
                                     </div>
                                 </th>
                             {{/foreach}}

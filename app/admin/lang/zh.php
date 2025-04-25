@@ -513,6 +513,8 @@ return [
         'nav_store_theme_name'                  => '更多主题下载',
         'nav_theme_download_name'               => '查看小程序打包教程',
         'nav_theme_download_tips'               => '手机端主题采用uniapp开发（支持多端小程序、H5、APP）',
+        'nav_appmini_order_list_path_name'      => '订单列表path',
+        'nav_appmini_order_detail_path_name'    => '订单详情path',
         'form_alipay_extend_title'              => '客服配置',
         'form_alipay_extend_tips'               => 'PS：如【APP/小程序】中开启（开启在线客服），则以下配置必填 [企业编码] 和 [聊天窗编码]',
         'form_theme_upload_tips'                => '上传一个zip压缩格式的安装包',
@@ -675,6 +677,7 @@ return [
             'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
             'price'              => '销售价格',
             'original_price'     => '原价',
+            'access_count'       => '浏览量',
             'add_time'           => '创建时间',
         ],
     ],
@@ -805,6 +808,7 @@ return [
         'detail_no_payment_tips'                => '请注意、该订单还未支付',
         // 动态表格
         'form_table'                            => [
+            'system_type'         => '系统类型',
             'goods'               => '基础信息',
             'goods_placeholder'   => '请输入订单ID/订单号/商品名称/型号',
             'user'                => '用户信息',
@@ -1027,6 +1031,7 @@ return [
         'pay_request_title'                     => '支付请求日志',
         // 动态表格
         'form_table'                            => [
+            'id'                => '数据ID',
             'user'              => '用户信息',
             'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
             'log_no'            => '支付单号',
@@ -1230,6 +1235,7 @@ return [
     'diy'                   => [
         'nav_store_diy_name'                    => '更多diy模板下载',
         'nav_apptabbar_name'                    => '底部菜单',
+        'nav_homediy_name'                      => '首页DIY',
         'upload_list_tips'                      => [
             '1. 选择已下载的diy设计zip包',
             '2. 导入将自动新增一条数据',
@@ -1624,6 +1630,7 @@ return [
                 'attachmentcategory_index'         => '附件分类',
                 'attachmentcategory_save'          => '附件分类添加/编辑',
                 'attachmentcategory_statusupdate'  => '附件状态更新',
+                'attachmentcategory_upload'        => '附件上传',
                 'attachmentcategory_delete'        => '附件分类删除',
             ]
         ],

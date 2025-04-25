@@ -30,7 +30,7 @@ return [
       'imageMaxSize'              =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 上传图片格式显示
-      'imageAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+      'imageAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico'],
 
       // 是否压缩图片,默认是true
       'imageCompressEnable'       =>  true,
@@ -62,7 +62,7 @@ return [
       'scrawlMaxSize'         =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 上传图片格式显示
-      'scrawlAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+      'scrawlAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico'],
 
       // 图片访问路径前缀
       'scrawlUrlPrefix'       =>  '',
@@ -105,7 +105,7 @@ return [
       'catcherMaxSize'        =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 抓取图片格式显示
-      'catcherAllowFiles'     =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+      'catcherAllowFiles'     =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico'],
 
 
       // 上传视频配置
@@ -145,7 +145,7 @@ return [
       'fileMaxSize'           =>  MyFileConfig('home_max_limit_file', '', 51200000, true),
 
       // 上传文件格式显示
-      'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
+      'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
 
 
       // 列出指定目录下的图片
@@ -165,7 +165,7 @@ return [
       'imageManagerInsertAlign'=> 'none',
 
       // 列出的文件类型
-      'imageManagerAllowFiles'=>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+      'imageManagerAllowFiles'=>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico'],
 
 
       // 列出指定目录下的文件
@@ -182,7 +182,7 @@ return [
       'fileManagerListSize'   =>  30,
 
       // 列出的文件类型
-      'fileManagerAllowFiles' =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.mov', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
+      'fileManagerAllowFiles' =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.mov', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml', '.ofd', '.sql'],
 
       // 执行视频管理的action名称
       'videoManagerActionName' =>  'listvideo',

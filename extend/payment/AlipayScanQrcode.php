@@ -396,7 +396,7 @@ class AlipayScanQrcode
     {
         // 兼容web版本支付参数
         $buyer_user = isset($data['buyer_logon_id']) ? $data['buyer_logon_id'] : (isset($data['buyer_user_id']) ? $data['buyer_user_id'] : '');
-        $pay_price = isset($data['buyer_pay_amount']) ? $data['buyer_pay_amount'] : 0;
+        $pay_price = (isset($data['total_amount']) ? $data['total_amount'] : (isset($data['buyer_pay_amount']) ? $data['buyer_pay_amount'] : 0));
         $subject = empty($data['subject']) ? '' : $data['subject'];
 
         // 返回数据固定基础参数
@@ -503,6 +503,7 @@ class AlipayScanQrcode
         // 直接返回支付信息
         $msg = empty($result['sub_msg']) ? (empty($result['msg']) ? '支付失败' : $result['msg']) : $result['sub_msg'];
         $code = empty($result['sub_code']) ? (empty($result['code']) ? '支付失败' : $result['code']) : $result['sub_code'];
+        return DataReturn($msg.'['.$code.']', -1000);
     }
 
     /**

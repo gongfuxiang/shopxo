@@ -118,7 +118,7 @@ class Orderaftersale extends Center
             $assign['return_goods_address'] = $return_goods_address;
 
             // 静态数据
-            $assign['common_order_aftersale_type_list'] = MyConst('common_order_aftersale_type_list');
+            $assign['common_order_aftersale_type_list'] = OrderAftersaleService::OrderAftersaleChoiceTypeList($order_id);
 
             // 编辑器文件存放地址
             $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));

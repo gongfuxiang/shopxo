@@ -426,7 +426,7 @@ class RegionService
                 MyCache($key, $data, 60);
             }
         }
-        return DataReturn('success', 0, $data);
+        return $data;
     }
 
     /**

@@ -30,7 +30,7 @@
             <!-- 手机端搜索 -->
             <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
                 <div class="am-input-group am-input-group-sm">
-                    <input type="text" name="wd" class="am-form-field" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                    <input type="text" name="wd" class="am-form-field" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" data-is-clearout="0" />
                     <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default" type="submit">
                             <span class="am-icon-search am-icon-xs"></span>

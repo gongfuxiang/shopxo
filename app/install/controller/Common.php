@@ -48,42 +48,45 @@ class Common extends BaseController
         $assign = [
             // 当前方法
             'action'                     => RequestAction(),
-            
+
             // 系统类型
             'system_type'                => SystemService::SystemTypeValue(),
-            
+
             // 系统环境参数最大数
             'env_max_input_vars_count'   => SystemService::EnvMaxInputVarsCount(),
-            
+
             // 默认不加载地图api、类型默认百度地图
             'is_load_map_api'            => 0,
-            
+
             'load_map_type'              => MyC('common_map_type', 'baidu', true),
-            
+
             // 页面语言
             'lang_data'                  => SystemService::PageViewLangData(),
-            
+
             // 多语言
             'multilingual_default_code'  => MultilingualService::GetUserMultilingualValue(),
-            
+
             // 附件host地址
             'attachment_host'            => SystemBaseService::AttachmentHost(),
-            
+
             // css/js引入host地址
             'public_host'                => MyConfig('shopxo.public_host'),
-            
+
             // 当前url地址
             'my_domain'                  => __MY_DOMAIN__,
-            
+
             // 当前host地址
             'my_host'                    => __MY_HOST__,
-            
+
             // 当前完整url地址
             'my_url'                     => __MY_URL__,
-            
+
+            // 当前完整url地址
+            'my_view_url'                => __MY_VIEW_URL__,
+
             // 项目public目录URL地址
             'my_public_url'              => __MY_PUBLIC_URL__,
-            
+
             // 当前http类型
             'my_http'                    => __MY_HTTP__,
         ];

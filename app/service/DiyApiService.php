@@ -24,6 +24,7 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\OrderService;
 use app\service\GoodsFavorService;
+use app\service\GoodsBrowseService;
 use app\service\MessageService;
 use app\service\IntegralService;
 use app\service\DiyService;
@@ -167,6 +168,7 @@ class DiyApiService
                     ['key' => 'article-tabs', 'name' => '文章选项卡'],
                     ['key' => 'goods-list', 'name' => '商品列表'],
                     ['key' => 'goods-tabs', 'name' => '商品选项卡'],
+                    ['key' => 'goods-magic', 'name' => '商品魔方'],
                     ['key' => 'img-magic', 'name' => '图片魔方'],
                     ['key' => 'data-magic', 'name' => '数据魔方'],
                     ['key' => 'data-tabs', 'name' => '数据选项卡'],
@@ -854,12 +856,14 @@ class DiyApiService
      */
     public static function UserHeadData($params = [])
     {
-        static $diy_user_info_data = null;
-        if($diy_user_info_data === null)
+        static $diyapi_user_info_data = null;
+        if($diyapi_user_info_data === null)
         {
             $user = UserService::LoginUserInfo();
-            $diy_user_info_data = [
-                'user'                  => $user,
+            $data = [
+                'user_avatar'           => empty($user) ? UserDefaultAvatar() : $user['avatar'],
+                'user_name_view'        => empty($user) ? '用户名称' : $user['user_name_view'],
+                'user_number_code'      => empty($user) ? '' : $user['number_code'],
                 'order_count'           => 0,
                 'goods_favor_count'     => 0,
                 'goods_browse_count'    => 0,
@@ -874,30 +878,73 @@ class DiyApiService
                 ];
 
                 // 订单总数
-                $diy_user_info_data['order_count'] = OrderService::OrderTotal(array_merge($base_where, [
+                $data['order_count'] = OrderService::OrderTotal(array_merge($base_where, [
                     ['is_delete_time', '=', 0],
                     ['user_is_delete_time', '=', 0],
                 ]));
 
                 // 商品收藏总数
-                $diy_user_info_data['goods_favor_count'] = GoodsFavorService::GoodsFavorTotal($base_where);
+                $data['goods_favor_count'] = GoodsFavorService::GoodsFavorTotal($base_where);
 
                 // 商品浏览总数
-                $diy_user_info_data['goods_browse_count'] = GoodsBrowseService::GoodsBrowseTotal($base_where);
+                $data['goods_browse_count'] = GoodsBrowseService::GoodsBrowseTotal($base_where);
 
                 // 用户积分
                 $integral = IntegralService::UserIntegral($user['id']);
-                $diy_user_info_data['integral_number'] = (!empty($integral) && !empty($integral['integral'])) ? $integral['integral'] : 0;
+                $data['integral_number'] = (!empty($integral) && !empty($integral['integral'])) ? $integral['integral'] : 0;
 
                 // 未读消息总数
-                $diy_user_info_data['message_unread_count'] = MessageService::UserMessageTotal([
+                $data['message_unread_count'] = MessageService::UserMessageTotal([
                     'user'    => $user,
                     'is_more' => 1,
                     'is_read' => 0,
                 ]);
             }
+
+            // diy用户头数据钩子
+            $hook_name = 'plugins_service_diyapi_user_head_data';
+            MyEventTrigger($hook_name, [
+                'hook_name'   => $hook_name,
+                'is_backend'  => true,
+                'data'        => &$data,
+                'user'        => $user,
+                'params'      => $params,
+            ]);
+
+            // 赋值常亮变量
+            $diyapi_user_info_data = $data;
         }
-        return DataReturn('success', 0, $diy_user_info_data);
+        return DataReturn('success', 0, $diyapi_user_info_data);
+    }
+
+    /**
+     * 商品收藏自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsFavorAutoData($params = [])
+    {
+        $result = GoodsFavorService::AutoGoodsFavorList($params);
+        return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 商品浏览自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsBrowseAutoData($params = [])
+    {
+        $result = GoodsBrowseService::AutoGoodsBrowseList($params);
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -921,6 +968,7 @@ class DiyApiService
                     'appoint_data'  => [
                         'user_avatar'           => UserDefaultAvatar(),
                         'user_name_view'        => '用户名称',
+                        'user_number_code'      => '用户会员码',
                         'order_count'           => 0,
                         'goods_favor_count'     => 0,
                         'goods_browse_count'    => 0,
@@ -930,6 +978,7 @@ class DiyApiService
                     'data'          => [
                         ['name'=>'用户头像', 'field'=>'user_avatar', 'type'=>'images'],
                         ['name'=>'用户名称', 'field'=>'user_name_view', 'type'=>'text'],
+                        ['name'=>'用户会员码', 'field'=>'user_number_code', 'type'=>'text'],
                         ['name'=>'订单总数', 'field'=>'order_count', 'type'=>'text'],
                         ['name'=>'商品收藏', 'field'=>'goods_favor_count', 'type'=>'text'],
                         ['name'=>'我的足迹', 'field'=>'goods_browse_count', 'type'=>'text'],
@@ -949,9 +998,10 @@ class DiyApiService
                         ['name'=>'简述', 'field' =>'simple_desc', 'type'=>'text'],
                         ['name'=>'型号', 'field' =>'model', 'type'=>'text'],
                         ['name'=>'品牌', 'field' =>'brand_name', 'type'=>'text'],
+                        ['name'=>'品牌商品URL', 'field' =>'brand_goods_url', 'type'=>'link'],
                         ['name'=>'生产地', 'field' =>'place_origin_name', 'type'=>'text'],
                         ['name'=>'库存', 'field' =>'inventory', 'type'=>'text'],
-                        ['name'=>'库存单位', 'field' =>'inventory_unit', 'type'=>'text'],
+                        ['name'=>'计量单位', 'field' =>'inventory_unit', 'type'=>'text'],
                         ['name'=>'封面图片', 'field' =>'images', 'type'=>'images'],
                         ['name'=>'原价', 'field' =>'original_price', 'type'=>'text'],
                         ['name'=>'最低原价', 'field' =>'min_original_price', 'type'=>'text'],
@@ -1359,6 +1409,141 @@ class DiyApiService
 
         // diy自定义初始化钩子
         $hook_name = 'plugins_service_diyapi_custom_init';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'data'        => &$data,
+            'params'      => $params,
+        ]);
+        return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 商品魔方初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsMagicInit($params = [])
+    {
+        // 返回数据
+        $data = [
+            // 数据源
+            'data_source' => [
+                [
+                    'name'  => '用户商品收藏',
+                    'type'  => 'user-goods-favor',
+                    'custom_config' => [
+                        'data_type'     => [1],
+                        'is_type_show'  => 0,
+                        'filter_config' => [
+                            'data_url'            => MyUrl('admin/diyapi/goodsfavorautodata'),
+                            'filter_form_config'  => [
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'goods_keywords',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'default'  => 4,
+                                        'type'     => 'number',
+                                    ],
+                                    'title'      => '显示数量',
+                                    'form_name'  => 'goods_number',
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序类型',
+                                    'form_name'  => 'goods_order_by_type',
+                                    'data'       => MyConst('common_goods_favor_order_by_type_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序规则',
+                                    'form_name'  => 'goods_order_by_rule',
+                                    'data'       => MyConst('common_data_order_by_rule_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'name'  => '用户商品浏览',
+                    'type'  => 'user-goods-browse',
+                    'custom_config' => [
+                        'data_type'     => [1],
+                        'is_type_show'  => 0,
+                        'filter_config' => [
+                            'data_url'            => MyUrl('admin/diyapi/goodsbrowseautodata'),
+                            'filter_form_config'  => [
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'placeholder'  => '请输入关键字',
+                                        'type'         => 'text',
+                                    ],
+                                    'title'      => '关键字',
+                                    'form_name'  => 'goods_keywords',
+                                ],
+                                [
+                                    'type'    => 'input',
+                                    'config'  => [
+                                        'default'  => 4,
+                                        'type'     => 'number',
+                                    ],
+                                    'title'      => '显示数量',
+                                    'form_name'  => 'goods_number',
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序类型',
+                                    'form_name'  => 'goods_order_by_type',
+                                    'data'       => MyConst('common_goods_browse_order_by_type_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                                [
+                                    'type'       => 'radio',
+                                    'title'      => '排序规则',
+                                    'form_name'  => 'goods_order_by_rule',
+                                    'data'       => MyConst('common_data_order_by_rule_list'),
+                                    'data_key'   => 'index',
+                                    'data_name'  => 'name',
+                                    'config'     => [
+                                        'default'      => 0,
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        // diy商品魔方初始化钩子
+        $hook_name = 'plugins_service_diyapi_goods_magic_init';
         MyEventTrigger($hook_name, [
             'hook_name'   => $hook_name,
             'is_backend'  => true,

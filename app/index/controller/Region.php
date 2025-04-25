@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\ApiService;
+use app\service\SystemBaseService;
 use app\service\RegionService;
 
 /**
@@ -51,7 +52,7 @@ class Region extends Common
                 ['pid', '=', $pid],
             ],
         ];
-        return ApiService::ApiDataReturn(DataReturn('success', 0, RegionService::RegionNode($params)));
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn(RegionService::RegionNode($params)));
     }
 
     /**
@@ -64,7 +65,7 @@ class Region extends Common
      */
     public function All()
     {
-        return ApiService::ApiDataReturn(RegionService::RegionAll());
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn(RegionService::RegionAll()));
     }
 
     /**

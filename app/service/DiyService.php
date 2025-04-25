@@ -924,6 +924,11 @@ class DiyService
             // 地址信息
             $page = 'pages/diy/diy';
             $query = 'id='.$data['id'];
+            // h5地址拼接
+            if(!empty($h5_url))
+            {
+                $h5_url .= $page.'?'.$query;
+            }
             foreach($platform as $v)
             {
                 // 存储信息
@@ -944,7 +949,7 @@ class DiyService
                         case 'h5' :
                             if(!empty($h5_url))
                             {
-                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url.$page.'?'.$query]));
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url]));
                                 if($ret['code'] == 0)
                                 {
                                     $status = true;
@@ -1076,12 +1081,15 @@ class DiyService
                 }
                 if($status)
                 {
-                    $qrcode[] = [
-                        'name'    => $v['name'],
-                        'type'    => $v['value'],
-                        'url'     => ($v['value'] == 'h5') ? $h5_url .= $page.'?'.$query : '',
-                        'qrcode'  => ResourcesService::AttachmentPathViewHandle($dir_params['path'].$dir_params['filename']),
-                    ];
+                    if(($v['value'] == 'h5' && !empty($h5_url)) || $v['value'] != 'h5')
+                    {
+                        $qrcode[] = [
+                            'name'    => $v['name'],
+                            'type'    => $v['value'],
+                            'url'     => ($v['value'] == 'h5') ? $h5_url : '',
+                            'qrcode'  => ResourcesService::AttachmentPathViewHandle($dir_params['path'].$dir_params['filename']),
+                        ];
+                    }
                 }
             }
         }

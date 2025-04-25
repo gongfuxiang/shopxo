@@ -76,6 +76,9 @@ return [
         'upload_images_max_tips'            => 'Upload up to {value} pictures',
         'upload_video_max_tips'             => 'Upload {value} videos at most',
         'upload_annex_max_tips'             => 'Upload up to {value} attachments',
+        'upload_images_suffix_tips'         => 'The format of the {value} th image is incorrect',
+        'upload_video_suffix_tips'          => 'The {value} th video format is incorrect',
+        'upload_annex_suffix_tips'          => 'The format of the {value} th attachment is incorrect',
         'form_config_type_params_tips'      => 'The form [type] parameter configuration is incorrect',
         'form_config_value_params_tips'     => 'The form [type] parameter configuration is incorrect',
         'form_call_fun_not_exist_tips'      => 'The method defined by the form is not defined',
@@ -338,6 +341,7 @@ return [
     'upd_time_title'                                        => 'Update Time',
     'price_min_title'                                       => 'Lowest price',
     'price_max_title'                                       => 'Maximum price',
+    'shop_order'                                            => 'Mall orders',
     'back_home_title'                                       => 'Back Home',
     'shop_home_title'                                       => 'Shop Home',
     'home_title'                                            => 'Home',
@@ -451,6 +455,7 @@ return [
     'refuse_title'                                          => 'Refuse',
     'pass_title'                                            => 'Pass',
     'agree_title'                                           => 'Agree',
+    'expire_title'                                          => 'Expire',
     'order_title'                                           => 'Order',
     'install_title'                                         => 'Install',
     'uninstall_title'                                       => 'Uninstall',
@@ -580,6 +585,7 @@ return [
     'custom_title'                                          => 'Custom',
     'customer_title'                                        => 'customer',
     'customer_info_title'                                   => 'Customer Information',
+    'region_title'                                          => 'Area',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_add_name'                                        => 'Goods Add',
@@ -1163,6 +1169,23 @@ return [
         3 => 'Price',
         4 => 'newest',
     ],
+    // 用户商品收藏排序类型
+    'common_goods_favor_order_by_type_list' => [
+        0 => 'comprehensive',
+        1 => 'sales volume',
+        2 => 'degree of heat',
+        3 => 'Price',
+        4 => 'newest',
+    ],
+    // 用户商品浏览排序类型
+    'common_goods_browse_order_by_type_list' => [
+        0 => 'comprehensive',
+        1 => 'sales volume',
+        2 => 'degree of heat',
+        3 => 'Price',
+        4 => 'newest',
+        5 => 'User browse',
+    ],
     // 数据排序规则
     'common_data_order_by_rule_list' => [
         0 => 'Descending order (DESC)',
@@ -1642,6 +1665,8 @@ return [
         ],
         // 配置信息
         'config'            => [
+            'site_title_icon_power_tips'               => 'Browser title icon has no permission',
+            'site_title_icon_fail_tips'                => 'Failed to save browser title icon',
             'route_dir_no_power_tips'                  => 'Routing directory does not have operation permission',
             'route_file_no_power_tips'                 => 'Routing profile does not have operation permissions',
             'route_file_config_no_exist_tips'          => 'Routing rule file does not exist',
@@ -1727,7 +1752,7 @@ return [
             'upload_config_file_error_tips'         => 'Configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
             'upload_invalid_packet_tips'            => 'Invalid data packet',
-            'preview_url_tips'                      => 'Please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first (H5 end needs to be packaged using Uniapp version)',
+            'preview_url_tips'                      => 'If you need the H5 preview effect, please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first (the H5 end needs to be packaged using the Uniapp version)',
             'form_item_desc'                        => 'describe',
             'form_item_desc_message'                => 'Describe content format 2-60 characters',
             'form_item_apply_version'               => 'Applicable system version',
@@ -1871,8 +1896,8 @@ return [
             'form_item_brand_message'               => 'Please select a brand',
             'form_item_place_origin'                => 'Place of production',
             'form_item_place_origin_message'        => 'Please select the place of production',
-            'form_item_inventory_unit'              => 'Inventory unit',
-            'form_item_inventory_unit_message'      => 'Inventory unit format 1~6 characters',
+            'form_item_inventory_unit'              => 'unit of measurement',
+            'form_item_inventory_unit_message'      => 'unit of measurement format 1~6 characters',
             'form_item_give_integral'               => 'Percentage of free points for purchase',
             'form_item_give_integral_tips'          => [
                 '1. Distribute according to the proportion of goods amount multiplied by quantity',
@@ -2358,6 +2383,7 @@ return [
             'pay_log_insert_fail_tips'              => 'Failed to add payment order',
             'pay_log_id_empty_tips'                 => 'The log ID is incorrect',
             'pay_log_update_fail_tips'              => 'Log order update failed',
+            'pay_log_value_no_data_tips'            => 'No payment business data',
         ],
          // 支付方式
         'payment'               => [
@@ -3435,6 +3461,11 @@ return [
             'desc' => 'PNG format is recommended. 300*300px is recommended',
             'tips' => 'Please upload the square logo',
         ],
+        'home_site_title_icon'  => [
+            'name' => 'Browser title icon',
+            'desc' => 'Using ICO format, it is recommended to use 128 * 128px',
+            'tips' => 'Please upload the browser title icon',
+        ],
         'home_user_reg_type'  => [
             'name' => 'Registration method',
             'desc' => 'If it is not selected, the front-end site cannot be registered. You can select [SMS, email, user name]',
@@ -3914,7 +3945,7 @@ return [
         ],
         'home_is_enable_userregister_agreement'  => [
             'name' => 'User registration agreement',
-            'desc' => 'It is closed by default. After it is enabled, user registration can only be registered after agreeing to the agreement',
+            'desc' => 'By default, it is turned off. After turning it on, users need to agree to the protocol before they can register, which is only valid for the web end',
             'tips' => 'Please select whether to enable user registration agreement',
         ],
         'home_order_aftersale_return_goods_contacts_name'  => [
@@ -4085,16 +4116,17 @@ return [
         ],
         'common_is_exhibition_mode_btn_text'  => [
             'name' => 'Display type operation name',
-            'desc' => 'Default immediate consultation',
+            'desc' => 'Default immediate consultation, the name occupied by the Buy Now button on the product page in display mode',
             'tips' => 'Please fill in the name of display type operation',
         ],
         'common_site_fictitious_return_title'  => [
             'name' => 'Virtual information title',
-            'desc' => 'Default key information',
+            'desc' => 'Default key information, the title of the virtual information displayed in the order details after the user purchases the virtual product',
             'tips' => 'Please fill in the title of virtual information',
         ],
         'common_site_fictitious_return_tips'  => [
             'name' => 'Prompt information',
+            'desc' => 'Reminder information displayed to users in order details after purchasing virtual goods',
             'tips' => 'Please fill in the prompt information',
         ],
         'common_app_mini_alipay_tnt_inst_id'  => [
@@ -4140,7 +4172,7 @@ return [
         ],
         'common_is_mobile_concise_model'  => [
             'name' => 'Mobile phone simple mode',
-            'desc' => 'Default no',
+            'desc' => 'No by default, the bottom menu and friendship links on the web end will not be displayed when enabled',
             'tips' => 'Please select whether the phone is in compact mode',
         ],
         'common_app_weixin_liveplayer'  => [
@@ -4353,9 +4385,9 @@ return [
             'tips' => '',
         ],
         'home_extraction_address_position'  => [
-            'name' => 'Self-selected geographical location',
-            'desc' => 'Default off',
-            'tips' => 'Please select Self-delivery and geographical location',
+            'name' => 'Order self pickup, choose geographical location',
+            'desc' => 'By default, it is turned off. Before placing an order and selecting a self pickup address, you need to first select the users current location and address for the most recent display',
+            'tips' => 'Please choose to place an order for self pickup and select a geographical location',
         ],
         'home_search_is_keywords_where_and'  => [
             'name' => 'Search for multiple keywords and relationships',
@@ -4586,12 +4618,12 @@ return [
         ],
         'common_buy_datetime_info'  => [
             'name' => 'Order specified time',
-            'desc' => '',
+            'desc' => 'Only valid under the same city and self pickup order mode',
             'tips' => 'Please select the designated time for placing the order',
         ],
         'common_buy_extraction_contact_info'  => [
             'name' => 'Order contact information',
-            'desc' => '',
+            'desc' => 'Only valid in self pickup order mode',
             'tips' => 'Please select the contact information for placing an order',
         ],
         'home_search_history_record'  => [

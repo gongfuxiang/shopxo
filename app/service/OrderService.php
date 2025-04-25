@@ -2467,13 +2467,10 @@ class OrderService
         self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
 
         // 同步微信发货
-        if(isset($order['client_type']) && $order['client_type'] == 'weixin')
+        $ret = self::OrderDeliverySyncWeixin($order, $params);
+        if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
         {
-            $ret = self::OrderDeliverySyncWeixin($order, $params);
-            if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
-            {
-                return $ret;
-            }
+            return $ret;
         }
 
         // 完成

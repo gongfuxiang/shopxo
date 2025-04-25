@@ -61,8 +61,8 @@ class OtherHandleService
 
                     // 发货快递信息
                     $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
-                    $express_number = isset($params['express_number']) ? intval($params['express_number']) : '';
-                    $receiver_tel = isset($params['receiver_tel']) ? intval($params['receiver_tel']) : '';
+                    $express_number = isset($params['express_number']) ? $params['express_number'] : '';
+                    $receiver_tel = isset($params['receiver_tel']) ? $params['receiver_tel'] : '';
 
                     // 调用微信发货同步
                     return (new \base\Wechat(AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid'), AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret')))->MiniUploadShippingInfo([

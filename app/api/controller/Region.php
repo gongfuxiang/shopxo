@@ -53,8 +53,7 @@ class Region extends Common
                 ['pid', '=', $pid],
             ],
         ];
-        $result = RegionService::RegionNode($params);
-        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn(RegionService::RegionNode($params)));
     }
 
     /**
@@ -67,7 +66,7 @@ class Region extends Common
      */
     public function All()
     {
-        return ApiService::ApiDataReturn(RegionService::RegionAll());
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn(RegionService::RegionAll()));
     }
 
     /**

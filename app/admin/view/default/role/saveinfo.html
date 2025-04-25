@@ -32,18 +32,18 @@
             <div class="nav-content">
                 <div class="item am-active" data-key="role-form-item-menu">
                     <div class="am-form-group">
-                        <ul class="tree-list am-avg-sm-1 am-avg-md-1 am-avg-lg-1 am-nbfc am-radius-lg">
+                        <ul class="tree-list am-nbfc am-radius-lg" data-is-two-check-find="0" data-is-three-check-parent="0">
                             {{if !empty($power['power'])}}
                                 {{foreach $power.power as $v}}
                                     <li>
                                         <div class="item-content am-padding-sm">
                                             <label class="am-checkbox-inline">
-                                                <input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                <input type="checkbox" name="power_id" value="{{$v.id}}" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
                                                 <span class="{{if $v['is_show'] eq 0}}am-color-999{{/if}}">{{$v.name}}</span>
                                             </label>
                                         </div>
                                         {{if !empty($v['item'])}}
-                                            <ul class="list-find am-avg-sm-1 am-avg-md-1 am-avg-lg-1">
+                                            <ul class="list-find">
                                                 {{foreach $v.item as $vs}}
                                                     <li class="am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp">
                                                         <div class="item-content am-padding-sm">
@@ -53,7 +53,7 @@
                                                             </label>
                                                         </div>
                                                         {{if !empty($vs['item'])}}
-                                                            <div class="am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">
+                                                            <div class="list-find-three am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">
                                                                 {{foreach $vs.item as $vss}}
                                                                     <label class="am-checkbox-inline">
                                                                         <input type="checkbox" name="power_id" value="{{$vss.id}}" {{if $vss['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck>
@@ -79,10 +79,10 @@
                     <div class="am-form-group">
                         <div class="tree-plugins am-padding-left-sm am-checkbox-group am-flex am-flex-warp-re am-flex-items-center am-gap-12">
                             <label class="am-checkbox-inline am-text-truncate">
-                                <input type="checkbox" name="plugins" value="" class="auth-choice" data-am-ucheck />
+                                <input type="checkbox" name="plugins" value="" data-am-ucheck />
                                 <span>全选</span>
                             </label>
-                            <span>{{:MyLang('common_service.role.form_item_plugins_tips')}}</span>
+                            <span class="am-color-red">{{:MyLang('common_service.role.form_item_plugins_tips')}}</span>
                         </div>
                         <ul class="tree-list tree-plugins am-flex am-flex-warp">
                             {{if !empty($power['plugins'])}}

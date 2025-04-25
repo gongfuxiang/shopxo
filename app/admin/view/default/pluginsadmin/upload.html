@@ -13,11 +13,12 @@
                 'name' => MyLang('plugins_market_title'),
                 'key'  => 'market',
             ],
-        ]
+        ],
+        'index' => (isset($params['switch_active']) && $params['switch_active'] == 'market') ? 1 : 0,
     ])}}
     <div class="detail-content-switch-data-item">
         <!-- 本地导入 -->
-        <div class="item am-ht-auto am-active" data-key="upload">
+        <div class="item am-ht-auto {{if !isset($params['switch_active']) or $params['switch_active'] eq 'upload'}}am-active{{/if}}" data-key="upload">
             <form class="am-form form-validation am-form-popup-fixed am-upload-file" action="{{:MyUrl('admin/pluginsadmin/upload')}}" method="POST" request-type="ajax-reload" request-value="parent" enctype="multipart/form-data">
                 <div class="am-form-group am-flex-1">
                     <div class="am-form-file">
@@ -40,7 +41,7 @@
             </form>
         </div>
         <!-- 模板市场 -->
-        <div class="item am-ht-auto" data-key="market">
+        <div class="item am-ht-auto {{if isset($params['switch_active']) and $params['switch_active'] eq 'market'}}am-active{{/if}}" data-key="market">
             {{:ModuleInclude('public/market/index', [
                 'type'                   => 'plugins',
                 'back_win_refresh_type'  => 'none',

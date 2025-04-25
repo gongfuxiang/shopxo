@@ -85,10 +85,10 @@ class Weixin
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'mini_appid',
-                'placeholder'   => '小程序ID',
-                'title'         => '小程序ID',
+                'placeholder'   => '小程序AppID',
+                'title'         => '小程序AppID',
                 'is_required'   => 0,
-                'message'       => '请填写微信分配的小程序ID',
+                'message'       => '请填写微信分配的小程序AppID',
             ],
             [
                 'element'       => 'input',

@@ -475,6 +475,7 @@ return [
             'goods_placeholder'     => '请输入商品名称/简述/SEO信息',
             'price'                 => '销售价格',
             'original_price'        => '原价',
+            'access_count'          => '浏览量',
             'add_time'              => '创建时间',
         ],
     ],

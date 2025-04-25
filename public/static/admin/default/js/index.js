@@ -610,9 +610,15 @@ $(function () {
     // 清除选项卡的缓存
     $(document).on('click', '.clear-cache-html', function () {
         var key = AdminMenuNavTabsMemoryKey();
-        var key_data = localStorage.getItem(key);
-        if (key_data.length <= 1) {
-            localStorage.removeItem(key);
+        var key_data = localStorage.getItem(key) || null;
+        if(key_data != null) {
+            key_data = JSON.parse(key_data);
+            if (key_data.length <= 1) {
+                localStorage.removeItem(key);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1500);
+            }
         }
     });
 });

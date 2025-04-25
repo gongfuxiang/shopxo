@@ -71,11 +71,14 @@ return [
         'operate_download_name'             => 'Descargar',
         'operate_download_fail_tips'        => 'Falló la descarga',
         'select_not_chosen_tips'            => 'Por favor, seleccione el elemento',
-        'select_chosen_min_tips'            => 'Seleccione al menos el elemento (valor).',
-        'select_chosen_max_tips'            => 'Seleccione como máximo el elemento (valor).',
-        'upload_images_max_tips'            => 'Cargar hasta un máximo de (...) imágenes',
-        'upload_video_max_tips'             => 'Cargar hasta un máximo de valor vídeos',
-        'upload_annex_max_tips'             => 'Cargar hasta un máximo de (...) archivos adjuntos',
+        'select_chosen_min_tips'            => 'Seleccione al menos el elemento {value}.',
+        'select_chosen_max_tips'            => 'Seleccione como máximo el elemento {value}.',
+        'upload_images_max_tips'            => 'Cargar hasta un máximo de {value} imágenes',
+        'upload_video_max_tips'             => 'Cargar hasta un máximo de {value} vídeos',
+        'upload_annex_max_tips'             => 'Cargar hasta un máximo de {value} archivos adjuntos',
+        'upload_images_suffix_tips'         => 'La imagen {value} tiene un formato incorrecto',
+        'upload_video_suffix_tips'          => 'El {value} formato de vídeo es incorrecto',
+        'upload_annex_suffix_tips'          => 'El formato del anexo {value} es incorrecto',
         'form_config_type_params_tips'      => 'Configuración incorrecta del parámetro del formulario [tipo]',
         'form_config_value_params_tips'     => 'Configuración incorrecta del parámetro del formulario [tipo]',
         'form_call_fun_not_exist_tips'      => 'El método definido por el formulario no está definido',
@@ -338,6 +341,7 @@ return [
     'upd_time_title'                                        => 'Tiempo de actualización',
     'price_min_title'                                       => 'Precio mínimo',
     'price_max_title'                                       => 'Precio máximo',
+    'shop_order'                                            => 'Pedidos del centro comercial',
     'back_home_title'                                       => 'Volver a la página de inicio',
     'shop_home_title'                                       => 'Página de inicio del centro comercial',
     'home_title'                                            => 'Página de inicio',
@@ -451,6 +455,7 @@ return [
     'refuse_title'                                          => 'Rechazar',
     'pass_title'                                            => 'Através',
     'agree_title'                                           => 'De acuerdo',
+    'expire_title'                                          => 'Caducado',
     'order_title'                                           => 'Pedidos',
     'install_title'                                         => 'Instalación',
     'uninstall_title'                                       => 'Desinstalar',
@@ -580,6 +585,7 @@ return [
     'custom_title'                                          => 'Personalizado',
     'customer_title'                                        => 'Cliente',
     'customer_info_title'                                   => 'Información del cliente',
+    'region_title'                                          => 'Región',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
     'goods_add_name'                                        => 'Adición de productos básicos',
@@ -1163,6 +1169,23 @@ return [
         3 => 'Precio',
         4 => 'Último',
     ],
+    // 用户商品收藏排序类型
+    'common_goods_favor_order_by_type_list' => [
+        0 => 'Integral',
+        1 => 'Ventas',
+        2 => 'Calor',
+        3 => 'Precio',
+        4 => 'Último',
+    ],
+    // 用户商品浏览排序类型
+    'common_goods_browse_order_by_type_list' => [
+        0 => 'Integral',
+        1 => 'Ventas',
+        2 => 'Calor',
+        3 => 'Precio',
+        4 => 'Último',
+        5 => 'Navegación del usuario',
+    ],
     // 数据排序规则
     'common_data_order_by_rule_list' => [
         0 => 'Orden descendente (desc)',
@@ -1646,6 +1669,8 @@ return [
         ],
         // 配置信息
         'config'            => [
+            'site_title_icon_power_tips'               => 'El icono del título del navegador no tiene permisos',
+            'site_title_icon_fail_tips'                => 'Falló la conservación del icono del título del navegador',
             'route_dir_no_power_tips'                  => 'El catálogo de enrutamiento no tiene permisos operativos',
             'route_file_no_power_tips'                 => 'El perfil de ruta no tiene permisos operativos',
             'route_file_config_no_exist_tips'          => 'El archivo de reglas de enrutamiento no existe',
@@ -1731,7 +1756,7 @@ return [
             'upload_config_file_error_tips'         => 'La información de configuración está vacía o incorrecta',
             'upload_config_file_handle_fail_tips'   => 'Falló el procesamiento del archivo de configuración',
             'upload_invalid_packet_tips'            => 'Paquete de datos no válido',
-            'preview_url_tips'                      => 'Por favor, configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] primero (el lado h5 necesita ser empaquetado con la versión uniapp)',
+            'preview_url_tips'                      => 'Para el efecto de previsualización de h5, primero configure la dirección h5 del teléfono móvil en segundo plano [teléfono móvil - > configuración básica] (el lado h5 necesita ser empaquetado con la versión uniapp)',
             'form_item_desc'                        => 'Descripción',
             'form_item_desc_message'                => 'Formato de contenido de descripción de 2 a 60 caracteres',
             'form_item_apply_version'               => 'Versión del sistema aplicable',
@@ -1875,8 +1900,8 @@ return [
             'form_item_brand_message'               => 'Por favor, elija la marca',
             'form_item_place_origin'                => 'Lugar de producción',
             'form_item_place_origin_message'        => 'Por favor, elija el lugar de producción.',
-            'form_item_inventory_unit'              => 'Unidades de inventario',
-            'form_item_inventory_unit_message'      => 'Formato de la unidad de inventario de 1 a 6 caracteres',
+            'form_item_inventory_unit'              => 'Unidad de medida',
+            'form_item_inventory_unit_message'      => 'Formato de organización de inventario de 1 a 6 palabras',
             'form_item_give_integral'               => 'Proporción de puntos de regalo de compra',
             'form_item_give_integral_tips'          => [
                 '1. distribución de acuerdo con la proporción de la cantidad de la mercancía multiplicada por la proporción de la cantidad',
@@ -2362,6 +2387,7 @@ return [
             'pay_log_insert_fail_tips'              => 'Falló la adición del pedido de pago',
             'pay_log_id_empty_tips'                 => 'El ID de registro es incorrecto',
             'pay_log_update_fail_tips'              => 'Falló la actualización del pedido de registro',
+            'pay_log_value_no_data_tips'            => 'No hay datos de Negocios de pago',
         ],
         // 支付方式
         'payment'               => [
@@ -3434,6 +3460,11 @@ return [
             'desc' => 'Se recomienda usar el formato png, se recomienda 300*300px',
             'tips' => 'Por favor, suba el logotipo cuadrado',
         ],
+        'home_site_title_icon'  => [
+            'name' => 'Icono del título del navegador',
+            'desc' => 'Con el formato ico, se recomienda 128 * 128px',
+            'tips' => 'Por favor, suba el icono del título del navegador',
+        ],
         'home_user_reg_type'  => [
             'name' => 'Método de registro',
             'desc' => 'No seleccionado, el sitio frontal no se podrá registrar, se puede elegir [sms, buzón, nombre de usuario]',
@@ -3883,7 +3914,7 @@ return [
         ],
         'home_is_enable_userregister_agreement'  => [
             'name' => 'Protocolo de registro de usuarios',
-            'desc' => 'Se cierra por defecto, y el registro del usuario requiere un Protocolo de consentimiento para registrarse después de abrirlo.',
+            'desc' => 'Se cierra por defecto. después de abrir, el registro del usuario requiere un Protocolo de consentimiento para registrarse. solo es válido para el lado Web.',
             'tips' => 'Por favor, elija Si habilita el Protocolo de registro de usuarios',
         ],
         'home_order_aftersale_return_goods_contacts_name'  => [
@@ -4054,16 +4085,17 @@ return [
         ],
         'common_is_exhibition_mode_btn_text'  => [
             'name' => 'Nombre de la operación de exhibición',
-            'desc' => 'Consulta inmediata por defecto',
+            'desc' => 'Consulta inmediata por defecto, nombre de ocupación del botón [compra inmediata] de la página del producto en modo de exhibición',
             'tips' => 'Por favor, rellene el nombre de la operación de exhibición.',
         ],
         'common_site_fictitious_return_title'  => [
             'name' => 'Título de la información virtual',
-            'desc' => 'Información clave predeterminada',
+            'desc' => 'Información clave predeterminada, el título de la información virtual que el usuario muestra en los detalles del pedido después de comprar el producto virtual',
             'tips' => 'Por favor, rellene el título de la información virtual',
         ],
         'common_site_fictitious_return_tips'  => [
             'name' => 'Mensaje de recordatorio',
+            'desc' => 'Información de recordatorio que el usuario muestra al usuario en los detalles del pedido después de comprar el producto virtual',
             'tips' => 'Por favor, rellene la información de recordatorio.',
         ],
         'common_app_mini_alipay_tnt_inst_id'  => [
@@ -4109,7 +4141,7 @@ return [
         ],
         'common_is_mobile_concise_model'  => [
             'name' => 'Modo simple del teléfono móvil',
-            'desc' => 'Predeterminado No',
+            'desc' => 'No por defecto, después de abrir, el menú inferior del lado web y el enlace de amistad no se muestran',
             'tips' => 'Por favor, elija si el teléfono es simple.',
         ],
         'common_app_weixin_liveplayer'  => [
@@ -4320,9 +4352,9 @@ return [
             'desc' => 'Verify Code variable identifier (...)',
         ],
         'home_extraction_address_position'  => [
-            'name' => 'Recoger y elegir la ubicación geográfica',
-            'desc' => 'Cierre predeterminado',
-            'tips' => 'Por favor, elija recoger para elegir la ubicación geográfica.',
+            'name' => 'Haga un pedido y elija su ubicación geográfica.',
+            'desc' => 'Se cierra por defecto. después de abrir, debe seleccionar la ubicación actual y la dirección del usuario para mostrarla más recientemente antes de hacer un pedido y seleccionar la dirección de recogida.',
+            'tips' => 'Por favor, elija hacer un pedido y recoger su propia ubicación geográfica.',
         ],
         'home_search_is_keywords_where_and'  => [
             'name' => 'Buscar varias palabras clave y relaciones',
@@ -4549,12 +4581,12 @@ return [
         ],
         'common_buy_datetime_info'  => [
             'name' => 'Hora especificada para hacer el pedido',
-            'desc' => '',
+            'desc' => 'Solo es válido en la misma ciudad y en el modo de autopedido.',
             'tips' => 'Por favor, elija la hora especificada para hacer el pedido.',
         ],
         'common_buy_extraction_contact_info'  => [
             'name' => 'Información de contacto para hacer un pedido',
-            'desc' => '',
+            'desc' => 'Solo válido en el modo de pedido de recogida propia',
             'tips' => 'Por favor, elija la información de contacto para hacer un pedido.',
         ],
         'home_search_history_record'  => [

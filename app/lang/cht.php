@@ -76,6 +76,9 @@ return [
         'upload_images_max_tips'            => '最多上傳{value}張圖片',
         'upload_video_max_tips'             => '最多上傳{value}個視頻',
         'upload_annex_max_tips'             => '最多上傳{value}個附件',
+        'upload_images_suffix_tips'         => '第{value}張圖片格式有誤',
+        'upload_video_suffix_tips'          => '第{value}個視頻格式有誤',
+        'upload_annex_suffix_tips'          => '第{value}個附件格式有誤',
         'form_config_type_params_tips'      => '表單[類型]參數配寘有誤',
         'form_config_value_params_tips'     => '表單[類型]參數配寘有誤',
         'form_call_fun_not_exist_tips'      => '表單定義的方法未定義',
@@ -338,6 +341,7 @@ return [
     'upd_time_title'                                        => '更新時間',
     'price_min_title'                                       => '最低價格',
     'price_max_title'                                       => '最高價格',
+    'shop_order'                                            => '商城訂單',
     'back_home_title'                                       => '回到首頁',
     'shop_home_title'                                       => '商城首頁',
     'home_title'                                            => '首頁',
@@ -451,6 +455,7 @@ return [
     'refuse_title'                                          => '拒絕',
     'pass_title'                                            => '通過',
     'agree_title'                                           => '同意',
+    'expire_title'                                          => '過期',
     'order_title'                                           => '訂單',
     'install_title'                                         => '安裝',
     'uninstall_title'                                       => '卸載',
@@ -580,6 +585,7 @@ return [
     'custom_title'                                          => '自定義',
     'customer_title'                                        => '客戶',
     'customer_info_title'                                   => '客戶資訊',
+    'region_title'                                          => '地區',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_add_name'                                        => '商品添加',
@@ -1163,6 +1169,23 @@ return [
         3 => '價格',
         4 => '最新',
     ],
+    // 用户商品收藏排序类型
+    'common_goods_favor_order_by_type_list' => [
+        0 => '綜合',
+        1 => '銷量',
+        2 => '熱度',
+        3 => '價格',
+        4 => '最新',
+    ],
+    // 用户商品浏览排序类型
+    'common_goods_browse_order_by_type_list' => [
+        0 => '綜合',
+        1 => '銷量',
+        2 => '熱度',
+        3 => '價格',
+        4 => '最新',
+        5 => '用戶瀏覽',
+    ],
     // 数据排序规则
     'common_data_order_by_rule_list' => [
         0 => '降序（desc）',
@@ -1645,6 +1668,8 @@ return [
         ],
         // 配置信息
         'config'            => [
+            'site_title_icon_power_tips'               => '瀏覽器標題圖標無許可權',
+            'site_title_icon_fail_tips'                => '瀏覽器標題圖標保存失敗',
             'route_dir_no_power_tips'                  => '路由目錄沒有操作許可權',
             'route_file_no_power_tips'                 => '路由設定檔沒有操作許可權',
             'route_file_config_no_exist_tips'          => '路由規則檔案不存在',
@@ -1730,7 +1755,7 @@ return [
             'upload_config_file_error_tips'         => '配寘資訊為空或有誤',
             'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
             'upload_invalid_packet_tips'            => '無效數据包',
-            'preview_url_tips'                      => '請在後臺[ 手機->基礎配寘 ]先配寘手機端h5地址（h5端需要使用uniapp版本打包）',
+            'preview_url_tips'                      => '如需h5預覽效果，請在後臺[手機->基礎配寘]先配寘手機端h5地址（h5端需要使用uniapp版本打包）',
             'form_item_desc'                        => '描述',
             'form_item_desc_message'                => '描述內容格式2~60個字元',
             'form_item_apply_version'               => '適用系統版本',
@@ -1874,8 +1899,8 @@ return [
             'form_item_brand_message'               => '請選擇品牌',
             'form_item_place_origin'                => '生產地',
             'form_item_place_origin_message'        => '請選擇生產地',
-            'form_item_inventory_unit'              => '庫存組織',
-            'form_item_inventory_unit_message'      => '庫存組織格式1~6個字',
+            'form_item_inventory_unit'              => '計量單位',
+            'form_item_inventory_unit_message'      => '計量單位格式1~6個字',
             'form_item_give_integral'               => '購買贈送積分比例',
             'form_item_give_integral_tips'          => [
                 '1.按照商品金額比例乘以數量的比例進行發放',
@@ -2361,6 +2386,7 @@ return [
             'pay_log_insert_fail_tips'              => '支付訂單添加失敗',
             'pay_log_id_empty_tips'                 => '日誌id有誤',
             'pay_log_update_fail_tips'              => '日誌訂單更新失敗',
+            'pay_log_value_no_data_tips'            => '無支付業務數據',
         ],
         // 支付方式
         'payment'               => [
@@ -3433,6 +3459,11 @@ return [
             'desc' => '建議使用png格式，建議300*300px',
             'tips' => '請上傳正方形logo',
         ],
+        'home_site_title_icon'  => [
+            'name' => '瀏覽器標題圖標',
+            'desc' => '使用ico格式，建議128*128px',
+            'tips' => '請上傳瀏覽器標題圖標',
+        ],
         'home_user_reg_type'  => [
             'name' => '注册管道',
             'desc' => '未選擇、前端網站將無法注册，可選擇[簡訊，郵箱，用戶名]',
@@ -3882,7 +3913,7 @@ return [
         ],
         'home_is_enable_userregister_agreement'  => [
             'name' => '用戶註冊協定',
-            'desc' => '默認關閉，開啟後用戶註冊需要同意協定才可以注册',
+            'desc' => '默認關閉，開啟後用戶註冊需要同意協定才可以注册，僅對web端有效',
             'tips' => '請選擇是否啟用用戶註冊協定',
         ],
         'home_order_aftersale_return_goods_contacts_name'  => [
@@ -4053,16 +4084,17 @@ return [
         ],
         'common_is_exhibition_mode_btn_text'  => [
             'name' => '展示型操作名稱',
-            'desc' => '默認立即諮詢',
+            'desc' => '默認立即諮詢，展示模式下商品頁面的【立即購買】按鈕占位名稱',
             'tips' => '請填寫展示型操作名稱',
         ],
         'common_site_fictitious_return_title'  => [
             'name' => '虛擬資訊標題',
-            'desc' => '默認金鑰資訊',
+            'desc' => '默認金鑰資訊，用戶購買虛擬商品後、在訂單詳情裡面展示虛擬資訊的標題',
             'tips' => '請填寫虛擬資訊標題',
         ],
         'common_site_fictitious_return_tips'  => [
             'name' => '提示資訊',
+            'desc' => '用戶購買虛擬商品後、在訂單詳情裡面展示給用戶的提示資訊',
             'tips' => '請填寫提示資訊',
         ],
         'common_app_mini_alipay_tnt_inst_id'  => [
@@ -4108,7 +4140,7 @@ return [
         ],
         'common_is_mobile_concise_model'  => [
             'name' => '手機簡潔模式',
-            'desc' => '默認否',
+            'desc' => '默認否，開啟後web端底部選單、友情連結不顯示',
             'tips' => '請選擇是否手機簡潔模式',
         ],
         'common_app_weixin_liveplayer'  => [
@@ -4319,9 +4351,9 @@ return [
             'desc' => '驗證碼變數識別字[ #code# ]',
         ],
         'home_extraction_address_position'  => [
-            'name' => '自提選擇地理位置',
-            'desc' => '默認關閉',
-            'tips' => '請選擇自提選擇地理位置',
+            'name' => '下單自提選擇地理位置',
+            'desc' => '默認關閉，開啟後下單選擇自提地址之前需要先選擇用戶當前位置、地址以最近展示',
+            'tips' => '請選擇下單自提選擇地理位置',
         ],
         'home_search_is_keywords_where_and'  => [
             'name' => '蒐索多個關鍵字並且關係',
@@ -4548,12 +4580,12 @@ return [
         ],
         'common_buy_datetime_info'  => [
             'name' => '下單指定時間',
-            'desc' => '',
+            'desc' => '僅同城、自提訂單模式下有效',
             'tips' => '請選擇下單指定時間',
         ],
         'common_buy_extraction_contact_info'  => [
             'name' => '下單聯系資訊',
-            'desc' => '',
+            'desc' => '僅自提訂單模式下有效',
             'tips' => '請選擇下單聯系資訊',
         ],
         'home_search_history_record'  => [

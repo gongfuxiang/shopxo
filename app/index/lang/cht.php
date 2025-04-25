@@ -470,6 +470,7 @@ return [
             'goods_placeholder'     => '請輸入商品名稱/簡述/SEO資訊',
             'price'                 => '銷售價格',
             'original_price'        => '原價',
+            'access_count'          => '流覽量',
             'add_time'              => '創建時間',
         ],
     ],

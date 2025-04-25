@@ -119,7 +119,6 @@ class GoodsSpecTemplate extends Base
     public function Delete()
     {
         $params = $this->data_request;
-        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsSpecService::GoodsSpecTemplateDelete($params));
     }
 

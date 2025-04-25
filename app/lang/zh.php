@@ -76,6 +76,9 @@ return [
         'upload_images_max_tips'            => '最多上传{value}张图片',
         'upload_video_max_tips'             => '最多上传{value}个视频',
         'upload_annex_max_tips'             => '最多上传{value}个附件',
+        'upload_images_suffix_tips'         => '第{value}张图片格式有误',
+        'upload_video_suffix_tips'          => '第{value}个视频格式有误',
+        'upload_annex_suffix_tips'          => '第{value}个附件格式有误',
         'form_config_type_params_tips'      => '表单[类型]参数配置有误',
         'form_config_value_params_tips'     => '表单[类型]参数配置有误',
         'form_call_fun_not_exist_tips'      => '表单定义的方法未定义',
@@ -339,6 +342,7 @@ return [
     'upd_time_title'                                        => '更新时间',
     'price_min_title'                                       => '最低价格',
     'price_max_title'                                       => '最高价格',
+    'shop_order'                                            => '商城订单',
     'back_home_title'                                       => '回到首页',
     'shop_home_title'                                       => '商城首页',
     'home_title'                                            => '首页',
@@ -452,6 +456,7 @@ return [
     'refuse_title'                                          => '拒绝',
     'pass_title'                                            => '通过',
     'agree_title'                                           => '同意',
+    'expire_title'                                          => '过期',
     'order_title'                                           => '订单',
     'install_title'                                         => '安装',
     'uninstall_title'                                       => '卸载',
@@ -581,6 +586,7 @@ return [
     'custom_title'                                          => '自定义',
     'customer_title'                                        => '客户',
     'customer_info_title'                                   => '客户信息',
+    'region_title'                                          => '地区',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_add_name'                                        => '商品添加',
@@ -1164,6 +1170,23 @@ return [
         3 => '价格',
         4 => '最新',
     ],
+    // 用户商品收藏排序类型
+    'common_goods_favor_order_by_type_list' => [
+        0 => '综合',
+        1 => '销量',
+        2 => '热度',
+        3 => '价格',
+        4 => '最新',
+    ],
+    // 用户商品浏览排序类型
+    'common_goods_browse_order_by_type_list' => [
+        0 => '综合',
+        1 => '销量',
+        2 => '热度',
+        3 => '价格',
+        4 => '最新',
+        5 => '用户浏览',
+    ],
     // 数据排序规则
     'common_data_order_by_rule_list' => [
         0 => '降序(desc)',
@@ -1648,6 +1671,8 @@ return [
         ],
         // 配置信息
         'config'            => [
+            'site_title_icon_power_tips'               => '浏览器标题图标无权限',
+            'site_title_icon_fail_tips'                => '浏览器标题图标保存失败',
             'route_dir_no_power_tips'                  => '路由目录没有操作权限',
             'route_file_no_power_tips'                 => '路由配置文件没有操作权限',
             'route_file_config_no_exist_tips'          => '路由规则文件不存在',
@@ -1733,7 +1758,7 @@ return [
             'upload_config_file_error_tips'         => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
             'upload_invalid_packet_tips'            => '无效数据包',
-            'preview_url_tips'                      => '请在后台[ 手机->基础配置 ]先配置手机端h5地址（h5端需要使用uniapp版本打包）',
+            'preview_url_tips'                      => '如需h5预览效果，请在后台[ 手机->基础配置 ]先配置手机端h5地址（h5端需要使用uniapp版本打包）',
             'form_item_desc'                        => '描述',
             'form_item_desc_message'                => '描述内容格式2~60个字符',
             'form_item_apply_version'               => '适用系统版本',
@@ -1877,8 +1902,8 @@ return [
             'form_item_brand_message'               => '请选择品牌',
             'form_item_place_origin'                => '生产地',
             'form_item_place_origin_message'        => '请选择生产地',
-            'form_item_inventory_unit'              => '库存单位',
-            'form_item_inventory_unit_message'      => '库存单位格式1~6个字符',
+            'form_item_inventory_unit'              => '计量单位',
+            'form_item_inventory_unit_message'      => '计量单位格式1~6个字符',
             'form_item_give_integral'               => '购买赠送积分比例',
             'form_item_give_integral_tips'          => [
                 '1. 按照商品金额比例乘以数量的比例进行发放',
@@ -2364,6 +2389,7 @@ return [
             'pay_log_insert_fail_tips'              => '支付订单添加失败',
             'pay_log_id_empty_tips'                 => '日志id有误',
             'pay_log_update_fail_tips'              => '日志订单更新失败',
+            'pay_log_value_no_data_tips'            => '无支付业务数据',
         ],
         // 支付方式
         'payment'               => [
@@ -3463,6 +3489,11 @@ return [
             'desc' => '使用png格式，建议300*300px',
             'tips' => '请上传正方形logo',
         ],
+        'home_site_title_icon'  => [
+            'name' => '浏览器标题图标',
+            'desc' => '使用ico格式，建议128*128px',
+            'tips' => '请上传浏览器标题图标',
+        ],
         'home_user_reg_type'  => [
             'name' => '注册方式',
             'desc' => '未选择、前端站点将无法注册，可选择 [ 短信, 邮箱, 用户名 ]',
@@ -3912,7 +3943,7 @@ return [
         ],
         'home_is_enable_userregister_agreement'  => [
             'name' => '用户注册协议',
-            'desc' => '默认关闭，开启后用户注册需要同意协议才可以注册',
+            'desc' => '默认关闭，开启后用户注册需要同意协议才可以注册，仅对web端有效',
             'tips' => '请选择是否启用用户注册协议',
         ],
         'home_order_aftersale_return_goods_contacts_name'  => [
@@ -4083,16 +4114,17 @@ return [
         ],
         'common_is_exhibition_mode_btn_text'  => [
             'name' => '展示型操作名称',
-            'desc' => '默认 立即咨询',
+            'desc' => '默认 立即咨询，展示模式下商品页面的【立即购买】按钮占位名称',
             'tips' => '请填写展示型操作名称',
         ],
         'common_site_fictitious_return_title'  => [
             'name' => '虚拟信息标题',
-            'desc' => '默认密钥信息',
+            'desc' => '默认 密钥信息，用户购买虚拟商品后、在订单详情里面展示虚拟信息的标题',
             'tips' => '请填写虚拟信息标题',
         ],
         'common_site_fictitious_return_tips'  => [
             'name' => '提示信息',
+            'desc' => '用户购买虚拟商品后、在订单详情里面展示给用户的提示信息',
             'tips' => '请填写提示信息',
         ],
         'common_app_mini_alipay_tnt_inst_id'  => [
@@ -4138,7 +4170,7 @@ return [
         ],
         'common_is_mobile_concise_model'  => [
             'name' => '手机简洁模式',
-            'desc' => '默认否',
+            'desc' => '默认否，开启后web端底部菜单、友情链接不显示',
             'tips' => '请选择是否手机简洁模式',
         ],
         'common_app_weixin_liveplayer'  => [
@@ -4349,9 +4381,9 @@ return [
             'desc' => '验证码变量标识符 [ #code# ]',
         ],
         'home_extraction_address_position'  => [
-            'name' => '自提选择地理位置',
-            'desc' => '默认关闭',
-            'tips' => '请选择自提选择地理位置',
+            'name' => '下单自提选择地理位置',
+            'desc' => '默认关闭，开启后下单选择自提地址之前需要先选择用户当前位置、地址以最近展示',
+            'tips' => '请选择下单自提选择地理位置',
         ],
         'home_search_is_keywords_where_and'  => [
             'name' => '搜索多个关键字并且关系',
@@ -4578,12 +4610,12 @@ return [
         ],
         'common_buy_datetime_info'  => [
             'name' => '下单指定时间',
-            'desc' => '',
+            'desc' => '仅同城、自提订单模式下有效',
             'tips' => '请选择下单指定时间',
         ],
         'common_buy_extraction_contact_info'  => [
             'name' => '下单联系信息',
-            'desc' => '',
+            'desc' => '仅自提订单模式下有效',
             'tips' => '请选择下单联系信息',
         ],
         'home_search_history_record'  => [

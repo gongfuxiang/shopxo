@@ -112,6 +112,24 @@
                     </div>
 
                     <div class="am-form-group">
+                        <label class="am-block">{{$data.home_site_title_icon.name}}<span class="am-form-group-label-tips">{{$data.home_site_title_icon.describe}}</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view home_site_title_icon-images-view" data-form-name="home_site_title_icon" data-max-number="1" data-dialog-type="images" data-is-eye="1" data-suffix=".ico">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.home_site_title_icon-images-view">
+                                    {{if empty($data['home_site_title_icon']['value'])}}
+                                        <i class="iconfont icon-upload-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="home_site_title_icon" value="{{$data.home_site_title_icon.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.home_site_title_icon.value)}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
                         <label>{{$data.common_timezone.name}}<span class="am-form-group-label-tips">{{$data.common_timezone.describe}}</span></label>
                         <select name="{{$data.common_timezone.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_timezone.name}}" data-validation-message="{{$data.common_timezone.error_tips}}" required>
                             {{foreach $common_site_timezone_list as $k=>$v}}

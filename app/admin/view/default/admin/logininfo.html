@@ -138,14 +138,17 @@
             </div>
             <div class="am-modal-bd">
                 <div class="base am-form-group input-compose">
-                    <input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" />
+                    <input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" minlength="4" maxlength="4" id="verify-img-value" data-is-clearout="0" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" />
                     <div class="am-input-group-btn verify-img">
                         <img src="" class="am-radius am-cursor-pointer" id="verify-img" onClick="this.src='{{:MyUrl('admin/admin/adminverifyentry')}}&'+Math.random();" />
                         <a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('admin/admin/adminverifyentry')}}&'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
                 </div>
             </div>
         </div>

@@ -382,30 +382,36 @@ class UserAddressService
             'is_default'         => $is_default,
         ];
         // 坐标
-        if(array_key_exists('lng', $params))
+        if(MyC('home_user_address_map_status') == 1)
         {
-            $data['lng'] = isset($params['lng']) ? floatval($params['lng']) : 0;
-        }
-        if(array_key_exists('lat', $params))
-        {
-            $data['lat'] = isset($params['lat']) ? floatval($params['lat']) : 0;
+            if(array_key_exists('lng', $params))
+            {
+                $data['lng'] = isset($params['lng']) ? floatval($params['lng']) : 0;
+            }
+            if(array_key_exists('lat', $params))
+            {
+                $data['lat'] = isset($params['lat']) ? floatval($params['lat']) : 0;
+            }
         }
         // 身份证信息
-        if(array_key_exists('idcard_name', $params))
+        if(MyC('home_user_address_idcard_status') == 1)
         {
-            $data['idcard_name'] = empty($params['idcard_name']) ? '' : $params['idcard_name'];
-        }
-        if(array_key_exists('idcard_number', $params))
-        {
-            $data['idcard_number'] = empty($params['idcard_number']) ? '' : $params['idcard_number'];
-        }
-        if(array_key_exists('idcard_front', $params))
-        {
-            $data['idcard_front'] = $attachment['data']['idcard_front'];
-        }
-        if(array_key_exists('idcard_back', $params))
-        {
-            $data['idcard_back'] = $attachment['data']['idcard_back'];
+            if(array_key_exists('idcard_name', $params))
+            {
+                $data['idcard_name'] = empty($params['idcard_name']) ? '' : $params['idcard_name'];
+            }
+            if(array_key_exists('idcard_number', $params))
+            {
+                $data['idcard_number'] = empty($params['idcard_number']) ? '' : $params['idcard_number'];
+            }
+            if(array_key_exists('idcard_front', $params))
+            {
+                $data['idcard_front'] = $attachment['data']['idcard_front'];
+            }
+            if(array_key_exists('idcard_back', $params))
+            {
+                $data['idcard_back'] = $attachment['data']['idcard_back'];
+            }
         }
 
         // 用户地址保存前钩子

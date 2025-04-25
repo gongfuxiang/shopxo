@@ -305,7 +305,7 @@ class ArticleService
         $attachment = ResourcesService::AttachmentParams($params, ['cover', 'share_images']);
 
         // 编辑器内容
-        $content = empty($params['content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add');
+        $content = empty($params['content']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add'));
 
         // 详情图片
         $images = ResourcesService::RichTextMatchContentAttachment($content, 'article', 'images');

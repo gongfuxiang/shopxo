@@ -474,6 +474,7 @@ return [
             'goods_placeholder'     => 'Please enter the goods name/brief description/SEO information',
             'price'                 => 'Sales price (yuan)',
             'original_price'        => 'Original price (yuan)',
+            'access_count'          => 'Access count',
             'add_time'              => 'Creation time',
         ],
     ],

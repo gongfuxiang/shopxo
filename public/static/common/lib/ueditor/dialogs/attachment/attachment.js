@@ -231,6 +231,13 @@
         document.getElementById('search-container').setAttribute('class', 'none');
         switch (id) {
             case 'scan':
+                var $qrcode_url = $('#scan .qrcode-url .text-copy-submit');
+                var url = $qrcode_url.attr('data-value') || null;
+                if(url == null) {
+                    $qrcode_url.hide();
+                } else {
+                    $qrcode_url.show();
+                }
                 document.getElementById('choice-category-container').setAttribute('class', '');
                 break;
             case 'upload':
@@ -367,7 +374,7 @@
                 },
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
-                formData: {category_id: select.category_id},
+                formData: {ajax: 'ajax', category_id: select.category_id},
                 // 粘贴事件
                 paste: '#queueList',
                 // 开启拖入

@@ -214,7 +214,7 @@ function IsUserLogin($login_url = null)
 function DefaultTheme($theme = null)
 {
     static $default_theme = null;
-    if($default_theme === null)
+    if($default_theme === null || !empty($theme))
     {
         $cookie_domain = MyFileConfig('common_cookie_domain', '', '', true);
         if(!empty($cookie_domain))
@@ -1265,7 +1265,7 @@ function GetUrlHost($url)
     }
 
     // 判断是否是双后缀
-    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg)$/';
+    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw)$/';
     if(($n > 2) && preg_match($preg, $host))
     {
         // 双后缀取后3位
@@ -3548,7 +3548,16 @@ function RequestGet($value, $timeout = 10)
     }
 
     // 本地文件
-    return file_exists($value) ? file_get_contents($value) : '';
+    if(file_exists($value))
+    {
+        return file_get_contents($value);
+    } else {
+        if(file_exists(ROOT.'public'.$value))
+        {
+            return file_get_contents(ROOT.'public'.$value);
+        }
+    }
+    return '';
 }
 
 /**

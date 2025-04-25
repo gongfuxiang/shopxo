@@ -474,6 +474,7 @@ return [
             'goods_placeholder'     => 'Introduzca el nombre del producto / breve descripción / información seo',
             'price'                 => 'Precio de venta (yuan)',
             'original_price'        => 'Precio original (yuan)',
+            'access_count'          => 'Vistas',
             'add_time'              => 'Tiempo de creación',
         ],
     ],

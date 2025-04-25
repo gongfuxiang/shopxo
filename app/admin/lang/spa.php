@@ -512,6 +512,8 @@ return [
         'nav_store_theme_name'                  => 'Descarga de más temas',
         'nav_theme_download_name'               => 'Ver el tutorial de embalaje de applets',
         'nav_theme_download_tips'               => 'El tema del teléfono móvil se desarrolla con una aplicación uniapp (admite applets multiterminales, h5, app)',
+        'nav_appmini_order_list_path_name'      => 'Ruta de la lista de pedidos',
+        'nav_appmini_order_detail_path_name'    => 'Detalles del pedido ruta',
         'form_alipay_extend_title'              => 'Configuración del servicio al cliente',
         'form_alipay_extend_tips'               => 'Ps: si se abre en [app / applet] (se abre el servicio al cliente en línea), se deben rellenar las siguientes configuraciones [código corporativo] y [código de ventana de chat]',
         'form_theme_upload_tips'                => 'Cargar un paquete de instalación en formato zip comprimido',
@@ -674,6 +676,7 @@ return [
             'goods_placeholder'  => 'Introduzca el nombre del producto / breve descripción / información seo',
             'price'              => 'Precio de venta (yuan)',
             'original_price'     => 'Precio original (yuan)',
+            'access_count'       => 'Vistas',
             'add_time'           => 'Tiempo de creación',
         ],
     ],
@@ -804,6 +807,7 @@ return [
         'detail_no_payment_tips'                => 'Tenga en cuenta que el pedido aún no se ha pagado',
         // 动态表格
         'form_table'                            => [
+            'system_type'         => 'Tipo de sistema',
             'goods'               => 'Información básica',
             'goods_placeholder'   => 'Introduzca el id del pedido / número de pedido / nombre del producto / Modelo',
             'user'                => 'Información del usuario',
@@ -1026,6 +1030,7 @@ return [
         'pay_request_title'                     => 'Registro de solicitudes de pago',
         // 动态表格
         'form_table'                            => [
+            'id'                => 'ID de datos',
             'user'              => 'Información del usuario',
             'user_placeholder'  => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
             'log_no'            => 'Número de orden de pago',
@@ -1229,6 +1234,7 @@ return [
     'diy'                   => [
         'nav_store_diy_name'                    => 'Más descargas de plantillas DIY',
         'nav_apptabbar_name'                    => 'Menú inferior',
+        'nav_homediy_name'                      => 'Página de inicio DIY',
         'upload_list_tips'                      => [
             '1. Elija el paquete zip de diseño DIY descargado',
             '2. La importación agregará automáticamente un nuevo dato',
@@ -1603,6 +1609,7 @@ return [
                 'attachmentcategory_index'         => 'Clasificación de los anexos',
                 'attachmentcategory_save'          => 'Clasificación de anexos añadir / editar',
                 'attachmentcategory_statusupdate'  => 'Actualización del Estado del Anexo',
+                'attachmentcategory_upload'        => 'Carga de archivos adjuntos',
                 'attachmentcategory_delete'        => 'Eliminación de la clasificación de Anexos',
             ]
         ],

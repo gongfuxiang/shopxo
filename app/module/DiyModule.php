@@ -18,6 +18,8 @@ use app\service\DiyApiService;
 use app\service\UserService;
 use app\service\MessageService;
 use app\service\GoodsCartService;
+use app\service\GoodsFavorService;
+use app\service\GoodsBrowseService;
 
 /**
  * DIY装修处理服务层
@@ -341,6 +343,25 @@ class DiyModule
                             }
                             break;
 
+                        // 商品魔方
+                        case 'goods-magic' :
+                            if(!empty($v['com_data']['content']['data_source']) && !empty($v['com_data']['content']['data_source_content']) && isset($v['com_data']['content']['data_source_content']['data_type']) && $v['com_data']['content']['data_source_content']['data_type'] == 1)
+                            {
+                                switch($v['com_data']['content']['data_source'])
+                                {
+                                    // 用户商品收藏
+                                    case 'user-goods-favor' :
+                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsFavorService::AutoGoodsFavorList($v['com_data']['content']['data_source_content']);
+                                        break;
+
+                                    // 用户商品浏览
+                                    case 'user-goods-browse' :
+                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsBrowseService::AutoGoodsBrowseList($v['com_data']['content']['data_source_content']);
+                                        break;
+                                }
+                            }
+                            break;
+
                         // 文章列表
                         case 'article-list' :
                             $v['com_data']['content'] = self::ConfigViewArticleHandle($v['com_data']['content'], $article_data);
@@ -409,11 +430,7 @@ class DiyModule
                                                         // 固定数据、用户信息
                                                         if($tabs_data_config['content']['data_source'] == 'user-info')
                                                         {
-                                                            $ret = DiyApiService::UserHeadData();
-                                                            $ret['data']['user_avatar'] = empty($ret['data']['user']) ? UserDefaultAvatar() : $ret['data']['user']['avatar'];
-                                                            $ret['data']['user_name_view'] = empty($ret['data']['user']) ? '用户名称' : $ret['data']['user']['user_name_view'];
-                                                            unset($ret['data']['user']);
-                                                            $tabs_data_config['content']['data_source_content']['data_list'][] = $ret['data'];
+                                                            $tabs_data_config['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
                                                         }
                                                     }
                                                     break;
@@ -476,11 +493,7 @@ class DiyModule
                                                     // 固定数据、用户信息
                                                     if($dmv['data_content']['data_source'] == 'user-info')
                                                     {
-                                                        $ret = DiyApiService::UserHeadData();
-                                                        $ret['data']['user_avatar'] = empty($ret['data']['user']) ? UserDefaultAvatar() : $ret['data']['user']['avatar'];
-                                                        $ret['data']['user_name_view'] = empty($ret['data']['user']) ? '用户名称' : $ret['data']['user']['user_name_view'];
-                                                        unset($ret['data']['user']);
-                                                        $dmv['data_content']['data_source_content']['data_list'][] = $ret['data'];
+                                                        $dmv['data_content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
                                                     }
                                                 }
                                                 break;
@@ -519,11 +532,7 @@ class DiyModule
                                 // 固定数据、用户信息
                                 if($v['com_data']['content']['data_source'] == 'user-info')
                                 {
-                                    $ret = DiyApiService::UserHeadData();
-                                    $ret['data']['user_avatar'] = empty($ret['data']['user']) ? UserDefaultAvatar() : $ret['data']['user']['avatar'];
-                                    $ret['data']['user_name_view'] = empty($ret['data']['user']) ? '用户名称' : $ret['data']['user']['user_name_view'];
-                                    unset($ret['data']['user']);
-                                    $v['com_data']['content']['data_source_content']['data_list'][] = $ret['data'];
+                                    $v['com_data']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
                                 }
                             }
                             break;
@@ -532,9 +541,7 @@ class DiyModule
                         case 'user-info' :
                             if(!empty($v['com_data']['content']))
                             {
-                                $business_type = empty($v['com_data']['content']['config']) ? [] : $v['com_data']['content']['config'];
-                                $ret = DiyApiService::UserHeadData();
-                                $v['com_data']['content']['data'] = $ret['data'];
+                                $v['com_data']['content']['data'] = self::UserHeadDataHandle();
                             }
                             break;
                     }
@@ -566,6 +573,20 @@ class DiyModule
             }
         }
         return $config;
+    }
+
+    /**
+     * 用户头信息处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-03-25
+     * @desc    description
+     */
+    public static function UserHeadDataHandle()
+    {
+        $ret = DiyApiService::UserHeadData();
+        return $ret['data'];
     }
 
     /**

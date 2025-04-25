@@ -48,16 +48,14 @@ class GoodsParamsTemplate extends Base
      */
     public function Detail()
     {
-        // 模板数据
-        $assign = [
+        MyViewAssign([
             // 商品参数类型
             'common_goods_parameters_type_list' =>  MyConst('common_goods_parameters_type_list'),
             // 数据
             'data'                              => $this->data_detail,
             // 参数配置
             'parameters'                        => empty($this->data_detail['config_data']) ? [] : $this->data_detail['config_data'],
-        ];
-        MyViewAssign($assign);
+        ]);
         return MyView();
     }
 
@@ -133,7 +131,6 @@ class GoodsParamsTemplate extends Base
 	public function Delete()
 	{
         $params = $this->data_request;
-        $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsParamsService::GoodsParamsTemplateDelete($params));
 	}
 

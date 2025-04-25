@@ -27,7 +27,7 @@
                 <!-- 搜索框 -->
                 <form action="{{:MyUrl('index/search/index')}}" method="POST">
                     <div class="search-group am-radius am-nbfc">
-                        <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                        <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" data-is-clearout="0" />
                         <button type="submit" id="ai-topsearch" class="submit am-btn-primary">
                             <span>{{:MyLang('common.search_button_text')}}</span>
                         </button>

@@ -48,7 +48,7 @@ class GoodsSpecService
             return DataReturn($ret, -1);
         }
 
-        // 获取分类下所有分类id
+        // 获取分类所有分类上级id
         $data = [];
         $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
         if(!empty($ids))

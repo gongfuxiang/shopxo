@@ -69,6 +69,7 @@ class ConfigService
         'home_site_logo_wap',
         'home_site_logo_app',
         'home_site_logo_square',
+        'home_site_title_icon',
         'common_customer_store_qrcode',
         'home_site_user_register_bg_images',
         'home_site_user_login_ad1_images',
@@ -310,6 +311,13 @@ class ConfigService
                 return $ret;
             }
 
+            // 浏览器图标
+            $ret = self::SiteTitleIconHandle($params);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             // 站点默认首页配置
             $ret = self::SiteDefaultIndexHandle($params);
             if($ret['code'] != 0)
@@ -519,6 +527,36 @@ class ConfigService
                         return DataReturn(MyLang('common_service.config.default_index_deploy_fail').'['.$home_file.']', -1);
                     }
                 }
+            }
+        }
+        return DataReturn(MyLang('handle_noneed'), 0);
+    }
+
+    /**
+     * 浏览器图标处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-02T23:08:19+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SiteTitleIconHandle($params = [])
+    {
+        if(!empty($params['home_site_title_icon']))
+        {
+            $file = RequestGet($params['home_site_title_icon']);
+            if(!empty($file))
+            {
+                $ico_file = ROOT.'public'.DS.'favicon.ico';
+                if(!is_writable($ico_file))
+                {
+                    return DataReturn(MyLang('common_service.config.site_title_icon_power_tips').'['.$ico_file.']', -1);
+                }
+                if(file_put_contents($ico_file, $file) === false)
+                {
+                    return DataReturn(MyLang('common_service.config.site_title_icon_fail_tips').'['.$ico_file.']', -1);
+                }
+                return DataReturn(MyLang('handle_success'), 0);
             }
         }
         return DataReturn(MyLang('handle_noneed'), 0);

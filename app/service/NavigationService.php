@@ -53,12 +53,20 @@ class NavigationService
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
+        if(empty($header))
+        {
+            $header = [];
+        }
 
         // 底部导航
         if($footer === null || $is_query)
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');
+        }
+        if(empty($footer))
+        {
+            $footer = [];
         }
 
         // 中间大导航添加首页导航

@@ -98,6 +98,7 @@ class Admin
                     'is_sort'            => 1,
                     'search_config'      => [
                         'form_type'         => 'select',
+                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_admin_status_list'),
                         'data_key'          => 'value',

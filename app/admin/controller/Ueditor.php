@@ -48,6 +48,22 @@ class Ueditor extends Common
      */
     public function Index()
     {
+        $action = empty($this->data_request['action']) ? 'config' : $this->data_request['action'];
+        switch($action)
+        {
+            // 删除操作
+            case 'deletefile' :
+                $this->IsPower('attachment', 'delete');
+                break;
+
+            // 验证上传权限（初始化、列表、上传、分类）
+            default :
+                // 排除配置获取
+                if(!in_array($action, ['config']))
+                {
+                    $this->IsPower('attachment', 'upload');
+                }
+        }
         return ApiService::ApiDataReturn(UeditorService::Run($this->data_request));
     }
 }

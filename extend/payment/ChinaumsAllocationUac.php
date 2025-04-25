@@ -13,7 +13,7 @@ namespace payment;
 use app\plugins\allocation\service\PaymentHandleService;
 
 /**
- * 银联分账 - 云闪付
+ * 银联分账 - 闪付h5和app
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -51,11 +51,11 @@ class ChinaumsAllocationUac
     {
         // 基础信息
         $base = [
-            'name'          => '银联分账-云闪付',  // 插件名称
+            'name'          => '银联分账-闪付h5和app',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc', 'h5', 'ios', 'android'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '适用微信，分账模式支付方式。 <a href="https://www.chinaums.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'desc'          => '适用云闪付h5和app，分账模式支付方式。 <a href="https://www.chinaums.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];

@@ -101,7 +101,7 @@ class Index extends Common
 		// 用户是否有数据统计权限
 		$is_stats = AdminIsPower('index', 'stats');
 		MyViewAssign('is_stats', $is_stats);
-		if($is_stats == 1)
+		if($is_stats)
 		{
 			// 默认时间
 			$default_day = '30-day';

@@ -461,6 +461,32 @@ class DiyApi extends Base
     }
 
     /**
+     * 商品收藏自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-18
+     * @desc    description
+     */
+    public function GoodsFavorAutoData()
+    {
+        return ApiService::ApiDataReturn(DiyApiService::GoodsFavorAutoData($this->data_request));
+    }
+
+    /**
+     * 商品浏览自动数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-18
+     * @desc    description
+     */
+    public function GoodsBrowseAutoData()
+    {
+        return ApiService::ApiDataReturn(DiyApiService::GoodsBrowseAutoData($this->data_request));
+    }
+
+    /**
      * 自定义初始化
      * @author  Devil
      * @blog    http://gong.gg/
@@ -471,6 +497,19 @@ class DiyApi extends Base
     public function CustomInit()
     {
         return ApiService::ApiDataReturn(DiyApiService::CustomInit($this->data_request));
+    }
+
+    /**
+     * 商品魔方初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-07-18
+     * @desc    description
+     */
+    public function GoodsMagicInit()
+    {
+        return ApiService::ApiDataReturn(DiyApiService::GoodsMagicInit($this->data_request));
     }
 }
 ?>

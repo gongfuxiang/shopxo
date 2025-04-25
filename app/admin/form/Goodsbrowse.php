@@ -106,6 +106,16 @@ class GoodsBrowse
                     ],
                 ],
                 [
+                    'label'         => $lang['access_count'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'access_count',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'form_name'         => 'b.access_count',
+                    ],
+                ],
+                [
                     'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',

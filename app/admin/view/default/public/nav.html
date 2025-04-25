@@ -87,14 +87,14 @@
                 </li>
 
                 <!-- 后台公告 -->
-                {{if !empty($base_config['seller_center_notice']) and is_array($base_config['seller_center_notice'])}}
+                {{if !empty($admin_notice)}}
                     <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
-                        <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
+                        <a href="javascript:;" class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12">
                             <i class="iconfont icon-notice"></i>
                             <span class="am-show-sm-only">{{:MyLang('notice_title')}}</span>
                         </a>
                         <div class="am-dropdown-content am-radius-lg am-color-333 notice-width">
-                            <p>{{:implode("<br />", $base_config['seller_center_notice'])}}</p>
+                            <p>{{$admin_notice|raw}}</p>
                         </div>
                     </li>
                 {{/if}}

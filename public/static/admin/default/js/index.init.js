@@ -1,3 +1,6 @@
+var window_is_toolbox = $(window).width() > 900;
+var chart_object = {};
+
 /**
  * 系统更新异步请求步骤
  * @author  Devil
@@ -760,8 +763,6 @@ function EchartsBuyUser (name_arr, data) {
  * @desc    description
  * @param   {[object]}        e [操作对象]
  */
-var window_is_toolbox = $(window).width() > 900;
-var chart_object = [];
 function EchartsQuery (e) {
     // 类型
     var type = e.parents('.right-operate').data('type');
@@ -794,47 +795,54 @@ function EchartsQuery (e) {
 
                     // 订单成交金额走势
                     case 'order-profit':
-                        var chart = EchartsOrderProfit(res.data.title_arr, res.data.name_arr, res.data.data);
+                        chart = EchartsOrderProfit(res.data.title_arr, res.data.name_arr, res.data.data);
                         break;
 
                     // 订单交易走势
                     case 'order-trading':
-                        var chart = EchartsOrderTrading(res.data.title_arr, res.data.name_arr, res.data.data);
+                        chart = EchartsOrderTrading(res.data.title_arr, res.data.name_arr, res.data.data);
                         break;
 
                     // 热销商品
                     case 'goods-hot':
-                        var chart = EchartsGoodsHot(res.data.data);
+                        chart = EchartsGoodsHot(res.data.data);
                         break;
 
                     // 支付方式
                     case 'pay-type':
-                        var chart = EchartsPayType(res.data.title_arr, res.data.name_arr, res.data.data);
+                        chart = EchartsPayType(res.data.title_arr, res.data.name_arr, res.data.data);
                         break;
 
                     // 订单地域分布
                     case 'order-whole-country':
-                        var chart = EchartsOrderMapWholeCountry(res.data.name_arr, res.data.data);
+                        chart = EchartsOrderMapWholeCountry(res.data.name_arr, res.data.data);
                         break;
 
                     // 新增用户
                     case 'new-user':
-                        var chart = EchartsNewUser(res.data.name_arr, res.data.data);
+                        chart = EchartsNewUser(res.data.name_arr, res.data.data);
                         break;
 
                     // 下单用户
                     case 'buy-user':
-                        var chart = EchartsBuyUser(res.data.name_arr, res.data.data);
+                        chart = EchartsBuyUser(res.data.name_arr, res.data.data);
                         break;
 
                     default:
                         var msg = window['lang_operate_params_error'] || '操作类型未定义';
                         console.info(msg + '[' + type + ']')
                 }
-
                 // 图表对象存储
                 if (chart !== null) {
-                    chart_object.push(chart);
+                    chart_object[type] = chart;
+                    // 浏览器大小改变则实时更新图表大小
+                    window.onresize = function () {
+                        if (Object.keys(chart_object).length > 0) {
+                            for (var i in chart_object) {
+                                chart_object[i].resize();
+                            }
+                        }
+                    };
                 }
             } else {
                 Prompt(res.msg);
@@ -857,71 +865,86 @@ function EchartsQuery (e) {
  * @desc    description
  */
 function EchartsInit () {
-    var start = $('input[name="time_start"]').val();
-    var end = $('input[name="time_end"]').val();
-    var value = $('.content-right .echarts-title select[name="value"]').val() || '';
-    $.ajax({
-        url: RequestUrlHandle($('.content-right').data('url')),
-        type: 'POST',
-        dataType: 'json',
-        timeout: 30000,
-        data: { type: 'all', start: start, end: end, value: value },
-        success: function (res) {
-            $.AMUI.progress.done();
-            if (res.code == 0) {
-                for(var i in res.data) {
-                    var data = res.data[i];
-                    var chart = null;
-                    switch (i) {
-                        // 订单成交金额走势
-                        case 'order_profit':
-                            var chart = EchartsOrderProfit(data.title_arr, data.name_arr, data.data);
-                            break;
+    var is_stats = parseInt($('.content-right').data('is-stats') || 0);
+    if(is_stats == 1)
+    {
+        var start = $('input[name="time_start"]').val();
+        var end = $('input[name="time_end"]').val();
+        var value = $('.content-right .echarts-title select[name="value"]').val() || '';
+        $.ajax({
+            url: RequestUrlHandle($('.content-right').data('url')),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 30000,
+            data: { type: 'all', start: start, end: end, value: value },
+            success: function (res) {
+                $.AMUI.progress.done();
+                if (res.code == 0) {
+                    for(var i in res.data) {
+                        var data = res.data[i];
+                        var chart = null;
+                        switch (i) {
+                            // 订单成交金额走势
+                            case 'order_profit':
+                                chart = EchartsOrderProfit(data.title_arr, data.name_arr, data.data);
+                                break;
 
-                        // 订单交易走势
-                        case 'order_trading':
-                            var chart = EchartsOrderTrading(data.title_arr, data.name_arr, data.data);
-                            break;
+                            // 订单交易走势
+                            case 'order_trading':
+                                chart = EchartsOrderTrading(data.title_arr, data.name_arr, data.data);
+                                break;
 
-                        // 热销商品
-                        case 'goods_hot':
-                            var chart = EchartsGoodsHot(data.data);
-                            break;
+                            // 热销商品
+                            case 'goods_hot':
+                                chart = EchartsGoodsHot(data.data);
+                                break;
 
-                        // 支付方式
-                        case 'pay_type':
-                            var chart = EchartsPayType(data.title_arr, data.name_arr, data.data);
-                            break;
+                            // 支付方式
+                            case 'pay_type':
+                                chart = EchartsPayType(data.title_arr, data.name_arr, data.data);
+                                break;
 
-                        // 订单地域分布
-                        case 'order_whole_country':
-                            var chart = EchartsOrderMapWholeCountry(data.name_arr, data.data);
-                            break;
+                            // 订单地域分布
+                            case 'order_whole_country':
+                                chart = EchartsOrderMapWholeCountry(data.name_arr, data.data);
+                                break;
 
-                        // 新增用户
-                        case 'new_user':
-                            var chart = EchartsNewUser(data.name_arr, data.data);
-                            break;
+                            // 新增用户
+                            case 'new_user':
+                                chart = EchartsNewUser(data.name_arr, data.data);
+                                break;
 
-                        // 下单用户
-                        case 'buy_user':
-                            var chart = EchartsBuyUser(data.name_arr, data.data);
-                            break;
+                            // 下单用户
+                            case 'buy_user':
+                                chart = EchartsBuyUser(data.name_arr, data.data);
+                                break;
+
+                            default:
+                                console.info('操作类型未定义[' + i + ']');
+                        }
+                        // 图表对象存储
+                        if (chart !== null) {
+                            chart_object[i] = chart;
+                        }
                     }
+                    // 浏览器大小改变则实时更新图表大小
+                    window.onresize = function () {
+                        if (Object.keys(chart_object).length > 0) {
+                            for (var i in chart_object) {
+                                chart_object[i].resize();
+                            }
+                        }
+                    };
+                } else {
+                    Prompt(res.msg);
                 }
-                // 图表对象存储
-                if (chart !== null) {
-                    chart_object.push(chart);
-                }
-            } else {
-                Prompt(res.msg);
+            },
+            error: function (xhr, type) {
+                $.AMUI.progress.done();
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
-        },
-        error: function (xhr, type) {
-            $.AMUI.progress.done();
-            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
-        }
-    });
+        });
+    }
 }
 
 $(function () {
@@ -1070,14 +1093,6 @@ $(function () {
         }
     });
 
-    // 浏览器大小改变则实时更新图表大小
-    window.onresize = function () {
-        if (chart_object.length > 0) {
-            for (var i in chart_object) {
-                chart_object[i].resize();
-            }
-        }
-    };
     // 图表切换(订单成交金额走势----订单交易走势)
     $('.echarts-tabs span').on('click', function () {
         if (!$(this).hasClass('am-active')) {

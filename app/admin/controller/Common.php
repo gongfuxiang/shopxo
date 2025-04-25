@@ -526,16 +526,24 @@ class Common extends BaseController
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-20T19:18:29+0800
+     * @param   [string]          $controller     [控制器（默认读取当前）]
+     * @param   [string]          $action         [方法（默认读取当前）]
+     * @param   [array]           $unwanted_power [不校验权限的方法（默认空）]
 	 */
-	protected function IsPower()
+	protected function IsPower($controller = null, $action = null, $unwanted_power = [])
 	{
 		// 不需要校验权限的方法
-		$unwanted_power = ['getnodeson', 'node'];
-        if(!AdminIsPower(null, null, $unwanted_power))
+        if(empty($unwanted_power))
+        {
+            $unwanted_power = ['getnodeson', 'node'];
+        }
+        if(!AdminIsPower($controller, $action, $unwanted_power))
         {
             $msg = MyLang('no_power_tips');
             if(IS_AJAX)
             {
+                // 结束并设置响应头
+                header('Content-Type: application/json; charset=utf-8');
                 exit(json_encode(DataReturn($msg, -1000)));
             } else {
                 MyRedirect(MyUrl('admin/error/tips', ['msg'=>urlencode(base64_encode($msg))]), true);

@@ -156,10 +156,6 @@ class GoodsParamsTemplate
             'data'  => [
                 'table_name'    => 'GoodsParamsTemplate',
                 'data_handle'   => 'GoodsParamsService::GoodsParamsTemplateListHandle',
-                'data_params'   => [
-                    'is_public'     => 0,
-                    'user_type'     => 'admin',
-                ],
             ],
         ];
     }

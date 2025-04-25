@@ -235,6 +235,7 @@ class Site extends Base
                 $field_list[] = 'home_site_logo_wap';
                 $field_list[] = 'home_site_logo_app';
                 $field_list[] = 'home_site_logo_square';
+                $field_list[] = 'home_site_title_icon';
                 $field_list[] = 'home_site_app_state';
                 break;
 

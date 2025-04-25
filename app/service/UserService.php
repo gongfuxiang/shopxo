@@ -311,6 +311,11 @@ class UserService
                     if(!empty($token))
                     {
                         $user_cache_login_info = self::CacheUserTokenData($token);
+                        // 存在token用户信息则记录session
+                        if(!empty($user_cache_login_info))
+                        {
+                            self::UserLoginRecord(0, $user_cache_login_info);
+                        }
                     }
                 }
             } else {
@@ -1053,11 +1058,15 @@ class UserService
         // 图像类库
         $images_obj = \base\Images::Instance(['is_new_name'=>false]);
 
-        // 文件上传校验
-        $error = FileUploadError($params['img_field']);
-        if($error !== true)
+        // 文件上传校验、仅表单$_FILES的方式验证
+        $is_file_url = !empty($params[$params['img_field']]) && substr($params[$params['img_field']], 0, 4) == 'http';
+        if(!$is_file_url)
         {
-            return DataReturn($error, -2);
+            $error = FileUploadError($params['img_field']);
+            if($error !== true)
+            {
+                return DataReturn($error, -2);
+            }
         }
 
         // 头像处理前钩子
@@ -1080,11 +1089,17 @@ class UserService
 
         // 是否指定裁剪信息
         $original_dir = $root_path.$img_path.'original'.$date;
-        if(!empty($params['img_width']) && !empty($params['img_height']) && isset($params['img_x']) && isset($params['img_y']))
+        // 是否url链接地址
+        if($is_file_url)
         {
-            $original = $images_obj->GetCompressCut($_FILES[$params['img_field']], $original_dir, 800, 800, $params['img_x'], $params['img_y'], $params['img_width'], $params['img_height']);
+            $original = $images_obj->DownloadImageSave($params[$params['img_field']], $original_dir);
         } else {
-            $original = $images_obj->GetOriginal($_FILES[$params['img_field']], $original_dir);
+            if(!empty($params['img_width']) && !empty($params['img_height']) && isset($params['img_x']) && isset($params['img_y']))
+            {
+                $original = $images_obj->GetCompressCut($_FILES[$params['img_field']], $original_dir, 800, 800, $params['img_x'], $params['img_y'], $params['img_width'], $params['img_height']);
+            } else {
+                $original = $images_obj->GetOriginal($_FILES[$params['img_field']], $original_dir);
+            }
         }
         if(!empty($original))
         {
