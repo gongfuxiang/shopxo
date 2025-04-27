@@ -398,7 +398,7 @@ class DiyModule
 
                                                 // 文章
                                                 case 'article' :
-                                                    $tabs_data_config['content'] = self::ConfigViewGoodsHandle($tabs_data_config['content'], $article_data);
+                                                    $tabs_data_config['content'] = self::ConfigViewArticleHandle($tabs_data_config['content'], $article_data);
                                                     break;
 
                                                 // 自定义
