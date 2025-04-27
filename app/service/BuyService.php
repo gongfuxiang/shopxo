@@ -809,7 +809,7 @@ class BuyService
         self::BuyCartDelete($params);
 
         // 返回信息
-        $result = [
+        $data = [
             'order_status'  => $order_status,
             'order_ids'     => $order_ids,
             'payment_id'    => $payment_id,
@@ -828,7 +828,7 @@ class BuyService
             // 提交成功,进入合并支付
             case 1 :
                 $msg = MyLang('submit_success');
-                $result['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
+                $data['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
                 break;
 
             // 默认操作成功
@@ -836,7 +836,21 @@ class BuyService
                 $msg = MyLang('operate_success');
         }
 
-        return DataReturn($msg, 0, $result);
+        // 订单提交成功钩子
+        $hook_name = 'plugins_service_buy_order_submit_success';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            throw new \Exception($ret['msg']);
+        }
+
+        return DataReturn($msg, 0, $data);
     }
 
     /**
