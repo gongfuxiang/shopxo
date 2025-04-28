@@ -1,5 +1,4 @@
-.category-list-level-2-container,
-.category-list-level-3-container {
+.category-list-container {
     margin-top: 1.2rem;
 }
 .category-list-container ul.category-nav,
@@ -326,6 +325,9 @@
     right: 0;
 }
 @media only screen and (max-width: 1024px) {
+    .category-list-level-0-container {
+        margin-top: 0;
+    }
     .zero-search {
         padding: 0;
     }
