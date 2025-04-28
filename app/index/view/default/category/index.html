@@ -17,7 +17,7 @@
 {{:ModuleInclude('public/goods_category')}}
 
 <!-- content -->
-<div class="am-container category-list-container am-radius">
+<div class="am-container category-list-container category-list-level-{{$category_level}}-container am-radius">
     {{if !empty($goods_category_list)}}
         {{if $category_level eq 0}}
             <div class="am-container zero-search" data-url="{{:MyUrl('index/category/datalist')}}" data-all-name="{{:MyLang('all_title')}}">

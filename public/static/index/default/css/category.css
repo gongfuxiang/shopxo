@@ -1,3 +1,7 @@
+.category-list-level-2-container,
+.category-list-level-3-container {
+    margin-top: 1.2rem;
+}
 .category-list-container ul.category-nav,
 .category-list-container .category-content {
     overflow-y: auto;
@@ -130,11 +134,6 @@
     }
     .zero-left.am-sticky ul {
         max-height: calc(100vh - 13rem);
-    }
-}
-@media only screen and (min-width: 1025px) {
-    .category-list-container {
-        margin-top: 1.2rem;
     }
 }
 @media only screen and (max-width: 640px) {
@@ -355,7 +354,7 @@
 }
 @media only screen and (max-width: 640px) {
     .category-list-container .category-content {
-        width: calc(100% - 11rem);
+        width: calc(100% - 13rem);
     }
     .zero-item {
         margin: 0 1.2rem;

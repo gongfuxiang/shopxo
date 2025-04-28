@@ -2692,12 +2692,11 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
     }
 
     .shop-navigation .am-topbar-collapse {
-        background: #f5f5f5;
         border-bottom: 0.2rem solid #d2354c;
     }
 
     .shop-navigation .am-nav>li:not(:last-child) {
-        border-bottom: 0.1rem solid #e8e8e8;
+        border-bottom: 0.1rem solid #f5f5f5;
     }
 
     .shop-navigation .am-topbar-collapse .am-dropdown.am-active .am-dropdown-content li:not(:first-child) {
