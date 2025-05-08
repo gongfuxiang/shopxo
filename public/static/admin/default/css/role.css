@@ -1,34 +1,34 @@
 /* 插件权限 */
-.tree-plugins {
+.tree-plugins-list {
     background: transparent;
 }
 
-.tree-plugins li {
+.tree-plugins-list li {
     min-width: 180px;
     width: 10%;
     border-radius: var(--border-radius);
     overflow: hidden;
 }
 
-.tree-plugins label.am-checkbox-inline {
+.tree-plugins-list label.am-checkbox-inline {
     font-size: 1.4rem;
     color: #333;
 }
 
-.tree-plugins label.am-checkbox-inline .am-ucheck-icons {
+.tree-plugins-list label.am-checkbox-inline .am-ucheck-icons {
     top: 0.2rem;
 }
-.tree-plugins li label.am-checkbox-inline .am-ucheck-icons {
+.tree-plugins-list li label.am-checkbox-inline .am-ucheck-icons {
     top: 0.3rem;
 }
 
-.tree-plugins li>div {
+.tree-plugins-list li>div {
     background: #fff;
     padding: 1rem;
 }
 
 @media only screen and (max-width:641px) {
-    .tree-plugins li {
+    .tree-plugins-list li {
         width: 50%;
         min-width: auto;
     }
