@@ -369,6 +369,7 @@ class GoodsService
             $is_params = isset($params['is_params']) && $params['is_params'] == 1;
             $is_cart = isset($params['is_cart']) && $params['is_cart'] == 1;
             $is_favor = isset($params['is_favor']) && $params['is_favor'] == 1;
+            $is_score = isset($params['is_score']) && $params['is_score'] == 1;
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
             $goods_ids = array_filter(array_column($data, $data_key_field));
             $currency_symbol = ResourcesService::CurrencyDataSymbol();
@@ -414,6 +415,9 @@ class GoodsService
 
             // 获取商品购物车数量
             $user_favor = $is_favor ? self::UserFavorGoodsCountData($goods_ids, $params) : [];
+
+            // 评分
+            $goods_score = $is_score ? self::GoodsScoreData($goods_ids, $params) : [];
 
             // 开始处理数据
             foreach($data as $k=>&$v)
@@ -623,9 +627,15 @@ class GoodsService
                 }
 
                 // 用户收藏
-                if($is_favor && !empty($user_favor))
+                if($is_favor)
                 {
                     $v['user_is_favor'] = (!empty($user_favor) && in_array($data_id, $user_favor)) ? 1 : 0;
+                }
+
+                // 评分
+                if($is_score)
+                {
+                    $v['goods_score'] = (!empty($goods_score) && array_key_exists($data_id, $goods_score)) ? $goods_score[$data_id] : ['avg'=>0, 'score'=>0, 'count'=>0];
                 }
 
                 // 商品处理后钩子
@@ -799,6 +809,31 @@ class GoodsService
                 }
             }
             return $group;
+        }
+        return $data;
+    }
+
+    /**
+     * 商品评分
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-03-20
+     * @desc    description
+     * @param   [array]           $goods_ids [商品id]
+     * @param   [array]           $params    [输入参数]
+     */
+    public static function GoodsScoreData($goods_ids, $params = [])
+    {
+        $data = Db::name('GoodsComments')->where(['goods_id'=>$goods_ids])->group('goods_id')->column('goods_id, AVG(rating) AS avg, COUNT(goods_id) AS count', 'goods_id');
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                unset($v['goods_id']);
+                $v['avg'] = PriceNumberFormat($v['avg'], 1);
+                $v['score'] = ($v['avg'] <= 0) ? 100 : intval(($v['avg']/5)*100);
+            }
         }
         return $data;
     }
@@ -2080,8 +2115,8 @@ class GoodsService
      */
     public static function GoodsDeleteHandle($goods_ids, $params = [])
     {
-        // 是否删除图片
-        $del_images_data = [];
+        // 是否删除附件
+        $del_attachment_data = [];
         $is_del_images = isset($params['is_del_images']) && $params['is_del_images'] == 1;
         if($is_del_images)
         {
@@ -2089,13 +2124,19 @@ class GoodsService
             $goods_images = Db::name('Goods')->where([['id', 'in', $goods_ids], ['images', '<>', '']])->column('images');
             if(!empty($goods_images))
             {
-                $del_images_data = array_unique(array_merge($del_images_data, $goods_images));
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_images));
+            }
+            // 商品视频
+            $goods_video = Db::name('Goods')->where([['id', 'in', $goods_ids], ['video', '<>', '']])->column('video');
+            if(!empty($goods_video))
+            {
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_video));
             }
             // 商品分享图
             $goods_share_images = Db::name('Goods')->where([['id', 'in', $goods_ids], ['share_images', '<>', '']])->column('share_images');
             if(!empty($goods_share_images))
             {
-                $del_images_data = array_unique(array_merge($del_images_data, $goods_share_images));
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_share_images));
             }
             // 商品规格图
             $goods_spec_type = Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->column('value');
@@ -2109,7 +2150,7 @@ class GoodsService
                         $temp = array_unique(array_filter(array_column($v, 'images')));
                         if(!empty($temp))
                         {
-                            $del_images_data = array_unique(array_merge($del_images_data, $temp));
+                            $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
                         }
                     }
                 }
@@ -2118,9 +2159,9 @@ class GoodsService
             $goods_photo = Db::name('GoodsPhoto')->where(['goods_id'=>$goods_ids])->column('images');
             if(!empty($goods_photo))
             {
-                $del_images_data = array_unique(array_merge($del_images_data, $goods_photo));
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_photo));
             }
-            // 商品详情图
+            // 商品详情内容
             $goods_content = Db::name('Goods')->where([['id', 'in', $goods_ids], ['content_web', '<>', '']])->column('content_web');
             if(!empty($goods_content))
             {
@@ -2129,7 +2170,30 @@ class GoodsService
                     $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'images');
                     if(!empty($temp))
                     {
-                        $del_images_data = array_unique(array_merge($del_images_data, $temp));
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'video');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                }
+            }
+            // 商品虚拟内容
+            $goods_fictitious = Db::name('Goods')->where([['id', 'in', $goods_ids], ['fictitious_goods_value', '<>', '']])->column('fictitious_goods_value');
+            if(!empty($goods_fictitious))
+            {
+                foreach($goods_fictitious as $v)
+                {
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'images');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'video');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
                     }
                 }
             }
@@ -2137,7 +2201,7 @@ class GoodsService
             $goods_app = Db::name('GoodsContentApp')->where([['goods_id', 'in', $goods_ids], ['images', '<>', '']])->column('images');
             if(!empty($goods_app))
             {
-                $del_images_data = array_unique(array_merge($del_images_data, $goods_app));
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_app));
             }
         }
 
@@ -2195,9 +2259,9 @@ class GoodsService
         }
 
         // 是否删除图片
-        if($is_del_images && !empty($del_images_data))
+        if($is_del_images && !empty($del_attachment_data))
         {
-            AttachmentService::AttachmentUrlDelete($del_images_data);
+            AttachmentService::AttachmentUrlDelete($del_attachment_data);
         }
     }
 
