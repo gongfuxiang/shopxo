@@ -112,6 +112,9 @@
 <!-- highlight代码高亮 -->
 <script src="{{$public_host}}static/common/lib/highlight/highlight.min.js?v={{$static_cache_version}}"></script>
 
+<!-- wangEditor 编辑器 -->
+<script type='text/javascript' src="{{$public_host}}static/common/lib/wangeditor/wangeditor-5.1.23.js?v={{$static_cache_version}}"></script>
+
 <!-- ueditor 编辑器 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.config.js?v={{$static_cache_version}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{$static_cache_version}}"></script>
@@ -266,6 +269,7 @@
 
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/js/forminput.js?v={{$static_cache_version}}"></script>
 {{if !empty($static_path_data['common_js'])}}
     <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.common_js}}?v={{$static_cache_version}}"></script>
 {{/if}}

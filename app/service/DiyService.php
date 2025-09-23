@@ -96,6 +96,7 @@ class DiyService
     public static function DiyData($params = [])
     {
         $data = null;
+        $id = empty($params['diy_id']) ? (empty($params['id']) ? 0 : intval($params['id'])) : intval($params['diy_id']);
         if(!empty($params['id']))
         {
             $ret = self::DiyList([
@@ -103,7 +104,7 @@ class DiyService
                 'field'  => 'id,config',
                 'where'  => [
                     ['is_enable', '=', 1],
-                    ['id', '=', intval($params['id'])],
+                    ['id', '=', $id],
                 ],
                 'is_config_handle'       => 1,
                 'is_config_data_handle'  => 1,
@@ -696,7 +697,7 @@ class DiyService
         $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
         if(!is_writable($app_upload_dir))
         {
-            return DataReturn(MyLang('common_service.diy.upload_dis_no_power_tips').'['.$app_upload_dir.']', -3);
+            return DataReturn(MyLang('common_service.diy.upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
         // 开始解压文件

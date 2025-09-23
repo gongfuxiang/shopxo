@@ -139,6 +139,17 @@
                 </div>
 
                 <div class="am-form-group">
+                    <label>{{$data.common_goods_cover_size_type.name}}<span class="am-form-group-label-tips">{{$data.common_goods_cover_size_type.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_is_text_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_cover_size_type.only_tag}}" data-validation-message="{{$data.common_goods_cover_size_type.error_tips}}" required {{if isset($data['common_goods_cover_size_type']['value']) and $data['common_goods_cover_size_type']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
                     <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
                     <div class="am-radio-group level-type">
                         {{foreach $common_show_goods_category_level_list as $v}}

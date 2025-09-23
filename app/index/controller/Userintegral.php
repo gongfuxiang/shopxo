@@ -11,8 +11,8 @@
 namespace app\index\controller;
 
 use app\index\controller\Center;
-use app\service\IntegralService;
 use app\service\SeoService;
+use app\service\IntegralService;
 
 /**
  * 用户积分管理
@@ -69,12 +69,11 @@ class UserIntegral extends Center
      */
     public function Detail()
     {
-        $assign = [
+        MyViewAssign([
             'data'      => $this->data_detail,
             'is_header' => 0,
             'is_footer' => 0,
-        ];
-        MyViewAssign($assign);
+        ]);
         return MyView();
     }
 }

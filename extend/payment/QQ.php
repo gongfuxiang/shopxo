@@ -241,7 +241,7 @@ class QQ
                     {
                         $data = [
                             'pay_url'       => $data['code_url'],
-                            'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($data['code_url']))]),
+                            'qrcode_url'    => $data['code_url'],
                             'order_no'      => $params['order_no'],
                             'name'          => 'QQ支付',
                             'msg'           => '打开QQAPP扫一扫进行支付',

@@ -95,7 +95,7 @@
 
 #upload .placeholder {
     margin: 10px;
-    padding-top: 30%;
+    padding-top: 25%;
     text-align: center;
     background: url(./images/image.png) center calc(20% + 70px) no-repeat;
     color: #cccccc;

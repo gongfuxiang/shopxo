@@ -22,13 +22,13 @@
                         <div class="items goods-price goods-original-price">
                             <dt>{{$module_data.goods.show_field_original_price_text|raw}}</dt>
                             <dd>
-                                <span class="goods-original-price-value am-text-grey" data-original-price="{{$module_data.goods.original_price}}">
+                                <span class="am-text-grey">
                                     {{if !empty($module_data['goods']['show_original_price_symbol'])}}
                                         <em class="symbol">{{$module_data.goods.show_original_price_symbol}}</em>
                                     {{/if}}
-                                    <b>{{$module_data.goods.original_price}}</b>
+                                    <b class="goods-original-price-value" data-original-price="{{$module_data.goods.original_price}}">{{$module_data.goods.original_price}}</b>
                                     {{if !empty($module_data['goods']['show_original_price_unit'])}}
-                                        <em class="unit">{{$module_data.goods.show_original_price_unit}}</em>
+                                        <em class="goods-original-price-unit" data-value="{{$module_data.goods.show_original_price_unit}}">{{$module_data.goods.show_original_price_unit}}</em>
                                     {{/if}}
                                 </span>
                             </dd>
@@ -55,7 +55,7 @@
                     <div class="items goods-price goods-sale-price">
                         <dt>{{if empty($module_data['goods']['show_field_price_text'])}}销售价{{else /}}{{$module_data.goods.show_field_price_text|raw}}{{/if}}</dt>
                         <dd>
-                            {{if !empty($module_data['goods']['show_price_symbol'])}}<em class="symbol">{{$module_data.goods.show_price_symbol}}</em>{{/if}}<b class="goods-sale-price-value" data-original-price="{{$module_data.goods.price}}">{{$module_data.goods.price}}</b>{{if !empty($module_data['goods']['show_price_unit'])}}<em class="unit am-text-grey">{{$module_data.goods.show_price_unit}}</em>{{/if}}
+                            {{if !empty($module_data['goods']['show_price_symbol'])}}<em class="symbol">{{$module_data.goods.show_price_symbol}}</em>{{/if}}<b class="goods-sale-price-value" data-original-price="{{$module_data.goods.price}}">{{$module_data.goods.price}}</b>{{if !empty($module_data['goods']['show_price_unit'])}}<em class="goods-sale-price-unit am-text-grey" data-value="{{$module_data.goods.show_price_unit}}">{{$module_data.goods.show_price_unit}}</em>{{/if}}
                         </dd>                                 
                     </div>
                 {{/if}}

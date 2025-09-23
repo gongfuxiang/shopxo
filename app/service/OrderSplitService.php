@@ -248,6 +248,36 @@ class OrderSplitService
      */
     public static function GoodsWarehouseAggregate($params)
     {
+        // 仓库查询数据
+        $field = 'w.*,wgs.inventory';
+        $order_by = 'w.level desc,w.is_default desc,wgs.inventory desc';
+
+        // 订单地址坐标
+        $lng = '';
+        $lat = '';
+        if(!empty($params['address']))
+        {
+            if(isset($params['address']['lng']) && $params['address']['lng'] != 0 && isset($params['address']['lat']) && $params['address']['lat'] != 0)
+            {
+                $lng = $params['address']['lng'];
+                $lat = $params['address']['lat'];
+            }
+        }
+        // 没有地址坐标泽取当前用户坐标
+        if(empty($lng) && empty($lat))
+        {
+            // 当前坐标
+            $request_params = empty($params['params']) ? [] : $params['params'];
+            $lng = empty($request_params['lng']) ? (empty($request_params['user_lng']) ? '' : $request_params['user_lng']) : $request_params['lng'];
+            $lat = empty($request_params['lat']) ? (empty($request_params['user_lat']) ? '' : $request_params['user_lat']) : $request_params['lat'];
+        }
+        // 加入坐标优先级
+        if(!empty($lng) && !empty($lat))
+        {
+            $field .= ',ROUND(6378.138*2*ASIN(SQRT(POW(SIN(('.$lat.'*PI()/180-w.lat*PI()/180)/2),2)+COS('.$lat.'*PI()/180)*COS(w.lat*PI()/180)*POW(SIN(('.$lng.'*PI()/180-w.lng*PI()/180)/2),2)))*1000) AS distance';
+            $order_by = 'distance asc, '.$order_by;
+        }
+
         // 默认仓库
         $warehouse_default = [];
 
@@ -268,8 +298,8 @@ class OrderSplitService
                 ['w.is_enable', '=', 1],
                 ['w.is_delete_time', '=', 0],
             ];
-            $field = 'w.*,wgs.inventory';
-            $warehouse = Db::name('WarehouseGoodsSpec')->alias('wgs')->join('warehouse_goods wg', 'wgs.warehouse_id=wg.warehouse_id')->join('warehouse w', 'wg.warehouse_id=w.id')->where($where)->field($field)->order('w.level desc,w.is_default desc,wgs.inventory desc')->select()->toArray();
+            
+            $warehouse = Db::name('WarehouseGoodsSpec')->alias('wgs')->join('warehouse_goods wg', 'wgs.warehouse_id=wg.warehouse_id')->join('warehouse w', 'wg.warehouse_id=w.id')->where($where)->field($field)->order($order_by)->select()->toArray();
 
             // 商品仓库分配仓库组合钩子
             $hook_name = 'plugins_service_buy_group_goods_warehouse_handle';
@@ -279,6 +309,7 @@ class OrderSplitService
                 'params'        => $params,
                 'spec'          => $spec,
                 'where'         => $where,
+                'goods'         => $v,
                 'data'          => &$warehouse,
             ]);
 
@@ -328,6 +359,7 @@ class OrderSplitService
                 {
                     $warehouse_default = Db::name('Warehouse')->where(['is_default'=>1, 'is_enable'=>1, 'is_delete_time'=>0])->field('id,name,alias,lng,lat,province,city,county,address')->find();
                 }
+                $temp_warehouse_default = $warehouse_default;
 
                 // 商品仓库分配默认仓库组合钩子
                 $hook_name = 'plugins_service_buy_group_goods_default_warehouse_handle';
@@ -335,22 +367,23 @@ class OrderSplitService
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => $params,
-                    'data'          => &$warehouse_default,
+                    'goods'         => $v,
+                    'data'          => &$temp_warehouse_default,
                 ]);
 
                 // 存在默认仓库则继续分配
-                if(!empty($warehouse_default))
+                if(!empty($temp_warehouse_default))
                 {
-                    if(!array_key_exists($warehouse_default['id'], $result))
+                    if(!array_key_exists($temp_warehouse_default['id'], $result))
                     {
                         // 仓库
-                        $warehouse_handle = WarehouseService::WarehouseListHandle([$warehouse_default]);
-                        $result[$warehouse_default['id']] = $warehouse_handle[0];
-                        $result[$warehouse_default['id']]['goods_items'] = [];
+                        $warehouse_handle = WarehouseService::WarehouseListHandle([$temp_warehouse_default]);
+                        $result[$temp_warehouse_default['id']] = $warehouse_handle[0];
+                        $result[$temp_warehouse_default['id']]['goods_items'] = [];
                     }
 
                     // 商品归属到仓库下
-                    $result[$warehouse_default['id']]['goods_items'][] = $v;
+                    $result[$temp_warehouse_default['id']]['goods_items'][] = $v;
                 }
             }
         }

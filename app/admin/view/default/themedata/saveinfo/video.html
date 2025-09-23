@@ -68,7 +68,7 @@
                             <ul class="plug-file-upload-view plug-file-upload-view-video video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.video-view">
                                     {{if empty($data['data']) or empty($data['data']['video'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="video" value="{{$data.data.video}}" />
                                         <video src="{{$data.data.video}}" controls>your browser does not support the video tag</video>
@@ -85,7 +85,7 @@
                             <ul class="plug-file-upload-view video-cover-view" data-form-name="custom_cover" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.video-cover-view">
                                     {{if empty($data['data']) or empty($data['data']['custom_cover'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="custom_cover" value="{{$data.data.custom_cover}}" />
                                         <img src="{{$data.data.custom_cover}}" />

@@ -16,7 +16,18 @@
 {{:ModuleInclude('public/breadcrumb_data')}}
 
 <!-- 商品详情 -->
-<div class="system-goods-detail" data-id="{{$goods.id}}" data-unit="{{$goods.inventory_unit}}" data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}">
+<div class="system-goods-detail"
+    data-id="{{$goods.id}}"
+    data-images="{{$goods.images}}"
+    data-price="{{$goods.price}}"
+    data-price-symbol="{{$goods.show_price_symbol}}"
+    data-price-unit="{{$goods.show_price_unit}}"
+    data-unit="{{$goods.inventory_unit}}"
+    data-goods-url="{{$goods.goods_url}}"
+    data-title="{{$goods.title}}"
+    data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}"
+    data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}"
+>
     <!-- h5相册模块 -->
     {{:ModuleInclude('goods/module/photo_h5/index', ['goods'=>$goods])}}
 

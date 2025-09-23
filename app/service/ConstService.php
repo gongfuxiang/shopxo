@@ -143,6 +143,7 @@ class ConstService
                 '6.4.0' => ['value' => '6.4.0', 'name' => 'v6.4.0'],
                 '6.5.0' => ['value' => '6.5.0', 'name' => 'v6.5.0'],
                 '6.6.0' => ['value' => '6.6.0', 'name' => 'v6.6.0'],
+                '6.7.0' => ['value' => '6.7.0', 'name' => 'v6.7.0'],
             ],
 
             // 搜索排序方式
@@ -489,6 +490,7 @@ class ConstService
                 'spa'  => MyLang('common_multilingual_list.spa'),
                 'fra'  => MyLang('common_multilingual_list.fra'),
                 'swe'  => MyLang('common_multilingual_list.swe'),
+                'mn'   => MyLang('common_multilingual_list.mn'),
             ],
             // token生成规则
             'common_token_created_rules_list' => [
@@ -646,11 +648,12 @@ class ConstService
             ],
             // 商店应用类型列表
             'common_plugins_goods_type_list' => [
-                'plugins'   => MyLang('common_plugins_goods_type_list.plugins'),
-                'payment'   => MyLang('common_plugins_goods_type_list.payment'),
-                'webtheme'  => MyLang('common_plugins_goods_type_list.webtheme'),
-                'design'    => MyLang('common_plugins_goods_type_list.design'),
-                'diy'       => MyLang('common_plugins_goods_type_list.diy'),
+                'plugins'    => MyLang('common_plugins_goods_type_list.plugins'),
+                'payment'    => MyLang('common_plugins_goods_type_list.payment'),
+                'webtheme'   => MyLang('common_plugins_goods_type_list.webtheme'),
+                'design'     => MyLang('common_plugins_goods_type_list.design'),
+                'diy'        => MyLang('common_plugins_goods_type_list.diy'),
+                'forminput'  => MyLang('common_plugins_goods_type_list.forminput'),
             ],
 
 

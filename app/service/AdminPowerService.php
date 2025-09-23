@@ -604,5 +604,121 @@ class AdminPowerService
         }
         return empty($data) ? [] : $data;
     }
+
+    /**
+     * 权限数据导出
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-09-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PowerExport($params = [])
+    {
+        // 一级
+        $data = Db::name('Power')->where(['pid'=>0])->field('id,pid,name')->order('sort asc')->select()->toArray();
+        if(!empty($data))
+        {
+            // 读取二级
+            $two = Db::name('Power')->where(['pid'=>array_column($data, 'id')])->field('id,pid,name')->order('sort asc')->select()->toArray();
+            if(!empty($two))
+            {
+                // 读取三级
+                $three = Db::name('Power')->where(['pid'=>array_column($two, 'id')])->field('id,pid,name')->order('sort asc')->select()->toArray();
+                if(!empty($three))
+                {
+                    // 三级处理
+                    $three_group = [];
+                    foreach($three as $threev)
+                    {
+                        if(!array_key_exists($threev['pid'], $three_group))
+                        {
+                            $three_group[$threev['pid']] = [];
+                        }
+                        $three_group[$threev['pid']][] = $threev;
+                    }
+                    // 加入到二级
+                    foreach($two as $thk=>$thv)
+                    {
+                        $two[$thk]['items'] = (!empty($three_group) && array_key_exists($thv['id'], $three_group)) ? $three_group[$thv['id']] : [];
+                    }
+                }
+                // 二级处理
+                $two_group = [];
+                foreach($two as $twv)
+                {
+                    if(!array_key_exists($twv['pid'], $two_group))
+                    {
+                        $two_group[$twv['pid']] = [];
+                    }
+                    $two_group[$twv['pid']][] = $twv;
+                }
+                // 加入到一级
+                foreach($data as $k=>$v)
+                {
+                    $data[$k]['items'] = (!empty($two_group) && array_key_exists($v['id'], $two_group)) ? $two_group[$v['id']] : [];
+                }
+            }
+            // 导出数据处理
+            $result = [];
+            foreach($data as $v)
+            {
+                $result[] = [
+                    'id'          => $v['id'],
+                    'one_name'    => $v['name'],
+                    'two_name'    => '',
+                    'three_name'  => '',
+                ];
+                if(!empty($v['items']))
+                {
+                    foreach($v['items'] as $vs)
+                    {
+                        $result[] = [
+                            'id'          => $vs['id'],
+                            'one_name'    => '',
+                            'two_name'    => $vs['name'],
+                            'three_name'  => '',
+                        ];
+                        if(!empty($vs['items']))
+                        {
+                            foreach($vs['items'] as $vss)
+                            {
+                                $result[] = [
+                                    'id'          => $vss['id'],
+                                    'one_name'    => '',
+                                    'two_name'    => '',
+                                    'three_name'  => $vss['name'],
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+            // Excel驱动导出数据
+            $title = MyLang('power.export_header_title');
+            $export_title = [
+                'id'            =>  [
+                    'name' => $title['id'],
+                    'type' => 'string',
+                ],
+                'one_name'      =>  [
+                    'name' => $title['one_name'],
+                    'type' => 'string',
+                ],
+                'two_name'      =>  [
+                    'name' => $title['two_name'],
+                    'type' => 'string',
+                ],
+                'three_name'    =>  [
+                    'name' => $title['three_name'],
+                    'type' => 'string',
+                ],
+            ];
+            $excel = new \base\Excel(array('filename'=>MyLang('power.export_filename'), 'title'=>$export_title, 'data'=>$result, 'msg'=>MyLang('no_data')));
+            return $excel->Export();
+        }
+        return DataReturn(MyLang('no_data'), -1);
+    }
 }
 ?>

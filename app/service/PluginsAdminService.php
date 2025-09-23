@@ -121,7 +121,6 @@ class PluginsAdminService
                                 'plugins_is_second_domain'  => isset($db_config['plugins_is_second_domain']) ? $db_config['plugins_is_second_domain'] : 0,
                                 'is_enable'                 => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
                                 'is_install'                => empty($db_config) ? 0 : 1,
-                                'logo_old'                  => $base['logo'],
                                 'logo'                      => ResourcesService::AttachmentPathViewHandle($base['logo']),
                                 'is_home'                   => $is_home,
                                 'home_url'                  => $home_url,

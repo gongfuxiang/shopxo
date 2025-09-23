@@ -210,24 +210,25 @@ class User extends Center
         $reg_all = MyC('home_user_reg_type');
         if(!empty($reg_all))
         {
-            if(empty($this->user))
+            // 是否已登录
+            if(!empty($this->user))
             {
-                // 模板数据
-                $assign = [
-                    // 返回地址
-                    'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
-                    // 注册背景图片
-                    'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
-                    // 注册背景色
-                    'user_register_bg_color'    => MyC('home_site_user_register_bg_color'),
-                    // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_base_nav_title'), 1),
-                ];
-                MyViewAssign($assign);
-                return MyView();
+                return MyRedirect(MyUrl('index/user/index'));
             }
-            MyViewAssign('msg', MyLang('user.register_illegal_error_tips'));
-            return MyView('public/tips_error');
+
+            // 模板数据
+            $assign = [
+                // 返回地址
+                'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
+                // 注册背景图片
+                'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
+                // 注册背景色
+                'user_register_bg_color'    => MyC('home_site_user_register_bg_color'),
+                // 浏览器名称
+                'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_base_nav_title'), 1),
+            ];
+            MyViewAssign($assign);
+            return MyView();
         }
         MyViewAssign('msg', MyLang('common.close_user_register_tips'));
         return MyView('public/tips_error');
@@ -245,25 +246,26 @@ class User extends Center
     {
         if(count(MyC('home_user_login_type', [], true)) > 0)
         {
-            if(empty($this->user))
+            // 是否已登录
+            if(!empty($this->user))
             {
-                // 左侧图片
-                $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_login_left_key')]);
-                
-                // 模板数据
-                $assign = [
-                    // 返回地址
-                    'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
-                    // 注册背景图片
-                    'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
-                    // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_login_base_nav_title'), 1),
-                ];
-                MyViewAssign($assign);
-                return MyView();
+                return MyRedirect(MyUrl('index/user/index'));
             }
-            MyViewAssign('msg', MyLang('user.login_illegal_error_tips'));
-            return MyView('public/tips_error');
+
+            // 左侧图片
+            $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_login_left_key')]);
+            
+            // 模板数据
+            $assign = [
+                // 返回地址
+                'referer_url'               => UserService::UserLoginOrRegBackRefererUrl(),
+                // 注册背景图片
+                'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
+                // 浏览器名称
+                'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_login_base_nav_title'), 1),
+            ];
+            MyViewAssign($assign);
+            return MyView();
         }
         MyViewAssign('msg', MyLang('common.close_user_login_tips'));
         return MyView('public/tips_error');

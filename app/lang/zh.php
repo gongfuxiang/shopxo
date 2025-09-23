@@ -346,6 +346,8 @@ return [
     'back_home_title'                                       => '回到首页',
     'shop_home_title'                                       => '商城首页',
     'home_title'                                            => '首页',
+    'shop_title'                                            => '商城',
+    'store_title'                                           => '店铺',
     'system_title'                                          => '系统',
     'operate_title'                                         => '操作',
     'all_title'                                             => '全部',
@@ -452,6 +454,7 @@ return [
     'reverse_audit_title'                                   => '反审',
     'submit_audit_title'                                    => '提审',
     'audit_title'                                           => '审核',
+    'retrial_audit_title'                                   => '复审',
     'signin_title'                                          => '签到',
     'refuse_title'                                          => '拒绝',
     'pass_title'                                            => '通过',
@@ -493,6 +496,7 @@ return [
     'mobile_title'                                          => '手机',
     'email_title'                                           => '邮箱',
     'verification_title'                                    => '核验',
+    'check_title'                                           => '检查',
     'service_title'                                         => '服务',
     'print_title'                                           => '打印',
     'confirm_print_title'                                   => '确认打印',
@@ -526,7 +530,7 @@ return [
     'unbind_title'                                          => '解绑',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分类',
-    'place_origin_title'                                    => '产地',
+    'produce_region_title'                                    => '产地',
     'attr_title'                                            => '属性',
     'spec_title'                                            => '规格',
     'register_title'                                        => '注册',
@@ -587,6 +591,8 @@ return [
     'customer_title'                                        => '客户',
     'customer_info_title'                                   => '客户信息',
     'region_title'                                          => '地区',
+    'compare_title'                                         => '对比',
+    'long_term_title'                                       => '长期',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_add_name'                                        => '商品添加',
@@ -641,6 +647,7 @@ return [
     'accounts_error_tips'                                   => '帐号不存在',
     'password_empty_tips'                                   => '密码不能为空',
     'password_error_tips'                                   => '密码错误',
+    'password_no_setup_tips'                                => '请先设置密码！',
     'mobile_format_error_tips'                              => '手机号码格式错误',
     'mobile_no_exist_error_tips'                            => '手机号码不存在、请先注册！',
     'email_format_error_tips'                               => '电子邮箱格式错误',
@@ -745,6 +752,8 @@ return [
     'form_article_category_message'                         => '请选择文章分类',
     'form_refuse_reason'                                    => '拒绝原因',
     'form_refuse_reason_message'                            => '拒绝原因格式1~230个字符',
+    'form_operate_reason'                                   => '操作原因',
+    'form_operate_reason_message'                           => '操作原因格式、最多230个字符',
     'form_search_keywords_placeholder'                      => '搜索关键字',
     // 动态表格
     'form_table_search_first'                               => [
@@ -1233,6 +1242,7 @@ return [
         'spa'  => '西班牙语',
         'fra'  => '法语',
         'swe'  => '瑞典语',
+        'mn'   => '蒙古语',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1378,11 +1388,12 @@ return [
     ],
     // 商店应用类型列表
     'common_plugins_goods_type_list' => [
-        'plugins'   => '插件',
-        'payment'   => '支付插件',
-        'webtheme'  => 'Web端主题',
-        'design'    => '页面设计模板',
-        'diy'       => 'DIY模板',
+        'plugins'    => '插件',
+        'payment'    => '支付插件',
+        'webtheme'   => 'Web端主题',
+        'design'     => '页面设计模板',
+        'diy'        => 'DIY模板',
+        'forminput'  => '表单模板',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1734,7 +1745,7 @@ return [
             // 基础
             'create_name_default'                   => '页面设计-默认页面',
             'download_config_file_create_fail_tips' => '配置文件生成失败',
-            'upload_dis_no_power_tips'              => '应用upload目录没有操作权限',
+            'upload_dir_no_power_tips'              => '应用upload目录没有操作权限',
             'upload_config_file_get_fail_tips'      => '配置信息读取失败',
             'upload_config_file_error_tips'         => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
@@ -1753,7 +1764,31 @@ return [
             // 基础
             'create_name_default'                   => 'DIY-默认页面',
             'download_config_file_create_fail_tips' => '配置文件生成失败',
-            'upload_dis_no_power_tips'              => '应用upload目录没有操作权限',
+            'upload_dir_no_power_tips'              => '应用upload目录没有操作权限',
+            'upload_config_file_get_fail_tips'      => '配置信息读取失败',
+            'upload_config_file_error_tips'         => '配置信息为空或有误',
+            'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
+            'upload_invalid_packet_tips'            => '无效数据包',
+            'preview_url_tips'                      => '如需h5预览效果，请在后台[ 手机->基础配置 ]先配置手机端h5地址（h5端需要使用uniapp版本打包）',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述内容格式2~60个字符',
+            'form_item_apply_version'               => '适用系统版本',
+            'form_item_apply_version_message'       => '至少选择一个适用系统版本',
+        ],
+        // Form表单
+        'forminput'     => [
+            'base_nav_title'                        => 'Form表单',
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度1~60个字符',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述长度最多230个字符',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => '建议大小300*300px',
+            // 基础
+            'create_name_default'                   => 'Form表单-默认页面',
+            'download_config_file_create_fail_tips' => '配置文件生成失败',
+            'upload_dir_no_power_tips'              => '应用upload目录没有操作权限',
             'upload_config_file_get_fail_tips'      => '配置信息读取失败',
             'upload_config_file_error_tips'         => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'   => '配置文件处理失败',
@@ -1896,12 +1931,20 @@ return [
             'form_item_category_id_message'         => '请至少选择一个商品分类',
             'form_item_simple_desc'                 => '商品简述',
             'form_item_simple_desc_message'         => '商品简述格式最多230个字符',
+            'form_item_spec_desc'                   => '规格描述',
+            'form_item_spec_desc_message'           => '规格描述格式最多230个字符',
+            'form_item_approval_number'             => '批准文号',
+            'form_item_approval_number_message'     => '批准文号格式最多180个字符',
+            'form_item_produce_company'             => '生产企业',
+            'form_item_produce_company_message'     => '生产企业格式最多180个字符',
+            'form_item_coding'                      => '商品编码',
+            'form_item_coding_message'              => '商品编码格式最多180个字符',
             'form_item_model'                       => '商品型号',
-            'form_item_model_message'               => '商品型号格式最多30个字符',
+            'form_item_model_message'               => '商品型号格式最多180个字符',
             'form_item_brand'                       => '品牌',
             'form_item_brand_message'               => '请选择品牌',
-            'form_item_place_origin'                => '生产地',
-            'form_item_place_origin_message'        => '请选择生产地',
+            'form_item_produce_region'                => '生产地',
+            'form_item_produce_region_message'        => '请选择生产地',
             'form_item_inventory_unit'              => '计量单位',
             'form_item_inventory_unit_message'      => '计量单位格式1~6个字符',
             'form_item_give_integral'               => '购买赠送积分比例',
@@ -1978,6 +2021,8 @@ return [
             'form_spec_thead_coding_message'        => '规格编码最多60个字符',
             'form_spec_thead_barcode_title'         => '条形码',
             'form_spec_thead_barcode_message'       => '条形码最多60个字符',
+            'form_spec_thead_inventory_unit_title'  => '库存单位',
+            'form_spec_thead_inventory_unit_message'=> '库存单位最多60个字符',
             'form_spec_row_add_title'               => '添加一行',
             'form_spec_images_tips'                 => '规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。',
             'form_spec_images_title'                => '商品规格图片',
@@ -2176,6 +2221,7 @@ return [
                 'address'           => '我的地址',
                 'safety'            => '安全设置',
                 'message'           => '我的消息',
+                'forminputdata'     => '表单数据',
                 'goodsbrowse'       => '我的足迹',
                 'logout'            => '安全退出',
             ],
@@ -2329,7 +2375,6 @@ return [
             'delivery_express_update_fail_tips'     => '发货更新失败',
             'delivery_express_info'                 => '快递信息',
             'delivery_service_insert_fail_tips'     => '服务添加失败',
-            'delivery_service_update_fail_tips'     => '服务更新失败',
             'take_extraction_code_message'          => '取货码有误',
             'take_extraction_code_empty_tips'       => '订单取货码不存在、请联系管理员',
             'take_extraction_code_error_tips'       => '取货码不正确',
@@ -2412,6 +2457,7 @@ return [
             'file_no_power_tips'                    => '没操作权限',
             'pay_respond_file_no_exist_tips'        => '支付返回入口文件不存在，请联系管理员处理',
             'pay_notify_file_no_exist_tips'         => '支付通知入口文件不存在，请联系管理员处理',
+            'not_install_weixin_payment_tips'       => '请先安装【微信APP小程序支付】支付插件',
         ],
         // 支付请求日志
         'payrequestlog'             => [
@@ -2749,7 +2795,7 @@ return [
             'save_article_order_by_type_error_tips'    => '文章排序类型范围值有误',
             'save_article_order_by_rule_error_tips'    => '文章排序规则范围值有误',
             'download_config_file_create_fail_tips'    => '配置文件生成失败',
-            'upload_dis_no_power_tips'                 => '应用upload目录没有操作权限',
+            'upload_dir_no_power_tips'                 => '应用upload目录没有操作权限',
             'upload_config_file_get_fail_tips'         => '配置信息读取失败',
             'upload_config_file_error_tips'            => '配置信息为空或有误',
             'upload_config_file_handle_fail_tips'      => '配置文件处理失败',
@@ -2901,8 +2947,8 @@ return [
         // 仓库商品
         'warehouse'                 => [
             // 表单
-            'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式1~80个字符之间',
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式1~80个字符之间',
             'form_item_alias'                       => '别名',
             'form_item_alias_message'               => '别名格式最多16个字符',
             'form_item_level'                       => '权重',
@@ -4327,7 +4373,7 @@ return [
             'desc' => '默认开启',
             'tips' => '请选择搜索页开启参数',
         ],
-        'home_search_is_place_origin'  => [
+        'home_search_is_produce_region'  => [
             'name' => '搜索页开启商品产地',
             'desc' => '默认开启',
             'tips' => '请选择搜索页开启商品产地',
@@ -4473,6 +4519,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => '商品详情页左侧更多（手机端）',
             'tips' => '请选择是否商品详情页左侧更多',
+        ],
+        'common_goods_cover_size_type'  => [
+            'name' => '商品封面高度拉伸（手机端）',
+            'desc' => '默认 正方形',
+            'tips' => '请选择商品封面高度拉伸（手机端）',
         ],
         'common_app_h5_url'  => [
             'name' => '手机端h5地址',

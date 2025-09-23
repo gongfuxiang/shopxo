@@ -44,12 +44,8 @@ class Common extends BaseController
     protected $plugins_controller_name;
     protected $plugins_action_name;
 
-    // 分页信息
-    protected $page;
-    protected $page_size;
-    protected $page_start;
-
     // 动态表格
+    protected $form_table_data;
     protected $form_table;
     protected $form_where;
     protected $form_params;
@@ -57,6 +53,16 @@ class Common extends BaseController
     protected $form_user_fields;
     protected $form_order_by;
     protected $form_error;
+
+    // 列表数据
+    protected $data_total;
+    protected $data_list;
+    protected $data_detail;
+
+    // 分页信息
+    protected $page;
+    protected $page_start;
+    protected $page_size;
 
 	/**
      * 构造方法
@@ -170,12 +176,24 @@ class Common extends BaseController
             $ret = (new FormTableHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
+                // 表格数据
+                $this->form_table_data = $ret['data'];
                 $this->form_table = $ret['data']['table'];
                 $this->form_where = $ret['data']['where'];
                 $this->form_params = $ret['data']['params'];
                 $this->form_md5_key = $ret['data']['md5_key'];
                 $this->form_user_fields = $ret['data']['user_fields'];
                 $this->form_order_by = $ret['data']['order_by'];
+
+                // 列表数据
+                $this->data_total = $ret['data']['data_total'];
+                $this->data_list = $ret['data']['data_list'];
+                $this->data_detail = $ret['data']['data_detail'];
+
+                // 分页数据
+                $this->page = $ret['data']['page'];
+                $this->page_start = $ret['data']['page_start'];
+                $this->page_size = $ret['data']['page_size'];
             } else {
                 $this->form_error = $ret['msg'];
             }

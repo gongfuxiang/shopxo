@@ -193,7 +193,7 @@ $(function()
         if($(window).width() < 641)
         {
             location -= $('.mobile-navigation').innerHeight();
-            var bottom = (height-14)+'px';
+            var bottom = height+'px';
         } else {
             var bottom = 0;
         }

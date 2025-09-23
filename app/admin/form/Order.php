@@ -210,10 +210,24 @@ class Order
                     ],
                 ],
                 [
+                    'label'         => $lang['express'],
+                    'view_type'     => 'module',
+                    'view_key'      => 'order/module/express',
+                    'grid_size'     => 'sm',
+                    'is_detail'     => 0,
+                    'search_config' => [
+                        'form_type'             => 'input',
+                        'form_name'             => 'id',
+                        'where_type_custom'     => 'in',
+                        'where_value_custom'    => 'WhereExpressInfo',
+                        'placeholder'           => $lang['express_placeholder'],
+                    ],
+                ],
+                [
                     'label'         => $lang['service'],
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/service',
-                    'width'         => 460,
+                    'grid_size'     => 'sm',
                     'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
@@ -317,20 +331,6 @@ class Order
                         'form_type'         => 'input',
                         'form_name'         => 'extension_data',
                         'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => $lang['express'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/express',
-                    'grid_size'     => 'sm',
-                    'is_detail'     => 0,
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'id',
-                        'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereExpressInfo',
-                        'placeholder'           => $lang['express_placeholder'],
                     ],
                 ],
                 [
@@ -442,9 +442,6 @@ class Order
                 'table_name'        => 'Order',
                 'data_handle'       => 'OrderService::OrderListHandle',
                 'detail_action'     => ['detail', 'saveinfo', 'deliveryinfo', 'serviceinfo'],
-                'detail_where'      => [
-                    ['is_delete_time', '=', 0],
-                ],
                 'is_page_stats'     => 1,
                 'page_stats_data'   => [
                     ['name'=>$lang_stats['total_price'], 'field'=>'total_price'],

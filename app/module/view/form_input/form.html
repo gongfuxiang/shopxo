@@ -1,0 +1,118 @@
+{{if empty($form_input_data) or empty($form_input_data['config'])}}
+    {{:ModuleInclude('public/not_data')}}
+{{else /}}
+    <div class="forminput" id="forminputScoll">
+        <div class="forminput-bg" style="background: {{$form_input_data.config.overall_config.style_settings.computer.background_color}};">
+            <!-- 背景信息 -->
+            {{if !empty($form_input_data.config.overall_config.style_settings.computer.background_image) and !empty($form_input_data.config.overall_config.style_settings.computer.background_image[0])}}
+                <img class="image-contain" src="{{$form_input_data.config.overall_config.style_settings.computer.background_image[0]['url']}}" />
+            {{/if}}
+        </div>
+        <div class="forminput-data">
+            <!-- form start -->
+            <form class="forminput-data-form am-form form-validation am-form-full-screen {{if $form_input_data['config']['overall_config']['type_value'] neq 'free'}}forminput-h{{/if}}" action="{{:MyUrl('index/forminputdata/save')}}" method="POST" {{if !empty($params) and isset($params['is_debug']) and $params['is_debug'] eq 1}}request-type="ajax-view"{{else /}}request-type="ajax-url" request-value="{{:MyUrl('index/forminputdata/index')}}"{{/if}}>
+                <div class="{{if $form_input_data.config.overall_config.is_show_submit == '1' or $form_input_data.config.overall_config.is_show_save_draft == '1'}}forminput-data-form-submit{{/if}}">
+                    <div class="forminput-top-bg" style="background: {{$form_input_data.config.overall_config.style_settings.computer.heading_color}};">
+                        {{if !empty($form_input_data.config.overall_config.style_settings.computer.heading_image) and !empty($form_input_data.config.overall_config.style_settings.computer.heading_image[0])}}
+                            <img class="image-contain" src="{{$form_input_data.config.overall_config.style_settings.computer.heading_image[0]['url']}}" />
+                        {{/if}}
+                    </div>
+                    {{if $form_input_data.config.overall_config.style_settings.computer.is_show_heading_title == '1'}}
+                        <div class="forminput-head-title am-flex-row" style="justify-content:{{$form_input_data.config.overall_config.style_settings.computer.heading_title_location}};color:{{$form_input_data.config.overall_config.style_settings.computer.heading_title_color}};font-size:{{$form_input_data.config.overall_config.style_settings.computer.heading_title_size}}px;font-weight:{{$form_input_data.config.overall_config.style_settings.computer.heading_title_font_weight}};">{{$form_input_data.name}}</div>
+                    {{/if}}
+                    <div class="forminput-popup-content ">
+                        <!-- <div class="forminput-data-content"> -->
+                            {{:ModuleInclude('../../../module/view/form_input/base')}}
+                        <!-- </div> -->
+                    </div>
+                </div>
+                {{if $form_input_data.config.overall_config.is_show_submit == '1' or $form_input_data.config.overall_config.is_show_save_draft == '1'}}
+                    <div class="forminput-popup-submit" style="background: {{$form_input_data.config.overall_config.style_settings.computer.background_color}};">
+                        <div class="forminput-popup-submit-content">
+                            {{if $form_input_data.config.overall_config.is_show_save_draft == '1'}}
+                                <button type="submit" class="am-btn am-radius am-btn-xs btn-loading-example forminput-save-draft" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{$form_input_data.config.overall_config.save_draft_title}}'}">
+                                    <span>{{$form_input_data.config.overall_config.save_draft_title}}</span>
+                                </button>
+                            {{/if}}
+                            {{if $form_input_data.config.overall_config.is_show_submit == '1'}}
+                                <button type="submit" class="am-btn am-radius am-btn-xs btn-loading-example forminput-save" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{$form_input_data.config.overall_config.submit_title}}'}" style="background: {{$form_input_data.config.overall_config.style_settings.computer.submit_color}};">
+                                    <span>{{$form_input_data.config.overall_config.submit_title}}</span>
+                                </button>
+                            {{/if}}
+                        </div>
+                    </div>
+                {{/if}}
+            </form>
+        </div>
+        <!-- 添加新选项的输入框 -->
+        <div class="am-popup am-radius" id="add-option-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">添加新选项</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <form class="am-form am-form-popup-fixed form-validation">
+                        <div class="upgrade-content">
+                            <input type="text" name="option" required="required" autocomplete="off" data-validation-message="请输入选项名称" placeholder="请输入选项名称">
+                        </div>
+                        <div class="am-form-popup-submit">
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example add-option-confirm" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                                <span>{{:MyLang('save_title')}}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="forminput-user-verify-win">
+            <div class="am-modal-dialog am-radius">
+                <div class="am-modal-hd">
+                    <span>{{:MyLang('verify_images_title')}}</span>
+                    <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-form-input-material">
+                        <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" data-is-clearout="0" />
+                        <div class="am-position-verify">
+                            <img src="" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src='{{:MyUrl('index/user/userverifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}'+(({{$url_model}} == 0) ? '&t=' : '?t=')+Math.random();" />
+                            <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}{{if $url_model eq 0}}&t={{else /}}?t={{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+                        </div>
+                        <span class="am-material-bar"></span>
+                        <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
+                    </div>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-md am-block am-margin-top-lg btn-loading-example user-verify-win-submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="am-popup" id="upload-popup-preview">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">上传预览</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+
+                </div>
+            </div>
+        </div>
+        <div class="am-modal am-modal-confirm" tabindex="-1" id="forminput-subform-data">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">子表单数据删除</div>
+                <div class="am-modal-bd">数据删除后将无法恢复，您确定要删除吗？</div>
+                <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
+
+

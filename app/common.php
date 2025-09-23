@@ -282,10 +282,11 @@ function DefaultTheme($theme = null)
  * @version 1.0.0
  * @date    2024-01-30
  * @desc    description
- * @param   [string]    $value [文件名称、含后缀]
- * @param   [string]    $type  [类型（图片images, 文件file, 视频video, svg文件svg）]
+ * @param   [string]    $value      [文件名称、含后缀]
+ * @param   [string]    $type       [类型（图片images, 文件file, 视频video, svg文件svg）]
+ * @param   [string]    $plugins    [指定插件]
  */
-function StaticAttachmentUrl($value, $type = 'images')
+function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
 {
     // 是否前面增加了斜杠
     if(substr($value, 0, 1) != DS)
@@ -297,7 +298,7 @@ function StaticAttachmentUrl($value, $type = 'images')
     // 当前组
     $group = RequestModule();
     // 插件标识
-    $plugins_name = PluginsNameBacktrace();
+    $plugins_name = empty($plugins) ? PluginsNameBacktrace() : $plugins;
     // 是否插件
     if(!empty($plugins_name))
     {
@@ -602,8 +603,14 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             $request_module = RequestModule();
             $arr_file = [
                 APP_PATH.$request_module.DS.'lang'.DS.$current_lang.'.php',
-                APP_PATH.'lang'.DS.$current_lang.'.php',
             ];
+            // api则再增加先走index模块
+            if($request_module == 'api')
+            {
+                $arr_file[] = APP_PATH.'index'.DS.'lang'.DS.$current_lang.'.php';
+            }
+            // 加入公共语言
+            $arr_file[] = APP_PATH.'lang'.DS.$current_lang.'.php';
 
             // 是否插件语言、未指定则处理
             $plugins_name = empty($plugins) ? PluginsNameBacktrace() : $plugins;
@@ -930,8 +937,18 @@ function MyView($view = '', $data = [])
 {
     // 当前项目组
     $group = RequestModule();
+    // 当前控制器名称
+    $control = RequestController();
     // 文件后缀
     $suffix = '.'.config('view.view_suffix');
+
+    // 是否插件页面，未指定或者仅指定了当前方法名称（包含斜杠则证明是正确的地址）
+    if($control == 'plugins' && (empty($view) || (substr($view, 0, 16) != '../../../plugins' && stripos($view, '/') === false)))
+    {
+        $plugins_name = PluginsRequestName();
+        $plugins_control = PluginsRequestController();
+        $view = '../../../plugins/'.$plugins_name.'/view/'.$group.'/'.$plugins_control.'/'.(empty($view) ? PluginsRequestAction() : $view);
+    }
 
     // 模板文件不存在则使用系统默认处理
     // 当前默认主题标识
@@ -941,8 +958,6 @@ function MyView($view = '', $data = [])
         // 模板未指定、并且不是../../../plugins则表示是系统文件
         if(empty($view) || substr($view, 0, 16) != '../../../plugins')
         {
-            // 当前控制器名称
-            $control = RequestController();
             // 当前方法名称
             $action = RequestAction();
             // 空则赋值模板路径
@@ -1265,7 +1280,7 @@ function GetUrlHost($url)
     }
 
     // 判断是否是双后缀
-    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw)$/';
+    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw|hk|jp)$/';
     if(($n > 2) && preg_match($preg, $host))
     {
         // 双后缀取后3位
@@ -1376,9 +1391,18 @@ function MyInput($key = null, $default = '')
     if($params === null || (is_array($params) && count($params) == 1 && isset($params['s'])))
     {
         $params = input();
-        if(empty($params))
+
+        // 去除插件参数、没有则读取php input
+        $temp_params = $params;
+        unset($temp_params['pluginsname'], $temp_params['pluginscontrol'], $temp_params['pluginsaction']);
+        if(empty($temp_params))
         {
-            $params = file_get_contents("php://input");
+            // 如果存在系统参数则使用
+            $system_params = SystemPhpInput();
+            if(!empty($system_params))
+            {
+                $params = $system_params;
+            }
         }
 
         // 非数组则检查是否为json和xml数据
@@ -1413,6 +1437,19 @@ function MyInput($key = null, $default = '')
 
     // 未指定key则返回所有数据
     return $params;
+}
+
+/**
+ * php内置input参数
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-06-13
+ * @desc    description
+ */
+function SystemPhpInput()
+{
+    return file_get_contents("php://input");
 }
 
 /**
@@ -1934,31 +1971,31 @@ function FormModulePath($params = [])
 {
     // 参数变量
     $path = '';
-    $group = empty($params['group']) ? RequestModule() : $params['group'];
-    $controller = empty($params['control']) ? RequestController() : $params['control'];
+    $system_group = RequestModule();
+    $system_controller = RequestController();
+    $group = empty($params['group']) ? $system_group : $params['group'];
+    $controller = empty($params['control']) ? $system_controller : $params['control'];
     $action = empty($params['action']) ? RequestAction() : $params['action'];
 
     // 是否插件调用
-    if($controller == 'plugins')
+    $pluginsname = empty($params['pluginsname']) ? '' : $params['pluginsname'];
+    if(!empty($pluginsname))
     {
-        if(!empty($params['pluginsname']))
-        {
-            // 控制器和方法默认值处理
-            $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
-            $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
+        // 控制器和方法默认值处理
+        $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
+        $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
 
-            // 是否定义模块组、是否存在控制器+方法的form文件
-            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller.$action);
+        // 是否定义模块组、是否存在控制器+方法的form文件
+        $path = '\app\plugins\\'.$pluginsname.'\form\\'.$group.'\\'.ucfirst($controller.$action);
+        if(!class_exists($path))
+        {
+            $path = '\app\plugins\\'.$pluginsname.'\form\\'.$group.'\\'.ucfirst($controller);
             if(!class_exists($path))
             {
-                $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller);
+                $path = '\app\plugins\\'.$pluginsname.'\form\\'.ucfirst($controller.$action);
                 if(!class_exists($path))
                 {
-                    $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller.$action);
-                    if(!class_exists($path))
-                    {
-                        $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
-                    }
+                    $path = '\app\plugins\\'.$pluginsname.'\form\\'.ucfirst($controller);
                 }
             }
         }
@@ -1971,10 +2008,18 @@ function FormModulePath($params = [])
         }
     }
 
+    // api不存在则使用index组、仅插件下有效
+    if(!class_exists($path) && isset($params['is_module_api_to_index']) && $params['is_module_api_to_index'] == 1 && $system_group == 'api' && $system_controller == 'plugins')
+    {
+        $res = FormModulePath(array_merge($params, ['group'=>'index']));
+        $path = $res['module'];
+    }
+
     // 不存在是否支持后端模块
     if(!class_exists($path) && isset($params['is_admin_module']) && $params['is_admin_module'] == 1)
     {
-        return FormModulePath(array_merge($params, ['group'=>'admin', 'is_admin_module'=>0]));
+        $res = FormModulePath(array_merge($params, ['group'=>'admin', 'is_admin_module'=>0]));
+        $path = $res['module'];
     }
 
     return [
@@ -2059,17 +2104,18 @@ function FormModuleDataListHandle($data, $params = [])
  * @param   [string]         $data_type [返回数据结构类型]
  * @param   [array]          $params    [输入参数]
  */
-function FormModuleStructReturn($data, $data_type, $params = [])
+function FormModuleStructReturn($data, $data_type = '', $params = [])
 {
     // 全部数据
     if($data_type != 'all')
     {
+        $result = [];
         $table = empty($data['table']) ? [] : $data['table'];
         switch($data_type)
         {
             // 分页结构体
             case 'page_struct' :
-                $data = [
+                $result = [
                     'page'        => empty($data['page']) ? 1 : $data['page'],
                     'page_start'  => empty($data['page_start']) ? 0 : $data['page_start'],
                     'page_size'   => empty($data['page_size']) ? 0 : $data['page_size'],
@@ -2082,7 +2128,7 @@ function FormModuleStructReturn($data, $data_type, $params = [])
 
             // 列表
             case 'data_list' :
-                $data = [
+                $result = [
                     'data_list'   => empty($data['data_list']) ? [] : $data['data_list'],
                     'field_list'  => FormModuleFieldData($table),
                 ];
@@ -2091,15 +2137,13 @@ function FormModuleStructReturn($data, $data_type, $params = [])
             // 默认
             default :
                 // 指定数据
-                if(array_key_exists($data_type, $data))
-                {
-                    $data = $data[$data_type];
-                }
+                $result = array_key_exists($data_type, $data) ? $data[$data_type] : $data;
+
                 // 详情则增加字段列表数据，重新组织结构
                 if($data_type == 'data_detail')
                 {
-                    $data = [
-                        'data'        => empty($data) ? null : $data,
+                    $result = [
+                        'data'        => empty($result) ? null : $result,
                         'field_list'  => FormModuleFieldData($table),
                     ];
                 }
@@ -2116,12 +2160,14 @@ function FormModuleStructReturn($data, $data_type, $params = [])
             {
                 if(array_key_exists($edfv, $data))
                 {
-                    $data[$edfv] = $ret['data'][$edfv];
+                    $result[$edfv] = $data[$edfv];
                 }
             }
         }
+    } else {
+        $result = $data;
     }
-    return $data;
+    return $result;
 }
 
 /**
@@ -2214,9 +2260,7 @@ function FormModuleStruct($params = [])
     // 模块组
     if(empty($params['group']))
     {
-        // 未指定的情况、api下则默认为index
-        $request_module = RequestModule();
-        $group = ($request_module == 'api') ? 'index' : $request_module;
+        $group = RequestModule();
     } else {
         $group = $params['group'];
     }
@@ -2248,48 +2292,34 @@ function FormModuleStruct($params = [])
         $plugins = strtolower($params['plugins']);
     }
 
-    // 独立控制器+方法独立表格
-    $alone_ca = ucfirst($control.$action);
-
+    // 模块参数
+    $params['group'] = $group;
     // 是否插件、设定模块及参数
     if(empty($plugins))
     {
-        // 是否存在控制住+方法的form文件
-        $module = '\app\\'.$group.'\form\\'.$alone_ca;
-        if(!class_exists($module))
-        {
-            $module = '\app\\'.$group.'\form\\'.ucfirst($control);
-        }
-
-        // 模块参数
+        $params['control'] = $control;
+        $params['action'] = $action;
+        // 指定模块访问信息
         $params['module_name'] = $group;
         $params['controller_name'] = $control;
         $params['action_name'] = $action;
     } else {
-        $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.$alone_ca;
-        if(!class_exists($module))
-        {
-            // 是否定义模块组、是否存在控制器+方法的form文件
-            $module = '\app\plugins\\'.$plugins.'\form\\'.$group.'\\'.ucfirst($control);
-            // 分组不存在则调用不分组的表单
-            if(!class_exists($module))
-            {
-                $module = '\app\plugins\\'.$plugins.'\form\\'.$alone_ca;
-                if(!class_exists($module))
-                {
-                    $module = '\app\plugins\\'.$plugins.'\form\\'.ucfirst($control);
-                }
-            }
-        }
-
-        // 模块参数
         $params['pluginsname'] = $plugins;
         $params['pluginscontrol'] = $control;
         $params['pluginsaction'] = $action;
     }
+    // 生成模块路径
+    $res = FormModulePath(array_merge($params, ['is_module_api_to_index'=>1]));
+    $module = $res['module'];
 
     // 模块运行方法
     $run = empty($params['run']) ? 'Run' : $params['run'];
+
+    // 加入用户信息
+    $params['system_user'] = UserService::LoginUserInfo();
+
+    // 独立控制器+方法独立表格
+    $alone_ca = ucfirst($control.$action);
 
     // 返回结构数据
     return [
@@ -2618,7 +2648,7 @@ function StrToAscii($str)
     {
         // 编码处理
         $encode = mb_detect_encoding(trim($str));
-        if($encode != 'UTF-8')
+        if($encode !== false && $encode != 'UTF-8')
         {
             $str = mb_convert_encoding($str, 'UTF-8', $encode);
         }
@@ -2664,7 +2694,7 @@ function AsciiToStr($ascii)
 
         // 编码处理
         $encode = mb_detect_encoding($str);
-        if($encode != 'UTF-8')
+        if($encode !== false && $encode != 'UTF-8')
         {
             $str = mb_convert_encoding($str, 'UTF-8', $encode);
         }

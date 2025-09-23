@@ -36,10 +36,8 @@ class OrderAftersale
     public function __construct($params = [])
     {
         // 用户信息
-        if(!empty($params['system_user']))
-        {
-            $this->condition_base[] = ['user_id', '=', $params['system_user']['id']];
-        }
+        $user_id = empty($params['system_user']) ? 0 : $params['system_user']['id'];
+        $this->condition_base[] = ['user_id', '=', $user_id];
     }
 
     /**

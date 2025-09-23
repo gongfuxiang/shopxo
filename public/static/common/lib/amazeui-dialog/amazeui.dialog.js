@@ -199,7 +199,7 @@ dialog.popup = function(options) {
     html.push('<div class="am-popup-inner am-radius">');
     html.push('<div class="am-popup-hd">');
     html.push('<h4 class="am-popup-title">' + options.title + '</h4>');
-    html.push('<span data-am-modal-close  class="am-close">&times;</span>');
+    html.push('<span data-am-modal-close class="am-close">&times;</span>');
     html.push('</div>');
     html.push('<div class="am-popup-bd">' + options.content + '</div>');
   } else {

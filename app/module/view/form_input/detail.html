@@ -1,0 +1,70 @@
+{{php}}$form_input_data_detail = empty($form_input_data_detail) ? (empty($data) ? [] : $data) : $form_input_data_detail;{{/php}}
+{{if empty($form_input_data_detail['form_data'])}}
+    {{:ModuleInclude('public/not_data')}}
+{{else /}}
+    <dl class="dl-content am-padding-sm">
+        {{foreach $form_input_data_detail.form_data as $v}}
+            {{if !empty($v) and isset($v['key']) and isset($v['name']) and isset($v['value'])}}
+                <dt class="am-text-truncate">
+                    <strong>{{$v.name}}</strong>
+                </dt>
+                <dd>
+                    {{switch $v.key}}
+                        {{case upload-img}}
+                            {{if !empty($v['value']) and is_array($v['value'])}}
+                                <ul class="am-gallery am-avg-sm-2 am-avg-md-3 am-gallery-default am-padding-0 am-nbfc">
+                                    {{foreach $v.value as $vs}}
+                                        {{if !empty($vs) and !empty($vs['url'])}}
+                                            <li class="am-padding-xs">
+                                                <div class="am-gallery-item am-nbfc am-padding-right-sm am-padding-bottom-sm">
+                                                    <img src="{{$vs.url}}" class="am-block am-radius common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" />
+                                                    <p class="am-margin-top-xs">{{$vs.name}}</p>
+                                                </div>
+                                            </li>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                        {{/case}}
+                        {{case upload-video}}
+                            {{if !empty($v['value']) and is_array($v['value'])}}
+                                <ul class="am-avg-sm-2 am-avg-md-3 am-nbfc">
+                                    {{foreach $v.value as $vs}}
+                                        {{if !empty($vs) and !empty($vs['url'])}}
+                                            <li class="am-padding-xs">
+                                                <video src="{{$vs.url}}" class="am-block am-radius am-max-wh-auto common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" data-type="video"></video>
+                                                <p class="am-margin-top-xs">{{$vs.name}}</p>
+                                            </li>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                        {{/case}}
+                        {{case upload-attachments}}
+                            {{if !empty($v['value']) and is_array($v['value'])}}
+                                <ul class="am-avg-sm-2 am-avg-md-3 am-nbfc">
+                                    {{foreach $v.value as $vs}}
+                                        {{if !empty($vs) and !empty($vs['url'])}}
+                                            <li class="am-padding-xs">
+                                                <a href="javascript:;" data-value="{{$vs.url}}" data-name="{{$vs.name}}" class="am-block am-radius common-annex-download-event">{{$vs.name}}</a>
+                                            </li>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                        {{/case}}
+                        {{case rich-text}}
+                            <div class="richtext">{{$v.value|raw}}</div>
+                        {{/case}}
+                        {{default /}}
+                            {{if isset($v['value_text'])}}
+                                {{$v.value_text}}
+                            {{else /}}
+                                {{$v.value|raw}}
+                            {{/if}}
+                    {{/switch}}
+                </dd>
+            {{/if}}
+        {{/foreach}}
+    </dl>
+{{/if}}

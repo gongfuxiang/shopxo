@@ -270,7 +270,7 @@ class WarehouseGoodsService
     }
 
     /**
-     * 商品搜索
+     * 仓库商品搜索
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -323,6 +323,15 @@ class WarehouseGoodsService
             $where[] = ['gci.category_id', 'in', $category_ids];
         }
 
+        // 仓库商品搜索前钩子
+        $hook_name = 'plugins_service_warehouse_goods_search_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => &$params,
+            'where'       => &$where,
+        ]);
+
         // 获取商品总数
         $result['total'] = GoodsService::CategoryGoodsTotal($where);
 
@@ -353,6 +362,17 @@ class WarehouseGoodsService
                 }
             }
         }
+
+        // 仓库商品搜索后钩子
+        $hook_name = 'plugins_service_warehouse_goods_search_end';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => $params,
+            'where'       => $where,
+            'result'      => &$result,
+        ]);
+
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
@@ -797,13 +817,16 @@ class WarehouseGoodsService
         if(empty($spec['value']))
         {
             // 没有规格则读取默认规格数据
-            $spec['value'] = [
-                [
-                    'base_id'   => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('id'),
-                    'value'     => 'default',
-                ]
-            ];
+            $base = array_merge(Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->field('id as base_id,inventory,inventory_unit')->find(), ['value'=>'default']);
+            $spec['value'] = [$base];
+        } else {
+            $temp_base = Db::name('GoodsSpecBase')->where(['id'=>array_column($spec['value'], 'base_id')])->column('inventory_unit', 'id');
+            foreach($spec['value'] as $sk=>$sv)
+            {
+                $spec['value'][$sk]['inventory_unit'] = (!empty($temp_base) && !empty($temp_base[$sv['base_id']])) ? $temp_base[$sv['base_id']] : '';
+            }
         }
+        $temp_spec_inventory_unit = array_column($spec['value'], 'inventory_unit', 'value');
 
         // 商品规格库存
         $inventory_total = 0;
@@ -826,6 +849,7 @@ class WarehouseGoodsService
         {
             return DataReturn(MyLang('common_service.warehousegoods.goods_sync_inventory_fail_tips'), -21);
         }
+        $goods_inventory_unit = Db::name('Goods')->where(['id'=>$goods_id])->value('inventory_unit');
 
         // 获取商品对应仓库库存、未启用的仓库和商品则赋值0库存
         $warehouse_goods = Db::name('WarehouseGoods')->field('id,warehouse_id,goods_id,inventory,is_enable')->where(['goods_id'=>$goods_id])->select()->toArray();
@@ -864,6 +888,10 @@ class WarehouseGoodsService
                                     $sv['spec'] = 'default';
                                 }
                             }
+                            // 加入规格库存单位
+                            $temp_spec_value_str = is_array($sv['spec']) ? implode(GoodsService::$goods_spec_to_string_separator, array_column($sv['spec'], 'value')) : $sv['spec'];
+                            $sv['inventory_unit'] = (!empty($temp_spec_inventory_unit) && !empty($temp_spec_inventory_unit[$temp_spec_value_str])) ? $temp_spec_inventory_unit[$temp_spec_value_str] : $goods_inventory_unit;
+                            // 移除多余的字段并加入仓库数据
                             unset($sv['add_time']);
                             $wg['spec_data'][] = $sv;
                         }
@@ -928,18 +956,88 @@ class WarehouseGoodsService
     }
 
     /**
+     * 仓库商品规格数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-07-01
+     * @desc    description
+     * @param   [int]          $warehouse_id [仓库id]
+     * @param   [int]          $goods_id     [商品id]
+     * @param   [string]       $md5_key      [规格唯一key]
+     * @param   [string]       $field        [查询字段]
+     */
+    public static function WarehouseGoodsSpecData($warehouse_id, $goods_id, $md5_key, $field = '*')
+    {
+        $where = [
+            ['warehouse_id', '=', $warehouse_id],
+            ['goods_id', '=', $goods_id],
+            ['md5_key', '=', $md5_key],
+        ];
+        $data = Db::name('WarehouseGoodsSpec')->where($where)->field($field)->find();
+
+        // 仓库商品规格数据钩子
+        $hook_name = 'plugins_service_warehouse_goods_spec_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'warehouse_id'  => $warehouse_id,
+            'goods_id'      => $goods_id,
+            'md5_key'       => $md5_key,
+            'field'         => $field,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 仓库商品数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-07-01
+     * @desc    description
+     * @param   [int]          $warehouse_id [仓库id]
+     * @param   [int]          $goods_id     [商品id]
+     * @param   [string]       $field        [查询字段]
+     */
+    public static function WarehouseGoodsData($warehouse_id, $goods_id, $field = '*')
+    {
+        $where = [
+            ['warehouse_id', '=', $warehouse_id],
+            ['goods_id', '=', $goods_id],
+        ];
+        $data = Db::name('WarehouseGoods')->where($where)->field($field)->find();
+
+        // 仓库商品数据钩子
+        $hook_name = 'plugins_service_warehouse_goods_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'warehouse_id'  => $warehouse_id,
+            'goods_id'      => $goods_id,
+            'field'         => $field,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
      * 仓库库存扣减
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-08-02
      * @desc    description
-     * @param   [int]          $order_id     [订单id]
-     * @param   [int]          $goods_id     [商品id]
-     * @param   [string]       $spec         [商品规格]
-     * @param   [int]          $buy_number   [扣除库存数量]
+     * @param   [int]          $order_id        [订单id]
+     * @param   [int]          $goods_id        [商品id]
+     * @param   [string]       $spec            [商品规格]
+     * @param   [int]          $buy_number      [扣除库存数量]
+     * @param   [string]       $inventory_unit  [商品库存单位]
      */
-    public static function WarehouseGoodsInventoryDeduct($order_id, $goods_id, $spec, $buy_number)
+    public static function WarehouseGoodsInventoryDeduct($order_id, $goods_id, $spec, $buy_number, $inventory_unit)
     {
         // 获取仓库id
         $warehouse_id = Db::name('Order')->where(['id'=>$order_id])->value('warehouse_id');
@@ -961,40 +1059,56 @@ class WarehouseGoodsService
         $md5_key = md5($md5_key);
 
         // 扣除仓库商品规格库存
-        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
-        $inventory = (int) Db::name('WarehouseGoodsSpec')->where($where)->value('inventory');
-        if($inventory < $buy_number)
+        $warehouse_goods_spec = self::WarehouseGoodsSpecData($warehouse_id, $goods_id, $md5_key, 'inventory');
+        if(!empty($warehouse_goods_spec))
         {
-            return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
-        }
-        if(!Db::name('WarehouseGoodsSpec')->where($where)->dec('inventory', $buy_number)->update())
-        {
-            return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+            if($warehouse_goods_spec['inventory'] < $buy_number)
+            {
+                return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$warehouse_goods_spec['inventory'].'<'.$buy_number.')]', -11);
+            }
+            $where = [
+                ['warehouse_id', '=', $warehouse_id],
+                ['goods_id', '=', $goods_id],
+                ['md5_key', '=', $md5_key],
+                ['inventory', '>=', $buy_number],
+            ];
+            if(Db::name('WarehouseGoodsSpec')->where($where)->dec('inventory', $buy_number)->update() === false)
+            {
+                return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+            }
         }
 
         // 扣除仓库商品库存
-        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
-        $inventory = Db::name('WarehouseGoods')->where($where)->value('inventory');
-        if($inventory < $buy_number)
+        $warehouse_goods = self::WarehouseGoodsData($warehouse_id, $goods_id, 'inventory');
+        if(!empty($warehouse_goods))
         {
-            return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
-        }
-        if(!Db::name('WarehouseGoods')->where($where)->dec('inventory', $buy_number)->update())
-        {
-            return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+            if($warehouse_goods['inventory'] < $buy_number)
+            {
+                return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_not_enough_tips').'['.$warehouse_id.'-'.$goods_id.'('.$warehouse_goods['inventory'].'<'.$buy_number.')]', -11);
+            }
+            $where = [
+                ['warehouse_id', '=', $warehouse_id],
+                ['goods_id', '=', $goods_id],
+                ['inventory', '>=', $buy_number],
+            ];
+            if(Db::name('WarehouseGoods')->where($where)->dec('inventory', $buy_number)->update() === false)
+            {
+                return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_dec_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+            }
         }
 
         // 商品库存扣除钩子
         $hook_name = 'plugins_service_warehouse_goods_inventory_deduct';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'warehouse_id'  => $warehouse_id,
-            'order_id'      => $order_id,
-            'goods_id'      => $goods_id,
-            'spec'          => $spec,
-            'md5_key'       => $md5_key,
-            'buy_number'    => $buy_number,
+            'hook_name'       => $hook_name,
+            'is_backend'      => true,
+            'warehouse_id'    => $warehouse_id,
+            'order_id'        => $order_id,
+            'goods_id'        => $goods_id,
+            'spec'            => $spec,
+            'md5_key'         => $md5_key,
+            'buy_number'      => $buy_number,
+            'inventory_unit'  => $inventory_unit,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1011,12 +1125,13 @@ class WarehouseGoodsService
      * @version 1.0.0
      * @date    2020-08-02
      * @desc    description
-     * @param   [int]          $order_id     [订单id]
-     * @param   [int]          $goods_id     [商品id]
-     * @param   [string]       $spec         [商品规格]
-     * @param   [int]          $buy_number   [扣除库存数量]
+     * @param   [int]          $order_id        [订单id]
+     * @param   [int]          $goods_id        [商品id]
+     * @param   [string]       $spec            [商品规格]
+     * @param   [int]          $buy_number      [扣除库存数量]
+     * @param   [string]       $inventory_unit  [商品库存单位]
      */
-    public static function WarehouseGoodsInventoryRollback($order_id, $goods_id, $spec, $buy_number)
+    public static function WarehouseGoodsInventoryRollback($order_id, $goods_id, $spec, $buy_number, $inventory_unit)
     {
         // 获取仓库id
         $warehouse_id = Db::name('Order')->where(['id'=>$order_id])->value('warehouse_id');
@@ -1038,22 +1153,31 @@ class WarehouseGoodsService
         $md5_key = md5($md5_key);
 
         // 扣除仓库商品规格库存、存在对应规格才进行库存回滚操作
-        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
-        $temp = Db::name('WarehouseGoodsSpec')->where($where)->find();
-        if(!empty($temp))
+        $warehouse_goods_spec = self::WarehouseGoodsSpecData($warehouse_id, $goods_id, $md5_key);
+        if(!empty($warehouse_goods_spec))
         {
-            if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update())
+            $where = [
+                ['warehouse_id', '=', $warehouse_id],
+                ['goods_id', '=', $goods_id],
+                ['md5_key', '=', $md5_key],
+                ['inventory', '>=', $buy_number],
+            ];
+            if(Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update() === false)
             {
                 return DataReturn(MyLang('common_service.warehousegoods.goods_spec_inventory_inc_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
             }
         }
 
         // 扣除仓库商品库存
-        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
-        $temp = Db::name('WarehouseGoods')->where($where)->find();
-        if(!empty($temp))
+        $warehouse_goods = self::WarehouseGoodsData($warehouse_id, $goods_id);
+        if(!empty($warehouse_goods))
         {
-            if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update())
+            $where = [
+                ['warehouse_id', '=', $warehouse_id],
+                ['goods_id', '=', $goods_id],
+                ['inventory', '>=', $buy_number],
+            ];
+            if(Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update() === false)
             {
                 return DataReturn(MyLang('common_service.warehousegoods.goods_inventory_inc_fail_tips').'['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
             }
@@ -1062,14 +1186,15 @@ class WarehouseGoodsService
         // 商品库存回滚钩子
         $hook_name = 'plugins_service_warehouse_goods_inventory_rollback';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'warehouse_id'  => $warehouse_id,
-            'order_id'      => $order_id,
-            'goods_id'      => $goods_id,
-            'spec'          => $spec,
-            'md5_key'       => $md5_key,
-            'buy_number'    => $buy_number,
+            'hook_name'       => $hook_name,
+            'is_backend'      => true,
+            'warehouse_id'    => $warehouse_id,
+            'order_id'        => $order_id,
+            'goods_id'        => $goods_id,
+            'spec'            => $spec,
+            'md5_key'         => $md5_key,
+            'buy_number'      => $buy_number,
+            'inventory_unit'  => $inventory_unit,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {

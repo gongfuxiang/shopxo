@@ -13,7 +13,7 @@
             <div class="theme-popover">
                 <div class="theme-span"></div>
                 <div class="theme-poptit">
-                    <a href="javascript:;" class="close iconfont icon-close-o"></a>
+                    <a href="javascript:;" class="close iconfont icon-close-line"></a>
                 </div>
                 <div class="theme-popbod dform am-background-white">
                     <form class="theme-signin am-padding-horizontal-sm" action="javascript:;">
@@ -79,7 +79,11 @@
                                         <button type="button" class="am-input-group-label am-radius operate-number-inc">+</button>
                                     </div>
                                     {{if isset($module_data['goods']['show_inventory_status']) and $module_data['goods']['show_inventory_status'] eq 1}}
-                                        <span class="stock-tips"><span>({{:MyLang('inventory_title')}}</span><span class="stock" >{{$module_data.goods.inventory}}</span><span>{{$module_data.goods.inventory_unit}})</span></span>
+                                        <span class="stock-tips">
+                                            <em>{{:MyLang('inventory_title')}}</em>
+                                            <em class="stock" >{{$module_data.goods.inventory}}</em>
+                                            <em class="unit" data-value="{{$module_data.goods.inventory_unit}}">{{$module_data.goods.inventory_unit}}</em>
+                                        </span>
                                     {{/if}}
                                 </dd>
                             </div>
@@ -109,9 +113,9 @@
                             </div>
                             <div class="text-info">
                                 <span class="price-now" data-original-price="{{$module_data.goods.price}}">
-                                    <em>{{$module_data.goods.show_price_symbol}}</em>
-                                    <b>{{$module_data.goods.price}}</b>
-                                    <em class="am-text-grey">{{$module_data.goods.show_price_unit}}</em>
+                                    <em class="symbol">{{$module_data.goods.show_price_symbol}}</em>
+                                    <b class="price">{{$module_data.goods.price}}</b>
+                                    <em class="unit am-text-grey" data-value="{{$module_data.goods.show_price_unit}}">{{$module_data.goods.show_price_unit}}</em>
                                 </span>
                             </div>
                         </div>

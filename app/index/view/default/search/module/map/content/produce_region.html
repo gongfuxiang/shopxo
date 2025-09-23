@@ -1,10 +1,10 @@
 <!-- 商品产地搜索条件模块 -->
-{{if !empty($module_data['goods_place_origin_list'])}}
-    <li class="am-nbfc goods-place-origin-container" data-field="goods_place_origin_values">
-        <div class="map-left am-text-center am-fl">{{:MyLang('place_origin_title')}}</div>
+{{if !empty($module_data['goods_produce_region_list'])}}
+    <li class="am-nbfc goods-place-origin-container" data-field="goods_produce_region_values">
+        <div class="map-left am-text-center am-fl">{{:MyLang('produce_region_title')}}</div>
         <div class="map-right map-text-items am-fr am-nbfc">
             <ul class="am-nbfc">
-                {{foreach $module_data.goods_place_origin_list as $v}}
+                {{foreach $module_data.goods_produce_region_list as $v}}
                     <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
                         <a href="{{$v.url}}">{{$v.name}}</a>
                     </li>

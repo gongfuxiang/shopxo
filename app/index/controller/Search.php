@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\SeoService;
 use app\service\SearchService;
 use app\service\BreadcrumbService;
@@ -69,7 +70,7 @@ class Search extends Common
         $map = SearchService::SearchWhereHandle($this->data_request);
 
         // 获取商品列表
-        $ret = SearchService::GoodsList($map, $this->data_request);
+        $ret = SearchService::GoodsList($map, array_merge($this->data_request, ['is_spec'=>0, 'is_cart'=>0]));
 
         // 分页
         $page_params = [
@@ -150,7 +151,7 @@ class Search extends Common
         $assign['screening_price_list'] = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
 
         // 商品产地
-        $assign['goods_place_origin_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsPlaceOriginList($map, $this->data_request), 'poid', 'id', $this->data_request);
+        $assign['goods_produce_region_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsProduceRegionList($map, $this->data_request), 'poid', 'id', $this->data_request);
 
         // 商品参数
         $assign['goods_params_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);

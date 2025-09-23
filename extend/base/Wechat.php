@@ -226,8 +226,8 @@ class Wechat
             $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
             if($express_res['code'] == 0) 
             {
-                $consignor_tel = empty($params['consignor_tel']) ? '' : substr($params['consignor_tel'], 0, 3).'****'.substr($params['consignor_tel'], -4);
-                $receiver_tel = empty($params['receiver_tel']) ? '' : substr($params['receiver_tel'], 0, 3).'****'.substr($params['receiver_tel'], -4);
+                $consignor_tel = empty($params['consignor_tel']) ? '' : mb_substr($params['consignor_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['consignor_tel'], -4, null, 'utf-8');
+                $receiver_tel = empty($params['receiver_tel']) ? '' : mb_substr($params['receiver_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['receiver_tel'], -4, null, 'utf-8');
                 foreach($shipping_list as &$v)
                 {
                     $v['express_company'] = $express_res['data'];

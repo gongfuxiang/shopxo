@@ -126,7 +126,7 @@
                                                     <ul class="plug-file-upload-view data-custom-cover-view-{{$v.data_id}}" data-form-name="article_data[{{$v.data_id}}][custom_cover]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                         <li class="plug-file-upload-submit" data-view-tag="ul.data-custom-cover-view-{{$v.data_id}}">
                                                             {{if empty($v['custom_cover'])}}
-                                                                <i class="iconfont icon-upload-add"></i>
+                                                                <i class="iconfont icon-add"></i>
                                                             {{else /}}
                                                                 <input type="text" name="article_data[{{$v.data_id}}][custom_cover]" value="{{$v.custom_cover}}" />
                                                                 <img src="{{$v.custom_cover}}" />

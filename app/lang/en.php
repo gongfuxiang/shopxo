@@ -345,6 +345,8 @@ return [
     'back_home_title'                                       => 'Back Home',
     'shop_home_title'                                       => 'Shop Home',
     'home_title'                                            => 'Home',
+    'shop_title'                                            => 'Shop',
+    'store_title'                                           => 'Store',
     'system_title'                                          => 'System',
     'operate_title'                                         => 'Operate',
     'all_title'                                             => 'All',
@@ -451,6 +453,7 @@ return [
     'reverse_audit_title'                                   => 'Reverse Audit',
     'submit_audit_title'                                    => 'Submit Audit',
     'audit_title'                                           => 'Audit',
+    'retrial_audit_title'                                   => 'Retrial Audit',
     'signin_title'                                          => 'SignIn',
     'refuse_title'                                          => 'Refuse',
     'pass_title'                                            => 'Pass',
@@ -491,7 +494,8 @@ return [
     'tel_title'                                             => 'Telephone',
     'mobile_title'                                          => 'mobile phone',
     'email_title'                                           => 'mailbox',
-    'verification_title'                                    => 'Verification',
+    'verification_title'                                    => 'Verify',
+    'check_title'                                           => 'Check',
     'service_title'                                         => 'Service',
     'print_title'                                           => 'Print',
     'confirm_print_title'                                   => 'Confirm Print',
@@ -525,7 +529,7 @@ return [
     'unbind_title'                                          => 'Unbind',
     'brand_title'                                           => 'Brand',
     'category_title'                                        => 'Category',
-    'place_origin_title'                                    => 'PlaceOrigin',
+    'produce_region_title'                                    => 'ProduceRegion',
     'attr_title'                                            => 'Attribute',
     'spec_title'                                            => 'Specifications',
     'register_title'                                        => 'Register',
@@ -586,6 +590,8 @@ return [
     'customer_title'                                        => 'customer',
     'customer_info_title'                                   => 'Customer Information',
     'region_title'                                          => 'Area',
+    'compare_title'                                         => 'Compare',
+    'long_term_title'                                       => 'long-term',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_add_name'                                        => 'Goods Add',
@@ -640,6 +646,7 @@ return [
     'accounts_error_tips'                                   => 'Account does not exist',
     'password_empty_tips'                                   => 'Password cannot be empty',
     'password_error_tips'                                   => 'Password error',
+    'password_no_setup_tips'                                => 'Please set a password first!',
     'mobile_format_error_tips'                              => 'Mobile number format error',
     'mobile_no_exist_error_tips'                            => 'Mobile number does not exist, please register first!',
     'email_format_error_tips'                               => 'Email format error',
@@ -744,6 +751,8 @@ return [
     'form_article_category_message'                         => 'Please select the article category',
     'form_refuse_reason'                                    => 'Reason for rejection',
     'form_refuse_reason_message'                            => 'Rejection reason format 1-230 characters',
+    'form_operate_reason'                                   => 'Reason for operation',
+    'form_operate_reason_message'                           => 'Operation reason format, maximum 230 characters',
     'form_search_keywords_placeholder'                      => 'Search keywords',
     // 动态表格
     'form_table_search_first'                               => [
@@ -1232,6 +1241,7 @@ return [
         'spa'  => 'Spanish',
         'fra'  => 'French',
         'swe'  => 'Swedish',
+        'mn'   => 'Mongolian',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1375,11 +1385,12 @@ return [
     ],
     // 商店应用类型列表
     'common_plugins_goods_type_list' => [
-        'plugins'   => 'Plugins',
-        'payment'   => 'Payment plugin',
-        'webtheme'  => 'Web theme',
-        'design'    => 'Page design template',
-        'diy'       => 'DIY Template',
+        'plugins'    => 'Plugins',
+        'payment'    => 'Payment plugin',
+        'webtheme'   => 'Web theme',
+        'design'     => 'Page design template',
+        'diy'        => 'DIY Template',
+        'forminput'  => 'Form Template',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1728,7 +1739,7 @@ return [
             // 基础
             'create_name_default'                   => 'Design - Default Page',
             'download_config_file_create_fail_tips' => 'Profile generation failed',
-            'upload_dis_no_power_tips'              => 'The application upload directory does not have operation permissions',
+            'upload_dir_no_power_tips'              => 'The application upload directory does not have operation permissions',
             'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
             'upload_config_file_error_tips'         => 'The configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'   => 'Profile processing failed',
@@ -1747,7 +1758,31 @@ return [
             // 基础
             'create_name_default'                   => 'DIY - Default page',
             'download_config_file_create_fail_tips' => 'Configuration file generation failed',
-            'upload_dis_no_power_tips'              => 'The upload directory of the application does not have operational permissions',
+            'upload_dir_no_power_tips'              => 'The upload directory of the application does not have operational permissions',
+            'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
+            'upload_config_file_error_tips'         => 'Configuration information is empty or incorrect',
+            'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
+            'upload_invalid_packet_tips'            => 'Invalid data packet',
+            'preview_url_tips'                      => 'If you need the H5 preview effect, please configure the H5 address on the mobile end in the background [Phone ->Basic Configuration] first (the H5 end needs to be packaged using the Uniapp version)',
+            'form_item_desc'                        => 'describe',
+            'form_item_desc_message'                => 'Describe content format 2-60 characters',
+            'form_item_apply_version'               => 'Applicable system version',
+            'form_item_apply_version_message'       => 'Select at least one applicable system version',
+        ],
+        // Form表单
+        'forminput'     => [
+            'base_nav_title'                        => 'Forminput decoration',
+            // 表单
+            'form_item_name'                        => 'name',
+            'form_item_name_message'                => 'Name length 1~60 characters',
+            'form_item_describe'                    => 'describe',
+            'form_item_describe_message'            => 'The maximum description length is 230 characters',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => 'Suggested size 300 * 300px',
+            // 基础
+            'create_name_default'                   => 'Forminput - Default page',
+            'download_config_file_create_fail_tips' => 'Configuration file generation failed',
+            'upload_dir_no_power_tips'              => 'The upload directory of the application does not have operational permissions',
             'upload_config_file_get_fail_tips'      => 'Failed to read configuration information',
             'upload_config_file_error_tips'         => 'Configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'   => 'Configuration file processing failed',
@@ -1890,12 +1925,20 @@ return [
             'form_item_category_id_message'         => 'Please select at least one goods category',
             'form_item_simple_desc'                 => 'Goods description',
             'form_item_simple_desc_message'         => 'Goods description format can be up to 230 characters',
+            'form_item_spec_desc'                   => 'Specification Description',
+            'form_item_spec_desc_message'           => 'The maximum length of the specification description format is 230 characters',
+            'form_item_approval_number'             => 'Approval Number',
+            'form_item_approval_number_message'     => 'Approval number format up to 180 characters',
+            'form_item_produce_company'             => 'manufacturing enterprise',
+            'form_item_produce_company_message'     => 'The maximum length of the production enterprise format is 180 characters',
+            'form_item_coding'                      => 'Product Code',
+            'form_item_coding_message'              => 'The maximum length of the product code format is 180 characters',
             'form_item_model'                       => 'Goods model',
-            'form_item_model_message'               => 'Goods model format can be up to 30 characters',
+            'form_item_model_message'               => 'Goods model format can be up to 180 characters',
             'form_item_brand'                       => 'Brand',
             'form_item_brand_message'               => 'Please select a brand',
-            'form_item_place_origin'                => 'Place of production',
-            'form_item_place_origin_message'        => 'Please select the place of production',
+            'form_item_produce_region'                => 'Place of production',
+            'form_item_produce_region_message'        => 'Please select the place of production',
             'form_item_inventory_unit'              => 'unit of measurement',
             'form_item_inventory_unit_message'      => 'unit of measurement format 1~6 characters',
             'form_item_give_integral'               => 'Percentage of free points for purchase',
@@ -2170,6 +2213,7 @@ return [
                 'address'           => 'My Address',
                 'safety'            => 'Safety',
                 'message'           => 'My Message',
+                'forminputdata'     => 'Form Data',
                 'goodsbrowse'       => 'My Browse',
                 'logout'            => 'Sign Out',
             ],
@@ -2323,7 +2367,6 @@ return [
             'delivery_express_update_fail_tips'     => 'Shipment update failed',
             'delivery_express_info'                 => 'Express delivery information',
             'delivery_service_insert_fail_tips'     => 'Service addition failed',
-            'delivery_service_update_fail_tips'     => 'Service update failed',
             'take_extraction_code_message'          => 'Wrong pickup code',
             'take_extraction_code_empty_tips'       => 'The order pickup code does not exist. Please contact the administrator',
             'take_extraction_code_error_tips'       => 'Incorrect pickup code',
@@ -2406,6 +2449,7 @@ return [
             'file_no_power_tips'                    => 'No operation permission',
             'pay_respond_file_no_exist_tips'        => 'The payment return entry file does not exist. Please contact the administrator for processing',
             'pay_notify_file_no_exist_tips'         => 'The payment notification entry file does not exist. Please contact the administrator for processing',
+            'not_install_weixin_payment_tips'       => 'Please install the [WeChat APP Mini Program Payment] payment plugin first',
         ],
         // 支付请求日志
         'payrequestlog'             => [
@@ -2715,7 +2759,7 @@ return [
             'save_article_order_by_type_error_tips'    => 'The range value of article sorting type is incorrect',
             'save_article_order_by_rule_error_tips'    => 'The range value of the article sorting rule is incorrect',
             'download_config_file_create_fail_tips'    => 'Profile generation failed',
-            'upload_dis_no_power_tips'                 => 'The application upload directory does not have operation permissions',
+            'upload_dir_no_power_tips'                 => 'The application upload directory does not have operation permissions',
             'upload_config_file_get_fail_tips'         => 'Failed to read configuration information',
             'upload_config_file_error_tips'            => 'The configuration information is empty or incorrect',
             'upload_config_file_handle_fail_tips'      => 'Profile processing failed',
@@ -2867,7 +2911,7 @@ return [
         // 仓库商品
         'warehouse'                 => [
             // 表单
-            'form_item_name'                        => 'Full Name',
+            'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'Name format is between 1 and 80 characters',
             'form_item_alias'                       => 'Alias',
             'form_item_alias_message'               => 'Alias format can be up to 16 characters',
@@ -3187,7 +3231,7 @@ return [
             'common'        => [
                 'page_empty_tips'                   => 'The page address cannot be empty',
                 'scene_empty_tips'                  => 'The scene parameter is between 1 and 32 characters',
-                'access_token_request_fail_tips'    => 'access_token获取失败',
+                'access_token_request_fail_tips'    => 'Access token acquisition failed',
                 'get_qrcode_fail_tips'              => 'Failed to obtain QR code',
                 'api_request_fail_tips'             => 'Interface request failed',
                 'auth_api_request_fail_tips'        => 'Authorization interface call failed',
@@ -4329,7 +4373,7 @@ return [
             'desc' => 'Default on',
             'tips' => 'Please select search page opening parameters',
         ],
-        'home_search_is_place_origin'  => [
+        'home_search_is_produce_region'  => [
             'name' => 'Open the product origin on the search page',
             'desc' => 'Default enabled',
             'tips' => 'Please select the search page to open the origin of the product',
@@ -4477,6 +4521,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => 'More on the left side of the product details page (mobile version)',
             'tips' => 'Please choose if there is more on the left side of the product details page',
+        ],
+        'common_goods_cover_size_type'  => [
+            'name' => 'Product cover height stretching (mobile end)',
+            'desc' => 'Default Square',
+            'tips' => 'Please select product cover height stretch (mobile end)',
         ],
         'common_app_h5_url'  => [
             'name' => 'Mobile terminal h5 address',

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
-use app\service\PaymentService;
+use app\service\AppMiniUserService;
 use app\plugins\allocation\service\PaymentHandleService;
 
 /**
@@ -58,7 +58,7 @@ class ChinaumsAllocationWeixinH5SelfMini
             'name'          => '银联分账-微信H5跳转自有小程序',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc', 'h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'apply_terminal'=> ['pc', 'h5', 'ios', 'android'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用微信H5跳转自有小程序，分账模式支付方式。 <a href="https://www.chinaums.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
@@ -78,9 +78,21 @@ class ChinaumsAllocationWeixinH5SelfMini
                 'element'       => 'input',
                 'type'          => 'text',
                 'name'          => 'path',
-                'placeholder'   => '小程序页面路径',
                 'title'         => '小程序页面路径',
+                'desc'          => '默认 银联支付分账插件收银台地址',
+                'placeholder'   => '小程序页面路径',
                 'message'       => '请填写小程序页面路径',
+            ],
+            [
+                'element'       => 'select',
+                'title'         => '打开微信APP小程序方式',
+                'message'       => '请选择打开微信APP小程序方式',
+                'name'          => 'is_weixinapp_type',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>0, 'name'=>'原生方式'],
+                    ['value'=>1, 'name'=>'明文schem方式'],
+                ],
             ],
             [
                 'element'       => 'select',
@@ -95,7 +107,7 @@ class ChinaumsAllocationWeixinH5SelfMini
             ],
             [
                 'element'       => 'message',
-                'message'       => '支付参数请在【分账系统】插件中配置',
+                'message'       => '支付参数请在【银联支付分账】插件中配置',
             ],
         ];
 
@@ -137,25 +149,34 @@ class ChinaumsAllocationWeixinH5SelfMini
             // 存储支付数据
             MyCache($key, ['config'=>$this->config, 'params'=>$params]);
 
-            // 跳转支付
-            $env_version = empty($this->config['env_version']) ? 'release' : $this->config['env_version'];
-            $url = 'weixin://dl/business/?appid='.$this->config['appid'].'&path='.$this->config['path'].'&query='.urlencode('order_no='.$params['order_no']).'&env_version='.$env_version;
-            // h5端则直接返回跳转链接
-            if(APPLICATION_CLIENT_TYPE == 'h5')
+            // 支付链接
+            $path = empty($this->config['path']) ? 'pages/cashier/cashier' : $this->config['path'];
+            $is_weixinapp_type = isset($this->config['is_weixinapp_type']) ? $this->config['is_weixinapp_type'] : 0;
+            $query = 'order_no='.$params['order_no'].'&plugins=allocation';
+            if($is_weixinapp_type == 1 || APPLICATION_CLIENT_TYPE == 'pc')
             {
-                return DataReturn('success', 0, $url);
+                // 跳转支付 release 正式版本,  trial 体验版本,  develop 开发版本
+                $env_version = empty($this->config['env_version']) ? 'release' : $this->config['env_version'];
+                $appid = empty($this->config['appid']) ? AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid') : $this->config['appid'];
+                $url = 'weixin://dl/business/?appid='.$appid.'&path='.$path.'&query='.urlencode($query).'&env_version='.$env_version;
+            } else {
+                $url = 'weixinapp://'.$path.'?'.$query;
             }
-
-            // web端进去收银台页面
-            $pay_params = [
-                'url'       => $url,
-                'order_no'  => $params['order_no'],
-                'name'      => '微信小程序支付',
-                'msg'       => '正在支付中...',
-                'check_url' => $params['check_url'],
-            ];
-            MySession('payment_qrcode_data', $pay_params);
-            return DataReturn('success', 0, PluginsHomeUrl('allocation', 'cashier', 'weixintominipay'));
+            // h5端则直接返回跳转链接
+            if(APPLICATION_CLIENT_TYPE == 'pc')
+            {
+                // web端进去收银台页面
+                $pay_params = [
+                    'url'       => $url,
+                    'order_no'  => $params['order_no'],
+                    'name'      => '微信小程序支付',
+                    'msg'       => '正在支付中...',
+                    'check_url' => $params['check_url'],
+                ];
+                MySession('payment_qrcode_data', $pay_params);
+                return DataReturn('success', 0, PluginsHomeUrl('allocation', 'cashier', 'weixintominipay'));
+            }
+            return DataReturn('success', 0, $url);
         }
 
         // 获取支付数据

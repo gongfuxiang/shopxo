@@ -248,7 +248,9 @@ class UserService
             {
                 // web用户session
                 $user_login_info = MySession(self::$user_login_key);
-            } else {
+            }
+            if(empty($user_login_info))
+            {
                 $params = input();
                 if(!empty($params['token']))
                 {
@@ -725,10 +727,23 @@ class UserService
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
         ];
-        // 邀请人不能为当前用户id、相同则去掉
-        if(!empty($data['referrer']) && !empty($params['id']) && $data['referrer'] == $params['id'])
+        // 邀请人处理
+        if(!empty($data['referrer']) && !empty($params['id']))
         {
-            $data['referrer'] = 0;
+            // 邀请人不能为当前用户id、相同则去掉
+            if($data['referrer'] == $params['id'])
+            {
+                $data['referrer'] = 0;
+            }
+            // 对方的邀请是否是当前用户
+            if(!empty($data['referrer']))
+            {
+                $referrer = Db::name('User')->where(['id'=>$data['referrer']])->value('referrer');
+                if(!empty($referrer) && $referrer == $params['id'])
+                {
+                    $data['referrer'] = 0;
+                }
+            }
         }
 
         // 用户保存处理钩子
@@ -935,11 +950,19 @@ class UserService
                 'user_id'       => $user_id
             ]);
 
+            // 通过token存储用户缓存信息
+            if(!empty($user['token']))
+            {
+                MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
+            }
+
             // web端设置session
             if(APPLICATION == 'web')
             {
                 // 存储session
                 MySession(self::$user_login_key, $user);
+                // 设置cookie数据
+                MyCookie('user_info', json_encode($user, JSON_UNESCAPED_UNICODE), false);
             }
             return true;
         }
@@ -994,10 +1017,10 @@ class UserService
             }
 
             // 显示名称,根据规则优先展示
-            $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
-            if(empty($user['user_name_view']) && isset($user['nickname']))
+            $user['user_name_view'] = isset($user['nickname']) ? $user['nickname'] : '';
+            if(empty($user['user_name_view']) && isset($user['username']))
             {
-                $user['user_name_view'] = $user['nickname'];
+                $user['user_name_view'] = $user['username'];
             }
             if(empty($user['user_name_view']) && isset($user['mobile_security']))
             {
@@ -1018,6 +1041,9 @@ class UserService
                     $user['avatar'] = UserDefaultAvatar();
                 }
             }
+
+            // 是否设置了密码
+            $user['is_setup_pwd'] = empty($user['pwd']) ? 0 : 1;
 
             // 移除特殊数据
             unset($user['pwd'], $user['salt']);
@@ -1169,8 +1195,10 @@ class UserService
             ]);
 
             // web端用户登录纪录处理
-            self::UserLoginRecord($params['user']['id']);
-            return DataReturn(MyLang('upload_success'), 0);
+            if(self::UserLoginRecord($params['user']['id']))
+            {
+                return DataReturn(MyLang('upload_success'), 0);
+            }
         }
         return DataReturn(MyLang('upload_fail'), -100);
     }
@@ -1311,6 +1339,10 @@ class UserService
         // 帐号密码登录需要校验密码
         if($params['type'] == 'username')
         {
+            if(empty($user['pwd']) || empty($user['salt']))
+            {
+                return DataReturn(MyLang('password_no_setup_tips'), -4);
+            }
             $pwd = LoginPwdEncryption($params['pwd'], $user['salt']);
             if($pwd != $user['pwd'])
             {
@@ -1431,6 +1463,9 @@ class UserService
             $user['number_code'] = self::UserNumberCodeCreatedHandle($user_id);
         }
 
+        // token
+        $user['token'] = self::UserTokenUpdate($user_id, $user);
+
         // 登录钩子
         $hook_name = 'plugins_service_user_login_end';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -1446,21 +1481,22 @@ class UserService
             return $ret;
         }
 
-        // 成功返回
-        if(APPLICATION == 'app')
+        // 登录记录
+        if(self::UserLoginRecord(0, $user))
         {
-            $result = self::AppUserInfoHandle(['user'=>$user]);
-        } else {
-            // 登录记录
-            if(!self::UserLoginRecord(0, $user))
+            // 成功返回
+            if(APPLICATION == 'app')
             {
-                return DataReturn(MyLang('login_failure_tips'), -100);
+                $result = self::AppUserInfoHandle(['user'=>$user, 'is_refresh_token'=>0]);
+            } else {
+                $result = [
+                    'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+                    'user_id'      => $user_id,
+                ];
             }
-            $result = [
-                'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
-            ];
+            return DataReturn(MyLang('login_success'), 0, $result);
         }
-        return DataReturn(MyLang('login_success'), 0, $result);
+        return DataReturn(MyLang('login_failure_tips'), -100);
     }
 
     /**
@@ -1615,17 +1651,15 @@ class UserService
                 // 成功返回
                 if(APPLICATION == 'app')
                 {
-                    $result = self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user_ret['data']['user_id']]);
+                    $result = self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$user_ret['data']['user_id'], 'is_refresh_token'=>0]);
                 } else {
                     $result = $user_ret['data'];
                 }
                 return DataReturn(MyLang('register_success'), 0, $result);
             }
             return DataReturn(MyLang('common_service.user.user_register_success_no_login_tips'));
-        } else {
-            return $user_ret;
         }
-        return DataReturn(MyLang('register_fail'), -100);
+        return $user_ret;
     }
 
     /**
@@ -2309,6 +2343,7 @@ class UserService
 
             // 重新更新用户缓存
             self::UserLoginRecord(0, $user);
+            // 去除
             if(!empty($user['token']))
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
@@ -2509,7 +2544,7 @@ class UserService
                 {
                     return DataReturn(MyLang('common_service.user.user_not_audit_tips'), -110);
                 }
-                return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$ret['data']['user_id']]));
+                return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(['where_field'=>'id', 'where_value'=>$ret['data']['user_id'], 'is_refresh_token'=>0]));
             }
             return $ret;
         }
@@ -2626,7 +2661,7 @@ class UserService
                 // 重新生成token更新到数据库并缓存
                 if(!isset($params['is_refresh_token']) || $params['is_refresh_token'] == 1)
                 {
-                    $params['user'] = self::UserTokenUpdate($params['user']['id'], $params['user']);
+                    $params['user']['token'] = self::UserTokenUpdate($params['user']['id'], $params['user']);
                 }
             }
 
@@ -2678,11 +2713,8 @@ class UserService
             {
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
-
-            // web端用户登录纪录处理
-            self::UserLoginRecord($user_id, $user);
         }
-        return $user;
+        return (empty($user) || empty($user['token'])) ? '' : $user['token'];
     }
 
     /**
@@ -2813,6 +2845,9 @@ class UserService
         // 会员码生成处理
         self::UserNumberCodeCreatedHandle($user_id);
 
+        // token
+        self::UserTokenUpdate($user_id);
+
         // 清除推荐id
         if(!empty($user_base['referrer']))
         {
@@ -2824,7 +2859,7 @@ class UserService
         $body_html = [];
 
         // 注册成功后钩子
-        $user = self::UserHandle(self::UserInfo('id', $user_id, 'id,number_code,system_type,status,username,nickname,mobile,email,gender,avatar,province,city,county,birthday,add_time'));
+        $user = self::UserHandle(self::UserInfo('id', $user_id, 'id,number_code,system_type,token,status,username,nickname,mobile,email,gender,avatar,province,city,county,birthday,add_time'));
         $hook_name = 'plugins_service_user_register_end';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,

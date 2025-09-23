@@ -30,9 +30,10 @@ class AppMiniUserService
      * @date    2020-09-13
      * @desc    description
      * @param   [string]    $key           [索引名称]
+     * @param   [array]     $params        [输入参数]
      * @return  [mixed]                    [配置信息值,没找到返回null]
      */
-    public static function AppMiniConfig($key)
+    public static function AppMiniConfig($key, $params = [])
     {
         // 获取配置
         $value = MyC($key);
@@ -42,8 +43,9 @@ class AppMiniUserService
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'key'           => $key,
             'value'         => &$value,
+            'key'           => $key,
+            'params'        => $params,
         ]);
 
         return $value;

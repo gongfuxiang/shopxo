@@ -502,10 +502,17 @@ php;
             $this->behavior_obj->ReportInstallLog(['msg'=>'查询数据库版本失败']);
             return DataReturn('查询数据库版本失败', -1);
         } else {
-            $mysql_version = str_replace('-log', '', $data[0]['version']);
-            if($mysql_version < $this->charset_type_list[$db_charset]['version'])
+            preg_match('/\d+\.\d+\.\d+/', $data[0]['version'], $matches);
+            $mysql_version = isset($matches[0]) ? $matches[0] : null;
+            if(empty($mysql_version))
             {
-                $msg = '数据库版本过低、需要>='.$this->charset_type_list[$db_charset]['version'].'、当前'.$mysql_version;
+                $this->behavior_obj->ReportInstallLog(['msg'=>'数据库版本解析失败：'.$data[0]['version']]);
+                return DataReturn('数据库版本解析失败', -1);
+            }
+            
+            if(version_compare($mysql_version, $this->charset_type_list[$db_charset]['version'], '<'))
+            {
+                $msg = '数据库版本过低、需要>=' . $this->charset_type_list[$db_charset]['version'] . '、当前' . $mysql_version;
                 $this->behavior_obj->ReportInstallLog(['msg'=>$msg, 'mysql_version'=>$mysql_version]);
                 return DataReturn($msg, -1);
             }

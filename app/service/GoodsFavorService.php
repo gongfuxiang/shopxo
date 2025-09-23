@@ -350,7 +350,7 @@ class GoodsFavorService
         if(!empty($user))
         {
             // 基础条件
-            $where = [
+            $params['where'] = [
                 ['g.is_delete_time', '=', 0],
                 ['g.is_shelves', '=', 1],
                 ['f.user_id', '=', $user['id']],
@@ -359,7 +359,7 @@ class GoodsFavorService
             // 商品关键字
             if(!empty($params['goods_keywords']))
             {
-                $where[] = ['g.title|g.simple_desc', 'like', '%'.$params['goods_keywords'].'%'];
+                $params['where'][] = ['g.title|g.simple_desc', 'like', '%'.$params['goods_keywords'].'%'];
             }
 
             // 排序
@@ -370,16 +370,14 @@ class GoodsFavorService
             // 排序值
             $order_by_rule = !isset($params['goods_order_by_rule']) || !array_key_exists($params['goods_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['goods_order_by_rule']]['value'];
             // 拼接排序
-            $order_by = $order_by_type.' '.$order_by_rule;
+            $params['order_by'] = $order_by_type.' '.$order_by_rule;
+
 
             // 获取数据
-            $ret = self::GoodsFavorList([
-                'where'     => $where,
-                'm'         => 0,
-                'n'         => empty($params['goods_number']) ? 10 : intval($params['goods_number']),
-                'order_by'  => $order_by,
-                'field'     => 'g.*,f.id,f.goods_id',
-            ]);
+            $params['n'] = empty($params['goods_number']) ? 10 : intval($params['goods_number']);
+            $params['field'] = 'g.*,f.id,f.goods_id';
+            $params['is_auto_goods_favor_list'] = 1;
+            $ret = self::GoodsFavorList($params);
             $data = empty($ret['data']) ? [] : $ret['data'];
         }
         return $data;

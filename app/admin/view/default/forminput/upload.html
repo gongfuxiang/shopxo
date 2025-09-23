@@ -1,0 +1,63 @@
+{{:ModuleInclude('public/header')}}
+
+{{if $is_not_bind_accounts eq 1}}
+    {{:ModuleInclude('public/store_bind_accounts_tips')}}
+{{else /}}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('local_import_title'),
+                'key'  => 'upload',
+            ],
+            [
+                'name' => MyLang('template_market_title'),
+                'key'  => 'market',
+            ],
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 本地导入 -->
+        <div class="item am-ht-auto am-active" data-key="upload">
+            <form class="am-form form-validation am-form-popup-fixed am-upload-file" action="{{:MyUrl('admin/forminput/upload')}}" method="POST" request-type="ajax-reload" request-value="parent" enctype="multipart/form-data">
+                <div class="am-form-group am-flex-1">
+                    <div class="am-form-file">
+                        <button type="button" class="am-btn am-btn-default am-btn-xl am-radius"><i class="iconfont icon-upload-file"></i></button>
+                        <input type="file" name="file" class="file-event" data-tips-tag="#form-upload-file-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
+                        <div id="form-upload-file-tips" class="am-margin-top-xs"></div>
+                        {{if is_array(MyLang('forminput.upload_list_tips'))}}
+                            <div class="tips am-text-xs am-color-ccc am-margin-top-sm">
+                                <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('forminput.upload_list_tips'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="am-form-popup-submit">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                        <i class="am-icon-save"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- 模板市场 -->
+        <div class="item am-ht-auto" data-key="market">
+            {{:ModuleInclude('public/market/index', [
+                'type'                         => 'forminput',
+                'back_url'                     => MyUrl('admin/forminput/saveinfo', ['id'=>0]),
+                'back_url_field'               => 'id',
+                'back_url_is_new_win'          => 1,
+                'back_win_refresh_type'        => 'none',
+                'search_url'                   => MyUrl('admin/forminput/market'),
+                'more_download_url'            => empty($store_forminput_url) ? '' : $store_forminput_url,
+                'more_download_name'           => MyLang('forminput.nav_store_forminput_name'),
+            ])}}
+        </div>
+    </div>
+{{/if}}
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

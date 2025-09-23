@@ -40,7 +40,10 @@
 				</div>
 				<div>
 					<input type="hidden" name="type" value="email" />
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+	                    <i class="am-icon-check"></i>
+	                    <span>{{:MyLang('confirm_title')}}</span>
+	                </button>
 				</div>
 			</form>
 			<!-- form end -->

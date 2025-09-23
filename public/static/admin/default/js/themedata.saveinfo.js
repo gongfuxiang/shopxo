@@ -85,7 +85,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-icon-view-`+index+`" data-form-name="data[`+index+`][images_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-icon-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -101,7 +101,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-active_icon-view-`+index+`" data-form-name="data[`+index+`][images_active_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-active_icon-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -117,7 +117,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-shape-view-`+index+`" data-form-name="data[`+index+`][images_shape][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-shape-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -133,7 +133,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-cooperate-view-`+index+`" data-form-name="data[`+index+`][images_cooperate][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-cooperate-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -149,7 +149,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-title-view-`+index+`" data-form-name="data[`+index+`][images_title][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-title-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -165,7 +165,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-background-view-`+index+`" data-form-name="data[`+index+`][images_background][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-background-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -181,7 +181,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-detail_icon-view-`+index+`" data-form-name="data[`+index+`][images_detail_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-detail_icon-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -197,7 +197,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-detail-view-`+index+`" data-form-name="data[`+index+`][images_detail][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-detail-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -213,7 +213,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-detail_title-view-`+index+`" data-form-name="data[`+index+`][images_detail_title][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-detail_title-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -229,7 +229,7 @@ $(function()
                                         <div class="am-form-file-upload-container">
                                             <ul class="plug-file-upload-view images-detail_background-view-`+index+`" data-form-name="data[`+index+`][images_detail_background][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-detail_background-view-`+index+`">
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 </li>
                                             </ul>
                                         </div>
@@ -458,7 +458,7 @@ $(function()
                     <input type="hidden" name="`+form_name+`[`+data_id+`][data_id]" value="`+data_id+`">
                     <ul class="plug-file-upload-view data-custom-cover-view-`+index+data_id+`" data-form-name="`+form_name+`[`+data_id+`][custom_cover]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                         <li class="plug-file-upload-submit" data-view-tag="ul.data-custom-cover-view-`+index+data_id+`">
-                            <i class="iconfont icon-upload-add"></i>
+                            <i class="iconfont icon-add"></i>
                         </li>
                     </ul>
                     <a href="`+data_url+`" target="_blank" class="am-text-truncate am-flex am-flex-items-center am-gap-1">
@@ -508,7 +508,7 @@ $(function()
         $obj.append(`<li>
                         <ul class="plug-file-upload-view images-icon-`+index+`-view" data-form-name="`+form_name+`[`+index+`][icon]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                             <li class="plug-file-upload-submit" data-view-tag="ul.images-icon-`+index+`-view">
-                                <i class="iconfont icon-upload-add"></i>
+                                <i class="iconfont icon-add"></i>
                             </li>
                         </ul>
                         <input type="text" name="`+form_name+`[`+index+`][name]" placeholder="`+($obj.data('name-text') || '数据名称')+`" class="name am-radius" />
@@ -555,7 +555,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-icon-view-`+index+`" data-form-name="data[`+index+`][images_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-icon-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -571,7 +571,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-active_icon-view-`+index+`" data-form-name="data[`+index+`][images_active_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-active_icon-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -587,7 +587,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-shape-view-`+index+`" data-form-name="data[`+index+`][images_shape][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-shape-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -603,7 +603,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-background-view-`+index+`" data-form-name="data[`+index+`][images_background][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-background-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -879,7 +879,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-icon-view-`+index+`" data-form-name="data[`+index+`][images_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-icon-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -895,7 +895,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-active_icon-view-`+index+`" data-form-name="data[`+index+`][images_active_icon][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-active_icon-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -911,7 +911,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-shape-view-`+index+`" data-form-name="data[`+index+`][images_shape][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-shape-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>
@@ -927,7 +927,7 @@ $(function()
                         <div class="am-form-file-upload-container">
                             <ul class="plug-file-upload-view images-background-view-`+index+`" data-form-name="data[`+index+`][images_background][value]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.images-background-view-`+index+`">
-                                    <i class="iconfont icon-upload-add"></i>
+                                    <i class="iconfont icon-add"></i>
                                 </li>
                             </ul>
                         </div>

@@ -117,12 +117,10 @@ class UserAddressService
                 // 附件
                 if(isset($v['idcard_front']))
                 {
-                    $v['idcard_front_old'] = $v['idcard_front'];
                     $v['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_front']);
                 }
                 if(isset($v['idcard_back']))
                 {
-                    $v['idcard_back_old'] = $v['idcard_back'];
                     $v['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_back']);
                 }
 

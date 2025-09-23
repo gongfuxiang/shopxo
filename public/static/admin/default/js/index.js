@@ -462,6 +462,7 @@ $(function () {
             }
             is_move = false;
         });
+        return false;
     });
 
     // 独立窗口拉动大小
@@ -602,6 +603,7 @@ $(function () {
             }
             is_move = false;
         });
+        return false;
     });
 
     // 监听顶部tabs记忆展示

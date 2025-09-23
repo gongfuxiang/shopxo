@@ -40,41 +40,59 @@ class OtherHandleService
      */
     public static function OrderDeliverySyncWeixinHandle($params = [])
     {
-        if(MyC('common_app_mini_weixin_upload_shipping_status', 0, true) == 1 && isset($params['order_model']) && isset($params['business_id']) && isset($params['business_type']) && !empty($params['goods_title']))
+        if(isset($params['order_model']) && isset($params['business_id']) && isset($params['business_type']) && !empty($params['goods_title']))
         {
             // 获取支付日志
             $pay_log_ids = Db::name('PayLogValue')->where(['business_id'=>$params['business_id']])->column('pay_log_id');
             if(!empty($pay_log_ids))
             {
-                // 仅获取【微信和微信扫码】支付方式的订单日志
+                // 仅获取【微信、微信扫码、微信app小程序】支付方式的订单日志
+                // 仅【微信、ios、android】客户端发起的支付
                 $where = [
                     ['id', 'in', $pay_log_ids],
                     ['business_type', '=', $params['business_type']],
-                    ['payment', 'in', ['Weixin', 'WeixinScanQrcode']],
                     ['status', '=', 1],
                 ];
-                $pay_log = Db::name('PayLog')->field('trade_no,buyer_user')->where($where)->find();
-                if(!empty($pay_log)) 
+                $pay_log = Db::name('PayLog')->field('system_type,trade_no,buyer_user')->where($where)->where(function($query)
+                    {
+                        $query->whereOr([
+                            [
+                                ['payment', 'in', ['Weixin', 'WeixinScanQrcode']],
+                                ['client_type', '=', 'weixin'],
+                            ],
+                            [
+                                ['payment', '=', 'WeixinAppMini'],
+                                ['client_type', 'in', ['ios', 'android']],
+                            ]
+                        ]);
+                    })->find();
+                if(!empty($pay_log))
                 {
-                    $trade_no = $pay_log['trade_no'];
-                    $buyer_user = $pay_log['buyer_user'];
+                    $config_params = [
+                        'system_type' => $pay_log['system_type']
+                    ];
+                    if(AppMiniUserService::AppMiniConfig('common_app_mini_weixin_upload_shipping_status', $config_params) == 1)
+                    {
+                        $trade_no = $pay_log['trade_no'];
+                        $buyer_user = $pay_log['buyer_user'];
 
-                    // 发货快递信息
-                    $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
-                    $express_number = isset($params['express_number']) ? $params['express_number'] : '';
-                    $receiver_tel = isset($params['receiver_tel']) ? $params['receiver_tel'] : '';
+                        // 发货快递信息
+                        $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
+                        $express_number = isset($params['express_number']) ? $params['express_number'] : '';
+                        $receiver_tel = isset($params['receiver_tel']) ? $params['receiver_tel'] : '';
 
-                    // 调用微信发货同步
-                    return (new \base\Wechat(AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid'), AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret')))->MiniUploadShippingInfo([
-                        'order_model'     => $params['order_model'],
-                        'trade_no'        => $pay_log['trade_no'],
-                        'buyer_user'      => $pay_log['buyer_user'],
-                        'goods_title'     => $params['goods_title'],
-                        'express_name'    => ExpressService::ExpressName($express_id),
-                        'express_number'  => $express_number,
-                        'receiver_tel'    => $receiver_tel,
-                        'consignor_tel'   => MyC('common_customer_store_tel'),
-                    ]);
+                        // 调用微信发货同步
+                        return (new \base\Wechat(AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid', $config_params), AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret', $config_params)))->MiniUploadShippingInfo([
+                            'order_model'     => $params['order_model'],
+                            'trade_no'        => $pay_log['trade_no'],
+                            'buyer_user'      => $pay_log['buyer_user'],
+                            'goods_title'     => $params['goods_title'],
+                            'express_name'    => ExpressService::ExpressName($express_id),
+                            'express_number'  => $express_number,
+                            'receiver_tel'    => $receiver_tel,
+                            'consignor_tel'   => MyC('common_customer_store_tel'),
+                        ]);
+                    }
                 }
             }
         }

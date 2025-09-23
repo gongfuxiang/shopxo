@@ -89,5 +89,21 @@ class Power extends Base
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminPowerService::PowerDelete($params));
 	}
+
+	/**
+	 * 导出excel
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-25T15:19:45+0800
+	 */
+	public function Export()
+	{
+		$ret = AdminPowerService::PowerExport();
+		if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
+		{
+			return MyView('public/tips_error', ['msg'=>$ret['msg']]);
+		}
+	}
 }
 ?>

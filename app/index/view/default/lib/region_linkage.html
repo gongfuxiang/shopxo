@@ -1,17 +1,17 @@
-<div class="am-form-group region-linkage {{if !empty($module_data) and isset($module_data['is_row']) and $module_data['is_row'] eq 1}}row{{/if}}" data-url="{{:MyUrl('index/region/index')}}" data-code-url="{{:MyUrl('index/region/codedata')}}" data-original-value="{{if !empty($region_linkage_data)}}{{:urlencode(base64_encode(json_encode($region_linkage_data)))}}{{/if}}">
+<div class="am-form-group region-linkage {{if isset($module_params['is_row']) and $module_params['is_row'] eq 1}}row{{/if}}" data-url="{{:MyUrl('index/region/index')}}" data-code-url="{{:MyUrl('index/region/codedata')}}" data-original-value="{{if !empty($region_linkage_data)}}{{:urlencode(base64_encode(json_encode($region_linkage_data)))}}{{/if}}">
     <label class="am-block">
         <span>
             {{if empty($module_params['title'])}}{{:MyLang('form_region_title')}}{{else /}}{{$module_params.title}}{{/if}}
-            {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}
+            {{if !isset($module_params['required']) or $module_params['required'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}
         </span>
     </label>
     <div class="am-flex am-gap-1">
         <div class="am-cascader {{if empty($region_linkage_data)}}max-width{{/if}}">
             <div class="am-cascader-suffix">
                 <div class="am-input-inner input-model"></div>
-                <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="{{:MyLang('form_region_message')}}"
+                <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="{{if empty($module_params['title'])}}{{:MyLang('form_region_title')}}{{else /}}{{$module_params.title}}{{/if}}" data-validation-message="{{:MyLang('form_region_message')}}"
                 value="{{if !empty($data['province_name'])}}{{$data.province_name}}{{/if}}{{if !empty($data['city_name'])}}-{{$data.city_name}}{{/if}}{{if !empty($data['county_name'])}}-{{$data.county_name}}{{/if}}"
-                class="am-input-inner" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
+                class="am-input-inner" {{if !isset($module_params['required']) or $module_params['required'] eq 1}}required{{/if}}>
                 <input type="hidden" name="province" value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}">
                 <input type="hidden" name="city" value="{{if isset($data['city'])}}{{$data.city}}{{else /}}0{{/if}}">
                 <input type="hidden" name="county" value="{{if isset($data['county'])}}{{$data.county}}{{else /}}0{{/if}}">

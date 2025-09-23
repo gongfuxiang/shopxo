@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
+
 /**
  * 二维码生成控制层
  * @author   Devil

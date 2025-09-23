@@ -119,6 +119,16 @@ class AttachmentCategoryService
                 $params['where'][] = ['path', '=', empty($params['path_type']) ? '0-0-0' : $params['path_type']];
             }
         }
+
+        // 获取所有附件分类数据表钩子
+        $hook_name = 'plugins_service_attachment_category_all_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]);
+
+        // 获取数据
         $data = self::AttachmentCategoryList($params);
         if(!empty($data))
         {
@@ -182,6 +192,16 @@ class AttachmentCategoryService
         {
             $where[] = ['is_enable', '=', intval($params['is_enable'])];
         }
+
+        // 获取附件分类数据列表前钩子
+        $hook_name = 'plugins_service_attachment_category_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'where'         => &$where,
+        ]);
+
         $data = Db::name('AttachmentCategory')->where($where)->field('id,pid,icon,name,path,sort,is_enable')->order('sort asc')->select()->toArray();
         return self::DataHandle($data);
     }
@@ -288,6 +308,7 @@ class AttachmentCategoryService
         ];
 
         // 分类数据
+        $info = [];
         if(!empty($params['id']))
         {
             $info = Db::name('AttachmentCategory')->where(['id'=>intval($params['id'])])->find();
@@ -296,9 +317,13 @@ class AttachmentCategoryService
                 return DataReturn(MyLang('data_id_error_tips'), -1);
             }
         }
+        if(empty($info))
+        {
+            $info = Db::name('AttachmentCategory')->where(['path'=>$data['path']])->find();
+        }
 
-        // 添加
-        if(empty($params['id']))
+        // 不存在则添加
+        if(empty($info))
         {
             $data['add_time'] = time();
             $data['id'] = Db::name('AttachmentCategory')->insertGetId($data);
@@ -308,11 +333,11 @@ class AttachmentCategoryService
             }
         } else {
             $data['upd_time'] = time();
-            if(Db::name('AttachmentCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
+            if(Db::name('AttachmentCategory')->where(['id'=>$info['id']])->update($data) === false)
             {
                 return DataReturn(MyLang('edit_fail'), -100);
             } else {
-                $data['id'] = $params['id'];
+                $data['id'] = $info['id'];
             }
         }
         return DataReturn(MyLang('operate_success'), 0, $data);

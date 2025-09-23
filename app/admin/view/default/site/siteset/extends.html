@@ -195,7 +195,7 @@
                                         <ul class="plug-file-upload-view multilingual-icon-{{$k}}" data-form-name="{{$data.common_multilingual_choose_list.only_tag}}[{{$k}}][icon]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                             <li class="plug-file-upload-submit" data-view-tag="ul.multilingual-icon-{{$k}}">
                                                 {{if empty($data['common_multilingual_choose_list']['value']) or !is_array($data['common_multilingual_choose_list']['value']) or empty($data['common_multilingual_choose_list']['value'][$k]) or empty($data['common_multilingual_choose_list']['value'][$k]['icon'])}}
-                                                    <i class="iconfont icon-upload-add"></i>
+                                                    <i class="iconfont icon-add"></i>
                                                 {{else /}}
                                                     <input type="hidden" name="{{$data.common_multilingual_choose_list.only_tag}}[{{$k}}][icon]" value="{{$data['common_multilingual_choose_list']['value'][$k]['icon']}}" />
                                                     <img src="{{$data['common_multilingual_choose_list']['value'][$k]['icon']}}" />
@@ -265,7 +265,7 @@
                             </ul>
                             <div class="am-margin-top-sm">
                                 <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs domain-submit-add" data-json="{{if !empty($common_multilingual_list)}}{{:urlencode(base64_encode(json_encode($common_multilingual_list)))}}{{/if}}" data-please-select-tips="{{:MyLang('please_select_tips')}}" domain-placeholder="{{:MyLang('site.form_domain_multilingual_domain_name')}}" domain-message="{{:MyLang('site.form_domain_multilingual_domain_message')}}" data-select-message="{{:MyLang('site.form_domain_multilingual_select_message')}}" data-remove-title="{{:MyLang('remove_title')}}" data-form-name="{{$data.common_domain_multilingual_bind_list.only_tag}}">
-                                    <i class="iconfont icon-btn-add am-text-xs"></i>
+                                    <i class="iconfont icon-add am-text-xs"></i>
                                     {{:MyLang('site.form_domain_multilingual_add_title')}}
                                 </button>
                             </div>

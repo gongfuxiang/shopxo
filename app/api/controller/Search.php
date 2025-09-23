@@ -74,7 +74,7 @@ class Search extends Common
             // 筛选价格区间
             'screening_price_list'     => SearchService::ScreeningPriceList($this->data_request),
             // 商品产地
-            'goods_place_origin_list'  => SearchService::SearchGoodsPlaceOriginList($map, $this->data_request),
+            'goods_produce_region_list'  => SearchService::SearchGoodsProduceRegionList($map, $this->data_request),
             // 商品参数
             'goods_params_list'        => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
             // 商品规格

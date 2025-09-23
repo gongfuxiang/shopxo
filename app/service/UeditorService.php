@@ -89,6 +89,11 @@ class UeditorService
                 $ret = self::ActionCrawler();
                 break;
 
+            /* 资源图片保存 */
+            case 'resourcesimage':
+                $ret = self::ResourcesImageSave();
+                break;
+
             /* 删除文件 */
             case 'deletefile':
                 $ret = self::DeleteFile();
@@ -540,6 +545,65 @@ class UeditorService
                             array_push($list, $ret['data']);
                         }
                     }
+                }
+            }
+        }
+        if(!empty($list))
+        {
+            return DataReturn('success', 0, $list);
+        }
+        return DataReturn(MyLang('no_data'), -1);
+    }
+
+    /**
+     * 资源图片保存
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-17T23:08:29+0800
+     */
+    public static function ResourcesImageSave()
+    {
+        $temp_config = [
+            "pathFormat" => self::$current_config['imagePathFormat'],
+            "maxSize" => self::$current_config['imageMaxSize'],
+            "allowFiles" => self::$current_config['imageAllowFiles']
+        ];
+
+        // 上传路径匹配
+        // 路径非其他，并且配置路径中包含其他则使用新的路径替换
+        if(self::$path_type != 'other' && stripos($temp_config['pathFormat'], '/other/{yyyy}') !== false)
+        {
+            $temp_config['pathFormat'] = str_replace('/other/{yyyy}', '/'.str_replace('-', '/', self::$path_type).'/{yyyy}', $temp_config['pathFormat']);
+        }
+
+        // 抓取远程
+        $list = [];
+        if(!empty(self::$params['resources']))
+        {
+            $up = new \base\Uploader(self::$params['resources'], $temp_config, self::$current_action);
+            /**
+             * 得到上传文件所对应的各个参数,数组结构
+             * array(
+             *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
+             *     "url" => "",            //返回的地址
+             *     "path" => "",           //绝对地址
+             *     "title" => "",          //新文件名
+             *     "original" => "",       //原始文件名
+             *     "type" => ""            //文件类型
+             *     "size" => "",           //文件大小
+             *     "hash" => "",           //sha256值
+             * )
+             */
+            $data = $up->getFileInfo();
+            if(isset($data['state']) && $data['state'] == 'SUCCESS')
+            {
+                $data['type'] = 'image';
+                $data['category_id'] = self::$category_id;
+                $ret = AttachmentService::AttachmentAdd($data);
+                if($ret['code'] == 0)
+                {
+                    array_push($list, $ret['data']);
                 }
             }
         }

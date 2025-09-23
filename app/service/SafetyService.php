@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\UserService;
 use app\service\ConfigService;
+use app\service\SystemService;
 
 /**
  * 安全服务层
@@ -38,12 +39,6 @@ class SafetyService
             [
                 'checked_type'      => 'length',
                 'checked_data'      => '6,18',
-                'key_name'          => 'my_pwd',
-                'error_msg'         => MyLang('common_service.safety.form_item_current_password_message'),
-            ],
-            [
-                'checked_type'      => 'length',
-                'checked_data'      => '6,18',
                 'key_name'          => 'new_pwd',
                 'error_msg'         => MyLang('common_service.safety.form_item_new_password_message'),
             ],
@@ -64,12 +59,29 @@ class SafetyService
         {
             return DataReturn($ret, -1);
         }
+        $is_pwd_old = !isset($params['user']['is_setup_pwd']) || $params['user']['is_setup_pwd'] == 1;
+        if($is_pwd_old)
+        {
+            $p = [
+                [
+                    'checked_type'      => 'length',
+                    'checked_data'      => '6,18',
+                    'key_name'          => 'my_pwd',
+                    'error_msg'         => MyLang('common_service.safety.form_item_current_password_message'),
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+        }
 
         // 获取用户账户信息
         $user = UserService::UserInfo('id', intval($params['user']['id']), 'id,pwd,salt,username,mobile,email');
 
         // 原密码校验
-        if(LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
+        if($is_pwd_old && LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
         {
             return DataReturn(MyLang('common_service.safety.current_password_error_tips'), -4);
         }
@@ -82,12 +94,7 @@ class SafetyService
 
         // 密码修改
         $accounts = empty($user['mobile']) ? (empty($user['email']) ? $user['username'] : $user['email']) : $user['mobile'];
-        $ret = self::UserLoginPwdUpdate($accounts, $user['id'], $params['new_pwd']);
-        if($ret['code'] != 0)
-        {
-            return DataReturn(MyLang('operate_success'), 0);
-        }
-        return $ret;
+        return self::UserLoginPwdUpdate($accounts, $user['id'], $params['new_pwd']);
     }
 
     /**
@@ -125,9 +132,31 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn(MyLang('change_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0, self::UserInfoCacheUpdateHandle($user_id));
         }
         return DataReturn(MyLang('change_fail'), -100);
+    }
+
+    /**
+     * 用户信息缓存更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-07-30
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function UserInfoCacheUpdateHandle($user_id)
+    {
+        // 重新获取用户信息
+        $user = UserService::UserHandle(UserService::UserInfo('id', $user_id));
+        // 重新更新用户缓存
+        UserService::UserLoginRecord(0, $user);
+        if(!empty($user['token']))
+        {
+            MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
+        }
+        return $user;
     }
 
     /**
@@ -426,9 +455,6 @@ class SafetyService
         // 更新数据库
         if(Db::name('User')->where(['id'=>intval($params['user']['id'])])->update($data) !== false)
         {
-            // 更新用户session数据
-            UserService::UserLoginRecord($params['user']['id']);
-
             // 校验成功标记
             MySession('safety_'.$params['type'], null);
 
@@ -449,7 +475,7 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn(MyLang('operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0, self::UserInfoCacheUpdateHandle($user['id']));
         }
         return DataReturn(MyLang('operate_fail'), -100);
     }

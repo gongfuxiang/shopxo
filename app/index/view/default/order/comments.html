@@ -77,17 +77,18 @@
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                        <li class="tips-text"></li>
+                                                        <li class="tips-text am-margin-top-xs"></li>
                                                     </ul>
                                                     <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_rating_message')}}" required />
                                                 </div>
                                                 <textarea name="content[]" class="am-radius" placeholder="{{:MyLang('common_service.goodscomments.form_item_content_placeholder')}}" rows="4" minlength="6" maxlength="230" data-validation-message="{{:MyLang('common_service.goodscomments.form_item_content_message')}}" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
                                                 <div class="am-form-file-upload-container">
-                                                    <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images">
+                                                    <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images" data-is-eye=
+                                                    "1">
                                                     </ul>
-                                                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}"
-                                                        <i class="iconfont icon-upload-add"></i>
+                                                    <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}">
+                                                        <i class="iconfont icon-add"></i>
                                                     </div>
                                                 </div>
                                             </td>

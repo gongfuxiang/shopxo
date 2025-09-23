@@ -1,11 +1,17 @@
 {{if !empty($parameters) and is_array($parameters)}}
     <div class="am-scrollable-vertical am-scrollable-horizontal">
         <table class="am-table am-table-bordered am-table-striped am-text-nowrap">
-            <thead>
+            <thead class="am-text-left">
                 <tr>
-                    <th>{{:MyLang('common.form_goods_params_thead_type_title')}}</th>
-                    <th>{{:MyLang('common.form_goods_params_thead_name_title')}}</th>
-                    <th>{{:MyLang('common.form_goods_params_thead_value_title')}}</th>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_type_title')}}</strong>
+                    </th>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_name_title')}}</strong>
+                    </th>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_value_title')}}</strong>
+                    </th>
                 </tr>
             </thead>
             <tbody>

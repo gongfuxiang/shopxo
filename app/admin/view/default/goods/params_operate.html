@@ -1,0 +1,44 @@
+{{if (isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1) or (isset($goods_params_operate_data['is_copy']) and $goods_params_operate_data['is_copy'] eq 1) or (isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1) or !empty($goods_params_operate_data['msg'])}}
+    {{if !empty($goods_params_operate_data['msg'])}}
+        <p class="am-color-red">{{$goods_params_operate_data.msg}}</p>
+    {{/if}}
+    <div class="am-flex am-flex-items-center am-gap-2">
+        <!-- 通过配置生成商品参数 -->
+        {{if isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1}}
+            <div class="am-dropdown goods-params" id="parameters-quick-container" data-am-dropdown>
+                <span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
+                    <span>{{:MyLang('common_service.goods.form_params_select_title')}}</span>
+                    <i class="am-icon-angle-down am-margin-left-xs"></i>
+                </span>
+                <div class="am-dropdown-content am-radius parameters-quick-config">
+                    <div class="am-margin-bottom-sm">
+                        <select class="am-radius chosen-select" data-placeholder="{{:MyLang('common_service.goods.form_params_select_placeholder')}}" data-validation-message="{{:MyLang('common_service.goods.form_params_select_message')}}">
+                            <option value="">{{:MyLang('common_service.goods.form_params_select_placeholder')}}</option>
+                            {{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
+                                {{foreach $goods_base_template.params as $v}}
+                                    <option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <textarea rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
+                    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
+                </div>
+            </div>
+        {{/if}}
+        <!-- 复制操作 -->
+        {{if isset($goods_params_operate_data['is_copy']) and $goods_params_operate_data['is_copy'] eq 1}}
+            <span class="business-operations-submit parameters-quick-copy">
+                <i class="iconfont icon-copy"></i>
+                <span>{{:MyLang('common_service.goods.form_params_config_copy_title')}}</span>
+            </span>
+        {{/if}}
+        <!-- 清空操作 -->
+        {{if isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1}}
+            <span class="business-operations-submit parameters-quick-remove">
+                <i class="iconfont icon-shear"></i>
+                <span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>
+            </span>
+        {{/if}}
+    </div>
+{{/if}}

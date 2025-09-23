@@ -1,0 +1,54 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- content start  -->
+<div class="content-right">
+    {{if $data.code eq 0}}
+        <!-- nav  -->
+        <div class="am-text-center am-padding-vertical-sm">
+            <div class="preview-nav-switch-content am-radius">
+                <div class="item am-radius am-active" data-value="web">
+                    <i class="iconfont icon-pc am-text-lg"></i>
+                </div>
+                <div class="item am-radius" data-value="mobile">
+                    <i class="iconfont icon-phone-wide am-text-lg"></i>
+                </div>
+            </div>
+        </div>
+        <!-- web  -->
+        <iframe src="{{$data.data.web_url}}{{:strpos($data['data']['web_url'], '?') === false ? '?' : '&'}}is_debug=1" class="web-iframe am-radius"></iframe>
+        <!-- mobile  -->
+        <div class="mobile-iframe-content am-hide">
+            {{if empty($data['data']['h5_url'])}}
+                <div class="mobile-iframe am-padding-lg am-color-grey am-radius">{{:MyLang('common_service.forminput.preview_url_tips')}}</div>
+            {{else /}}
+                <iframe src="{{$data.data.h5_url}}&is_debug=1" class="mobile-iframe am-radius"></iframe>
+            {{/if}}
+            {{if !empty($data['data']['qrcode']) and is_array($data['data']['qrcode'])}}
+                <div class="qrcode-content am-background-white am-radius">
+                    <ul class="am-avg-sm-2 am-avg-md-2">
+                        {{foreach $data.data.qrcode as $v}}
+                            <li class="am-padding-sm">
+                                <div class="am-padding-horizontal-lg">
+                                    <img src="{{$v.qrcode}}" class="am-radius common-annex-view-event" width="100" data-value="{{$v.qrcode}}" data-is-download="1" data-download-name="{{$v.name}}" data-title="{{$v.name}}" data-class="am-padding-xl" />
+                                </div>
+                                <div class="am-margin-bottom-sm am-text-center">
+                                    <span class="am-color-grey">{{$v.name}}</span>
+                                    {{if !empty($v['url'])}}
+                                        <span class="text-copy-submit am-color-blue am-margin-left-xs" data-value="{{$v.url}}">{{:MyLang('copy_title')}}</span>
+                                        <a href="{{$v.url}}" target="_blank" class="am-color-blue am-margin-left-xs">{{:MyLang('view_title')}}</a>
+                                    {{/if}}
+                                </div>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                </div>
+            {{/if}}
+        </div>
+    {{else /}}
+        {{:ModuleInclude('public/not_data', ['msg'=>$data['msg']])}}
+    {{/if}}
+</div>
+<!-- content end  -->
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

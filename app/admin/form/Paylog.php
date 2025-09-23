@@ -88,6 +88,17 @@ class PayLog
                     ],
                 ],
                 [
+                    'label'              => $lang['system_type'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'system_type',
+                    'params_where_name'  => 'system_type_value',
+                    'is_copy'            => 1,
+                    'width'              => 130,
+                    'search_config'      => [
+                        'form_type'         => 'input',
+                    ],
+                ],
+                [
                     'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
@@ -105,8 +116,9 @@ class PayLog
                     'label'         => $lang['log_no'],
                     'view_type'     => 'field',
                     'view_key'      => 'log_no',
-                    'width'         => 165,
+                    'width'         => 200,
                     'is_sort'       => 1,
+                    'is_copy'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -190,6 +202,22 @@ class PayLog
                         'form_name'             => 'id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueBusinessInfo',
+                    ],
+                ],
+                [
+                    'label'         => $lang['client_type'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'client_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => MyConst('common_platform_type'),
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => MyConst('common_platform_type'),
+                        'data_key'          => 'value',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [

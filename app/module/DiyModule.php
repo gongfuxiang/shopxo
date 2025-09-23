@@ -63,7 +63,7 @@ class DiyModule
         // 数据处理
         $config = self::ConfigViewAnnexHandle($config);
 
-        // 头尾、唯一key生成
+        // 头，唯一key生成
         if(!empty($config['header']))
         {
             // 角标数量处理
@@ -98,116 +98,312 @@ class DiyModule
             // id处理
             $config['header']['id'] = empty($config['header']['com_data']) ? (empty($config['header']['id']) ? '' : $config['header']['id']) : md5(json_encode($config['header']['com_data'], JSON_UNESCAPED_UNICODE));
         }
-
+        // 尾，唯一key生成
         if(!empty($config['footer']))
         {
             $config['footer']['id'] = empty($config['footer']['com_data']) ? (empty($config['footer']['id']) ? '' : $config['footer']['id']) : md5(json_encode($config['footer']['com_data'], JSON_UNESCAPED_UNICODE));
         }
 
         // 处理数据
-        if($is_config_data_handle && !empty($config['diy_data']))
+        if($is_config_data_handle)
         {
             // 指定数据id
             $goods_ids = [];
             $article_ids = [];
             $brand_ids = [];
-            foreach($config['diy_data'] as $v)
+            if(!empty($config['diy_data']))
             {
-                if(!empty($v['key']) && !empty($v['com_data']) && !empty($v['com_data']['content']))
+                foreach($config['diy_data'] as $v)
                 {
-                    // 主体内容
-                    $content = $v['com_data']['content'];
-
-                    // 展示查看模式是否限制时间
-                    if($is_view && !self::ValidTimeCheck($content))
+                    if(!empty($v['key']) && !empty($v['com_data']) && !empty($v['com_data']['content']))
                     {
-                        continue;
-                    }
+                        // 主体内容
+                        $content = $v['com_data']['content'];
 
-                    // 根据模块处理
-                    switch($v['key'])
-                    {
-                        // 商品列表
-                        case 'goods-list' :
-                        // 文章列表
-                        case 'article-list' :
-                            if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
-                            {
-                                if(!is_array($content['data_ids']))
-                                {
-                                    $content['data_ids'] = explode(',', $content['data_ids']);
-                                }
-                                if($v['key'] == 'goods-list')
-                                {
-                                    $goods_ids = array_merge($goods_ids, $content['data_ids']);
-                                } else {
-                                    $article_ids = array_merge($article_ids, $content['data_ids']);
-                                }
-                            }
-                            break;
+                        // 展示查看模式是否限制时间
+                        if($is_view && !self::ValidTimeCheck($content))
+                        {
+                            continue;
+                        }
 
-                        // 商品选项卡
-                        case 'goods-tabs' :
-                        // 文章选项卡
-                        case 'article-tabs' :
-                            if(!empty($content['tabs_list']))
-                            {
-                                foreach($content['tabs_list'] as $atv)
+                        // 根据模块处理
+                        switch($v['key'])
+                        {
+                            // 商品列表
+                            case 'goods-list' :
+                            // 文章列表
+                            case 'article-list' :
+                                if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
                                 {
-                                    if(isset($atv['data_type']) && $atv['data_type'] == 0 && !empty($atv['data_ids']))
+                                    if(!is_array($content['data_ids']))
                                     {
-                                        if(!is_array($atv['data_ids']))
+                                        $content['data_ids'] = explode(',', $content['data_ids']);
+                                    }
+                                    if($v['key'] == 'goods-list')
+                                    {
+                                        $goods_ids = array_merge($goods_ids, $content['data_ids']);
+                                    } else {
+                                        $article_ids = array_merge($article_ids, $content['data_ids']);
+                                    }
+                                }
+                                break;
+
+                            // 商品选项卡
+                            case 'goods-tabs' :
+                            // 文章选项卡
+                            case 'article-tabs' :
+                                if(!empty($content['tabs_list']))
+                                {
+                                    foreach($content['tabs_list'] as $atv)
+                                    {
+                                        if(isset($atv['data_type']) && $atv['data_type'] == 0 && !empty($atv['data_ids']))
                                         {
-                                            $atv['data_ids'] = explode(',', $atv['data_ids']);
-                                        }
-                                        if($v['key'] == 'goods-tabs')
-                                        {
-                                            $goods_ids = array_merge($goods_ids, $atv['data_ids']);
-                                        } else {
-                                            $article_ids = array_merge($article_ids, $atv['data_ids']);
+                                            if(!is_array($atv['data_ids']))
+                                            {
+                                                $atv['data_ids'] = explode(',', $atv['data_ids']);
+                                            }
+                                            if($v['key'] == 'goods-tabs')
+                                            {
+                                                $goods_ids = array_merge($goods_ids, $atv['data_ids']);
+                                            } else {
+                                                $article_ids = array_merge($article_ids, $atv['data_ids']);
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            break;
+                                break;
 
-                        // 数据选项卡
-                        case 'data-tabs' :
-                            if(!empty($content['tabs_list']))
-                            {
-                                foreach($content['tabs_list'] as $dtv)
+                            // 数据选项卡
+                            case 'data-tabs' :
+                                if(!empty($content['tabs_list']))
                                 {
-                                    if(!empty($dtv['tabs_data_type']) && !empty($dtv[$dtv['tabs_data_type'].'_config']))
+                                    foreach($content['tabs_list'] as $dtv)
                                     {
-                                        $tabs_data_config = $dtv[$dtv['tabs_data_type'].'_config'];
-                                        if(!empty($tabs_data_config['content']))
+                                        if(!empty($dtv['tabs_data_type']) && !empty($dtv[$dtv['tabs_data_type'].'_config']))
                                         {
-                                            $content = $tabs_data_config['content'];
-                                            switch($dtv['tabs_data_type'])
+                                            $tabs_data_config = $dtv[$dtv['tabs_data_type'].'_config'];
+                                            if(!empty($tabs_data_config['content']))
+                                            {
+                                                $content = $tabs_data_config['content'];
+                                                switch($dtv['tabs_data_type'])
+                                                {
+                                                    // 商品
+                                                    case 'goods' :
+                                                    // 文章
+                                                    case 'article' :
+                                                        if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
+                                                        {
+                                                            if(!is_array($content['data_ids']))
+                                                            {
+                                                                $content['data_ids'] = explode(',', $content['data_ids']);
+                                                            }
+                                                            if($dtv['tabs_data_type'] == 'goods')
+                                                            {
+                                                                $goods_ids = array_merge($goods_ids, $content['data_ids']);
+                                                            } else {
+                                                                $article_ids = array_merge($article_ids, $content['data_ids']);
+                                                            }
+                                                        }
+                                                        break;
+
+                                                    // 自定义
+                                                    case 'custom' :
+                                                        // 商品、文章、品牌
+                                                        if(!empty($content['data_source']) && !empty($content['data_source_content']) && !empty($content['data_source_content']['data_ids']) && in_array($content['data_source'], ['goods', 'article', 'brand']))
+                                                        {
+                                                            // 手动模式选择的数据id
+                                                            if(isset($content['data_source_content']['data_type']) && $content['data_source_content']['data_type'] == 0 && !empty($content['data_source_content']['data_ids']))
+                                                            {
+                                                                if(!is_array($content['data_source_content']['data_ids']))
+                                                                {
+                                                                    $content['data_source_content']['data_ids'] = explode(',', $content['data_source_content']['data_ids']);
+                                                                }
+                                                                $temp_source = $content['data_source'].'_ids';
+                                                                if(isset($temp_source) && isset($$temp_source))
+                                                                {
+                                                                    $$temp_source = array_merge($$temp_source, $content['data_source_content']['data_ids']);
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+
+                            // 数据魔方
+                            case 'data-magic' :
+                                if(!empty($content['data_magic_list']))
+                                {
+                                    foreach($content['data_magic_list'] as $dmv)
+                                    {
+                                        if(!empty($dmv['data_content']) && isset($dmv['data_content']['data_type']))
+                                        {
+                                            switch($dmv['data_content']['data_type'])
                                             {
                                                 // 商品
                                                 case 'goods' :
-                                                // 文章
-                                                case 'article' :
-                                                    if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
+                                                    if(!empty($dmv['data_content']['goods_ids']))
                                                     {
-                                                        if(!is_array($content['data_ids']))
+                                                        if(!is_array($dmv['data_content']['goods_ids']))
                                                         {
-                                                            $content['data_ids'] = explode(',', $content['data_ids']);
+                                                            $dmv['data_content']['goods_ids'] = explode(',', $dmv['data_content']['goods_ids']);
                                                         }
-                                                        if($dtv['tabs_data_type'] == 'goods')
-                                                        {
-                                                            $goods_ids = array_merge($goods_ids, $content['data_ids']);
-                                                        } else {
-                                                            $article_ids = array_merge($article_ids, $content['data_ids']);
-                                                        }
+                                                        $goods_ids = array_merge($goods_ids, $dmv['data_content']['goods_ids']);
                                                     }
                                                     break;
 
                                                 // 自定义
                                                 case 'custom' :
                                                     // 商品、文章、品牌
-                                                    if(!empty($content['data_source']) && !empty($content['data_source_content']) && in_array($content['data_source'], ['goods', 'article', 'brand']) && !empty($content['data_source_content']['data_ids']))
+                                                    if(!empty($dmv['data_content']['data_source']) && !empty($dmv['data_content']['data_source_content']) && in_array($dmv['data_content']['data_source'], ['goods', 'article', 'brand']))
+                                                    {
+                                                        // 手动模式选择的数据id
+                                                        if(isset($dmv['data_content']['data_source_content']['data_type']) && $dmv['data_content']['data_source_content']['data_type'] == 0 && !empty($dmv['data_content']['data_source_content']['data_ids']))
+                                                        {
+                                                            if(!is_array($dmv['data_content']['data_source_content']['data_ids']))
+                                                            {
+                                                                $dmv['data_content']['data_source_content']['data_ids'] = explode(',', $dmv['data_content']['data_source_content']['data_ids']);
+                                                            }
+                                                            $temp_source = $dmv['data_content']['data_source'].'_ids';
+                                                            if(isset($temp_source) && isset($$temp_source))
+                                                            {
+                                                                $$temp_source = array_merge($$temp_source, $dmv['data_content']['data_source_content']['data_ids']);
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+
+                            // 自定义
+                            case 'custom' :
+                                if(!empty($content['data_source']))
+                                {
+                                    // 商品、文章、品牌
+                                    if(!empty($content['data_source_content']) && in_array($content['data_source'], ['goods', 'article', 'brand']))
+                                    {
+                                        // 手动模式选择的数据id
+                                        if(isset($content['data_source_content']['data_type']) && $content['data_source_content']['data_type'] == 0 && !empty($content['data_source_content']['data_ids']))
+                                        {
+                                            if(!is_array($content['data_source_content']['data_ids']))
+                                            {
+                                                $content['data_source_content']['data_ids'] = explode(',', $content['data_source_content']['data_ids']);
+                                            }
+                                            $temp_source = $content['data_source'].'_ids';
+                                            if(isset($temp_source) && isset($$temp_source))
+                                            {
+                                                $$temp_source = array_merge($$temp_source, $content['data_source_content']['data_ids']);
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+
+            // 选项卡
+            if(!empty($config['tabs_data']))
+            {
+                foreach($config['tabs_data'] as $tabsv)
+                {
+                    // 选项卡魔方
+                    if(!empty($tabsv['key']) && $tabsv['key'] == 'tabs-magic' && !empty($tabsv['com_data']) && !empty($tabsv['com_data']['content']))
+                    {
+                        // 展示查看模式是否限制时间
+                        if($is_view && !self::ValidTimeCheck($tabsv['com_data']['content']))
+                        {
+                            continue;
+                        }
+
+                        // 首页内容
+                        if(!empty($tabsv['com_data']['content']['home_data']) && !empty($tabsv['com_data']['content']['home_data']['magic_type']) && in_array($tabsv['com_data']['content']['home_data']['magic_type'], ['custom', 'article_list', 'goods_list']))
+                        {
+                            // 首页内容
+                            $home_data = $tabsv['com_data']['content']['home_data'];
+
+                            // 根据模块处理
+                            switch($home_data['magic_type'])
+                            {
+                                // 自定义
+                                case 'custom' :
+                                    if(!empty($home_data['custom']) && !empty($home_data['custom']['content']))
+                                    {
+                                        $content = $home_data['custom']['content'];
+                                        if(!empty($content['data_source']))
+                                        {
+                                            // 商品、文章、品牌
+                                            if(!empty($content['data_source_content']) && in_array($content['data_source'], ['goods', 'article', 'brand']))
+                                            {
+                                                // 手动模式选择的数据id
+                                                if(isset($content['data_source_content']['data_type']) && $content['data_source_content']['data_type'] == 0 && !empty($content['data_source_content']['data_ids']))
+                                                {
+                                                    if(!is_array($content['data_source_content']['data_ids']))
+                                                    {
+                                                        $content['data_source_content']['data_ids'] = explode(',', $content['data_source_content']['data_ids']);
+                                                    }
+                                                    $temp_source = $content['data_source'].'_ids';
+                                                    if(isset($temp_source) && isset($$temp_source))
+                                                    {
+                                                        $$temp_source = array_merge($$temp_source, $content['data_source_content']['data_ids']);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    break;
+
+                                // 文章列表
+                                case 'article_list' :
+                                // 商品列表
+                                case 'goods_list' :
+                                    if(!empty($home_data[$home_data['magic_type']]) && !empty($home_data[$home_data['magic_type']]['content']))
+                                    {
+                                        $content = $home_data[$home_data['magic_type']]['content'];
+                                        if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
+                                        {
+                                            if(!is_array($content['data_ids']))
+                                            {
+                                                $content['data_ids'] = explode(',', $content['data_ids']);
+                                            }
+                                            if($home_data['magic_type'] == 'goods_list')
+                                            {
+                                                $goods_ids = array_merge($goods_ids, $content['data_ids']);
+                                            } else {
+                                                $article_ids = array_merge($article_ids, $content['data_ids']);
+                                            }
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+
+                        // 选项卡内容
+                        if(!empty($tabsv['com_data']['content']['tabs_list']))
+                        {
+                            foreach($tabsv['com_data']['content']['tabs_list'] as $tabsvs)
+                            {
+                                if(!empty($tabsvs['magic_type']))
+                                {
+                                    // 根据模块处理
+                                    switch($tabsvs['magic_type'])
+                                    {
+                                        // 自定义
+                                        case 'custom' :
+                                            if(!empty($tabsvs['custom']) && !empty($tabsvs['custom']['content']))
+                                            {
+                                                $content = $tabsvs['custom']['content'];
+                                                if(!empty($content['data_source']))
+                                                {
+                                                    // 商品、文章、品牌
+                                                    if(!empty($content['data_source_content']) && in_array($content['data_source'], ['goods', 'article', 'brand']))
                                                     {
                                                         // 手动模式选择的数据id
                                                         if(isset($content['data_source_content']['data_type']) && $content['data_source_content']['data_type'] == 0 && !empty($content['data_source_content']['data_ids']))
@@ -223,94 +419,46 @@ class DiyModule
                                                             }
                                                         }
                                                     }
-                                                    break;
+                                                }
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                            break;
+                                            break;
 
-                        // 数据魔方
-                        case 'data-magic' :
-                            if(!empty($content['data_magic_list']))
-                            {
-                                foreach($content['data_magic_list'] as $dmv)
-                                {
-                                    if(!empty($dmv['data_content']) && isset($dmv['data_content']['data_type']))
-                                    {
-                                        switch($dmv['data_content']['data_type'])
-                                        {
-                                            // 商品
-                                            case 'goods' :
-                                                if(!empty($dmv['data_content']['goods_ids']))
+                                        // 文章列表
+                                        case 'article_list' :
+                                        // 商品列表
+                                        case 'goods_list' :
+                                            if(!empty($tabsvs[$tabsvs['magic_type']]) && !empty($tabsvs[$tabsvs['magic_type']]['content']))
+                                            {
+                                                $content = $tabsvs[$tabsvs['magic_type']]['content'];
+                                                if(isset($content['data_type']) && $content['data_type'] == 0 && !empty($content['data_ids']))
                                                 {
-                                                    if(!is_array($dmv['data_content']['goods_ids']))
+                                                    if(!is_array($content['data_ids']))
                                                     {
-                                                        $dmv['data_content']['goods_ids'] = explode(',', $dmv['data_content']['goods_ids']);
+                                                        $content['data_ids'] = explode(',', $content['data_ids']);
                                                     }
-                                                    $goods_ids = array_merge($goods_ids, $dmv['data_content']['goods_ids']);
-                                                }
-                                                break;
-
-                                            // 自定义
-                                            case 'custom' :
-                                                // 商品、文章、品牌
-                                                if(in_array($dmv['data_content']['data_source'], ['goods', 'article', 'brand']) && !empty($dmv['data_content']['data_source_content']['data_ids']))
-                                                {
-                                                    // 手动模式选择的数据id
-                                                    if(isset($dmv['data_content']['data_source_content']['data_type']) && $dmv['data_content']['data_source_content']['data_type'] == 0 && !empty($dmv['data_content']['data_source_content']['data_ids']))
+                                                    if($tabsvs['magic_type'] == 'goods_list')
                                                     {
-                                                        if(!is_array($dmv['data_content']['data_source_content']['data_ids']))
-                                                        {
-                                                            $dmv['data_content']['data_source_content']['data_ids'] = explode(',', $dmv['data_content']['data_source_content']['data_ids']);
-                                                        }
-                                                        $temp_source = $dmv['data_content']['data_source'].'_ids';
-                                                        if(isset($temp_source) && isset($$temp_source))
-                                                        {
-                                                            $$temp_source = array_merge($$temp_source, $dmv['data_content']['data_source_content']['data_ids']);
-                                                        }
+                                                        $goods_ids = array_merge($goods_ids, $content['data_ids']);
+                                                    } else {
+                                                        $article_ids = array_merge($article_ids, $content['data_ids']);
                                                     }
                                                 }
-                                                break;
-                                        }
+                                            }
+                                            break;
                                     }
                                 }
                             }
-                            break;
-
-                        // 自定义
-                        case 'custom' :
-                            if(!empty($content['data_source']))
-                            {
-                                // 商品、文章、品牌
-                                if(in_array($content['data_source'], ['goods', 'article', 'brand']) && !empty($content['data_source_content']['data_ids']))
-                                {
-                                    // 手动模式选择的数据id
-                                    if(isset($content['data_source_content']['data_type']) && $content['data_source_content']['data_type'] == 0 && !empty($content['data_source_content']['data_ids']))
-                                    {
-                                        if(!is_array($content['data_source_content']['data_ids']))
-                                        {
-                                            $content['data_source_content']['data_ids'] = explode(',', $content['data_source_content']['data_ids']);
-                                        }
-                                        $temp_source = $content['data_source'].'_ids';
-                                        if(isset($temp_source) && isset($$temp_source))
-                                        {
-                                            $$temp_source = array_merge($$temp_source, $content['data_source_content']['data_ids']);
-                                        }
-                                    }
-                                }
-                            }
-                            break;
+                        }
                     }
                 }
             }
+
             // 读取指定商品数据
-            $goods_data = empty($goods_ids) ? [] : array_column(GoodsService::AppointGoodsList(['goods_ids'=>$goods_ids, 'is_spec'=>1, 'is_cart'=>1]), null, 'id');
+            $goods_data = empty($goods_ids) ? [] : array_column(GoodsService::AppointGoodsList(array_merge($params, ['goods_ids'=>$goods_ids, 'is_spec'=>1, 'is_cart'=>1])), null, 'id');
             // 读取指定文章数据
-            $article_data = empty($article_ids) ? [] : array_column(ArticleService::AppointArticleList(['article_ids'=>$article_ids]), null, 'id');
+            $article_data = empty($article_ids) ? [] : array_column(ArticleService::AppointArticleList(array_merge($params, ['article_ids'=>$article_ids])), null, 'id');
             // 读取指定品牌数据
-            $brand_data = empty($brand_ids) ? [] : array_column(BrandService::AppointBrandList(['brand_ids'=>$brand_ids]), null, 'id');
+            $brand_data = empty($brand_ids) ? [] : array_column(BrandService::AppointBrandList(array_merge($params, ['brand_ids'=>$brand_ids])), null, 'id');
 
             // 处理数据
             foreach($config['diy_data'] as $k=>&$v)
@@ -329,7 +477,7 @@ class DiyModule
                     {
                         // 商品列表
                         case 'goods-list' :
-                            $v['com_data']['content'] = self::ConfigViewGoodsHandle($v['com_data']['content'], $goods_data);
+                            $v['com_data']['content'] = self::ConfigViewGoodsHandle($v['com_data']['content'], $goods_data, $params);
                             break;
 
                         // 商品选项卡
@@ -338,7 +486,7 @@ class DiyModule
                             {
                                 foreach($v['com_data']['content']['tabs_list'] as &$gtv)
                                 {
-                                    $gtv = self::ConfigViewGoodsHandle($gtv, $goods_data);
+                                    $gtv = self::ConfigViewGoodsHandle($gtv, $goods_data, $params);
                                 }
                             }
                             break;
@@ -351,12 +499,12 @@ class DiyModule
                                 {
                                     // 用户商品收藏
                                     case 'user-goods-favor' :
-                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsFavorService::AutoGoodsFavorList($v['com_data']['content']['data_source_content']);
+                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsFavorService::AutoGoodsFavorList(array_merge($params, $v['com_data']['content']['data_source_content']));
                                         break;
 
                                     // 用户商品浏览
                                     case 'user-goods-browse' :
-                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsBrowseService::AutoGoodsBrowseList($v['com_data']['content']['data_source_content']);
+                                        $v['com_data']['content']['data_source_content']['data_auto_list'] = GoodsBrowseService::AutoGoodsBrowseList(array_merge($params, $v['com_data']['content']['data_source_content']));
                                         break;
                                 }
                             }
@@ -364,7 +512,7 @@ class DiyModule
 
                         // 文章列表
                         case 'article-list' :
-                            $v['com_data']['content'] = self::ConfigViewArticleHandle($v['com_data']['content'], $article_data);
+                            $v['com_data']['content'] = self::ConfigViewArticleHandle($v['com_data']['content'], $article_data, $params);
                             break;
 
                         // 文章选项卡
@@ -373,7 +521,7 @@ class DiyModule
                             {
                                 foreach($v['com_data']['content']['tabs_list'] as &$gtv)
                                 {
-                                    $gtv = self::ConfigViewArticleHandle($gtv, $article_data);
+                                    $gtv = self::ConfigViewArticleHandle($gtv, $article_data, $params);
                                 }
                             }
                             break;
@@ -393,12 +541,12 @@ class DiyModule
                                             {
                                                 // 商品
                                                 case 'goods' :
-                                                    $tabs_data_config['content'] = self::ConfigViewGoodsHandle($tabs_data_config['content'], $goods_data);
+                                                    $tabs_data_config['content'] = self::ConfigViewGoodsHandle($tabs_data_config['content'], $goods_data, $params);
                                                     break;
 
                                                 // 文章
                                                 case 'article' :
-                                                    $tabs_data_config['content'] = self::ConfigViewArticleHandle($tabs_data_config['content'], $article_data);
+                                                    $tabs_data_config['content'] = self::ConfigViewArticleHandle($tabs_data_config['content'], $article_data, $params);
                                                     break;
 
                                                 // 自定义
@@ -406,31 +554,31 @@ class DiyModule
                                                     if(!empty($tabs_data_config['content']['data_source']))
                                                     {
                                                         // 商品、文章、品牌
-                                                        if(in_array($tabs_data_config['content']['data_source'], ['goods', 'article', 'brand']))
+                                                        if(!empty($tabs_data_config['content']['data_source_content']) && in_array($tabs_data_config['content']['data_source'], ['goods', 'article', 'brand']))
                                                         {
                                                             switch($tabs_data_config['content']['data_source'])
                                                             {
                                                                 // 商品
                                                                 case 'goods' :
-                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewGoodsHandle($tabs_data_config['content']['data_source_content'], $goods_data);
+                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewGoodsHandle($tabs_data_config['content']['data_source_content'], $goods_data, $params);
                                                                     break;
 
                                                                 // 文章
                                                                 case 'article' :
-                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewArticleHandle($tabs_data_config['content']['data_source_content'], $article_data);
+                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewArticleHandle($tabs_data_config['content']['data_source_content'], $article_data, $params);
                                                                     break;
 
                                                                 // 品牌
                                                                 case 'brand' :
-                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewBrandHandle($tabs_data_config['content']['data_source_content'], $brand_data);
+                                                                    $tabs_data_config['content']['data_source_content'] = self::ConfigViewBrandHandle($tabs_data_config['content']['data_source_content'], $brand_data, $params);
                                                                     break;
                                                             }
                                                         }
 
                                                         // 固定数据、用户信息
-                                                        if($tabs_data_config['content']['data_source'] == 'user-info')
+                                                        if($tabs_data_config['content']['data_source'] == 'user-info' && isset($tabs_data_config['content']['data_source_content']))
                                                         {
-                                                            $tabs_data_config['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
+                                                            $tabs_data_config['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
                                                         }
                                                     }
                                                     break;
@@ -456,7 +604,7 @@ class DiyModule
                                             case 'goods' :
                                                 if(!empty($dmv['data_content']['goods_ids']) && !empty($dmv['data_content']['goods_list']))
                                                 {
-                                                    $temp = self::ConfigViewGoodsHandle(['data_type'=>0, 'data_ids'=>$dmv['data_content']['goods_ids'], 'data_list'=>$dmv['data_content']['goods_list']], $goods_data);
+                                                    $temp = self::ConfigViewGoodsHandle(['data_type'=>0, 'data_ids'=>$dmv['data_content']['goods_ids'], 'data_list'=>$dmv['data_content']['goods_list']], $goods_data, $params);
                                                     if(!empty($temp['data_list']))
                                                     {
                                                         $dmv['data_content']['goods_list'] = $temp['data_list'];
@@ -469,31 +617,31 @@ class DiyModule
                                                 if(!empty($dmv['data_content']['data_source']))
                                                 {
                                                     // 商品、文章、品牌
-                                                    if(in_array($dmv['data_content']['data_source'], ['goods', 'article', 'brand']))
+                                                    if(!empty($dmv['data_content']['data_source_content']) && in_array($dmv['data_content']['data_source'], ['goods', 'article', 'brand']))
                                                     {
                                                         switch($dmv['data_content']['data_source'])
                                                         {
                                                             // 商品
                                                             case 'goods' :
-                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewGoodsHandle($dmv['data_content']['data_source_content'], $goods_data);
+                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewGoodsHandle($dmv['data_content']['data_source_content'], $goods_data, $params);
                                                                 break;
 
                                                             // 文章
                                                             case 'article' :
-                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewArticleHandle($dmv['data_content']['data_source_content'], $article_data);
+                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewArticleHandle($dmv['data_content']['data_source_content'], $article_data, $params);
                                                                 break;
 
                                                             // 品牌
                                                             case 'brand' :
-                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewBrandHandle($dmv['data_content']['data_source_content'], $brand_data);
+                                                                $dmv['data_content']['data_source_content'] = self::ConfigViewBrandHandle($dmv['data_content']['data_source_content'], $brand_data, $params);
                                                                 break;
                                                         }
                                                     }
 
                                                     // 固定数据、用户信息
-                                                    if($dmv['data_content']['data_source'] == 'user-info')
+                                                    if($dmv['data_content']['data_source'] == 'user-info' && isset($dmv['data_content']['data_source_content']))
                                                     {
-                                                        $dmv['data_content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
+                                                        $dmv['data_content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
                                                     }
                                                 }
                                                 break;
@@ -508,31 +656,31 @@ class DiyModule
                             if(!empty($v['com_data']['content']['data_source']))
                             {
                                 // 商品、文章、品牌
-                                if(in_array($v['com_data']['content']['data_source'], ['goods', 'article', 'brand']))
+                                if(!empty($v['com_data']['content']['data_source_content']) && in_array($v['com_data']['content']['data_source'], ['goods', 'article', 'brand']))
                                 {
                                     switch($v['com_data']['content']['data_source'])
                                     {
                                         // 商品
                                         case 'goods' :
-                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewGoodsHandle($v['com_data']['content']['data_source_content'], $goods_data);
+                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewGoodsHandle($v['com_data']['content']['data_source_content'], $goods_data, $params);
                                             break;
 
                                         // 文章
                                         case 'article' :
-                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewArticleHandle($v['com_data']['content']['data_source_content'], $article_data);
+                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewArticleHandle($v['com_data']['content']['data_source_content'], $article_data, $params);
                                             break;
 
                                         // 品牌
                                         case 'brand' :
-                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewBrandHandle($v['com_data']['content']['data_source_content'], $brand_data);
+                                            $v['com_data']['content']['data_source_content'] = self::ConfigViewBrandHandle($v['com_data']['content']['data_source_content'], $brand_data, $params);
                                             break;
                                     }
                                 }
 
                                 // 固定数据、用户信息
-                                if($v['com_data']['content']['data_source'] == 'user-info')
+                                if($v['com_data']['content']['data_source'] == 'user-info' && isset($v['com_data']['content']['data_source_content']))
                                 {
-                                    $v['com_data']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle();
+                                    $v['com_data']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
                                 }
                             }
                             break;
@@ -541,7 +689,7 @@ class DiyModule
                         case 'user-info' :
                             if(!empty($v['com_data']['content']))
                             {
-                                $v['com_data']['content']['data'] = self::UserHeadDataHandle();
+                                $v['com_data']['content']['data'] = self::UserHeadDataHandle($params);
                             }
                             break;
                     }
@@ -553,6 +701,166 @@ class DiyModule
                 $config['diy_data'] = array_values($config['diy_data']);
             }
 
+            // 选项卡
+            if(!empty($config['tabs_data']))
+            {
+                foreach($config['tabs_data'] as &$tabsv)
+                {
+                    // 选项卡魔方
+                    if(!empty($tabsv['key']) && $tabsv['key'] == 'tabs-magic' && !empty($tabsv['com_data']) && !empty($tabsv['com_data']['content']))
+                    {
+                        // 首页内容
+                        if(!empty($tabsv['com_data']['content']['home_data']) && !empty($tabsv['com_data']['content']['home_data']['magic_type']) && in_array($tabsv['com_data']['content']['home_data']['magic_type'], ['custom', 'article_list', 'goods_list', 'goods_magic']))
+                        {
+                            // 首页内容
+                            $home_data = $tabsv['com_data']['content']['home_data'];
+
+                            // 根据模块处理
+                            switch($tabsv['com_data']['content']['home_data']['magic_type'])
+                            {
+                                // 自定义
+                                case 'custom' :
+                                    if(!empty($home_data['custom']) && !empty($home_data['custom']['content']) && !empty($home_data['custom']['content']['data_source']))
+                                    {
+                                        // 商品、文章、品牌
+                                        if(!empty($home_data['custom']['content']['data_source_content']) && in_array($home_data['custom']['content']['data_source'], ['goods', 'article', 'brand']))
+                                        {
+                                            switch($home_data['custom']['content']['data_source'])
+                                            {
+                                                // 商品
+                                                case 'goods' :
+                                                    $tabsv['com_data']['content']['home_data']['custom']['content']['data_source_content'] = self::ConfigViewGoodsHandle($home_data['custom']['content']['data_source_content'], $goods_data, $params);
+                                                    break;
+
+                                                // 文章
+                                                case 'article' :
+                                                    $tabsv['com_data']['content']['home_data']['custom']['content']['data_source_content'] = self::ConfigViewArticleHandle($home_data['custom']['content']['data_source_content'], $article_data, $params);
+                                                    break;
+
+                                                // 品牌
+                                                case 'brand' :
+                                                    $tabsv['com_data']['content']['home_data']['custom']['content']['data_source_content'] = self::ConfigViewBrandHandle($home_data['custom']['content']['data_source_content'], $brand_data, $params);
+                                                    break;
+                                            }
+                                        }
+
+                                        // 固定数据、用户信息
+                                        if($home_data['custom']['content']['data_source'] == 'user-info' && isset($home_data['custom']['content']['data_source_content']))
+                                        {
+                                            $tabsv['com_data']['content']['home_data']['custom']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
+                                        }
+                                    }
+                                    break;
+
+                                // 文章列表
+                                case 'article_list' :
+                                    $tabsv['com_data']['content']['home_data']['article_list']['content'] = self::ConfigViewArticleHandle($home_data['article_list']['content'], $article_data, $params);
+                                    break;
+
+                                // 商品列表
+                                case 'goods_list' :
+                                    $tabsv['com_data']['content']['home_data']['goods_list']['content'] = self::ConfigViewGoodsHandle($home_data['goods_list']['content'], $goods_data, $params);
+                                    break;
+
+                                // 商品魔方
+                                case 'goods_magic' :
+                                    if(!empty($home_data['goods_magic']['content']['data_source']) && !empty($home_data['goods_magic']['content']['data_source_content']) && isset($home_data['goods_magic']['content']['data_source_content']['data_type']) && $home_data['goods_magic']['content']['data_source_content']['data_type'] == 1)
+                                    {
+                                        switch($home_data['goods_magic']['content']['data_source'])
+                                        {
+                                            // 用户商品收藏
+                                            case 'user-goods-favor' :
+                                                $tabsv['com_data']['content']['home_data']['goods_magic']['content']['data_source_content']['data_auto_list'] = GoodsFavorService::AutoGoodsFavorList(array_merge($params, $home_data['goods_magic']['content']['data_source_content']));
+                                                break;
+
+                                            // 用户商品浏览
+                                            case 'user-goods-browse' :
+                                                $tabsv['com_data']['content']['home_data']['goods_magic']['content']['data_source_content']['data_auto_list'] = GoodsBrowseService::AutoGoodsBrowseList(array_merge($params, $home_data['goods_magic']['content']['data_source_content']));
+                                                break;
+                                        }
+                                    }
+                            }
+                        }
+
+                        // 选项卡内容
+                        if(!empty($tabsv['com_data']['content']['tabs_list']))
+                        {
+                            foreach($tabsv['com_data']['content']['tabs_list'] as &$tabsvs)
+                            {
+                                if(!empty($tabsvs['magic_type']))
+                                {
+                                    // 根据模块处理
+                                    switch($tabsvs['magic_type'])
+                                    {
+                                        // 自定义
+                                        case 'custom' :
+                                            if(!empty($tabsvs['custom']) && !empty($tabsvs['custom']['content']) && !empty($tabsvs['custom']['content']['data_source']))
+                                            {
+                                                // 商品、文章、品牌
+                                                if(!empty($tabsvs['custom']['content']['data_source_content']) && in_array($tabsvs['custom']['content']['data_source'], ['goods', 'article', 'brand']))
+                                                {
+                                                    switch($tabsvs['custom']['content']['data_source'])
+                                                    {
+                                                        // 商品
+                                                        case 'goods' :
+                                                            $tabsvs['custom']['content']['data_source_content'] = self::ConfigViewGoodsHandle($tabsvs['custom']['content']['data_source_content'], $goods_data, $params);
+                                                            break;
+
+                                                        // 文章
+                                                        case 'article' :
+                                                            $tabsvs['custom']['content']['data_source_content'] = self::ConfigViewArticleHandle($tabsvs['custom']['content']['data_source_content'], $article_data, $params);
+                                                            break;
+
+                                                        // 品牌
+                                                        case 'brand' :
+                                                            $tabsvs['custom']['content']['data_source_content'] = self::ConfigViewBrandHandle($tabsvs['custom']['content']['data_source_content'], $brand_data, $params);
+                                                            break;
+                                                    }
+                                                }
+
+                                                // 固定数据、用户信息
+                                                if($tabsvs['custom']['content']['data_source'] == 'user-info' && isset($tabsvs['custom']['content']['data_source_content']))
+                                                {
+                                                    $tabsvs['custom']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
+                                                }
+                                            }
+                                            break;
+
+                                        // 文章列表
+                                        case 'article_list' :
+                                            $tabsvs['article_list']['content'] = self::ConfigViewArticleHandle($tabsvs['article_list']['content'], $article_data, $params);
+                                            break;
+
+                                        // 商品列表
+                                        case 'goods_list' :
+                                            $tabsvs['goods_list']['content'] = self::ConfigViewGoodsHandle($tabsvs['goods_list']['content'], $goods_data, $params);
+                                            break;
+
+                                        // 商品魔方
+                                        case 'goods_magic' :
+                                            if(!empty($tabsvs['goods_magic']['content']['data_source']) && !empty($tabsvs['goods_magic']['content']['data_source_content']) && isset($tabsvs['goods_magic']['content']['data_source_content']['data_type']) && $tabsvs['goods_magic']['content']['data_source_content']['data_type'] == 1)
+                                            {
+                                                switch($tabsvs['goods_magic']['content']['data_source'])
+                                                {
+                                                    // 用户商品收藏
+                                                    case 'user-goods-favor' :
+                                                        $tabsvs['goods_magic']['content']['data_source_content']['data_auto_list'] = GoodsFavorService::AutoGoodsFavorList(array_merge($params, $tabsvs['goods_magic']['content']['data_source_content']));
+                                                        break;
+
+                                                    // 用户商品浏览
+                                                    case 'user-goods-browse' :
+                                                        $tabsvs['goods_magic']['content']['data_source_content']['data_auto_list'] = GoodsBrowseService::AutoGoodsBrowseList(array_merge($params, $tabsvs['goods_magic']['content']['data_source_content']));
+                                                        break;
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // diy显示数据处理钩子
             $hook_name = 'plugins_module_diy_view_data_handle';
             MyEventTrigger($hook_name, [
@@ -562,7 +870,17 @@ class DiyModule
                 'params'      => $params,
             ]);
 
-            // 唯一id数据
+            // 选项卡、唯一key生成
+            if(!empty($config['tabs_data']))
+            {
+                foreach($config['tabs_data'] as $tk=>$tv)
+                {
+                    // 唯一key生成
+                    $config['tabs_data'][$tk]['id'] = empty($tv['com_data']) ? (empty($tv['id']) ? '' : $tv['id']) : md5(json_encode($tv['com_data'], JSON_UNESCAPED_UNICODE));
+                }
+            }
+
+            // 内容、唯一key生成
             if(!empty($config['diy_data']) && is_array($config['diy_data']))
             {
                 foreach($config['diy_data'] as $tk=>$tv)
@@ -634,8 +952,9 @@ class DiyModule
      * @desc    description
      * @param   [array]          $config       [配置数据]
      * @param   [array]          $brand_data   [指定文章的数据]
+     * @param   [array]          $params       [输入参数]
      */
-    public static function ConfigViewBrandHandle($config, $brand_data = [])
+    public static function ConfigViewBrandHandle($config, $brand_data = [], $params = [])
     {
         $data_type = isset($config['data_type']) ? $config['data_type'] : 0;
         if($data_type == 1)
@@ -648,7 +967,7 @@ class DiyModule
                 'brand_order_by_rule'  => isset($config['brand_order_by_rule']) ? $config['brand_order_by_rule'] : (isset($config['order_by_rule']) ? $config['order_by_rule'] : 0),
                 'brand_is_cover'       => isset($config['brand_is_cover']) ? $config['brand_is_cover'] : (isset($config['is_cover']) ? $config['is_cover'] : 0),
             ];
-            $config['data_auto_list'] = BrandService::AutoBrandList($data_params);
+            $config['data_auto_list'] = BrandService::AutoBrandList(array_merge($params, $data_params));
         } else {
             if(!empty($config['data_list']) && !empty($brand_data))
             {
@@ -676,8 +995,9 @@ class DiyModule
      * @desc    description
      * @param   [array]          $config       [配置数据]
      * @param   [array]          $article_data [指定文章的数据]
+     * @param   [array]          $params       [输入参数]
      */
-    public static function ConfigViewArticleHandle($config, $article_data = [])
+    public static function ConfigViewArticleHandle($config, $article_data = [], $params = [])
     {
         $data_type = isset($config['data_type']) ? $config['data_type'] : 0;
         if($data_type == 1)
@@ -690,7 +1010,7 @@ class DiyModule
                 'article_order_by_rule'  => isset($config['article_order_by_rule']) ? $config['article_order_by_rule'] : (isset($config['order_by_rule']) ? $config['order_by_rule'] : 0),
                 'article_is_cover'       => isset($config['article_is_cover']) ? $config['article_is_cover'] : (isset($config['is_cover']) ? $config['is_cover'] : 0),
             ];
-            $config['data_auto_list'] = ArticleService::AutoArticleList($data_params);
+            $config['data_auto_list'] = ArticleService::AutoArticleList(array_merge($params, $data_params));
         } else {
             if(!empty($config['data_list']) && !empty($article_data))
             {
@@ -718,8 +1038,9 @@ class DiyModule
      * @desc    description
      * @param   [array]          $config     [配置数据]
      * @param   [array]          $goods_data [指定商品的数据]
+     * @param   [array]          $params     [输入参数]
      */
-    public static function ConfigViewGoodsHandle($config, $goods_data = [])
+    public static function ConfigViewGoodsHandle($config, $goods_data = [], $params = [])
     {
         $data_type = isset($config['data_type']) ? $config['data_type'] : 0;
         if($data_type == 1)
@@ -732,7 +1053,7 @@ class DiyModule
                 'goods_order_by_type'  => isset($config['goods_order_by_type']) ? $config['goods_order_by_type'] : (isset($config['order_by_type']) ? $config['order_by_type'] : 0),
                 'goods_order_by_rule'  => isset($config['goods_order_by_rule']) ? $config['goods_order_by_rule'] : (isset($config['order_by_rule']) ? $config['order_by_rule'] : 0),
             ];
-            $config['data_auto_list'] = GoodsService::AutoGoodsList(array_merge($data_params, ['is_spec'=>1, 'is_cart'=>1]));
+            $config['data_auto_list'] = GoodsService::AutoGoodsList(array_merge($params, $data_params, ['is_spec'=>1, 'is_cart'=>1]));
         } else {
             if(!empty($config['data_list']) && !empty($goods_data))
             {

@@ -1,41 +1,70 @@
-<!-- 服务信息 -->
-{{if !empty($module_data['service_data'])}}
-    {{if !empty($module_data['service_data']['service_name']) or !empty($module_data['service_data']['service_mobile'])}}
+{{if !empty($module_data['service_data']) and is_array($module_data['service_data'])}}
+    <div class="am-nbfc">
+        <span>{{$module_data['service_data'][0]['service_name']}}</span>
+        <span class="am-fr text-copy-submit">{{$module_data['service_data'][0]['service_mobile']}}</span>
         <p>
-            {{if !empty($module_data['service_data']['service_name'])}}
-                <span>{{:MyLang('order.form_item_service_name')}}：</span>
-                <span class="text-copy-submit">{{$module_data.service_data.service_name}}</span>
-            {{/if}}
-            {{if !empty($module_data['service_data']['service_mobile'])}}
-                <span {{if !empty($module_data['service_data']['service_name'])}}class="am-margin-left-xl"{{/if}}>{{:MyLang('order.form_item_service_mobile')}}：</span>
-                <span class="text-copy-submit">{{$module_data.service_data.service_mobile}}</span>
-            {{/if}}
-        </p>
-    {{/if}}
-    {{if !empty($module_data['service_data']['service_start_time']) or !empty($module_data['service_data']['service_end_time'])}}
-        <p>
-            <span>{{:MyLang('order.form_item_service_time')}}：</span>
             <span class="text-copy-submit">
-                {{if !empty($module_data['service_data']['service_start_time'])}}
-                    <span>{{$module_data.service_data.service_start_time}}</span>
-                    {{if !empty($module_data['service_data']['service_end_time'])}}
-                        <span class="am-color-grey-light">~</span>
-                    {{/if}}
+                {{if !empty($module_data['service_data'][0]['service_duration_minute_text'])}}
+                    <span class="am-fr"><i class="am-icon-history"></i> {{$module_data['service_data'][0]['service_duration_minute_text']}}</span>
                 {{/if}}
-                {{if !empty($module_data['service_data']['service_end_time'])}}
-                    <span>{{$module_data.service_data.service_end_time}}</span>
+                {{if !empty($module_data['service_data'][0]['service_start_time'])}}
+                    <p>{{$module_data['service_data'][0]['service_start_time']}}</p>
                 {{/if}}
-                {{if !empty($module_data['service_data']['service_duration_minute_text'])}}
-                    <span class="am-color-grey-light am-margin-horizontal-sm">/</span>
-                    <span class="am-icon-history"> {{$module_data.service_data.service_duration_minute_text}}</span>
+                {{if !empty($module_data['service_data'][0]['service_end_time'])}}
+                    <p>{{$module_data['service_data'][0]['service_end_time']}}</p>
                 {{/if}}
             </span>
         </p>
-    {{/if}}
-    {{if !empty($module_data['service_data']['note'])}}
-        <p>
-            <span>{{:MyLang('order.form_item_note')}}：</span>
-            <span class="text-copy-submit">{{$module_data.service_data.note}}</span>
-        </p>
+    </div>
+    {{if count($module_data.service_data) gt 1}}
+        <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#order-service-modal-{{$module_data.id}}', width: 800}">{{:MyLang('view_title')}}({{:count($module_data.service_data)}}) ></a>
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-service-modal-{{$module_data.id}}">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <span>{{:MyLang('order.detail_service_title')}}</span>
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <div class="am-modal-bd">
+                    <div class="am-scrollable-horizontal">
+                        <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
+                            <thead>
+                                <tr class="am-color-grey">
+                                    <th>{{:MyLang('order.form_item_service_name')}}</th>
+                                    <th>{{:MyLang('order.form_item_service_mobile')}}</th>
+                                    <th>{{:MyLang('order.form_item_service_time')}}</th>
+                                    <th>{{:MyLang('order.form_item_note')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{foreach $module_data.service_data as $v}}
+                                    <tr>
+                                        <td>
+                                            <span class="text-copy-submit">{{$v.service_name}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-copy-submit">{{$v.service_mobile}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-copy-submit">
+                                                {{if !empty($v['service_duration_minute_text'])}}
+                                                    <span class="am-fr"><i class="am-icon-history"></i> {{$v.service_duration_minute_text}}</span>
+                                                {{/if}}
+                                                {{if !empty($v['service_start_time'])}}
+                                                    <p>{{$v.service_start_time}}</p>
+                                                {{/if}}
+                                                {{if !empty($v['service_end_time'])}}
+                                                    <p>{{$v.service_end_time}}</p>
+                                                {{/if}}
+                                            </span>
+                                        </td>
+                                        <td>{{$v.note}}</td>
+                                    </tr>
+                                {{/foreach}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     {{/if}}
 {{/if}}

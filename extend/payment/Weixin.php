@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\AppMiniUserService;
+
 /**
  * 微信支付
  * @author   Devil
@@ -182,10 +184,18 @@ class Weixin
      */
     public function Pay($params = [])
     {
-        // 参数
-        if(empty($params))
+        // 配置参数验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '支付单号为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            return DataReturn('参数不能为空', -1);
+            return DataReturn($ret, -1);
         }
 
         // 配置信息
@@ -195,7 +205,7 @@ class Weixin
         }
 
         // 平台
-        $client_type = $this->GetApplicationClientType();
+        $client_type = $this->GetApplicationClientType($params);
 
         // 微信中打开
         if(APPLICATION_CLIENT_TYPE == 'pc' && IsWeixinEnv() && (empty($params['user']) || empty($params['user']['weixin_web_openid'])))
@@ -249,8 +259,9 @@ class Weixin
      * @version 1.0.0
      * @date    2021-12-07
      * @desc    description
+     * @param   [array]           $params       [输入参数]
      */
-    private function GetApplicationClientType()
+    private function GetApplicationClientType($params = [])
     {
         // 平台
         $client_type = APPLICATION_CLIENT_TYPE;
@@ -258,6 +269,13 @@ class Weixin
         {
             $client_type = 'h5';
         }
+
+        // 是否收银台支付
+        if(isset($params['is_cashier']) && $params['is_cashier'] == 1)
+        {
+            $client_type = 'weixin';
+        }
+
         return $client_type;
     }
 
@@ -287,7 +305,7 @@ class Weixin
                 if(APPLICATION == 'app')
                 {
                     $data = [
-                        'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($data['code_url']))]),
+                        'qrcode_url'    => $data['code_url'],
                         'order_no'      => $params['order_no'],
                         'name'          => '微信支付',
                         'msg'           => '打开微信APP扫一扫进行支付',
@@ -328,14 +346,22 @@ class Weixin
                     'timeStamp'     => (string) time(),
                 ];
                 $pay_data['paySign'] = $this->GetSign($pay_data);
-
-                // 微信中
-                if(APPLICATION == 'web' && IsWeixinEnv())
+                // 是否收银台支付
+                if(isset($params['is_cashier']) && $params['is_cashier'] == 1)
                 {
-                    $html = $this->PayHtml($pay_data, $redirect_url);
-                    die($html);
+                    $result = DataReturn('success', 0, [
+                        'pay_price' => $params['total_price'],
+                        'pay_data'  => $pay_data,
+                    ]);
                 } else {
-                    $result = DataReturn('success', 0, $pay_data);
+                    // 微信中
+                    if(APPLICATION == 'web' && IsWeixinEnv())
+                    {
+                        $html = $this->PayHtml($pay_data, $redirect_url);
+                        die($html);
+                    } else {
+                        $result = DataReturn('success', 0, $pay_data);
+                    }
                 }
                 break;
 
@@ -421,21 +447,26 @@ class Weixin
      */
     private function GetPayParams($params = [])
     {
-        $trade_type = empty($params['trade_type']) ? $this->GetTradeType() : $params['trade_type'];
+        $trade_type = empty($params['trade_type']) ? $this->GetTradeType($params) : $params['trade_type'];
         if(empty($trade_type))
         {
             return DataReturn('支付类型不匹配', -1);
         }
 
         // 平台
-        $client_type = $this->GetApplicationClientType();
+        $client_type = $this->GetApplicationClientType($params);
 
         // openid
-        if($client_type == 'weixin')
+        if(empty($params['weixin_openid']))
         {
-            $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
+            if($client_type == 'weixin')
+            {
+                $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
+            } else {
+                $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
+            }
         } else {
-            $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
+            $openid = $params['weixin_openid'];
         }
 
         // appid
@@ -518,11 +549,12 @@ class Weixin
      * @version 1.0.0
      * @date    2019-01-08
      * @desc    description
+     * @param   [array]           $params       [输入参数]
      */
-    private function GetTradeType()
+    private function GetTradeType($params = [])
     {
         // 平台
-        $client_type = $this->GetApplicationClientType();
+        $client_type = $this->GetApplicationClientType($params);
 
         // h5支付模式
         $h5_pay_mode = (isset($this->config['is_h5_pay_native_mode']) && $this->config['is_h5_pay_native_mode'] == 1) ? 'NATIVE' : 'MWEB';

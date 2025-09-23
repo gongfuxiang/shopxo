@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\module\LayoutModule;
 use app\service\SeoService;
 use app\service\AdminService;
@@ -148,7 +149,7 @@ class Index extends Common
                     $assign['is_load_layout'] = 1;
                 } else {
                     // 楼层数据
-                    $assign['goods_floor_list'] = GoodsService::HomeFloorList();
+                    $assign['goods_floor_list'] = GoodsService::HomeFloorList(['is_spec'=>0, 'is_cart'=>0]);
                 }
             }
         }

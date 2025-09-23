@@ -12,8 +12,8 @@ namespace app\index\controller;
 
 use app\index\controller\Center;
 use app\service\ApiService;
-use app\service\GoodsFavorService;
 use app\service\SeoService;
+use app\service\GoodsFavorService;
 
 /**
  * 用户商品收藏

@@ -1,6 +1,6 @@
 <!-- 整体左右滚动 -->
 {{if !empty($module_data['goods_list']) and is_array($module_data['goods_list'])}}
-    <div class="module-goods-container module-goods-slider-container module-goods-slider-base">
+    <div class="module-goods-container module-goods-slider-container module-goods-slider-base {{if isset($goods_cover_type)}}{{$goods_cover_type}}{{/if}}">
         <!-- 基础导航 -->
         {{if !empty($module_data['base_nav'])}}
             <div class="am-container">

@@ -345,6 +345,8 @@ return [
     'back_home_title'                                       => '回到首頁',
     'shop_home_title'                                       => '商城首頁',
     'home_title'                                            => '首頁',
+    'shop_title'                                            => '商城',
+    'store_title'                                           => '店鋪',
     'system_title'                                          => '系統',
     'operate_title'                                         => '操作',
     'all_title'                                             => '全部',
@@ -451,6 +453,7 @@ return [
     'reverse_audit_title'                                   => '反審',
     'submit_audit_title'                                    => '提審',
     'audit_title'                                           => '審核',
+    'retrial_audit_title'                                   => '複審',
     'signin_title'                                          => '簽到',
     'refuse_title'                                          => '拒絕',
     'pass_title'                                            => '通過',
@@ -492,6 +495,7 @@ return [
     'mobile_title'                                          => '手機',
     'email_title'                                           => '郵箱',
     'verification_title'                                    => '核驗',
+    'check_title'                                           => '檢查',
     'service_title'                                         => '服務',
     'print_title'                                           => '列印',
     'confirm_print_title'                                   => '確認列印',
@@ -525,7 +529,7 @@ return [
     'unbind_title'                                          => '解綁',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分類',
-    'place_origin_title'                                    => '產地',
+    'produce_region_title'                                    => '產地',
     'attr_title'                                            => '內容',
     'spec_title'                                            => '規格',
     'register_title'                                        => '注册',
@@ -586,6 +590,8 @@ return [
     'customer_title'                                        => '客戶',
     'customer_info_title'                                   => '客戶資訊',
     'region_title'                                          => '地區',
+    'compare_title'                                         => '對比',
+    'long_term_title'                                       => '長期',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_add_name'                                        => '商品添加',
@@ -640,6 +646,7 @@ return [
     'accounts_error_tips'                                   => '帳號不存在',
     'password_empty_tips'                                   => '密碼不能為空',
     'password_error_tips'                                   => '密碼錯誤',
+    'password_no_setup_tips'                                => '請先設置密碼！',
     'mobile_format_error_tips'                              => '手機號碼格式錯誤',
     'mobile_no_exist_error_tips'                            => '手機號碼不存在、請先註冊！',
     'email_format_error_tips'                               => '電子郵箱格式錯誤',
@@ -744,6 +751,8 @@ return [
     'form_article_category_message'                         => '請選擇文章分類',
     'form_refuse_reason'                                    => '拒絕原因',
     'form_refuse_reason_message'                            => '拒絕原因格式1~230個字元',
+    'form_operate_reason'                                   => '操作原因',
+    'form_operate_reason_message'                           => '操作原因格式、最多230個字元',
     'form_search_keywords_placeholder'                      => '蒐索關鍵字',
     // 动态表格
     'form_table_search_first'                               => [
@@ -1232,6 +1241,7 @@ return [
         'spa'  => '西班牙語',
         'fra'  => '法語',
         'swe'  => '瑞典語',
+        'mn'   => '蒙古語',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1375,11 +1385,12 @@ return [
     ],
     // 商店应用类型列表
     'common_plugins_goods_type_list' => [
-        'plugins'   => '挿件',
-        'payment'   => '支付挿件',
-        'webtheme'  => 'Web端主題',
-        'design'    => '頁面設計範本',
-        'diy'       => 'DIY範本',
+        'plugins'    => '挿件',
+        'payment'    => '支付挿件',
+        'webtheme'   => 'Web端主題',
+        'design'     => '頁面設計範本',
+        'diy'        => 'DIY範本',
+        'forminput'  => '表單範本',
     ],
 
     // -------------------- 后端相关 --------------------
@@ -1731,7 +1742,7 @@ return [
             // 基础
             'create_name_default'                   => '頁面設計-默認頁面',
             'download_config_file_create_fail_tips' => '設定檔生成失敗',
-            'upload_dis_no_power_tips'              => '應用upload目錄沒有操作許可權',
+            'upload_dir_no_power_tips'              => '應用upload目錄沒有操作許可權',
             'upload_config_file_get_fail_tips'      => '配寘資訊讀取失敗',
             'upload_config_file_error_tips'         => '配寘資訊為空或有誤',
             'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
@@ -1750,7 +1761,31 @@ return [
             // 基础
             'create_name_default'                   => 'DIY-默認頁面',
             'download_config_file_create_fail_tips' => '設定檔生成失敗',
-            'upload_dis_no_power_tips'              => '應用upload目錄沒有操作許可權',
+            'upload_dir_no_power_tips'              => '應用upload目錄沒有操作許可權',
+            'upload_config_file_get_fail_tips'      => '配寘資訊讀取失敗',
+            'upload_config_file_error_tips'         => '配寘資訊為空或有誤',
+            'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
+            'upload_invalid_packet_tips'            => '無效數据包',
+            'preview_url_tips'                      => '如需h5預覽效果，請在後臺[手機->基礎配寘]先配寘手機端h5地址（h5端需要使用uniapp版本打包）',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述內容格式2~60個字元',
+            'form_item_apply_version'               => '適用系統版本',
+            'form_item_apply_version_message'       => '至少選擇一個適用系統版本',
+        ],
+        // Form表单
+        'forminput'     => [
+            'base_nav_title'                        => 'Form表單',
+            // 表单
+            'form_item_name'                        => '名稱',
+            'form_item_name_message'                => '名稱長度1~60個字元',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述長度最多230個字元',
+            'form_logo_name'                        => 'LOGO',
+            'form_logo_tips'                        => '建議大小300*300px',
+            // 基础
+            'create_name_default'                   => 'Form表單-默認頁面',
+            'download_config_file_create_fail_tips' => '設定檔生成失敗',
+            'upload_dir_no_power_tips'              => '應用upload目錄沒有操作許可權',
             'upload_config_file_get_fail_tips'      => '配寘資訊讀取失敗',
             'upload_config_file_error_tips'         => '配寘資訊為空或有誤',
             'upload_config_file_handle_fail_tips'   => '設定檔處理失敗',
@@ -1893,12 +1928,20 @@ return [
             'form_item_category_id_message'         => '請至少選擇一個商品分類',
             'form_item_simple_desc'                 => '商品簡述',
             'form_item_simple_desc_message'         => '商品簡述格式最多230個字',
+            'form_item_spec_desc'                   => '規格描述',
+            'form_item_spec_desc_message'           => '規格描述格式最多230個字元',
+            'form_item_approval_number'             => '批准文號',
+            'form_item_approval_number_message'     => '批准文號格式最多180個字元',
+            'form_item_produce_company'             => '生產企業',
+            'form_item_produce_company_message'     => '生產企業格式最多180個字元',
+            'form_item_coding'                      => '商品編碼',
+            'form_item_coding_message'              => '商品編碼格式最多180個字元',
             'form_item_model'                       => '商品型號',
-            'form_item_model_message'               => '商品型號格式最多30個字',
+            'form_item_model_message'               => '商品型號格式最多180個字',
             'form_item_brand'                       => '品牌',
             'form_item_brand_message'               => '請選擇品牌',
-            'form_item_place_origin'                => '生產地',
-            'form_item_place_origin_message'        => '請選擇生產地',
+            'form_item_produce_region'                => '生產地',
+            'form_item_produce_region_message'        => '請選擇生產地',
             'form_item_inventory_unit'              => '計量單位',
             'form_item_inventory_unit_message'      => '計量單位格式1~6個字',
             'form_item_give_integral'               => '購買贈送積分比例',
@@ -2173,6 +2216,7 @@ return [
                 'address'           => '我的地址',
                 'safety'            => '安全設置',
                 'message'           => '我的消息',
+                'forminputdata'     => '表單數據',
                 'goodsbrowse'       => '我的足迹',
                 'logout'            => '安全退出',
             ],
@@ -2326,7 +2370,6 @@ return [
             'delivery_express_update_fail_tips'     => '發貨更新失敗',
             'delivery_express_info'                 => '快遞資訊',
             'delivery_service_insert_fail_tips'     => '服務添加失敗',
-            'delivery_service_update_fail_tips'     => '服務更新失敗',
             'take_extraction_code_message'          => '取貨碼有誤',
             'take_extraction_code_empty_tips'       => '訂單取貨碼不存在、請聯系管理員',
             'take_extraction_code_error_tips'       => '取貨碼不正確',
@@ -2409,6 +2452,7 @@ return [
             'file_no_power_tips'                    => '沒操作許可權',
             'pay_respond_file_no_exist_tips'        => '支付返回入口檔案不存在，請聯系管理員處理',
             'pay_notify_file_no_exist_tips'         => '支付通知入口檔案不存在，請聯系管理員處理',
+            'not_install_weixin_payment_tips'       => '請先安裝【微信APP小程式支付】支付挿件',
         ],
         // 支付请求日志
         'payrequestlog'             => [
@@ -2719,7 +2763,7 @@ return [
             'save_article_order_by_type_error_tips'    => '文章排序類型範圍值有誤',
             'save_article_order_by_rule_error_tips'    => '文章排序規則範圍值有誤',
             'download_config_file_create_fail_tips'    => '設定檔生成失敗',
-            'upload_dis_no_power_tips'                 => '應用upload目錄沒有操作許可權',
+            'upload_dir_no_power_tips'                 => '應用upload目錄沒有操作許可權',
             'upload_config_file_get_fail_tips'         => '配寘資訊讀取失敗',
             'upload_config_file_error_tips'            => '配寘資訊為空或有誤',
             'upload_config_file_handle_fail_tips'      => '設定檔處理失敗',
@@ -2871,8 +2915,8 @@ return [
         // 仓库商品
         'warehouse'                 => [
             // 表单
-            'form_item_name'                        => '姓名',
-            'form_item_name_message'                => '姓名格式1~80個字之間',
+            'form_item_name'                        => '名稱',
+            'form_item_name_message'                => '名稱格式1~80個字之間',
             'form_item_alias'                       => '別名',
             'form_item_alias_message'               => '別名格式最多16個字',
             'form_item_level'                       => '權重',
@@ -4297,7 +4341,7 @@ return [
             'desc' => '默認開啟',
             'tips' => '請選擇蒐索頁開啟參數',
         ],
-        'home_search_is_place_origin'  => [
+        'home_search_is_produce_region'  => [
             'name' => '蒐索頁開啟商品產地',
             'desc' => '默認開啟',
             'tips' => '請選擇蒐索頁開啟商品產地',
@@ -4443,6 +4487,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => '商品詳情頁左側更多（手機端）',
             'tips' => '請選擇是否商品詳情頁左側更多',
+        ],
+        'common_goods_cover_size_type'  => [
+            'name' => '商品封面高度拉伸（手機端）',
+            'desc' => '默認正方形',
+            'tips' => '請選擇商品封面高度拉伸（手機端）',
         ],
         'common_app_h5_url'  => [
             'name' => '手機端h5地址',

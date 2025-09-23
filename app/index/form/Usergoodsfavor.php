@@ -36,10 +36,8 @@ class UserGoodsFavor
     public function __construct($params = [])
     {
         // 用户信息
-        if(!empty($params['system_user']))
-        {
-            $this->condition_base[] = ['f.user_id', '=', $params['system_user']['id']];
-        }
+        $user_id = empty($params['system_user']) ? 0 : $params['system_user']['id'];
+        $this->condition_base[] = ['f.user_id', '=', $user_id];
     }
 
     /**
@@ -59,9 +57,7 @@ class UserGoodsFavor
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('index/usergoodsfavor/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('index/usergoodsfavor/delete'),
                 'delete_key'    => 'ids',
             ],
             // 表单配置

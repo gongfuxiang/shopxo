@@ -4,6 +4,7 @@
 
 <div align="center">
 
+[![Gitee star](https://gitcode.com/zongzhige/shopxo/star/badge.svg)](https://gitcode.com/zongzhige/shopxo/stargazers)
 [![Gitee star](https://gitee.com/zongzhige/shopxo/badge/star.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/stargazers)
 [![Gitee fork](https://gitee.com/zongzhige/shopxo/badge/fork.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/members)
 [![GitHub star](https://img.shields.io/github/stars/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/stargazers)
@@ -29,7 +30,7 @@
 * 求实进取、创新专注、自主研发、专注于企业信息化、数字化、电商一体化解决方案。
 * 遵循MIT开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
 * 支持PC+手机自适应，独立H5、小程序（支付宝、微信、百度、头条&抖音、QQ、快手），APP（IOS、Android）。
-* 支持多仓库，多商户，多门店，进销存（组件插件化、即插即用），可自由开发插件。
+* 支持多仓库，供应商，多商户，多门店，进销存（组件插件化、即插即用），可自由开发插件。
 * 可视化DIY拖拽装修，内置几十种组件，如（商品、文章、图片魔方、热区、视频、轮播、自定义等等...）。
 * 应用市场提供丰富海量的拓展功能模块、web端模板、手机端DIY模板，一键导入即可使用。
 
@@ -84,6 +85,7 @@
 | 钱包 | 用户钱包，在线充值（固定金额或比例赠送+自定义赠送），申请提现 |
 | 微信小程序直播 | 海报分享、web端展示直播列表，支持分身独立多商户模式 |
 | 积分商城+签到 | 积分抵扣、积分兑换、无限发布签到活动获取积分 |
+| 供应商 | 供应商入驻为平台提供货源，商品管理，商品分类，订单管理，订单售后，员工管理，结算明细 |
 | 多商户 | 商家入驻、独立店铺（二级域名/保证金/代理模式）、店铺等级（购买/升级/功能限制）、可视化DIY拖拽装修+页面设计、不同商家自动拆单，店铺、商品（可选择平台商品）、分类、结算、订单管理、评论回复、运费设置、数据统计，支持插件结合使用（电子面单批量导出及发货、微信小程序直播、分销、优惠券、限时秒杀）|
 | 多门店 | 派单+转单+核销+代客下单+商品(独立售价+库存+商品)+批次+次卡+员工和薪水自动抽成+充值+收银+桌码+O2O店铺运营模式，线上线下完美结合、适用（社区+餐饮+美容美发+在线预约+门店消费+自提+外送+快递）、支持达达配送 |
 | 批发 | 阶梯售价、新购+复购单独配置、自由配置无限极数量阶梯售价、可以具体到规格 |

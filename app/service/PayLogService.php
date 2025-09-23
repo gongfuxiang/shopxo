@@ -65,6 +65,8 @@ class PayLogService
         $data = [
             'log_no'            => date('YmdHis').GetNumberCode(6),
             'user_id'           => empty($params['user_id']) ? 0 : intval($params['user_id']),
+            'system_type'       => empty($params['system_type']) ? SYSTEM_TYPE : $params['system_type'],
+            'client_type'       => empty($params['client_type']) ? APPLICATION_CLIENT_TYPE : $params['client_type'],
             'total_price'       => PriceNumberFormat($params['total_price']),
             'business_type'     => trim($params['business_type']),
             'subject'           => isset($params['subject']) ? $params['subject'] : '',

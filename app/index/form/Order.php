@@ -40,10 +40,8 @@ class Order
     public function __construct($params = [])
     {
         // 用户信息
-        if(!empty($params['system_user']))
-        {
-            $this->condition_base[] = ['user_id', '=', $params['system_user']['id']];
-        }
+        $user_id = empty($params['system_user']) ? 0 : $params['system_user']['id'];
+        $this->condition_base[] = ['user_id', '=', $user_id];
     }
 
     /**
@@ -61,7 +59,6 @@ class Order
         $base = [
             'key_field'     => 'id',
             'is_search'     => 1,
-            'detail_title'  => MyLang('form_table_base_detail_title'),
             'is_middle'     => 0,
         ];
 
@@ -190,10 +187,24 @@ class Order
                 ],
             ],
             [
+                'label'         => $lang['express'],
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/express',
+                'grid_size'     => 'sm',
+                'is_detail'     => 0,
+                'search_config' => [
+                    'form_type'             => 'input',
+                    'form_name'             => 'id',
+                    'where_type_custom'     => 'in',
+                    'where_value_custom'    => 'WhereExpressInfo',
+                    'placeholder'           => $lang['express_placeholder'],
+                ],
+            ],
+            [
                     'label'         => $lang['service'],
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/service',
-                    'width'         => 460,
+                    'grid_size'     => 'sm',
                     'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
@@ -297,20 +308,6 @@ class Order
                     'form_type'         => 'input',
                     'form_name'         => 'extension_data',
                     'where_type'        => 'like',
-                ],
-            ],
-            [
-                'label'         => $lang['express'],
-                'view_type'     => 'module',
-                'view_key'      => 'order/module/express',
-                'grid_size'     => 'sm',
-                'is_detail'     => 0,
-                'search_config' => [
-                    'form_type'             => 'input',
-                    'form_name'             => 'id',
-                    'where_type_custom'     => 'in',
-                    'where_value_custom'    => 'WhereExpressInfo',
-                    'placeholder'           => $lang['express_placeholder'],
                 ],
             ],
             [

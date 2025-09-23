@@ -630,7 +630,7 @@ class OrderAftersaleService
                 }
             } else {
                 // 用户走关键字
-                $where[] = ['order_no|express_number', '=', $params['keywords']];
+                $where[] = ['order_id|order_no|express_number', '=', $params['keywords']];
             }
         }
 
@@ -1095,6 +1095,12 @@ class OrderAftersaleService
         // 订单支付方式校验
         $pay_log = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$order['data']['id'], 'pl.business_type'=>OrderService::BusinessTypeName(), 'pl.status'=>1])->field('pl.*')->find();
 
+        // 线下支付方式强制使用手动方式退款
+        if(isset($params['is_under_line_use_manual']) && $params['is_under_line_use_manual'] == 1 && !empty($pay_log) && in_array($pay_log['payment'], MyConfig('shopxo.under_line_list')))
+        {
+            $params['refundment'] = 2;
+        }
+
         // 手动处理不校验支付日志
         if($params['refundment'] != 2)
         {
@@ -1177,7 +1183,7 @@ class OrderAftersaleService
             // 仅退款类型、申请退款金额+已退款金额  大于等于  订单商品详情总额-订单优惠金额时
             // 非已发货和已完成、或虚拟订单模式
             $is_refund_only_number = false;
-            if($aftersale['type'] == 0 && $aftersale['price']+$order['data']['items']['refund_price'] >= $order['data']['items']['total_price']-$order['data']['preferential_price'] && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
+            if($aftersale['type'] == 0 && PriceNumberFormat($aftersale['price']+$order['data']['items']['refund_price']) >= PriceNumberFormat($order['data']['items']['total_price']-$order['data']['preferential_price']) && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
             {
                 $is_refund_only_number = true;
                 $aftersale['number'] = $order['data']['items']['buy_number']-$order['data']['items']['returned_quantity'];
@@ -1239,7 +1245,7 @@ class OrderAftersaleService
             $status = (MyC('common_goods_sales_count_inc_rules', 1) == 1) ? ($order['data']['status'] == 4) : ($order['data']['pay_status'] != 0);
             if($status && $aftersale['number'] > 0)
             {
-                if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number'])->update())
+                if(Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number'])->update() === false)
                 {
                     throw new \Exception(MyLang('common_service.orderaftersale.goods_sales_count_release_fail_tips'));
                 }
@@ -1374,7 +1380,7 @@ class OrderAftersaleService
             'order'             => $order,
             'business_id'       => $order['id'],
             'business_no'       => $order['order_no'],
-            'client_type'       => $order['client_type'],
+            'client_type'       => empty($pay_log['client_type']) ? $order['client_type'] : $pay_log['client_type'],
             'refund_reason'     => $msg,
             'pay_log_data'      => $pay_log,
             'currency_data'     => $currency_data,

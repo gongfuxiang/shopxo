@@ -120,6 +120,19 @@ class BuyService
                     $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $goods['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                     $goods['extends'] = $goods_base['data']['spec_base']['extends'];
+                    // 库存单位
+                    if(!empty($goods_base['data']['spec_base']['inventory_unit']))
+                    {
+                        $goods['inventory_unit'] = $goods_base['data']['spec_base']['inventory_unit'];
+                        if(!empty($goods['show_price_unit']))
+                        {
+                            $goods['show_price_unit'] = ' / '.$goods['inventory_unit'];
+                        }
+                        if(!empty($goods['show_original_price_unit']))
+                        {
+                            $goods['show_original_price_unit'] = ' / '.$goods['inventory_unit'];
+                        }
+                    }
 
                     // 商品价格容器赋值规格价格
                     $goods['price_container']['price'] = $goods['price'];
@@ -135,7 +148,6 @@ class BuyService
                     if(!empty($images))
                     {
                         $goods['images'] = ResourcesService::AttachmentPathViewHandle($images);
-                        $goods['images_old'] = $images;
                     }
                 }
 
@@ -758,7 +770,7 @@ class BuyService
                 'increase_price'        => ($v['order_base']['increase_price'] <= 0.00) ? 0.00 : $v['order_base']['increase_price'],
                 'price'                 => ($v['order_base']['total_price'] <= 0.00) ? 0.00 : $v['order_base']['total_price'],
                 'total_price'           => ($v['order_base']['actual_price'] <= 0.00) ? 0.00 : $v['order_base']['actual_price'],
-                'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode($v['order_base']['extension_data'], JSON_UNESCAPED_UNICODE),
+                'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode(array_values($v['order_base']['extension_data']), JSON_UNESCAPED_UNICODE),
                 'payment_id'            => $payment_id,
                 'buy_number_count'      => $v['order_base']['buy_count'],
                 'client_type'           => APPLICATION_CLIENT_TYPE,
@@ -787,8 +799,8 @@ class BuyService
                     'spec_coding'       => empty($vs['spec_coding']) ? '' : $vs['spec_coding'],
                     'spec_barcode'      => empty($vs['spec_barcode']) ? '' : $vs['spec_barcode'],
                     'buy_number'        => intval($vs['stock']),
-                    'model'             => $vs['model'],
                     'inventory_unit'    => $vs['inventory_unit'],
+                    'model'             => $vs['model'],
                     'extends'           => empty($vs['extends']) ? [] : json_decode($vs['extends'], true),
                 ];
             }
@@ -1088,6 +1100,7 @@ class BuyService
             'spec_coding'       => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
             'spec_barcode'      => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],
             'buy_number'        => intval($detail['buy_number']),
+            'inventory_unit'    => $detail['inventory_unit'],
             'model'             => $detail['model'],
             'add_time'          => time(),
         ];
@@ -1426,7 +1439,7 @@ class BuyService
     public static function BuyOrderPayBeginGoodsCheck($detail, $params)
     {
         // 获取商品
-        $goods = Db::name('Goods')->field('is_shelves,is_deduction_inventory,inventory,title')->find($detail['goods_id']);
+        $goods = GoodsService::GoodsData($detail['goods_id'], 'is_shelves,is_deduction_inventory,inventory,title');
         if(empty($goods))
         {
             return DataReturn(MyLang('common_service.buy.goods_no_exist_tips'), -10);
@@ -1536,17 +1549,18 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select()->toArray();
+        $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,inventory_unit,spec')->where(['order_id'=>$params['order_id']])->select()->toArray();
         if(!empty($order_detail))
         {
+            $goods_unit = Db::name('Goods')->where(['id'=>array_column($order_detail, 'goods_id')])->column('inventory_unit', 'id');
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存,避免更改模式导致重复扣除
                 $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'order_detail_id'=>$v['id'], 'goods_id'=>$v['goods_id']])->find();
                 if(empty($temp))
                 {
-                    $goods = Db::name('Goods')->field('is_deduction_inventory,inventory,title')->find($v['goods_id']);
-                    if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
+                    $goods = GoodsService::GoodsData($v['goods_id'], 'is_deduction_inventory,inventory,title');
+                    if(!empty($goods) && isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
                         // 先判断商品库存是否不足
                         if($goods['inventory'] < $v['buy_number'])
@@ -1555,7 +1569,11 @@ class BuyService
                         }
 
                         // 扣除操作
-                        if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->dec('inventory', $v['buy_number'])->update())
+                        $where = [
+                            ['id', '=', $v['goods_id']],
+                            ['inventory', '>=', $v['buy_number']],
+                        ];
+                        if(Db::name('Goods')->where($where)->dec('inventory', $v['buy_number'])->update() === false)
                         {
                             return DataReturn(MyLang('common_service.buy.goods_inventory_dec_fail_tips').'['.$params['order_id'].'-'.$v['id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                         }
@@ -1576,7 +1594,12 @@ class BuyService
                             }
 
                             // 扣除规格操作
-                            if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->dec('inventory', $v['buy_number'])->update())
+                            $where = [
+                                ['id', '=', $base['data']['spec_base']['id']],
+                                ['goods_id', '=', $v['goods_id']],
+                                ['inventory', '>=', $v['buy_number']],
+                            ];
+                            if(Db::name('GoodsSpecBase')->where($where)->dec('inventory', $v['buy_number'])->update() === false)
                             {
                                 return DataReturn(MyLang('common_service.buy.goods_spec_inventory_dec_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                             }
@@ -1585,7 +1608,8 @@ class BuyService
                         }
 
                         // 仓库库存扣除
-                        $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryDeduct($params['order_id'], $v['goods_id'], $spec, $v['buy_number']);
+                        $inventory_unit = empty($v['inventory_unit']) ? (isset($goods_unit[$v['goods_id']]) ? $goods_unit[$v['goods_id']] : '') : $v['inventory_unit'];
+                        $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryDeduct($params['order_id'], $v['goods_id'], $spec, $v['buy_number'], $inventory_unit);
                         if($we_ret['code'] != 0)
                         {
                             return $we_ret;
@@ -1662,9 +1686,10 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where($detail_where)->select()->toArray();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,inventory_unit,spec')->where($detail_where)->select()->toArray();
         if(!empty($order_detail))
         {
+            $goods_unit = Db::name('Goods')->where(['id'=>array_column($order_detail, 'goods_id')])->column('inventory_unit', 'id');
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存
@@ -1675,33 +1700,35 @@ class BuyService
                     $buy_number = ($appoint_buy_number == 0) ? $v['buy_number'] : $appoint_buy_number;
 
                     // 商品回滚操作
-                    $temp_goods = Db::name('Goods')->where(['id'=>$v['goods_id']])->value('id');
+                    $temp_goods = GoodsService::GoodsData($v['goods_id'], 'id');
                     if(!empty($temp_goods))
                     {
-                            if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
+                        // 商品库存增加
+                        if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
                         {
                             return DataReturn(MyLang('common_service.buy.inventory_revert_goods_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }
-                    }
 
-                    // 回滚规格库存
-                    $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
-                    $spec_params = array_merge($params, [
-                        'id'    => $v['goods_id'],
-                        'spec'  => $spec,
-                    ]);
-                    $base = GoodsService::GoodsSpecDetail($spec_params);
-                    if($base['code'] == 0)
-                    {
-                        // 回滚规格操作
-                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
+                        // 回滚规格库存
+                        $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
+                        $spec_params = array_merge($params, [
+                            'id'    => $v['goods_id'],
+                            'spec'  => $spec,
+                        ]);
+                        $base = GoodsService::GoodsSpecDetail($spec_params);
+                        if($base['code'] == 0)
                         {
-                            return DataReturn(MyLang('common_service.buy.inventory_revert_goods_spec_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            // 回滚规格操作
+                            if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
+                            {
+                                return DataReturn(MyLang('common_service.buy.inventory_revert_goods_spec_fail_tips').'['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            }
                         }
                     }
 
                     // 仓库库存回滚
-                    $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryRollback($params['order_id'], $v['goods_id'], $spec, $buy_number);
+                    $inventory_unit = empty($v['inventory_unit']) ? (isset($goods_unit[$v['goods_id']]) ? $goods_unit[$v['goods_id']] : '') : $v['inventory_unit'];
+                    $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryRollback($params['order_id'], $v['goods_id'], $spec, $buy_number, $inventory_unit);
                     if($we_ret['code'] != 0)
                     {
                         return $we_ret;

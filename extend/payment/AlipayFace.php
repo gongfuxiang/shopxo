@@ -187,7 +187,7 @@ class AlipayFace
                 {
                     $data = [
                         'pay_url'       => $result[$key]['qr_code'],
-                        'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($result[$key]['qr_code']))]),
+                        'qrcode_url'    => $result[$key]['qr_code'],
                         'order_no'      => $params['order_no'],
                         'name'          => '支付宝支付',
                         'msg'           => '打开支付宝APP扫一扫进行支付',

@@ -17,9 +17,17 @@ return [
     // 默认语言
     'default_lang'    => empty($default_lang) ? 'zh' : $default_lang,
     // 允许的语言列表（preg 正则匹配、code 语言编码、语言名称在对应语言文件中）
-    // app/service/MultilingualService.php 文件中处理语言逻辑
-    // app/service/ConstService.php 文件中对应common_multilingual_list语言列表
-    // app/lang 下语言文件也对应要增加即可
+    // 文件中为处理语言逻辑
+    // app/service/MultilingualService.php
+    // 
+    // 增加语言需要修改以下文件
+    // 静态数据文件, 文件中对应 common_multilingual_list 语言key
+    // app/service/ConstService.php 
+    // 下语言文件也对应要增加即可, common_multilingual_list 语言key
+    // app/lang/zh.php
+    // app/lang/en.php
+    // app/lang/cht.php
+    // app/lang/spa.php
     'allow_lang_list' => [
         // 简体中文        
         ['preg' => 'zh-c', 'code' => 'zh'],
@@ -49,6 +57,8 @@ return [
         ['preg' => 'fr', 'code' => 'fra'],
         // 瑞典语
         ['preg' => 'sv', 'code' => 'swe'],
+        // 蒙古语
+        ['preg' => 'mn', 'code' => 'mn'],
     ],
     // 多语言url请求自动侦测变量名
     'detect_var'      => 'lang',

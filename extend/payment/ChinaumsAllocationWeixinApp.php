@@ -67,7 +67,7 @@ class ChinaumsAllocationWeixinApp
         $element = [
             [
                 'element'       => 'message',
-                'message'       => '支付参数请在【分账系统】插件中配置',
+                'message'       => '支付参数请在【银联支付分账】插件中配置',
             ],
         ];
 

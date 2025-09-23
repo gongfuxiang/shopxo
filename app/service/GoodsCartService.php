@@ -54,7 +54,7 @@ class GoodsCartService
         // 基础参数
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where[] = ['c.user_id', '=', $params['user']['id']];
-        $field = 'c.*,g.inventory_unit,g.is_shelves,g.is_delete_time,g.buy_min_number,g.buy_max_number,g.model,g.site_type';
+        $field = 'c.*,g.inventory_unit,g.is_shelves,g.is_delete_time,g.buy_min_number,g.buy_max_number,g.model,g.site_type,g.inventory';
 
         // 购物车列表读取前钩子
         $hook_name = 'plugins_service_cart_goods_list_begin';
@@ -78,7 +78,7 @@ class GoodsCartService
             $favor_data = Db::name('GoodsFavor')->where($favor_where)->column('goods_id');
 
             // 商品处理
-            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id', 'is_spec'=>0, 'is_cart'=>0]);
             $data = $res['data'];
             foreach($data as &$v)
             {
@@ -114,6 +114,19 @@ class GoodsCartService
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                     $v['extends'] = $goods_base['data']['spec_base']['extends'];
+                    // 库存单位
+                    if(!empty($goods_base['data']['spec_base']['inventory_unit']))
+                    {
+                        $v['inventory_unit'] = $goods_base['data']['spec_base']['inventory_unit'];
+                        if(!empty($v['show_price_unit']))
+                        {
+                            $v['show_price_unit'] = ' / '.$v['inventory_unit'];
+                        }
+                        if(!empty($v['show_original_price_unit']))
+                        {
+                            $v['show_original_price_unit'] = ' / '.$v['inventory_unit'];
+                        }
+                    }
 
                     // 商品价格容器赋值规格价格
                     $v['price_container']['price'] = $v['price'];
@@ -150,6 +163,15 @@ class GoodsCartService
                 {
                     $v['is_error'] = 1;
                     $v['error_msg'] = MyLang('goods_no_inventory_title');
+                }
+                if($v['is_error'] == 0)
+                {
+                    $res = GoodsService::GoodsBuyButtonList(array_merge($v, ['id'=>$v['goods_id']]));
+                    if(!empty($res['error']))
+                    {
+                        $v['is_error'] = 1;
+                        $v['error_msg'] = $res['error'];
+                    }
                 }
             }
         }
@@ -349,7 +371,6 @@ class GoodsCartService
             if(!empty($images))
             {
                 $goods['images'] = $images;
-                $goods['images_old'] = ResourcesService::AttachmentPathViewHandle($images);
             }
 
             // 规格库存赋值

@@ -9,7 +9,7 @@
                 <div class="title">
                     <i class="iconfont icon-tips"></i>
                     <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                    <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                 </div>
                 <p>{{:implode('</p><p>', MyLang('power.top_tips_list'))}}</p>
             </div>
@@ -18,9 +18,13 @@
         <!-- operation start -->
         <div class="am-g">
             <button class="am-btn am-btn-primary am-radius am-btn-xs tree-submit-add" data-am-modal="{target: '#data-save-win'}">
-                <i class="iconfont icon-btn-add am-show-sm-only"></i>
+                <i class="iconfont icon-add am-show-sm-only"></i>
                 <span>{{:MyLang('add_title')}}</span>
             </button>
+            <a href="{{:MyUrl('admin/power/export')}}" target="_blank" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-sm">
+                <i class="iconfont icon-excel am-show-sm-only"></i>
+                <span>{{:MyLang('form_table_nav_operate_data_export_excel_name')}}</span>
+            </a>
         </div>
         <!-- operation end -->
 
@@ -40,7 +44,7 @@
                                     <div class="title">
                                         <i class="iconfont icon-tips"></i>
                                         <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                                        <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                        <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                                     </div>
                                     <p>{{:implode('</p><p>', MyLang('power.content_top_tips_list'))}}</p>
                                 </div>

@@ -276,8 +276,30 @@
                 </div>
             </div>
 
+            <!-- 用户订单详情状态信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_order_state_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_order_state_bottom';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情状态信息底部-结束 -->
+
             <!-- 订单快递、多条快递信息 -->
-            {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4]) and !empty($data.express_data) and is_array($data.express_data) and count($data['express_data']) gt 1}}
+            {{if in_array($data['order_model'], [0,1]) and in_array($data['status'], [3,4]) and !empty($data.express_data) and is_array($data.express_data) and count($data['express_data']) gt 1}}
                 <div class="order-express">
                     <div class="am-panel am-panel-default business-panel">
                         <div class="am-panel-hd">{{:MyLang('common_service.order.delivery_express_info')}}</div>
@@ -285,7 +307,7 @@
                             <div class="am-scrollable-horizontal">
                                 <table class="am-table am-text-left am-margin-bottom-0  am-text-nowrap">
                                     <thead>
-                                        <tr>
+                                        <tr class="am-color-grey">
                                             <th>{{:MyLang('order.form_table_express.name')}}</th>
                                             <th>{{:MyLang('order.form_table_express.number')}}</th>
                                             <th>{{:MyLang('order.form_table_express.note')}}</th>
@@ -375,36 +397,41 @@
                     <div class="am-panel am-panel-default business-panel">
                         <div class="am-panel-hd">{{:MyLang('order.detail_service_title')}}</div>
                         <div class="am-panel-bd">
-                            <div class="items am-cf">
-                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_name')}}：</div>
-                                <div class="items-detail am-fl">{{$data.service_data.service_name}}</div>
-                            </div>
-                            <div class="items am-cf">
-                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_mobile')}}：</div>
-                                <div class="items-detail am-fl {{if !empty($data['service_data']['service_mobile'])}}text-copy-submit{{/if}}" {{if !empty($data['service_data']['service_mobile'])}}data-value="{{$data.service_data.service_mobile}}"{{/if}}>
-                                    <span>{{$data.service_data.service_mobile}}</span>
-                                    {{if !empty($data['service_data']['service_mobile'])}}
-                                        <span class="am-badge am-badge-success am-radius">{{:MyLang('copy_title')}}</span>
-                                    {{/if}}
-                                </div>
-                            </div>
-                            <div class="items am-cf">
-                                <div class="items-title am-fl">{{:MyLang('order.order_base_service_time')}}：</div>
-                                <div class="items-detail am-fl">
-                                    {{if !empty($data['service_data']['service_start_time'])}}
-                                        <span>{{$data.service_data.service_start_time}}</span>
-                                        {{if !empty($data['service_data']['service_end_time'])}}
-                                            <span class="am-color-grey-light">~</span>
-                                        {{/if}}
-                                    {{/if}}
-                                    {{if !empty($data['service_data']['service_end_time'])}}
-                                        <span>{{$data.service_data.service_end_time}}</span>
-                                    {{/if}}
-                                    {{if !empty($data['service_data']['service_duration_minute_text'])}}
-                                        <span class="am-color-grey-light am-margin-horizontal-sm">/</span>
-                                        <span class="am-icon-history"> {{$data.service_data.service_duration_minute_text}}</span>
-                                    {{/if}}
-                                </div>
+                            <div class="am-scrollable-horizontal">
+                                <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
+                                    <thead>
+                                        <tr class="am-color-grey">
+                                            <th>{{:MyLang('order.order_base_service_name')}}</th>
+                                            <th>{{:MyLang('order.order_base_service_mobile')}}</th>
+                                            <th>{{:MyLang('order.order_base_service_time')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{foreach $data.service_data as $v}}
+                                            <tr>
+                                                <td>
+                                                    <span class="text-copy-submit">{{$v.service_name}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-copy-submit">{{$v.service_mobile}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-copy-submit">
+                                                        {{if !empty($v['service_duration_minute_text'])}}
+                                                            <span class="am-fr"><i class="am-icon-history"></i> {{$v.service_duration_minute_text}}</span>
+                                                        {{/if}}
+                                                        {{if !empty($v['service_start_time'])}}
+                                                            <p>{{$v.service_start_time}}</p>
+                                                        {{/if}}
+                                                        {{if !empty($v['service_end_time'])}}
+                                                            <p>{{$v.service_end_time}}</p>
+                                                        {{/if}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        {{/foreach}}
+                                    </tbody>
+                                </table>
                             </div>
 
                             <!-- 用户订单详情服务信息内部底部-开始 -->
@@ -561,7 +588,7 @@
             <!-- 用户订单详情地址信息底部-结束 -->
 
             <!-- 虚拟销售信息 -->
-            {{if $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
+            {{if $data['order_model'] eq 3 and $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
                 <div class="order-virtually">
                     <div class="am-panel am-panel-default am-radius business-panel">
                         <div class="am-panel-hd">{{$site_fictitious.title}}</div>

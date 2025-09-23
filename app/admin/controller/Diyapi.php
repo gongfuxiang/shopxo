@@ -12,6 +12,9 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
+use app\service\PackageInstallService;
+use app\service\AppTabbarService;
+use app\service\DiyService;
 use app\service\DiyApiService;
 
 /**
@@ -38,214 +41,6 @@ class DiyApi extends Base
     }
 
     /**
-     * 附件分类
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentCategory()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentCategory($this->data_request));
-    }
-
-    /**
-     * 附件列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentList($this->data_request));
-    }
-
-    /**
-     * 附件保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentSave()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentSave($this->data_request));
-    }
-
-    /**
-     * 附件删除
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentDelete()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentDelete($this->data_request));
-    }
-
-    /**
-     * 附件上传
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentUpload()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentUpload($this->data_request));
-    }
-
-    /**
-     * 远程下载
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentCatch()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentCatch($this->data_request));
-    }
-
-    /**
-     * 附件扫码上传数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentScanUploadData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentScanUploadData($this->data_request));
-    }
-
-    /**
-     * 附件移动分类
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentMoveCategory()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentMoveCategory($this->data_request));
-    }
-
-    /**
-     * 附件分类保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentCategorySave()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentCategorySave($this->data_request));
-    }
-
-    /**
-     * 附件分类删除
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function AttachmentCategoryDelete()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::AttachmentCategoryDelete($this->data_request));
-    }
-
-    /**
-     * 商品列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsList($this->data_request));
-    }
-
-    /**
-     * 自定义页面列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function CustomViewList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::CustomViewList($this->data_request));
-    }
-
-    /**
-     * 页面设计列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function DesignList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::DesignList($this->data_request));
-    }
-
-    /**
-     * 文章列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function ArticleList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::ArticleList($this->data_request));
-    }
-
-    /**
-     * 品牌列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function BrandList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::BrandList($this->data_request));
-    }
-
-    /**
-     * Diy装修列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function DiyList()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::DiyList($this->data_request));
-    }
-
-    /**
      * Diy装修详情
      * @author  Devil
      * @blog    http://gong.gg/
@@ -255,7 +50,10 @@ class DiyApi extends Base
      */
     public function DiyDetail()
     {
-        return ApiService::ApiDataReturn(DiyApiService::DiyDetail($this->data_request));
+        $params = $this->data_request;
+        $params['control'] = 'diy';
+        $params['action'] = 'detail';
+        return ApiService::ApiDataReturn(DataReturn('success', 0, FormModuleData($params)));
     }
 
     /**
@@ -268,7 +66,7 @@ class DiyApi extends Base
      */
     public function DiySave()
     {
-        return ApiService::ApiDataReturn(DiyApiService::DiySave($this->data_request));
+        return ApiService::ApiDataReturn(DiyService::DiySave($this->data_request));
     }
 
     /**
@@ -281,7 +79,7 @@ class DiyApi extends Base
      */
     public function DiyUpload()
     {
-        return ApiService::ApiDataReturn(DiyApiService::DiyUpload($this->data_request));
+        return ApiService::ApiDataReturn(DiyService::DiyUpload($this->data_request));
     }
 
     /**
@@ -294,7 +92,7 @@ class DiyApi extends Base
      */
     public function DiyDownload()
     {
-        $ret = DiyApiService::DiyDownload($this->data_request);
+        $ret = DiyService::DiyDownload($this->data_request);
         if($ret['code'] != 0)
         {
             return MyView('public/tips_error', ['msg'=>$ret['msg']]);
@@ -312,7 +110,9 @@ class DiyApi extends Base
      */
     public function DiyInstall()
     {
-        return ApiService::ApiDataReturn(DiyApiService::DiyInstall($this->data_request));
+        $params = $this->data_request;
+        $params['type'] = 'diy';
+        return ApiService::ApiDataReturn(PackageInstallService::Install($params));
     }
 
     /**
@@ -325,7 +125,7 @@ class DiyApi extends Base
      */
     public function DiyMarket()
     {
-        return ApiService::ApiDataReturn(DiyApiService::DiyMarket($this->data_request));
+        return ApiService::ApiDataReturn(DiyService::DiyMarket($this->data_request));
     }
 
     /**
@@ -338,7 +138,8 @@ class DiyApi extends Base
      */
     public function AppTabbarSave()
     {
-        return ApiService::ApiDataReturn(DiyApiService::AppTabbarSave($this->data_request));
+        $type = empty($this->data_request['type']) ? 'home' : $this->data_request['type'];
+        return ApiService::ApiDataReturn(AppTabbarService::AppTabbarConfigSave($type, $this->data_request));
     }
 
     /**
@@ -351,165 +152,8 @@ class DiyApi extends Base
      */
     public function AppTabbarData()
     {
-        return ApiService::ApiDataReturn(DiyApiService::AppTabbarData($this->data_request));
-    }
-
-
-
-    /**
-     * 商品初始化
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsInit()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsInit($this->data_request));
-    }
-
-    /**
-     * 商品指定数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsAppointData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsAppointData($this->data_request));
-    }
-
-    /**
-     * 商品自动数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsAutoData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsAutoData($this->data_request));
-    }
-
-    /**
-     * 文章指定数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function ArticleAppointData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::ArticleAppointData($this->data_request));
-    }
-
-    /**
-     * 文章自动数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function ArticleAutoData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::ArticleAutoData($this->data_request));
-    }
-
-    /**
-     * 品牌指定数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function BrandAppointData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::BrandAppointData($this->data_request));
-    }
-
-    /**
-     * 品牌自动数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function BrandAutoData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::BrandAutoData($this->data_request));
-    }
-
-    /**
-     * 用户头部数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function UserHeadData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::UserHeadData($this->data_request));
-    }
-
-    /**
-     * 商品收藏自动数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsFavorAutoData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsFavorAutoData($this->data_request));
-    }
-
-    /**
-     * 商品浏览自动数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsBrowseAutoData()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsBrowseAutoData($this->data_request));
-    }
-
-    /**
-     * 自定义初始化
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function CustomInit()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::CustomInit($this->data_request));
-    }
-
-    /**
-     * 商品魔方初始化
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-18
-     * @desc    description
-     */
-    public function GoodsMagicInit()
-    {
-        return ApiService::ApiDataReturn(DiyApiService::GoodsMagicInit($this->data_request));
+        $type = empty($this->data_request['type']) ? 'home' : $this->data_request['type'];
+        return ApiService::ApiDataReturn(DataReturn('success', 0, AppTabbarService::AppTabbarConfigData($type)));
     }
 }
 ?>

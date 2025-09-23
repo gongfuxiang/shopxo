@@ -28,8 +28,7 @@ function ExpressModalHandle(data)
 
         // 数据拼接
         var html = '<li>';
-            html += '<span class="address-content">'+data['express_name']+' / '+data['express_number']+'</span>';
-            html += '</span>';
+            html += '<span>'+data['express_name']+' / '+data['express_number']+'</span>';
             html += '<a href="javascript:;" class="am-text-xs am-text-blue edit-submit"> '+(window['lang_operate_edit_name'] || '编辑')+'</a>';
             html += '<a href="javascript:;" class="am-text-xs am-text-blue delete-submit"> '+(window['lang_operate_remove_name'] || '移除')+'</a>';
             html += '</li>';

@@ -44,6 +44,8 @@ class FormTableHandleModule
     public $order_by;
     // 自定义属性条件
     public $condition_base_where;
+    // 钩子名称
+    public $hook_name;
 
     // 当前系统操作名称
     public $module_name;
@@ -98,10 +100,10 @@ class FormTableHandleModule
         $hv = explode('\\', $module);
         if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], MyConfig('shopxo.module_form_hook_group')))
         {
-            // 动态钩子名称 plugins_module_form_group_controller_action
-            $hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action);
-            MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
+            // 初始-动态钩子名称 plugins_module_form_group_controller_action
+            $this->hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action);
+            MyEventTrigger($this->hook_name, [
+                'hook_name'     => $this->hook_name,
                 'is_backend'    => true,
                 'params'        => $this->out_params,
                 'data'          => &$this->form_data,
@@ -129,11 +131,46 @@ class FormTableHandleModule
         // 排序字段处理
         $this->FormOrderByHandle();
 
+        // 数据前-动态钩子名称 plugins_module_form_group_controller_action_data_begin
+        if(!empty($this->hook_name))
+        {
+            $hook_name = $this->hook_name.'_data_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $this->out_params,
+                'table'         => $this->form_data,
+                'order_by'      => &$this->order_by,
+                'where'         => &$this->where,
+            ]);
+        }
+
         // 数据读取
         $this->FormDataListQuery();
 
         // 数据列表处理
         $this->FormDataListHandle();
+
+        // 数据后-动态钩子名称 plugins_module_form_group_controller_action_data_end
+        if(!empty($this->hook_name))
+        {
+            $hook_name = $this->hook_name.'_data_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $this->out_params,
+                'table'         => $this->form_data,
+                'order_by'      => $this->order_by,
+                'where'         => $this->where,
+                'page'          => &$this->page,
+                'page_start'    => &$this->page_start,
+                'page_size'     => &$this->page_size,
+                'page_total'    => &$this->page_total,
+                'data_total'    => &$this->data_total,
+                'data_list'     => &$this->data_list,
+                'data_detail'   => &$this->data_detail,
+            ]);
+        }
 
         // 导出excel处理
         $this->FormDataExportExcelHandle();
@@ -158,11 +195,10 @@ class FormTableHandleModule
         ];
 
         // 钩子-结束
-        $hv = explode('\\', $module);
-        if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], MyConfig('shopxo.module_form_hook_group')))
+        if(!empty($this->hook_name))
         {
             // 动态钩子名称 plugins_module_form_group_controller_action_end
-            $hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action).'_end';
+            $hook_name = $this->hook_name.'_end';
             MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
@@ -879,7 +915,7 @@ class FormTableHandleModule
             }
 
             // 是否详情页
-            if($base['is_detail'])
+            if($base['is_detail'] && isset($this->data_list[0]))
             {
                 $this->data_detail = $this->data_list[0];
                 $this->data_list = [];
@@ -898,9 +934,20 @@ class FormTableHandleModule
      */
     public function FormDataBase($form_data)
     {
-        // 列表和详情
+        // 列表方法
         $list_action = isset($form_data['list_action']) ? (is_array($form_data['list_action']) ? $form_data['list_action'] : [$form_data['list_action']]) : ['index'];
-        $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo', 'save', 'delete', 'statusupdate'];
+        // 如果方法后缀为list则认为是列表组合方法
+        if(!empty($this->action_name) && substr($this->action_name, -4) == 'list')
+        {
+            $list_action[] = $this->action_name;
+        }
+        // 详情方法
+        $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo', 'save', 'editinfo', 'edit', 'delete', 'del', 'statusupdate', 'status'];
+        // 如果方法后缀为detail则认为是详情组合方法
+        if(!empty($this->action_name) && substr($this->action_name, -6) == 'detail')
+        {
+            $detail_action[] = $this->action_name;
+        }
         if(empty($this->plugins_module_name))
         {
             $is_list = in_array($this->action_name, $list_action);
@@ -1391,8 +1438,20 @@ class FormTableHandleModule
             // 表单key
             $fk = 'f'.$k;
 
+            // 表单标识
+            if($v['view_type'] == 'module')
+            {
+                $view_key = (empty($v['search_config']) || empty($v['search_config']['form_name'])) ? '' : $v['search_config']['form_name'];
+            } else {
+                $view_key = empty($v['view_key']) ? '' : $v['view_key'];
+            }
+            // 表单标识为数组则取第一个
+            if(!empty($view_key) && is_array($view_key) && isset($view_key[0]))
+            {
+                $view_key = $view_key[0];
+            }
             // 表单名称
-            $form_name = (!empty($v['search_config']) && !empty($v['search_config']['form_name'])) ? $v['search_config']['form_name'] : (isset($v['view_key']) ? $v['view_key'] : '');
+            $form_name = (!empty($v['search_config']) && !empty($v['search_config']['form_name'])) ? $v['search_config']['form_name'] : $view_key;
 
             // 条件处理
             if(!empty($v['search_config']) && !empty($v['search_config']['form_type']))
@@ -1415,7 +1474,7 @@ class FormTableHandleModule
 
                     // 是否指定了数据/表单唯一key作为条件、则复制当前key数据
                     // 用于根据key指定条件（指定不宜使用这里拼接的key）
-                    $params_where_name = empty($v['params_where_name']) ? $form_name : $v['params_where_name'];
+                    $params_where_name = empty($v['params_where_name']) ? $view_key : $v['params_where_name'];
                     if(array_key_exists($params_where_name, $this->out_params) && $this->out_params[$params_where_name] !== null && $this->out_params[$params_where_name] !== '')
                     {
                         $this->out_params[$form_key] = $this->out_params[$params_where_name];

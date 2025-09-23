@@ -269,6 +269,7 @@ class OrderService
             'business_nos'  => $order_nos,
             'business_data' => $order_data,
             'total_price'   => $total_price,
+            'system_type'   => $order_data[0]['system_type'],
             'payment'       => $payment['payment'],
             'payment_name'  => $payment['name'],
         ]);
@@ -418,6 +419,7 @@ class OrderService
         $business_nos = isset($params['business_nos']) ? $params['business_nos'] : [];
         return PayLogService::PayLogInsert([
             'user_id'       => isset($params['user_id']) ? intval($params['user_id']) : 0,
+            'system_type'   => empty($params['system_type']) ? '' : $params['system_type'],
             'business_ids'  => is_array($business_ids) ? $business_ids : [$business_ids],
             'business_nos'  => is_array($business_nos) ? $business_nos : [$business_nos],
             'total_price'   => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
@@ -553,6 +555,7 @@ class OrderService
                     'business_ids'  => $params['order']['id'],
                     'business_nos'  => $params['order']['order_no'],
                     'total_price'   => $params['order']['total_price'],
+                    'system_type'   => $params['order']['system_type'],
                     'payment'       => $params['payment']['payment'],
                     'payment_name'  => $params['payment']['name'],
                 ]);
@@ -1043,6 +1046,7 @@ class OrderService
         $where = [
             ['is_delete_time', '=', 0],
         ];
+        $user_base_where = [];
 
         // id
         if(!empty($params['id']))
@@ -1064,6 +1068,7 @@ class OrderService
             if(!empty($params['user']))
             {
                 $where[] = ['user_id', '=', $params['user']['id']];
+                $user_base_where[] = ['user_id', '=', $params['user']['id']];
             }
         }
 
@@ -1074,7 +1079,7 @@ class OrderService
             $keywords_status = false;
 
             // 订单表查询
-            $oids = Db::name('Order')->where([['order_no', '=', $params['keywords']]])->column('id');
+            $oids = Db::name('Order')->where(array_merge($user_base_where, [['id|order_no', '=', $params['keywords']]]))->column('id');
             if(!empty($oids))
             {
                 $where[] = ['id', 'in', $oids];
@@ -1084,7 +1089,7 @@ class OrderService
             // 快递单号查询
             if($keywords_status === false)
             {
-                $oid = Db::name('OrderExpress')->where(['express_number'=>$params['keywords']])->value('order_id');
+                $oid = Db::name('OrderExpress')->where(array_merge($user_base_where, [['express_number', '=', $params['keywords']]]))->value('order_id');
                 if(!empty($oid))
                 {
                     $where[] = ['id', '=', $oid];
@@ -1095,7 +1100,7 @@ class OrderService
             // 取货码查询
             if($keywords_status === false && strlen(intval($params['keywords'])) == 4)
             {
-                $oid = Db::name('OrderExtractionCode')->where(['code'=>$params['keywords']])->value('order_id');
+                $oid = Db::name('OrderExtractionCode')->where(array_merge($user_base_where, [['code', '=', $params['keywords']]]))->value('order_id');
                 if(!empty($oid))
                 {
                     $where[] = ['id', '=', $oid];
@@ -1106,12 +1111,29 @@ class OrderService
             // 收件姓名电话查询
             if($keywords_status === false)
             {
-                $oids = Db::name('OrderAddress')->where([['name|tel|extraction_contact_name|extraction_contact_tel', '=', $params['keywords']]])->column('order_id');
+                $oids = Db::name('OrderAddress')->where(array_merge($user_base_where, [['name|tel|extraction_contact_name|extraction_contact_tel', '=', $params['keywords']]]))->column('order_id');
                 if(!empty($oids))
                 {
                     $where[] = ['id', 'in', $oids];
                     $keywords_status = true;
                 }
+            }
+
+            // 商品
+            if($keywords_status === false)
+            {
+                $oids = Db::name('OrderDetail')->where(array_merge($user_base_where, [['title', 'like', '%'.$params['keywords'].'%']]))->column('order_id');
+                if(!empty($oids))
+                {
+                    $where[] = ['id', 'in', $oids];
+                    $keywords_status = true;
+                }
+            }
+
+            // 没有查询到数据则赋值
+            if($keywords_status === false)
+            {
+                $where[] = ['id', '<', 0];
             }
         }
 
@@ -1479,9 +1501,9 @@ class OrderService
                 $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
 
                 // 订单详情
-                if($is_items == 1 && !empty($detail) && array_key_exists($v['id'], $detail))
+                if($is_items == 1)
                 {
-                    $v['items'] = $detail[$v['id']];
+                    $v['items'] = (!empty($detail) && array_key_exists($v['id'], $detail)) ? $detail[$v['id']] : [];
                     $v['items_count'] = count($v['items']);
                     $v['describe'] = MyLang('common_service.order.order_item_summary_desc', ['buy_number_count'=>$v['buy_number_count'], 'currency_symbol'=>$v['currency_data']['currency_symbol'], 'total_price'=>$v['total_price']]);
                 }
@@ -1535,11 +1557,11 @@ class OrderService
                     $pay_log = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$weixin_collect_order_ids, 'pl.business_type'=>self::BusinessTypeName(), 'pl.status'=>1, 'pl.payment'=>'Weixin'])->column('pl.trade_no', 'plv.business_id');
                     if(!empty($pay_log))
                     {
-                        foreach($data as $k=>$v)
+                        foreach($data as $dk=>$dv)
                         {
-                            if(array_key_exists($v['id'], $pay_log))
+                            if(array_key_exists($dv['id'], $pay_log))
                             {
-                                $data[$k]['weixin_collect_data'] = $pay_log[$v['id']];
+                                $data[$dk]['weixin_collect_data'] = $pay_log[$dv['id']];
                             }
                         }
                     }
@@ -1789,6 +1811,16 @@ class OrderService
                 }
             }
         }
+
+        // 订单详情信息钩子
+        $hook_name = 'plugins_service_order_detail_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$result,
+        ]);
+
         return $result;
     }
 
@@ -1856,13 +1888,14 @@ class OrderService
      */
     public static function OrderServiceData($order_ids)
     {
-        $data = Db::name('OrderService')->where(['order_id'=>$order_ids])->column('*', 'order_id');
+        $result = [];
+        $data = Db::name('OrderService')->where(['order_id'=>$order_ids])->select()->toArray();
         if(!empty($data) && is_array($data))
         {
             $day_unit = MyLang('day_title');
             $hour_unit = MyLang('hour_title');
             $minute_unit = MyLang('minute_title');
-            foreach($data as &$v)
+            foreach($data as $v)
             {
                 // 持续时长
                 if(empty($v['service_duration_minute']))
@@ -1892,6 +1925,13 @@ class OrderService
                 // 时间
                 $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
                 $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+
+                // 加入分组
+                if(!array_key_exists($v['order_id'], $result))
+                {
+                    $result[$v['order_id']] = [];
+                }
+                $result[$v['order_id']][] = $v;
             }
         }
 
@@ -1901,10 +1941,10 @@ class OrderService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order_ids'     => $order_ids,
-            'data'          => &$data,
+            'data'          => &$result,
         ]);
 
-        return empty($data) ? [] : $data;
+        return $result;
     }
 
     /**
@@ -2308,17 +2348,6 @@ class OrderService
      */
     public static function OrderDeliveryUpdateHandle($order, $params = [])
     {
-        // 订单更新
-        $upd_data = [
-            'status'         => 3,
-            'delivery_time'  => time(),
-            'upd_time'       => time(),
-        ];
-        if(Db::name('Order')->where(['id'=>$order['id']])->update($upd_data) === false)
-        {
-            return DataReturn(MyLang('delivery_fail'), -1);
-        }
-
         // 发货信息单条模式处理
         switch($order['order_model'])
         {
@@ -2415,56 +2444,105 @@ class OrderService
 
             // 外送服务
             case 1 :
-                // 服务数据
-                $service_data = [
-                    'order_id'            => $order['id'],
-                    'user_id'             => $order['user_id'],
-                    'service_name'        => empty($params['service_name']) ? '' : trim($params['service_name']),
-                    'service_mobile'      => empty($params['service_mobile']) ? '' : trim($params['service_mobile']),
-                    'service_start_time'  => empty($params['service_start_time']) ? 0 : strtotime($params['service_start_time']),
-                    'service_end_time'    => empty($params['service_end_time']) ? 0 : strtotime($params['service_end_time']),
-                    'note'                => empty($params['note']) ? '' : trim($params['note']),
-                ];
-                // 持续时间
-                if(!empty($service_data['service_start_time']) && !empty($service_data['service_end_time']) && $service_data['service_start_time'] < $service_data['service_end_time'])
+                // 服务信息多条模式处理
+                if(!empty($params['service_data']))
                 {
-                    $service_data['service_duration_minute'] = intval(($service_data['service_end_time']-$service_data['service_start_time'])/60);
-                } else {
-                    $service_data['service_duration_minute'] = 0;
+                    if(!is_array($params['service_data']))
+                    {
+                        $params['service_data'] = json_decode(urldecode(htmlspecialchars_decode($params['service_data'])), true);
+                    }
                 }
-                $service_info = Db::name('OrderService')->where(['order_id'=>$order['id']])->find();
-                if(empty($service_info))
+
+                // 没有发货信息则删除全部
+                if(!empty($params['service_data']) && is_array($params['service_data']))
                 {
-                    $service_data['add_time'] = time();
-                    if(Db::name('OrderService')->insertGetId($service_data) <= 0)
+                    // 原始数据
+                    $service_data_old = Db::name('OrderService')->where(['order_id'=>$order['id']])->column('*', 'id');
+
+                    // 数据处理
+                    $express_insert_data = [];
+                    foreach($params['service_data'] as $sv)
                     {
-                        return DataReturn(MyLang('common_service.order.delivery_service_insert_fail_tips'), -1);
+                        if(!empty($sv['service_name']) && !empty($sv['service_mobile']))
+                        {
+                            $temp = [
+                                'order_id'            => $order['id'],
+                                'user_id'             => $order['user_id'],
+                                'service_name'        => $sv['service_name'],
+                                'service_mobile'      => $sv['service_mobile'],
+                                'service_start_time'  => empty($sv['service_start_time']) ? 0 : strtotime($sv['service_start_time']),
+                                'service_end_time'    => empty($sv['service_end_time']) ? 0 : strtotime($sv['service_end_time']),
+                                'note'                => empty($sv['note']) ? '' : $sv['note'],
+                            ];
+                            // 持续时间
+                            if(!empty($temp['service_start_time']) && !empty($temp['service_end_time']) && $temp['service_start_time'] < $temp['service_end_time'])
+                            {
+                                $temp['service_duration_minute'] = intval(($temp['service_end_time']-$temp['service_start_time'])/60);
+                            } else {
+                                $temp['service_duration_minute'] = 0;
+                            }
+                            if(empty($service_data_old) || empty($sv['id']) || empty($service_data_old[$sv['id']]))
+                            {
+                                $temp['add_time'] = time();
+                                $temp['upd_time'] = 0;
+                            } else {
+                                $temp['add_time'] = $service_data_old[$sv['id']]['add_time'];
+                                $temp['upd_time'] = time();
+                            }
+                            $service_insert_data[] = $temp;
+                        }
+                    }
+
+                    // 先删除数据
+                    if(!empty($service_data_old))
+                    {
+                        Db::name('OrderService')->where(['id'=>array_column($service_data_old, 'id'), 'order_id'=>$order['id']])->delete();
+                    }
+
+                    // 数据添加处理
+                    if(!empty($service_insert_data))
+                    {
+                        if(Db::name('OrderService')->insertAll($service_insert_data) < count($service_insert_data))
+                        {
+                            return DataReturn(MyLang('common_service.order.delivery_service_insert_fail_tips'), -1);
+                        }
                     }
                 } else {
-                    $service_data['upd_time'] = time();
-                    if(Db::name('OrderService')->where(['id'=>$service_info['id']])->update($service_data) === false)
-                    {
-                        return DataReturn(MyLang('common_service.order.delivery_service_update_fail_tips'), -1);
-                    }
+                    Db::name('OrderService')->where(['order_id'=>$order['id']])->delete();
                 }
                 break;
         }
 
-        // 库存扣除
-        $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'delivery']);
-        if($ret['code'] != 0)
+        // 待发货则处理
+        if($order['status'] != 3)
         {
-            return $ret;
+            // 订单更新
+            $upd_data = [
+                'status'         => 3,
+                'delivery_time'  => time(),
+                'upd_time'       => time(),
+            ];
+            if(Db::name('Order')->where(['id'=>$order['id']])->update($upd_data) === false)
+            {
+                return DataReturn(MyLang('delivery_fail'), -1);
+            }
+
+            // 库存扣除
+            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'delivery']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 用户消息
+            $lang = MyLang('common_service.order.order_delivery_message_data');
+            MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
         }
-
-        // 用户消息
-        $lang = MyLang('common_service.order.order_delivery_message_data');
-        MessageService::MessageAdd($order['user_id'], $lang['title'], $lang['desc'], self::BusinessTypeName(), $order['id']);
-
-        // 订单状态日志
-        $creator = isset($params['creator']) ? intval($params['creator']) : 0;
-        $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-        self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('delivery_title'), $creator, $creator_name);
 
         // 同步微信发货
         $ret = self::OrderDeliverySyncWeixin($order, $params);
@@ -2613,6 +2691,13 @@ class OrderService
             // 订单商品销量增加
             $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'opt_type'=>'collect']);
             if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 同步微信发货
+            $ret = self::OrderDeliverySyncWeixin($order, $params);
+            if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
             }

@@ -83,6 +83,20 @@ class StoreService
     {
         return self::RequestParamsString(MyConfig('shopxo.store_diy_url'), $params);
     }
+
+    /**
+     * 应用商店form表单地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-12
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function StoreFormInputUrl($params = [])
+    {
+        return self::RequestParamsString(MyConfig('shopxo.store_forminput_url'), $params);
+    }
     
     /**
      * 应用商店主题地址

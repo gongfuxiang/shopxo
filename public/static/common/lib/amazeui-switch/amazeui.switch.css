@@ -58,9 +58,10 @@
     position: absolute;
     top: 0px;
     right: 4px;
-    content: '\e729';
+    content: '\e809';
     text-transform: uppercase;
     color: #fff;
+    line-height: 20px;
 }
 
 .am-switch.am-dragging {

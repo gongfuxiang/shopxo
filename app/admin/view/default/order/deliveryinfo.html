@@ -11,7 +11,7 @@
                     {{if !empty($data['express_data']) and is_array($data['express_data'])}}
                         {{foreach $data['express_data'] as $k=>$v}}
                             <li>
-                                <span class="express-content">{{$v.express_name}} / {{$v.express_number}}</span>
+                                <span>{{$v.express_name}} / {{$v.express_number}}</span>
                                 <a href="javascript:;" class="am-text-xs am-text-blue edit-submit"> {{:MyLang('edit_title')}}</a>
                                 <a href="javascript:;" class="am-text-xs am-text-blue delete-submit"> {{:MyLang('remove_title')}}</a>
                             </li>

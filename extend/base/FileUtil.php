@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\ResourcesService;
+
 /**
  * 例子：
  * CreateDir('a/1/2/3');                  建立文件夹 建一个a/1/2/3文件夹
@@ -407,6 +409,56 @@ class FileUtil
             }
         }
         return DataReturn('success', 0);
+    }
+
+    /**
+     * 获取文件内容、仅支持本地文件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-06-04
+     * @desc    description
+     * @param   [string]          $file [文件地址]
+     */
+    public static function FileContent($file)
+    {
+        $value = '';
+        if(file_exists($file))
+        {
+            $value = @file_get_contents($file);
+        } else  {
+            $file = ROOT_PATH.ResourcesService::AttachmentPathHandle($file);
+            if(file_exists($file))
+            {
+                $value = @file_get_contents($file);
+            }
+        }
+        return $value;
+    }
+
+    /**
+     * 获取文件md5、仅支持本地文件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-06-04
+     * @desc    description
+     * @param   [string]          $file [文件地址]
+     */
+    public static function FileMd5($file)
+    {
+        $value = '';
+        if(file_exists($file))
+        {
+            $value = @md5_file($file);
+        } else {
+            $file = ROOT_PATH.ResourcesService::AttachmentPathHandle($file);
+            if(file_exists($file))
+            {
+                $value = @md5_file($file);
+            }
+        }
+        return $value;
     }
 }
 ?>

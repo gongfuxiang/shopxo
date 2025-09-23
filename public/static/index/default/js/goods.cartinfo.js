@@ -21,7 +21,7 @@ function GoodsCartInfoSpecDetail()
     var spec = [];
     $('.goods-spec-content .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
     });
     // 数量
     var stock = $cart_info_goods_spec.find('.number-operate input[type="number"]').val() || 1;
@@ -35,7 +35,7 @@ function GoodsCartInfoSpecDetail()
         type: 'post',
         dataType: 'json',
         timeout: 10000,
-        data: {"id": $('.goods-spec-content').data('id'), "spec": spec, "stock": stock},
+        data: {"id": $('.goods-spec-content').attr('data-id'), "spec": spec, "stock": stock},
         success: function(res)
         {
             $.AMUI.progress.done();
@@ -76,7 +76,7 @@ function GoodsCartInfoSpecType()
     var spec = [];
     $('.goods-spec-content .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
     });
 
     // 开启进度条
@@ -88,7 +88,7 @@ function GoodsCartInfoSpecType()
         type: 'post',
         dataType: 'json',
         timeout: 10000,
-        data: {"id": $('.goods-spec-content').data('id'), "spec": spec},
+        data: {"id": $('.goods-spec-content').attr('data-id'), "spec": spec},
         success: function(res)
         {
             $.AMUI.progress.done();
@@ -101,7 +101,7 @@ function GoodsCartInfoSpecType()
                     $('.goods-spec-content .sku-items').eq(index).find('li').each(function(k, v)
                     {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).data('value').toString();
+                        var value = $(this).attr('data-value').toString();
                         if(res.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
@@ -147,7 +147,7 @@ function GoodsNumberChange()
         // 已选规格
         $('.goods-spec-content .sku-items li.selected').each(function(k, v)
         {
-            spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+            spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
         });
     }
 
@@ -161,7 +161,7 @@ function GoodsNumberChange()
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.goods-spec-content').data('id'),
+            "id": $('.goods-spec-content').attr('data-id'),
             "stock": stock,
             "spec": spec
         },
@@ -201,9 +201,13 @@ function GoodsCartInfoSpecDetailBackHandle(data)
     var $input = $cart_info_goods_spec.find('.number-operate input[type="number"]');
     var $stock = $cart_info_goods_spec.find('.stock-tips .stock');
     var $origina_price = $cart_info_goods_spec.find('.original-price');
+    if((data.spec_base.inventory_unit || null) != null)
+    {
+        $cart_info_goods_spec.find('.stock-tips .unit').text(data.spec_base.inventory_unit);
+    }
 
     // 起购数
-    var min = parseInt($input.data('original-buy-min-number'));
+    var min = parseInt($input.attr('data-original-buy-min-number'));
     var buy_min_number = parseInt(data.spec_base.buy_min_number);
     if(buy_min_number > 0)
     {
@@ -269,17 +273,19 @@ function GoodsCartInfoBaseRestore()
 {
     var $input = $cart_info_goods_spec.find('.number-operate input[type="number"]');
     var $stock = $cart_info_goods_spec.find('.stock-tips .stock');
+    var $unit = $cart_info_goods_spec.find('.stock-tips .unit');
     var $price = $cart_info_goods_spec.find('.price');
     var $original_price = $cart_info_goods_spec.find('.original-price');
-    $input.attr('min', $input.data('original-buy-min-number'));
-    $input.attr('max', $stock.data('original-max'));
-    $stock.text($stock.data('original-inventory'));
+    $input.attr('min', $input.attr('data-original-buy-min-number'));
+    $input.attr('max', $stock.attr('data-original-max'));
+    $stock.text($stock.attr('data-original-inventory'));
+    $unit.text($unit.attr('data-value'));
     $stock.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
     $stock.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
-    $price.html(__currency_symbol__+$price.data('default-price'));
+    $price.html(__currency_symbol__+$price.attr('data-default-price'));
     if($original_price.length > 0)
     {
-        $original_price.html(__currency_symbol__+$original_price.data('default-price'));
+        $original_price.html(__currency_symbol__+$original_price.attr('data-default-price'));
     }
 }
 
@@ -295,11 +301,12 @@ function GoodsCartInfoBuyCartCheck()
 {
     // 参数
     var $stock = $cart_info_goods_spec.find('.stock-tips .stock');
+    var $unit = $cart_info_goods_spec.find('.stock-tips .unit');
     var stock = parseInt($cart_info_goods_spec.find('.number-operate input').val() || 1);
     var inventory = parseInt($stock.text());
     var min = $stock.attr('data-min-limit') || 1;
     var max = $stock.attr('data-max-limit') || 0;
-    var unit = $stock.data('unit') || '';
+    var unit = $unit.attr('data-value') || '';
     if(stock < min)
     {
         Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
@@ -364,7 +371,7 @@ function GoodsCartInfoSelectedSpec()
         {
             $('.sku-items li.selected').each(function(k, v)
             {
-                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')});
+                spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')});
             });
         }
     }
@@ -438,9 +445,9 @@ $(function()
         var min = parseInt($input.attr('min') || 0);
         var max = parseInt($input.attr('max') || 0);
         var stock = parseInt($input.val());
-        var type = $(this).data('type');
+        var type = $(this).attr('data-type');
         var temp_stock = (type == 'add') ? stock+1 : stock-1;
-        var unit = $cart_info_goods_spec.find('.stock-tips .stock').data('unit') || '';
+        var unit = $cart_info_goods_spec.find('.stock-tips .unit').attr('data-value') || '';
         if(temp_stock < min)
         {
             $input.val(min);

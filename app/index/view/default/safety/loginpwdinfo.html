@@ -25,10 +25,12 @@
             ])}}
 			<!-- form start -->
 			<form class="am-form form-validation" action="{{:MyUrl('index/safety/loginpwdupdate')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/safety/index')}}">
-				<div class="am-form-group">
-					<label>{{:MyLang('common_service.safety.form_item_current_password')}}</label>
-					<input type="password" name="my_pwd" placeholder="{{:MyLang('common_service.safety.form_item_current_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_current_password_message')}}" class="am-radius" autocomplete="off" required />
-				</div>
+                {{if isset($user['is_setup_pwd']) and $user['is_setup_pwd'] eq 1}}
+    				<div class="am-form-group">
+    					<label>{{:MyLang('common_service.safety.form_item_current_password')}}</label>
+    					<input type="password" name="my_pwd" placeholder="{{:MyLang('common_service.safety.form_item_current_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_current_password_message')}}" class="am-radius" autocomplete="off" required />
+    				</div>
+                {{/if}}
 				<div class="am-form-group">
 					<label>{{:MyLang('common_service.safety.form_item_new_password')}}</label>
 					<input type="password" name="new_pwd" placeholder="{{:MyLang('common_service.safety.form_item_new_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_new_password_message')}}" class="am-radius" id="new-loginpwd" autocomplete="off" required />
@@ -37,7 +39,10 @@
 					<label>{{:MyLang('common_service.safety.form_item_confirm_password')}}</label>
 					<input type="password" name="confirm_new_pwd" placeholder="{{:MyLang('common_service.safety.form_item_confirm_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('common_service.safety.form_item_confirm_password_message')}}" class="am-radius" data-equal-to="#new-loginpwd" autocomplete="off" required />
 				</div>
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-check"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
 			</form>
 			<!-- form end -->
 		</div>

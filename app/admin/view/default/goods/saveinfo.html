@@ -61,7 +61,7 @@
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
-                            <input type="text" name="title" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+                            <input type="text" name="title" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('title', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
                             <div class="colorpicker-container colorpicker-simple">
                                 <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
                                 <div class="colorpicker-submit" data-color="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']"></div>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('common_service.goods.form_item_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_category_id_message')}}" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" required>
+                        <select name="category_id" class="am-radius chosen-select goods-category-choice-base-template-event" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_category_id_message')}}" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('category_ids', $goods_base_forbid_operate_data)}} disabled {{/if}} required>
                             {{if !empty($goods_category_list)}}
                                 {{foreach $goods_category_list as $v}}
                                     <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
@@ -91,15 +91,27 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.goods.form_item_simple_desc')}}</label>
-                        <input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} />
+                        <input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('simple_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_spec_desc')}}</label>
+                        <input type="text" name="spec_desc" placeholder="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" class="am-radius" {{if !empty($data['spec_desc'])}} value="{{$data.spec_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('spec_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_approval_number')}}</label>
+                        <input type="text" name="approval_number" placeholder="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" class="am-radius" {{if !empty($data['approval_number'])}} value="{{$data.approval_number}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('approval_number', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{:MyLang('common_service.goods.form_item_coding')}}</label>
+                        <input type="text" name="coding" placeholder="{{:MyLang('common_service.goods.form_item_coding_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_coding_message')}}" class="am-radius" {{if !empty($data['coding'])}} value="{{$data.coding}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('coding', $goods_base_forbid_operate_data)}} readonly {{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.goods.form_item_model')}}</label>
-                        <input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="30" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} />
+                        <input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('model', $goods_base_forbid_operate_data)}} readonly {{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{:MyLang('common_service.goods.form_item_brand')}}</label>
-                        <select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_message')}}">
+                        <select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('brand_id', $goods_base_forbid_operate_data)}} disabled {{/if}}>
                             {{if !empty($brand_list)}}
                                 <option value="0">{{:MyLang('please_select_tips')}}</option>
                                 {{foreach $brand_list as $v}}
@@ -109,19 +121,23 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{:MyLang('common_service.goods.form_item_place_origin')}}</label>
-                        <select name="place_origin" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_place_origin_message')}}">
+                        <label>{{:MyLang('common_service.goods.form_item_produce_company')}}</label>
+                        <input type="text" name="produce_company" placeholder="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" class="am-radius" {{if !empty($data['produce_company'])}} value="{{$data.produce_company}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('produce_company', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('common_service.goods.form_item_produce_region')}}</label>
+                        <select name="produce_region" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_region_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('produce_region', $goods_base_forbid_operate_data)}} disabled {{/if}}>
                             <option value="0">{{:MyLang('please_select_tips')}}</option>
                             {{if !empty($region_province_list)}}
                                 {{foreach $region_province_list as $v}}
-                                    <option value="{{$v.id}}" {{if !empty($data['place_origin']) and $v['id'] eq $data['place_origin']}}selected{{/if}}>{{$v.name}}</option>
+                                    <option value="{{$v.id}}" {{if !empty($data['produce_region']) and $v['id'] eq $data['produce_region']}}selected{{/if}}>{{$v.name}}</option>
                                 {{/foreach}}
                             {{/if}}
                         </select>
                     </div>
                     <div class="am-form-group">
                         <label>{{:MyLang('common_service.goods.form_item_inventory_unit')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" name="inventory_unit" placeholder="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" minlength="1" maxlength="6" data-validation-message="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" class="am-radius" {{if !empty($data['inventory_unit'])}} value="{{$data.inventory_unit}}"{{/if}} required />
+                        <input type="text" name="inventory_unit" placeholder="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" minlength="1" maxlength="6" data-validation-message="{{:MyLang('common_service.goods.form_item_inventory_unit_message')}}" class="am-radius" {{if !empty($data['inventory_unit'])}} value="{{$data.inventory_unit}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('inventory_unit', $goods_base_forbid_operate_data)}} readonly {{/if}} required />
                     </div>
                     <div class="am-form-group">
                         <label>
@@ -130,7 +146,7 @@
                                 <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_give_integral_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             {{/if}}
                         </label>
-                        <input type="number" name="give_integral" placeholder="{{:MyLang('common_service.goods.form_item_give_integral_placeholder')}}(%)" min="0" max="100" data-validation-message="{{:MyLang('common_service.goods.form_item_give_integral_message')}}" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
+                        <input type="number" name="give_integral" placeholder="{{:MyLang('common_service.goods.form_item_give_integral_placeholder')}}(%)" min="0" data-validation-message="{{:MyLang('common_service.goods.form_item_give_integral_message')}}" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('give_integral', $goods_base_forbid_operate_data)}} readonly {{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>
@@ -139,7 +155,7 @@
                                 <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.goods.form_item_sort_level_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             {{/if}}
                         </label>
-                        <input type="number" name="sort_level" placeholder="{{:MyLang('common_service.goods.form_item_sort_level')}}" min="0" data-validation-message="{{:MyLang('common_service.goods.form_item_sort_level_message')}}" class="am-form-field am-radius" {{if !empty($data['sort_level'])}} value="{{$data.sort_level}}"{{/if}} />
+                        <input type="number" name="sort_level" placeholder="{{:MyLang('common_service.goods.form_item_sort_level')}}" min="0" data-validation-message="{{:MyLang('common_service.goods.form_item_sort_level_message')}}" class="am-form-field am-radius" {{if !empty($data['sort_level'])}} value="{{$data.sort_level}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('sort_level', $goods_base_forbid_operate_data)}} readonly {{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>
@@ -148,7 +164,7 @@
                                 <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('</p><p>', MyLang('common_service.goods.form_item_site_type_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>
                             {{/if}}
                         </label>
-                        <select name="site_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_site_type_message')}}">
+                        <select name="site_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_site_type_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('site_type', $goods_base_forbid_operate_data)}} disabled {{/if}}>
                             <option value="">{{:MyLang('optional_tips')}}</option>
                             {{if !empty($common_site_type_list)}}
                                 {{foreach $common_site_type_list as $v}}
@@ -163,11 +179,13 @@
                             <ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">
                                     {{if empty($data['images'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="images" value="{{$data.images}}" />
                                         <img src="{{$data.images}}" />
-                                        <i class="iconfont icon-close"></i>
+                                        {{if empty($goods_base_forbid_operate_data) or !in_array('images', $goods_base_forbid_operate_data)}}
+                                            <i class="iconfont icon-close"></i>
+                                        {{/if}}
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -191,7 +209,7 @@
                             <div class="title">
                                 <i class="iconfont icon-tips"></i>
                                 <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                             </div>
                             <p>{{:implode('</p><p>', MyLang('common_service.goods.form_spec_top_list_tips'))}}</p>
                         </div>
@@ -208,45 +226,16 @@
                 <div id="goods-nav-parameters" class="item" data-key="parameters">
                     <div class="am-form-group">
                         <label>选择参数<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_params_list_content_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <div class="am-flex am-flex-items-center am-gap-2">
-                            <!-- 通过配置生成商品参数 -->
-                            <div class="am-dropdown goods-params" id="parameters-quick-container" data-am-dropdown>
-                                <span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
-                                    <span>{{:MyLang('common_service.goods.form_params_select_title')}}</span>
-                                    <i class="am-icon-angle-down"></i>
-                                </span>
-                                <div class="am-dropdown-content am-radius parameters-quick-config">
-                                    <div class="am-margin-bottom-sm">
-                                        <select class="am-radius chosen-select" data-placeholder="{{:MyLang('common_service.goods.form_params_select_placeholder')}}" data-validation-message="{{:MyLang('common_service.goods.form_params_select_message')}}">
-                                            <option value="">{{:MyLang('common_service.goods.form_params_select_placeholder')}}</option>
-                                            {{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
-                                                {{foreach $goods_base_template.params as $v}}
-                                                    <option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
-                                                {{/foreach}}
-                                            {{/if}}
-                                        </select>
-                                    </div>
-                                    <textarea rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
-                                    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
-                                </div>
-                            </div>
-                            <!-- 复制操作 -->
-                            <span class="business-operations-submit parameters-quick-copy">
-                                <i class="iconfont icon-copy"></i>
-                                <span>{{:MyLang('common_service.goods.form_params_config_copy_title')}}</span>
-                            </span>
-                            <!-- 清空操作 -->
-                            <span class="business-operations-submit parameters-quick-remove">
-                                <i class="iconfont icon-shear"></i>
-                                <span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>
-                            </span>
-                        </div>
+                        <!-- 参数操作 -->
+                        {{:ModuleInclude('goods/params_operate')}}
 
                         <!-- 参数表格 -->
                         {{:ModuleInclude('public/goodsparamstemplate/table')}}
-                    </div>
-                    <div class="am-form-group">
-                        {{:ModuleInclude('public/goodsparamstemplate/tips')}}
+
+                        <!-- 参数提示 -->
+                        <div class="am-margin-top-sm">
+                            {{:ModuleInclude('public/goodsparamstemplate/tips')}}
+                        </div>
                     </div>
                 </div>
 
@@ -259,17 +248,21 @@
                                 {{if !empty($data['photo'])}}
                                     {{foreach $data.photo as $v}}
                                         <li>
-                                            <input type="text" name="photo[]" value="{{$v.images_old}}" />
+                                            <input type="text" name="photo[]" value="{{$v.images}}" />
                                             <img src="{{$v.images}}" />
-                                            <i class="iconfont icon-close"></i>
+                                            {{if empty($goods_base_forbid_operate_data) or !in_array('photo', $goods_base_forbid_operate_data)}}
+                                                <i class="iconfont icon-close"></i>
+                                            {{/if}}
                                             <i class="iconfont icon-eye"></i>
                                         </li>
                                     {{/foreach}}
                                 {{/if}}
                             </ul>
-                            <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">
-                                <i class="iconfont icon-upload-add"></i>
-                            </div>
+                            {{if empty($goods_base_forbid_operate_data) or !in_array('photo', $goods_base_forbid_operate_data)}}
+                                <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">
+                                    <i class="iconfont icon-add"></i>
+                                </div>
+                            {{/if}}
                         </div>
                     </div>
                     <!-- 视频 -->
@@ -279,11 +272,13 @@
                             <ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.goods-video-view">
                                     {{if empty($data['video'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="video" value="{{$data.video}}" />
                                         <video src="{{$data.video}}" controls>your browser does not support the video tag</video>
-                                        <i class="iconfont icon-close"></i>
+                                        {{if empty($goods_base_forbid_operate_data) or !in_array('video', $goods_base_forbid_operate_data)}}
+                                            <i class="iconfont icon-close"></i>
+                                        {{/if}}
                                         <i class="iconfont icon-eye"></i>
                                     {{/if}}
                                 </li>
@@ -297,7 +292,7 @@
                         <div class="title">
                             <i class="iconfont icon-tips"></i>
                             <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                            <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                         </div>
                         <p>{{:MyLang('common_service.goods.form_app_top_tips')}}</p>
                     </div>
@@ -322,9 +317,9 @@
                                                     <ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                                         <li class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-{{$v.id}}">
                                                             {{if empty($v['images'])}}
-                                                                <i class="iconfont icon-upload-add"></i>
+                                                                <i class="iconfont icon-add"></i>
                                                             {{else /}}
-                                                                <input type="text" name="content_app_images_{{$v.id}}" value="{{$v.images_old}}" />
+                                                                <input type="text" name="content_app_images_{{$v.id}}" value="{{$v.images}}" />
                                                                 <img src="{{$v.images}}" />
                                                                 <i class="iconfont icon-close"></i>
                                                                 <i class="iconfont icon-eye"></i>
@@ -362,7 +357,7 @@
                 <!-- 电脑详情 -->
                 <div id="goods-nav-web" class="item" data-key="web">
                     <div class="am-form-group">
-                        <label>{{$goods_nav_list.web.name}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <label>{{$goods_nav_list.web.name}}</label>
                         <textarea class="am-radius" name="content_web" id="editor-tag" data-validation-message="{{:MyLang('common_service.goods.form_web_content_message')}}">{{if !empty($data['content_web'])}}{{$data.content_web}}{{/if}}</textarea>
                     </div>
                 </div>

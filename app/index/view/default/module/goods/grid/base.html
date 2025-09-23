@@ -1,6 +1,6 @@
 <!-- 九宫格 -->
 {{if !empty($module_data['goods_list']) and is_array($module_data['goods_list'])}}
-    <div class="module-goods-container module-goods-grid-container module-goods-grid-base">
+    <div class="module-goods-container module-goods-grid-container module-goods-grid-base {{if isset($goods_cover_type)}}{{$goods_cover_type}}{{/if}}">
         <!-- 基础导航 -->
         {{if !empty($module_data['base_nav'])}}
             <div class="am-container">

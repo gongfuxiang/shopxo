@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\ApiService;
 use app\service\SeoService;
 use app\service\GoodsService;
@@ -105,12 +106,12 @@ class Goods extends Common
                 // 详情tab商品 猜你喜欢
                 if(!empty($assign['middle_tabs_nav']) && in_array('guess_you_like', $assign['middle_tabs_nav']['type']))
                 {
-                    $assign['guess_you_like'] = GoodsService::GoodsDetailGuessYouLikeData($goods['id']);
+                    $assign['guess_you_like'] = GoodsService::GoodsDetailGuessYouLikeData($goods['id'], ['is_spec'=>0, 'is_cart'=>0]);
                 }
             }
 
             // 左侧商品 看了又看
-            $assign['left_goods'] = GoodsService::GoodsDetailSeeingYouData($goods['id']);
+            $assign['left_goods'] = GoodsService::GoodsDetailSeeingYouData($goods['id'], ['is_spec'=>0, 'is_cart'=>0]);
 
             // seo
             $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];

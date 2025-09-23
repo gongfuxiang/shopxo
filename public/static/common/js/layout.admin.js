@@ -3561,10 +3561,10 @@ $(function () {
 
     // 商品搜索选择
     // 分页
-    $('.goods-page-container').html(PageLibrary());
+    $popup_goods_select.find('.goods-page-container').html(PageLibrary());
 
     // 搜索商品
-    $(document).on('click', '.forth-selection-container .search-submit, .pagelibrary li a', function () {
+    $(document).on('click', '#popup-module-goods-select .forth-selection-container .search-submit, .pagelibrary li a', function () {
         // 分页处理
         var is_active = $(this).data('is-active') || 0;
         if (is_active == 1) {
@@ -3573,10 +3573,10 @@ $(function () {
         var page = $(this).data('page') || 1;
 
         // 请求参数
-        var url = $('.forth-selection-container').data('search-url');
-        var category_field = $('.forth-selection-container').find('input[name="category_field"]').val() || '';
-        var category_id = $('.forth-selection-form-category').val();
-        var keywords = $('.forth-selection-form-keywords').val();
+        var url = $popup_goods_select.find('.forth-selection-container').data('search-url');
+        var category_field = $popup_goods_select.find('.forth-selection-container').find('input[name="category_field"]').val() || '';
+        var category_id = $popup_goods_select.find('.forth-selection-form-category').val();
+        var keywords = $popup_goods_select.find('.forth-selection-form-keywords').val();
         var goods_ids = $popup_goods_select.attr('data-goods-ids') || '';
 
         var $this = $(this);
@@ -3665,7 +3665,7 @@ $(function () {
 
         // 基础参数
         var $this = $(this);
-        var url = $('.forth-selection-container').data('data-url');
+        var url = $popup_goods_select.find('.forth-selection-container').data('data-url');
         var type = $popup_goods_select.attr('data-type') || null;
         var is_single_choice = parseInt($popup_goods_select.attr('data-is-single-choice')) || 0;
 

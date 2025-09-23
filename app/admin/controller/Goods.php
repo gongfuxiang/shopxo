@@ -109,6 +109,12 @@ class Goods extends Base
 			'goods_nav_list'					=> MyLang('goods.goods_nav_list'),
 			// 编辑器文件存放地址
 			'editor_path_type'					=> ResourcesService::EditorPathTypeValue('goods'),
+            // 商品基础禁止操作数据
+            'goods_base_forbid_operate_data'    => GoodsService::GoodsBaseForbidOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            // 商品参数操作数据
+            'goods_params_operate_data'         => GoodsService::GoodsParamsOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            // 商品规格操作数据
+            'goods_spec_operate_data'           => GoodsService::GoodsSpecOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
 		];
 
 		// 商品信息

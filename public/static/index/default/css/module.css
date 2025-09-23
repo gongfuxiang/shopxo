@@ -320,7 +320,7 @@
 }
 .module-goods-list-mini ul li .item .goods-images {
     width: 6.5rem;
-    height: 6.5rem;
+    max-height: 6.5rem;
 }
 .module-goods-list-mini ul li .item .goods-base-right {
     width: calc(100% - 7rem);

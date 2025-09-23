@@ -670,7 +670,7 @@ class NavigationService
                 'type'      => 'center',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'icon-user-center-nav-top',
+                'icon'      => 'icon-user3',
                 'url'       => MyUrl('index/user/index'),
                 'items'     => [],
             ],
@@ -679,7 +679,7 @@ class NavigationService
                 'type'      => 'myself',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'icon-mall-nav-top',
+                'icon'      => 'icon-shopping-bag',
                 'url'       => '',
                 'items'     => [
                     [
@@ -693,7 +693,7 @@ class NavigationService
                 'type'      => 'favor',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'icon-collect-nav-top',
+                'icon'      => 'icon-star-stiff',
                 'url'       => '',
                 'items'     => [
                     [
@@ -715,7 +715,7 @@ class NavigationService
                     'type'      => 'quick',
                     'is_login'  => 1,
                     'badge'     => null,
-                    'icon'      => 'icon-more-nav-top',
+                    'icon'      => 'icon-more3',
                     'url'       => '',
                     'items'     => $nav_quick,
                 ];
@@ -729,7 +729,7 @@ class NavigationService
                 'type'      => 'cart',
                 'is_login'  => 1,
                 'badge'     => -1,
-                'icon'      => 'icon-cart-nav-top',
+                'icon'      => 'icon-shopping-cart-tall',
                 'url'       => MyUrl('index/cart/index'),
                 'items'     => [],
             ],
@@ -738,7 +738,7 @@ class NavigationService
                 'type'      => 'message',
                 'is_login'  => 1,
                 'badge'     => 0,
-                'icon'      => 'icon-message-nav-top',
+                'icon'      => 'icon-message-stout',
                 'url'       => MyUrl('index/message/index'),
                 'items'     => [],
             ],
@@ -755,7 +755,7 @@ class NavigationService
                     'type'      => 'multilingual',
                     'is_login'  => 0,
                     'badge'     => null,
-                    'icon'      => empty($multilingual_data['default']['icon']) ? 'icon-language-nav-top' : $multilingual_data['default']['icon'],
+                    'icon'      => empty($multilingual_data['default']['icon']) ? 'icon-language-round' : $multilingual_data['default']['icon'],
                     'url'       => '',
                     'items'     => $multilingual_data['data'],
                 ];
@@ -1004,7 +1004,7 @@ class NavigationService
             'base' => [
                 'name'      => $lang['base'],
                 'is_show'   => 1,
-                'icon'      => 'icon-user-center-left-base',
+                'icon'      => 'icon-data-management',
                 'is_system' => 1,
                 'item'      => [
                     [
@@ -1035,6 +1035,14 @@ class NavigationService
                         'name'      => $lang['message'],
                         'url'       => MyUrl('index/message/index'),
                         'contains'  => ['indexmessageindex'],
+                        'is_show'   => 1,
+                        'icon'      => '',
+                        'is_system' => 1,
+                    ],
+                    [
+                        'name'      => $lang['forminputdata'],
+                        'url'       => MyUrl('index/forminputdata/index'),
+                        'contains'  => ['indexforminputdataindex'],
                         'is_show'   => 1,
                         'icon'      => '',
                         'is_system' => 1,

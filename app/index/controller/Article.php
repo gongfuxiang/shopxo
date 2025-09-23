@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\SeoService;
 use app\service\ApiService;
 use app\service\ArticleService;
@@ -59,10 +60,9 @@ class Article extends Common
         $id = intval($this->data_request['id']);
 		$params = [
 			'where'  => [
-                'is_enable' => 1,
-                'id'        => $id,
+                ['is_enable', '=', 1],
+                ['id', '=', $id],
             ],
-			'field'  => 'id,title,title_color,jump_url,content,access_count,article_category_id,seo_title,seo_keywords,seo_desc,add_time',
 			'm'      => 0,
 			'n'      => 1,
 		];

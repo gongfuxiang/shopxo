@@ -13,7 +13,7 @@
 </div>
 
 <!--表列表数据 -->
-<div class="parameters-container am-margin-top-sm">
+<div class="parameters-container">
     <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table table-thead-beautify am-margin-bottom-0" 
         data-copy-success-tips="{{:MyLang('copy_success')}}" 
         data-copy-no-tips="{{:MyLang('common.form_goods_params_copy_no_tips')}}" 
@@ -48,7 +48,7 @@
                 {{foreach $parameters as $pv}}
                     <tr>
                         <td class="am-text-middle">
-                            <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.form_goods_params_type_message')}}" data-is-clearout="0">
+                            <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.form_goods_params_type_message')}}" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}}disabled{{/if}}>
                                 {{if !empty($common_goods_parameters_type_list)}}
                                     {{foreach $common_goods_parameters_type_list as $v}}
                                         <option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -57,15 +57,17 @@
                             </select>
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="parameters_name[]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required />
+                            <input type="text" name="parameters_name[]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}}readonly{{/if}} required />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="parameters_value[]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" />
+                            <input type="text" name="parameters_value[]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}}readonly{{/if}} />
                         </td>
                         <td class="am-text-middle">
-                            <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
-                            <a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
-                            <a href="javascript:;" class="am-text-xs am-text-primary line-remove">{{:MyLang('remove_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-blue am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-blue am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                            {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1}}
+                                <a href="javascript:;" class="am-text-xs am-text-red line-remove">{{:MyLang('remove_title')}}</a>
+                            {{/if}}
                         </td>
                     </tr>
                 {{/foreach}}
@@ -73,9 +75,11 @@
         </tbody>
     </table>
 </div>
-<div class="am-margin-top-sm">
-    <span class="business-operations-submit parameters-line-add am-border-0 am-text-sm">
-        <i class="iconfont icon-add"></i>
-        {{:MyLang('common.form_goods_params_row_add_title')}}
-    </span>
-</div>
+{{if empty($goods_params_operate_data) or (isset($goods_params_operate_data['is_add']) and $goods_params_operate_data['is_add'] eq 1)}}
+    <div class="am-margin-top-sm">
+        <span class="business-operations-submit parameters-line-add am-border-0 am-text-sm">
+            <i class="iconfont icon-add"></i>
+            {{:MyLang('common.form_goods_params_row_add_title')}}
+        </span>
+    </div>
+{{/if}}

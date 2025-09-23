@@ -17,6 +17,7 @@ use app\service\ThemeAdminService;
 use app\service\AppMiniService;
 use app\service\DesignService;
 use app\service\DiyService;
+use app\service\FormInputService;
 
 /**
  * 软件安装服务层
@@ -84,6 +85,11 @@ class PackageInstallService
             // diy装修
             case 'diy' :
                 $url = MyUrl('admin/diy/index');
+                break;
+
+            // form表单
+            case 'forminput' :
+                $url = MyUrl('admin/forminput/index');
                 break;
 
             default :
@@ -192,6 +198,11 @@ class PackageInstallService
             // diy装修
             case 'diy' :
                 $ret = DiyService::DiyUploadHandle($res['url'], $params);
+                break;
+
+            // form表单
+            case 'forminput' :
+                $ret = FormInputService::FormInputUploadHandle($res['url'], $params);
                 break;
 
             // 默认

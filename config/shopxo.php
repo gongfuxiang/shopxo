@@ -131,6 +131,7 @@ return [
     'store_payment_url'                     => $store_http.'store.shopxo.net/',
     'store_design_url'                      => $store_http.'store.shopxo.net/',
     'store_diy_url'                         => $store_http.'store.shopxo.net/',
+    'store_forminput_url'                   => $store_http.'store.shopxo.net/',
     'store_theme_url'                       => $store_http.'store.shopxo.net/',
     'store_regster_url'                     => $store_http.'store.shopxo.net/regster.html',
 

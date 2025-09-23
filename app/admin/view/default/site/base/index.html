@@ -45,7 +45,7 @@
                             <ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_logo-images-view">
                                     {{if empty($data['home_site_logo']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo.value)}}" />
@@ -63,7 +63,7 @@
                             <ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_wap-images-view">
                                     {{if empty($data['home_site_logo_wap']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_wap.value)}}" />
@@ -81,7 +81,7 @@
                             <ul class="plug-file-upload-view home_site_logo_app-images-view" data-form-name="home_site_logo_app" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_app-images-view">
                                     {{if empty($data['home_site_logo_app']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_logo_app" value="{{$data.home_site_logo_app.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_app.value)}}" />
@@ -99,7 +99,7 @@
                             <ul class="plug-file-upload-view home_site_logo_square-images-view" data-form-name="home_site_logo_square" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_square-images-view">
                                     {{if empty($data['home_site_logo_square']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_logo_square" value="{{$data.home_site_logo_square.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_logo_square.value)}}" />
@@ -117,7 +117,7 @@
                             <ul class="plug-file-upload-view home_site_title_icon-images-view" data-form-name="home_site_title_icon" data-max-number="1" data-dialog-type="images" data-is-eye="1" data-suffix=".ico">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_title_icon-images-view">
                                     {{if empty($data['home_site_title_icon']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_title_icon" value="{{$data.home_site_title_icon.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_title_icon.value)}}" />
@@ -196,7 +196,7 @@
                             <div class="title">
                                 <i class="iconfont icon-tips"></i>
                                 <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                                <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                             </div>
                             <p>{{:implode('</p><p>', MyLang('site.site_domain_tips_list'))}}</p>
                         </div>

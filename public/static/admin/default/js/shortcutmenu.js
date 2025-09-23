@@ -124,7 +124,7 @@ function ShortCutMenuFormReset () {
     $('input[name="name"]').val('');
     $('input[name="id"]').val('');
     $('.shortcut-menu-icon').html(`<li class="plug-file-upload-submit" data-view-tag="ul.shortcut-menu-icon">
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     </li>`);
     SelectChosenInit();
 }

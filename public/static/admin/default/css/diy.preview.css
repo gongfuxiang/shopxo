@@ -5,11 +5,12 @@ body {
     width: 40rem;
     height: calc(100vh - 4rem);
     margin: 2rem auto;
+    margin-left: 20%;
 }
 .qrcode-content {
     position: absolute;
     top: 2rem;
-    left: calc(50% + 25rem);
+    left: calc(50% + 20rem);
 }
 .mobile-iframe,
 .qrcode-content {

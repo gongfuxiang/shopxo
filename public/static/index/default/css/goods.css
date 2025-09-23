@@ -159,7 +159,7 @@ i.buy-event {
 
 .text-info .price-now {
     display: block;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: var(--color-price);
 }
 
@@ -613,7 +613,7 @@ i.buy-event {
     font-size: 1.8rem;
 }
 
-.tb-detail-price-content .goods-original-price-value b {
+.tb-detail-price-content .goods-original-price-value {
     text-decoration: line-through;
 }
 

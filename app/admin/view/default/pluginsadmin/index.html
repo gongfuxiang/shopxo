@@ -9,7 +9,7 @@
                 <div>
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <a href="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-right-sm">
-                            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+                            <i class="iconfont icon-add am-show-sm-only"></i>
                             <span>{{:MyLang('add_title')}}</span>
                         </a>
                     {{/if}}
@@ -29,7 +29,7 @@
                     {{/if}}
                     {{if AdminIsPower('packageinstall', 'index') and !empty($store_url)}}
                         <a class="am-text-sm am-flex nwarp" href="{{$store_url}}" target="_blank">
-                            <i class="iconfont icon-download-btn"></i> 
+                            <i class="iconfont icon-download-b-line"></i> 
                             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('pluginsadmin.base_nav_more_plugins_download_name')}}</span>
                         </a>
                     {{/if}}
@@ -45,7 +45,7 @@
                     <div class="title">
                         <i class="iconfont icon-tips"></i>
                         <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                        <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                     </div>
                     <p>{{:MyLang('pluginsadmin.base_top_tips_one')}}</p>
                     {{if AdminIsPower('pluginsadmin', 'setupsave') or AdminIsPower('packageinstall', 'index')}}
@@ -61,7 +61,7 @@
                                     <span>{{:MyLang('save_title')}}</span>
                                 </a>
                                 <a href="javascript:;" class="am-margin-left-sm submit-move-setup-cancel am-hide">
-                                    <i class="iconfont icon-close-o"></i>
+                                    <i class="iconfont icon-close-line"></i>
                                     <span>{{:MyLang('cancel_title')}}</span>
                                 </a>
                             {{/if}}
@@ -152,7 +152,7 @@
 
                                             {{if isset($v['is_home']) and $v['is_home'] eq true and !empty($v['home_url'])}}
                                                 <a href="{{$v.home_url}}" class="am-btn am-btn-default am-btn-xs am-radius" target="_blank">
-                                                    <i class="iconfont icon-application-home"></i>
+                                                    <i class="iconfont icon-home-line"></i>
                                                     <span>{{:MyLang('home_title')}}</span>
                                                 </a>
                                             {{/if}}
@@ -165,20 +165,20 @@
                                             {{/if}}
                                             
                                             <button class="am-btn am-btn-default am-btn-xs am-radius submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="{{:MyLang('pluginsadmin.uninstall_confirm_tips')}}">
-                                                <i class="iconfont icon-application-uninstall"></i>
+                                                <i class="iconfont icon-uninstall"></i>
                                                 <span>{{:MyLang('uninstall_title')}}</span>
                                             </button>
 
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}" data-title="{{:MyLang('upload_title')}}">
-                                                    <i class="iconfont icon-application-upload"></i>
+                                                    <i class="iconfont icon-upload"></i>
                                                     <span>{{:MyLang('upload_title')}}</span>
                                                 </button>
                                             {{/if}}
 
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius">
-                                                    <i class="iconfont icon-application-download"></i>
+                                                    <i class="iconfont icon-download-btn"></i>
                                                     <span>{{:MyLang('download_title')}}</span>
                                                 </a>
                                             {{/if}}
@@ -260,17 +260,17 @@
                                                     <span>{{:MyLang('edit_title')}}</span>
                                                 </a>
                                                 <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}">
-                                                    <i class="iconfont icon-application-upload"></i>
+                                                    <i class="iconfont icon-upload"></i>
                                                     <span>{{:MyLang('upload_title')}}</span>
                                                 </button>
                                                 <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius">
-                                                    <i class="iconfont icon-application-download"></i>
+                                                    <i class="iconfont icon-download-btn"></i>
                                                     <span>{{:MyLang('download_title')}}</span>
                                                 </a>
                                             {{/if}}
 
                                             <button class="am-btn am-btn-default am-btn-xs am-radius submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}">
-                                                <i class="iconfont icon-application-delete"></i>
+                                                <i class="iconfont icon-delete-dustbin"></i>
                                                 <span>{{:MyLang('delete_title')}}</span>
                                             </button>
                                         </div>

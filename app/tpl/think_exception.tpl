@@ -169,10 +169,6 @@ if (!function_exists('echo_value')) {
             border-top-right-radius: 4px;
             font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑",serif;
         }
-        .exception .error-message {
-            text-align: center;
-            margin-top: 18%;
-        }
         .exception .code{
             float: left;
             text-align: center;
@@ -187,17 +183,6 @@ if (!function_exists('echo_value')) {
             border: 1px solid #ddd;
             background: #f9f9f9;
             overflow-x: auto;
-        }
-        .exception .error-submit {
-            text-decoration: none;
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            color: #ccc;
-            font-size: 12px;
-        }
-        .exception .error-submit:hover {
-            color: #999;
         }
         .exception .source-code pre{
             margin: 0;
@@ -314,6 +299,65 @@ if (!function_exists('echo_value')) {
             margin-right: 20px;
         }
 
+        /* error Info */
+        .exception-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .error-header {
+            background-color: #2196f3;
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+        }
+        .error-body {
+            padding: 30px;
+        }
+        .error-info {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .error-footer {
+            padding: 20px 30px;
+            background-color: #f9fafb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .error-footer .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .error-footer .solve {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #b9b9b9;
+        }
+        .error-footer .time {
+            color: #4b5563;
+            font-size: 14px;
+        }
+
         /* SPAN elements with the classes below are added by prettyprint. */
         pre.prettyprint .pln { color: #000 }  /* plain text */
         pre.prettyprint .str { color: #080 }  /* string content */
@@ -377,9 +421,27 @@ if (!function_exists('echo_value')) {
     </div>
         <?php } ?>
     <?php } else { ?>
-    <div class="exception">
-        <div class="info error-message"><h1><?php echo htmlentities($message); ?></h1></div>
-        <a href="https://error.shopxo.net/" target="_blank" class="error-submit"><?php echo implode('', ['查','看','错','误','解','决','方','案']); ?></a>
+    <div class="exception-container">
+        <div class="error-container">
+            <div class="error-header">
+                <h1><i class="bi bi-exclamation-triangle-fill"></i> 系统错误</h1>
+                <p>很抱歉，系统在处理您的请求时遇到了问题</p>
+            </div>
+            <div class="error-body">
+                <div class="error-info">
+                    <div class="error-item">
+                        <div class="error-value"><?php echo htmlentities($message); ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="error-footer">
+                <div>
+                    <a href="<?php echo __MY_URL__; ?>" class="btn">返回首页</a>
+                    <a href="https://error.shopxo.net/" target="_blank" class="solve"><?php echo implode('', ['查','看','错','误','解','决','方','案']); ?></a>
+                </div>
+                <div class="time"><?php echo date('Y-m-d H:i:s'); ?> </div>
+            </div>
+        </div>
     </div>
     <?php } ?>
     

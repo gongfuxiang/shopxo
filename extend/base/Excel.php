@@ -309,10 +309,11 @@ class Excel
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-04-06T18:18:55+0800
-	 * @param    [string]    $file [文件位置,空则读取全局excel的临时文件]
-	 * @return   [array]           [数据列表]
+	 * @param    [string]    $file    [文件位置,空则读取全局excel的临时文件]
+	 * @param    [array]     $params  [输入参数]
+	 * @return   [array]              [数据列表]
 	 */
-	public function Import($file = '')
+	public function Import($file = '', $params = [])
 	{
 		// 文件为空则取全局文变量excel的临时文件
 		if(empty($file) && (empty($_FILES['file']) || empty($_FILES['file']['tmp_name'])))
@@ -338,10 +339,26 @@ class Excel
 		}
 		$spreadsheet = $reader->load($file);
 
+		// 是否指定工作空间
+		if(isset($params['space']))
+		{
+			// 获取工作空间
+			$space = $spreadsheet->getSheetNames();
+			// 不存在工作空间或者指定的不存在则默认第一个
+			if(empty($space) || !isset($space[$params['space']]))
+			{
+				$params['space'] = 0;
+			}
+			// 选择工作表
+			$sheet = $spreadsheet->getSheet($params['space']);
+		} else {
+			// 获取一个Excel文件中活跃的工作表
+			$sheet = $spreadsheet->getActiveSheet();
+		}
+
 		// 定义变量
 		$data = [];
 		$title = [];
-		$sheet = $spreadsheet->getActiveSheet();
 		foreach($sheet->getRowIterator(1) as $rk=>$row)
 		{
 			$tmp = [];

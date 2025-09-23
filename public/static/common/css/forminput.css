@@ -1,0 +1,755 @@
+.forminput-data-item.forminput-hidden {
+    display: none !important;
+}
+/* 容器样式 */
+.forminput {
+    width: 100%;
+    padding-top: 3rem;
+    height: calc(100vh - 1rem);
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+}
+.forminput .am-modal-dialog {
+    width: 40rem;
+}
+/* 全局背景信息 */
+.forminput-bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.forminput .image-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.forminput-data { 
+    width: 100rem;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+/* 表单内容 */
+.forminput-data-form {
+    min-height: 100%;
+    background: #fff;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    /* overflow: hidden; */
+}
+/* 头部背景 */
+.forminput-top-bg {
+    min-height: 3.2rem;
+    width: 100%;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    overflow: hidden;
+}
+.forminput-data-form-submit { 
+   min-height: calc(100% - 7.6rem);
+}
+/* 标题数据 */
+.forminput-head-title {
+    word-wrap: break-word;
+    font-size: 2rem;
+    padding: 1.8rem 3rem 0;
+    word-break: break-word;
+}
+.forminput-popup-content {
+    padding: 1.6rem;
+}
+/* 底部按钮 */
+.forminput-popup-submit {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+}
+.forminput-popup-submit-content {
+    background: #fff;
+    border-top: 1px solid #f5f5f5;
+    padding: 2.2rem 2rem;
+    border-bottom-left-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-end; */
+    gap: 2rem;
+}
+.forminput-save-draft {
+    background: #fff;
+    width: 8.8rem;
+    border: 1px solid #dcdfe6 !important;
+}
+.forminput-save {
+    width: 8.8rem;
+    color: #fff !important;
+}
+/* 标题样式 */
+.forminput-data-item {
+    display: flex;
+    gap: 1rem;
+}
+.forminput-data-item-padding {
+    padding: 1.8rem 2rem;
+}
+.forminput-data-item .item-name.big-title { 
+    font-weight: bold;
+    font-size: 2.2rem;
+    color: #333;
+}
+.forminput-data-item .item-name.title { 
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: #333;
+}
+.forminput-data-item .item-name.small-title { 
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+/* 帮助图标样式 */
+.forminput-data-item .iconfont {
+    display: flex;
+    align-items: center;
+}
+.forminput-data-item .item-name-big-icon { 
+    font-size: 2rem;
+    color: #333;
+}
+.forminput-data-item .item-name-icon { 
+    font-size: 1.4rem;
+    color: #333;
+}
+.forminput-data-item .item-name-small-icon { 
+    font-size: 1.2rem;
+    color: #333;
+}
+/*输入框高度和文字大小*/
+.forminput-data-item select,
+.forminput-data-item textarea,
+.forminput-data-item input[type='text'],
+.forminput-data-item input[type='password'],
+.forminput-data-item input[type='datetime'],
+.forminput-data-item input[type='datetime-local'],
+.forminput-data-item input[type='date'],
+.forminput-data-item input[type='month'],
+.forminput-data-item input[type='time'],
+.forminput-data-item input[type='week'],
+.forminput-data-item input[type='number'],
+.forminput-data-item input[type='email'],
+.forminput-data-item input[type='url'],
+.forminput-data-item input[type='search'],
+.forminput-data-item input[type='tel'],
+.forminput-data-item input[type='color'] {
+    padding: 0 !important;
+}
+.forminput-data-item .item-content-big {
+    height: 4.4rem;
+    font-size: 1.6rem;
+}
+.forminput-data-item .item-content {
+    height: 3rem;
+    font-size: 1.4rem;
+}
+.forminput-data-item .item-content-small {
+    height: 2rem;
+    font-size: 1.2rem;
+}
+.forminput-data-item .item-multicolour-big { 
+    padding: 1.1rem 1.2rem;
+    line-height: 2.2rem;
+    font-size: 1.6rem;
+}
+.forminput-data-item .item-multicolour { 
+    padding: 0.5rem 0.6rem;
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+}
+.forminput-data-item .item-multicolour-small { 
+    padding: 0 0.6rem;
+    line-height: 2.2rem;
+    font-size: 1.2rem;
+}
+.forminput-data-item .item-small-size {
+    font-size: 1.2rem !important;
+}
+.forminput-data-item .item-big-size,
+.forminput-data-item select.item-big-size,
+.forminput-data-item textarea.item-big-size,
+.forminput-data-item input[type='text'].item-big-size,
+.forminput-data-item input[type='password'].item-big-size,
+.forminput-data-item input[type='datetime'].item-big-size,
+.forminput-data-item input[type='datetime-local'].item-big-size,
+.forminput-data-item input[type='date'].item-big-size,
+.forminput-data-item input[type='month'].item-big-size,
+.forminput-data-item input[type='time'].item-big-size,
+.forminput-data-item input[type='week'].item-big-size,
+.forminput-data-item input[type='number'].item-big-size,
+.forminput-data-item input[type='email'].item-big-size,
+.forminput-data-item input[type='url'].item-big-size,
+.forminput-data-item input[type='search'].item-big-size,
+.forminput-data-item input[type='tel'].item-big-size,
+.forminput-data-item input[type='color'].item-big-size {
+    font-size: 1.6rem !important;
+}
+.forminput-data-item .item-size,
+.forminput-data-item select.item-size,
+.forminput-data-item textarea.item-size,
+.forminput-data-item input[type='text'].item-size,
+.forminput-data-item input[type='password'].item-size,
+.forminput-data-item input[type='datetime'].item-size,
+.forminput-data-item input[type='datetime-local'].item-size,
+.forminput-data-item input[type='date'].item-size,
+.forminput-data-item input[type='month'].item-size,
+.forminput-data-item input[type='time'].item-size,
+.forminput-data-item input[type='week'].item-size,
+.forminput-data-item input[type='number'].item-size,
+.forminput-data-item input[type='email'].item-size,
+.forminput-data-item input[type='url'].item-size,
+.forminput-data-item input[type='search'].item-size,
+.forminput-data-item input[type='tel'].item-size,
+.forminput-data-item input[type='color'].item-size {
+    font-size: 1.6rem !important;
+}
+.forminput-data-item .radio_or_checkbox_big_height { 
+    height: 4.2rem;
+    display: flex;
+    align-items: center;
+}
+.forminput-data-item .radio_or_checkbox_height { 
+    height: 3rem;
+    display: flex;
+    align-items: center;
+}
+/* 图片 */
+.forminput-data-item .am-figure-default {
+    margin: 0;
+}
+.forminput-data-item .am-figure-default img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    padding: 0;
+    border: none;
+    margin: 0;
+}
+.item-img-empty {
+    background: #f4fcff;
+}
+.forminput-data-item-content, .forminput-data-item-disabled {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+}
+.forminput-data-item-disabled {
+    opacity: 0.4;
+}
+.forminput-textarea {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2;
+    background: #fff;
+}
+.forminput-input-text-center {
+    text-align: center;
+}
+.align-items-center {
+    align-items: center;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.forminput-cursor-p {
+    cursor: pointer;
+}
+.rect-or-round {
+    width: 100%;
+    height: 100%;
+    padding: 0.3rem;
+}
+.forminput-table-container {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0.5rem;
+    overflow: auto;
+    position: relative;
+}
+.forminput-table-container th, .forminput-table-container td { 
+    border: 0.1rem solid #e6e8ed;
+    padding: 0.5rem;
+    background: #fff;
+} 
+.forminput-table-container table { 
+    border: 0.1rem solid #e6e8ed;
+}
+.forminput-table-container th {
+    flex-shrink: 0;
+    height: 3.5rem;
+    text-align: center;
+    background: #f0f1f4;
+    font-size: 1.4rem;
+    color: #141E31;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+/* 表格模式下的样式 */
+.forminput-default-button {
+    background: #fff;
+    padding: 0.8rem 1.5rem;
+    color: #141E31;
+    border: 1px solid #dcdfe6;
+    border-radius: 0.4rem;
+    font-size: 1.4rem;
+    line-height: 1.4rem;
+}
+.forminput-primary-button {
+    background: #2a94ff;
+    color: #fff;
+    border: 0;
+}
+.forminput-table-container {
+    padding-bottom: 0.5rem;
+    overflow: auto; /* 允许滚动 */
+}
+.forminput-table-container .row-num {
+    font-size: 1.4rem;
+}
+.file-upload-view-list.file-upload-hidden {
+    display: none !important;
+}
+/* 表格头 */
+.forminput-table-container .forminput-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    display: flex;
+}
+.forminput-table-header .head-label, .forminput-table-header .head-more {
+    background: #f0f1f4;
+    border: 0.1rem solid #e6e8ed;
+    border-top-left-radius: 0.3rem;
+    width: 7.8rem;
+    height: 3.5rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+.forminput-table-header .head-more {
+    border: 0.1rem solid #e6e8ed;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0.3rem;
+    position: sticky;
+    right: 0;
+}
+.forminput-table-header .item-label {
+    flex-shrink: 0;
+    height: 3.5rem;
+    padding: 0.5rem;
+    background: #f0f1f4;
+    font-size: 1.4rem;
+    color: #141E31;
+    border: 0.1rem solid #e6e8ed;
+    border-left: 0;
+    box-sizing: border-box;
+}
+/* 表格内容 */
+.forminput-table-container .forminput-table-body {
+    display: flex;
+}
+.forminput-table-body .table-row .cell-num {
+    text-align: center;
+    background: #fff;
+    border: 0.1rem solid #e6e8ed;
+    border-top: 0;
+    width: 7.8rem;
+    min-height: 3.1rem;
+    line-height: 3.1rem;
+    box-sizing: border-box;
+}
+.forminput-table-body .table-row .cell-more {
+    border: 0.1rem solid #e6e8ed;
+    border-top: 0;
+    position: sticky;
+    right: 0;
+    z-index: 2;
+}
+.forminput-table-body .table-row .subform-cell {
+    flex-shrink: 0;
+    background: #fff;
+    padding: 0.5rem;
+    min-height: 3.1rem;
+    height: 100%;
+    border: 0.1rem solid #e6e8ed;
+    border-left: 0;
+    border-top: 0;
+    box-sizing: border-box;
+}
+.forminput-table-body .item-row-error {
+    background: #fef6e6 !important;
+}
+.forminput-table-body .table-row:hover .subform-cell{
+    background: #f0f1f4 !important;
+}
+.forminput-table-body .table-row:hover .item-row-error {
+    background: #fdeeee !important;
+}
+.forminput-table-body .table-row:hover .operate {
+    display: flex !important;
+}
+.forminput-table-body .table-row .operate:hover { 
+    display: flex !important;
+}
+.forminput-table-body .table-row .operate {
+    position: absolute;
+    background: #fff;
+    left: 0.1rem;
+    width: calc(100% - 0.2rem);
+    height: calc(100% - 0.2rem);
+    top: 0.1rem;
+    z-index: 4;
+    display: none !important;
+}
+.forminput-table-body .table-row .operate-icon {
+    font-size: 1.4rem;
+    color: #2a94ff;
+}
+.forminput .shrink {
+    flex-shrink: 0;
+}
+.forminput .subform-no-data {   
+    width: 30rem;
+    height: 7.6rem;
+    background: #f0f1f4;
+    font-size: 1.6rem;
+    color: #838892;
+    border-radius: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forminput-default-button.subform-button-hidden {
+    display: none !important;
+}
+.forminput-table-body .subform-num-checkbox, .subform-header-checkbox {
+    display: none;
+}
+.forminput-table-checkbox .forminput-table-body .subform-num-checkbox, .forminput-table-checkbox .subform-header-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forminput-table-checkbox .forminput-table-body .subform-num-checkbox input[type="checkbox"], .forminput-table-checkbox .subform-header-checkbox input[type="checkbox"] {
+    position: relative;
+    left: 0;
+    top: 0;
+}
+.forminput-table-checkbox .forminput-table-body .row-num, .forminput-table-checkbox .forminput-table-body .table-row .operate {
+    display: none !important;
+}
+.forminput-data-content .form-custom-group, .forminput-data-content .am-cascader, .forminput-data-content .form-multiple-where-input, .forminput-data-content .am-input-group, .forminput-data-content input, .forminput-data-content:not(.form-validation-search) .chosen-select, .forminput-data-content textarea {
+    max-width: 100% !important;
+}
+/* 隐藏对应的选项 */
+.forminput-subform-hidden {
+    display: none !important;
+}
+/* 隐藏对应的内容 */
+.forminput-subform-content-hidden div {
+    display: none !important;
+}
+.subform-cell.forminput-subform-hidden {
+    display: none !important;
+}
+.subform-cell.forminput-subform-content-hidden div {
+    display: none !important;
+}
+/* 公共配置 */
+.forminput-no-border {
+    border: none !important;
+    box-shadow: none !important;
+}
+.forminput-no-border.am-field-error:focus {
+    box-shadow: none !important;
+}
+.forminput-w {
+    width: 100% !important;
+}
+.forminput-h {
+    height: 100% !important;
+}
+.forminput-re {
+    position: relative;
+}
+.forminput-cr-gray {
+    color: gray;
+}
+.forminput-cr-blue {
+    color: #2a94ff;
+}
+.forminput-margin-left-10 {
+    margin-left: 1rem;
+}
+.forminput-margin-left-5 { 
+    margin-left: 0.5rem;
+}
+.forminput-margin-right-5 {
+    margin-right: 0.5rem;
+}
+.forminput-margin-right-10 {
+    margin-right: 1rem;
+}
+.am-checkbox-inline:not(:last-child), .am-radio-inline:not(:last-child) {
+    margin-right: 2rem !important;
+}
+.forminput-gap-10 {
+    gap: 1rem;
+}
+.forminput-gap-6 {
+    gap: 0.6rem;
+}
+.forminput-gap-5 {
+    gap: 0.5rem;
+}
+.forminput-data-item-content:hover {
+    border-color: #2a94ff !important;
+}
+.forminput-data-item-focus { 
+    border-color: #2a94ff !important;
+    box-shadow: inset 0 0.1rem 0.1rem rgba(0, 0, 0, 0.075);
+}
+.forminput-data-item-error {
+    border-color: #dd514c !important;
+    box-shadow: inset 0 0.1rem 0.1rem rgba(0, 0, 0, 0.075);
+}
+.forminput-oprate {
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    color: #2a94ff;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+}
+.forminput-oprate .icon { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+}
+.forminput-oprate .divider {
+    width: 0.1rem;
+    height: 1.2rem;
+    background-color: #e4e7ec;
+}
+.forminput .file-upload-view-item {
+    position: relative;
+    gap: 0.3rem;
+    background: #fff;
+    width: 8rem;
+    border-radius: 0.4rem;
+    box-shadow: 0px 0px 0.5rem 0px rgba(207, 207, 207, 0.5);
+}
+.forminput .file-upload-view-item .file-abs-close { 
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    z-index: 3;
+}
+.forminput .file-upload-view-item .file-upload-view-close { 
+    font-size: 1.2rem;
+    height: 1.2rem;
+    display: flex;
+}
+.forminput .file-upload-view-item .file-upload-view-attachments-close { 
+    font-size: 1rem;
+    height: 100%;
+}
+.forminput .file-upload-view-item.file-upload-view-item-attachments-item {
+    padding: 1rem 1.2rem 1rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0rem 0rem 0.5rem 0rem rgba(207, 207, 207, 0.5);
+    background: #fff;
+    border-radius: 0.4rem;
+    width: auto;
+}
+.forminput .file-upload-view-item.file-upload-view-item-attachments-item .upload-title {
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #333333;
+    line-height: 1.7rem;
+    text-align: left;
+    font-style: normal;
+}
+.forminput .file-upload-view-item .file-upload-view-item-img, .file-upload-view-item .file-upload-view-item-video {
+    width: 100%;
+    height: 6rem;
+    background: #DADADA;
+    border-radius: 0.4rem 0.4rem 0rem 0rem;
+    object-fit: contain;
+    position: relative;
+}
+.forminput .file-upload-view-item .file-upload-view-item-video .file-upload-bofang {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    z-index: 2;
+    border-radius: 0.8rem;
+}
+.forminput .file-upload-view-item .file-upload-view-item-info { 
+    padding: 0.3rem;
+    overflow: hidden;
+    flex: 1;
+}
+.forminput .file-upload-view-item .upload-title {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.4rem;
+    text-align: left;
+    font-style: normal;
+}
+.forminput .file-upload-view-item .upload-size {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #999999;
+    line-height: 1.1rem;
+    text-align: left;
+    font-style: normal;
+}
+/* 提示 */
+.forminput .tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.forminput .tooltip .tooltip-text {
+    display: none;
+    flex-grow: 1;
+    color: #000;
+    text-align: center;
+    border-radius: 0.6rem;
+    max-width: 36rem; /* 宽度最大值 */
+    padding: 0.5rem 1.2rem;
+    background: #FFFFFF;
+    box-shadow: 0rem 0.9rem 2.8rem 0.8rem rgba(0,0,0,0.05), 0rem 0.6rem 1.6rem 0rem rgba(0,0,0,0.08), 0rem 0.3rem 0.6rem -0.4rem rgba(0,0,0,0.12);
+    font-size: 1.2rem;
+    word-wrap: break-word;
+    /* 定位 */
+    position: absolute;
+    z-index: 99999; /* 层级最高 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.forminput .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* 在下方 */
+    left: 50%; /* 居中 */
+    transform: translateX(-50%);
+    border-width: 0.5rem;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent; /* 箭头朝上 */
+}
+.forminput .tooltip:hover .tooltip-text {
+    display: inline-block;
+}
+.forminput .am-ucheck-icons, .forminput .am-icon-unchecked, .forminput .am-icon-checked {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+.forminput #add-option-popup {
+    height: 16rem;
+    margin-top: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.forminput .forminput-divider {
+    margin: 0 0.5rem;
+}
+.forminput .forminput-data-item .am-selected-list .am-icon-check {
+   top: 50%;
+   transform: translateY(-50%);
+}
+.forminput .forminput-visiable-hidden {
+    visibility: hidden;
+    height: 0 !important;
+    width: 0 !important;
+}
+.forminput .forminput-score-icon {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+.forminput .forminput-score-icon.icon-radio-unchecked, .forminput .forminput-score-icon.icon-checkbox-unchecked {
+    color: #ccc;
+}
+.forminput .forminput-score-icon.icon-radio-checked, .forminput .forminput-score-icon.icon-checkbox-checked {
+    transition: all 0.3s ease-in-out;
+}
+.forminput .am-flex-wrap {
+    flex-wrap: wrap;
+}
+.forminput .am-selected-content .add-option { 
+    padding: 0.5rem 1rem;
+}
+.forminput .forminput-reactive {
+    position: relative;
+}
+.forminput .forminput-data-item .am-cascader-suffix .am-input-suffix {
+    height: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+.forminput .forminput-data-item .forminput-data-item-content.am-btn {
+    padding: 0.5rem 1rem;
+}
+.forminput .forminput-btn-primary {
+    border: 0.1rem solid #ccc !important;
+    background: #fff !important;
+}
+.forminput .forminput-btn-disabled {
+    border: 0.1rem solid #ccc !important;
+    background: #eee !important;
+}
+.forminput #forminput-user-verify-win .am-position-verify {
+    position: absolute;
+    right: 0 !important;
+}
+.forminput .upload-text {
+    color: #606266;
+    font-weight: normal;
+}
+
+.forminput .file-upload-view-item-preview {
+    cursor: pointer;
+}
+.forminput-free-column {
+    display: flex;
+}
+.forminput-free-column .forminput-data-item-content {
+    display: flex;
+    align-items: center;
+}
+.forminput-data-item-content {
+    position: relative;
+}
+.forminput .am-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+.forminput .forminput-wrap {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-wrap: break-word !important; 
+    overflow-wrap:break-word !important;
+    word-wrap:break-word !important;
+}

@@ -41,29 +41,29 @@ pre {
  */
 .am-color-333,
 .am-color-black {
-    color: #333;
+    color: #333 !important;
 }
 .am-color-666,
 .am-color-grey-dark {
-    color: #666;
+    color: #666 !important;
 }
 .am-color-999,
 .am-color-grey {
-    color: #999;
+    color: #999 !important;
 }
 .am-color-ccc,
 .am-color-grey-light {
-    color: #ccc;
+    color: #ccc !important;
 }
 .am-color-ddd,
 .am-color-grey-d {
-    color: #ddd;
+    color: #ddd !important;
 }
 .am-color-eee {
-    color: #eee;
+    color: #eee !important;
 }
 .am-color-white {
-    color: #fff;
+    color: #fff !important;
 }
 .am-color-price {
     color: #E22C08 !important;
@@ -728,11 +728,19 @@ form.am-form .am-form-group-label-tips-must {
 form.am-form .am-form-group-label-tips-either {
     color: #ff9800;
 }
+form.am-form .am-form-group-label-doc-popup {
+    margin-left: 1rem;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
 .am-form-group:hover>label {
     color: #333;
 }
 .am-form-group:hover>label>.am-form-group-label-tips {
     color: var(--color-main);
+}
+.am-form-group:hover>label>.am-form-group-label-doc-popup {
+    opacity: 1;
 }
 form.am-form .am-form-group,
 .plug-file-upload-view,
@@ -1242,7 +1250,7 @@ span.business-operations-submit {
 ul.plug-file-upload-view > li.plug-file-upload-submit {
     margin: 0 !important;
 }
-ul.plug-file-upload-view > li.plug-file-upload-submit:not(:has(.icon-upload-add)) {
+ul.plug-file-upload-view > li.plug-file-upload-submit:not(:has(.icon-add)) {
     background: linear-gradient(45deg,#eee 25%,transparent 0), linear-gradient(45deg,transparent 75% ,#eee 0), linear-gradient(45deg,#eee 25%,transparent 0), linear-gradient(45deg,transparent 75% ,#eee 0);
     background-position: 0 0,1.5rem 0.5rem,1.5rem 0.5rem, 10rem 10rem;
     background-size: 1rem 1rem;
@@ -1869,7 +1877,7 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal > .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal > .am-table tr td.am-grid-fixed-right {
     background: #fff;
-    z-index: 4;
+    z-index: 5;
 }
 .am-table-scrollable-horizontal > .am-table-striped > tbody > tr:nth-child(odd) > td.am-grid-fixed-left,
 .am-table-scrollable-horizontal > .am-table-striped > tbody > tr:nth-child(odd) > td.am-grid-fixed-right {
@@ -3111,6 +3119,9 @@ body ::-webkit-scrollbar-resizer:vertical {
 table.am-table > thead > tr > th {
     padding: 0.9rem 1.2rem 1.2rem 1.2rem !important;
 }
+table.am-table > tbody > tr > td {
+    padding: 1.2rem;
+}
 table.am-table td.am-operate-grid {
     padding: 0.2rem 1.2rem !important;
 }
@@ -3170,7 +3181,7 @@ table.am-table .am-operate-grid .am-btn i {
 .am-cascader .am-cascader-suffix .input-model {
     background: transparent !important;
     width: 100%;
-    height: 2.84rem;
+    height: 3.1rem;
     z-index: 1;
     position: absolute;
 }
@@ -3794,36 +3805,6 @@ table.am-table .am-operate-grid .am-btn i {
     font-size: 1.4rem;
 }
 
-
-/**
- * 门店底部按钮
- */
-.am-btn-bottom-sticky {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem 0;
-    background: #fff;
-}
-.am-btn-bottom-fixed-container {
-    padding-bottom: 6rem;
-}
-.am-btn-bottom-fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem;
-    background: #fff;
-    border-top: 0.1rem solid #f5f5f5;
-}
-
-.am-btn-bottom-fixed .am-btn,
-.am-btn-bottom-sticky .am-btn {
-    min-width: 8rem;
-}
-
 /**
  * 边框
  */
@@ -3937,9 +3918,9 @@ table.am-table .am-operate-grid .am-btn i {
     min-width: 10rem;
 }
 .parameters-table thead tr > th:last-child {
-    width: 12rem;
-    min-width: 12rem;
-    max-width: 12rem;
+    width: 13rem;
+    min-width: 13rem;
+    max-width: 13rem;
 }
 
 /**
@@ -4759,4 +4740,167 @@ legend a i:hover {
 #hiprint-preview-popup .hiprint-printPaper {
     margin: 0 auto;
     border: 0.1rem dashed rgba(0,0,0,.06);
+}
+
+
+
+
+
+/**
+ * 规格
+ */
+.specifications-table .title-nav th input {
+    width: calc(100% - 2.5rem);
+}
+.specifications-table th {
+    min-width: 10rem;
+}
+.specifications-table th.operation-btn {
+    min-width: 16rem;
+}
+.specifications-table th.extend-btn {
+    min-width: 5.5rem;
+}
+.spec-images-list .am-alert-warning {
+    margin-bottom: 1rem;
+}
+.spec-images-list {
+    margin-top: 3.5rem;
+}
+.spec-images-list li {
+    display: inline-block;
+    width: 10rem;
+    margin: 0.5rem 2rem 1rem 0;
+}
+.spec-images-list li>input {
+    margin-bottom: 0.2rem;
+}
+.spec-images-list li>.plug-file-upload-submit {
+    margin-top: 1rem;
+}
+.spec-images-items ul.plug-file-upload-view li {
+    width: 10rem;
+    height: 10rem;
+    margin-right: 0;
+}
+.specifications-container {
+    border: 0.1rem solid #eee;
+    border-radius: var(--border-radius);
+}
+.specifications-table {
+    border: 0;
+}
+.specifications-table thead tr > th:first-child,
+.specifications-table tbody tr > td:first-child {
+    border-left: 0;
+}
+.specifications-table thead th i {
+    cursor: pointer;
+}
+.specifications-line-images-auto-add input {
+    width: 3rem !important;
+    padding: 0.1rem !important;
+    height: 2rem !important;
+}
+.specifications-table thead tr > th:nth-last-child(-n+2),
+.specifications-table tbody tr > td:nth-last-child(-n+2) {
+    position: sticky;
+    text-align: center;
+    z-index: 1;
+    right: 0;
+    background: #fff;
+}
+.specifications-table thead tr > th:nth-last-child(-n+2) {
+    background: #f5f7fa;
+}
+.specifications-table thead tr > th:nth-last-child(2),
+.specifications-table tbody tr > td:nth-last-child(2) {
+    right: 15rem;
+    -webkit-box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+    -moz-box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+    box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+}
+
+/**
+ * 规格快捷添加
+ */
+.spec-quick table td,
+.spec-quick table .value-item {
+    position: relative;
+}
+.spec-quick table td.am-text-middle input {
+    width: calc(100% - 2.5rem) !important;
+}
+.spec-quick-td-value .value-item input {
+    width: calc(100% - 2.5em) !important;
+}
+.spec-quick table i.quick-title-remove,
+.spec-quick table i.quick-value-remove {
+    cursor: pointer;
+}
+.spec-quick .goods-specifications {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+@media only screen and (min-width: 641px) {
+    .spec-quick-th-title {
+        width: 15rem;
+    }
+    .spec-quick-td-value .value-item {
+        width: calc(30% - 1.2rem) !important;
+    }
+}
+@media only screen and (min-width: 1025px) {
+    .spec-quick-td-value .value-item {
+        width: calc(20% - 1.2rem) !important;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .spec-quick-th-title {
+        width: 20%;
+    }
+    .spec-quick-td-value .value-item {
+        width: calc(50% - 1.2rem) !important;
+    }
+}
+
+/**
+ * 规格扩展弹窗
+ */
+@media only screen and (max-width: 629px) {
+    #specifications-extends-popup {
+        margin: 2rem;
+        width: calc(100% - 4rem);
+        height: calc(100% - 4rem);
+    }
+}
+
+/**
+ * 规格模板快捷操作
+ */
+#specifications-quick-container {
+    padding: 0;
+}
+#specifications-quick-container .chosen-container {
+    min-width: 12rem;
+}
+#specifications-quick-container select {
+    border: 0px;
+}
+#specifications-quick-container .chosen-container-single .chosen-default,
+#specifications-quick-container .chosen-container-single .chosen-single {
+    border-color: transparent !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    height: 2.7rem;
+    line-height: 2.4rem;
+}
+#specifications-quick-container .chosen-container .chosen-drop {
+    border-style: dashed;
+    left: -0.1rem;
+    width: calc(100% + 0.2rem);
+}
+#specifications-quick-container:hover .chosen-container .chosen-drop {
+    border-color: #666  !important;
 }

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
+
 /**
  * 支付
  * @author   Devil

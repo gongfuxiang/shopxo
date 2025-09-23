@@ -30,7 +30,7 @@
         </label>
         {{if !empty($module_data['more_download_url']) and !empty($module_data['more_download_name']) and $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index')}}
             <a class="am-fr am-margin-top-sm right-to-download" href="{{$module_data.more_download_url}}" target="_blank">
-                <i class="iconfont icon-download-btn"></i>
+                <i class="iconfont icon-download-b-line"></i>
                 <span class="am-margin-left-xs">{{$module_data.more_download_name}}</span>
             </a>
         {{/if}}

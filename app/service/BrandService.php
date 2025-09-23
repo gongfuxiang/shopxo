@@ -487,13 +487,17 @@ class BrandService
             }
 
             // 基础条件
-            $where = [
+            $params['where'] = [
                 ['is_enable', '=', 1],
                 ['id', 'in', array_unique($params['brand_ids'])]
             ];
+            $params['m'] = 0;
+            $params['n'] = 0;
+            $params['field'] = '*';
 
             // 获取数据
-            $ret = self::BrandList(['where'=>$where, 'm'=>0, 'n'=>0]);
+            $params['is_appoint_brand_list'] = 1;
+            $ret = self::BrandList($params);
             if(!empty($ret['data']))
             {
                 $temp = array_column($ret['data'], null, 'id');
@@ -521,14 +525,14 @@ class BrandService
     public static function AutoBrandList($params = [])
     {
         // 基础条件
-        $where = [
+        $params['where'] = [
             ['is_enable', '=', 1],
         ];
 
         // 品牌关键字
         if(!empty($params['brand_keywords']))
         {
-            $where[] = ['name|describe', 'like', '%'.$params['brand_keywords'].'%'];
+            $params['where'][] = ['name|describe', 'like', '%'.$params['brand_keywords'].'%'];
         }
 
         // 分类条件
@@ -539,7 +543,7 @@ class BrandService
                 $params['brand_category_ids'] = explode(',', $params['brand_category_ids']);
             }
             $ids = Db::name('BrandCategoryJoin')->where(['brand_category_id'=>$params['brand_category_ids']])->column('brand_id');
-            $where[] = ['id', 'in', empty($ids) ? [0] : $ids];
+            $params['where'][] = ['id', 'in', empty($ids) ? [0] : $ids];
         }
 
         // 排序
@@ -547,15 +551,14 @@ class BrandService
         $order_by_rule_list = MyConst('common_data_order_by_rule_list');
         $order_by_type = !isset($params['brand_order_by_type']) || !array_key_exists($params['brand_order_by_type'], $order_by_type_list) ? $order_by_type_list[0]['value'] : $order_by_type_list[$params['brand_order_by_type']]['value'];
         $order_by_rule = !isset($params['brand_order_by_rule']) || !array_key_exists($params['brand_order_by_rule'], $order_by_rule_list) ? $order_by_rule_list[0]['value'] : $order_by_rule_list[$params['brand_order_by_rule']]['value'];
-        $order_by = $order_by_type.' '.$order_by_rule;
+        $params['order_by'] = $order_by_type.' '.$order_by_rule;
+        $params['m'] = 0;
+        $params['n'] = empty($params['brand_number']) ? 10 : intval($params['brand_number']);
+        $params['field'] = '*';
 
         // 获取数据
-        $ret = self::BrandList([
-            'where'    => $where,
-            'm'        => 0,
-            'n'        => empty($params['brand_number']) ? 10 : intval($params['brand_number']),
-            'order_by' => $order_by,
-        ]);
+        $params['is_auto_brand_list'] = 1;
+        $ret = self::BrandList($params);
         return empty($ret['data']) ? [] : $ret['data'];
     }
 }

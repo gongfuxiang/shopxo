@@ -6,7 +6,7 @@
             <img src="{{if empty($data['logo'])}}{{:StaticAttachmentUrl('default-images-mini.png')}}{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
             <span class="page-top-nav-title">
                 <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
-                <a href="javascript:;" class="iconfont icon-yiny-bij am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
+                <a href="javascript:;" class="iconfont icon-edit-wide am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
             </span>
             <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">{{:MyLang('view_title')}} >></a>
         </legend>

@@ -87,7 +87,7 @@
         <div class="item" data-key="spec">
             {{if !empty($specifications) and is_array($specifications)}}
                 <div class="am-scrollable-horizontal">
-                    <table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+                    <table class="am-table am-table-bordered am-table-striped am-text-nowrap am-text-left">
                         <thead>
                             <tr>
                                 {{foreach $specifications.type as $line_k=>$line_v}}
@@ -102,6 +102,7 @@
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_volume_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_coding_title')}}</th>
                                 <th>{{:MyLang('common_service.goods.form_spec_thead_barcode_title')}}</th>
+                                <th>{{:MyLang('common_service.goods.form_spec_thead_inventory_unit_title')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,6 +129,7 @@
                                                     gt 0}}{{$v.data.volume}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}</td>
                                                     <td class="am-text-middle">{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['inventory_unit'])}}{{$v.data.inventory_unit}}{{/if}}</td>
                                                 {{/case}}
                                             {{/switch}}
                                         {{/if}}

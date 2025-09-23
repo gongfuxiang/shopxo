@@ -43,9 +43,9 @@ function GoodsCommentsHtml(page)
         }
 
         $.ajax({
-            url: RequestUrlHandle($('.goods-comment').data('url')),
+            url: RequestUrlHandle($('.goods-comment').attr('data-url')),
             type: 'POST',
-            data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
+            data: {"goods_id": $('.goods-comment').attr('data-goods-id'), "page": page || 1},
             dataType: 'json',
             success: function(res)
             {
@@ -103,7 +103,7 @@ function GoodsSelectedSpec()
         {
             $('.theme-signin-left .sku-items li.selected').each(function(k, v)
             {
-                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')});
+                spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')});
             });
         }
     }
@@ -125,9 +125,9 @@ function BuyCartCheck(e)
     var $number_tag = $('.operate-number-container');
     var stock = parseInt($('.operate-number-input').val() || 1);
     var inventory = parseInt($('.stock-tips .stock').text());
+    var unit = $('.stock-tips .unit').text() || '';
     var min = parseInt($number_tag.attr('data-min-limit') || 1);
     var max = parseInt($number_tag.attr('data-max-limit') || 0);
-    var unit = $number_tag.data('unit') || '';
     if(stock < min)
     {
         Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
@@ -168,7 +168,7 @@ function BuyCartCheck(e)
     }
     var type =( typeof(e) == 'object') ? e.attr('data-type') : null;
     return {
-        "id": $('.system-goods-detail').data('id'),
+        "id": $('.system-goods-detail').attr('data-id'),
         "stock": stock,
         "spec": spec,
         "type": type
@@ -237,15 +237,23 @@ function GoodsSpecDetailBackHandle(data)
     // 售价
     $('.text-info .price-now b').text(data.spec_base.price);
     $('.goods-sale-price-value').text(data.spec_base.price);
+    // 库存单位
+    if((data.spec_base.inventory_unit || null) != null)
+    {
+        $('.goods-original-price-unit').text(' / '+data.spec_base.inventory_unit);
+        $('.goods-sale-price-unit').text(' / '+data.spec_base.inventory_unit);
+        $('.stock-tips .unit').text(data.spec_base.inventory_unit);
+        $('.text-info .price-now .unit').text(data.spec_base.inventory_unit);
+    }
     // 数量处理
     var inventory = parseInt(data.spec_base.inventory);
     var $number_tag = $('.operate-number-container');
     var $input = $('.operate-number-input');
     var $stock = $('.stock-tips .stock');
-    var $origina_price_value = $('.goods-original-price-value b');
+    var $origina_price_value = $('.goods-original-price-value');
 
     // 起购数
-    var min = parseInt($input.data('original-buy-min-number'));
+    var min = parseInt($input.attr('data-original-buy-min-number'));
     var buy_min_number = parseInt(data.spec_base.buy_min_number);
     if(buy_min_number > 0)
     {
@@ -341,12 +349,12 @@ function GoodsSpecDetail()
 
     // ajax请求
     $.ajax({
-        url: RequestUrlHandle($('.system-goods-detail').data('spec-detail-ajax-url')),
+        url: RequestUrlHandle($('.system-goods-detail').attr('data-spec-detail-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.system-goods-detail').data('id'),
+            "id": $('.system-goods-detail').attr('data-id'),
             "stock": stock,
             "spec": spec
         },
@@ -390,7 +398,7 @@ function GoodsSpecType()
     var spec = [];
     $('.theme-signin-left .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
     });
 
     // 开启进度条
@@ -398,11 +406,11 @@ function GoodsSpecType()
 
     // ajax请求
     $.ajax({
-        url: RequestUrlHandle($('.system-goods-detail').data('spec-type-ajax-url')),
+        url: RequestUrlHandle($('.system-goods-detail').attr('data-spec-type-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
-        data: {"id": $('.system-goods-detail').data('id'), "spec": spec},
+        data: {"id": $('.system-goods-detail').attr('data-id'), "spec": spec},
         success: function(res)
         {
             $.AMUI.progress.done();
@@ -415,7 +423,7 @@ function GoodsSpecType()
                     $('.theme-signin-left .sku-items').eq(index).find('li').each(function(k, v)
                     {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).data('value').toString();
+                        var value = $(this).attr('data-value').toString();
                         if(res.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
@@ -476,31 +484,35 @@ function GoodsBrowserHistoryUrlChange()
  */
 function GoodsBaseRestore()
 {
+    // 基础
     var $number_tag = $('.operate-number-container');
     var $input = $('.operate-number-input');
     var $stock = $('.stock-tips .stock');
     var $price = $('.goods-sale-price-value');
     var $price_now = $('.text-info .price-now');
-    var $original_price_value = $('.tb-detail-panel-base .goods-original-price-value');
-    $input.attr('min', $input.data('original-buy-min-number'));
-    $input.attr('max', $number_tag.data('original-max'));
-    $stock.text($number_tag.data('original-inventory'));
+    var $original_price_value = $('.goods-original-price-value');
+    $input.attr('min', $input.attr('data-original-buy-min-number'));
+    $input.attr('max', $number_tag.attr('data-original-max'));
+    $stock.text($number_tag.attr('data-original-inventory'));
     $number_tag.attr('data-min-limit', $input.attr('data-original-buy-min-number'));
     $number_tag.attr('data-max-limit', $input.attr('data-original-buy-max-number'));
 
+    // 库存单位
+    $('.goods-original-price-unit').text($('.goods-original-price-unit').attr('data-value'));
+    $('.goods-sale-price-unit').text($('.goods-sale-price-unit').attr('data-value'));
+    $('.stock-tips .unit').text($('.stock-tips .unit').attr('data-value'));
+    $('.text-info .price-now .unit').text($('.text-info .price-now .unit').attr('data-value'));
+
     // 价格处理
-    $price_now.find('b').text($price_now.data('original-price'));
-    $price.text($price.data('original-price'));
+    $price_now.find('b').text($price_now.attr('data-original-price'));
+    $price.text($price.attr('data-original-price'));
     if($original_price_value.length > 0)
     {
-        $original_price_value.each(function(k, v)
+        var original_price = $(this).attr('data-original-price');
+        if(original_price !== undefined)
         {
-            var price = $(this).data('original-price');
-            if(price !== undefined)
-            {
-                $(this).find('b').text(price);
-            }
-        });
+            $original_price_value.text(original_price);
+        }
     }
 }
 
@@ -540,7 +552,7 @@ function GoodsNumberChange()
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.system-goods-detail').data('id'),
+            "id": $('.system-goods-detail').attr('data-id'),
             "stock": stock,
             "spec": spec
         },
@@ -575,7 +587,7 @@ function SpecPopupShow(e)
     $(document.body).css({"position":"fixed", "width":"100%"});
     $('.theme-popover-mask').show();
     $('.theme-popover').slideDown(200);
-    $('.theme-popover .confirm').attr('data-type', e.data('type') || 'buy');    
+    $('.theme-popover .confirm').attr('data-type', e.attr('data-type') || 'buy');    
 }
 
 $(function() {
@@ -673,7 +685,7 @@ $(function() {
                 }
 
                 // 是否存在规格图片
-                var spec_images = $(this).data('type-images') || null;
+                var spec_images = $(this).attr('data-type-images') || null;
                 if(spec_images != null)
                 {
                     $('.jqzoom').attr('src', spec_images);
@@ -775,7 +787,7 @@ $(function() {
         // 调用播放器
         player = new ckplayer({
             container: cu_ent,
-            video: $(cu_ent).data('url'),
+            video: $(cu_ent).attr('data-url'),
             autoplay: true,
             menu: null
         });
@@ -791,7 +803,7 @@ $(function() {
     //获得文本框对象
     var $number_tag = $('.operate-number-container');
     var $input = $('.operate-number-input');
-    var unit = $number_tag.data('unit') || '';
+    var unit = $('.stock-tips .unit').text() || '';
 
     // 手动输入
     $input.on('blur', function()
@@ -866,7 +878,7 @@ $(function() {
     GoodsCommentsHtml(1);
     $(document).on('click', '.goods-page-container .pagelibrary a', function()
     {
-        var page = $(this).data('page') || null;
+        var page = $(this).attr('data-page') || null;
         if(page != null)
         {
             // 获取数据

@@ -12,7 +12,7 @@
                         <div class="title">
                             <i class="iconfont icon-tips"></i>
                             <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                            <i class="iconfont icon-contract contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                            <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                         </div>
                         <p>{{:MyLang('site.background_color_tips')}}</p>
                     </div>
@@ -66,7 +66,7 @@
                             <ul class="plug-file-upload-view home_site_user_register_bg_images-images-view" data-form-name="home_site_user_register_bg_images" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                 <li class="plug-file-upload-submit" data-view-tag="ul.home_site_user_register_bg_images-images-view">
                                     {{if empty($data['home_site_user_register_bg_images']['value'])}}
-                                        <i class="iconfont icon-upload-add"></i>
+                                        <i class="iconfont icon-add"></i>
                                     {{else /}}
                                         <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
                                         <img src="{{:AttachmentPathViewHandle($data.home_site_user_register_bg_images.value)}}" />

@@ -48,7 +48,11 @@
                                 <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
                                 <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
                             </div>
-                            <div class="am-margin-top-xs stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</div>
+                            <div class="am-margin-top-xs stock-tips">
+                                <span>{{:MyLang('inventory_title')}}</span>
+                                <span class="stock" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-inventory="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}">{{$goods.inventory}}</span>
+                                <span class="unit" data-value="{{$goods.inventory_unit}}">{{$goods.inventory_unit}}</span>
+                            </div>
                         </div>
                     </div>
                 {{else /}}
@@ -69,7 +73,7 @@
             {{if empty($user) or $buy_button['is_cart'] eq 0}}
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" disabled>
                     <i class="am-icon-opencart"></i>
-                    <span>{{if empty($user)}}{{:MyLang('user_no_login_tips')}}{{else /}}{{$buy_button.error}}{{/if}}</span>
+                    <span>{{if empty($user)}}{{:MyLang('user_no_login_tips')}}{{else /}}{{if empty($buy_button['error'])}}{{:MyLang('goods_stop_sale_title')}}{{else /}}{{$buy_button.error}}{{/if}}{{/if}}</span>
                 </button>
             {{else /}}
                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('goods_cart_title')}}'}">

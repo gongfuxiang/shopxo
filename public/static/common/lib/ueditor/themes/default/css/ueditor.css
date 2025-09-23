@@ -1188,10 +1188,10 @@ div.edui-box {
 
 .edui-default .edui-dialog-body {
     position: relative;
-    /*padding:2px 0 0 2px;*/
     padding: 1px 0 0 1px;
     _zoom: 1;
     max-width: calc(100vw - 40px);
+    max-height: 100vh;
 }
 
 .edui-default .edui-dialog-fullscreen-flag .edui-dialog-body {

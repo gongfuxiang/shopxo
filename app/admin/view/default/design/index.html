@@ -6,7 +6,7 @@
     <!-- 新增 -->
     {{if AdminIsPower('design', 'saveinfo')}}
         <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
-            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+            <i class="iconfont icon-add am-show-sm-only"></i>
             <span>{{:MyLang('add_title')}}</span>
         </a>
     {{/if}}
@@ -21,7 +21,7 @@
     {__block__}
     {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_design_url)}}
         <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">
-            <i class="iconfont icon-download-btn"></i>
+            <i class="iconfont icon-download-b-line"></i>
             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('design.nav_store_design_name')}}</span>
         </a>
     {{/if}}

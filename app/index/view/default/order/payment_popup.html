@@ -11,7 +11,10 @@
                         <ul class="am-avg-sm-2 am-avg-md-3 payment-list" data-type="payment">
                             {{foreach $buy_payment_list as $payment}}
                                 <li class="am-padding-sm" data-value="{{$payment.id}}">
-                                    <div class="business-item am-nbfc am-padding-sm am-radius">
+                                    <div class="business-item am-cf am-padding-sm am-radius">
+                                        {{if !empty($payment.tips)}}
+                                            <p class="tips">{{$payment.tips}}</p>
+                                        {{/if}}
                                         {{if !empty($payment.logo)}}
                                             <img src="{{$payment.logo}}" class="am-radius" />
                                         {{/if}}

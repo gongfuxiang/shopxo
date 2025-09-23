@@ -84,6 +84,8 @@
                 <!-- 字段选择 -->
                 {{include file="../../../module/view/form_table/form_fields_select" /}}
 
+                <!-- 状态操作原因 -->
+                {{include file="../../../module/view/form_table/form_state_operate_reason_modal" /}}
             {{else /}}
                 <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}{{:MyLang('form_table_config_error_tips')}}{{else /}}{{$form_error}}{{/if}}</div>
             {{/if}}

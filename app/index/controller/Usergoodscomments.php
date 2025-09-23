@@ -12,8 +12,8 @@ namespace app\index\controller;
 
 use app\index\controller\Center;
 use app\service\ApiService;
-use app\service\GoodsCommentsService;
 use app\service\SeoService;
+use app\service\GoodsCommentsService;
 
 /**
  * 用户商品评论

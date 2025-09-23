@@ -2,7 +2,7 @@
 .goods-detail { position: relative; margin-left: 3rem; min-height: 8rem; }
 .goods-title { display: block; height: 4.6rem; overflow: hidden; text-overflow: ellipsis; }
 .goods-title:hover { text-decoration: underline; }
-.goods-base { float: left; top: 0; margin-left: 10.4rem; }
+.goods-base { margin-left: 10.4rem; }
 .goods-attr { margin-top: 0.5rem;  }
 .goods-attr li { color: #666666; margin-top: 0.4rem; line-height: 1.4rem; }
 strong.total-price-content, .nav-total-price { font-weight: 700; }
@@ -75,6 +75,7 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
     padding-right: 0;
 }
 @media only screen and (min-width:640px)  {
+    .goods-base { margin-left: 9rem; }
     .cart-content table tr .base { width: 45%; padding-left: 2rem; }
     .cart-content table tr .price { width: 10%; }
     .cart-content table tr .number { width: 20%; }
@@ -131,7 +132,7 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
         padding: 0.6rem 1.5rem;
         max-width: 11rem;
     }
-    .wap-base { padding: 1rem 0 0 3.6rem;}
+    .wap-base { padding: 0.5rem 0 0 3.6rem;}
     .goods-detail { min-height: 4rem; }
     .goods-detail img { width: 4rem; height: 4rem; }
     .goods-base { margin-left: 4.5rem; }
@@ -139,8 +140,5 @@ strong.total-price-content, .selected-tips strong{ font-size: 1.4rem; }
     .am-footer { padding-bottom: 7rem; }
     .stock-tag .am-form-field {
         width: 5rem;
-    }
-    .operation-btn a:last-child {
-        display: none;
     }
 }

@@ -114,7 +114,7 @@ $(function () {
 
         // logo
         var html = '<li class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">';
-            html += '<i class="iconfont icon-upload-add"></i>';
+            html += '<i class="iconfont icon-add"></i>';
             html += '</li>';
         $popup_address.find('.sitetype-logo').html(html);
     });
@@ -162,7 +162,7 @@ $(function () {
             html += '<img src="' + item.logo + '" alt="' + item.name + '" />';
             html += '<i class="iconfont icon-close"></i>';
         } else {
-            html += '<i class="iconfont icon-upload-add"></i>';
+            html += '<i class="iconfont icon-add"></i>';
         }
         html += '</li>';
         $popup_address.find('.sitetype-logo').html(html);

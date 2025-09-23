@@ -295,7 +295,7 @@ ul.progress-4 li {
 }
 .order-goods .goods-shop-info-right > a {
 	display: block;
-	height: 5rem;
+	height: 4.2rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding-right: 10rem;
@@ -306,7 +306,7 @@ ul.progress-4 li {
 	right: 0;
 }
 .order-goods .goods-shop-info-right .goods-shop-info-desc {
-	margin-top: 0.8rem;
+	margin-top: 0.5rem;
 }
 .order-goods .goods-shop-info-right .am-text-primary {
 	color: #0c7cd5;

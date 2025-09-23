@@ -566,6 +566,19 @@ return [
         ],
     ],
 
+    // form表单数据
+    'forminputdata'     => [
+        // 基础
+        'base_nav_title'                        => 'Form Data',
+        // 动态表格
+        'form_table'                => [
+            'forminput_name'  => 'Form Name',
+            'form_data'       => 'Form Content',
+            'add_time'        => 'Time',
+            'upd_time'        => 'update time',
+        ],
+    ],
+
     // 安全
     'safety'            => [
         // 基础

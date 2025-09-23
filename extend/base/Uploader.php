@@ -67,6 +67,11 @@ class Uploader
                 $this->uploadFile();
                 break;
 
+            // 资源图片
+            case 'resourcesimage' :
+                $this->saveResourcesImage();
+                break;
+
             // 默认
             default :
                 $this->stateInfo = $this->getStateErrorInfo('error_upload_type');
@@ -372,6 +377,48 @@ class Uploader
 
         //移动文件
         if (!(file_put_contents($this->filePath, $reponse) && file_exists($this->filePath))) {
+            $this->stateInfo = $this->getStateErrorInfo('error_write_conent');
+        } else {
+            $this->stateInfo = 'SUCCESS';
+        }
+    }
+
+    /**
+     * 保存资源图片
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-26
+     * @desc    description
+     */
+    private function saveResourcesImage()
+    {
+        //资源文件是否存在
+        if(empty($this->fileField) || !is_object($this->fileField)) {
+            $this->stateInfo = $this->getStateErrorInfo('error_resources');
+            return;
+        }
+        $reponse = $this->fileField;
+
+        $this->oriName = "resources_image.png";
+        $this->fileSize = 0;
+        $this->fileType = $this->getFileExt();
+        $this->fullName = $this->getFullName();
+        $this->filePath = $this->getFilePath();
+        $this->fileName = $this->getFileName();
+        $dirname = dirname($this->filePath);
+
+        //创建目录失败
+        if (!file_exists($dirname) && !mkdir($dirname, 0777, true)) {
+            $this->stateInfo = $this->getStateErrorInfo('error_create_dir');
+            return;
+        } else if (!is_writeable($dirname)) {
+            $this->stateInfo = $this->getStateErrorInfo('error_dir_not_writeable');
+            return;
+        }
+
+        //存储文件
+        if (!(imagepng($reponse, $this->filePath) && file_exists($this->filePath))) {
             $this->stateInfo = $this->getStateErrorInfo('error_write_conent');
         } else {
             $this->stateInfo = 'SUCCESS';

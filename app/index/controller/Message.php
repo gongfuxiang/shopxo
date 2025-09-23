@@ -13,6 +13,7 @@ namespace app\index\controller;
 use app\index\controller\Center;
 use app\service\SeoService;
 use app\service\MessageService;
+use app\service\ApiService;
 
 /**
  * 消息管理
@@ -64,13 +65,25 @@ class Message extends Center
      */
     public function Detail()
     {
-        $assign = [
+        MyViewAssign([
             'data'      => $this->data_detail,
             'is_header' => 0,
             'is_footer' => 0,
-        ];
-        MyViewAssign($assign);
+        ]);
         return MyView();
+    }
+
+    /**
+     * 消息已读
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Read()
+    {
+        return ApiService::ApiDataReturn(MessageService::MessageRead(['user'=>$this->user]));
     }
 }
 ?>

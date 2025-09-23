@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v6.6.0');
+define('APPLICATION_VERSION', 'v6.7.0');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION, '8.0.2','<'))
@@ -78,7 +78,7 @@ if(empty($_SERVER['HTTP_HOST']) || is_numeric(str_replace('.', '', $_SERVER['HTT
             $main_domain = '';
         } else {
             // 判断是否是双后缀
-            $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw)$/';
+            $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm|ec|my|kz|sg|tw|hk|jp)$/';
             if($len > 2 && preg_match($preg, $main_domain))
             {
                 // 双后缀取后3位
@@ -111,6 +111,8 @@ if(!empty($request_url) && !empty($my_root))
     // 去除多余的子目录路径
     $request_url = str_replace($my_root, '', $request_url);
 }
+// 替换掉特殊的字符
+$request_url = str_replace(['(', ')', '"', "'"], '', $request_url);
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
 // 系统根目录,强制转换win反斜杠

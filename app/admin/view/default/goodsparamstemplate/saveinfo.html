@@ -38,7 +38,7 @@
                     <div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
                         <span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
                             <span>{{:MyLang('common_service.goodsparamstemplate.form_item_config_template_title')}}</span>
-                            <i class="am-icon-angle-down"></i>
+                            <i class="am-icon-angle-down am-margin-left-xs"></i>
                         </span>
                         <div class="am-dropdown-content parameters-quick-config">
                             <textarea rows="5" placeholder="{{:MyLang('common_service.goodsparamstemplate.form_item_config_value_placeholder')}}"></textarea>
@@ -57,10 +57,8 @@
                     </span>
                 </div>
 			</div>
-            <div class="am-form-group">
-                <div>
-                    {{:ModuleInclude('public/goodsparamstemplate/table')}}
-                </div>
+            <div class="am-form-group am-margin-top-sm">
+                {{:ModuleInclude('public/goodsparamstemplate/table')}}
                 {{:ModuleInclude('public/goodsparamstemplate/tips')}}
             </div>
 			<!-- 插件扩展数据 start -->

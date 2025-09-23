@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;

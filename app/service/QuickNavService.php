@@ -204,12 +204,12 @@ class QuickNavService
         if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取导航数据
+            $data = [];
             $field = 'id,name,images_url,event_value,event_type,bg_color,platform';
             $order_by = 'sort asc,id asc';
             $list = Db::name('QuickNav')->field($field)->where(['is_enable'=>1])->order($order_by)->select()->toArray();
             if(!empty($list))
             {
-                $data = [];
                 foreach($list as &$v)
                 {
                     // 平台

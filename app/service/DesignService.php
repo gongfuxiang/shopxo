@@ -590,7 +590,7 @@ class DesignService
         $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
         if(!is_writable($app_upload_dir))
         {
-            return DataReturn(MyLang('common_service.design.upload_dis_no_power_tips').'['.$app_upload_dir.']', -3);
+            return DataReturn(MyLang('common_service.design.upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
         // 开始解压文件

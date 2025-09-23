@@ -2,56 +2,6 @@
 FromInit('form.form-validation-store-accounts');
 
 /**
- * 商品参数数据创建
- * @author  Devil
- * @blog    http://gong.gg/
- * @version 1.0.0
- * @date    2020-09-02
- * @desc    description
- * @param   {[int]}           type  [展示类型（0,1,2）]
- * @param   {[string]}        name  [参数名称]
- * @param   {[string]}        value [参数值]
- */
-function ParametersItemHtmlCreated (type, name, value) {
-    // 参数容器
-    var $parameters_table = $('.parameters-table');
-
-    // 拼接html
-    var index = parseInt(Math.random() * 1000001);
-    var html = '<tr class="parameters-line-' + index + '">';
-    html += '<td class="am-text-middle">';
-    html += '<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="' + $parameters_table.data('type-message') + '" data-is-clearout="0">';
-    html += '<option value="0" ' + (type == 0 ? 'selected' : '') + '>' + $parameters_table.data('type-all-name') + '</option>';
-    html += '<option value="1" ' + (type == 1 || type == undefined ? 'selected' : '') + '>' + $parameters_table.data('type-detail-name') + '</option>';
-    html += '<option value="2" ' + (type == 2 ? 'selected' : '') + '>' + $parameters_table.data('type-base-name') + '</option>';
-    html += '</select>';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<input type="text" name="parameters_name[]" placeholder="' + $parameters_table.data('params-name') + '" value="' + (name || '') + '" data-validation-message="' + $parameters_table.data('params-message') + '" maxlength="160" class="am-radius" data-is-clearout="0" required />';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<input type="text" name="parameters_value[]" placeholder="' + $parameters_table.data('value-message') + '" value="' + (value || '') + '" maxlength="200" data-validation-message="' + $parameters_table.data('value-message') + '" class="am-radius" data-is-clearout="0" />';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">' + $parameters_table.data('move-top-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">' + $parameters_table.data('move-bottom-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary line-remove">' + $parameters_table.data('remove-name') + '</a>';
-    html += '</td>';
-    html += '</tr>';
-
-    // 数据添加
-    $parameters_table.append(html);
-
-    // select组件初始化
-    $parameters_table.find('.parameters-line-' + index + ' .chosen-select').chosen({
-        inherit_select_classes: true,
-        enable_split_word_search: true,
-        search_contains: true,
-        no_results_text: window['lang_chosen_select_no_results_text']
-    });
-}
-
-/**
  * 动态数据表格高度处理
  * @author  Devil
  * @blog    http://gong.gg/
@@ -68,10 +18,11 @@ function FormTableHeightHandle () {
         var body_padding_top = parseInt($('.content-right > .content').css('padding-top').replace('px', '') || 0);
         var body_padding_bottom = parseInt($('.content-right > .content').css('padding-bottom').replace('px', '') || 0);
         var content_top = $('.form-table-content-top').outerHeight(true) || 0;
+        var navigation_height = $('.form-table-navigation').outerHeight(true) || 0;
         var operate_top = $('.form-table-operate-top').outerHeight(true) || 0;
         var operate_bottom = $('.form-table-operate-bottom').outerHeight(true) || 0;
         var page = $('.form-table-content .am-pagination').outerHeight(true) || 0;
-        $('.am-table-scrollable-horizontal').css('height', 'calc(100vh - ' + (body_margin_top + body_margin_bottom + body_padding_top + body_padding_bottom + content_top + operate_top + operate_bottom + page) + 'px)');
+        $('.am-table-scrollable-horizontal').css('height', 'calc(100vh - ' + (body_margin_top + body_margin_bottom + body_padding_top + body_padding_bottom + content_top + navigation_height + operate_top + operate_bottom + page + 1) + 'px)');
     }
 }
 
@@ -352,7 +303,7 @@ function AdminTopNavIframeAddHandle (url, name, key, type = 'nav', is_reload = f
                                     <div class="am-fr">
                                         <span class="refresh iconfont icon-refresh"></span>
                                         <span class="recovery iconfont icon-retract"></span>
-                                        <span class="close iconfont icon-close-o"></span>
+                                        <span class="close iconfont icon-close-line"></span>
                                     </div>
                                 </div>
                                 <iframe src="`+ url + `" width="100%" height="100%"></iframe>
@@ -380,7 +331,7 @@ function AdminTopNavIframeAddHandle (url, name, key, type = 'nav', is_reload = f
             if ($('.header-menu-open-pages-list ul li.nav-item-key-' + key).length == 0) {
                 var html = `<li data-url="` + url + `" data-key="` + key + `" data-type="` + type + `" data-name="` + name + `" class="nav-item-key-` + key + `"><span>` + name + `</span>`;
                 if (key !== '-') {
-                    html += `<a href="javascript:;" class="iconfont icon-close-o"></a>`;
+                    html += `<a href="javascript:;" class="iconfont icon-close-line"></a>`;
                 }
                 html += `</li>`;
                 $('.header-menu-open-pages-list ul').append(html);
@@ -465,7 +416,7 @@ function AdminMenuNavTabsMemoryView () {
             // 添加快捷导航
             var html = `<li data-url="` + item.url + `" data-key="` + item.key + `" data-type="` + item.type + `" data-name="` + item.name + `" class="nav-item-key-` + item.key + ` ` + (item.is_active ? 'am-active' : '') + `"><span>` + item.name + `</span>`;
             if (item.key !== '-') {
-                html += `<a href="javascript:;" class="iconfont icon-close-o"></a>`;
+                html += `<a href="javascript:;" class="iconfont icon-close-line"></a>`;
             }
             html += `</li>`;
             $('.header-menu-open-pages-list ul').append(html);
@@ -637,148 +588,6 @@ $(function () {
     $(document).on('click', '.store-accounts-event', function () {
         StoreAccountsPopupOpen($(this).data('title'));
     });
-
-    // 商品规格和参数拖拽排序
-    if ($('table.specifications-table').length > 0) {
-        $('table.specifications-table tbody').dragsort({ dragSelector: 'tr' });
-    }
-    if ($('table.parameters-table').length > 0) {
-        var len = $('table.parameters-table tbody tr').length;
-        if (len == 0) {
-            $('table.parameters-table tbody').html('<tr><td></td></tr>');
-        }
-        $('table.parameters-table tbody').dragsort({ dragSelector: 'tr' });
-        if (len == 0) {
-            $('table.parameters-table tbody').html('');
-        }
-    }
-
-    // 商品规格和参数上下移动
-    $(document).on('click', '.specifications-table .line-move, .parameters-table .line-move', function () {
-        // 父级table
-        var $table = $(this).parents('table');
-
-        // 类型
-        var type = $(this).data('type') || null;
-        if (type == null) {
-            Prompt($table.data('move-type-tips') || window['lang_operate_params_error'] || '操作类型配置有误');
-            return false;
-        }
-
-        // 索引
-        var count = $(this).parents('table').find('tbody tr').length;
-        var index = $(this).parents('tr').index() || 0;
-        var $parent = $(this).parents('tr');
-        switch (type) {
-            // 上移
-            case 'top':
-                if (index == 0) {
-                    Prompt($table.data('move-top-tips') || '已到最顶部');
-                    return false;
-                }
-                $parent.prev().insertAfter($parent);
-                break;
-
-            // 下移
-            case 'bottom':
-                if (index >= count - 1) {
-                    Prompt($table.data('move-bottom-tips') || '已到最底部');
-                    return false;
-                }
-                $parent.next().insertBefore($parent);
-                break;
-
-            // 默认
-            default:
-                Prompt($table.data('move-type-tips') || '操作类型配置有误');
-        }
-    });
-
-    // 商品参数添加
-    var $parameters_table = $('.parameters-table');
-    $(document).on('click', '.parameters-line-add', function () {
-        // 追加内容
-        ParametersItemHtmlCreated();
-    });
-
-    // 商品参数移除
-    $parameters_table.on('click', '.line-remove', function () {
-        $(this).parents('tr').remove();
-    });
-
-    // 商品参数配置信息复制
-    var $quick_modal = $('#parameters-quick-copy-modal');
-    var clipboard = new ClipboardJS('.parameters-quick-copy',
-        {
-            text: function () {
-                // 获取商品参数配置信息
-                var data = [];
-                $parameters_table.find('tbody tr').each(function (k, v) {
-                    data.push({
-                        "type": $(this).find('td:eq(0) select').val(),
-                        "name": $(this).find('td:eq(1) input').val(),
-                        "value": $(this).find('td:eq(2) input').val(),
-                    });
-                });
-                data = JSON.stringify(data);
-                $quick_modal.find('textarea').val(data);
-                return data;
-            }
-        });
-    clipboard.on('success', function (e) {
-        Prompt($parameters_table.data('copy-success-tips') || '复制成功', 'success');
-    });
-    clipboard.on('error', function (e) {
-        // 复制失败则开启复制窗口，让用户自己复制
-        $quick_modal.modal({
-            width: 200,
-            height: 135
-        });
-    });
-    // 点击选中复制的值
-    $quick_modal.find('textarea').on('click', function () {
-        $(this).select();
-    });
-
-    // 商品参数快捷操作
-    var $parameters_quick_config = $('.parameters-quick-config');
-    $parameters_quick_config.find('button').on('click', function () {
-        // 配置数据
-        var data = $parameters_quick_config.find('textarea').val() || null;
-        if (data == null) {
-            Prompt($parameters_table.data('copy-no-tips') || '请先粘贴配置信息');
-            return false;
-        }
-
-        // 异常处理、防止json格式错误
-        try {
-            data = JSON.parse(data);
-        } catch (e) {
-            Prompt($parameters_table.data('copy-error-tips') || '配置格式错误');
-            return false;
-        }
-        if (data.length <= 0) {
-            Prompt($parameters_table.data('copy-empty-tips') || '配置为空');
-            return false;
-        }
-
-        // 数据生成
-        $parameters_table.find('tbody').html('');
-        for (var i in data) {
-            var type = (data[i]['type'] == undefined) ? 1 : data[i]['type'];
-            var name = data[i]['name'] || '';
-            var value = data[i]['value'] || '';
-            ParametersItemHtmlCreated(type, name, value);
-        }
-        $('#parameters-quick-container').dropdown('close');
-        Prompt($parameters_table.data('created-success-tips') || '生成成功', 'success');
-    });
-
-    // 商品参数清空
-    $(document).on('click', '.parameters-quick-remove', function () {
-        $parameters_table.find('tbody').html('');
-    });
-
 
     // 浏览器窗口实时事件
     $(window).resize(function () {

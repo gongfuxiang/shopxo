@@ -1575,10 +1575,11 @@ ul.am-dropdown-content>li>a:focus {
 /**
  * 轮播图片
  */
+.am-slider-default .am-control-nav li a.am-active,
 .am-slider-a1 .am-control-nav li a.am-active {
     background-color: var(--color-main);
 }
-
+.am-slider-default .am-control-nav li a,
 .am-slider-a1 .am-control-nav li a {
     width: 1rem;
     height: 1rem;
@@ -1792,7 +1793,7 @@ ul.am-dropdown-content>li>a:focus {
 
 #user-verify-win .am-modal-bd .am-form-input-material .am-position-verify {
     position: absolute;
-    right: 0;
+    right: 1rem;
     z-index: 1;
 }
 
@@ -2375,7 +2376,7 @@ fieldset[disabled] .am-btn-assist.am-active {
 .am-badge {
     display: inline-block;
     padding: 0.4rem 1.1rem;
-    font-weight: 700;
+    font-weight: initial;
     vertical-align: baseline;
     white-space: nowrap;
     border-radius: var(--border-radius-sm);
@@ -2644,7 +2645,13 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
     }
 
     .shop-navigation .am-topbar-collapse {
-        margin-left: 15rem;
+        margin-left: 17rem;
+    }
+}
+
+@media only screen and (min-width: 1260px) {
+    .shop-navigation .am-container {
+        padding-left: 18rem;
     }
 }
 
@@ -2658,13 +2665,7 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
     }
 
     .shop-navigation .am-topbar-collapse {
-        margin-left: 0;
-    }
-}
-
-@media only screen and (min-width: 1260px) {
-    .shop-navigation .am-container {
-        padding-left: 18rem;
+        margin-left: 3rem;
     }
 }
 

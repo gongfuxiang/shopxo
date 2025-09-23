@@ -6,7 +6,7 @@
     <!-- 新增 -->
     {{if AdminIsPower('diy', 'saveinfo')}}
         <a href="{{:MyUrl('admin/diy/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
-            <i class="iconfont icon-btn-add am-show-sm-only"></i>
+            <i class="iconfont icon-add am-show-sm-only"></i>
             <span>{{:MyLang('add_title')}}</span>
         </a>
     {{/if}}
@@ -27,7 +27,7 @@
     <!-- 首页DIY -->
     {{if AdminIsPower('appconfig', 'index')}}
         <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'homediy'])}}" data-title="{{:MyLang('diy.nav_homediy_name')}}">
-            <i class="iconfont icon-tupianmofang am-show-sm-only"></i>
+            <i class="iconfont icon-layout-magic am-show-sm-only"></i>
             <span>{{:MyLang('diy.nav_homediy_name')}}</span>
         </button>
     {{/if}}
@@ -35,25 +35,8 @@
     {__block__}
     {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_diy_url)}}
         <a class="am-margin-left-sm" href="{{$store_diy_url}}" target="_blank">
-            <i class="iconfont icon-download-btn"></i>
+            <i class="iconfont icon-download-b-line"></i>
             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('diy.nav_store_diy_name')}}</span>
         </a>
     {{/if}}
-{{/block}}
-
-<!-- 扩展 -->
-{{block name="form_extend"}}
-    <!-- upload start -->
-    <div class="am-popup am-radius am-popup-full-max-xl package-install-list-popup-container" id="popup-diy-upload">
-        <div class="am-popup-inner">
-            <div class="am-popup-hd">
-                <h4 class="am-popup-title">{{:MyLang('import_title')}}</h4>
-                <span data-am-modal-close class="am-close">&times;</span>
-            </div>
-            <div class="am-popup-bd am-padding-0">
-                
-            </div>
-        </div>
-    </div>
-    <!-- upload end -->
 {{/block}}

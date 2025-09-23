@@ -11,10 +11,8 @@
 namespace app\service;
 
 use think\facade\Db;
-use app\service\UeditorService;
 use app\service\SystemBaseService;
 use app\service\ResourcesService;
-use app\service\AttachmentService;
 use app\service\AttachmentCategoryService;
 use app\service\GoodsCategoryService;
 use app\service\ArticleCategoryService;
@@ -27,9 +25,6 @@ use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
 use app\service\MessageService;
 use app\service\IntegralService;
-use app\service\DiyService;
-use app\service\AppTabbarService;
-use app\service\PackageInstallService;
 use app\service\StoreService;
 
 /**
@@ -63,7 +58,7 @@ class DiyApiService
         $data = [
             'config'                      => self::ConfigData(),
             // 附件分类
-            'attachment_category'         => AttachmentCategoryService::AttachmentCategoryAll(),
+            'attachment_category'         => AttachmentCategoryService::AttachmentCategoryAll($params),
             // 文章分类
             'article_category'            => $article_category['data'],
             // 品牌分类
@@ -71,7 +66,7 @@ class DiyApiService
             // 品牌列表
             'brand_list'                  => BrandService::CategoryBrand(),
             // 商品分类
-            'goods_category'              => GoodsCategoryService::GoodsCategoryAll(),
+            'goods_category'              => GoodsCategoryService::GoodsCategoryAll($params),
             // 页面链接
             'page_link_list'              => self::PageLinkList(),
             // 模块组件
@@ -137,6 +132,37 @@ class DiyApiService
                 'video_suffix'  => MyConfig('ueditor.videoAllowFiles'),
                 'file_suffix'   => MyConfig('ueditor.fileAllowFiles'),
             ],
+            // 附件分类权限
+            'attachment_category_operate' => [
+                'is_add'   => 1,
+                'is_edit'  => 1,
+                'is_del'   => 1,
+            ],
+            // 附件管理权限
+            'attachment_operate'          => [
+                'is_move'    => 1,
+                'is_upload'  => 1,
+                'is_edit'    => 1,
+                'is_del'     => 1,
+            ],
+            // 预览地址
+            'preview_url'                 => MyUrl('admin/diy/preview'),
+            // Diy装修 - 详情
+            'diy_detail_url'              => MyUrl('admin/diyapi/diydetail'),
+            // Diy装修 - 保存
+            'diy_save_url'                => MyUrl('admin/diyapi/diysave'),
+            // Diy装修 - 导入
+            'diy_upload_url'              => MyUrl('admin/diyapi/diyupload'),
+            // Diy装修 - 导出
+            'diy_download_url'            => MyUrl('admin/diyapi/diydownload'),
+            // Diy装修 - 安装
+            'diy_install_url'             => MyUrl('admin/diyapi/diyinstall'),
+            // Diy装修 - 模板市场
+            'diy_market_url'              => MyUrl('admin/diyapi/diymarket'),
+            // 底部菜单保存
+            'app_tabbar_save_url'         => MyUrl('admin/diyapi/apptabbarsave'),
+            // 底部菜单数据
+            'app_tabbar_data_url'         => MyUrl('admin/diyapi/apptabbardata'),
         ];
     }
 
@@ -158,6 +184,7 @@ class DiyApiService
                 'data'  => [
                     ['key' => 'tabs', 'name' => '选项卡'],
                     ['key' => 'tabs-carousel', 'name' => '选项卡轮播'],
+                    ['key' => 'tabs-magic', 'name' => '选项卡魔方'],
                     ['key' => 'carousel', 'name' => '轮播图'],
                     ['key' => 'search', 'name' => '搜索框'],
                     ['key' => 'user-info', 'name' => '用户信息'],
@@ -208,9 +235,10 @@ class DiyApiService
     {
         return [
             [
-                'name'  => '商城链接',
-                'type'  => 'shop',
-                'data'  => [
+                'name'      => '商城链接',
+                'type'      => 'shop',
+                'is_show'   => 1,
+                'data'      => [
                     [
                         'name'  => '基础链接',
                         'type'  => 'base',
@@ -246,468 +274,72 @@ class DiyApiService
                 ],
             ],
             [
-                'name'  => '商品分类',
-                'type'  => 'goods-category',
-                'data'  => null,
+                'name'      => '商品分类',
+                'type'      => 'goods-category',
+                'is_show'   => 1,
+                'data'      => null,
             ],
             [
-                'name'  => '商品搜索',
-                'type'  => 'goods-search',
-                'data'  => null,
+                'name'      => '商品搜索',
+                'type'      => 'goods-search',
+                'is_show'   => 1,
+                'data'      => null,
             ],
             [
-                'name'  => '商品页面',
-                'type'  => 'goods',
-                'data'  => null,
+                'name'      => '商品页面',
+                'type'      => 'goods',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/goodslist'),
+                'data'      => null,
             ],
             [
-                'name'  => '文章页面',
-                'type'  => 'article',
-                'data'  => null,
+                'name'      => '文章页面',
+                'type'      => 'article',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/articlelist'),
+                'data'      => null,
             ],
             [
-                'name'  => 'DIY页面',
-                'type'  => 'diy',
-                'data'  => null,
+                'name'      => 'DIY页面',
+                'type'      => 'diy',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/diylist'),
+                'data'      => null,
             ],
             [
-                'name'  => '页面设计',
-                'type'  => 'design',
-                'data'  => null,
+                'name'      => '页面设计',
+                'type'      => 'design',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/designlist'),
+                'data'      => null,
             ],
             [
-                'name'  => '自定义页面',
-                'type'  => 'custom-view',
-                'data'  => null,
+                'name'      => '自定义页面',
+                'type'      => 'custom-view',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/customviewlist'),
+                'data'      => null,
             ],
             [
-                'name'  => '自定义链接',
-                'type'  => 'custom-url',
-                'data'  => null,
+                'name'      => '品牌',
+                'type'      => 'brand',
+                'is_show'   => 1,
+                'url'       => MyUrl('api/diyapi/brandlist'),
+                'data'      => null,
             ],
             [
-                'name'  => '品牌',
-                'type'  => 'brand',
-                'data'  => null,
+                'name'      => '自定义链接',
+                'type'      => 'custom-url',
+                'is_show'   => 1,
+                'data'      => null,
             ],
             [
-                'name'  => '插件',
-                'type'  => 'plugins',
-                'data'  => [],
+                'name'      => '插件',
+                'type'      => 'plugins',
+                'is_show'   => 1,
+                'data'      => [],
             ]
         ];
-    }
-
-    /**
-     * 附件分类
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentCategory($params = [])
-    {
-        $result = [
-            'attachment_category' => AttachmentCategoryService::AttachmentCategoryAll(),
-        ];
-        return DataReturn('success', 0, $result);
-    }
-
-    /**
-     * 附件列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentList($params = [])
-    {
-        $params['control'] = 'attachment';
-        $params['action'] = 'index';
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * 附件保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentSave($params = [])
-    {
-        return AttachmentService::AttachmentSave($params);
-    }
-
-    /**
-     * 附件删除
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentDelete($params = [])
-    {
-        return AttachmentService::AttachmentDelete($params);
-    }
-
-    /**
-     * 附件上传
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentUpload($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'type',
-                'error_msg'         => '附件类型有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'category_id',
-                'error_msg'         => '附件分类id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 附件方法
-        $params['action'] = 'upload'.$params['type'];
-        return UeditorService::Run($params);
-    }
-
-    /**
-     * 远程下载
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentCatch($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'type',
-                'error_msg'         => '附件类型有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'category_id',
-                'error_msg'         => '附件分类id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'source',
-                'error_msg'         => '远程地址为空',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 附件方法
-        $params['action'] = 'catch'.$params['type'];
-        return UeditorService::Run($params);
-    }
-
-    /**
-     * 附件扫码上传数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentScanUploadData($params = [])
-    {
-        $params['action'] = 'scandata';
-        return UeditorService::Run($params);
-    }
-
-    /**
-     * 附件移动分类
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentMoveCategory($params = [])
-    {
-        return AttachmentService::AttachmentMoveCategory($params);
-    }
-
-    /**
-     * 附件分类保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentCategorySave($params = [])
-    {
-        return AttachmentCategoryService::AttachmentCategorySave($params);
-    }
-
-    /**
-     * 附件分类保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AttachmentCategoryDelete($params = [])
-    {
-        return AttachmentCategoryService::AttachmentCategoryDelete($params);
-    }
-
-    /**
-     * 商品列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function GoodsList($params = [])
-    {
-        $params['control'] = 'goods';
-        $params['action'] = 'index';
-        $params['is_shelves'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * 自定义页面列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function CustomViewList($params = [])
-    {
-        $params['control'] = 'customview';
-        $params['action'] = 'index';
-        $params['is_enable'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * 页面设计列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DesignList($params = [])
-    {
-        $params['control'] = 'design';
-        $params['action'] = 'index';
-        $params['is_enable'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * 文章列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function ArticleList($params = [])
-    {
-        $params['control'] = 'article';
-        $params['action'] = 'index';
-        $params['is_enable'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * 品牌列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function BrandList($params = [])
-    {
-        $params['control'] = 'brand';
-        $params['action'] = 'index';
-        $params['is_enable'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * Diy装修列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyList($params = [])
-    {
-        $params['control'] = 'diy';
-        $params['action'] = 'index';
-        $params['is_enable'] = 1;
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * Diy装修详情
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyDetail($params = [])
-    {
-        $params['control'] = 'diy';
-        $params['action'] = 'detail';
-        return DataReturn('success', 0, FormModuleData($params));
-    }
-
-    /**
-     * Diy装修保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiySave($params = [])
-    {
-        return DiyService::DiySave($params);
-    }
-
-    /**
-     * Diy装修导入
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyUpload($params = [])
-    {
-        return DiyService::DiyUpload($params);
-    }
-
-    /**
-     * Diy装修导出
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2024-07-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyDownload($params = [])
-    {
-        return DiyService::DiyDownload($params);
-    }
-
-    /**
-     * diy模板安装
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-04-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyInstall($params = [])
-    {
-        $params['type'] = 'diy';
-        return PackageInstallService::Install($params);
-    }
-
-    /**
-     * diy模板市场
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-04-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function DiyMarket($params = [])
-    {
-        return DiyService::DiyMarket($params);
-    }
-
-    /**
-     * 底部菜单保存
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-04-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AppTabbarSave($params = [])
-    {
-        $type = empty($params['type']) ? 'home' : $params['type'];
-        return AppTabbarService::AppTabbarConfigSave($type, $params);
-    }
-
-    /**
-     * 底部菜单数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-04-19
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AppTabbarData($params = [])
-    {
-        $type = empty($params['type']) ? 'home' : $params['type'];
-        return DataReturn('success', 0, AppTabbarService::AppTabbarConfigData($type));
     }
 
     /**
@@ -999,7 +631,7 @@ class DiyApiService
                         ['name'=>'型号', 'field' =>'model', 'type'=>'text'],
                         ['name'=>'品牌', 'field' =>'brand_name', 'type'=>'text'],
                         ['name'=>'品牌商品URL', 'field' =>'brand_goods_url', 'type'=>'link'],
-                        ['name'=>'生产地', 'field' =>'place_origin_name', 'type'=>'text'],
+                        ['name'=>'生产地', 'field' =>'produce_region_name', 'type'=>'text'],
                         ['name'=>'库存', 'field' =>'inventory', 'type'=>'text'],
                         ['name'=>'计量单位', 'field' =>'inventory_unit', 'type'=>'text'],
                         ['name'=>'封面图片', 'field' =>'images', 'type'=>'images'],
@@ -1028,7 +660,7 @@ class DiyApiService
                     ],
                     'custom_config' => [
                         'appoint_config' => [
-                            'data_url'     => MyUrl('admin/diyapi/goodslist'),
+                            'data_url'     => MyUrl('api/diyapi/goodslist'),
                             'is_multiple'  => 1,
                             'show_data'    => [
                                 'data_key'   => 'id',
@@ -1082,7 +714,7 @@ class DiyApiService
                             ],
                         ],
                         'filter_config' => [
-                            'data_url'            => MyUrl('admin/diyapi/goodsautodata'),
+                            'data_url'            => MyUrl('api/diyapi/goodsautodata'),
                             'filter_form_config'  => [
                                 [
                                     'type'       => 'select',
@@ -1167,7 +799,7 @@ class DiyApiService
                     ],
                     'custom_config' => [
                         'appoint_config' => [
-                            'data_url'     => MyUrl('admin/diyapi/articlelist'),
+                            'data_url'     => MyUrl('api/diyapi/articlelist'),
                             'is_multiple'  => 1,
                             'show_data'    => [
                                 'data_key'   => 'id',
@@ -1220,7 +852,7 @@ class DiyApiService
                             ],
                         ],
                         'filter_config' => [
-                            'data_url'            => MyUrl('admin/diyapi/articleautodata'),
+                            'data_url'            => MyUrl('api/diyapi/articleautodata'),
                             'filter_form_config'  => [
                                 [
                                     'type'       => 'select',
@@ -1296,7 +928,7 @@ class DiyApiService
                     ],
                     'custom_config' => [
                         'appoint_config' => [
-                            'data_url'     => MyUrl('admin/diyapi/brandlist'),
+                            'data_url'     => MyUrl('api/diyapi/brandlist'),
                             'is_multiple'  => 1,
                             'show_data'    => [
                                 'data_key'   => 'id',
@@ -1349,7 +981,7 @@ class DiyApiService
                             ],
                         ],
                         'filter_config' => [
-                            'data_url'            => MyUrl('admin/diyapi/brandautodata'),
+                            'data_url'            => MyUrl('api/diyapi/brandautodata'),
                             'filter_form_config'  => [
                                 [
                                     'type'       => 'select',
@@ -1440,7 +1072,7 @@ class DiyApiService
                         'data_type'     => [1],
                         'is_type_show'  => 0,
                         'filter_config' => [
-                            'data_url'            => MyUrl('admin/diyapi/goodsfavorautodata'),
+                            'data_url'            => MyUrl('api/diyapi/goodsfavorautodata'),
                             'filter_form_config'  => [
                                 [
                                     'type'    => 'input',
@@ -1493,7 +1125,7 @@ class DiyApiService
                         'data_type'     => [1],
                         'is_type_show'  => 0,
                         'filter_config' => [
-                            'data_url'            => MyUrl('admin/diyapi/goodsbrowseautodata'),
+                            'data_url'            => MyUrl('api/diyapi/goodsbrowseautodata'),
                             'filter_form_config'  => [
                                 [
                                     'type'    => 'input',

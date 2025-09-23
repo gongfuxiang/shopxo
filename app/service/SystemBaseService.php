@@ -178,6 +178,7 @@ class SystemBaseService
             'common_is_goods_detail_show_left_more'              => (int) MyC('common_is_goods_detail_show_left_more', 1),
             'common_is_goods_detail_content_show_photo'          => (int) MyC('common_is_goods_detail_content_show_photo', 0, true),
             'common_is_exhibition_mode_btn_text'                 => MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+            'common_goods_cover_size_type'                       => (int) MyC('common_goods_cover_size_type', 0, true),
             
             // 地图密钥
             'common_map_type'                                    => MyC('common_map_type', 'baidu', true),

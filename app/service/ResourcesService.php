@@ -548,27 +548,27 @@ class ResourcesService
     public static function UserUniqueId()
     {
         // 取参数uuid、默认空
-        $uid = input('uuid', '');
+        $uuid = input('uuid', '');
 
         // 取当当前session
-        if(empty($uid))
+        if(empty($uuid))
         {
-            $uid = MySession('uuid');
+            $uuid = MySession('uuid');
         }
         // 取当当前cookie
-        if(empty($uid))
+        if(empty($uuid))
         {
-            $uid = MyCookie('uuid');
+            $uuid = MyCookie('uuid');
         }
 
         // 用户信息
         $user = UserService::LoginUserInfo();
         if(!empty($user) && !empty($user['id']))
         {
-            $uid = $user['id'];
+            $uuid = $user['id'];
         }
 
-        return empty($uid) ? '' : md5($uid);
+        return empty($uuid) ? '' : md5($uuid);
     }
 
     /**

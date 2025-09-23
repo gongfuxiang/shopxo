@@ -275,7 +275,6 @@ class PaymentService
             {
                 if(array_key_exists('logo', $v))
                 {
-                    $v['logo_old'] = $v['logo'];
                     $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
                 }
                 if(array_key_exists('element', $v))

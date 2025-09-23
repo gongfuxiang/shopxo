@@ -36,12 +36,24 @@ class AppTabbarService
      */
     public static function Init()
     {
-        self::$app_tabbar_key = [
+        // 默认数据
+        $data = [
             'home'  => [
                 'type'  => 'app_tabbar_index_home_data',
                 'name'  => MyLang('home_title'),
             ],
         ];
+
+        // apptabbar底部菜单静态数据钩子
+        $hook_name = 'plugins_service_apptabbar_init';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'data'        => &$data,
+        ]);
+
+        // 赋值属性
+        self::$app_tabbar_key = $data;
     }
 
     /**
@@ -109,6 +121,14 @@ class AppTabbarService
     {
         // 初始化
         self::Init();
+
+        // apptabbar底部菜单数据钩子
+        $hook_name = 'plugins_service_apptabbar_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'key'        => &$key,
+        ]);
 
         // 是否存在key
         if(array_key_exists($key, self::$app_tabbar_key))

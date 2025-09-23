@@ -36,10 +36,8 @@ class UserGoodsBrowse
     public function __construct($params = [])
     {
         // 用户信息
-        if(!empty($params['system_user']))
-        {
-            $this->condition_base[] = ['b.user_id', '=', $params['system_user']['id']];
-        }
+        $user_id = empty($params['system_user']) ? 0 : $params['system_user']['id'];
+        $this->condition_base[] = ['b.user_id', '=', $user_id];
     }
 
     /**
@@ -60,7 +58,6 @@ class UserGoodsBrowse
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('index/usergoodsbrowse/delete'),
                 'delete_key'    => 'ids',
             ],
             // 表单配置

@@ -80,7 +80,7 @@
                                                     {{if !empty($miv)}}
                                                         {{if empty($t['view_data_key'])}}
                                                             {{if !is_array($miv)}}
-                                                                <li class="am-padding-xs am-padding-0">
+                                                                <li class="am-padding-0">
                                                                     <div class="am-gallery-item am-nbfc am-padding-right-xs am-padding-bottom-xs">
                                                                         <img src="{{$miv}}" class="am-block am-radius" />
                                                                     </div>
@@ -88,7 +88,7 @@
                                                             {{/if}}
                                                         {{else /}}
                                                             {{if is_array($miv) and !empty($miv[$t['view_data_key']])}}
-                                                                <li class="am-padding-xs am-padding-0">
+                                                                <li class="am-padding-0">
                                                                     <div class="am-gallery-item am-nbfc am-padding-right-xs am-padding-bottom-xs">
                                                                         <img src="{{$miv[$t['view_data_key']]}}" class="am-block am-radius" />
                                                                     </div>
@@ -103,9 +103,7 @@
                                 {{/case}}
                                 {{case images}}
                                     {{if !empty($form_table_data_list[$i][$t['view_key']])}}
-                                        <figure data-am-widget="figure" class="am-figure am-inline-block" data-am-figure="{pureview: 'true'}">
-                                            <img src="{{$form_table_data_list[$i][$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
-                                        </figure>
+                                        <img src="{{$form_table_data_list[$i][$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}} common-annex-view-event" data-is-download="1" data-value="{{$form_table_data_list[$i][$t['view_key']]}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
                                     {{/if}}
                                 {{/case}}
                                 {{case qrcode}}
@@ -291,6 +289,8 @@
                                             data-state="{{$form_table_data_list[$i][$t['view_key']]}}"
                                             data-field="{{$t.view_key}}"
                                             data-is-update-status="{{if isset($t['is_form_su']) and $t['is_form_su'] eq 1}}1{{else /}}0{{/if}}"
+                                            data-is-operate-reason="{{if isset($t['is_operate_reason']) and $t['is_operate_reason'] eq 1}}1{{else /}}0{{/if}}"
+                                            data-operate-reason-where="{{if isset($t['operate_reason_where'])}}{{:is_array($t['operate_reason_where']) ? implode(',', $t['operate_reason_where']) : $t['operate_reason_where']}}{{/if}}"
                                             data-is-loading="{{if isset($t['is_loading']) and $t['is_loading'] eq 1}}1{{else /}}0{{/if}}"
                                             data-loading-msg="{{if !empty($t['loading_msg'])}}{{$t.loading_msg}}{{/if}}"
                                         >

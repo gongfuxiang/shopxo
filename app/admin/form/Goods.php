@@ -207,6 +207,36 @@ class Goods
                     ],
                 ],
                 [
+                    'label'         => $lang['spec_desc'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'spec_desc',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['approval_number'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'approval_number',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['coding'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'coding',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => $lang['model'],
                     'view_type'     => 'field',
                     'view_key'      => 'model',
@@ -217,13 +247,23 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => $lang['place_origin_name'],
+                    'label'         => $lang['produce_company'],
                     'view_type'     => 'field',
-                    'view_key'      => 'place_origin_name',
+                    'view_key'      => 'produce_company',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['produce_region_name'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'produce_region_name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'place_origin',
+                        'form_name'         => 'produce_region',
                         'data'              => RegionService::RegionItems(['pid'=>0]),
                         'data_key'          => 'id',
                         'data_name'         => 'name',

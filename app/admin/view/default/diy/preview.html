@@ -11,11 +11,14 @@
         {{if !empty($data['data']['qrcode']) and is_array($data['data']['qrcode'])}}
             <div class="qrcode-content am-background-white am-radius am-padding">
                 {{foreach $data.data.qrcode as $v}}
-                    <img src="{{$v.qrcode}}" class="am-radius common-annex-view-event" width="100" data-value="{{$v.qrcode}}" data-is-download="1" data-download-name="{{$v.name}}" data-title="{{$v.name}}" data-class="am-padding-xl" />
+                    <div class="am-padding-horizontal-lg">
+                        <img src="{{$v.qrcode}}" class="am-radius common-annex-view-event" width="100" data-value="{{$v.qrcode}}" data-is-download="1" data-download-name="{{$v.name}}" data-title="{{$v.name}}" data-class="am-padding-xl" />
+                    </div>
                     <div class="am-margin-bottom-sm am-text-center">
                         <span class="am-color-grey">{{$v.name}}</span>
                         {{if !empty($v['url'])}}
                             <span class="text-copy-submit am-color-blue am-margin-left-xs" data-value="{{$v.url}}">{{:MyLang('copy_title')}}</span>
+                            <a href="{{$v.url}}" target="_blank" class="am-color-blue am-margin-left-xs">{{:MyLang('view_title')}}</a>
                         {{/if}}
                     </div>
                 {{/foreach}}

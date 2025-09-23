@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\SeoService;
 use app\service\DesignService;
 use app\module\LayoutModule;

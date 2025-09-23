@@ -76,6 +76,7 @@ class Common extends BaseController
     protected $page_unique_mark;
 
     // 动态表格
+    protected $form_table_data;
     protected $form_table;
     protected $form_where;
     protected $form_params;
@@ -215,6 +216,8 @@ class Common extends BaseController
             'home_site_logo_square'  => AttachmentPathViewHandle(MyC('home_site_logo_square')),
             // 站点名称
             'home_site_name'         => MyC('home_site_name'),
+            // 商品封面尺寸类型
+            'goods_cover_type'       => (MyC('common_goods_cover_size_type', 0) == 1) ? 'goods-cover-tall' : '',
         ];
 
         // 系统类型
@@ -491,9 +494,6 @@ class Common extends BaseController
         // 页面语言
         $assign['lang_data'] = SystemService::PageViewLangData();
 
-        // 省市联动是否必选选择
-        $assign['is_force_region_choice'] = 1;
-
         // 多语言
         $assign['multilingual_default_code'] = MultilingualService::GetUserMultilingualValue();
 
@@ -546,6 +546,7 @@ class Common extends BaseController
             if($ret['code'] == 0)
             {
                 // 表格数据
+                $this->form_table_data = $ret['data'];
                 $this->form_table = $ret['data']['table'];
                 $this->form_where = $ret['data']['where'];
                 $this->form_params = $ret['data']['params'];

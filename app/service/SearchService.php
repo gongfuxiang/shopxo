@@ -188,8 +188,8 @@ class SearchService
             })->group('g.id')->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray();
 
             // 数据处理
-            $params['is_spec'] = 1;
-            $params['is_cart'] = 1;
+            $params['is_spec'] = (!isset($params['is_spec']) || $params['is_spec'] == 1) ? 1 : 0;
+            $params['is_cart'] = (!isset($params['is_cart']) || $params['is_cart'] == 1) ? 1 : 0;
             $goods = GoodsService::GoodsDataHandle($data, $params);
 
             // 返回数据
@@ -273,7 +273,7 @@ class SearchService
             }
             if($is_keywords_spec)
             {
-                $keywords_fields = 'g.title|g.simple_desc|g.model';
+                $keywords_fields = 'g.title|g.simple_desc|g.spec_desc|g.approval_number|g.produce_company|g.coding|g.model';
                 if(MyC('home_search_is_keywords_seo_fields') == 1)
                 {
                     $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';
@@ -339,18 +339,18 @@ class SearchService
         // 产地、单个id
         if(!empty($params['poid']))
         {
-            $where_base[] = ['g.place_origin', '=', intval($params['poid'])];
+            $where_base[] = ['g.produce_region', '=', intval($params['poid'])];
         }
         // 产地、多个id
-        if(!empty($params['place_origin_ids']))
+        if(!empty($params['produce_region_ids']))
         {
-            if(!is_array($params['place_origin_ids']))
+            if(!is_array($params['produce_region_ids']))
             {
-                $params['place_origin_ids'] = (substr($params['place_origin_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['place_origin_ids']), true) : explode(',', $params['place_origin_ids']);
+                $params['produce_region_ids'] = (substr($params['produce_region_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['produce_region_ids']), true) : explode(',', $params['produce_region_ids']);
             }
-            if(!empty($params['place_origin_ids']))
+            if(!empty($params['produce_region_ids']))
             {
-                $where_base[] = ['g.place_origin', 'in', $params['place_origin_ids']];
+                $where_base[] = ['g.produce_region', 'in', $params['produce_region_ids']];
             }
         }
 
@@ -749,10 +749,10 @@ class SearchService
      * @param   [array]          $map    [搜素条件]
      * @param   [array]          $params [输入参数]
      */
-    public static function SearchGoodsPlaceOriginList($map, $params = [])
+    public static function SearchGoodsProduceRegionList($map, $params = [])
     {
         $data = [];
-        if(MyC('home_search_is_place_origin', 0) == 1)
+        if(MyC('home_search_is_produce_region', 0) == 1)
         {
             // 搜索条件
             $where_base = $map['base'];
@@ -764,7 +764,7 @@ class SearchService
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
-            })->group('g.place_origin')->column('g.place_origin'));
+            })->group('g.produce_region')->column('g.produce_region'));
             if(!empty($list))
             {
                 foreach($list as $k=>$v)
