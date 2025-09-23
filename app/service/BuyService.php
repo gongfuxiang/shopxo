@@ -70,7 +70,7 @@ class BuyService
                 ['is_delete_time', '=', 0],
                 ['is_shelves', '=', 1],
             ],
-            'field' => 'id,id AS goods_id,title,images,inventory_unit,is_shelves,buy_min_number,buy_max_number,model,site_type',
+            'field' => 'id,id AS goods_id,title,images,simple_desc,spec_desc,approval_number,coding,model,produce_company,produce_region,inventory_unit,is_shelves,buy_min_number,buy_max_number,site_type',
             'm'     => 0,
             'n'     => 0,
         ]);
