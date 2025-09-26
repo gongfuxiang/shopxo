@@ -48,22 +48,19 @@ class FormInput extends Common
      */
     public function Index()
     {
-        $data = [];
-        if(!empty($this->data_request['id']))
+        $params = $this->data_request;
+        $params['user'] = $this->user;
+        $form_input_data = FormInputService::FormInputData($params);
+        if(!empty($form_input_data))
         {
-            // 获取diy数据
-            $data = FormInputService::FormInputData($this->data_request);
-
             // 访问统计
-            if(!empty($data))
-            {
-                FormInputService::FormInputAccessCountInc(['forminput_id'=>$data['id']]);
-            }
+            FormInputService::FormInputAccessCountInc(['forminput_id'=>$form_input_data['id']]);
         }
         MyViewAssign([
-            'form_input_data'  => $data,
-            'is_header'        => 0,
-            'is_footer'        => 0,
+            'form_input_data'   => $form_input_data,
+            'editor_path_type'  => empty($form_input_data) ? '' : 'forminputdata-'.$form_input_data['id'],
+            'is_header'         => 0,
+            'is_footer'         => 0,
         ]);
         return MyView();
     }
@@ -94,7 +91,7 @@ class FormInput extends Common
         $params = [
                 'width'         => 100,
                 'height'        => 28,
-                'key_prefix'    => input('type', 'forminput'),
+                'key_prefix'    => 'forminput',
                 'expire_time'   => MyC('common_verify_expire_time'),
             ];
         $verify = new \base\Verify($params);

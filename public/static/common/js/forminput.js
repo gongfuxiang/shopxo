@@ -7,7 +7,7 @@ var $forminput_user_verify_win = $('#forminput-user-verify-win');
 var $forminput_verify_img = $forminput_user_verify_win.find('#user-verify-win-img');
 var $forminput_verify = $forminput_user_verify_win.find('#user-verify-win-img-value');
 var $forminput_verify_win_submit = $forminput_user_verify_win.find('.user-verify-win-submit');
-var $forminput_phone_url = '';
+// var $forminput_phone_url = '';
 var $forminput_phone_data = {};
 var $forminput_data_address_url = '';
 var $forminput_data_address_code_url = '';
@@ -30,23 +30,23 @@ $(function () {
         $('.forminput .forminput-data').attr('style', 'width: '+ $forminput_data_config.custom_width +'px;');
         $('.forminput .forminput-popup-content').attr('style', 'width: '+ $forminput_data_config.custom_width +'px;' + 'height: '+ $forminput_data_config.custom_height +'px;' + 'padding:0;position: relative;');
     }
-    var filed_title_size_type = $forminput_data_config.style_settings.computer.filed_title_size_type;
+    const filed_title_size_type = $forminput_data_config.style_settings.computer.filed_title_size_type;
     // 默认显隐规则逻辑触发
-    forminput_show_hidden_change();
+    ForminputShowHiddenChange();
     // 输入框获取焦点时触发
     $(document).on('focus', '.forminput-input', function(e) {
-        forminput_input_change($(this), 'focus');
+        ForminputInputChange($(this), 'focus');
     })
     // 输入框离开焦点时触发
     $(document).on('blur', '.forminput-input', function(e) {
-        forminput_input_change($(this), 'blur');
+        ForminputInputChange($(this), 'blur');
     })
     // 输入框输入时的变化input
     $(document).on('input', '.forminput-input', function(e) {
         // 获取当前输入框宽度的变化
         let val = $(this).val();
         // 触发数据变化
-        forminput_data_change($(this));
+        ForminputDataChange($(this));
         // 获取当前数据框的父级数据
         let parentNode = $(this).parent();
         // 获取父节点下所有具有特定类的子元素
@@ -55,15 +55,6 @@ $(function () {
         if (childrenWithClass) {
             // 修改父节点下所有具有特定类的子元素的内容
             childrenWithClass.html(val.length);
-        }
-        let parentNode_parent = parentNode.parent();
-        // 判断输入框内容是否为空,为空的话获取验证码取消
-        if (!isEmpty(val)) {
-            parentNode_parent.find('.forminput .verify-submit').attr('disabled', false);
-            parentNode_parent.find('.forminput .verify-submit').removeClass('forminput-btn-disabled').addClass('forminput-btn-primary');
-        } else {
-            parentNode_parent.find('.forminput .verify-submit').attr('disabled', true);
-            parentNode_parent.find('.forminput .verify-submit').removeClass('forminput-btn-primary').addClass('forminput-btn-disabled');
         }
     })
     // 密码选中时的变化
@@ -81,63 +72,69 @@ $(function () {
         }
         // 判断当前输入框是否为密码框
         if (this_data.hasClass('icon-eye')) {
-            inputElement.attr('type', 'text');
+            inputElement.prop('type', 'text');
             this_data.removeClass('icon-eye').addClass('icon-eye-slash');
         } else {
-            inputElement.attr('type', 'password');
+            inputElement.prop('type', 'password');
             this_data.addClass('icon-eye').removeClass('icon-eye-slash');
         }
     })
-    var $add_option_popup = $('#add-option-popup');
-    var $add_option_id = '';
-    var $subform_add_option_index = '';
-    var $subform_add_option_id = '';
+    var $forminput_add_option_popup = $('#add-option-popup');
+    var $forminput_add_option_id = '';
+    var $forminput_subform_add_option_index = '';
+    var $forminput_subform_add_option_id = '';
     // 添加新选项时的变化
     $(document).on('click', '.forminput .add-option', function(e) {
         // 获取当前添加的id
-        const parent = $(this).parent().parent().parent();
-        $add_option_id = parent.attr('id');
-        if ($add_option_id.indexOf('-') > -1) {
-            $add_option_id = parent.data('subform-id');
-            $subform_add_option_index = parent.data('index');
-            $subform_add_option_id = parent.data('id');
+        const parent = $(this).parent().parent();
+        const parent_parent = parent.parent();
+        $forminput_add_option_id = parent.attr('id');
+        // 避免下拉复选框拿不到对应的id处理
+        if (IsEmpty($forminput_add_option_id)) {
+            $forminput_add_option_id = parent.parent().attr('id');
+        }
+        if ($forminput_add_option_id.indexOf('-') > -1) {
+            $forminput_add_option_id = parent_parent.data('subform-id');
+            $forminput_subform_add_option_index = parent_parent.data('index');
+            $forminput_subform_add_option_id = parent_parent.data('id');
         }
         // 清空弹出框里的内容
-        const data = $add_option_popup.find('input');
+        const data = $forminput_add_option_popup.find('input');
         data.val('');
         data.removeClass('am-field-error');
         // 打开弹出框
-        $add_option_popup.modal('open');
+        $forminput_add_option_popup.modal('open');
     })
     // 新选项添加确认
     $(document).on('click', '.forminput .add-option-confirm', function () {
         // 获取数据
-        const data = $add_option_popup.find('input');
+        const data = $forminput_add_option_popup.find('input');
         // 如果输入框有数据，就往下执行，否则的话，提示用户输入数据
-        if (!isEmpty(data.val())) {
+        if (!IsEmpty(data.val())) {
             // 获取数据列表，并添加到指定的全局数据中
             $forminput_data_list.forEach(item => {
-                if (item.id == $add_option_id) {
-                    const value = 'option' + forminput_get_math();
+                if (item.id == $forminput_add_option_id) {
+                    const value = 'option' + ForminputGetMath();
                     const val_name = data.val();
                     //  js添加选项的参数处理
-                    let $element = $('#' + $add_option_id);
+                    let $element = $('#' + $forminput_add_option_id);
                     // 获取数据列表的长度
                     let list_length = 0;
                     // 获取数据详细信息
                     let add_option_data = item.com_data;
                     if (item.key == 'subform') {
-                        $element = $('#' + $subform_add_option_id + '-' + $subform_add_option_index);
-                        add_option_data = item.com_data.data_list[$subform_add_option_index].data_list.find(item => item.id == $subform_add_option_id).com_data || {};
+                        $element = $('#' + $forminput_subform_add_option_id + '-' + $forminput_subform_add_option_index);
+                        add_option_data = item.com_data.data_list[$forminput_subform_add_option_index].data_list.find(item => item.id == $forminput_subform_add_option_id).com_data || {};
                         list_length = add_option_data.option_list.concat(item.com_data.custom_option_list).length;
                     } else {
                         list_length = item.com_data.option_list.concat(item.com_data.custom_option_list).length;
                     }
                     // 新添加数据的内容
                     const params = {
+                        type: 'add',
                         name: val_name,
                         value: value,
-                        color: forminput_color_change(list_length),
+                        color: ForminputColorChange(list_length),
                     };
                     const checkbox_height_class = filed_title_size_type == 'big' ? 'radio_or_checkbox_big_height' : (filed_title_size_type == 'middle' ? 'radio_or_checkbox_height' : '');
                     const multicolour_class = filed_title_size_type == 'big' ? 'item-multicolour-big' : (filed_title_size_type == 'middle' ? 'item-multicolour' : 'item-multicolour-small');
@@ -145,15 +142,15 @@ $(function () {
                         // 添加选项的html数据拼接
                         let new_option_html = '<label class="'+ (add_option_data.arrangement == 'horizontal' ? 'am-checkbox-inline ' : 'am-checkbox ') + (add_option_data.is_multicolour == '1' ? checkbox_height_class : '')+'">' +
                                 '<input type="checkbox" name="' +  item.form_name +'" value="' + value +'" data-am-ucheck="" '+ (list_length == 0 && add_option_data.is_required == '1' ? 'required=""' : '') +
-                                + (list_length == 0 && add_option_data.is_limit_num == '1' && !isEmpty(add_option_data.min_num) ? ('minchecked="'+ add_option_data.min_num + '"') : '') +
-                                + (list_length == 0 && add_option_data.is_limit_num == '1' && !isEmpty(add_option_data.max_num) ? ('maxchecked="'+ add_option_data.max_num + '"') : '') +
+                                + (list_length == 0 && add_option_data.is_limit_num == '1' && !IsEmpty(add_option_data.min_num) ? ('minchecked="'+ add_option_data.min_num + '"') : '') +
+                                + (list_length == 0 && add_option_data.is_limit_num == '1' && !IsEmpty(add_option_data.max_num) ? ('maxchecked="'+ add_option_data.max_num + '"') : '') +
                                 ' class="am-ucheck-checkbox"><span class="am-ucheck-icons"><i class="am-icon-unchecked"></i><i class="am-icon-checked"></i></span>' +
-                                '<span class="'+ multicolour_class +'" style="'+ (add_option_data.is_multicolour == '1' ? ('background:' + params.color + ';color:#fff;border-radius:4px;') : 'padding: 0;') +'">' + val_name + '</span>' +
+                                '<div class="'+ multicolour_class +' am-flex-row align-items-center forminput-gap-5" style="'+ (add_option_data.is_multicolour == '1' ? ('background:' + params.color + ';color:#fff;border-radius:4px;') : 'padding: 0;') +'">' + val_name + '<i data-value="'+ value +'" data-id="'+ $forminput_add_option_id +'" class="add-option-icon iconfont icon-close '+ (add_option_data.is_multicolour == '1' ? '' : 'forminput-cr-gray')+'"></i></div>' +
                             '</label>';
                         $element.find('.option-add').append(new_option_html);
                     } else {
                         let new_option_html = '<li value="'+ value +'" class="am-selected-item am-flex-row align-items-center" data-index="'+ list_length +'" data-group="0" data-value="'+ value +'">' +
-                            '<span class="'+ multicolour_class +'" style="'+ (add_option_data.is_multicolour == '1' ? ('background:' + params.color + ';color:#fff;border-radius:4px;') : 'padding: 0;') +'">' + val_name + '</span>' +
+                            '<div class="'+ multicolour_class +' am-flex-row align-items-center forminput-gap-5" style="'+ (add_option_data.is_multicolour == '1' ? ('background:' + params.color + ';color:#fff;border-radius:4px;') : 'padding: 0;') +'">' + val_name + '<i data-value="'+ value +'" data-id="'+ $forminput_add_option_id +'" data-subform-option-id="'+ $forminput_subform_add_option_id +'" data-subform-option-index="'+ $forminput_subform_add_option_index +'" class="add-option-icon iconfont icon-close '+ (add_option_data.is_multicolour == '1' ? '' : 'forminput-cr-gray')+'"></i></div>' +
                             '<i class="am-icon-check"></i></li>';
                         $element.find('.am-selected-list').append(new_option_html);
                         // 隐藏的select选项也需要添加进去新的内容
@@ -166,16 +163,78 @@ $(function () {
                 }
             });
             // 添加成功，之后关闭弹出框
-            $add_option_popup.modal('close');
+            $forminput_add_option_popup.modal('close');
             return false;
         }
     });
+    // 删除新增选项的内容
+    $(document).on('click', '.forminput .add-option-icon', function() { 
+        const id = $(this).attr('data-id');
+        const value = $(this).attr('data-value');
+        // 主要是用于子表单的删除操作
+        const subform_option_id = $(this).attr('data-subform-option-id');
+        const subform_option_index = $(this).attr('data-subform-option-index');
+        // 获取数据列表，并添加到指定的全局数据中
+        $forminput_data_list.forEach(item => {
+            if (item.id == id) {
+                //  js删除选项的参数处理
+                let $element = $('#' + id);
+                // 获取数据详细信息
+                let add_option_data = item.com_data;
+                if (item.key == 'subform') {
+                    $element = $('#' + subform_option_id + '-' + subform_option_index);
+                    add_option_data = item.com_data.data_list[subform_option_index].data_list.find(item => item.id == subform_option_id).com_data || {};
+                }
+                // 执行删除数据
+                const index = add_option_data.custom_option_list.findIndex(item => item.value == value);
+                add_option_data.custom_option_list.splice(index, 1);
+                // 如果是下拉复选框，需要删除对应的html内容和选中内容
+                if (add_option_data.type !== 'checkbox') {
+                    // 选中当前数据时，需要做判断
+                    let old_element = $(this).parent().find('.am-selected-item.am-checked');
+                    const selected_values = Array.from(old_element).map(item => item.dataset.value);
+                    // 将独有的和所有的信息合并之后返回
+                    const list = add_option_data.option_list.concat(add_option_data.custom_option_list);
+                    const val_data = list.filter(item1 => selected_values.includes(item1.value));
+                    // 先将所有的取消选中
+                    $element.find('.forminput-visiable-hidden option').prop('selected', false);
+                    // 先删除额外的参数
+                    $element.find('.forminput-visiable-hidden option[value="'+ value +'"]').remove();
+                    //  js添加选项的参数处理
+                    if (val_data.length > 0) {
+                        let new_option_html = '';
+                        // 循环选中的数据，为每一个选中的添加选中效果
+                        val_data.forEach((item2, index2) => {
+                            const multicolour_class = filed_title_size_type == 'big' ? 'item-multicolour-big' : (filed_title_size_type == 'middle' ? 'item-multicolour' : 'item-multicolour-small');
+                            // 添加选项的html数据拼接
+                            new_option_html += '<span class="'+ multicolour_class +'" style="'+ (add_option_data.is_multicolour == '1' ? ('background:' + item2.color + ';color:'+ (item2.is_other && item2.is_other == '1' ? '#141E31' : '#fff') +';border-radius:4px;') : 'padding: 0;') +'">'+ (add_option_data.is_multicolour == '1' ? item2.name : (index2 !== 0 ? ',' + item2.name : item2.name)) +'</span>';
+                            // 给对应的隐藏的select添加选中的属性
+                            $element.find('.forminput-visiable-hidden option[value="'+ item2.value +'"]').prop('selected', true);
+                        });
+                        // 添加所有选中的数据
+                        $element.find('.am-selected-status').html(new_option_html);
+                    } else { 
+                        // 如果没有选中的就添加默认文字显示
+                        $element.find('.am-selected-status').html('<span class="forminput-cr-gray">' + add_option_data.placeholder + '</span>');
+                    }
+                }
+                // 自定义选项的输入框也需要添加进去新的内容
+                $element.parent().find('.forminput-custom-option-list').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(add_option_data.custom_option_list)))));
+                // 删除当前选项
+                $(this).parent().parent().remove();
+            }
+        })
+    })
     // 下拉框切换选项逻辑处理
     $(document).on('click', '.forminput .am-selected-item', function () {
         // 获取当前父级的信息
         let parent = $(this).parent();
+        const selectd_id = parent.parent().attr('id');
+        if (IsEmpty(selectd_id)) {
+            return;
+        }
         // 获取当前父级的id
-        let parent_id = parent.parent().attr('id').replace('dropdown-', '');
+        let parent_id = selectd_id.replace('dropdown-', '');
         let subform_index = 0;
         let subform_id = '';
         if (parent_id.indexOf('-') > -1) {
@@ -198,7 +257,7 @@ $(function () {
             // 给当前选中的添加对应的class
             $(this).addClass('am-checked');
             // 当前选中的id
-            let value = $(this).attr('value');
+            let value = $(this).attr('data-value');
             // 获取数据列表，并添加到指定的全局数据中
             $forminput_data_list.forEach(item => {
                 if (item.id == parent_id) {
@@ -217,9 +276,42 @@ $(function () {
                         new_option_html = '<span class="'+ multicolour_class +'" style="'+ (subform_data.is_multicolour == '1' ? ('background:' + val_data.color + ';color:'+ (val_data.is_other && val_data.is_other == '1' ? '#141E31' : '#fff') +';border-radius:4px;') : 'padding: 0;') +'">'+ val_data.name +'</span>';
                         at_the_top_parent.find('.am-selected-status').html(new_option_html);
                         // 给对应的隐藏的select添加选中的属性
-                        at_the_top_parent.find('.forminput-visiable-hidden option').attr('selected', false);
-                        at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ value +'"]').attr('selected', true);
-                    } else { 
+                        at_the_top_parent.find('.forminput-visiable-hidden option').prop('selected', false);
+                        // 下拉框选中值赋值
+                        at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ value +'"]').prop('selected', true);
+                        // 关闭下拉框
+                        $(`.`+ parent_id + `-dropdown`).dropdown('close');
+                        // 判断是否是选中其他
+                        if (val_data.is_other && val_data.is_other == '1') {
+                            // 判断是否存在
+                            if  (at_the_top_parent.parent().find(`.`+ parent_id + `-other`).length > 0) {
+                                return;
+                            }
+                            at_the_top_parent.parent().addClass('am-flex-col forminput-gap-10');
+                            // 输入框的高度和不可输入区域的字体大小
+                            const item_content_class = filed_title_size_type == 'big' ? 'item-content-big' : (filed_title_size_type == 'middle' ? 'item-content' : 'item-content-small');
+                            // 输入框字体大小
+                            const item_size = filed_title_size_type == 'big' ? 'item-big-size' : (filed_title_size_type == 'middle' ? 'item-size' : '');
+                            const subform_html = `<div class="forminput-data-item-content `+ parent_id +`-other `+ item_content_class +`" style="` + item.common_style + `">
+                                    <input 
+                                        type="text" 
+                                        name="`+ item.form_name +`_other_value" 
+                                        value="`+ item.com_data.other_value +`"     
+                                        placeholder="请输入其他内容" 
+                                        class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
+                                    />
+                             </div>`;
+                            at_the_top_parent.parent().append(subform_html);
+                        } else {
+                            at_the_top_parent.parent().removeClass('am-flex-col forminput-gap-10');
+                            // 移除其他输入框
+                            at_the_top_parent.parent().find(`.`+ parent_id + `-other`).remove();
+                        }
+                    } else {
+                        // 下拉框选中值赋值
+                        at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ value +'"]').prop('selected', true);
+                        // 关闭下拉框
+                        $(`.`+ parent_id + `-dropdown`).dropdown('close');
                         // 如果没有选中的就添加默认文字显示
                         at_the_top_parent.find('.am-selected-status').html('<span class="forminput-cr-gray">' + subform_data.placeholder + '</span>');
                     }
@@ -228,12 +320,12 @@ $(function () {
                         // 关闭所有子表单的下拉单选
                         $('.subform-dropdown.am-dropdown').dropdown('close');
                         // 重新处理显隐规则
-                        forminput_subform_show_hidden_change(item);
+                        ForminputSubformShowHiddenChange(item);
                     }
                 }
             });
             // 显隐规则逻辑处理
-            forminput_show_hidden_change();
+            ForminputShowHiddenChange();
         } else if (new_data && ['checkbox', 'select-multi'].includes(new_data.key)) {
             // 多选下拉框
             // 判断当前是否被选中,如果选中则取消选中，否则添加选中
@@ -257,7 +349,7 @@ $(function () {
                     const list = subform_data.option_list.concat(subform_data.custom_option_list);
                     const val_data = list.filter(item1 => values.includes(item1.value));
                     // 先将所有的取消选中
-                    at_the_top_parent.find('.forminput-visiable-hidden option').attr('selected', false);
+                    at_the_top_parent.find('.forminput-visiable-hidden option').prop('selected', false);
                     //  js添加选项的参数处理
                     if (val_data.length > 0) {
                         let new_option_html = '';
@@ -267,7 +359,7 @@ $(function () {
                             // 添加选项的html数据拼接
                             new_option_html += '<span class="'+ multicolour_class +'" style="'+ (subform_data.is_multicolour == '1' ? ('background:' + item2.color + ';color:'+ (item2.is_other && item2.is_other == '1' ? '#141E31' : '#fff') +';border-radius:4px;') : 'padding: 0;') +'">'+ (subform_data.is_multicolour == '1' ? item2.name : (index2 !== 0 ? ',' + item2.name : item2.name)) +'</span>';
                             // 给对应的隐藏的select添加选中的属性
-                            at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ item2.value +'"]').attr('selected', true);
+                            at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ item2.value +'"]').prop('selected', true);
                         });
                         // 添加所有选中的数据
                         at_the_top_parent.find('.am-selected-status').html(new_option_html);
@@ -287,10 +379,35 @@ $(function () {
         $forminput_data_list.forEach(function (item) {
             if (item.id == id) {
                 item.com_data.form_value = data;
+                // 判断是否是选中其他
+                const val_data = item.com_data.option_list.find(item1 => item1.value == data);
+                if (val_data.is_other && val_data.is_other == '1') {
+                    if (parent.find(`.`+ id + `-other`).length > 0) {
+                        return;
+                    } else {
+                        // 输入框的高度和不可输入区域的字体大小
+                        const item_content_class = filed_title_size_type == 'big' ? 'item-content-big' : (filed_title_size_type == 'middle' ? 'item-content' : 'item-content-small');
+                        // 输入框字体大小
+                        const item_size = filed_title_size_type == 'big' ? 'item-big-size' : (filed_title_size_type == 'middle' ? 'item-size' : '');
+                        const subform_html = `<div class="forminput-data-item-content `+ id +`-other `+ item_content_class +`" style="` + item.common_style + `">
+                                <input 
+                                    type="text" 
+                                    name="`+ item.form_name +`_other_value" 
+                                    value="`+ item.com_data.other_value +`"     
+                                    placeholder="请输入其他内容" 
+                                    class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
+                                />
+                            </div>`;
+                        parent.append(subform_html);
+                    }
+                } else {
+                    // 移除其他输入框
+                    parent.find(`.`+ id + `-other`).remove();
+                }
             }
         });
         // 显隐规则逻辑处理
-        forminput_show_hidden_change();
+        ForminputShowHiddenChange();
     });
     // 鼠标移入评分图标时显示
     $(document).on('mouseover', '.forminput .forminput-score-icon', function () {
@@ -310,7 +427,7 @@ $(function () {
             }
             // 获取当前分数
             let mouseover_index = $(this).data('index');
-            forminput_score_change(parent, new_data, mouseover_index + 1);
+            ForminputScoreChange(parent, new_data, mouseover_index + 1);
         }
     });
     // 鼠标移出评分组件时隐藏
@@ -368,7 +485,7 @@ $(function () {
                 let selectd_index = $(this).data('index') + 1;
                 // 判断当前索引是否和当前值一致,一致的话就不进行处理
                 if (selectd_index !== new_data.com_data.form_value) {
-                    forminput_score_change(parent, new_data, selectd_index, 'click');
+                    ForminputScoreChange(parent, new_data, selectd_index, 'click');
                     // 修改内部输入框的值，提交表单的时候可以直接处理
                     parent.find('input').attr('value', selectd_index);
                     new_data.com_data.form_value = selectd_index;
@@ -420,14 +537,14 @@ $(function () {
         }
     });
     // 获取短信验证码
-    $(document).on('click', '.form-input .verify-submit', function () { 
-        $phone_url = $(this).attr('data-url');
+    $(document).on('click', '.forminput .verify-submit', function () { 
+        // $phone_url = $(this).attr('data-url');
         let id = $(this).attr('id').replace('_verify', '');
         $forminput_phone_id = id;
         // 获取当前对应的数据信息
         const new_data = $forminput_data_list.find(item => item.id == id);
         // 如果数据为空的时候，则返回
-        if (isEmpty(new_data)) { 
+        if (IsEmpty(new_data)) { 
             return;
         }
         $forminput_phone_data = new_data;
@@ -440,7 +557,7 @@ $(function () {
             $forminput_verify.focus();
         } else {
             // 弹出框
-            forminput_get_verification('');
+            ForminputGetVerification('');
         }
     });
     // 图片验证码输入框修改
@@ -453,13 +570,13 @@ $(function () {
             $forminput_verify.focus();
             return false;
         }
-        forminput_get_verification(verify);
+        ForminputGetVerification(verify);
     });
     // 地址筛选处理
     $(document).on('click', '.forminput .am-cascader .am-cascader-dropdown .am-cascader-node', function () {
         let parent_parent = $(this).parent().parent().parent().parent();
         let id = parent_parent.attr('id');
-        if (!isEmpty(id)) {
+        if (!IsEmpty(id)) {
             id = id.replace('-cascader-panel', '');
             if (id.indexOf('-') > 0) {
                 id = parent_parent.data('subform-id');
@@ -468,7 +585,7 @@ $(function () {
         // 获取当前对应的数据信息
         let new_data = $forminput_data_list.find(item => item.id == id);
         // 如果数据为空的时候，则返回
-        if (isEmpty(new_data)) { 
+        if (IsEmpty(new_data)) { 
             return;
         }
         // 获取表单名称
@@ -487,7 +604,7 @@ $(function () {
             subform_id = parent_parent.data('id');
             if (subform_id) {
                 new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
-                if (isEmpty(new_data)) {
+                if (IsEmpty(new_data)) {
                     return;
                 } else {
                     const name = (old_data.form_name || '') + '[' + subform_index + '][' + (new_data.form_name || '');
@@ -582,7 +699,7 @@ $(function () {
     })
     // 富文本上传文件处理
     $(document).on('change', '.forminput .rich-file-upload-input', function () {
-        if (isEmpty($editor_id)) {
+        if (IsEmpty($editor_id)) {
             return;
         }
         const file = this.files[0];
@@ -645,16 +762,17 @@ $(function () {
                     if (new_data.com_data.form_value.length > 0) {
                         new_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
                             if (new_data.key == 'upload-img') {
-                                new_form_value_html += forminput_file_upload_img(form_value_index, form_value_item, id, new_data.id, subform_index);
+                                new_form_value_html += ForminputFileUploadImg(form_value_index, form_value_item, id, new_data.id, subform_index);
                             } else if (new_data.key == 'upload-video') {
-                                new_form_value_html += forminput_file_upload_video(form_value_index, form_value_item, id, new_data.id, subform_index);
+                                new_form_value_html += ForminputFileUploadVideo(form_value_index, form_value_item, id, new_data.id, subform_index);
                             } else if (new_data.key == 'upload-attachments') {
-                                new_form_value_html += forminput_file_upload_attachments(form_value_index, form_value_item, id, new_data.id, subform_index); 
+                                new_form_value_html += ForminputFileUploadAttachments(form_value_index, form_value_item, id, new_data.id, subform_index); 
                             }       
                         });
                         // 将遍历好的塞入到html中
                         $element.html(new_form_value_html);
                     } else if (!$element.hasClass('file-upload-hidden')) {
+                        $element.html('');
                         $element.addClass('file-upload-hidden');
                     }
                     // 将新增数据显示出来
@@ -662,7 +780,6 @@ $(function () {
                     // 赋值
                     $('#' + new_id).find('input').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(upload_input_data)))));
                 }
-                
             }
         })
     }); 
@@ -738,13 +855,13 @@ $(function () {
                     if (item.id == selected_id) {
                         item.com_data.data_list.splice(index, 1);
                         // 渲染数据
-                        $('#' + selected_id).find('.subform-data-list').html(forminput_set_subform_data(item));
+                        $('#' + selected_id).find('.subform-data-list').html(ForminputSetSubformData(item));
                         // 地址初始化
                         RegionLinkageInit();
                         // 刷新下拉框
                         $('.subform-dropdown.am-dropdown').dropdown();
                         // 重新处理显隐规则
-                        forminput_subform_show_hidden_change(item);
+                        ForminputSubformShowHiddenChange(item);
                     }
                 })
             }
@@ -757,7 +874,7 @@ $(function () {
         $forminput_data_list.forEach((item) => {
             if (item.id == selected_id) {
                 // 刷新子表单数据
-                const new_subform_html = forminput_set_one_line_data(item, item.com_data.data_list.length, item.com_data.children);
+                const new_subform_html = ForminputSetOneLineData(item, item.com_data.data_list.length, item.com_data.children);
                 $('#' + selected_id).find('.subform-data-list').append(new_subform_html);
                 // 地址初始化
                 RegionLinkageInit();
@@ -767,7 +884,7 @@ $(function () {
                     data_list: item.com_data.children
                 })
                 // 重新处理显隐规则
-                forminput_subform_show_hidden_change(item);
+                ForminputSubformShowHiddenChange(item);
             }
         })
     });
@@ -785,7 +902,7 @@ $(function () {
         // 创造一个对应删除子表单列的数组
         const id = $(this).data('id');
         // 每次点击删除按钮的时候都将数组记为空，避免出现重复或者误删的情况
-        $subform_check_list[id] = [];
+        $forminput_subform_check_list[id] = [];
         // 清空页面选中效果
         $('#' + id).find('.subform-checkbox').prop('checked', false);
         $('#' + id).find('.subform-num-checkbox .subform-index-checkbox').prop('checked', false);
@@ -802,31 +919,31 @@ $(function () {
        // 隐藏多选按钮组
        parent.parent().find('.forminput-table-container').removeClass('forminput-table-checkbox');
     });
-    $subform_check_list = {};
+    $forminput_subform_check_list = {};
     // 全选
     $(document).on('click', '.forminput .subform-header-checkbox .subform-checkbox', function () {
         const id = $(this).data('id');
         const $element = $('#' + id).find('.subform-num-checkbox .subform-index-checkbox');
         // 判断是否为空，如果为空证明历史没有添加过，需要初始化
-        if (isEmpty($subform_check_list[id])) {
-            $subform_check_list[id] = [];
+        if (IsEmpty($forminput_subform_check_list[id])) {
+            $forminput_subform_check_list[id] = [];
         }
         // 全选
         if ($(this).prop('checked')) {
             // 全选
-            $subform_check_list[id] = [];
+            $forminput_subform_check_list[id] = [];
             // 获取对应的id数据
             const find_data_list = $forminput_data_list.find(item => item.id === id);
             // 判断数据是否存在
-            if (!isEmpty(find_data_list)) {
+            if (!IsEmpty(find_data_list)) {
                 // 直接生成连续的索引数组，避免逐个检查和添加
-                $subform_check_list[id] = Array.from({length: find_data_list.com_data.data_list.length}, (_, index) => index);
+                $forminput_subform_check_list[id] = Array.from({length: find_data_list.com_data.data_list.length}, (_, index) => index);
                 // 选中
                 $element.prop('checked', true);
             }
         } else {
             // 取消全选
-            $subform_check_list[id] = [];
+            $forminput_subform_check_list[id] = [];
             // 取消
             $element.prop('checked', false);
         }
@@ -837,17 +954,17 @@ $(function () {
         const index = $(this).data('index');
         const $element = $('#' + id).find('.subform-checkbox');
         // 判断是否为空，如果为空证明历史没有添加过，需要初始化
-        if (isEmpty($subform_check_list[id])) {
-            $subform_check_list[id] = [];
+        if (IsEmpty($forminput_subform_check_list[id])) {
+            $forminput_subform_check_list[id] = [];
         }
         // 选中
         if ($(this).prop('checked')) {
             // 如果历史记录中已经包含当前index，证明已经选中过，所以不添加对应的数据
-            if (!$subform_check_list[id].includes(index)) {
-                $subform_check_list[id].push(index);
+            if (!$forminput_subform_check_list[id].includes(index)) {
+                $forminput_subform_check_list[id].push(index);
             }
             // 如果数量一致的话，添加选中逻辑，否则的话添加取消逻辑
-            const check_flag = $forminput_data_list.some(item => item.id == id && item.com_data.data_list.length == $subform_check_list[id].length);
+            const check_flag = $forminput_data_list.some(item => item.id == id && item.com_data.data_list.length == $forminput_subform_check_list[id].length);
             if (check_flag) {
                 $element.prop('checked', true);
             } else {
@@ -855,7 +972,7 @@ $(function () {
             }
         } else {
             // 取消选中的时候移除当前点击的数据
-            $subform_check_list[id] = $subform_check_list[id].filter((item) => item != index);
+            $forminput_subform_check_list[id] = $forminput_subform_check_list[id].filter((item) => item != index);
             // 如果全选是选中状态，取消全选
             if ($element.prop('checked')) {
                 $element.prop('checked', false);
@@ -867,22 +984,22 @@ $(function () {
     $(document).on('click', '.forminput .subform-delete-selected', function () {
         const subform_id = $(this).data('id');
         // 判断选中的数量是否为空，为空则不处理
-        if (!isEmpty[$subform_check_list[subform_id]]) {
+        if (!IsEmpty[$forminput_subform_check_list[subform_id]]) {
             $forminput_data_list.forEach((item) => {
                 if (item.id == subform_id) {
                     const new_data = JSON.parse(JSON.stringify(item.com_data.data_list));
                     // 去除所有没有被选中的数据
-                    item.com_data.data_list = new_data.filter((item, index) => !$subform_check_list[subform_id].includes(index));
+                    item.com_data.data_list = new_data.filter((item, index) => !$forminput_subform_check_list[subform_id].includes(index));
                     // 重新计算删除数据
-                    $subform_check_list[subform_id] = [];
+                    $forminput_subform_check_list[subform_id] = [];
                     // 渲染数据
-                    $('#' + subform_id).find('.subform-data-list').html(forminput_set_subform_data(item));
+                    $('#' + subform_id).find('.subform-data-list').html(ForminputSetSubformData(item));
                     // 地址初始化
                     RegionLinkageInit();
                     // 刷新下拉框
                     $('.subform-dropdown.am-dropdown').dropdown();
                     // 重新处理显隐规则
-                    forminput_subform_show_hidden_change(item);
+                    ForminputSubformShowHiddenChange(item);
                 }
             });
         }
@@ -915,50 +1032,59 @@ $(function () {
                     item.com_data.data_list.splice(index + 1, 0, {is_expand: false, data_list: children});
                 }
                 // 渲染数据
-                $('#' + selected_id).find('.subform-data-list').html(forminput_set_subform_data(item));
+                $('#' + selected_id).find('.subform-data-list').html(ForminputSetSubformData(item));
                 // 地址初始化
                 RegionLinkageInit();
                 // 刷新下拉框
                 $('.subform-dropdown.am-dropdown').dropdown();
                 // 重新处理显隐规则
-                forminput_subform_show_hidden_change(item);
+                ForminputSubformShowHiddenChange(item);
             }
         })
         
     });
     // 子表单中的下拉框位置显示问题
-    $parent_offset = '';
-    $selected_click_id = '';
+    $forminput_parent_offset = '';
+    $forminput_selected_click_id = '';
     // 更新下来框显示位置
     $(document).on('click', '.forminput .selected-click', function () {
         const parent = $(this).parent();
-        const dropdown = parent.find('.select-fixed-position');
-        $selected_click_id = $(this).data('id');
+        // const dropdown = parent.find('.select-fixed-position');
+        $forminput_selected_click_id = $(this).data('id');
         // 获取整个组件在页面的位置
-        $parent_offset = parent.offset();
+        $forminput_parent_offset = parent.offset();
         // 获取组件高度
         let parent_height = $(this).find('.forminput-data-item-content').outerHeight();
+        let left = $forminput_parent_offset.left;
         // 如果没有获取到组件高度，则获取组件图标高度
-        if (isEmpty(parent_height)) {
+        if (IsEmpty(parent_height)) {
             parent_height = $(this).find('.operate-icon').outerHeight();
+            left = left - 14;
         }
+        // 获取内容高度
+        // const content_height = parent.find('.am-dropdown-content').outerHeight();
+        let top = $forminput_parent_offset.top + parent_height;
+        // // 下拉框内容高度超出屏幕高度时，调整位置
+        // if (($(window).height() - 200) < ($forminput_parent_offset.top + parent_height + content_height)) {
+        //     top = $forminput_parent_offset.top - parent_height;
+        // }
         // 重新定位显示位置
         parent.find('.select-fixed-position').css({
             position: 'fixed',
-            top: $parent_offset.top + parent_height,
-            left: $parent_offset.left
+            top: top,
+            left: left
         });
     });
     // 监听整个容器的滚动，如果滚动大于100px，则隐藏下拉框内容
     $('#forminputScoll').on('scroll', function() {
         var scrollTop = $(this).scrollTop();
-        if (scrollTop > 100 && !isEmpty($parent_offset)) {
+        if (scrollTop > 100 && !IsEmpty($forminput_parent_offset)) {
             // 移除地址选中样式
             $('.select-fixed-position').removeClass('am-active');
             $('.select-fixed-position').parent().find('.iconfont.icon-angle-down').removeClass('is-reverse');
             // 关闭下来框的显示
-            if (!isEmpty($selected_click_id)) {
-                $('#' + $selected_click_id).dropdown('close');
+            if (!IsEmpty($forminput_selected_click_id)) {
+                $('#' + $forminput_selected_click_id).dropdown('close');
             }
         }
     });
@@ -984,21 +1110,21 @@ $(function () {
         });
     });
     // 初始化富文本编辑器
-    forminput_editor_init();
+    ForminputEditorInit();
     // 子表单的显隐规则处理
     $forminput_data_list.forEach(item => {
         if (item.key == 'subform') {
-           forminput_subform_show_hidden_change(item);
+           ForminputSubformShowHiddenChange(item);
         }
     })
 });
 
-function forminput_subform_show_hidden_change(item) { 
+function ForminputSubformShowHiddenChange(item) { 
     // 判断字段是否为空
-    if (isEmpty(item.com_data.children)) {
+    if (IsEmpty(item.com_data.children)) {
         return;
     }
-    const tiltle_list = forminput_subform_show_hidden_type_change(item.com_data.children, null, item.com_data.data_list);
+    const tiltle_list = ForminputSubformShowHiddenTypeChange(item.com_data.children, null, item.com_data.data_list);
     // 先隐藏所有
     $('#' + item.id).find('.subform-header').addClass('forminput-subform-hidden');
     // 循环处理表头显示
@@ -1010,7 +1136,7 @@ function forminput_subform_show_hidden_change(item) {
     // 先隐藏所有子级内容,并且将显示内容处理一下
     $('#' + item.id).find('.subform-cell').addClass('forminput-subform-hidden').removeClass('forminput-subform-content-hidden');
     item.com_data.data_list.forEach((data_item, index) => { 
-        const com_data_data_list = forminput_subform_show_hidden_type_change(item.com_data.children, index, item.com_data.data_list, 'index');
+        const com_data_data_list = ForminputSubformShowHiddenTypeChange(item.com_data.children, index, item.com_data.data_list, 'index');
         const data_item_id = com_data_data_list.map(item => item.id);
         com_data_data_list.forEach((com_data_data_item, com_data_data_index) => {
             // 显示指定的
@@ -1025,14 +1151,14 @@ function forminput_subform_show_hidden_change(item) {
         }
         // 循环处理添加固定样式
         tiltle_list.forEach((title_item, title_index) => {
-            const left_sticky = forminput_subform_left_sticky(title_index + 1, tiltle_list, item.com_data);
-            $('#' + item.id).find('#subform-header-' + title_item.id).attr('style', `width:`+ title_item.com_data.com_width +`px;` + (isEmpty(left_sticky) ? '' : left_sticky + 'z-index:9999;'));
-            $('#' + item.id).find('#' + title_item.id + '-' + index).attr('style', `width:`+ title_item.com_data.com_width +`px;` + (isEmpty(left_sticky) ? '' : left_sticky + `z-index:`+ (9990 - index) +`;`));
+            const left_sticky = ForminputSubformLeftSticky(title_index + 1, tiltle_list, item.com_data);
+            $('#' + item.id).find('#subform-header-' + title_item.id).attr('style', `width:`+ title_item.com_data.com_width +`px;` + (IsEmpty(left_sticky) ? '' : left_sticky + 'z-index:9999;'));
+            $('#' + item.id).find('#' + title_item.id + '-' + index).attr('style', `width:`+ title_item.com_data.com_width +`px;` + (IsEmpty(left_sticky) ? '' : left_sticky + `z-index:`+ (9990 - index) +`;`));
         });
     });
 }
 
-function forminput_editor_init() {
+function ForminputEditorInit() {
     const { createEditor, createToolbar } = window.wangEditor
     // 遍历所有组件，找到对应的富文本组件
     $forminput_data_list.forEach(item => {
@@ -1053,7 +1179,7 @@ function forminput_editor_init() {
                             $editor_id = item.id;
                             $rich_upload_type = 'image';
                             $upload_insert = insertFn;
-                            $('#' + item.id + '-rich-file-upload').attr('accept', 'image/*');
+                            $('#' + item.id + '-rich-file-upload').prop('accept', 'image/*');
                             $('#' + item.id + '-rich-file-upload').click();
                         },
                     },
@@ -1063,7 +1189,7 @@ function forminput_editor_init() {
                             $editor_id = item.id;
                             $rich_upload_type = 'video';
                             $upload_insert = insertFn;
-                            $('#' + item.id + '-rich-file-upload').attr('accept', 'video/*');
+                            $('#' + item.id + '-rich-file-upload').prop('accept', 'video/*');
                             $('#' + item.id + '-rich-file-upload').click();
                         },
                     },
@@ -1089,13 +1215,13 @@ function forminput_editor_init() {
     });
 }
 // 输入内容改变处理
-function forminput_input_change(e, type) {
+function ForminputInputChange(e, type) {
     // 获取当前数据框的父级数据
     let parentNode = e.parent();
     // 获取父级id
     let id = parentNode.parent().attr('id');
     // 如果父级id为空，就从父级父级获取
-    if (isEmpty(id)) {
+    if (IsEmpty(id)) {
         id = parentNode.parent().parent().attr('id');
     }
     // 获取当前数据框的父级数据，选中之后添加边框
@@ -1106,7 +1232,7 @@ function forminput_input_change(e, type) {
     }
     if (id.indexOf('-') > -1) { 
         id = parentNode.parent().data('subform-id');
-        if (isEmpty(id)) {
+        if (IsEmpty(id)) {
             id = parentNode.parent().parent().data('subform-id');
         }
     }
@@ -1117,14 +1243,14 @@ function forminput_input_change(e, type) {
         if (new_data.key == 'subform') {
             let subform_index = parentNode.parent().data('index');
             let subform_id = parentNode.parent().data('id');
-            if (isEmpty(subform_id)) {
-               let subform_index = parentNode.parent().parent().data('index');
-               let subform_id = parentNode.parent().parent().data('id');
+            if (IsEmpty(subform_id)) {
+               parentNode.parent().parent().data('index');
+               parentNode.parent().parent().data('id');
             }
             // 获取子表单的数据
             new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
             // 如果子表单数据为空，就取消执行
-            if (isEmpty(new_data)) {
+            if (IsEmpty(new_data)) {
                 return;
             }
         }
@@ -1132,16 +1258,16 @@ function forminput_input_change(e, type) {
         if (type == 'focus') {
             if (new_data.key == 'number') {
                 // 不为空的时候，获取焦点的时候将千分位的转化为数字避免用户输入的时候出现问题
-                if (!isEmpty(new_data.com_data.form_value)) {
-                    e.val(Number(forminput_formatNumber(new_data.com_data.form_value, false)).toFixed(new_data.com_data.decimal_num));
+                if (!IsEmpty(new_data.com_data.form_value)) {
+                    e.val(Number(ForminputFormatNumber(new_data.com_data.form_value, false)).toFixed(new_data.com_data.decimal_num));
                 }
             }
         } else {
             if (new_data.key == 'number') {
-                if (!isEmpty(new_data.com_data.form_value)) {
+                if (!IsEmpty(new_data.com_data.form_value)) {
                     let all_list = new_data.com_data.form_value.replace(/[^0-9.]/g, '');
                     // 去除不是数字和.的值
-                    num = Number(forminput_formatNumber(all_list, false)).toFixed(new_data.com_data.decimal_num);
+                    num = Number(ForminputFormatNumber(all_list, false)).toFixed(new_data.com_data.decimal_num);
                     // 为数字并且时千分位的是你
                     if (new_data.com_data.format == 'num' && new_data.com_data.is_thousandths_symbol == '1') {
                         // 如果有多个.的话，去除多个.
@@ -1151,7 +1277,7 @@ function forminput_input_change(e, type) {
                             all_list = parts[0] + '.' + parts.slice(1).join('');
                         }
                         // let childrenWithClass = parentNode.querySelector('.forminput-input');
-                        e.val(forminput_formatNumber(Number(forminput_formatNumber(all_list, false)).toFixed(new_data.com_data.decimal_num).toString(), true))
+                        e.val(ForminputFormatNumber(Number(ForminputFormatNumber(all_list, false)).toFixed(new_data.com_data.decimal_num).toString(), true))
                     }
                 }
             }
@@ -1161,7 +1287,7 @@ function forminput_input_change(e, type) {
             } else {
                 // 特殊字段验证：手机号
                 if (new_data.key === 'phone') {
-                    const { is_error = '0', error_text = '' } = handlePhoneValidation(new_data.com_data);
+                    const { is_error = '0', error_text = '' } = ForminputHandlePhoneValidation(new_data.com_data);
                     if (is_error == '1') {
                         parentNode.addClass('forminput-data-item-error');
                         Prompt(error_text);
@@ -1169,11 +1295,11 @@ function forminput_input_change(e, type) {
                         parentNode.removeClass('forminput-data-item-error');
                     }
                 } else {
-                    let check_map = fieldCheckMap[new_data.key];
+                    let check_map = forminput_field_check_map[new_data.key];
                     if (['single-text', 'select', 'radio-btns'].includes(new_data.key)) {
-                        check_map = fieldCheckMap[new_data.com_data.type];
+                        check_map = forminput_field_check_map[new_data.com_data.type];
                     }
-                    const {is_error, error_text} = forminput_get_format_checks(new_data.com_data, new_data.com_data.form_value, check_map.is_format, check_map.type);
+                    const { is_error, error_text} = ForminputGetFormatChecks(new_data.com_data, new_data.com_data.form_value, check_map.is_format, check_map.type);
                     if (is_error == '1') {
                         parentNode.addClass('forminput-data-item-error');
                         Prompt(error_text);
@@ -1186,17 +1312,15 @@ function forminput_input_change(e, type) {
     }
 }
 // 处理手机号验证逻辑
-function handlePhoneValidation(com_data) {
-    if (com_data.is_sms_verification === '1' && com_data.is_required === '1' && isEmpty(com_data.form_value_code)) {
-        com_data.common_config.is_error = '1';
-        com_data.common_config.error_text = '短信验证码不能为空';
-        return;
-    }
+function ForminputHandlePhoneValidation(com_data) {
+    // if (com_data.is_sms_verification === '1' && com_data.is_required === '1' && IsEmpty(com_data.form_value_code)) {
+    //     return { is_error: '1', error_text: '短信验证码不能为空' };
+    // }
     com_data.common_config.format = com_data.is_telephone === '1' ? 'telephone-number' : 'phone-number';
-    return forminput_get_format_checks(com_data, com_data.form_value, true);
+    return ForminputGetFormatChecks(com_data, com_data.form_value, true);
 }
 // 显隐规则逻辑处理
-function forminput_show_hidden_change() {
+function ForminputShowHiddenChange() {
     const componentMap = new Map($forminput_data_list.map((item) => [item.id, item]));
 
     // 取出所有设置显隐规则的组件
@@ -1230,7 +1354,7 @@ function forminput_show_hidden_change() {
     });
 }
 // 子表单的显隐处理
-function forminput_subform_show_hidden_type_change(childrenList = [], index, data_list, type = 'all') { 
+function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_list, type = 'all') { 
     const componentMap = new Map(childrenList.map((item) => [item.id, item]));
     // 取出所有设置显隐规则的组件
     const list = childrenList.filter((item) => ['single-text', 'select', 'radio-btns'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type) && item.com_data.show_hidden_list.length > 0);
@@ -1276,7 +1400,7 @@ function forminput_subform_show_hidden_type_change(childrenList = [], index, dat
  * @param index - 当前元素的索引位置
  * @returns 返回CSS粘性定位样式字符串，若不符合条件则返回空字符串
 */
-function forminput_subform_left_sticky(index, childrenList = [], com_data) {
+function ForminputSubformLeftSticky(index, childrenList = [], com_data) {
     // 从表单数据中获取是否启用固定和固定数量配置
     const { is_fixed = '0', fixed_num = 1 } = com_data?.computer || {};
     // 检查是否满足粘性定位条件：启用固定且索引在固定数量范围内
@@ -1303,7 +1427,7 @@ function forminput_subform_left_sticky(index, childrenList = [], com_data) {
  * @param index 当前评分的索引
  * @param type 触发方法的类型
  */
-function forminput_score_change(parentNode, new_data, index, type = 'mouseover') {
+function ForminputScoreChange(parentNode, new_data, index, type = 'mouseover') {
     // 根据不同类型区分不同的状态
     if (new_data.com_data.score_type == 0) { 
         // 先移除所有的选中样式
@@ -1326,26 +1450,20 @@ function forminput_score_change(parentNode, new_data, index, type = 'mouseover')
         parentNode.find('.forminput-score-icon').eq(index - 1).attr('style', 'color: ' + new_data.com_data.select_color + ';');
     }
 }
-/**
- * 判断对象数组等是否为空。
- */
-function isEmpty(value) {
-    return value === null || value === undefined || value === '' || (typeof value === 'number' && isNaN(value)) || (Array.isArray(value) && value.length === 0) || (typeof value === 'object' && Object.keys(value).length === 0);
-}
 // 监听数据变化
-function forminput_data_change(e) {
+function ForminputDataChange(e) {
     // 获取父级的数据
     let parentNode = e.parent().parent();
     // 获取父级id
     let id = parentNode.attr('id');
     // 如果父级id为空，就从父级父级获取
-    if (isEmpty(id)) {
+    if (IsEmpty(id)) {
         id = parentNode.parent().attr('id');
     }
-    if (!isEmpty(id)) {
+    if (!IsEmpty(id)) {
         if (id.indexOf('-') > -1) {
             id = parentNode.data('subform-id');
-            if (isEmpty(id)) {
+            if (IsEmpty(id)) {
                 id = parentNode.parent().data('subform-id');
             }
         }
@@ -1353,11 +1471,23 @@ function forminput_data_change(e) {
         $forminput_data_list.forEach(item => {
             if (item.id == id && item.key != 'subform') {
                 item.com_data.form_value = e.val();
+                // 手机号做特殊校验
+                if (item.key == 'phone') {
+                    // 判断输入框内容是否为空,为空的话获取验证码取消
+                    const { is_error = '0'} = ForminputHandlePhoneValidation(item.com_data);
+                    if (!IsEmpty(e.val()) && is_error == '0') {
+                        parentNode.find('.verify-submit').prop('disabled', false);
+                        parentNode.find('.verify-submit').removeClass('forminput-btn-disabled').addClass('forminput-btn-primary');
+                    } else {
+                        parentNode.find('.verify-submit').prop('disabled', true);
+                        parentNode.find('.verify-submit').removeClass('forminput-btn-primary').addClass('forminput-btn-disabled');
+                    }
+                }
             } else if (item.id == id && item.key == 'subform') {
                 // 子表单数据更新
                 let index = parentNode.data('index');
                 let subform_id = parentNode.data('id');
-                if (isEmpty(subform_id)) {
+                if (IsEmpty(subform_id)) {
                     index = parentNode.parent().data('index');
                     subform_id = parentNode.parent().data('id');
                 }
@@ -1368,10 +1498,11 @@ function forminput_data_change(e) {
                 });
             }
         });
+        
     }
 }
 // 定义字段类型与检查参数的映射
-const fieldCheckMap = {
+const forminput_field_check_map = {
     'address': { is_format: false, type: 'address' },
     'number': { is_format: true, type: 'number' },
     'checkbox': { is_format: true, type: 'checkbox' },
@@ -1394,11 +1525,11 @@ const fieldCheckMap = {
  * 格式检查函数
  * @param data 待检查的数据对象
  */
-function forminput_get_format_checks(data, form_value, is_format = false, type = '') {
+function ForminputGetFormatChecks(data, form_value, is_format = false, type = '') {
     let is_error = '0';
     let error_text = '';
     // 判断是否是必填字段,并且没有值
-    if (data.is_required == '1' && isEmpty(form_value)) {
+    if (data.is_required == '1' && IsEmpty(form_value)) {
         // 是否报错显示
         is_error = '1';
         error_text = `${ ['select', 'checkbox', 'upload', 'time', 'address', 'score', 'radio'].includes(type) ? '必选' : '必填'}字段不能为空`;
@@ -1406,28 +1537,28 @@ function forminput_get_format_checks(data, form_value, is_format = false, type =
         if (is_format) {
             if (type == 'number') {
                 // 数字组件的校验逻辑
-                return forminput_number_range_handle(data, form_value);
+                return ForminputNumberRangeHandle(data, form_value);
             } else if (type == 'checkbox') {
                 // 复选框和复选下拉框的校验逻辑
-                return forminput_checkbox_range_handle(data, form_value);
+                return ForminputCheckboxRangeHandle(data, form_value);
             } else {
                 // 单行文本的校验逻辑
                 // 对字段进行格式检查
-                return forminput_get_format_checks_v2(data.common_config, form_value);
+                return ForminputGetFormatChecksV2(data.common_config, form_value);
             }
         }
     }
     return { is_error, error_text }
 };
 // 复选框和复选下拉框的校验逻辑
-function forminput_checkbox_range_handle(data, form_value) {
+function ForminputCheckboxRangeHandle(data, form_value) {
     const { min_num = '', max_num = '' } = data;
     const length = form_value?.length || 0;
     const minNum = Number(min_num);
     const maxNum = Number(max_num);
     let is_error = '0'
     let error_text = ''
-    if ((!isEmpty(min_num) && length < minNum) || (!isEmpty(max_num) && length > maxNum)) {
+    if ((!IsEmpty(min_num) && length < minNum) || (!IsEmpty(max_num) && length > maxNum)) {
         // 是否报错显示
         is_error = '1';
         error_text = `请选择${min_num}~${max_num}项`;
@@ -1443,7 +1574,7 @@ function forminput_checkbox_range_handle(data, form_value) {
  * @param is_convert - 指示是否需要转换的布尔值
  * @returns 格式化后的数字字符串
  */
-function forminput_formatNumber(num, is_convert) {
+function ForminputFormatNumber(num, is_convert) {
     let new_num = num.replace(/[^0-9.,]/g, '');
     if (is_convert) {
         // 将输入转换为字符串形式以便处理
@@ -1460,14 +1591,14 @@ function forminput_formatNumber(num, is_convert) {
     }
 };
 // 数字组件的校验逻辑
-function forminput_number_range_handle(data, form_value) {
+function ForminputNumberRangeHandle(data, form_value) {
     const { min_num = '', max_num = '', format = 'num' } = data;
     const num = Number(form_value);
     const minNum = Number(min_num);
     const maxNum = Number(max_num);
     let is_error = '0'
     let error_text = ''
-    if ((!isEmpty(min_num) && num < minNum) || (!isEmpty(max_num) && num > maxNum)) {
+    if ((!IsEmpty(min_num) && num < minNum) || (!IsEmpty(max_num) && num > maxNum)) {
         // 是否报错显示
         is_error = '1';
         error_text = `请输入${min_num}${format == 'num' ? '' : '%'}~${max_num}${format == 'num' ? '' : '%'}之间的数`;
@@ -1475,16 +1606,16 @@ function forminput_number_range_handle(data, form_value) {
     return { is_error, error_text }
 };
 
-const type_config = [
-    { name: '手机号码', value: 'phone-number', check: /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/ },
-    { name: '电话号码', value: 'telephone-number', check: [/^0\d{0,3}-?\d{7,8}$/, /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/] },
+const forminput_type_config = [
+    { name: '手机号码', value: 'phone-number', check: /^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$/ },
+    { name: '电话号码', value: 'telephone-number', check: [/^0\d{0,3}-?\d{7,8}$/, /^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$/] },
     { name: '邮政编码', value: 'postal-code', check: /^[1-9]\d{5}$/ },
     { name: '身份证号码', value: 'id-no', check: /^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x)$/ },
     { name: '邮箱', value: 'email', check: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
 ];
 
 // 构建 Map 提升查找效率
-const typeConfigMap = new Map(type_config.map((item) => [item.value, item]));
+const forminput_type_config_map = new Map(forminput_type_config.map((item) => [item.value, item]));
 
 /**
  * 根据通用配置和给定值进行格式校验
@@ -1493,13 +1624,13 @@ const typeConfigMap = new Map(type_config.map((item) => [item.value, item]));
  * @param common_config 通用配置对象，包含格式和错误信息的配置
  * @param value 需要进行格式校验的值
  */
-function forminput_get_format_checks_v2(common_config, value) {
+function ForminputGetFormatChecksV2(common_config, value) {
     let is_error = '0';
     let error_text = '';
     // 检查值是否为空，如果为空则直接重置错误状态
-    if (!isEmpty(value)) {
+    if (!IsEmpty(value)) {
         // 根据通用配置中的格式，从类型配置映射中获取对应的格式检查项
-        const item = typeConfigMap.get(common_config.format);
+        const item = forminput_type_config_map.get(common_config.format);
         // 如果找不到对应的格式检查项，则不进行后续操作
         if (!item) return { is_error, error_text };
 
@@ -1539,7 +1670,7 @@ function forminput_get_format_checks_v2(common_config, value) {
  * 生成一个随机数学字符串。
  * @returns {string} 一个6位的36进制随机字符串。
  */
-function forminput_get_math() {
+function ForminputGetMath() {
     // 通过Math.random()生成随机数，并转换为36进制的字符串
     let randomString = Math.random().toString(36);
     // 确保随机字符串至少有6位，因为substring(2)可能会使短于6位的字符串产生错误。
@@ -1550,23 +1681,23 @@ function forminput_get_math() {
 }
 // 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
 // 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
-var predefine_colors = ['#eb5050', '#f0a800', '#46c26f', '#a2c204', '#00aed1', '#5865f5', '#c643e0', '#f0437d', '#fa8118', '#d6c504', '#00b899', '#6ac73c', '#2f7deb', '#7e47eb', '#d941c0', '#485970', '#f9cbcb', '#fbe5b3', '#c8edd4', '#e3edb4', '#b3e7f1', '#cdd1fc', '#eec7f6', '#fbc7d8', '#fed9ba', '#f3eeb4', '#b3eae0', '#d2eec5', '#c1d8f9', '#d8c8f9', '#f4c6ec', '#c8cdd4'];
+var forminput_predefine_colors = ['#eb5050', '#f0a800', '#46c26f', '#a2c204', '#00aed1', '#5865f5', '#c643e0', '#f0437d', '#fa8118', '#d6c504', '#00b899', '#6ac73c', '#2f7deb', '#7e47eb', '#d941c0', '#485970', '#f9cbcb', '#fbe5b3', '#c8edd4', '#e3edb4', '#b3e7f1', '#cdd1fc', '#eec7f6', '#fbc7d8', '#fed9ba', '#f3eeb4', '#b3eae0', '#d2eec5', '#c1d8f9', '#d8c8f9', '#f4c6ec', '#c8cdd4'];
 
-function forminput_color_change(length) {
+function ForminputColorChange(length) {
     // 如果大于这个大小，就按照多余的数量来获取颜色
-    if (length > predefine_colors.length) {
-        const new_length = predefine_colors.length - length;
-        if (new_length > predefine_colors.length) {
-            forminput_color_change(new_length);
+    if (length > forminput_predefine_colors.length) {
+        const new_length = forminput_predefine_colors.length - length;
+        if (new_length > forminput_predefine_colors.length) {
+            ForminputColorChange(new_length);
         } else {
-            return predefine_colors[length];
+            return forminput_predefine_colors[length];
         }
     } else {
-        return predefine_colors[length];
+        return forminput_predefine_colors[length];
     }
 };
 // 获取手机验证码
-function forminput_get_verification(verify) { 
+function ForminputGetVerification(verify) { 
     
     let forminput_this = $('#' + $forminput_phone_id).find('.verify-submit');
     // 验证码时间间隔
@@ -1583,7 +1714,7 @@ function forminput_get_verification(verify) {
     $.ajax({
         url: RequestUrlHandle(forminput_this.data('url')),
         type: 'POST',
-        data: {accounts: $forminput_phone_data.com_data.form_value, "verify": verify,  type: 'sms' },
+        data: {forminput_id: $forminput_id, forminput_item_id: $forminput_phone_id, accounts: $forminput_phone_data.com_data.form_value, verify: verify,  type: 'sms' },
         dataType: 'json',
         success: function(result)
         {
@@ -1632,27 +1763,27 @@ function forminput_get_verification(verify) {
     });
 }
 
-function forminput_set_subform_data(subform_data) {
+function ForminputSetSubformData(subform_data) {
     let subform_html = '';
     if (subform_data && subform_data.com_data.data_list.length > 0) {
         subform_data.com_data.data_list.forEach((item, index) => {
-            subform_html += forminput_set_one_line_data(subform_data, index, item.data_list);
+            subform_html += ForminputSetOneLineData(subform_data, index, item.data_list);
         })
     }
     return subform_html;
 }
 // 子表单一行数据的添加
-function forminput_set_one_line_data(subform_data, index, one_line_list) {
+function ForminputSetOneLineData(subform_data, index, one_line_list) {
     // 子表单数字显示
-    subform_html = forminput_set_subform_num(subform_data, index);
+    subform_html = ForminputSetSubformNum(subform_data, index);
     // 子表单详细数据
-    subform_html += forminput_set_subform_one_line_data(subform_data, index, one_line_list);
+    subform_html += ForminputSetSubformOneLineData(subform_data, index, one_line_list);
     // 子表单详细数据结束
     subform_html += '</div>'
     return subform_html;
 }
 // 子表单数字显示
-function forminput_set_subform_num(subform_data, index) {
+function ForminputSetSubformNum(subform_data, index) {
     return `<div class="table-row am-flex-row">
                 <div class="cell-num am-flex-row align-items-center justify-content-center shrink re" style="` + (subform_data.com_data.computer.is_fixed == '1' ? 'position: sticky;left: 0;z-index: ' + (9999 - index) + ';' : '') + `">
                     <div class="row-num am-flex-row align-items-center justify-content-center">` + (index + 1) + `</div>
@@ -1666,7 +1797,7 @@ function forminput_set_subform_num(subform_data, index) {
                             <div data-id="` + subform_data.id + `-`+ index +`-selected" class="selected-click am-dropdown-toggle">
                                 <i class="iconfont icon-more-o operate-icon"></i>
                             </div>
-                            <div class="am-dropdown-content select-fixed-position">
+                            <div class="am-dropdown-content am-radius select-fixed-position">
                                 <div class="am-flex-col forminput-gap-10">
                                     <div data-id="` + subform_data.id + `" data-index="` + index + `" data-type="copy" class="am-dropdown-item am-cursor-pointer subform-dropdown-item">复制到下一行</div>
                                     <div data-id="` + subform_data.id + `" data-index="` + index + `" data-type="copy_last" class="am-dropdown-item am-cursor-pointer subform-dropdown-item">复制到最后一行</div>
@@ -1679,7 +1810,7 @@ function forminput_set_subform_num(subform_data, index) {
                 </div>`;
 }
 // 子表单详细数据
-function forminput_set_subform_one_line_data(subform_data, index, item_data_list) {
+function ForminputSetSubformOneLineData(subform_data, index, item_data_list) {
     let subform_html = '';
     // 字体大小显示
     const filed_title_size_type = $forminput_data_config.style_settings.computer.filed_title_size_type;
@@ -1689,9 +1820,14 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
     const item_content_class = filed_title_size_type == 'big' ? 'item-content-big' : (filed_title_size_type == 'middle' ? 'item-content' : 'item-content-small');
     // 输入框字体大小
     const item_size = filed_title_size_type == 'big' ? 'item-big-size' : (filed_title_size_type == 'middle' ? 'item-size' : '');
+    // 报错描述
+    const not_fill_in_error = $('.forminput-data-content').attr('data-not-fill-in-error') || '';
+    const not_choice_error = $('.forminput-data-content').attr('data-not-choice-error') || '';
+    // 请选择
+    const please_select_tips = $('.forminput-data-content').attr('data-please-select-tips') || '';
     // 数据显示处理
     if (item_data_list.length > 0) {
-        item_data_list.forEach(item_data => {
+        item_data_list.forEach((item_data, item_index) => {
             subform_html += `<div id="` + item_data.id + `-` + index +`" data-index="`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" class="am-flex-row align-items-center subform-cell">`;      
             if (['single-text', 'select', 'radio-btns'].includes(item_data.key) && item_data.com_data.type == 'single-text') {
                 subform_html += `<div class="forminput-data-item-content ` + item_content_class +`" style="` + item_data.common_style + `">
@@ -1699,10 +1835,10 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 type="text" 
                                 name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" 
                                 value="`+ item_data.com_data.form_value +`" 
-                                `+ (item_data.com_data.is_required == '1' ? `required="required"` : ``) +`
+                                `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_fill_in_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`
                                 placeholder="`+ item_data.com_data.placeholder +`" 
-                                `+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.min_num)) ? 'minlength="'+ item_data.com_data.min_num +'"' : '') +`
-                                `+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.max_num)) ? 'maxlength="'+ item_data.com_data.max_num +'"' : '') +`
+                                `+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.min_num)) ? 'minlength="'+ item_data.com_data.min_num +'"' : '') +`
+                                `+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.max_num)) ? 'maxlength="'+ item_data.com_data.max_num +'"' : '') +`
                                 class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
                             />
                             `+ ((item_data.com_data.is_limit_num == '1' && item_data.com_data.max_num > 0) ? `<div class="forminput-cr-gray"><span class="limit-num">`+ item_data.com_data.form_value.length +`</span>/` + item_data.com_data.max_num + `</div>` : ``) +`
@@ -1713,7 +1849,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                             <input type="text" 
                                 name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" 
                                 value="`+ item_data.com_data.form_value +`" 
-                                `+ (item_data.com_data.is_required == '1' ? `required="required"` : ``) +`
+                                `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_fill_in_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`
                                 placeholder="`+ item_data.com_data.placeholder +`" 
                                 class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
                             />
@@ -1724,21 +1860,21 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                             <textarea
                                 rows="6" 
                                 name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" 
-                                `+ ( item_data.com_data.is_required == '1' ? 'required="required"' : '') +`
+                                `+ ( item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_fill_in_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : '') +`
                                 placeholder="`+ item_data.com_data.placeholder +`" 
-                                `+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.min_num)) ? 'minlength="'+ item_data.com_data.min_num +'"' : '') +`
-                                `+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.max_num)) ? 'maxlength="'+ item_data.com_data.max_num +'"' : '') +` 
+                                `+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.min_num)) ? 'minlength="'+ item_data.com_data.min_num +'"' : '') +`
+                                `+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.max_num)) ? 'maxlength="'+ item_data.com_data.max_num +'"' : '') +` 
                                 class="forminput-input forminput-no-border forminput-w ` + item_size + `"
-                            >`+ (!isEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value : '') +`</textarea>
-                            `+ (item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.max_num) ? `<div class="forminput-cr-gray forminput-textarea"><span class="limit-num">`+ item_data.com_data.form_value.length +`</span>/`+ item_data.com_data.max_num +`</div>` : '') +`
+                            >`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value : '') +`</textarea>
+                            `+ (item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.max_num) ? `<div class="forminput-cr-gray forminput-textarea"><span class="limit-num">`+ item_data.com_data.form_value.length +`</span>/`+ item_data.com_data.max_num +`</div>` : '') +`
                         </div>`;
             } else if (item_data.key == 'pwd') { 
                 subform_html += `<div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
-                            `+ (!isEmpty(item_data.com_data.icon_name) ? `<div class="iconfont icon-`+ item_data.com_data.icon_name +` forminput-cr-gray"></div>` : ``) +`
+                            `+ (!IsEmpty(item_data.com_data.icon_name) ? `<div class="iconfont icon-`+ item_data.com_data.icon_name +` forminput-cr-gray"></div>` : ``) +`
                             <input type="password" autocomplete="off"
                                 name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" 
                                 value="`+ item_data.com_data.form_value +`" 
-                                `+ (item_data.com_data.is_required == '1' ? `required="required"` : ``) +`
+                                `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_fill_in_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`
                                 placeholder="`+ item_data.com_data.placeholder +`" 
                                 class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
                             />
@@ -1748,20 +1884,20 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 subform_html += `<div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
                         `+ (['option1', 'option2'].includes(item_data.com_data.date_type) ? 
                             `<div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!isEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!isEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\',{d:-1});}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\',{d:-1});}'})" autocomplete="off" />
                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!isEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!isEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\',{d:+1});}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\',{d:+1});}'})" autocomplete="off" />
                             </div>` : 
                             `<div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!isEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!isEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!isEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!isEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
                             </div>` ) +`
                         <i class="iconfont icon-`+ item_data.com_data.icon_name +`" style="color: 333;"></i>
                     </div>`
             } else if (item_data.key == 'date') {
                 subform_html += `<div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
-                        <input type="text" autocomplete="off" class="forminput-input am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h `+ item_size +`" id="form-table-search-time-`+ item_data.id +`-`+ index +`" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]"  value="`+ (!isEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value : '') +`" placeholder="`+(!isEmpty(item_data.com_data.placeholder) ? item_data.com_data.placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`'})" autocomplete="off" />
+                        <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`  autocomplete="off" class="forminput-input am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h `+ item_size +`" id="form-table-search-time-`+ item_data.id +`-`+ index +`" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]"  value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.placeholder) ? item_data.com_data.placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`'})" autocomplete="off" />
                         <i class="iconfont icon-`+ item_data.com_data.icon_name +`" style="color: 333;"></i>
                     </div>`;
             } else if (item_data.key == 'score') {
@@ -1770,11 +1906,11 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 const array = Array(item_data.com_data.total).fill(0);
                 for (let index1 = 0; index1 < array.length; index1++) {
                     if (item_data.com_data.score_type == 0) {
-                        subform_html += `<i data-index="`+ index1 +`" class="iconfont `+ ((index1 <= item_data.com_data.form_value) ? 'icon-pointed' : 'icon-pointed-o')+` forminput-score-icon" style="color: `+ ( index1 <= item_data.com_data.form_value ? item_data.com_data.select_color : '#ccc') +`"></i>`
+                        subform_html += `<i data-index="`+ index1 +`" class="iconfont `+ ((index1 < item_data.com_data.form_value) ? 'icon-pointed' : 'icon-pointed-o')+` forminput-score-icon" style="color: `+ ( index1 < item_data.com_data.form_value ? item_data.com_data.select_color : '#ccc') +`"></i>`
                     } else if (item_data.com_data.score_type == 1) {
-                        subform_html += `<i data-index="`+ index1 +`" class="iconfont `+ ((index1 <= item_data.com_data.form_value) ? 'icon-the-heart' : 'icon-the-heart-o')+` forminput-score-icon" style="color: `+ ( index1 <= item_data.com_data.form_value ? item_data.com_data.select_color : '#ccc') +`"></i>`
+                        subform_html += `<i data-index="`+ index1 +`" class="iconfont `+ ((index1 < item_data.com_data.form_value) ? 'icon-the-heart' : 'icon-the-heart-o')+` forminput-score-icon" style="color: `+ ( index1 < item_data.com_data.form_value ? item_data.com_data.select_color : '#ccc') +`"></i>`
                     } else if (item_data.com_data.score_type == 2) {
-                        subform_html += `<span data-index="`+ index1 +`" class="nowrap forminput-score-icon" style="color: `+ ( index1 <= item_data.com_data.form_value ? item_data.com_data.select_color : '#666') +`;">`+ (index1 + 1)+`分</span>`
+                        subform_html += `<span data-index="`+ index1 +`" class="nowrap forminput-score-icon" style="color: `+ ( index1 == (item_data.com_data.form_value - 1) ? item_data.com_data.select_color : '#666') +`;">`+ (index1 + 1)+`分</span>`
                     }
                 }
                 subform_html += `<input type="text" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" class="am-input am-input-sm forminput-visiable-hidden" value="`+ item_data.com_data.form_value +`">
@@ -1783,7 +1919,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 subform_html += `<div class="item-small-size `+ item_size +`" style="`+ item_data.common_style +`">`+ item_data.com_data.form_value +`</div>`;
             } else if (item_data.key == 'img') {
                 subform_html += `<div>`;
-                if (isEmpty(item_data.com_data.img_src)) {
+                if (IsEmpty(item_data.com_data.img_src)) {
                     subform_html += `<div class="item-img-empty forminput-w forminput-h">
                                 <img src="`+ __attachment_host__ +`/static/form_input/images/empty.png" style="width: 100%;height: 100%;object-fit: cover;"/>
                             </div>`;
@@ -1793,8 +1929,8 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 subform_html += `</div>`;
             } else if (item_data.key == 'video') {
                 subform_html += `<div>`;
-                if (!isEmpty(item_data.com_data.video)) {
-                    subform_html += `<video src="`+ item_data.com_data.video[0].url +`" `+ (!isEmpty(item_data.com_data.video_img) ? `poster="`+ item_data.com_data.video_img[0].url +`` : '') +` controls="controls" style="width: 100%;height: 100%;object-fit: contain;"></video>`;
+                if (!IsEmpty(item_data.com_data.video)) {
+                    subform_html += `<video src="`+ item_data.com_data.video[0].url +`" `+ (!IsEmpty(item_data.com_data.video_img) ? `poster="`+ item_data.com_data.video_img[0].url +`` : '') +` controls="controls" style="width: 100%;height: 100%;object-fit: contain;"></video>`;
                 }
                 subform_html += `</div>`;
             } else if (item_data.key == 'position') {
@@ -1803,7 +1939,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                             <div class="am-text-truncate">请在移动端打开表单进行定位</div>
                         </div>`;
             } else if (item_data.key == 'attachments') {
-                if (!isEmpty(item_data.com_data.file)) {
+                if (!IsEmpty(item_data.com_data.file)) {
                     subform_html += `<div class="am-flex-row align-items-center forminput-gap-10">
                                 <span class="file-title am-text-truncate" style="width: auto;">`+ item_data.com_data.file[0].original +`</span>
                                 <div class="forminput-oprate">
@@ -1822,7 +1958,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 <input type="text" 
                                     name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" 
                                     value="`+ item_data.com_data.form_value +`" 
-                                    `+ (item_data.com_data.is_required == '1' ? `required="required"` : '') +`
+                                    `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_fill_in_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : '') +`
                                     placeholder="`+ item_data.com_data.placeholder +`" 
                                     class="forminput-input forminput-no-border forminput-w forminput-h `+ item_size +`"
                                 />
@@ -1831,12 +1967,12 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
             } else if (item_data.key == 'upload-img') {
                 subform_html += `<div class="am-flex-col forminput-gap-10">
                             <button class="plug-file-upload-submit am-flex-row align-items-center justify-content-center `+ item_content_class +`" style="`+ item_data.common_style +`" data-dialog-type="images" data-is-direct="1" data-back-fun="upload_event" data-back-mark="`+ item_data.id +`-`+ index +`_`+ subform_data.id +`">
-                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择图片，`+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`张` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !isEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
+                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择图片，`+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`张` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !IsEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
                             </button>`
-                if (!isEmpty(item_data.com_data.form_value)) {
+                if (!IsEmpty(item_data.com_data.form_value)) {
                     subform_html += `<div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10">`
                     item_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
-                        subform_html += forminput_file_upload_img(form_value_index, form_value_item, subform_data, item_data.id, index);   
+                        subform_html += ForminputFileUploadImg(form_value_index, form_value_item, subform_data, item_data.id, index);   
                     });
                     subform_html += `</div>
                                     <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" value="`+ encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item_data.com_data.form_value)))) +`" />`
@@ -1849,12 +1985,12 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
             } else if (item_data.key == 'upload-video') {
                 subform_html += `<div class="am-flex-col forminput-gap-10">
                             <button class="plug-file-upload-submit am-flex-row align-items-center justify-content-center `+ item_content_class +`" style="`+ item_data.common_style +`" data-dialog-type="video" data-is-direct="1" data-back-fun="upload_event" data-back-mark="`+ item_data.id +`-`+ index +`_`+ subform_data.id +`">
-                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择视频，`+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`个` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !isEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
+                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择视频，`+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`个` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !IsEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
                             </button>`
-                if (!isEmpty(item_data.com_data.form_value)) {
+                if (!IsEmpty(item_data.com_data.form_value)) {
                     subform_html += `<div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10">`
                     item_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
-                        subform_html += forminput_file_upload_video(form_value_index, form_value_item, subform_data, item_data.id, index);     
+                        subform_html += ForminputFileUploadVideo(form_value_index, form_value_item, subform_data, item_data.id, index);     
                     });
                     subform_html += `</div>
                                     <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" value="`+ encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item_data.com_data.form_value)))) +`" />`
@@ -1867,12 +2003,12 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
             } else if (item_data.key == 'upload-attachments') {
                 subform_html += `<div class="am-flex-col forminput-gap-10">
                             <button class="plug-file-upload-submit am-flex-row align-items-center justify-content-center `+ item_content_class +`" style="`+ item_data.common_style +`" data-dialog-type="file" data-is-direct="1" data-back-fun="upload_event" data-back-mark="`+ item_data.id +`-`+ index +`_`+ subform_data.id +`">
-                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择文件，`+ ((item_data.com_data.is_limit_num == '1' && !isEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`个` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !isEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
+                                <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择文件，`+ ((item_data.com_data.is_limit_num == '1' && !IsEmpty(item_data.com_data.limit)) ? `最多`+ item_data.com_data.limit +`个` : '') +``+ ((item_data.com_data.is_limit_size == '1' && !IsEmpty(item_data.com_data.upload_size)) ? `、最多`+ item_data.com_data.upload_size +`MB` : ``) +`)</div>
                             </button>`
-                if (!isEmpty(item_data.com_data.form_value)) {
+                if (!IsEmpty(item_data.com_data.form_value)) {
                     subform_html += `<div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10">`
                     item_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
-                        subform_html += forminput_file_upload_attachments(form_value_index, form_value_item, subform_data, item_data.id, index); 
+                        subform_html += ForminputFileUploadAttachments(form_value_index, form_value_item, subform_data, item_data.id, index); 
                     });
                     subform_html += `</div>
                                     <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" value="`+ encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item_data.com_data.form_value)))) +`" />`
@@ -1886,11 +2022,13 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 subform_html += `<div id="`+ subform_data.id + `-`+ index +`-selected" class="am-selected subform-dropdown am-dropdown forminput-w am-flex-row" data-am-dropdown>
                             <select name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]" class="forminput-visiable-hidden">`
                 // 下拉选中的参数数据
-                let select_html = ``;
+                let select_html = `<option value="">请选择</option>`;
                 // 选中并显示在页面上的数据
                 let selected_html = ``;
                 // 下拉框中显示的数据
-                let option_html = ``;
+                let option_html = `<li class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center `+ (IsEmpty(item_data.com_data.form_value) ? `am-checked` : ``) +`" data-index="0" data-group="0" data-value="">
+                            <span class="`+ item_multicolour_class +` am-selected-text am-color-grey am-padding-0">`+ please_select_tips +`</span>
+                            </li>`;
                 if (item_data.com_data.option_list.length > 0) {
                         item_data.com_data.option_list.forEach((option_item, option_index) => {
                         select_html += `<option style="color: #000" value="`+ option_item.value +`" `+ (item_data.com_data.form_value === option_item.value ? `selected` : ``) + `>
@@ -1909,7 +2047,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                         <div data-id="`+ subform_data.id + `-`+ index +`-selected" class="am-flex-row selected-click forminput-w forminput-h">
                             <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
                                 <div class="am-selected-status am-fl am-flex-row align-items-center forminput-gap-10">`;
-                if (isEmpty(item_data.com_data.form_value)) {
+                if (IsEmpty(item_data.com_data.form_value)) {
                     subform_html += `<span class="forminput-cr-gray">`+ item_data.com_data.placeholder +`</span>`;
                 }  else {
                     subform_html +=  selected_html;                         
@@ -1918,7 +2056,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 <i class="am-selected-icon am-icon-caret-down"></i>
                             </button>  
                         </div>
-                        <div id="dropdown-`+ item_data.id +`-`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" data-index="`+ index +`" class="am-selected-content am-dropdown-content select-fixed-position" style="min-width: 354px;">
+                        <div id="dropdown-`+ item_data.id +`-`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" data-index="`+ index +`" class="am-selected-content am-dropdown-content am-radius select-fixed-position" style="min-width: 354px;">
                                 <ul class="am-selected-list">`;
                 subform_html +=  option_html;           
                 subform_html += `       </ul>
@@ -1936,12 +2074,13 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                 if (item_data.com_data.option_list.length > 0) {
                     const option_list = item_data.com_data.option_list.concat(item_data.com_data.custom_option_list);
                     option_list.forEach((option_item, option_index) => {
-                        select_html += `<option value="`+ option_item.value +`" `+ ((!isEmpty(item_data.com_data.form_value) && item_data.com_data.form_value.includes(option_item.value)) ? `selected` : ``) +`>`+ option_item.name +`</option>`;
-                        if (!isEmpty(item_data.com_data.form_value) && item_data.com_data.form_value.includes(option_item.value)) {
+                        select_html += `<option value="`+ option_item.value +`" `+ ((!IsEmpty(item_data.com_data.form_value) && item_data.com_data.form_value.includes(option_item.value)) ? `selected` : ``) +`>`+ option_item.name +`</option>`;
+                        if (!IsEmpty(item_data.com_data.form_value) && item_data.com_data.form_value.includes(option_item.value)) {
                             selected_html += `<span class="`+ item_multicolour_class +`" style="`+ (item_data.com_data.is_multicolour == '1' ? (`background: `+ option_item.color +`;color:`+ ((option_item.is_other && option_item.is_other == '1') ? `#141E31` : `#fff`) +`;border-radius:4px;`) : `padding: 0;`) +`">`+ option_item.name +`</span>`;
                         }
+                        const close_html = `<i data-value="`+ option_item.value +`" data-id="`+ subform_data.id +`" data-subform-option-id="`+ item_data.id +`" data-subform-option-index="`+ item_index +`" class="add-option-icon iconfont icon-close `+ (item_data.com_data.is_multicolour == '1' ? '' : 'forminput-cr-gray')+`"></i>`;
                         option_html += `<li value="`+ option_item.value +`" class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center `+ (option_item.value == item_data.com_data.form_value ? `am-checked` : ``) +`" data-index="`+ option_index +`" data-group="0" data-value="`+ option_item.value +`">
-                            <span class="`+ item_multicolour_class +` am-selected-text" style="`+ (item_data.com_data.is_multicolour == '1' ? (`background: `+ option_item.color +`;color:`+ ((option_item.is_other && option_item.is_other == '1') ? `#141E31` : `#fff`) +`;border-radius:4px;`) : `padding: 0;`) +`">`+ option_item.name +`</span>
+                            <div class="`+ item_multicolour_class +` am-selected-text am-flex-row align-items-center forminput-gap-5" style="`+ (item_data.com_data.is_multicolour == '1' ? (`background: `+ option_item.color +`;color:`+ ((option_item.is_other && option_item.is_other == '1') ? `#141E31` : `#fff`) +`;border-radius:4px;`) : `padding: 0;`) +`">`+ option_item.name +``+ (option_item.type && option_item.type == 'add' ? close_html : '') +`</div>
                             <i class="am-icon-check"></i></li>`;
                     })
                 }
@@ -1950,7 +2089,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                             <div data-id="`+ subform_data.id + `-`+ index +`-selected" class="am-flex-row selected-click forminput-w forminput-h">
                                 <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
                                     <div class="am-selected-status am-fl am-flex-row align-items-center `+ (item_data.com_data.is_multicolour == '1' ? `forminput-gap-10` : ``)+`">`
-                if (isEmpty(item_data.com_data.form_value)) {
+                if (IsEmpty(item_data.com_data.form_value)) {
                     subform_html += `<span class="forminput-cr-gray">`+ item_data.com_data.placeholder +`</span>`;
                 }  else {
                     subform_html +=  selected_html;                         
@@ -1959,7 +2098,7 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 <i class="am-selected-icon am-icon-caret-down"></i>
                                 </button> 
                             </div>
-                            <div id="dropdown-`+ item_data.id +`-`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" data-index="`+ index +`" class="am-selected-content am-dropdown-content select-fixed-position" style="min-width: 354px;">
+                            <div id="dropdown-`+ item_data.id +`-`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" data-index="`+ index +`" class="am-selected-content am-dropdown-content am-radius select-fixed-position" style="min-width: 354px;">
                                 <ul class="am-selected-list">`
                 subform_html += option_html;
                 subform_html += `</ul>`
@@ -1979,14 +2118,14 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 <div class="selected-click am-cascader-suffix forminput-reactive">
                                     <div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
                                         <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="`+ item_data.com_data.placeholder +`"
-                                        value="`+ (!isEmpty(item_data.com_data.province_name) ? item_data.com_data.province_name : '') + (!isEmpty(item_data.com_data.city_name) ? `-` + item_data.com_data.city_name : '') + (!isEmpty(item_data.com_data.county_name) ? `-` + item_data.com_data.county_name : '') +`"
-                                        class="am-input-inner forminput-no-border forminput-w forminput-h `+ item_size +`"  `+ (item_data.com_data.required == '1' ? `required` : ``) +`>
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_province\]" value="`+ (!isEmpty(item_data.com_data.form_value[0]) ? item_data.com_data.form_value[0] : '') +`">
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_city\]" value="`+ (!isEmpty(item_data.com_data.form_value[1]) ? item_data.com_data.form_value[1] : '') +`">
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_county\]" value="`+ (!isEmpty(item_data.com_data.form_value[2]) ? item_data.com_data.form_value[2] : '') +`">
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_province_name\]" value="`+ (!isEmpty(item_data.com_data.province_name) ? item_data.com_data.province_name : '') +`">
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_city_name\]" value="`+ (!isEmpty(item_data.com_data.city_name) ? item_data.com_data.city_name : '') +`">
-                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_county_name\]" value="`+ (!isEmpty(item_data.com_data.county_name) ? item_data.com_data.county_name : '') +`">
+                                        value="`+ (!IsEmpty(item_data.com_data.province_name) ? item_data.com_data.province_name : '') + (!IsEmpty(item_data.com_data.city_name) ? `-` + item_data.com_data.city_name : '') + (!IsEmpty(item_data.com_data.county_name) ? `-` + item_data.com_data.county_name : '') +`"
+                                        class="am-input-inner forminput-no-border forminput-w forminput-h `+ item_size +`"  `+ (item_data.com_data.required == '1' ? `required data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`>
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_province\]" value="`+ (!IsEmpty(item_data.com_data.form_value[0]) ? item_data.com_data.form_value[0] : '') +`">
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_city\]" value="`+ (!IsEmpty(item_data.com_data.form_value[1]) ? item_data.com_data.form_value[1] : '') +`">
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_county\]" value="`+ (!IsEmpty(item_data.com_data.form_value[2]) ? item_data.com_data.form_value[2] : '') +`">
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_province_name\]" value="`+ (!IsEmpty(item_data.com_data.province_name) ? item_data.com_data.province_name : '') +`">
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_city_name\]" value="`+ (!IsEmpty(item_data.com_data.city_name) ? item_data.com_data.city_name : '') +`">
+                                        <input type="hidden" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`_county_name\]" value="`+ (!IsEmpty(item_data.com_data.county_name) ? item_data.com_data.county_name : '') +`">
                                         <span class="am-input-suffix">
                                             <i class="iconfont icon-angle-down"></i>
                                         </span>
@@ -1994,19 +2133,19 @@ function forminput_set_subform_one_line_data(subform_data, index, item_data_list
                                 </div>
                                 <div class="am-cascader-dropdown select-fixed-position">
                                     <div id="`+ item_data.id +`-cascader-panel-`+ index +`" data-index="`+ index +`" data-subform-id="`+ subform_data.id +`" data-id="`+ item_data.id +`" class="am-cascader-panel">
-                                        <div class="am-scrollbar province am-cascader-menu `+ (!isEmpty(item_data.province) ? `am-active` : ``) +`" data-key="province">
+                                        <div class="am-scrollbar province am-cascader-menu `+ (!IsEmpty(item_data.province) ? `am-active` : ``) +`" data-key="province">
                                             <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
                                                 <ul class="am-scrollbar-view am-cascader-menu-list">
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="am-scrollbar city am-cascader-menu `+ (!isEmpty(item_data.city) ? `am-active` : ``) +`" data-key="city">
+                                        <div class="am-scrollbar city am-cascader-menu `+ (!IsEmpty(item_data.city) ? `am-active` : ``) +`" data-key="city">
                                             <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
                                                 <ul class="am-scrollbar-view am-cascader-menu-list">
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="am-scrollbar county am-cascader-menu `+ (!isEmpty(item_data.county) ? `am-active` : ``) +`" data-key="county">
+                                        <div class="am-scrollbar county am-cascader-menu `+ (!IsEmpty(item_data.county) ? `am-active` : ``) +`" data-key="county">
                                             <div class="am-cascader-menu-wrap am-scrollbar-wrap am-scrollbar-wrap-hidden-default">
                                                 <ul class="am-scrollbar-view am-cascader-menu-list">
                                                 </ul>

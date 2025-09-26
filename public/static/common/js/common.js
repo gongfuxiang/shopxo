@@ -2647,6 +2647,19 @@ function FromTableCheckedValues (form, tag) {
 }
 
 /**
+ * 判断对象数组等是否为空。
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2025-09-24
+ * @desc    description
+ * @param   {[mixed]}        value [需要验证的数据]
+ */
+function IsEmpty(value) {
+    return value === null || value === undefined || value === '' || (typeof value === 'number' && isNaN(value)) || (Array.isArray(value) && value.length === 0) || (typeof value === 'object' && Object.keys(value).length === 0);
+}
+
+/**
  * 判断变量是否为数组
  * @author  Devil
  * @blog    http://gong.gg/

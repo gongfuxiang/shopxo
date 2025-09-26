@@ -6,11 +6,10 @@
 <!-- conntent start  -->
 <div class="am-g inside create">
     <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/confirm')}}" request-type="ajax-fun" request-value="FormBackConfirm" timeout="60000">
+        <!-- 温馨提示 -->
         <div class="am-alert am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
-            <p class="am-text-sm">
-                <strong>温馨提示</strong>
-            </p>
+            <p class="am-text-sm"><strong>温馨提示</strong></p>
             <div class="am-padding-left-sm am-text-xs am-margin-top-xs">
                 <p>建议采用utf8mb4编码、MySQL版本5.6或5.7</p>
                 {{if !empty($charset_type_list)}}
@@ -22,70 +21,133 @@
             </div>
         </div>
 
-        <div class="am-panel am-panel-default am-radius">
-            <div class="am-panel-hd">
+        <!-- 数据库配置 -->
+        <div class="am-panel am-panel-default am-radius config-section">
+            <div class="am-panel-hd section-header">
+                <div class="header-icon">
+                    <div class="icon-glow"></div>
+                    <i class="am-icon-database"></i>
+                </div>
                 <h2 class="am-margin-0">数据库配置信息</h2>
+                <p class="header-subtitle">Database Configuration</p>
             </div>
-            <div class="am-panel-bd">
-                <div class="am-form-group row">
+            <div class="am-panel-bd config-grid">
+                <div class="am-form-group row form-group">
                     <label>数据库类型<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm" readonly data-validation-message="请选择数据库类型" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-tag"></i>
+                        </div>
+                        <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm form-input" readonly data-validation-message="请选择数据库类型" data-is-clearout="0" required />
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库编码<span class="am-form-group-label-tips-must">*</span></label>
-                    <select class="am-input-sm am-radius chosen-select" name="DB_CHARSET" data-validation-message="请选择数据编码" required>
-                        {{if !empty($charset_type_list)}}
-                            {{foreach $charset_type_list as $v}}
-                                <option value="{{$v.charset}}">{{$v.charset}} - {{$v.collate}} （mysql版本>={{$v.version}}）</option>
-                            {{/foreach}}
-                        {{/if}}
-                    </select>
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-font"></i>
+                        </div>
+                        <select class="am-input-sm am-radius form-input" name="DB_CHARSET" data-validation-message="请选择数据编码" data-is-clearout="0" required>
+                            {{if !empty($charset_type_list)}}
+                                {{foreach $charset_type_list as $v}}
+                                    <option value="{{$v.charset}}">{{$v.charset}} - {{$v.collate}} （mysql版本>={{$v.version}}）</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库服务器<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_HOST" placeholder="数据库服务器" value="127.0.0.1" class="am-radius am-input-sm" data-validation-message="请填写数据库服务器地址" required />
-                    <a href="javascript:;" class="am-icon-question-circle text-copy-submit" data-am-popover="{content: '如果连接不通，可以尝试使用 localhost 试试！', trigger: 'hover focus', theme: 'sm'}" data-value="localhost"></a>
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-server"></i>
+                        </div>
+                        <input type="text" name="DB_HOST" placeholder="数据库服务器" value="127.0.0.1" class="am-radius am-input-sm form-input" data-validation-message="请填写数据库服务器地址" data-is-clearout="0" required />
+                        <a href="javascript:;" class="am-icon-question-circle text-copy-submit input-help" data-am-popover="{content: '如果连接不通，可以尝试使用 localhost 试试！', trigger: 'hover focus', theme: 'sm'}" data-value="localhost"></a>
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库端口<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="number" name="DB_PORT" placeholder="数据库端口" value="3306" class="am-radius am-input-sm" data-validation-message="请填写数据库端口" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-plug"></i>
+                        </div>
+                        <input type="number" name="DB_PORT" placeholder="数据库端口" value="3306" class="am-radius am-input-sm form-input" data-validation-message="请填写数据库端口" data-is-clearout="0" required />
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库名<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_NAME" placeholder="数据库名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库名" required />
-                    <a href="javascript:;" class="am-icon-question-circle" data-am-popover="{content: '请先创建好数据库，编码和选择的保持一致！', trigger: 'hover focus', theme: 'sm'}"></a>
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-folder-open"></i>
+                        </div>
+                        <input type="text" name="DB_NAME" placeholder="数据库名" value="" class="am-radius am-input-sm form-input" data-validation-message="请填写数据库名" data-is-clearout="0" required />
+                        <a href="javascript:;" class="am-icon-question-circle input-help" data-am-popover="{content: '请先创建好数据库，编码和选择的保持一致！', trigger: 'hover focus', theme: 'sm'}"></a>
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库用户名<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_USER" placeholder="数据库用户名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库用户名" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-user"></i>
+                        </div>
+                        <input type="text" name="DB_USER" placeholder="数据库用户名" value="" class="am-radius am-input-sm form-input" data-validation-message="请填写数据库用户名" data-is-clearout="0" required />
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据库密码<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_PWD" placeholder="数据库密码" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库密码" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-lock"></i>
+                        </div>
+                        <input type="password" name="DB_PWD" placeholder="数据库密码" value="" class="am-radius am-input-sm form-input" data-validation-message="请填写数据库密码" data-is-clearout="0" required />
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>数据表前缀<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="DB_PREFIX" placeholder="数据表前缀" value="sxo_" class="am-radius am-input-sm" data-validation-message="请填写数据表前缀、格式最多6个字符" maxlength="6" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-code-fork"></i>
+                        </div>
+                        <input type="text" name="DB_PREFIX" placeholder="数据表前缀" value="sxo_" class="am-radius am-input-sm form-input" data-validation-message="请填写数据表前缀、格式最多6个字符" maxlength="6" data-is-clearout="0" required />
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="am-panel am-panel-default am-radius">
-            <div class="am-panel-hd">
+        <!-- 管理员账号 -->
+        <div class="am-panel am-panel-default am-radius config-section">
+            <div class="am-panel-hd section-header">
+                <div class="header-icon">
+                    <div class="icon-glow"></div>
+                    <i class="am-icon-user-secret"></i>
+                </div>
                 <h2 class="am-margin-0">管理员账号信息</h2>
+                <p class="header-subtitle">Administrator Account</p>
             </div>
-            <div class="am-panel-bd">
-                <div class="am-form-group row">
+            <div class="am-panel-bd config-grid">
+                <div class="am-form-group row form-group">
                     <label>管理员账号<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="ADMIN_USERNAME" placeholder="账号格式2~18个字符之间" value="admin" minlength="2" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员账号、格式2~18个字符之间" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-user"></i>
+                        </div>
+                        <input type="text" name="ADMIN_USERNAME" placeholder="账号格式2~18个字符之间" value="admin" minlength="2" maxlength="18" class="am-radius am-input-sm form-input" data-validation-message="请填写管理员账号、格式2~18个字符之间" data-is-clearout="0" required />
+                    </div>
                 </div>
-                <div class="am-form-group row">
+                <div class="am-form-group row form-group">
                     <label>管理员密码<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="ADMIN_PWD" placeholder="密码格式6~18个字符之间" value="" minlength="6" maxlength="18" class="am-radius am-input-sm" data-validation-message="请填写管理员密码、格式6~18个字符之间" required />
+                    <div class="form-input-wrapper">
+                        <div class="input-icon">
+                            <i class="am-icon-key"></i>
+                        </div>
+                        <input type="password" name="ADMIN_PWD" placeholder="密码格式6~18个字符之间" value="" minlength="6" maxlength="18" class="am-radius am-input-sm form-input" data-validation-message="请填写管理员密码、格式6~18个字符之间" data-is-clearout="0" required />
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- 操作按钮 -->
         <div class="agree ongoing-button">
             <a href="{{:MyUrl('install/index/check')}}" class="am-btn am-btn-secondary am-radius am-btn-xs">
                 <i class="am-icon-arrow-left"></i>
@@ -98,7 +160,7 @@
         </div>
     </form>
 </div>
-<!-- conntent end  -->
+<!-- conntent end -->
 
 {{:ModuleInclude('public/footer')}}
 <script type="text/javascript">

@@ -25,6 +25,12 @@ use app\service\FormInputService;
  */
 class FormInputDataService
 {
+    public static function FormInputDataDetail($did, $user_id)
+    {
+        $data = self::FormInputDataListHandle(Db::name('FormInputData')->where(['id'=>$did, 'user_id'=>$user_id])->select()->toArray());
+        return empty($data) || empty($data[0]) ? [] : $data[0];
+    }
+
     /**
      * 数据处理
      * @author  Devil
@@ -107,6 +113,10 @@ class FormInputDataService
 
         // 表单数据处理
         $form_data = FormInputModule::FormInputDataWriteHandle($form_input['config'], $params);
+        if($form_data['code'] != 0)
+        {
+            return $form_data;
+        }
 
         // 当前用户
         $user_id = empty($params['user']) ? 0 : $params['user']['id'];
@@ -118,7 +128,7 @@ class FormInputDataService
         $data = [
             'forminput_id'  => $form_input['id'],
             'user_id'       => $user_id,
-            'form_data'     => empty($form_data) ? '' : json_encode($form_data, JSON_UNESCAPED_UNICODE),
+            'form_data'     => empty($form_data['data']) ? '' : json_encode($form_data['data'], JSON_UNESCAPED_UNICODE),
         ];
         if(empty($info))
         {

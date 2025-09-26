@@ -149,11 +149,11 @@ class FormInputApiService
                     ['key'=>'single-text', 'name' => '单行文本'],
                     ['key'=>'multi-text', 'name' => '多行文本'],
                     ['key'=>'number', 'name' => '数字'],
-                    ['key'=>'date', 'name' => '日期时间'],
                     ['key'=>'radio-btns', 'name' => '单选按钮组'],
                     ['key'=>'checkbox', 'name' => '复选框组'],
                     ['key'=>'select', 'name' => '下拉框'],
                     ['key'=>'select-multi', 'name' => '下拉复选框'],
+                    ['key'=>'date', 'name' => '日期时间'],
                     ['key'=>'date-group', 'name' => '日期时间组'],
                 ]
             ],
@@ -161,16 +161,16 @@ class FormInputApiService
                 'name'  => '高级',
                 'key'   => 'hight-level',
                 'data'  => [
-                    ['key' => 'upload-img', 'name' => '上传图片'],
                     ['key' => 'position', 'name' => '定位'],
                     ['key' => 'address', 'name' => '地址'],
-                    ['key' => 'subform', 'name' => '子表单'],
                     ['key' => 'pwd', 'name' => '密码'],
                     ['key' => 'phone', 'name' => '手机'],
                     ['key' => 'score', 'name' => '评分'],
                     ['key' => 'rich-text', 'name' => '富文本'],
-                    ['key' => 'upload-attachments', 'name' => '上传文件'],
+                    ['key' => 'subform', 'name' => '子表单'],
+                    ['key' => 'upload-img', 'name' => '上传图片'],
                     ['key' => 'upload-video', 'name' => '上传视频'],
+                    ['key' => 'upload-attachments', 'name' => '上传文件'],
                 ]
             ],
             [

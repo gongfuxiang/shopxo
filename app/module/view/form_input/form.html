@@ -10,7 +10,7 @@
         </div>
         <div class="forminput-data">
             <!-- form start -->
-            <form class="forminput-data-form am-form form-validation am-form-full-screen {{if $form_input_data['config']['overall_config']['type_value'] neq 'free'}}forminput-h{{/if}}" action="{{:MyUrl('index/forminputdata/save')}}" method="POST" {{if !empty($params) and isset($params['is_debug']) and $params['is_debug'] eq 1}}request-type="ajax-view"{{else /}}request-type="ajax-url" request-value="{{:MyUrl('index/forminputdata/index')}}"{{/if}}>
+            <form class="forminput-data-form am-form form-validation am-form-full-screen" action="{{:MyUrl('index/forminputdata/save')}}" method="POST" {{if !empty($params) and isset($params['is_debug']) and $params['is_debug'] eq 1}}request-type="ajax-view"{{else /}}request-type="ajax-url" request-value="{{:MyUrl('index/forminputdata/index')}}"{{/if}}>
                 <div class="{{if $form_input_data.config.overall_config.is_show_submit == '1' or $form_input_data.config.overall_config.is_show_save_draft == '1'}}forminput-data-form-submit{{/if}}">
                     <div class="forminput-top-bg" style="background: {{$form_input_data.config.overall_config.style_settings.computer.heading_color}};">
                         {{if !empty($form_input_data.config.overall_config.style_settings.computer.heading_image) and !empty($form_input_data.config.overall_config.style_settings.computer.heading_image[0])}}
@@ -54,7 +54,7 @@
                 <div class="am-popup-bd">
                     <form class="am-form am-form-popup-fixed form-validation">
                         <div class="upgrade-content">
-                            <input type="text" name="option" required="required" autocomplete="off" data-validation-message="请输入选项名称" placeholder="请输入选项名称">
+                            <input type="text" class="am-radius" required="required" autocomplete="off" data-validation-message="请输入选项名称" placeholder="请输入选项名称">
                         </div>
                         <div class="am-form-popup-submit">
                             <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
@@ -78,8 +78,8 @@
                     <div class="am-form-input-material">
                         <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" data-is-clearout="0" />
                         <div class="am-position-verify">
-                            <img src="" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src='{{:MyUrl('index/user/userverifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}'+(({{$url_model}} == 0) ? '&t=' : '?t=')+Math.random();" />
-                            <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}{{if $url_model eq 0}}&t={{else /}}?t={{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+                            <img src="" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src='{{:MyUrl('index/forminput/verifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}'+(({{$url_model}} == 0) ? '&t=' : '?t=')+Math.random();" />
+                            <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/forminput/verifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}{{if $url_model eq 0}}&t={{else /}}?t={{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
                         </div>
                         <span class="am-material-bar"></span>
                         <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>

@@ -4,26 +4,112 @@
 {{:ModuleInclude('public/header_nav')}}
 
 <!-- conntent start  -->
-<div class="am-g inside success">
-    <i class="am-icon-btn am-success am-icon-sm am-icon-check"></i>
-    <h2>恭喜您安装成功</h2>
-    <div class="box">
-        {{if !empty($admin_run)}}
-            <a href="{{$admin_run}}" target="_blank">点击访问后台管理 >></a><br />
-            <p class="am-margin-vertical-sm">
-                <span class="text-copy-submit" data-value="{{$admin_run}}">
-                    <span>后台管理地址: </span>
-                    <strong>{{$admin_run}}</strong>
-                    <i class="am-icon-copy"></i>
-                </span>
-            </p>
-        {{/if}}
-        <p class="tips-sweet am-radius">默认后台地址入口文件在站点根目录和public目录下，默认以 admin 开头 .php 结尾的文件名称。</p>
-        <br /><br />
-        <a href="{{$Think.__MY_URL__}}" target="_blank">点击访问首页 >></a>
-        <p class="tips-sweet am-radius">请尽快修改管理员密码，以防被非法入侵。<br />并删除 ./app 目录下的 install 目录。</p>
+<div class="tech-container">
+    <div class="success-section">
+        <div class="success-animation">
+            <div class="success-icon">
+                <div class="icon-ring"></div>
+                <div class="icon-check">
+                    <i class="am-icon-check"></i>
+                </div>
+                <div class="icon-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="success-content">
+            <h1>恭喜您安装成功</h1>
+            <p class="success-subtitle">ShopXO has been successfully installed!</p>
+            
+            <div class="success-cards">
+                {{if !empty($admin_run)}}
+                    <div class="success-card">
+                        <div class="card-content">
+                            <h3><i class="am-icon-cog"></i> 管理后台</h3>
+                            <p class="admin-link">
+                                <a href="{{$admin_run}}" target="_blank" class="tech-btn tech-btn-primary">
+                                    <i class="am-icon-external-link"></i>
+                                    <span>点击访问后台管理</span>
+                                </a>
+                            </p>
+                            <div class="address-info">
+                                <span class="text-copy-submit" data-value="{{$admin_run}}">
+                                    <span class="label">后台地址：</span>
+                                    <strong>{{$admin_run}}</strong>
+                                    <i class="am-icon-copy copy-icon"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+
+                <div class="success-card">
+                    <div class="card-content">
+                        <h3><i class="am-icon-home"></i> 网站首页</h3>
+                        <p class="home-link">
+                            <a href="{{$Think.__MY_URL__}}" target="_blank" class="tech-btn tech-btn-success">
+                                <i class="am-icon-external-link"></i>
+                                <span>点击访问首页</span>
+                            </a>
+                        </p>
+                        <div class="address-info">
+                            <span class="text-copy-submit" data-value="{{$Think.__MY_URL__}}">
+                                <span class="label">首页地址：</span>
+                                <strong>{{$Think.__MY_URL__}}</strong>
+                                <i class="am-icon-copy copy-icon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-tips">
+                <div class="tips-header">
+                    <div class="tips-icon">
+                        <i class="am-icon-shield"></i>
+                    </div>
+                    <h3>安全提示</h3>
+                </div>
+                <div class="tips-content">
+                    <div class="tip-item">
+                        <div class="tip-number">1</div>
+                        <div class="tip-text">
+                            <strong>修改密码</strong>
+                            <p>请尽快修改管理员密码，以防被非法入侵</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip-number">2</div>
+                        <div class="tip-text">
+                            <strong>删除安装目录</strong>
+                            <p>请删除 ./app 目录下的 install 目录以提高安全性</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip-number">3</div>
+                        <div class="tip-text">
+                            <strong>定期备份</strong>
+                            <p>建议定期备份数据库和文件，确保数据安全</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="completion-info">
+                <div class="info-item">
+                    <i class="am-icon-info-circle"></i>
+                    <span>默认后台地址入口文件在站点根目录和public目录下，默认以 admin 开头 .php 结尾的文件名称</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- conntent end  -->
+<!-- conntent end -->
 
 {{:ModuleInclude('public/footer')}}

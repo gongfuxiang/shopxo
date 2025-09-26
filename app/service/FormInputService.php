@@ -17,6 +17,7 @@ use app\service\AttachmentService;
 use app\service\StoreService;
 use app\service\AppMiniUserService;
 use app\service\ConfigService;
+use app\service\FormInputDataService;
 
 /**
  * form表单服务层
@@ -55,7 +56,19 @@ class FormInputService
                 ],
                 'is_config_handle'  => 1,
             ]);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? null : $ret['data'][0];
+            if(!empty($ret['data']) && !empty($ret['data'][0]))
+            {
+                $data = $ret['data'][0];
+                if(!empty($params['did']) && !empty($params['user']))
+                {
+                    $detail = FormInputDataService::FormInputDataDetail($params['did'], $params['user']['id']);
+                    if(!empty($detail) && !empty($detail['form_data']))
+                    {
+                        $data['forminput_data_id'] = $detail['id'];
+                        $data['config'] = FormInputModule::FormInputDataValueMerge($data['config'], $detail['form_data']);
+                    }
+                }
+            }
         }
         return $data;
     }

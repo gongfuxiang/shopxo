@@ -4,29 +4,91 @@
 {{:ModuleInclude('public/header_nav')}}
 
 <!-- conntent start  -->
-<div class="am-g inside agreement">
-    <h2>安装协议</h2>
-    <ul>
-        <li class="title">ShopXO遵循MIT开源协议发布</li>
-        <li>MIT许可证之名源自麻省理工学院（Massachusetts Institute of Technology, MIT），又称「X条款」（X License）或「X11条款」（X11 License）。</li>
-        <li>MIT内容与三条款BSD许可证（3-clause BSD license）内容颇为近似，但是赋予软体被授权人更大的权利与更少的限制。</li>
-        <li class="title">协议条款</li>
-        <li>1. 被授权人有权利使用、复制、修改、合并、出版发行、散布、再授权及贩售软体及软体的副本。</li>
-        <li>2. 被授权人可根据程式的需要修改授权条款为适当的内容。</li>
-        <li>3. 在软件和软件的所有副本中都必须包含版权声明和许可声明。</li>
-        <li class="am-margin-top-xl">协议地址：<a href="https://license.shopxo.net/" target="_blank">https://license.shopxo.net/</a></li>
-        <li>英文原文：<a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></li>
-    </ul>
+<div class="tech-container">
+    <div class="agreement-section">
+        <div class="section-header">
+            <div class="header-icon">
+                <div class="icon-glow"></div>
+                <i class="am-icon-shield"></i>
+            </div>
+            <h2>安装协议</h2>
+            <p class="header-subtitle">ShopXO Installation License Agreement</p>
+        </div>
+        
+        <div class="agreement-content">
+            <div class="license-card">
+                <div class="card-header">
+                    <h3><i class="am-icon-bookmark"></i> 开源协议</h3>
+                </div>
+                <div class="card-body">
+                    <div class="protocol-item">
+                        <div class="protocol-title">
+                            <span class="badge">MIT</span>
+                            <h4>ShopXO遵循MIT开源协议发布</h4>
+                        </div>
+                        <p>MIT许可证之名源自麻省理工学院（Massachusetts Institute of Technology, MIT），又称「X条款」（X License）或「X11条款」（X11 License）。</p>
+                        <p>MIT内容与三条款BSD许可证（3-clause BSD license）内容颇为近似，但是赋予软体被授权人更大的权利与更少的限制。</p>
+                    </div>
+                </div>
+            </div>
 
-    <div class="agree ongoing-button">
-        <button type="submit" class="am-btn am-btn-danger am-radius am-btn-xs window-close-event">
-            <i class="am-icon-remove"></i>
-            <span>拒绝并关闭</span>
-        </button>
-        <a href="{{:MyUrl('install/index/check')}}" class="am-btn am-btn-success am-radius am-btn-xs">
-            <i class="am-icon-arrow-right"></i>
-            <span>同意并安装</span>
-        </a>
+            <div class="license-card">
+                <div class="card-header">
+                    <h3><i class="am-icon-list-ol"></i> 协议条款</h3>
+                </div>
+                <div class="card-body">
+                    <div class="terms-list">
+                        <div class="term-item">
+                            <div class="term-number">1</div>
+                            <div class="term-content">
+                                <h5>使用权限</h5>
+                                <p>被授权人有权利使用、复制、修改、合并、出版发行、散布、再授权及贩售软体及软体的副本。</p>
+                            </div>
+                        </div>
+                        <div class="term-item">
+                            <div class="term-number">2</div>
+                            <div class="term-content">
+                                <h5>条款修改</h5>
+                                <p>被授权人可根据程式的需要修改授权条款为适当的内容。</p>
+                            </div>
+                        </div>
+                        <div class="term-item">
+                            <div class="term-number">3</div>
+                            <div class="term-content">
+                                <h5>版权声明</h5>
+                                <p>在软件和软件的所有副本中都必须包含版权声明和许可声明。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="license-links">
+                <div class="link-item">
+                    <div class="link-content">
+                        <span>协议地址：</span>
+                        <a href="https://license.shopxo.net/" target="_blank">https://license.shopxo.net/</a>
+                    </div>
+                </div>
+                <div class="link-item">
+                    <div class="link-content">
+                        <span>英文原文：</span>
+                        <a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-actions">
+            <button type="submit" class="tech-btn tech-btn-reject window-close-event">
+                <i class="am-icon-remove"></i>
+                <span>拒绝并关闭</span>
+            </button>
+            <a href="{{:MyUrl('install/index/check')}}" class="tech-btn tech-btn-accept">
+                <i class="am-icon-arrow-right"></i>
+                <span>同意并安装</span>
+            </a>
+        </div>
     </div>
 </div>
 <!-- conntent end  -->

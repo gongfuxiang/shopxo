@@ -1,30 +1,67 @@
-<div class="body-content-formal-container">
-    <div class="header-nav" data-am-sticky="{animation: 'slide-top'}">
-        <div class="inside">
-            <p class="logo-name">
-                <strong>Shop<em>XO</em></strong>
-                <span class="desc">安装向导 {{$Think.APPLICATION_VERSION}}</span>
-            </p>
-            <ul class="schedule {{if isset($action) && $action == 'index'}}active{{/if}}">
-                <li class="number">1</li>
-                <li class="word">使用协议</li>
-            </ul>
-            <ul class="schedule {{if isset($action) && $action == 'check'}}active{{/if}}">
-                <li class="number">2</li>
-                <li class="word">环境检测</li>
-            </ul>
-            <ul class="schedule {{if isset($action) && $action == 'create'}}active{{/if}}">
-                <li class="number">3</li>
-                <li class="word">创建数据</li>
-            </ul>
-            <ul class="schedule {{if isset($action) && $action == 'successful'}}active{{/if}}">
-                <li class="number">4</li>
-                <li class="word">安装完成</li>
-            </ul>
+<div class="tech-header-nav" data-am-sticky="{animation: 'slide-top'}">
+    <div class="nav-container">
+        <div class="brand-section">
+            <div class="brand-text">
+                <h1 class="brand-name">
+                    Shop<em>XO</em>
+                </h1>
+                <span class="brand-version">安装向导 {{$Think.APPLICATION_VERSION}}</span>
+            </div>
+        </div>
+        
+        <div class="progress-tracker">
+            <div class="progress-line"></div>
+            <div class="step-item {{if isset($action) && $action == 'index'}}active{{/if}} {{if isset($action) && $action != 'index'}}completed{{/if}}">
+                <div class="step-indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="am-icon-file-text-o"></i>
+                    </div>
+                    <div class="step-check">
+                        <i class="am-icon-check"></i>
+                    </div>
+                </div>
+                <div class="step-label">使用协议</div>
+            </div>
+            
+            <div class="step-item {{if isset($action) && $action == 'check'}}active{{/if}} {{if isset($action) && ($action == 'create' || $action == 'successful')}}completed{{/if}}">
+                <div class="step-indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="am-icon-desktop"></i>
+                    </div>
+                    <div class="step-check">
+                        <i class="am-icon-check"></i>
+                    </div>
+                </div>
+                <div class="step-label">环境检测</div>
+            </div>
+            
+            <div class="step-item {{if isset($action) && $action == 'create'}}active{{/if}} {{if isset($action) && $action == 'successful'}}completed{{/if}}">
+                <div class="step-indicator">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="am-icon-database"></i>
+                    </div>
+                    <div class="step-check">
+                        <i class="am-icon-check"></i>
+                    </div>
+                </div>
+                <div class="step-label">创建数据</div>
+            </div>
+            
+            <div class="step-item {{if isset($action) && $action == 'successful'}}active{{/if}}">
+                <div class="step-indicator">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="am-icon-check-circle-o"></i>
+                    </div>
+                    <div class="step-check">
+                        <i class="am-icon-check"></i>
+                    </div>
+                </div>
+                <div class="step-label">安装完成</div>
+            </div>
         </div>
     </div>
-    <!-- <div class="am-container am-text-center am-text-danger am-padding-top-lg am-padding-bottom-sm">
-        <span>v8.1版本由</span>
-        <a href="#" target="_blank"><strong>XXXXXX</strong></a>
-        <span>独家赞助发布！</span>
-    </div> -->
+</div>

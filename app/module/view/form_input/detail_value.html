@@ -1,0 +1,84 @@
+{{if !empty($module_data) and !empty($module_data['key'])}}
+    {{switch $module_data.key}}
+        {{case upload-img}}
+            {{if !empty($module_data['value']) and is_array($module_data['value'])}}
+                <ul class="am-gallery am-avg-sm-2 am-avg-md-4 am-gallery-default am-padding-0 am-nbfc">
+                    {{foreach $module_data.value as $vs}}
+                        {{if !empty($vs) and !empty($vs['url'])}}
+                            <li class="am-padding-xs">
+                                <div class="am-gallery-item am-nbfc am-padding-right-sm am-padding-bottom-sm">
+                                    <img src="{{$vs.url}}" class="am-block am-radius common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" />
+                                    <p class="am-margin-top-xs">{{$vs.name}}</p>
+                                </div>
+                            </li>
+                        {{/if}}
+                    {{/foreach}}
+                </ul>
+            {{/if}}
+        {{/case}}
+        {{case upload-video}}
+            {{if !empty($module_data['value']) and is_array($module_data['value'])}}
+                <ul class="am-avg-sm-2 am-avg-md-4 am-nbfc">
+                    {{foreach $module_data.value as $vs}}
+                        {{if !empty($vs) and !empty($vs['url'])}}
+                            <li class="am-padding-xs">
+                                <video src="{{$vs.url}}" class="am-block am-radius am-max-wh-auto common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" data-type="video"></video>
+                                <p class="am-margin-top-xs">{{$vs.name}}</p>
+                            </li>
+                        {{/if}}
+                    {{/foreach}}
+                </ul>
+            {{/if}}
+        {{/case}}
+        {{case upload-attachments}}
+            {{if !empty($module_data['value']) and is_array($module_data['value'])}}
+                <ul class="am-avg-sm-2 am-avg-md-4 am-nbfc">
+                    {{foreach $module_data.value as $vs}}
+                        {{if !empty($vs) and !empty($vs['url'])}}
+                            <li class="am-padding-xs">
+                                <a href="javascript:;" data-value="{{$vs.url}}" data-name="{{$vs.name}}" class="am-block am-radius common-annex-download-event">{{$vs.name}}</a>
+                            </li>
+                        {{/if}}
+                    {{/foreach}}
+                </ul>
+            {{/if}}
+        {{/case}}
+        {{case rich-text}}
+            <div class="richtext">{{$module_data.value|raw}}</div>
+        {{/case}}
+        {{case subform}}
+            {{if !empty($module_data['value']) and is_array($module_data['value']) and count($module_data['value']) gt 0}}
+                <table class="am-table am-table-bordered am-table-radius am-text-left">
+                    <thead>
+                        <tr>
+                            {{foreach $module_data['value'][0] as $subhv}}
+                                <th>
+                                    <strong>{{$subhv.name}}</strong>
+                                </th>
+                            {{/foreach}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{foreach $module_data['value'] as $subvv}}
+                            {{if !empty($subvv) and is_array($subvv)}}
+                                <tr>
+                                    {{foreach $subvv as $subvvs}}
+                                        <td>
+                                            {{:ModuleInclude('../../../module/view/form_input/detail_value', $subvvs)}}
+                                        </td>
+                                    {{/foreach}}
+                                </tr>
+                            {{/if}}
+                        {{/foreach}}
+                    </tbody>
+                </table>
+            {{/if}}
+        {{/case}}
+        {{default /}}
+            {{if isset($module_data['value_text'])}}
+                {{$module_data.value_text}}
+            {{else /}}
+                {{$module_data.value|raw}}
+            {{/if}}
+    {{/switch}}
+{{/if}}

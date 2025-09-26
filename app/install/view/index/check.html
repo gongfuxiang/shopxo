@@ -4,573 +4,731 @@
 {{:ModuleInclude('public/header_nav')}}
 
 <!-- conntent start  -->
-<div class="am-g inside check">
-    <h2>环境检查</h2>
-    <table class="am-table">
-        <tr>
-            <th width="25%">环境</th>
-            <th width="25%">程序所需</th>
-            <th width="25%">当前服务器</th>
-            <th width="25%">是否符合</th>
-        </tr>
-        <tr class="<?php if(function_exists('php_uname')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>操作系统</td>
-            <td>无限制</td>
-            <td><?php echo function_exists('php_uname') ? php_uname('s') : '未知（php_uname函数未启用）'; ?></td>
-            <td><?php echo function_exists('php_uname') ? '√' : '×'; ?></td>
-        </tr>
+<div class="tech-container">
+    <div class="check-section">
+        <div class="section-header">
+            <div class="header-icon">
+                <div class="icon-glow"></div>
+                <i class="am-icon-desktop"></i>
+            </div>
+            <h2>环境检测</h2>
+            <p class="header-subtitle">Environment Check</p>
+        </div>
+        
+        <div class="check-content">
+            <!-- 环境要求 -->
+            <div class="check-card">
+                <div class="card-header">
+                    <h3><i class="am-icon-server"></i> 环境要求</h3>
+                </div>
+                <div class="card-body">
+                    <div class="check-table">
+                        <div class="table-header">
+                            <div class="col-env">环境</div>
+                            <div class="col-required">程序所需</div>
+                            <div class="col-current">当前服务器</div>
+                            <div class="col-status">是否符合</div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('php_uname')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-windows"></i>
+                                <span>操作系统</span>
+                            </div>
+                            <div class="col-required">无限制</div>
+                            <div class="col-current"><?php echo function_exists('php_uname') ? php_uname('s') : '未知（php_uname函数未启用）'; ?></div>
+                            <div class="col-status">
+                                <?php if(function_exists('php_uname')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
 
-        <?php $php_version = explode('.', PHP_VERSION); ?>
-        <tr class="<?php if(($php_version[0] >=8) || ($php_version[0] >=7 && $php_version[1] >=3) || ($php_version[0] >=7 && $php_version[1] >=2 && $php_version[2] >=5)){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>PHP版本</td>
-            <td>>=7.2.5</td>
-            <td><?php echo PHP_VERSION ?></td>
-            <td>
-                <?php if(($php_version[0] >=8) || ($php_version[0] >=7 && $php_version[1] >=3) || ($php_version[0] >=7 && $php_version[1] >=2 && $php_version[2] >=5)): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
+                        <?php $php_version = explode('.', PHP_VERSION); ?>
+                        <div class="table-row <?php if(($php_version[0] >=8) || ($php_version[0] >=7 && $php_version[1] >=3) || ($php_version[0] >=7 && $php_version[1] >=2 && $php_version[2] >=5)){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-code"></i>
+                                <span>PHP版本</span>
+                            </div>
+                            <div class="col-required">>=7.2.5</div>
+                            <div class="col-current"><?php echo PHP_VERSION ?></div>
+                            <div class="col-status">
+                                <?php if(($php_version[0] >=8) || ($php_version[0] >=7 && $php_version[1] >=3) || ($php_version[0] >=7 && $php_version[1] >=2 && $php_version[2] >=5)): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
 
-        <?php
-            if(function_exists('gd_info'))
-            {
-                $tmp = gd_info();
-                preg_match("/[\d.]+/", $tmp['GD Version'], $match);
-                unset($tmp);
-            }
-        ?>
-        <tr class="<?php if(isset($match[0]) && $match[0] > 2){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>GD库</td>
-            <td>2.0</td>
-            <td><?php echo isset($match[0]) ? $match[0] : '未知（gd_info函数未启用）'; ?></td>
-            <td>
-                <?php if(isset($match[0]) && $match[0] > 2): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-    </table>
+                        <?php
+                            if(function_exists('gd_info'))
+                            {
+                                $tmp = gd_info();
+                                preg_match("/[\d.]+/", $tmp['GD Version'], $match);
+                                unset($tmp);
+                            }
+                        ?>
+                        <div class="table-row <?php if(isset($match[0]) && $match[0] > 2){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-image"></i>
+                                <span>GD库</span>
+                            </div>
+                            <div class="col-required">2.0</div>
+                            <div class="col-current"><?php echo isset($match[0]) ? $match[0] : '未知（gd_info函数未启用）'; ?></div>
+                            <div class="col-status">
+                                <?php if(isset($match[0]) && $match[0] > 2): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <h2>目录/文件权限检查</h2>
-    <table class="am-table">
-        <tr>
-            <th width="25%">环境</th>
-            <th width="25%">所需状态</th>
-            <th width="25%">当前状态</th>
-            <th width="25%">是否符合</th>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT)){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT)): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT)): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(APP_PATH.'install/config')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./app/install/config</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(APP_PATH.'install/config')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(APP_PATH.'install/config')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(APP_PATH.'index/route')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./app/index/route</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(APP_PATH.'index/route')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(APP_PATH.'index/route')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'app/index/view')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./app/index/view</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'app/index/view')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'app/index/view')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'app/plugins')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./app/plugins</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'app/plugins')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'app/plugins')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'config')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./config</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'config')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'config')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'runtime')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./runtime</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'runtime')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'runtime')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/upload/file')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/upload/file</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/upload/images')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/upload/images</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/upload/video')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/upload/video</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/plugins')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/plugins</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/download')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/download</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/download')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/download')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(is_writable(ROOT.'extend/payment')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./extend/payment</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'extend/payment')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'extend/payment')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-    </table>
+            <!-- 目录权限检查 -->
+            <div class="check-card">
+                <div class="card-header">
+                    <h3><i class="am-icon-folder"></i> 目录/文件权限检查</h3>
+                </div>
+                <div class="card-body">
+                    <div class="check-table">
+                        <div class="table-header">
+                            <div class="col-env">环境</div>
+                            <div class="col-required">所需状态</div>
+                            <div class="col-current">当前状态</div>
+                            <div class="col-status">是否符合</div>
+                        </div>
+                        
+                        <div class="table-row <?php if(is_writable(ROOT)){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-home"></i>
+                                <span>./</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT)): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT)): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(is_writable(APP_PATH.'install/config')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-cogs"></i>
+                                <span>./app/install/config</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(APP_PATH.'install/config')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(APP_PATH.'install/config')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(is_writable(APP_PATH.'index/route')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-sitemap"></i>
+                                <span>./app/index/route</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(APP_PATH.'index/route')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(APP_PATH.'index/route')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
 
-    <h2>函数/类</h2>
-    <table class="am-table">
-        <tr>
-            <th width="25%">环境</th>
-            <th width="25%">所需状态</th>
-            <th width="25%">当前状态</th>
-            <th width="25%">是否符合</th>
-        </tr>
-        <tr class="<?php if(function_exists('curl_init')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>curl_init 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('curl_init')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('curl_init')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('fsockopen')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>fsockopen 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('fsockopen')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('fsockopen')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('xml_parser_create')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>xml_parser_create 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('xml_parser_create')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('xml_parser_create')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('file_get_contents')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>file_get_contents 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('file_get_contents')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('file_get_contents')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('mb_convert_encoding')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>mb_convert_encoding 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('mb_convert_encoding')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('mb_convert_encoding')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('json_encode')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>json_encode 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('json_encode')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('json_encode')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('json_decode')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>json_decode 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('json_decode')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('json_decode')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('simplexml_load_string')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>simplexml_load_string 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('simplexml_load_string')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('simplexml_load_string')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('mb_substr')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>mb_substr 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('mb_substr')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('mb_substr')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(function_exists('mb_strlen')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>mb_strlen 函数</td>
-            <td>支持</td>
-            <td>
-                <?php if (function_exists('mb_strlen')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (function_exists('mb_strlen')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(extension_loaded('pdo')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>pdo 扩展类</td>
-            <td>支持</td>
-            <td>
-                <?php if (extension_loaded('pdo')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (extension_loaded('pdo')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(extension_loaded('pdo_mysql')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>pdo_mysql 扩展类</td>
-            <td>支持</td>
-            <td>
-                <?php if (extension_loaded('pdo_mysql')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (extension_loaded('pdo_mysql')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-        <tr class="<?php if(class_exists('ZipArchive')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>ZipArchive 扩展类</td>
-            <td>支持</td>
-            <td>
-                <?php if (class_exists('ZipArchive')): ?>
-                    支持
-                <?php else: ?>
-                    不支持
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (class_exists('ZipArchive')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
-    </table>
+                        <div class="table-row <?php if(is_writable(ROOT.'app/index/view')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-eye"></i>
+                                <span>./app/index/view</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'app/index/view')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'app/index/view')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
 
-    <div class="agree ongoing-button">
-        <a href="{{:MyUrl('install/index/index')}}" class="am-btn am-btn-secondary am-radius am-btn-xs">
-            <i class="am-icon-arrow-left"></i>
-            <span>上一步</span>
-        </a>
-        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs check-submit" data-url="{{:MyUrl('install/index/create')}}">
-            <i class="am-icon-arrow-right"></i>
-            <span>继续下一步</span>
-        </button>
+                        <div class="table-row <?php if(is_writable(ROOT.'app/plugins')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-plug"></i>
+                                <span>./app/plugins</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'app/plugins')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'app/plugins')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'config')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-cog"></i>
+                                <span>./config</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'config')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'config')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'runtime')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-hdd-o"></i>
+                                <span>./runtime</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'runtime')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'runtime')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-globe"></i>
+                                <span>./public</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public/static/upload/file')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-file"></i>
+                                <span>./public/static/upload/file</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public/static/upload/images')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-picture-o"></i>
+                                <span>./public/static/upload/images</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public/static/upload/video')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-video-camera"></i>
+                                <span>./public/static/upload/video</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public/static/plugins')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-puzzle-piece"></i>
+                                <span>./public/static/plugins</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public/static/plugins')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'public/download')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-download"></i>
+                                <span>./public/download</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'public/download')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'public/download')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+
+                        <div class="table-row <?php if(is_writable(ROOT.'extend/payment')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-credit-card"></i>
+                                <span>./extend/payment</span>
+                            </div>
+                            <div class="col-required">可写</div>
+                            <div class="col-current">
+                                <?php if (is_writable(ROOT.'extend/payment')): ?>
+                                    可写
+                                <?php else: ?>
+                                    不可写
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (is_writable(ROOT.'extend/payment')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 函数/类检测 -->
+            <div class="check-card">
+                <div class="card-header">
+                    <h3><i class="am-icon-cogs"></i> 函数/类</h3>
+                </div>
+                <div class="card-body">
+                    <div class="check-table">
+                        <div class="table-header">
+                            <div class="col-env">环境</div>
+                            <div class="col-required">所需状态</div>
+                            <div class="col-current">当前状态</div>
+                            <div class="col-status">是否符合</div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('curl_init')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-cloud-download"></i>
+                                <span>curl_init 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('curl_init')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('curl_init')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('fsockopen')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-plug"></i>
+                                <span>fsockopen 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('fsockopen')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('fsockopen')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('xml_parser_create')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-code"></i>
+                                <span>xml_parser_create 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('xml_parser_create')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('xml_parser_create')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('file_get_contents')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-file"></i>
+                                <span>file_get_contents 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('file_get_contents')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('file_get_contents')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('mb_convert_encoding')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-language"></i>
+                                <span>mb_convert_encoding 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('mb_convert_encoding')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('mb_convert_encoding')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('json_encode')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-exchange"></i>
+                                <span>json_encode 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('json_encode')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('json_encode')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('json_decode')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-exchange"></i>
+                                <span>json_decode 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('json_decode')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('json_decode')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('simplexml_load_string')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-code"></i>
+                                <span>simplexml_load_string 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('simplexml_load_string')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('simplexml_load_string')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('mb_substr')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-cut"></i>
+                                <span>mb_substr 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('mb_substr')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('mb_substr')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(function_exists('mb_strlen')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-font"></i>
+                                <span>mb_strlen 函数</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (function_exists('mb_strlen')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (function_exists('mb_strlen')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(extension_loaded('pdo')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-database"></i>
+                                <span>pdo 扩展类</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (extension_loaded('pdo')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (extension_loaded('pdo')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(extension_loaded('pdo_mysql')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-database"></i>
+                                <span>pdo_mysql 扩展类</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (extension_loaded('pdo_mysql')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (extension_loaded('pdo_mysql')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        
+                        <div class="table-row <?php if(class_exists('ZipArchive')){ echo 'success'; } else { echo 'error'; } ?>">
+                            <div class="col-env">
+                                <i class="am-icon-archive"></i>
+                                <span>ZipArchive 扩展类</span>
+                            </div>
+                            <div class="col-required">支持</div>
+                            <div class="col-current">
+                                <?php if (class_exists('ZipArchive')): ?>
+                                    支持
+                                <?php else: ?>
+                                    不支持
+                                <?php endif ?>
+                            </div>
+                            <div class="col-status">
+                                <?php if (class_exists('ZipArchive')): ?>
+                                    <span class="status-badge success"><i class="am-icon-check"></i></span>
+                                <?php else: ?>
+                                    <span class="status-badge error"><i class="am-icon-close"></i></span>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-actions">
+            <a href="{{:MyUrl('install/index/index')}}" class="tech-btn tech-btn-secondary">
+                <i class="am-icon-arrow-left"></i>
+                <span>上一步</span>
+            </a>
+            <button type="button" class="tech-btn tech-btn-accept check-submit" data-url="{{:MyUrl('install/index/create')}}">
+                <i class="am-icon-arrow-right"></i>
+                <span>继续下一步</span>
+            </button>
+        </div>
     </div>
 </div>
 <!-- conntent end  -->

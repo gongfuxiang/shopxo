@@ -47,6 +47,7 @@ class FormInputData extends Base
      */
     public function Detail()
     {
+        //print_r($this->data_detail);die;
         return MyView();
     }
 
