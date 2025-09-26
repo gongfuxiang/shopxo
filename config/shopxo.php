@@ -162,6 +162,9 @@ return [
     // DIY上传到远程商店店铺
     'store_diy_upload_url'                  => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=diyupload',
 
+    // form表单上传到远程商店店铺
+    'store_forminput_upload_url'            => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=forminputupload',
+
     // 主题上传到远程商店店铺
     'store_themeadmin_upload_url'           => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=themeadminupload',
 
