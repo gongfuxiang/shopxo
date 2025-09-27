@@ -563,11 +563,11 @@ COMMIT;
 DROP TABLE IF EXISTS `sxo_form_input`;
 CREATE TABLE `sxo_form_input`  (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `md5_key` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '唯一key',
-  `logo` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'logo',
-  `name` char(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '名称',
-  `describe` char(230) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '描述',
-  `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '配置数据',
+  `md5_key` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '唯一key',
+  `logo` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'logo',
+  `name` char(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
+  `describe` char(230) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '描述',
+  `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '配置数据',
   `access_count` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '访问次数',
   `is_enable` tinyint UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否启用（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
@@ -576,7 +576,7 @@ CREATE TABLE `sxo_form_input`  (
   INDEX `name`(`name` ASC) USING BTREE,
   INDEX `is_enable`(`is_enable` ASC) USING BTREE,
   INDEX `md5_key`(`md5_key` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'form表单';
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'form表单';
 
 -- ----------------------------
 -- Records of sxo_form_input
@@ -592,13 +592,13 @@ CREATE TABLE `sxo_form_input_data`  (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `forminput_id` int UNSIGNED NOT NULL DEFAULT 0 COMMENT 'form表单id',
   `user_id` int UNSIGNED NULL DEFAULT 0 COMMENT '用户id',
-  `form_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '表单数据',
+  `form_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '表单数据',
   `add_time` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `forminput_id`(`forminput_id` ASC) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'form表单数据';
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'form表单数据';
 
 -- ----------------------------
 -- Records of sxo_form_input_data
@@ -1773,17 +1773,17 @@ DROP TABLE IF EXISTS `sxo_power`;
 CREATE TABLE `sxo_power`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '权限id',
   `pid` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '权限父级id',
-  `name` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '权限名称',
-  `control` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '控制器名称',
-  `action` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '方法名称',
-  `url` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '自定义url地址',
+  `name` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '权限名称',
+  `control` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '控制器名称',
+  `action` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '方法名称',
+  `url` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '自定义url地址',
   `sort` tinyint UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序',
   `is_show` tinyint UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否显示（0否，1是）',
-  `icon` char(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '图标class',
+  `icon` char(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '图标class',
   `add_time` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 646 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '权限';
+) ENGINE = InnoDB AUTO_INCREMENT = 646 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限';
 
 -- ----------------------------
 -- Records of sxo_power
