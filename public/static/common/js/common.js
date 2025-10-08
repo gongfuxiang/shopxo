@@ -5,9 +5,9 @@
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:39+0800
- * @param {[string]}	msg  [提示信息]
- * @param {[string]} 	type [类型（失败:error, 警告:warning, 成功:success）]
- * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
+ * @param {[string]}    msg  [提示信息]
+ * @param {[string]}    type [类型（失败:error, 警告:warning, 成功:success）]
+ * @param {[int]}       time [自动关闭时间（秒）, 默认3秒]
  */
 function Prompt (msg, type, time) {
     if (msg != undefined && msg != '') {
@@ -66,9 +66,9 @@ function Prompt (msg, type, time) {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:04+0800
- * @param  {[array]} 	all    	[需要被转的数组]
- * @param  {[object]} 	object 	[需要压进去的json对象]
- * @return {[object]} 			[josn对象]
+ * @param  {[array]}    all     [需要被转的数组]
+ * @param  {[object]}   object  [需要压进去的json对象]
+ * @return {[object]}           [josn对象]
  */
 function ArrayTurnJson (all, object) {
     for (var name in all) {
@@ -85,7 +85,7 @@ function ArrayTurnJson (all, object) {
  * @datetime 2016-12-10T14:31:19+0800
  * @param    {[string]}     element [元素的class或id]
  * @param    {[boolean]}    is_json [是否返回json对象（默认否）]
- * @return   {[object]}        		[josn对象]
+ * @return   {[object]}             [josn对象]
  */
 function GetFormVal (element, is_json) {
     var $form = (typeof (element) == 'object') ? $(element) : $(element);
@@ -169,7 +169,7 @@ function GetFormVal (element, is_json) {
  * @version  0.0.1
  * @datetime 2016-12-10T14:30:37+0800
  * @param    {[string]}    fun_name [方法名]
- * @return 	 {[boolean]}        	[已定义true, 则false]
+ * @return   {[boolean]}            [已定义true, 则false]
  */
 function IsExitsFunction (fun_name) {
     try {
@@ -218,11 +218,11 @@ function GetTagValue (tag_obj) {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:22:39+0800
- * @param    {[string] [form_name] 		[标题class或id]}
- * @param    {[string] [action] 		[请求地址]}
- * @param    {[string] [method] 		[请求类型 POST, GET]}
- * @param    {[string] [request-type] 	[回调类型 ajax-url, ajax-fun, ajax-reload]}
- * @param    {[string] [request-value] 	[回调值 ajax-url地址 或 ajax-fun方法]}
+ * @param    {[string] [form_name]      [标题class或id]}
+ * @param    {[string] [action]         [请求地址]}
+ * @param    {[string] [method]         [请求类型 POST, GET]}
+ * @param    {[string] [request-type]   [回调类型 ajax-url, ajax-fun, ajax-reload]}
+ * @param    {[string] [request-value]  [回调值 ajax-url地址 或 ajax-fun方法]}
  */
 
 function FromInit (form_name) {
@@ -368,11 +368,11 @@ function FromInit (form_name) {
                     // 以 ajax 开头的都会先请求再处理
                     // ajax-reload  请求完成后刷新页面
                     // ajax-close   请求完成后关闭弹窗
-                    // ajax-url 	请求完成后调整到指定的请求值
-                    // ajax-fun 	请求完成后调用指定方法
-                    // ajax-view 	请求完成后仅提示文本信息
-                    // sync 		不发起请求、直接同步调用指定的方法
-                    // jump 		不发起请求、拼接数据参数跳转到指定 url 地址
+                    // ajax-url     请求完成后调整到指定的请求值
+                    // ajax-fun     请求完成后调用指定方法
+                    // ajax-view    请求完成后仅提示文本信息
+                    // sync         不发起请求、直接同步调用指定的方法
+                    // jump         不发起请求、拼接数据参数跳转到指定 url 地址
                     var request_handle = ['ajax-reload', 'ajax-close', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
 
                     // 参数校验
@@ -634,10 +634,10 @@ function TreeHeadConfig () {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2017-01-13T10:30:23+0800
- * @param    {[int]}    	id    			[节点id]
- * @param    {[string]}   	url   			[请求url地址]
- * @param    {[int]}      	level 			[层级]
- * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
+ * @param    {[int]}        id              [节点id]
+ * @param    {[string]}     url             [请求url地址]
+ * @param    {[int]}        level           [层级]
+ * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
  */
 function Tree (id, url, level = 0, is_delete_all = 0) {
     $.ajax({
@@ -709,9 +709,9 @@ function Tree (id, url, level = 0, is_delete_all = 0) {
  * @date    2020-11-19
  * @desc    description
  * @param    {[boject]}     item            [数据]
- * @param    {[int]}    	pid    			[节点pid]
- * @param    {[int]}      	level 			[层级]
- * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
+ * @param    {[int]}        pid             [节点pid]
+ * @param    {[int]}        level           [层级]
+ * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
  */
 function TreeItemHtmlHandle (item, pid, level, is_delete_all) {
     // 基础参数处理
@@ -960,8 +960,8 @@ function TreeFormSaveBackHandle (e) {
 
 /**
  * 图片上传预览
- * @param  {[string]} class_name 		[class名称]
- * @param  {[string]} show_img   		[预览图片id或class]
+ * @param  {[string]} class_name        [class名称]
+ * @param  {[string]} show_img          [预览图片id或class]
  * @param  {[string]} default_images    [默认图片]
  */
 function ImageFileUploadShow (class_name, show_img, default_images) {
@@ -996,8 +996,8 @@ function ImageFileUploadShow (class_name, show_img, default_images) {
 
 /**
  * 视频上传预览
- * @param  {[string]} class_name 		[class名称]
- * @param  {[string]} show_video   		[预览视频id或class]
+ * @param  {[string]} class_name        [class名称]
+ * @param  {[string]} show_video        [预览视频id或class]
  * @param  {[string]} default_video     [默认视频]
  */
 function VideoFileUploadShow (class_name, show_video, default_video) {
@@ -1037,14 +1037,14 @@ function VideoFileUploadShow (class_name, show_video, default_video) {
  * @version 1.0.0
  * @date    2018-09-13
  * @desc    description
- * @param   {[string]}  url   		  [加载url]
- * @param   {[string]}  title 		  [标题]
- * @param   {[string]}  class_tag 	  [指定class]
- * @param   {[int]}     full 		  [是否满屏（0否, 1是）]
- * @param   {[int]}     full_max	  [满屏最大限制（max-width:1400px）（0否, 1是）]
+ * @param   {[string]}  url           [加载url]
+ * @param   {[string]}  title         [标题]
+ * @param   {[string]}  class_tag     [指定class]
+ * @param   {[int]}     full          [是否满屏（0否, 1是）]
+ * @param   {[int]}     full_max      [满屏最大限制（max-width:1400px）（0否, 1是）]
  * @param   {[string]}  full_max_size [满屏最大限制指定（默认空 最大1200、lg 1000, 有效值 md 800, sm 500, xs 400）]
- * @param   {[string]}  on_open	      [开启监听方法]
- * @param   {[string]}  on_close	  [关闭监听方法]
+ * @param   {[string]}  on_open       [开启监听方法]
+ * @param   {[string]}  on_close      [关闭监听方法]
  * @param   {[string]}  offcanvas     [侧边栏弹窗 top/bottom/left/right]
  */
 function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size = '', on_open = '', on_close = '', offcanvas = '') {
@@ -1968,11 +1968,11 @@ function PageLibrary (total, number, page, sub_number, is_extend = false) {
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2018-09-23T22:00:30+0800
- * @param    {[int]}          pid     	[pid数据值]
+ * @param    {[int]}          pid       [pid数据值]
  * @param    {[string]}       name      [当前节点name名称]
  * @param    {[string]}       next_name [下一个节点名称（数据渲染节点）]
- * @param    {[int]}          value 	[需要选中的值]
- * @param    {[int]}          ansyc 	[接口同步异步]
+ * @param    {[int]}          value     [需要选中的值]
+ * @param    {[int]}          ansyc     [接口同步异步]
  */
 function RegionNodeData (pid, name, next_name, value, ansyc = true) {
     if (pid !== null) {
@@ -2327,11 +2327,11 @@ function CardFormInit () {
  * @version 1.0.0
  * @date    2019-11-12
  * @desc    description
- * @param   {[float]}        	lng   		[经度]
- * @param   {[float]}        	lat   		[维度]
- * @param   {[int]}        		level 		[层级]
- * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
- * @param   {[string]}        	mapid 	    [地图id（默认 map）]
+ * @param   {[float]}           lng         [经度]
+ * @param   {[float]}           lat         [维度]
+ * @param   {[int]}             level       [层级]
+ * @param   {[boolean]}         is_dragend  [标注是否可拖拽]
+ * @param   {[string]}          mapid       [地图id（默认 map）]
  */
 function MapInit (lng, lat, level, is_dragend, mapid) {
     // 地图容器
@@ -2454,22 +2454,22 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
             // var point = new TMap.LatLng(lat, lng);
             // //初始化地图
             // var map = new TMap.Map(mapid, {
-            // 	zoom: level,//设置地图缩放级别
-            // 	center: point//设置地图中心点坐标
+            //  zoom: level,//设置地图缩放级别
+            //  center: point//设置地图中心点坐标
             // });
             // var marker = new TMap.MultiMarker({
-            // 	map: map,
-            // 	geometries: [
-            // 		{
-            // 			position: point,
-            // 			id: 'marker',
-            // 		}
-            // 	],
+            //  map: map,
+            //  geometries: [
+            //      {
+            //          position: point,
+            //          id: 'marker',
+            //      }
+            //  ],
             // });
             // //监听marker点击事件
             // marker.on('click', function(e)
             // {
-            // 	console.log(e);
+            //  console.log(e);
             // });
             break;
 
@@ -2624,8 +2624,8 @@ function FormTableContainerOperateGridMoreListInit (e, is_prompt = true) {
  * @version 1.0.0
  * @date    2020-07-26
  * @desc    description
- * @param   {[string]}        form 	[表单名称]
- * @param   {[string]}        tag 	[表单父级标签class或id]
+ * @param   {[string]}        form  [表单名称]
+ * @param   {[string]}        tag   [表单父级标签class或id]
  */
 function FromTableCheckedValues (form, tag) {
     // 获取复选框选中的值
@@ -3953,9 +3953,9 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
  * @version 1.0.0
  * @date    2023-10-21
  * @desc    description
- * @param    {[int]}    	id    			[节点id]
- * @param    {[string]}   	url   			[请求url地址]
- * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
+ * @param    {[int]}        id              [节点id]
+ * @param    {[string]}     url             [请求url地址]
+ * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
  */
 function Card (id, url, is_delete_all = 0) {
     $.ajax({
@@ -4087,8 +4087,8 @@ function CardFormSaveBackHandle (e) {
  * @date    2020-11-19
  * @desc    description
  * @param    {[boject]}     item            [数据]
- * @param    {[int]}    	pid    			[节点pid]
- * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
+ * @param    {[int]}        pid             [节点pid]
+ * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
  */
 function CardItemHtmlHandle (item, pid, is_delete_all) {
     // 基础参数处理
@@ -4942,8 +4942,8 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int] 	[data-id] 	[数据id]}
-     * @param    {[string] 	[data-url] 	[请求地址]}
+     * @param    {[int]     [data-id]   [数据id]}
+     * @param    {[string]  [data-url]  [请求地址]}
      */
     $(document).on('click', '.submit-delete', function () {
         ConfirmDataDelete($(this));
@@ -4955,9 +4955,9 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int] 	[data-id] 	[数据id]}
-     * @param    {[int] 	[data-state][状态值]}
-     * @param    {[string] 	[data-url] 	[请求地址]}
+     * @param    {[int]     [data-id]   [数据id]}
+     * @param    {[int]     [data-state][状态值]}
+     * @param    {[string]  [data-url]  [请求地址]}
      */
     $(document).on('click', '.submit-state', function () {
         // 动画
@@ -5287,9 +5287,9 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int] 	[data-id] 	[数据id]}
-     * @param    {[int] 	[data-view] [完成操作（delete删除数据, reload刷新页面, fun方法回调(data-value)]}
-     * @param    {[string] 	[data-url] 	[请求地址]}
+     * @param    {[int]     [data-id]   [数据id]}
+     * @param    {[int]     [data-view] [完成操作（delete删除数据, reload刷新页面, fun方法回调(data-value)]}
+     * @param    {[string]  [data-url]  [请求地址]}
      */
     $(document).on('click', '.submit-ajax', function () {
         var is_confirm = $(this).attr('data-is-confirm');
@@ -7217,38 +7217,40 @@ $(function () {
     });
 
     // 商品参数配置信息复制
-    var $quick_modal = $('#parameters-quick-copy-modal');
-    var clipboard = new ClipboardJS('.parameters-quick-copy',
-        {
-            text: function () {
-                // 获取商品参数配置信息
-                var data = [];
-                $parameters_table.find('tbody tr').each(function (k, v) {
-                    data.push({
-                        "type": $(this).find('td:eq(0) select').val(),
-                        "name": $(this).find('td:eq(1) input').val(),
-                        "value": $(this).find('td:eq(2) input').val(),
+    if($('.parameters-quick-copy').length > 0) {
+        var $quick_modal = $('#parameters-quick-copy-modal');
+        var clipboard = new ClipboardJS('.parameters-quick-copy',
+            {
+                text: function () {
+                    // 获取商品参数配置信息
+                    var data = [];
+                    $parameters_table.find('tbody tr').each(function (k, v) {
+                        data.push({
+                            "type": $(this).find('td:eq(0) select').val(),
+                            "name": $(this).find('td:eq(1) input').val(),
+                            "value": $(this).find('td:eq(2) input').val(),
+                        });
                     });
-                });
-                data = JSON.stringify(data);
-                $quick_modal.find('textarea').val(data);
-                return data;
-            }
+                    data = JSON.stringify(data);
+                    $quick_modal.find('textarea').val(data);
+                    return data;
+                }
+            });
+        clipboard.on('success', function (e) {
+            Prompt($parameters_table.data('copy-success-tips') || '复制成功', 'success');
         });
-    clipboard.on('success', function (e) {
-        Prompt($parameters_table.data('copy-success-tips') || '复制成功', 'success');
-    });
-    clipboard.on('error', function (e) {
-        // 复制失败则开启复制窗口，让用户自己复制
-        $quick_modal.modal({
-            width: 200,
-            height: 135
+        clipboard.on('error', function (e) {
+            // 复制失败则开启复制窗口，让用户自己复制
+            $quick_modal.modal({
+                width: 200,
+                height: 135
+            });
         });
-    });
-    // 点击选中复制的值
-    $quick_modal.find('textarea').on('click', function () {
-        $(this).select();
-    });
+        // 点击选中复制的值
+        $quick_modal.find('textarea').on('click', function () {
+            $(this).select();
+        });
+    }
 
     // 商品参数快捷操作
     var $parameters_quick_config = $('.parameters-quick-config');
