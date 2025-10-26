@@ -3170,7 +3170,7 @@ function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $para
  * @param    [float]                  $price   [金额]
  * @param    [mixed]                  $default [默认值]
  */
-function PriceBeautify($price = 0, $default = '')
+function PriceBeautify($price = 0, $default = 0)
 {
     if(empty($price))
     {

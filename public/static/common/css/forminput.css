@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
 }
-.forminput .am-modal-dialog {
+.forminput-am-modal-dialog {
     width: 40rem;
 }
 /* 全局背景信息 */
@@ -30,7 +30,7 @@
     width: 100rem;
     margin: 0 auto;
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
 }
 /* 表单内容 */
 .forminput-data-form {
@@ -145,6 +145,9 @@
 .forminput-data-item input[type='tel'],
 .forminput-data-item input[type='color'] {
     padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
 .forminput-data-item .item-content-big {
     height: 4.4rem;
@@ -236,7 +239,7 @@
     border: none;
     margin: 0;
 }
-.forminput .item-img-empty {
+.forminput-data-content .item-img-empty {
     background: #f4fcff;
 }
 .forminput-data-item-content, .forminput-data-item-disabled {
@@ -245,29 +248,29 @@
     gap: 1rem;
     padding: 0.5rem 1rem;
 }
-.forminput .forminput-data-item-disabled {
+.forminput-data-content .forminput-data-item-disabled {
     opacity: 0.4;
 }
-.forminput .forminput-textarea {
+.forminput-data-content .forminput-textarea {
     position: absolute;
     bottom: 1rem;
     right: 1rem;
     z-index: 2;
     background: #fff;
 }
-.forminput .forminput-input-text-center {
+.forminput-data-content .forminput-input-text-center {
     text-align: center;
 }
-.forminput .align-items-center {
+.forminput-data-content .align-items-center {
     align-items: center;
 }
-.forminput .justify-content-center {
+.forminput-data-content .justify-content-center {
     justify-content: center;
 }
-.forminput .forminput-cursor-p {
+.forminput-data-content .forminput-cursor-p {
     cursor: pointer;
 }
-.forminput .rect-or-round {
+.forminput-data-content .rect-or-round {
     width: 100%;
     height: 100%;
     padding: 0.3rem;
@@ -320,7 +323,7 @@
 .forminput-table-container .row-num {
     font-size: 1.4rem;
 }
-.forminput .file-upload-view-list.file-upload-hidden {
+.forminput-data-content .file-upload-view-list.file-upload-hidden {
     display: none !important;
 }
 /* 表格头 */
@@ -420,10 +423,10 @@
     height: 1.4rem;
     color: #2a94ff;
 }
-.forminput .shrink {
+.forminput-data-content .shrink {
     flex-shrink: 0;
 }
-.forminput .subform-no-data {   
+.forminput-data-content .subform-no-data {   
     width: 30rem;
     height: 7.6rem;
     background: #f0f1f4;
@@ -437,7 +440,7 @@
 .forminput-default-button.subform-button-hidden {
     display: none !important;
 }
-.forminput-table-body .subform-num-checkbox, .forminput .subform-header-checkbox {
+.forminput-table-body .subform-num-checkbox, .forminput-data-content .subform-header-checkbox {
     display: none;
 }
 .forminput-table-checkbox .forminput-table-body .subform-num-checkbox, .forminput-table-checkbox .subform-header-checkbox {
@@ -464,18 +467,18 @@
 .forminput-subform-content-hidden div {
     display: none !important;
 }
-.forminput .subform-cell.forminput-subform-hidden {
+.forminput-data-content .subform-cell.forminput-subform-hidden {
     display: none !important;
 }
-.forminput .subform-cell.forminput-subform-content-hidden div {
+.forminput-data-content .subform-cell.forminput-subform-content-hidden div {
     display: none !important;
 }
 /* 公共配置 */
-.forminput .forminput-no-border {
+.forminput-data-content .forminput-no-border {
     border: none !important;
     box-shadow: none !important;
 }
-.forminput .forminput-no-border.am-field-error:focus {
+.forminput-data-content .forminput-no-border.am-field-error:focus {
     box-shadow: none !important;
 }
 .forminput-w {
@@ -505,8 +508,8 @@
 .forminput-margin-right-10 {
     margin-right: 1rem;
 }
-.forminput .am-checkbox-inline:not(:last-child),
-.forminput .am-radio-inline:not(:last-child) {
+.forminput-data-content .am-checkbox-inline:not(:last-child),
+.forminput-data-content .am-radio-inline:not(:last-child) {
     margin-right: 2rem !important;
 }
 .forminput-gap-10 {
@@ -550,7 +553,7 @@
     height: 1.2rem;
     background-color: #e4e7ec;
 }
-.forminput .file-upload-view-item {
+.forminput-data-content .file-upload-view-item {
     position: relative;
     gap: 0.3rem;
     background: #fff;
@@ -558,22 +561,22 @@
     border-radius: 0.4rem;
     box-shadow: 0px 0px 0.5rem 0px rgba(207, 207, 207, 0.5);
 }
-.forminput .file-upload-view-item .file-abs-close { 
+.forminput-data-content .file-upload-view-item .file-abs-close { 
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;
     z-index: 3;
 }
-.forminput .file-upload-view-item .file-upload-view-close { 
+.forminput-data-content .file-upload-view-item .file-upload-view-close { 
     font-size: 1.2rem;
     height: 1.2rem;
     display: flex;
 }
-.forminput .file-upload-view-item .file-upload-view-attachments-close { 
+.forminput-data-content .file-upload-view-item .file-upload-view-attachments-close { 
     font-size: 1rem;
     height: 100%;
 }
-.forminput .file-upload-view-item.file-upload-view-item-attachments-item {
+.forminput-data-content .file-upload-view-item.file-upload-view-item-attachments-item {
     padding: 1rem 1.2rem 1rem 1.6rem;
     display: flex;
     align-items: center;
@@ -583,7 +586,7 @@
     border-radius: 0.4rem;
     width: auto;
 }
-.forminput .file-upload-view-item.file-upload-view-item-attachments-item .upload-title {
+.forminput-data-content .file-upload-view-item.file-upload-view-item-attachments-item .upload-title {
     font-weight: 400;
     font-size: 1.2rem;
     color: #333333;
@@ -591,7 +594,7 @@
     text-align: left;
     font-style: normal;
 }
-.forminput .file-upload-view-item .file-upload-view-item-img, .file-upload-view-item .file-upload-view-item-video {
+.forminput-data-content .file-upload-view-item .file-upload-view-item-img, .file-upload-view-item .file-upload-view-item-video {
     width: 100%;
     height: 6rem;
     background: #DADADA;
@@ -599,7 +602,7 @@
     object-fit: contain;
     position: relative;
 }
-.forminput .file-upload-view-item .file-upload-view-item-video .file-upload-bofang {
+.forminput-data-content .file-upload-view-item .file-upload-view-item-video .file-upload-bofang {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -608,12 +611,12 @@
     z-index: 2;
     border-radius: 0.8rem;
 }
-.forminput .file-upload-view-item .file-upload-view-item-info { 
+.forminput-data-content .file-upload-view-item .file-upload-view-item-info { 
     padding: 0.3rem;
     overflow: hidden;
     flex: 1;
 }
-.forminput .file-upload-view-item .upload-title {
+.forminput-data-content .file-upload-view-item .upload-title {
     font-weight: 400;
     font-size: 1rem;
     color: #333333;
@@ -621,7 +624,7 @@
     text-align: left;
     font-style: normal;
 }
-.forminput .file-upload-view-item .upload-size {
+.forminput-data-content .file-upload-view-item .upload-size {
     font-weight: 400;
     font-size: 0.8rem;
     color: #999999;
@@ -630,12 +633,12 @@
     font-style: normal;
 }
 /* 提示 */
-.forminput .tooltip {
+.forminput-data-content .tooltip {
     position: relative;
     display: flex;
     justify-content: center;
 }
-.forminput .tooltip .tooltip-text {
+.forminput-data-content .tooltip .tooltip-text {
     display: none;
     flex-grow: 1;
     color: #000;
@@ -653,7 +656,7 @@
     left: 50%;
     transform: translateX(-50%);
 }
-.forminput .tooltip-text::after {
+.forminput-data-content .tooltip-text::after {
     content: '';
     position: absolute;
     top: 100%; /* 在下方 */
@@ -663,77 +666,77 @@
     border-style: solid;
     border-color: #fff transparent transparent transparent; /* 箭头朝上 */
 }
-.forminput .tooltip:hover .tooltip-text {
+.forminput-data-content .tooltip:hover .tooltip-text {
     display: inline-block;
 }
-.forminput .am-ucheck-icons, .forminput .am-icon-unchecked, .forminput .am-icon-checked {
+.forminput-data-content .am-ucheck-icons, .forminput-data-content .am-icon-unchecked, .forminput-data-content .am-icon-checked {
     top: 50% !important;
     transform: translateY(-50%) !important;
 }
-.forminput #add-option-popup {
+#forminput-add-option-popup {
     height: 16rem;
     margin-top: 0;
     top: 50%;
     transform: translateY(-50%);
 }
-.forminput .forminput-divider {
+.forminput-data-content .forminput-divider {
     margin: 0 0.5rem;
 }
-.forminput .forminput-data-item .am-selected-list .am-icon-check {
+.forminput-data-content .forminput-data-item .am-selected-list .am-icon-check {
    top: 50%;
    transform: translateY(-50%);
 }
-.forminput .forminput-visiable-hidden {
+.forminput-data-content .forminput-visiable-hidden {
     visibility: hidden;
     height: 0 !important;
     width: 0 !important;
     border: 0 !important;
 }
-.forminput .forminput-score-icon {
+.forminput-data-content .forminput-score-icon {
     font-size: 1.6rem;
     cursor: pointer;
 }
-.forminput .forminput-score-icon.icon-radio-unchecked, .forminput .forminput-score-icon.icon-checkbox-unchecked {
+.forminput-data-content .forminput-score-icon.icon-radio-unchecked, .forminput-data-content .forminput-score-icon.icon-checkbox-unchecked {
     color: #ccc;
 }
-.forminput .forminput-score-icon.icon-radio-checked, .forminput .forminput-score-icon.icon-checkbox-checked {
+.forminput-data-content .forminput-score-icon.icon-radio-checked, .forminput-data-content .forminput-score-icon.icon-checkbox-checked {
     transition: all 0.3s ease-in-out;
 }
-.forminput .am-flex-wrap {
+.forminput-data-content .am-flex-wrap {
     flex-wrap: wrap;
 }
-.forminput .am-selected-content .add-option { 
+.forminput-data-content .am-selected-content .add-option { 
     padding: 0.5rem 1rem;
 }
-.forminput .forminput-reactive {
+.forminput-data-content .forminput-reactive {
     position: relative;
 }
-.forminput .forminput-data-item .am-cascader-suffix .am-input-suffix {
+.forminput-data-content .forminput-data-item .am-cascader-suffix .am-input-suffix {
     height: auto !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
 }
-.forminput .forminput-data-item .forminput-data-item-content.am-btn {
+.forminput-data-content .forminput-data-item .forminput-data-item-content.am-btn {
     padding: 0.5rem 1rem;
 }
-.forminput .forminput-btn-primary {
+.forminput-data-content .forminput-btn-primary {
     border: 0.1rem solid #ccc !important;
     background: #fff !important;
 }
-.forminput .forminput-btn-disabled {
+.forminput-data-content .forminput-btn-disabled {
     border: 0.1rem solid #ccc !important;
     background: #eee !important;
 }
-.forminput #forminput-user-verify-win .am-position-verify {
+.forminput-data-content #forminput-user-verify-win .am-position-verify {
     position: absolute;
     right: 0 !important;
 }
-.forminput .upload-text {
+.forminput-data-content .upload-text {
     color: #606266;
     font-weight: normal;
 }
 
-.forminput .file-upload-view-item-preview {
+.forminput-data-content .file-upload-view-item-preview {
     cursor: pointer;
 }
 .forminput-free-column {
@@ -746,11 +749,11 @@
 .forminput-data-item-content {
     position: relative;
 }
-.forminput .am-flex-col {
+.forminput-data-content .am-flex-col {
     display: flex;
     flex-direction: column;
 }
-.forminput .forminput-wrap {
+.forminput-data-content .forminput-wrap {
     overflow:hidden;
     text-overflow:ellipsis;
     word-wrap: break-word !important; 
@@ -758,10 +761,10 @@
     word-wrap:break-word !important;
 }
 
-.forminput .add-option-max-width {
+.forminput-data-content .add-option-max-width {
     max-width: 10rem;
 }
-.forminput .add-option-icon {
+.forminput-data-content .add-option-icon {
     font-size: 1.4rem;
     line-height: 1.6rem;
 }

@@ -287,7 +287,7 @@ class IntegralService
                     if(array_key_exists($dv['goods_id'], $goods_give))
                     {
                         $give_rate = $goods_give[$dv['goods_id']];
-                        if($give_rate > 0 && $give_rate <= 100)
+                        if($give_rate > 0)
                         {
                             // 实际赠送积分
                             $give_integral = intval(($give_rate/100)*$dv['total_price']);

@@ -1,4 +1,4 @@
-{{if (isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1) or (isset($goods_params_operate_data['is_copy']) and $goods_params_operate_data['is_copy'] eq 1) or (isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1) or !empty($goods_params_operate_data['msg'])}}
+{{if (isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1) or (isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1) or !empty($goods_params_operate_data['msg'])}}
     {{if !empty($goods_params_operate_data['msg'])}}
         <p class="am-color-red">{{$goods_params_operate_data.msg}}</p>
     {{/if}}
@@ -21,17 +21,10 @@
                             {{/if}}
                         </select>
                     </div>
-                    <textarea rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
+                    <textarea class="am-radius" rows="5" placeholder="{{:MyLang('common_service.goods.form_params_value_placeholder')}}"></textarea>
                     <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
                 </div>
             </div>
-        {{/if}}
-        <!-- 复制操作 -->
-        {{if isset($goods_params_operate_data['is_copy']) and $goods_params_operate_data['is_copy'] eq 1}}
-            <span class="business-operations-submit parameters-quick-copy">
-                <i class="iconfont icon-copy"></i>
-                <span>{{:MyLang('common_service.goods.form_params_config_copy_title')}}</span>
-            </span>
         {{/if}}
         <!-- 清空操作 -->
         {{if isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1}}

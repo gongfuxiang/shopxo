@@ -20,6 +20,7 @@ $(function () {
         var volume = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_volume').val() || '';
         var coding = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_coding').val() || '';
         var barcode = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_barcode').val() || '';
+        var inventory_unit = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_inventory_unit').val() || '';
 
         // 批量设置
         var data_length = data.length;
@@ -40,6 +41,7 @@ $(function () {
                 $(this).find('td').eq(index + 5).find('input').val(volume);
                 $(this).find('td').eq(index + 6).find('input').val(coding);
                 $(this).find('td').eq(index + 7).find('input').val(barcode);
+                $(this).find('td').eq(index + 8).find('input').val(inventory_unit);
             }
         });
         $spec_popup_all_operation.modal('close');
@@ -101,4 +103,85 @@ $(function () {
             initialFrameHeight: 200
         });
     }
+
+
+    // 确认下一步
+    $(document).on('click', '.confirm-next-submit', function()
+    {
+        // 参数数据
+        var json = $('.goods-category-choice .already-select-tips').attr('data-value') || null;
+        if(json != null)
+        {
+            json = JSON.parse(decodeURIComponent(json)) || null;
+        }
+        if(json == null)
+        {
+            Prompt($('.system-goods-category-choice').data('please-choice-goods-category-tips') || '请先选择商品分类');
+            return false;
+        }
+
+        // 是否完全选择
+        var len = json.length;
+        if(len < 3)
+        {
+            if($('.goods-category-select-'+(len+1)+' li').length > 0)
+            {
+                Prompt($('.system-goods-category-choice').data('please-choice-complete-goods-category-level-tips') || '请选择完整商品分类层级');
+                return false;
+            }
+        }
+
+        // 数据赋值
+        var text = '';
+        var value = [];
+        for(var i in json)
+        {
+            if(i > 0)
+            {
+                text += ' > ';
+            }
+            text += json[i]['name'];
+            value.push(json[i]['id']);
+        };
+        value = value.join(',');
+
+        var category_id = json[len-1]['id'];
+        $('.goods-category-form-again-choice').attr('data-value', value);
+        $('.goods-category-form-content .text-tips').text(text);
+        $('.goods-category-form-content input[name="category_id"]').val(category_id);
+        $('.goods-category-choice').addClass('am-hide');
+        $('form.form-validation').removeClass('am-hide');
+
+        // 规格基础模板生成
+        GoodsSpecBaseTemplateCreated(category_id, parseInt($('.content-right').attr('data-is-goods-single-category-mode') || 0));
+    });
+
+    // 商品分类重新选择
+    $(document).on('click', '.goods-category-form-again-choice', function()
+    {
+        // 选中数据
+        var value = $(this).attr('data-value') || null;
+        if(value != null)
+        {
+            value = value.split(',');
+            for(var i in value)
+            {
+                var $gcs = $('.goods-category-select-'+(parseInt(i)+1));
+                if($gcs.length > 0 && $gcs.find('li').length > 0)
+                {
+                    $gcs.find('li').each(function(k, v)
+                    {
+                        if($(this).find('a').data('value') == value[i])
+                        {
+                            $(this).find('a').trigger('click');
+                        }
+                    });
+                }
+            }
+        }
+
+        // 容器显隐
+        $('.goods-category-choice').removeClass('am-hide');
+        $('form.form-validation').addClass('am-hide');
+    });
 });

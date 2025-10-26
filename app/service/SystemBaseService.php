@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\ConfigService;
 use app\service\QuickNavService;
 use app\service\PluginsService;
 use app\service\AppMiniUserService;
@@ -41,6 +42,9 @@ class SystemBaseService
      */
     public static function Common($params = [])
     {
+      // 备案信息
+        $filing = ConfigService::SiteFilingList();
+
         // 配置信息
         $config = [
             // 基础
@@ -114,13 +118,9 @@ class SystemBaseService
             'home_site_web_home_state'                           => (int) MyC('home_site_web_home_state', 1),
             'home_site_web_pc_state'                             => (int) MyC('home_site_web_pc_state', 1),
             'home_site_close_reason'                             => MyC('home_site_close_reason', null, true),
-            
+
             // 备案信息
-            'home_site_icp'                                      => MyC('home_site_icp', null, true),
-            'home_site_security_record_name'                     => MyC('home_site_security_record_name', null, true),
-            'home_site_security_record_url'                      => MyC('home_site_security_record_url', null, true),
-            'home_site_company_license'                          => MyC('home_site_company_license', null, true),
-            'home_site_telecom_license'                          => MyC('home_site_telecom_license', null, true),
+            'site_filing_list'                                   => $filing['data'],
             
             // css/js版本值
             'home_static_cache_version'                          => MyC('home_static_cache_version', null, true),

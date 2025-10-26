@@ -16,9 +16,6 @@ pre {
     border-radius: 2px;
     background: #f8f8f8;
 }
-.richtext pre {
-    margin-bottom: 0.5rem;
-}
 
 /**
  * 常用类
@@ -960,6 +957,10 @@ body.iframe-alert-page .am-dimmer {
 .popup-not-title {
     padding: 2.5rem;
     background: transparent;
+}
+.popup-not-title.am-popup-offcanvas-left,
+.popup-not-title.am-popup-offcanvas-right {
+    padding: 0;
 }
 .popup-not-title .am-popup-inner {
     padding-top: 0;
@@ -2516,10 +2517,8 @@ form .am-tab-panel .am-form-group:last-child {
 .richtext {
     font-family: sans-serif !important;
 }
-.richtext ul,
-.richtext li {
-    margin: revert !important;
-    padding: revert !important;
+.richtext pre {
+    margin-bottom: 0.5rem;
 }
 .richtext a {
     color: var(--color-blue);
@@ -2529,6 +2528,11 @@ form .am-tab-panel .am-form-group:last-child {
     height: auto;
     cursor: pointer;
 }
+.richtext ul,
+.richtext ol {
+    padding-left: 2rem !important;
+}
+
 
 /**
  * 表单基础
@@ -4744,7 +4748,46 @@ legend a i:hover {
 }
 
 
-
+/**
+ * 参数
+ */
+.parameters-container {
+    border: 0.1rem solid #eee;
+    border-radius: var(--border-radius);
+}
+.parameters-container .parameters-table thead tr th:nth-child(1),
+.parameters-container .parameters-table thead tr th:nth-child(3),
+.parameters-container .parameters-table thead tr th:nth-child(4) {
+    width: 5rem;
+}
+.parameters-container .parameters-table thead tr th:nth-child(2) {
+    width: 15rem;
+}
+.parameters-container .parameters-table thead tr th:nth-child(5) {
+    min-width: 30rem;
+}
+.parameters-container .parameters-table thead tr > th:last-child,
+.parameters-container .parameters-table tbody tr > td:last-child {
+    position: sticky;
+    text-align: center;
+    z-index: 1;
+    right: 0;
+    background: #fff;
+    -webkit-box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+    -moz-box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+    box-shadow: -2px 0px 4px 0px rgba(211, 211, 211, 0.3);
+}
+.parameters-container .parameters-table .parameters-value-content input,
+.parameters-container .parameters-table .parameters-value-content textarea {
+    width: 100%;
+    max-width: 100%;
+}
+.parameters-container .parameters-table .parameters-value-content textarea {
+    height: 8.6rem;
+}
+.parameters-container .parameters-table tbody tr label {
+    cursor: pointer;
+}
 
 
 /**

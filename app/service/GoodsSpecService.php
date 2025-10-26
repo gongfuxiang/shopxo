@@ -76,8 +76,14 @@ class GoodsSpecService
     {
         if(!empty($data))
         {
+            // 商品分类
+            $category_names = GoodsCategoryService::GoodsCategoryName(array_unique(array_filter(array_column($data, 'category_id'))));
+
             foreach($data as &$v)
             {
+                // 商品分类
+                $v['category_name'] = (empty($category_names) || empty($v['category_id']) || empty($category_names[$v['category_id']])) ? '' : $category_names[$v['category_id']];
+
                 // 时间
                 if(array_key_exists('add_time', $v))
                 {

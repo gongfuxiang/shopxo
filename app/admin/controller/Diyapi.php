@@ -138,8 +138,8 @@ class DiyApi extends Base
      */
     public function AppTabbarSave()
     {
-        $type = empty($this->data_request['type']) ? 'home' : $this->data_request['type'];
-        return ApiService::ApiDataReturn(AppTabbarService::AppTabbarConfigSave($type, $this->data_request));
+        $business = empty($this->data_request['business']) ? 'home' : $this->data_request['business'];
+        return ApiService::ApiDataReturn(AppTabbarService::AppTabbarConfigSave($business, $this->data_request));
     }
 
     /**
@@ -152,8 +152,8 @@ class DiyApi extends Base
      */
     public function AppTabbarData()
     {
-        $type = empty($this->data_request['type']) ? 'home' : $this->data_request['type'];
-        return ApiService::ApiDataReturn(DataReturn('success', 0, AppTabbarService::AppTabbarConfigData($type)));
+        $business = empty($this->data_request['business']) ? 'home' : $this->data_request['business'];
+        return ApiService::ApiDataReturn(DataReturn('success', 0, AppTabbarService::AppTabbarConfigData($business)));
     }
 }
 ?>

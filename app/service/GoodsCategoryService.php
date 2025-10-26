@@ -24,6 +24,40 @@ use app\service\ResourcesService;
 class GoodsCategoryService
 {
     /**
+     * 获取分类名称
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [array|int]          $category_ids [分类id]
+     */
+    public static function GoodsCategoryName($category_ids = 0)
+    {
+        if(empty($category_ids))
+        {
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($category_ids))
+        {
+            $category_ids = array_filter(array_unique($category_ids));
+        }
+        if(!empty($category_ids))
+        {
+            $data = Db::name('GoodsCategory')->where(['id'=>$category_ids])->column('name', 'id');
+        }
+
+        // id数组则直接返回
+        if(is_array($category_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($category_ids, $data)) ? $data[$category_ids] : null;
+    }
+
+    /**
      * 根据id获取一条商品分类
      * @author   Devil
      * @blog    http://gong.gg/
@@ -632,6 +666,68 @@ class GoodsCategoryService
     {
         $data = Db::name('GoodsCategory')->alias('gc')->join('goods_category_join gci', 'gc.id=gci.category_id')->where(['gci.goods_id'=>$goods_id])->column('gc.name');
         return DataReturn(MyLang('get_success'), 0, $data);
+    }
+
+    /**
+     * 获取商品分类层级数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-01
+     * @desc    description
+     * @param   [int]          $cid [商品分类id]
+     */
+    public static function GoodsCategoryLevel($cid)
+    {
+        // 查询数据层级
+        $data = [];
+        $text = '';
+        if(!empty($cid))
+        {
+            $field = 'id,pid,name';
+            $temp = Db::name('GoodsCategory')->where(['id'=>$cid])->field($field)->find();
+            if(!empty($temp))
+            {
+                $data[] = $temp;
+                if(!empty($temp['pid']))
+                {
+                    $temp = Db::name('GoodsCategory')->where(['id'=>$temp['pid']])->field($field)->find();
+                    if(!empty($temp))
+                    {
+                        $data[] = $temp;
+                        if(!empty($temp['pid']))
+                        {
+                            $temp = Db::name('GoodsCategory')->where(['id'=>$temp['pid']])->field($field)->find();
+                            if(!empty($temp))
+                            {
+                                $data[] = $temp;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 数据处理
+            if(!empty($data))
+            {
+                $data = array_reverse($data);
+                foreach($data as $k=>$v)
+                {
+                    if($k > 0)
+                    {
+                        $text .= ' > ';
+                    }
+                    $text .= $v['name'];
+                }
+            }
+        }
+        // 参数或查询数据为空则返回空
+        if(empty($cid) || empty($data))
+        {
+            return '';
+        }
+        // 返回组合的数据
+        return ['value'=>is_array($cid) ? $cid[0] : $cid, 'text'=>$text, 'ids'=>implode(',', array_column($data, 'id'))];
     }
 }
 ?>

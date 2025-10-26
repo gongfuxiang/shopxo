@@ -187,7 +187,7 @@ class BrandService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [array|int]          $brand_ids [快递id]
+     * @param   [array|int]          $brand_ids [品牌id]
      */
     public static function BrandName($brand_ids = 0)
     {

@@ -70,7 +70,7 @@ class GoodsSpecTemplate extends Base
         // 模板数据
         $assign = [
             // 商品分类
-            'goods_category_list'   => GoodsCategoryService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
+            'goods_category_list'   => GoodsCategoryService::GoodsCategoryAll(),
         ];
 
         // 编辑页面钩子

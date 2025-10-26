@@ -73,8 +73,8 @@
                             <div class="am-flex am-flex-col am-gap-1">
                                 <label class="am-block">{{:MyLang('site.base_item_self_extraction_title')}}</label>
                                 <ul class="address-list am-nbfc am-radius am-padding-0">
-                                    {{if !empty($sitetype_address_list) and is_array($sitetype_address_list)}}
-                                        {{foreach $sitetype_address_list as $address}}
+                                    {{if !empty($extraction_address_list) and is_array($extraction_address_list)}}
+                                        {{foreach $extraction_address_list as $address}}
                                             <li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">
                                                 <div class="am-flex am-flex-items-center am-flex-1 am-flex-width">
                                                     {{if !empty($address['logo'])}}
@@ -97,10 +97,10 @@
                                 </ul>
                             </div>
                             <div class="am-flex">
-                                <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{$data.common_self_extraction_address.value}}" class="self-extraction-address-value" />
+                                <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{if !empty($extraction_address_list) and is_array($extraction_address_list)}}{{:urlencode(base64_encode(json_encode($extraction_address_list, JSON_UNESCAPED_UNICODE)))}}{{/if}}" class="self-extraction-address-value" />
                                 <button type="button" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs address-submit-add"> 
                                     <i class="iconfont icon-add am-text-xs"></i>
-                                    {{:MyLang('site.add_self_extractio_address_title')}}
+                                    {{:MyLang('site.add_self_extraction_address_title')}}
                                 </button>
                             </div>
                         </div>
@@ -135,7 +135,6 @@
             </div>
         </form>
         <!-- form end -->
-
 
         <!-- 自提点地址添加弹层 -->
         <div class="am-popup am-radius" id="popup-address-win">
@@ -184,7 +183,7 @@
                         </div>
                         <div id="map" data-level="17" class="am-radius-lg"></div>
                         <div class="am-form-popup-submit">
-                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
                                 <i class="am-icon-paint-brush"></i>
                                 <span>{{:MyLang('cancel_title')}}</span>
                             </button>
@@ -203,7 +202,6 @@
 
 <!-- footer start -->
 {{:ModuleInclude('public/footer')}}
-
 <script type="text/javascript">
 // 返回处理
 function ViewAddressModalBack(data)

@@ -144,6 +144,7 @@ class ConstService
                 '6.5.0' => ['value' => '6.5.0', 'name' => 'v6.5.0'],
                 '6.6.0' => ['value' => '6.6.0', 'name' => 'v6.6.0'],
                 '6.7.0' => ['value' => '6.7.0', 'name' => 'v6.7.0'],
+                '6.7.1' => ['value' => '6.7.1', 'name' => 'v6.7.1'],
             ],
 
             // 搜索排序方式
@@ -395,11 +396,17 @@ class ConstService
             'common_pay_log_business_type_list' => [
                 'order'   => ['value' => 'order', 'name' => MyLang('common_pay_log_business_type_list.order')],
             ],
-            // 商品参数组件类型
-            'common_goods_parameters_type_list' => [
-                0 => ['value' => 0, 'name' => MyLang('common_goods_parameters_type_list.0')],
-                1 => ['value' => 1, 'name' => MyLang('common_goods_parameters_type_list.1'), 'checked' => true],
-                2 => ['value' => 2, 'name' => MyLang('common_goods_parameters_type_list.2')],
+            // 商品参数展示范围
+            'common_goods_parameters_scope_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_goods_parameters_scope_list.0')],
+                1 => ['value' => 1, 'name' => MyLang('common_goods_parameters_scope_list.1'), 'checked' => true],
+                2 => ['value' => 2, 'name' => MyLang('common_goods_parameters_scope_list.2')],
+            ],
+            // 商品参数数据类型
+            'common_goods_parameters_data_type_list' => [
+                0 => ['value' => 0, 'name' => MyLang('common_goods_parameters_data_type_list.0'), 'checked' => true],
+                1 => ['value' => 1, 'name' => MyLang('common_goods_parameters_data_type_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_goods_parameters_data_type_list.2')],
             ],
             // 搜索商品展示样式类型
             'common_search_goods_show_type_list' => [

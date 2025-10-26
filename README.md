@@ -32,6 +32,7 @@
 * 支持PC+手机自适应，独立H5、小程序（支付宝、微信、百度、头条&抖音、QQ、快手），APP（IOS、Android）。
 * 支持多仓库，供应商，多商户，多门店，进销存（组件插件化、即插即用），可自由开发插件。
 * 可视化DIY拖拽装修，内置几十种组件，如（商品、文章、图片魔方、热区、视频、轮播、自定义等等...）。
+* 可视化表单，内置几十种标准组件，如（单行文本、多行文本、数字、单选按钮、复选按钮、下拉框、下拉复选框、日期时间、日期时间组、定位、地址、密码、手机、评分、富文本、子表单、上传图片、上传视频等等...），支持拖拽可视化自由设计、满足各大行业需求。
 * 应用市场提供丰富海量的拓展功能模块、web端模板、手机端DIY模板，一键导入即可使用。
 
 ### 体验码
@@ -73,6 +74,13 @@
 | Gitee | [https://gitee.com/zongzhige/shopxo-diy](https://gitee.com/zongzhige/shopxo-diy) |
 | GitHub | [https://github.com/gongfuxiang/shopxo-diy](https://github.com/gongfuxiang/shopxo-diy) |
 | GitCode | [https://gitcode.com/zongzhige/shopxo-diy](https://gitcode.com/zongzhige/shopxo-diy) |
+
+### Form表单源代码平台
+| 平台 | 地址 |
+|----|----|
+| Gitee | [https://gitee.com/zongzhige/shopxo-form](https://gitee.com/zongzhige/shopxo-form) |
+| GitHub | [https://github.com/gongfuxiang/shopxo-form](https://github.com/gongfuxiang/shopxo-form) |
+| GitCode | [https://gitcode.com/zongzhige/shopxo-form](https://gitcode.com/zongzhige/shopxo-form) |
 
 ### 部分功能特性
 | 名称 | 描述 |

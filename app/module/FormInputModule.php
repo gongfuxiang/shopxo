@@ -164,8 +164,9 @@ class FormInputModule
      * @param   [array]          $config        [表单配置]
      * @param   [array]          $data          [保存的表单数据]
      * @param   [string]         $parent_name   [父级表单名称]
+     * @param   [boolean]        $is_check      [是否验证数据]
      */
-    public static function FormInputDataWriteHandle($config, $data, $parent_name = '')
+    public static function FormInputDataWriteHandle($config, $data, $parent_name = '', $is_check = true)
     {
         $result = [];
         if(!empty($config) && !empty($config['diy_data']))
@@ -194,7 +195,7 @@ class FormInputModule
                 // 非这些多数据格式的数据，是否需要填写
                 if(!in_array($v['key'], ['checkbox', 'select-multi', 'radio-btns', 'select', 'date-group', 'address']))
                 {
-                    if(isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
+                    if($is_check && isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
                     {
                         if(in_array($v['key'], ['upload-img', 'upload-attachments', 'upload-video']))
                         {
@@ -224,13 +225,18 @@ class FormInputModule
                         {
                             foreach($data[$form_name] as $sbk=>$sbv)
                             {
-                                $res = self::FormInputDataWriteHandle(['diy_data'=>$v['com_data']['children']], $sbv, $name.'-');
-
-                                if($res['code'] != 0)
+                                $res = self::FormInputDataWriteHandle(['diy_data'=>$v['com_data']['children']], $sbv, $name.'-', $is_check);
+                                if($res['code'] == 0)
                                 {
-                                    return $res;
+                                    $temp_item[] = $res['data'];
+                                } else {
+                                    if($is_check)
+                                    {
+                                        return $res;
+                                    } else {
+                                        break;
+                                    }
                                 }
-                                $temp_item[] = $res['data'];
                             }
                         }
                         if(!empty($temp_item))
@@ -327,7 +333,7 @@ class FormInputModule
                         {
                             $result[$form_name] = $temp_item;
                         } else {
-                            if(isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
+                            if($is_check && isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
                             {
                                 return DataReturn(MyLang('not_fill_in_error').'('.$parent_name.$name.')', -1);
                             }
@@ -373,7 +379,7 @@ class FormInputModule
                         {
                             $result[$form_name] = $temp_item;
                         } else {
-                            if(isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
+                            if($is_check && isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
                             {
                                 return DataReturn(MyLang('not_fill_in_error').'('.$parent_name.$name.')', -1);
                             }
@@ -384,9 +390,9 @@ class FormInputModule
                     case 'date-group' :
                         $temp_value = [];
                         $start_key = $form_name.'_start';
-                        $temp_value['start'] = array_key_exists($start_key, $data) ? $data[$start_key] : '';
+                        $temp_value[0] = array_key_exists($start_key, $data) ? $data[$start_key] : '';
                         $end_key = $form_name.'_end';
-                        $temp_value['end'] = array_key_exists($end_key, $data) ? $data[$end_key] : '';
+                        $temp_value[1] = array_key_exists($end_key, $data) ? $data[$end_key] : '';
                         if(count(array_filter($temp_value)) > 0)
                         {
                             $result[$form_name] = [
@@ -396,7 +402,7 @@ class FormInputModule
                                 'value_text'  => implode(' ~ ', $temp_value),
                             ];
                         } else {
-                            if(isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
+                            if($is_check && isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
                             {
                                 return DataReturn(MyLang('not_fill_in_error').'('.$parent_name.$name.')', -1);
                             }
@@ -429,7 +435,7 @@ class FormInputModule
                                 'value_text'  => $temp_value['province_name'].$temp_value['city_name'].$temp_value['county_name'].$temp_value['address'],
                             ];
                         } else {
-                            if(isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
+                            if($is_check && isset($v['com_data']['is_required']) && $v['com_data']['is_required'] == 1 && empty($data[$form_name]))
                             {
                                 return DataReturn(MyLang('not_fill_in_error').'('.$parent_name.$name.')', -1);
                             }
@@ -439,7 +445,7 @@ class FormInputModule
                     // 手机
                     case 'phone' :
                         // 是否需要短信验证码
-                        if(!empty($data[$form_name]) && isset($v['com_data']['is_sms_verification']) && $v['com_data']['is_sms_verification'] == 1)
+                        if($is_check && !empty($data[$form_name]) && isset($v['com_data']['is_sms_verification']) && $v['com_data']['is_sms_verification'] == 1)
                         {
                             // 是否存在验证码
                             if(empty($data[$form_name.'_verify']))
@@ -478,17 +484,20 @@ class FormInputModule
                         // 是否限制字数
                         if(isset($data[$form_name]) && isset($v['com_data']['is_limit_num']) && $v['com_data']['is_limit_num'] == 1)
                         {
-                            // 当前数值长度
-                            $len = strlen($data[$form_name]);
-                            // 最小值
-                            if(!empty($v['com_data']['min_num']) && $len < $v['com_data']['min_num'])
+                            if($is_check)
                             {
-                                return DataReturn(MyLang('data_length_min_tips').'('.$len.'<'.$v['com_data']['min_num'].' '.$name.')', -1);
-                            }
-                            // 最大值
-                            if(!empty($v['com_data']['max_num']) && $len > $v['com_data']['max_num'])
-                            {
-                                return DataReturn(MyLang('data_length_max_tips').'('.$v['com_data']['max_num'].'>'.$len.' '.$name.')', -1);
+                                // 当前数值长度
+                                $len = strlen($data[$form_name]);
+                                // 最小值
+                                if(!empty($v['com_data']['min_num']) && $len < $v['com_data']['min_num'])
+                                {
+                                    return DataReturn(MyLang('data_length_min_tips').'('.$len.'<'.$v['com_data']['min_num'].' '.$name.')', -1);
+                                }
+                                // 最大值
+                                if(!empty($v['com_data']['max_num']) && $len > $v['com_data']['max_num'])
+                                {
+                                    return DataReturn(MyLang('data_length_max_tips').'('.$v['com_data']['max_num'].'>'.$len.' '.$name.')', -1);
+                                }
                             }
                         }
                         if(array_key_exists($form_name, $data))
@@ -529,6 +538,35 @@ class FormInputModule
                 {
                     switch($v['key'])
                     {
+                        // 子表单
+                        case 'subform' :
+                            if(!empty($v['value']) && is_array($v['value']))
+                            {
+                                foreach($v['value'] as $sk=>$sv)
+                                {
+                                    if(!empty($sv) && is_array($sv))
+                                    {
+                                        foreach($sv as $sks=>$svs)
+                                        {
+                                            // 根据表单类型处理数据格式
+                                            switch($svs['key'])
+                                            {
+                                                // 附件
+                                                case 'upload-img' :
+                                                case 'upload-video' :
+                                                case 'upload-attachments' :
+                                                    if(is_array($v['value'][$sk][$sks]['value']))
+                                                    {
+                                                        $v['value'][$sk][$sks]['value'] = ResourcesService::AttachmentPathViewHandle($svs['value'], 'url');
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
                         // 富文本
                         case 'rich-text' :
                             $v['value'] = ResourcesService::ContentStaticReplace($v['value'], 'get');
@@ -549,10 +587,21 @@ class FormInputModule
         return $data;
     }
 
+    /**
+     * 表单编辑数据合并
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-10-15
+     * @desc    description
+     * @param   [array]          $config [表单配置]
+     * @param   [array]          $data   [编辑数据]
+     */
     public static function FormInputDataValueMerge($config, $data)
     {
-        if(!empty($config['diy_data']) && !empty($data))
+        if(!empty($config) && !empty($config['diy_data']) && !empty($data))
         {
+            $data = self::FormInputDataViewHandle($data);
             foreach($config['diy_data'] as &$v)
             {
                 $form_name = empty($v['form_name']) ? (empty($v['id']) ? '' : $v['id']) : $v['form_name'];
@@ -576,19 +625,46 @@ class FormInputModule
                                     {
                                         foreach($sv as $sks=>$svs)
                                         {
-                                            $v['com_data']['form_value'][$sk][$sks] = isset($svs['value']) ? $svs['value'] : '';
+                                            // 子数据
+                                            $temp_sub = isset($svs['value']) ? $svs['value'] : '';
+                                            
+                                            // 截取value数据
+                                            $v['com_data']['form_value'][$sk][$sks] = $temp_sub;
+
+                                            // 根据表单类型处理数据格式
+                                            switch($svs['key'])
+                                            {
+                                                // 地址
+                                                case 'address' :
+                                                    if(!empty($temp_sub))
+                                                    {
+                                                        foreach($temp_sub as $dk=>$dv)
+                                                        {
+                                                            if(in_array($dk, ['province_name', 'city_name', 'county_name']))
+                                                            {
+                                                                $v['com_data']['form_value'][$sk][$sks.'_'.$dk] = $dv;
+                                                            }
+                                                        }
+                                                        $v['com_data']['form_value'][$sk][$sks] = [$temp_sub['province_id'], $temp_sub['city_id'], $temp_sub['county_id']];
+                                                    }
+                                                    break;
+                                            }
+                                            // 自定义数据项
+                                            if(!empty($svs['custom_option_list']))
+                                            {
+                                                $v['com_data']['form_value'][$sk][$sks.'_custom_option_list'] = $svs['custom_option_list'];
+                                            }
                                         }
                                     }
                                 }
                             }
                             break;
 
-                        // 时间组
-                        case 'date-group' :
-                            if(!empty($v['com_data']['form_value']) && is_array($v['com_data']['form_value']))
-                            {
-                                $v['com_data']['form_value'] = array_values($v['com_data']['form_value']);
-                            }
+                        // 地址
+                        case 'address' :
+                            $v['com_data']['form_value'] = [$temp['value']['province_id'], $temp['value']['city_id'], $temp['value']['county_id']];
+                            unset($temp['value']['province_id'], $temp['value']['city_id'], $temp['value']['county_id']);
+                            $v['com_data'] = array_merge($v['com_data'], $temp['value']);
                             break;
                     }
 
@@ -606,10 +682,6 @@ class FormInputModule
                 }
             }
         }
-        // print_r($config);
-        // print_r($data);
-        // die;
-
         return $config;
     }
 }

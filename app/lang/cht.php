@@ -358,6 +358,8 @@ return [
     'select_all_title'                                      => '全選',
     'reverse_select_title'                                  => '反選',
     'single_select_title'                                   => '單選',
+    'many_select_title'                                     => '多選',
+    'input_title'                                           => '輸入',
     'reset_title'                                           => '重置',
     'confirm_title'                                         => '確認',
     'screen_title'                                          => '篩選',
@@ -534,7 +536,7 @@ return [
     'unbind_title'                                          => '解綁',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分類',
-    'produce_region_title'                                    => '產地',
+    'produce_region_title'                                  => '產地',
     'attr_title'                                            => '內容',
     'spec_title'                                            => '規格',
     'register_title'                                        => '注册',
@@ -578,6 +580,7 @@ return [
     'callback_title'                                        => '回檔',
     'buy_title'                                             => '購買',
     'place_order_title'                                     => '下單',
+    'cart_title'                                            => '購物車',
     'new_title'                                             => '最新',
     'front_title'                                           => '前面',
     'final_title'                                           => '後面',
@@ -587,6 +590,8 @@ return [
     'chat_title'                                            => '客服',
     'gift_title'                                            => '禮物',
     'continue_scan_title'                                   => '繼續掃碼',
+    'continue_next_step_title'                              => '繼續下一步',
+    'reselect_title'                                        => '重新選擇',
     'self_pickup_title'                                     => '自提',
     'self_pickup_point_title'                               => '自提點',
     'web_title'                                             => 'WEB端',
@@ -597,10 +602,13 @@ return [
     'region_title'                                          => '地區',
     'compare_title'                                         => '對比',
     'long_term_title'                                       => '長期',
+    'form_title'                                            => '表單',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_add_name'                                        => '商品添加',
     'goods_choice_name'                                     => '商品選擇',
+    'goods_params'                                          => '商品參數',
+    'goods_spec'                                            => '商品規格',
     'goods_stop_sale_title'                                 => '暫停銷售',
     'goods_buy_title'                                       => '立即購買',
     'goods_booking_title'                                   => '立即預約',
@@ -1151,11 +1159,17 @@ return [
     'common_pay_log_business_type_list' => [
         'order' => '訂單',
     ],
-    // 商品参数组件类型
-    'common_goods_parameters_type_list' => [
+    // 商品参数展示范围
+    'common_goods_parameters_scope_list' => [
         0 => '全部',
         1 => '詳情',
         2 => '基礎',
+    ],
+    // 商品参数数据类型
+    'common_goods_parameters_data_type_list' => [
+        0 => '輸入',
+        1 => '單選',
+        2 => '多選',
     ],
     // 搜索商品展示样式类型
     'common_search_goods_show_type_list' => [
@@ -2041,7 +2055,7 @@ return [
             'form_params_value_placeholder'         => '粘貼商品參數配寘資訊',
             'form_params_config_copy_title'         => '複製配寘',
             'form_params_config_empty_title'        => '清空參數',
-            'form_params_list_content_tips'         => '可直接點中參數行拖拽排序或點擊上下移動',
+            'form_params_choice_text'               => '選擇參數',
             // 相册
             'form_photo_top_tips'                   => '可拖拽圖片進行排序，建議圖片尺寸一致800*800px、最多30張',
             'form_photo_button_add_name'            => '上傳相册',
@@ -2092,6 +2106,12 @@ return [
         ],
         // 商品分类
         'goodscategory'         => [
+            // 基础
+            'goods_category_no_data_tips'                       => '請先添加商品分類',
+            'goods_category_choice_text'                        => '商品分類選擇',
+            'already_choice_goods_category_text'                => '已選商品分類：',
+            'please_choice_goods_category_tips'                 => '請先選擇商品分類',
+            'please_choice_complete_goods_category_level_tips'  => '請選擇完整商品分類層級',
             // 表单
             'form_item_icon'                        => '圖標',
             'form_item_icon_tips'                   => '建議100*100px',
@@ -3418,10 +3438,6 @@ return [
             'desc' => '網站描述，一般不超過200個字',
             'tips' => '網站描述不能為空',
         ],
-        'home_site_icp'  => [
-            'name' => 'ICP證書號',
-            'desc' => '如：滬ICP備xxx號',
-        ],
         'home_statistics_code'  => [
             'name' => '底部統計程式碼',
             'desc' => '支持html，可用於添加流量統計程式碼',
@@ -3768,7 +3784,12 @@ return [
         'common_spec_add_max_number'  => [
             'name' => '商品可添加規格最大數量',
             'desc' => '建議不超過3個規格',
-            'tips' => '請填寫穀歌最大數',
+            'tips' => '請填寫商品可添加規格最大數量',
+        ],
+        'common_is_goods_single_category_mode'  => [
+            'name' => '商品單分類模式',
+            'desc' => '默認多分類',
+            'tips' => '請選擇商品單分類模式',
         ],
         'common_route_separator'  => [
             'name' => '路由分隔符號',
@@ -4067,16 +4088,6 @@ return [
         'common_app_mini_toutiao_describe'  => [
             'name' => '描述',
             'tips' => '請填寫描述',
-        ],
-        'home_site_security_record_name'  => [
-            'name' => '警察備案號',
-            'desc' => '如：京公網安備xxx號',
-            'tips' => '請填寫警察備案號',
-        ],
-        'home_site_security_record_url'  => [
-            'name' => '警察備案地址',
-            'desc' => '備案展示頁面的url地址',
-            'tips' => '請填寫警察備案地址',
         ],
         'common_app_mini_qq_appid'  => [
             'name' => 'AppID',
@@ -4508,17 +4519,13 @@ return [
             'desc' => '默認否，線下支付提交進入正常訂單狀態流程、後續管理員可在後臺確認操作收款',
             'tips' => '請選擇線下支付正常進行',
         ],
-        'home_site_telecom_license'  => [
-            'name' => '增值電信業務經營許可證',
-            'desc' => '如：滬B2-xxx',
+        'home_site_filing'  => [
+            'name' => '備案資訊',
+            'tips' => '請添加備案資訊',
         ],
         'home_site_web_home_state'  => [
             'name' => 'web端首頁訪問',
             'desc' => '默認開啟，僅針對web端首頁，其他頁面不受影響',
-        ],
-        'home_site_company_license'  => [
-            'name' => '電子營業執照亮照',
-            'desc' => '執照頁面展示地址、申請地址： https://zzlz.gsxt.gov.cn/businessShow',
         ],
         'home_site_web_pc_state'  => [
             'name' => 'web端PC訪問',

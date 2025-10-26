@@ -38,7 +38,7 @@
                     <div class="am-radio-group">
                         {{foreach $common_close_open_list as $v}}
                             <label class="am-radio-inline">
-                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_left_status.only_tag}}" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_left_status.only_tag}}" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
                             </label>
                         {{/foreach}}
                     </div>
@@ -48,7 +48,7 @@
                     <div class="am-radio-group">
                         {{foreach $common_close_open_list as $v}}
                             <label class="am-radio-inline">
-                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_right_status.only_tag}}" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_right_status.only_tag}}" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
                             </label>
                         {{/foreach}}
                     </div>
@@ -58,7 +58,7 @@
                     <div class="am-radio-group">
                         {{foreach $common_site_floor_data_type_list as $k=>$v}}
                             <label class="am-radio-inline">
-                                <input class="check-radio-change" type="radio" value="{{$k}}" name="{{$data.home_index_floor_data_type.only_tag}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_data_type.error_tips}}" data-am-ucheck>{{$v.name}}
+                                <input class="check-radio-change" type="radio" value="{{$k}}" name="{{$data.home_index_floor_data_type.only_tag}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_data_type.error_tips}}" data-am-ucheck /> {{$v.name}}
                             </label>
                         {{/foreach}}
                     </div>
@@ -153,7 +153,7 @@
                         <div class="am-radio-group">
                             {{foreach $common_goods_order_by_type_list as $k=>$v}}
                                 <label class="am-radio-inline">
-                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}" data-am-ucheck> {{$v.name}}
+                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}" data-am-ucheck /> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>
@@ -168,7 +168,7 @@
                         <div class="am-radio-group">
                             {{foreach $common_data_order_by_rule_list as $k=>$v}}
                                 <label class="am-radio-inline">
-                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}" data-am-ucheck> {{$v.name}}
+                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}" data-am-ucheck /> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>

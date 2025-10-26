@@ -428,7 +428,7 @@ class SearchService
         }
         if(!empty($map_params))
         {
-            $ids = Db::name('GoodsParams')->where(['value'=>$map_params, 'type'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
+            $ids = Db::name('GoodsParams')->where(['value'=>$map_params, 'scope'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
             if(!empty($ids))
             {
                 $where_base[] = ['g.id', 'in', $ids];
@@ -800,7 +800,7 @@ class SearchService
             $where_screening_price = $map['screening_price'];
 
             // 仅搜索基础参数
-            $where_base[] = ['gp.type', 'in', self::SearchParamsWhereTypeValue()];
+            $where_base[] = ['gp.scope', 'in', self::SearchParamsWhereTypeValue()];
 
             // 一维数组、参数值去重
             $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_params gp', 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {

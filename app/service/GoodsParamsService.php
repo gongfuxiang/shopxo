@@ -48,9 +48,9 @@ class GoodsParamsService
             return DataReturn($ret, -1);
         }
 
-        // 获取分类所有分类上级id
+        // 获取分类所有分类下级id
         $data = [];
-        $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
+        $ids = GoodsCategoryService::GoodsCategoryItemsIds($params['category_ids']);
         if(!empty($ids))
         {
             $where = [
@@ -77,20 +77,32 @@ class GoodsParamsService
         if(!empty($data))
         {
             // 获取配置数据
-            $res = Db::name('GoodsParamsTemplateConfig')->where(['template_id'=>array_column($data, 'id')])->field('id,template_id,type,name,value')->order('id asc')->select()->toArray();
+            $res = Db::name('GoodsParamsTemplateConfig')->where(['template_id'=>array_column($data, 'id')])->field('id,template_id,scope,name,required,data_type,value')->order('id asc')->select()->toArray();
             $config = [];
             if(!empty($res))
             {
+                $scope_list = MyConst('common_goods_parameters_scope_list');
+                $data_type_list = MyConst('common_goods_parameters_data_type_list');
                 foreach($res as $c)
                 {
+                    $c['key'] = md5($c['scope'].$c['name'].$c['data_type']);
+                    $c['scope_name'] = isset($scope_list[$c['scope']]) ? $scope_list[$c['scope']]['name'] : '';
+                    $c['data_type_name'] = isset($data_type_list[$c['data_type']]) ? $data_type_list[$c['data_type']]['name'] : '';
+                    $c['value'] = empty($c['value']) ? '' : (in_array($c['data_type'], [1,2]) ? explode("\n", str_replace(["\r\n"], "\n", $c['value'])) : $c['value']);
                     $config[$c['template_id']][] = $c;
                 }
             }
+
+            // 商品分类
+            $category_names = GoodsCategoryService::GoodsCategoryName(array_unique(array_filter(array_column($data, 'category_id'))));
 
             foreach($data as &$v)
             {
                 // 参数配置
                 $v['config_data'] = empty($config[$v['id']]) ? [] : $config[$v['id']];
+
+                // 商品分类
+                $v['category_name'] = (empty($category_names) || empty($v['category_id']) || empty($category_names[$v['category_id']])) ? '' : $category_names[$v['category_id']];
 
                 // 时间
                 if(array_key_exists('add_time', $v))
@@ -320,23 +332,66 @@ class GoodsParamsService
     public static function GoodsParamsTemplateHandle($params = [])
     {
         // 展示范围、参数名称、参数值
-        if(!empty($params['parameters_type']) && !empty($params['parameters_name']) && !empty($params['parameters_value']) && is_array($params['parameters_type']) && is_array($params['parameters_name']) && is_array($params['parameters_value']))
+        if(!empty($params['parameters_scope']) && !empty($params['parameters_name']) && !empty($params['parameters_required']) && !empty($params['parameters_data_type']) && !empty($params['parameters_value']))
         {
-            $data = [];
-            foreach($params['parameters_type'] as $k=>$v)
+            if(is_array($params['parameters_scope']) && is_array($params['parameters_name']) && is_array($params['parameters_required']) && is_array($params['parameters_data_type']) && is_array($params['parameters_value']))
             {
-                if(isset($params['parameters_name'][$k]) && isset($params['parameters_value'][$k]))
+                $data = [];
+                foreach($params['parameters_scope'] as $k=>$v)
                 {
-                    $data[] = [
-                        'type'  => $v,
-                        'name'  => $params['parameters_name'][$k],
-                        'value' => $params['parameters_value'][$k],
-                    ];
+                    if(isset($params['parameters_name'][$k]) && isset($params['parameters_required'][$k]) && isset($params['parameters_data_type'][$k]) && isset($params['parameters_value'][$k]))
+                    {
+                        $data[] = [
+                            'scope'      => $v,
+                            'name'       => $params['parameters_name'][$k],
+                            'required'   => $params['parameters_required'][$k],
+                            'data_type'  => $params['parameters_data_type'][$k],
+                            'value'      => $params['parameters_value'][$k],
+                        ];
+                    }
+                }
+                if(!empty($data))
+                {
+                    return DataReturn(MyLang('handle_success'), 0, $data);
                 }
             }
-            if(!empty($data))
+        }
+        return DataReturn(MyLang('common_service.goodsparamstemplate.save_params_data_empty_tips'), -1);
+    }
+
+    /**
+     * 商品参数保存处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-31
+     * @desc    description
+     * @param   [array]             $params   [输入参数]
+     */
+    public static function GoodsParamsTemplateSaveHandle($params = [])
+    {
+        // 展示范围、参数名称、参数值
+        if(!empty($params['parameters_scope']) && !empty($params['parameters_name']) && !empty($params['parameters_data_type']) && !empty($params['parameters_value']))
+        {
+            if(is_array($params['parameters_scope']) && is_array($params['parameters_name']) && is_array($params['parameters_data_type']) && is_array($params['parameters_value']))
             {
-                return DataReturn(MyLang('handle_success'), 0, $data);
+                $data = [];
+                foreach($params['parameters_scope'] as $k=>$v)
+                {
+                    if(isset($params['parameters_name'][$k]) && isset($params['parameters_data_type'][$k]) && isset($params['parameters_value'][$k]))
+                    {
+                        $data[] = [
+                            'scope'      => $v,
+                            'data_type'  => $params['parameters_data_type'][$k],
+                            'name'       => $params['parameters_name'][$k],
+                            'value'      => $params['parameters_value'][$k],
+                        ];
+                    }
+                }
+                if(!empty($data))
+                {
+                    return DataReturn(MyLang('handle_success'), 0, $data);
+                }
             }
         }
         return DataReturn(MyLang('common_service.goodsparamstemplate.save_params_data_empty_tips'), -1);

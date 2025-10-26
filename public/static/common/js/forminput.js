@@ -11,10 +11,18 @@ var $forminput_verify_win_submit = $forminput_user_verify_win.find('.user-verify
 var $forminput_phone_data = {};
 var $forminput_data_address_url = '';
 var $forminput_data_address_code_url = '';
+var $forminput_data_item_event = '';
+var $forminput_data_data_event = '';
 $(function () { 
+    // 拿到单个操作的方法名称
+    $forminput_data_item_event = $('.forminput-data-content').attr('data-item-event') || null;
+    // 拿到返回所有数据的方法名称
+    $forminput_data_data_event = $('.forminput-data-content').attr('data-data-event') || null;
     // 拿到所有的列表数据信息
     const data = $('.forminput-data-content').attr('data-list') || null;
-    $forminput_data_list = (data == null) ? null : (JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8)) || null);
+    const data_list = (data == null) ? null : (JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8)) || null);
+    // 规整初始数据
+    $forminput_data_list = ForminputDataHandle(data_list);
     // 拿到所有的配置信息
     const config = $('.forminput-data-content').attr('data-config') || null;
     $forminput_data_config = (config == null) ? null : (JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(config)).toString(CryptoJS.enc.Utf8)) || null);
@@ -41,7 +49,7 @@ $(function () {
     $(document).on('blur', '.forminput-input', function(e) {
         ForminputInputChange($(this), 'blur');
     })
-    // 输入框输入时的变化input
+    // 输入框输入时的变化
     $(document).on('input', '.forminput-input', function(e) {
         // 获取当前输入框宽度的变化
         let val = $(this).val();
@@ -79,12 +87,12 @@ $(function () {
             this_data.addClass('icon-eye').removeClass('icon-eye-slash');
         }
     })
-    var $forminput_add_option_popup = $('#add-option-popup');
+    var $forminput_add_option_popup = $('#forminput-add-option-popup');
     var $forminput_add_option_id = '';
     var $forminput_subform_add_option_index = '';
     var $forminput_subform_add_option_id = '';
     // 添加新选项时的变化
-    $(document).on('click', '.forminput .add-option', function(e) {
+    $(document).on('click', '.forminput-data-content .add-option', function(e) {
         // 获取当前添加的id
         const parent = $(this).parent().parent();
         const parent_parent = parent.parent();
@@ -106,7 +114,7 @@ $(function () {
         $forminput_add_option_popup.modal('open');
     })
     // 新选项添加确认
-    $(document).on('click', '.forminput .add-option-confirm', function () {
+    $(document).on('click', '#forminput-add-option-popup .add-option-confirm', function () {
         // 获取数据
         const data = $forminput_add_option_popup.find('input');
         // 如果输入框有数据，就往下执行，否则的话，提示用户输入数据
@@ -116,6 +124,7 @@ $(function () {
                 if (item.id == $forminput_add_option_id) {
                     const value = 'option' + ForminputGetMath();
                     const val_name = data.val();
+                    let is_subform = false;
                     //  js添加选项的参数处理
                     let $element = $('#' + $forminput_add_option_id);
                     // 获取数据列表的长度
@@ -123,8 +132,9 @@ $(function () {
                     // 获取数据详细信息
                     let add_option_data = item.com_data;
                     if (item.key == 'subform') {
+                        is_subform = true;
                         $element = $('#' + $forminput_subform_add_option_id + '-' + $forminput_subform_add_option_index);
-                        add_option_data = item.com_data.data_list[$forminput_subform_add_option_index].data_list.find(item => item.id == $forminput_subform_add_option_id).com_data || {};
+                        add_option_data = item.com_data.data_list[$forminput_subform_add_option_index].find(item => item.id == $forminput_subform_add_option_id).com_data || {};
                         list_length = add_option_data.option_list.concat(item.com_data.custom_option_list).length;
                     } else {
                         list_length = item.com_data.option_list.concat(item.com_data.custom_option_list).length;
@@ -160,6 +170,12 @@ $(function () {
                     add_option_data.custom_option_list.push(params);
                     // 自定义选项的输入框也需要添加进去新的内容
                     $element.parent().find('.forminput-custom-option-list').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(add_option_data.custom_option_list)))));
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    if (is_subform) {
+                        ForminputVerifyWhenDataChanges(item.id);
+                    } else {
+                        OnItemEvent({ id: item.id, key: item.key, value: add_option_data.custom_option_list, is_error: '0', error_text: '' }, 'custom_option_list');
+                    }
                 }
             });
             // 添加成功，之后关闭弹出框
@@ -168,7 +184,7 @@ $(function () {
         }
     });
     // 删除新增选项的内容
-    $(document).on('click', '.forminput .add-option-icon', function() { 
+    $(document).on('click', '.forminput-data-content .add-option-icon', function() { 
         const id = $(this).attr('data-id');
         const value = $(this).attr('data-value');
         // 主要是用于子表单的删除操作
@@ -181,9 +197,11 @@ $(function () {
                 let $element = $('#' + id);
                 // 获取数据详细信息
                 let add_option_data = item.com_data;
+                let is_subform = false; // 判断是否是子表单数据
                 if (item.key == 'subform') {
+                    is_subform = true;
                     $element = $('#' + subform_option_id + '-' + subform_option_index);
-                    add_option_data = item.com_data.data_list[subform_option_index].data_list.find(item => item.id == subform_option_id).com_data || {};
+                    add_option_data = item.com_data.data_list[subform_option_index].find(item => item.id == subform_option_id).com_data || {};
                 }
                 // 执行删除数据
                 const index = add_option_data.custom_option_list.findIndex(item => item.value == value);
@@ -191,7 +209,7 @@ $(function () {
                 // 如果是下拉复选框，需要删除对应的html内容和选中内容
                 if (add_option_data.type !== 'checkbox') {
                     // 选中当前数据时，需要做判断
-                    let old_element = $(this).parent().find('.am-selected-item.am-checked');
+                    let old_element = $(this).parent().parent().parent().find('.am-selected-item.am-checked');
                     const selected_values = Array.from(old_element).map(item => item.dataset.value);
                     // 将独有的和所有的信息合并之后返回
                     const list = add_option_data.option_list.concat(add_option_data.custom_option_list);
@@ -222,11 +240,17 @@ $(function () {
                 $element.parent().find('.forminput-custom-option-list').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(add_option_data.custom_option_list)))));
                 // 删除当前选项
                 $(this).parent().parent().remove();
+                // 每次更新操作完成需要抛出去，让其他人感知到
+                if (is_subform) {
+                    ForminputVerifyWhenDataChanges(item.id);
+                } else {
+                    OnItemEvent({ id: item.id, key: item.key, value: add_option_data.custom_option_list, is_error: '0', error_text: '' }, 'custom_option_list');
+                }
             }
         })
     })
     // 下拉框切换选项逻辑处理
-    $(document).on('click', '.forminput .am-selected-item', function () {
+    $(document).on('click', '.forminput-data-content .am-selected-item', function () {
         // 获取当前父级的信息
         let parent = $(this).parent();
         const selectd_id = parent.parent().attr('id');
@@ -247,7 +271,7 @@ $(function () {
         let new_data = $forminput_data_list.find(item => item.id === parent_id);
         // 如果是子表单，需要更新的子表单对应数据
         if (new_data && new_data.key == 'subform') {
-            new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+            new_data = new_data.com_data.data_list[subform_index].find(item => item.id == subform_id);
         }
         // 判断是否是单选数据
         if (new_data && ['single-text', 'select', 'radio-btns'].includes(new_data.key)) { 
@@ -262,8 +286,10 @@ $(function () {
             $forminput_data_list.forEach(item => {
                 if (item.id == parent_id) {
                     let subform_data = item.com_data;
+                    let is_subform = false;
                     if (item.key == 'subform') {
-                        const data = item.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+                        is_subform = true;
+                        const data = item.com_data.data_list[subform_index].find(item => item.id == subform_id);
                         subform_data = data.com_data || {};
                     }
                     // 将值赋值给原数组
@@ -271,6 +297,10 @@ $(function () {
                     const val_data = subform_data.option_list.find(item1 => item1.value == value);
                     //  js添加选项的参数处理
                     if (val_data) {
+                        // 如果有选中的就移除错误提示
+                        if (at_the_top_parent.find('.am-selected-btn.am-btn').hasClass('forminput-data-item-error')) {
+                            at_the_top_parent.find('.am-selected-btn.am-btn').removeClass('forminput-data-item-error');
+                        }
                         const multicolour_class = filed_title_size_type == 'big' ? 'item-multicolour-big' : (filed_title_size_type == 'middle' ? 'item-multicolour' : 'item-multicolour-small');
                         // 添加选项的html数据拼接
                         new_option_html = '<span class="'+ multicolour_class +'" style="'+ (subform_data.is_multicolour == '1' ? ('background:' + val_data.color + ';color:'+ (val_data.is_other && val_data.is_other == '1' ? '#141E31' : '#fff') +';border-radius:4px;') : 'padding: 0;') +'">'+ val_data.name +'</span>';
@@ -298,7 +328,7 @@ $(function () {
                                         name="`+ item.form_name +`_other_value" 
                                         value="`+ item.com_data.other_value +`"     
                                         placeholder="请输入其他内容" 
-                                        class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
+                                        class="forminput-input-other forminput-no-border forminput-w forminput-h ` + item_size + `"
                                     />
                              </div>`;
                             at_the_top_parent.parent().append(subform_html);
@@ -308,6 +338,10 @@ $(function () {
                             at_the_top_parent.parent().find(`.`+ parent_id + `-other`).remove();
                         }
                     } else {
+                        // 如果没有选中的就添加错误提示
+                        if (subform_data.is_required == '1' && !at_the_top_parent.find('.am-selected-btn.am-btn').hasClass('forminput-data-item-error')) {
+                            at_the_top_parent.find('.am-selected-btn.am-btn').addClass('forminput-data-item-error');
+                        }
                         // 下拉框选中值赋值
                         at_the_top_parent.find('.forminput-visiable-hidden option[value="'+ value +'"]').prop('selected', true);
                         // 关闭下拉框
@@ -321,6 +355,13 @@ $(function () {
                         $('.subform-dropdown.am-dropdown').dropdown('close');
                         // 重新处理显隐规则
                         ForminputSubformShowHiddenChange(item);
+                    }
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    if (is_subform) {
+                        ForminputVerifyWhenDataChanges(item.id);
+                    } else {
+                        const isError = item.com_data.required == '1' && IsEmpty(subform_data.form_value);
+                        OnItemEvent({ id: item.id, key: item.key, value: subform_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
                     }
                 }
             });
@@ -341,10 +382,14 @@ $(function () {
             $forminput_data_list.forEach(item => {
                 if (item.id == parent_id) {
                     let subform_data = item.com_data;
+                    let is_subform = false;
                     if (item.key == 'subform') {
-                        const data = item.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+                        is_subform = true;
+                        const data = item.com_data.data_list[subform_index].find(item => item.id == subform_id);
                         subform_data = data.com_data || {};
                     }
+                    // 将值赋值给原数组
+                    subform_data.form_value = values;
                     // 将独有的和所有的信息合并之后返回
                     const list = subform_data.option_list.concat(subform_data.custom_option_list);
                     const val_data = list.filter(item1 => values.includes(item1.value));
@@ -352,6 +397,10 @@ $(function () {
                     at_the_top_parent.find('.forminput-visiable-hidden option').prop('selected', false);
                     //  js添加选项的参数处理
                     if (val_data.length > 0) {
+                        // 如果有选中的就移除错误提示
+                        if (at_the_top_parent.find('.am-selected-btn.am-btn').hasClass('forminput-data-item-error')) {
+                            at_the_top_parent.find('.am-selected-btn.am-btn').removeClass('forminput-data-item-error');
+                        }
                         let new_option_html = '';
                         // 循环选中的数据，为每一个选中的添加选中效果
                         val_data.forEach((item2, index2) => {
@@ -364,15 +413,26 @@ $(function () {
                         // 添加所有选中的数据
                         at_the_top_parent.find('.am-selected-status').html(new_option_html);
                     } else { 
+                        // 如果没有选中的就添加错误提示
+                        if (subform_data.is_required == '1' && !at_the_top_parent.find('.am-selected-btn.am-btn').hasClass('forminput-data-item-error')) {
+                            at_the_top_parent.find('.am-selected-btn.am-btn').addClass('forminput-data-item-error');
+                        }
                         // 如果没有选中的就添加默认文字显示
                         at_the_top_parent.find('.am-selected-status').html('<span class="forminput-cr-gray">' + subform_data.placeholder + '</span>');
+                    }
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    if (is_subform) {
+                        ForminputVerifyWhenDataChanges(item.id);
+                    } else {
+                        const isError = item.com_data.required == '1' && IsEmpty(subform_data.form_value);
+                        OnItemEvent({ id: item.id, key: item.key, value: subform_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
                     }
                 }
             });
         }
     });
     // 单选按钮点击
-    $(document).on('click', '.forminput .am-radio-click', function () { 
+    $(document).on('change', '.forminput-data-content .am-radio-click', function () { 
         let parent = $(this).parent().parent();
         const data = $(this).find('input').val();
         let id = parent.parent().attr('id');
@@ -395,7 +455,7 @@ $(function () {
                                     name="`+ item.form_name +`_other_value" 
                                     value="`+ item.com_data.other_value +`"     
                                     placeholder="请输入其他内容" 
-                                    class="forminput-input forminput-no-border forminput-w forminput-h ` + item_size + `"
+                                    class="forminput-input-other forminput-no-border forminput-w forminput-h ` + item_size + `"
                                 />
                             </div>`;
                         parent.append(subform_html);
@@ -404,13 +464,49 @@ $(function () {
                     // 移除其他输入框
                     parent.find(`.`+ id + `-other`).remove();
                 }
+                // 操作之后跑出去让其他用户能感知到
+                const isError = item.com_data.required == '1' && IsEmpty(item.com_data.form_value);
+                OnItemEvent({ id: item.id, key: item.key, value: item.com_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
             }
         });
         // 显隐规则逻辑处理
         ForminputShowHiddenChange();
     });
+
+    // 多选按钮点击
+    $(document).on('change', '.forminput-data-content .am-checkbox-click', function () { 
+        let parent = $(this).parent().parent();
+        // 获取复选框的值
+        let tmp_all = [];
+        let i = 0;
+        $(this).parent().find('input[type="checkbox"]').each(function (key, tmp) {
+            if ($(this).is(':checked')) {
+                if (tmp_all == undefined) {
+                    tmp_all = [];
+                    i = 0;
+                }
+                tmp_all[i] = tmp.value;
+                i++;
+            } else {
+                // 滑动开关、未选中则0
+                if (typeof ($(this).attr('data-am-switch')) != 'undefined') {
+                    tmp_all = [];
+                }
+            }
+        });
+        let id = parent.parent().attr('id');
+        // 将值保存到数组中去
+        $forminput_data_list.forEach(function (item) {
+            if (item.id == id) {
+                item.com_data.form_value = tmp_all;
+                // 操作之后跑出去让其他用户能感知到
+                const isError = item.com_data.required == '1' && IsEmpty(item.com_data.form_value);
+                OnItemEvent({ id: item.id, key: item.key, value: item.com_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
+            }
+        });
+    })
     // 鼠标移入评分图标时显示
-    $(document).on('mouseover', '.forminput .forminput-score-icon', function () {
+    $(document).on('mouseover', '.forminput-data-content .forminput-score-icon', function () {
         let parent = $(this).parent().parent();
         // 获取当前的id
         let score_id = parent.attr('id');
@@ -423,7 +519,7 @@ $(function () {
             if (new_data.key == 'subform') {
                 const index = parent.data('index');
                 const id = parent.data('id');
-                new_data = new_data.com_data.data_list[index].data_list.find(item => item.id == id);
+                new_data = new_data.com_data.data_list[index].find(item => item.id == id);
             }
             // 获取当前分数
             let mouseover_index = $(this).data('index');
@@ -431,7 +527,7 @@ $(function () {
         }
     });
     // 鼠标移出评分组件时隐藏
-    $(document).on('mouseleave', '.forminput .forminput-score', function () {
+    $(document).on('mouseleave', '.forminput-data-content .forminput-score', function () {
         const parent = $(this).parent();
         // 获取当前的id
         let score_id = parent.attr('id');
@@ -444,7 +540,7 @@ $(function () {
             if (new_data.key == 'subform') {
                 const index = $(this).parent().data('index');
                 const id = $(this).parent().data('id');
-                new_data = new_data.com_data.data_list[index].data_list.find(item => item.id == id);
+                new_data = new_data.com_data.data_list[index].find(item => item.id == id);
             }
             const selectd_index = new_data.com_data.form_value;
             // 根据不同类型区分不同的状态
@@ -466,7 +562,7 @@ $(function () {
         }
     });
     // 鼠标点击评分
-    $(document).on('click', '.forminput .forminput-score-icon', function () {
+    $(document).on('click', '.forminput-data-content .forminput-score-icon', function () {
         let parent = $(this).parent().parent();
         let score_id = parent.attr('id');
         if (score_id.indexOf('-') > -1) {
@@ -476,10 +572,12 @@ $(function () {
         $forminput_data_list.forEach(item => {
             if (item.id == score_id) {
                 let new_data = item;
+                let is_subform = false;
                 if (new_data.key == 'subform') {
+                    is_subform = true;
                     const index = parent.data('index');
                     const id = parent.data('id');
-                    new_data = new_data.com_data.data_list[index].data_list.find(item => item.id == id);
+                    new_data = new_data.com_data.data_list[index].find(item => item.id == id);
                 }
                 // 获取当前选中的索引
                 let selectd_index = $(this).data('index') + 1;
@@ -490,11 +588,18 @@ $(function () {
                     parent.find('input').attr('value', selectd_index);
                     new_data.com_data.form_value = selectd_index;
                 }
+                // 每次更新操作完成需要抛出去，让其他人感知到
+                if (is_subform) {
+                    ForminputVerifyWhenDataChanges(item.id);
+                } else {
+                    const isError = item.com_data.required == '1' && IsEmpty(new_data.com_data.form_value);
+                    OnItemEvent({ id: item.id, key: item.key, value: new_data.com_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
+                }
             }
         });
     });
-    // 文件下载和删除处理
-    $(document).on('click', '.forminput .attachments-click', function () { 
+    // 文件复制和下载处理
+    $(document).on('click', '.forminput-data-content .attachments-click', function () { 
         let parent_parent = $(this).parent().parent().parent();
         let id = parent_parent.attr('id');
         if (id.indexOf('-') > -1) {
@@ -506,7 +611,7 @@ $(function () {
             if (new_data.key == 'subform') {
                 const index = parent.data('index');
                 const id = parent.data('id');
-                new_data = new_data.com_data.data_list[index].data_list.find(item => item.id == id);
+                new_data = new_data.com_data.data_list[index].find(item => item.id == id);
             }
             const file_data = new_data.com_data.file[0] || {};
             if ($(this).children().is('.icon-copy')) {
@@ -537,7 +642,7 @@ $(function () {
         }
     });
     // 获取短信验证码
-    $(document).on('click', '.forminput .verify-submit', function () { 
+    $(document).on('click', '.forminput-data-content .verify-submit', function () { 
         // $phone_url = $(this).attr('data-url');
         let id = $(this).attr('id').replace('_verify', '');
         $forminput_phone_id = id;
@@ -573,7 +678,7 @@ $(function () {
         ForminputGetVerification(verify);
     });
     // 地址筛选处理
-    $(document).on('click', '.forminput .am-cascader .am-cascader-dropdown .am-cascader-node', function () {
+    $(document).on('click', '.forminput-data-content .am-cascader .am-cascader-dropdown .am-cascader-node', function () {
         let parent_parent = $(this).parent().parent().parent().parent();
         let id = parent_parent.attr('id');
         if (!IsEmpty(id)) {
@@ -603,7 +708,7 @@ $(function () {
             subform_index = parent_parent.data('index');
             subform_id = parent_parent.data('id');
             if (subform_id) {
-                new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+                new_data = new_data.com_data.data_list[subform_index].find(item => item.id == subform_id);
                 if (IsEmpty(new_data)) {
                     return;
                 } else {
@@ -681,24 +786,39 @@ $(function () {
             parents_menu.parents('.am-cascader-dropdown').removeClass('am-active');
             parents_menu.parents('.am-cascader').find('.am-input-suffix i').removeClass('is-reverse');
         }
+        // 如果省市区不为空，就删除报错信息
+        if (!IsEmpty(level_1) || !IsEmpty(level_2) || !IsEmpty(level_3)) {
+            if (parent_parent.parent().parent().find('.am-cascader-suffix  .forminput-data-item-content').hasClass('forminput-data-item-error')) {
+                parent_parent.parent().parent().find('.am-cascader-suffix  .forminput-data-item-content').removeClass('forminput-data-item-error');
+            }
+        }
         if ($forminput_data_list.length > 0) {
             $forminput_data_list.forEach((item) => {
                 if (item.id == id) {
                     let subform_data = item.com_data;
+                    let is_subform = false;
                     if (item.key == 'subform') {
-                        const data = item.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+                        is_subform = true;
+                        const data = item.com_data.data_list[subform_index].find(item => item.id == subform_id);
                         subform_data = data.com_data || {};
                     }
                     subform_data.form_value = [level_1, level_2, level_3];
                     subform_data.province_name = level_1_name;
                     subform_data.city_name = level_2_name;
                     subform_data.county_name = level_3_name;
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    if (is_subform) {
+                        ForminputVerifyWhenDataChanges(item.id);
+                    } else {
+                        const isError = item.com_data.required == '1' && IsEmpty(subform_data.form_value);
+                        OnItemEvent({ id: item.id, key: item.key, value: subform_data.form_value, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
+                    }
                 }
             })
         }
     })
     // 富文本上传文件处理
-    $(document).on('change', '.forminput .rich-file-upload-input', function () {
+    $(document).on('change', '.forminput-data-content .rich-file-upload-input', function () {
         if (IsEmpty($editor_id)) {
             return;
         }
@@ -738,53 +858,68 @@ $(function () {
         }
     });
     // 删除上传文件处理
-    $(document).on('click', '.forminput .file-upload-view-close', function () {
+    $(document).on('click', '.forminput-data-content .file-upload-view-close', function () {
         let index = $(this).parent().attr('data-index');
         let id = $(this).parent().attr('data-id');
         let subform_id = $(this).parent().attr('data-subform-index-id');
         let subform_index = $(this).parent().attr('data-subform-index');
         let upload_input_data = [];
-        $forminput_data_list.forEach((item) => {
-            if (item.id == id) {
-                let new_data = item;
-                let new_id = id;
-                // 用于赋值的id
-                if (item.key == 'subform') {
-                    new_data = item.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
-                    new_id = subform_id + '-' + subform_index;
-                }
-                const $element = $('#' + new_id).find('.file-upload-view-list');
-                if (new_data.com_data.form_value) {
-                    // 将新数据编辑重新赋值
-                    let new_form_value_html = '';
-                    // 删除选中的数据
-                    new_data.com_data.form_value.splice(index, 1);
-                    if (new_data.com_data.form_value.length > 0) {
-                        new_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
-                            if (new_data.key == 'upload-img') {
-                                new_form_value_html += ForminputFileUploadImg(form_value_index, form_value_item, id, new_data.id, subform_index);
-                            } else if (new_data.key == 'upload-video') {
-                                new_form_value_html += ForminputFileUploadVideo(form_value_index, form_value_item, id, new_data.id, subform_index);
-                            } else if (new_data.key == 'upload-attachments') {
-                                new_form_value_html += ForminputFileUploadAttachments(form_value_index, form_value_item, id, new_data.id, subform_index); 
-                            }       
-                        });
-                        // 将遍历好的塞入到html中
-                        $element.html(new_form_value_html);
-                    } else if (!$element.hasClass('file-upload-hidden')) {
-                        $element.html('');
-                        $element.addClass('file-upload-hidden');
+        // 显示删除弹出框
+        $('#forminput-subform-data').modal({
+            relatedTarget: this,
+            onConfirm: function(options) {
+                $forminput_data_list.forEach((item) => {
+                    if (item.id == id) {
+                        let new_data = item;
+                        let new_id = id;
+                        let is_subform = false;
+                        // 用于赋值的id
+                        if (item.key == 'subform') {
+                            is_subform = true;
+                            new_data = item.com_data.data_list[subform_index].find(item => item.id == subform_id);
+                            new_id = subform_id + '-' + subform_index;
+                        }
+                        const $element = $('#' + new_id).find('.file-upload-view-list');
+                        if (new_data.com_data.form_value) {
+                            // 将新数据编辑重新赋值
+                            let new_form_value_html = '';
+                            // 删除选中的数据
+                            new_data.com_data.form_value.splice(index, 1);
+                            if (new_data.com_data.form_value.length > 0) {
+                                new_data.com_data.form_value.forEach((form_value_item, form_value_index) => {
+                                    if (new_data.key == 'upload-img') {
+                                        new_form_value_html += ForminputFileUploadImg(form_value_index, form_value_item, id, new_data.id, subform_index);
+                                    } else if (new_data.key == 'upload-video') {
+                                        new_form_value_html += ForminputFileUploadVideo(form_value_index, form_value_item, id, new_data.id, subform_index);
+                                    } else if (new_data.key == 'upload-attachments') {
+                                        new_form_value_html += ForminputFileUploadAttachments(form_value_index, form_value_item, id, new_data.id, subform_index); 
+                                    }       
+                                });
+                                // 将遍历好的塞入到html中
+                                $element.html(new_form_value_html);
+                            } else if (!$element.hasClass('file-upload-hidden')) {
+                                $element.html('');
+                                $element.addClass('file-upload-hidden');
+                            }
+                            // 将新增数据显示出来
+                            upload_input_data = new_data.com_data.form_value;
+                            // 赋值
+                            $('#' + new_id).find('input').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(upload_input_data)))));
+                            // 每次更新操作完成需要抛出去，让其他人感知到
+                            if (is_subform) {
+                                ForminputVerifyWhenDataChanges(item.id);
+                            } else {
+                                const isError = item.com_data.required == '1' && IsEmpty(upload_input_data);
+                                OnItemEvent({ id: item.id, key: item.key, value: upload_input_data, is_error: isError ? '1' : '0', error_text: isError ? '必选字段不能为空' : '' });
+                            }
+                        }
                     }
-                    // 将新增数据显示出来
-                    upload_input_data = new_data.com_data.form_value;
-                    // 赋值
-                    $('#' + new_id).find('input').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(upload_input_data)))));
-                }
+                })
             }
-        })
+        });  
     }); 
     // 预览上传的文件
-    $(document).on('click', '.forminput .file-upload-view-item-preview', function() { 
+    $(document).on('click', '.forminput-data-content .file-upload-view-item-preview', function() { 
        let id = $(this).parent().attr('data-id');
        let index = $(this).parent().attr('data-index');
        // 获取数据
@@ -794,10 +929,10 @@ $(function () {
             if (new_data.key == 'subform') {
                 let subform_index = $(this).parent().attr('data-subform-index');
                 let subform_index_id = $(this).parent().attr('data-subform-index-id');
-                new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_index_id);
+                new_data = new_data.com_data.data_list[subform_index].find(item => item.id == subform_index_id);
             }
             const upload_preview_data = new_data.com_data.form_value[index];
-            $('#upload-popup-preview').find('.am-popup-title').text(upload_preview_data.name);
+            $('#forminput-upload-popup-preview').find('.am-popup-title').text(upload_preview_data.name);
             let new_form_value_html = '';
             // 图片的预览直接显示
             if (new_data.key == 'upload-img') {
@@ -828,13 +963,13 @@ $(function () {
                 }
             }
             if (new_form_value_html != '') {
-                $('#upload-popup-preview').find('.am-popup-bd').html(new_form_value_html);
-                $('#upload-popup-preview').modal('open');
+                $('#forminput-upload-popup-preview').find('.am-popup-bd').html(new_form_value_html);
+                $('#forminput-upload-popup-preview').modal('open');
             }
        }
     });
     // 子表单详细数据显示
-    $(document).on('click', '.forminput .operate-enlarge', function () {
+    $(document).on('click', '.forminput-data-content .operate-enlarge', function () {
         // 获取子表单ID
         const selected_id = $(this).data('id');
         // 获取点击的是第几行
@@ -842,11 +977,12 @@ $(function () {
         
     });
     // 子表单数据删除
-    $(document).on('click', '.forminput .operate-delete', function () {
+    $(document).on('click', '.forminput-data-content .operate-delete', function () {
         // 获取子表单ID
         const selected_id = $(this).data('id');
         // 获取点击的是第几行
         const index = $(this).data('index');
+        $('forminput-subform-data').find('.am-modal-hd').html('子表单数据删除');
         // 显示删除弹出框
         $('#forminput-subform-data').modal({
             relatedTarget: this,
@@ -862,13 +998,15 @@ $(function () {
                         $('.subform-dropdown.am-dropdown').dropdown();
                         // 重新处理显隐规则
                         ForminputSubformShowHiddenChange(item);
+                        // 每次更新操作完成需要抛出去，让其他人感知到
+                        ForminputVerifyWhenDataChanges(item.id);
                     }
                 })
             }
         });   
     });     
     // 子表单数据添加
-    $(document).on('click', '.forminput .subform-add', function () {
+    $(document).on('click', '.forminput-data-content .subform-add', function () {
         // 获取子表单ID
         const selected_id = $(this).data('id');
         $forminput_data_list.forEach((item) => {
@@ -879,17 +1017,16 @@ $(function () {
                 // 地址初始化
                 RegionLinkageInit();
                 $('.subform-dropdown.am-dropdown').dropdown();
-                item.com_data.data_list.push({
-                    is_expand: false,
-                    data_list: item.com_data.children
-                })
+                item.com_data.data_list.push(JSON.parse(JSON.stringify(item.com_data.children || [])))
                 // 重新处理显隐规则
                 ForminputSubformShowHiddenChange(item);
+                // 每次更新操作完成需要抛出去，让其他人感知到
+                ForminputVerifyWhenDataChanges(item.id);
             }
         })
     });
     // 子表单删除按钮
-    $(document).on('click', '.forminput .subform-delete', function () {
+    $(document).on('click', '.forminput-data-content .subform-delete', function () {
         const parent = $(this).parent();
         // 隐藏添加和删除按钮
         parent.find('.subform-add').addClass('subform-button-hidden');
@@ -908,7 +1045,7 @@ $(function () {
         $('#' + id).find('.subform-num-checkbox .subform-index-checkbox').prop('checked', false);
     });
     // 子表单取消操作按钮
-    $(document).on('click', '.forminput .subform-cancel', function () {
+    $(document).on('click', '.forminput-data-content .subform-cancel', function () {
        const parent = $(this).parent();
        // 显示添加和删除按钮
        parent.find('.subform-add').removeClass('subform-button-hidden');
@@ -921,7 +1058,7 @@ $(function () {
     });
     $forminput_subform_check_list = {};
     // 全选
-    $(document).on('click', '.forminput .subform-header-checkbox .subform-checkbox', function () {
+    $(document).on('click', '.forminput-data-content .subform-header-checkbox .subform-checkbox', function () {
         const id = $(this).data('id');
         const $element = $('#' + id).find('.subform-num-checkbox .subform-index-checkbox');
         // 判断是否为空，如果为空证明历史没有添加过，需要初始化
@@ -949,7 +1086,7 @@ $(function () {
         }
     });
     // 选中某一个
-    $(document).on('click', '.forminput .subform-num-checkbox .subform-index-checkbox', function () {
+    $(document).on('click', '.forminput-data-content .subform-num-checkbox .subform-index-checkbox', function () {
         const id = $(this).data('id');
         const index = $(this).data('index');
         const $element = $('#' + id).find('.subform-checkbox');
@@ -981,7 +1118,7 @@ $(function () {
         }
     });
     // 删除选中的内容
-    $(document).on('click', '.forminput .subform-delete-selected', function () {
+    $(document).on('click', '.forminput-data-content .subform-delete-selected', function () {
         const subform_id = $(this).data('id');
         // 判断选中的数量是否为空，为空则不处理
         if (!IsEmpty[$forminput_subform_check_list[subform_id]]) {
@@ -1000,12 +1137,14 @@ $(function () {
                     $('.subform-dropdown.am-dropdown').dropdown();
                     // 重新处理显隐规则
                     ForminputSubformShowHiddenChange(item);
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    ForminputVerifyWhenDataChanges(item.id);
                 }
             });
         }
     })
     // 子表单下拉框列表操作
-    $(document).on('click', '.forminput .subform-dropdown-item', function () {
+    $(document).on('click', '.forminput-data-content .subform-dropdown-item', function () {
         // 获取子表单ID
         const selected_id = $(this).data('id');
         // 获取点击的是第几行
@@ -1026,10 +1165,10 @@ $(function () {
                     item.com_data.data_list.push(data);
                 } else if (type == 'insert_top') {
                     // 插入上一行
-                    item.com_data.data_list.splice(index, 0, {is_expand: false, data_list: children});
+                    item.com_data.data_list.splice(index, 0, children);
                 } else if (type == 'insert_bottom') {
                     // 插入下一行
-                    item.com_data.data_list.splice(index + 1, 0, {is_expand: false, data_list: children});
+                    item.com_data.data_list.splice(index + 1, 0, children);
                 }
                 // 渲染数据
                 $('#' + selected_id).find('.subform-data-list').html(ForminputSetSubformData(item));
@@ -1039,6 +1178,8 @@ $(function () {
                 $('.subform-dropdown.am-dropdown').dropdown();
                 // 重新处理显隐规则
                 ForminputSubformShowHiddenChange(item);
+                // 每次更新操作完成需要抛出去，让其他人感知到
+                ForminputVerifyWhenDataChanges(item.id);
             }
         })
         
@@ -1047,7 +1188,7 @@ $(function () {
     $forminput_parent_offset = '';
     $forminput_selected_click_id = '';
     // 更新下来框显示位置
-    $(document).on('click', '.forminput .selected-click', function () {
+    $(document).on('click', '.forminput-data-content .selected-click', function () {
         const parent = $(this).parent();
         // const dropdown = parent.find('.select-fixed-position');
         $forminput_selected_click_id = $(this).data('id');
@@ -1089,7 +1230,7 @@ $(function () {
         }
     });
     // 提示信息移入
-    $('.forminput .tooltip').on('mouseenter', function () {
+    $('.forminput-data-content .tooltip').on('mouseenter', function () {
         const offset = $(this).offset();
         const parent_height = $(this).outerHeight();
         const parent_width = $(this).outerWidth();
@@ -1101,13 +1242,87 @@ $(function () {
         });
     });
     // 提示信息移出
-    $('.forminput .tooltip').on('mouseleave', function () {
+    $('.forminput-data-content .tooltip').on('mouseleave', function () {
         $(this).find('.tooltip-text').css({
             display: 'none',
             position: 'absolute',
             top: 0,
             left: 0
         });
+    });
+    // 删除内容
+    $(document).on('click', '.forminput-data-content a.input-clearout-submit', function () {
+        let parent = $(this).parent().parent();
+        // 获取组件ID
+        let id = parent.attr('id');
+        // 如果id为空的时候，再往上一层查询
+        if (IsEmpty(id)) {
+            parent = parent.parent();
+            id = parent.attr('id');
+        }
+        // 获取子表单ID
+        let subform_id = parent.data('subform-id');
+        const subform_index = parent.data('index');
+        const data_id = parent.data('id');
+        // 获取子表单ID, 如果子表单的id为空，证明当前不属于子表单, 将subform_id设置为id
+        if (IsEmpty(subform_id)) {
+            subform_id = id;
+        }
+        // 遍历数据，将对应的数据清空
+        $forminput_data_list.forEach(item => {
+            if (item.id == subform_id) {
+                if (item.key == 'subform') {
+                    item.com_data.data_list[subform_index].forEach(data_list_item => {
+                        if (data_list_item.id == data_id) {
+                            // 查询所有的兄弟组件
+                            const val_parent = $(this).siblings();
+                            if (val_parent.hasClass('forminput-input-date-group-start')) { // 如果时间选择器
+                                let start = '';
+                                let end = '';
+                                val_parent.each(function() {
+                                    if ($(this).hasClass('forminput-input-date-group-start')) {
+                                        start = $(this).val();
+                                    } else if ($(this).hasClass('forminput-input-date-group-end')) {
+                                        end = $(this).val();
+                                    }
+                                });
+                                // 将获取到的开始和结束时间赋值给表单数据
+                                data_list_item.com_data.form_value = [start, end];
+                            } else {
+                                data_list_item.com_data.form_value = '';
+                            }
+                        }
+                    });
+                    // 每次更新操作完成需要抛出去，让其他人感知到
+                    ForminputVerifyWhenDataChanges(item.id);
+                } else {
+                    // 查询所有的兄弟组件
+                    const val_parent = $(this).siblings();
+                    // 如果是短信验证码的清空操作
+                    if (val_parent.hasClass('forminput-input-verify')) {
+                        item.com_data.form_value_code = '';
+                    } else if (val_parent.hasClass('forminput-input-address')) { // 如果是详细地址
+                        item.com_data.address = '';
+                    } else if (val_parent.hasClass('forminput-input-other')) { // 如果是详细地址
+                        item.com_data.other_value = '';
+                    } else if (val_parent.hasClass('forminput-input-date-group-start')) { // 如果时间选择器
+                        let start = '';
+                        let end = '';
+                        val_parent.each(function() {
+                            if ($(this).hasClass('forminput-input-date-group-start')) {
+                                start = $(this).val();
+                            } else if ($(this).hasClass('forminput-input-date-group-end')) {
+                                end = $(this).val();
+                            }
+                        });
+                        // 将获取到的开始和结束时间赋值给表单数据
+                        item.com_data.form_value = [start, end];
+                    } else {
+                        item.com_data.form_value = '';
+                    }
+                }
+            }
+        })
     });
     // 初始化富文本编辑器
     ForminputEditorInit();
@@ -1117,8 +1332,212 @@ $(function () {
            ForminputSubformShowHiddenChange(item);
         }
     })
+    // 时间选择器组开始时间离开焦点时触发
+    $(document).on('change', '.forminput-data-content .forminput-input-date-group-start', function(e) {
+        FormInputDateGroupHandle($(this), 'start')
+    });
+    // 时间选择器组结束时间离开焦点时触发
+    $(document).on('change', '.forminput-data-content .forminput-input-date-group-end', function(e) {
+        FormInputDateGroupHandle($(this), 'end')
+    });
+    // 时间选择器离开焦点时触发
+    $(document).on('change', '.forminput-data-content .forminput-input-date', function(e) {
+        // 获取当前数据框的父级数据
+        let parentNode = $(this).parent();
+        // 获取父级id
+        let id = parentNode.parent().attr('id');
+        let subform_id = parentNode.parent().data('subform-id');
+        let data_id = '';
+        let data_index = 0;
+        if (!IsEmpty(subform_id)) {
+            id = subform_id;
+            data_id = parentNode.parent().data('id');
+            data_index = parentNode.parent().data('index');
+        }
+        $forminput_data_list.forEach(item => {
+            if (item.id == id) {
+                let com_data = item.com_data;
+                if (item.key == 'subform') {
+                    const subform_data = com_data.data_list[data_index].find(item1 => item1.id == data_id);
+                    if (!IsEmpty(subform_data)) {
+                        com_data = subform_data.com_data
+                    }
+                } 
+                com_data.form_value = $(this).val();
+                if (item.key == 'subform') {
+                    ForminputVerifyWhenDataChanges(item.id);
+                } else {
+                    OnItemEvent({ id: item.id, key: item.key, value: com_data.form_value, is_error: '0', error_text: '' });
+                }
+                
+            }
+        })
+    });
+    // 详细地址输入框离开焦点时触发
+    $(document).on('blur', '.forminput-data-content .forminput-input-address', function(e) {
+        // 获取当前数据框的父级数据
+        let parentNode = $(this).parent().parent().parent();
+        // 获取父级id
+        let id = parentNode.attr('id');
+        $forminput_data_list.forEach(item => {
+            if (item.id == id) {
+                item.com_data.address = $(this).val();
+                OnItemEvent({ id: item.id, key: item.key, value: $(this).val(), is_error: '0', error_text: '' }, 'detailed');
+            }
+        })
+    });
+    // 验证码输入框离开焦点时触发
+    $(document).on('blur', '.forminput-data-content .forminput-input-verify', function(e) {
+        // 获取当前数据框的父级数据
+        let parentNode = $(this).parent().parent().parent().parent();
+        // 获取父级id
+        let id = parentNode.attr('id');
+        $forminput_data_list.forEach(item => {
+            if (item.id == id) {
+                item.com_data.form_value_code = $(this).val();
+                OnItemEvent({ id: item.id, key: item.key, value: $(this).val(), is_error: '0', error_text: '' }, 'phone_code');
+            }
+        })
+    });
+    // 其他输入框离开焦点时触发
+    $(document).on('blur', '.forminput-data-content .forminput-input-other', function(e) {
+        // 获取当前数据框的父级数据
+        let parentNode = $(this).parent();
+        // 获取父级id
+        let id = parentNode.parent().attr('id');
+        if (IsEmpty(id)) {
+            id = parentNode.parent().parent().attr('id');
+        }
+        $forminput_data_list.forEach(item => {
+            if (item.id == id) {
+                item.com_data.other_value = $(this).val();
+                OnItemEvent({ id: item.id, key: item.key, value: $(this).val(), is_error: '0', error_text: '' }, 'other');
+            }
+        })
+    });
 });
-
+// 时间选择器组数据更新
+function FormInputDateGroupHandle(e, type = 'start') {
+    // 获取当前数据框的父级数据
+    let parentNode = e.parent().parent();
+    // 获取父级id
+    let id = parentNode.parent().attr('id');
+    // 获取子表单的id
+    let subform_id = parentNode.parent().data('subform-id');
+    let data_id = '';
+    let data_index = 0;
+    // 子表单id不等于空，证明是子表单的数据，需要获取对应的index和内容
+    if (!IsEmpty(subform_id)) {
+        id = subform_id;
+        data_id = parentNode.parent().data('id');
+        data_index = parentNode.parent().data('index');
+    }
+    $forminput_data_list.forEach(item => {
+        if (item.id == id) {
+            let com_data = item.com_data;
+            if (item.key == 'subform') {
+                const subform_data = com_data.data_list[data_index].find(item1 => item1.id == data_id);
+                if (!IsEmpty(subform_data)) {
+                    com_data = subform_data.com_data
+                }
+            } 
+            const val = e.val();
+            com_data.form_value = [ type == 'start' ? val : (com_data.form_value[0] || ''), type == 'end' ? val : (com_data.form_value[1] || '')];
+            if (item.key == 'subform') {
+                ForminputVerifyWhenDataChanges(item.id);
+            } else {
+                OnItemEvent({ id: item.id, key: item.key, value: com_data.form_value, is_error: '0', error_text: '' });
+            }
+        }
+    })
+}
+/*
+* 没有办法监听用户离开时进行校验逻辑的组件，直接使用数据更新时的执行校验逻辑，并抛给父级
+*/
+function ForminputVerifyWhenDataChanges(id) { 
+    const data = JSON.parse(JSON.stringify($forminput_data_list));
+    const filter_data_list = data.filter((item) => ['subform', 'position', 'rich-text', 'upload-attachments', 'upload-img', 'upload-video'].includes(item.key) && item.id === id);
+    if (filter_data_list.length > 0) {
+        filter_data_list?.forEach((item) => {
+            let com_data = item.com_data;
+            let message = '';
+            if (item.key === 'subform') {
+                com_data = ForminputSubformDataCheck(com_data);
+                // 子表单中每一行的数据显示
+                const subform_data = ForminputSubformDataExtraction(com_data.data_list);
+                let is_error = '0';
+                // 如果子表单外层为error直接显示名称出来
+                if (com_data.common_config.is_error == '1') {
+                    is_error = '1';
+                    message = `${com_data.title}「${com_data.common_config.error_text}」`;
+                } else {
+                    // 判断子表单每一行是否有报错提示
+                    const error_data = com_data.data_list.some((item) => item.some((list_item) => list_item.com_data.common_config.is_error === '1'))
+                    if (error_data) {
+                        // 如果是内部问题，让用户自己检查子表单内的填写
+                        message = `请检查${com_data.title}内的填写`;
+                    } else {
+                        message = '';
+                    }
+                }
+                OnItemEvent({ id: item.id, key: item.key, value: subform_data, is_error: is_error, error_text: message }, 'subform');
+            } else {
+                // 跳过非必填项
+                if (com_data.is_required === '1') {
+                    if (ForminputFieldCheckMap[item.key]) {
+                        let field_data = ForminputFieldCheckMap[item.key];
+                        if (['single-text', 'select', 'radio-btns'].includes(com_data.type)) {
+                            field_data = ForminputFieldCheckMap[com_data.type];
+                        }
+                        const { is_format, type } = field_data;
+                        const { is_error = '0', error_text = '' } = ForminputGetFormatChecks(com_data, com_data.form_value, is_format, type);
+                        // 文件进行校验
+                        OnItemEvent({ id: item.id, key: item.key, value: com_data.form_value, is_error, error_text });
+                    }
+                }
+            }
+        });
+    }
+}
+/*
+* 子表单内的数据提取
+*/
+function ForminputSubformDataExtraction(data_list) {
+    return data_list.map((subform_item) => {
+        const data = {};
+        // 子表单中每一行的数据显示
+        subform_item.forEach((item1) => {
+            // 子表单中每个独立的数据name
+            const subform_name = IsEmpty(item1.form_name) ? item1.id : item1.form_name;
+            const subform_com_data = item1.com_data;
+            // 对应的value
+            const subform_value = IsEmpty(subform_com_data.form_value) ? '' : subform_com_data.form_value;
+            if (!this.filter_data.includes(item1.key)) {
+                if (item1.key == 'address') {
+                    data[`${ subform_name }_province_id`] = subform_value[0] || '';
+                    data[`${ subform_name }_city_id`] = subform_value[1] || '';
+                    data[`${ subform_name }_county_id`] = subform_value[2] || '';
+                    // 省市区中文名称
+                    data[`${ subform_name }_province_name`] = subform_com_data.province_name || '';
+                    data[`${ subform_name }_city_name`] = subform_com_data.city_name || ''
+                    data[`${ subform_name }_county_name`] = subform_com_data.county_name || ''
+                } else if (item1.key ==='date-group') {
+                    data[`${ subform_name }_start`] = subform_value[0] || '';
+                    data[`${ subform_name }_end`] = subform_value[1] || '';
+                } else if (['checkbox', 'select-multi'].includes(item1.key)) {
+                    data[subform_name] = subform_value;
+                    if (subform_com_data.is_add_option == '1') {
+                        data[`${ subform_name }_custom_option_list`] = subform_com_data?.custom_option_list || [];
+                    }
+                } else {
+                    data[subform_name] = subform_value;
+                }
+            }
+        });
+        return data;
+    });
+}
+// 显隐规则逻辑处理
 function ForminputSubformShowHiddenChange(item) { 
     // 判断字段是否为空
     if (IsEmpty(item.com_data.children)) {
@@ -1158,6 +1577,60 @@ function ForminputSubformShowHiddenChange(item) {
     });
 }
 
+// 规整数据，将子表单数据更新一下
+function ForminputDataHandle(data) {
+    if (IsEmpty(data)) {
+        return [];
+    }
+    data.forEach(item => {
+        if (item.key == 'subform') {
+            item.com_data.data_list = [];
+            let data_list = [];
+            item.com_data.form_value.forEach((item1) => {
+                const data = JSON.parse(JSON.stringify(item.com_data?.children || []));
+                if (data.length > 0) {
+                    data.forEach((child) => {
+                        if (!IsEmpty(item1[child.form_name])) {
+                            child.com_data.form_value = item1[child.form_name];
+                            if (!IsEmpty(item1[child.form_name])) {
+                                const subform_name = child.form_name;
+                                const subform_com_data = child.com_data;
+                                if (child.key == 'address') {
+                                    subform_com_data.form_value = item1[subform_name] || [];
+                                    // 省市区中文名称
+                                    subform_com_data.province_name = item1[`${ subform_name }_province_name`] || '';
+                                    subform_com_data.city_name = item1[`${ subform_name }_city_name`] || '';
+                                    subform_com_data.county_name = item1[`${ subform_name }_county_name`] || '';
+                                } else if (['checkbox', 'select-multi'].includes(child.key)) {
+                                    subform_com_data.form_value = item1[subform_name] || [];
+                                    if (subform_com_data.is_add_option == '1') {
+                                        subform_com_data.custom_option_list = item1[`${ subform_name }_custom_option_list`] || [];
+                                    }
+                                } else {
+                                    subform_com_data.form_value = item1[subform_name] || '';
+                                }
+                            }
+                        }
+                    });
+                    data_list.push(data);
+                }
+            });
+            item.com_data.data_list = data_list;
+        } else if (item.key == 'phone') {
+            // 判断输入框内容是否为空,为空的话获取验证码取消
+            const { is_error = '0'} = ForminputHandlePhoneValidation(item.com_data);
+            if (!IsEmpty(item.com_data.form_value) && is_error == '0') {
+                $('#' + item.id).find('.verify-submit').prop('disabled', false);
+                $('#' + item.id).find('.verify-submit').removeClass('forminput-btn-disabled').addClass('forminput-btn-primary');
+            } else {
+                $('#' + item.id).find('.verify-submit').prop('disabled', true);
+                $('#' + item.id).find('.verify-submit').removeClass('forminput-btn-primary').addClass('forminput-btn-disabled');
+            }
+        }
+    });
+    return data;
+}
+
 function ForminputEditorInit() {
     const { createEditor, createToolbar } = window.wangEditor
     // 遍历所有组件，找到对应的富文本组件
@@ -1170,6 +1643,13 @@ function ForminputEditorInit() {
                     const html = editor.getHtml()
                     // 将数据同步到表单中
                     $('#' + item.id + '-value').val(html);
+                    // 将值传给原来的内容中
+                    item.com_data.form_value = html;
+                },
+                onBlur(editor) {
+                    const html = editor.getHtml()
+                    const isError = item.com_data.required == '1' && IsEmpty(html);
+                    OnItemEvent({ id: item.id, key: item.key, value: html, is_error: isError ? '1' : '0', error_text: '必填字段不能为空' });
                 },
                 MENU_CONF: {
                     // 自定义菜单配置
@@ -1239,6 +1719,10 @@ function ForminputInputChange(e, type) {
     // 获取当前选中或者移开的数据
     let new_data = $forminput_data_list.find(item => item.id == id);
     if (new_data) { 
+        let form_value = new_data.form_value;
+        let is_subform = false;
+        let is_error = '0';
+        let message = '';
         // 判断当前是否为子表单
         if (new_data.key == 'subform') {
             let subform_index = parentNode.parent().data('index');
@@ -1248,11 +1732,13 @@ function ForminputInputChange(e, type) {
                parentNode.parent().parent().data('id');
             }
             // 获取子表单的数据
-            new_data = new_data.com_data.data_list[subform_index].data_list.find(item => item.id == subform_id);
+            new_data = new_data.com_data.data_list[subform_index].find(item => item.id == subform_id);
             // 如果子表单数据为空，就取消执行
             if (IsEmpty(new_data)) {
                 return;
             }
+            is_subform = true;
+            form_value = ForminputSubformDataExtraction(new_data.com_data.data_list);
         }
         // 获取焦点和失去焦点时做数据处理
         if (type == 'focus') {
@@ -1289,18 +1775,24 @@ function ForminputInputChange(e, type) {
                 if (new_data.key === 'phone') {
                     const { is_error = '0', error_text = '' } = ForminputHandlePhoneValidation(new_data.com_data);
                     if (is_error == '1') {
+                        // 错误信息
+                        type = is_error;
+                        message = error_text;
                         parentNode.addClass('forminput-data-item-error');
                         Prompt(error_text);
                     } else {
                         parentNode.removeClass('forminput-data-item-error');
                     }
                 } else {
-                    let check_map = forminput_field_check_map[new_data.key];
+                    let check_map = ForminputFieldCheckMap[new_data.key];
                     if (['single-text', 'select', 'radio-btns'].includes(new_data.key)) {
-                        check_map = forminput_field_check_map[new_data.com_data.type];
+                        check_map = ForminputFieldCheckMap[new_data.com_data.type];
                     }
                     const { is_error, error_text} = ForminputGetFormatChecks(new_data.com_data, new_data.com_data.form_value, check_map.is_format, check_map.type);
                     if (is_error == '1') {
+                        // 错误信息
+                        type = is_error;
+                        message = error_text;
                         parentNode.addClass('forminput-data-item-error');
                         Prompt(error_text);
                     } else {
@@ -1308,7 +1800,82 @@ function ForminputInputChange(e, type) {
                     }
                 }
             }
+            if (type == 'blur') {
+                if (is_subform) {
+                    ForminputVerifyWhenDataChanges(new_data.id);
+                } else {
+                    OnItemEvent({ id: new_data.id, key: new_data.key, value: new_data.form_value, is_error: is_error, error_text: message });
+                }
+            }
         }
+    }
+}
+
+/*
+* 单个文件更新触发的事件
+*/
+function OnItemEvent(e, type = '') {
+    // 判断方法是否存在元素事件
+    if (IsExitsFunction($forminput_data_item_event)) {
+        // 取出对应id的数据
+        const data = $forminput_data_list.find((item) => item.id == e.id);
+        // 判断是否为空，为空则不进行处理
+        if (data) {
+            let form_value = {};
+            const com_data = data.com_data;
+            const value = com_data.form_value;
+            const form_name = data.form_name;
+            if (data.key == 'address') {
+                // 判断输入的是否是详细地址，如果不是详细地址就返回地址信息，否则的话就返回详细地址信息
+                if (type != 'detailed') {
+                    form_value[`${ form_name }_province_id`] = value[0] || '';
+                    form_value[`${ form_name }_city_id`] = value[1] || '';
+                    form_value[`${ form_name }_county_id`] = value[2] || '';
+                    // 省市区中文名称
+                    form_value[`${ form_name }_province_name`] = com_data.province_name || '';
+                    form_value[`${ form_name }_city_name`] = com_data.city_name || ''
+                    form_value[`${ form_name }_county_name`] = com_data.county_name || ''
+                } else {
+                    form_value[`${ form_name }_address`] = com_data?.address || '';
+                }
+            } else if (data.key == 'phone') {
+                // 判断是否是短信验证码输入，否则的话，传递手机号显示
+                if (type != 'phone_code') {
+                    form_value[`${ form_name }`] = com_data?.form_value || '';
+                } else {
+                    form_value[`${ form_name }_verify`] = com_data?.form_value_code || '';
+                }
+            } else if (data.key ==='date-group') {
+                // 如果是时间选择器，需要规整一下数据
+                form_value[`${ form_name }_start`] = com_data?.form_value[0] || '';
+                form_value[`${ form_name }_end`] = com_data?.form_value[1] || '';
+            } else if (['checkbox', 'select-multi'].includes(data.key)) {
+                // 如果是复选框和下拉复选框，判断一下是否是添加的新选项
+                if (type != 'custom_option_list') {
+                    form_value[`${ form_name }`] = com_data?.form_value || '';
+                } else {
+                    form_value[`${ form_name }_custom_option_list`] = com_data?.custom_option_list || '';
+                }
+            } else if (['select', 'radio-btns', 'single-text'].includes(data.key) && ['select', 'radio-btns'].includes(data.com_data.type)) {
+                // 判断是否是输入的其他的内容
+                if (type != 'other') {
+                    form_value[`${ form_name }`] = com_data?.form_value || '';
+                } else {
+                    form_value[`${ form_name }_other_value`] = com_data?.other_value || '';
+                }
+            } else if (type == 'subform') {
+                form_value = e.value;
+            } else {
+                form_value[`${ form_name }`] = com_data?.form_value || '';
+            }
+            // 方法执行的是单个数据更新操作
+            window[$forminput_data_item_event]({ forminput_id: $forminput_id, status: e.is_error == '1' ? 'error' : 'success', message: e.error_text, value: form_value, form_name: data.form_name, form_title: data.com_data.title, key: data.key, type: data.com_data?.type || '' });
+        }
+    }
+
+    // 判断方法是否存在， 方法执行的是获取所有数据更新
+    if (IsExitsFunction($forminput_data_data_event)) {
+        window[$forminput_data_data_event](ForminputSubmitDataParameterHandle())
     }
 }
 // 处理手机号验证逻辑
@@ -1320,7 +1887,7 @@ function ForminputHandlePhoneValidation(com_data) {
     return ForminputGetFormatChecks(com_data, com_data.form_value, true);
 }
 // 显隐规则逻辑处理
-function ForminputShowHiddenChange() {
+function ForminputShowHiddenChange(type = 'show-hidden') {
     const componentMap = new Map($forminput_data_list.map((item) => [item.id, item]));
 
     // 取出所有设置显隐规则的组件
@@ -1346,12 +1913,16 @@ function ForminputShowHiddenChange() {
         });
         return isShownByRule;
     });
-    // 先隐藏所有组件
-    $(document).find('.forminput-data-content .forminput-data-item').addClass('forminput-hidden');
-    // 所有隐藏的组件进行显示
-    show_data.forEach((item) => { 
-        $('#' + item.id).parent().removeClass("forminput-hidden"); 
-    });
+    if (type == 'show-hidden') {
+        // 先隐藏所有组件
+        $(document).find('.forminput-data-content .forminput-data-item').addClass('forminput-hidden');
+        // 所有隐藏的组件进行显示
+        show_data.forEach((item) => { 
+            $('#' + item.id).parent().removeClass("forminput-hidden"); 
+        });
+    } else {
+        return show_data;
+    }
 }
 // 子表单的显隐处理
 function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_list, type = 'all') { 
@@ -1374,7 +1945,7 @@ function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_lis
                 if (hidden_item.is_show.includes(item.id)) {
                     if (type == 'all') {
                         // 判断所有的是否满足条件
-                        const data = data_list.filter((form_item) => form_item.data_list.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value)))
+                        const data = data_list.filter((form_item) => form_item.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value)))
                         return data.length > 0;
                     } else {
                         // 判断是单个还是多个内容
@@ -1383,7 +1954,7 @@ function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_lis
                         } else {
                             // 否则判断当前组件的值是否存在
                             const data = data_list[index];
-                            return data.data_list.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value))
+                            return data.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value))
                         }
                     }
                 } else {
@@ -1491,7 +2062,7 @@ function ForminputDataChange(e) {
                     index = parentNode.parent().data('index');
                     subform_id = parentNode.parent().data('id');
                 }
-                item.com_data.data_list[index].data_list.forEach(item => {
+                item.com_data.data_list[index].forEach(item => {
                     if (item.id == subform_id) {
                         item.com_data.form_value = e.val();
                     }
@@ -1502,7 +2073,7 @@ function ForminputDataChange(e) {
     }
 }
 // 定义字段类型与检查参数的映射
-const forminput_field_check_map = {
+const ForminputFieldCheckMap = {
     'address': { is_format: false, type: 'address' },
     'number': { is_format: true, type: 'number' },
     'checkbox': { is_format: true, type: 'checkbox' },
@@ -1606,7 +2177,7 @@ function ForminputNumberRangeHandle(data, form_value) {
     return { is_error, error_text }
 };
 
-const forminput_type_config = [
+const ForminputTypeConfig = [
     { name: '手机号码', value: 'phone-number', check: /^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$/ },
     { name: '电话号码', value: 'telephone-number', check: [/^0\d{0,3}-?\d{7,8}$/, /^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$/] },
     { name: '邮政编码', value: 'postal-code', check: /^[1-9]\d{5}$/ },
@@ -1615,7 +2186,7 @@ const forminput_type_config = [
 ];
 
 // 构建 Map 提升查找效率
-const forminput_type_config_map = new Map(forminput_type_config.map((item) => [item.value, item]));
+const ForminputTypeConfigMap = new Map(ForminputTypeConfig.map((item) => [item.value, item]));
 
 /**
  * 根据通用配置和给定值进行格式校验
@@ -1630,7 +2201,7 @@ function ForminputGetFormatChecksV2(common_config, value) {
     // 检查值是否为空，如果为空则直接重置错误状态
     if (!IsEmpty(value)) {
         // 根据通用配置中的格式，从类型配置映射中获取对应的格式检查项
-        const item = forminput_type_config_map.get(common_config.format);
+        const item = ForminputTypeConfigMap.get(common_config.format);
         // 如果找不到对应的格式检查项，则不进行后续操作
         if (!item) return { is_error, error_text };
 
@@ -1681,19 +2252,19 @@ function ForminputGetMath() {
 }
 // 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
 // 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
-var forminput_predefine_colors = ['#eb5050', '#f0a800', '#46c26f', '#a2c204', '#00aed1', '#5865f5', '#c643e0', '#f0437d', '#fa8118', '#d6c504', '#00b899', '#6ac73c', '#2f7deb', '#7e47eb', '#d941c0', '#485970', '#f9cbcb', '#fbe5b3', '#c8edd4', '#e3edb4', '#b3e7f1', '#cdd1fc', '#eec7f6', '#fbc7d8', '#fed9ba', '#f3eeb4', '#b3eae0', '#d2eec5', '#c1d8f9', '#d8c8f9', '#f4c6ec', '#c8cdd4'];
+var ForminputPredefineColors = ['#eb5050', '#f0a800', '#46c26f', '#a2c204', '#00aed1', '#5865f5', '#c643e0', '#f0437d', '#fa8118', '#d6c504', '#00b899', '#6ac73c', '#2f7deb', '#7e47eb', '#d941c0', '#485970', '#f9cbcb', '#fbe5b3', '#c8edd4', '#e3edb4', '#b3e7f1', '#cdd1fc', '#eec7f6', '#fbc7d8', '#fed9ba', '#f3eeb4', '#b3eae0', '#d2eec5', '#c1d8f9', '#d8c8f9', '#f4c6ec', '#c8cdd4'];
 
 function ForminputColorChange(length) {
     // 如果大于这个大小，就按照多余的数量来获取颜色
-    if (length > forminput_predefine_colors.length) {
-        const new_length = forminput_predefine_colors.length - length;
-        if (new_length > forminput_predefine_colors.length) {
+    if (length > ForminputPredefineColors.length) {
+        const new_length = ForminputPredefineColors.length - length;
+        if (new_length > ForminputPredefineColors.length) {
             ForminputColorChange(new_length);
         } else {
-            return forminput_predefine_colors[length];
+            return ForminputPredefineColors[length];
         }
     } else {
-        return forminput_predefine_colors[length];
+        return ForminputPredefineColors[length];
     }
 };
 // 获取手机验证码
@@ -1767,7 +2338,7 @@ function ForminputSetSubformData(subform_data) {
     let subform_html = '';
     if (subform_data && subform_data.com_data.data_list.length > 0) {
         subform_data.com_data.data_list.forEach((item, index) => {
-            subform_html += ForminputSetOneLineData(subform_data, index, item.data_list);
+            subform_html += ForminputSetOneLineData(subform_data, index, item);
         })
     }
     return subform_html;
@@ -1884,20 +2455,20 @@ function ForminputSetSubformOneLineData(subform_data, index, item_data_list) {
                 subform_html += `<div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
                         `+ (['option1', 'option2'].includes(item_data.com_data.date_type) ? 
                             `<div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\',{d:-1});}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\',{d:-1});}'})" autocomplete="off" />
                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\',{d:+1});}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\',{d:+1});}'})" autocomplete="off" />
                             </div>` : 
                             `<div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start `+ item_size +`" id="form-table-search-time-start-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_start\]" value="`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value[0] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.start_placeholder) ? item_data.com_data.start_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',maxDate:'#F{$dp.$D(\\'form-table-search-time-end-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
+                                <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +` autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end `+ item_size +`" id="form-table-search-time-end-`+ item_data.id +`-`+ index +`" name="` + subform_data.form_name + `\[` + index + `\]\[` + item_data.form_name + `_end\]" value="`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value[1] : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.end_placeholder) ? item_data.com_data.end_placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`',minDate:'#F{$dp.$D(\\'form-table-search-time-start-`+ item_data.id +`-`+ index +`\\');}'})" autocomplete="off" />
                             </div>` ) +`
                         <i class="iconfont icon-`+ item_data.com_data.icon_name +`" style="color: 333;"></i>
                     </div>`
             } else if (item_data.key == 'date') {
                 subform_html += `<div class="forminput-data-item-content `+ item_content_class +`" style="`+ item_data.common_style +`">
-                        <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`  autocomplete="off" class="forminput-input am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h `+ item_size +`" id="form-table-search-time-`+ item_data.id +`-`+ index +`" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]"  value="`+ (!IsEmpty(item_data.com_data.new_form_value) ? item_data.com_data.new_form_value : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.placeholder) ? item_data.com_data.placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`'})" autocomplete="off" />
+                        <input type="text" `+ (item_data.com_data.is_required == '1' ? `required="required" data-validation-message="`+ not_choice_error +`(` + subform_data.com_data.title + `-` + item_data.com_data.title + `)"` : ``) +`  autocomplete="off" class="forminput-input-date am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h `+ item_size +`" id="form-table-search-time-`+ item_data.id +`-`+ index +`" name="`+ subform_data.form_name +`\[`+ index +`\]\[`+ item_data.form_name +`\]"  value="`+ (!IsEmpty(item_data.com_data.form_value) ? item_data.com_data.form_value : '') +`" placeholder="`+(!IsEmpty(item_data.com_data.placeholder) ? item_data.com_data.placeholder : '')+`" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'`+ item_data.com_data.format +`'})" autocomplete="off" />
                         <i class="iconfont icon-`+ item_data.com_data.icon_name +`" style="color: 333;"></i>
                     </div>`;
             } else if (item_data.key == 'score') {
@@ -2161,4 +2732,311 @@ function ForminputSetSubformOneLineData(subform_data, index, item_data_list) {
         })
     }
     return subform_html;
+}
+/*
+* 表单提交校验逻辑
+*/
+function ForminputSubmitDataCheck() {
+    const data = JSON.parse(JSON.stringify(ForminputShowHiddenChange('data')));
+    // 遍历所有过滤后的自定义数据项
+    data?.forEach((item) => {
+        let com_data = item.com_data;
+        // 跳过非必填项
+        // 特殊字段验证：手机号
+        if (item.key === 'phone') {
+            // 判断输入框内容是否为空,为空的话获取验证码取消
+            if (com_data.is_sms_verification === '1' && !IsEmpty(com_data.form_value) && IsEmpty(com_data.form_value_code)) {
+                com_data.common_config.is_error = '1';
+                com_data.common_config.error_text = '短信验证码不能为空';
+            } else {
+                const { is_error = '0', error_text = '' } = ForminputHandlePhoneValidation(com_data);
+                com_data.common_config.is_error = is_error;
+                com_data.common_config.error_text = error_text;
+            }
+        } else {
+            if (com_data.is_required === '1') {
+                // 其他字段的格式验证
+                if (ForminputFieldCheckMap[item.key]) {
+                    let field_data = ForminputFieldCheckMap[item.key];
+                    if (['single-text', 'select', 'radio-btns'].includes(item.com_data.type)) {
+                        field_data = ForminputFieldCheckMap[item.com_data.type];
+                    }
+                    const { is_format, type } = field_data;
+                    const { is_error = '0', error_text = '' } = ForminputGetFormatChecks(com_data, com_data.form_value, is_format, type);
+                    com_data.common_config.is_error = is_error;
+                    com_data.common_config.error_text = error_text;
+                }
+            };
+        }
+        
+        /**
+         * 子表单处理逻辑
+         * 1. 检查子表单中是否有必填项
+         * 2. 验证子表单整体必填性
+         * 3. 处理子表单内各字段的验证
+         */
+        if (item.key === 'subform') {
+            com_data = ForminputSubformDataCheck(com_data);
+        }
+    });
+    return data;
+}
+
+/*
+* 子表单的校验逻辑
+*/
+function ForminputSubformDataCheck(com_data) { 
+    // 子表单整体必填验证
+    if (com_data.is_required === '1' && com_data.data_list.length <= 0) {
+        com_data.common_config.is_error = '1';
+        com_data.common_config.error_text = '请填写至少一条记录';
+    } else {
+        com_data.common_config.is_error = '0';
+        com_data.common_config.error_text = '';
+    }
+    // 处理子表单内各字段的验证
+    if (com_data.data_list.length > 0) {
+        // 验证子表单内各字段
+        com_data.data_list.forEach((form_item, index) => {
+            // 取出对应列的数据信息
+            const form_data = ForminputFilteredData(form_item);
+            form_data.forEach((data_item) => {
+                // 跳过非必填项
+                if (data_item.com_data.is_required !== '1') return;
+                // 执行字段验证
+                const checkConfig = ForminputFieldCheckMap[data_item.key];
+                if (checkConfig) {
+                    // 特殊字段验证：手机号
+                    if (data_item.key === 'phone') {
+                        // 判断输入框内容是否为空,为空的话获取验证码取消
+                        if (data_item.com_data.is_sms_verification === '1' && !IsEmpty(data_item.com_data.form_value) && IsEmpty(data_item.com_data.form_value_code)) {
+                            data_item.com_data.common_config.is_error = '1';
+                            data_item.com_data.common_config.error_text = '短信验证码不能为空';
+                        } else {
+                            const { is_error = '0', error_text = '' } = ForminputHandlePhoneValidation(data_item);
+                            data_item.com_data.common_config.is_error = is_error;
+                            data_item.com_data.common_config.error_text = error_text;
+                        }
+                    }
+                    // 其他字段的格式验证
+                    else if (ForminputFieldCheckMap[data_item.key]) {
+                        let field_data = ForminputFieldCheckMap[data_item.key];
+                        if (['single-text', 'select', 'radio-btns'].includes(data_item.com_data.type)) {
+                            field_data = ForminputFieldCheckMap[data_item.com_data.type];
+                        }
+                        const { is_format, type } = field_data;
+                        const { is_error = '0', error_text = '' } = ForminputGetFormatChecks(data_item.com_data, data_item.com_data.form_value, is_format, type);
+                        data_item.com_data.common_config.is_error = is_error;
+                        data_item.com_data.common_config.error_text = error_text;
+                    }
+                }
+            });
+        });
+    }
+    return com_data;
+}
+
+/*
+* 子表单显隐规则数据处理
+*/
+function ForminputFilteredData(children) {
+    const componentMap = new Map(children.map((item) => [item.id, item]));
+
+    // 取出所有设置显隐规则的组件
+    const list = children.filter((item) => ['single-text', 'select', 'radio-btns'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type) && item.com_data.show_hidden_list.length > 0);
+    const list_map = list.map((item) => ({ id: item.id, list: item.com_data.show_hidden_list }));
+    return children.filter((item) => {
+        // 优先判断是否启用
+        if (item.is_enable !== '1') return false;
+
+        if (list_map.length === 0) return true;
+        // 将所有的内容的组件进行筛选
+        const isShownByRule = list_map.some((list_item) => {
+            const targetComponent = componentMap.get(list_item.id);
+            // 判断显隐规则对应的组件是否存在
+            if (!targetComponent) return false;
+            return list_item.list.some(hidden_item => {
+                // 判断当前组件是否在显隐规则中，如果不在，直接显示，否则的话判断值是否存在
+                if (hidden_item.is_show.includes(item.id)) {
+                    return targetComponent.com_data.form_value.includes(hidden_item.value);
+                } else {
+                    return true;
+                }
+            });
+        });
+        return isShownByRule;
+    });
+}
+/*
+* 提交数据处理逻辑
+*/
+function ForminputOnSubmitEvent() { 
+    try {
+        // 校验所有的必填项和逻辑
+        const new_data = ForminputSubmitDataCheck();
+        // 处理所有的错误项
+        const data = new_data.find((item) => item.com_data.common_config.is_error === '1' || (item.key === 'subform' && item.com_data.data_list.some((item1) => item1.some(list_item => list_item.com_data.common_config.is_error === '1'))));
+        if (!IsEmpty(data)) {
+            let message = '';
+            if (data.key === 'subform') {
+                // 如果子表单外层为error直接显示名称出来
+                if (data.com_data.common_config.is_error == '1') {
+                    message = `${data.com_data.title}「${data.com_data.common_config.error_text}」`;
+                } else {
+                    // 如果是内部问题，让用户自己检查子表单内的填写
+                    message = `请检查${data.com_data.title}内的填写`;
+                }
+            } else {
+                message = `${data.com_data.title}「${data.com_data.common_config.error_text}」`;
+            }
+            // 更新数据，将报错信息或者解除报错信息赋值给原数据
+            const old_data = [...$forminput_data_list];
+            const data_list = old_data.map(item => {
+                const match = new_data.find(el => el.id === item.id);
+                return { ...item, ...match };
+            });
+            data_list.forEach(item => {
+                if (item.key === 'subform') {
+                    item.com_data.data_list.forEach((item1, index) => {
+                        item1.forEach((list_item) => {
+                            if (list_item.com_data.common_config.is_error === '1') {
+                                ForminputErrorHandle(list_item, list_item.id + '-' + index);
+                            }
+                        });
+                    });
+                } else {
+                    if (item.com_data.common_config.is_error === '1') {
+                        ForminputErrorHandle(item, item.id);
+                    }
+                }
+            })
+            return { forminput_id: $forminput_id, status: 'error', submit_data: {}, message: message };
+        } else {
+            return ForminputSubmitDataParameterHandle();
+        }
+    } catch (error) {
+        return { forminput_id: $forminput_id, status: 'error', submit_data: {}, message: '数据错误'};
+    }
+}
+
+/*
+* 提交数据时页面显示错误样式
+*/
+function ForminputErrorHandle(item, id) {
+    if ((['single-text', 'select', 'radio-btns'].includes(item.key) && ['radio-btns', 'select'].includes(item.com_data.type)) || (['checkbox', 'select-multi'].includes(item.key) && ['select-multi'].includes(item.com_data.type))) {
+        const selected_parent = $(`#${id}`).find('.am-selected-btn.am-btn');
+        if (!selected_parent.hasClass('forminput-data-item-error')) {
+            selected_parent.addClass('forminput-data-item-error');
+        }
+    } else if (item.key === 'address') {
+        const selected_parent = $(`#${id}`).find('.am-cascader-suffix  .forminput-data-item-content');
+        if (!selected_parent.hasClass('forminput-data-item-error')) {
+            selected_parent.addClass('forminput-data-item-error');
+        }
+    } else {
+        const input_parent = $(`#${id}`).find('.forminput-input').parent();
+        if (!input_parent.hasClass('forminput-data-item-error')) {
+            input_parent.addClass('forminput-data-item-error');
+        }
+    }
+}
+
+/*
+* 子表单内的数据提取
+*/
+function ForminputSubformDataExtraction(data_list) {
+    return data_list.map((subform_item) => {
+        const data = {};
+        // 子表单中每一行的数据显示
+        subform_item.forEach((item1) => {
+            // 子表单中每个独立的数据name
+            const subform_name = IsEmpty(item1.form_name) ? item1.id : item1.form_name;
+            const subform_com_data = item1.com_data;
+            // 对应的value
+            const subform_value = IsEmpty(subform_com_data.form_value) ? '' : subform_com_data.form_value;
+            if (!ForminputFilterData.includes(item1.key)) {
+                if (item1.key == 'address') {
+                    data[`${ subform_name }_province_id`] = subform_value[0] || '';
+                    data[`${ subform_name }_city_id`] = subform_value[1] || '';
+                    data[`${ subform_name }_county_id`] = subform_value[2] || '';
+                    // 省市区中文名称
+                    data[`${ subform_name }_province_name`] = subform_com_data.province_name || '';
+                    data[`${ subform_name }_city_name`] = subform_com_data.city_name || ''
+                    data[`${ subform_name }_county_name`] = subform_com_data.county_name || ''
+                } else if (item1.key ==='date-group') {
+                    data[`${ subform_name }_start`] = subform_value[0] || '';
+                    data[`${ subform_name }_end`] = subform_value[1] || '';
+                } else if (['checkbox', 'select-multi'].includes(item1.key)) {
+                    data[subform_name] = subform_value;
+                    if (subform_com_data.is_add_option == '1') {
+                        data[`${ subform_name }_custom_option_list`] = subform_com_data?.custom_option_list || [];
+                    }
+                } else {
+                    data[subform_name] = subform_value;
+                }
+            }
+        });
+        return data;
+    });
+}
+// 过滤掉一些不需要提交的字段
+const ForminputFilterData = ['video', 'img', 'auxiliary-line', 'position', 'rect', 'round', 'text', 'attachments'];
+/*
+* 表单提交参数处理
+*/
+function ForminputSubmitDataParameterHandle() {
+    try { 
+        const submit_data = {};
+        const filteredDiyData = ForminputShowHiddenChange('data');
+        // 规整字段信息
+        filteredDiyData.forEach((item) => {
+            if (!ForminputFilterData.includes(item.key)) {
+                const name = IsEmpty(item.form_name) ? item.id : item.form_name;
+                const value = IsEmpty(item.com_data.form_value) ? '' : item.com_data.form_value;
+                const com_data = item.com_data;
+                if (item.key ==='subform') {
+                    const data_list = com_data.data_list;
+                    // 子表单中每一行的数据显示
+                    submit_data[name] = ForminputSubformDataExtraction(data_list);
+                } else if (item.key ==='phone') {
+                    submit_data[`${ name }`] = value || '';
+                    // 判断是否需要发送短信验证码
+                    if (com_data.is_sms_verification == '1') {
+                        submit_data[`${ name }_verify`] = com_data?.form_value_code || '';
+                    }
+                } else if (item.key ==='date-group') {
+                    submit_data[`${ name }_start`] = value[0] || '';
+                    submit_data[`${ name }_end`] = value[1] || '';
+                } else if (item.key == 'address') {
+                    submit_data[`${ name }_province_id`] = value[0] || '';
+                    submit_data[`${ name }_city_id`] = value[1] || '';
+                    submit_data[`${ name }_county_id`] = value[2] || '';
+                    // 省市区中文名称
+                    submit_data[`${ name }_province_name`] = com_data.province_name || '';
+                    submit_data[`${ name }_city_name`] = com_data.city_name || ''
+                    submit_data[`${ name }_county_name`] = com_data.county_name || ''
+                    // 判断类型是否包含详细地址
+                    if (com_data.address_type == 'detailed') {
+                        submit_data[`${ name }_address`] = com_data?.address || '';
+                    }
+                } else if (['select', 'radio-btns', 'single-text'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type)) {
+                    submit_data[name] = value;
+                    const value_list = com_data.option_list.filter((item) => item.is_other == '1');
+                    if (value_list.length > 0) {
+                        submit_data[`${ name }_other_value`] = com_data?.other_value || '';
+                    }
+                } else if (['checkbox', 'select-multi'].includes(item.key)) {
+                    submit_data[name] = value;
+                    if (com_data.is_add_option == '1') {
+                        submit_data[`${ name }_custom_option_list`] = com_data?.custom_option_list || [];
+                    }
+                } else {
+                    submit_data[name] = value;
+                }
+            }
+        });
+        return { forminput_id: $forminput_id, status: 'success', submit_data: submit_data, message: ''};
+    } catch (error) {
+        return { forminput_id: $forminput_id, status: 'error', submit_data: {}, message: '数据错误'};
+    }
 }

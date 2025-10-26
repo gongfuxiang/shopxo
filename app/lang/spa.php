@@ -358,6 +358,8 @@ return [
     'select_all_title'                                      => 'Selección completa',
     'reverse_select_title'                                  => 'Anti - Elección',
     'single_select_title'                                   => 'Elecciones individuales',
+    'many_select_title'                                     => 'Selección múltiple',
+    'input_title'                                           => 'entrada',
     'reset_title'                                           => 'Restablecer',
     'confirm_title'                                         => 'Confirmación',
     'screen_title'                                          => 'Selección',
@@ -534,7 +536,7 @@ return [
     'unbind_title'                                          => 'Desatar',
     'brand_title'                                           => 'Marca',
     'category_title'                                        => 'Clasificación',
-    'produce_region_title'                                    => 'Origen',
+    'produce_region_title'                                  => 'Origen',
     'attr_title'                                            => 'Atributos',
     'spec_title'                                            => 'Especificaciones',
     'register_title'                                        => 'Registro',
@@ -578,6 +580,7 @@ return [
     'callback_title'                                        => 'Devolución de llamada',
     'buy_title'                                             => 'Compra',
     'place_order_title'                                     => 'Hacer un pedido',
+    'cart_title'                                            => 'Carrito de compras',
     'new_title'                                             => 'Último',
     'front_title'                                           => 'Frente',
     'final_title'                                           => 'Detrás',
@@ -587,6 +590,8 @@ return [
     'chat_title'                                            => 'Servicio',
     'gift_title'                                            => 'Regalos',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
+    'continue_next_step_title'                              => 'Sigue el siguiente paso',
+    'reselect_title'                                        => 'Reelección',
     'self_pickup_title'                                     => 'Autorecogida',
     'self_pickup_point_title'                               => 'Punto de referencia propio',
     'web_title'                                             => 'Lado web',
@@ -597,10 +602,13 @@ return [
     'region_title'                                          => 'Región',
     'compare_title'                                         => 'Comparación',
     'long_term_title'                                       => 'A largo plazo',
+    'form_title'                                            => 'formulario',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
     'goods_add_name'                                        => 'Adición de productos básicos',
     'goods_choice_name'                                     => 'Selección de productos básicos',
+    'goods_params'                                          => 'Parámetros de los productos básicos',
+    'goods_spec'                                            => 'Especificaciones del producto',
     'goods_stop_sale_title'                                 => 'Suspensión de ventas',
     'goods_buy_title'                                       => 'Compra',
     'goods_booking_title'                                   => 'Hacer una cita de inmediato',
@@ -1151,11 +1159,17 @@ return [
     'common_pay_log_business_type_list' => [
         'order' => 'Pedidos',
     ],
-    // 商品参数组件类型
-    'common_goods_parameters_type_list' => [
+    // 商品参数展示范围
+    'common_goods_parameters_scope_list' => [
         0 => 'Todo',
         1 => 'Detalles',
         2 => 'Base',
+    ],
+    // 商品参数数据类型
+    'common_goods_parameters_data_type_list' => [
+        0 => 'entrada',
+        1 => 'Elecciones individuales',
+        2 => 'Selección múltiple',
     ],
     // 搜索商品展示样式类型
     'common_search_goods_show_type_list' => [
@@ -2042,7 +2056,7 @@ return [
             'form_params_value_placeholder'         => 'Pegar la información de configuración de los parámetros del producto',
             'form_params_config_copy_title'         => 'Copiar configuración',
             'form_params_config_empty_title'        => 'Parámetros de vaciado',
-            'form_params_list_content_tips'         => 'Se puede arrastrar y ordenar directamente en la línea de parámetros en el punto o hacer clic para subir y bajar.',
+            'form_params_choice_text'               => 'Seleccionar parámetros',
             // 相册
             'form_photo_top_tips'                   => 'Se pueden arrastrar imágenes para ordenar, se recomienda que las imágenes tengan el mismo tamaño 800 * 800px, hasta 30',
             'form_photo_button_add_name'            => 'Sube el álbum',
@@ -2093,6 +2107,12 @@ return [
         ],
         // 商品分类
         'goodscategory'         => [
+            // 基础
+            'goods_category_no_data_tips'                       => 'Por favor, agregue la clasificación de productos primero.',
+            'goods_category_choice_text'                        => 'Opciones de clasificación de productos básicos',
+            'already_choice_goods_category_text'                => 'Clasificación de productos seleccionados:',
+            'please_choice_goods_category_tips'                 => 'Por favor, elija la clasificación de la mercancía primero.',
+            'please_choice_complete_goods_category_level_tips'  => 'Por favor, elija el nivel completo de clasificación de productos',
             // 表单
             'form_item_icon'                        => 'Iconos',
             'form_item_icon_tips'                   => 'Recomendación 100 * 100 px',
@@ -3419,10 +3439,6 @@ return [
             'desc' => 'Descripción del sitio, generalmente no más de 200 caracteres',
             'tips' => 'La descripción del sitio no puede estar vacía',
         ],
-        'home_site_icp'  => [
-            'name' => 'Número de certificado ICP',
-            'desc' => 'Por ejemplo: Shanghai ICP Preparation xxx',
-        ],
         'home_site_app_state'  => [
             'name' => 'Cierre el teléfono',
             'desc' => 'Si se marca, se cierra',
@@ -3769,7 +3785,12 @@ return [
         'common_spec_add_max_number'  => [
             'name' => 'Los productos pueden agregar la cantidad máxima de especificaciones',
             'desc' => 'Se recomienda no exceder las 3 especificaciones',
-            'tips' => 'Por favor, rellene el número máximo de Google',
+            'tips' => 'Por favor, rellene la mercancía para agregar la cantidad máxima de especificaciones.',
+        ],
+        'common_is_goods_single_category_mode'  => [
+            'name' => 'Modo de clasificación de la lista de productos básicos',
+            'desc' => 'Clasificación Múltiple predeterminada',
+            'tips' => 'Por favor, elija el modo de clasificación de la lista de productos.',
         ],
         'common_route_separator'  => [
             'name' => 'Separadores de ruta',
@@ -4068,16 +4089,6 @@ return [
         'common_app_mini_toutiao_describe'  => [
             'name' => 'Descripción',
             'tips' => 'Por favor, rellene la descripción',
-        ],
-        'home_site_security_record_name'  => [
-            'name' => 'Número de registro de seguridad pública',
-            'desc' => 'Por ejemplo: jinggong.com anbei xxx',
-            'tips' => 'Por favor, rellene el número de registro de Seguridad Pública.',
-        ],
-        'home_site_security_record_url'  => [
-            'name' => 'Dirección de registro de seguridad pública',
-            'desc' => 'Dirección URL de la página de presentación del registro',
-            'tips' => 'Por favor, rellene la dirección de registro de Seguridad Pública.',
         ],
         'common_app_mini_qq_appid'  => [
             'name' => 'AppID',
@@ -4509,17 +4520,13 @@ return [
             'desc' => 'Por defecto no, la presentación de pagos fuera de línea entra en el proceso normal de Estado de pedido, y el Administrador posterior puede confirmar el cobro de la operación en segundo plano.',
             'tips' => 'Por favor, elija el pago fuera de línea para continuar normalmente.',
         ],
-        'home_site_telecom_license'  => [
-            'name' => 'Licencia de negocio de telecomunicaciones de valor agregado',
-            'desc' => 'Por ejemplo: Shanghai B2 - xxx',
+        'home_site_filing'  => [
+            'name' => 'Información de registro',
+            'tips' => 'Por favor, agregue información de registro',
         ],
         'home_site_web_home_state'  => [
             'name' => 'Acceso a la página de inicio del lado web',
             'desc' => 'Abierto por defecto, solo para la página de inicio del lado web, otras páginas no se ven afectadas',
-        ],
-        'home_site_company_license'  => [
-            'name' => 'Licencia comercial electrónica iluminada',
-            'desc' => 'La página de licencia muestra la dirección y la dirección de solicitud: https://zzlz.gsxt.gov.cn/businessShow',
         ],
         'home_site_web_pc_state'  => [
             'name' => 'Acceso a PC en el lado web',

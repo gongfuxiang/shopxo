@@ -2595,6 +2595,8 @@ class OrderService
                 'express_id'      => $express_id,
                 'express_number'  => $express_number,
                 'receiver_tel'    => $receiver_tel,
+                'express_data'    => empty($params['express_data']) ? [] : $params['express_data'],
+                'service_data'    => empty($params['service_data']) ? [] : $params['service_data'],
             ]);
         }
         return DataReturn(MyLang('handle_noneed'), 0);

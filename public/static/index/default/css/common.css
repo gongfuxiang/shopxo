@@ -27,9 +27,6 @@ h2 {
 button {
     outline: none;
 }
-li:not(.richtext:has(li) li) {
-    list-style-type: none;
-}
 
 /**
  * body正式内容和页脚上下布局

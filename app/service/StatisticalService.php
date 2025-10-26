@@ -313,7 +313,7 @@ class StatisticalService
 
         // 上月
         $where = [
-            ['status', '<=', 4],
+            ['status', 'not in', [5,6]],
             ['add_time', '>=', self::$last_month_time_start],
             ['add_time', '<=', self::$last_month_time_end],
         ];
@@ -321,7 +321,7 @@ class StatisticalService
 
         // 当月
         $where = [
-            ['status', '<=', 4],
+            ['status', 'not in', [5,6]],
             ['add_time', '>=', self::$this_month_time_start],
             ['add_time', '<=', self::$this_month_time_end],
         ];
@@ -329,7 +329,7 @@ class StatisticalService
 
         // 昨天
         $where = [
-            ['status', '<=', 4],
+            ['status', 'not in', [5,6]],
             ['add_time', '>=', self::$yesterday_time_start],
             ['add_time', '<=', self::$yesterday_time_end],
         ];
@@ -337,7 +337,7 @@ class StatisticalService
 
         // 今天
         $where = [
-            ['status', '<=', 4],
+            ['status', 'not in', [5,6]],
             ['add_time', '>=', self::$today_time_start],
             ['add_time', '<=', self::$today_time_end],
         ];
@@ -432,7 +432,7 @@ class StatisticalService
         {
             // 上月
             $where = [
-                ['status', 'in', [2,3,4]],
+                ['status', 'not in', [0,1,5,6]],
                 ['add_time', '>=', self::$last_month_time_start],
                 ['add_time', '<=', self::$last_month_time_end],
             ];
@@ -440,7 +440,7 @@ class StatisticalService
 
             // 当月
             $where = [
-                ['status', 'in', [2,3,4]],
+                ['status', 'not in', [0,1,5,6]],
                 ['add_time', '>=', self::$this_month_time_start],
                 ['add_time', '<=', self::$this_month_time_end],
             ];
@@ -448,7 +448,7 @@ class StatisticalService
 
             // 昨天
             $where = [
-                ['status', 'in', [2,3,4]],
+                ['status', 'not in', [0,1,5,6]],
                 ['add_time', '>=', self::$yesterday_time_start],
                 ['add_time', '<=', self::$yesterday_time_end],
             ];
@@ -456,7 +456,7 @@ class StatisticalService
 
             // 今天
             $where = [
-                ['status', 'in', [2,3,4]],
+                ['status', 'not in', [0,1,5,6]],
                 ['add_time', '>=', self::$today_time_start],
                 ['add_time', '<=', self::$today_time_end],
             ];
@@ -698,7 +698,7 @@ class StatisticalService
     {    
         // 获取订单id
         $where = [
-            ['status', '<=', 4],
+            ['status', 'not in', [5,6]],
         ];
         if(!empty($params['start']))
         {

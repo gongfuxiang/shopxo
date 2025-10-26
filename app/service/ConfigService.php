@@ -40,6 +40,7 @@ class ConfigService
         'home_email_user_reg_template',
         'home_email_user_forget_pwd_template',
         'home_email_user_email_binding_template',
+        'home_site_filing',
         'home_site_close_reason',
         'common_site_type',
         'common_self_extraction_address',
@@ -48,8 +49,6 @@ class ConfigService
         'home_index_floor_left_top_category',
         'admin_email_login_template',
         'home_email_login_template',
-        'home_site_security_record_url',
-        'home_site_company_license',
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
@@ -96,6 +95,7 @@ class ConfigService
         'common_token_created_rules',
         'common_buy_datetime_info',
         'common_buy_extraction_contact_info',
+        'common_goods_close_buy_button',
     ];
 
     // json数组字段
@@ -731,6 +731,56 @@ class ConfigService
                 }
             }
         }
+        return DataReturn(MyLang('operate_success'), 0, $data);
+    }
+
+    /**
+     * 站点备案信息列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-13
+     * @desc    description
+     * @param   [string]          $value  [自提的配置数据]
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SiteFilingList($value = null, $params = [])
+    {
+        // 未指定内容则从缓存读取
+        if(empty($value))
+        {
+            $value = MyC('home_site_filing');
+        }
+
+        // 数据处理
+        $data = [];
+        if(!empty($value) && is_string($value))
+        {
+            $temp_data = json_decode($value, true);
+            if(!empty($temp_data) && is_array($temp_data))
+            {
+                $data = $temp_data;
+            }
+        }
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                if(array_key_exists('icon', $v))
+                {
+                    $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
+                }
+            }
+        }
+
+        // 备案信息列表数据钩子
+        $hook_name = 'plugins_service_filing_list';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 

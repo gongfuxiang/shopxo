@@ -145,6 +145,17 @@ class DiyApiService
                 'is_edit'    => 1,
                 'is_del'     => 1,
             ],
+            // diy基础操作权限
+            'diy_config_operate'        => [
+                // 修改基础数据
+                'is_base_data'          => 1,
+                // 附件上传管理
+                'is_upload_admin'       => 1,
+                // 保存
+                'is_save_button'        => 1,
+                // 保存并关闭
+                'is_save_close_button'  => 1,
+            ],
             // 预览地址
             'preview_url'                 => MyUrl('admin/diy/preview'),
             // Diy装修 - 详情

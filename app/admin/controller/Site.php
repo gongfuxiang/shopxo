@@ -74,13 +74,22 @@ class Site extends Base
         // 数据处理
         switch($this->nav_type)
         {
+            // 基础
+            case 'base' :
+                // 地址处理
+                if(!empty($data['home_site_filing']) && !empty($data['home_site_filing']['value']))
+                {
+                    $filing = ConfigService::SiteFilingList($data['home_site_filing']['value']);
+                    $assign['site_filing_list'] = $filing['data'];
+                }
+
             // 站点类型
             case 'sitetype' :
                 // 地址处理
                 if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
                 {
                     $address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
-                    $assign['sitetype_address_list'] = $address['data'];
+                    $assign['extraction_address_list'] = $address['data'];
                 }
 
                 // 加载地图api
@@ -195,7 +204,7 @@ class Site extends Base
             // 首页楼层数据类型
             'common_site_floor_data_type_list'          => MyConst('common_site_floor_data_type_list'),
             // 搜索参数类型
-            'common_goods_parameters_type_list'         => MyConst('common_goods_parameters_type_list'),
+            'common_goods_parameters_scope_list'         => MyConst('common_goods_parameters_scope_list'),
             // 关闭开启
             'common_search_goods_show_type_list'        => MyConst('common_search_goods_show_type_list'),
             // 多语言
@@ -237,6 +246,23 @@ class Site extends Base
                 $field_list[] = 'home_site_logo_square';
                 $field_list[] = 'home_site_title_icon';
                 $field_list[] = 'home_site_app_state';
+
+                // 备案信息
+                if(!empty($params['home_site_filing']))
+                {
+                    if(is_array($params['home_site_filing']))
+                    {
+                        $filing = $params['home_site_filing'];
+                    } else {
+                        $filing = json_decode(base64_decode(urldecode($params['home_site_filing'])), true);
+                    }
+                    foreach($filing as $k=>$v)
+                    {
+                        $filing[$k]['id'] = $k;
+                        $filing[$k]['icon'] = empty($v['icon']) ? '' : ResourcesService::AttachmentPathHandle($v['icon']);
+                    }
+                    $params['home_site_filing'] = json_encode($filing, JSON_UNESCAPED_UNICODE);
+                }
                 break;
 
             // 用户注册
@@ -273,11 +299,11 @@ class Site extends Base
                 // 自提地址处理
                 if(!empty($params['common_self_extraction_address']))
                 {
-                    if(!is_array($params['common_self_extraction_address']))
+                    if(is_array($params['common_self_extraction_address']))
                     {
-                        $address = json_decode($params['common_self_extraction_address'], true);
-                    } else {
                         $address = $params['common_self_extraction_address'];
+                    } else {
+                        $address = json_decode(base64_decode(urldecode($params['common_self_extraction_address'])), true);
                     }
                     foreach($address as $k=>$v)
                     {
@@ -312,6 +338,11 @@ class Site extends Base
                         $field_list[] = 'common_buy_datetime_info';
                         $field_list[] = 'common_buy_extraction_contact_info';
                         $params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
+                        break;
+
+                    // 商品
+                    case 'goods' :
+                        $field_list[] = 'common_goods_close_buy_button';
                         break;
 
                     // 扩展

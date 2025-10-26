@@ -359,6 +359,8 @@ return [
     'select_all_title'                                      => '全选',
     'reverse_select_title'                                  => '反选',
     'single_select_title'                                   => '单选',
+    'many_select_title'                                     => '多选',
+    'input_title'                                           => '输入',
     'reset_title'                                           => '重置',
     'confirm_title'                                         => '确认',
     'screen_title'                                          => '筛选',
@@ -535,7 +537,7 @@ return [
     'unbind_title'                                          => '解绑',
     'brand_title'                                           => '品牌',
     'category_title'                                        => '分类',
-    'produce_region_title'                                    => '产地',
+    'produce_region_title'                                  => '产地',
     'attr_title'                                            => '属性',
     'spec_title'                                            => '规格',
     'register_title'                                        => '注册',
@@ -579,6 +581,7 @@ return [
     'callback_title'                                        => '回调',
     'buy_title'                                             => '购买',
     'place_order_title'                                     => '下单',
+    'cart_title'                                            => '购物车',
     'new_title'                                             => '最新',
     'front_title'                                           => '前面',
     'final_title'                                           => '后面',
@@ -588,6 +591,8 @@ return [
     'chat_title'                                            => '客服',
     'gift_title'                                            => '礼物',
     'continue_scan_title'                                   => '继续扫码',
+    'continue_next_step_title'                              => '继续下一步',
+    'reselect_title'                                        => '重新选择',
     'self_pickup_title'                                     => '自提',
     'self_pickup_point_title'                               => '自提点',
     'web_title'                                             => 'WEB端',
@@ -598,10 +603,13 @@ return [
     'region_title'                                          => '地区',
     'compare_title'                                         => '对比',
     'long_term_title'                                       => '长期',
+    'form_title'                                            => '表单',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_add_name'                                        => '商品添加',
     'goods_choice_name'                                     => '商品选择',
+    'goods_params'                                          => '商品参数',
+    'goods_spec'                                            => '商品规格',
     'goods_stop_sale_title'                                 => '暂停销售',
     'goods_buy_title'                                       => '立即购买',
     'goods_booking_title'                                   => '立即预约',
@@ -1152,11 +1160,17 @@ return [
     'common_pay_log_business_type_list' => [
         'order' => '订单',
     ],
-    // 商品参数组件类型
-    'common_goods_parameters_type_list' => [
+    // 商品参数展示范围
+    'common_goods_parameters_scope_list' => [
         0 => '全部',
         1 => '详情',
         2 => '基础',
+    ],
+    // 商品参数数据类型
+    'common_goods_parameters_data_type_list' => [
+        0 => '输入',
+        1 => '单选',
+        2 => '多选',
     ],
     // 搜索商品展示样式类型
     'common_search_goods_show_type_list' => [
@@ -2046,7 +2060,7 @@ return [
             'form_params_value_placeholder'         => '粘贴商品参数配置信息',
             'form_params_config_copy_title'         => '复制配置',
             'form_params_config_empty_title'        => '清空参数',
-            'form_params_list_content_tips'         => '可直接点中参数行拖拽排序或点击上下移动',
+            'form_params_choice_text'               => '选择参数',
             // 相册
             'form_photo_top_tips'                   => '可拖拽图片进行排序，建议图片尺寸一致800*800px、最多30张',
             'form_photo_button_add_name'            => '上传相册',
@@ -2097,6 +2111,12 @@ return [
         ],
         // 商品分类
         'goodscategory'         => [
+            // 表单
+            'goods_category_no_data_tips'                       => '请先添加商品分类',
+            'goods_category_choice_text'                        => '商品分类选择',
+            'already_choice_goods_category_text'                => '已选商品分类：',
+            'please_choice_goods_category_tips'                 => '请先选择商品分类',
+            'please_choice_complete_goods_category_level_tips'  => '请选择完整商品分类层级',
             // 表单
             'form_item_icon'                        => '图标',
             'form_item_icon_tips'                   => '建议100*100px',
@@ -3450,10 +3470,6 @@ return [
             'desc' => '站点描述，一般不超过200个字符',
             'tips' => '站点描述不能为空',
         ],
-        'home_site_icp'  => [
-            'name' => 'ICP证书号',
-            'desc' => '如：沪ICP备xxx号',
-        ],
         'home_statistics_code'  => [
             'name' => '底部统计代码',
             'desc' => '支持html，可用于添加流量统计代码',
@@ -3800,7 +3816,12 @@ return [
         'common_spec_add_max_number'  => [
             'name' => '商品可添加规格最大数量',
             'desc' => '建议不超过3个规格',
-            'tips' => '请填写谷歌最大数',
+            'tips' => '请填写商品可添加规格最大数量',
+        ],
+        'common_is_goods_single_category_mode'  => [
+            'name' => '商品单分类模式',
+            'desc' => '默认 多分类',
+            'tips' => '请选择商品单分类模式',
         ],
         'common_route_separator'  => [
             'name' => '路由分隔符',
@@ -4099,16 +4120,6 @@ return [
         'common_app_mini_toutiao_describe'  => [
             'name' => '描述',
             'tips' => '请填写描述',
-        ],
-        'home_site_security_record_name'  => [
-            'name' => '公安备案号',
-            'desc' => '如：京公网安备xxx号',
-            'tips' => '请填写公安备案号',
-        ],
-        'home_site_security_record_url'  => [
-            'name' => '公安备案地址',
-            'desc' => '备案展示页面的url地址',
-            'tips' => '请填写公安备案地址',
         ],
         'common_app_mini_qq_appid'  => [
             'name' => 'AppID',
@@ -4540,17 +4551,13 @@ return [
             'desc' => '默认否，线下支付提交进入正常订单状态流程、后续管理员可在后台确认操作收款',
             'tips' => '请选择线下支付正常进行',
         ],
-        'home_site_telecom_license'  => [
-            'name' => '增值电信业务经营许可证',
-            'desc' => '如：沪B2-xxx',
+        'home_site_filing'  => [
+            'name' => '备案信息',
+            'tips' => '请添加备案信息',
         ],
         'home_site_web_home_state'  => [
             'name' => 'web端首页访问',
             'desc' => '默认开启，仅针对web端首页，其他页面不受影响',
-        ],
-        'home_site_company_license'  => [
-            'name' => '电子营业执照亮照',
-            'desc' => '执照页面展示地址、申请地址：https://zzlz.gsxt.gov.cn/businessShow',
         ],
         'home_site_web_pc_state'  => [
             'name' => 'web端PC访问',

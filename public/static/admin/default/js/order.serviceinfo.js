@@ -138,6 +138,8 @@ $(function()
         }
 
         // 数据填充
+        value[index]['service_start_time'] = value[index]['service_start_time'].replace('+', ' ');
+        value[index]['service_end_time'] = value[index]['service_end_time'].replace('+', ' ');
         FormDataFill(value[index], 'form.form-validation-service');
 
         // 基础数据

@@ -2,14 +2,12 @@
     {{switch $module_data.key}}
         {{case upload-img}}
             {{if !empty($module_data['value']) and is_array($module_data['value'])}}
-                <ul class="am-gallery am-avg-sm-2 am-avg-md-4 am-gallery-default am-padding-0 am-nbfc">
+                <ul class="am-avg-sm-2 am-avg-md-4 am-nbfc">
                     {{foreach $module_data.value as $vs}}
                         {{if !empty($vs) and !empty($vs['url'])}}
-                            <li class="am-padding-xs">
-                                <div class="am-gallery-item am-nbfc am-padding-right-sm am-padding-bottom-sm">
-                                    <img src="{{$vs.url}}" class="am-block am-radius common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" />
-                                    <p class="am-margin-top-xs">{{$vs.name}}</p>
-                                </div>
+                            <li class="am-padding-right-sm">
+                                <img src="{{$vs.url}}" class="am-block am-radius common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" width="50" height="50" />
+                                <p class="am-text-truncate am-margin-top-xs">{{$vs.name}}</p>
                             </li>
                         {{/if}}
                     {{/foreach}}
@@ -21,9 +19,9 @@
                 <ul class="am-avg-sm-2 am-avg-md-4 am-nbfc">
                     {{foreach $module_data.value as $vs}}
                         {{if !empty($vs) and !empty($vs['url'])}}
-                            <li class="am-padding-xs">
+                            <li class="am-padding-right-sm">
                                 <video src="{{$vs.url}}" class="am-block am-radius am-max-wh-auto common-annex-view-event" data-download-name="{{$vs.name}}" data-is-download="1" data-type="video"></video>
-                                <p class="am-margin-top-xs">{{$vs.name}}</p>
+                                <p class="am-text-truncate am-margin-top-xs">{{$vs.name}}</p>
                             </li>
                         {{/if}}
                     {{/foreach}}
@@ -32,11 +30,11 @@
         {{/case}}
         {{case upload-attachments}}
             {{if !empty($module_data['value']) and is_array($module_data['value'])}}
-                <ul class="am-avg-sm-2 am-avg-md-4 am-nbfc">
+                <ul>
                     {{foreach $module_data.value as $vs}}
                         {{if !empty($vs) and !empty($vs['url'])}}
-                            <li class="am-padding-xs">
-                                <a href="javascript:;" data-value="{{$vs.url}}" data-name="{{$vs.name}}" class="am-block am-radius common-annex-download-event">{{$vs.name}}</a>
+                            <li class="am-padding-bottom-xs">
+                                <a href="javascript:;" data-value="{{$vs.url}}" data-name="{{$vs.name}}" class="am-block am-radius am-text-truncate common-annex-download-event">{{$vs.name}}</a>
                             </li>
                         {{/if}}
                     {{/foreach}}
@@ -48,30 +46,32 @@
         {{/case}}
         {{case subform}}
             {{if !empty($module_data['value']) and is_array($module_data['value']) and count($module_data['value']) gt 0}}
-                <table class="am-table am-table-bordered am-table-radius am-text-left">
-                    <thead>
-                        <tr>
-                            {{foreach $module_data['value'][0] as $subhv}}
-                                <th>
-                                    <strong>{{$subhv.name}}</strong>
-                                </th>
+                <div class="am-scrollable-horizontal">
+                    <table class="am-table am-table-bordered am-table-radius am-text-left am-text-nowrap">
+                        <thead>
+                            <tr>
+                                {{foreach $module_data['value'][0] as $subhv}}
+                                    <th>
+                                        <strong>{{$subhv.name}}</strong>
+                                    </th>
+                                {{/foreach}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{foreach $module_data['value'] as $subvv}}
+                                {{if !empty($subvv) and is_array($subvv)}}
+                                    <tr>
+                                        {{foreach $subvv as $subvvs}}
+                                            <td>
+                                                {{:ModuleInclude('../../../module/view/form_input/detail_value', $subvvs)}}
+                                            </td>
+                                        {{/foreach}}
+                                    </tr>
+                                {{/if}}
                             {{/foreach}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{foreach $module_data['value'] as $subvv}}
-                            {{if !empty($subvv) and is_array($subvv)}}
-                                <tr>
-                                    {{foreach $subvv as $subvvs}}
-                                        <td>
-                                            {{:ModuleInclude('../../../module/view/form_input/detail_value', $subvvs)}}
-                                        </td>
-                                    {{/foreach}}
-                                </tr>
-                            {{/if}}
-                        {{/foreach}}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             {{/if}}
         {{/case}}
         {{default /}}

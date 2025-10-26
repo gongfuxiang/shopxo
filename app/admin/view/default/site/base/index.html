@@ -218,29 +218,39 @@
                 <!-- 备案信息 -->
                 <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'site-filing'}}am-active{{/if}}" data-key="site-filing">
                     <div class="am-form-group">
-                        <label>{{$data.home_site_icp.name}}<span class="am-form-group-label-tips">{{$data.home_site_icp.describe}}</span></label>
-                        <input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_icp.value}}"{{/if}} />
-                    </div>
-
-                    <div class="am-form-group">
-                        <label>{{$data.home_site_security_record_name.name}}<span class="am-form-group-label-tips">{{$data.home_site_security_record_name.describe}}</span></label>
-                        <input type="text" name="{{$data.home_site_security_record_name.only_tag}}" placeholder="{{$data.home_site_security_record_name.describe}}" data-validation-message="{{$data.home_site_security_record_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_security_record_name.value}}"{{/if}} />
-                    </div>
-                    <div class="am-form-group">
-                        <label>{{$data.home_site_security_record_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_security_record_url.describe}}</span></label>
-                        <input type="text" name="{{$data.home_site_security_record_url.only_tag}}" placeholder="{{$data.home_site_security_record_url.describe}}" data-validation-message="{{$data.home_site_security_record_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_security_record_url.value}}"{{/if}} />
-                    </div>
-
-                    <div class="am-form-group">
-                        <label>{{$data.home_site_telecom_license.name}}<span class="am-form-group-label-tips">{{$data.home_site_telecom_license.describe}}</span></label>
-                        <input type="text" name="{{$data.home_site_telecom_license.only_tag}}" placeholder="{{$data.home_site_telecom_license.describe}}" data-validation-message="{{$data.home_site_telecom_license.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_telecom_license.value}}"{{/if}} />
-                    </div>
-
-                    <div class="am-form-group">
-                        <label>{{$data.home_site_company_license.name}}</label>
-                        <input type="text" name="{{$data.home_site_company_license.only_tag}}" placeholder="{{$data.home_site_company_license.describe}}" data-validation-message="{{$data.home_site_company_license.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_company_license.value}}"{{/if}} />
-                        <div class="am-tips-card">
-                            <p>{{$data.home_site_company_license.describe}}</p>
+                        <div class="card-grey">
+                            <div class="am-flex am-flex-col am-gap-1">
+                                <ul class="filing-list am-nbfc am-radius am-padding-0">
+                                    {{if !empty($site_filing_list) and is_array($site_filing_list)}}
+                                        {{foreach $site_filing_list as $filing}}
+                                            <li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">
+                                                <div class="am-flex am-flex-items-center am-flex-1 am-flex-width">
+                                                    {{if !empty($filing['icon'])}}
+                                                        <img src="{{$filing.icon}}" alt="{{$filing.name}}" class="am-img-thumbnail am-radius filing-icon" />
+                                                    {{/if}}
+                                                    <span class="filing-content">
+                                                        <span class="filing-text">{{$filing.name}}（{{$filing.show_name}}）</span>
+                                                        {{if !empty($filing['url'])}}
+                                                        <span class="am-badge am-radius am-margin-left-xs">{{$filing.url}}</span>
+                                                        {{/if}}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span class="edit-submit"><i class="iconfont icon-edit am-text-xs"></i>{{:MyLang('edit_title')}}</span>
+                                                    <span class="delete-submit"><i class="iconfont icon-btn-del am-text-xs"></i>{{:MyLang('remove_title')}}</span>
+                                                </div>
+                                            </li>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                            </div>
+                            <div class="am-flex">
+                                <input type="hidden" name="{{$data.home_site_filing.only_tag}}" value="{{if !empty($site_filing_list) and is_array($site_filing_list)}}{{:urlencode(base64_encode(json_encode($site_filing_list, JSON_UNESCAPED_UNICODE)))}}{{/if}}" class="filing-value" />
+                                <button type="button" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs filing-submit-add"> 
+                                    <i class="iconfont icon-add am-text-xs"></i>
+                                    {{:MyLang('site.add_filing_title')}}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -267,9 +277,66 @@
             </div>
         </form>
         <!-- form end -->
+
+        <!-- 备案信息添加弹层 -->
+        <div class="am-popup am-radius" id="popup-filing-win">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">{{:MyLang('site.form_filing_title')}}</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <form class="am-form form-validation-filing am-form-full-screen am-form-popup-fixed" method="post" request-type="sync" request-value="ViewFilingModalBack">
+                        <div class="am-form-group row am-form-file">
+                            <label class="am-block">
+                                {{:MyLang('site.form_filing_icon')}}
+                                <a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('site.form_filing_icon_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                            </label>
+                            <div class="am-form-file-upload-container">
+                                <ul class="plug-file-upload-view filing-icon" data-form-name="icon" data-max-number="1" data-dialog-type="images">
+                                    <li class="plug-file-upload-submit" data-view-tag="ul.filing-icon">
+                                        <i class="iconfont icon-add"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="am-form-group row">
+                            <label class="am-block">{{:MyLang('site.form_filing_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" name="name" placeholder="{{:MyLang('site.form_filing_name_message')}}" minlength="1" maxlength="100" data-validation-message="{{:MyLang('site.form_filing_name_message')}}" class="am-radius" required />
+                        </div>
+                        <div class="am-form-group row">
+                            <label class="am-block">{{:MyLang('site.form_filing_show_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" name="show_name" placeholder="{{:MyLang('site.form_filing_show_name_message')}}" minlength="1" maxlength="300" data-validation-message="{{:MyLang('site.form_filing_show_name_message')}}" class="am-radius" required />
+                        </div>
+                        <div class="am-form-group row">
+                            <label class="am-block">{{:MyLang('site.form_filing_url')}}</label>
+                            <input type="text" name="url" placeholder="{{:MyLang('site.form_filing_url')}}" data-validation-message="{{:MyLang('site.form_filing_url_message')}}" class="am-radius" />
+                        </div>
+
+                        <div class="am-form-popup-submit">
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
+                                <i class="am-icon-paint-brush"></i>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}">
+                                <i class="am-icon-check"></i>
+                                <span>{{:MyLang('confirm_title')}}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>
 <!-- right content end  -->
 
 <!-- footer start -->
 {{:ModuleInclude('public/footer')}}
+<script type="text/javascript">
+// 返回处理
+function ViewFilingModalBack(data)
+{
+    FilingModalHandle(data);
+}
+</script>

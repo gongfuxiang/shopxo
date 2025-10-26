@@ -144,12 +144,30 @@ class CashPayment
             // 文本信息
             if(!empty($this->config['content']))
             {
+                $copy_title = MyLang('copy_title');
                 $html .= '<ul style="margin:0;padding:0;background: #fafafa;border: 1px solid #f4f4f4;border-radius:'.$radius.'">';
                 $content = explode("\n", $this->config['content']);
                 foreach($content as $k=>$v)
                 {
+                    $temp_arr = explode('：', $v);
+                    if(count($temp_arr) == 1)
+                    {
+                        $temp_arr = explode(':', $v);
+                    }
                     $temp_style = ($k > 0) ? 'border-top: 1px solid #f2f2f2;' : '';
-                    $html .= '<li style="'.$temp_style.'list-style-type:none;line-height:22px;font-size:14px;padding: 5px 10px;">'.$v.'</li>';
+                    $html .= '<li style="'.$temp_style.'list-style-type:none;line-height:22px;font-size:14px;padding: 5px 10px;">
+                                <span>'.$v.'</span>';
+                    if(count($temp_arr) > 1)
+                    {
+                        $temp_value = str_replace(["\n", "\r", "\t"], '', $temp_arr[1]);
+                        if(APPLICATION == 'app')
+                        {
+                            $html .= '<a href="'.$temp_value.'" style="border: 1px solid #2196F3;padding:0 5px;border-radius:4px;text-decoration: none;margin-left: 5px;cursor: pointer;color: #2196F3;white-space: nowrap;">'.$copy_title.'</a>';
+                        } else {
+                            $html .= '<a href="javascript:copy_text_event(\''.$temp_value.'\');" style="border: 1px solid #2196F3;padding:0 5px;border-radius:4px;text-decoration: none;margin-left: 5px;cursor: pointer;color: #2196F3;white-space: nowrap;">'.$copy_title.'</a>';
+                        }
+                    }
+                    $html .= '</li>';
                 }
                 $html .= '</ul>';
             }
@@ -158,7 +176,14 @@ class CashPayment
             $html .= '<p style="margin-top: 15px;font-size: 14px;line-height: 24px;">打款金额：<strong style="color:#E22C08;">￥'.$params['total_price'].'</strong></p>';
 
             // 备注
-            $html .= '<p style="margin-top: 5px;font-size: 14px;line-height: 24px;">打款备注：<strong style="color:#2196f3;">'.$params['order_no'].'</strong></p>';
+            $html .= '<p style="margin-top: 5px;font-size: 14px;line-height: 24px;">打款备注：<strong style="color:#2196f3;">'.$params['order_no'].'</strong>';
+            if(APPLICATION == 'app')
+            {
+                $html .= '<a href="'.$params['order_no'].'" style="border: 1px solid #2196F3;padding:0 5px;border-radius:4px;text-decoration: none;margin-left: 5px;cursor: pointer;color: #2196F3;white-space: nowrap;">'.$copy_title.'</a>';
+            } else {
+                $html .= '<a href="javascript:copy_text_event(\''.$params['order_no'].'\');" style="border: 1px solid #2196F3;padding:0 5px;border-radius:4px;text-decoration: none;margin-left: 5px;cursor: pointer;color: #2196F3;white-space: nowrap;">'.$copy_title.'</a>';
+            }
+            $html .= '</p>';
 
             // 订单关闭提示
             $order_close_time = time()+((MyC('common_order_close_limit_time', 30, true)-5)*60);
@@ -197,8 +222,20 @@ class CashPayment
                 return DataReturn('success', -6666, $html);
             }
 
+            // js代码
+            $js = '<script>
+              function copy_text_event(text) {
+                try {
+                    navigator.clipboard.writeText(text);
+                    alert("复制成功");
+                } catch (err) {
+                    alert("复制失败（"+err+"）");
+                }
+            }
+            </script>';
+
             // 表单html
-            $parameter = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>支付信息</title></head><body style="color: #333;background: #f7f7f7;">'.$html.'</body></html>';
+            $parameter = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>支付信息</title></head><body style="color: #333;background: #f7f7f7;">'.$html.'</body>'.$js.'</html>';
 
             // 支付请求记录
             PayLogService::PayLogRequestRecord($params['order_no'], ['request_params'=>$parameter]);

@@ -1,16 +1,18 @@
 <div class="forminput-data-content" 
-        data-config="{{:urlencode(base64_encode(json_encode($form_input_data.config.overall_config)))}}" 
-        data-list="{{:urlencode(base64_encode(json_encode($form_input_data.config.diy_data)))}}"
+        data-config="{{:urlencode(base64_encode(json_encode($module_data.form_input_data.config.overall_config)))}}" 
+        data-list="{{:urlencode(base64_encode(json_encode($module_data.form_input_data.config.diy_data)))}}"
         data-address-url="{{:MyUrl('index/region/index')}}"
         data-address-code-url="{{:MyUrl('index/region/codedata')}}"
-        data-id="{{$form_input_data.id}}"
+        data-id="{{$module_data.form_input_data.id}}"
+        data-item-event="{{if empty($module_data.form_input_item_event)}}FormInputItemEvent{{else /}}{{$module_data.form_input_item_event}}{{/if}}"
+        data-data-event="{{if empty($module_data.form_input_data_event)}}FormInputDataEvent{{else /}}{{$module_data.form_input_data_event}}{{/if}}"
         data-not-fill-in-error="{{:MyLang('not_fill_in_error')}}"
         data-not-choice-error="{{:MyLang('not_choice_error')}}"
         data-please-select-tips="{{:MyLang('please_select_tips')}}"
     >
     {{php}}
         // pc全局配置
-        $form_input_style_settings_computer = $form_input_data['config']['overall_config']['style_settings']['computer'];
+        $form_input_style_settings_computer = $module_data['form_input_data']['config']['overall_config']['style_settings']['computer'];
         // 输入框标题字体大小的控制类型
         $form_input_style_filed_title_size_type = $form_input_style_settings_computer['filed_title_size_type'];
         // 输入框字体大小
@@ -30,7 +32,7 @@
         // 下拉复选框的几个组件
         $form_input_checkbox_array = ['checkbox', 'select-multi'];
         // 模式
-        $form_input_mode_type_value = $form_input_data['config']['overall_config']['type_value'];
+        $form_input_mode_type_value = $module_data['form_input_data']['config']['overall_config']['type_value'];
         // 左右还是上下的样式
         $form_input_style_flex_direction = $form_input_style_settings_computer['flex_direction'];
         // 不需要全局隐藏的组件
@@ -45,13 +47,13 @@
         // 带其他的组件
         $form_input_other_array = ['select', 'radio-btns'];
     {{/php}}
-    <input type="hidden" name="forminput_id" value="{{$form_input_data.id}}">
-    <input type="hidden" name="id" value="{{if !empty($form_input_data['forminput_data_id'])}}{{$form_input_data.forminput_data_id}}{{/if}}">
-    {{foreach :array_values($form_input_data.config.diy_data) as $k=>$v}}
+    <input type="hidden" name="forminput_id" value="{{$module_data.form_input_data.id}}">
+    <input type="hidden" name="id" value="{{if !empty($module_data['form_input_data']['forminput_data_id'])}}{{$module_data.form_input_data.forminput_data_id}}{{/if}}">
+    {{foreach :array_values($module_data.form_input_data.config.diy_data) as $k=>$v}}
         {{if $v.is_enable eq '1'}}
-            <div class="forminput-hidden forminput-data-item {{if $form_input_mode_type_value neq 'free'}}forminput-data-item-padding {{/if}} {{if $form_input_style_flex_direction == 'row' and $v.key neq 'subform'}}am-flex-row {{else/}}am-flex-col {{/if}}{{if $form_input_style_flex_direction == 'row' and !in_array($v.key, $form_input_array)}}am-flex-items-center{{/if}}" style="{{if $v.key neq 'subform'}}flex-direction: {{$form_input_style_flex_direction}}{{/if}};{{if $form_input_style_flex_direction eq 'column'}}justify-items:flex-start;{{else/}}align-items: {{if in_array($v.key, ['rich-text', 'img', 'video', 'multi-text', 'subform'])}}flex-start{{elseif in_array($v.key, ['address', 'phone', 'upload-img', 'upload-attachments', 'upload-video'])}}baseline{{else/}}center{{/if}};{{/if}}{{if $form_input_mode_type_value eq 'free'}}position:absolute;{{if !(in_array($v.key, $form_input_data_array) and (isset($v.com_data.type) and in_array($v.com_data.type, $form_input_type_array))) and $v.key neq 'address'}}overflow: hidden;z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($form_input_data.config.diy_data) - ($k + 1)}};{{else/}}-999;{{/if}}{{/if}}{{if !empty($v.location.x) }}left:{{$v.location.x}}px;{{/if}};{{if !empty($v.location.y) }}top:{{$v.location.y}}px;{{/if}};{{if !empty($v.com_data.com_width) }}width:{{$v.com_data.com_width}}px;{{/if}}{{if !empty($v.com_data.com_height) }}height:{{$v.com_data.com_height}}px;{{/if}}{{elseif $v.key eq 'subform'}}position:relative;z-index:1;{{/if}}">
+            <div class="forminput-hidden forminput-data-item {{if $form_input_mode_type_value neq 'free'}}forminput-data-item-padding {{/if}} {{if $form_input_style_flex_direction == 'row' and $v.key neq 'subform'}}am-flex-row {{else/}}am-flex-col {{/if}}{{if $form_input_style_flex_direction == 'row' and !in_array($v.key, $form_input_array)}}am-flex-items-center{{/if}}" style="{{if $v.key neq 'subform'}}flex-direction: {{$form_input_style_flex_direction}}{{/if}};{{if $form_input_style_flex_direction eq 'column'}}justify-items:flex-start;{{else/}}align-items: {{if in_array($v.key, ['rich-text', 'img', 'video', 'multi-text', 'subform'])}}flex-start{{elseif in_array($v.key, ['address', 'phone', 'upload-img', 'upload-attachments', 'upload-video'])}}baseline{{else/}}center{{/if}};{{/if}}{{if $form_input_mode_type_value eq 'free'}}position:absolute;{{if !(in_array($v.key, $form_input_data_array) and (isset($v.com_data.type) and in_array($v.com_data.type, $form_input_type_array))) and $v.key neq 'address'}}overflow: hidden;z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($module_data.form_input_data.config.diy_data) - ($k + 1)}};{{else/}}-999;{{/if}}{{/if}}{{if !empty($v.location.x) }}left:{{$v.location.x}}px;{{/if}};{{if !empty($v.location.y) }}top:{{$v.location.y}}px;{{/if}};{{if !empty($v.com_data.com_width) }}width:{{$v.com_data.com_width}}px;{{/if}}{{if !empty($v.com_data.com_height) }}height:{{$v.com_data.com_height}}px;{{/if}}{{elseif $v.key eq 'subform'}}position:relative;z-index:1;{{/if}}">
                 {{if ($v.key neq 'auxiliary-line' and $form_input_mode_type_value neq 'free') or (!in_array($v.key, $form_input_no_free_title_array) and $form_input_mode_type_value eq 'free') }}
-                    <div class="am-flex-row am-gap-1" style="{{if $form_input_style_flex_direction eq 'column'}}justify-content:flex-start;{{else/}}width:{{$form_input_style_settings_computer['filed_title_width']}}px;{{if $v.key neq 'subform'}}justify-content:{{$form_input_style_settings_computer['filed_title_justification'] }};{{/if}}{{/if}}{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
+                    <div class="am-flex-row am-gap-1" style="{{if $form_input_style_flex_direction eq 'column'}}justify-content:flex-start;{{else/}}width:{{$form_input_style_settings_computer['filed_title_width']}}px;{{if $v.key neq 'subform'}}justify-content:{{$form_input_style_settings_computer['filed_title_justification'] }};{{/if}}{{/if}}{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($module_data.form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
                         <!-- 标题 -->
                         <div class="item-name {{if isset($form_input_style_filed_title_size_type) and $form_input_style_filed_title_size_type eq 'big'}}big-title{{elseif isset($form_input_style_filed_title_size_type) and $form_input_style_filed_title_size_type eq 'middle'}}title{{else/}}small-title{{/if}}">
                             {{$v.com_data.title}}
@@ -112,7 +114,7 @@
                                 {{if $v.com_data.is_limit_num == '1' and !empty($v.com_data.min_num)}}minlength="{{$v.com_data.min_num}}"{{/if}} 
                                 {{if $v.com_data.is_limit_num == '1' and !empty($v.com_data.max_num)}}maxlength="{{$v.com_data.max_num}}"{{/if}} 
                                 class="forminput-input forminput-no-border forminput-w {{$form_input_item_size}}"
-                            >{{if !empty(trim($v.com_data.form_value))}}{{$v.com_data.form_value}}{{/if}}</textarea>
+                            >{{if !empty($v.com_data.form_value)}}{{$v.com_data.form_value}}{{/if}}</textarea>
                             {{if $v.com_data.is_limit_num == '1' and !empty($v.com_data.max_num)}}
                                 <div class="forminput-cr-gray forminput-textarea"><span class="limit-num">{{:strlen($v.com_data.form_value) }}</span>/{{$v.com_data.max_num }}</div>
                             {{/if}}
@@ -137,15 +139,15 @@
                         <div class="forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v.common_style}}">
                             {{if !in_array($v.com_data.date_type, ['option1', 'option2'])}}
                                 <div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-start-{{$v.id}}" name="{{$v.form_name}}_start" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[0])}}{{$v.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v['com_data']['start_placeholder'])}}{{$v.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v.id}}\',{d:-1});}'})" autocomplete="off" />
+                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start {{$form_input_item_size}}" id="form-table-search-time-start-{{$v.id}}" name="{{$v.form_name}}_start" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[0])}}{{$v.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v['com_data']['start_placeholder'])}}{{$v.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v.id}}\',{d:-1});}'})" autocomplete="off" />
                                     <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-end-{{$v.id}}" name="{{$v.form_name}}_end" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[1])}}{{$v.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v['com_data']['end_placeholder'])}}{{$v.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v.id}}\',{d:+1});}'})" autocomplete="off" />
+                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end {{$form_input_item_size}}" id="form-table-search-time-end-{{$v.id}}" name="{{$v.form_name}}_end" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[1])}}{{$v.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v['com_data']['end_placeholder'])}}{{$v.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v.id}}\',{d:+1});}'})" autocomplete="off" />
                                 </div>
                             {{else/}}
                                 <div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-start-{{$v.id}}" name="{{$v.form_name}}_start" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[0])}}{{$v.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v['com_data']['start_placeholder'])}}{{$v.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v.id}}\');}'})" autocomplete="off" />
+                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start {{$form_input_item_size}}" id="form-table-search-time-start-{{$v.id}}" name="{{$v.form_name}}_start" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[0])}}{{$v.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v['com_data']['start_placeholder'])}}{{$v.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v.id}}\');}'})" autocomplete="off" />
                                     <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-end-{{$v.id}}" name="{{$v.form_name}}_end" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[1])}}{{$v.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v['com_data']['end_placeholder'])}}{{$v.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v.id}}\');}'})" autocomplete="off" />
+                                    <input type="text" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end {{$form_input_item_size}}" id="form-table-search-time-end-{{$v.id}}" name="{{$v.form_name}}_end" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value[1])}}{{$v.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v['com_data']['end_placeholder'])}}{{$v.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v.id}}\');}'})" autocomplete="off" />
                                 </div>
                             {{/if}}
                             <i class="iconfont icon-{{$v.com_data.icon_name}}" style="color: 333;"></i>
@@ -153,7 +155,7 @@
                     {{elseif $v.key eq 'date'}}
                         <!-- 日期时间 -->
                         <div class="forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v.common_style}}">
-                            <input type="text" autocomplete="off" class="forminput-input am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h {{$form_input_item_size}}" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} id="form-table-search-time-{{$v.id}}" name="{{$v.form_name}}" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value)}}{{$v.com_data.form_value}}{{/if}}" placeholder="{{if isset($v['com_data']['placeholder'])}}{{$v.com_data.placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}'})" autocomplete="off" />
+                            <input type="text" autocomplete="off" class="forminput-input-date am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h {{$form_input_item_size}}" {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})"{{/if}} id="form-table-search-time-{{$v.id}}" name="{{$v.form_name}}" value="{{if !empty($v.com_data.form_value) and isset($v.com_data.form_value)}}{{$v.com_data.form_value}}{{/if}}" placeholder="{{if isset($v['com_data']['placeholder'])}}{{$v.com_data.placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v.com_data.format}}'})" autocomplete="off" />
                             <i class="iconfont icon-{{$v.com_data.icon_name}}" style="color: 333;"></i>
                         </div>
                     {{elseif $v.key eq 'position'}}
@@ -166,7 +168,7 @@
                         <div class="am-flex-col forminput-gap-10">
                             <div class="option-add {{if $v.com_data.arrangement == 'horizontal'}}am-flex-row align-items-center am-flex-warp{{else/}}am-flex-col{{/if}} forminput-gap-10">
                                 {{foreach :array_values(array_merge($v.com_data.option_list, empty($v['com_data']['custom_option_list']) ? [] : $v.com_data.custom_option_list)) as $k=>$d}}
-                                    <label class="{{if $v.com_data.arrangement == 'horizontal'}}am-checkbox-inline {{else/}}am-checkbox {{/if}} {{if $v.com_data.is_multicolour == '1'}}{{$form_input_item_radio_or_checkbox_height_class}}{{/if}}">
+                                    <label class="am-checkbox-click {{if $v.com_data.arrangement == 'horizontal'}}am-checkbox-inline {{else/}}am-checkbox {{/if}} {{if $v.com_data.is_multicolour == '1'}}{{$form_input_item_radio_or_checkbox_height_class}}{{/if}}">
                                         <input type="checkbox" name="{{$v.form_name}}" value="{{$d.value}}" {{if in_array($d.value, $v.com_data.form_value)}}checked="checked"{{/if}} data-am-ucheck {{if $k == 0 and $v.com_data.is_required == '1'}}required {{/if}} data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}})" {{if $k == 0 and $v.com_data.is_limit_num == '1' and !empty($v.com_data.min_num)}}minchecked="{{$v.com_data.min_num}}"{{/if}} {{if $k == 0 and $v.com_data.is_limit_num == '1' and !empty($v.com_data.max_num)}}maxchecked="{{$v.com_data.max_num}}"{{/if}}>
                                         <div class="{{$form_input_item_multicolour_class}} am-flex-row align-items-center forminput-gap-5" style="{{if $v.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{$d.name}}{{if isset($d.type) and $d.type eq 'add'}}<i data-value="{{$d.value}}" data-id="{{$v.id}}" data-subform-option-id="" data-subform-option-index="" class="add-option-icon iconfont icon-close {{if $v.com_data.is_multicolour neq '1'}}forminput-cr-gray{{/if}}"></i>{{/if}}</div>
                                     </label>
@@ -200,7 +202,7 @@
                                                 name="{{$v.form_name}}_other_value" 
                                                 value="{{$v.com_data.other_value}}"     
                                                 placeholder="请输入其他内容" 
-                                                class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
+                                                class="forminput-input-other forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
                                             />
                                         </div>
                                     {{/if}}
@@ -216,7 +218,7 @@
                                     <option value="{{$d.value}}" {{if isset($v.com_data.form_value) and $v.com_data.form_value eq $d.value}}selected="selected"{{/if}}>{{$d.name}}</option>
                                 {{/foreach}}
                             </select>
-                            <div class="{{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}} am-flex-row" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and  $form_input_style_flex_direction eq 'column'}}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and  $form_input_style_flex_direction eq 'row' }}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
+                            <div class="{{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}} am-flex-row" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and  $form_input_style_flex_direction eq 'column'}}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and  $form_input_style_flex_direction eq 'row' }}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($module_data.form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
                                 <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v.common_style}}">
                                     <div class="am-selected-status am-fl am-flex-row align-items-center forminput-gap-10">
                                         {{if empty($v.com_data.form_value) }}
@@ -224,7 +226,6 @@
                                         {{else/}}
                                             {{foreach :array_values($v.com_data.option_list) as $k=>$d}}
                                                 {{if $d.value == $v.com_data.form_value}}
-                                                    {{:print_r($d.name)}}
                                                     <span class="{{$form_input_item_multicolour_class}}" style="{{if $v.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{$d.name}}</span>
                                                 {{/if}}
                                             {{/foreach}}
@@ -255,7 +256,7 @@
                                             name="{{$v.form_name}}_other_value" 
                                             value="{{$v.com_data.other_value}}"     
                                             placeholder="请输入其他内容" 
-                                            class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
+                                            class="forminput-input-other forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
                                         />
                                     </div>
                                 {{/if}}
@@ -266,18 +267,20 @@
                         <div class="am-selected am-dropdown forminput-w am-flex-row" data-am-dropdown> 
                             <select name="{{$v.form_name}}" multiple class="forminput-visiable-hidden forminput-select-multi">
                                 {{foreach :array_values(array_merge($v.com_data.option_list, empty($v['com_data']['custom_option_list']) ? [] : $v.com_data.custom_option_list)) as $k=>$d}}
-                                    <option value="{{$d.value}}" {{if isset($v.com_data.form_value) and in_array($d.value, $v.com_data.form_value)}}selected{{/if}}>{{$d.name}}</option>
+                                    <option value="{{$d.value}}" {{if !empty($v.com_data.form_value) and is_array($v.com_data.form_value) and in_array($d.value, $v.com_data.form_value)}}selected{{/if}}>{{$d.name}}</option>
                                 {{/foreach}}
                             </select>
-                            <div class="{{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}} am-flex-row" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'column' }}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
+                            <div class="{{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}} am-flex-row" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'column' }}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($module_data.form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
                                 <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v.common_style}}">
                                     <div class="am-selected-status am-fl am-flex-row align-items-center {{if $v.com_data.is_multicolour == '1'}}forminput-gap-10{{/if}}">
                                         {{if empty($v.com_data.form_value) }}
                                             <span class="forminput-cr-gray">{{$v.com_data.placeholder}}</span>
                                         {{else/}}
-                                            {{foreach :array_values($v.com_data.option_list) as $k=>$d}}
+                                            {{php}}$selected_status=0;{{/php}}
+                                            {{foreach :array_values(array_merge($v.com_data.option_list, empty($v['com_data']['custom_option_list']) ? [] : $v.com_data.custom_option_list)) as $k=>$d}}
                                                 {{if in_array($d.value, $v.com_data.form_value)}}
-                                                    <span class="{{$form_input_item_multicolour_class}}" style="{{if $v.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{if $v.com_data.is_multicolour == '1'}}{{$d.name}}{{else/}}{{if $k neq 0}},{{$d.name}}{{else/}}{{$d.name}}{{/if}}{{/if}}</span>
+                                                    <span class="{{$form_input_item_multicolour_class}}" style="{{if $v.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{if $v.com_data.is_multicolour neq 1 and $selected_status eq 1}},{{/if}}{{$d.name}}</span>
+                                                    {{php}}$selected_status=1;{{/php}}
                                                 {{/if}}
                                             {{/foreach}}
                                         {{/if}}
@@ -360,7 +363,7 @@
                             <span class="file-title" style="color:#606266;font-size:14px;width: auto;{{$form_input_item_content_style}}">暂无文件</span>
                         {{/if}}
                     {{elseif $v.key eq 'phone'}}
-                    <!-- 手机 --->
+                        <!-- 手机 --->
                         <div class="am-flex-col forminput-gap-10">
                             <div class="forminput-data-item-content am-flex-row {{$form_input_item_content_class}}" style="{{$v.common_style}}">
                                 <i class="iconfont icon-{{$v.com_data.icon_name}}" style="color: 666;"></i>
@@ -381,7 +384,7 @@
                                             value="{{$v.com_data.form_value_code}}"
                                             {{if $v.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_fill_in_error')}}({{$v.com_data.title}}短信验证码)"{{/if}}
                                             placeholder="请输入验证码" 
-                                            class="forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
+                                            class="forminput-input-verify forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
                                         />
                                     </div>
                                     <button id="{{$v.id}}_verify" class="am-btn forminput-btn-disabled am-radius verify-submit" disabled type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/forminput/verifysend')}}" data-time="60" data-text="获取验证码" data-send-text="还有 {time} 秒">获取验证码</button>
@@ -393,7 +396,7 @@
                         <div class="am-flex-col forminput-gap-10">
                             <div class="region-linkage" data-url="{{:MyUrl('index/region/index')}}" data-code-url="{{:MyUrl('index/region/codedata')}}">
                                 <div class="am-cascader">
-                                    <div class="am-cascader-suffix forminput-reactive {{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}}" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'column'}}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
+                                    <div class="am-cascader-suffix forminput-reactive {{if $form_input_mode_type_value eq 'free'}}forminput-free-column{{/if}}" style="width: 100%;height:100%;{{if $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'column'}}overflow:hidden;width: {{$v.com_data.com_width}}px;height:{{$v.com_data.com_height - $form_input_size_height}}px;{{elseif $form_input_mode_type_value eq 'free' and $form_input_style_flex_direction eq 'row'}}overflow:hidden;width:{{$v.com_data.com_width - $form_input_style_settings_computer['filed_title_width']}}px;height:{{$v.com_data.com_height}}px;{{/if}}{{if $form_input_mode_type_value eq 'free'}}z-index: {{if !empty($v.is_enable) and $v.is_enable eq '1' }}{{:count($module_data.form_input_data.config.diy_data) - ($k + 1)}}{{else/}}-999;{{/if}}{{/if}}">
                                         <div class="forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v.common_style}}">
                                             <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="{{$v.com_data.placeholder}}"
                                             value="{{if !empty($v['com_data']['province_name'])}}{{$v.com_data.province_name}}{{/if}}{{if !empty($v['com_data']['city_name'])}}-{{$v.com_data.city_name}}{{/if}}{{if !empty($v['com_data']['county_name'])}}-{{$v.com_data.county_name}}{{/if}}"
@@ -440,8 +443,8 @@
                                         rows="6" 
                                         name="{{$v.form_name}}_address" 
                                         placeholder="请输入详细地址" 
-                                        class="forminput-input forminput-no-border forminput-w {{$form_input_item_size}}"
-                                    >{{if !empty(trim($v.com_data.detailed_value))}}{{$v.com_data.detailed_value}}{{/if}}</textarea>
+                                        class="forminput-input-address forminput-no-border forminput-w {{$form_input_item_size}}"
+                                    >{{if !empty(trim($v.com_data.address))}}{{$v.com_data.address}}{{/if}}</textarea>
                                 </div>
                             {{/if}}
                         </div>
@@ -540,7 +543,7 @@
                             <div id="toolbar-container-{{$v.id}}"><!-- 工具栏 --></div>
                             <div id="editor-container-{{$v.id}}" style="height: 270px;"><!-- 编辑器 --></div>
                             <input type="hidden" id="{{$v.id}}-value" name="{{$v.form_name}}" value="{{$v.com_data.form_value}}" />
-                            <input id="{{$v.id}}-rich-file-upload" class="rich-file-upload-input" data-url="{{:MyUrl('api/attachmentapi/upload')}}" type="file" name="{{$v.form_name}}" accept="image/*" style="display: none;">
+                            <input id="{{$v.id}}-rich-file-upload" class="rich-file-upload-input" data-url="{{:MyUrl('api/attachmentapi/upload')}}" type="file" name="{{$v.form_name}}" accept="image/*" style="display: none;" />
                         </div>
                     {{elseif $v.key eq 'round' and $form_input_mode_type_value eq 'free'}}
                         <div class="rect-or-round">
@@ -593,7 +596,7 @@
                                     </div>
                                     <div class="forminput-table-body">
                                         <div class="flex-1 am-flex-col subform-data-list">
-                                            {{foreach $v.com_data.data_list as $k1=>$v1}}
+                                            {{foreach $v.com_data.form_value as $k1=>$v1}}
                                                 <div class="table-row am-flex-row">
                                                     <div class="cell-num am-flex-row align-items-center justify-content-center shrink re" style="{{if $v.com_data.computer.is_fixed == '1'}}position: sticky;left: 0;z-index:{{:intval(9999 - $k1)}};{{/if}}">
                                                         <div class="row-num am-flex-row align-items-center justify-content-center">{{$k1 + 1 }}</div>
@@ -618,8 +621,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {{if isset($v1.data_list)}}
-                                                        {{foreach $v1.data_list as $k2=>$v2}}
+                                                    {{if isset($v.com_data.children)}}
+                                                        {{foreach $v.com_data.children as $k2=>$v2}}
                                                             <div id="{{$v2.id}}-{{$k1}}" data-index="{{$k1}}" data-subform-id="{{$v.id}}" data-id="{{$v2.id}}" class="am-flex-row align-items-center subform-cell">
                                                                 {{if in_array($v2.key, $form_input_radio_array) and $v2.com_data.type eq 'single-text'}}
                                                                     <!-- 单行文本 -->
@@ -627,7 +630,7 @@
                                                                         <input 
                                                                             type="text" 
                                                                             name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" 
-                                                                            value="{{$v2.com_data.form_value}}" 
+                                                                            value="{{$v1[$v2.form_name]}}" 
                                                                             {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_fill_in_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}}
                                                                             placeholder="{{$v2.com_data.placeholder}}" 
                                                                             {{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.min_num)}}minlength="{{$v2.com_data.min_num}}"{{/if}} 
@@ -635,7 +638,7 @@
                                                                             class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
                                                                         />
                                                                         {{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.max_num)}}
-                                                                            <div class="forminput-cr-gray"><span class="limit-num">{{:strlen($v2.com_data.form_value) }}</span>/{{$v2.com_data.max_num }}</div>
+                                                                            <div class="forminput-cr-gray"><span class="limit-num">{{:strlen($v1[$v2.form_name]) }}</span>/{{$v2.com_data.max_num }}</div>
                                                                         {{/if}}
                                                                     </div>
                                                                 {{elseif $v2.key eq 'number'}}
@@ -646,7 +649,7 @@
                                                                         {{/if}}
                                                                         <input type="text" 
                                                                             name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" 
-                                                                            value="{{$v2.com_data.form_value}}" 
+                                                                            value="{{$v1[$v2.form_name]}}" 
                                                                             {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_fill_in_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}}
                                                                             placeholder="{{$v2.com_data.placeholder}}" 
                                                                             class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
@@ -666,9 +669,9 @@
                                                                             {{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.min_num)}}minlength="{{$v2.com_data.min_num}}"{{/if}} 
                                                                             {{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.max_num)}}maxlength="{{$v2.com_data.max_num}}"{{/if}} 
                                                                             class="forminput-input forminput-no-border forminput-w {{$form_input_item_size}}"
-                                                                        >{{if !empty(trim($v2.com_data.form_value))}}{{trim($v2.com_data.form_value)}}{{/if}}</textarea>
+                                                                        >{{if !empty($v1[$v2.form_name])}}{{$v1[$v2.form_name]}}{{/if}}</textarea>
                                                                         {{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.max_num)}}
-                                                                            <div class="forminput-cr-gray forminput-textarea"><span class="limit-num">{{:strlen($v2.com_data.form_value) }}</span>/{{$v2.com_data.max_num }}</div>
+                                                                            <div class="forminput-cr-gray forminput-textarea"><span class="limit-num">{{:strlen($v1[$v2.form_name]) }}</span>/{{$v2.com_data.max_num }}</div>
                                                                         {{/if}}
                                                                     </div>
                                                                 {{elseif $v2.key eq 'pwd'}}
@@ -679,7 +682,7 @@
                                                                         {{/if}}
                                                                         <input type="password" autocomplete="off"
                                                                             name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" 
-                                                                            value="{{$v2.com_data.form_value}}" 
+                                                                            value="{{$v1[$v2.form_name]}}" 
                                                                             {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_fill_in_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}}
                                                                             placeholder="{{$v2.com_data.placeholder}}" 
                                                                             class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
@@ -691,15 +694,15 @@
                                                                     <div class="forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v2.common_style}}">
                                                                         {{if !in_array($v2.com_data.date_type, ['option1', 'option2'])}}
                                                                             <div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-start-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_start]" value="{{if !empty($v2.com_data.form_value) and isset($v2.com_data.form_value[0])}}{{$v2.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v2['com_data']['start_placeholder'])}}{{$v2.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v2.id}}-{{$k1}}\',{d:-1});}'})" autocomplete="off" />
+                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start {{$form_input_item_size}}" id="form-table-search-time-start-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_start]" value="{{if !empty($v1[$v2.form_name]) and isset($v1[$v2.form_name][0])}}{{$v1[$v2.form_name][0]}}{{/if}}" placeholder="{{if isset($v2['com_data']['start_placeholder'])}}{{$v2.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v2.id}}-{{$k1}}\',{d:-1});}'})" autocomplete="off" />
                                                                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-end-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_end]" value="{{if !empty($v2.com_data.form_value) and isset($v2.com_data.form_value[1])}}{{$v2.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v2['com_data']['end_placeholder'])}}{{$v2.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v2.id}}-{{$k1}}\',{d:+1});}'})" autocomplete="off" />
+                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end {{$form_input_item_size}}" id="form-table-search-time-end-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_end]" value="{{if !empty($v1[$v2.form_name]) and isset($v1[$v2.form_name][1])}}{{$v1[$v2.form_name][1]}}{{/if}}" placeholder="{{if isset($v2['com_data']['end_placeholder'])}}{{$v2.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v2.id}}-{{$k1}}\',{d:+1});}'})" autocomplete="off" />
                                                                             </div>
                                                                         {{else/}}
                                                                             <div class="form-table-search-section form-table-search-time am-flex-row forminput-w forminput-h align-items-center">
-                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-start-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_start]" value="{{if !empty($v2.com_data.form_value) and isset($v2.com_data.form_value[0])}}{{$v2.com_data.form_value[0]}}{{/if}}" placeholder="{{if isset($v2['com_data']['start_placeholder'])}}{{$v2.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v2.id}}-{{$k1}}\');}'})" autocomplete="off" />
+                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-start {{$form_input_item_size}}" id="form-table-search-time-start-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_start]" value="{{if !empty($v1[$v2.form_name]) and isset($v1[$v2.form_name][0])}}{{$v1[$v2.form_name][0]}}{{/if}}" placeholder="{{if isset($v2['com_data']['start_placeholder'])}}{{$v2.com_data.start_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$v2.id}}-{{$k1}}\');}'})" autocomplete="off" />
                                                                                 <span class="am-flex-row align-items-center forminput-divider">-</span>
-                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center {{$form_input_item_size}}" id="form-table-search-time-end-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_end]" value="{{if !empty($v2.com_data.form_value) and isset($v2.com_data.form_value[1])}}{{$v2.com_data.form_value[1]}}{{/if}}" placeholder="{{if isset($v2['com_data']['end_placeholder'])}}{{$v2.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v2.id}}-{{$k1}}\');}'})" autocomplete="off" />
+                                                                                <input type="text" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h forminput-input-text-center forminput-input-date-group-end {{$form_input_item_size}}" id="form-table-search-time-end-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_end]" value="{{if !empty($v1[$v2.form_name]) and isset($v1[$v2.form_name][1])}}{{$v1[$v2.form_name][1]}}{{/if}}" placeholder="{{if isset($v2['com_data']['end_placeholder'])}}{{$v2.com_data.end_placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$v2.id}}-{{$k1}}\');}'})" autocomplete="off" />
                                                                             </div>
                                                                         {{/if}}
                                                                         <i class="iconfont icon-{{$v2.com_data.icon_name}}" style="color: 333;"></i>
@@ -707,7 +710,7 @@
                                                                 {{elseif $v2.key eq 'date'}}
                                                                     <!-- 日期时间 -->
                                                                     <div class="forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v2.common_style}}">
-                                                                        <input type="text" autocomplete="off" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} class="forminput-input am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h {{$form_input_item_size}}" id="form-table-search-time-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{if !empty($v2.com_data.form_value) and isset($v2.com_data.form_value)}}{{$v2.com_data.form_value}}{{/if}}" placeholder="{{if isset($v2['com_data']['placeholder'])}}{{$v2.com_data.placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}'})" autocomplete="off" />
+                                                                        <input type="text" autocomplete="off" {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}} class="forminput-input-date am-form-field am-input-sm am-radius am-inline-block Wdate forminput-no-border forminput-w forminput-h {{$form_input_item_size}}" id="form-table-search-time-{{$v2.id}}-{{$k1}}" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{if !empty($v1[$v2.form_name]) and isset($v1[$v2.form_name])}}{{$v1[$v2.form_name]}}{{/if}}" placeholder="{{if isset($v2['com_data']['placeholder'])}}{{$v2.com_data.placeholder}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'{{$v2.com_data.format}}'})" autocomplete="off" />
                                                                         <i class="iconfont icon-{{$v2.com_data.icon_name}}" style="color: 333;"></i>
                                                                     </div>
                                                                 {{elseif (in_array($v2.key, $form_input_radio_array) and $v2.com_data.type eq 'select') or (in_array($v2.key, $form_input_radio_array) and $v2.com_data.type eq 'radio-btns')}}
@@ -716,7 +719,7 @@
                                                                         <select name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" autocomplete="off" class="forminput-visiable-hidden">
                                                                             <option value="">请选择</option>
                                                                             {{foreach :array_values($v2.com_data.option_list) as $k=>$d}}
-                                                                                <option style="color: #000" value="{{$d.value}}" {{if isset($v2.com_data.form_value) and $v2.com_data.form_value eq $d.value}}selected="selected"{{/if}}>
+                                                                                <option style="color: #000" value="{{$d.value}}" {{if isset($v1[$v2.form_name]) and $v1[$v2.form_name] eq $d.value}}selected="selected"{{/if}}>
                                                                                     {{$d.name}}
                                                                                 </option>
                                                                             {{/foreach}}
@@ -724,11 +727,11 @@
                                                                         <div data-id="{{$v.id}}-{{$k1}}-selected" class="am-flex-row selected-click forminput-w forminput-h">
                                                                             <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v2.common_style}}">
                                                                                 <div class="am-selected-status am-fl am-flex-row align-items-center forminput-gap-10">
-                                                                                    {{if empty($v2.com_data.form_value) }}
+                                                                                    {{if empty($v1[$v2.form_name]) }}
                                                                                         <span class="forminput-cr-gray">{{$v2.com_data.placeholder}}</span>
                                                                                     {{else/}}
                                                                                         {{foreach :array_values($v2.com_data.option_list) as $k=>$d}}
-                                                                                            {{if $d.value == $v2.com_data.form_value}}
+                                                                                            {{if $d.value == $v1[$v2.form_name]}}
                                                                                                 <span class="{{$form_input_item_multicolour_class}}" style="{{if $v2.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{$d.name}}</span>
                                                                                             {{/if}}
                                                                                         {{/foreach}}
@@ -739,11 +742,11 @@
                                                                         </div>
                                                                         <div id="dropdown-{{$v2.id}}-{{$k1}}" data-subform-id="{{$v.id}}" data-id="{{$v2.id}}" data-index="{{$k1}}" class="am-selected-content am-dropdown-content am-radius select-fixed-position" style="min-width: 354px;">
                                                                             <ul class="am-selected-list">
-                                                                                <li class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center {{if empty($v2.com_data.form_value)}}am-checked{{/if}}" data-index="0" data-group="0" data-value="">
+                                                                                <li class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center {{if empty($v1[$v2.form_name])}}am-checked{{/if}}" data-index="0" data-group="0" data-value="">
                                                                                     <span class="{{$form_input_item_multicolour_class}} am-selected-text am-color-grey am-padding-0">{{:MyLang('please_select_tips')}}</span>
                                                                                 </li>
                                                                                 {{foreach :array_values($v2.com_data.option_list) as $k=>$d}}
-                                                                                    <li class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center {{if $d.value == $v2.com_data.form_value}}am-checked{{/if}}" data-index="{{$k}}" data-group="0" data-value="{{$d.value}}">
+                                                                                    <li class="forminput-show-hidden-click am-selected-item am-flex-row align-items-center {{if $d.value == $v1[$v2.form_name]}}am-checked{{/if}}" data-index="{{$k}}" data-group="0" data-value="{{$d.value}}">
                                                                                         <span class="{{$form_input_item_multicolour_class}} am-selected-text" style="{{if $v2.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{$d.name}}</span>
                                                                                         <i class="am-icon-check"></i></li>
                                                                                 {{/foreach}}
@@ -754,19 +757,21 @@
                                                                     <!-- 下拉框复选框 -->
                                                                     <div id="{{$v.id}}-{{$k1}}-selected" class="am-selected subform-dropdown am-dropdown forminput-w am-flex-row" data-am-dropdown>
                                                                         <select name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" multiple class="forminput-visiable-hidden forminput-select-multi">
-                                                                            {{foreach :array_values(array_merge($v2.com_data.option_list, empty($v2['com_data']['custom_option_list']) ? [] : $v2.com_data.custom_option_list)) as $k=>$d}}
-                                                                                <option value="{{$d.value}}" {{if isset($v2.com_data.form_value) and in_array($d.value, $v2.com_data.form_value)}}selected{{/if}}>{{$d.name}}</option>
+                                                                            {{foreach :array_values(array_merge($v2.com_data.option_list, empty($v1[$v2['form_name'].'_custom_option_list']) ? [] : $v1[$v2['form_name'].'_custom_option_list'])) as $k=>$d}}
+                                                                                <option value="{{$d.value}}" {{if !empty($v1[$v2.form_name]) and is_array($v1[$v2.form_name]) and in_array($d.value, $v1[$v2.form_name])}}selected{{/if}}>{{$d.name}}</option>
                                                                             {{/foreach}}
                                                                         </select>
                                                                         <div data-id="{{$v.id}}-{{$k1}}-selected" class="am-flex-row selected-click forminput-w forminput-h">
                                                                             <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-flex-row align-items-center forminput-data-item-content {{$form_input_item_content_class}}" style="{{$v2.common_style}}">
                                                                                 <div class="am-selected-status am-fl am-flex-row align-items-center {{if $v2.com_data.is_multicolour == '1'}}forminput-gap-10{{/if}}">
-                                                                                    {{if empty($v2.com_data.form_value) }}
+                                                                                    {{if empty($v1[$v2.form_name]) }}
                                                                                         <span class="forminput-cr-gray">{{$v2.com_data.placeholder}}</span>
                                                                                     {{else/}}
-                                                                                        {{foreach :array_values($v2.com_data.option_list) as $k=>$d}}
-                                                                                            {{if in_array($d.value, $v2.com_data.form_value)}}
-                                                                                                <span class="{{$form_input_item_multicolour_class}}" style="{{if $v2.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{if $v2.com_data.is_multicolour == '1'}}{{$d.name}}{{else/}}{{if $k neq 0}},{{$d.name}}{{else/}}{{$d.name}}{{/if}}{{/if}}</span>
+                                                                                        {{php}}$selected_status=0;{{/php}}
+                                                                                        {{foreach :array_values(array_merge($v2.com_data.option_list, empty($v1[$v2['form_name'].'_custom_option_list']) ? [] : $v1[$v2['form_name'].'_custom_option_list'])) as $k=>$d}}
+                                                                                            {{if in_array($d.value, $v1[$v2.form_name])}}
+                                                                                                <span class="{{$form_input_item_multicolour_class}}" style="{{if $v2.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{if $v2.com_data.is_multicolour neq 1 and $selected_status eq 1}},{{/if}}{{$d.name}}</span>
+                                                                                                {{php}}$selected_status=1;{{/php}}
                                                                                             {{/if}}
                                                                                         {{/foreach}}
                                                                                     {{/if}}
@@ -776,8 +781,8 @@
                                                                         </div>
                                                                         <div id="dropdown-{{$v2.id}}-{{$k1}}" data-subform-id="{{$v.id}}" data-id="{{$v2.id}}" data-index="{{$k1}}" class="am-selected-content am-dropdown-content am-radius select-fixed-position" style="min-width: 354px;">
                                                                             <ul class="am-selected-list">
-                                                                                {{foreach :array_values(array_merge($v2.com_data.option_list, empty($v2['com_data']['custom_option_list']) ? [] : $v2.com_data.custom_option_list)) as $k=>$d}}
-                                                                                    <li value="{{$d.value}}" class="am-selected-item am-flex-row align-items-center {{if in_array($d.value, $v2.com_data.form_value)}}am-checked{{/if}}" data-index="{{$k}}" data-group="0" data-value="{{$d.value}}">
+                                                                                {{foreach :array_values(array_merge($v2.com_data.option_list, empty($v1[$v2['form_name'].'_custom_option_list']) ? [] : $v1[$v2['form_name'].'_custom_option_list'])) as $k=>$d}}
+                                                                                    <li value="{{$d.value}}" class="am-selected-item am-flex-row align-items-center {{if isset($v1[$v2.form_name]) and is_array($v1[$v2.form_name]) and in_array($d.value, $v1[$v2.form_name])}}am-checked{{/if}}" data-index="{{$k}}" data-group="0" data-value="{{$d.value}}">
                                                                                         <div class="{{$form_input_item_multicolour_class}} am-selected-text am-flex-row align-items-center forminput-gap-5" style="{{if $v2.com_data.is_multicolour == '1'}}background: {{$d.color}};color:{{if isset($d.is_other) and $d.is_other == '1'}}#141E31{{else/}}#fff{{/if}};border-radius:4px;{{else/}}padding: 0;{{/if}}">{{$d.name}}{{if isset($d.type) and $d.type eq 'add'}}<i data-value="{{$d.value}}" data-id="{{$v.id}}" data-subform-option-id="{{$v2.id}}" data-subform-option-index="{{$k1}}" class="add-option-icon iconfont icon-close {{if $v2.com_data.is_multicolour neq '1'}}forminput-cr-gray{{/if}}"></i>{{/if}}</div>
                                                                                         <i class="am-icon-check"></i></li>
                                                                                 {{/foreach}}
@@ -787,7 +792,7 @@
                                                                                     <i class="iconfont icon-add forminput-cr-blue"></i>
                                                                                     <span class="size-14 forminput-cr-blue">添加选项</span>
                                                                                 </div>
-                                                                                <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_custom_option_list]" value="{{:urlencode(base64_encode(json_encode($v2.com_data.custom_option_list)))}}" class="forminput-custom-option-list" placeholder="请输入选项名称">
+                                                                                <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_custom_option_list]" value="{{if !empty($v1[$v2['form_name'].'_custom_option_list'])}}{{:urlencode(base64_encode(json_encode($v1[$v2['form_name'].'_custom_option_list'])))}}{{/if}}" class="forminput-custom-option-list" placeholder="请输入选项名称">
                                                                             {{/if}}
                                                                         </div>
                                                                     </div>
@@ -797,20 +802,20 @@
                                                                         {{foreach :array_values(range(1, $v2.com_data.total)) as $i => $d}}
                                                                             {{if $v2.com_data.score_type eq 0}}
                                                                                 <!-- 评分样式1 -->
-                                                                                <i data-index="{{$i}}" class="iconfont {{if $i < $v2.com_data.form_value}}icon-pointed{{else/}}icon-pointed-o{{/if}} forminput-score-icon" style="color: {{if $i < $v2.com_data.form_value}}{{$v2.com_data.select_color}}{{else/}}#ccc{{/if}};"></i>
+                                                                                <i data-index="{{$i}}" class="iconfont {{if $i < $v1[$v2.form_name]}}icon-pointed{{else/}}icon-pointed-o{{/if}} forminput-score-icon" style="color: {{if $i < $v1[$v2.form_name]}}{{$v2.com_data.select_color}}{{else/}}#ccc{{/if}};"></i>
                                                                             {{elseif $v2.com_data.score_type eq 1}}
                                                                                 <!-- 评分样式2 -->    
-                                                                                <i data-index="{{$i}}" class="iconfont {{if $i < $v2.com_data.form_value}}icon-the-heart{{else/}}icon-the-heart-o{{/if}} forminput-score-icon" style="color: {{if $i < $v2.com_data.form_value}}{{$v2.com_data.select_color}}{{else/}}#ccc{{/if}};"></i>
+                                                                                <i data-index="{{$i}}" class="iconfont {{if $i < $v1[$v2.form_name]}}icon-the-heart{{else/}}icon-the-heart-o{{/if}} forminput-score-icon" style="color: {{if $i < $v1[$v2.form_name]}}{{$v2.com_data.select_color}}{{else/}}#ccc{{/if}};"></i>
                                                                             {{elseif $v2.com_data.score_type eq 2}}
                                                                                 <!-- 评分样式3 -->        
-                                                                                <span data-index="{{$i}}" class="nowrap forminput-score-icon" style="color: {{if $i eq $v2.com_data.form_value - 1}}{{$v2.com_data.select_color}}{{else/}}#666{{/if}};">{{$i + 1 }}分</span>
+                                                                                <span data-index="{{$i}}" class="nowrap forminput-score-icon" style="color: {{if $i eq $v1[$v2.form_name] - 1}}{{$v2.com_data.select_color}}{{else/}}#666{{/if}};">{{$i + 1 }}分</span>
                                                                             {{/if}}
                                                                         {{/foreach}}
-                                                                        <input type="text" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" class="am-input am-input-sm forminput-visiable-hidden" value="{{$v2.com_data.form_value}}">
+                                                                        <input type="text" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" class="am-input am-input-sm forminput-visiable-hidden" value="{{$v1[$v2.form_name]}}">
                                                                     </div>
                                                                 {{elseif $v2.key eq 'text'}}
                                                                     <!-- 文本 -->
-                                                                    <div class="forminput-wrap item-small-size {{$form_input_item_size}}" style="color:{{$v2.com_data.text_color}};">{{$v2.com_data.form_value}}</div>
+                                                                    <div class="forminput-wrap item-small-size {{$form_input_item_size}}" style="color:{{$v2.com_data.text_color}};">{{$v1[$v2.form_name]}}</div>
                                                                 {{elseif $v2.key eq 'img'}}
                                                                     <!-- 图片 -->
                                                                     <div>
@@ -856,7 +861,7 @@
                                                                             <i class="iconfont icon-{{$v2.com_data.icon_name}}" style="color: 666;"></i>
                                                                             <input type="text" 
                                                                                 name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" 
-                                                                                value="{{$v2.com_data.form_value}}" 
+                                                                                value="{{$v1[$v2.form_name]}}" 
                                                                                 {{if $v2.com_data.is_required == '1'}}required="required" data-validation-message="{{:MyLang('not_fill_in_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}}
                                                                                 placeholder="{{$v2.com_data.placeholder}}" 
                                                                                 class="forminput-input forminput-no-border forminput-w forminput-h {{$form_input_item_size}}"
@@ -872,9 +877,9 @@
                                                                                     <input type="text" readonly="readonly" name="province_city_county" autocomplete="off" placeholder="{{$v2.com_data.placeholder}}"
                                                                                     value="{{if !empty($v2['com_data']['province_name'])}}{{$v2.com_data.province_name}}{{/if}}{{if !empty($v2['com_data']['city_name'])}}-{{$v2.com_data.city_name}}{{/if}}{{if !empty($v2['com_data']['county_name'])}}-{{$v2.com_data.county_name}}{{/if}}"
                                                                                     class="am-input-inner forminput-no-border forminput-w forminput-h {{$form_input_item_size}}" {{if isset($v2.com_data.required) and $v2.com_data.required eq '1'}}required data-validation-message="{{:MyLang('not_choice_error')}}({{$v.com_data.title}}-{{$v2.com_data.title}})"{{/if}}>
-                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_province]" value="{{if isset($v2['com_data']['form_value'][0])}}{{$v2.com_data.form_value[0]}}{{/if}}">
-                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_city]" value="{{if isset($v2['com_data']['form_value'][1])}}{{$v2.com_data.form_value[1]}}{{/if}}">
-                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_county]" value="{{if isset($v2['com_data']['form_value'][2])}}{{$v2.com_data.form_value[2]}}{{/if}}">
+                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_province]" value="{{if isset($v2['com_data']['form_value'][0])}}{{$v1[$v2.form_name][0]}}{{/if}}">
+                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_city]" value="{{if isset($v2['com_data']['form_value'][1])}}{{$v1[$v2.form_name][1]}}{{/if}}">
+                                                                                    <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_county]" value="{{if isset($v2['com_data']['form_value'][2])}}{{$v1[$v2.form_name][2]}}{{/if}}">
                                                                                     <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_province_name]" value="{{if isset($v2['com_data']['province_name'])}}{{$v2.com_data.province_name}}{{/if}}">
                                                                                     <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_city_name]" value="{{if isset($v2['com_data']['city_name'])}}{{$v2.com_data.city_name}}{{/if}}">
                                                                                     <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}_county_name]" value="{{if isset($v2['com_data']['county_name'])}}{{$v2.com_data.county_name}}{{/if}}">
@@ -914,8 +919,8 @@
                                                                             <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择图片，{{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.limit) }}最多{{:$v2.com_data.limit}}张{{/if}}{{if $v2.com_data.is_limit_size == '1' and !empty($v2.com_data.upload_size) }}、最多{{:$v2.com_data.upload_size}}MB{{/if}} )</div>
                                                                         </button>
                                                                         <div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10 {{if empty($v.com_data.form_value)}}file-upload-hidden{{/if}}">
-                                                                            {{if is_array($v2.com_data.form_value)}}
-                                                                                {{foreach $v2.com_data.form_value as $key => $upload_data}}
+                                                                            {{if is_array($v1[$v2.form_name])}}
+                                                                                {{foreach $v1[$v2.form_name] as $key => $upload_data}}
                                                                                     {{if !empty($upload_data.url)}}
                                                                                         <div data-index="{{$key}}" data-id="{{$v.id}}" data-subform-index-id="{{$v2.id}}" data-subform-index="{{$k1}}" class="file-upload-view-item">
                                                                                             <div class="file-upload-view-close file-abs-close forminput-cursor-p">
@@ -938,7 +943,7 @@
                                                                                 {{/foreach}}
                                                                             {{/if}}
                                                                         </div>
-                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v2.com_data.form_value)))}}" />
+                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v1[$v2.form_name])))}}" />
                                                                     </div>
                                                                 {{elseif $v2.key eq 'upload-video'}}
                                                                     <div class="am-flex-col forminput-gap-10">
@@ -946,8 +951,8 @@
                                                                             <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择视频，{{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.limit) }}最多{{:$v2.com_data.limit}}个{{/if}}{{if $v2.com_data.is_limit_size == '1' and !empty($v2.com_data.upload_size) }}、最多{{:$v2.com_data.upload_size}}MB{{/if}} )</div>
                                                                         </button>
                                                                         <div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10 {{if empty($v.com_data.form_value)}}file-upload-hidden{{/if}}">
-                                                                            {{if is_array($v2.com_data.form_value)}}
-                                                                                {{foreach $v2.com_data.form_value as $key => $upload_data}}
+                                                                            {{if is_array($v1[$v2.form_name])}}
+                                                                                {{foreach $v1[$v2.form_name] as $key => $upload_data}}
                                                                                     {{if !empty($upload_data.url)}}
                                                                                         <div data-index="{{$key}}" data-id="{{$v.id}}" data-subform-index-id="{{$v2.id}}" data-subform-index="{{$k1}}" class="file-upload-view-item">
                                                                                             <div class="file-upload-view-close file-abs-close forminput-cursor-p">
@@ -971,7 +976,7 @@
                                                                                 {{/foreach}}
                                                                             {{/if}}
                                                                         </div>
-                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v2.com_data.form_value)))}}"" />
+                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v1[$v2.form_name])))}}"" />
                                                                     </div>
                                                                 {{elseif $v2.key eq 'upload-attachments'}}
                                                                     <div class="am-flex-col forminput-gap-10">
@@ -979,8 +984,8 @@
                                                                             <div class="upload-text am-text-truncate"><span style="color: #2A94FF;">请选择</span>（点击选择文件，{{if $v2.com_data.is_limit_num == '1' and !empty($v2.com_data.limit) }}最多{{:$v2.com_data.limit}}个{{/if}}{{if $v2.com_data.is_limit_size == '1' and !empty($v2.com_data.upload_size) }}、最多{{:$v2.com_data.upload_size}}MB{{/if}} )</div>
                                                                         </button>
                                                                         <div class="file-upload-view-list am-flex-row am-flex-wrap forminput-gap-10 {{if empty($v.com_data.form_value)}}file-upload-hidden{{/if}}">
-                                                                            {{if is_array($v2.com_data.form_value)}}
-                                                                                {{foreach $v2.com_data.form_value as $key => $upload_data}}
+                                                                            {{if is_array($v1[$v2.form_name])}}
+                                                                                {{foreach $v1[$v2.form_name] as $key => $upload_data}}
                                                                                     {{if !empty($upload_data.name)}}
                                                                                         <div data-index="{{$key}}" data-id="{{$v.id}}" data-subform-index-id="{{$v2.id}}" data-subform-index="{{$k1}}" class="file-upload-view-item file-upload-view-item-attachments-item">
                                                                                             <div class="am-flex-row align-items-center upload-title file-upload-view-item-preview">
@@ -996,7 +1001,7 @@
                                                                                 {{/foreach}}
                                                                             {{/if}}
                                                                         </div>
-                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v2.com_data.form_value)))}}"" />
+                                                                        <input type="hidden" name="{{$v.form_name}}[{{$k1}}][{{$v2.form_name}}]" value="{{:urlencode(base64_encode(json_encode($v1[$v2.form_name])))}}"" />
                                                                     </div>
                                                                 {{/if}}
                                                             </div>
@@ -1016,6 +1021,75 @@
             </div>
         {{/if}}
     {{/foreach}}
+</div>
+
+<!-- 添加新选项的输入框 -->
+<div class="am-popup am-radius" id="forminput-add-option-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">添加新选项</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <div class="am-form am-form-popup-fixed form-validation">
+                <div class="upgrade-content">
+                    <input type="text" class="am-radius" required="required" autocomplete="off" data-validation-message="请输入选项名称" placeholder="请输入选项名称">
+                </div>
+                <div class="am-form-popup-submit">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example add-option-confirm" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                        <span>{{:MyLang('save_title')}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="forminput-user-verify-win">
+    <div class="forminput-am-modal-dialog am-modal-dialog am-radius">
+        <div class="am-modal-hd">
+            <span>{{:MyLang('verify_images_title')}}</span>
+            <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <div class="am-form-input-material">
+                <input type="text" minlength="4" maxlength="4" id="user-verify-win-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius input-padding-right-max" autocomplete="off" data-is-clearout="0" />
+                <div class="am-position-verify">
+                    <img src="" class="am-cursor-pointer am-radius" id="user-verify-win-img" onClick="this.src='{{:MyUrl('index/forminput/verifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}'+(({{$url_model}} == 0) ? '&t=' : '?t=')+Math.random();" />
+                    <a href="javascript:;" class="form-verify-tips am-radius" onClick="document.getElementById('user-verify-win-img').src='{{:MyUrl('index/forminput/verifyentry', ['type'=>isset($module_data['type']) ? $module_data['type'] : ''])}}{{if $url_model eq 0}}&t={{else /}}?t={{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
+                </div>
+                <span class="am-material-bar"></span>
+                <label class="am-material-label">{{:MyLang('form_verify_title')}}</label>
+            </div>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-md am-block am-margin-top-lg btn-loading-example user-verify-win-submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('confirm_title')}}'}" data-win="1">
+                <i class="am-icon-check"></i>
+                <span>{{:MyLang('confirm_title')}}</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="am-popup" id="forminput-upload-popup-preview">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">上传预览</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="forminput-subform-data">
+    <div class="forminput-am-modal-dialog am-modal-dialog">
+        <div class="am-modal-hd">{{:MyLang('reminder_title')}}</div>
+        <div class="am-modal-bd">{{:MyLang('delete_confirm_tips')}}</div>
+        <div class="am-modal-footer">
+        <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+        <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -1081,7 +1155,9 @@
             $forminput_data_list.forEach(item => {
                 if (item.id == subform_id) { 
                     let new_data = item;
+                    let is_subform = false;
                     if (item.key == "subform") {
+                        is_subform = true;
                         new_data = item.com_data.data_list[subform_index].data_list.find(item => item.id == subform_index_id);
                     }
                     new_data.com_data.form_value.push({
@@ -1091,6 +1167,11 @@
                         ext: upload_data.ext,
                     });
                     upload_input_data = JSON.parse(JSON.stringify(new_data.com_data.form_value));
+                    if (is_subform) {
+                        ForminputVerifyWhenDataChanges(item.id);
+                    } else {
+                        OnItemEvent({ id: item.id, key: item.key, value: new_data.com_data.form_value, is_error: '0', error_text: '' });
+                    }
                 }
             })
             // 赋值

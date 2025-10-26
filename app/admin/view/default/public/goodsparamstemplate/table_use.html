@@ -1,0 +1,84 @@
+<!--商品参数使用列表数据 -->
+<div class="parameters-container">
+    <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table-use table-thead-beautify am-margin-bottom-0" 
+        data-copy-no-tips="{{:MyLang('common.form_goods_params_copy_no_tips')}}" 
+        data-copy-error-tips="{{:MyLang('common.form_goods_params_copy_error_tips')}}" 
+        data-copy-empty-tips="{{:MyLang('config_empty_tips')}}" 
+        data-created-success-tips="{{:MyLang('created_success')}}" 
+        data-value-name="{{:MyLang('common.form_goods_params_value_name')}}" 
+        data-move-top-name="{{:MyLang('moveup_title')}}" 
+        data-move-bottom-name="{{:MyLang('movedown_title')}}" 
+        data-remove-name="{{:MyLang('remove_title')}}" 
+        data-move-type-tips="{{:MyLang('common.form_goods_params_move_type_tips')}}" 
+        data-move-top-tips="{{:MyLang('common.form_goods_params_move_top_tips')}}" 
+        data-move-bottom-tips="{{:MyLang('common.form_goods_params_move_bottom_tips')}}" 
+        data-not-choice-error-tips="{{:MyLang('not_choice_error')}}" 
+        data-not-fill-in-error-tips="{{:MyLang('not_fill_in_error')}}" 
+        data-goods-params-name="{{:MyLang('goods_params')}}" 
+        data-goods-params-operate-is-edit="{{if empty($goods_params_operate_data) or !isset($goods_params_operate_data['is_edit']) or $goods_params_operate_data['is_edit'] eq 1}}1{{else /}}0{{/if}}" 
+    >
+        <thead>
+            <tr>
+                <th width="100">{{:MyLang('common.form_goods_params_thead_scope_title')}}</th>
+                <th width="150">{{:MyLang('common.form_goods_params_thead_name_title')}}</th>
+                <th>{{:MyLang('common.form_goods_params_thead_value_title')}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
+                {{foreach $goods_base_template.params as $pk=>$pv}}
+                    {{if !empty($pv['config_data']) and is_array($pv['config_data'])}}
+                        {{foreach $pv.config_data as $pks=>$pvs}}
+                            <tr>
+                                <td class="am-text-left">
+                                    <input type="hidden" name="parameters_scope[{{$pks}}]" value="{{$pvs.scope}}" />
+                                    <span>{{$pvs.scope_name}}</span>
+                                </td>
+                                <td class="am-text-left">
+                                    <input type="hidden" name="parameters_name[{{$pks}}]" value="{{$pvs.name}}" />
+                                    <span>{{$pvs.name}}</span>
+                                    {{if isset($pvs['required']) and $pvs['required'] eq 1}}
+                                        <span class="am-color-red">*</span>
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-left">
+                                    <input type="hidden" name="parameters_data_type[{{$pks}}]" value="{{$pvs.data_type}}" />
+                                    {{switch $pvs.data_type}}
+                                        {{case 1}}
+                                            {{if !empty($pvs['value']) and is_array($pvs['value'])}}
+                                                <div class="am-radio-group">
+                                                    {{foreach $pvs.value as $vv}}
+                                                        <label class="am-radio-inline">
+                                                            <input type="radio" name="parameters_value[{{$pks}}]" value="{{$vv}}" data-am-ucheck {{if isset($pvs['required']) and $pvs['required'] eq 1}} data-validation-message="{{:MyLang('not_choice_error')}}（{{:MyLang('goods_params')}}-{{$pvs.name}}）" required{{/if}} {{if !empty($parameters) and !empty($parameters[$pvs['key']]) and isset($parameters[$pvs['key']]['value']) and $vv eq $parameters[$pvs['key']]['value']}} checked{{/if}} {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} /> {{$vv}}
+                                                        </label>
+                                                    {{/foreach}}
+                                                </div>
+                                            {{/if}}
+                                        {{/case}}
+                                        {{case 2}}
+                                            {{if !empty($pvs['value']) and is_array($pvs['value'])}}
+                                                <div class="am-checkbox-group">
+                                                    {{foreach $pvs.value as $vv}}
+                                                        <label class="am-checkbox-inline">
+                                                            <input type="checkbox" name="parameters_value[{{$pks}}]" value="{{$vv}}" data-am-ucheck {{if isset($pvs['required']) and $pvs['required'] eq 1}} data-validation-message="{{:MyLang('not_choice_error')}}（{{:MyLang('goods_params')}}-{{$pvs.name}}）" required{{/if}} {{if !empty($parameters) and !empty($parameters[$pvs['key']]) and !empty($parameters[$pvs['key']]['value']) and is_array($parameters[$pvs['key']]['value']) and in_array($vv, $parameters[$pvs['key']]['value'])}} checked{{/if}} {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} /> {{$vv}}
+                                                        </label>
+                                                    {{/foreach}}
+                                                </div>
+                                            {{/if}}
+                                        {{/case}}
+                                        {{default /}}
+                                            <input type="text" name="parameters_value[{{$pks}}]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if empty($parameters)}}{{$pvs.value}}{{else /}}{{if !empty($parameters[$pvs['key']]) and isset($parameters[$pvs['key']]['value'])}}{{$parameters[$pvs['key']]['value']}}{{/if}}{{/if}}" maxlength="160" class="am-radius" {{if isset($pvs['required']) and $pvs['required'] eq 1}} data-validation-message="{{:MyLang('not_fill_in_error')}}（{{:MyLang('goods_params')}}-{{$pvs.name}}）" required{{/if}} {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}}readonly{{/if}} />
+                                    {{/switch}}
+                                </td>
+                                <td>
+                                    <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                                    <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        </tbody>
+    </table>
+</div>

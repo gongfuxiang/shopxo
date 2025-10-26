@@ -54,10 +54,10 @@ class Goods extends Base
     {
     	// 模板数据
     	$assign = [
-    		// 商品参数类型
-            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
+            // 商品参数展示范围
+            'common_goods_parameters_scope_list'  => MyConst('common_goods_parameters_scope_list'),
             // 商品导航
-			'goods_nav_list'					=> MyLang('goods.goods_nav_list'),
+            'goods_nav_list'                      => MyLang('goods.goods_nav_list'),
     	];
         if(!empty($this->data_detail))
         {
@@ -92,30 +92,37 @@ class Goods extends Base
 		}
 
 		// 模板信息
-		$assign = [
-			// 商品参数类型
-			'common_goods_parameters_type_list'	=> MyConst('common_goods_parameters_type_list'),
-			// 站点类型
-			'common_site_type_list'				=> MyConst('common_site_type_list'),
-			// 当前系统设置的站点类型
-			'common_site_type'					=> SystemBaseService::SiteTypeValue(),
-			// 地区信息
-			'region_province_list'				=> RegionService::RegionItems(['pid'=>0]),
-			// 商品分类
-			'goods_category_list' 				=> GoodsCategoryService::GoodsCategoryAll(),
-			// 品牌
-			'brand_list' 						=> BrandService::CategoryBrand(),
-			// 商品导航
-			'goods_nav_list'					=> MyLang('goods.goods_nav_list'),
-			// 编辑器文件存放地址
-			'editor_path_type'					=> ResourcesService::EditorPathTypeValue('goods'),
+		$is_goods_single_category_mode = MyC('common_is_goods_single_category_mode', 0, true);
+        $assign = [
+            // 站点类型
+            'common_site_type_list'           => MyConst('common_site_type_list'),
+            // 当前系统设置的站点类型
+            'common_site_type'                => SystemBaseService::SiteTypeValue(),
+            // 地区信息
+            'region_province_list'            => RegionService::RegionItems(['pid'=>0]),
+            // 商品分类
+            'goods_category_list'             => GoodsCategoryService::GoodsCategoryAll(),
+            // 品牌
+            'brand_list'                      => BrandService::CategoryBrand(),
+            // 商品导航
+            'goods_nav_list'                  => MyLang('goods.goods_nav_list'),
+            // 商品分类模式
+            'is_goods_single_category_mode'   => $is_goods_single_category_mode,
+            // 编辑器文件存放地址
+            'editor_path_type'                => ResourcesService::EditorPathTypeValue('goods'),
             // 商品基础禁止操作数据
-            'goods_base_forbid_operate_data'    => GoodsService::GoodsBaseForbidOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_base_forbid_operate_data'  => GoodsService::GoodsBaseForbidOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
             // 商品参数操作数据
-            'goods_params_operate_data'         => GoodsService::GoodsParamsOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_params_operate_data'       => GoodsService::GoodsParamsOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
             // 商品规格操作数据
-            'goods_spec_operate_data'           => GoodsService::GoodsSpecOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_spec_operate_data'         => GoodsService::GoodsSpecOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
 		];
+        // 商品单分类模式
+        if($is_goods_single_category_mode == 1)
+        {
+            // 加载布局管理
+            $assign['is_load_layout_admin'] = 1;
+        }
 
 		// 商品信息
 		if(!empty($data))
@@ -129,6 +136,13 @@ class Goods extends Base
             // 基础模板
             $goods_base_template = GoodsService::GoodsBaseTemplate(['category_ids'=>$data['category_ids']]);
         	$assign['goods_base_template'] = $goods_base_template['data'];
+
+            // 商品单分类模式
+            if($is_goods_single_category_mode == 1)
+            {
+                // 获取分类层级数据
+                $assign['category_level'] = GoodsCategoryService::GoodsCategoryLevel($data['category_ids']);
+            }
 		}
 
 		// 规格扩展数据

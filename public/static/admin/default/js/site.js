@@ -1,5 +1,7 @@
 // 地址表单初始化
 FromInit('form.form-validation-address');
+// 备案表单初始化
+FromInit('form.form-validation-filing');
 
 /**
  * 地址返回处理
@@ -11,72 +13,70 @@ FromInit('form.form-validation-address');
  * @param   {[object]}        data [地址信息]
  */
 function AddressModalHandle (data) {
-    $(function () {
-        // 参数处理
-        var logo = data.logo || null;
-        var alias = data.alias || null;
-        var name = data.name || null;
-        var tel = data.tel || null;
-        var province = data.province || null;
-        var city = data.city || null;
-        var county = data.county || null;
-        var address = data.address || null;
-        var province_city_county = data.province_city_county || null;
-        var lng = data.lng || null;
-        var lat = data.lat || null;
+    // 参数处理
+    var logo = data.logo || null;
+    var alias = data.alias || null;
+    var name = data.name || null;
+    var tel = data.tel || null;
+    var province = data.province || null;
+    var city = data.city || null;
+    var county = data.county || null;
+    var address = data.address || null;
+    var province_city_county = data.province_city_county || null;
+    var lng = data.lng || null;
+    var lat = data.lat || null;
 
-        // 获取省市区的数组
-        var province_city_county_list = province_city_county.split(' ');
-        var province_city_county_obj = {
-            province_name: province_city_county_list.length > 0 ? province_city_county_list[0] : '',
-            city_name: province_city_county_list.length > 1 ? province_city_county_list[1] : '',
-            county_name: province_city_county_list.length > 2 ? province_city_county_list[2] : '',
-        }
-        data = Object.assign({}, data, province_city_county_obj);
-        if (name == null || tel == null || province == null || city == null || address == null) {
-            Prompt(window['lang_operate_params_error'] || '数据填写有误');
-            return false;
-        }
-        // 数据拼接
-        var html = '<li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">';
-        html += '<div class="am-flex am-flex-items-center am-flex-1 am-flex-width">';
-        if (logo != null) {
-            html += '<img src="' + logo + '" alt="' + name + '" class="am-img-thumbnail am-radius address-logo" /> ';
-        }
-        html += '<span class="address-content">';
-        html += '<span class="address-text">' + province_city_county + ' ' + address + '（' + name + '-' + tel + '）</span>';
-        if (alias != null) {
-            html += '<span class="am-badge am-radius-sm am-badge-success am-margin-left-xs">' + alias + '</span>';
-        }
-        html += '</span>';
-        html += '</div>';
-        html += '<div>';
-        html += '<span class="edit-submit"><i class="iconfont icon-edit am-text-xs"></i>编辑</span> ';
-        html += '<span class="delete-submit"><i class="iconfont icon-btn-del am-text-xs"></i>移除</span>';
-        html += '</div>';
-        html += '</li>';
+    // 获取省市区的数组
+    var province_city_county_list = province_city_county.split(' ');
+    var province_city_county_obj = {
+        province_name: province_city_county_list.length > 0 ? province_city_county_list[0] : '',
+        city_name: province_city_county_list.length > 1 ? province_city_county_list[1] : '',
+        county_name: province_city_county_list.length > 2 ? province_city_county_list[2] : '',
+    }
+    data = Object.assign({}, data, province_city_county_obj);
+    if (name == null || tel == null || province == null || city == null || address == null) {
+        Prompt(window['lang_operate_params_error'] || '数据填写有误');
+        return false;
+    }
+    // 数据拼接
+    var html = '<li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">';
+    html += '<div class="am-flex am-flex-items-center am-flex-1 am-flex-width">';
+    if (logo != null) {
+        html += '<img src="' + logo + '" alt="' + name + '" class="am-img-thumbnail am-radius address-logo" /> ';
+    }
+    html += '<span class="address-content">';
+    html += '<span class="address-text">' + province_city_county + ' ' + address + '（' + name + '-' + tel + '）</span>';
+    if (alias != null) {
+        html += '<span class="am-badge am-radius-sm am-badge-success am-margin-left-xs">' + alias + '</span>';
+    }
+    html += '</span>';
+    html += '</div>';
+    html += '<div>';
+    html += '<span class="edit-submit"><i class="iconfont icon-edit am-text-xs"></i>编辑</span> ';
+    html += '<span class="delete-submit"><i class="iconfont icon-btn-del am-text-xs"></i>移除</span>';
+    html += '</div>';
+    html += '</li>';
 
-        // 数据处理
-        var value = SelfExtractionAddressValue();
+    // 数据处理
+    var value = SelfExtractionAddressValue();
 
-        // 弹层
-        var $popup_address = $('#popup-address-win');
+    // 弹层
+    var $popup_address = $('#popup-address-win');
 
-        // 操作类型（add, edit）
-        var form_type = $popup_address.attr('data-type') || 'add';
-        if (form_type == 'add') {
-            $('ul.address-list').append(html);
-            data['id'] = value.length;
-            value.push(data);
-        } else {
-            var form_index = $popup_address.attr('data-index') || 0;
-            data['id'] = form_index;
-            value.splice(form_index, 1, data);
-            $('ul.address-list').find('li').eq(form_index).replaceWith(html);
-        }
-        $popup_address.modal('close');
-        $('.self-extraction-address-value').val(JSON.stringify(value));
-    });
+    // 操作类型（add, edit）
+    var form_type = $popup_address.attr('data-type') || 'add';
+    if (form_type == 'add') {
+        $('ul.address-list').append(html);
+        data['id'] = value.length;
+        value.push(data);
+    } else {
+        var form_index = $popup_address.attr('data-index') || 0;
+        data['id'] = form_index;
+        value.splice(form_index, 1, data);
+        $('ul.address-list').find('li').eq(form_index).replaceWith(html);
+    }
+    $popup_address.modal('close');
+    $('.self-extraction-address-value').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(value)))));
 }
 
 /**
@@ -89,20 +89,90 @@ function AddressModalHandle (data) {
  */
 function SelfExtractionAddressValue () {
     var value = $('.self-extraction-address-value').val() || null;
-    return (value == null) ? [] : JSON.parse(value);
+    return (value == null) ? [] : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(value)).toString(CryptoJS.enc.Utf8));
+}
+
+
+/**
+ * 备案信息返回处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-11-12
+ * @desc    description
+ * @param   {[object]}        data [地址信息]
+ */
+function FilingModalHandle (data) {
+    // 参数处理
+    var icon = data.icon || null;
+    var name = data.name || null;
+    var show_name = data.show_name || null;
+    var url = data.url || null;
+    if (name == null || show_name == null) {
+        Prompt(window['lang_operate_params_error'] || '数据填写有误');
+        return false;
+    }
+    // 数据拼接
+    var html = '<li class="am-flex am-flex-justify-between am-flex-items-center am-gap-12">';
+    html += '<div class="am-flex am-flex-items-center am-flex-1 am-flex-width">';
+    if (icon != null) {
+        html += '<img src="' + icon + '" alt="' + name + '" class="am-img-thumbnail am-radius filing-icon" /> ';
+    }
+    html += '<span class="filing-content">';
+    html += '<span class="filing-text">' + name + '（' + show_name + '）</span>';
+    if (url != null) {
+        html += ' <span class="am-badge am-radius am-margin-left-xs">' + url + '</span>';
+    }
+    html += '</span>';
+    html += '</div>';
+    html += '<div>';
+    html += '<span class="edit-submit"><i class="iconfont icon-edit am-text-xs"></i>编辑</span> ';
+    html += '<span class="delete-submit"><i class="iconfont icon-btn-del am-text-xs"></i>移除</span>';
+    html += '</div>';
+    html += '</li>';
+
+    // 数据处理
+    var value = FilingValue();
+
+    // 弹层
+    var $popup_filing = $('#popup-filing-win');
+
+    // 操作类型（add, edit）
+    var form_type = $popup_filing.attr('data-type') || 'add';
+    if (form_type == 'add') {
+        $('ul.filing-list').append(html);
+        data['id'] = value.length;
+        value.push(data);
+    } else {
+        var form_index = $popup_filing.attr('data-index') || 0;
+        data['id'] = form_index;
+        value.splice(form_index, 1, data);
+        $('ul.filing-list').find('li').eq(form_index).replaceWith(html);
+    }
+    $popup_filing.modal('close');
+    $('.filing-value').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(value)))));
+}
+
+/**
+ * 获取备案信息
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-11-12
+ * @desc    description
+ */
+function FilingValue () {
+    var value = $('.filing-value').val() || null;
+    return (value == null) ? [] : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(value)).toString(CryptoJS.enc.Utf8));
 }
 
 $(function () {
-    // 弹层
+    // 地址弹层
     var $popup_address = $('#popup-address-win');
-
     // 地址添加开启
     $(document).on('click', '.address-submit-add', function () {
         $popup_address.modal();
         $popup_address.attr('data-type', 'add');
-
-        // logo
-        $popup_address.find('.sitetype-logo').html('');
 
         // 清空数据
         FormDataFill({ "alias": "", "name": "", "tel": "", "address": "", "province": 0, "city": 0, "county": 0, "province_city_county": '', "lng": "", "lat": "" }, 'form.form-validation-address');
@@ -118,7 +188,6 @@ $(function () {
             html += '</li>';
         $popup_address.find('.sitetype-logo').html(html);
     });
-
     // 地址移除
     $(document).on('click', '.address-list .delete-submit', function () {
         var index = $(this).parents('li').index();
@@ -129,7 +198,7 @@ $(function () {
                 content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
                 onConfirm: function (options) {
                     value.splice(index, 1);
-                    $('.self-extraction-address-value').val(JSON.stringify(value));
+                    $('.self-extraction-address-value').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(value)))));
                     $('ul.address-list').find('li').eq(index).remove();
                 },
                 onCancel: function () { }
@@ -138,7 +207,6 @@ $(function () {
             $('ul.address-list').find('li').eq(index).remove();
         }
     });
-
     // 地址编辑
     $(document).on('click', '.address-list .edit-submit', function () {
         var index = $(this).parents('li').index();
@@ -183,7 +251,6 @@ $(function () {
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');
 
-
         // 基础数据
         $popup_address.modal();
         $popup_address.attr('data-type', 'edit');
@@ -191,6 +258,79 @@ $(function () {
 
         // 地图初始化
         MapInit(item.lng, item.lat);
+    });
+
+
+    // 备案弹层
+    var $popup_filing = $('#popup-filing-win');
+    // 备案添加开启
+    $(document).on('click', '.filing-submit-add', function () {
+        $popup_filing.modal();
+        $popup_filing.attr('data-type', 'add');
+
+        // 清空数据
+        FormDataFill({ "name": "", "show_name": "", "url": "" }, 'form.form-validation-filing');
+
+        // icon
+        var html = '<li class="plug-file-upload-submit" data-view-tag="ul.filing-icon">';
+            html += '<i class="iconfont icon-add"></i>';
+            html += '</li>';
+        $popup_filing.find('.filing-icon').html(html);
+    });
+    // 备案移除
+    $(document).on('click', '.filing-list .delete-submit', function () {
+        var index = $(this).parents('li').index();
+        var value = FilingValue();
+        if (value.length > 0) {
+            AMUI.dialog.confirm({
+                title: window['lang_reminder_title'] || '温馨提示',
+                content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
+                onConfirm: function (options) {
+                    value.splice(index, 1);
+                    $('.filing-value').val(encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(value)))));
+                    $('ul.filing-list').find('li').eq(index).remove();
+                },
+                onCancel: function () { }
+            });
+        } else {
+            $('ul.filing-list').find('li').eq(index).remove();
+        }
+    });
+    // 备案编辑
+    $(document).on('click', '.filing-list .edit-submit', function () {
+        var index = $(this).parents('li').index();
+        var value = FilingValue();
+        if (value.length <= 0) {
+            Prompt(window['lang_filing_no_data'] || '备案数据为空');
+            return false;
+        }
+
+        var item = value[index] || null;
+        if (item == null) {
+            Prompt(window['lang_filing_not_exist'] || '备案不存在');
+            return false;
+        }
+
+        // icon
+        var html = '<li class="plug-file-upload-submit" data-view-tag="ul.filing-icon">';
+        if ((item.icon || null) != null) {
+            html += '';
+            html += '<input type="text" name="icon" value="' + item.icon + '" data-validation-message="' + (window['lang_filing_icon_message'] || '请上传图标') + '" required />';
+            html += '<img src="' + item.icon + '" alt="' + item.name + '" />';
+            html += '<i class="iconfont icon-close"></i>';
+        } else {
+            html += '<i class="iconfont icon-add"></i>';
+        }
+        html += '</li>';
+        $popup_filing.find('.filing-icon').html(html);
+
+        // 数据填充
+        FormDataFill(item, 'form.form-validation-filing');
+
+        // 基础数据
+        $popup_filing.modal();
+        $popup_filing.attr('data-type', 'edit');
+        $popup_filing.attr('data-index', index);
     });
 
 

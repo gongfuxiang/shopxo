@@ -422,11 +422,8 @@ class Common extends BaseController
         $assign['category_show_level'] = MyC('common_show_goods_category_level', 3, true);
 
         // 备案信息
-        $assign['home_site_icp'] = MyC('home_site_icp');
-        $assign['home_site_security_record_name'] = MyC('home_site_security_record_name');
-        $assign['home_site_security_record_url'] = MyC('home_site_security_record_url');
-        $assign['home_site_telecom_license'] = MyC('home_site_telecom_license');
-        $assign['home_site_company_license'] = MyC('home_site_company_license');
+        $filing = ConfigService::SiteFilingList();
+        $assign['site_filing_list'] = $filing['data'];
 
         // 是否加载附件组件
         $admin = AdminService::LoginInfo();

@@ -111,6 +111,25 @@ class FormInputApiService
                 'is_edit'    => 1,
                 'is_del'     => 1,
             ],
+            // 表单基础操作权限
+            'forminput_config_operate'   => [
+                // 模式: 标准 default, 自由 free
+                'mode_default'          => 'default',
+                // 切换模式
+                'is_mode_switch'        => 1,
+                // 修改基础数据
+                'is_base_data'          => 1,
+                // 配置公共配置
+                'is_common_config'      => 1,
+                // 表单配置
+                'is_forminput_config'   => 1,
+                // 提交按钮
+                'is_submit_button'      => 1,
+                // 保存
+                'is_save_button'        => 1,
+                // 保存并关闭
+                'is_save_close_button'  => 1,
+            ],
             // 配置预览地址
             'config_preview_url'      => empty($h5_url) ? '' : $h5_url.'pages/form-input/form-preview',
             // 预览地址

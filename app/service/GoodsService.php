@@ -1081,13 +1081,13 @@ class GoodsService
                 }
 
                 // 基础
-                if(in_array($v['type'], [0,2]))
+                if(in_array($v['scope'], [0,2]))
                 {
                     $data[$v['goods_id']]['base'][] = $v;
                 }
 
                 // 详情
-                if(in_array($v['type'], [0,1]))
+                if(in_array($v['scope'], [0,1]))
                 {
                     $data[$v['goods_id']]['detail'][] = $v;
                 }
@@ -1371,7 +1371,7 @@ class GoodsService
         }
 
         // 商品参数
-        $parameter = GoodsParamsService::GoodsParamsTemplateHandle($params);
+        $parameter = GoodsParamsService::GoodsParamsTemplateSaveHandle($params);
 
         // 相册
         $photo = self::GetFormGoodsPhotoParams($params);
@@ -2556,10 +2556,24 @@ class GoodsService
      * @date    2020-08-31
      * @desc    description
      * @param   [int]          $goods_id [商品id]
+     * @param   [array]        $data     [指定参数数据]
      */
-    public static function GoodsEditParameters($goods_id)
+    public static function GoodsEditParameters($goods_id = 0, $data = [])
     {
-        return Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select()->toArray();
+        $data = empty($data) ? Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select()->toArray() : $data;
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $v['key'] = (isset($v['scope']) && isset($v['name']) && isset($v['data_type'])) ? md5($v['scope'].$v['name'].$v['data_type']) : '';
+                if(isset($v['value']) && isset($v['data_type']) && in_array($v['data_type'], [2]))
+                {
+                    $v['value'] = explode(',', $v['value']);
+                }
+            }
+            $data = array_column($data, null, 'key');
+        }
+        return $data;
     }
 
     /**
@@ -3155,20 +3169,34 @@ class GoodsService
                             $error = $ret['msg'];
                         }
 
+                        // 是否关闭下单按钮
+                        $close_buy_button = MyC('common_goods_close_buy_button');
+                        if(!empty($close_buy_button) && is_array($close_buy_button))
+                        {
+                            if(in_array('cart', $close_buy_button))
+                            {
+                                $cart = [];
+                            }
+                            if(in_array('buy', $close_buy_button))
+                            {
+                                $buy = [];
+                            }
+                        }
+
+                        // 按钮加到数据
+                        if(!empty($buy))
+                        {
+                            $data[] = $buy;
+                        }
+                        if(!empty($cart))
+                        {
+                            $data[] = $cart;
+                        }
+
                         // 主按钮顺序处理，手机端立即购买放在最后面
                         if(APPLICATION == 'app')
                         {
-                            if(!empty($cart))
-                            {
-                                $data[] = $cart;
-                            }
-                            $data[] = $buy;
-                        } else {
-                            $data[] = $buy;
-                            if(!empty($cart))
-                            {
-                                $data[] = $cart;
-                            }
+                            $data = array_reverse($data);
                         }
                     }
                 }
@@ -3865,7 +3893,7 @@ class GoodsService
             {
                 return implode(';', $item);
             }, array_values($data['parameter']));
-            $parameter = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->field('type,name,value')->select()->toArray();
+            $parameter = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->field('scope,name,data_type,value')->select()->toArray();
             if(!empty($parameter))
             {
                 $parameter = array_map(function($item)

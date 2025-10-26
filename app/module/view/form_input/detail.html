@@ -1,9 +1,8 @@
-{{php}}$form_input_data_detail = empty($form_input_data_detail) ? (empty($data) ? [] : $data) : $form_input_data_detail;{{/php}}
-{{if empty($form_input_data_detail['form_data'])}}
+{{if empty($module_data['data'])}}
     {{:ModuleInclude('public/not_data')}}
 {{else /}}
     <dl class="dl-content am-padding-sm">
-        {{foreach $form_input_data_detail.form_data as $v}}
+        {{foreach $module_data.data as $v}}
             {{if !empty($v) and isset($v['key']) and isset($v['name']) and isset($v['value'])}}
                 <dt class="am-text-truncate">
                     <strong>{{$v.name}}</strong>

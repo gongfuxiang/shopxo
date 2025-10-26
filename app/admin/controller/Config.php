@@ -40,6 +40,18 @@ class Config extends Base
 			'view_type'                        => 'index',
 			// 静态数据
 			'common_token_created_rules_list'  => MyConst('common_token_created_rules_list'),
+			// 登录方式
+			'common_login_type_list'           => MyConst('common_login_type_list'),
+			// excel编码
+			'common_excel_charset_list'        => MyConst('common_excel_charset_list'),
+			// excel导出类型
+			'common_excel_export_type_list'    => MyConst('common_excel_export_type_list'),
+			// 地图类型
+			'common_map_type_list'             => MyConst('common_map_type_list'),
+			// 关闭开启
+			'common_close_open_list'           => MyConst('common_close_open_list'),
+			// 是否
+			'common_is_text_list'              => MyConst('common_is_text_list'),
 		];
 		MyViewAssign($assign);
 		return MyView();

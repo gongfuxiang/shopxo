@@ -55,19 +55,23 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_excel_charset.name}}<span class="am-form-group-label-tips">{{$data.admin_excel_charset.describe}}</span></label>
-                        <select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
-                            {{foreach :MyConst('common_excel_charset_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_excel_charset_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.admin_excel_charset.only_tag}}" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_excel_export_type.name}}<span class="am-form-group-label-tips">{{$data.common_excel_export_type.describe}}</span></label>
-                        <select name="{{$data.common_excel_export_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_excel_export_type.error_tips}}" required>
-                            {{foreach :MyConst('common_excel_export_type_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_excel_export_type']['value']) and $data['common_excel_export_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_excel_export_type_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_excel_export_type.only_tag}}" data-validation-message="{{$data.common_excel_export_type.error_tips}}" required {{if isset($data['common_excel_export_type']['value']) and $data['common_excel_export_type']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_page_size.name}}<span class="am-form-group-label-tips">{{$data.common_page_size.describe}}</span></label>
@@ -117,11 +121,13 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
-                        <select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
-                            {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.admin_login_info_bg_images_rand.only_tag}}" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                         {{if is_array(MyLang('config.admin_login_info_bg_images_list_tips'))}}
                             <div class="am-tips-card">
                                 <p>{{:implode('</p><p>', MyLang('config.admin_login_info_bg_images_list_tips'))}}</p>
@@ -130,19 +136,23 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_login_type.name}}<span class="am-form-group-label-tips">{{$data.admin_login_type.describe}}</span></label>
-                        <select name="{{$data.admin_login_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.admin_login_type.name}}" data-validation-message="{{$data.admin_login_type.error_tips}}" required>
-                            {{foreach :MyConst('common_login_type_list') as $v}}
-                                <option value="{{$v.value}}" {{if isset($data['admin_login_type']['value']) and in_array($v['value'], $data['admin_login_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_login_type_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.admin_login_type.only_tag}}" value="{{$v.value}}" {{if isset($data['admin_login_type']['value']) and in_array($v['value'], $data['admin_login_type']['value'])}}checked{{/if}} data-validation-message="{{$data.admin_login_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.admin_login_img_verify_state.describe}}</span></label>
-                        <select name="{{$data.admin_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_img_verify_state.error_tips}}" required>
-                            {{foreach :MyConst('common_close_open_list') as $v}}
-                                <option value="{{$v.value}}" {{if isset($data['admin_login_img_verify_state']['value']) and $data['admin_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.admin_login_img_verify_state.only_tag}}" data-validation-message="{{$data.admin_login_img_verify_state.error_tips}}" required {{if isset($data['admin_login_img_verify_state']['value']) and $data['admin_login_img_verify_state']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                 </div>
 
@@ -152,17 +162,29 @@
                         <label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>
                         <input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
                     </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_goods_single_category_mode.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_single_category_mode.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_single_category_mode.only_tag}}" data-validation-message="{{$data.common_is_goods_single_category_mode.error_tips}}" required {{if isset($data['common_is_goods_single_category_mode']['value']) and $data['common_is_goods_single_category_mode']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 地图 -->
                 <div class="item" data-key="map">
                     <div class="am-form-group">
                         <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <select name="{{$data.common_map_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_map_type.error_tips}}" required>
-                            {{foreach :MyConst('common_map_type_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_map_type']['value']) and $data['common_map_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_map_type_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_map_type.only_tag}}" data-validation-message="{{$data.common_map_type.error_tips}}" required {{if isset($data['common_map_type']['value']) and $data['common_map_type']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
@@ -218,11 +240,13 @@
                 <div class="item" data-key="extend">
                     <div class="am-form-group">
                         <label>{{$data.common_is_https_connect_store.name}}<span class="am-form-group-label-tips">{{$data.common_is_https_connect_store.describe}}</span></label>
-                        <select name="{{$data.common_is_https_connect_store.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_https_connect_store.error_tips}}" required>
-                            {{foreach :MyConst('common_is_text_list') as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_is_https_connect_store']['value']) and $data['common_is_https_connect_store']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_https_connect_store.only_tag}}" data-validation-message="{{$data.common_is_https_connect_store.error_tips}}" required {{if isset($data['common_is_https_connect_store']['value']) and $data['common_is_https_connect_store']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
                             {{/foreach}}
-                        </select>
+                        </div>
                     </div>
                 </div>
 

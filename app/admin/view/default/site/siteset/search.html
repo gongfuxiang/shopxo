@@ -136,7 +136,7 @@
                 <div class="am-form-group">
                     <label>{{$data.home_search_params_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_params_type.describe}}</span></label>
                     <div class="am-checkbox-group">
-                        {{foreach $common_goods_parameters_type_list as $v}}
+                        {{foreach $common_goods_parameters_scope_list as $v}}
                             <label class="am-checkbox-inline">
                                 <input type="checkbox" value="{{$v.value}}" name="{{$data.home_search_params_type.only_tag}}" data-validation-message="{{$data.home_search_params_type.error_tips}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}checked{{/if}} data-am-ucheck>{{$v.name}}
                             </label>

@@ -37,7 +37,6 @@
 }
 
 @media only screen and (max-width:640px) {
-
     .address-list .edit-submit,
     .address-list .delete-submit {
         position: absolute;
@@ -47,6 +46,58 @@
     }
 
     .address-list .delete-submit {
+        right: 7rem;
+    }
+}
+
+/**
+ * 备案信息添加/编辑
+ */
+.filing-list li {
+    padding: 1rem 1.2rem;
+    color: #333;
+}
+
+.filing-list li:nth-child(odd) {
+    background-color: #fff;
+}
+
+.filing-list li:nth-child(even) {
+    background: #F6F6F6;
+}
+
+.filing-list .filing-icon {
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
+}
+
+.filing-list .edit-submit,
+.filing-list .delete-submit {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--color-main);
+    padding: 0 1rem;
+}
+
+.filing-list .edit-submit:hover,
+.filing-list .delete-submit:hover {
+    color: #146BE6;
+}
+
+@media only screen and (max-width:640px) {
+    .filing-list .edit-submit,
+    .filing-list .delete-submit {
+        position: absolute;
+        top: 1.2rem;
+        right: 0.5rem;
+        float: none !important;
+    }
+
+    .filing-list .delete-submit {
         right: 7rem;
     }
 }

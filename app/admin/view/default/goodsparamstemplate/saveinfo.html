@@ -21,6 +21,16 @@
                         <option value="">{{:MyLang('please_select_tips')}}</option>
                         {{foreach $goods_category_list as $v}}
                             <option value="{{$v.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{if !empty($v['items'])}}
+                                {{foreach $v.items as $vs}}
+                                    <option style="padding-left: 20px;" value="{{$vs.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $vs['id']}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                    {{if !empty($vs['items'])}}
+                                        {{foreach $vs.items as $kss=>$vss}}
+                                            <option style="padding-left: 40px;" value="{{$vss.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $vss['id']}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
                         {{/foreach}}
                     {{/if}}
                 </select>
@@ -41,7 +51,7 @@
                             <i class="am-icon-angle-down am-margin-left-xs"></i>
                         </span>
                         <div class="am-dropdown-content parameters-quick-config">
-                            <textarea rows="5" placeholder="{{:MyLang('common_service.goodsparamstemplate.form_item_config_value_placeholder')}}"></textarea>
+                            <textarea class="am-radius" rows="5" placeholder="{{:MyLang('common_service.goodsparamstemplate.form_item_config_value_placeholder')}}"></textarea>
                             <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block am-margin-top-sm">{{:MyLang('confirm_title')}}</button>
                         </div>
                     </div>
@@ -81,7 +91,7 @@
 			{{/if}}
 			<!-- 插件扩展数据 end -->
 
-			<div class="am-form-popup-submit">
+			<div class="am-form-popup-submit am-text-left">
 				<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
 				<button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
                     <i class="am-icon-paint-brush"></i>

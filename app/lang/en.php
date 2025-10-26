@@ -358,6 +358,8 @@ return [
     'select_all_title'                                      => 'All',
     'reverse_select_title'                                  => 'Back',
     'single_select_title'                                   => 'Single',
+    'many_select_title'                                     => 'Multiple',
+    'input_title'                                           => 'input',
     'reset_title'                                           => 'Reset',
     'confirm_title'                                         => 'Confirm',
     'screen_title'                                          => 'Screen',
@@ -534,7 +536,7 @@ return [
     'unbind_title'                                          => 'Unbind',
     'brand_title'                                           => 'Brand',
     'category_title'                                        => 'Category',
-    'produce_region_title'                                    => 'ProduceRegion',
+    'produce_region_title'                                  => 'ProduceRegion',
     'attr_title'                                            => 'Attribute',
     'spec_title'                                            => 'Specifications',
     'register_title'                                        => 'Register',
@@ -578,6 +580,7 @@ return [
     'callback_title'                                        => 'CallBack',
     'buy_title'                                             => 'Buy',
     'place_order_title'                                     => 'PlaceOrder',
+    'cart_title'                                            => 'Cart',
     'new_title'                                             => 'New',
     'front_title'                                           => 'Front',
     'final_title'                                           => 'Final',
@@ -587,6 +590,8 @@ return [
     'chat_title'                                            => 'Chat',
     'gift_title'                                            => 'Gift',
     'continue_scan_title'                                   => 'ContinueScan',
+    'continue_next_step_title'                              => 'Continue next step',
+    'reselect_title'                                        => 'Reselect',
     'self_pickup_title'                                     => 'Self pickup',
     'self_pickup_point_title'                               => 'Self Pickup Point',
     'web_title'                                             => 'WEB end',
@@ -597,10 +602,13 @@ return [
     'region_title'                                          => 'Area',
     'compare_title'                                         => 'Compare',
     'long_term_title'                                       => 'long-term',
+    'form_title'                                            => 'Form',
     // 商品基础相关
     'goods_name'                                            => 'Goods Name',
     'goods_add_name'                                        => 'Goods Add',
     'goods_choice_name'                                     => 'Goods Choice',
+    'goods_params'                                          => 'Product Specifications',
+    'goods_spec'                                            => 'Product Specifications',
     'goods_stop_sale_title'                                 => 'Stop Sale',
     'goods_buy_title'                                       => 'Buy',
     'goods_booking_title'                                   => 'Booking',
@@ -1151,11 +1159,17 @@ return [
     'common_pay_log_business_type_list' => [
         'order' => 'order',
     ],
-    // 商品参数组件类型
-    'common_goods_parameters_type_list' => [
+    // 商品参数展示范围
+    'common_goods_parameters_scope_list' => [
         0 => 'whole',
         1 => 'details',
         2 => 'Basics',
+    ],
+    // 商品参数数据类型
+    'common_goods_parameters_data_type_list' => [
+        0 => 'input',
+        1 => 'Single choice',
+        2 => 'Multiple choice',
     ],
     // 搜索商品展示样式类型
     'common_search_goods_show_type_list' => [
@@ -2038,7 +2052,7 @@ return [
             'form_params_value_placeholder'         => 'Paste goods parameter configuration information',
             'form_params_config_copy_title'         => 'Copy Config',
             'form_params_config_empty_title'        => 'Clear Params',
-            'form_params_list_content_tips'         => 'You can directly click the parameter line to drag and sort or click up and down to move',
+            'form_params_choice_text'               => 'Select parameters',
             // 相册
             'form_photo_top_tips'                   => 'You can drag and drop pictures to sort. It is recommended that the size of pictures be consistent with 800 * 800px, with a maximum of 30 pictures',
             'form_photo_button_add_name'            => 'Upload Photo',
@@ -2089,6 +2103,12 @@ return [
         ],
         // 商品分类
         'goodscategory'         => [
+            // 基础
+            'goods_category_no_data_tips'                       => 'Please add the product category first',
+            'goods_category_choice_text'                        => 'Product classification selection',
+            'already_choice_goods_category_text'                => 'Selected product category:',
+            'please_choice_goods_category_tips'                 => 'Please select the product category first',
+            'please_choice_complete_goods_category_level_tips'  => 'Please select the complete product classification hierarchy',
             // 表单
             'form_item_icon'                        => 'Icon',
             'form_item_icon_tips'                   => '100 * 100px recommend',
@@ -3416,11 +3436,6 @@ return [
             'desc' => 'Site description, generally no more than 200 characters',
             'tips' => 'Site description cannot be empty',
         ],
-        'home_site_icp'  => [
-            'name' => 'ICP Certificate No',
-            'desc' => 'For example: Shanghai ICP Bei No. XXX',
-            'tips' => '',
-        ],
         'home_statistics_code'  => [
             'name' => 'Bottom statistics code',
             'desc' => 'Support HTML, which can be used to add traffic statistics code',
@@ -3778,7 +3793,12 @@ return [
         'common_spec_add_max_number'  => [
             'name' => 'Maximum quantity of goods specifications that can be added',
             'desc' => 'No more than 3 specifications are recommended',
-            'tips' => 'Please fill in the maximum number of Google',
+            'tips' => 'Please fill in the maximum quantity of specifications that can be added to the product',
+        ],
+        'common_is_goods_single_category_mode'  => [
+            'name' => 'Classification mode of product list',
+            'desc' => 'Default multi classification',
+            'tips' => 'Please select the product list classification mode',
         ],
         'common_route_separator'  => [
             'name' => 'Route separator',
@@ -4099,16 +4119,6 @@ return [
         'common_app_mini_toutiao_describe'  => [
             'name' => 'describe',
             'tips' => 'Please fill in the description',
-        ],
-        'home_site_security_record_name'  => [
-            'name' => 'Public security record No',
-            'desc' => 'For example: Jinggong Anbei No. XXX',
-            'tips' => 'Please fill in the public security record number',
-        ],
-        'home_site_security_record_url'  => [
-            'name' => 'Public Security Filing address',
-            'desc' => 'URL address of filing display page',
-            'tips' => 'Please fill in the public security record address',
         ],
         'common_app_mini_qq_appid'  => [
             'name' => 'AppID',
@@ -4542,19 +4552,13 @@ return [
             'desc' => 'No by default, the offline payment submission enters the normal order status process, and the subsequent administrator can confirm the operation collection in the background',
             'tips' => 'Please select offline payment to proceed normally',
         ],
-        'home_site_telecom_license'  => [
-            'name' => 'Value added telecom business license',
-            'desc' => 'For example: Hu B2 XXX',
-            'tips' => '',
+        'home_site_filing'  => [
+            'name' => 'Record Filing Information',
+            'tips' => 'Please add filing information',
         ],
         'home_site_web_home_state'  => [
             'name' => 'Web homepage access',
             'desc' => 'It is enabled by default, only for the home page of the web, and other pages are not affected',
-            'tips' => '',
-        ],
-        'home_site_company_license'  => [
-            'name' => 'Lighting of electronic business license',
-            'desc' => 'License page display address and application address: https://zzlz.gsxt.gov.cn/businessShow',
             'tips' => '',
         ],
         'home_site_web_pc_state'  => [

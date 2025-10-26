@@ -997,7 +997,7 @@ class FormTableHandleModule
             $title = [];
             foreach($this->form_data['form'] as $v)
             {
-                if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images', 'status']) && !empty($v['label']) && !empty($v['view_key']))
+                if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images', 'status', 'qrcode']) && !empty($v['label']) && !empty($v['view_key']))
                 {
                     // key避免多数组
                     $key = is_array($v['view_key']) ? $v['view_key'][0] : $v['view_key'];

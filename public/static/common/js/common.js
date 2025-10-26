@@ -5,9 +5,9 @@
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:39+0800
- * @param {[string]}    msg  [提示信息]
- * @param {[string]}    type [类型（失败:error, 警告:warning, 成功:success）]
- * @param {[int]}       time [自动关闭时间（秒）, 默认3秒]
+ * @param {[string]}	msg  [提示信息]
+ * @param {[string]} 	type [类型（失败:error, 警告:warning, 成功:success）]
+ * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
 function Prompt (msg, type, time) {
     if (msg != undefined && msg != '') {
@@ -66,9 +66,9 @@ function Prompt (msg, type, time) {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:04+0800
- * @param  {[array]}    all     [需要被转的数组]
- * @param  {[object]}   object  [需要压进去的json对象]
- * @return {[object]}           [josn对象]
+ * @param  {[array]} 	all    	[需要被转的数组]
+ * @param  {[object]} 	object 	[需要压进去的json对象]
+ * @return {[object]} 			[josn对象]
  */
 function ArrayTurnJson (all, object) {
     for (var name in all) {
@@ -85,7 +85,7 @@ function ArrayTurnJson (all, object) {
  * @datetime 2016-12-10T14:31:19+0800
  * @param    {[string]}     element [元素的class或id]
  * @param    {[boolean]}    is_json [是否返回json对象（默认否）]
- * @return   {[object]}             [josn对象]
+ * @return   {[object]}        		[josn对象]
  */
 function GetFormVal (element, is_json) {
     var $form = (typeof (element) == 'object') ? $(element) : $(element);
@@ -169,7 +169,7 @@ function GetFormVal (element, is_json) {
  * @version  0.0.1
  * @datetime 2016-12-10T14:30:37+0800
  * @param    {[string]}    fun_name [方法名]
- * @return   {[boolean]}            [已定义true, 则false]
+ * @return 	 {[boolean]}        	[已定义true, 则false]
  */
 function IsExitsFunction (fun_name) {
     try {
@@ -218,11 +218,11 @@ function GetTagValue (tag_obj) {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-10T14:22:39+0800
- * @param    {[string] [form_name]      [标题class或id]}
- * @param    {[string] [action]         [请求地址]}
- * @param    {[string] [method]         [请求类型 POST, GET]}
- * @param    {[string] [request-type]   [回调类型 ajax-url, ajax-fun, ajax-reload]}
- * @param    {[string] [request-value]  [回调值 ajax-url地址 或 ajax-fun方法]}
+ * @param    {[string] [form_name] 		[标题class或id]}
+ * @param    {[string] [action] 		[请求地址]}
+ * @param    {[string] [method] 		[请求类型 POST, GET]}
+ * @param    {[string] [request-type] 	[回调类型 ajax-url, ajax-fun, ajax-reload]}
+ * @param    {[string] [request-value] 	[回调值 ajax-url地址 或 ajax-fun方法]}
  */
 
 function FromInit (form_name) {
@@ -368,11 +368,11 @@ function FromInit (form_name) {
                     // 以 ajax 开头的都会先请求再处理
                     // ajax-reload  请求完成后刷新页面
                     // ajax-close   请求完成后关闭弹窗
-                    // ajax-url     请求完成后调整到指定的请求值
-                    // ajax-fun     请求完成后调用指定方法
-                    // ajax-view    请求完成后仅提示文本信息
-                    // sync         不发起请求、直接同步调用指定的方法
-                    // jump         不发起请求、拼接数据参数跳转到指定 url 地址
+                    // ajax-url 	请求完成后调整到指定的请求值
+                    // ajax-fun 	请求完成后调用指定方法
+                    // ajax-view 	请求完成后仅提示文本信息
+                    // sync 		不发起请求、直接同步调用指定的方法
+                    // jump 		不发起请求、拼接数据参数跳转到指定 url 地址
                     var request_handle = ['ajax-reload', 'ajax-close', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
 
                     // 参数校验
@@ -634,10 +634,10 @@ function TreeHeadConfig () {
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2017-01-13T10:30:23+0800
- * @param    {[int]}        id              [节点id]
- * @param    {[string]}     url             [请求url地址]
- * @param    {[int]}        level           [层级]
- * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
+ * @param    {[int]}    	id    			[节点id]
+ * @param    {[string]}   	url   			[请求url地址]
+ * @param    {[int]}      	level 			[层级]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
 function Tree (id, url, level = 0, is_delete_all = 0) {
     $.ajax({
@@ -709,9 +709,9 @@ function Tree (id, url, level = 0, is_delete_all = 0) {
  * @date    2020-11-19
  * @desc    description
  * @param    {[boject]}     item            [数据]
- * @param    {[int]}        pid             [节点pid]
- * @param    {[int]}        level           [层级]
- * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
+ * @param    {[int]}    	pid    			[节点pid]
+ * @param    {[int]}      	level 			[层级]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
 function TreeItemHtmlHandle (item, pid, level, is_delete_all) {
     // 基础参数处理
@@ -960,8 +960,8 @@ function TreeFormSaveBackHandle (e) {
 
 /**
  * 图片上传预览
- * @param  {[string]} class_name        [class名称]
- * @param  {[string]} show_img          [预览图片id或class]
+ * @param  {[string]} class_name 		[class名称]
+ * @param  {[string]} show_img   		[预览图片id或class]
  * @param  {[string]} default_images    [默认图片]
  */
 function ImageFileUploadShow (class_name, show_img, default_images) {
@@ -996,8 +996,8 @@ function ImageFileUploadShow (class_name, show_img, default_images) {
 
 /**
  * 视频上传预览
- * @param  {[string]} class_name        [class名称]
- * @param  {[string]} show_video        [预览视频id或class]
+ * @param  {[string]} class_name 		[class名称]
+ * @param  {[string]} show_video   		[预览视频id或class]
  * @param  {[string]} default_video     [默认视频]
  */
 function VideoFileUploadShow (class_name, show_video, default_video) {
@@ -1037,14 +1037,14 @@ function VideoFileUploadShow (class_name, show_video, default_video) {
  * @version 1.0.0
  * @date    2018-09-13
  * @desc    description
- * @param   {[string]}  url           [加载url]
- * @param   {[string]}  title         [标题]
- * @param   {[string]}  class_tag     [指定class]
- * @param   {[int]}     full          [是否满屏（0否, 1是）]
- * @param   {[int]}     full_max      [满屏最大限制（max-width:1400px）（0否, 1是）]
+ * @param   {[string]}  url   		  [加载url]
+ * @param   {[string]}  title 		  [标题]
+ * @param   {[string]}  class_tag 	  [指定class]
+ * @param   {[int]}     full 		  [是否满屏（0否, 1是）]
+ * @param   {[int]}     full_max	  [满屏最大限制（max-width:1400px）（0否, 1是）]
  * @param   {[string]}  full_max_size [满屏最大限制指定（默认空 最大1200、lg 1000, 有效值 md 800, sm 500, xs 400）]
- * @param   {[string]}  on_open       [开启监听方法]
- * @param   {[string]}  on_close      [关闭监听方法]
+ * @param   {[string]}  on_open	      [开启监听方法]
+ * @param   {[string]}  on_close	  [关闭监听方法]
  * @param   {[string]}  offcanvas     [侧边栏弹窗 top/bottom/left/right]
  */
 function ModalLoad (url, title, class_tag, full = 0, full_max = 0, full_max_size = '', on_open = '', on_close = '', offcanvas = '') {
@@ -1968,11 +1968,11 @@ function PageLibrary (total, number, page, sub_number, is_extend = false) {
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2018-09-23T22:00:30+0800
- * @param    {[int]}          pid       [pid数据值]
+ * @param    {[int]}          pid     	[pid数据值]
  * @param    {[string]}       name      [当前节点name名称]
  * @param    {[string]}       next_name [下一个节点名称（数据渲染节点）]
- * @param    {[int]}          value     [需要选中的值]
- * @param    {[int]}          ansyc     [接口同步异步]
+ * @param    {[int]}          value 	[需要选中的值]
+ * @param    {[int]}          ansyc 	[接口同步异步]
  */
 function RegionNodeData (pid, name, next_name, value, ansyc = true) {
     if (pid !== null) {
@@ -2327,11 +2327,11 @@ function CardFormInit () {
  * @version 1.0.0
  * @date    2019-11-12
  * @desc    description
- * @param   {[float]}           lng         [经度]
- * @param   {[float]}           lat         [维度]
- * @param   {[int]}             level       [层级]
- * @param   {[boolean]}         is_dragend  [标注是否可拖拽]
- * @param   {[string]}          mapid       [地图id（默认 map）]
+ * @param   {[float]}        	lng   		[经度]
+ * @param   {[float]}        	lat   		[维度]
+ * @param   {[int]}        		level 		[层级]
+ * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
+ * @param   {[string]}        	mapid 	    [地图id（默认 map）]
  */
 function MapInit (lng, lat, level, is_dragend, mapid) {
     // 地图容器
@@ -2454,22 +2454,22 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
             // var point = new TMap.LatLng(lat, lng);
             // //初始化地图
             // var map = new TMap.Map(mapid, {
-            //  zoom: level,//设置地图缩放级别
-            //  center: point//设置地图中心点坐标
+            // 	zoom: level,//设置地图缩放级别
+            // 	center: point//设置地图中心点坐标
             // });
             // var marker = new TMap.MultiMarker({
-            //  map: map,
-            //  geometries: [
-            //      {
-            //          position: point,
-            //          id: 'marker',
-            //      }
-            //  ],
+            // 	map: map,
+            // 	geometries: [
+            // 		{
+            // 			position: point,
+            // 			id: 'marker',
+            // 		}
+            // 	],
             // });
             // //监听marker点击事件
             // marker.on('click', function(e)
             // {
-            //  console.log(e);
+            // 	console.log(e);
             // });
             break;
 
@@ -2624,8 +2624,8 @@ function FormTableContainerOperateGridMoreListInit (e, is_prompt = true) {
  * @version 1.0.0
  * @date    2020-07-26
  * @desc    description
- * @param   {[string]}        form  [表单名称]
- * @param   {[string]}        tag   [表单父级标签class或id]
+ * @param   {[string]}        form 	[表单名称]
+ * @param   {[string]}        tag 	[表单父级标签class或id]
  */
 function FromTableCheckedValues (form, tag) {
     // 获取复选框选中的值
@@ -3953,9 +3953,9 @@ function CommonFormUploadEditorDataViewHandle (data, type = 'images') {
  * @version 1.0.0
  * @date    2023-10-21
  * @desc    description
- * @param    {[int]}        id              [节点id]
- * @param    {[string]}     url             [请求url地址]
- * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
+ * @param    {[int]}    	id    			[节点id]
+ * @param    {[string]}   	url   			[请求url地址]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
 function Card (id, url, is_delete_all = 0) {
     $.ajax({
@@ -4087,8 +4087,8 @@ function CardFormSaveBackHandle (e) {
  * @date    2020-11-19
  * @desc    description
  * @param    {[boject]}     item            [数据]
- * @param    {[int]}        pid             [节点pid]
- * @param    {[int]}        is_delete_all   [是否所有开启删除按钮]
+ * @param    {[int]}    	pid    			[节点pid]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
 function CardItemHtmlHandle (item, pid, is_delete_all) {
     // 基础参数处理
@@ -4263,47 +4263,140 @@ function DropdownInit () {
  * @version 1.0.0
  * @date    2020-09-02
  * @desc    description
- * @param   {[int]}           type  [展示类型（0,1,2）]
- * @param   {[string]}        name  [参数名称]
- * @param   {[string]}        value [参数值]
+ * @param   {[int]}           scope     [展示范围（0,1,2）]
+ * @param   {[string]}        name      [参数名称]
+ * @param   {[int]}           required  [是否必须（0,1）]
+ * @param   {[int]}           data_type [数据类型（0,1,2）]
+ * @param   {[string]}        value     [参数值]
  */
-function GoodsParametersItemHtmlCreated (type, name, value) {
-    // 参数容器
-    var $parameters_table = $('.parameters-table');
-
+var $parameters_table = $('.parameters-table');
+function GoodsParametersItemHtmlCreated (scope = 0, name = '', required = 0, data_type = 0, value = '') {
     // 拼接html
     var index = parseInt(Math.random() * 1000001);
-    var html = '<tr class="parameters-line-' + index + '">';
-    html += '<td class="am-text-middle">';
-    html += '<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="' + $parameters_table.data('type-message') + '" data-is-clearout="0">';
-    html += '<option value="0" ' + (type == 0 ? 'selected' : '') + '>' + $parameters_table.data('type-all-name') + '</option>';
-    html += '<option value="1" ' + (type == 1 || type == undefined ? 'selected' : '') + '>' + $parameters_table.data('type-detail-name') + '</option>';
-    html += '<option value="2" ' + (type == 2 ? 'selected' : '') + '>' + $parameters_table.data('type-base-name') + '</option>';
-    html += '</select>';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<input type="text" name="parameters_name[]" placeholder="' + $parameters_table.data('params-name') + '" value="' + (name || '') + '" data-validation-message="' + $parameters_table.data('params-message') + '" maxlength="160" class="am-radius" data-is-clearout="0" required />';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<input type="text" name="parameters_value[]" placeholder="' + $parameters_table.data('value-message') + '" value="' + (value || '') + '" maxlength="200" data-validation-message="' + $parameters_table.data('value-message') + '" class="am-radius" data-is-clearout="0" />';
-    html += '</td>';
-    html += '<td class="am-text-middle">';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="top">' + $parameters_table.data('move-top-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary am-margin-right-sm line-move" data-type="bottom">' + $parameters_table.data('move-bottom-name') + '</a> ';
-    html += '<a href="javascript:;" class="am-text-xs am-text-primary line-remove">' + $parameters_table.data('remove-name') + '</a>';
-    html += '</td>';
-    html += '</tr>';
+    var html = '<tr>';
+        html += `<td class="am-text-left">
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_scope[`+index+`]" value="0" data-validation-message="`+$parameters_table.data('scope-message')+`"  data-am-ucheck `+(scope == 0 ? 'checked' : '')+` /> `+$parameters_table.data('scope-all-name')+`
+                    </label>
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_scope[`+index+`]" value="1" data-am-ucheck `+(scope == 1 ? 'checked' : '')+` /> `+$parameters_table.data('scope-detail-name')+`
+                    </label>
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_scope[`+index+`]" value="2" data-am-ucheck `+(scope == 2 ? 'checked' : '')+` /> `+$parameters_table.data('scope-base-name')+`
+                    </label>
+                </td>`;
+        html += `<td>
+                    <input type="text" name="parameters_name[`+index+`]" placeholder="` + $parameters_table.data('params-name') + `" value="` + (name || '') + `" data-validation-message="` + $parameters_table.data('params-message') + `" maxlength="160" class="am-radius" data-is-clearout="0" />
+                </td>`;
+        html += `<td class="am-text-left">
+                    <input type="checkbox" name="parameters_required[`+index+`]" value="1" data-am-switch `+(required == 1 ? 'checked' : '')+` />
+                </td>`;
+        html += `<td class="am-text-left parameters-data-type-choice">
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_data_type[`+index+`]" value="0" data-am-ucheck `+(data_type == 0 ? 'checked' : '')+` /> `+$parameters_table.data('type-data-input-name')+`
+                    </label>
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_data_type[`+index+`]" value="1" data-am-ucheck `+(data_type == 1 ? 'checked' : '')+` /> `+$parameters_table.data('type-data-single-name')+`
+                    </label>
+                    <label class="am-radio">
+                        <input type="radio" name="parameters_data_type[`+index+`]" value="2" data-am-ucheck `+(data_type == 2 ? 'checked' : '')+` /> `+$parameters_table.data('type-data-many-name')+`
+                    </label>
+                </td>`;
+        html += `<td class="parameters-value-content">`;
+        if(data_type == 0) {
+            html += `<input type="text" name="parameters_value[`+index+`]" placeholder="` + $parameters_table.data('value-name') + `" value="` + (value || '') + `" maxlength="200" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0" />`;
+        } else {
+            html += `<textarea row="8" name="parameters_value[`+index+`]" placeholder="` + $parameters_table.data('value-many-name') + `" maxlength="3000" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0">` + (value || '') + `</textarea>`;
+        }
+        html += `</td>`;
 
+        html += `<td>
+                    <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="top">` + $parameters_table.data('move-top-name') + `</a>
+                    <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="bottom">` + $parameters_table.data('move-bottom-name') + `</a>
+                    <a href="javascript:;" class="am-text-xs am-color-red line-remove">` + $parameters_table.data('remove-name') + `</a>
+                </td>`;
+
+        html += '</tr>';
     // 数据添加
     $parameters_table.append(html);
 
-    // select组件初始化
-    $parameters_table.find('.parameters-line-' + index + ' .chosen-select').chosen({
-        inherit_select_classes: true,
-        enable_split_word_search: true,
-        search_contains: true,
-        no_results_text: window['lang_chosen_select_no_results_text']
-    });
+    // 单选和多选初始化
+    var $ucheck = $parameters_table.find('tr:last input[data-am-ucheck]');
+    if ($ucheck !== undefined) {
+        $ucheck.uCheck();
+    }
+
+    // 状态初始化
+    SwitchInit();
+}
+
+/**
+ * 商品参数数据使用
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-09-02
+ * @desc    description
+ * @param   {[boject]}    data   [数据]
+ * @param   {[int]}       index  [索引]
+ */
+var $parameters_table_use = $('.parameters-table-use');
+function GoodsParametersItemHtmlUse (data, index) {
+    // 拼接html
+    var html = '<tr>';
+        html += `<td class="am-text-left">
+                    <input type="hidden" name="parameters_scope[`+index+`]" value="`+data.scope+`">
+                    <span>`+data.scope_name+`</span>
+                </td>`;
+        html += `<td class="am-text-left">
+                    <input type="hidden" name="parameters_name[`+index+`]" value="`+data.name+`"">
+                    <span>`+data.name+`</span>
+                    `+(data.required == 1 ? '<span class="am-color-red">*</span>' : '')+`
+                </td>`;
+        html += `<td class="am-text-left">`;
+        html += `<input type="hidden" name="parameters_data_type[`+index+`]" value="`+data.data_type+`" />`;
+        var not_choice_error = $parameters_table_use.data('not-choice-error-tips') || '请选择';
+        var not_fill_in_error = $parameters_table_use.data('not-fill-in-error-tips') || '请输入';
+        var goods_params_name = $parameters_table_use.data('goods-params-name') || '商品参数';
+        var goods_params_operate_is_edit = $parameters_table_use.data('goods-params-operate-is-edit');
+        if(goods_params_operate_is_edit === undefined)
+        {
+            goods_params_operate_is_edit = 1;
+        } else {
+            goods_params_operate_is_edit = parseInt(goods_params_operate_is_edit);
+        }
+        switch(parseInt(data.data_type)) {
+            case 1 :
+                html += `<div class="am-radio-group">`;
+                            for(var i in data.value) {
+                                html += `<label class="am-radio-inline">
+                                    <input type="radio" name="parameters_value[`+index+`]" value="`+data.value[i]+`" data-am-ucheck `+(data.required == 1 ? 'data-validation-message="'+not_choice_error+'（'+goods_params_name+'-'+data.name+'）" required' : '')+`  `+(goods_params_operate_is_edit == 0 ? 'disabled' : '')+` /> `+data.value[i]+`
+                                </label>`;
+                            }
+                        html += `</div>`;
+                break;
+            case 2 :
+                html += `<div class="am-checkbox-group">`;
+                            for(var i in data.value) {
+                                html += `<label class="am-checkbox-inline">
+                                    <input type="checkbox" name="parameters_value[`+index+`]" value="`+data.value[i]+`" data-am-ucheck `+(data.required == 1 ? 'data-validation-message="'+not_choice_error+'（'+goods_params_name+'-'+data.name+'）" required' : '')+`  `+(goods_params_operate_is_edit == 0 ? 'disabled' : '')+` /> `+data.value[i]+`
+                                </label>`;
+                            }
+                        html += `</div>`;
+                break;
+            default :
+                html += `<input type="text" name="parameters_value[`+index+`]" placeholder="`+$parameters_table_use.data('value-name')+`" value="`+(data.value)+`" maxlength="160" class="am-radius" `+(data.required == 1 ? 'data-validation-message="'+not_fill_in_error+'（'+goods_params_name+'-'+data.name+'）" required' : '')+` `+(goods_params_operate_is_edit == 0 ? 'readonly' : '')+` />`;
+        }
+        html += `</td>`;
+        html += '</tr>';
+    // 数据添加
+    $parameters_table_use.append(html);
+
+    // 单选和多选初始化
+    var $ucheck = $parameters_table_use.find('tr:last input[data-am-ucheck]');
+    if ($ucheck !== undefined) {
+        $ucheck.uCheck();
+    }
 }
 
 /**
@@ -4313,11 +4406,12 @@ function GoodsParametersItemHtmlCreated (type, name, value) {
  * @version 1.0.0
  * @date    2025-07-02
  * @desc    description
- * @param   {[int]}        value [分类id]
+ * @param   {[int]}        value                         [分类id]
+ * @param   {[int]}        is_goods_single_category_mode [单分类模式]
  */
 var $spec_quick = $('#specifications-quick-container');
 var $params_quick = $('#parameters-quick-container');
-function GoodsSpecBaseTemplateCreated(value)
+function GoodsSpecBaseTemplateCreated(value, is_goods_single_category_mode = 0)
 {
     $.ajax({
         url: RequestUrlHandle($('.goods-category-choice-base-template-event').data('base-template-url') || $('.confirm-next-submit').data('base-template-url')),
@@ -4342,31 +4436,42 @@ function GoodsSpecBaseTemplateCreated(value)
                     $(this).remove();
                 }
             });
-            // 循环处理得到的最新模板
-            if((result.data || null) != null)
-            {
-                // 规格模板
-                if((result.data.spec || null) != null && result.data.spec.length > 0)
-                {
-                    var html = '';
-                    for(var i in result.data.spec)
-                    {
-                        html += '<option value="'+result.data.spec[i]['content']+'" data-origin-name="'+result.data.spec[i]['name']+'">'+result.data.spec[i]['name']+'</option>';
-                    }
-                    $spec_quick.find('select').append(html);
-                }
 
-                // 参数模板
-                if((result.data.params || null) != null && result.data.params.length > 0)
+            // 循环处理得到的最新模板
+            var html = '';
+            // 规格模板
+            if((result.data || null) != null && (result.data.spec || null) != null && result.data.spec.length > 0 && $spec_quick.length > 0)
+            {
+                for(var i in result.data.spec)
                 {
-                    var html = '';
-                    for(var i in result.data.params)
-                    {
-                        html += '<option value="'+encodeURIComponent(JSON.stringify(result.data.params[i]['config_data']))+'" data-origin-name="'+result.data.params[i]['name']+'">'+result.data.params[i]['name']+'</option>';
-                    }
-                    $params_quick.find('select').append(html);
+                    html += '<option value="'+result.data.spec[i]['content']+'" data-origin-name="'+result.data.spec[i]['name']+'">'+result.data.spec[i]['name']+'</option>';
                 }
             }
+            $spec_quick.find('select').append(html);
+
+            // 参数模板
+            html = '';
+            if((result.data || null) != null && (result.data.params || null) != null && result.data.params.length > 0 && $params_quick.length > 0)
+            {
+                for(var i in result.data.params)
+                {
+                    html += '<option value="'+encodeURIComponent(JSON.stringify(result.data.params[i]['config_data']))+'" data-origin-name="'+result.data.params[i]['name']+'">'+result.data.params[i]['name']+'</option>';
+                }
+            }
+            $params_quick.find('select').append(html);
+
+            // 独立参数数据生成
+            if(is_goods_single_category_mode == 1)
+            {
+                $parameters_table_use.find('tbody').html('');
+                if((result.data || null) != null &&  (result.data.params || null) != null && (result.data.params[0] || null) != null && (result.data.params[0]['config_data'] || null) != null && result.data.params[0]['config_data'].length > 0)
+                {
+                    for(var i in result.data.params[0]['config_data']) {
+                        GoodsParametersItemHtmlUse(result.data.params[0]['config_data'][i], i);
+                    }
+                }
+            }
+
             // 更新select组件
             $spec_quick.find('select').trigger('chosen:updated');
             $params_quick.find('select').trigger('chosen:updated');
@@ -4942,8 +5047,8 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int]     [data-id]   [数据id]}
-     * @param    {[string]  [data-url]  [请求地址]}
+     * @param    {[int] 	[data-id] 	[数据id]}
+     * @param    {[string] 	[data-url] 	[请求地址]}
      */
     $(document).on('click', '.submit-delete', function () {
         ConfirmDataDelete($(this));
@@ -4955,9 +5060,9 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int]     [data-id]   [数据id]}
-     * @param    {[int]     [data-state][状态值]}
-     * @param    {[string]  [data-url]  [请求地址]}
+     * @param    {[int] 	[data-id] 	[数据id]}
+     * @param    {[int] 	[data-state][状态值]}
+     * @param    {[string] 	[data-url] 	[请求地址]}
      */
     $(document).on('click', '.submit-state', function () {
         // 动画
@@ -5287,9 +5392,9 @@ $(function () {
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T14:22:39+0800
-     * @param    {[int]     [data-id]   [数据id]}
-     * @param    {[int]     [data-view] [完成操作（delete删除数据, reload刷新页面, fun方法回调(data-value)]}
-     * @param    {[string]  [data-url]  [请求地址]}
+     * @param    {[int] 	[data-id] 	[数据id]}
+     * @param    {[int] 	[data-view] [完成操作（delete删除数据, reload刷新页面, fun方法回调(data-value)]}
+     * @param    {[string] 	[data-url] 	[请求地址]}
      */
     $(document).on('click', '.submit-ajax', function () {
         var is_confirm = $(this).attr('data-is-confirm');
@@ -6096,10 +6201,12 @@ $(function () {
             $select.find('.am-selected-btn .am-selected-status').text($select.prev().attr('placeholder') || $select.data('placeholder'));
             $select.find('.am-selected-list li.am-checked').removeClass('am-checked');
         }
-        // 移除class
-        $(this).prev().removeClass('input-clearout-element');
-        // 删除清除按钮
-        $(this).remove();
+        setTimeout(function () {
+             // 移除class
+            $(this).prev().removeClass('input-clearout-element');
+            // 删除清除按钮
+            $(this).remove();
+        }, 0);
     });
     // 页面滚动则移除input删除按钮
     $(window).on('scroll', function () {
@@ -6690,7 +6797,7 @@ $(function () {
         html += '<td class="am-text-middle">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">';
         html += '<input type="text" name="spec_base_title_' + index + '" placeholder="' + ($spec_table.data('spec-type-name') || '规格名') + '" class="am-radius" />';
-        html += '<i class="am-close quick-title-remove iconfont icon-delete am-text-primary"></i>';
+        html += '<i class="am-close quick-title-remove iconfont icon-delete am-color-blue"></i>';
         html += '</div>';
         html += '</td>';
         html += '<td class="spec-quick-td-value am-cf">';
@@ -6711,7 +6818,7 @@ $(function () {
         var html = '<div class="am-fl value-item">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">'
         html += '<input type="text" class="am-fl am-radius" name="spec_base_value_' + index + '[]" placeholder="' + ($spec_table.data('spec-value-name') || '规格值') + '" />';
-        html += '<i class="am-close quick-value-remove iconfont icon-delete am-text-primary"></i>';
+        html += '<i class="am-close quick-value-remove iconfont icon-delete am-color-blue"></i>';
         html += '</div>';
         html += '</div>';
         $(this).parent().before(html);
@@ -6974,15 +7081,15 @@ $(function () {
         var index = parseInt(Math.random()*1000001);
         var temp_class = 'spec-images-items-'+index;
         var html = '<li class="spec-images-items '+temp_class+'">';
-            html += '<input type="text" name="spec_images_name['+index+']" placeholder="'+$spec_table.data('spec-type-name')+'" class="am-radius am-text-center" data-validation-message="'+$spec_table.data('spec-type-message')+'" data-is-clearout="0" required />'
+            html += '<input type="text" name="spec_images_name['+index+']" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius am-text-center" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" data-is-clearout="0" required />'
             html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
             html += '<li>';
-            html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+$spec_table.data('spec-images-message')+'" required />';
+            html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+($spec_table.data('spec-images-message') || '请上传规格图片')+'" required />';
             html += '<img src="'+__attachment_host__+'/static/common/images/default-images.jpg" />';
             html += '<i class="iconfont icon-close"></i>';
             html += '</li>';
             html += '</ul>';
-            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+$spec_table.data('spec-images-name')+'</div>';
+            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+($spec_table.data('spec-images-name') || '上传图片')+'</div>';
             html += '</li>';
         $('.spec-images-list ul.spec-images-content').append(html);
     });
@@ -7053,15 +7160,15 @@ $(function () {
                 var index = parseInt(Math.random()*1000001);
                 var temp_class = 'spec-images-items-'+index;
                 var html = '<li class="spec-images-items '+temp_class+'">';
-                    html += '<input type="text" name="spec_images_name['+index+']" value="'+data[i]+'" placeholder="'+$spec_table.data('spec-type-name')+'" class="am-radius am-text-center" data-validation-message="'+$spec_table.data('spec-type-message')+'" data-is-clearout="0" required />'
+                    html += '<input type="text" name="spec_images_name['+index+']" value="'+data[i]+'" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius am-text-center" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" data-is-clearout="0" required />'
                     html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
                     html += '<li>';
-                    html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+$spec_table.data('spec-images-message')+'" required />';
+                    html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+($spec_table.data('spec-images-message') || '请上传规格图片')+'" required />';
                     html += '<img src="'+__attachment_host__+'/static/common/images/default-images.jpg" />';
                     html += '<i class="iconfont icon-close"></i>';
                     html += '</li>';
                     html += '</ul>';
-                    html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+$spec_table.data('spec-images-name')+'</div>';
+                    html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+($spec_table.data('spec-images-name') || '上传图片')+'</div>';
                     html += '</li>';
                 $('.spec-images-list ul.spec-images-content').append(html);
             }
@@ -7205,14 +7312,30 @@ $(function () {
 
 
     // 商品参数添加
-    var $parameters_table = $('.parameters-table');
     $(document).on('click', '.parameters-line-add', function () {
         // 追加内容
         GoodsParametersItemHtmlCreated();
     });
 
+    // 商品参数，数据类型选择事件
+    $(document).on('change', '.parameters-data-type-choice input', function () {
+        var $obj_value = $(this).parents('tr').find('td.parameters-value-content');
+        var form_name = $obj_value.find('input').attr('name') || $obj_value.find('textarea').attr('name');
+        var form_value = $obj_value.find('input').val() || $obj_value.find('textarea').val() || '';
+        if(parseInt($(this).val() || 0) == 0) {
+
+            var html = `<input type="text" name="`+form_name+`" placeholder="` + $parameters_table.data('value-name') + `" value="`+form_value.replace(/\n/g, ' ')+`" maxlength="200" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0" />`;
+        } else {
+            var html = `<textarea row="8" name="`+form_name+`" placeholder="` + $parameters_table.data('value-many-name') + `" maxlength="3000" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0">`+form_value.replace(/ /g, "\n")+`</textarea>`;
+        }
+        $obj_value.html(html);
+    });
+
     // 商品参数移除
     $parameters_table.on('click', '.line-remove', function () {
+        $(this).parents('tr').remove();
+    });
+    $parameters_table_use.on('click', '.line-remove', function () {
         $(this).parents('tr').remove();
     });
 
@@ -7226,9 +7349,13 @@ $(function () {
                     var data = [];
                     $parameters_table.find('tbody tr').each(function (k, v) {
                         data.push({
-                            "type": $(this).find('td:eq(0) select').val(),
-                            "name": $(this).find('td:eq(1) input').val(),
-                            "value": $(this).find('td:eq(2) input').val(),
+                            scope: parseInt($(this).find('td:eq(0) input[type="radio"]:checked').val() || 0),
+                            scope_name: $(this).find('td:eq(0) input[type="radio"]:checked').parent().text().replace(/^\s+|\s+$/g,""),
+                            name: $(this).find('td:eq(1) input').val(),
+                            required: parseInt($(this).find('td:eq(2) input[type="checkbox"]:checked').val() || 0),
+                            data_type: parseInt($(this).find('td:eq(3) input[type="radio"]:checked').val() || 0),
+                            data_type_name: $(this).find('td:eq(3) input[type="radio"]:checked').parent().text().replace(/^\s+|\s+$/g,""),
+                            value: $(this).find('td:eq(4) input').val() || $(this).find('td:eq(4) textarea').val(),
                         });
                     });
                     data = JSON.stringify(data);
@@ -7258,7 +7385,7 @@ $(function () {
         // 配置数据
         var data = $parameters_quick_config.find('textarea').val() || null;
         if (data == null) {
-            Prompt($parameters_table.data('copy-no-tips') || '请先粘贴配置信息');
+            Prompt($parameters_table_use.data('copy-no-tips') || '请先粘贴配置信息');
             return false;
         }
 
@@ -7266,24 +7393,21 @@ $(function () {
         try {
             data = JSON.parse(data);
         } catch (e) {
-            Prompt($parameters_table.data('copy-error-tips') || '配置格式错误');
+            Prompt($parameters_table_use.data('copy-error-tips') || '配置格式错误');
             return false;
         }
         if (data.length <= 0) {
-            Prompt($parameters_table.data('copy-empty-tips') || '配置为空');
+            Prompt($parameters_table_use.data('copy-empty-tips') || '配置为空');
             return false;
         }
 
         // 数据生成
-        $parameters_table.find('tbody').html('');
+        $parameters_table_use.find('tbody').html('');
         for (var i in data) {
-            var type = (data[i]['type'] == undefined) ? 1 : data[i]['type'];
-            var name = data[i]['name'] || '';
-            var value = data[i]['value'] || '';
-            GoodsParametersItemHtmlCreated(type, name, value);
+            GoodsParametersItemHtmlUse(data[i], i);
         }
         $('#parameters-quick-container').dropdown('close');
-        Prompt($parameters_table.data('created-success-tips') || '生成成功', 'success');
+        Prompt($parameters_table_use.data('created-success-tips') || '生成成功', 'success');
     });
 
     // 商品参数模板选择
@@ -7301,5 +7425,6 @@ $(function () {
     // 商品参数清空
     $(document).on('click', '.parameters-quick-remove', function () {
         $parameters_table.find('tbody').html('');
+        $parameters_table_use.find('tbody').html('');
     });
 });

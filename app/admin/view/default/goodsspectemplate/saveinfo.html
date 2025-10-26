@@ -20,6 +20,16 @@
                         <option value="">{{:MyLang('please_select_tips')}}</option>
                         {{foreach $goods_category_list as $v}}
                             <option value="{{$v.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{if !empty($v['items'])}}
+                                {{foreach $v.items as $vs}}
+                                    <option style="padding-left: 20px;" value="{{$vs.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $vs['id']}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                    {{if !empty($vs['items'])}}
+                                        {{foreach $vs.items as $kss=>$vss}}
+                                            <option style="padding-left: 40px;" value="{{$vss.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $vss['id']}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
                         {{/foreach}}
                     {{/if}}
                 </select>

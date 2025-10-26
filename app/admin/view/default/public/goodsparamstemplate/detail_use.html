@@ -1,0 +1,30 @@
+{{if !empty($parameters) and is_array($parameters)}}
+    <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+            <thead class="am-text-left">
+                <tr>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_scope_title')}}</strong>
+                    </th>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_name_title')}}</strong>
+                    </th>
+                    <th>
+                        <strong>{{:MyLang('common.form_goods_params_thead_value_title')}}</strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{foreach $parameters as $v}}
+                    <tr>
+                        <td>{{if isset($v['scope']) and isset($common_goods_parameters_scope_list[$v['scope']])}}{{$common_goods_parameters_scope_list[$v['scope']]['name']}}{{/if}}</td>
+                        <td>{{$v.name}}</td>
+                        <td>{{if is_array($v['value'])}}{{:implode(',', $v['value'])}}{{else /}}{{$v.value}}{{/if}}</td>
+                    </tr>
+                {{/foreach}}
+            </tbody>
+        </table>
+    </div>
+{{else /}}
+    {{:ModuleInclude('public/not_data')}}
+{{/if}}

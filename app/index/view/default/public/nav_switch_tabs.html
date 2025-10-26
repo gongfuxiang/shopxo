@@ -1,0 +1,25 @@
+{{if !empty($module_data['nav_data']) and is_array($module_data['nav_data'])}}
+    <div class="nav-switch-tabs am-pr">
+        <ul>
+            {{foreach $module_data.nav_data as $v}}
+                <!-- 页面含有两级 -->
+                {{if !empty($module_data['view_type']) and isset($module_data['view_type'])}}
+                    <li class="{{if $module_data['view_type'] eq $v['type']}}am-active{{/if}}" data-type="{{$v.type}}">
+                        <a href="{{:MyUrl($module_data['url'], ['nav_type'=>$module_data['nav_type'], 'view_type'=>$v['type']])}}">{{$v.name}}</a>
+                    </li>
+                {{else /}}
+                    <!-- 页面只含有一级 -->
+                    <li class="{{if $module_data['nav_type'] eq $v['type']}}am-active{{/if}}" data-type="{{$v.type}}">
+                        <a href="{{:MyUrl($module_data['url'], ['type'=>$v['type']])}}">{{$v.name}}</a>
+                    </li>
+                {{/if}}
+            {{/foreach}}
+        </ul>
+        {{if !empty($module_data['other']) and !empty($module_data['other_url'])}}
+            <a class="more-text" href="{{$module_data.other_url}}" target="_blank">
+                <i class="iconfont {{if empty($module_data['other_icon'])}}icon-download-btn{{else /}}{{$module_data.other_icon}}{{/if}}"></i> 
+                <span class="am-hide-sm-only am-margin-left-xs">{{$module_data.other_name}} </span>
+            </a>
+        {{/if}}
+    </div>
+{{/if}}

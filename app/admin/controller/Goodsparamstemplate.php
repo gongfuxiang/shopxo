@@ -49,12 +49,14 @@ class GoodsParamsTemplate extends Base
     public function Detail()
     {
         MyViewAssign([
-            // 商品参数类型
-            'common_goods_parameters_type_list' =>  MyConst('common_goods_parameters_type_list'),
+            // 商品参数展示范围
+            'common_goods_parameters_scope_list'      =>  MyConst('common_goods_parameters_scope_list'),
+            // 商品参数数据类型
+            'common_goods_parameters_data_type_list'  =>  MyConst('common_goods_parameters_data_type_list'),
             // 数据
-            'data'                              => $this->data_detail,
+            'data'                                    => $this->data_detail,
             // 参数配置
-            'parameters'                        => empty($this->data_detail['config_data']) ? [] : $this->data_detail['config_data'],
+            'parameters'                              => empty($this->data_detail['config_data']) ? [] : $this->data_detail['config_data'],
         ]);
         return MyView();
     }
@@ -77,12 +79,14 @@ class GoodsParamsTemplate extends Base
 
         // 模板数据
         $assign = [
-            // 商品参数类型
-            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
+            // 商品参数展示范围
+            'common_goods_parameters_scope_list'      =>  MyConst('common_goods_parameters_scope_list'),
+            // 商品参数数据类型
+            'common_goods_parameters_data_type_list'  =>  MyConst('common_goods_parameters_data_type_list'),
             // 参数配置
-            'parameters'                        => empty($data['config_data']) ? [] : $data['config_data'],
+            'parameters'                              => empty($data['config_data']) ? [] : $data['config_data'],
             // 商品分类
-            'goods_category_list'               => GoodsCategoryService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
+            'goods_category_list'                     => GoodsCategoryService::GoodsCategoryAll(),
         ];
 
         // 编辑页面钩子

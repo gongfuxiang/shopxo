@@ -25,24 +25,6 @@ class GoodsSpecTemplate
     // 基础条件
     public $condition_base = [];
 
-    // 商品分类
-    public $goods_category_list;
-
-    /**
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-29
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public function __construct($params = [])
-    {
-        // 商品分类
-        $res = GoodsCategoryService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]);
-        $this->goods_category_list = empty($res) ? [] : array_column($res, 'name', 'id');
-    }
-
     /**
      * 入口
      * @author  Devil
@@ -77,14 +59,13 @@ class GoodsSpecTemplate
                 [
                     'label'         => $lang['category_id'],
                     'view_type'     => 'field',
-                    'view_key'      => 'category_id',
-                    'view_data'     => $this->goods_category_list,
-                    'width'         => 150,
-                    'search_config' => [
-                        'form_type'             => 'select',
-                        'where_type'            => 'in',
-                        'data'                  => $this->goods_category_list,
-                        'is_multiple'           => 1,
+                    'view_key'      => 'category_name',
+                    'search_config'     => [
+                        'form_type'     => 'module',
+                        'template'      => 'lib/module/multi_level_category',
+                        'form_name'     => 'category_id',
+                        'where_type'    => 'in',
+                        'data'          => GoodsCategoryService::GoodsCategoryAll(),
                     ],
                 ],
                 [

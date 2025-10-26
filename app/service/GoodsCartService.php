@@ -54,7 +54,7 @@ class GoodsCartService
         // 基础参数
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where[] = ['c.user_id', '=', $params['user']['id']];
-        $field = 'c.*,g.simple_desc,g.spec_desc,g.approval_number,g.coding,g.model,g.produce_company,g.produce_region,g.inventory_unit,g.is_shelves,g.is_delete_time,g.buy_min_number,g.buy_max_number,g.site_type,g.inventory';
+        $field = 'c.*,g.brand_id,g.simple_desc,g.spec_desc,g.approval_number,g.coding,g.model,g.produce_company,g.produce_region,g.inventory_unit,g.is_shelves,g.is_delete_time,g.buy_min_number,g.buy_max_number,g.site_type,g.inventory';
 
         // 购物车列表读取前钩子
         $hook_name = 'plugins_service_cart_goods_list_begin';
@@ -67,7 +67,7 @@ class GoodsCartService
         ]);
 
         // 获取购物车数据
-        $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select()->toArray();
+        $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('g.id desc, c.id desc')->select()->toArray();
         if(!empty($data))
         {
             // 收藏数据
