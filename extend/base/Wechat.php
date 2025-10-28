@@ -223,27 +223,33 @@ class Wechat
         // 物流发货匹配快递信息
         if($logistics_type === 1)
         {
-            // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人和发件人手机号供顺丰使用
-            $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
-            if($express_res['code'] == 0) 
+            if(!empty($params['express_name']) && !empty($params['express_number']))
             {
-                $consignor_tel = empty($params['consignor_tel']) ? '' : mb_substr($params['consignor_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['consignor_tel'], -4, null, 'utf-8');
-                $receiver_tel = empty($params['receiver_tel']) ? '' : mb_substr($params['receiver_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['receiver_tel'], -4, null, 'utf-8');
-                foreach($shipping_list as &$v)
+                // 当商城为销售型时，传入快递公司编码和快递单号，传入收件人和发件人手机号供顺丰使用
+                $express_res = $this->GetMiniDeliveryIdByName($params['express_name']);
+                if($express_res['code'] == 0) 
                 {
-                    $v['express_company'] = $express_res['data'];
-                    $v['tracking_no'] = $params['express_number'];
-                    if(!empty($consignor_tel) || !empty($receiver_tel))
+                    $consignor_tel = empty($params['consignor_tel']) ? '' : mb_substr($params['consignor_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['consignor_tel'], -4, null, 'utf-8');
+                    $receiver_tel = empty($params['receiver_tel']) ? '' : mb_substr($params['receiver_tel'], 0, 3, 'utf-8').'****'.mb_substr($params['receiver_tel'], -4, null, 'utf-8');
+                    foreach($shipping_list as &$v)
                     {
-                        $v['contact'] = [
-                            'consignor_contact'  => $consignor_tel,
-                            'receiver_contact'   => $receiver_tel,
-                        ];
+                        $v['express_company'] = $express_res['data'];
+                        $v['tracking_no'] = $params['express_number'];
+                        if(!empty($consignor_tel) || !empty($receiver_tel))
+                        {
+                            $v['contact'] = [
+                                'consignor_contact'  => $consignor_tel,
+                                'receiver_contact'   => $receiver_tel,
+                            ];
+                        }
                     }
+                } else {
+                    // 没有匹配到快递则使用同城类型
+                    $logistics_type = 2;
                 }
             } else {
                 // 没有匹配到快递则使用同城类型
-                $logistics_type = 2;
+                 $logistics_type = 2;
             }
         }
 
