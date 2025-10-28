@@ -3,7 +3,7 @@
         <figure data-am-widget="figure" class="am-figure am-margin-0 am-inline-block" data-am-figure="{pureview: 'true'}">
             <img src="{{if empty($module_data['user'])}}{{if !empty($module_data['avatar'])}}{{$module_data.avatar}}{{/if}}{{else /}}{{$module_data.user.avatar}}{{/if}}" alt="{{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}" class="am-img-thumbnail am-radius am-block" width="33" height="33" />
         </figure>
-        <div class="user-info-dropdown-data-container am-flex-1">
+        <div class="user-info-dropdown-data-container am-flex-1 am-nbfc">
             <a href="javascript:;" class="am-text-truncate am-color-333">
                 {{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}
                 <i class="iconfont icon-angle-down"></i>
