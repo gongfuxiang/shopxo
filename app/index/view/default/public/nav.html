@@ -1,5 +1,5 @@
 {{if !empty($common_bottom_nav_list)}}
-    <div class="mobile-navigation">
+    <ul class="mobile-navigation">
         {{foreach $common_bottom_nav_list as $nav}}
             <li {{if $controller_name.$action_name eq $nav['only_tag']}}class="active"{{/if}}>
                 <a {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}href="javascript:;" data-login-info="1" class="login-event am-block"{{else /}} href="{{$nav.url}}" class="am-block"{{/if}}>
@@ -11,5 +11,5 @@
                 {{/if}}
             </li>
         {{/foreach}}
-    </div>
+    </ul>
 {{/if}}
