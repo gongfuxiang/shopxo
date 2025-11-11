@@ -357,7 +357,13 @@ class OrderSplitService
                 // 未获取到仓库则使用默认仓库
                 if(empty($warehouse_default))
                 {
+                    // 先获取默认仓库
                     $warehouse_default = Db::name('Warehouse')->where(['is_default'=>1, 'is_enable'=>1, 'is_delete_time'=>0])->field('id,name,alias,lng,lat,province,city,county,address')->find();
+                    if(empty($warehouse_default))
+                    {
+                        // 没有默认仓库则获取最早的一个仓库
+                        $warehouse_default = Db::name('Warehouse')->where(['is_enable'=>1, 'is_delete_time'=>0])->field('id,name,alias,lng,lat,province,city,county,address')->order('id asc')->find();
+                    }
                 }
                 $temp_warehouse_default = $warehouse_default;
 

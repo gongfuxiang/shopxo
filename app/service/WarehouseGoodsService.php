@@ -817,7 +817,8 @@ class WarehouseGoodsService
         if(empty($spec['value']))
         {
             // 没有规格则读取默认规格数据
-            $base = array_merge(Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->field('id as base_id,inventory,inventory_unit')->find(), ['value'=>'default']);
+            $base = Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->field('id as base_id,inventory,inventory_unit')->find();
+            $base = array_merge(empty($base) ? [] : $base, ['value'=>'default']);
             $spec['value'] = [$base];
         } else {
             $temp_base = Db::name('GoodsSpecBase')->where(['id'=>array_column($spec['value'], 'base_id')])->column('inventory_unit', 'id');
@@ -832,12 +833,15 @@ class WarehouseGoodsService
         $inventory_total = 0;
         foreach($spec['value'] as &$v)
         {
-            $v['inventory'] = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
-            if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$v['inventory']]) === false)
+            if(!empty($v['base_id']))
             {
-                return DataReturn(MyLang('common_service.warehousegoods.goods_spec_sync_inventory_fail_tips'), -20);
+                $v['inventory'] = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
+                if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$v['inventory']]) === false)
+                {
+                    return DataReturn(MyLang('common_service.warehousegoods.goods_spec_sync_inventory_fail_tips'), -20);
+                }
+                $inventory_total += $v['inventory'];
             }
-            $inventory_total += $v['inventory'];
         }
 
         // 商品库存
