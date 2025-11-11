@@ -362,6 +362,10 @@ class GoodsCartService
         {
             return $goods_base;
         }
+        // 规格库存赋值
+        $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
+        // 规格最大限购
+        $goods['buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
 
         // 是否存在规格
         if(!empty($spec))
@@ -372,11 +376,6 @@ class GoodsCartService
             {
                 $goods['images'] = $images;
             }
-
-            // 规格库存赋值
-            $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
-            // 规格最大限购
-            $goods['buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
         }
 
         // 数量
