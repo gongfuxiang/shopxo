@@ -583,7 +583,7 @@ class FormTableHandleModule
 
             // 附件字段
             $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
-            $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['cover', 'logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+            $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['avatar', 'cover', 'logo', 'icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
 
             // 附件字节转单位
             $is_handle_annex_size_unit = isset($form_data['is_handle_annex_size_unit']) && $form_data['is_handle_annex_size_unit'] == 1;
@@ -1145,24 +1145,47 @@ class FormTableHandleModule
      */
     public function ServiceActionModule($data, $field)
     {
+        return (!empty($data) && !empty($data[$field])) ? $this->ServiceActionModuleHandle($data[$field]) : [];
+    }
+
+    /**
+     * 服务层方法模块处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-02
+     * @desc    description
+     * @param   [string]          $value   [字符数据]
+     */
+    public function ServiceActionModuleHandle($value)
+    {
         $result = [];
-        if(!empty($data) && !empty($data[$field]) && stripos($data[$field], '::') !== false)
+        if(!empty($value) && stripos($value, '::') !== false)
         {
-            $arr = explode('::', $data[$field]);
+            $arr = explode('::', $value);
+            $action = $arr[1];
             // 是否存在命名空间反斜杠
             if(stripos($arr[0], '\\') === false)
             {
-                if(empty($this->plugins_module_name))
+                // 是插件则优先走插件的服务层处理
+                $module = '';
+                if(!empty($this->plugins_module_name))
+                {
+                    $module = 'app\plugins\\'.$this->plugins_module_name.'\service\\'.$arr[0];
+                    if(!class_exists($module) || !method_exists($module, $action))
+                    {
+                        $module = '';
+                    }
+                }
+                // 再走系统服务层处理
+                if(empty($module))
                 {
                     $module = 'app\service\\'.$arr[0];
-                } else {
-                    $module = 'app\plugins\\'.$this->plugins_module_name.'\service\\'.$arr[0];
                 }
             } else {
                 $module = $arr[0];
             }
-            $action = $arr[1];
-            if(class_exists($module));
+            if(class_exists($module))
             {
                 if(method_exists($module, $action))
                 {
@@ -1909,6 +1932,15 @@ class FormTableHandleModule
 
             // 默认走自定义模块处理
             default :
+                // 是否自定义类方法处理
+                $m = $this->ServiceActionModuleHandle($action_custom);
+                if(!empty($m))
+                {
+                    $module = $m['module'];
+                    $action = $m['action'];
+                    return $module::$action($value, $params);
+                }
+
                 // 模块是否自定义条件值方法处理条件
                 $obj = is_object($object_custom) ? $object_custom : $this->module_obj;
                 if(!empty($action_custom) && method_exists($obj, $action_custom))

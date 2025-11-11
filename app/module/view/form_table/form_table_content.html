@@ -256,9 +256,8 @@
                                                             {{/if}}
                                                         {{/if}}
                                                     {{/if}}
-
-                                                <!-- 直接展示数据 -->
                                                 {{else /}}
+                                                    <!-- 直接展示数据 -->
                                                     <span>{{$form_table_data_list[$i][$t['view_key']]|raw}}</span>
                                                     {{if isset($t['is_copy']) and $t['is_copy'] eq 1 and !empty($form_table_data_list[$i][$t['view_key']])}}
                                                         <i class="iconfont icon-copy am-margin-left-xs am-color-grey text-copy-submit" data-value="{{$form_table_data_list[$i][$t['view_key']]|raw}}"></i>
@@ -374,6 +373,25 @@
                                     {{/if}}
                                 {{/case}}
                             {{/switch}}
+
+                            <!-- 底部提示文字 -->
+                            {{if isset($t['is_bottom_text_tips']) and $t['is_bottom_text_tips'] eq 1 and (
+                                    (!empty($t['bottom_text_tips_key']) and !empty($form_table_data_list[$i][$t['bottom_text_tips_key']])) or
+                                    !empty($t['bottom_text_tips_data'])
+                                ) and (
+                                    (empty($t['bottom_text_tips_where_key']) or empty($t['bottom_text_tips_where_type']) or !isset($t['bottom_text_tips_where_value'])) or 
+                                    (
+                                        ($t['bottom_text_tips_where_type'] eq 'eq' and $form_table_data_list[$i][$t['bottom_text_tips_where_key']] eq $t['bottom_text_tips_where_value']) or 
+                                        ($t['bottom_text_tips_where_type'] eq 'gt' and $form_table_data_list[$i][$t['bottom_text_tips_where_key']] gt $t['bottom_text_tips_where_value']) or 
+                                        ($t['bottom_text_tips_where_type'] eq 'neq' and $form_table_data_list[$i][$t['bottom_text_tips_where_key']] neq $t['bottom_text_tips_where_value']) or 
+                                        ($t['bottom_text_tips_where_type'] eq 'lt' and $form_table_data_list[$i][$t['bottom_text_tips_where_key']] lt $t['bottom_text_tips_where_value']) or 
+                                        ($t['bottom_text_tips_where_type'] eq 'in' and is_array($t['bottom_text_tips_where_value']) and in_array($form_table_data_list[$i][$t['bottom_text_tips_where_key']], $t['bottom_text_tips_where_value'])) or 
+                                        ($t['bottom_text_tips_where_type'] eq 'notin' and is_array($t['bottom_text_tips_where_value']) and !in_array($form_table_data_list[$i][$t['bottom_text_tips_where_key']], $t['bottom_text_tips_where_value']))
+                                    )
+                                )
+                            }}
+                                <p class="am-margin-top-xs {{if !empty($t['bottom_text_tips_style'])}}am-text-{{$t.bottom_text_tips_style}}{{/if}} {{if !empty($t['bottom_text_tips_icon'])}}am-icon-{{$t.bottom_text_tips_icon}}{{/if}}">{{if !empty($t['bottom_text_tips_key']) and !empty($form_table_data_list[$i][$t['bottom_text_tips_key']])}}{{$form_table_data_list[$i][$t['bottom_text_tips_key']]}}{{else /}}{{$t.bottom_text_tips_data}}{{/if}}</p>
+                            {{/if}}
 
                             <!-- 列表格子钩子 -->
                             {{if !empty($t['unique_key']) and $t['view_type'] neq 'operate'}}
